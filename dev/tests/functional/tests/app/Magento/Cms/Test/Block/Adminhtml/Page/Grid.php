@@ -36,7 +36,7 @@ class Grid extends ParentGrid
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-title]';
+    protected $editLink = 'td[data-part="body.row.cell"]';
 
     /**
      * 'Preview' cms page link
@@ -67,7 +67,7 @@ class Grid extends ParentGrid
     public function searchAndPreview(array $filter)
     {
         $this->search($filter);
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
+        $rowItem = $this->_rootElement->find($this->rowItem);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->previewCmsPage, Locator::SELECTOR_XPATH)->click();
             $this->waitForElement();

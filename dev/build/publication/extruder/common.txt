@@ -4,7 +4,6 @@ app/etc/aliases_to_classes_map.json
 dev/build/core_dev/performance/benchmark
 
 dev/tests/api-functional
-dev/tests/functional-old
 
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
@@ -16,6 +15,8 @@ dev/tests/performance/testsuite/fixtures/benchmark
 dev/tests/performance/apply_fixture.php
 dev/tests/performance/regenerate_profile.php
 dev/tests/performance/benchmark_logs_merge.php
+
+dev/tests/functional/tests/app/Magento/SampleData
 
 app/code/Magento/Doc
 app/design/doc

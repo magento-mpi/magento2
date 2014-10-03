@@ -50,7 +50,7 @@ class CreateGroupedTest extends Functional
         $productForm->fill($product);
         $createProductPage->getFormPageActions()->save();
         //Verifying
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->waitSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -70,7 +70,7 @@ class CreateGroupedTest extends Functional
     {
         //Search data
         $search = [
-            'sku' => $product->getProductSku(),
+            'sku' => $product->getSku(),
             'type' => 'Grouped Product'
         ];
         //Page & Block

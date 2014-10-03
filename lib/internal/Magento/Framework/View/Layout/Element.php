@@ -41,6 +41,8 @@ class Element extends \Magento\Framework\Simplexml\Element
 
     const TYPE_UI_COMPONENT = 'ui_component';
 
+    const TYPE_HEAD = 'head';
+
     /**#@-*/
 
     /**#@+

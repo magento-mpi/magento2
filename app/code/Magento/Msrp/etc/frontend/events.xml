@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
+    <event name="sales_quote_collect_totals_after">
+        <observer name="catalog_msrp" instance="Magento\Msrp\Model\Observer\Frontend\Quote\SetCanApplyMsrp" method="execute" />
+    </event>
+</config>

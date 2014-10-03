@@ -63,8 +63,6 @@ class Edit extends \Magento\CustomerSegment\Controller\Adminhtml\Index
             $this->getUrl('customersegment/*/save')
         );
 
-        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setCanLoadRulesJs(true);
-
         $this->_addBreadcrumb(
             $model->getId() ? __('Edit Segment') : __('New Segment'),
             $model->getId() ? __('Edit Segment') : __('New Segment')

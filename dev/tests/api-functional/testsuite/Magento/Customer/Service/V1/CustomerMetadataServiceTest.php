@@ -16,7 +16,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerMetadataServiceV1";
     const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH = "/V1/customerAttributeMetadata";
+    const RESOURCE_PATH = "/V1/attributeMetadata/customer";
 
     /**
      * Test retrieval of attribute metadata for the customer entity type.
@@ -29,7 +29,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/$attributeCode",
+                'resourcePath' => self::RESOURCE_PATH . "/attribute/$attributeCode",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -117,9 +117,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllAttributeMetadata()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
-        );
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,

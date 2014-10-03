@@ -1,0 +1,59 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Msrp\Block\Popup $this */
+?>
+<?php if ($this->isEnabled()): ?>
+    <div id="map-popup-click-for-price" class="map popup">
+        <div class="popup-header">
+            <strong class="title" id="map-popup-heading-price"></strong>
+        </div>
+        <div class="popup-content">
+            <div class="map add form" id="map-popup-content">
+                <div class="price-box">
+                    <div class="map msrp" id="map-popup-msrp-box">
+                        <span class="label"><?php echo __('Price'); ?></span>
+                        <span class="old-price" id="map-popup-msrp">
+                            <span class="price"></span>
+                        </span>
+                    </div>
+                    <div class="map price" id="map-popup-price-box">
+                        <span class="label"><?php echo __('Actual Price'); ?></span>
+                        <span id="map-popup-price" class="actual-price"></span>
+                    </div>
+                </div>
+                <form action="" method="POST" id="product_addtocart_form_from_popup" class="form map checkout">
+                    <input type="hidden" name="product" class="product_id" value="" id="map-popup-product-id"/>
+
+                    <div class="additional-addtocart-box">
+                        <?php echo $this->getChildHtml(); ?>
+                    </div>
+                    <button type="button" title="<?php echo __('Add to Cart') ?>" class="action tocart"
+                            id="map-popup-button">
+                        <span><?php echo __('Add to Cart') ?></span>
+                    </button>
+                </form>
+            </div>
+            <div class="map text" id="map-popup-text">
+                <?php echo $this->getExplanationMessage(); ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="map-popup-what-this" class="map popup">
+        <div class="popup header">
+            <strong class="title" id="map-popup-heading-what-this"></strong>
+        </div>
+        <div class="popup content">
+            <div class="map help text" id="map-popup-text-what-this">
+                <?php echo $this->getExplanationMessageWhatsThis(); ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

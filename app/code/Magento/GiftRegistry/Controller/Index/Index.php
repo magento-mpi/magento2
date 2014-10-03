@@ -23,10 +23,7 @@ class Index extends \Magento\GiftRegistry\Controller\Index
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Gift Registry'));
-        }
+        $this->_view->getPage()->getConfig()->setTitle(__('Gift Registry'));
         $this->_view->renderLayout();
     }
 }
