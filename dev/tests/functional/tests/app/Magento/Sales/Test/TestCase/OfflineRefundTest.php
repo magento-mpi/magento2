@@ -11,7 +11,6 @@ namespace Magento\Sales\Test\TestCase;
 use Mtf\Factory\Factory;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 use Magento\Sales\Test\Fixture\AuthorizeNetOrder;
-use Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew;
 
 /**
  * Class OfflineRefundTest
@@ -22,16 +21,14 @@ class OfflineRefundTest extends RefundTest
      * Tests providing refunds.
      *
      * @param OrderCheckout $fixture
-     * @param OrderCreditMemoNew $orderCreditMemoNew
      *
      * @return void
      *
      * @dataProvider dataProviderOrder
      * @ZephirId MAGETWO-13058, MAGETWO-19985
      */
-    public function testRefund(OrderCheckout $fixture, OrderCreditMemoNew $orderCreditMemoNew)
+    public function testRefund(OrderCheckout $fixture)
     {
-        $this->markTestIncomplete('MAGETWO-28230');
         // Setup preconditions
         parent::setupPreconditions($fixture);
 
@@ -57,7 +54,8 @@ class OfflineRefundTest extends RefundTest
         }
 
         // Step 3/4: Submit Credit Memo
-        $orderCreditMemoNew->getCreateBlock()->refundOffline();
+        $creditMemoCreateBlock = Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getCreateBlock();
+        $creditMemoCreateBlock->refundOffline();
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();
