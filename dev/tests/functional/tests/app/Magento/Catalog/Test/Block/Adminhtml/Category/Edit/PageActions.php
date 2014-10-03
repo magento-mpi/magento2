@@ -25,6 +25,8 @@ class PageActions extends FormPageActions
 
     /**
      * Click on "Save" button
+     *
+     * @return void
      */
     public function save()
     {
