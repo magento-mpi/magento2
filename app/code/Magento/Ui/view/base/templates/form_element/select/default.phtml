@@ -9,6 +9,9 @@
  * @var \Magento\Ui\Component\Form\Element\Select $this
  */
 ?>
+<span>
+    <?php echo $this->getData('title'); ?>
+</span>
 <select>
     <?php foreach ($this->getData('options') as $option): ?>
         <?php if (is_array($option['value'])): ?>

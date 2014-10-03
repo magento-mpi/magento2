@@ -46,11 +46,6 @@ class UiComponentFactory extends Object
     protected $layout;
 
     /**
-     * @var boolean
-     */
-    protected $layoutLoaded;
-
-    /**
      * Constructor
      *
      * @param RenderContext $renderContext
@@ -118,14 +113,11 @@ class UiComponentFactory extends Object
         }
 
         if ($root && $handleName) {
-            if (!$this->layoutLoaded) {
-                $this->layoutLoaded = true;
-                $this->layout = $this->layoutFactory->create();
-                $this->renderContext->setLayout($this->layout);
-                $this->layout->getUpdate()->addHandle('ui_components');
-                $this->layout->getUpdate()->addHandle($handleName);
-                $this->loadLayout();
-            }
+            $this->layout = $this->layoutFactory->create();
+            $this->renderContext->setLayout($this->layout);
+            $this->layout->getUpdate()->addHandle('ui_components');
+            $this->layout->getUpdate()->addHandle($handleName);
+            $this->loadLayout();
         }
 
         $view = $this->getUiElementView($componentName);

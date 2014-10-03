@@ -134,7 +134,8 @@ class Form extends AbstractView
      */
     protected function createElements()
     {
-        $useContainer = $this->hasData('container');
+        $containers = $this->getData('containers');
+
         if ($this->hasData('data_provider_pool')) {
             foreach ($this->getData('data_provider_pool') as $name => $config) {
                 $dataProvider = $this->getRenderContext()->getStorage()->getDataProvider($name);
@@ -149,12 +150,14 @@ class Form extends AbstractView
                         continue;
                     }
                 }
-                if ($useContainer) {
+                if (isset($containers[$name])) {
+                    /** @var \Magento\Ui\Component\Form\Fieldset $container */
                     $container = $this->uiElementFactory->create(
-                        $this->getData('container'),
+                        $containers[$name]['name'],
                         ['elements' => $elements]
                     );
                     $container->prepare();
+                    $container->setLegendText($containers[$name]['label']);
                     $this->elements[] = $container;
                 } else {
                     $this->elements = array_merge($this->elements, $elements);
