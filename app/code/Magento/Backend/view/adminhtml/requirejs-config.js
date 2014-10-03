@@ -26,7 +26,8 @@ var config = {
             dropdown:           'mage/dropdown_old',
             collapsable:        'js/theme',
             collapsible:        'mage/collapsible',
-            menu:               'mage/backend/menu'
+            menu:               'mage/backend/menu',
+            jstree:             'jquery/jstree/jquery.jstree'
         }
     },
     deps: [
