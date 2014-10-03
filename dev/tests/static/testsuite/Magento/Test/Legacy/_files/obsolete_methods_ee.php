@@ -254,4 +254,15 @@ return array(
     ['clearIndexForStores', 'Magento\Solr\Model\Observer'],
     ['runFulltextReindexAfterPriceReindex', 'Magento\Solr\Model\Observer'],
     ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
+    ['loadPrices', 'Magento\Solr\Model\Layer\Category\Filter\Price', 'Magento\Solr\Model\Price\Interval::load'],
+    [
+        'loadPreviousPrices',
+        'Magento\Solr\Model\Layer\Category\Filter\Price',
+        'Magento\Solr\Model\Price\Interval::loadPrevious'
+    ],
+    [
+        'loadNextPrices',
+        'Magento\Solr\Model\Layer\Category\Filter\Price',
+        'Magento\Solr\Model\Price\Interval::loadNext'
+    ],
 );
