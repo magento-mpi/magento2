@@ -75,13 +75,6 @@ class FormPageActions extends PageActions
     protected $loaderOld = '//ancestor::body/div[@id="loading-mask"]';
 
     /**
-     * Locator for "OK" button in warning block
-     *
-     * @var string
-     */
-    protected $warningBlock = '.ui-widget-content .ui-dialog-buttonset button:first-child';
-
-    /**
      * Click on "Back" button
      */
     public function back()
@@ -113,10 +106,6 @@ class FormPageActions extends PageActions
     public function save()
     {
         $this->_rootElement->find($this->saveButton)->click();
-        $warningBlock = $this->browser->find($this->warningBlock);
-        if ($warningBlock->isVisible()) {
-            $warningBlock->click();
-        }
         $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
         $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }

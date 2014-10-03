@@ -42,7 +42,6 @@ class AssertCategoryRedirect extends AbstractConstraint
             $_ENV['app_frontend_url'] . strtolower($category->getUrlKey()) . '.html',
             'URL rewrite category redirect false.'
         );
-
     }
 
     /**
