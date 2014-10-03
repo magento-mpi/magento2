@@ -9,40 +9,38 @@
 namespace Magento\VersionsCms\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
-use Magento\Cms\Test\Page\AdminHtml\CmsIndex;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\VersionsCms\Test\Fixture\Revision;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;
 
 /**
- * Test Creation for PublishCmsPageRevisionEntity
- *
- * Precondition:
- * Create CMS page under version control
+ * Test Creation for SavingNewRevision in a New Version
  *
  * Test Flow:
- * 1. Login to the backend.
- * 2. Navigate to Content > Elements: Pages.
- * 3. Open the page with 'Version Control' = 'Yes'
- * 4. Open 'Versions' tab
- * 5. Open version on the top of the grid
- * 6. Open a revision specified in dataset
- * 7. Fill fields according to dataset
- * 8. Click 'Save'
- * 9. Open the revision created (expected id is specified in dataset)
- * 10. Click 'Publish'
- * 11. Perform appropriate assertions.
+ *
+ * Preconditions:
+ * 1. Create CMS page
+ *
+ * Steps:
+ * 1. Open Backend
+ * 2. Go to Content > Pages
+ * 3. Find and open created page
+ * 4. Go to Versions tab and open default version
+ * 5. Select 1 revision
+ * 6. Change revision content and click "Save in a new version"
+ * 7. Enter version name
+ * 8. Perform all assertions
  *
  * @group CMS_Versioning_(PS)
- * @ZephyrId MAGETWO-27395
+ * @ZephyrId MAGETWO-29102
  */
-class PublishCmsPageRevisionEntityTest extends Injectable
+class SaveNewRevisionInNewVersionTest extends Injectable
 {
     /**
-     * Cms index page
+     * CmsIndex page
      *
      * @var CmsIndex
      */
@@ -70,21 +68,6 @@ class PublishCmsPageRevisionEntityTest extends Injectable
     protected $cmsRevisionEdit;
 
     /**
-     * Prepare data
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $cms = $fixtureFactory->createByCode('cmsPage', ['dataSet' => 'cms-page-test']);
-        $cms->persist();
-        return [
-            'cms' => $cms
-        ];
-    }
-
-    /**
      * Injection data
      *
      * @param CmsIndex $cmsIndex
@@ -106,34 +89,32 @@ class PublishCmsPageRevisionEntityTest extends Injectable
     }
 
     /**
-     * Publish cms page revision
+     * Run UpdateCmsPageRevisionEntity test
      *
      * @param CmsPage $cms
      * @param Revision $revision
-     * @param int $initialRevision
+     * @param array $revisionData
      * @param array $results
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function test(CmsPage $cms, Revision $revision, $initialRevision, array $results)
+    public function test(CmsPage $cms, Revision $revision, array $revisionData, array $results)
     {
         $this->markTestIncomplete("Bug: MAGETWO-28876");
-        // Steps
-        $this->cmsIndex->open();
+        // Precondition:
+        $cms->persist();
         $title = $cms->getTitle();
+
+        // Steps:
+        $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen(['title' => $title]);
         $this->cmsNew->getPageForm()->openTab('versions');
         $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen(['label' => $title]);
-        $this->cmsVersionEdit->getRevisionsGrid()->searchAndOpen(['revision_number_from' => 1]);
-        $this->cmsRevisionEdit->getRevisionForm()->toggleEditor();
-        $this->cmsRevisionEdit->getRevisionForm()->fill($revision);
-        $this->cmsRevisionEdit->getFormPageActions()->save();
         $filter = [
-            'revision_number_from' => $initialRevision,
-            'revision_number_to' => $initialRevision,
+            'revision_number_from' => $revisionData['from'],
+            'revision_number_to' => $revisionData['to'],
         ];
         $this->cmsVersionEdit->getRevisionsGrid()->searchAndOpen($filter);
-        $this->cmsRevisionEdit->getFormPageActions()->publish();
+        $this->cmsRevisionEdit->getRevisionForm()->fill($revision);
+        $this->cmsRevisionEdit->getFormPageActions()->saveInNewVersion($results['label']);
     }
 }

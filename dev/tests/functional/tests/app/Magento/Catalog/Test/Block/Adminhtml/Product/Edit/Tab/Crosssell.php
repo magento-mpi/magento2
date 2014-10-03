@@ -11,7 +11,7 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Factory\Factory;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell\Grid as CrosssellGrid;
 
 /**
  * Class Crosssell
@@ -19,28 +19,60 @@ use Mtf\Factory\Factory;
  */
 class Crosssell extends Tab
 {
-    const GROUP = 'crosssells';
+    /**
+     * Locator for cross sell products grid
+     *
+     * @var string
+     */
+    protected $crossSellGrid = '#cross_sell_product_grid';
 
     /**
      * Select cross-sells products
      *
-     * @param array $products
-     * @param Element|null $context
+     * @param array $data
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $products, Element $context = null)
+    public function fillFormTab(array $data, Element $element = null)
     {
-        if (!isset($products['crosssell_products'])) {
-            return $this;
-        }
-        $element = $context ? : $this->_rootElement;
-        $crossSellBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabCrosssellGrid(
-            $element->find('#cross_sell_product_grid')
-        );
-        foreach ($products['crosssell_products']['value'] as $product) {
-            $crossSellBlock->searchAndSelect($product);
+        if (isset($data['cross_sell_products']['value'])) {
+            $context = $element ? $element : $this->_rootElement;
+            /** @var CrosssellGrid $crossSellBlock */
+            $crossSellBlock = $this->blockFactory->create(
+                '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell\Grid',
+                ['element' => $context->find($this->crossSellGrid)]
+            );
+
+            foreach ($data['cross_sell_products']['value'] as $product) {
+                $crossSellBlock->searchAndSelect(['sku' => $product['sku']]);
+            }
         }
 
         return $this;
+    }
+
+    /**
+     * Get data of tab
+     *
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
+     */
+    public function getDataFormTab($fields = null, Element $element = null)
+    {
+        $context = $element ? $element : $this->_rootElement;
+        /** @var CrosssellGrid $crossSellBlock */
+        $crossSellBlock = $this->blockFactory->create(
+            '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell\Grid',
+            ['element' => $context->find($this->crossSellGrid)]
+        );
+        $columns = [
+            'entity_id',
+            'name',
+            'sku',
+        ];
+        $crossSellProducts = $crossSellBlock->getRowsData($columns);
+
+        return ['cross_sell_products' => $crossSellProducts];
     }
 }
