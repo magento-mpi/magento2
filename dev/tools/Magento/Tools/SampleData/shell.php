@@ -20,7 +20,13 @@ $params = array(
     State::PARAM_MODE => State::MODE_DEVELOPER,
 );
 
-$config = include __DIR__ . '/config/config.php';
+$config = [];
+foreach (glob(__DIR__ . '/config/*.php') as $filename) {
+    if (is_file($filename)) {
+        $configPart = include $filename;
+        $config = array_merge_recursive($config, $configPart);
+    }
+}
 
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 $app = $bootstrap->createApplication('Magento\Tools\SampleData\Installer', ['resources' => $config['setup_resources']]);

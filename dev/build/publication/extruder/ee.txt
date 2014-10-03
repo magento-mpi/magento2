@@ -77,6 +77,10 @@ app/design/install/Magento/enterprise
 
 app/etc/enterprise
 
+dev/tools/Magento/Tools/SampleData/config/config_ee.php
+dev/tools/Magento/Tools/SampleData/fixtures/GiftCard
+dev/tools/Magento/Tools/SampleData/Nodule/GiftCard
+
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
 
 dev/tests/integration/testsuite/Magento/ToolkitFramework/_files/tax_rates.csv
