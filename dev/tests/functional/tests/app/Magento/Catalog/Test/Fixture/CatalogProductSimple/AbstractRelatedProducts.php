@@ -45,11 +45,8 @@ class AbstractRelatedProducts implements FixtureInterface
      * @param array $params
      * @param array $data
      */
-    public function __construct(
-        FixtureFactory $fixtureFactory,
-        array $params,
-        array $data = []
-    ) {
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
+    {
         $this->params = $params;
 
         if (isset($data['presets'])) {

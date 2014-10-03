@@ -35,11 +35,12 @@ class Upsell extends AbstractRelated
     /**
      * Return related products grid
      *
-     * @param Element $element
+     * @param Element|null $element [optional]
      * @return UpsellGrid
      */
     protected function getRelatedGrid(Element $element = null)
     {
+        $element = $element ? $element : $this->_rootElement;
         return $this->blockFactory->create(
             '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell\Grid',
             ['element' => $element->find($this->crossSellGrid)]

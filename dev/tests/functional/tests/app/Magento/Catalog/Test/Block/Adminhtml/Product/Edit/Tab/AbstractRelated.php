@@ -12,6 +12,10 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\Grid;
 
+/**
+ * Class AbstractRelated
+ * Base class for related products tab
+ */
 abstract class AbstractRelated extends Tab
 {
     /**
@@ -51,8 +55,7 @@ abstract class AbstractRelated extends Tab
      */
     public function getDataFormTab($fields = null, Element $element = null)
     {
-        $context = $element ? $element : $this->_rootElement;
-        $relatedBlock = $this->getRelatedGrid($context);
+        $relatedBlock = $this->getRelatedGrid($element);
         $columns = [
             'entity_id',
             'name',

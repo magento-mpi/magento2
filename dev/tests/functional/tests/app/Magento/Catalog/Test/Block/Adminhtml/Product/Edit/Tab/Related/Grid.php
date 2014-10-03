@@ -14,13 +14,13 @@ class Grid extends GridInterface
 {
     protected $filters = [
         'name' => [
-            'selector' => '#related_product_grid_filter_name'
+            'selector' => '[name="name"]'
         ],
         'sku' => [
-            'selector' => '#related_product_grid_filter_sku'
+            'selector' => '[name="sku"]'
         ],
         'type' => [
-            'selector' => '#related_product_grid_filter_type',
+            'selector' => '[name="type"]',
             'input' => 'select'
         ]
     ];

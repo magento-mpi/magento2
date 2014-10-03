@@ -35,11 +35,12 @@ class Crosssell extends AbstractRelated
     /**
      * Return cross sell products grid
      *
-     * @param Element $element
+     * @param Element|null $element [optional]
      * @return CrosssellGrid
      */
     protected function getRelatedGrid(Element $element = null)
     {
+        $element = $element ? $element : $this->_rootElement;
         return $this->blockFactory->create(
             '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell\Grid',
             ['element' => $element->find($this->crossSellGrid)]

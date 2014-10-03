@@ -35,11 +35,12 @@ class Related extends AbstractRelated
     /**
      * Return related products grid
      *
-     * @param Element $element
+     * @param Element|null $element [optional]
      * @return RelatedGrid
      */
     protected function getRelatedGrid(Element $element = null)
     {
+        $element = $element ? $element : $this->_rootElement;
         return $this->blockFactory->create(
             '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related\Grid',
             ['element' => $element->find($this->relatedGrid)]
