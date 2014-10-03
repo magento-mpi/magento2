@@ -19,6 +19,7 @@ var config = {
             galleryFullScreen:      'mage/gallery-fullscreen',                
             collapsible:            'mage/collapsible',
             dropdownDialog:         'mage/dropdown',
+            dropdown:               'mage/dropdowns',
             accordion:              'mage/accordion',
             loader:                 'mage/loader',
             tooltip:                'mage/tooltip',
@@ -43,7 +44,6 @@ var config = {
         'js/responsive',
         'mage/common',
         'mage/dataPost',
-        'mage/dropdowns',
         'js/theme',
         'mage/terms',
         'mage/bootstrap'

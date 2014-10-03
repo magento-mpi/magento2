@@ -64,7 +64,7 @@
         <button data-post='${JSON.stringify(generalParams)}' data-action="add-to-wishlist" class="label action split">
             <span>${buttonName}</span>
         </button>
-        <button class="action toggle change" title="${$.mage.__('Add to:')}" data-toggle="dropdown" aria-haspopup="true">
+        <button class="action toggle change" title="${$.mage.__('Add to:')}" data-mage-init='{"dropdown":{}}' data-toggle="dropdown" aria-haspopup="true">
             <span>${$.mage.__('Add to:')}</span>
         </button>
         <ul class="items" data-target="dropdown">
