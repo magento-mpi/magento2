@@ -10,7 +10,7 @@ namespace Magento\Search\Model;
 use Magento\Search\Model\Resource\Query\Collection as QueryCollection;
 use Magento\Search\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
 use Magento\Search\Model\SearchCollectionInterface as Collection;
-use Magento\Search\Model\SearchCollectionInterfaceFactory as CollectionFactory;
+use Magento\Search\Model\SearchCollectionFactory as CollectionFactory;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection\Db;
@@ -20,7 +20,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\StoreManagerInterface;
 
 /**
- * Catalog search query model
+ * Search query model
  *
  * @method Resource\Query _getResource()
  * @method Resource\Query getResource()

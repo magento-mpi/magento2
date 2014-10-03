@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Controller\Adminhtml\Search;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
-class Index extends \Magento\Search\Controller\Adminhtml\Search
+class Index extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
      * @return void
@@ -17,7 +17,7 @@ class Index extends \Magento\Search\Controller\Adminhtml\Search
     {
         $this->_title->add(__('Search Terms'));
 
-        $this->_initAction()->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_initAction()->_addBreadcrumb(__('Search'), __('Search'));
         $this->_view->renderLayout();
     }
 }

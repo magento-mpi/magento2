@@ -27,6 +27,9 @@ class Top extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected $_moduleManager;
 
+    /** @var string */
+    protected $_template = 'Magento_Backend::dashboard/grid.phtml';
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
@@ -115,6 +118,6 @@ class Top extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/search/edit', array('id' => $row->getId()));
+        return $this->getUrl('search/term/edit', array('id' => $row->getId()));
     }
 }

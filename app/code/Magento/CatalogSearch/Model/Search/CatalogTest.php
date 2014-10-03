@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Model\Search;
+namespace Magento\CatalogSearch\Model\Search;
 
 /**
  * @magentoAppArea adminhtml
@@ -19,11 +19,13 @@ class CatalogTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->catalogSearch = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('\Magento\Backend\Model\Search\Catalog');
+            ->create('\Magento\CatalogSearch\Model\Search\Catalog');
     }
 
     /**
      * Dataprovider for testLoad
+     *
+     * @return array
      */
     public function dataProviderForTestLoad()
     {
@@ -39,6 +41,10 @@ class CatalogTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderForTestLoad
      * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Catalog/_files/product_simple_multistore.php
+     *
+     * @param string $viewName
+     * @param bool $expectedResult
+     * @return void
      */
     public function testLoad($viewName, $expectedResult)
     {

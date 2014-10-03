@@ -10,9 +10,8 @@ namespace Magento\Search\Model\Resource;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
- * Catalog search query resource model
+ * Search query resource model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Query extends AbstractDb
 {

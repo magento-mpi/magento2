@@ -28,7 +28,7 @@ class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
         \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         $this->queryFactory = $queryFactory;
-        \Magento\Catalog\Model\Layer\Category\StateKey::__construct($storeManager, $customerSession);
+        parent::__construct($storeManager, $customerSession);
     }
 
     /**

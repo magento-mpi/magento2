@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Controller\Adminhtml\Search;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
-class Save extends \Magento\Search\Controller\Adminhtml\Search
+class Save extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
      * Save search query
@@ -57,9 +57,9 @@ class Save extends \Magento\Search\Controller\Adminhtml\Search
 
         if ($hasError) {
             $this->_getSession()->setPageData($data);
-            $this->_redirect('catalog/*/edit', array('id' => $queryId));
+            $this->_redirect('search/*/edit', array('id' => $queryId));
         } else {
-            $this->_redirect('catalog/*');
+            $this->_redirect('search/*');
         }
     }
 }

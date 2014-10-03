@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Controller\Adminhtml\Search;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
-class MassDelete extends \Magento\Search\Controller\Adminhtml\Search
+class MassDelete extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
      * @return void
@@ -17,7 +17,7 @@ class MassDelete extends \Magento\Search\Controller\Adminhtml\Search
     {
         $searchIds = $this->getRequest()->getParam('search');
         if (!is_array($searchIds)) {
-            $this->messageManager->addError(__('Please select catalog searches.'));
+            $this->messageManager->addError(__('Please select searches.'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {

@@ -13,7 +13,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_Adminhtml::marketing_seo">
-                        <resource id="Magento_CatalogSearch::search" title="Search Terms" sortOrder="10" />
+                        <resource id="Magento_Search::search" title="Search Terms" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

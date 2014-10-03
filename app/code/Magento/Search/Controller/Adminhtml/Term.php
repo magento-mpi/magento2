@@ -9,7 +9,7 @@ namespace Magento\Search\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
-class Search extends \Magento\Backend\App\Action
+class Term extends \Magento\Backend\App\Action
 {
     /**
      * @return $this
@@ -17,7 +17,7 @@ class Search extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_CatalogSearch::catalog_search')->_addBreadcrumb(__('Search'), __('Search'));
+        $this->_setActiveMenu('Magento_Search::search_term')->_addBreadcrumb(__('Search'), __('Search'));
         return $this;
     }
 
@@ -26,6 +26,6 @@ class Search extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_CatalogSearch::search');
+        return $this->_authorization->isAllowed('Magento_Search::search');
     }
 }

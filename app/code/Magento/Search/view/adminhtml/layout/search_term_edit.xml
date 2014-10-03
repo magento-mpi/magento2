@@ -9,6 +9,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
-        <block class="Magento\Catalog\Block\Adminhtml\Search\Edit" name="adminhtml.catalog.search.edit"/>
+        <block class="Magento\Search\Block\Adminhtml\Term\Edit" name="adminhtml.search.term.edit"/>
     </referenceContainer>
 </page>

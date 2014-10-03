@@ -13,7 +13,6 @@ use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Collection;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Search\Model\Query;
 use Magento\Search\Model\QueryFactory;
 
 /**
@@ -159,18 +158,6 @@ class Result extends Template
     {
         $test = $this->getListBlock();
         $test->setModes(array('grid' => __('Grid'), 'list' => __('List')));
-        return $this;
-    }
-
-    /**
-     * Set Search Result collection
-     *
-     * @return $this
-     */
-    public function setListCollection()
-    {
-        //        $this->getListBlock()
-        //           ->setCollection($this->_getProductCollection());
         return $this;
     }
 

@@ -7,8 +7,6 @@
  */
 namespace Magento\Search\Block\Adminhtml\Dashboard;
 
-use Magento\Backend\Block\Dashboard\Grid;
-
 /**
  * Dashboard last search keywords block
  */
@@ -28,6 +26,9 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
      * @var \Magento\Framework\Module\Manager
      */
     protected $_moduleManager;
+
+    /** @var string  */
+    protected $_template = 'Magento_Backend::dashboard/grid.phtml';
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -62,9 +63,6 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareCollection()
     {
-        if (!$this->_moduleManager->isEnabled('Magento_CatalogSearch')) {
-            return parent::_prepareCollection();
-        }
         $this->_collection = $this->_queriesFactory->create();
         $this->_collection->setRecentQueryFilter();
 
@@ -119,6 +117,6 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/search/edit', array('id' => $row->getId()));
+        return $this->getUrl('search/term/edit', array('id' => $row->getId()));
     }
 }

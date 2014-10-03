@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Block\Adminhtml\Search;
+namespace Magento\Search\Block\Adminhtml\Term;
+
 
 /**
  * Admin tag edit block
@@ -39,8 +40,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'id';
-        $this->_blockGroup = 'Magento_Catalog';
-        $this->_controller = 'adminhtml_search';
+        $this->_blockGroup = 'Magento_Search';
+        $this->_controller = 'adminhtml_term';
 
         parent::_construct();
 

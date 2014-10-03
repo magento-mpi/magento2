@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Controller\Adminhtml\Search;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
-class NewAction extends \Magento\Search\Controller\Adminhtml\Search
+class NewAction extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
      * @return void

@@ -6,9 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Controller\Adminhtml\Search;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
-class Edit extends \Magento\Search\Controller\Adminhtml\Search
+use Magento\Search\Controller\Adminhtml\Search;
+
+class Edit extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
      * Core registry
@@ -41,7 +43,7 @@ class Edit extends \Magento\Search\Controller\Adminhtml\Search
             $model->load($id);
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This search no longer exists.'));
-                $this->_redirect('catalog/*');
+                $this->_redirect('search/*');
                 return;
             }
         }
@@ -61,10 +63,10 @@ class Edit extends \Magento\Search\Controller\Adminhtml\Search
         $this->_view->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
         $this->_view->getLayout()->getBlock(
-            'adminhtml.catalog.search.edit'
+            'adminhtml.search.term.edit'
         )->setData(
             'action',
-            $this->getUrl('catalog/search/save')
+            $this->getUrl('search/term/save')
         );
 
         $this->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));

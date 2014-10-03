@@ -8,8 +8,8 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <update handle="catalog_search_grid_block"/>
+    <update handle="search_term_grid_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Catalog\Block\Adminhtml\Search" name="adminhtml.catalog.search.grid.container"/>
+        <block class="Magento\Search\Block\Adminhtml\Term" name="adminhtml.search.term.grid.container"/>
     </referenceContainer>
 </page>

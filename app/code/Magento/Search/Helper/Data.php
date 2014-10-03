@@ -19,7 +19,7 @@ use Magento\Search\Model\QueryFactory;
 use Magento\Search\Model\Resource\Query\Collection;
 
 /**
- * Catalog search helper
+ * Search helper
  */
 class Data extends AbstractHelper
 {
@@ -187,17 +187,7 @@ class Data extends AbstractHelper
      */
     public function getSearchTermUrl()
     {
-        return $this->_getUrl('catalogsearch/term/popular');
-    }
-
-    /**
-     * Retrieve advanced search URL
-     *
-     * @return string
-     */
-    public function getAdvancedSearchUrl()
-    {
-        return $this->_getUrl('catalogsearch/advanced');
+        return $this->_getUrl('search/term/popular');
     }
 
     /**

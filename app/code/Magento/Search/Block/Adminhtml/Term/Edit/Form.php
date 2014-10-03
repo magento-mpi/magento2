@@ -10,7 +10,8 @@
  * Adminhtml tag edit form
  *
  */
-namespace Magento\CatalogSearch\Block\Adminhtml\Search\Edit;
+namespace Magento\Search\Block\Adminhtml\Term\Edit;
+
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -45,7 +46,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _construct()
     {
         parent::_construct();
-        $this->setId('catalog_search_form');
+        $this->setId('search_term_form');
         $this->setTitle(__('Search Information'));
     }
 
