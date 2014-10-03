@@ -11,10 +11,10 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 {
     public function testAfterImportSource()
     {
-        $productCategoryProcessorMock = $this->getMockBuilder('Magento\Catalog\Model\Indexer\Product\Category\Processor')
+        $processorMock = $this->getMockBuilder('Magento\Catalog\Model\Indexer\Product\Category\Processor')
             ->disableOriginalConstructor()
             ->getMock();
-        $productCategoryProcessorMock->expects($this->once())
+        $processorMock->expects($this->once())
             ->method('markIndexerAsInvalid');
 
 
@@ -24,7 +24,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
         $import = true;
 
-        $model = new \Magento\CatalogImportExport\Model\Indexer\Product\Category\Plugin\Import($productCategoryProcessorMock);
+        $model = new \Magento\CatalogImportExport\Model\Indexer\Product\Category\Plugin\Import($processorMock);
 
         $this->assertEquals(
             $import,
