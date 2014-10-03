@@ -9,24 +9,53 @@ namespace Magento\Tools\SampleData\Module\ConfigurableProduct\Setup\Product;
 
 class Converter
 {
+    /**
+     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     */
     protected $categoryReadService;
 
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
     protected $eavConfig;
 
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
     protected $attributeCollectionFactory;
 
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
     protected $attrOptionCollectionFactory;
 
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix
+     */
     protected $variationMatrix;
 
-    protected $categoryNameIdPair;
-
+    /**
+     * @var array
+     */
     protected $attributeCodeOptionsPair;
 
+    /*
+     * @var array
+     */
     protected $attributeCodeOptionValueIdsPair;
 
+    /**
+     * @var int
+     */
     protected $attributeSetId;
 
+    /**
+     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix
+     */
     public function __construct(
         \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
         \Magento\Eav\Model\Config $eavConfig,
@@ -41,6 +70,11 @@ class Converter
         $this->variationMatrix = $variationMatrix;
     }
 
+    /**
+     * @param array $row
+     * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function convertRow($row)
     {
         $data = [];
@@ -51,7 +85,9 @@ class Converter
                 continue;
             }
             if (in_array($field, array('color', 'size_general', 'size_pants'))) {
-                $configurableAttributes[$field] = $this->getArrayValue($value);
+                if ($value) {
+                    $configurableAttributes[$field] = $this->getArrayValue($value);
+                }
                 continue;
             }
 
@@ -64,7 +100,7 @@ class Converter
                         $result[] = $options[$v];
                     }
                 }
-                $value = count($result) == 1 ? current($result) : $result;
+                $value = (count($result) == 1) ? current($result) : $result;
             }
             $data[$field] = $value;
         }
@@ -76,6 +112,10 @@ class Converter
         return $data;
     }
 
+    /**
+     * @param mixed $value
+     * @return array
+     */
     protected function getArrayValue($value)
     {
         if (is_array($value)) {
@@ -87,6 +127,10 @@ class Converter
         return !is_array($value) ? [$value] : $value;
     }
 
+    /**
+     * @param array $categories
+     * @return array
+     */
     protected function getCategoryIds($categories)
     {
         $ids = [];
@@ -103,6 +147,10 @@ class Converter
         return $ids;
     }
 
+    /**
+     * @param array $configurableAttributes
+     * @return array
+     */
     protected function convertAttributesData($configurableAttributes)
     {
         $attributesData = [];
@@ -141,6 +189,10 @@ class Converter
         return $attributesData;
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     protected function getVariationsMatrix($data)
     {
         $variations = $this->variationMatrix->getVariations($data['configurable_attributes_data']);
@@ -153,10 +205,11 @@ class Converter
             $attributeLabels = array();
             $price = $productPrice;
             foreach ($data['configurable_attributes_data'] as $attributeData) {
-                $attributeValues[$attributeData['attribute_code']] = $variation[$attributeData['attribute_id']]['value'];
-                $attributeLabels[$attributeData['attribute_code']] = $variation[$attributeData['attribute_id']]['label'];
-                if (isset($variation[$attributeData['attribute_id']]['price'])) {
-                    $priceInfo = $variation[$attributeData['attribute_id']]['price'];
+                $attributeId = $attributeData['attribute_id'];
+                $attributeValues[$attributeData['attribute_code']] = $variation[$attributeId]['value'];
+                $attributeLabels[$attributeData['attribute_code']] = $variation[$attributeId]['label'];
+                if (isset($variation[$attributeId]['price'])) {
+                    $priceInfo = $variation[$attributeId]['price'];
                     $price += ($priceInfo['is_percent'] ? $productPrice / 100.0 : 1.0) * $priceInfo['pricing_value'];
                 }
             }
@@ -173,51 +226,77 @@ class Converter
         return $result;
     }
 
+    /**
+     * @param string $attributeCode
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection|null
+     */
     public function getAttributeOptions($attributeCode)
     {
-        if (isset($this->attributeCodeOptionsPair[$attributeCode])) {
-            return $this->attributeCodeOptionsPair[$attributeCode];
+        if (!$this->attributeCodeOptionsPair) {
+            $this->loadAttributeOptions();
         }
+        return isset($this->attributeCodeOptionsPair[$attributeCode])
+            ? $this->attributeCodeOptionsPair[$attributeCode]
+            : null;
+    }
 
+    /**
+     * Loads all attributes with options for current attribute set
+     *
+     * @return $this
+     */
+    protected function loadAttributeOptions()
+    {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
         $collection = $this->attributeCollectionFactory->create();
         $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
         $collection->setAttributeSetFilter($this->getAttributeSetId());
         $collection->setFrontendInputTypeFilter(array('in' => array('select', 'multiselect')));
-//        echo $collection->getSelectSql(true);
         foreach ($collection as $item) {
             $options = $this->attrOptionCollectionFactory->create()
                 ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
             $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
         }
-
-        return null;
+        return $this;
     }
 
+    /**
+     * @param string $attributeCode
+     * @return mixed
+     */
     protected function getAttributeOptionValueIdsPair($attributeCode)
     {
-        if (isset($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
-            return $this->attributeCodeOptionValueIdsPair[$attributeCode];
-        }
-
-        $options = $this->getAttributeOptions($attributeCode);
-        $opt = [];
-        if ($options) {
-            foreach ($options as $option) {
-                $opt[$option->getValue()] = $option->getId();
+        if (!isset($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
+            $options = $this->getAttributeOptions($attributeCode);
+            $opt = [];
+            if ($options) {
+                foreach ($options as $option) {
+                    $opt[$option->getValue()] = $option->getId();
+                }
             }
+            $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
         }
-        $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
         return $this->attributeCodeOptionValueIdsPair[$attributeCode];
     }
 
+    /**
+     * @return int
+     */
     protected function getAttributeSetId()
     {
         return $this->attributeSetId;
     }
 
+    /**
+     * @param int $value
+     * @return $this
+     */
     public function setAttributeSetId($value)
     {
+        if ($this->attributeSetId != $value) {
+            $this->loadAttributeOptions();
+        }
         $this->attributeSetId = $value;
+        return $this;
     }
 }

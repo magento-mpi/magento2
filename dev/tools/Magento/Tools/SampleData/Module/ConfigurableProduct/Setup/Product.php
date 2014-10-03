@@ -13,27 +13,48 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 class Product implements SetupInterface
 {
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
     protected $productFactory;
 
-    protected $attributeSetId;
-
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
     protected $catalogConfig;
 
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     */
     protected $configurableProductType;
 
-    protected $imageInstaller;
-
+    /**
+     * @var Product\Converter
+     */
     protected $converter;
 
+    /**
+     * @var FixtureHelper
+     */
     protected $fixtureHelper;
 
+    /**
+     * @var CsvReaderFactory
+     */
     protected $csvReaderFactory;
 
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param Product\Converter $converter
+     * @param FixtureHelper $fixtureHelper
+     * @param CsvReaderFactory $csvReaderFactory
+     */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType,
         \Magento\Catalog\Model\Config $catalogConfig,
-        Product\ImageInstaller $imageInstaller,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory
@@ -41,12 +62,14 @@ class Product implements SetupInterface
         $this->productFactory = $productFactory;
         $this->configurableProductType = $configurableProductType;
         $this->catalogConfig = $catalogConfig;
-        $this->imageInstaller = $imageInstaller;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         echo "Installing configurable products\n";
@@ -54,10 +77,10 @@ class Product implements SetupInterface
         $product = $this->productFactory->create();
 
         $files = [
-            'ConfigurableProduct/products_men_tops_new.csv',
-            'ConfigurableProduct/products_men_bottoms_new.csv',
-            'ConfigurableProduct/products_women_tops_new.csv',
-            'ConfigurableProduct/products_women_bottoms_new.csv',
+            'ConfigurableProduct/products_men_tops.csv',
+            'ConfigurableProduct/products_men_bottoms.csv',
+            'ConfigurableProduct/products_women_tops.csv',
+            'ConfigurableProduct/products_women_bottoms.csv'
         ];
 
         foreach ($files as $file) {
@@ -65,7 +88,6 @@ class Product implements SetupInterface
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach($csvReader as $row) {
-
                 $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
 
                 $this->converter->setAttributeSetId($attributeSetId);
@@ -88,8 +110,6 @@ class Product implements SetupInterface
 
                 $product->save();
                 echo '.';
-
-                $this->imageInstaller->install($product);
             }
         }
         echo "\n";
