@@ -9,7 +9,7 @@ namespace Magento\Framework\Search\Dynamic;
 
 
 /**
- * Algorithm for layer price filter
+ * Algorithm for layer value filter
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -44,14 +44,14 @@ class Algorithm
     const MAX_INTERVALS_NUMBER = 10;
 
     /**
-     * Upper prices limit
+     * Upper values limit
      *
      * @var null|float
      */
     protected $_upperLimit = null;
 
     /**
-     * Lower prices limit
+     * Lower values limit
      *
      * @var null|float
      */
@@ -72,7 +72,7 @@ class Algorithm
     protected $_skippedQuantilesUpperLimits = array();
 
     /**
-     * Total count of prices
+     * Total count of values
      *
      * @var int
      */
@@ -86,32 +86,32 @@ class Algorithm
     protected $_quantileInterval = array(0, 0);
 
     /**
-     * Prices of current quantile
+     * Values of current quantile
      *
      * @var array
      */
-    protected $_prices = array();
+    protected $_values = array();
 
     /**
-     * Max price
+     * Max value
      *
      * @var float
      */
-    protected $_maxPrice = 0;
+    protected $_maxValue = 0;
 
     /**
-     * Min price
+     * Min value
      *
      * @var float
      */
-    protected $_minPrice = 0;
+    protected $_minValue = 0;
 
     /**
-     * Last price query limiter
+     * Last value query limiter
      *
      * @var array [index, value]
      */
-    protected $_lastPriceLimiter = array(null, 0);
+    protected $_lastValueLimiter = array(null, 0);
 
     /**
      * @var IntervalInterface
@@ -141,7 +141,7 @@ class Algorithm
     }
 
     /**
-     * Set prices statistics
+     * Set statistics
      *
      * @param float $min
      * @param float $max
@@ -152,11 +152,11 @@ class Algorithm
     public function setStatistics($min, $max, $standardDeviation, $count)
     {
         $this->_count = $count;
-        $this->_minPrice = $min;
-        $this->_maxPrice = $max;
-        $priceRange = $max - $min;
-        if ($count < 2 || $priceRange <= 0) {
-            //Same price couldn't be separated with several intervals
+        $this->_minValue = $min;
+        $this->_maxValue = $max;
+        $valueRange = $max - $min;
+        if ($count < 2 || $valueRange <= 0) {
+            //Same value couldn't be separated with several intervals
             $this->_intervalsNumber = 1;
             return $this;
         }
@@ -164,7 +164,7 @@ class Algorithm
         if ($standardDeviation <= 0) {
             $intervalsNumber = pow(10, self::TEN_POWER_ROUNDING_FACTOR);
         } else {
-            $intervalsNumber = $priceRange * pow($count, 1 / 3) / (3.5 * $standardDeviation);
+            $intervalsNumber = $valueRange * pow($count, 1 / 3) / (3.5 * $standardDeviation);
         }
         $this->_intervalsNumber = max(ceil($intervalsNumber), self::MIN_INTERVALS_NUMBER);
         $this->_intervalsNumber = (int)min($this->_intervalsNumber, self::MAX_INTERVALS_NUMBER);
@@ -181,44 +181,44 @@ class Algorithm
     {
         $result = array();
         $lastCount = 0;
-        $intervalFirstPrice = $this->_minPrice;
+        $intervalFirstValue = $this->_minValue;
         $lastSeparator = is_null($this->_lowerLimit) ? 0 : $this->_lowerLimit;
 
         for ($i = 1; $i < $this->getIntervalsNumber(); ++$i) {
-            $separator = $this->_findPriceSeparator($i);
+            $separator = $this->_findValueSeparator($i);
             if (empty($separator)) {
                 continue;
             }
             if ($this->_quantileInterval[0] == 0) {
-                $intervalFirstPrice = $this->_prices[0];
+                $intervalFirstValue = $this->_values[0];
             }
             $separatorCandidate = false;
-            $newIntervalFirstPrice = $intervalFirstPrice;
+            $newIntervalFirstValue = $intervalFirstValue;
             $newLastSeparator = $lastSeparator;
 
-            $pricesPerInterval = $this->_count / $this->_getCalculatedIntervalsNumber();
+            $valuesPerInterval = $this->_count / $this->_getCalculatedIntervalsNumber();
             while (!empty($separator) && !array_key_exists($i, $result)) {
                 $separatorsPortion = array_shift($separator);
                 $bestSeparator = $this->_findBestSeparator($i, $separatorsPortion);
                 if ($bestSeparator && $bestSeparator[2] > 0) {
-                    $isEqualPrice = $intervalFirstPrice ==
-                    $this->_prices[$bestSeparator[2] - 1] ? $this->_prices[0] : false;
+                    $isEqualValue = $intervalFirstValue ==
+                    $this->_values[$bestSeparator[2] - 1] ? $this->_values[0] : false;
                     $count = $bestSeparator[2] + $this->_quantileInterval[0] - $lastCount;
                     $separatorData = array(
-                        'from' => $isEqualPrice !== false ? $isEqualPrice : $lastSeparator,
-                        'to' => $isEqualPrice !== false ? $isEqualPrice : $bestSeparator[1],
+                        'from' => $isEqualValue !== false ? $isEqualValue : $lastSeparator,
+                        'to' => $isEqualValue !== false ? $isEqualValue : $bestSeparator[1],
                         'count' => $count
                     );
-                    if (abs(1 - $count / $pricesPerInterval) <= self::INTERVAL_DEFLECTION_LIMIT) {
+                    if (abs(1 - $count / $valuesPerInterval) <= self::INTERVAL_DEFLECTION_LIMIT) {
                         $newLastSeparator = $bestSeparator[1];
-                        $newIntervalFirstPrice = $this->_prices[$bestSeparator[2]];
+                        $newIntervalFirstValue = $this->_values[$bestSeparator[2]];
                         $result[$i] = $separatorData;
                     } elseif (!$separatorCandidate || $bestSeparator[0] < $separatorCandidate[0]) {
                         $separatorCandidate = array(
                             $bestSeparator[0],
                             $separatorData,
                             $bestSeparator[1],
-                            $this->_prices[$bestSeparator[2]]
+                            $this->_values[$bestSeparator[2]]
                         );
                     }
                 }
@@ -226,25 +226,25 @@ class Algorithm
 
             if (!array_key_exists($i, $result) && $separatorCandidate) {
                 $newLastSeparator = $separatorCandidate[2];
-                $newIntervalFirstPrice = $separatorCandidate[3];
+                $newIntervalFirstValue = $separatorCandidate[3];
                 $result[$i] = $separatorCandidate[1];
             }
 
             if (array_key_exists($i, $result)) {
                 $lastSeparator = $newLastSeparator;
-                $intervalFirstPrice = $newIntervalFirstPrice;
-                $priceIndex = $this->_binarySearch($lastSeparator);
+                $intervalFirstValue = $newIntervalFirstValue;
+                $valueIndex = $this->_binarySearch($lastSeparator);
                 $lastCount += $result[$i]['count'];
-                if ($priceIndex != -1 && $lastSeparator > $this->_lastPriceLimiter[1]) {
-                    $this->_lastPriceLimiter = array($priceIndex + $this->_quantileInterval[0], $lastSeparator);
+                if ($valueIndex != -1 && $lastSeparator > $this->_lastValueLimiter[1]) {
+                    $this->_lastValueLimiter = array($valueIndex + $this->_quantileInterval[0], $lastSeparator);
                 }
             }
         }
-        if ($this->_lastPriceLimiter[0] < $this->_count) {
-            $isEqualPrice = $intervalFirstPrice == $this->_maxPrice ? $intervalFirstPrice : false;
+        if ($this->_lastValueLimiter[0] < $this->_count) {
+            $isEqualValue = $intervalFirstValue == $this->_maxValue ? $intervalFirstValue : false;
             $result[$this->getIntervalsNumber()] = array(
-                'from' => $isEqualPrice ? $isEqualPrice : $lastSeparator,
-                'to' => $isEqualPrice ? $isEqualPrice : (is_null($this->_upperLimit) ? '' : $this->_upperLimit),
+                'from' => $isEqualValue ? $isEqualValue : $lastSeparator,
+                'to' => $isEqualValue ? $isEqualValue : (is_null($this->_upperLimit) ? '' : $this->_upperLimit),
                 'count' => $this->_count - $lastCount
             );
         }
@@ -267,112 +267,112 @@ class Algorithm
     }
 
     /**
-     * Find price separator for the quantile
+     * Find value separator for the quantile
      *
      * @param int $quantileNumber should be from 1 to n-1 where n is number of intervals
      * @return array|null
      */
-    protected function _findPriceSeparator($quantileNumber)
+    protected function _findValueSeparator($quantileNumber)
     {
         if ($quantileNumber < 1 || $quantileNumber >= $this->getIntervalsNumber()) {
             return null;
         }
 
-        $prices = array();
+        $values = array();
         $quantileInterval = $this->_getQuantileInterval($quantileNumber);
-        $intervalPricesCount = $quantileInterval[1] - $quantileInterval[0] + 1;
+        $intervalValuesCount = $quantileInterval[1] - $quantileInterval[0] + 1;
         $offset = $quantileInterval[0];
-        if (!is_null($this->_lastPriceLimiter[0])) {
-            $offset -= $this->_lastPriceLimiter[0];
+        if (!is_null($this->_lastValueLimiter[0])) {
+            $offset -= $this->_lastValueLimiter[0];
         }
         if ($offset < 0) {
-            $intervalPricesCount += $offset;
-            $prices = array_slice(
-                $this->_prices,
-                $this->_lastPriceLimiter[0] + $offset - $this->_quantileInterval[0],
+            $intervalValuesCount += $offset;
+            $values = array_slice(
+                $this->_values,
+                $this->_lastValueLimiter[0] + $offset - $this->_quantileInterval[0],
                 -$offset
             );
             $offset = 0;
         }
-        $lowerPrice = $this->_lastPriceLimiter[1];
+        $lowerValue = $this->_lastValueLimiter[1];
         if (!is_null($this->_lowerLimit)) {
-            $lowerPrice = max($lowerPrice, $this->_lowerLimit);
+            $lowerValue = max($lowerValue, $this->_lowerLimit);
         }
-        if ($intervalPricesCount >= 0) {
-            $prices = array_merge(
-                $prices,
-                $this->interval->load($intervalPricesCount + 1, $offset, $lowerPrice, $this->_upperLimit)
+        if ($intervalValuesCount >= 0) {
+            $values = array_merge(
+                $values,
+                $this->interval->load($intervalValuesCount + 1, $offset, $lowerValue, $this->_upperLimit)
             );
         }
-        $lastPrice = $prices[$intervalPricesCount - 1];
-        $bestRoundPrice = array();
-        if ($lastPrice == $prices[0]) {
+        $lastValue = $values[$intervalValuesCount - 1];
+        $bestRoundValue = array();
+        if ($lastValue == $values[0]) {
             if ($quantileNumber == 1 && $offset) {
-                $additionalPrices = $this->interval->loadPrevious($lastPrice, $quantileInterval[0], $this->_lowerLimit);
-                if ($additionalPrices) {
-                    $quantileInterval[0] -= count($additionalPrices);
-                    $prices = array_merge($additionalPrices, $prices);
-                    $bestRoundPrice = $this->_findRoundPrice(
-                        $prices[0] + self::MIN_POSSIBLE_VALUE / 10,
-                        $lastPrice,
+                $additionalValues = $this->interval->loadPrevious($lastValue, $quantileInterval[0], $this->_lowerLimit);
+                if ($additionalValues) {
+                    $quantileInterval[0] -= count($additionalValues);
+                    $values = array_merge($additionalValues, $values);
+                    $bestRoundValue = $this->_findRoundValue(
+                        $values[0] + self::MIN_POSSIBLE_VALUE / 10,
+                        $lastValue,
                         false
                     );
                 }
             }
             if ($quantileNumber == $this->getIntervalsNumber() - 1) {
-                $pricesCount = count($prices);
-                if ($prices[$pricesCount - 1] > $lastPrice) {
-                    $additionalPrices = array($prices[$pricesCount - 1]);
+                $valuesCount = count($values);
+                if ($values[$valuesCount - 1] > $lastValue) {
+                    $additionalValues = array($values[$valuesCount - 1]);
                 } else {
-                    $additionalPrices = $this->interval->loadNext(
-                        $lastPrice,
-                        $this->_count - $quantileInterval[0] - count($prices),
+                    $additionalValues = $this->interval->loadNext(
+                        $lastValue,
+                        $this->_count - $quantileInterval[0] - count($values),
                         $this->_upperLimit
                     );
                 }
-                if ($additionalPrices) {
-                    $quantileInterval[1] = $quantileInterval[0] + count($prices) - 1;
-                    if ($prices[$pricesCount - 1] <= $lastPrice) {
-                        $quantileInterval[1] += count($additionalPrices);
-                        $prices = array_merge($prices, $additionalPrices);
+                if ($additionalValues) {
+                    $quantileInterval[1] = $quantileInterval[0] + count($values) - 1;
+                    if ($values[$valuesCount - 1] <= $lastValue) {
+                        $quantileInterval[1] += count($additionalValues);
+                        $values = array_merge($values, $additionalValues);
                     }
-                    $upperBestRoundPrice = $this->_findRoundPrice(
-                        $lastPrice + self::MIN_POSSIBLE_VALUE / 10,
-                        $prices[count($prices) - 1],
+                    $upperBestRoundValue = $this->_findRoundValue(
+                        $lastValue + self::MIN_POSSIBLE_VALUE / 10,
+                        $values[count($values) - 1],
                         false
                     );
-                    $this->_mergeRoundPrices($bestRoundPrice, $upperBestRoundPrice);
+                    $this->_mergeRoundValues($bestRoundValue, $upperBestRoundValue);
                 }
             }
         } else {
-            $bestRoundPrice = $this->_findRoundPrice(
-                $prices[0] + self::MIN_POSSIBLE_VALUE / 10,
-                $lastPrice
+            $bestRoundValue = $this->_findRoundValue(
+                $values[0] + self::MIN_POSSIBLE_VALUE / 10,
+                $lastValue
             );
         }
 
         $this->_quantileInterval = $quantileInterval;
-        $this->_prices = $prices;
+        $this->_values = $values;
 
-        if (empty($bestRoundPrice)) {
+        if (empty($bestRoundValue)) {
             $this->_skippedQuantilesUpperLimits[$quantileNumber] = $quantileInterval[1];
-            return $bestRoundPrice;
+            return $bestRoundValue;
         }
 
-        $pricesCount = count($prices);
-        if ($prices[$pricesCount - 1] > $lastPrice) {
-            $this->_lastPriceLimiter = array($quantileInterval[0] + $pricesCount - 1, $prices[$pricesCount - 1]);
+        $valuesCount = count($values);
+        if ($values[$valuesCount - 1] > $lastValue) {
+            $this->_lastValueLimiter = array($quantileInterval[0] + $valuesCount - 1, $values[$valuesCount - 1]);
         }
 
-        ksort($bestRoundPrice, SORT_NUMERIC);
-        foreach ($bestRoundPrice as $index => &$bestRoundPriceValues) {
-            if (empty($bestRoundPriceValues)) {
-                unset($bestRoundPrice[$index]);
+        ksort($bestRoundValue, SORT_NUMERIC);
+        foreach ($bestRoundValue as $index => &$bestRoundValueValues) {
+            if (empty($bestRoundValueValues)) {
+                unset($bestRoundValue[$index]);
             } else {
-                sort($bestRoundPriceValues);
+                sort($bestRoundValueValues);
             }
         }
-        return array_reverse($bestRoundPrice);
+        return array_reverse($bestRoundValue);
     }
 
     /**
@@ -421,29 +421,29 @@ class Algorithm
     }
 
     /**
-     * Find max rounding factor with given price range
+     * Find max rounding factor with given value range
      *
-     * @param float $lowerPrice
-     * @param float $upperPrice
+     * @param float $lowerValue
+     * @param float $upperValue
      * @param bool $returnEmpty whether empty result is acceptable
      * @param null|float $roundingFactor if given, checks for range to contain the factor
      * @return false|array
      */
-    protected function _findRoundPrice($lowerPrice, $upperPrice, $returnEmpty = true, $roundingFactor = null)
+    protected function _findRoundValue($lowerValue, $upperValue, $returnEmpty = true, $roundingFactor = null)
     {
-        $lowerPrice = round($lowerPrice, 3);
-        $upperPrice = round($upperPrice, 3);
+        $lowerValue = round($lowerValue, 3);
+        $upperValue = round($upperValue, 3);
 
         if (!is_null($roundingFactor)) {
-            // Can't separate if prices are equal
-            if ($lowerPrice >= $upperPrice) {
-                if ($lowerPrice > $upperPrice || $returnEmpty) {
+            // Can't separate if values are equal
+            if ($lowerValue >= $upperValue) {
+                if ($lowerValue > $upperValue || $returnEmpty) {
                     return false;
                 }
             }
             // round is used for such examples: (1194.32 / 0.02) or (5 / 100000)
-            $lowerDivision = ceil(round($lowerPrice / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
-            $upperDivision = floor(round($upperPrice / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
+            $lowerDivision = ceil(round($lowerValue / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
+            $upperDivision = floor(round($upperValue / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
 
             $result = array();
             if ($upperDivision <= 0 || $upperDivision - $lowerDivision > 10) {
@@ -466,18 +466,18 @@ class Algorithm
             }
             foreach ($roundingFactorCoefficients as $roundingFactorCoefficient) {
                 $roundingFactorCoefficient *= $tenPower;
-                $roundPrices = $this->_findRoundPrice(
-                    $lowerPrice,
-                    $upperPrice,
+                $roundValues = $this->_findRoundValue(
+                    $lowerValue,
+                    $upperValue,
                     $returnEmpty,
                     $roundingFactorCoefficient
                 );
-                if ($roundPrices) {
+                if ($roundValues) {
                     $index = round(
                         $roundingFactorCoefficient /
                         self::MIN_POSSIBLE_VALUE
                     );
-                    $result[$index] = $roundPrices;
+                    $result[$index] = $roundValues;
                 }
             }
             $tenPower /= 10;
@@ -487,21 +487,21 @@ class Algorithm
     }
 
     /**
-     * Merge new round prices with old ones
+     * Merge new round values with old ones
      *
-     * @param array &$oldRoundPrices
-     * @param array &$newRoundPrices
+     * @param array &$oldRoundValues
+     * @param array &$newRoundValues
      * @return void
      */
-    protected function _mergeRoundPrices(&$oldRoundPrices, &$newRoundPrices)
+    protected function _mergeRoundValues(&$oldRoundValues, &$newRoundValues)
     {
-        foreach ($newRoundPrices as $roundingFactor => $roundPriceValues) {
-            if (array_key_exists($roundingFactor, $oldRoundPrices)) {
-                $oldRoundPrices[$roundingFactor] = array_unique(
-                    array_merge($oldRoundPrices[$roundingFactor], $roundPriceValues)
+        foreach ($newRoundValues as $roundingFactor => $roundValueValues) {
+            if (array_key_exists($roundingFactor, $oldRoundValues)) {
+                $oldRoundValues[$roundingFactor] = array_unique(
+                    array_merge($oldRoundValues[$roundingFactor], $roundValueValues)
                 );
             } else {
-                $oldRoundPrices[$roundingFactor] = $roundPriceValues;
+                $oldRoundValues[$roundingFactor] = $roundValueValues;
             }
         }
     }
@@ -521,15 +521,15 @@ class Algorithm
      *
      * @param int $quantileNumber
      * @param array $separators
-     * @return array|false [deflection, separatorPrice, $priceIndex]
+     * @return array|false [deflection, separatorValue, $valueIndex]
      */
     protected function _findBestSeparator($quantileNumber, $separators)
     {
         $result = false;
 
         $i = 0;
-        $pricesCount = count($this->_prices);
-        while ($i < $pricesCount && !empty($separators)) {
+        $valuesCount = count($this->_values);
+        while ($i < $valuesCount && !empty($separators)) {
             $i = $this->_binarySearch($separators[0], array($i));
             if ($i == -1) {
                 break;
@@ -551,7 +551,7 @@ class Algorithm
     }
 
     /**
-     * Search first index of price, that satisfy conditions to be 'greater or equal' than $value
+     * Search first index of value, that satisfy conditions to be 'greater or equal' than $value
      * Returns -1 if index was not found
      *
      * @param float $value
@@ -560,7 +560,7 @@ class Algorithm
      */
     protected function _binarySearch($value, $limits = null)
     {
-        if (empty($this->_prices)) {
+        if (empty($this->_values)) {
             return -1;
         }
 
@@ -571,19 +571,19 @@ class Algorithm
             $limits[0] = 0;
         }
         if (!isset($limits[1])) {
-            $limits[1] = count($this->_prices) - 1;
+            $limits[1] = count($this->_values) - 1;
         }
 
-        if ($limits[0] > $limits[1] || $this->_prices[$limits[1]] < $value) {
+        if ($limits[0] > $limits[1] || $this->_values[$limits[1]] < $value) {
             return -1;
         }
 
         if ($limits[1] - $limits[0] <= 1) {
-            return $this->_prices[$limits[0]] < $value ? $limits[1] : $limits[0];
+            return $this->_values[$limits[0]] < $value ? $limits[1] : $limits[0];
         }
 
         $separator = floor(($limits[0] + $limits[1]) / 2);
-        if ($this->_prices[$separator] < $value) {
+        if ($this->_values[$separator] < $value) {
             $limits[0] = $separator + 1;
         } else {
             $limits[1] = $separator;
