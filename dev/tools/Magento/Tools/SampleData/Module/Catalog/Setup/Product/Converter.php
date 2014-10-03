@@ -173,7 +173,7 @@ class Converter
      */
     protected function getAttributeOptionValueIdsPair($attributeCode)
     {
-        if (isset($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
+        if (!empty($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
             return $this->attributeCodeOptionValueIdsPair[$attributeCode];
         }
 
