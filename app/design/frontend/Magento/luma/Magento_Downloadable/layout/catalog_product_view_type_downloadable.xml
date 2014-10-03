@@ -8,7 +8,7 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
+        xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <move element="product.info.downloadable.samples" destination="product.info.main" after="product.info.price" />
     <move element="product.info" destination="content" after="product.info.main" />
     <move element="product.info.social" destination="product.info.options.wrapper.bottom" after="-" />
