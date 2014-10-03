@@ -60,4 +60,9 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\InvoiceIndex</class>
     </invoiceIndex>
+    <orderCreditMemoNew>
+        <mca>sales/order_creditmemo/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew</class>
+    </orderCreditMemoNew>
 </page>
