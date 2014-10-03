@@ -29,7 +29,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 6. Move orders to Archive
  *
  * Steps:
- * 1. Go to Admin > Sales > Archive >Orders
+ * 1. Go to Admin > Sales > Archive > Orders
  * 2. Select orders and do Shipment
  * 3. Fill data from dataSet
  * 4. Click 'Submit' button
