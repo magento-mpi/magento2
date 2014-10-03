@@ -20,8 +20,14 @@ class Save extends \Magento\Ui\Controller\Adminhtml\AbstractAction
      */
     public function execute()
     {
-        $formElement = $this->factory->createUiComponent($this->getComponent(), $this->getName());
-        list($module, $controller, $action) = explode('\\', $formElement->getSaveMca());
-        $this->_forward($action, $controller, $module, $this->getRequest()->getParams());
+        $component = $this->getComponent();
+        $name = $this->getName();
+        if ($component && $name) {
+            $formElement = $this->factory->createUiComponent($component, $name);
+            list($module, $controller, $action) = explode('\\', $formElement->getSaveMca());
+            $this->_forward($action, $controller, $module, $this->getRequest()->getParams());
+        } else {
+            $this->_redirect('admin');
+        }
     }
 }

@@ -14,7 +14,7 @@ use Magento\Framework\View\Element\UiComponentFactory;
 /**
  * Class Render
  */
-class AbstractAction extends \Magento\Backend\App\Action
+abstract class AbstractAction extends \Magento\Backend\App\Action
 {
     /**
      * @var UiComponentFactory
