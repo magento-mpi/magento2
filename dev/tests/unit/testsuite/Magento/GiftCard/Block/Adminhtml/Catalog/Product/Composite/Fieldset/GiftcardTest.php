@@ -47,9 +47,11 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     public function testGetIsLastFieldset()
     {
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getTypeInstance', 'getOptions', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
-        $typeInstance = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\AbstractType')
+        $typeInstance = $this->getMockBuilder('Magento\GiftCard\Model\Catalog\Product\Type\Giftcard')
+            ->setMethods(['getStoreFilter'])
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -96,7 +96,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->scopeConfig = $this->getMock('Magento\Framework\App\Config', [], [], '', false);
+        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config')
+            ->setMethods(['isSetFlag', 'getValue'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
 
         $this->stockItemRegistry = $this->getMock(

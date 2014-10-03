@@ -35,14 +35,17 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
+            ->setMethods(['isSingleStoreMode'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->coreRegistry = $this->getMockBuilder('Magento\Framework\Registry')
+            ->setMethods(['registry'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
+        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config')
+            ->setMethods(['getValue'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -89,6 +92,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     {
 
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -120,6 +124,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $field = 'some_field';
 
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -143,6 +148,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $field = 'some_field';
 
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getId', 'getDataUsingMethod', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
