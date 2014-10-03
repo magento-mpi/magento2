@@ -32,7 +32,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Catalog search resource helper
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Helper
+     * @var \Magento\Search\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -42,7 +42,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Search\Model\Resource\Helper $resourceHelper
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -52,7 +52,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
+        \Magento\Search\Model\Resource\Helper $resourceHelper,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {

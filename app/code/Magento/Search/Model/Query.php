@@ -9,8 +9,8 @@ namespace Magento\Search\Model;
 
 use Magento\Search\Model\Resource\Query\Collection as QueryCollection;
 use Magento\Search\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
-use Magento\CatalogSearch\Model\Resource\Search\Collection;
-use Magento\CatalogSearch\Model\Resource\Search\CollectionFactory;
+use Magento\Search\Model\SearchCollectionInterface as Collection;
+use Magento\Search\Model\SearchCollectionInterfaceFactory as CollectionFactory;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection\Db;
@@ -149,6 +149,7 @@ class Query extends AbstractModel implements QueryInterface
     /**
      * Retrieve collection of search results
      *
+     * @deplecated
      * @return AbstractCollection
      */
     public function getResultCollection()

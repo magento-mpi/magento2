@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Resource;
+namespace Magento\Search\Model\Resource;
 
 /**
- * CatalogSearch Mysql resource helper model
+ * Search Mysql resource helper model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -18,7 +18,7 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
      * @param \Magento\Framework\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, $modulePrefix = 'Magento_CatalogSearch')
+    public function __construct(\Magento\Framework\App\Resource $resource, $modulePrefix = 'Magento_Search')
     {
         parent::__construct($resource, $modulePrefix);
     }

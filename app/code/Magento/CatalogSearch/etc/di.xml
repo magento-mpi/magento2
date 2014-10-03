@@ -59,4 +59,5 @@
     <type name="Magento\Framework\Search\Request\Config\FilesystemReader">
         <plugin name="catalogSearchDynamicFields"  type="Magento\CatalogSearch\Model\Search\ReaderPlugin" />
     </type>
+    <preference for="Magento\Search\Model\SearchCollectionInterface" type="Magento\CatalogSearch\Model\Resource\Search\Collection" />
 </config>

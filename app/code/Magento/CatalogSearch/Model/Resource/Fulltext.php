@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Resource;
 
+use Magento\Search\Model\Resource\Helper;
+
 /**
  * CatalogSearch Fulltext Index resource model
  */
@@ -29,7 +31,7 @@ class Fulltext extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * CatalogSearch resource helper
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Helper
+     * @var \Magento\Search\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -43,7 +45,7 @@ class Fulltext extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Filter\FilterManager $filter,
-        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+        \Magento\Search\Model\Resource\Helper $resourceHelper
     ) {
         $this->_eventManager = $eventManager;
         $this->filter = $filter;

@@ -19,7 +19,7 @@ class Suggest extends \Magento\Framework\App\Action\Action
             $this->getResponse()->setRedirect($this->_url->getBaseUrl());
         }
 
-        $suggestData = $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->getSuggestData();
+        $suggestData = $this->_objectManager->get('Magento\Search\Helper\Data')->getSuggestData();
         $this->getResponse()->representJson(json_encode($suggestData));
     }
 }
