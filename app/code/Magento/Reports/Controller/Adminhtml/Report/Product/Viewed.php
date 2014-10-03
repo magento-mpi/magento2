@@ -37,9 +37,9 @@ class Viewed extends \Magento\Reports\Controller\Adminhtml\Report\Product
             $this->_initAction()->_setActiveMenu(
                 'Magento_Reports::report_products_viewed'
             )->_addBreadcrumb(
-                    __('Products Most Viewed Report'),
-                    __('Products Most Viewed Report')
-                );
+                __('Products Most Viewed Report'),
+                __('Products Most Viewed Report')
+            );
 
             $gridBlock = $this->_view->getLayout()->getBlock('adminhtml_product_viewed.grid');
             $filterFormBlock = $this->_view->getLayout()->getBlock('grid.filter.form');
