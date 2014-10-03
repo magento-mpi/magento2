@@ -31,8 +31,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testCollect($itemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData,
-        $addressData, $verifyData)
-    {
+            $addressData, $verifyData
+    ) {
         $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
         $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
@@ -667,9 +667,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderFetchArray()
     {
+        $appliedDataString = 'a:1:{s:7:"TX Rate";a:9:{s:6:"amount";d:80;s:11:"base_amount";d:80;s:7:"percent";';
+        $appliedDataString .= 'd:10;s:2:"id";s:7:"TX Rate";s:5:"rates";a:1:{i:0;a:3:{s:7:"percent";d:10;s:4:"code";';
+        $appliedDataString .= 's:7:"TX Rate";s:5:"title";s:7:"TX Rate";}}s:7:"item_id";s:1:"1";s:9:"item_type";';
+        $appliedDataString .= 's:7:"product";s:18:"associated_item_id";N;s:7:"process";i:0;}}';
         $data = [
             'default' => [
-                'appliedTaxesData' => 'a:1:{s:7:"TX Rate";a:9:{s:6:"amount";d:80;s:11:"base_amount";d:80;s:7:"percent";d:10;s:2:"id";s:7:"TX Rate";s:5:"rates";a:1:{i:0;a:3:{s:7:"percent";d:10;s:4:"code";s:7:"TX Rate";s:5:"title";s:7:"TX Rate";}}s:7:"item_id";s:1:"1";s:9:"item_type";s:7:"product";s:18:"associated_item_id";N;s:7:"process";i:0;}}',
+                'appliedTaxesData' => $appliedDataString,
                 'addressData' => [
                     "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
                     "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
