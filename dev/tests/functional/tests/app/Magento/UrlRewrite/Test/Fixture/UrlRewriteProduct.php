@@ -72,7 +72,7 @@ class UrlRewriteProduct extends DataFixture
      */
     public function getProductSku()
     {
-        return $this->product->getProductSku();
+        return $this->product->getSku();
     }
 
     /**

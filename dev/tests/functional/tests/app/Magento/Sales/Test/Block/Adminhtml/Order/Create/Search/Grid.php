@@ -11,13 +11,11 @@ namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Search;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure;
-use Magento\Sales\Test\Fixture\Order;
-use Magento\Catalog\Test\Fixture\Product;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Grid
  * Adminhtml sales order create search products block
- *
  */
 class Grid extends GridInterface
 {
@@ -81,11 +79,12 @@ class Grid extends GridInterface
     /**
      * Select product to be added to order
      *
-     * @param Product $product
+     * @param FixtureInterface $product
      */
     protected function addProduct($product)
     {
-        $this->search(['sku' => $product->getProductSku()]);
+        $sku = $product->getSku();
+        $this->search(['sku' => $sku]);
 
         $this->_rootElement->find($this->configure)->click();
         $this->getTemplateBlock()->waitLoader();
@@ -103,11 +102,11 @@ class Grid extends GridInterface
     /**
      * Add all products from the Order fixture
      *
-     * @param Order $fixture
+     * @param array $products
      */
-    public function selectProducts(Order $fixture)
+    public function selectProducts(array $products)
     {
-        foreach ($fixture->getProducts() as $product) {
+        foreach ($products as $product) {
             $this->addProduct($product);
         }
         $this->_rootElement->find($this->addSelectedProducts)->click();
