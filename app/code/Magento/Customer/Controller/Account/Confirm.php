@@ -144,8 +144,7 @@ class Confirm extends \Magento\Customer\Controller\Account
             CustomerData::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             ScopeInterface::SCOPE_STORE
         );
-        if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()
-        ) {
+        if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         } else {
             $successUrl = $this->urlModel->getUrl('*/*/index', array('_secure' => true));

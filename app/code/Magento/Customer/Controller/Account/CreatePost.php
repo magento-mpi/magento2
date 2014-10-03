@@ -292,8 +292,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
             CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             ScopeInterface::SCOPE_STORE
         );
-        if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()
-        ) {
+        if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         } else {
             $successUrl = $this->urlModel->getUrl('*/*/index', array('_secure' => true));
