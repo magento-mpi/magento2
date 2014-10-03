@@ -184,8 +184,8 @@ class Algorithm
         $intervalFirstValue = $this->_minValue;
         $lastSeparator = is_null($this->_lowerLimit) ? 0 : $this->_lowerLimit;
 
-        for ($i = 1; $i < $this->getIntervalsNumber(); ++$i) {
-            $separator = $this->_findValueSeparator($i);
+        for ($intervalNumber = 1; $intervalNumber < $this->getIntervalsNumber(); ++$intervalNumber) {
+            $separator = $this->_findValueSeparator($intervalNumber);
             if (empty($separator)) {
                 continue;
             }
@@ -197,9 +197,9 @@ class Algorithm
             $newLastSeparator = $lastSeparator;
 
             $valuesPerInterval = $this->_count / $this->_getCalculatedIntervalsNumber();
-            while (!empty($separator) && !array_key_exists($i, $result)) {
+            while (!empty($separator) && !array_key_exists($intervalNumber, $result)) {
                 $separatorsPortion = array_shift($separator);
-                $bestSeparator = $this->_findBestSeparator($i, $separatorsPortion);
+                $bestSeparator = $this->_findBestSeparator($intervalNumber, $separatorsPortion);
                 if ($bestSeparator && $bestSeparator[2] > 0) {
                     $isEqualValue = $intervalFirstValue ==
                     $this->_values[$bestSeparator[2] - 1] ? $this->_values[0] : false;
@@ -212,7 +212,7 @@ class Algorithm
                     if (abs(1 - $count / $valuesPerInterval) <= self::INTERVAL_DEFLECTION_LIMIT) {
                         $newLastSeparator = $bestSeparator[1];
                         $newIntervalFirstValue = $this->_values[$bestSeparator[2]];
-                        $result[$i] = $separatorData;
+                        $result[$intervalNumber] = $separatorData;
                     } elseif (!$separatorCandidate || $bestSeparator[0] < $separatorCandidate[0]) {
                         $separatorCandidate = array(
                             $bestSeparator[0],
@@ -224,17 +224,17 @@ class Algorithm
                 }
             }
 
-            if (!array_key_exists($i, $result) && $separatorCandidate) {
+            if (!array_key_exists($intervalNumber, $result) && $separatorCandidate) {
                 $newLastSeparator = $separatorCandidate[2];
                 $newIntervalFirstValue = $separatorCandidate[3];
-                $result[$i] = $separatorCandidate[1];
+                $result[$intervalNumber] = $separatorCandidate[1];
             }
 
-            if (array_key_exists($i, $result)) {
+            if (array_key_exists($intervalNumber, $result)) {
                 $lastSeparator = $newLastSeparator;
                 $intervalFirstValue = $newIntervalFirstValue;
                 $valueIndex = $this->_binarySearch($lastSeparator);
-                $lastCount += $result[$i]['count'];
+                $lastCount += $result[$intervalNumber]['count'];
                 if ($valueIndex != -1 && $lastSeparator > $this->_lastValueLimiter[1]) {
                     $this->_lastValueLimiter = array($valueIndex + $this->_quantileInterval[0], $lastSeparator);
                 }
