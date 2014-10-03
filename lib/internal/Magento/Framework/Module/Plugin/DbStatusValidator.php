@@ -91,7 +91,7 @@ class DbStatusValidator
                 $isSchemaUpToDate = $this->moduleManager->isDbSchemaUpToDate($moduleName, $resourceName);
                 $isDataUpToDate = $this->moduleManager->isDbDataUpToDate($moduleName, $resourceName);
                 if (!$isSchemaUpToDate || !$isDataUpToDate) {
-                    return false;
+                    //return false;
                 }
             }
         }

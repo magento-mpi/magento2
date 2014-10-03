@@ -5,22 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Dashboard\Searches;
+namespace Magento\Search\Block\Adminhtml\Dashboard;
 
 /**
- * Adminhtml dashboard last search keywords block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ *  Dashboard last search keywords block
  */
 class Top extends \Magento\Backend\Block\Dashboard\Grid
 {
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @var \Magento\Search\Model\Resource\Query\Collection
      */
     protected $_collection;
 
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
+     * @var \Magento\Search\Model\Resource\Query\CollectionFactory
      */
     protected $_queriesFactory;
 
@@ -33,14 +31,14 @@ class Top extends \Magento\Backend\Block\Dashboard\Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory
+     * @param \Magento\Search\Model\Resource\Query\CollectionFactory $queriesFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Module\Manager $moduleManager,
-        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory,
+        \Magento\Search\Model\Resource\Query\CollectionFactory $queriesFactory,
         array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;
@@ -62,9 +60,6 @@ class Top extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareCollection()
     {
-        if (!$this->_moduleManager->isEnabled('Magento_CatalogSearch')) {
-            return parent::_prepareCollection();
-        }
         $this->_collection = $this->_queriesFactory->create();
 
         if ($this->getRequest()->getParam('store')) {

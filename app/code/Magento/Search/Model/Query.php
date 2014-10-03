@@ -5,45 +5,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model;
+namespace Magento\Search\Model;
 
-use Magento\CatalogSearch\Model\Resource\Query\Collection as QueryCollection;
-use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
+use Magento\Search\Model\Resource\Query\Collection as QueryCollection;
+use Magento\Search\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
 use Magento\CatalogSearch\Model\Resource\Search\Collection;
 use Magento\CatalogSearch\Model\Resource\Search\CollectionFactory;
-use Magento\Framework\Model\AbstractModel;
-use Magento\Framework\Model\Context;
-use Magento\Framework\Registry;
-use Magento\Framework\Model\Resource\AbstractResource;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\StoreManagerInterface;
-use Magento\Framework\Data\Collection\Db;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
-use Magento\Search\Model\QueryInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Data\Collection\Db;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\AbstractResource;
+use Magento\Framework\Registry;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Catalog search query model
  *
- * @method \Magento\CatalogSearch\Model\Resource\Query _getResource()
- * @method \Magento\CatalogSearch\Model\Resource\Query getResource()
- * @method \Magento\CatalogSearch\Model\Query setQueryText(string $value)
+ * @method Resource\Query _getResource()
+ * @method Resource\Query getResource()
+ * @method \Magento\Search\Model\Query setQueryText(string $value)
  * @method int getNumResults()
- * @method \Magento\CatalogSearch\Model\Query setNumResults(int $value)
+ * @method \Magento\Search\Model\Query setNumResults(int $value)
  * @method int getPopularity()
- * @method \Magento\CatalogSearch\Model\Query setPopularity(int $value)
+ * @method \Magento\Search\Model\Query setPopularity(int $value)
  * @method string getRedirect()
- * @method \Magento\CatalogSearch\Model\Query setRedirect(string $value)
+ * @method \Magento\Search\Model\Query setRedirect(string $value)
  * @method string getSynonymFor()
- * @method \Magento\CatalogSearch\Model\Query setSynonymFor(string $value)
+ * @method \Magento\Search\Model\Query setSynonymFor(string $value)
  * @method int getDisplayInTerms()
- * @method \Magento\CatalogSearch\Model\Query setDisplayInTerms(int $value)
- * @method \Magento\CatalogSearch\Model\Query setQueryNameExceeded(bool $value)
+ * @method \Magento\Search\Model\Query setDisplayInTerms(int $value)
+ * @method \Magento\Search\Model\Query setQueryNameExceeded(bool $value)
  * @method int getIsActive()
- * @method \Magento\CatalogSearch\Model\Query setIsActive(int $value)
+ * @method \Magento\Search\Model\Query setIsActive(int $value)
  * @method int getIsProcessed()
- * @method \Magento\CatalogSearch\Model\Query setIsProcessed(int $value)
+ * @method \Magento\Search\Model\Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
- * @method \Magento\CatalogSearch\Model\Query setUpdatedAt(string $value)
+ * @method \Magento\Search\Model\Query setUpdatedAt(string $value)
  */
 class Query extends AbstractModel implements QueryInterface
 {
@@ -52,14 +50,14 @@ class Query extends AbstractModel implements QueryInterface
      *
      * @var string
      */
-    protected $_eventPrefix = 'catalogsearch_query';
+    protected $_eventPrefix = 'search_query';
 
     /**
      * Event object key name
      *
      * @var string
      */
-    protected $_eventObject = 'catalogsearch_query';
+    protected $_eventObject = 'search_query';
 
     const CACHE_TAG = 'SEARCH_QUERY';
 
@@ -135,7 +133,7 @@ class Query extends AbstractModel implements QueryInterface
      */
     protected function _construct()
     {
-        $this->_init('Magento\CatalogSearch\Model\Resource\Query');
+        $this->_init('Magento\Search\Model\Resource\Query');
     }
 
     /**

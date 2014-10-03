@@ -9,6 +9,13 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="search" xsi:type="string">Magento_Search</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Magento\Search\Block\Recommendations">
         <arguments>
             <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
@@ -21,4 +28,6 @@
             <argument name="title" xsi:type="string">Did you mean</argument>
         </arguments>
     </type>
+    <preference for="Magento\Search\Model\QueryFactoryInterface" type="Magento\Search\Model\QueryFactory" />
+    <preference for="Magento\Search\Model\QueryInterface" type="Magento\Search\Model\Query" />
 </config>

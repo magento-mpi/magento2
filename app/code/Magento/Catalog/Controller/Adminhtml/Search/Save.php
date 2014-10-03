@@ -21,8 +21,8 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Search
         $data = $this->getRequest()->getPost();
         $queryId = $this->getRequest()->getPost('query_id', null);
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $model \Magento\CatalogSearch\Model\Query */
-            $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
+            /* @var $model \Magento\Search\Model\Query */
+            $model = $this->_objectManager->create('Magento\Search\Model\Query');
 
             // validate query
             $queryText = $this->getRequest()->getPost('query_text', false);

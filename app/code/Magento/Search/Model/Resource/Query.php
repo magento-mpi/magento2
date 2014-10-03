@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Resource;
+namespace Magento\Search\Model\Resource;
 
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 
@@ -50,7 +50,7 @@ class Query extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('catalogsearch_query', 'query_id');
+        $this->_init('search_query', 'query_id');
     }
 
     /**

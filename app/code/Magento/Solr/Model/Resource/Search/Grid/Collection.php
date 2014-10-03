@@ -7,7 +7,7 @@
  */
 namespace Magento\Solr\Model\Resource\Search\Grid;
 
-class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
+class Collection extends \Magento\Search\Model\Resource\Query\Collection
 {
     /**
      * Registry manager
@@ -69,7 +69,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
     /**
      *  Retrieve a value from registry by a key
      *
-     * @return \Magento\CatalogSearch\Model\Query
+     * @return \Magento\Search\Model\Query
      */
     public function getQuery()
     {

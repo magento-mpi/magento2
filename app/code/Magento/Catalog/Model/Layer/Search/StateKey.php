@@ -13,19 +13,19 @@ namespace Magento\Catalog\Model\Layer\Search;
 class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
 {
     /**
-     * @var \Magento\CatalogSearch\Model\QueryFactory
+     * @var \Magento\Search\Model\QueryFactory
      */
     protected $queryFactory;
 
     /**
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+        \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         $this->queryFactory = $queryFactory;
         parent::__construct($storeManager, $customerSession);

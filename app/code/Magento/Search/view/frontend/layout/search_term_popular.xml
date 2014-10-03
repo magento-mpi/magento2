@@ -14,6 +14,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml" cacheable="false"/>
+        <block class="Magento\Search\Block\Term" name="seo.searchterm" template="term.phtml" cacheable="false"/>
     </referenceContainer>
 </page>

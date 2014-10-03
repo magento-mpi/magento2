@@ -8,7 +8,6 @@
 namespace Magento\Solr\Model\Resource;
 
 use Magento\Catalog\Model\Category;
-use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
 /**
  * Enterprise search collection resource model
@@ -112,7 +111,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Model\QueryFactory
+     * @var \Magento\Search\Model\QueryFactory
      */
     protected $queryFactory;
 
@@ -148,7 +147,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Solr\Helper\Data $searchData
-     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param mixed $connection
@@ -175,7 +174,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Solr\Helper\Data $searchData,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory,
+        \Magento\Search\Model\QueryFactory $queryFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         $connection = null
@@ -292,7 +291,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addSearchFilter($queryText)
     {
         /**
-         * @var \Magento\CatalogSearch\Model\Query $query
+         * @var \Magento\Search\Model\Query $query
          */
         $query = $this->queryFactory->get();
         $this->_searchQueryText = $queryText;

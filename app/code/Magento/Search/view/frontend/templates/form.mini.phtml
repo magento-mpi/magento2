@@ -19,9 +19,9 @@ $helper = $this->helper('Magento\CatalogSearch\Helper\Data');
                 <label class="label" for="search"><span><?php echo __('Search'); ?></span></label>
                 <div class="control">
                     <input id="search"
-                           data-mage-init='{"catalogSearch":{
+                           data-mage-init='{"quickSearch":{
                                 "formSelector":"#search_mini_form",
-                                "url":"<?php echo $helper->getSuggestUrl() ?>",
+                                "url":"<?php echo $this->getUrl('search/ajax/suggest'); ?>",
                                 "destinationSelector":"#search_autocomplete"}
                            }'
                            type="text"
@@ -31,11 +31,7 @@ $helper = $this->helper('Magento\CatalogSearch\Helper\Data');
                            class="input-text"
                            autocomplete="off"/>
                     <div id="search_autocomplete" class="search-autocomplete"></div>
-                    <div class="nested">
-                        <a class="action advanced" href="<?php echo $helper->getAdvancedSearchUrl(); ?>">
-                            <?php echo __('Advanced Search'); ?>
-                        </a>
-                    </div>
+                    <?php echo $this->getChildHtml() ?>
                 </div>
             </div>
             <div class="actions">

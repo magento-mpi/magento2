@@ -58,7 +58,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_catalog_search');
-        /* @var $model \Magento\CatalogSearch\Model\Query */
+        /* @var $model \Magento\Search\Model\Query */
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(

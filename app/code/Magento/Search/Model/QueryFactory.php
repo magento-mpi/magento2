@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model;
+namespace Magento\Search\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\ObjectManager;
 use Magento\Framework\Stdlib\String as StdlibString;
-use Magento\Search\Model\QueryFactoryInterface;
 use Magento\Store\Model\ScopeInterface;
 
 class QueryFactory implements QueryFactoryInterface
@@ -83,8 +82,8 @@ class QueryFactory implements QueryFactoryInterface
         $maxQueryLength = $this->getMaxQueryLength();
         $rawQueryText = $this->getRawQueryText();
         $preparedQueryText = $this->getPreparedQueryText($rawQueryText, $maxQueryLength);
-        /** @var \Magento\CatalogSearch\Model\Query $query */
-        $query = $this->objectManager->create('\Magento\CatalogSearch\Model\Query')->loadByQuery($preparedQueryText);
+        /** @var \Magento\Search\Model\Query $query */
+        $query = $this->objectManager->create('\Magento\Search\Model\Query')->loadByQuery($preparedQueryText);
         if (!$query->getId()) {
             $query->setQueryText($preparedQueryText);
         }

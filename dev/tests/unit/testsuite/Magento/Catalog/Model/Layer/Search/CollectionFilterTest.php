@@ -40,7 +40,7 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
         $this->visibilityMock = $this->getMock('Magento\Catalog\Model\Product\Visibility', array(), array(), '', false);
         $this->catalogConfigMock = $this->getMock('\Magento\Catalog\Model\Config', array(), array(), '', false);
         $this->queryFactoryMock = $this->getMock(
-            '\Magento\CatalogSearch\Model\QueryFactory',
+            '\Magento\Search\Model\QueryFactory',
             array(),
             array(),
             '',

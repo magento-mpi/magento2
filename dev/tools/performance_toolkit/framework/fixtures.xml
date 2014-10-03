@@ -40,14 +40,14 @@
         <file>catalog_price_rules.php</file>
         <action>Generating catalog price rules</action>
     </catalog_price_rules>
-    <tax_rates>
-        <file>tax_rates.php</file>
-        <action>Generating tax rates</action>
-    </tax_rates>
-    <catalog_target_rules>
-        <file>catalog_target_rules.php</file>
-        <action>Generating catalog target rules</action>
-    </catalog_target_rules>
+    <!--<tax_rates>-->
+        <!--<file>tax_rates.php</file>-->
+        <!--<action>Generating tax rates</action>-->
+    <!--</tax_rates>-->
+    <!--<catalog_target_rules>-->
+        <!--<file>catalog_target_rules.php</file>-->
+        <!--<action>Generating catalog target rules</action>-->
+    <!--</catalog_target_rules>-->
     <disable_form_key_usage>
         <file>disable_form_key_usage.php</file>
         <action>Disabling form key usage for admin</action>

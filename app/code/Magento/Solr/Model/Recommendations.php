@@ -42,13 +42,13 @@ class Recommendations
      * @param \Magento\Solr\Model\Resource\RecommendationsFactory $recommendationsFactory
      * @param \Magento\Catalog\Model\Layer\Search $searchLayer
      * @param \Magento\Solr\Helper\Data $searchData
-     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Solr\Model\Resource\RecommendationsFactory $recommendationsFactory,
         \Magento\Catalog\Model\Layer\Search $searchLayer,
         \Magento\Solr\Helper\Data $searchData,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+        \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         $this->recommendationsFactory = $recommendationsFactory;
         $this->searchLayer = $searchLayer;

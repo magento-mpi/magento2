@@ -20,7 +20,7 @@ class RelatedGrid extends \Magento\Backend\App\Action
     /**
      * Query factory
      *
-     * @var \Magento\CatalogSearch\Model\QueryFactory
+     * @var \Magento\Search\Model\QueryFactory
      */
     protected $_queryFactory;
 
@@ -29,12 +29,12 @@ class RelatedGrid extends \Magento\Backend\App\Action
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+        \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_queryFactory = $queryFactory;
@@ -49,7 +49,7 @@ class RelatedGrid extends \Magento\Backend\App\Action
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
-        /** @var \Magento\CatalogSearch\Model\Query $model */
+        /** @var \Magento\Search\Model\Query $model */
         $model = $this->_queryFactory->create();
         $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 

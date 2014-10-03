@@ -8,10 +8,10 @@
  */
 namespace Magento\CatalogSearch\Controller\Result;
 
-use Magento\CatalogSearch\Model\QueryFactory;
-use Magento\Framework\App\Action\Context;
 use Magento\Catalog\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Search\Model\QueryFactory;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -57,7 +57,7 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        /* @var $query \Magento\CatalogSearch\Model\Query */
+        /* @var $query \Magento\Search\Model\Query */
         $query = $this->_queryFactory->get();
 
         $query->setStoreId($this->_storeManager->getStore()->getId());

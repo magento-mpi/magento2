@@ -15,12 +15,12 @@ namespace Magento\Backend\Block\Dashboard\Searches;
 class Last extends \Magento\Backend\Block\Dashboard\Grid
 {
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @var \Magento\Search\Model\Resource\Query\Collection
      */
     protected $_collection;
 
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
+     * @var \Magento\Search\Model\Resource\Query\CollectionFactory
      */
     protected $_queriesFactory;
 
@@ -33,14 +33,14 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory
+     * @param \Magento\Search\Model\Resource\Query\CollectionFactory $queriesFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Module\Manager $moduleManager,
-        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory,
+        \Magento\Search\Model\Resource\Query\CollectionFactory $queriesFactory,
         array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;

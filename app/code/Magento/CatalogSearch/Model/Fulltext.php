@@ -8,10 +8,12 @@
 namespace Magento\CatalogSearch\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Model\Context;
-use Magento\Framework\Registry;
-use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Data\Collection\Db;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\Resource\AbstractResource;
+use Magento\Framework\Registry;
+use Magento\Search\Model\Query;
+use Magento\Search\Model\QueryFactory;
 
 /**
  * Catalog advanced search model

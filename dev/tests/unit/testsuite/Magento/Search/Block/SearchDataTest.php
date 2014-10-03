@@ -8,7 +8,6 @@
 
 namespace Magento\Search\Block;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class SearchDataTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +22,7 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
     private $queryFactory;
 
     /**
-     * @var \Magento\CatalogSearch\Model\Query|MockObject
+     * @var \Magento\Search\Model\Query|MockObject
      */
     private $searchQuery;
 

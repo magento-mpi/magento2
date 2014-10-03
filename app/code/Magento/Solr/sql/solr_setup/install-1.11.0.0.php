@@ -23,13 +23,13 @@ $installer->getConnection()->addColumn(
     )
 );
 $installer->getConnection()->addIndex(
-    $installer->getTable('catalogsearch_query'),
-    $installer->getIdxName('catalogsearch_query', array('num_results')),
+    $installer->getTable('search_query'),
+    $installer->getIdxName('search_query', array('num_results')),
     'num_results'
 );
 $installer->getConnection()->addIndex(
-    $installer->getTable('catalogsearch_query'),
-    $installer->getIdxName('catalogsearch_query', array('query_text', 'store_id', 'num_results')),
+    $installer->getTable('search_query'),
+    $installer->getIdxName('search_query', array('query_text', 'store_id', 'num_results')),
     array('query_text', 'store_id', 'num_results')
 );
 
@@ -54,16 +54,16 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Relation Id'
 )->addForeignKey(
-    $installer->getFkName('catalogsearch_recommendations', 'query_id', 'catalogsearch_query', 'query_id'),
+    $installer->getFkName('catalogsearch_recommendations', 'query_id', 'search_query', 'query_id'),
     'query_id',
-    $installer->getTable('catalogsearch_query'),
+    $installer->getTable('search_query'),
     'query_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('catalogsearch_recommendations', 'relation_id', 'catalogsearch_query', 'query_id'),
+    $installer->getFkName('catalogsearch_recommendations', 'relation_id', 'search_query', 'query_id'),
     'relation_id',
-    $installer->getTable('catalogsearch_query'),
+    $installer->getTable('search_query'),
     'query_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE

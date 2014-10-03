@@ -21,7 +21,7 @@ class MassDelete extends \Magento\Catalog\Controller\Adminhtml\Search
         } else {
             try {
                 foreach ($searchIds as $searchId) {
-                    $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query')->load($searchId);
+                    $model = $this->_objectManager->create('Magento\Search\Model\Query')->load($searchId);
                     $model->delete();
                 }
                 $this->messageManager->addSuccess(__('Total of %1 record(s) were deleted', count($searchIds)));

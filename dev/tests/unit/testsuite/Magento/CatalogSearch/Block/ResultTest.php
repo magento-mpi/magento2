@@ -12,10 +12,10 @@ namespace Magento\CatalogSearch\Block;
  */
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \Magento\CatalogSearch\Model\Query|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Search\Model\Query|\PHPUnit_Framework_MockObject_MockObject */
     private $queryMock;
 
-    /** @var  \Magento\CatalogSearch\Model\QueryFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Search\Model\QueryFactory|\PHPUnit_Framework_MockObject_MockObject */
     private $queryFactoryMock;
 
     /** @var \Magento\CatalogSearch\Block\Result */
@@ -40,10 +40,10 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->contextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer\Search', [], [], '', false);
         $this->dataMock = $this->getMock('Magento\CatalogSearch\Helper\Data', [], [], '', false);
-        $this->queryMock = $this->getMockBuilder('Magento\CatalogSearch\Model\Query')
+        $this->queryMock = $this->getMockBuilder('Magento\Search\Model\Query')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->queryFactoryMock = $this->getMockBuilder('Magento\CatalogSearch\Model\QueryFactory')
+        $this->queryFactoryMock = $this->getMockBuilder('Magento\Search\Model\QueryFactory')
             ->disableOriginalConstructor()
             ->setMethods(['get'])
             ->getMock();
@@ -77,7 +77,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($isMinQueryLength)
         );
         if ($isMinQueryLength) {
-            $queryMock = $this->getMock('Magento\CatalogSearch\Model\Query', array(), array(), '', false);
+            $queryMock = $this->getMock('Magento\Search\Model\Query', array(), array(), '', false);
             $queryMock->expects($this->once())->method('getMinQueryLength')->will($this->returnValue('5'));
 
             $this->queryFactoryMock->expects($this->once())->method('get')->will($this->returnValue($queryMock));

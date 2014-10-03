@@ -11,8 +11,8 @@ $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 /** @var \Magento\Framework\StoreManagerInterface $storeManager */
 $storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
 
-/** @var Magento\CatalogSearch\Model\Query $model */
-$model = $objectManager->create('Magento\CatalogSearch\Model\Query');
+/** @var \Magento\Search\Model\Query $model */
+$model = $objectManager->create('Magento\Search\Model\Query');
 $model->setData(
     array(
         'query_text' => 'Laptop',

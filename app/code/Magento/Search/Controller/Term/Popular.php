@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Controller\Term;
+namespace Magento\Search\Controller\Term;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\RequestInterface;

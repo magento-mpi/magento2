@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Resource\Query;
+namespace Magento\Search\Model\Resource\Query;
 
 use Magento\Store\Model\Store;
 
 /**
- * Catalog search query collection
+ * Search query collection
  *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -69,7 +68,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _construct()
     {
-        $this->_init('Magento\CatalogSearch\Model\Query', 'Magento\CatalogSearch\Model\Resource\Query');
+        $this->_init('Magento\Search\Model\Query', 'Magento\Search\Model\Resource\Query');
     }
 
     /**
@@ -111,7 +110,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         )->distinct(
             true
         )->from(
-            array('main_table' => $this->getTable('catalogsearch_query')),
+            array('main_table' => $this->getTable('search_query')),
             array('query' => $ifSynonymFor, 'num_results')
         )->where(
             'num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
@@ -148,7 +147,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         )->distinct(
             true
         )->from(
-            array('main_table' => $this->getTable('catalogsearch_query')),
+            array('main_table' => $this->getTable('search_query')),
             array('name' => $ifSynonymFor, 'num_results', 'popularity')
         );
         if ($storeIds) {

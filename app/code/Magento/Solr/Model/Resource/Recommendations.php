@@ -17,7 +17,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Search query model
      *
-     * @var \Magento\CatalogSearch\Model\Query
+     * @var \Magento\Search\Model\Query
      */
     protected $_searchQueryModel;
 
@@ -25,11 +25,11 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+        \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         parent::__construct($resource);
         $this->_searchQueryModel = $queryFactory->get();

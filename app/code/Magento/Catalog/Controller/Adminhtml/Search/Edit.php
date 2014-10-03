@@ -35,7 +35,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Search
         $this->_title->add(__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
+        $model = $this->_objectManager->create('Magento\Search\Model\Query');
 
         if ($id) {
             $model->load($id);

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceContainer name="header-wrapper">
+        <block class="Magento\Framework\View\Element\Template" name="top.search" as="topSearch" template="Magento_Search::form.mini.phtml" />
+    </referenceContainer>
+    <referenceBlock name="footer_links">
+        <block class="Magento\Framework\View\Element\Html\Link\Current" ifconfig="catalog/seo/search_terms" name="catalog-search-term-popular-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Search Terms</argument>
+                <argument name="path" xsi:type="string">search/term/popular</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</page>

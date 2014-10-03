@@ -15,7 +15,7 @@ define([
 ], function($){
     "use strict";
 
-    $.widget('mage.catalogSearch', {
+    $.widget('mage.quickSearch', {
         options: {
             autocomplete: 'off',
             minSearchLength: 2,

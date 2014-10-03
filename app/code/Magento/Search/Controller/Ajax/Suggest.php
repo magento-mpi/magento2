@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Controller\Ajax;
+namespace Magento\Search\Controller\Ajax;
 
 class Suggest extends \Magento\Framework\App\Action\Action
 {

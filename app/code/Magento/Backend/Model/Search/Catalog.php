@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Model\Search;
 
-use Magento\CatalogSearch\Model\QueryFactory;
+use Magento\Search\Model\QueryFactory;
 
 /**
  * Search Catalog Model
@@ -17,7 +17,7 @@ class Catalog extends \Magento\Framework\Object
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Model\QueryFactory
+     * @var \Magento\Search\Model\QueryFactory
      */
     protected $queryFactory = null;
 

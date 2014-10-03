@@ -18,7 +18,7 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Search
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
+                $model = $this->_objectManager->create('Magento\Search\Model\Query');
                 $model->setId($id);
                 $model->delete();
                 $this->messageManager->addSuccess(__('You deleted the search.'));

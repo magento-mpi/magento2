@@ -11,8 +11,8 @@ namespace Magento\Catalog\Model\Layer\Search;
 use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\Product\Visibility;
-use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Search\Model\QueryFactory;
 
 class CollectionFilter implements CollectionFilterInterface
 {
@@ -22,7 +22,7 @@ class CollectionFilter implements CollectionFilterInterface
     protected $catalogConfig;
 
     /**
-     * @var \Magento\CatalogSearch\Model\QueryFactory
+     * @var \Magento\Search\Model\QueryFactory
      */
     protected $queryFactory;
 
@@ -38,7 +38,7 @@ class CollectionFilter implements CollectionFilterInterface
 
     /**
      * @param Config $catalogConfig
-     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      * @param StoreManagerInterface $storeManager
      * @param Visibility $productVisibility
      */

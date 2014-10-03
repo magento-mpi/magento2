@@ -7,13 +7,11 @@
  */
 
 /**
- * Catalogsearch term block
- *
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Search term block
  */
-namespace Magento\CatalogSearch\Block;
+namespace Magento\Search\Block;
 
-use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory;
+use Magento\Search\Model\Resource\Query\CollectionFactory;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;

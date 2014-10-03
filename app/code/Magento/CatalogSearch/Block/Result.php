@@ -10,11 +10,11 @@ namespace Magento\CatalogSearch\Block;
 use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\Layer\Search as ModelLayer;
 use Magento\CatalogSearch\Helper\Data;
-use Magento\CatalogSearch\Model\Query;
-use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Collection;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Search\Model\Query;
+use Magento\Search\Model\QueryFactory;
 
 /**
  * Product search result block
@@ -70,7 +70,7 @@ class Result extends Template
     /**
      * Retrieve query model object
      *
-     * @return Query
+     * @return \Magento\Search\Model\Query
      */
     protected function _getQuery()
     {

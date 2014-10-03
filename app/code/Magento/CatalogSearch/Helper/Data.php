@@ -7,18 +7,18 @@
  */
 namespace Magento\CatalogSearch\Helper;
 
+use Magento\CatalogSearch\Model\Fulltext;
+use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\CatalogSearch\Model\Fulltext;
-use Magento\CatalogSearch\Model\Query as SearchQuery;
-use Magento\CatalogSearch\Model\QueryFactory;
-use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
-use Magento\CatalogSearch\Model\Resource\Query\Collection;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Search\Model\Query as SearchQuery;
+use Magento\Search\Model\QueryFactory;
+use Magento\Search\Model\Resource\Query\Collection;
 
 /**
  * Catalog search helper
@@ -178,7 +178,7 @@ class Data extends AbstractHelper
     public function getSuggestUrl()
     {
         return $this->_getUrl(
-            'catalogsearch/ajax/suggest',
+            'search/ajax/suggest',
             array('_secure' => $this->_storeManager->getStore()->isCurrentlySecure())
         );
     }
