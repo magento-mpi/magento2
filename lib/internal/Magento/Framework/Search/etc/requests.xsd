@@ -211,6 +211,14 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="dynamicBucket">
+    <xs:complexContent>
+      <xs:extension base="bucket">
+        <xs:attribute type="xs:string" name="type" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="metrics">
     <xs:sequence>
       <xs:element type="metric" name="metric" maxOccurs="unbounded" minOccurs="0" />
