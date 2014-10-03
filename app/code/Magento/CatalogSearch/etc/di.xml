@@ -59,5 +59,15 @@
     <type name="Magento\Framework\Search\Request\Config\FilesystemReader">
         <plugin name="catalogSearchDynamicFields"  type="Magento\CatalogSearch\Model\Search\ReaderPlugin" />
     </type>
+    <type name="Magento\Backend\Controller\Adminhtml\Index\GlobalSearch">
+        <arguments>
+            <argument name="searchModules" xsi:type="array">
+                <item name="products" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\CatalogSearch\Model\Search\Catalog</item>
+                    <item name="acl" xsi:type="string">Magento_Catalog::catalog</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
     <preference for="Magento\Search\Model\SearchCollectionInterface" type="Magento\CatalogSearch\Model\Resource\Search\Collection" />
 </config>

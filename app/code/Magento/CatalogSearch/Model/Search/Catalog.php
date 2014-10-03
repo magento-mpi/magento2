@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model\Search;
+namespace Magento\CatalogSearch\Model\Search;
 
 use Magento\Search\Model\QueryFactory;
 

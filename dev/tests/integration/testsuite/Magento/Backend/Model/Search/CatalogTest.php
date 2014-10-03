@@ -8,14 +8,12 @@
 
 namespace Magento\Backend\Model\Search;
 
-use Magento\TestFramework\Helper\Bootstrap;
-
 /**
  * @magentoAppArea adminhtml
  */
 class CatalogTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Backend\Model\Search\Catalog */
+    /** @var \Magento\CatalogSearch\Model\Search\Catalog */
     protected $catalogSearch;
 
     protected function setUp()

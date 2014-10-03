@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Dashboard\Searches;
+namespace Magento\Search\Block\Adminhtml\Dashboard;
+
+use Magento\Backend\Block\Dashboard\Grid;
 
 /**
- * Adminhtml dashboard last search keywords block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Dashboard last search keywords block
  */
 class Last extends \Magento\Backend\Block\Dashboard\Grid
 {

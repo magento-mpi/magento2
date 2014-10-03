@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <referenceBlock name="dashboard">
+      <block class="Magento\Search\Block\Adminhtml\Dashboard\Last" as="lastSearches" />
+      <block class="Magento\Search\Block\Adminhtml\Dashboard\Top" as="topSearches" />
+      <action method="addTab">
+          <argument name="lastSearches" xsi:type="string">inventory</argument>
+          <argument name="lastSearches" xsi:type="string">tab_inventory</argument>
+      </action>
+      <action method="addTab">
+          <argument name="topSearches" xsi:type="string">websites</argument>
+          <argument name="topSearches" xsi:type="string">tab_websites</argument>
+      </action>
+    </referenceContainer>
+
+    <referenceContainer name="content">
+        <block class="Magento\Backend\Block\Dashboard" name="dashboard" />
+    </referenceContainer>
+</page>
