@@ -51,8 +51,11 @@
         margin-top: @indent-xl-base;
     }
 
-    .actions-toolbar .secondary {
+    .actions-toolbar > .secondary {
         display: block;
+        .action.back {
+            display: block;
+        }
     }
 
     .action.primary {
@@ -131,7 +134,7 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .multishipping-checkout-addresses {
+    [class^="multishipping-"] {
         .nav-toggle {
             display: none;
         }
