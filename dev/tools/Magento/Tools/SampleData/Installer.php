@@ -82,9 +82,9 @@ class Installer implements \Magento\Framework\AppInterface
         $this->response = $response;
     }
 
-    /*
+    /**
      * {@inheritdoc}
-     */
+     **/
     public function launch()
     {
         $areaCode = 'backend';
@@ -102,9 +102,10 @@ class Installer implements \Magento\Framework\AppInterface
         return $this->response;
     }
 
-    /*
+    /**
      * {@inheritdoc}
-     */
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     **/
     public function catchException(Bootstrap $bootstrap, \Exception $exception)
     {
         return false;

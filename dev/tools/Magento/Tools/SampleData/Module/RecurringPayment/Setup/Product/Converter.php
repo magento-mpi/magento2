@@ -32,7 +32,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     /**
      * Convert CSV format row to array
      *
-     * @param $row
+     * @param array $row
      * @return array
      */
     public function convertRow($row)
@@ -57,20 +57,33 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
 
             $options = $this->getAttributeOptionValueIdsPair($field);
             if ($options) {
-                $value = $this->getArrayValue($value);
-                $result = [];
-                foreach ($value as $v) {
-                    if (isset($options[$v])) {
-                        $result[] = $options[$v];
-                    }
-                }
-                $value = count($result) == 1 ? current($result) : $result;
+                $value = $this->setOptionsToValues($options, $value);
             }
+
             $data[$field] = $value;
 
         }
-        if(isset($data['is_recurring']) && $data['is_recurring'] == '1')
-        $data['recurring_payment'] = $recurringData;
+        if(isset($data['is_recurring']) && $data['is_recurring'] == '1') {
+            $data['recurring_payment'] = $recurringData;
+        }
         return $data;
+    }
+
+    /**
+     * Assign options data to attribute value
+     *
+     * @param mixed $options
+     * @param array $value
+     * @return array|mixed
+     */
+    public function setOptionsToValue($options, $value) {
+        $value = $this->getArrayValue($value);
+        $result = [];
+        foreach ($value as $v) {
+            if (isset($options[$v])) {
+                $result[] = $options[$v];
+            }
+        }
+        return count($result) == 1 ? current($result) : $result;
     }
 }

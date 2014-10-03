@@ -89,7 +89,7 @@ class Product implements SetupInterface
             /** @var \Magento\Framework\File\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach($csvReader as $row) {
+            foreach ($csvReader as $row) {
 
                 $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
 

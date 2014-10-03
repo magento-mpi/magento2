@@ -13,9 +13,9 @@ namespace Magento\Tools\SampleData\Module\Downloadable\Setup\Product;
 class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
 {
     /**
-     * Convert CSV format row to array
+     * Convert CSV format row to product data array
      *
-     * @param $row
+     * @param array $row
      * @return array
      */
     public function convertRow($row)
@@ -52,14 +52,15 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     /**
      * Get downloadable data from array
      *
-     * @param $row
+     * @param array $row
      * @param array $downloadableData
      * @return array
      */
-    public function getDownloadableData($row, $downloadableData = array()) {
+    public function getDownloadableData($row, $downloadableData = array())
+    {
         $separatedData = $this->groupDownloadableData($row);
         $formattedData = $this->getFormattedData($separatedData);
-        foreach ($formattedData as $dataType => $data) {
+        foreach (array_keys($formattedData) as $dataType) {
             $downloadableData[$dataType][] = $formattedData[$dataType];
         }
 
@@ -69,13 +70,14 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     /**
      * Group downloadable data by link and sample array keys.
      *
-     * @param $downloadableData
+     * @param array $downloadableData
      * @return mixed
      */
-    public function groupDownloadableData($downloadableData) {
+    public function groupDownloadableData($downloadableData)
+    {
         foreach ($downloadableData as $dataKey => $dataValue) {
             if (!empty($dataValue)) {
-                if((preg_match('/^(link_item)/', $dataKey, $matches)) && is_array($matches)) {
+                if ((preg_match('/^(link_item)/', $dataKey, $matches)) && is_array($matches)) {
                     $groupedData['link'][$dataKey] = $dataValue;
                 } elseif ((preg_match('/^(sample_item)/', $dataKey, $matches)) && $matches >=1) {
                     $groupedData['sample'][$dataKey] = $dataValue;
@@ -91,11 +93,12 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     /**
      * Will format data corresponding to the product sample data array values.
      *
-     * @param $groupedData
+     * @param array $groupedData
      * @return mixed
      */
-    public function getFormattedData($groupedData) {
-        foreach ($groupedData as $dataType => $dataValue) {
+    public function getFormattedData($groupedData)
+    {
+        foreach (array_keys($groupedData) as $dataType) {
             switch ($dataType) {
                 case 'link':
                     $formattedData['link'] = $this->formatDownloadableLinkData($groupedData['link']);
@@ -112,16 +115,24 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     /**
      * Format downloadable sample data
      *
-     * @param $sampleData
+     * @param array $sampleData
      * @return array
      */
-    public function formatDownloadableSampleData($sampleData) {
+    public function formatDownloadableSampleData($sampleData)
+    {
+        $sampleItems = array(
+            'sample_item_title',
+            'sample_item_url'
+        );
+        foreach ($sampleItems as $csvRow) {
+            isset($sampleData[$csvRow]) ? $sampleData[$csvRow] : '';
+        }
         $sample =
             [
                 'is_delete' => '',
                 'sample_id' => '0',
-                'title' => isset($sampleData['sample_item_title']) ? $sampleData['sample_item_title'] : '',
-                'sample_url' => isset($sampleData['sample_item_url']) ? $sampleData['sample_item_url'] : '',
+                'title' => $sampleData['sample_item_title'],
+                'sample_url' => $sampleData['sample_item_url'],
                 'file' => '[]',
                 'type' => 'url',
                 'sort_order' => ''
@@ -133,27 +144,38 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     /**
      * Format downloadable link data
      *
-     * @param $linkData
+     * @param array $linkData
      * @return array
      */
-    public function formatDownloadableLinkData($linkData) {
+    public function formatDownloadableLinkData($linkData)
+    {
+        $linkItems = array(
+            'link_item_title',
+            'link_item_price',
+            'link_item_sample_url',
+            'link_item_url'
+        );
+        foreach ($linkItems as $csvRow) {
+            isset($linkData[$csvRow]) ? $linkData[$csvRow] : '';
+        }
+
         $link =
             [
                 'is_delete' => '',
                 'link_id' => '0',
-                'title' => isset($linkData['link_item_title']) ? $linkData['link_item_title'] : '',
-                'price' => isset($linkData['link_item_price']) ? $linkData['link_item_price'] : '',
+                'title' => $linkData['link_item_title'],
+                'price' => $linkData['link_item_price'],
                 'number_of_downloads' => '0',
                 'is_shareable' => '2',
                 'sample' =>
                     [
                         'file' => '[]',
                         'type' => 'url',
-                        'url' => isset($linkData['link_item_sample_url']) ? $linkData['link_item_sample_url'] : ''
+                        'url' => $linkData['link_item_sample_url']
                     ],
                 'file' => '[]',
                 'type' => 'url',
-                'link_url' => isset($linkData['link_item_url']) ? $linkData['link_item_url'] : '',
+                'link_url' => $linkData['link_item_url'],
                 'sort_order' => ''
             ];
 

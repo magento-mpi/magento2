@@ -42,19 +42,7 @@ class Converter
                     $data['category_ids'] = $this->getCategoryIds($this->getArrayValue($value));
                     break;
                 case 'price':
-                    $prices = $this->getArrayValue($value);
-                    $i = -1;
-                    foreach ($prices as $price) {
-                        if (is_numeric($price)) {
-                            $data['giftcard_amounts'][++$i]['website_id'] = 0;
-                            $data['giftcard_amounts'][$i]['price'] = $price;
-                            $data['giftcard_amounts'][$i]['delete'] = null;
-                        } else if ($price == 'Custom') {
-                            $data['allow_open_amount'] = \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED;
-                            $data['open_amount_min'] = min($prices);
-                            $data['open_amount_max'] = null;
-                        }
-                    }
+                    $data = $this->getAmountValues($data, $value);
                     break;
                 case 'format':
                     switch ($value) {
@@ -82,7 +70,7 @@ class Converter
     /**
      * Convert strings with EOL into array
      *
-     * @param $value
+     * @param mixed $value
      * @return array
      */
     protected function getArrayValue($value)
@@ -116,5 +104,28 @@ class Converter
             }
         }
         return $ids;
+    }
+
+    /**
+     * @param array $data
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function getAmountValues($data, $value) {
+        $prices = $this->getArrayValue($value);
+        $i = -1;
+        foreach ($prices as $price) {
+            if (is_numeric($price)) {
+                $data['giftcard_amounts'][++$i]['website_id'] = 0;
+                $data['giftcard_amounts'][$i]['price'] = $price;
+                $data['giftcard_amounts'][$i]['delete'] = null;
+            } else if ($price == 'Custom') {
+                $data['allow_open_amount'] = \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED;
+                $data['open_amount_min'] = min($prices);
+                $data['open_amount_max'] = null;
+            }
+        }
+
+        return $data;
     }
 }

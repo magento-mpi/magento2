@@ -1,4 +1,4 @@
-name;path;active;anchor;include_in_menu
+name;path;active;is_anchor;include_in_menu
 Gear;;1;1;1
 Bags;Gear;1;1;1
 Fitness Equipment;Gear;1;1;1

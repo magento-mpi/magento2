@@ -199,7 +199,7 @@ class Converter
     /**
      * Get formatted array value
      *
-     * @param $value
+     * @param mixed $value
      * @return array
      */
     protected function getArrayValue($value)
@@ -216,7 +216,7 @@ class Converter
     /**
      * Get product category ids from array
      *
-     * @param $categories
+     * @param array $categories
      * @return array
      */
     protected function getCategoryIds($categories)
@@ -238,7 +238,7 @@ class Converter
     /**
      * Get attribute options by attribute code
      *
-     * @param $attributeCode
+     * @param str $attributeCode
      * @return null
      */
     public function getAttributeOptions($attributeCode)
@@ -264,7 +264,7 @@ class Converter
     /**
      * Find attribute option value pair
      *
-     * @param $attributeCode
+     * @param str $attributeCode
      * @return mixed
      */
     protected function getAttributeOptionValueIdsPair($attributeCode)

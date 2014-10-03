@@ -13,8 +13,7 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 /**
  * Class Product
  */
-class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
-{
+class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup {
     /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
@@ -80,7 +79,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
             $downloadableFileName = $this->fixtureHelper->getPath($downloadableFile);
             $csvDownloadableReader = $this->csvReaderFactory
                 ->create(array('fileName' => $downloadableFileName, 'mode' => 'r'));
-            foreach($csvDownloadableReader as $downloadableRow) {
+            foreach ($csvDownloadableReader as $downloadableRow) {
                 $sku = $downloadableRow['product_sku'];
                 if (!isset($downloadableData[$sku])) {
                     $downloadableData[$sku] = array();
@@ -96,7 +95,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
             /** @var \Magento\Framework\File\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach($csvReader as $row) {
+            foreach ($csvReader as $row) {
 
                 $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
 

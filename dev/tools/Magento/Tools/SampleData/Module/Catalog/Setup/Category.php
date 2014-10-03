@@ -53,7 +53,7 @@ class Category implements SetupInterface
     protected $fixtureHelper;
 
     /**
-     * @var CsvReaderFactory
+     * @var \Magento\Framework\File\Csv\ReaderFactory
      */
     protected $csvReaderFactory;
 
@@ -106,7 +106,7 @@ class Category implements SetupInterface
                 continue;
             }
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach($csvReader as $row) {
+            foreach ($csvReader as $row) {
                 $category = $this->getCategoryByPath($row['path'] . '/' . $row['name']);
                 if (!$category) {
                     $parentCategory = $this->getCategoryByPath($row['path']);
@@ -114,7 +114,7 @@ class Category implements SetupInterface
                         'parent_id' => $parentCategory ? $parentCategory->getId() : null,
                         'name' => $row['name'],
                         'active' => $row['active'],
-                        'anchor' => $row['anchor'],
+                        'is_anchor' => $row['is_anchor'],
                         'include_in_menu' => $row['include_in_menu'],
                     ];
 
@@ -131,7 +131,7 @@ class Category implements SetupInterface
     /**
      * Get category name by path
      *
-     * @param $path
+     * @param str $path
      * @return mixed
      */
     protected function getCategoryByPath($path)
@@ -153,8 +153,8 @@ class Category implements SetupInterface
     /**
      * Get child categories
      *
-     * @param $tree
-     * @param $name
+     * @param mixed $tree
+     * @param str $name
      * @return mixed
      */
     protected function findTreeChild($tree, $name)

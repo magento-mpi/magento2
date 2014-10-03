@@ -65,7 +65,7 @@ class Converter
     /**
      * Convert CSV format row to array
      *
-     * @param $row
+     * @param str $row
      * @return array
      */
     public function convertRow($row)
@@ -103,7 +103,7 @@ class Converter
     /**
      * Get formatted array value
      *
-     * @param $value
+     * @param mixed $value
      * @return array
      */
     protected function getArrayValue($value)
@@ -120,7 +120,7 @@ class Converter
     /**
      * Get product category ids from array
      *
-     * @param $categories
+     * @param array $categories
      * @return array
      */
     protected function getCategoryIds($categories)
@@ -142,7 +142,7 @@ class Converter
     /**
      * Get attribute options by attribute code
      *
-     * @param $attributeCode
+     * @param str $attributeCode
      * @return null
      */
     public function getAttributeOptions($attributeCode)
@@ -168,7 +168,7 @@ class Converter
     /**
      * Find attribute option value pair
      *
-     * @param $attributeCode
+     * @param mixed $attributeCode
      * @return mixed
      */
     protected function getAttributeOptionValueIdsPair($attributeCode)
@@ -197,7 +197,7 @@ class Converter
     }
 
     /**
-     * @param $attributeSetId
+     * @param int $attributeSetId
      * @return $this
      */
     public function setAttributeSetId($attributeSetId)

@@ -7,28 +7,59 @@
  */
 namespace Magento\Framework\File\Csv;
 
+/**
+ * Class Reader
+ */
 class Reader implements \Iterator
 {
+    /**
+     * @var array
+     */
     protected $handle;
 
+    /**
+     * @var str
+     */
     protected $fileName;
 
+    /**
+     * @var string
+     */
     protected $mode;
 
+    /**
+     * @var bool
+     */
     protected $loaded;
 
+    /**
+     * @var array
+     */
     protected $headerRow;
 
+    /**
+     * @var array
+     */
     protected $row;
 
+    /**
+     * @var int
+     */
     protected $rowNumber;
 
+    /**
+     * @param str $fileName
+     * @param string $mode
+     */
     public function __construct($fileName, $mode = 'r')
     {
         $this->fileName = $fileName;
         $this->mode = $mode;
     }
 
+    /**
+     * @return $this
+     */
     protected function load()
     {
         if (!$this->loaded) {
@@ -40,23 +71,35 @@ class Reader implements \Iterator
         return $this;
     }
 
+    /**
+     * @return Reader
+     */
     protected function reload()
     {
         $this->loaded = false;
         return $this->load();
     }
 
+    /**
+     *  Read header row
+     */
     protected function readHeaderRow()
     {
         $this->headerRow = $this->readRow();
         $this->next();
     }
 
+    /**
+     * @return array
+     */
     public function getHeaderRow()
     {
         return $this->headerRow;
     }
 
+    /**
+     * @return array
+     */
     protected function readRow()
     {
         $this->load();
@@ -138,6 +181,9 @@ class Reader implements \Iterator
         $this->reload();
     }
 
+    /**
+     * Close file handle
+     */
     public function close()
     {
         if ($this->handle) {
@@ -145,6 +191,9 @@ class Reader implements \Iterator
         }
     }
 
+    /**
+     * Destroy file handle
+     */
     public function __destruct()
     {
         $this->close();
