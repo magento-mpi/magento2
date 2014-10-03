@@ -42,12 +42,18 @@ class Page extends Layout
     protected $pageConfigRenderer;
 
     /**
+     * @var \Magento\Framework\View\Page\Layout\Reader
+     */
+    protected $pageLayoutReader;
+
+    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
-     * @param \Magento\Framework\View\Page\Config\Renderer $pageConfigRenderer
+     * @param View\Page\Config\Renderer $pageConfigRenderer
+     * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
      * @param array $data
      */
@@ -56,11 +62,13 @@ class Page extends Layout
         View\LayoutFactory $layoutFactory,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         View\Page\Config\Renderer $pageConfigRenderer,
+        View\Page\Layout\Reader $pageLayoutReader,
         $template,
         array $data = array()
     ) {
         parent::__construct($context, $layoutFactory, $translateInline, $data);
         $this->pageConfigRenderer = $pageConfigRenderer;
+        $this->pageLayoutReader = $pageLayoutReader;
         $this->_template = $template;
     }
 
@@ -101,7 +109,7 @@ class Page extends Layout
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
         // Do not sort array going into add page handles. Ensure default layout handle is added first.
-        return $this->getLayout()->getUpdate()->addHandle($pageHandles);
+        return $this->addHandle($pageHandles);
     }
 
     /**
@@ -120,7 +128,7 @@ class Page extends Layout
      */
     protected function _renderResult(ResponseInterface $response)
     {
-        if ($this->getConfig()->getPageLayout()) {
+        if ($this->getPageLayout()) {
             $config = $this->getConfig();
 
             $this->addDefaultBodyClasses();
@@ -155,5 +163,32 @@ class Page extends Layout
             $this->pageConfig->addBodyClass('page-layout-' . $pageLayout);
         }
         return $this;
+    }
+
+    public function generateLayoutBlocks()
+    {
+        $this->readPageLayout();
+        return parent::generateLayoutBlocks();
+    }
+
+    public function readPageLayout()
+    {
+        $pageLayout = $this->getPageLayout();
+        if ($pageLayout) {
+            $readerContext = $this->getLayout()->getReaderContext();
+            $this->pageLayoutReader->read($readerContext, $pageLayout);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPageLayout()
+    {
+        $pageLayout = $this->pageConfig->getPageLayout();
+        if(!$pageLayout){
+            $pageLayout = $this->getLayout()->getUpdate()->getPageLayout();
+        }
+        return $pageLayout;
     }
 }

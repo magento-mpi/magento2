@@ -333,6 +333,22 @@
             <argument name="readerPool" xsi:type="object">blockRenderPool</argument>
         </arguments>
     </type>
+    <virtualType name="bodyRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+        <arguments>
+            <argument name="readers" xsi:type="array">
+                <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
+                <item name="block" xsi:type="string">Magento\Framework\View\Layout\Reader\Block</item>
+                <item name="move" xsi:type="string">Magento\Framework\View\Layout\Reader\Move</item>
+                <item name="remove" xsi:type="string">Magento\Framework\View\Layout\Reader\Remove</item>
+                <item name="uicomponent" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Page\Config\Reader\Body">
+        <arguments>
+            <argument name="readerPool" xsi:type="object">bodyRenderPool</argument>
+        </arguments>
+    </type>
     <virtualType name="layoutGenericRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
         <arguments>
             <argument name="readers" xsi:type="array">

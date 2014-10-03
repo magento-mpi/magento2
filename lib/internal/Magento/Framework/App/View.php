@@ -221,6 +221,7 @@ class View implements ViewInterface
 
         // generate blocks from xml layout
         \Magento\Framework\Profiler::start('layout_generate_blocks');
+        $this->page->readPageLayout();
         $this->getLayout()->generateElements();
         \Magento\Framework\Profiler::stop('layout_generate_blocks');
 

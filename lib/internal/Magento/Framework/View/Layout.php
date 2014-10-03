@@ -184,6 +184,10 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     protected $cacheable;
 
+    /**
+     * @var \Magento\Framework\View\Layout\Reader\Context
+     */
+    protected $readerContext;
 
     /**
      * @var \Magento\Framework\View\Page\Config\Generator
@@ -203,10 +207,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
-     * @param \Magento\Framework\Data\Structure $structure
      * @param Layout\Argument\Parser $argumentParser
      * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
-     * @param ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -214,7 +216,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Layout\Reader\Pool $reader
      * @param Page\Config\Generator $pageConfigGenerator
-     * @param \Magento\Framework\View\Page\Config\Structure $pageConfigStructure
      * @param $scopeType
      * @param bool $cacheable
      */
@@ -224,10 +225,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
-        \Magento\Framework\Data\Structure $structure,
         \Magento\Framework\View\Layout\Argument\Parser $argumentParser,
         \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter,
-        \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -235,7 +234,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Framework\View\Layout\Reader\Pool $reader,
         \Magento\Framework\View\Page\Config\Generator $pageConfigGenerator,
-        \Magento\Framework\View\Page\Config\Structure $pageConfigStructure,
         $scopeType,
         $cacheable = true
     ) {
@@ -245,13 +243,13 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->_uiComponentFactory->setLayout($this);
         $this->_blockFactory = $blockFactory;
         $this->_appState = $appState;
-        $this->_structure = $structure;
+        $this->_structure = new \Magento\Framework\Data\Structure;
         $this->argumentParser = $argumentParser;
         $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\Framework\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new \Magento\Framework\Object;
-        $this->_scheduledStructure = $scheduledStructure;
+        $this->_scheduledStructure = new \Magento\Framework\View\Layout\ScheduledStructure;
         $this->_processorFactory = $processorFactory;
         $this->_logger = $logger;
         $this->messageManager = $messageManager;
@@ -261,7 +259,12 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->reader = $reader;
         $this->cacheable = $cacheable;
         $this->pageConfigGenerator = $pageConfigGenerator;
-        $this->pageConfigStructure = $pageConfigStructure;
+        $this->pageConfigStructure = new \Magento\Framework\View\Page\Config\Structure;
+        $this->readerContext = new Layout\Reader\Context(
+            $this->_scheduledStructure,
+            $this->_structure,
+            $this->pageConfigStructure
+        );
     }
 
     /**
@@ -308,6 +311,14 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
+     * @return Layout\Reader\Context
+     */
+    public function getReaderContext()
+    {
+        return $this->readerContext;
+    }
+
+    /**
      * Create structure of elements from the loaded XML configuration
      *
      * @throws \Magento\Framework\Exception
@@ -317,18 +328,12 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
         \Magento\Framework\Profiler::start('build_structure');
-        $this->_scheduledStructure->flushScheduledStructure();
-        $readerContext = new Layout\Reader\Context(
-            $this->_scheduledStructure,
-            $this->_structure,
-            $this->pageConfigStructure
-        );
-        $this->reader->readStructure($readerContext, $this->getNode());
-        $this->_addToOutputRootContainers($this->getNode());
+        $this->reader->readStructure($this->readerContext, $this->getNode());
         $this->buildStructure();
         \Magento\Framework\Profiler::stop('build_structure');
 
         \Magento\Framework\Profiler::start('generate_elements');
+        $this->pageConfigGenerator->setStructure($this->readerContext->getPageConfigStructure());
         $this->pageConfigGenerator->process();
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
             list($type) = current($this->_scheduledStructure->getElements());
@@ -347,6 +352,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
                 );
             }
         }
+        $this->_addToOutputRootContainers();
         \Magento\Framework\Profiler::stop('generate_elements');
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
@@ -424,15 +430,13 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     /**
      * Add parent containers to output
      *
-     * @param Element $nodeList
      * @return $this
      */
-    protected function _addToOutputRootContainers(Element $nodeList)
+    protected function _addToOutputRootContainers()
     {
-        /** @var $node Element */
-        foreach ($nodeList as $node) {
-            if ($node->getName() === Element::TYPE_CONTAINER) {
-                $this->addOutputElement($node->getElementName());
+        foreach ($this->_structure->exportElements() as $name => $element) {
+            if ($element['type'] == 'container' && empty($element['parent'])) {
+                $this->addOutputElement($name);
             }
         }
         return $this;

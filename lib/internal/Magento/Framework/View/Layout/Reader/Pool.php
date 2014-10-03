@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\View\Layout;
+namespace Magento\Framework\View\Layout\Reader;
+
+use Magento\Framework\View\Layout;
 
 /**
  * Class Pool
@@ -18,7 +20,7 @@ class Pool
     protected $readers;
 
     /**
-     * @var ReaderInterface[]
+     * @var Layout\ReaderInterface[]
      */
     protected $nodeReaders = [];
 
@@ -32,10 +34,10 @@ class Pool
     /**
      * Constructor
      *
-     * @param ReaderFactory $readerFactory
+     * @param Layout\ReaderFactory $readerFactory
      * @param array $readers
      */
-    public function __construct(ReaderFactory $readerFactory, array $readers = [])
+    public function __construct(Layout\ReaderFactory $readerFactory, array $readers = [])
     {
         $this->readerFactory = $readerFactory;
         $this->readers = $readers;
@@ -48,7 +50,7 @@ class Pool
      */
     protected function prepareReader($readers)
     {
-        /** @var $reader ReaderInterface */
+        /** @var $reader Layout\ReaderInterface */
         foreach ($readers as $readerClass) {
             $reader = $this->readerFactory->create($readerClass);
             foreach ($reader->getSupportedNodes() as $nodeName) {
@@ -60,21 +62,21 @@ class Pool
     /**
      * Traverse through all nodes
      *
-     * @param Reader\Context $readerContext
-     * @param Element $element
+     * @param Context $readerContext
+     * @param Layout\Element $element
      * @return $this
      */
-    public function readStructure(Reader\Context $readerContext, Element $element)
+    public function readStructure(Context $readerContext, Layout\Element $element)
     {
         $this->prepareReader($this->readers);
 
-        /** @var $node Element */
+        /** @var $node Layout\Element */
         foreach ($element as $node) {
             $nodeName = $node->getName();
             if (!isset($this->nodeReaders[$nodeName])) {
                 continue;
             }
-            /** @var $reader ReaderInterface */
+            /** @var $reader Layout\ReaderInterface */
             $reader = $this->nodeReaders[$nodeName];
             $reader->process($readerContext, $node, $element);
         }

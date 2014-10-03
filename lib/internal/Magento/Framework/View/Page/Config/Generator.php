@@ -74,6 +74,16 @@ class Generator
     }
 
     /**
+     * TODO Temporary solution, must be deleted after generation refactoring
+     *
+     * @param Structure $structure
+     */
+    public function setStructure(Structure $structure)
+    {
+        $this->structure = $structure;
+    }
+
+    /**
      * @return $this
      */
     public function process()

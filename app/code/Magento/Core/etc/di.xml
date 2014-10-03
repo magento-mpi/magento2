@@ -322,6 +322,21 @@
         </arguments>
     </virtualType>
 
+    <virtualType name="pageLayoutRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+        <arguments>
+            <argument name="readers" xsi:type="array">
+                <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
+                <item name="move" xsi:type="string">Magento\Framework\View\Layout\Reader\Move</item>
+                <item name="remove" xsi:type="string">Magento\Framework\View\Layout\Reader\Remove</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Page\Layout\Reader">
+        <arguments>
+            <argument name="pageLayoutFileSource" xsi:type="object">pageLayoutFileCollectorAggregated</argument>
+            <argument name="reader" xsi:type="object">pageLayoutRenderPool</argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\View\PageLayout\File\Collector\Aggregated">
         <arguments>
             <argument name="baseFiles" xsi:type="object">pageFileSourceBaseSorted</argument>
