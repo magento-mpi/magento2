@@ -35,7 +35,9 @@ class AssertProductForm extends AbstractAssertForm
      */
     protected $sortFields = [
         'custom_options::title',
-        'cross_sell_products::entity_id'
+        'cross_sell_products::entity_id',
+        'up_sell_products::entity_id',
+        'related_products::entity_id',
     ];
 
     /**

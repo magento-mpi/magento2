@@ -21,16 +21,16 @@ class Grid extends GridInterface
      *
      * @var array
      */
-    protected $filters = array(
-        'name' => array(
-            'selector' => '#cross_sell_product_grid_filter_name'
-        ),
-        'sku' => array(
-            'selector' => '#cross_sell_product_grid_filter_sku'
-        ),
-        'type' => array(
-            'selector' => '#cross_sell_product_grid_filter_type',
+    protected $filters = [
+        'name' => [
+            'selector' => 'input[name="name"]'
+        ],
+        'sku' => [
+            'selector' => 'input[name="sku"]'
+        ],
+        'type' => [
+            'selector' => 'select[name="type"]',
             'input' => 'select'
-        )
-    );
+        ]
+    ];
 }

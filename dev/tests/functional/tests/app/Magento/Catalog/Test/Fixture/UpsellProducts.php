@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\Fixture;
 
 class UpsellProducts extends AssignProducts
 {
-    protected $assignType = 'upsell';
+    protected $assignType = 'up_sell';
 
     protected $group = 'upsells';
 }
