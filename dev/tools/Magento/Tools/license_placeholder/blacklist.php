@@ -13,8 +13,6 @@ return array(
     'app/code/Zend',
     'app/etc/local.xml',
     'dev/build/publication/license',
-    'dev/tests/functional-old/fixture/_testFiles/jquery_jqzoom_css_jquery.jqzoom.css',
-    'dev/tests/functional-old/framework/Mage/Testlink/class-IXR.php',
     'dev/tests/integration/testsuite/Magento/Framework/Css/PreProcessor/_files',
     'dev/tests/integration/testsuite/Magento/Framework/Less/_files/design/frontend/test_pre_process',
     'dev/tests/integration/testsuite/Magento/Framework/Less/_files/lib/web/magento_import.less',

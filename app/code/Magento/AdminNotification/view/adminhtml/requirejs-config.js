@@ -10,5 +10,8 @@ var config = {
         '*': {
             systemMessageDialog: 'Magento_AdminNotification/system/notification'
         }
-    }
+    },
+    deps: [
+        "Magento_AdminNotification/toolbar_entry"
+    ]
 };

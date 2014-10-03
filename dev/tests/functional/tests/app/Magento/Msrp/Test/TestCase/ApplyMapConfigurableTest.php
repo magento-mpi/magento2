@@ -48,7 +48,7 @@ class ApplyMapConfigurableTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
         //Verifying
         $this->verifyMapOnCategory($product);
         $this->verifyMapOnProductView($product);
@@ -134,7 +134,7 @@ class ApplyMapConfigurableTest extends Functional
     protected function verifyMapInShoppingCart(ConfigurableProduct $product)
     {
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
-        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->waitSuccessMessage();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $optionPrice = $product->getProductOptionsPrice() + floatval($product->getProductPrice());
         $this->assertEquals($optionPrice, $unitPrice, 'Incorrect price for ' . $product->getName());

@@ -128,5 +128,6 @@ window.disableFieldEditMode = disableFieldEditMode;
 window.toogleFieldEditMode = toogleFieldEditMode;
 
 Event.observe(window, 'load', onCompleteDisableInited);
-
+    
+return jQuery.mage.productAttributes;
 });

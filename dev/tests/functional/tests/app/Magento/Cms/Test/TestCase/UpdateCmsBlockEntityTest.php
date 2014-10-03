@@ -40,6 +40,7 @@ class UpdateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
      */
     public function test(CmsBlock $initialCmsBlock, CmsBlock $cmsBlock)
     {
+        $this->markTestIncomplete('MAGETWO-28916');
         // Precondition
         $initialCmsBlock->persist();
 

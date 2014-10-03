@@ -45,14 +45,12 @@ class AssertCmsPageForm extends AbstractAssertForm
      * @param CmsPage $cms
      * @param CmsIndex $cmsIndex
      * @param CmsNew $cmsNew
-     * @param CmsPage $cmsOriginal
      * @return void
      */
     public function processAssert(
         CmsPage $cms,
         CmsIndex $cmsIndex,
-        CmsNew $cmsNew,
-        CmsPage $cmsOriginal = null
+        CmsNew $cmsNew
     ) {
         $cmsIndex->open();
         $filter = ['title' => $cms->getTitle()];
@@ -60,10 +58,7 @@ class AssertCmsPageForm extends AbstractAssertForm
 
         $cmsFormData = $cmsNew->getPageForm()->getData($cms);
         $cmsFormData['store_id'] = implode('/', $cmsFormData['store_id']);
-        $fixtureData = $cmsOriginal !== null
-            ? array_merge($cmsOriginal->getData(), $cms->getData())
-            : $cms->getData();
-        $errors = $this->verifyData($fixtureData, $cmsFormData);
+        $errors = $this->verifyData($cms->getData(), $cmsFormData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 

@@ -11,10 +11,11 @@ var config = {
             categoryForm:       'Magento_Catalog/catalog/category/form',
             newCategoryDialog:  'Magento_Catalog/js/new-category-dialog',
             categoryTree:       'Magento_Catalog/js/category-tree',
-            productGallery:     'Magento_Catalog/js/product-gallery'
+            productGallery:     'Magento_Catalog/js/product-gallery',
+            baseImage:          'Magento_Catalog/catalog/base-image-uploader'
         }
     },
-    paths: {
-        baseImage: 'Magento_Catalog/catalog/base-image-uploader'
-    }
+    deps: [
+        "Magento_Catalog/catalog/product"
+    ]
 };
