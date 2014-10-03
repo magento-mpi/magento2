@@ -87,8 +87,12 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($items));
 
         $quoteDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
-        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()->getMock();
+        $storeManager = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStore', 'hasSingleStore', 'isSingleStoreMode', 'getStores', 'getWebsite', 'getWebsites',
+                          'reinitStores', 'getDefaultStoreView', 'setIsSingleStoreModeAllowed', 'getGroup', 'getGroups',
+                          'clearWebsiteCache', 'setCurrentStore'])
+            ->getMock();
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $storeManager->expects($this->any())
             ->method('getStore')
@@ -299,7 +303,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             'default' => [
                 'itemData' => [
                     "qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
-                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1"
+                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1", "converted_price" => 100
                 ],
                 'shippingItemData' => [
                     "type" => "shipping", "code" => "shipping", "quantity" => 1, "unit_price" => 10
