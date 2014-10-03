@@ -587,6 +587,13 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
     ];
 
+    protected $cross_sell_products = [
+        'attribute_code' => 'cross_sell_products',
+        'backend_type' => 'virtual',
+        'group' => 'crosssells',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts'
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -885,5 +892,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCheckoutData()
     {
         return $this->getData('checkout_data');
+    }
+
+    public function getCrossSellProducts()
+    {
+        return $this->getData('cross_sell_products');
     }
 }
