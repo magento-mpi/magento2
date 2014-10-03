@@ -10,17 +10,26 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
+/**
+ * Class Grid
+ * Related products grid
+ */
 class Grid extends GridInterface
 {
+    /**
+     * Grid fields map
+     *
+     * @var array
+     */
     protected $filters = [
         'name' => [
-            'selector' => '[name="name"]'
+            'selector' => 'input[name="name"]'
         ],
         'sku' => [
-            'selector' => '[name="sku"]'
+            'selector' => 'input[name="sku"]'
         ],
         'type' => [
-            'selector' => '[name="type"]',
+            'selector' => 'select[name="type"]',
             'input' => 'select'
         ]
     ];

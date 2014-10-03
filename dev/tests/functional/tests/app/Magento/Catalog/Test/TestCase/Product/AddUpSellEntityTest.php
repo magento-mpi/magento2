@@ -31,7 +31,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts;
  * 4. Save product
  * 5. Perform appropriate assertions
  *
- * @group Cross-sells_(MX)
+ * @group Up-sells_(MX)
  * @ZephyrId MAGETWO-29105
  */
 class AddUpSellEntityTest extends Injectable

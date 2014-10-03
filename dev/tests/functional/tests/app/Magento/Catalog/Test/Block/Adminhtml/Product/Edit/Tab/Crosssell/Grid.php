@@ -23,13 +23,13 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'name' => [
-            'selector' => '[name="name"]'
+            'selector' => 'input[name="name"]'
         ],
         'sku' => [
-            'selector' => '[name="sku"]'
+            'selector' => 'input[name="sku"]'
         ],
         'type' => [
-            'selector' => '[name="type"]',
+            'selector' => 'select[name="type"]',
             'input' => 'select'
         ]
     ];
