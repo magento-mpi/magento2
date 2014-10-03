@@ -72,14 +72,14 @@ class CheckoutWithGiftMessagesTest extends Scenario
                         ],
                         'fillBillingInformation' => [
                             'module' => 'Magento_Checkout',
-                            'next' => 'fillShippingMethod',
-                        ],
-                        'fillShippingMethod' => [
-                            'module' => 'Magento_Checkout',
                             'next' => 'addGiftMessage',
                         ],
                         'addGiftMessage' => [
                             'module' => 'Magento_GiftMessage',
+                            'next' => 'fillShippingMethod',
+                        ],
+                        'fillShippingMethod' => [
+                            'module' => 'Magento_Checkout',
                             'next' => 'selectPaymentMethod',
                         ],
                         'selectPaymentMethod' => [

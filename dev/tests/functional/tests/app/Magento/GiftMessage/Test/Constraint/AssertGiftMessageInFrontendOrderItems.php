@@ -14,20 +14,20 @@ use Magento\Sales\Test\Page\OrderView;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertGiftMessageIsInOrder
- * Assert that message from dataSet is displayed on order(s) view page on frontend
+ * Class AssertGiftMessageInFrontendOrderItems
+ * Assert that message from dataSet is displayed for each items on order(s) view page on frontend
  */
-class AssertGiftMessageIsInOrder extends AbstractConstraint
+class AssertGiftMessageInFrontendOrderItems extends AbstractConstraint
 {
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'high';
 
     /**
-     * Assert that message from dataSet is displayed on order(s) view page on frontend
+     * Assert that message from dataSet is displayed for each items on order(s) view page on frontend
      *
      * @param GiftMessage $giftMessage
      * @param OrderHistory $orderHistory
@@ -51,21 +51,12 @@ class AssertGiftMessageIsInOrder extends AbstractConstraint
         $orderHistory->open();
         $orderHistory->getOrderHistoryBlock()->openOrderById($orderId);
 
-        if ($giftMessage->getAllowGiftMessagesForOrder() === 'Yes') {
+        foreach ($products as $product) {
             \PHPUnit_Framework_Assert::assertEquals(
                 $expectedData,
-                $orderView->getGiftMessageForOrderBlock()->getGiftMessage(),
-                'Wrong gift message is displayed on order.'
+                $orderView->getGiftMessageForItemBlock()->getGiftMessage($product->getName()),
+                'Wrong gift message is displayed on "' . $product->getName() . '" item.'
             );
-        }
-        if ($giftMessage->getAllowGiftOptionsForItems() === 'Yes') {
-            foreach ($products as $product) {
-                \PHPUnit_Framework_Assert::assertEquals(
-                    $expectedData,
-                    $orderView->getGiftMessageForItemBlock()->getGiftMessage($product->getName()),
-                    'Wrong gift message is displayed on item.'
-                );
-            }
         }
     }
 
@@ -76,6 +67,6 @@ class AssertGiftMessageIsInOrder extends AbstractConstraint
      */
     public function toString()
     {
-        return "Gift message is displayed on order(s) view page on frontend correctly.";
+        return "Gift message is displayed for each items on order(s) view page on frontend correctly.";
     }
 }

@@ -10,7 +10,7 @@ namespace Magento\GiftMessage\Test\Block\Message\Order;
 
 /**
  * Class View
- * Order view block on view order page
+ * Gift message block for order on order view page
  */
 class View extends \Magento\Sales\Test\Block\Order\View
 {

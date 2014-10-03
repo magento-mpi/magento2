@@ -32,23 +32,14 @@ class FillShippingMethodStep implements TestStepInterface
     protected $shipping;
 
     /**
-     * Flag for gift options
-     *
-     * @var string|null
-     */
-    protected $giftOptions;
-
-    /**
      * @constructor
      * @param CheckoutOnepage $checkoutOnepage
      * @param array $shipping
-     * @param string|null $giftOptions
      */
-    public function __construct(CheckoutOnepage $checkoutOnepage, array $shipping, $giftOptions = null)
+    public function __construct(CheckoutOnepage $checkoutOnepage, array $shipping)
     {
         $this->checkoutOnepage = $checkoutOnepage;
         $this->shipping = $shipping;
-        $this->giftOptions = $giftOptions;
     }
 
     /**
@@ -60,9 +51,7 @@ class FillShippingMethodStep implements TestStepInterface
     {
         if ($this->shipping['shipping_service'] !== '-') {
             $this->checkoutOnepage->getShippingMethodBlock()->selectShippingMethod($this->shipping);
-            if ($this->giftOptions === null) {
-                $this->checkoutOnepage->getShippingMethodBlock()->clickContinue();
-            }
+            $this->checkoutOnepage->getShippingMethodBlock()->clickContinue();
         }
     }
 }

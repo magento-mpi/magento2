@@ -45,11 +45,11 @@ class AddGiftMessageStep implements TestStepInterface
      * @param GiftMessage $giftMessage
      * @param array $products
      */
-    public function __construct(CheckoutOnepage $checkoutOnepage, GiftMessage $giftMessage, $products = [])
+    public function __construct(CheckoutOnepage $checkoutOnepage, GiftMessage $giftMessage, array $products = [])
     {
         $this->checkoutOnepage = $checkoutOnepage;
         $this->giftMessage = $giftMessage;
-        $this->products = is_array($products) ? $products : [$products];
+        $this->products = $products;
     }
 
     /**
@@ -60,6 +60,5 @@ class AddGiftMessageStep implements TestStepInterface
     public function run()
     {
         $this->checkoutOnepage->getGiftMessagesBlock()->fillGiftMessage($this->giftMessage, $this->products);
-        $this->checkoutOnepage->getShippingMethodBlock()->clickContinue();
     }
 }

@@ -55,7 +55,7 @@ class Inline extends Form
      */
     public function fillGiftMessage(GiftMessage $giftMessage, $products = [])
     {
-        parent::fill($giftMessage);
+        $this->fill($giftMessage);
 
         /** @var \Magento\GiftMessage\Test\Block\Message\Inline\GiftMessageForm $giftMessageForm */
         if ($giftMessage->getAllowGiftMessagesForOrder() === 'Yes') {
@@ -77,9 +77,9 @@ class Inline extends Form
                     'Magento\GiftMessage\Test\Block\Message\Inline\GiftMessageForm',
                     [
                         'element' => $this->_rootElement->find(
-                                sprintf($this->giftMessageItemForm, $product->getName()),
-                                Locator::SELECTOR_XPATH
-                            )
+                            sprintf($this->giftMessageItemForm, $product->getName()),
+                            Locator::SELECTOR_XPATH
+                        )
                     ]
                 );
                 $giftMessageForm->fill($giftMessage);

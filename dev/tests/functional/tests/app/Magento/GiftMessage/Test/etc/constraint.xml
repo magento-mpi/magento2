@@ -8,7 +8,10 @@
  */
 -->
 <constraint>
-    <assertGiftMessageIsInOrder module="Magento_GiftMessage">
-        <severeness>low</severeness>
-    </assertGiftMessageIsInOrder>
+    <assertGiftMessageInFrontendOrderItems module="Magento_GiftMessage">
+        <severeness>high</severeness>
+    </assertGiftMessageInFrontendOrderItems>
+    <assertGiftMessageInFrontendOrder module="Magento_GiftMessage">
+        <severeness>high</severeness>
+    </assertGiftMessageInFrontendOrder>
 </constraint>

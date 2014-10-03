@@ -13,7 +13,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class View
- * Order view block on view order page
+ * Gift message block for order's items on order view page
  */
 class View extends Block
 {
