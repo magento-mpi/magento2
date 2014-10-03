@@ -89,10 +89,11 @@
                 > .field.choice {
                     margin: @form-field-vertical-indent 0 0;
                 }
-                &:not(.login) {
-                    .action.primary {
-                        &:extend(.abstract-button-l all);
-                    }
+            }
+            .form:not(.login),
+            .order-review {
+                .action.primary {
+                    &:extend(.abstract-button-l all);
                 }
             }
             .actions {

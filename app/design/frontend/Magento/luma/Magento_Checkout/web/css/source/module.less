@@ -100,10 +100,11 @@
                 > .choice {
                     margin-top: @form-field-vertical-indent;
                 }
-                &:not(.login) {
-                    .action.primary {
-                        &:extend(.abstract-button-l all);
-                    }
+            }
+            .form:not(.login),
+            .order-review {
+                .action.primary {
+                    &:extend(.abstract-button-l all);
                 }
             }
             .actions {
