@@ -16,6 +16,14 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  */
 class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
 {
+
+    /**
+     * Constraint severeness
+     *
+     * @var string
+     */
+    protected $severeness = 'low';
+
     /**
      * Assert that sales info in report grid is actual
      *
@@ -36,13 +44,6 @@ class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
             "Grand total Sales result not correct."
         );
     }
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Returns a string representation of the object

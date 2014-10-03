@@ -46,37 +46,19 @@ class FilterGrid extends Grid
     /**
      * Get sales from Sales Report grid
      *
+     * @param bool $total
      * @return array
      */
-    public function getSalesResults()
+    public function getSalesResults($total = false)
     {
         $orders = [];
-        $row = $this->_rootElement->find(sprintf($this->filterRows, $this->rows[0]), Locator::SELECTOR_XPATH);
+        $filterRows = $total ? $this->totalRows : $this->filterRows;
+        $row = $this->_rootElement->find(sprintf($filterRows, $this->rows[0]), Locator::SELECTOR_XPATH);
         if (!$row->isVisible()) {
             return array_fill_keys($this->rows, 0);
         }
         foreach ($this->rows as $row) {
             $value = $this->_rootElement->find(sprintf($this->filterRows, $row), Locator::SELECTOR_XPATH)->getText();
-            $orders[$row] = preg_replace('`[$,]`', '', $value);
-        }
-
-        return $orders;
-    }
-
-    /**
-     * Get total sales from Sales Report grid
-     *
-     * @return array
-     */
-    public function getTotalSalesResults()
-    {
-        $orders = [];
-        $row = $this->_rootElement->find(sprintf($this->totalRows, $this->rows[0]), Locator::SELECTOR_XPATH);
-        if (!$row->isVisible()) {
-            return array_fill_keys($this->rows, 0);
-        }
-        foreach ($this->rows as $row) {
-            $value = $this->_rootElement->find(sprintf($this->totalRows, $row), Locator::SELECTOR_XPATH)->getText();
             $orders[$row] = preg_replace('`[$,]`', '', $value);
         }
 

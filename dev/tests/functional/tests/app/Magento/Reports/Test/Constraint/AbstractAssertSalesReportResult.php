@@ -38,10 +38,8 @@ abstract class AbstractAssertSalesReportResult extends AbstractConstraint
      * @param ObjectManager $objectManager
      * @param SalesReport $salesReportPage
      */
-    public function __construct(
-        ObjectManager $objectManager,
-        SalesReport $salesReportPage
-    ) {
+    public function __construct(ObjectManager $objectManager, SalesReport $salesReportPage)
+    {
         parent::__construct($objectManager);
         $this->salesReportPage = $salesReportPage;
     }
@@ -69,8 +67,8 @@ abstract class AbstractAssertSalesReportResult extends AbstractConstraint
     protected function prepareExpectedResult(array $initialSalesData)
     {
         $salesItems = 0;
-        $invoice = $this->order->getDataFieldConfig('price')['source']->getPreset()['grand_invoice_total'];
-        $salesTotal = $this->order->getDataFieldConfig('price')['source']->getPreset()['grand_order_total'];
+        $invoice = $this->order->getPrice()[0]['grand_invoice_total'];
+        $salesTotal = $this->order->getPrice()[0]['grand_order_total'];
         foreach ($this->order->getEntityId()['products'] as $product) {
             $salesItems += $product->getCheckoutData()['options']['qty'];
         }

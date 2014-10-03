@@ -35,7 +35,7 @@ class AssertSalesReportTotalResult extends AbstractAssertSalesReportResult
     {
         $this->order = $order;
         $this->searchInSalesReportGrid($salesReport);
-        $salesResult = $this->salesReportPage->getGridBlock()->getSalesResults();
+        $salesResult = $this->salesReportPage->getGridBlock()->getSalesResults(true);
         $prepareInitialResult = $this->prepareExpectedResult($initialSalesTotalResult);
         \PHPUnit_Framework_Assert::assertEquals(
             $salesResult,
