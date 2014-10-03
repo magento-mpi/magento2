@@ -9,7 +9,7 @@
 namespace Magento\Customer\Test\TestStep;
 
 use Mtf\TestStep\TestStepInterface;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Cms\Test\Page\CmsIndex;
 
 /**
  * Class LogoutCustomerOnFrontendStep
@@ -18,20 +18,19 @@ use Magento\Customer\Test\Page\CustomerAccountLogout;
 class LogoutCustomerOnFrontendStep implements TestStepInterface
 {
     /**
-     * Customer account logout page
+     * Cms index page
      *
-     * @var CustomerAccountLogout
+     * @var CmsIndex
      */
-    protected $customerAccountLogout;
+    protected $cmsIndex;
 
     /**
      * @constructor
-     * @param CustomerAccountLogout $customerAccountLogout
+     * @param CmsIndex $cmsIndex
      */
-    public function __construct(
-        CustomerAccountLogout $customerAccountLogout
-    ) {
-        $this->customerAccountLogout = $customerAccountLogout;
+    public function __construct(CmsIndex $cmsIndex)
+    {
+        $this->cmsIndex = $cmsIndex;
     }
 
     /**
@@ -41,6 +40,9 @@ class LogoutCustomerOnFrontendStep implements TestStepInterface
      */
     public function run()
     {
-        $this->customerAccountLogout->open();
+        $this->cmsIndex->open();
+        if ($this->cmsIndex->getLinksBlock()->isVisible("Log Out")) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        }
     }
 }

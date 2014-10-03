@@ -91,18 +91,18 @@ abstract class TargetRuleEntityTest extends Injectable
      * Get data for replace in variations
      *
      * @param CatalogProductSimple $product
-     * @param CatalogProductSimple $sellingProduct
+     * @param CatalogProductSimple $relatedProduct
      * @param CustomerSegment|null $customerSegment
      * @return array
      */
     protected function getReplaceData(
         CatalogProductSimple $product,
-        CatalogProductSimple $sellingProduct,
+        CatalogProductSimple $relatedProduct,
         CustomerSegment $customerSegment = null
     ) {
         $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
         $sourceCategory = $product->getDataFieldConfig('category_ids')['source'];
-        $sourceSellingCategory = $sellingProduct->getDataFieldConfig('category_ids')['source'];
+        $sourceRelatedCategory = $relatedProduct->getDataFieldConfig('category_ids')['source'];
 
         return [
             'rule_information' => [
@@ -117,7 +117,7 @@ abstract class TargetRuleEntityTest extends Injectable
             ],
             'products_to_display' => [
                 'actions_serialized' => [
-                    '%category_2%' => $sourceSellingCategory->getIds()[0],
+                    '%category_2%' => $sourceRelatedCategory->getIds()[0],
                 ],
             ],
         ];

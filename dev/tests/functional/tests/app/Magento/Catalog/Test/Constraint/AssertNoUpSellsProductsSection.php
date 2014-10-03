@@ -11,6 +11,7 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -31,21 +32,21 @@ class AssertNoUpSellsProductsSection extends AbstractConstraint
      *
      * @param Browser $browser
      * @param CatalogProductSimple $product
-     * @param array $sellingProducts
+     * @param InjectableFixture[] $relatedProducts
      * @param CatalogProductView $catalogProductView
      * @return void
      */
     public function processAssert(
         Browser $browser,
         CatalogProductSimple $product,
-        array $sellingProducts,
+        array $relatedProducts,
         CatalogProductView $catalogProductView
     ) {
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        foreach ($sellingProducts as $sellingProduct) {
+        foreach ($relatedProducts as $relatedProduct) {
             \PHPUnit_Framework_Assert::assertFalse(
-                $catalogProductView->getUpsellBlock()->isUpsellProductVisible($sellingProduct->getName()),
-                'Product \'' . $sellingProduct->getName() . '\' is exist in up-sells products.'
+                $catalogProductView->getUpsellBlock()->isUpsellProductVisible($relatedProduct->getName()),
+                'Product \'' . $relatedProduct->getName() . '\' is exist in up-sells products.'
             );
         }
     }

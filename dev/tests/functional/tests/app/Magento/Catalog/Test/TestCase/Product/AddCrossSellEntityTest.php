@@ -78,6 +78,6 @@ class AddCrossSellEntityTest extends Injectable
 
         /** @var CrossSellProducts $crossSellProducts*/
         $crossSellProducts = $product->getDataFieldConfig('cross_sell_products')['source'];
-        return ['sellingProducts' => $crossSellProducts->getProducts()];
+        return ['relatedProducts' => $crossSellProducts->getProducts()];
     }
 }

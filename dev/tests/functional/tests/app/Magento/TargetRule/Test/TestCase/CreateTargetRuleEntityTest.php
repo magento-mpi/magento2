@@ -38,24 +38,24 @@ class CreateTargetRuleEntityTest extends TargetRuleEntityTest
      * Run create TargetRule entity test
      *
      * @param CatalogProductSimple $product
-     * @param CatalogProductSimple $sellingProduct
+     * @param CatalogProductSimple $relatedProduct
      * @param TargetRule $targetRule
      * @param CustomerSegment|null $customerSegment
      * @return array
      */
     public function testCreateTargetRuleEntity(
         CatalogProductSimple $product,
-        CatalogProductSimple $sellingProduct,
+        CatalogProductSimple $relatedProduct,
         TargetRule $targetRule,
         CustomerSegment $customerSegment = null
     ) {
         // Preconditions:
         $product->persist();
-        $sellingProduct->persist();
+        $relatedProduct->persist();
         if ($customerSegment->hasData()) {
             $customerSegment->persist();
         }
-        $replace = $this->getReplaceData($product, $sellingProduct, $customerSegment);
+        $replace = $this->getReplaceData($product, $relatedProduct, $customerSegment);
 
         // Steps
         $this->targetRuleIndex->open();
@@ -66,6 +66,6 @@ class CreateTargetRuleEntityTest extends TargetRuleEntityTest
         // Prepare data for tear down
         $this->prepareTearDown($targetRule);
 
-        return ['sellingProducts' => [$sellingProduct]];
+        return ['relatedProducts' => [$relatedProduct]];
     }
 }

@@ -37,7 +37,7 @@ class UpdateTargetRuleEntityTest extends TargetRuleEntityTest
      * Run update TargetRule entity test
      *
      * @param CatalogProductSimple $product
-     * @param CatalogProductSimple $sellingProduct
+     * @param CatalogProductSimple $relatedProduct
      * @param TargetRule $initialTargetRule
      * @param TargetRule $targetRule
      * @param CustomerSegment|null $customerSegment
@@ -45,19 +45,19 @@ class UpdateTargetRuleEntityTest extends TargetRuleEntityTest
      */
     public function testUpdateTargetRuleEntity(
         CatalogProductSimple $product,
-        CatalogProductSimple $sellingProduct,
+        CatalogProductSimple $relatedProduct,
         TargetRule $initialTargetRule,
         TargetRule $targetRule,
         CustomerSegment $customerSegment = null
     ) {
         // Preconditions:
         $product->persist();
-        $sellingProduct->persist();
+        $relatedProduct->persist();
         $initialTargetRule->persist();
-        if ($customerSegment->hasData()) {
+        if ($customerSegment && $customerSegment->hasData()) {
             $customerSegment->persist();
         }
-        $replace = $this->getReplaceData($product, $sellingProduct, $customerSegment);
+        $replace = $this->getReplaceData($product, $relatedProduct, $customerSegment);
 
         // Steps
         $filter = ['name' => $initialTargetRule->getName()];
@@ -69,6 +69,6 @@ class UpdateTargetRuleEntityTest extends TargetRuleEntityTest
         // Prepare data for tear down
         $this->prepareTearDown($targetRule);
 
-        return ['sellingProducts' => [$sellingProduct]];
+        return ['relatedProducts' => [$relatedProduct]];
     }
 }

@@ -57,16 +57,16 @@ class DeleteTargetRuleEntityTest extends Injectable
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
-        $sellingProduct = $fixtureFactory->createByCode(
+        $relatedProduct = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_special_price_and_category']
         );
 
         $product->persist();
-        $sellingProduct->persist();
+        $relatedProduct->persist();
         return [
             'product' => $product,
-            'sellingProduct' => $sellingProduct,
+            'relatedProduct' => $relatedProduct,
         ];
     }
 
@@ -89,17 +89,17 @@ class DeleteTargetRuleEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param TargetRule $targetRule
      * @param CatalogProductSimple $product
-     * @param CatalogProductSimple $sellingProduct
+     * @param CatalogProductSimple $relatedProduct
      * @return array
      */
     public function testDeleteTargetRuleEntity(
         FixtureFactory $fixtureFactory,
         TargetRule $targetRule,
         CatalogProductSimple $product,
-        CatalogProductSimple $sellingProduct
+        CatalogProductSimple $relatedProduct
     ) {
         // Preconditions
-        $replace = $this->getReplaceData($product, $sellingProduct);
+        $replace = $this->getReplaceData($product, $relatedProduct);
         $data = $this->prepareData($targetRule->getData(), $replace);
         /** @var TargetRule $originalTargetRule */
         $originalTargetRule = $fixtureFactory->createByCode('targetRule', $data);
@@ -111,24 +111,24 @@ class DeleteTargetRuleEntityTest extends Injectable
         $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleEdit->getPageActions()->delete();
 
-        return ['sellingProducts' => [$sellingProduct]];
+        return ['relatedProducts' => [$relatedProduct]];
     }
 
     /**
      * Get data for replace in variations
      *
      * @param CatalogProductSimple $product
-     * @param CatalogProductSimple $sellingProduct
+     * @param CatalogProductSimple $relatedProduct
      * @return array
      */
-    protected function getReplaceData(CatalogProductSimple $product, CatalogProductSimple $sellingProduct)
+    protected function getReplaceData(CatalogProductSimple $product, CatalogProductSimple $relatedProduct)
     {
         return [
             'conditions_serialized' => [
                 '%category_1%' => $product->getDataFieldConfig('category_ids')['source']->getIds()[0],
             ],
             'actions_serialized' => [
-                '%category_2%' => $sellingProduct->getDataFieldConfig('category_ids')['source']->getIds()[0],
+                '%category_2%' => $relatedProduct->getDataFieldConfig('category_ids')['source']->getIds()[0],
             ],
         ];
     }

@@ -12,6 +12,7 @@ use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -32,7 +33,7 @@ class AssertNoCrossSellsProductsSection extends AbstractConstraint
      *
      * @param Browser $browser
      * @param CatalogProductSimple $product
-     * @param array $sellingProducts
+     * @param InjectableFixture[] $relatedProducts
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @return void
@@ -40,7 +41,7 @@ class AssertNoCrossSellsProductsSection extends AbstractConstraint
     public function processAssert(
         Browser $browser,
         CatalogProductSimple $product,
-        array $sellingProducts,
+        array $relatedProducts,
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart
     ) {
@@ -49,10 +50,10 @@ class AssertNoCrossSellsProductsSection extends AbstractConstraint
 
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $catalogProductView->getViewBlock()->addToCart($product);
-        foreach ($sellingProducts as $sellingProduct) {
+        foreach ($relatedProducts as $relatedProduct) {
             \PHPUnit_Framework_Assert::assertFalse(
-                $checkoutCart->getCrosssellBlock()->verifyProductCrosssell($sellingProduct),
-                'Product \'' . $sellingProduct->getName() . '\' is exist in cross-sell section.'
+                $checkoutCart->getCrosssellBlock()->verifyProductCrosssell($relatedProduct),
+                'Product \'' . $relatedProduct->getName() . '\' is exist in cross-sell section.'
             );
         }
     }
