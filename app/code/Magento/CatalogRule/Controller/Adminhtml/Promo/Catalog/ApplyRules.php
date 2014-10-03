@@ -12,6 +12,7 @@ use Magento\CatalogRule\Model\Rule\Job;
 
 class ApplyRules extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
 {
+
     /**
      * Apply all active catalog price rules
      *

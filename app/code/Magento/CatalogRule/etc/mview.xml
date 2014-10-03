@@ -8,12 +8,12 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Mview/etc/mview.xsd">
-    <view id="catalogrule_rule" class="Magento\CatalogRule\Model\Indexer\Rule" group="indexer">
+    <view id="catalogrule_rule" class="Magento\CatalogRule\Model\Indexer\RuleProductIndexer" group="indexer">
         <subscriptions>
             <table name="catalogrule" entity_column="rule_id" />
         </subscriptions>
     </view>
-    <view id="catalogrule_product" class="Magento\CatalogRule\Model\Indexer\Product" group="indexer">
+    <view id="catalogrule_product" class="Magento\CatalogRule\Model\Indexer\ProductRuleIndexer" group="indexer">
         <subscriptions>
             <table name="catalog_product_entity" entity_column="entity_id" />
             <table name="catalog_product_entity_datetime" entity_column="entity_id" />

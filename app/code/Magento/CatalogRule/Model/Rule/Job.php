@@ -32,15 +32,19 @@ class Job extends \Magento\Framework\Object
      * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
+    protected $objectWhichWorkWithCatalogRulesAndIndexer;
 
     /**
      * Basic object initialization
      *
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
-    public function __construct(\Magento\Framework\Event\ManagerInterface $eventManager)
-    {
+    public function __construct(
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\CatalogRule\Model\Indexer\Product\ObjectWhichWorkWithCatalogRulesAndIndexer $o
+    ) {
         $this->_eventManager = $eventManager;
+        $this->objectWhichWorkWithCatalogRulesAndIndexer = $o;
     }
 
     /**
@@ -51,7 +55,8 @@ class Job extends \Magento\Framework\Object
     public function applyAll()
     {
         try {
-            $this->_eventManager->dispatch('catalogrule_apply_all');
+//            $this->_eventManager->dispatch('catalogrule_apply_all');
+            $this->objectWhichWorkWithCatalogRulesAndIndexer->reindexAll();
             $this->setSuccess(__('The rules have been applied.'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->setError($e->getMessage());

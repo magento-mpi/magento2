@@ -8,7 +8,7 @@
 namespace Magento\CatalogRule\Model\Indexer\Product\Plugin\Save;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogRule\Model\Indexer\Product\ProductRuleIndexer;
+use Magento\CatalogRule\Model\Indexer\ProductRuleIndexer;
 
 class ApplyRules
 {

@@ -1,24 +1,24 @@
 <?php
 /**
  * {license_notice}
- *
+ *   
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogRule\Model\Indexer;
 
-use Magento\CatalogRule\Model\Indexer\Product\Action;
+use Magento\CatalogRule\Model\Indexer\Rule\Action;
 use Magento\Framework\Mview\ActionInterface as MviewActionInterface;
 use Magento\Indexer\Model\ActionInterface as IndexerActionInterface;
 use Magento\Indexer\Model\IndexerInterface;
 
-class ProductRuleIndexer implements IndexerActionInterface, MviewActionInterface
+class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
 {
     /**
      * TODO: create state object (see \Magento\CatalogRule\Model\Indexer\Product\IndexProcessor)
      * Indexer id
      */
-    const INDEXER_ID = 'catalogrule_product';
+    const INDEXER_ID = 'catalogrule_rule';
 
     /**
      * @var Action\Full
