@@ -23,9 +23,8 @@ class Rows extends AbstractAction
         if (!$productIds) {
             throw new CatalogRuleException(__('Could not rebuild index for empty products array'));
         }
-        $productIds = is_array($productIds) ? $productIds : [$productIds];
         try {
-            $this->objectWhichWorkCatalogRulesAndIndexers->reindexByIds($productIds);
+            $this->objectWhichWorkCatalogRulesAndIndexers->reindexByIds((array)$productIds);
         } catch (\Exception $e) {
             throw new CatalogRuleException($e->getMessage(), $e->getCode(), $e);
         }

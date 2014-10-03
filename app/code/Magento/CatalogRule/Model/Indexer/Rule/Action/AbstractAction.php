@@ -16,6 +16,9 @@ class AbstractAction
      */
     protected $objectWhichWorkCatalogRulesAndIndexers;
 
+    /**
+     * @param ObjectWhichWorkWithCatalogRulesAndIndexer $objectWhichWorkCatalogRulesAndIndexers
+     */
     public function __construct(ObjectWhichWorkWithCatalogRulesAndIndexer $objectWhichWorkCatalogRulesAndIndexers)
     {
         $this->objectWhichWorkCatalogRulesAndIndexers = $objectWhichWorkCatalogRulesAndIndexers;

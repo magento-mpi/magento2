@@ -15,7 +15,7 @@ class Rows extends AbstractAction
      * TODO: think about single interface
      * Execute Row reindex
      *
-     * @param int $productId
+     * @param array $productIds
      * @throws CatalogRuleException
      */
     public function execute($productIds)
@@ -23,9 +23,8 @@ class Rows extends AbstractAction
         if (!$productIds) {
             throw new CatalogRuleException(__('Could not rebuild index for undefined product'));
         }
-        $productIds = is_array($productIds) ? $productIds : [$productIds];
         try {
-            $this->objectWhichWorkCatalogRulesAndIndexers->reindexByIds($productIds);
+            $this->objectWhichWorkCatalogRulesAndIndexers->reindexByIds((array)$productIds);
         } catch (\Exception $e) {
             throw new CatalogRuleException($e->getMessage(), $e->getCode(), $e);
         }
