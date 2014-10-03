@@ -151,6 +151,8 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
+     * @test
+     *
      * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
      * @magentoConfigFixture current_store catalog/magento_catalogpermissions/enabled true
      * @magentoConfigFixture current_store catalog/magento_catalogpermissions/grant_catalog_category_view 1
