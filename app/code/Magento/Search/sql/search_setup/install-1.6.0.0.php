@@ -96,7 +96,7 @@ $table = $installer->getConnection()
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
-    'Catalog search query table'
+    'Search query table'
 );
 $installer->getConnection()->createTable($table);
 

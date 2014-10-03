@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Controller\Adminhtml;
+namespace Magento\Search\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 

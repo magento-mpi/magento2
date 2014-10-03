@@ -8,6 +8,8 @@
 
 namespace Magento\Catalog\Model\Layer\Search;
 
+use Magento\CatalogSearch\Model\Layer\Search\StateKey;
+
 class StateKeyTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,7 +28,7 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
     protected $queryFactoryMock;
 
     /**
-     * @var \Magento\Catalog\Model\Layer\Search\StateKey
+     * @var \Magento\CatalogSearch\Model\Layer\Search\StateKey
      */
     protected $model;
 
@@ -46,8 +48,8 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Model\Layer\Search\StateKey::toString
-     * @covers \Magento\Catalog\Model\Layer\Search\StateKey::__construct
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\StateKey::toString
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\StateKey::__construct
      */
     public function testToString()
     {

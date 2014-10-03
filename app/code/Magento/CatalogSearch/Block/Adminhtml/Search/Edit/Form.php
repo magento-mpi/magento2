@@ -9,9 +9,8 @@
 /**
  * Adminhtml tag edit form
  *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Search\Edit;
+namespace Magento\CatalogSearch\Block\Adminhtml\Search\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

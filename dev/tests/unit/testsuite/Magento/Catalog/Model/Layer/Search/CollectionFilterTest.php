@@ -8,6 +8,8 @@
 
 namespace Magento\Catalog\Model\Layer\Search;
 
+use Magento\CatalogSearch\Model\Layer\Search\CollectionFilter;
+
 class CollectionFilterTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -31,7 +33,7 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\Catalog\Model\Layer\Search\CollectionFilter
+     * @var \Magento\CatalogSearch\Model\Layer\Search\CollectionFilter
      */
     protected $model;
 
@@ -54,8 +56,8 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Model\Layer\Search\CollectionFilter::filter
-     * @covers \Magento\Catalog\Model\Layer\Search\CollectionFilter::__construct
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\CollectionFilter::filter
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\CollectionFilter::__construct
      */
     public function testFilter()
     {

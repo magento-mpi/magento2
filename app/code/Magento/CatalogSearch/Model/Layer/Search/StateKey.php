@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Layer\Search;
+namespace Magento\CatalogSearch\Model\Layer\Search;
 
 
 class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
@@ -28,7 +28,7 @@ class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
         \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         $this->queryFactory = $queryFactory;
-        parent::__construct($storeManager, $customerSession);
+        \Magento\Catalog\Model\Layer\Category\StateKey::__construct($storeManager, $customerSession);
     }
 
     /**
@@ -37,6 +37,6 @@ class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
      */
     public function toString($category)
     {
-        return 'Q_' . $this->queryFactory->get()->getId() . '_' . parent::toString($category);
+        return 'Q_' . $this->queryFactory->get()->getId() . '_' . \Magento\Catalog\Model\Layer\Category\StateKey::toString($category);
     }
 }

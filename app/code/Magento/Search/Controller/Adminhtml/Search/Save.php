@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Controller\Adminhtml\Search;
+namespace Magento\Search\Controller\Adminhtml\Search;
 
-class Save extends \Magento\Catalog\Controller\Adminhtml\Search
+class Save extends \Magento\Search\Controller\Adminhtml\Search
 {
     /**
      * Save search query

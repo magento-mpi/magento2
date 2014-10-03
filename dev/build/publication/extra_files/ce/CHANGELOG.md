@@ -700,7 +700,7 @@
   * [#548] (https://github.com/magento/magento2/issues/548) -- Console installer doesn't checks filesystem permissions
   * [#552] (https://github.com/magento/magento2/issues/552) -- backend notifications sitebuild bug
   * [#562] (https://github.com/magento/magento2/pull/562) -- Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable()
-  * [#565] (https://github.com/magento/magento2/pull/565) -- Magento\Search\Model\Query::getResultCollection() not working
+  * [#565] (https://github.com/magento/magento2/pull/565) -- Magento\CatalogSearch\Model\Query::getResultCollection() not working
   * [#557] (https://github.com/magento/magento2/issues/557) -- translation anomalies backend login page
 * Added the following functional tests:
   * Advanced Search

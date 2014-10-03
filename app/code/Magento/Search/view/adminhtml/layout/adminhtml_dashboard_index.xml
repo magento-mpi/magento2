@@ -19,7 +19,7 @@
           <argument name="topSearches" xsi:type="string">websites</argument>
           <argument name="topSearches" xsi:type="string">tab_websites</argument>
       </action>
-    </referenceContainer>
+    </referenceBlock>
 
     <referenceContainer name="content">
         <block class="Magento\Backend\Block\Dashboard" name="dashboard" />
