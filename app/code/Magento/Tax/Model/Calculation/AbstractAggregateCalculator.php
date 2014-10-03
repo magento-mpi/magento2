@@ -110,7 +110,7 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
             if ($discountAmount && $applyTaxAfterDiscount) {
                 $deltaRoundingType = self::KEY_TAX_BEFORE_DISCOUNT_DELTA_ROUNDING;
             }
-            $rowTaxPerRate = $this->roundAmount($rowTaxPerRate, $rate, false, $deltaRoundingType);
+            $rowTaxPerRate = $this->roundAmount($rowTaxPerRate, $taxId, false, $deltaRoundingType);
             $rowTaxAfterDiscount = $rowTaxPerRate;
 
             //Handle discount
@@ -123,7 +123,7 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
                     false,
                     false
                 );
-                $rowTaxAfterDiscount = $this->roundAmount($rowTaxAfterDiscount, $taxRate, false);
+                $rowTaxAfterDiscount = $this->roundAmount($rowTaxAfterDiscount, $taxId, false);
             }
             $appliedTaxes[$taxId] = $this->getAppliedTax(
                 $rowTaxAfterDiscount,
