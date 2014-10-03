@@ -288,10 +288,11 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     protected function getSuccessRedirect()
     {
-        if (!$this->scopeConfig->isSetFlag(
-                CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
-                ScopeInterface::SCOPE_STORE
-            ) && $this->_getSession()->getBeforeAuthUrl()
+        $redirectToDashboard = $this->scopeConfig->isSetFlag(
+            CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+            ScopeInterface::SCOPE_STORE
+        );
+        if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         } else {
