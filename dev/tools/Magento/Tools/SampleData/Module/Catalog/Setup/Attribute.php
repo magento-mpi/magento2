@@ -15,7 +15,6 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
  * Setup sample attributes
  *
  * Class Attribute
- * @package Magento\Tools\SampleData\Module\Catalog\Setup
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Attribute implements SetupInterface
