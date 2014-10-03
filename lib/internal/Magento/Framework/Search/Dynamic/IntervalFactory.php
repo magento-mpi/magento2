@@ -53,6 +53,12 @@ class IntervalFactory
      */
     public function create()
     {
-        return $this->objectManager->create($this->interval);
+        $interval = $this->objectManager->create($this->interval);
+        if (!$interval instanceof IntervalInterface) {
+            throw new \LogicException(
+                'Interval not instance of interface \Magento\Framework\Search\Dynamic\IntervalInterface'
+            );
+        }
+        return $interval;
     }
 }
