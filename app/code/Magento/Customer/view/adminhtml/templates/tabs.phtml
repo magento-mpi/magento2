@@ -4,8 +4,8 @@
             <h3 data-bind="text: label, css: {'ui-accordion-header': collapsible}, click: toggle"></h3>
             <ul class="tabs" data-bind="visible: opened">
                 <!-- ko foreach: elems -->
-                    <li data-bind="css: { 'ui-state-active': active }, click: setActive">
-                        <a class="tab-item-link" href="#name" data-bind="text: label, css: {changed: changed}"></a>
+                    <li data-bind="css: { 'ui-state-active': active }, click: setActive, attr: { tabindex: $index }, enter: setActive">
+                        <a class="tab-item-link" href="#" data-bind="text: label, css: { changed: changed }"></a>
                     </li>
                 <!-- /ko -->
             </ul>
