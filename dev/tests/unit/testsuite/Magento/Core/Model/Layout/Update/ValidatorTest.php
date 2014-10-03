@@ -48,7 +48,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             'xml' => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . trim(
                 $layoutUpdate
             ) . '</layout>',
-            'schemaFile' => 'dummyDir/layout_single.xsd'
+            'schemaFile' => 'dummyDir/page_layout.xsd'
         );
 
         $exceptionMessage = 'validation exception';

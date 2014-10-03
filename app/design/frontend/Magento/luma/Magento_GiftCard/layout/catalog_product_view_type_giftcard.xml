@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+        xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_layout.xsd">
     <referenceContainer name="product.info.price">
         <container name="product.info.price.giftcard" label="Product info auxiliary container" htmlTag="div" htmlClass="product-info-price-giftcard" before="-">
         </container>

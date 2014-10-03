@@ -7,12 +7,12 @@
  */
 namespace Magento\Core\Model\Layout\Update;
 
+use Magento\Framework\App\Filesystem;
+
 /**
  * Validator for custom layout update
  *
  * Validator checked XML validation and protected expressions
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Validator extends \Zend_Validate_Abstract
 {
@@ -53,36 +53,26 @@ class Validator extends \Zend_Validate_Abstract
     protected $_xsdSchemas;
 
     /**
-     * @var \Magento\Framework\Module\Dir\Reader
-     */
-    protected $_modulesReader;
-
-    /**
      * @var \Magento\Framework\Config\DomFactory
      */
     protected $_domConfigFactory;
 
     /**
-     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
+     * @param Filesystem $filesystem
      * @param \Magento\Framework\Config\DomFactory $domConfigFactory
      */
     public function __construct(
-        \Magento\Framework\Module\Dir\Reader $modulesReader,
+        Filesystem $filesystem,
         \Magento\Framework\Config\DomFactory $domConfigFactory
     ) {
-        $this->_modulesReader = $modulesReader;
         $this->_domConfigFactory = $domConfigFactory;
         $this->_initMessageTemplates();
-        $this->_xsdSchemas = array(
-            self::LAYOUT_SCHEMA_SINGLE_HANDLE => $this->_modulesReader->getModuleDir(
-                'etc',
-                'Magento_Core'
-            ) . '/layout_single.xsd',
-            self::LAYOUT_SCHEMA_MERGED => $this->_modulesReader->getModuleDir(
-                'etc',
-                'Magento_Core'
-            ) . '/layout_merged.xsd'
-        );
+        $this->_xsdSchemas = [
+            self::LAYOUT_SCHEMA_SINGLE_HANDLE => $filesystem->getPath(Filesystem::LIB_INTERNAL)
+                . '/Magento/Framework/View/Layout/etc/page_layout.xsd',
+            self::LAYOUT_SCHEMA_MERGED => $filesystem->getPath(Filesystem::LIB_INTERNAL)
+                . '/Magento/Framework/View/Layout/etc/layout_merged.xsd'
+        ];
     }
 
     /**

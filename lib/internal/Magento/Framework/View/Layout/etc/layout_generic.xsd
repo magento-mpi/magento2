@@ -8,7 +8,7 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:include schemaLocation="page.xsd"/>
+    <xs:include schemaLocation="page_configuration.xsd"/>
 
     <xs:element name="layout" type="pageType"/>
 </xs:schema>
