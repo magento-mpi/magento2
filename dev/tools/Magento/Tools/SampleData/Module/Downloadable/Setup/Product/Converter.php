@@ -7,14 +7,11 @@
  */
 namespace Magento\Tools\SampleData\Module\Downloadable\Setup\Product;
 
+/**
+ * Class Converter
+ */
 class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
 {
-
-    /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    protected $_objectManager;
-
     /**
      * Convert CSV format row to array
      *
@@ -39,9 +36,9 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             if ($options) {
                 $value = $this->getArrayValue($value);
                 $result = [];
-                foreach ($value as $v) {
-                    if (isset($options[$v])) {
-                        $result[] = $options[$v];
+                foreach ($value as $valueItem) {
+                    if (isset($options[$valueItem])) {
+                        $result[] = $options[$valueItem];
                     }
                 }
                 $value = count($result) == 1 ? current($result) : $result;
@@ -78,9 +75,9 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     public function groupDownloadableData($downloadableData) {
         foreach ($downloadableData as $dataKey => $dataValue) {
             if (!empty($dataValue)) {
-                if((preg_match('/^(link_item)/', $dataKey, $m)) && is_array($m)) {
+                if((preg_match('/^(link_item)/', $dataKey, $matches)) && is_array($matches)) {
                     $groupedData['link'][$dataKey] = $dataValue;
-                } elseif ((preg_match('/^(sample_item)/', $dataKey, $m)) && $m >=1) {
+                } elseif ((preg_match('/^(sample_item)/', $dataKey, $matches)) && $matches >=1) {
                     $groupedData['sample'][$dataKey] = $dataValue;
                 }
             }
@@ -110,7 +107,6 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         }
 
         return $formattedData;
-
     }
 
     /**
@@ -119,8 +115,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * @param $sampleData
      * @return array
      */
-    public function formatDownloadableSampleData($sampleData)
-    {
+    public function formatDownloadableSampleData($sampleData) {
         $sample =
             [
                 'is_delete' => '',
@@ -141,8 +136,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * @param $linkData
      * @return array
      */
-    public function formatDownloadableLinkData($linkData)
-    {
+    public function formatDownloadableLinkData($linkData) {
         $link =
             [
                 'is_delete' => '',
@@ -165,5 +159,4 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
 
         return $link;
     }
-
 }

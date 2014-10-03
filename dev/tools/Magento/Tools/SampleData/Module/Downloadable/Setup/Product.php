@@ -9,17 +9,16 @@ namespace Magento\Tools\SampleData\Module\Downloadable\Setup;
 
 use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+
+/**
+ * Class Product
+ */
 class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
 {
     /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $productFactory;
-
-    /**
-     * @var int
-     */
-    protected $attributeSetId;
 
     /**
      * @var \Magento\Catalog\Model\Config
