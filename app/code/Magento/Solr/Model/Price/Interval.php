@@ -9,7 +9,7 @@ namespace Magento\Solr\Model\Price;
 
 use Magento\Catalog\Model\Layer\Category;
 use Magento\Catalog\Model\Resource\Layer\Filter\Price as PriceResource;
-use Magento\Framework\Search\Price\IntervalInterface;
+use Magento\Framework\Search\Dynamic\IntervalInterface;
 use Magento\Framework\StoreManagerInterface;
 
 class Interval implements IntervalInterface
@@ -36,14 +36,14 @@ class Interval implements IntervalInterface
     /**
      * {@inheritdoc}
      */
-    public function load($limit, $offset = null, $lowerPrice = null, $upperPrice = null)
+    public function load($limit, $offset = null, $lower = null, $upper = null)
     {
-        $lowerPrice = $this->prepareComparingValue($lowerPrice);
-        $upperPrice = $this->prepareComparingValue($upperPrice);
-        if (!is_null($upperPrice)) {
-            $upperPrice -= PriceResource::MIN_POSSIBLE_PRICE / 10;
+        $lower = $this->prepareComparingValue($lower);
+        $upper = $this->prepareComparingValue($upper);
+        if (!is_null($upper)) {
+            $upper -= PriceResource::MIN_POSSIBLE_PRICE / 10;
         }
-        $result = $this->layer->getProductCollection()->getPriceData($lowerPrice, $upperPrice, $limit, $offset);
+        $result = $this->layer->getProductCollection()->getPriceData($lower, $upper, $limit, $offset);
         if (!$result) {
             return $result;
         }
@@ -56,15 +56,15 @@ class Interval implements IntervalInterface
     /**
      * {@inheritdoc}
      */
-    public function loadPrevious($price, $index, $lowerPrice = null)
+    public function loadPrevious($data, $index, $lower = null)
     {
-        $originLowerPrice = $lowerPrice;
-        $lowerPrice = $this->prepareComparingValue($lowerPrice);
-        $price = $this->prepareComparingValue($price);
-        if (!is_null($price)) {
-            $price -= PriceResource::MIN_POSSIBLE_PRICE / 10;
+        $originLowerPrice = $lower;
+        $lower = $this->prepareComparingValue($lower);
+        $data = $this->prepareComparingValue($data);
+        if (!is_null($data)) {
+            $data -= PriceResource::MIN_POSSIBLE_PRICE / 10;
         }
-        $countLess = $this->layer->getProductCollection()->getPriceData($lowerPrice, $price, null, null, true);
+        $countLess = $this->layer->getProductCollection()->getPriceData($lower, $data, null, null, true);
         if (!$countLess) {
             return false;
         }
@@ -75,25 +75,25 @@ class Interval implements IntervalInterface
     /**
      * {@inheritdoc}
      */
-    public function loadNext($price, $rightIndex, $upperPrice = null)
+    public function loadNext($data, $rightIndex, $upper = null)
     {
-        $lowerPrice = $this->prepareComparingValue($price);
-        $price = $this->prepareComparingValue($price, false);
-        $upperPrice = $this->prepareComparingValue($upperPrice);
-        if (!is_null($price)) {
-            $price += PriceResource::MIN_POSSIBLE_PRICE / 10;
+        $lowerPrice = $this->prepareComparingValue($data);
+        $data = $this->prepareComparingValue($data, false);
+        $upper = $this->prepareComparingValue($upper);
+        if (!is_null($data)) {
+            $data += PriceResource::MIN_POSSIBLE_PRICE / 10;
         }
-        if (!is_null($upperPrice)) {
-            $upperPrice -= PriceResource::MIN_POSSIBLE_PRICE / 10;
+        if (!is_null($upper)) {
+            $upper -= PriceResource::MIN_POSSIBLE_PRICE / 10;
         }
-        $countGreater = $this->layer->getProductCollection()->getPriceData($price, $upperPrice, null, null, true);
+        $countGreater = $this->layer->getProductCollection()->getPriceData($data, $upper, null, null, true);
         if (!$countGreater) {
             return false;
         }
 
         $result = $this->layer->getProductCollection()->getPriceData(
             $lowerPrice,
-            $upperPrice,
+            $upper,
             $rightIndex - $countGreater + 1,
             $countGreater - 1,
             false,

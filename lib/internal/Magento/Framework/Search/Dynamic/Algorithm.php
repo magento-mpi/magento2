@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Price;
+namespace Magento\Framework\Search\Dynamic;
 
 
 /**
@@ -131,7 +131,7 @@ class Algorithm
      *
      * @param null|float $lowerLimit
      * @param null|float $upperLimit
-     * @return \Magento\Framework\Search\Price\Algorithm
+     * @return \Magento\Framework\Search\Dynamic\Algorithm
      */
     public function setLimits($lowerLimit = null, $upperLimit = null)
     {

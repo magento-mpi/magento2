@@ -43,7 +43,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
      * Prepare price filter model
      *
      * @param \Magento\TestFramework\Request|null $request
-     * @return \Magento\Framework\Search\Price\Algorithm
+     * @return \Magento\Framework\Search\Dynamic\Algorithm
      */
     protected function _prepareFilter($request = null)
     {
@@ -64,9 +64,9 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $objectManager->expects($this->once())->method('create')->willReturn($interval);
         $intervalFactory = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Price\IntervalFactory', ['objectManager' => $objectManager]);
+            ->create('Magento\Framework\Search\Dynamic\IntervalFactory', ['objectManager' => $objectManager]);
         $model = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Price\Algorithm', ['intervalFactory' => $intervalFactory]);
+            ->create('Magento\Framework\Search\Dynamic\Algorithm', ['intervalFactory' => $intervalFactory]);
         /** @var $filter \Magento\Catalog\Model\Layer\Filter\Price */
         $filter = Bootstrap::getObjectManager()
             ->create(

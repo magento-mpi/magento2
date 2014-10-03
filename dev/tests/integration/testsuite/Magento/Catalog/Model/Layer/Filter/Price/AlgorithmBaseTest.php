@@ -54,9 +54,9 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $objectManager->expects($this->once())->method('create')->willReturn($interval);
         $intervalFactory = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Price\IntervalFactory', ['objectManager' => $objectManager]);
+            ->create('Magento\Framework\Search\Dynamic\IntervalFactory', ['objectManager' => $objectManager]);
         $model = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Price\Algorithm', ['intervalFactory' => $intervalFactory]);
+            ->create('Magento\Framework\Search\Dynamic\Algorithm', ['intervalFactory' => $intervalFactory]);
 
         $layer->setCurrentCategory($categoryId);
         $collection = $layer->getProductCollection();

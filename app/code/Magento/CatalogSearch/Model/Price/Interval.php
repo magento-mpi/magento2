@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogSearch\Model\Price;
 
-use Magento\Framework\Search\Price\IntervalInterface;
+use Magento\Framework\Search\Dynamic\IntervalInterface;
 
 class Interval implements IntervalInterface
 {
@@ -27,27 +27,27 @@ class Interval implements IntervalInterface
     /**
      * {@inheritdoc}
      */
-    public function load($limit, $offset = null, $lowerPrice = null, $upperPrice = null)
+    public function load($limit, $offset = null, $lower = null, $upper = null)
     {
-        $prices = $this->resource->loadPrices($limit, $offset, $lowerPrice, $upperPrice);
+        $prices = $this->resource->loadPrices($limit, $offset, $lower, $upper);
         return $this->arrayValuesToFloat($prices);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function loadPrevious($price, $index, $lowerPrice = null)
+    public function loadPrevious($data, $index, $lower = null)
     {
-        $prices = $this->resource->loadPreviousPrices($price, $index, $lowerPrice);
+        $prices = $this->resource->loadPreviousPrices($data, $index, $lower);
         return $this->arrayValuesToFloat($prices);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function loadNext($price, $rightIndex, $upperPrice = null)
+    public function loadNext($data, $rightIndex, $upper = null)
     {
-        $prices = $this->resource->loadNextPrices($price, $rightIndex, $upperPrice);
+        $prices = $this->resource->loadNextPrices($data, $rightIndex, $upper);
         return $this->arrayValuesToFloat($prices);
     }
 

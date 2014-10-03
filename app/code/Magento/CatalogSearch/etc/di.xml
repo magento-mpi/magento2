@@ -72,7 +72,7 @@
     <type name="Magento\Framework\Search\Request\Config\FilesystemReader">
         <plugin name="catalogSearchDynamicFields"  type="Magento\CatalogSearch\Model\Search\ReaderPlugin" />
     </type>
-    <type name="Magento\Framework\Search\Price\IntervalFactory">
+    <type name="Magento\Framework\Search\Dynamic\IntervalFactory">
         <arguments>
             <argument name="configPath" xsi:type="string">catalog/search/engine</argument>
             <argument name="intervals" xsi:type="array">
