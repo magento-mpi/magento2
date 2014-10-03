@@ -90,7 +90,7 @@
         }
     }
     .product.actions {
-        margin-top: @indent-s-base;
+        text-align: right;
         > .primary,
         > .secondary {
             display: inline;
@@ -185,6 +185,25 @@
             content: ":";
         }
     }
+    .action {
+         &.edit,
+         &.delete {
+             .icon-font(
+                 @icon-settings,
+                 @_icon-font-size: 28px,
+                 @_icon-font-line-height: 28px,
+                 @_icon-font-text-hide: true,
+                 @_icon-font-color: #303030,
+                 @_icon-font-color-hover: #303030,
+                 @_icon-font-color-active: #303030
+             );
+         }
+         &.delete {
+             .icon-font-symbol(
+                 @_icon-font-content: @icon-trash
+             );
+         }
+    }
 }
 
 //
@@ -206,11 +225,5 @@
             right: -15px;
             width: 390px;
         }
-    }
-    .minilist .action.delete,
-    .minicart-wrapper .action.edit {
-        .icon-font-size(
-            @_icon-font-size: 16px
-        );
     }
 }
