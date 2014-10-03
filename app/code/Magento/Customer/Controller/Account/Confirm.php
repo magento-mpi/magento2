@@ -19,6 +19,11 @@ use Magento\Framework\Exception\StateException;
 use Magento\Customer\Helper\Data as CustomerData;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * Class Confirm
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Confirm extends \Magento\Customer\Controller\Account
 {
     /** @var ScopeConfigInterface */
