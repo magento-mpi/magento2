@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogRule\Model\Indexer\Product;
 
-use Magento\CatalogRule\Model\Indexer\Product\IndexProcessor;
+use Magento\CatalogRule\Model\Indexer\Product\ProductProcessor;
 use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionFactory;
 use Magento\CatalogRule\Model\Rule as ModelRule;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
@@ -26,7 +26,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
     protected $ruleCollectionFactory;
 
     /**
-     * @var IndexProcessor
+     * @var ProductProcessor
      */
     protected $indexer;
 
@@ -85,7 +85,10 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\App\Resource $resource
-     * @param IndexProcessor $indexer
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param ProductProcessor $indexer
      */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
@@ -98,7 +101,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        IndexProcessor $indexer
+        ProductProcessor $indexer
     ) {
         $this->ruleCollectionFactory = $ruleCollectionFactory;
         $this->indexer = $indexer;
@@ -510,7 +513,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
      * @param int|null $productId
      * @return $this
      */
-    public function deleteOldData($date, $productId = null)
+    protected function deleteOldData($date, $productId = null)
     {
         $write = $this->getWriteAdapter();
         $conds = array();

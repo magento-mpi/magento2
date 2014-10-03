@@ -10,7 +10,7 @@ namespace Magento\CatalogRule\Model\Indexer\Product;
 use Magento\CatalogRule\Model\Indexer\Product\Action;
 use Magento\Indexer\Model\Indexer\AbstractProcessor;
 
-class IndexProcessor extends AbstractProcessor
+class ProductProcessor extends AbstractProcessor
 {
     /**
      * Indexer id

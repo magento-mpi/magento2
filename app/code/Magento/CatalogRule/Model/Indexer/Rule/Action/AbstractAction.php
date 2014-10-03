@@ -7,7 +7,17 @@
  */
 namespace Magento\CatalogRule\Model\Indexer\Rule\Action;
 
+use Magento\CatalogRule\Model\Indexer\Product\ObjectWhichWorkWithCatalogRulesAndIndexer;
+
 class AbstractAction
 {
+    /**
+     * @var \Magento\CatalogRule\Model\Indexer\Product\ObjectWhichWorkWithCatalogRulesAndIndexer
+     */
+    protected $objectWhichWorkCatalogRulesAndIndexers;
 
+    public function __construct(ObjectWhichWorkWithCatalogRulesAndIndexer $objectWhichWorkCatalogRulesAndIndexers)
+    {
+        $this->objectWhichWorkCatalogRulesAndIndexers = $objectWhichWorkCatalogRulesAndIndexers;
+    }
 }

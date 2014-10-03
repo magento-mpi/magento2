@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogRule\Model\Indexer\Rule\Action;
 
+use Magento\CatalogRule\CatalogRuleException;
+
 class Full extends AbstractAction
 {
     /**

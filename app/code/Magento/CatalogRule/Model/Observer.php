@@ -130,7 +130,9 @@ class Observer
         BackendModelSession $backendSession,
         Registry $coreRegistry,
         DateTime $dateTime,
-        ManagerInterface $messageManager
+        ManagerInterface $messageManager,
+        \Magento\CatalogRule\Model\Indexer\Product\ProductProcessor $productProcessor,
+        \Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor $ruleProcessor
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
@@ -145,6 +147,8 @@ class Observer
         $this->_coreRegistry = $coreRegistry;
         $this->dateTime = $dateTime;
         $this->messageManager = $messageManager;
+        $this->productProcessor = $productProcessor;
+        $this->ruleProcessor = $ruleProcessor;
     }
 
     /**
@@ -156,8 +160,8 @@ class Observer
     public function applyAllRulesOnProduct($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product->getIsMassupdate()) {
-            return;
+        if ($product->getIsMassupdate() || $this->productProcessor->getIndexer()->isScheduled()) {
+            return $this;
         }
 
         $productWebsiteIds = $product->getWebsiteIds();
@@ -165,6 +169,7 @@ class Observer
         $rules = $this->_ruleCollectionFactory->create()->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
+            /** @var \Magento\CatalogRule\Model\Rule $rule */
             $websiteIds = array_intersect($productWebsiteIds, $rule->getWebsiteIds());
             $rule->applyToProduct($product, $websiteIds);
         }
@@ -181,6 +186,9 @@ class Observer
      */
     public function applyAllRules($observer)
     {
+        if ($this->ruleProcessor->getIndexer()->isScheduled()) {
+            return $this;
+        }
         $this->_resourceRule->applyAllRulesForDateRange($this->dateTime->formatDate(mktime(0, 0, 0)));
         $this->_flagFactory->create()->loadSelf()->setState(0)->save();
 
@@ -198,6 +206,9 @@ class Observer
      */
     public function processApplyAll(EventObserver $observer)
     {
+        if ($this->ruleProcessor->getIndexer()->isScheduled()) {
+            return $this;
+        }
         $this->_ruleFactory->create()->applyAll();
         $this->_flagFactory->create()->loadSelf()->setState(0)->save();
         return $this;

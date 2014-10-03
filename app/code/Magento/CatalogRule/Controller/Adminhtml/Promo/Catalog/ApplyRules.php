@@ -22,16 +22,11 @@ class ApplyRules extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
     {
         $errorMessage = __('Unable to apply rules.');
         try {
-            /** @var Job $ruleJob */
-            $ruleJob = $this->_objectManager->get('Magento\CatalogRule\Model\Rule\Job');
-            $ruleJob->applyAll();
-
-            if ($ruleJob->hasSuccess()) {
-                $this->messageManager->addSuccess($ruleJob->getSuccess());
-                $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()->setState(0)->save();
-            } elseif ($ruleJob->hasError()) {
-                $this->messageManager->addError($errorMessage . ' ' . $ruleJob->getError());
-            }
+            /** @var \Magento\CatalogRule\Model\Indexer\Product\RuleProcessor $ruleProcessor */
+            $ruleProcessor = $this->_objectManager->get('Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor');
+            $ruleProcessor->markIndexerAsInvalid();
+            $this->messageManager->addSuccess(__('The rules will be applied in background'));
+            $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()->setState(0)->save();
         } catch (\Exception $e) {
             $this->messageManager->addError($errorMessage);
         }

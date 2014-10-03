@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogRule\Model\Indexer\Product;
+namespace Magento\CatalogRule\Model\Indexer\Rule;
 
 use Magento\CatalogRule\Model\Indexer\Product\Action;
 use Magento\Indexer\Model\Indexer\AbstractProcessor;
