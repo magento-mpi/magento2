@@ -214,7 +214,7 @@
   <xs:complexType name="dynamicBucket">
     <xs:complexContent>
       <xs:extension base="bucket">
-        <xs:attribute type="xs:string" name="type" use="required" />
+        <xs:attribute type="xs:string" name="method" use="required" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
