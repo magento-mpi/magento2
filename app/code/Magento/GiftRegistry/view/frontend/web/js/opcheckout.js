@@ -33,9 +33,11 @@ define([
             $('.choice', this.options.billing.form).last()
                 .after($(this.options.giftRegistry.radioTemplateSelector).tmpl());
             var shippingCheckbox = $(this.options.giftRegistry.checkboxTemplateSelector).tmpl();
-            shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
-            $('.choice', this.options.shipping.form).last()
-                .after(shippingCheckbox);
+            if(shippingCheckbox.length) {
+                shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
+                $('.choice', this.options.shipping.form).last()
+                    .after(shippingCheckbox);
+            }
         },
 
         /**
