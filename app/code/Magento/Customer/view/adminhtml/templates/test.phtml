@@ -224,10 +224,6 @@
                             {
                                 "name": "col_options",
                                 "label": "Custom Options"
-                            },
-                            {
-                                "name": "auto_settings",
-                                "label": "Autosettings"
                             }
                         ]
                     }
@@ -241,7 +237,19 @@
                         ]
                     },
                     "customer_addresses": {
-                        "injections": []
+                        "injections": [
+                            "customer_form_fieldsets.customer_addresses"
+                        ]
+                    },
+                    "prod_details": {
+                        "injections": [
+                            "customer_form_fieldsets.prod_details"
+                        ]
+                    },
+                    "col_options": {
+                        "injections": [
+                            "customer_form_fieldsets.col_options"
+                        ]
                     }
                 }
             },
@@ -360,7 +368,6 @@
                     },
                     "customer_addresses": {
                         "label": "Customer Addresses",
-                        "collapsible": true,
                         "injections": [
                             "customer_form_groups.firstname",
                             "customer_form_groups.middle_name",
@@ -369,6 +376,27 @@
                             "customer_form_groups.email",
                             "customer_form_groups.taxvat",
                             "customer_form_groups.gender"
+                        ]
+                    },
+                    "prod_details": {
+                        "label": "Product Details",
+                        "collapsible": true,
+                        "injections": [
+                            "customer_form_groups.firstname",
+                            "customer_form_groups.email",
+                            "customer_form_groups.taxvat",
+                            "customer_form_groups.gender",
+                            "customer_form_groups.currencies",
+                            "customer_form_groups.comments",
+                            "customer_form_groups.created"
+                        ]
+                    },
+                    "col_options": {
+                        "label": "Custom Options",
+                        "injections": [
+                            "customer_form_groups.taxvat",
+                            "customer_form_groups.gender",
+                            "customer_form_groups.currencies"
                         ]
                     }
                 }
