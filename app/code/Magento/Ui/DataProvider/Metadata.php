@@ -9,7 +9,6 @@
 namespace Magento\Ui\DataProvider;
 
 use Magento\Ui\DataProvider\Config\Data as Config;
-use Magento\Eav\Model\Resource\Entity\Attribute\Collection as AttributeCollection;
 use Magento\Framework\ObjectManager;
 /**
  * Class Metadata
@@ -23,7 +22,6 @@ class Metadata implements \Iterator, \ArrayAccess
 
     protected $metadata = [];
 
-    protected $attributeCollection;
 
     protected $attributes = [];
 
@@ -34,14 +32,12 @@ class Metadata implements \Iterator, \ArrayAccess
 
     public function __construct(
         $config,
-        AttributeCollection $attributeCollection,
         ObjectManager $objectManager
 
     ) {
 
         $this->config = $config['fields'];
         $this->dataSet = $objectManager->get($config['dataset']);
-        $this->attributeCollection = $attributeCollection;
         $this->initAttributes();
 
     }
@@ -59,10 +55,31 @@ class Metadata implements \Iterator, \ArrayAccess
     protected function initAttributes()
     {
         if (empty($this->attributes)) {
-            $this->attributeCollection->addFieldToFilter('entity_type_id', $this->dataSet->getEntity()->getTypeId());
-            foreach ($this->attributeCollection as $item) {
-                $this->attributes[$item->getAttributeCode()] = $item->getData();
+
+            foreach ($this->config as $field) {
+                if ($field['datatype'] == 'eav') {
+                    $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
+                    $this->attributes[$field['name']] = $attribute->getData();
+
+                    $options = [];
+                    if ($attribute->usesSource()) {
+                        $options = $attribute->getSource()->getAllOptions();
+                    }
+                    $this->attributes[$field['name']]['options'] = $options;
+                    $this->attributes[$field['name']]['validation_rules'] = $attribute->getValidateRules();
+                    $this->attributes[$field['name']]['store_label'] = $attribute->getStoreLabel();
+                    $this->attributes[$field['name']]['required'] = $attribute->getRequired();
+                    $this->attributes[$field['name']]['system'] = $attribute->getSystem();
+                    $this->attributes[$field['name']]['user_defined'] = $attribute->getUserDefined();
+
+                }
+
+
             }
+//            $this->attributeCollection->addFieldToFilter('entity_type_id', $this->dataSet->getEntity()->getTypeId());
+//            foreach ($this->attributeCollection as $item) {
+//                $this->attributes[$item->getAttributeCode()] = $item->getData();
+//            }
         }
     }
 
@@ -78,12 +95,25 @@ class Metadata implements \Iterator, \ArrayAccess
             'name' => $this->key(),
         ];
         $attributeCodes = [
+            'options',
+            'validation_rules',
+            'attribute_code',
             'frontend_input',
+            'input_filter',
+            'store_label',
             'visible',
+            'required',
+            'multiline_count',
+            'data_model',
             'frontend_class',
             'frontend_label',
-            'backend_type'
+            'note',
+            'system',
+            'user_defined',
+            'backend_type',
+            'sort_order'
         ];
+
         foreach ($attributeCodes as $code) {
             if (isset($this->config[$this->key()][$code])) {
                 $this->metadata[$this->key()][$code] = $this->config[$this->key()][$code];

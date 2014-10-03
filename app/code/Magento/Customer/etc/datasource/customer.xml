@@ -4,9 +4,9 @@
             dataset="Magento\Customer\Model\Resource\Customer\Collection"
     >
         <fields>
-            <field name="entity_id" datatype="int" visible="false"/>
-            <field name="entity_type_id" datatype="smallint" visible="false"/>
-            <field name="email" datatype="string" visible="true"/>
+            <field name="entity_id" datatype="text" visible="true"/>
+            <field name="entity_type_id" datatype="text" visible="true"/>
+            <field name="email" datatype="eav" visible="true"/>
             <field name="attribute_set_id" datatype="smallint" visible="false"/>
             <field name="customer_group_id" datatype="int" visible="false"/>
             <field name="website_id" datatype="int" visible="false"/>

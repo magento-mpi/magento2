@@ -66,8 +66,8 @@ class CustomerAddressCollection implements DataProviderCollectionInterface
      */
     public function getData()
     {
-        $this->loadByField($this->getArguments(self::CONFIG_KEY));
-        return $this->customer->getData();
+//        $this->loadByField($this->getArguments(self::CONFIG_KEY));
+        return [];
     }
 
     /**
@@ -75,9 +75,9 @@ class CustomerAddressCollection implements DataProviderCollectionInterface
      */
     public function loadByField($field)
     {
-        $params = $this->getArguments('params');
-        $fieldValue = isset($params[$field]) ? $params[$field] : null;
-        $this->customer->load($fieldValue);
+//        $params = $this->getArguments('params');
+//        $fieldValue = isset($params[$field]) ? $params[$field] : null;
+//        $this->customer->load($fieldValue);
     }
 
         /**
