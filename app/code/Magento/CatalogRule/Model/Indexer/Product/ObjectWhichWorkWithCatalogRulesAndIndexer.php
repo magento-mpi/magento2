@@ -149,10 +149,13 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
 
         $collectedData = [];
         foreach ($rules as $rule) {
-            // TODO: only array_intersect($product->getWebsiteIds(), $rule->getWebsiteIds())
-            $collectedData[] = $rule->getId();
+            foreach ($ids as $productId) {
+                if (empty($collectedData[$productId])) {
+                    $collectedData[$productId] = $this->productFactory->create()->load($productId);
+                }
+                $this->applyToProduct($rule, $collectedData[$productId]);
+            }
         }
-        $this->indexer->reindexList($collectedData);
     }
 
     /**
@@ -684,5 +687,79 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         }
 
         return $productIds;
+    }
+
+    protected function applyToProduct(ModelRule $rule, $product)
+    {
+        if (!$rule->getIsActive()) {
+            return $this;
+        }
+
+        $ruleId = $rule->getId();
+        $productId = $product->getId();
+        $websiteIds = array_intersect($product->getWebsiteIds(), $rule->getWebsiteIds());
+
+        $write = $this->getWriteAdapter();
+
+        $write->delete(
+            $this->resource->getTableName('catalogrule_product'),
+            array($write->quoteInto('rule_id=?', $ruleId), $write->quoteInto('product_id=?', $productId))
+        );
+
+        if (!$rule->getConditions()->validate($product)) {
+            $write->delete(
+                $this->resource->getTableName('catalogrule_product_price'),
+                array($write->quoteInto('product_id=?', $productId))
+            );
+            return $this;
+        }
+
+        $customerGroupIds = $rule->getCustomerGroupIds();
+        $fromTime = strtotime($rule->getFromDate());
+        $toTime = strtotime($rule->getToDate());
+        $toTime = $toTime ? $toTime + self::SECONDS_IN_DAY - 1 : 0;
+        $sortOrder = (int)$rule->getSortOrder();
+        $actionOperator = $rule->getSimpleAction();
+        $actionAmount = $rule->getDiscountAmount();
+        $actionStop = $rule->getStopRulesProcessing();
+        $subActionOperator = $rule->getSubIsEnable() ? $rule->getSubSimpleAction() : '';
+        $subActionAmount = $rule->getSubDiscountAmount();
+
+        $rows = array();
+        try {
+            foreach ($websiteIds as $websiteId) {
+                foreach ($customerGroupIds as $customerGroupId) {
+                    $rows[] = array(
+                        'rule_id' => $ruleId,
+                        'from_time' => $fromTime,
+                        'to_time' => $toTime,
+                        'website_id' => $websiteId,
+                        'customer_group_id' => $customerGroupId,
+                        'product_id' => $productId,
+                        'action_operator' => $actionOperator,
+                        'action_amount' => $actionAmount,
+                        'action_stop' => $actionStop,
+                        'sort_order' => $sortOrder,
+                        'sub_simple_action' => $subActionOperator,
+                        'sub_discount_amount' => $subActionAmount
+                    );
+
+                    if (count($rows) == 1000) {
+                        $write->insertMultiple($this->resource->getTableName('catalogrule_product'), $rows);
+                        $rows = array();
+                    }
+                }
+            }
+
+            if (!empty($rows)) {
+                $write->insertMultiple($this->resource->getTableName('catalogrule_product'), $rows);
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        $this->applyAllRulesForDateRange(null, null, $product);
+
+        return $this;
     }
 }

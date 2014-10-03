@@ -163,16 +163,7 @@ class Observer
         if ($product->getIsMassupdate() || $this->productProcessor->getIndexer()->isScheduled()) {
             return $this;
         }
-
-        $productWebsiteIds = $product->getWebsiteIds();
-
-        $rules = $this->_ruleCollectionFactory->create()->addFieldToFilter('is_active', 1);
-
-        foreach ($rules as $rule) {
-            /** @var \Magento\CatalogRule\Model\Rule $rule */
-            $websiteIds = array_intersect($productWebsiteIds, $rule->getWebsiteIds());
-            $rule->applyToProduct($product, $websiteIds);
-        }
+        $this->productProcessor->reindexRow($product->getId());
 
         return $this;
     }
