@@ -71,11 +71,9 @@ class Converter implements ConverterInterface
             ];
             $fields = [];
             foreach ($fieldset['fields']['field'] as $field) {
-                $fields[$field['@attributes']['name']] = [
-                    'name' => $field['@attributes']['name'],
-                    'datatype' => $field['@attributes']['datatype'],
-                    'visible' => $field['@attributes']['visible'],
-                ];
+                foreach ($field['@attributes'] as $key => $value) {
+                    $fields[$field['@attributes']['name']][$key] = $value;
+                }
                 if ($field['@attributes']['datatype'] == 'lookup') {
                     $fields[$field['@attributes']['name']]['reference'] =  [
                         'target' => $field['reference']['@attributes']['target'],

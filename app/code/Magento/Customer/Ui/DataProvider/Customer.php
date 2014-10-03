@@ -10,6 +10,7 @@ namespace Magento\Customer\Ui\DataProvider;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Ui\DataProvider\DataProviderEntityInterface;
 use Magento\Customer\Model\Customer as CustomerObject;
+use Magento\Ui\DataProvider\Manager;
 
 /**
  * Class Customer
@@ -35,6 +36,7 @@ class Customer implements DataProviderEntityInterface
      */
     protected $arguments;
 
+    protected $manager;
     /**
      * Constructor
      *
@@ -45,11 +47,13 @@ class Customer implements DataProviderEntityInterface
     public function __construct(
         CustomerMetadataServiceInterface $customerMeta,
         CustomerObject $customer,
+        Manager $manager,
         array $arguments = []
     ) {
         $this->customerMeta = $customerMeta;
         $this->customer = $customer;
         $this->arguments = $arguments;
+        $this->manager = $manager;
     }
 
     /**
@@ -59,11 +63,12 @@ class Customer implements DataProviderEntityInterface
      */
     public function getMeta()
     {
-        $metaResult = [];
-        foreach ($this->customerMeta->getAttributes('adminhtml_customer') as $name => $dataObject) {
-            $metaResult[$name] = $dataObject->__toArray();
-        }
+//        $metaResult = [];
+//        foreach ($this->customerMeta->getAttributes('adminhtml_customer') as $name => $dataObject) {
+//            $metaResult[$name] = $dataObject->__toArray();
+//        }
 
+        $metaResult = $this->manager->getMetadata('customer');
         return $metaResult;
     }
 
@@ -74,8 +79,10 @@ class Customer implements DataProviderEntityInterface
      */
     public function getData()
     {
-        $this->loadByField($this->getArguments(self::CONFIG_KEY));
-        return $this->customer->getData();
+        $params = $this->getArguments('params');
+        $fieldValue = isset($params['id']) ? $params['id'] : null;
+        $data = $this->manager->getData('customer', ['entity_id' => ['eq' => $fieldValue]]);
+        return end($data);
     }
 
     /**
