@@ -9,8 +9,10 @@ namespace Magento\Framework\View\Layout\Generator;
 
 use Magento\Framework\View\Layout;
 
-class Block
+class Block implements Layout\GeneratorInterface
 {
+    const TYPE = 'block';
+
     /**
      * @var \Magento\Framework\View\Element\BlockFactory
      */
@@ -27,26 +29,9 @@ class Block
     protected $logger;
 
     /**
-     * @var \Magento\Framework\Event\ManagerInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
-    protected $eventManager;
-
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $scopeConfig;
-
-    /**
-     * @var \Magento\Framework\App\ScopeResolverInterface
-     */
-    protected $scopeResolver;
-
-    /**
-     * @var string|null
-     */
-    protected $scopeType;
-
-    protected $_blocks = [];
+    protected $layout;
 
     /**
      * Constructor
@@ -54,136 +39,103 @@ class Block
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param null $scopeType
+     * @param \Magento\Framework\View\LayoutInterface\Proxy $layout
      */
     public function __construct(
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        $scopeType = null
+        \Magento\Framework\View\LayoutInterface\Proxy $layout
     ) {
         $this->blockFactory = $blockFactory;
         $this->argumentInterpreter = $argumentInterpreter;
         $this->logger = $logger;
-        $this->eventManager = $eventManager;
-        $this->scopeConfig = $scopeConfig;
-        $this->scopeResolver = $scopeResolver;
-        $this->scopeType = $scopeType;
+        // has to be not injected as shared object
+        $this->layout = $layout;
     }
 
     /**
-     * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
-     * @param string $elementName
-     * @return $this
+     * {@inheritdoc}
+     *
+     * @return string
      */
-    public function generate(Layout\Reader\Context $readerContext, $elementName)
+    public function getType()
     {
-        $this->_generateBlock($readerContext->getScheduledStructure(), $readerContext->getStructure(), $elementName);
-        return $this;
+        return self::TYPE;
     }
 
     /**
      * Creates block object based on xml node data and add it to the layout
      *
-     * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Framework\Data\Structure $structure
+     * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
      * @param string $elementName
-     * @throws \Magento\Framework\Exception
-     * @return \Magento\Framework\View\Element\AbstractBlock|void
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @return $this
      */
-    protected function _generateBlock(
-        Layout\ScheduledStructure $scheduledStructure,
-        \Magento\Framework\Data\Structure $structure,
-        $elementName
-    ) {
-        /** @var $node Layout\Element */
-        list($type, $node, $actions, $args) = $scheduledStructure->getElement($elementName);
-        if ($type !== Layout\Element::TYPE_BLOCK) {
-            throw new \Magento\Framework\Exception("Unexpected element type specified for generating block: {$type}.");
-        }
+    public function process(Layout\Reader\Context $readerContext, $elementName, $layout = null)
+    {
+        $scheduledStructure = $readerContext->getScheduledStructure();
+        $structure = $readerContext->getStructure();
 
-        $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath)
-            && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
-        ) {
-            $scheduledStructure->unsetElement($elementName);
-            return;
-        }
+        $row = $scheduledStructure->getElement($elementName);
+        list(, $data) = $row;
+        $attributes = $data['attributes'];
 
-        $group = (string)$node->getAttribute('group');
-        if (!empty($group)) {
-            $structure->addToParentGroup($elementName, $group);
+        if (!empty($attributes['group'])) {
+            $structure->addToParentGroup($elementName, $attributes['group']);
         }
 
         // create block
-        $className = (string)$node['class'];
-
-        $arguments = $this->_evaluateArguments($args);
-
-        $block = $this->_createBlock($className, $elementName, array('data' => $arguments));
-
-        if (!empty($node['template'])) {
-            $templateFileName = (string)$node['template'];
-            $block->setTemplate($templateFileName);
+        $className = $attributes['class'];
+        $block = $this->createBlock($className, $elementName, [
+            'data' => $this->_evaluateArguments($data['arguments'])
+        ]);
+        if (!empty($attributes['template'])) {
+            $block->setTemplate($attributes['template']);
         }
-
-        if (!empty($node['ttl'])) {
-            $ttl = (int)$node['ttl'];
+        if (!empty($attributes['ttl'])) {
+            $ttl = (int)$attributes['ttl'];
             $block->setTtl($ttl);
         }
-
-        $scheduledStructure->unsetElement($elementName);
-
+        $layout->setBlock($elementName, $block);
         // execute block methods
-        foreach ($actions as $action) {
+        foreach ($data['actions'] as $action) {
             list($methodName, $actionArguments) = $action;
             $this->_generateAction($block, $methodName, $actionArguments);
         }
-
         return $block;
     }
 
     /**
-     * Create block and add to layout
+     * Create block instance
      *
      * @param string|\Magento\Framework\View\Element\AbstractBlock $block
      * @param string $name
-     * @param array $attributes
+     * @param array $arguments
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    protected function _createBlock($block, $name, array $attributes = array())
+    public function createBlock($block, $name, array $arguments = [])
     {
-        $block = $this->_getBlockInstance($block, $attributes);
-
+        $block = $this->_getBlockInstance($block, $arguments);
         $block->setType(get_class($block));
         $block->setNameInLayout($name);
-        $block->addData(isset($attributes['data']) ? $attributes['data'] : array());
-        $block->setLayout($this);
-
-        $this->_blocks[$name] = $block;
-        $this->eventManager->dispatch('core_layout_block_create_after', array('block' => $block));
-        return $this->_blocks[$name];
+        $block->addData(isset($arguments['data']) ? $arguments['data'] : []);
+        return $block;
     }
 
     /**
      * Create block object instance based on block type
      *
      * @param string|\Magento\Framework\View\Element\AbstractBlock $block
-     * @param array $attributes
+     * @param array $arguments
      * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    protected function _getBlockInstance($block, array $attributes = array())
+    protected function _getBlockInstance($block, array $arguments = [])
     {
         if ($block && is_string($block)) {
             try {
-                $block = $this->blockFactory->createBlock($block, $attributes);
+                $block = $this->blockFactory->createBlock($block, $arguments);
             } catch (\ReflectionException $e) {
                 $this->logger->log($e->getMessage());
             }

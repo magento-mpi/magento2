@@ -9,7 +9,7 @@ namespace Magento\Framework\View\Layout\Generator;
 
 use Magento\Framework\View\Layout;
 
-class Container
+class Container implements Layout\GeneratorInterface
 {
     /**#@+
      * Names of container options in layout
@@ -20,19 +20,31 @@ class Container
     const CONTAINER_OPT_LABEL = 'label';
     /**#@-*/
 
+    const TYPE = 'container';
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE;
+    }
+
     /**
      * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
      * @param string $elementName
-     * @return $this
+     * @param null $layout
+     * @return void
      */
-    public function generate(Layout\Reader\Context $readerContext, $elementName)
+    public function process(Layout\Reader\Context $readerContext, $elementName, $layout = null)
     {
         $this->_generateContainer(
             $readerContext->getScheduledStructure(),
             $readerContext->getStructure(),
             $elementName
         );
-        return $this;
     }
 
     /**
@@ -49,10 +61,10 @@ class Container
         \Magento\Framework\Data\Structure $structure,
         $elementName
     ) {
-        list($type, $node, $actions, $args, $options) = $scheduledStructure->getElement($elementName);
-        $label = (string)$node[self::CONTAINER_OPT_LABEL];
-        $structure->setAttribute($elementName, self::CONTAINER_OPT_LABEL, $label);
-        unset($options[self::CONTAINER_OPT_LABEL]);
+        list(, $data) = $scheduledStructure->getElement($elementName);
+        $options = $data['attributes'];
+        $structure->setAttribute($elementName, Layout\Element::CONTAINER_OPT_LABEL, $options[Layout\Element::CONTAINER_OPT_LABEL]);
+        unset($options[Layout\Element::CONTAINER_OPT_LABEL]);
         unset($options['type']);
         $allowedTags = array(
             'dd',
@@ -69,21 +81,22 @@ class Container
             'tfoot',
             'ul'
         );
-        if (!empty($options[self::CONTAINER_OPT_HTML_TAG]) && !in_array(
-                $options[self::CONTAINER_OPT_HTML_TAG],
+        if (!empty($options[Layout\Element::CONTAINER_OPT_HTML_TAG]) && !in_array(
+                $options[Layout\Element::CONTAINER_OPT_HTML_TAG],
                 $allowedTags
             )
         ) {
             throw new \Magento\Framework\Exception(
                 __(
                     'Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
-                    $options[self::CONTAINER_OPT_HTML_TAG],
+                    $options[Layout\Element::CONTAINER_OPT_HTML_TAG],
                     implode(', ', $allowedTags)
                 )
             );
         }
-        if (empty($options[self::CONTAINER_OPT_HTML_TAG]) && (!empty($options[self::CONTAINER_OPT_HTML_ID]) ||
-                !empty($options[self::CONTAINER_OPT_HTML_CLASS]))
+        if (empty($options[Layout\Element::CONTAINER_OPT_HTML_TAG])
+            && (!empty($options[Layout\Element::CONTAINER_OPT_HTML_ID])
+                || !empty($options[Layout\Element::CONTAINER_OPT_HTML_CLASS]))
         ) {
             throw new \Magento\Framework\Exception(
                 'HTML ID or class will not have effect, if HTML tag is not specified.'

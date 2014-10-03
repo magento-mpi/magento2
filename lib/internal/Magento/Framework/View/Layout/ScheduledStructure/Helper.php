@@ -15,7 +15,7 @@ class Helper
     /**#@+
      * Scheduled structure array indexes
      */
-    const SCHEDULED_STRUCTURE_INDEX_NAME = 0;
+    const SCHEDULED_STRUCTURE_INDEX_TYPE = 0;
     const SCHEDULED_STRUCTURE_INDEX_ALIAS = 1;
     const SCHEDULED_STRUCTURE_INDEX_PARENT_NAME = 2;
     const SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME = 3;
@@ -83,7 +83,7 @@ class Helper
 
         // Prepare scheduled element with default parameters [type, alias, parentName, siblingName, isAfter, node]
         $row = [
-            self::SCHEDULED_STRUCTURE_INDEX_NAME           => $currentNode->getName(),
+            self::SCHEDULED_STRUCTURE_INDEX_TYPE           => $currentNode->getName(),
             self::SCHEDULED_STRUCTURE_INDEX_ALIAS          => '',
             self::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME    => '',
             self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME   => null,
@@ -183,7 +183,7 @@ class Helper
     ) {
         $row = $scheduledStructure->getStructureElement($key);
         // if we have reference container to not existed element
-        if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_NAME])) {
+        if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_TYPE])) {
             $this->logger->log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
             $scheduledStructure->unsetPathElement($key);
             $scheduledStructure->unsetStructureElement($key);
@@ -223,7 +223,7 @@ class Helper
             if ($scheduledStructure->hasStructureElement($siblingName)) {
                 $this->scheduleElement($scheduledStructure, $structure, $siblingName);
             }
-            $this->reorderChild($parentName, $name, $siblingName, $isAfter);
+            $this->reorderChild($structure, $parentName, $name, $siblingName, $isAfter);
         }
     }
 

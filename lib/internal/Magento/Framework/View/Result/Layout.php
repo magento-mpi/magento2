@@ -35,7 +35,7 @@ class Layout extends View\Element\Template
     /**
      * @var \Magento\Framework\View\LayoutInterface
      */
-    protected $layout;
+    protected $_layout;
 
     /**
      * @var \Magento\Framework\Translate\InlineInterface
@@ -57,7 +57,7 @@ class Layout extends View\Element\Template
         array $data = array()
     ) {
         $this->layoutFactory = $layoutFactory;
-        $this->layout = $this->layoutFactory->create();
+        $this->_layout = $context->getLayout();
         $this->translateInline = $translateInline;
         parent::__construct($context, $data);
     }

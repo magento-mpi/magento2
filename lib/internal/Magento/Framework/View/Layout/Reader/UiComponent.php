@@ -8,7 +8,6 @@
 namespace Magento\Framework\View\Layout\Reader;
 
 use Magento\Framework\View\Layout;
-use Magento\Framework\View\Element\UiComponentFactory;
 
 class UiComponent implements Layout\ReaderInterface
 {
@@ -24,22 +23,14 @@ class UiComponent implements Layout\ReaderInterface
     protected $layoutHelper;
 
     /**
-     * @var UiComponentFactory
-     */
-    protected $uiComponentFactory;
-
-    /**
      * Construct
      *
      * @param Layout\ScheduledStructure\Helper $helper
-     * @param UiComponentFactory $uiComponentFactory
      */
     public function __construct(
-        Layout\ScheduledStructure\Helper $helper,
-        UiComponentFactory $uiComponentFactory
+        Layout\ScheduledStructure\Helper $helper
     ) {
         $this->layoutHelper = $helper;
-        $this->uiComponentFactory = $uiComponentFactory;
     }
 
     /**

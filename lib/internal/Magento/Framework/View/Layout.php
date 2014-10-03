@@ -23,26 +23,11 @@ use Magento\Framework\View\Layout\ScheduledStructure;
 class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Framework\View\LayoutInterface
 {
     /**
-     * Scheduled structure array index for layout element object
-     */
-    const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
-
-    /**
-     * @var \Magento\Framework\View\DesignInterface
-     */
-    protected $_design;
-
-    /**
      * Layout Update module
      *
      * @var \Magento\Framework\View\Layout\ProcessorInterface
      */
     protected $_update;
-
-    /**
-     * @var \Magento\Framework\View\Element\UiComponentFactory
-     */
-    protected $_uiComponentFactory;
 
     /**
      * @var \Magento\Framework\View\Element\BlockFactory
@@ -87,7 +72,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     /**
      * Layout structure model
      *
-     * @var \Magento\Framework\Data\Structure
+     * @var Layout\Data\Structure
      */
     protected $_structure;
 
@@ -97,16 +82,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @var int
      */
     protected $_nameIncrement = array();
-
-    /**
-     * @var \Magento\Framework\View\Layout\Argument\Parser
-     */
-    protected $argumentParser;
-
-    /**
-     * @var \Magento\Framework\Data\Argument\InterpreterInterface
-     */
-    protected $argumentInterpreter;
 
     /**
      * @var \Magento\Framework\View\Layout\ScheduledStructure
@@ -128,26 +103,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $_eventManager;
 
     /**
-     * Application configuration
-     *
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
-     * @var \Magento\Framework\Logger $logger
-     */
-    protected $_logger;
-
-    /**
      * @var \Magento\Framework\View\Layout\ProcessorFactory
      */
     protected $_processorFactory;
-
-    /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
 
     /**
      * @var \Magento\Framework\Message\ManagerInterface
@@ -160,19 +118,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $isPrivate = false;
 
     /**
-     * @var string
-     */
-    protected $scopeType;
-
-    /**
      * @var \Magento\Framework\View\Design\Theme\ResolverInterface
      */
     protected $themeResolver;
-
-    /**
-     * @var \Magento\Framework\App\ScopeResolverInterface
-     */
-    protected $scopeResolver;
 
     /**
      * @var Layout\Reader\Pool
@@ -185,11 +133,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $cacheable;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Context
-     */
-    protected $readerContext;
-
-    /**
      * @var \Magento\Framework\View\Page\Config\Generator
      */
     protected $pageConfigGenerator;
@@ -200,66 +143,56 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $pageConfigStructure;
 
     /**
+     * @var \Magento\Framework\View\Layout\GeneratorPool
+     */
+    protected $generatorPool;
+
+    /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
-     * @param \Magento\Framework\Logger $logger
+     * @param Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
-     * @param Layout\Argument\Parser $argumentParser
-     * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\State $appState
+     * @param Layout\Data\Structure $structure
+     * @param ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Design\Theme\ResolverInterface $themeResolver
-     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Layout\Reader\Pool $reader
      * @param Page\Config\Generator $pageConfigGenerator
-     * @param $scopeType
+     * @param Page\Config\Structure $pageConfigStructure
+     * @param Layout\GeneratorPool $generatorPool
      * @param bool $cacheable
      */
     public function __construct(
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
-        \Magento\Framework\View\Layout\Argument\Parser $argumentParser,
-        \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\State $appState,
+        Layout\Data\Structure $structure,
+        \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
-        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Framework\View\Layout\Reader\Pool $reader,
         \Magento\Framework\View\Page\Config\Generator $pageConfigGenerator,
-        $scopeType,
+        \Magento\Framework\View\Page\Config\Structure $pageConfigStructure,
+        \Magento\Framework\View\Layout\GeneratorPool $generatorPool,
         $cacheable = true
     ) {
-        $this->_eventManager = $eventManager;
-        $this->_scopeConfig = $scopeConfig;
-        $this->_uiComponentFactory = $uiComponentFactory;
-        $this->_uiComponentFactory->setLayout($this);
-        $this->_blockFactory = $blockFactory;
-        $this->_appState = $appState;
-        $this->_structure = new \Magento\Framework\Data\Structure;
-        $this->argumentParser = $argumentParser;
-        $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\Framework\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
+        $this->_eventManager = $eventManager;
+        $this->_blockFactory = $blockFactory;
+        $this->_structure = $structure;
         $this->_renderingOutput = new \Magento\Framework\Object;
-        $this->_scheduledStructure = new \Magento\Framework\View\Layout\ScheduledStructure;
+        $this->_scheduledStructure = $scheduledStructure;
         $this->_processorFactory = $processorFactory;
-        $this->_logger = $logger;
         $this->messageManager = $messageManager;
-        $this->scopeType = $scopeType;
         $this->themeResolver = $themeResolver;
-        $this->scopeResolver = $scopeResolver;
         $this->reader = $reader;
         $this->cacheable = $cacheable;
         $this->pageConfigGenerator = $pageConfigGenerator;
-        $this->pageConfigStructure = new \Magento\Framework\View\Page\Config\Structure;
+        $this->pageConfigStructure = $pageConfigStructure;
+        $this->generatorPool = $generatorPool;
+
         $this->readerContext = new Layout\Reader\Context(
             $this->_scheduledStructure,
             $this->_structure,
@@ -329,102 +262,16 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
         \Magento\Framework\Profiler::start('build_structure');
         $this->reader->readStructure($this->readerContext, $this->getNode());
-        $this->buildStructure();
         \Magento\Framework\Profiler::stop('build_structure');
 
         \Magento\Framework\Profiler::start('generate_elements');
         $this->pageConfigGenerator->setStructure($this->readerContext->getPageConfigStructure());
         $this->pageConfigGenerator->process();
-        while (false === $this->_scheduledStructure->isElementsEmpty()) {
-            list($type) = current($this->_scheduledStructure->getElements());
-            $elementName = key($this->_scheduledStructure->getElements());
+        $this->generatorPool->process($this->readerContext, $this);
 
-            if ($type == Element::TYPE_UI_COMPONENT) {
-                $this->_generateUiComponent($elementName);
-            } elseif ($type == Element::TYPE_BLOCK) {
-                $this->_generateBlock($elementName);
-            } elseif ($type == Element::TYPE_CONTAINER) {
-                $this->_generateContainer($elementName);
-                $this->_scheduledStructure->unsetElement($elementName);
-            } else {
-                throw new \Magento\Framework\Exception(
-                    "Unexpected element type specified for generating: {$type}."
-                );
-            }
-        }
         $this->_addToOutputRootContainers();
         \Magento\Framework\Profiler::stop('generate_elements');
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
-    }
-
-    protected function buildStructure()
-    {
-        while (false === $this->_scheduledStructure->isStructureEmpty()) {
-            $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
-        }
-        $this->_scheduledStructure->flushPaths();
-        foreach ($this->_scheduledStructure->getListToMove() as $elementToMove) {
-            $this->_moveElementInStructure($elementToMove);
-        }
-        foreach ($this->_scheduledStructure->getListToRemove() as $elementToRemove) {
-            $this->_removeElement($elementToRemove);
-        }
-    }
-
-
-    /**
-     * Compute and return argument values
-     *
-     * @param array $arguments
-     * @return array
-     */
-    protected function _evaluateArguments(array $arguments)
-    {
-        $result = array();
-        foreach ($arguments as $argumentName => $argumentData) {
-            $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
-        }
-        return $result;
-    }
-
-    /**
-     * Remove scheduled element
-     *
-     * @param string $elementName
-     * @param bool $isChild
-     * @return $this
-     */
-    protected function _removeElement($elementName, $isChild = false)
-    {
-        $elementsToRemove = array_keys($this->_structure->getChildren($elementName));
-        $this->_scheduledStructure->unsetElement($elementName);
-
-        foreach ($elementsToRemove as $element) {
-            $this->_removeElement($element, true);
-        }
-
-        if (!$isChild) {
-            $this->_structure->unsetElement($elementName);
-            $this->_scheduledStructure->unsetElementFromListToRemove($elementName);
-        }
-        return $this;
-    }
-
-    /**
-     * Move element in scheduled structure
-     *
-     * @param string $element
-     * @return $this
-     */
-    protected function _moveElementInStructure($element)
-    {
-        list($destination, $siblingName, $isAfter, $alias) = $this->_scheduledStructure->getElementToMove($element);
-        if (!$alias && false === $this->_structure->getChildId($destination, $this->getElementAlias($element))) {
-            $alias = $this->getElementAlias($element);
-        }
-        $this->_structure->unsetChild($element, $alias)->setAsChild($element, $destination, $alias);
-        $this->reorderChild($destination, $element, $siblingName, $isAfter);
-        return $this;
     }
 
     /**
@@ -440,67 +287,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             }
         }
         return $this;
-    }
-
-
-    /**
-     * Process queue of structural elements and actually add them to structure, and schedule elements for generation
-     *
-     * The catch is to populate parents first, if they are not in the structure yet.
-     * Since layout updates could come in arbitrary order, a case is possible where an element is declared in reference,
-     * while referenced element itself is not declared yet.
-     *
-     * @param string $key in _scheduledStructure represent element name
-     * @return void
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    protected function _scheduleElement($key)
-    {
-        $row = $this->_scheduledStructure->getStructureElement($key);
-        // if we have reference container to not existed element
-        if (!isset($row[0])) {
-            $this->_logger->log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
-            $this->_scheduledStructure->unsetPathElement($key);
-            $this->_scheduledStructure->unsetStructureElement($key);
-            return;
-        }
-        list($type, $alias, $parentName, $siblingName, $isAfter, $data) = $row;
-        $name = $this->_createStructuralElement($key, $type, $parentName . $alias);
-        if ($parentName) {
-            // recursively populate parent first
-            if ($this->_scheduledStructure->hasStructureElement($parentName)) {
-                $this->_scheduleElement($parentName);
-            }
-            if ($this->_structure->hasElement($parentName)) {
-                try {
-                    $this->_structure->setAsChild($name, $parentName, $alias);
-                } catch (\Exception $e) {
-                    $this->_logger->log($e->getMessage());
-                }
-            } else {
-                $this->_logger->log(
-                    "Broken reference: the '{$name}' element cannot be added as child to '{$parentName}', " .
-                    'because the latter doesn\'t exist',
-                    \Zend_Log::CRIT
-                );
-            }
-        }
-
-        // Move from scheduledStructure to scheduledElement
-        $this->_scheduledStructure->unsetStructureElement($key);
-        $this->_scheduledStructure->setElement($name, [$type, $data]);
-
-        /**
-         * Some elements provide info "after" or "before" which sibling they are supposed to go
-         * Make sure to populate these siblings as well and order them correctly
-         */
-        if ($siblingName) {
-            if ($this->_scheduledStructure->hasStructureElement($siblingName)) {
-                $this->_scheduleElement($siblingName);
-            }
-            $this->reorderChild($parentName, $name, $siblingName, $isAfter);
-        }
     }
 
     /**
@@ -548,157 +334,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
-     * Creates block object based on xml node data and add it to the layout
-     *
-     * @param string $elementName
-     * @return \Magento\Framework\View\Element\AbstractBlock|void
-     */
-    protected function _generateBlock($elementName)
-    {
-        /** @var $node Element */
-        list(, $data) = $this->_scheduledStructure->getElement($elementName);
-        $attributes = $data['attributes'];
-
-        if (!empty($attributes['group'])) {
-            $this->_structure->addToParentGroup($elementName, $attributes['group']);
-        }
-
-        // create block
-        $className = $attributes['class'];
-        $block = $this->_createBlock($className, $elementName, [
-            'data' => $this->_evaluateArguments($data['arguments'])
-        ]);
-
-        if (!empty($attributes['template'])) {
-            $block->setTemplate($attributes['template']);
-        }
-        if (!empty($attributes['ttl'])) {
-            $ttl = (int)$attributes['ttl'];
-            $block->setTtl($ttl);
-        }
-
-        $this->_scheduledStructure->unsetElement($elementName);
-
-        // execute block methods
-        foreach ($data['actions'] as $action) {
-            list($methodName, $actionArguments) = $action;
-            $this->_generateAction($block, $methodName, $actionArguments);
-        }
-
-        return $block;
-    }
-
-    /**
-     * Run action defined in layout update
-     *
-     * @param \Magento\Framework\View\Element\AbstractBlock $block
-     * @param string $methodName
-     * @param array $actionArguments
-     * @return void
-     */
-    protected function _generateAction($block, $methodName, $actionArguments)
-    {
-        $profilerKey = 'BLOCK_ACTION:' . $block->getNameInLayout() . '>' . $methodName;
-        \Magento\Framework\Profiler::start($profilerKey);
-        $args = $this->_evaluateArguments($actionArguments);
-        call_user_func_array(array($block, $methodName), $args);
-        \Magento\Framework\Profiler::stop($profilerKey);
-    }
-
-    /**
-     * Creates UI Component object based on xml node data and add it to the layout
-     *
-     * @param string $elementName
-     * @return \Magento\Framework\View\Element\AbstractBlock|void
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    protected function _generateUiComponent($elementName)
-    {
-        // TODO: Eliminate $node
-        list(, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
-        $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath)
-            && !$this->_scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
-        ) {
-            $this->_scheduledStructure->unsetElement($elementName);
-            return;
-        }
-
-        $group = (string)$node->getAttribute('group');
-        if (!empty($group)) {
-            $this->_structure->addToParentGroup($elementName, $group);
-        }
-
-        $arguments = $this->_evaluateArguments($args);
-
-        // create Ui Component Object
-        $componentName = (string)$node['component'];
-
-        $uiComponent = $this->_uiComponentFactory->createUiComponent($componentName, $elementName, $arguments);
-
-        $this->_blocks[$elementName] = $uiComponent;
-
-        $this->_scheduledStructure->unsetElement($elementName);
-
-        return $uiComponent;
-    }
-
-    /**
-     * Set container-specific data to structure element
-     *
-     * @param string $name
-     * @return void
-     * @throws \Magento\Framework\Exception If any of arguments are invalid
-     */
-    protected function _generateContainer($name)
-    {
-        list(, $data) = $this->_scheduledStructure->getElement($name);
-        $options = $data['attributes'];
-        $this->_structure->setAttribute($name, Element::CONTAINER_OPT_LABEL, $options[Element::CONTAINER_OPT_LABEL]);
-        unset($options[Element::CONTAINER_OPT_LABEL]);
-        unset($options['type']);
-        $allowedTags = array(
-            'dd',
-            'div',
-            'dl',
-            'fieldset',
-            'header',
-            'footer',
-            'hgroup',
-            'ol',
-            'p',
-            'section',
-            'table',
-            'tfoot',
-            'ul'
-        );
-        if (!empty($options[Element::CONTAINER_OPT_HTML_TAG]) && !in_array(
-            $options[Element::CONTAINER_OPT_HTML_TAG],
-            $allowedTags
-        )
-        ) {
-            throw new \Magento\Framework\Exception(
-                __(
-                    'Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
-                    $options[Element::CONTAINER_OPT_HTML_TAG],
-                    implode(', ', $allowedTags)
-                )
-            );
-        }
-        if (empty($options[Element::CONTAINER_OPT_HTML_TAG]) && (!empty($options[Element::CONTAINER_OPT_HTML_ID]) ||
-            !empty($options[Element::CONTAINER_OPT_HTML_CLASS]))
-        ) {
-            throw new \Magento\Framework\Exception(
-                'HTML ID or class will not have effect, if HTML tag is not specified.'
-            );
-        }
-        foreach ($options as $key => $value) {
-            $this->_structure->setAttribute($name, $key, $value);
-        }
-    }
-
-    /**
      * Get child block if exists
      *
      * @param string $parentName
@@ -743,51 +378,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true)
     {
-        if (is_numeric($offsetOrSibling)) {
-            $offset = (int)abs($offsetOrSibling) * ($after ? 1 : -1);
-            $this->_structure->reorderChild($parentName, $childName, $offset);
-        } elseif (null === $offsetOrSibling) {
-            $this->_structure->reorderChild($parentName, $childName, null);
-        } else {
-            $children = $this->getChildNames($parentName);
-            if ($this->_structure->getChildId($parentName, $offsetOrSibling) !== false) {
-                $offsetOrSibling = $this->_structure->getChildId($parentName, $offsetOrSibling);
-            }
-            $sibling = $this->_filterSearchMinus($offsetOrSibling, $children, $after);
-            if ($childName !== $sibling) {
-                $siblingParentName = $this->_structure->getParentId($sibling);
-                if ($parentName !== $siblingParentName) {
-                    $this->_logger->log(
-                        "Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', but " .
-                        "their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
-                        \Zend_Log::CRIT
-                    );
-                    return;
-                }
-                $this->_structure->reorderToSibling($parentName, $childName, $sibling, $after ? 1 : -1);
-            }
-        }
-    }
-
-    /**
-     * Search for an array element using needle, but needle may be '-', which means "first" or "last" element
-     *
-     * Returns first or last element in the haystack, or the $needle argument
-     *
-     * @param string $needle
-     * @param array $haystack
-     * @param bool $isLast
-     * @return string
-     */
-    protected function _filterSearchMinus($needle, array $haystack, $isLast)
-    {
-        if ('-' === $needle) {
-            if ($isLast) {
-                return array_pop($haystack);
-            }
-            return array_shift($haystack);
-        }
-        return $needle;
+        $this->_structure->reorderChildElement($parentName, $childName, $offsetOrSibling, $after);
     }
 
     /**
@@ -1044,6 +635,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function setBlock($name, $block)
     {
         $this->_blocks[$name] = $block;
+        $block->setLayout($this);
         return $this;
     }
 
@@ -1067,38 +659,33 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     /**
      * Block Factory
      *
-     * @param  string $type
-     * @param  string $name
-     * @param  array $attributes
+     * @param string $type
+     * @param string $name
+     * @param array $arguments
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    public function createBlock($type, $name = '', array $attributes = array())
+    public function createBlock($type, $name = '', array $arguments = array())
     {
         $name = $this->_createStructuralElement($name, Element::TYPE_BLOCK, $type);
-        $block = $this->_createBlock($type, $name, $attributes);
+        $block = $this->_createBlock($type, $name, $arguments);
         return $block;
     }
 
     /**
      * Create block and add to layout
      *
-     * @param string|\Magento\Framework\View\Element\AbstractBlock $block
+     * @param string $type
      * @param string $name
-     * @param array $attributes
+     * @param array $arguments
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    protected function _createBlock($block, $name, array $attributes = array())
+    protected function _createBlock($type, $name, array $arguments = array())
     {
-        $block = $this->_getBlockInstance($block, $attributes);
-
-        $block->setType(get_class($block));
-        $block->setNameInLayout($name);
-        $block->addData(isset($attributes['data']) ? $attributes['data'] : array());
-        $block->setLayout($this);
-
-        $this->_blocks[$name] = $block;
-        $this->_eventManager->dispatch('core_layout_block_create_after', array('block' => $block));
-        return $this->_blocks[$name];
+        /** @var \Magento\Framework\View\Layout\Generator\Block $blockGenerator */
+        $blockGenerator = $this->generatorPool->getGenerator(\Magento\Framework\View\Layout\Generator\Block::TYPE);
+        $block = $blockGenerator->createBlock($type, $name, $arguments);
+        $this->setBlock($name, $block);
+        return $block;
     }
 
     /**
@@ -1138,6 +725,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
     {
+        die(__METHOD__);
         $name = $this->_createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
         // TODO: eliminate options
         $this->_generateContainer($name, $label, $options);
@@ -1167,29 +755,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
-     * Create block object instance based on block type
-     *
-     * @param string|\Magento\Framework\View\Element\AbstractBlock $block
-     * @param array $attributes
-     * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Framework\View\Element\AbstractBlock
-     */
-    protected function _getBlockInstance($block, array $attributes = array())
-    {
-        if ($block && is_string($block)) {
-            try {
-                $block = $this->_blockFactory->createBlock($block, $attributes);
-            } catch (\ReflectionException $e) {
-                $this->_logger->log($e->getMessage());
-            }
-        }
-        if (!$block instanceof \Magento\Framework\View\Element\AbstractBlock) {
-            throw new \Magento\Framework\Model\Exception(__('Invalid block type: %1', $block));
-        }
-        return $block;
-    }
-
-    /**
      * Retrieve all blocks from registry as array
      *
      * @return array
@@ -1208,7 +773,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function getBlock($name)
     {
         if ($this->_scheduledStructure->hasElement($name)) {
-            $this->_generateBlock($name);
+            $this->generatorPool->processElement($this->readerContext, $name, $this);
         }
         if (isset($this->_blocks[$name])) {
             return $this->_blocks[$name];
@@ -1225,8 +790,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function getUiComponent($name)
     {
+        die('UIComponent');
         if ($this->_scheduledStructure->hasElement($name)) {
-            $this->_generateUiComponent($name);
+            $this->generatorPool->processElement($this->readerContext, $name, $this);
         }
         if (isset($this->_blocks[$name])) {
             return $this->_blocks[$name];

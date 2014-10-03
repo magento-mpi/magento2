@@ -179,6 +179,7 @@
         </arguments>
     </type>
     <type name="Magento\Framework\Data\Structure" shared="false" />
+    <type name="Magento\Framework\View\Layout\Data\Structure" shared="false" />
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManager\Proxy</argument>
@@ -368,6 +369,11 @@
             <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
             <argument name="reader" xsi:type="object">layoutGenericRenderPool</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Layout\Generator\Block">
+        <arguments>
+            <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Mview\View">
