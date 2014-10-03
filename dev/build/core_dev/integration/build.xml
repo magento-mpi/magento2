@@ -156,6 +156,7 @@
                 var phpunit_exec = project.createTask('exec');
                 phpunit_exec.setExecutable('phpunit');
                 phpunit_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
+                phpunit_exec.setFailonerror(true);
                 var arg = phpunit_exec.createArg();
                 var command = '-c phpunit-0.xml --stderr --log-junit ' + baseDir + '/integration_tests_magento.xml';
                 arg.setLine(command);
