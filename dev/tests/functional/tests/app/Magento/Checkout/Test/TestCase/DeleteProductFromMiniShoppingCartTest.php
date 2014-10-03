@@ -38,13 +38,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class DeleteProductFromMiniShoppingCartTest extends Injectable
 {
     /**
-     * Fixture factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Cms index page
      *
      * @var CmsIndex

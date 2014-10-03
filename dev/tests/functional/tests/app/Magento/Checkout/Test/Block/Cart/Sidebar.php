@@ -75,9 +75,8 @@ class Sidebar extends Block
     {
         $browser = $this->browser;
         $selector = $this->counterQty;
-        $strategy = Locator::SELECTOR_XPATH;
         $browser->waitUntil(
-            function () use ($browser, $selector, $strategy) {
+            function () use ($browser, $selector) {
                 $counterQty = $browser->find($selector, Locator::SELECTOR_XPATH);
                 return $counterQty->isVisible() ? true : null;
             }
