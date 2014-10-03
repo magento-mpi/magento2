@@ -50,8 +50,8 @@ class Create extends Block
             }
             $this->getItemsBlock()->clickUpdateQty();
         }
-        if (isset($data['do_shipment']) && $data['do_shipment'] !== '-') {
-            $this->getFormBlock()->createShipment();
+        if (isset($data['do_shipment'])) {
+            $this->getFormBlock()->createShipment($data['do_shipment']);
         }
     }
 
