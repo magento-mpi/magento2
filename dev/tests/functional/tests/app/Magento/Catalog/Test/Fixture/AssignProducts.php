@@ -17,6 +17,8 @@ class AssignProducts extends Product
 {
     protected $assignType = '';
 
+    protected $group = '';
+
     /**
      * {@inheritdoc}
      */
@@ -53,7 +55,7 @@ class AssignProducts extends Product
                             'name' => '%' . $this->assignType . '_configurable::getName%'
                         )
                     ),
-                    'group' => $type::GROUP
+                    'group' => $this->group
                 )
             ),
         );
