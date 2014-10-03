@@ -997,22 +997,18 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['upsell_position_limit_default'] = [
+        // Gift Messages
+        $this->_data['enableGiftMessages'] = [
             'section' => [
                 [
-                    'path' => 'catalog/magento_targetrule/upsell_position_limit',
-                    'scope' => 'catalog',
+                    'path' => 'sales/gift_options/allow_order',
+                    'scope' => 'sales',
                     'scope_id' => 1,
-                    'value' => 8,
+                    'value' => 1,
                 ],
-            ]
-        ];
-
-        $this->_data['upsell_position_limit_one'] = [
-            'section' => [
                 [
-                    'path' => 'catalog/magento_targetrule/upsell_position_limit',
-                    'scope' => 'catalog',
+                    'path' => 'sales/gift_options/allow_items',
+                    'scope' => 'sales',
                     'scope_id' => 1,
                     'value' => 1,
                 ],

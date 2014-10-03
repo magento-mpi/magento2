@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_shipment/view" module="Magento_Sales">
+<page mca="sales/shipment/view" module="Magento_Shipping">
     <blocks>
         <titleBlock>
             <class>Magento\Theme\Test\Block\Html\Title</class>

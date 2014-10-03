@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint;
+namespace Magento\Shipping\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
@@ -44,13 +44,14 @@ class AssertShipmentInShipmentsTab extends AbstractConstraint
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $orderView->getOrderForm()->openTab('shipments');
+        $totalQty = $order->getTotalQtyOrdered();
+        $totalQty = is_array($totalQty) ? $totalQty : [$totalQty];
 
-        foreach ($ids['shipmentIds'] as $shipmentId) {
-            $qty = $order->getTotalQtyOrdered();
+        foreach ($ids['shipmentIds'] as $key => $shipmentId) {
             $filter = [
                 'id' => $shipmentId,
-                'qty_from' => $qty,
-                'qty_to' => $qty
+                'qty_from' => $totalQty[$key],
+                'qty_to' => $totalQty[$key]
             ];
             \PHPUnit_Framework_Assert::assertTrue(
                 $orderView->getOrderForm()->getTabElement('shipments')->getGridBlock()->isRowVisible($filter),

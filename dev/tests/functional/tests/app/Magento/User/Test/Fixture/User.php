@@ -38,7 +38,8 @@ class User extends InjectableFixture
         'lastname' => 'LastName%isolation%',
         'email' => 'email%isolation%@example.com',
         'password' => '123123q',
-        'password_confirmation' => '123123q'
+        'password_confirmation' => '123123q',
+        'is_active' => 'Active'
     ];
 
     protected $user_id = [
