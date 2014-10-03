@@ -24,7 +24,7 @@ class Validator extends \Zend_Validate_Abstract
 
     const XML_NAMESPACE_XSI = 'http://www.w3.org/2001/XMLSchema-instance';
 
-    const LAYOUT_SCHEMA_SINGLE_HANDLE = 'layout_single';
+    const LAYOUT_SCHEMA_PAGE_HANDLE = 'page_layout';
 
     const LAYOUT_SCHEMA_MERGED = 'layout_merged';
 
@@ -68,7 +68,7 @@ class Validator extends \Zend_Validate_Abstract
         $this->_domConfigFactory = $domConfigFactory;
         $this->_initMessageTemplates();
         $this->_xsdSchemas = [
-            self::LAYOUT_SCHEMA_SINGLE_HANDLE => $filesystem->getPath(Filesystem::LIB_INTERNAL)
+            self::LAYOUT_SCHEMA_PAGE_HANDLE => $filesystem->getPath(Filesystem::LIB_INTERNAL)
                 . '/Magento/Framework/View/Layout/etc/page_layout.xsd',
             self::LAYOUT_SCHEMA_MERGED => $filesystem->getPath(Filesystem::LIB_INTERNAL)
                 . '/Magento/Framework/View/Layout/etc/layout_merged.xsd'
@@ -104,7 +104,7 @@ class Validator extends \Zend_Validate_Abstract
      * @param bool $isSecurityCheck
      * @return bool
      */
-    public function isValid($value, $schema = self::LAYOUT_SCHEMA_SINGLE_HANDLE, $isSecurityCheck = true)
+    public function isValid($value, $schema = self::LAYOUT_SCHEMA_PAGE_HANDLE, $isSecurityCheck = true)
     {
         try {
             //wrap XML value in the "layout" and "handle" tags to make it validatable
