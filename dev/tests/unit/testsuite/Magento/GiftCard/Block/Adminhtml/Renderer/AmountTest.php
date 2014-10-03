@@ -32,7 +32,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'website_id' => '2',
-                'value' => '1.000',
+                'value' => '0.500',
             ],
             [
                 'website_id' => '0',
@@ -44,7 +44,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'website_id' => '2',
-                'value' => '8.000',
+                'value' => '0.900',
             ],
         ];
 
@@ -63,11 +63,11 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'website_id' => '2',
-                'value' => '1.000',
+                'value' => '0.500',
             ],
             [
                 'website_id' => '2',
-                'value' => '8.000',
+                'value' => '0.900',
             ]
         ];
 

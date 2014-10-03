@@ -197,6 +197,6 @@ class Amount extends Widget implements RendererInterface
             return $a['website_id'] < $b['website_id'] ? -1 : 1;
         }
 
-        return $a['value'] - $b['value'];
+        return $a['value'] < $b['value'] ? -1 : 1;
     }
 }
