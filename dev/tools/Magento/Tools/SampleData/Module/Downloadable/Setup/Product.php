@@ -85,7 +85,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
                 if (!isset($downloadableData[$sku])) {
                     $downloadableData[$sku] = array();
                 }
-                $downloadableData[$sku] =  $this->converter->getDownloadableData(
+                $downloadableData[$sku] = $this->converter->getDownloadableData(
                     $downloadableRow,
                     $downloadableData[$sku]
                 );
@@ -123,5 +123,4 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
         }
         echo "\n";
     }
-
 }

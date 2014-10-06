@@ -81,7 +81,8 @@ class Reader implements \Iterator
     }
 
     /**
-     *  Read header row
+     * Read header row
+     * @return void
      */
     protected function readHeaderRow()
     {
@@ -158,8 +159,6 @@ class Reader implements \Iterator
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
-     *
-     * @return bool
      */
     public function valid()
     {
@@ -185,6 +184,7 @@ class Reader implements \Iterator
 
     /**
      * Close file handle
+     * @return void
      */
     public function close()
     {
