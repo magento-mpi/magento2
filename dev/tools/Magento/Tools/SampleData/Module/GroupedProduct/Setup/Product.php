@@ -9,6 +9,7 @@
 namespace Magento\Tools\SampleData\Module\GroupedProduct\Setup;
 
 use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -48,6 +49,11 @@ class Product implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var Gallery
+     */
+    protected $gallery;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
@@ -59,13 +65,15 @@ class Product implements SetupInterface
         \Magento\Catalog\Model\Config $catalogConfig,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        Gallery $gallery
     ) {
         $this->productFactory = $productFactory;
         $this->catalogConfig = $catalogConfig;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->gallery = $gallery;
     }
 
     /**
@@ -76,9 +84,11 @@ class Product implements SetupInterface
         echo "Installing grouped products\n";
 
         $product = $this->productFactory->create();
-
+        $this->gallery->setFixtures([
+                'GroupedProduct/images_yoga_grouped.csv'
+        ]);
         $files = [
-            'GroupedProduct/yoga_grouped.csv',
+            'GroupedProduct/yoga_grouped.csv'
         ];
 
         foreach ($files as $file) {
@@ -104,6 +114,7 @@ class Product implements SetupInterface
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
                 $product->save();
+                $this->gallery->install($product);
                 echo '.';
             }
         }
