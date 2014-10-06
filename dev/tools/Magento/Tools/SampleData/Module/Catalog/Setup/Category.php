@@ -13,7 +13,6 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Category
- * SetUp categories located in the category.csv files for enabled modules.
  */
 class Category implements SetupInterface
 {
@@ -53,7 +52,7 @@ class Category implements SetupInterface
     protected $fixtureHelper;
 
     /**
-     * @var \Magento\Framework\File\Csv\ReaderFactory
+     * @var CsvReaderFactory
      */
     protected $csvReaderFactory;
 
