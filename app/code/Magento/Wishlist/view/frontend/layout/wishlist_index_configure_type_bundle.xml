@@ -9,7 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <body>
-        <attribute name="class" value="type-bundle"/>
+        <attribute name="class" value="page-product-bundle"/>
     </body>
     <referenceBlock name="product.info">
         <block class="Magento\Catalog\Block\Product\View" name="bundle.summary" as="form_top" template="Magento_Bundle::catalog/product/view/summary.phtml">

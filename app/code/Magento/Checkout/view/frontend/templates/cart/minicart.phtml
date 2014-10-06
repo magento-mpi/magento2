@@ -37,7 +37,7 @@
                     <?php $isPossibleOnepageCheckout = $_cartQty && $this->isPossibleOnepageCheckout() ?>
                     <?php if ($isPossibleOnepageCheckout): ?>
                         <?php echo $this->getChildHtml('subtotal'); ?>
-                    <?php endif ?>
+                    <?php endif; ?>
                     <?php echo $this->getChildHtml('minicart_info') ?>
                     <div class="actions">
                         <div class="primary">

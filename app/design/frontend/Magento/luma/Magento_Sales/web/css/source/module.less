@@ -237,14 +237,17 @@
     border: 2px solid @border-color-base;
     border-radius: 3px;
     display: inline-block;
-    margin: 3px 0 0 25px;
+    margin: 3px 0 0 0;
     padding: 2px 10px;
     text-transform: uppercase;
     vertical-align: top;
 }
 
-.account {
+.sales-order-view {
     .page-title {
+        .title {
+            margin-right: 25px;
+        }
         .order-date {
             font-size: 16px;
             margin: -20px 0 18px;
@@ -315,7 +318,8 @@
         .data.table.table-order-items tfoot tr td {
             display: table-cell;
         }
-
+    }
+    .sales-order-view {
         .page-title {
             .title {
                 display: block;
@@ -395,7 +399,7 @@
         }
     }
 
-    .account {
+    .sales-order-view {
         .page-title {
             .order-date {
                 margin-top: -30px;
