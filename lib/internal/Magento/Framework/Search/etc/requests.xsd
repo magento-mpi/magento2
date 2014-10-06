@@ -88,9 +88,7 @@
           <xs:element name="queryReference" minOccurs="1" maxOccurs="unbounded">
             <xs:complexType>
               <xs:complexContent>
-                <xs:extension base="queryReference">
-                  <xs:attribute ref="clause" use="required" />
-                </xs:extension>
+                <xs:extension base="queryReference" />
               </xs:complexContent>
             </xs:complexType>
           </xs:element>
