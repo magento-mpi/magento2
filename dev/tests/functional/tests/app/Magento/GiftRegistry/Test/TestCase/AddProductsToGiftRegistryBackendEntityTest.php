@@ -8,6 +8,7 @@
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -21,7 +22,6 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Test Creation for AddProductsToGiftRegistryEntity from Customer Account(Backend)
@@ -113,6 +113,13 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
     protected $fixtureFactory;
 
     /**
+     * ObjectManager object
+     *
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
+    /**
      * Prepare data for test
      *
      * @param CustomerInjectable $customer
@@ -137,6 +144,7 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
      * @param GiftRegistryCustomerEdit $giftRegistryCustomerEdit
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
+     * @param ObjectManager $objectManager
      * @return void
      */
     public function __inject(
@@ -147,7 +155,8 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
         CustomerAccountLogout $customerAccountLogout,
         GiftRegistryCustomerEdit $giftRegistryCustomerEdit,
         CatalogProductView $catalogProductView,
-        CheckoutCart $checkoutCart
+        CheckoutCart $checkoutCart,
+        ObjectManager $objectManager
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerIndex = $customerIndex;
@@ -157,6 +166,7 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
         $this->giftRegistryCustomerEdit = $giftRegistryCustomerEdit;
         $this->catalogProductView = $catalogProductView;
         $this->checkoutCart = $checkoutCart;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -166,22 +176,27 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
      * @param GiftRegistry $giftRegistry
      * @param Browser $browser
      * @param string $product
-     * @param string $qty
      * @return array
      */
     public function test(
         CustomerInjectable $customer,
         GiftRegistry $giftRegistry,
         Browser $browser,
-        $product,
-        $qty
+        $product
     ) {
         // Preconditions:
         // Creating product
-        $product = $this->createProduct($product, $qty);
+        $createProductsStep = $this->objectManager->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $product]
+        );
+        $product = $createProductsStep->run()['products'][0];
         // Creating gift registry
-        $this->cmsIndex->open()->getLinksBlock()->openLink('Log In');
-        $this->customerAccountLogin->getLoginBlock()->login($customer);
+        $loginCustomerStep = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $loginCustomerStep->run();
         $giftRegistry->persist();
         // Adding product to cart
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
@@ -202,43 +217,5 @@ class AddProductsToGiftRegistryBackendEntityTest extends Injectable
         ];
         $cartItemsGrid->massaction($filter, 'Add to Gift Registry', true);
         return ['products' => [$product]];
-    }
-
-    /**
-     * Tear down after variation
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->customerAccountLogout->open();
-    }
-
-    /**
-     * Create product
-     *
-     * @param string $product
-     * @param string $qty
-     * @return InjectableFixture
-     */
-    protected function createProduct($product, $qty)
-    {
-        list($fixture, $dataSet) = explode("::", $product);
-        $product = $this->fixtureFactory->createByCode(
-            $fixture,
-            [
-                'dataSet' => $dataSet,
-                'data' => [
-                    'checkout_data' => [
-                        'preset' => 'default',
-                        'value' => [
-                            'qty' => $qty
-                        ]
-                    ]
-                ]
-            ]
-        );
-        $product->persist();
-        return $product;
     }
 }
