@@ -69,7 +69,8 @@ class Tabs extends AbstractView
      * @param array $tabTwo
      * @return int
      */
-    public function compareSortOrder(array $tabOne, array $tabTwo) {
+    public function compareSortOrder(array $tabOne, array $tabTwo)
+    {
         if (!isset($tabOne['sort_order'])) {
             $tabOne['sort_order'] = 0;
         }
