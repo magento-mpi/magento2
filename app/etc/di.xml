@@ -409,6 +409,7 @@
             <argument name="buckets" xsi:type="array">
                 <item name="termBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Term</item>
                 <item name="rangeBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Range</item>
+                <item name="dynamicBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Dynamic</item>
             </argument>
         </arguments>
     </type>
