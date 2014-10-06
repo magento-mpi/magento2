@@ -32,4 +32,13 @@
     <assertWishlistReportGrid module="Magento_MultipleWishlist">
         <severeness>low</severeness>
     </assertWishlistReportGrid>
+    <assertProductInCustomWishlist module="Magento_MultipleWishlist">
+        <severeness>low</severeness>
+    </assertProductInCustomWishlist>
+    <assertProductInDefaultWishlist module="Magento_MultipleWishlist">
+        <severeness>low</severeness>
+    </assertProductInDefaultWishlist>
+    <assertProductAbsentInDefaultWishlist module="Magento_MultipleWishlist">
+        <severeness>low</severeness>
+    </assertProductAbsentInDefaultWishlist>
 </constraint>

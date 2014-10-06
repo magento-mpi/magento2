@@ -52,7 +52,7 @@ class CreateTest extends Functional
         // fill General Properties
         $newCustomerSegmentForm->fill($customerSegmentFixture);
         $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
-        $customerSegmentCreatePage->getMessagesBlock()->assertSuccessMessage();
+        $customerSegmentCreatePage->getMessagesBlock()->waitSuccessMessage();
         // save conditions tab
         $objectManager = Factory::getObjectManager();
         $fixtureConditions = $objectManager->create(
@@ -65,7 +65,7 @@ class CreateTest extends Functional
         $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
 
         $conditionMessagesBlock = $customerSegmentCreatePage->getMessagesBlock();
-        $conditionMessagesBlock->assertSuccessMessage();
+        $conditionMessagesBlock->waitSuccessMessage();
         // open matched customers tab
         $customerSegmentCreatePage->getCustomerSegmentForm()->openTab('matched_customers');
         // verify matched customers

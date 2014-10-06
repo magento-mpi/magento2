@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Magento\Paypal\Block\Express\Shortcut
+ */
+?>
+<?php if ($this->getIsInCatalogProduct()): ?>
+    <input type="hidden" id="pp-checkout-url" name="return_url" value=""/>
+<?php endif; ?>
+

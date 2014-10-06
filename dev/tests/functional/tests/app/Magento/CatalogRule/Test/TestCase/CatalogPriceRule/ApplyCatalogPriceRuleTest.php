@@ -87,7 +87,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
 
         // Verify applied catalog price rules
         $this->verifyPriceRules($products);
@@ -127,7 +127,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
-        $messagesBlock->assertSuccessMessage();
+        $messagesBlock->waitSuccessMessage();
 
         // Verify Attention/Notice Message
         $messagesBlock->assertNoticeMessage();
@@ -148,7 +148,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
-        $messagesBlock->assertSuccessMessage();
+        $messagesBlock->waitSuccessMessage();
 
         // Return Catalog Price Rule Id
         return $catalogPriceRuleId;
@@ -205,7 +205,7 @@ class ApplyCatalogPriceRuleTest extends Functional
             // Add to Cart
             $productViewBlock->clickAddToCart();
             $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
-            $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
+            $checkoutCartPage->getMessagesBlock()->waitSuccessMessage();
 
             // Verify Cart page price
             $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();

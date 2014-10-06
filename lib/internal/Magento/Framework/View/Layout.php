@@ -204,6 +204,16 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $cacheable;
 
     /**
+     * @var \Magento\Framework\View\Page\Config\Reader
+     */
+    protected $pageConfigReader;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config\Generator
+     */
+    protected $pageConfigGenerator;
+
+    /**
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -218,6 +228,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
+     * @param Page\Config\Reader $pageConfigReader
+     * @param Page\Config\Generator $pageConfigGenerator
      * @param string $scopeType
      * @param bool $cacheable
      */
@@ -236,6 +248,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
+        \Magento\Framework\View\Page\Config\Reader $pageConfigReader,
+        \Magento\Framework\View\Page\Config\Generator $pageConfigGenerator,
         $scopeType,
         $cacheable = true
     ) {
@@ -259,6 +273,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->themeResolver = $themeResolver;
         $this->scopeResolver = $scopeResolver;
         $this->cacheable = $cacheable;
+        $this->pageConfigReader = $pageConfigReader;
+        $this->pageConfigGenerator = $pageConfigGenerator;
     }
 
     /**
@@ -336,6 +352,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Profiler::stop('build_structure');
 
         \Magento\Framework\Profiler::start('generate_elements');
+
+        $this->pageConfigGenerator->process();
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
             list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
@@ -469,6 +487,18 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
                 case Element::TYPE_REMOVE:
                     $this->_scheduledStructure->setElementToRemoveList((string)$node->getAttribute('name'));
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_HTML:
+                    $this->pageConfigReader->readHtml($node);
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_HEAD:
+                    $this->pageConfigReader->readHead($node);
+                    break;
+
+                case Page\Config::ELEMENT_TYPE_BODY:
+                    $this->pageConfigReader->readBody($node);
                     break;
 
                 default:
