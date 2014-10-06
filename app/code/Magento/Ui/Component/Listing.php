@@ -149,7 +149,6 @@ class Listing extends AbstractView
     {
         $meta = $this->getData('meta');
         foreach ($meta['fields'] as $key => $field) {
-            // TODO fixme
             if ($field['data_type'] === 'date') {
                 $field['date_format'] = $this->_localeDate->getDateTimeFormat(
                     \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM

@@ -18,7 +18,7 @@
                 </item>
             </argument>
             <argument name="name" xsi:type="string">customer_form</argument>
-            <!--<argument name="layout" xsi:type="string">tabs</argument>-->
+            <argument name="layout" xsi:type="string">tabs</argument>
 
             <argument name="container" xsi:type="string">fieldset</argument>
 
