@@ -27,19 +27,19 @@ $modules = [];
 $componentsByName = [];
 
 define(
-'USAGE',
-"Usage: php -f dependency.php -- [--list-modules] [--list-components][--list-component-dependencies component_name]
-    [--list-component-dependents component_name] [--list-module-dependencies module-name]
-    [--list module-dependents module-name] [--direct-dependency-only]
-    --help - print usage message
-    --list-modules - list all modules in order of module dependency
-    --list-components - list all components in order or dependency, a component consists of circular dependent modules
-    --list-component-dependencies - list components that the specified component depends on
-    --list-component-dependents - list components that depends on the specified components
-    --list-module-dependencies - list modules that the specified module depends on
-    --list-module-dependents - list modules that depends on the specified module
-    --direct-dependency-only - only return direct dependencies
-    \n"
+    'USAGE',
+    "Usage: php -f dependency.php -- [--list-modules] [--list-components][--list-component-dependencies component_name]
+        [--list-component-dependents component_name] [--list-module-dependencies module-name]
+        [--list module-dependents module-name] [--direct-dependency-only]
+        --help - print usage message
+        --list-modules - list all modules in order of module dependency
+        --list-components - list all components consisting of circularly dependent modules
+        --list-component-dependencies - list components that the specified component depends on
+        --list-component-dependents - list components that depends on the specified components
+        --list-module-dependencies - list modules that the specified module depends on
+        --list-module-dependents - list modules that depends on the specified module
+        --direct-dependency-only - only return direct dependencies
+        \n"
 );
 $opt = getopt(
     '',
@@ -122,7 +122,7 @@ if (isset($opt['list-modules'])) {
         }
     } else {
         $selfComponentName = $modules[$targetModule][KEY_MODULE_COMPONENT];
-        foreach($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
+        foreach ($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
             if ($module != $targetModule) {
                 $dependencies[] = $module;
             }
@@ -154,7 +154,7 @@ if (isset($opt['list-modules'])) {
         $dependencies = $module[KEY_MODULE_DEPENDENT_MODULES];
     } else {
         $selfComponentName = $modules[$targetModule][KEY_MODULE_COMPONENT];
-        foreach($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
+        foreach ($componentsByName[$selfComponentName][KEY_COMPONENT_MODULES] as $module) {
             if ($module != $targetModule) {
                 $dependencies[] = $module;
             }
@@ -179,8 +179,8 @@ if (isset($opt['list-modules'])) {
  * For a given component, return a list of components that depend on the component or a list of components
  * that the given component depends on
  *
- * @param $component
- * @param $direction
+ * @param string $component
+ * @param string $direction
  * @return array
  */
 function getComponentDependency($component, $direction)
@@ -210,6 +210,10 @@ function getComponentDependency($component, $direction)
 
 /**
  * initialize the component and module dependency
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @return void
  */
 function initialize()
 {
@@ -352,6 +356,7 @@ function identifyComponents($modules)
  * @param array $stack
  * @param int $index
  * @param array $components
+ * @return void
  */
 function identifyComponent(&$modules, &$module, &$stack, &$index, &$components)
 {
@@ -379,4 +384,3 @@ function identifyComponent(&$modules, &$module, &$stack, &$index, &$components)
         $components[] = $component;
     }
 }
-
