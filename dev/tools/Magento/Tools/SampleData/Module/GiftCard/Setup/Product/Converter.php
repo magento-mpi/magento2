@@ -111,7 +111,8 @@ class Converter
      * @param mixed $value
      * @return mixed
      */
-    protected function getAmountValues($data, $value) {
+    protected function getAmountValues($data, $value)
+    {
         $prices = $this->getArrayValue($value);
         $i = -1;
         foreach ($prices as $price) {

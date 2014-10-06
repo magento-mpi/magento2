@@ -104,7 +104,8 @@ class Product implements SetupInterface
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
 
-                $simpleIds = $this->configurableProductType->generateSimpleProducts($product, $data['variations_matrix']);
+                $simpleIds = $this->configurableProductType
+                    ->generateSimpleProducts($product, $data['variations_matrix']);
                 $product->setAssociatedProductIds($simpleIds);
                 $product->setCanSaveConfigurableAttributes(true);
 

@@ -26,7 +26,6 @@ class Setup implements SetupInterface
      * Constructor
      *
      * @param Setup\Product $productSetup
-
      */
     public function __construct(
         Setup\Product $productSetup

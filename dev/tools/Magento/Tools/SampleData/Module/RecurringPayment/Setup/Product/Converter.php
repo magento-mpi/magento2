@@ -63,7 +63,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             $data[$field] = $value;
 
         }
-        if(isset($data['is_recurring']) && $data['is_recurring'] == '1') {
+        if (isset($data['is_recurring']) && $data['is_recurring'] == '1') {
             $data['recurring_payment'] = $recurringData;
         }
         return $data;
@@ -76,7 +76,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * @param array $value
      * @return array|mixed
      */
-    public function setOptionsToValue($options, $value) {
+    public function setOptionsToValue($options, $value)
+    {
         $value = $this->getArrayValue($value);
         $result = [];
         foreach ($value as $v) {

@@ -13,7 +13,8 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 /**
  * Class Product
  */
-class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup {
+class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
+{
     /**
      * @var \Magento\Catalog\Model\ProductFactory
      */

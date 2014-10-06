@@ -70,7 +70,7 @@ class Category implements SetupInterface
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
-     * @param CsvReaderFactory $csvReaderFactory
+     * @param \Magento\Framework\File\Csv\ReaderFactory $csvReaderFactory
      */
     public function __construct(
         \Magento\Catalog\Service\V1\Category\WriteServiceInterface $writeService,
