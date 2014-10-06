@@ -131,7 +131,7 @@ class Category implements SetupInterface
     /**
      * Get category name by path
      *
-     * @param str $path
+     * @param string $path
      * @return mixed
      */
     protected function getCategoryByPath($path)
@@ -154,7 +154,7 @@ class Category implements SetupInterface
      * Get child categories
      *
      * @param mixed $tree
-     * @param str $name
+     * @param string $name
      * @return mixed
      */
     protected function findTreeChild($tree, $name)

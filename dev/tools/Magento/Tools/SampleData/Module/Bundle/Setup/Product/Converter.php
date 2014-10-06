@@ -238,7 +238,7 @@ class Converter
     /**
      * Get attribute options by attribute code
      *
-     * @param str $attributeCode
+     * @param string $attributeCode
      * @return null
      */
     public function getAttributeOptions($attributeCode)
@@ -264,7 +264,7 @@ class Converter
     /**
      * Find attribute option value pair
      *
-     * @param str $attributeCode
+     * @param string $attributeCode
      * @return mixed
      */
     protected function getAttributeOptionValueIdsPair($attributeCode)

@@ -65,7 +65,7 @@ class Converter
     /**
      * Convert CSV format row to array
      *
-     * @param str $row
+     * @param array $row
      * @return array
      */
     public function convertRow($row)
