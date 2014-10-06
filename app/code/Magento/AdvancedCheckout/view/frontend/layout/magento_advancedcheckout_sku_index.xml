@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
             <argument translate="true" name="title" xsi:type="string">Order by SKU</argument>
@@ -22,4 +22,4 @@
             <block class="Magento\Framework\View\Element\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
         </block>
     </referenceContainer>
-</layout>
+</page>

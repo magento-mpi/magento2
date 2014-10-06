@@ -40,7 +40,7 @@ class FileTest extends AbstractFormTestCase
         $this->requestMock = $this->getMockBuilder(
             'Magento\Framework\App\RequestInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('getParam', 'getParams', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName')
+            ['getParam', 'getParams', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getCookie']
         )->getMock();
     }
 
@@ -61,7 +61,7 @@ class FileTest extends AbstractFormTestCase
         )->method(
             'getParam'
         )->will(
-            $this->returnValue(array('delete' => $delete))
+            $this->returnValue(['delete' => $delete])
         );
 
         $this->attributeMetadataMock->expects(
@@ -84,7 +84,7 @@ class FileTest extends AbstractFormTestCase
     {
         return array(
             'ajax' => array(false, '', true),
-            'no_file' => array(array()),
+            'no_file' => array([]),
             'delete' => array(array('delete' => true), '', false, true),
             'file_delete' => array(array('attributeCodeValue', 'delete' => true), 'attributeCode', false, true),
             'file_!delete' => array(array('attributeCodeValue'), 'attributeCode', false, false)
@@ -139,7 +139,7 @@ class FileTest extends AbstractFormTestCase
     public function extractValueWithRequestScopeDataProvider()
     {
         return array(
-            'requestScope' => array(array(), 'requestScope'),
+            'requestScope' => array([], 'requestScope'),
             'mainScope' => array(
                 array('fileKey' => 'attributeValue'),
                 'mainScope',
@@ -184,7 +184,7 @@ class FileTest extends AbstractFormTestCase
     public function validateValueNotToUploadDataProvider()
     {
         return array(
-            'emptyValue' => array(true, array(), true),
+            'emptyValue' => array(true, [], true),
             'someValue' => array(true, array('some value')),
             'delete_someValue' => array(true, array('delete' => true, 'some value'), false, false),
             'null' => array(array('"attributeLabel" is a required value.'), null)
@@ -197,7 +197,7 @@ class FileTest extends AbstractFormTestCase
      * @param array $parameters
      * @dataProvider validateValueToUploadDataProvider
      */
-    public function testValidateValueToUpload($expected, $value, $parameters = array())
+    public function testValidateValueToUpload($expected, $value, $parameters = [])
     {
         $parameters = array_merge(array('uploaded' => true, 'valid' => true), $parameters);
         $fileForm = $this->getClass($value, false);
@@ -265,7 +265,7 @@ class FileTest extends AbstractFormTestCase
 
     public function compactValueDataProvider()
     {
-        return array('notDelete' => array('value', array()), 'delete' => array('', array('delete' => true)));
+        return array('notDelete' => array('value', []), 'delete' => array('', array('delete' => true)));
     }
 
     public function testRestoreValue()

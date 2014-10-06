@@ -8,16 +8,14 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Search;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Sales\Test\Fixture\Order;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Grid
  * Adminhtml sales order create search products block
- *
  */
 class Grid extends GridInterface
 {
@@ -59,40 +57,42 @@ class Grid extends GridInterface
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'sku' => array(
+    protected $filters = [
+        'sku' => [
             'selector' => '#sales_order_create_search_grid_filter_sku'
-        )
-    );
+        ]
+    ];
 
     /**
      * Get catalog product composite configure block
      *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure
+     * @return Configure
      */
     protected function getConfigureBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductCompositeConfigure(
-            $this->_rootElement->find($this->configureBlock, Locator::SELECTOR_XPATH)
+        return $this->blockFactory->create(
+            '\Magento\Catalog\Test\Block\Adminhtml\Product\Composite\Configure',
+            ['element' => $this->_rootElement->find($this->configureBlock, Locator::SELECTOR_XPATH)]
         );
     }
 
     /**
      * Select product to be added to order
      *
-     * @param Product $product
+     * @param FixtureInterface $product
      */
     protected function addProduct($product)
     {
-        $this->search(array(
-            'sku' => $product->getProductSku()
-        ));
-        $productOptions = $product->getProductOptions();
-        if (!empty($productOptions)) {
-            $this->_rootElement->find($this->configure)->click();
-            $this->getTemplateBlock()->waitLoader();
-            $this->getConfigureBlock()->fillOptions($productOptions);
+        $sku = $product->getSku();
+        $this->search(['sku' => $sku]);
+
+        $this->_rootElement->find($this->configure)->click();
+        $this->getTemplateBlock()->waitLoader();
+        $configureBlock = $this->getConfigureBlock();
+        if ($configureBlock->isVisible()) {
+            $configureBlock->fillOptions($product);
         }
+
         $this->_rootElement
             ->find($this->rowItem)
             ->find($this->selectProduct, Locator::SELECTOR_CSS, 'checkbox')
@@ -102,11 +102,11 @@ class Grid extends GridInterface
     /**
      * Add all products from the Order fixture
      *
-     * @param Order $fixture
+     * @param array $products
      */
-    public function selectProducts(Order $fixture)
+    public function selectProducts(array $products)
     {
-        foreach ($fixture->getProducts() as $product) {
+        foreach ($products as $product) {
             $this->addProduct($product);
         }
         $this->_rootElement->find($this->addSelectedProducts)->click();

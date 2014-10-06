@@ -18,12 +18,36 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected $stockItemService;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Block\Template
+     */
+    protected $priceRenderBlock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Layout
+     */
+    protected $layoutMock;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item  */
+    protected $itemMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * Initialize required data
      */
     protected function setUp()
     {
         $orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', ['__wakeup'], [], '', false);
         $taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')->disableOriginalConstructor()->getMock();
+        $this->priceCurrency = $this->getMockBuilder('\Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
             ->disableOriginalConstructor()
@@ -37,9 +61,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup', 'convertPrice'))
+            ->setMethods(array('__wakeup'))
             ->getMock();
-        $storeMock->expects($this->any())->method('convertPrice')->will($this->returnArgument(0));
+        $this->priceCurrency->expects($this->any())
+            ->method('convertAndFormat')
+            ->will($this->returnArgument(0));
         $quoteMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
         $sessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $wishlistFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\WishlistFactory')
@@ -60,8 +86,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->block = $helper->getObject(
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->block = $this->objectManager->getObject(
             'Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid',
             array(
                 'wishlistFactory' => $wishlistFactoryMock,
@@ -70,10 +96,26 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 'taxData' => $taxData,
                 'sessionQuote' => $sessionMock,
                 'orderCreate' => $orderCreateMock,
+                'priceCurrency' => $this->priceCurrency,
                 'coreData' => $coreData,
                 'stockItemService' => $this->stockItemService
             )
         );
+
+        $this->priceRenderBlock = $this->getMockBuilder('\Magento\Backend\Block\Template')
+            ->disableOriginalConstructor()
+            ->setMethods(['setItem', 'toHtml'])
+            ->getMock();
+
+        $this->layoutMock = $this->getMockBuilder('\Magento\Framework\View\Layout')
+            ->disableOriginalConstructor()
+            ->setMethods(['getBlock'])
+            ->getMock();
+
+        $this->itemMock = $this->getMockBuilder('\Magento\Sales\Model\Quote\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup'])
+            ->getMock();
     }
 
     /**
@@ -205,5 +247,89 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('Message', $items[0]->getMessage());
         $this->assertEquals(true, $this->block->getQuote()->getIsSuperMode());
+    }
+
+    protected function getGrid()
+    {
+        /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid  $grid */
+        $grid = $this->objectManager->getObject(
+            'Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid',
+            array(
+                'context' => $this->objectManager->getObject(
+                        'Magento\Backend\Block\Template\Context',
+                        array('layout' => $this->layoutMock)
+                    )
+            )
+        );
+
+        return $grid;
+    }
+
+    public function testGetItemUnitPriceHtml()
+    {
+        $html = '$34.28';
+
+        $grid = $this->getGrid();
+
+        $this->layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('item_unit_price')
+            ->will($this->returnValue($this->priceRenderBlock));
+
+        $this->priceRenderBlock->expects($this->once())
+            ->method('setItem')
+            ->with($this->itemMock);
+
+        $this->priceRenderBlock->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($html));
+
+
+        $this->assertEquals($html, $grid->getItemUnitPriceHtml($this->itemMock));
+    }
+
+    public function testGetItemRowTotalHtml()
+    {
+        $html = '$34.28';
+
+        $grid = $this->getGrid();
+
+        $this->layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('item_row_total')
+            ->will($this->returnValue($this->priceRenderBlock));
+
+        $this->priceRenderBlock->expects($this->once())
+            ->method('setItem')
+            ->with($this->itemMock);
+
+        $this->priceRenderBlock->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($html));
+
+
+        $this->assertEquals($html, $grid->getItemRowTotalHtml($this->itemMock));
+    }
+    public function testGetItemRowTotalWithDiscountHtml()
+    {
+        $html = '$34.28';
+
+        $grid = $this->getGrid();
+
+        $this->layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('item_row_total_with_discount')
+            ->will($this->returnValue($this->priceRenderBlock));
+
+        $this->priceRenderBlock->expects($this->once())
+            ->method('setItem')
+            ->with($this->itemMock);
+
+        $this->priceRenderBlock->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($html));
+
+
+        $this->assertEquals($html, $grid->getItemRowTotalWithDiscountHtml($this->itemMock));
     }
 }

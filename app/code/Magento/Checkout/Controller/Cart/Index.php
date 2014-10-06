@@ -23,7 +23,7 @@ class Index extends \Magento\Checkout\Controller\Cart
 
             if (!$this->cart->getQuote()->validateMinimumAmount()) {
                 $currencyCode = $this->_objectManager->get(
-                    'Magento\Store\Model\StoreManagerInterface'
+                    'Magento\Framework\StoreManagerInterface'
                 )->getStore()->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get(
                     'Magento\Framework\Locale\CurrencyInterface'
@@ -74,7 +74,7 @@ class Index extends \Magento\Checkout\Controller\Cart
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $layout->getBlock('head')->setTitle(__('Shopping Cart'));
+        $this->_view->getPage()->getConfig()->setTitle(__('Shopping Cart'));
         $this->_view->renderLayout();
         \Magento\Framework\Profiler::stop(__METHOD__ . 'cart_display');
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertBackupInGrid module="Magento_Backup">
+        <severeness>low</severeness>
+    </assertBackupInGrid>
+</constraint>

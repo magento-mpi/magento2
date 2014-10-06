@@ -48,7 +48,7 @@ class LogReportTest extends Functional
         //Step: Save config
         $systemConfigPage->open();
         $systemConfigPage->getPageActions()->save();
-        $systemConfigPage->getMessagesBlock()->assertSuccessMessage();
+        $systemConfigPage->getMessagesBlock()->waitSuccessMessage();
 
         //Step: Logout
         Factory::getApp()->magentoBackendLogoutUser();

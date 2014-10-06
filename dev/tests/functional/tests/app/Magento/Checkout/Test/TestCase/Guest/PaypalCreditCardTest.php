@@ -11,7 +11,8 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
-use Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc;
+use Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced;
+use Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcLink;
 
 /**
  * Class PaypalCreditCardTest
@@ -35,7 +36,7 @@ class PaypalCreditCardTest extends Functional
         $fixture->persist();
 
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
@@ -43,27 +44,36 @@ class PaypalCreditCardTest extends Functional
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         }
 
         //Proceed to checkout
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = call_user_func_array(array($this, $formBlockFunction), array($checkoutOnePage));
+        /** @var \Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced $formBlock */
+        $formBlock = call_user_func_array([$this, $formBlockFunction], [$checkoutOnePage]);
         $formBlock->fill($fixture->getCreditCard());
         $formBlock->pressContinue();
 
@@ -84,7 +94,7 @@ class PaypalCreditCardTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
@@ -94,7 +104,7 @@ class PaypalCreditCardTest extends Functional
         if ($fixture->getCommentHistory()) {
             $expectedAuthorizedAmount = $fixture->getCommentHistory();
         } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+            $expectedAuthorizedAmount = 'Authorized amount of $' . $fixture->getGrandTotal();
         }
         $this->assertContains(
             $expectedAuthorizedAmount,
@@ -110,19 +120,17 @@ class PaypalCreditCardTest extends Functional
      */
     public function dataProviderCheckout()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced(),
-                  'getPayflowAdvancedCcBlock'),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalPayflowLink(),
-                  'getPayflowLinkCcBlock')
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced(), 'getPayflowAdvancedCcBlock'],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalPayflowLink(), 'getPayflowLinkCcBlock'],
+        ];
     }
 
     /**
      * Return the block associated with the PayPal Payments Advanced credit card form.
      *
      * @param CheckoutOnepage $checkoutOnePage
-     * @return Cc
+     * @return CcAdvanced
      */
     public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage)
     {
@@ -133,7 +141,7 @@ class PaypalCreditCardTest extends Functional
      * Return the block associated with the PayPal Payflow Link credit card form.
      *
      * @param CheckoutOnepage $checkoutOnePage
-     * @return Cc
+     * @return CcLink
      */
     public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage)
     {

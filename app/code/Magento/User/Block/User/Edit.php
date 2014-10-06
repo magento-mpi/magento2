@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\User\Block\User;
 
 /**
@@ -50,6 +51,22 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->buttonList->update('save', 'label', __('Save User'));
         $this->buttonList->update('delete', 'label', __('Delete User'));
+
+        $objId = $this->getRequest()->getParam($this->_objectId);
+
+        if (!empty($objId)) {
+            $deleteConfirmMsg = __("Are you sure you want to revoke the user\'s tokens?");
+            $this->addButton(
+                'invalidate',
+                array(
+                    'label' => __('Force Sign-In'),
+                    'class' => 'invalidate-token',
+                    'onclick' => 'deleteConfirm(\'' . $deleteConfirmMsg . '\', \'' . $this->getInvalidateUrl() . '\')',
+                )
+            );
+        }
+
+
     }
 
     /**
@@ -73,5 +90,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getValidationUrl()
     {
         return $this->getUrl('adminhtml/*/validate', array('_current' => true));
+    }
+
+    /**
+     * Return invalidate url for edit form
+     *
+     * @return string
+     */
+    public function getInvalidateUrl()
+    {
+        return $this->getUrl('adminhtml/*/invalidatetoken', array('_current' => true));
     }
 }

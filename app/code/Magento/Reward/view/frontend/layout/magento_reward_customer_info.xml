@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
@@ -21,4 +21,4 @@
             <block class="Magento\Reward\Block\Customer\Reward\Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml" cacheable="false"/>
         </block>
     </referenceBlock>
-</layout>
+</page>

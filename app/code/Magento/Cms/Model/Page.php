@@ -14,8 +14,8 @@ namespace Magento\Cms\Model;
  * @method \Magento\Cms\Model\Resource\Page getResource()
  * @method string getTitle()
  * @method \Magento\Cms\Model\Page setTitle(string $value)
- * @method string getRootTemplate()
- * @method \Magento\Cms\Model\Page setRootTemplate(string $value)
+ * @method string getPageLayout()
+ * @method \Magento\Cms\Model\Page setPageLayout(string $value)
  * @method string getMetaKeywords()
  * @method \Magento\Cms\Model\Page setMetaKeywords(string $value)
  * @method string getMetaDescription()
@@ -38,14 +38,15 @@ namespace Magento\Cms\Model;
  * @method \Magento\Cms\Model\Page setLayoutUpdateXml(string $value)
  * @method string getCustomTheme()
  * @method \Magento\Cms\Model\Page setCustomTheme(string $value)
- * @method string getCustomRootTemplate()
- * @method \Magento\Cms\Model\Page setCustomRootTemplate(string $value)
+ * @method string getCustomPageLayout()
+ * @method \Magento\Cms\Model\Page setCustomPageLayout(string $value)
  * @method string getCustomLayoutUpdateXml()
  * @method \Magento\Cms\Model\Page setCustomLayoutUpdateXml(string $value)
  * @method string getCustomThemeFrom()
  * @method \Magento\Cms\Model\Page setCustomThemeFrom(string $value)
  * @method string getCustomThemeTo()
  * @method \Magento\Cms\Model\Page setCustomThemeTo(string $value)
+ * @method int[] getStores()
  */
 class Page extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {

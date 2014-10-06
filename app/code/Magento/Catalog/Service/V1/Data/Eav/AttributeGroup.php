@@ -9,8 +9,10 @@
 
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-
-class AttributeGroup extends \Magento\Framework\Service\Data\AbstractObject
+/**
+ * @codeCoverageIgnore
+ */
+class AttributeGroup extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array, make typos less likely

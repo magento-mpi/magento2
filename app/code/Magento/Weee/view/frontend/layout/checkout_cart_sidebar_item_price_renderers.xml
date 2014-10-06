@@ -7,8 +7,12 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="minicart">
-        <block class="Magento\Weee\Block\Item\Price\Renderer" name="checkout.cart.item.price.sidebar" template="Magento_Weee::checkout/cart/item/price/sidebar.phtml"/>
+        <block class="Magento\Weee\Block\Item\Price\Renderer" name="checkout.cart.item.price.sidebar" template="checkout/cart/item/price/sidebar.phtml">
+            <arguments>
+                <argument name="zone" xsi:type="string">cart</argument>
+            </arguments>
+        </block>
     </referenceBlock>
-</layout>
+</page>

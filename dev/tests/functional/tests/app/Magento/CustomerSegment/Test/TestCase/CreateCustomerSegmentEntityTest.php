@@ -12,6 +12,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
@@ -115,6 +116,13 @@ class CreateCustomerSegmentEntityTest extends Injectable
     protected $fixtureFactory;
 
     /**
+     * Customer account logout page
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Inject pages
      *
      * @param PromoQuoteIndex $promoQuoteIndex
@@ -125,6 +133,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
      * @param CmsIndex $cmsIndex
      * @param FixtureFactory $fixtureFactory
      * @param CustomerIndexEdit $customerIndexEditPage
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
@@ -135,7 +144,8 @@ class CreateCustomerSegmentEntityTest extends Injectable
         CustomerIndex $customerIndexPage,
         CmsIndex $cmsIndex,
         FixtureFactory $fixtureFactory,
-        CustomerIndexEdit $customerIndexEditPage
+        CustomerIndexEdit $customerIndexEditPage,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         $this->customerSegmentIndex = $customerSegmentIndex;
         $this->customerSegmentNew = $customerSegmentNew;
@@ -145,6 +155,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
         $this->customerIndexEditPage = $customerIndexEditPage;
         $this->cmsIndex = $cmsIndex;
         $this->fixtureFactory = $fixtureFactory;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -166,7 +177,6 @@ class CreateCustomerSegmentEntityTest extends Injectable
         array $salesRule,
         AssertCustomerSegmentSuccessSaveMessage $assertCustomerSegmentSuccessSaveMessage
     ) {
-        $this->markTestIncomplete('MAGETWO-26846');
         //Preconditions
         $customer->persist();
         $filter = ['email' => $customer->getEmail()];
@@ -227,10 +237,12 @@ class CreateCustomerSegmentEntityTest extends Injectable
      */
     public function tearDown()
     {
+        if (!$this->salesRule instanceof SalesRuleInjectable) {
+            return;
+        }
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
         $this->promoQuoteEdit->getFormPageActions()->delete();
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        $this->customerAccountLogout->open();
     }
 }

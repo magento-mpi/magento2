@@ -1,7 +1,5 @@
 <?php
 /**
- * Filter Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Framework\Search\Request;
 
+/**
+ * Filter Interface
+ */
 interface FilterInterface
 {
     /**
@@ -19,6 +20,8 @@ interface FilterInterface
     const TYPE_BOOL = 'boolFilter';
 
     const TYPE_RANGE = 'rangeFilter';
+
+    const TYPE_WILDCARD = 'wildcardFilter';
 
     /**#@-*/
 

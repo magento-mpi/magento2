@@ -54,20 +54,6 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
     abstract public function getStore();
 
     /**
-     * Processing object after save data
-     * Updates relevant grid table records.
-     *
-     * @return $this
-     */
-    public function afterCommitCallback()
-    {
-        if (!$this->getForceUpdateGridRecords()) {
-            $this->_getResource()->updateGridRecords($this->getId());
-        }
-        return parent::afterCommitCallback();
-    }
-
-    /**
      * Get object created at date affected current active store timezone
      *
      * @return \Magento\Framework\Stdlib\DateTime\Date
@@ -89,5 +75,25 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
             $this->dateTime->toTimestamp($this->getCreatedAt()),
             true
         );
+    }
+
+    /**
+     * Returns _eventPrefix
+     *
+     * @return string
+     */
+    public function getEventPrefix()
+    {
+        return $this->_eventPrefix;
+    }
+
+    /**
+     * Returns _eventObject
+     *
+     * @return string
+     */
+    public function getEventObject()
+    {
+        return $this->_eventObject;
     }
 }

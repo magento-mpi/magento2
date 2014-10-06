@@ -1,7 +1,5 @@
 <?php
 /**
- * Aggregation Bucket Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,14 +7,17 @@
  */
 namespace Magento\Framework\Search\Request;
 
+/**
+ * Aggregation Bucket Interface
+ */
 interface BucketInterface
 {
     /**
      * #@+ Bucket Types
      */
-    const TYPE_TERM = 'term';
+    const TYPE_TERM = 'termBucket';
 
-    const TYPE_RANGE = 'range';
+    const TYPE_RANGE = 'rangeBucket';
 
     /**#@-*/
 

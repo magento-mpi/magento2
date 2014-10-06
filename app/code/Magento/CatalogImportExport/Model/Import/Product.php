@@ -295,7 +295,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         'use_config_enable_qty_inc' => 1,
         'qty_increments' => 0,
         'use_config_qty_increments' => 1,
-        'is_in_stock' => 0,
+        'is_in_stock' => 1,
         'low_stock_date' => null,
         'stock_status_changed_auto' => 0,
         'is_decimal_divided' => 0
@@ -414,7 +414,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -459,9 +459,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $dateTime;
 
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerFactory
      */
-    protected $newIndexer;
+    protected $indexerFactory;
 
     /**
      * @var \Magento\Framework\Logger
@@ -491,7 +491,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogImportExport\Model\Import\Product\Type\Factory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
@@ -501,7 +501,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Indexer\Model\Indexer $newIndexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param array $data
      */
     public function __construct(
@@ -522,7 +522,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogImportExport\Model\Import\Product\Type\Factory $productTypeFactory,
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
@@ -532,7 +532,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Logger $logger,
-        \Magento\Indexer\Model\Indexer $newIndexer,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -553,7 +553,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockResItemFac = $stockResItemFac;
         $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
-        $this->newIndexer = $newIndexer;
+        $this->indexerFactory = $indexerFactory;
         $this->_logger = $logger;
         parent::__construct($coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $string);
         $this->_optionEntity = isset(
@@ -1738,6 +1738,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _saveStockItem()
     {
+        $indexer = $this->indexerFactory->create()->load('catalog_product_category');
         /** @var $stockResource \Magento\CatalogInventory\Model\Resource\Stock\Item */
         $stockResource = $this->_stockResItemFac->create();
         $entityTable = $stockResource->getMainTable();
@@ -1769,9 +1770,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $row
                 );
 
-                $row = $this->stockItemService->processIsInStock($row);
-
                 if ($this->stockItemService->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
+                    $row = $this->stockItemService->processIsInStock($row);
                     if ($this->stockItemService->verifyNotification($row['product_id'])) {
                         $row['low_stock_date'] = $this->_localeDate->date(
                             null,
@@ -1795,7 +1795,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
 
             if ($productIdsToReindex) {
-                $this->newIndexer->load('catalog_product_category')->reindexList($productIdsToReindex);
+                $indexer->reindexList($productIdsToReindex);
             }
         }
         return $this;

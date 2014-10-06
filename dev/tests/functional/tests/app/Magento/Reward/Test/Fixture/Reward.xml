@@ -9,11 +9,8 @@
 -->
 <fixture class="Magento\Reward\Test\Fixture\Reward">
     <module>Magento_Reward</module>
-    <type>composite</type>
-    <entities>
-        <magento_reward>magento_reward</magento_reward>
-        <magento_reward_rate>magento_reward_rate</magento_reward_rate>
-    </entities>
+    <type>flat</type>
+    <entity_type>magento_reward</entity_type>
     <collection>Magento\Reward\Model\Resource\Reward\Collection</collection>
     <fields>
         <reward_id>
@@ -52,41 +49,6 @@
             <default_value />
             <input />
         </website_currency_code>
-        <rate_id>
-            <attribute_code>rate_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>1</is_required>
-            <default_value />
-            <input />
-        </rate_id>
-        <customer_group_id>
-            <attribute_code>customer_group_id</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required />
-            <default_value>0</default_value>
-            <input />
-        </customer_group_id>
-        <direction>
-            <attribute_code>direction</attribute_code>
-            <backend_type>smallint</backend_type>
-            <is_required />
-            <default_value>1</default_value>
-            <input />
-        </direction>
-        <points>
-            <attribute_code>points</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required />
-            <default_value>0</default_value>
-            <input />
-        </points>
-        <currency_amount>
-            <attribute_code>currency_amount</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required />
-            <default_value>0.0000</default_value>
-            <input />
-        </currency_amount>
         <reward_update_notification>
             <attribute_code>reward_update_notification</attribute_code>
             <backend_type>virtual</backend_type>
@@ -95,24 +57,6 @@
             <attribute_code>reward_warning_notification</attribute_code>
             <backend_type>virtual</backend_type>
         </reward_warning_notification>
-        <points_delta>
-            <attribute_code>points_delta</attribute_code>
-            <backend_type>virtual</backend_type>
-            <group>reward_points</group>
-        </points_delta>
-        <value>
-            <attribute_code>value</attribute_code>
-            <backend_type>virtual</backend_type>
-        </value>
-        <equal_value>
-            <attribute_code>equal_value</attribute_code>
-            <backend_type>virtual</backend_type>
-        </equal_value>
-        <comment>
-            <attribute_code>comment</attribute_code>
-            <backend_type>virtual</backend_type>
-            <group>reward_points</group>
-        </comment>
     </fields>
     <repository_class>Magento\Reward\Test\Repository\Reward</repository_class>
     <handler_interface>Magento\Reward\Test\Handler\Reward\RewardInterface</handler_interface>

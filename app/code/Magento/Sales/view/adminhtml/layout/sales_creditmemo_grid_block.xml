@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="sales_creditmemo.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="sales.creditmemo.grid" as="grid">
             <arguments>
@@ -156,4 +156,4 @@
             </block>
         </block>
     </referenceBlock>
-</layout>
+</page>

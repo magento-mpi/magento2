@@ -8,7 +8,13 @@
 
 namespace Magento\SalesRule\Model;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
+/**
+ * Class Utility
+ *
+ * @package Magento\SalesRule\Model
+ */
 class Utility
 {
     /**
@@ -37,18 +43,34 @@ class Utility
     protected $customerFactory;
 
     /**
-     * @param \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory
-     * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
+     * @var \Magento\Framework\ObjectFactory
+     */
+    protected $objectFactory;
+
+    /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
+     * @param Resource\Coupon\UsageFactory $usageFactory
+     * @param CouponFactory $couponFactory
+     * @param Rule\CustomerFactory $customerFactory
+     * @param \Magento\Framework\ObjectFactory $objectFactory
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct (
         \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
+        \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
+        \Magento\Framework\ObjectFactory $objectFactory,
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->couponFactory = $couponFactory;
         $this->customerFactory = $customerFactory;
         $this->usageFactory = $usageFactory;
+        $this->objectFactory = $objectFactory;
+        $this->priceCurrency = $priceCurrency;
     }
 
     /**
@@ -82,7 +104,7 @@ class Utility
                     // check per customer usage limit
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
-                        $couponUsage = new \Magento\Framework\Object();
+                        $couponUsage = $this->objectFactory->create();
                         $this->usageFactory->create()->loadByCustomerCoupon(
                             $couponUsage,
                             $customerId,
@@ -105,6 +127,7 @@ class Utility
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             $customerId = $address->getQuote()->getCustomerId();
+            /** @var \Magento\SalesRule\Model\Rule\Customer $ruleCustomer */
             $ruleCustomer = $this->customerFactory->create();
             $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
             if ($ruleCustomer->getId()) {
@@ -178,12 +201,13 @@ class Utility
             $discountAmount += $delta;
             $baseDiscountAmount += $baseDelta;
 
-            $this->_roundingDeltas[$percentKey] = $discountAmount - $store->roundPrice($discountAmount);
-            $this->_baseRoundingDeltas[$percentKey] = $baseDiscountAmount - $store->roundPrice($baseDiscountAmount);
+            $this->_roundingDeltas[$percentKey] = $discountAmount - $this->priceCurrency->round($discountAmount);
+            $this->_baseRoundingDeltas[$percentKey] = $baseDiscountAmount
+                - $this->priceCurrency->round($baseDiscountAmount);
         }
 
-        $discountData->setAmount($store->roundPrice($discountAmount));
-        $discountData->setBaseAmount($store->roundPrice($baseDiscountAmount));
+        $discountData->setAmount($this->priceCurrency->round($discountAmount));
+        $discountData->setBaseAmount($this->priceCurrency->round($baseDiscountAmount));
 
         return $this;
     }
@@ -233,7 +257,7 @@ class Utility
      * @param array|string $a1
      * @param array|string $a2
      * @param bool $asString
-     * @return array
+     * @return array|string
      */
     public function mergeIds($a1, $a2, $asString = true)
     {
@@ -248,5 +272,14 @@ class Utility
             $a = implode(',', $a);
         }
         return $a;
+    }
+
+    /**
+     * @return void
+     */
+    public function resetRoundingDeltas()
+    {
+        $this->_roundingDeltas = [];
+        $this->_baseRoundingDeltas = [];
     }
 }

@@ -1,0 +1,3 @@
+"description";"initialCustomerAttribute/dataSet";"customerAttribute/data/frontend_label";"customerAttribute/data/attribute_code";"customerAttribute/data/frontend_input";"customerAttribute/data/sort_order";"constraint"
+"assert that customercustom attribute code is unique";"text_field";"TextField_Customer_%isolation%";"%existed_attribute_code%";"Text Field";"10";"assertCustomerCustomAttributeErrorSaveMessage, assertCustomerCustomAttributeNotInGrid"
+"assert that customercustom attribute code is unique";"dropdown";"Dropdown_Customer_%isolation%";"%existed_attribute_code%";"Dropdown";"50";"assertCustomerCustomAttributeErrorSaveMessage, assertCustomerCustomAttributeNotInGrid"

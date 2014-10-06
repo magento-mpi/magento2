@@ -56,6 +56,9 @@ class CatalogProductVirtual extends InjectableFixture
         $dataSet = '',
         $persist = false
     ) {
+        if (!isset($data['url_key']) && isset($data['name'])) {
+            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
+        }
         parent::__construct(
             $configuration,
             $repositoryFactory,
@@ -66,13 +69,10 @@ class CatalogProductVirtual extends InjectableFixture
             $dataSet,
             $persist
         );
-
-        if (!isset($this->data['url_key']) && isset($this->data['name'])) {
-            $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
-        }
     }
 
     protected $dataConfig = [
+        'type_id' => 'virtual',
         'create_url_params' => [
             'type' => 'virtual',
             'set' => '4',
@@ -251,7 +251,7 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -260,7 +260,7 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -269,7 +269,7 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'text',
     ];
 
@@ -294,14 +294,6 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => 'Use config',
-        'input' => 'select',
-    ];
-
-    protected $msrp_enabled = [
-        'attribute_code' => 'msrp_enabled',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => 'In Cart',
         'input' => 'select',
     ];
 
@@ -507,7 +499,7 @@ class CatalogProductVirtual extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'autosettings',
+        'group' => 'search-engine-optimization',
     ];
 
     protected $url_path = [
@@ -566,6 +558,13 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'virtual',
         'default_value' => ['Main Website'],
         'group' => 'websites',
+    ];
+
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => null,
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductVirtual\CheckoutData',
     ];
 
     public function getCategoryIds()
@@ -691,11 +690,6 @@ class CatalogProductVirtual extends InjectableFixture
     public function getMsrpDisplayActualPriceType()
     {
         return $this->getData('msrp_display_actual_price_type');
-    }
-
-    public function getMsrpEnabled()
-    {
-        return $this->getData('msrp_enabled');
     }
 
     public function getName()
@@ -856,5 +850,10 @@ class CatalogProductVirtual extends InjectableFixture
     public function getWebsiteIds()
     {
         return $this->getData('website_ids');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 }

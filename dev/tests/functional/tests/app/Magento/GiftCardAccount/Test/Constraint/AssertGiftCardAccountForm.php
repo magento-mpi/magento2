@@ -8,10 +8,10 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
 use Mtf\Constraint\AbstractAssertForm;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountForm
@@ -55,7 +55,7 @@ class AssertGiftCardAccountForm extends AbstractAssertForm
 
         \PHPUnit_Framework_Assert::assertEmpty(
             $dataDiff,
-            'Gift card account form data does not equal to passed from fixture.'
+            "Gift card account form data does not equal to passed from fixture. \n" . $dataDiff
         );
     }
 

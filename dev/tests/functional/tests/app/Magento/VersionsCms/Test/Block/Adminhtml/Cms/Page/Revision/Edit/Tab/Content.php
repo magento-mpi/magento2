@@ -110,4 +110,18 @@ class Content extends Tab
         $data['content']['content'] = $this->getPageContent();
         return $data;
     }
+
+    /**
+     * Fill data to fields on tab
+     *
+     * @param array $fields
+     * @param Element|null $element
+     * @return $this
+     */
+    public function fillFormTab(array $fields, Element $element = null)
+    {
+        $this->hideEditor();
+        parent::fillFormTab($fields, $element);
+        return $this;
+    }
 }

@@ -129,7 +129,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $group = $builder->setId(null)->setCode('Test Group')->setTaxClassId(3)->create();
-        $groupId = $this->_groupService->saveGroup($group);
+        $groupId = $this->_groupService->createGroup($group);
         $this->assertNotNull($groupId);
 
         $newGroup = $this->_groupService->getGroup($groupId);
@@ -138,11 +138,23 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($group->getTaxClassId(), $newGroup->getTaxClassId());
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage ID is not expected for this request.
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateGroupWithId()
+    {
+        $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $group = $builder->setId(88)->setCode('Test Create Group With Id')->setTaxClassId(3)->create();
+        $this->_groupService->createGroup($group);
+    }
+
     public function testUpdateGroup()
     {
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $group = $builder->setId(null)->setCode('New Group')->setTaxClassId(3)->create();
-        $groupId = $this->_groupService->saveGroup($group);
+        $groupId = $this->_groupService->createGroup($group);
         $this->assertNotNull($groupId);
 
         $newGroup = $this->_groupService->getGroup($groupId);
@@ -152,8 +164,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
         $updates = $builder->setId($groupId)->setCode('Updated Group')->setTaxClassId(3)
             ->create();
-        $newId = $this->_groupService->saveGroup($updates);
-        $this->assertEquals($newId, $groupId);
+        $this->assertTrue($this->_groupService->updateGroup($groupId, $updates));
         $updatedGroup = $this->_groupService->getGroup($groupId);
         $this->assertEquals($updates->getCode(), $updatedGroup->getCode());
         $this->assertEquals($updates->getTaxClassId(), $updatedGroup->getTaxClassId());
@@ -178,8 +189,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefaultGroupDataProvider()
     {
-        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
+        /** @var \Magento\Framework\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface');
         $defaultStoreId = $storeManager->getStore()->getId();
         return [
             'no store id' => [['id' => 1, 'code' => 'General', 'tax_class_id' => 3], null],
@@ -191,8 +202,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Core/_files/second_third_store.php
      */
     public function testGetDefaultGroupWithNonDefaultStoreId()
-    {        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
+    {        /** @var \Magento\Framework\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface');
         $nonDefaultStore = $storeManager->getStore('secondstore');
         $nonDefaultStoreId = $nonDefaultStore->getId();
         /** @var \Magento\Framework\App\MutableScopeConfig $scopeConfig */
@@ -282,7 +293,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-    
+
     /**
      * @param $testGroup
      * @param $storeId

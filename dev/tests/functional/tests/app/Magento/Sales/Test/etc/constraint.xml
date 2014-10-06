@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertOrderStatusSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+        <require>
+            <orderStatusIndex class="Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex" />
+        </require>
+    </assertOrderStatusSuccessCreateMessage>
+    <assertOrderStatusInGrid module="Magento_Sales">
+        <severeness>high</severeness>
+        <require>
+            <orderStatusIndex class="Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex" />
+            <orderStatus class="Magento\Sales\Test\Fixture\OrderStatus" />
+        </require>
+    </assertOrderStatusInGrid>
+    <assertOrderStatusDuplicateStatus module="Magento_Sales">
+        <severeness>high</severeness>
+        <require>
+            <orderStatusNew class="Magento\Sales\Test\Page\Adminhtml\OrderStatusNew" />
+        </require>
+    </assertOrderStatusDuplicateStatus>
+    <assertOrderButtonsAvailable module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderButtonsAvailable>
+    <assertOrderGrandTotal module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderGrandTotal>
+    <assertOrderStatusIsCorrect module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusIsCorrect>
+    <assertProductInItemsOrderedGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertProductInItemsOrderedGrid>
+    <assertOrderCancelSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderCancelSuccessMessage>
+    <assertOrderInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGrid>
+    <assertOrdersInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrdersInOrdersGrid>
+    <assertOrderInOrdersGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderInOrdersGridOnFrontend>
+    <assertOrderOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderOnHoldSuccessMessage>
+    <assertOrderMassOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderMassOnHoldSuccessMessage>
+    <assertUnholdButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertUnholdButton>
+    <assertOrderButtonsUnavailable module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderButtonsUnavailable>
+    <assertOrderSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderSuccessCreateMessage>
+    <assertNoInvoiceButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoInvoiceButton>
+    <assertInvoiceInInvoicesTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceInInvoicesTab>
+    <assertInvoiceInInvoicesGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceInInvoicesGridOnFrontend>
+    <assertInvoicedAmountOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoicedAmountOnFrontend>
+    <assertNoShipButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoShipButton>
+    <assertShipmentInShipmentsTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentInShipmentsTab>
+    <assertInvoiceSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceSuccessCreateMessage>
+    <assertInvoiceWithShipmentSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceWithShipmentSuccessMessage>
+    <assertOrderNotInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderNotInOrdersGrid>
+    <assertOrderCancelMassActionSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderCancelMassActionSuccessMessage>
+    <assertOrderCancelMassActionFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderCancelMassActionFailMessage>
+    <assertOrderOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderOnHoldSuccessMessage>
+    <assertOrderOnHoldFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderOnHoldFailMessage>
+    <assertOrderReleaseSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderReleaseSuccessMessage>
+    <assertOrderReleaseFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderReleaseFailMessage>
+    <assertShipmentSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentSuccessCreateMessage>
+</constraint>

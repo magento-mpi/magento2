@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/cache/" module="Magento_Backend">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <actionsBlock>
+            <class>Magento\Backend\Test\Block\Cache</class>
+            <locator>div.page-actions</locator>
+            <strategy>css selector</strategy>
+        </actionsBlock>
+    </blocks>
+</page>

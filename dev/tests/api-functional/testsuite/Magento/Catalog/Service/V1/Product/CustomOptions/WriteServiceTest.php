@@ -50,7 +50,6 @@ class WriteServiceTest extends WebapiAbstract
     {
         $productSku = 'simple';
         $optionDataPost = $optionData;
-        $optionDataPost['option_id'] = null;
 
         $serviceInfo = [
             'rest' => [
@@ -130,8 +129,6 @@ class WriteServiceTest extends WebapiAbstract
     {
         $productSku = 'simple';
         $optionDataPost = $optionData;
-        $optionDataPost['option_id'] = null;
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . "/options",
@@ -552,6 +549,38 @@ class WriteServiceTest extends WebapiAbstract
             $message = json_decode($e->getMessage())->message;
         }
         $this->assertEquals($message, 'Could not save custom option');
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_without_options.php
+     * @magentoAppIsolation enabled
+     */
+    public function testAddNegativeOptionIdExists()
+    {
+        $fixture = include '_files/product_options.php';
+        $optionData = $fixture[0];
+        $productSku = 'simple';
+        $optionData['option_id'] = 1;
+        $optionDataPost = $optionData;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
+            ]
+        ];
+
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->setExpectedException('SoapFault', 'Unable to save option. Please, check input data.');
+        } else {
+            $this->setExpectedException('Exception', '', 400);
+        }
+        $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $optionDataPost]);
     }
 }
 

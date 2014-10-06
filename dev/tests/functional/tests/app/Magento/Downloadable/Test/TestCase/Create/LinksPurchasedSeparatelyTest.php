@@ -45,18 +45,18 @@ class LinksPurchasedSeparatelyTest extends Functional
         $createProductPage->getGridPageActionBlock()->addProduct('downloadable');
 
         $createProductPageNew = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPageNew->getForm();
+        $productBlockForm = $createProductPageNew->getProductForm();
 
         $category = $this->product->getCategories()['category'];
         $productBlockForm->fill($this->product, null, $category);
-        $createProductPageNew->getFormAction()->save();
+        $createProductPageNew->getFormPageActions()->save();
 
-        $createProductPageNew->getMessagesBlock()->assertSuccessMessage();
+        $createProductPageNew->getMessagesBlock()->waitSuccessMessage();
 
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
 
         $this->assertOnBackend();
         $this->assertOnFrontend();
@@ -72,7 +72,7 @@ class LinksPurchasedSeparatelyTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $this->product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $this->product->getSku()]));
     }
 
     /**
@@ -85,30 +85,34 @@ class LinksPurchasedSeparatelyTest extends Functional
         $product = $this->product;
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getDownloadableCatalogProductView();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
 
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
-
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getName()));
-        $productListBlock->openProductViewPage($product->getName());
 
-        $productViewBlock = $productPage->getDownloadableViewBlock();
+        $productListBlock->openProductViewPage($product->getName());
+        $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getName(), $productViewBlock->getProductName());
         $this->assertEquals(
-            sprintf('%1.2f', $product->getProductPrice()),
-            $productViewBlock->getProductPrice()['price_regular_price']
+            number_format($product->getProductPrice(), 2),
+            $productViewBlock->getPriceBlock()->getPrice()
         );
 
-        $this->assertEquals(
-            $productPage->getDownloadableViewBlock()->getDownloadableLinksBlock()->getItemTitle(1),
-            $product->getData('fields/downloadable_links/value/downloadable/link/0/title')
-        );
-
-        $this->assertEquals(
-            sprintf('$%1.2f', $product->getData('fields/downloadable_links/value/downloadable/link/0/price')),
-            $productPage->getDownloadableViewBlock()->getDownloadableLinksBlock()->getItemPrice(1)
-        );
+        $productDownloadableLinks = $product->getData('fields/downloadable_links/value/downloadable/link');
+        $pageOptions = $productViewBlock->getOptions($product);
+        $pageDownloadableOptions = $pageOptions['downloadable_options']['downloadable_links'];
+        $pageDownloadableLinks = $pageDownloadableOptions['downloadable']['link'];
+        foreach ($productDownloadableLinks as $key => $link) {
+            $this->assertEquals(
+                $pageDownloadableLinks[$key]['title'],
+                $link['title']
+            );
+            $this->assertEquals(
+                $pageDownloadableLinks[$key]['price'],
+                $link['price']
+            );
+        }
     }
 }

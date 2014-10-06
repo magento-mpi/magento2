@@ -7,23 +7,22 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/giftwrapping/index" >
-    <block>
-        <name>gridPageActions</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>giftWrappingGrid</name>
-        <class>Magento\GiftWrapping\Test\Block\Adminhtml\Grid</class>
-        <locator>#giftwrappingGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="admin/giftwrapping/index" module="Magento_GiftWrapping">
+    <blocks>
+        <gridPageActions>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </gridPageActions>
+        <giftWrappingGrid>
+            <class>Magento\GiftWrapping\Test\Block\Adminhtml\Grid</class>
+            <locator>#giftwrappingGrid</locator>
+            <strategy>css selector</strategy>
+        </giftWrappingGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
 </page>

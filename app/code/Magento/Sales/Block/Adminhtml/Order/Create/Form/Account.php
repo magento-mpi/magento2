@@ -9,6 +9,8 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 /**
  * Create order account form
@@ -31,6 +33,7 @@ class Account extends AbstractForm
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -40,6 +43,7 @@ class Account extends AbstractForm
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerAccountServiceInterface $customerAccountService,
@@ -47,7 +51,7 @@ class Account extends AbstractForm
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerAccountService = $customerAccountService;
-        parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
+        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
     }
 
     /**
@@ -138,7 +142,7 @@ class Account extends AbstractForm
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
-        $data = isset($customer) ? \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer) : array();
+        $data = isset($customer) ? ExtensibleDataObjectConverter::toFlatArray($customer) : array();
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;

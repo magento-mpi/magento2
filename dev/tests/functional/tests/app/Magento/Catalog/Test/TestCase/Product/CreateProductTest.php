@@ -40,18 +40,17 @@ class CreateProductTest extends Functional
         $product->switchData('simple_advanced_inventory');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
         $productForm = $createProductPage->getProductForm();
         //Steps
-        $createProductPage->open();
+        $createProductPage->open(['type' => 'simple', 'set' => 4]);
         $productForm->fill($product);
-        $createProductPage->getFormAction()->save();
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getFormPageActions()->save();
+        $createProductPage->getMessagesBlock()->waitSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
         //Verifying
         $this->assertOnGrid($product);
         $this->assertOnCategory($product);
@@ -68,7 +67,7 @@ class CreateProductTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getSku()]));
     }
 
     /**
@@ -93,7 +92,7 @@ class CreateProductTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getName(), $productViewBlock->getProductName());
-        $price = $productViewBlock->getProductPrice();
-        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
+        $price = $productViewBlock->getPriceBlock()->getPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price);
     }
 }

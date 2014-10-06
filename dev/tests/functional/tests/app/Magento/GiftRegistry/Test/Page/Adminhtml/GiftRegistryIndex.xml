@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/giftregistry/index" module="Magento_GiftRegistry">
+    <blocks>
+        <pageActions>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <giftRegistryGrid>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Grid</class>
+            <locator>[data-grid-id="giftregistryGrid"]</locator>
+            <strategy>css selector</strategy>
+        </giftRegistryGrid>
+    </blocks>
+</page>

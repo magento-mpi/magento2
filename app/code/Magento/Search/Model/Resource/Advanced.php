@@ -24,7 +24,7 @@ class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
     protected $_textFieldTypes = array('text', 'varchar', 'int');
 
     /**
-     * @var \Magento\Search\Model\Resource\Engine
+     * @var \Magento\Search\Model\Resource\Solr\Engine
      */
     protected $_resourceEngine;
 
@@ -41,12 +41,12 @@ class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
     /**
      * Construct
      *
-     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
+     * @param \Magento\Search\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Search\Model\Resource\Engine $resourceEngine,
+        Solr\Engine $resourceEngine,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime
     ) {

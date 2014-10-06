@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data\Eav;
 /**
  * Class OptionBuilder
  */
-class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class OptionBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * Set option label
@@ -32,5 +32,17 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     public function setValue($value)
     {
         return $this->_set(Option::VALUE, $value);
+    }
+
+
+    /**
+     * Set nested options
+     *
+     * @param \Magento\Customer\Service\V1\Data\Eav\Option[] $options
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        return $this->_set(Option::OPTIONS, $options);
     }
 }

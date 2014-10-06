@@ -45,7 +45,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $entityTypeMock;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -78,7 +78,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityType')
             ->will($this->returnValue($this->entityTypeMock));
 
-        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->storeManagerMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnSelf());
@@ -189,7 +189,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         return array(
             'main_table_expression' => array(
                 'col2', '1',
-                'SELECT COUNT(*) FROM "some_main_table" AS "main_table"' . "\n"
+                'SELECT COUNT(DISTINCT main_table.attribute_id) FROM "some_main_table" AS "main_table"' . "\n"
                 . ' INNER JOIN "some_extra_table" AS "additional_table"'
                 . ' ON additional_table.attribute_id = main_table.attribute_id' . "\n"
                 . ' LEFT JOIN "some_extra_table" AS "scope_table"'
@@ -200,7 +200,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ),
             'additional_table_expression' => array(
                 'col3', '2',
-                'SELECT COUNT(*) FROM "some_main_table" AS "main_table"' . "\n"
+                'SELECT COUNT(DISTINCT main_table.attribute_id) FROM "some_main_table" AS "main_table"' . "\n"
                 . ' INNER JOIN "some_extra_table" AS "additional_table"'
                 . ' ON additional_table.attribute_id = main_table.attribute_id'. "\n"
                 . ' LEFT JOIN "some_extra_table" AS "scope_table"'

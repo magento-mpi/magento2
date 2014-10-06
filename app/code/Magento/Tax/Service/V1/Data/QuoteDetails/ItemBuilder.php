@@ -7,12 +7,15 @@
  */
 namespace Magento\Tax\Service\V1\Data\QuoteDetails;
 
+use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
+
 /**
  * Builder for the Item Service Data Object
  *
  * @method Item create()
  */
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
 {
     /**
      * TaxClassKey data object builder
@@ -25,13 +28,17 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      * Initialize dependencies
      *
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
      * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService,
         \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
     ) {
-        parent::__construct($objectFactory);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->taxClassKeyBuilder = $taxClassKeyBuilder;
     }
 
@@ -153,6 +160,17 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     public function setAssociatedItemCode($code)
     {
         return $this->_set(Item::KEY_ASSOCIATED_ITEM_CODE, $code);
+    }
+
+    /**
+     * Set tax class id
+     *
+     * @param string $code
+     * @return $this
+     */
+    public function setTaxClassId($code)
+    {
+        return $this->_set(Item::KEY_TAX_CLASS_ID, $code);
     }
 
     /**

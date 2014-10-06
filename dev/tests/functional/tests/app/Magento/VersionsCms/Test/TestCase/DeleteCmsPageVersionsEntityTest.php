@@ -16,7 +16,7 @@ use Magento\VersionsCms\Test\Fixture\Version;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
- * Test Creation for DeleteCmsPageVersionsEntity
+ * Test Creation for DeleteCmsPageVersionsEntityTest
  *
  * Test Flow:
  *
@@ -31,13 +31,12 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
  * 2. Navigate to Content > Elements: Pages
  * 3. Open the page
  * 4. Open 'Versions' tab
- * 5. Select the version according to dataset in grid
- * 6. Select 'Delete' in Versions Mass Actions form
- * 7. Click 'Submit'
+ * 5. Open the version according to dataset in grid
+ * 6. Click on 'Delete' button
  * 8. Perform appropriate assertions
  *
  * @group CMS_Versioning_(PS)
- * @ZephyrId MAGETWO-27096
+ * @ZephyrId MAGETWO-27290
  */
 class DeleteCmsPageVersionsEntityTest extends Injectable
 {
@@ -88,8 +87,6 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Version $version, array $results, $initialVersionToDelete)
     {
-        $this->markTestIncomplete('MAGETWO-26802');
-
         // Precondition
         $cms->persist();
         $filter = ['title' => $cms->getTitle()];
@@ -102,12 +99,14 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
         $this->cmsVersionEdit->getFormPageActions()->saveAsNewVersion();
 
         // Steps
+        $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getPageForm()->openTab('versions');
         $label = $initialVersionToDelete == 'Yes' ? $cms->getTitle() : $version->getLabel();
-        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()
-            ->massaction([['label' => $label]], 'Delete', true);
+        $filter = ['label' => $label];
+        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen($filter);
+        $this->cmsVersionEdit->getFormPageActions()->delete();
 
         return [
             'results' => [

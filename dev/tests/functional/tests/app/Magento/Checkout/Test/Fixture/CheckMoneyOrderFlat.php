@@ -37,12 +37,12 @@ class CheckMoneyOrderFlat extends Checkout
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'totals' => array(
+        $this->_data = [
+            'totals' => [
                 'grand_total' => '$21.00',
                 'sub_total' => '$11.00'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -51,14 +51,17 @@ class CheckMoneyOrderFlat extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array('flat_rate', 'check_money_order'));
+        $this->_persistConfiguration(['flat_rate', 'check_money_order']);
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
 
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $objectManager = Factory::getObjectManager();
+        $this->billingAddress = $objectManager->create(
+            '\Magento\Customer\Test\Fixture\AddressInjectable',
+            ['dataSet' => 'customer_US']
+        );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');

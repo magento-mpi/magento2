@@ -13,7 +13,7 @@ use Mtf\TestCase\Functional;
 use Magento\UrlRewrite\Test\Fixture\UrlRewriteProduct;
 
 /**
- * Class UrlrewriteTest
+ * Class UrlRewriteTest
  * Product URL rewrite creation test
  */
 class ProductTest extends Functional
@@ -31,9 +31,9 @@ class ProductTest extends Functional
         $urlRewriteProduct->switchData('product_with_temporary_redirect');
 
         //Pages & Blocks
-        $urlRewriteGridPage = Factory::getPageFactory()->getAdminUrlrewriteIndex();
+        $urlRewriteGridPage = Factory::getPageFactory()->getAdminUrlRewriteIndex();
         $pageActionsBlock = $urlRewriteGridPage->getPageActionsBlock();
-        $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlrewriteEdit();
+        $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlRewriteEdit();
         $categoryTreeBlock = $urlRewriteEditPage->getTreeBlock();
         $productGridBlock = $urlRewriteEditPage->getProductGridBlock();
         $typeSelectorBlock = $urlRewriteEditPage->getUrlRewriteTypeSelectorBlock();
@@ -44,7 +44,7 @@ class ProductTest extends Functional
         $urlRewriteGridPage->open();
         $pageActionsBlock->addNew();
         $typeSelectorBlock->selectType($urlRewriteProduct->getUrlRewriteType());
-        $productGridBlock->searchAndSelect(array('sku' => $urlRewriteProduct->getProductSku()));
+        $productGridBlock->searchAndSelect(['sku' => $urlRewriteProduct->getProductSku()]);
         $categoryTreeBlock->selectCategory($urlRewriteProduct->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteProduct);
         $urlRewriteEditPage->getPageMainActions()->save();
@@ -53,7 +53,7 @@ class ProductTest extends Functional
             $urlRewriteGridPage->getMessagesBlock()->getSuccessMessages()
         );
 
-        $this->assertUrlRedirect(
+        $this->assertUrlRewrite(
             $_ENV['app_frontend_url'] . $urlRewriteProduct->getRewrittenRequestPath(),
             $_ENV['app_frontend_url'] . $urlRewriteProduct->getOriginalRequestPath()
         );
@@ -67,7 +67,7 @@ class ProductTest extends Functional
      * @param string $message
      * @return void
      */
-    protected function assertUrlRedirect($requestUrl, $targetUrl, $message = '')
+    protected function assertUrlRewrite($requestUrl, $targetUrl, $message = '')
     {
         $browser = Factory::getClientBrowser();
         $browser->open($requestUrl);

@@ -14,6 +14,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 
 class TaxRateServiceTest extends WebapiAbstract
 {
@@ -41,6 +42,9 @@ class TaxRateServiceTest extends WebapiAbstract
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
 
+    /** @var  SortOrderBuilder */
+    private $sortOrderBuilder;
+
     /**
      * Other rates created during tests, to be deleted in tearDown()
      *
@@ -60,6 +64,9 @@ class TaxRateServiceTest extends WebapiAbstract
         );
         $this->filterBuilder = $objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
+        );
+        $this->sortOrderBuilder = $objectManager->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
         );
         /** Initialize tax classes, tax rates and tax rules defined in fixture Magento/Tax/_files/tax_classes.php */
         $this->getFixtureTaxRates();
@@ -438,11 +445,13 @@ class TaxRateServiceTest extends WebapiAbstract
         $filter = $this->filterBuilder->setField(TaxRate::KEY_COUNTRY_ID)
             ->setValue('CZ')
             ->create();
-
+        $sortOrder = $this->sortOrderBuilder
+            ->setField(TaxRate::KEY_POSTCODE)
+            ->setDirection(SearchCriteria::SORT_DESC)
+            ->create();
         // Order them by descending postcode (not the default order)
         $this->searchCriteriaBuilder->addFilter([$filter])
-            ->addSortOrder(TaxRate::KEY_POSTCODE, SearchCriteria::SORT_DESC);
-
+            ->addSortOrder($sortOrder);
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',

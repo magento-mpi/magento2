@@ -22,74 +22,6 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr impleme
     protected $_clientDocObjectName = 'Apache_Solr_Document';
 
     /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
-     */
-    protected $_ctlgInventData;
-
-    /**
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Resource\Index $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Search\Model\Factory\Factory $searchFactory
-     * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
-     * @param array $options
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
-    public function __construct(
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Resource\Index $resourceIndex,
-        \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
-        \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Framework\Logger $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\CacheInterface $cache,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Search\Model\Factory\Factory $searchFactory,
-        \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\CatalogInventory\Helper\Data $ctlgInventData,
-        array $options = array()
-    ) {
-        $this->_ctlgInventData = $ctlgInventData;
-        parent::__construct(
-            $customerSession,
-            $resourceIndex,
-            $resourceFulltext,
-            $attributeCollection,
-            $logger,
-            $storeManager,
-            $cache,
-            $eavConfig,
-            $searchFactory,
-            $clientHelper,
-            $registry,
-            $scopeConfig,
-            $dateTime,
-            $localeResolver,
-            $localeDate,
-            $options
-        );
-    }
-
-    /**
      * Simple Search interface
      *
      * @param string $query The raw query string
@@ -209,9 +141,6 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr impleme
          */
         if ($_params['store_id'] > 0) {
             $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
-        }
-        if (!$this->_ctlgInventData->isShowOutOfStock()) {
-            $searchParams['fq'][] = 'in_stock:true';
         }
 
         $searchParams['fq'] = implode(' AND ', $searchParams['fq']);

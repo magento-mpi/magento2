@@ -7,7 +7,6 @@
  */
 namespace Magento\Store\Model;
 
-use Magento\Directory\Model\Currency\Filter;
 use Magento\Framework\Model\AbstractModel;
 
 /**
@@ -101,11 +100,6 @@ class Store extends AbstractModel implements
      * Cookie name
      */
     const COOKIE_NAME = 'store';
-
-    /**
-     * Cookie currency key
-     */
-    const COOKIE_CURRENCY = 'currency';
 
     /**
      * Script name, which returns all the images
@@ -285,11 +279,14 @@ class Store extends AbstractModel implements
     protected $_currencyInstalled;
 
     /**
-     * Cookie model
-     *
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    protected $_cookie;
+    protected $_cookieMetadataFactory;
+
+    /**
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $_cookieManager;
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -312,9 +309,10 @@ class Store extends AbstractModel implements
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager,
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
@@ -334,9 +332,10 @@ class Store extends AbstractModel implements
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
-        \Magento\Framework\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
@@ -355,7 +354,8 @@ class Store extends AbstractModel implements
         $this->filesystem = $filesystem;
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
-        $this->_cookie = $cookie;
+        $this->_cookieMetadataFactory = $cookieMetadataFactory;
+        $this->_cookieManager = $cookieManager;
         $this->_httpContext = $httpContext;
         $this->_session = $session;
         $this->currencyFactory = $currencyFactory;
@@ -387,7 +387,6 @@ class Store extends AbstractModel implements
         $this->_config = \Magento\Framework\App\ObjectManager::getInstance()->get(
             'Magento\Framework\App\Config\ReinitableConfigInterface'
         );
-        $this->_cookie = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Stdlib\Cookie');
     }
 
     /**
@@ -408,9 +407,8 @@ class Store extends AbstractModel implements
     protected function _getSession()
     {
         if (!$this->_session->isSessionExists()) {
-            $this->_session->start(
-                'store_' . $this->getCode()
-            );
+            $this->_session->setName('store_' . $this->getCode());
+            $this->_session->start();
         }
         return $this->_session;
     }
@@ -476,7 +474,7 @@ class Store extends AbstractModel implements
     protected function _getConfig($path)
     {
         $data = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $this->getCode());
-        if (!$data && !$this->_appState->isInstalled()) {
+        if (!$data) {
             $data = $this->_config->getValue($path, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT);
         }
         return $data === false ? null : $data;
@@ -608,10 +606,7 @@ class Store extends AbstractModel implements
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->getForceDisableRewrites() || !$this->_getConfig(
-            self::XML_PATH_USE_REWRITES
-        ) || !$this->_appState->isInstalled()
-        ) {
+        if ($this->getForceDisableRewrites() || !$this->_getConfig(self::XML_PATH_USE_REWRITES)) {
             if ($this->_isCustomEntryPoint()) {
                 $indexFileName = 'index.php';
             } else {
@@ -678,7 +673,6 @@ class Store extends AbstractModel implements
     {
         return !($this->hasDisableStoreInUrl() &&
             $this->getDisableStoreInUrl()) &&
-            $this->_appState->isInstalled() &&
             $this->_getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
@@ -736,26 +730,21 @@ class Store extends AbstractModel implements
             return true;
         }
 
-        if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = $this->_config->getValue(
-                self::XML_PATH_SECURE_BASE_URL,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+        $secureBaseUrl = $this->_config->getValue(
+            self::XML_PATH_SECURE_BASE_URL,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
-            if (!$secureBaseUrl) {
-                return false;
-            }
-
-            $uri = \Zend_Uri::factory($secureBaseUrl);
-            $port = $uri->getPort();
-            $isSecure = $uri->getScheme() == 'https' && isset(
-                $_SERVER['SERVER_PORT']
-            ) && $port == $_SERVER['SERVER_PORT'];
-            return $isSecure;
-        } else {
-            $isSecure = isset($_SERVER['SERVER_PORT']) && 443 == $_SERVER['SERVER_PORT'];
-            return $isSecure;
+        if (!$secureBaseUrl) {
+            return false;
         }
+
+        $uri = \Zend_Uri::factory($secureBaseUrl);
+        $port = $uri->getPort();
+        $isSecure = $uri->getScheme() == 'https' && isset(
+            $_SERVER['SERVER_PORT']
+        ) && $port == $_SERVER['SERVER_PORT'];
+        return $isSecure;
     }
 
     /*************************************************************************************
@@ -832,12 +821,7 @@ class Store extends AbstractModel implements
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
-            $path = $this->_getSession()->getCookiePath();
-            if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
-                $this->_cookie->set(self::COOKIE_CURRENCY, null, null, $path);
-            } else {
-                $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, $path);
-            }
+
             $this->_httpContext->setValue(
                 \Magento\Core\Helper\Data::CONTEXT_CURRENCY,
                 $code,
@@ -950,74 +934,6 @@ class Store extends AbstractModel implements
     public function getCurrentCurrencyRate()
     {
         return $this->getBaseCurrency()->getRate($this->getCurrentCurrency());
-    }
-
-    /**
-     * Convert price from default currency to current currency
-     *
-     * @param   float $price
-     * @param   bool $format Format price to currency format
-     * @param   bool $includeContainer Enclose into <span class="price"><span>
-     * @return  float
-     */
-    public function convertPrice($price, $format = false, $includeContainer = true)
-    {
-        if ($this->getCurrentCurrency() && $this->getBaseCurrency()) {
-            $value = $this->getBaseCurrency()->convert($price, $this->getCurrentCurrency());
-        } else {
-            $value = $price;
-        }
-
-        if ($this->getCurrentCurrency() && $format) {
-            $value = $this->formatPrice($value, $includeContainer);
-        }
-        return $value;
-    }
-
-    /**
-     * Round price
-     *
-     * @param float $price
-     * @return float
-     */
-    public function roundPrice($price)
-    {
-        return round($price, 2);
-    }
-
-    /**
-     * Format price with currency filter (taking rate into consideration)
-     *
-     * @param   float $price
-     * @param   bool $includeContainer
-     * @return  string
-     */
-    public function formatPrice($price, $includeContainer = true)
-    {
-        if ($this->getCurrentCurrency()) {
-            return $this->getCurrentCurrency()->format($price, array(), $includeContainer);
-        }
-        return $price;
-    }
-
-    /**
-     * Get store price filter
-     *
-     * @return Filter|\Magento\Framework\Filter\Sprintf
-     */
-    public function getPriceFilter()
-    {
-        if (!$this->_priceFilter) {
-            if ($this->getBaseCurrency() && $this->getCurrentCurrency()) {
-                $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
-                $this->_priceFilter->setRate($this->getBaseCurrency()->getRate($this->getCurrentCurrency()));
-            } elseif ($this->getDefaultCurrency()) {
-                $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
-            } else {
-                $this->_priceFilter = new \Magento\Framework\Filter\Sprintf('%s', 2);
-            }
-        }
-        return $this->_priceFilter;
     }
 
     /**
@@ -1186,19 +1102,10 @@ class Store extends AbstractModel implements
     /**
      * Protect delete from non admin area
      *
-     * Register indexing event before delete store
-     *
      * @return $this
      */
     protected function _beforeDelete()
     {
-        \Magento\Framework\App\ObjectManager::getInstance()->get(
-            'Magento\Index\Model\Indexer'
-        )->logEvent(
-            $this,
-            self::ENTITY,
-            \Magento\Index\Model\Event::TYPE_DELETE
-        );
         $this->_configDataResource->clearScopeData(\Magento\Store\Model\ScopeInterface::SCOPE_STORES, $this->getId());
 
         return parent::_beforeDelete();
@@ -1213,23 +1120,6 @@ class Store extends AbstractModel implements
     {
         parent::_afterDelete();
         $this->_configCacheType->clean();
-        return $this;
-    }
-
-    /**
-     * Init indexing process after store delete commit
-     *
-     * @return $this
-     */
-    protected function _afterDeleteCommit()
-    {
-        parent::_afterDeleteCommit();
-        \Magento\Framework\App\ObjectManager::getInstance()->get(
-            'Magento\Index\Model\Indexer'
-        )->indexEvents(
-            self::ENTITY,
-            \Magento\Index\Model\Event::TYPE_DELETE
-        );
         return $this;
     }
 
@@ -1288,5 +1178,44 @@ class Store extends AbstractModel implements
     public function getIdentities()
     {
         return array(self::CACHE_TAG . '_' . $this->getId());
+    }
+
+    /**
+     * Set store cookie with this store's code for a year.
+     *
+     * @return $this
+     */
+    public function setCookie()
+    {
+        $cookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
+            ->setHttpOnly(true)
+            ->setDurationOneYear();
+        $this->_cookieManager->setPublicCookie(
+            self::COOKIE_NAME,
+            $this->getCode(),
+            $cookieMetadata
+        );
+        return $this;
+    }
+
+    /**
+     * Get store code from store cookie.
+     *
+     * @return null|string
+     */
+    public function getStoreCodeFromCookie()
+    {
+        return $this->_cookieManager->getCookie(self::COOKIE_NAME);
+    }
+
+    /**
+     * Delete store cookie.
+     *
+     * @return $this
+     */
+    public function deleteCookie()
+    {
+        $this->_cookieManager->deleteCookie(self::COOKIE_NAME);
+        return $this;
     }
 }

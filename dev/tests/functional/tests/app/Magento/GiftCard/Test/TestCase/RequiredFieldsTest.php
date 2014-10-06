@@ -47,14 +47,14 @@ class RequiredFieldsTest extends Functional
         $manageProductsGrid->open();
         $manageProductsGrid->getGridPageActionBlock()->addProduct('giftcard');
         $productForm->fill($giftcard);
-        $createProductPage->getFormAction()->save();
+        $createProductPage->getFormPageActions()->save();
         //Verification
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->waitSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
         //Verification
         $this->assertOnGrid($giftcard);
         $this->assertOnCategory($giftcard);
@@ -71,7 +71,7 @@ class RequiredFieldsTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getSku()]));
     }
 
     /**
@@ -84,7 +84,7 @@ class RequiredFieldsTest extends Functional
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getGiftCardCatalogProductView();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());

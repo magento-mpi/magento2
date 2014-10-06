@@ -412,11 +412,12 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     protected function _prepareFiles($fileType, $files, $skip = null)
     {
         $result = array();
-        foreach (array_keys($files) as $file) {
-            if (!$skip && substr_count(self::_getRelativeFilename($file), '/') < self::DIR_PATH_COUNT) {
+        foreach ($files as $relativePath => $file) {
+            $absolutePath = $file[0];
+            if (!$skip && substr_count($relativePath, '/') < self::DIR_PATH_COUNT) {
                 continue;
             }
-            $result[$file] = array($fileType, $file);
+            $result[$relativePath] = array($fileType, $absolutePath);
         }
         return $result;
     }
@@ -484,7 +485,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         foreach ($files as $file) {
             if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/\\\\](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
                 $module = $matches['namespace'] . '\\' . $matches['module'];
-                self::$_listRoutesXml[$module] = $file;
+                self::$_listRoutesXml[$module][] = $file;
             }
         }
     }
@@ -501,24 +502,40 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         foreach ($files as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = $matches['namespace'] . '\\' . $matches['module'];
-                if (isset(self::$_listRoutesXml[$module])) {
-                    // Read module's routes.xml file
-                    $config = simplexml_load_file(self::$_listRoutesXml[$module]);
-                    $nodes = $config->xpath("/config/router/*");
-                    foreach ($nodes as $node) {
-                        $id = (string)$node['id'];
-                        if ($id != 'adminhtml' && '' == (string)$node['frontName']) {
-                            // Exclude overridden routers
-                            continue;
-                        }
-                        if (!isset(self::$_mapRouters[$id])) {
-                            self::$_mapRouters[$id] = array();
-                        }
-                        if (!in_array($module, self::$_mapRouters[$id])) {
-                            self::$_mapRouters[$id][] = $module;
-                        }
+                if (!empty(self::$_listRoutesXml[$module])) {
+                    foreach (self::$_listRoutesXml[$module] as $configFile) {
+                        self::updateRoutersMap($module, $configFile);
+
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Update routers map for the module basing on the routing config file
+     *
+     * @param string $module
+     * @param string $configFile
+     *
+     * @return void
+     */
+    private static function updateRoutersMap($module, $configFile)
+    {
+        // Read module's routes.xml file
+        $config = simplexml_load_file($configFile);
+        $nodes  = $config->xpath("/config/router/*");
+        foreach ($nodes as $node) {
+            $id = (string)$node['id'];
+            if ($id != 'adminhtml' && '' == (string)$node['frontName']) {
+                // Exclude overridden routers
+                continue;
+            }
+            if (!isset(self::$_mapRouters[$id])) {
+                self::$_mapRouters[$id] = array();
+            }
+            if (!in_array($module, self::$_mapRouters[$id])) {
+                self::$_mapRouters[$id][] = $module;
             }
         }
     }

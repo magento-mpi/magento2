@@ -35,7 +35,7 @@ class SearchTest extends Functional
         $productFixture->switchData('simple');
         $productFixture->persist();
         $productName = $productFixture->getName();
-        $productSku = $productFixture->getProductSku();
+        $productSku = $productFixture->getSku();
 
         //Pages & Blocks
         $homePage = Factory::getPageFactory()->getCmsIndexIndex();

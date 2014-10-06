@@ -37,10 +37,10 @@
 @font-rem-ratio: unit(@font-size-root * 16/100);
 //base font size value in <b>px</b>:
 @font-size-base: unit((@font-size-root / 100) * 16 * @font-size-base-ratio, px); // Also used in: @loader-text-font-size
-@font-size-xl: ceil(1.5 * @font-size-base);
-@font-size-l: ceil(1.25 * @font-size-base);
-@font-size-s: ceil(0.85 * @font-size-base);  // Also used in: Breadcrumbs and in Small button
-@font-size-xs: floor(0.75 * @font-size-base);
+@font-size-xl: ceil(1.5 * @font-size-base);  // 21
+@font-size-l: ceil(1.25 * @font-size-base);  // 18
+@font-size-s: ceil(0.85 * @font-size-base);  // 12 Also used in: Breadcrumbs and in Small button
+@font-size-xs: floor(0.75 * @font-size-base);  // 11
 
 @font-weight-base: 400;
 @font-weight-light: 300;
@@ -265,13 +265,13 @@
 @layout-width: ''; // for the fixed width layout
 @layout-max-width: 1280px;
 @layout-indent: 20px;
-@layout-width-xs-indent: 10px;
+@layout-width-xs-indent: 15px;
 
 // Classnames defining different layouts
-@layout-class-1column: layout-1;
-@layout-class-2columns-left: layout-2-left;
-@layout-class-2columns-right: layout-2-right;
-@layout-class-3columns: layout-3;
+@layout-class-1column: page-layout-1column;
+@layout-class-2columns-left: page-layout-2columns-left;
+@layout-class-2columns-right: page-layout-2columns-right;
+@layout-class-3columns: page-layout-3columns;
 
 // Variables used for layout grid
 @total-columns: 12;

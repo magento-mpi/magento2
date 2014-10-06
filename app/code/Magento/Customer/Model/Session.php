@@ -97,6 +97,8 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -108,7 +110,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param Converter $converter
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param null $sessionName
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -117,6 +118,8 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
@@ -127,8 +130,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
-        CustomerAccountServiceInterface $customerAccountService,
-        $sessionName = null
+        CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
@@ -140,8 +142,17 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_httpContext = $httpContext;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
-        $this->start($sessionName);
+        parent::__construct(
+            $request,
+            $sidResolver,
+            $sessionConfig,
+            $saveHandler,
+            $validator,
+            $storage,
+            $cookieManager,
+            $cookieMetadataFactory
+        );
+        $this->start();
         $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
@@ -236,6 +247,12 @@ class Session extends \Magento\Framework\Session\SessionManager
         if (!$customerModel->isConfirmationRequired() && $customerModel->getConfirmation()) {
             $customerModel->setConfirmation(null)->save();
         }
+
+        /**
+         * The next line is a workaround.
+         * It is used to distinguish users that are logged in from user data set via methods similar to setCustomerId()
+         */
+        $this->unsIsCustomerEmulated();
 
         return $this;
     }
@@ -340,7 +357,9 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function isLoggedIn()
     {
-        return (bool)$this->getCustomerId() && (bool)$this->checkCustomerId($this->getId());
+        return (bool)$this->getCustomerId()
+            && $this->checkCustomerId($this->getId())
+            && !$this->getIsCustomerEmulated();
     }
 
     /**
@@ -358,24 +377,6 @@ class Session extends \Magento\Framework\Session\SessionManager
         try {
             $this->_customerAccountService->getCustomer($customerId);
             $this->_isCustomerIdChecked = $customerId;
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Customer authorization
-     *
-     * @param   string $username
-     * @param   string $password
-     * @return  bool
-     */
-    public function login($username, $password)
-    {
-        try {
-            $customer = $this->_customerAccountService->authenticate($username, $password);
-            $this->setCustomerDataAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {
             return false;

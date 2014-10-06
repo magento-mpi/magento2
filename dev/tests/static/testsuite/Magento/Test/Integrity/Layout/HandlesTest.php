@@ -76,20 +76,22 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLayoutFormat()
+    public function testHeadBlockUsage()
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * Test format of a layout file using XSD
-             *
-             * @param string $layoutFile
-             */
+        /**
+         * Test validate that head block doesn't exist in layout
+         *
+         * @param string $layoutFile
+         */
             function ($layoutFile) {
-                $schemaFile = BP . '/app/code/Magento/Core/etc/layout_single.xsd';
-                $domLayout = new \Magento\Framework\Config\Dom(file_get_contents($layoutFile));
-                $result = $domLayout->validate($schemaFile, $errors);
-                $this->assertTrue($result, print_r($errors, true));
+                $dom = new \DOMDocument();
+                $dom->load($layoutFile);
+                $xpath = new \DOMXpath($dom);
+                if ($xpath->query("//*[@name='head']")->length) {
+                    $this->fail('Following file contains deprecated head block. File Path:' . "\n" . $layoutFile);
+                }
             },
             \Magento\TestFramework\Utility\Files::init()->getLayoutFiles()
         );

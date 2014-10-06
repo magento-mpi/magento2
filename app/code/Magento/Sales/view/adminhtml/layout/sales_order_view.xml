@@ -7,14 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-sales-js-bootstrap-order-create-index-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Sales::js/bootstrap/order-create-index.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <head>
+        <link src="Magento_Sales::js/bootstrap/order-create-index.js"/>
+    </head>
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Adminhtml\Order\View" name="sales_order_edit"/>
     </referenceContainer>
@@ -22,6 +18,7 @@
     <update handle="sales_order_shipment_grid_block"/>
     <update handle="sales_order_transactions_grid_block"/>
     <update handle="sales_order_creditmemo_grid_block"/>
+    <update handle="sales_order_item_price"/>
     <referenceContainer name="left">
         <block class="Magento\Sales\Block\Adminhtml\Order\View\Tabs" name="sales_order_tabs">
             <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Info" name="order_tab_info" template="order/view/tab/info.phtml">
@@ -51,7 +48,7 @@
                 <argument name="name" xsi:type="string">order_invoices</argument>
                 <argument name="block" xsi:type="string">sales_order_invoice.grid.container</argument>
             </action>
-        <block class = "Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos" name="sales_order_creditmemo.grid.container"/>
+            <block class = "Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos" name="sales_order_creditmemo.grid.container"/>
             <action method="addTab">
                 <argument name="name" xsi:type="string">order_creditmemos</argument>
                 <argument name="block" xsi:type="string">sales_order_creditmemo.grid.container</argument>
@@ -75,4 +72,4 @@
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="sales_page_head_components" template="Magento_Sales::page/js/components.phtml"/>
     </referenceBlock>
-</layout>
+</page>

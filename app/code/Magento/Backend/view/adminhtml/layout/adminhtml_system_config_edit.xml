@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head"/>
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="js">
         <block class="Magento\Backend\Block\Template" template="Magento_Backend::system/config/js.phtml"/>
         <block class="Magento\Backend\Block\Template" template="Magento_Backend::system/shipping/applicable_country.phtml"/>
@@ -32,4 +31,4 @@
     <referenceContainer name="content">
         <block name="system.config.edit" class="Magento\Backend\Block\System\Config\Edit"/>
     </referenceContainer>
-</layout>
+</page>

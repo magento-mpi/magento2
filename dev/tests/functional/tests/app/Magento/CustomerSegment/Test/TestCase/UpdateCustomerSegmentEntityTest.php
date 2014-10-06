@@ -10,7 +10,7 @@ namespace Magento\CustomerSegment\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -93,11 +93,11 @@ class UpdateCustomerSegmentEntityTest extends Injectable
     protected $customerEditPage;
 
     /**
-     * Index page
+     * Customer account logout page
      *
-     * @var CmsIndex
+     * @var CustomerAccountLogout
      */
-    protected $cmsIndex;
+    protected $customerAccountLogout;
 
     /**
      * Fixture sales rule
@@ -121,7 +121,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
      * @param CustomerSegmentIndex $customerSegmentIndex
      * @param CustomerSegmentNew $customerSegmentNew
      * @param CustomerIndex $customerIndexPage
-     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param FixtureFactory $fixtureFactory
      * @param CustomerIndexEdit $customerEditPage
      * @return void
@@ -132,7 +132,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
         CustomerSegmentIndex $customerSegmentIndex,
         CustomerSegmentNew $customerSegmentNew,
         CustomerIndex $customerIndexPage,
-        CmsIndex $cmsIndex,
+        CustomerAccountLogout $customerAccountLogout,
         FixtureFactory $fixtureFactory,
         CustomerIndexEdit $customerEditPage
     ) {
@@ -142,7 +142,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
         $this->promoQuoteEdit = $promoQuoteEdit;
         $this->customerIndexPage = $customerIndexPage;
         $this->customerEditPage = $customerEditPage;
-        $this->cmsIndex = $cmsIndex;
+        $this->customerAccountLogout = $customerAccountLogout;
         $this->fixtureFactory = $fixtureFactory;
         $customerIndexPage->open();
         $customerIndexPage->getCustomerGridBlock()->massaction([], 'Delete', true, 'Select All');
@@ -195,7 +195,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
     }
 
     /**
-     * Merge Customer Segment fixture
+     * Merge Customer Segment fixtures
      *
      * @param CustomerSegment $segment
      * @param CustomerSegment $segmentOriginal
@@ -214,8 +214,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        $this->customerAccountLogout->open();
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
         $this->promoQuoteEdit->getFormPageActions()->delete();

@@ -7,19 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
-            <argument translate="true" name="title" xsi:type="string">Wish List Info</argument>
-        </action>
-    </referenceBlock>
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </referenceBlock>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <head>
+        <title>Wish List Info</title>
+    </head>
     <referenceContainer name="content">
         <block class="Magento\MultipleWishlist\Block\Info" name="customer.wishlist.info" template="info.phtml" cacheable="false">
+            <block class="Magento\Wishlist\Block\Rss\Link" name="wishlist.rss.link" template="Magento_Wishlist::rss/wishlist.phtml"/>
             <block class="Magento\Wishlist\Block\Customer\Wishlist\Items" name="wishlist.view.items" as="items" template="Magento_Wishlist::item/list.phtml" cacheable="false">
                 <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector\Cart" name="customer.wishlist.item.selector" after="-" template="item/column/selector.phtml" cacheable="false">
                     <action method="setIsEnabled">
@@ -86,4 +80,4 @@
             </block>
         </block>
     </referenceContainer>
-</layout>
+</page>

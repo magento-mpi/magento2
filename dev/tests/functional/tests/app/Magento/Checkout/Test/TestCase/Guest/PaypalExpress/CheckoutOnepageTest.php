@@ -50,17 +50,16 @@ class CheckoutOnepageTest extends Functional
     protected function _addProducts(Checkout $fixture)
     {
         //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
-            $productPage->init($product);
-            $productPage->open();
+            Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         }
     }
 
@@ -71,15 +70,29 @@ class CheckoutOnepageTest extends Functional
      */
     protected function _magentoCheckoutProcess(Checkout $fixture)
     {
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $this->_checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
+            $shippingMethod = $fixture->getData('fields');
+        } else {
+            $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        }
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'credit_card' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->clickContinue();
     }
 
     /**
@@ -101,8 +114,8 @@ class CheckoutOnepageTest extends Functional
     {
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginBlock()->login($paypalCustomer);
-        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getLoginExpressBlock()->login($paypalCustomer);
+        $paypalPage->getReviewExpressBlock()->continueCheckout();
     }
 
     /**
@@ -119,7 +132,7 @@ class CheckoutOnepageTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $this->assertContains(
             $fixture->getGrandTotal(),
@@ -138,9 +151,9 @@ class CheckoutOnepageTest extends Functional
      */
     public function dataProviderPaymentMethod()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowLinkExpress())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress()],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowLinkExpress()]
+        ];
     }
 }

@@ -77,6 +77,18 @@
             <input>multiselect</input>
             <source>Magento\Banner\Test\Fixture\BannerInjectable\CustomerSegment</source>
         </customer_segment>
+        <banner_catalog_rules>
+            <attribute_code>banner_catalog_rules</attribute_code>
+            <backend_type>virtual</backend_type>
+        </banner_catalog_rules>
+        <banner_sales_rules>
+            <attribute_code>banner_sales_rules</attribute_code>
+            <backend_type>virtual</backend_type>
+        </banner_sales_rules>
+        <customer_segment_ids>
+            <attribute_code>customer_segment_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+        </customer_segment_ids>
     </fields>
     <repository_class>Magento\Banner\Test\Repository\BannerInjectable</repository_class>
     <handler_interface>Magento\Banner\Test\Handler\BannerInjectable\BannerInjectableInterface</handler_interface>

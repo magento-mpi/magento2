@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="customer_edit">
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit\Buttons" name="checkout.buttons">
             <action method="addButtons"/>
         </block>
     </referenceBlock>
-</layout>
+</page>

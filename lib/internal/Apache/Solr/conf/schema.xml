@@ -1605,7 +1605,6 @@
         <field name="id"            type="string"   indexed="true" required="true" stored="true"/>
         <field name="unique"        type="string"   indexed="true" required="true"/>
         <field name="store_id"      type="int"      indexed="true" required="true"/>
-        <field name="in_stock"      type="boolean"  indexed="true" required="true"/>
         <field name="visibility"    type="int"      indexed="true" required="true"/>
 
         <!-- System optional fields. -->

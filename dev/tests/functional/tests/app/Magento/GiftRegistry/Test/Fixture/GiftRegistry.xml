@@ -33,12 +33,10 @@
         </type_id>
         <customer_id>
             <attribute_code>customer_id</attribute_code>
-            <backend_type>virtual</backend_type>
+            <backend_type>int</backend_type>
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
-            <source>Magento\GiftRegistry\Test\Fixture\GiftRegistry\CustomerId</source>
-            <group>null</group>
         </customer_id>
         <website_id>
             <attribute_code>website_id</attribute_code>

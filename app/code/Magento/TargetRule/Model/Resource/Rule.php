@@ -33,11 +33,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     );
 
     /**
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
      * @var ModuleManager
      */
     protected $moduleManager;
@@ -54,19 +49,16 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param ModuleManager $moduleManager
      * @param EventManagerInterface $eventManager
      * @param CacheContext $context
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Index\Model\Indexer $indexer,
         ModuleManager $moduleManager,
         EventManagerInterface $eventManager,
         CacheContext $context
     ) {
-        $this->_indexer = $indexer;
         $this->moduleManager = $moduleManager;
         $this->eventManager = $eventManager;
         $this->context = $context;
@@ -161,32 +153,21 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
         $this->saveCustomerSegments($object->getId(), $segmentIds);
 
-        $productIdsBeforeUnbind = $this->getAssociatedEntityIds($object->getId(), 'product');
-        $this->unbindRuleFromEntity($object->getId(), array(), 'product');
+        return $this;
+    }
 
-        $matchedProductIds = $object->getMatchingProductIds();
-        $this->bindRuleToEntity($object->getId(), $matchedProductIds, 'product');
-
-        $typeId = !$object->isObjectNew() && $object->getOrigData(
-            'apply_to'
-        ) != $object->getData(
-            'apply_to'
-        ) ? null : $object->getData(
-            'apply_to'
-        );
-
-        $this->_indexer->processEntityAction(
-            new \Magento\Framework\Object(array('type_id' => $typeId)),
-            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-        );
-
+    /**
+     * Clean cached data by product ids
+     *
+     * @param array $productIds
+     * @return $this
+     */
+    public function cleanCachedDataByProductIds($productIds)
+    {
         if ($this->moduleManager->isEnabled('Magento_PageCache')) {
-            $productIds = array_unique(array_merge($productIdsBeforeUnbind, $matchedProductIds));
             $this->context->registerEntities(Product::CACHE_TAG, $productIds);
             $this->eventManager->dispatch('clean_cache_by_tags', ['object' => $this->context]);
         }
-
         return $this;
     }
 
@@ -198,13 +179,21 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
     {
-        $this->_indexer->processEntityAction(
-            new \Magento\Framework\Object(array('type_id' => $object->getData('apply_to'))),
-            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-        );
-
         parent::_beforeDelete($object);
+        return $this;
+    }
+
+    /**
+     * Bind specified rules to entities
+     *
+     * @param int[]|int|string $ruleIds
+     * @param int[]|int|string $entityIds
+     * @param string $entityType
+     * @return $this
+     */
+    public function bindRuleToEntity($ruleIds, $entityIds, $entityType)
+    {
+        $this->_multiplyBunchInsert($ruleIds, $entityIds, $entityType);
         return $this;
     }
 }

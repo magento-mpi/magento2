@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGiftCardProductAddToCartForm module="Magento_GiftCard">
+        <severeness>high</severeness>
+    </assertGiftCardProductAddToCartForm>
+    <assertGiftCardProductForm module="Magento_GiftCard">
+        <severeness>middle</severeness>
+    </assertGiftCardProductForm>
+    <assertGiftCardProductPage module="Magento_GiftCard">
+        <severeness>middle</severeness>
+    </assertGiftCardProductPage>
+    <assertGiftCardDuplicatedInGrid module="Magento_GiftCard">
+        <severeness>high</severeness>
+        <require>
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+            <productPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
+            <product class="Mtf\Fixture\FixtureInterface" />
+        </require>
+    </assertGiftCardDuplicatedInGrid>
+    <assertGiftCardDuplicateForm module="Magento_GiftCard">
+        <severeness>low</severeness>
+        <require>
+            <product class="Mtf\Fixture\FixtureInterface" />
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+        </require>
+    </assertGiftCardDuplicateForm>
+</constraint>

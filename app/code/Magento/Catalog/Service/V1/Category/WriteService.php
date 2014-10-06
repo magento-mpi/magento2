@@ -15,7 +15,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 
 class WriteService implements WriteServiceInterface
 {
@@ -30,7 +30,7 @@ class WriteService implements WriteServiceInterface
     private $categoryMapper;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -44,7 +44,7 @@ class WriteService implements WriteServiceInterface
     /**
      * @param CategoryFactory $categoryFactory
      * @param CategoryMapper $categoryMapper
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         CategoryFactory $categoryFactory,
@@ -70,7 +70,7 @@ class WriteService implements WriteServiceInterface
             $this->validateCategory($categoryModel);
             $categoryModel->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not save category: %1', [$e->getMessage()], $e);
+            throw new CouldNotSaveException('Could not save category: %message', ['message' => $e->getMessage()], $e);
         }
         return $categoryModel->getId();
     }
@@ -89,7 +89,7 @@ class WriteService implements WriteServiceInterface
         try {
             $category->delete();
         } catch (\Exception $e) {
-            throw new StateException('Cannot delete category with id %1', [$categoryId], $e);
+            throw new StateException('Cannot delete category with id %category_id', ['category_id' => $categoryId], $e);
         }
 
         return true;

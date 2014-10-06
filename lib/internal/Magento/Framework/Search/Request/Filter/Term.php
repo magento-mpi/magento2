@@ -1,7 +1,5 @@
 <?php
 /**
- * Term Filter
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,35 +7,28 @@
  */
 namespace Magento\Framework\Search\Request\Filter;
 
+use Magento\Framework\Search\AbstractKeyValuePair;
 use Magento\Framework\Search\Request\FilterInterface;
 
-class Term implements FilterInterface
+/**
+ * Term Filter
+ */
+class Term extends AbstractKeyValuePair implements FilterInterface
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
     /**
      * @var string
      */
     protected $field;
 
     /**
-     * @var string
-     */
-    protected $value;
-
-    /**
      * @param string $name
+     * @param string|array $value
      * @param string $field
-     * @param string $value
      */
-    public function __construct($name, $field, $value)
+    public function __construct($name, $value, $field)
     {
-        $this->name = $name;
+        parent::__construct($name, $value);
         $this->field = $field;
-        $this->value = $value;
     }
 
     /**
@@ -49,14 +40,6 @@ class Term implements FilterInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Get Field
      *
      * @return string
@@ -64,15 +47,5 @@ class Term implements FilterInterface
     public function getField()
     {
         return $this->field;
-    }
-
-    /**
-     * Get Value
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 }

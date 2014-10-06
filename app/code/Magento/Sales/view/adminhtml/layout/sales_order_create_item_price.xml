@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+    <block class="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid" name="item_unit_price" template="order/create/items/price/unit.phtml"/>
+    <block class="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid" name="item_row_total" template="order/create/items/price/row.phtml"/>
+    <block class="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid" name="item_row_total_with_discount" template="order/create/items/price/total.phtml"/>
+</page>

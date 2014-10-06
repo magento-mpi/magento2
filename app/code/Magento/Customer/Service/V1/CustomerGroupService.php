@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
@@ -22,6 +22,7 @@ use Magento\Framework\Exception\State\InvalidTransitionException;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
+use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Customer service is responsible for customer business workflow encapsulation
@@ -30,6 +31,9 @@ use Magento\Tax\Service\V1\TaxClassServiceInterface;
  */
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
+
+    const MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED = 'ID is not expected for this request.';
+
     /**
      * @var GroupFactory
      */
@@ -41,7 +45,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_scopeConfig;
 
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     private $_storeManager;
 
@@ -73,7 +77,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * @param GroupFactory $groupFactory
      * @param ScopeConfigInterface $scopeConfig
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassServiceInterface $taxClassService
@@ -137,10 +141,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         }
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
+        /** @var SortOrder $sortOrder */
         if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $field = $this->translateField($sortOrder->getField());
+                $collection->addOrder(
+                    $field,
+                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -225,7 +233,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (\Magento\Framework\App\InitException $e) {
             throw NoSuchEntityException::singleField('storeId', $storeId);
         }
         try {
@@ -247,28 +255,21 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveGroup(Data\CustomerGroup $group)
+    public function createGroup(Data\CustomerGroup $group)
     {
+        if ($group->getId()) {
+            throw new InputException(self::MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED);
+        }
+
         if (!$group->getCode()) {
             throw InputException::invalidFieldValue('code', $group->getCode());
         }
 
-        $customerGroup = null;
-
-        if ($group->getId()) {
-            try {
-                $customerGroup = $this->_groupRegistry->retrieve($group->getId());
-            } catch (NoSuchEntityException $e) {
-                throw NoSuchEntityException::singleField('id', $group->getId());
-            }
-        }
-
-        if (!$customerGroup) {
-            $customerGroup = $this->_groupFactory->create();
-        }
-
+        /** @var /Magento/Customer/Model/Group $customerGroup */
+        $customerGroup = $this->_groupFactory->create();
         $customerGroup->setCode($group->getCode());
 
+        /** @var int $taxClassId */
         $taxClassId = $group->getTaxClassId();
         if (!$taxClassId) {
             $taxClassId = self::DEFAULT_TAX_CLASS_ID;
@@ -290,6 +291,49 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         }
 
         return $customerGroup->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateGroup($groupId, Data\CustomerGroup $group)
+    {
+        if (!$group->getCode()) {
+            throw InputException::invalidFieldValue('code', $group->getCode());
+        }
+
+        /** @var /Magento/Customer/Model/Group $customerGroup */
+        $customerGroup = null;
+        try {
+            $customerGroup = $this->_groupRegistry->retrieve($groupId);
+        } catch (NoSuchEntityException $e) {
+            throw NoSuchEntityException::singleField('id', $groupId);
+        }
+
+        $customerGroup->setCode($group->getCode());
+
+        /** @var int $taxClassId */
+        $taxClassId = $group->getTaxClassId();
+        if (!$taxClassId) {
+            $taxClassId = self::DEFAULT_TAX_CLASS_ID;
+        }
+        $this->_verifyTaxClassModel($taxClassId, $group);
+
+        $customerGroup->setTaxClassId($taxClassId);
+        try {
+            $customerGroup->save();
+        } catch (\Magento\Framework\Model\Exception $e) {
+            /**
+             * Would like a better way to determine this error condition but
+             *  difficult to do without imposing more database calls
+             */
+            if ($e->getMessage() === __('Customer Group already exists.')) {
+                throw new InvalidTransitionException('Customer Group already exists.');
+            }
+            throw $e;
+        }
+
+        return true;
     }
 
     /**

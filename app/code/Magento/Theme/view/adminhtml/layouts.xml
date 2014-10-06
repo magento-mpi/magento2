@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/View/PageLayout/etc/layouts.xsd">
+    <layout id="admin-1column">
+        <label translate="true">Admin 1column</label>
+    </layout>
+    <layout id="admin-2columns-left">
+        <label translate="true">Admin 1column</label>
+    </layout>
+</page_layouts>

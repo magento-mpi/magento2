@@ -10,6 +10,7 @@
  * Review status
  *
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @codeCoverageIgnore
  */
 namespace Magento\Review\Model\Review;
 

@@ -41,9 +41,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Store found entities ids
      *
-     * @var array
+     * @var int[]
      */
-    protected $_searchedEntityIds = array();
+    protected $foundEntityIds;
 
     /**
      * Store found suggestions
@@ -55,7 +55,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Store engine instance
      *
-     * @var \Magento\Search\Model\Resource\Engine
+     * @var \Magento\Search\Model\Resource\Solr\Engine
      */
     protected $_engine = null;
 
@@ -138,8 +138,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
@@ -150,6 +150,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param mixed $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -164,8 +165,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
@@ -176,11 +177,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Search\Helper\Data $searchData,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         $connection = null
     ) {
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_localeResolver = $localeResolver;
+        $this->_engine = $engineProvider->get();
         parent::__construct(
             $entityFactory,
             $logger,
@@ -192,7 +195,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $resourceHelper,
             $universalFactory,
             $storeManager,
-            $catalogData,
+            $moduleManager,
             $catalogProductFlatState,
             $scopeConfig,
             $productOptionFactory,
@@ -421,97 +424,18 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * Search documents by query
-     * Set found ids and number of found results
+     * Find matched products and add them to select
      *
-     * @return $this
+     * @return void
      */
-    protected function _beforeLoad()
+    protected function addFoundProductFilter()
     {
-        $ids = array();
-        if ($this->_engine) {
+        if (is_null($this->foundEntityIds)) {
             list($query, $params) = $this->_prepareBaseParams();
-
-            if ($this->_sortBy) {
-                $params['sort_by'] = $this->_sortBy;
-            }
-            if ($this->_pageSize !== false) {
-                $page = $this->_curPage > 0 ? (int)$this->_curPage : 1;
-                $rowCount = $this->_pageSize > 0 ? (int)$this->_pageSize : 1;
-                $params['offset'] = $rowCount * ($page - 1);
-                $params['limit'] = $rowCount;
-            }
-
-            $needToLoadFacetedData = !$this->_facetedDataIsLoaded && !empty($this->_facetedConditions);
-            if ($needToLoadFacetedData) {
-                $params['solr_params']['facet'] = 'on';
-                $params['facet'] = $this->_facetedConditions;
-            }
-
-            $result = $this->_engine->getIdsByQuery($query, $params);
-            $ids = (array)$result['ids'];
-
-            if ($needToLoadFacetedData) {
-                $this->_facetedData = $result['faceted_data'];
-                $this->_facetedDataIsLoaded = true;
-            }
-        }
-
-        $this->_searchedEntityIds =& $ids;
-        $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
-
-        /**
-         * To prevent limitations to the collection, because of new data logic.
-         * On load collection will be limited by _pageSize and appropriate offset,
-         * but third party search engine retrieves already limited ids set
-         */
-        $this->_storedPageSize = $this->_pageSize;
-        $this->_pageSize = false;
-
-        return parent::_beforeLoad();
-    }
-
-    /**
-     * Sort collection items by sort order of found ids
-     *
-     * @return $this
-     */
-    protected function _afterLoad()
-    {
-        parent::_afterLoad();
-
-        $sortedItems = array();
-        foreach ($this->_searchedEntityIds as $id) {
-            if (isset($this->_items[$id])) {
-                $sortedItems[$id] = $this->_items[$id];
-            }
-        }
-        $this->_items =& $sortedItems;
-
-        /**
-         * Revert page size for proper paginator ranges
-         */
-        $this->_pageSize = $this->_storedPageSize;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve found number of items
-     *
-     * @return int
-     */
-    public function getSize()
-    {
-        if (is_null($this->_totalRecords)) {
-            list($query, $params) = $this->_prepareBaseParams();
-            $params['limit'] = 1;
 
             $helper = $this->_searchData;
             $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery
-                && $helper->getSolrConfigData(
-                    'server_suggestion_enabled'
-                );
+                && $helper->getSolrConfigData('server_suggestion_enabled');
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
                 $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
@@ -521,15 +445,57 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 );
             }
 
+            if ($this->_sortBy) {
+                $params['sort_by'] = $this->_sortBy;
+            }
+
+            $needToLoadFacetedData = !$this->_facetedDataIsLoaded && !empty($this->_facetedConditions);
+            if ($needToLoadFacetedData) {
+                $params['solr_params']['facet'] = 'on';
+                $params['facet'] = $this->_facetedConditions;
+            }
+
             $result = $this->_engine->getIdsByQuery($query, $params);
+
             if ($searchSuggestionsEnabled && !empty($result['suggestions_data'])) {
                 $this->_suggestionsData = $result['suggestions_data'];
             }
 
-            $this->_totalRecords = $this->_engine->getLastNumFound();
-        }
+            if ($needToLoadFacetedData) {
+                $this->_facetedData = $result['faceted_data'];
+                $this->_facetedDataIsLoaded = true;
+            }
 
-        return $this->_totalRecords;
+            $this->foundEntityIds = (array)$result['ids'];
+            $this->getSelect()->where('e.entity_id IN (?)', $this->foundEntityIds)
+                ->order(new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $this->foundEntityIds)));
+        }
+    }
+
+    /**
+     * Get collection size
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        $this->addFoundProductFilter();
+
+        return parent::getSize();
+    }
+
+    /**
+     * Load collection data into object items
+     *
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return $this
+     */
+    public function load($printQuery = false, $logQuery = false)
+    {
+        $this->addFoundProductFilter();
+
+        return parent::load($printQuery, $logQuery);
     }
 
     /**
@@ -566,18 +532,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * Set search engine
-     *
-     * @param object $engine
-     * @return $this
-     */
-    public function setEngine($engine)
-    {
-        $this->_engine = $engine;
-        return $this;
-    }
-
-    /**
      * Stub method
      *
      * @param array $fields
@@ -591,12 +545,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Adding product count to categories collection
      *
-     * @param AbstractCollection $categoryCollection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $categoryCollection
      * @return $this
      */
     public function addCountToCategories($categoryCollection)
     {
-        return $this;
+        $this->addFoundProductFilter();
+
+        return parent::addCountToCategories($categoryCollection);
     }
 
     /**

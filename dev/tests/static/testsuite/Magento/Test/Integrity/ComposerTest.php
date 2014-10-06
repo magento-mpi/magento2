@@ -11,7 +11,7 @@ namespace Magento\Test\Integrity;
 use Magento\TestFramework\Utility\Files;
 use Magento\Framework\Shell;
 use Magento\Framework\Exception;
-use Magento\Tools\Composer\Package\Reader;
+use Magento\Tools\Composer\Helper\ReplaceFilter;
 
 /**
  * A test that enforces validity of composer.json files and any other conventions in Magento components
@@ -60,21 +60,26 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$dependencies = [];
     }
 
-    /**
-     * @param string $dir
-     * @param string $packageType
-     * @dataProvider validateComposerJsonDataProvider
-     */
-    public function testValidComposerJson($dir, $packageType)
+    public function testValidComposerJson()
     {
-        $this->assertComposerAvailable();
-        $file = $dir . '/composer.json';
-        $this->assertFileExists($file);
-        self::$shell->execute(self::$composerPath . ' validate --working-dir=%s', [$dir]);
-        $contents = file_get_contents($file);
-        $json = json_decode($contents);
-        $this->assertCodingStyle($contents);
-        $this->assertMagentoConventions($dir, $packageType, $json);
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+        /**
+         * @param string $dir
+         * @param string $packageType
+         */
+            function ($dir, $packageType) {
+                $this->assertComposerAvailable();
+                $file = $dir . '/composer.json';
+                $this->assertFileExists($file);
+                self::$shell->execute(self::$composerPath . ' validate --working-dir=%s', [$dir]);
+                $contents = file_get_contents($file);
+                $json = json_decode($contents);
+                $this->assertCodingStyle($contents);
+                $this->assertMagentoConventions($dir, $packageType, $json);
+            },
+            $this->validateComposerJsonDataProvider()
+        );
     }
 
     /**
@@ -85,21 +90,21 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (glob("{$root}/app/code/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-module'];
+            $result[$dir] = [$dir, 'magento2-module'];
         }
         foreach (glob("{$root}/app/i18n/magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-language'];
+            $result[$dir] = [$dir, 'magento2-language'];
         }
         foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme'];
+            $result[$dir] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/app/design/frontend/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme'];
+            $result[$dir] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-library'];
+            $result[$dir] = [$dir, 'magento2-library'];
         }
-        $result[] = [$root, 'project'];
+        $result[$root] = [$root, 'project'];
 
         return $result;
     }
@@ -142,35 +147,46 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertConsistentModuleName($xml, $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 $this->assertModuleDependenciesInSync($xml, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 break;
             case 'magento2-theme':
                 $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertDependsOnInstaller($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
+                $this->assertDependsOnInstaller($json->require);
                 break;
             case 'project':
                 sort(self::$dependencies);
                 $dependenciesListed = [];
-                foreach (array_keys((array) self::$rootJson->replace) as $key) {
-                    if (strncmp($key, 'magento', strlen('magento')) === 0) {
+                foreach (array_keys((array)self::$rootJson->replace) as $key) {
+                    if (ReplaceFilter::isMagentoComponent($key)) {
                         $dependenciesListed[] = $key;
                     }
                 }
                 sort($dependenciesListed);
-                $this->assertEquals(
-                    self::$dependencies,
-                    $dependenciesListed,
-                    'The root composer.json does not match with currently available components.'
+                $nonDeclaredDependencies = array_diff(self::$dependencies, $dependenciesListed);
+                $nonexistentDependencies = array_diff($dependenciesListed, self::$dependencies);
+                $this->assertEmpty(
+                    $nonDeclaredDependencies,
+                    'Following dependencies are not declared in the root composer.json: '
+                    . join(', ', $nonDeclaredDependencies)
+                );
+                $this->assertEmpty(
+                    $nonexistentDependencies,
+                    'Following dependencies declared in the root composer.json do not exist: '
+                    . join(', ', $nonexistentDependencies)
                 );
                 break;
             default:
@@ -252,6 +268,20 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Make sure a component depends on Magento Composer Installer component
+     *
+     * @param \StdClass $json
+     */
+    private function assertDependsOnInstaller(\StdClass $json)
+    {
+        $this->assertObjectHasAttribute(
+            'magento/magento-composer-installer',
+            $json,
+            'This component is expected to depend on magento/magento-composer-installer'
+        );
+    }
+
+    /**
      * Assert that references to module dependencies in module.xml and composer.json are not out of sync
      *
      * @param \SimpleXMLElement $xml
@@ -261,6 +291,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
     {
         $packages = [];
+        if (empty($xml->module->depends)) {
+            return;
+        }
         /** @var \SimpleXMLElement $node */
         foreach ($xml->module->depends->children() as $node) {
             if ('module' === $node->getName()) {

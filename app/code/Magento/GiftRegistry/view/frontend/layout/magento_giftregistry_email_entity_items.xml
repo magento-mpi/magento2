@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="Customer GiftRegistry Email Items List" design_abstraction="custom">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="Customer GiftRegistry Email Items List" design_abstraction="custom">
     <block class="Magento\GiftRegistry\Block\Email\Items" name="giftregistry.email.items" template="email/items.phtml"/>
-</layout>
+</page>

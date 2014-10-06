@@ -202,7 +202,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
@@ -220,7 +220,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
@@ -909,7 +909,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 
                         // remember default title for later comparisons
                         $defaultTitles[$option['option_id']] = $option['title'];
-                    } elseif ($option['title'] != $customOptions[0]['_custom_option_title']) {
+                    } else {
                         $row['_custom_option_title'] = $option['title'];
                     }
                     $values = $option->getValues();
@@ -924,7 +924,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                             $row['_custom_option_row_sort'] = $firstValue['sort_order'];
 
                             $defaultValueTitles[$firstValue['option_type_id']] = $firstValue['title'];
-                        } elseif ($firstValue['title'] != $customOptions[0]['_custom_option_row_title']) {
+                        } else {
                             $row['_custom_option_row_title'] = $firstValue['title'];
                         }
                     }
@@ -943,7 +943,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                             $row['_custom_option_row_price'] = $value['price'] . $valuePriceType;
                             $row['_custom_option_row_sku'] = $value['sku'];
                             $row['_custom_option_row_sort'] = $value['sort_order'];
-                        } elseif ($value['title'] != $customOptions[0]['_custom_option_row_title']) {
+                        } else {
                             $row['_custom_option_row_title'] = $value['title'];
                         }
                         if ($row) {

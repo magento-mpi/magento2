@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="left">
         <block class="Magento\LayeredNavigation\Block\Navigation\AdvancedSearch" name="advanced.search.leftnav" before="-" template="layer/view.phtml">
             <block class="Magento\LayeredNavigation\Block\Navigation\State\AdvancedSearch" name="advanced.search.navigation.state" as="state" />
             <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="advanced.search.navigation.renderer" as="renderer" template="layer/filter.phtml"/>
         </block>
     </referenceContainer>
-</layout>
+</page>

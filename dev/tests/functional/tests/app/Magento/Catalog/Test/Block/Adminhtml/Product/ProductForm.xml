@@ -48,6 +48,15 @@
             <description />
         </fields>
     </product-details>
+    <search-engine-optimization>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#product_info_tabs_search-engine-optimization</selector>
+        <strategy>css selector</strategy>
+        <wrapper>product</wrapper>
+        <fields>
+            <url_key/>
+        </fields>
+    </search-engine-optimization>
     <websites>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#product_info_tabs_websites</selector>
@@ -66,9 +75,16 @@
         <strategy>css selector</strategy>
         <wrapper>product</wrapper>
         <fields>
-            <special_price>
-                <selector>#special_price</selector>
-            </special_price>
+            <special_price />
+            <group_price>
+                <input>select</input>
+            </group_price>
+            <tier_price>
+                <input>select</input>
+            </tier_price>
+            <msrp_enabled>
+                <input>select</input>
+            </msrp_enabled>
         </fields>
     </advanced-pricing>
     <advanced-inventory>
@@ -114,7 +130,6 @@
             <is_returnable>
                 <input>select</input>
             </is_returnable>
-            <url_key/>
             <gift_message_available>
                 <input>select</input>
             </gift_message_available>
@@ -123,11 +138,6 @@
             </use_config_gift_message_available>
         </fields>
     </autosettings>
-    <variations>
-        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config</class>
-        <selector>#product_info_tabs_product-details</selector>
-        <strategy>css selector</strategy>
-    </variations>
     <grouped-product>
         <class>\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts</class>
         <selector>#product_info_tabs_product-details</selector>

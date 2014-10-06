@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertWishlistShareMessage module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertWishlistShareMessage>
+    <assertProductsIsAbsentInWishlist module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertProductsIsAbsentInWishlist>
+    <assertWishlistIsEmpty module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertWishlistIsEmpty>
+</constraint>

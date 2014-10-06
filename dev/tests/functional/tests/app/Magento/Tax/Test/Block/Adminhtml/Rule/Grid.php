@@ -9,6 +9,7 @@
 namespace Magento\Tax\Test\Block\Adminhtml\Rule;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
@@ -47,6 +48,33 @@ class Grid extends GridInterface
     ];
 
     /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[1]/td[@data-column="code"]';
+
+    /**
+     * Check whether first row is visible
+     *
+     * @return bool
+     */
+    public function isFirstRowVisible()
+    {
+        return $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Open first item in grid
+     *
+     * @return void
+     */
+    public function openFirstRow()
+    {
+        $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
      * Check if specific row exists in grid
      *
      * @param array $filter
@@ -56,7 +84,7 @@ class Grid extends GridInterface
      */
     public function isRowVisible(array $filter, $isSearchable = false, $isStrict = true)
     {
-        $this->search(array('code' => $filter['code']));
+        $this->search(['code' => $filter['code']]);
         return parent::isRowVisible($filter, $isSearchable);
     }
 }

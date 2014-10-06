@@ -7,6 +7,7 @@
  */
 namespace Magento\Multishipping\Block\Checkout;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Quote\Address;
 
 /**
@@ -56,10 +57,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Review Order - %1', $headBlock->getDefaultTitle()));
-        }
+        $this->pageConfig->setTitle(__('Review Order - %1', $this->pageConfig->getDefaultTitle()));
         return parent::_prepareLayout();
     }
 
@@ -163,7 +161,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function formatPrice($price)
     {
-        return $this->getQuote()->getStore()->formatPrice($price);
+        return $this->pirceCurrency->format($price, true, PriceCurrencyInterface::DEFAULT_PRECISION, $this->getQuote()->getStore());
     }
 
     /**
@@ -316,7 +314,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     public function renderTotals($totals, $colspan = null)
     {
         if ($colspan === null) {
-            $colspan = $this->_taxHelper->displayCartBothPrices() ? 5 : 3;
+            $colspan = 3;
         }
         $totals = $this->getChildBlock(
             'totals'

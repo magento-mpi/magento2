@@ -28,7 +28,7 @@ class AssignProductTest extends Functional
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
@@ -52,20 +52,15 @@ class AssignProductTest extends Functional
         $products = [$simple, $configurable, $bundle];
         /** @var Product $product */
         foreach ($products as $product) {
-            $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
+            $categoryProductsGrid->searchAndSelect(['sku' => $product->getSku()]);
         }
         $actionsBlock->save();
-        $messagesBlock->assertSuccessMessage();
+        $messagesBlock->waitSuccessMessage();
         //Clean Cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        $cachePage->getMessagesBlock()->assertSuccessMessage();
-        //Indexing
-        $indexPage = Factory::getPageFactory()->getAdminProcessList();
-        $indexPage->open();
-        $indexPage->getActionsBlock()->reindexAll();
-        $indexPage->getMessagesBlock()->assertSuccessMessage();
+        $cachePage->getMessagesBlock()->waitSuccessMessage();
         //Verifying
         $this->assertProductsOnCategory($category, $products);
     }

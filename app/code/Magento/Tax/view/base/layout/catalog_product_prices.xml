@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="render.product.prices">
         <arguments>
             <argument name="default" xsi:type="array">
@@ -16,16 +16,6 @@
                         <item name="tax" xsi:type="array">
                             <item name="adjustment_render_class" xsi:type="string">Magento\Tax\Pricing\Render\Adjustment</item>
                             <item name="adjustment_render_template" xsi:type="string">Magento_Tax::pricing/adjustment.phtml</item>
-                        </item>
-                    </item>
-                </item>
-            </argument>
-            <argument name="downloadable" xsi:type="array">
-                <item name="adjustments" xsi:type="array">
-                    <item name="link_price" xsi:type="array">
-                        <item name="tax" xsi:type="array">
-                            <item name="adjustment_render_class" xsi:type="string">Magento\Tax\Pricing\Render\Adjustment</item>
-                            <item name="adjustment_render_template" xsi:type="string">Magento_Tax::pricing/adjustment/downloadable.phtml</item>
                         </item>
                     </item>
                 </item>
@@ -42,4 +32,4 @@
             </argument>
         </arguments>
     </referenceBlock>
-</layout>
+</page>

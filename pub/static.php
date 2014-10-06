@@ -7,7 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require __DIR__ . '/../app/bootstrap.php';
 
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
-$entryPoint->run('Magento\Framework\App\StaticResource');
+require __DIR__ . '/../app/bootstrap.php';
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+/** @var \Magento\Framework\App\StaticResource $app */
+$app = $bootstrap->createApplication('Magento\Framework\App\StaticResource');
+$bootstrap->run($app);

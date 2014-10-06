@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <product_reviews>
+        <class>\Magento\Review\Test\Block\Adminhtml\Customer\Edit\Tab\Reviews</class>
+        <selector>#customer_info_tabs_reviews</selector>
+        <strategy>css selector</strategy>
+    </product_reviews>
+</tabs>

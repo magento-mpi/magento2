@@ -26,7 +26,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->backendHelperMock = $this->getMockBuilder('Magento\Backend\Helper\Data')
-            ->setMethods([])
             ->disableOriginalConstructor()
             ->getMock();
         $this->image = $objectManager->getObject(

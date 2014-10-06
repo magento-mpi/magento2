@@ -39,9 +39,12 @@ class View extends \Magento\Framework\App\Action\Action
     protected $_categoryFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
@@ -49,7 +52,8 @@ class View extends \Magento\Framework\App\Action\Action
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -57,13 +61,15 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
     ) {
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogDesign = $catalogDesign;
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct($context);
     }
 
@@ -118,6 +124,7 @@ class View extends \Magento\Framework\App\Action\Action
         $category = $this->_initCategory();
         if ($category) {
             $settings = $this->_catalogDesign->getDesignSettings($category);
+            $pageConfig = $this->_view->getPage()->getConfig();
 
             // apply custom design
             if ($settings->getCustomDesign()) {
@@ -126,8 +133,12 @@ class View extends \Magento\Framework\App\Action\Action
 
             $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
+            // apply custom layout (page) template once the blocks are generated
+            if ($settings->getPageLayout()) {
+                $pageConfig->setPageLayout($settings->getPageLayout());
+            }
+            $this->_view->getPage()->initLayout();
             $update = $this->_view->getLayout()->getUpdate();
-            $update->addHandle('default');
             if ($category->getIsAnchor()) {
                 $type = $category->hasChildren() ? 'layered' : 'layered_without_children';
             } else {
@@ -141,10 +152,6 @@ class View extends \Magento\Framework\App\Action\Action
             }
             $this->_view->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
 
-            // apply custom layout (page) template once the blocks are generated
-            if ($settings->getPageLayout()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyHandle($settings->getPageLayout());
-            }
             $this->_view->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded
@@ -158,14 +165,9 @@ class View extends \Magento\Framework\App\Action\Action
             $this->_view->generateLayoutXml();
             $this->_view->generateLayoutBlocks();
 
-            $root = $this->_view->getLayout()->getBlock('root');
-            if ($root) {
-                $root->addBodyClass(
-                    'categorypath-' . $category->getUrlPath()
-                )->addBodyClass(
-                    'category-' . $category->getUrlKey()
-                );
-            }
+            $pageConfig->addBodyClass('page-products')
+                ->addBodyClass('categorypath-' . $this->categoryUrlPathGenerator->getUrlPath($category))
+                ->addBodyClass('category-' . $category->getUrlKey());
 
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();

@@ -97,9 +97,9 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_uploaderFactory;
 
     /**
-     * @var \Magento\Index\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerFactory
      */
-    protected $_indexer;
+    protected $indexerFactory;
 
     /**
      * @var \Magento\ImportExport\Model\Source\Import\Behavior\Factory
@@ -124,7 +124,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * @param \Magento\Framework\HTTP\Adapter\FileTransferFactory $httpFactory
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param array $data
      */
     public function __construct(
@@ -140,7 +140,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         \Magento\Framework\HTTP\Adapter\FileTransferFactory $httpFactory,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
-        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
@@ -151,7 +151,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $this->_csvFactory = $csvFactory;
         $this->_httpFactory = $httpFactory;
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_indexer = $indexer;
+        $this->indexerFactory = $indexerFactory;
         $this->_behaviorFactory = $behaviorFactory;
         $this->_filesystem = $filesystem;
         parent::__construct($logger, $filesystem, $adapterFactory, $data);
@@ -555,10 +555,12 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
             return $this;
         }
 
-        foreach ($relatedIndexers as $indexer) {
-            $indexProcess = $this->_indexer->getProcessByCode($indexer);
-            if ($indexProcess) {
-                $indexProcess->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+        foreach (array_keys($relatedIndexers) as $indexerId) {
+            $indexer = $this->indexerFactory->create();
+            try {
+                $indexer->load($indexerId);
+                $indexer->invalidate();
+            } catch (\InvalidArgumentException $e) {
             }
         }
 

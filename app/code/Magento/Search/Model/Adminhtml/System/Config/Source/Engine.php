@@ -16,7 +16,7 @@ class Engine implements \Magento\Framework\Option\ArrayInterface
 {
     const FULLTEXT = 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine';
 
-    const SOLR = 'Magento\Search\Model\Resource\Engine';
+    const SOLR = 'Magento\Search\Model\Resource\Solr\Engine';
 
     /**
      * {@inheritdoc}

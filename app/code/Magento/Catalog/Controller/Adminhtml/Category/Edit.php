@@ -22,7 +22,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
         $categoryId = (int)$this->getRequest()->getParam('id');
 
         if ($storeId && !$categoryId && !$parentId) {
-            $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore($storeId);
+            $store = $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getStore($storeId);
             $this->getRequest()->setParam('id', (int)$store->getRootCategoryId());
         }
 
@@ -94,7 +94,6 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_categories');
-        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
 
         $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 

@@ -51,11 +51,6 @@ class Observer
     protected $_view;
 
     /**
-     * @var \Magento\Framework\AuthorizationInterface
-     */
-    protected $_authorization;
-
-    /**
      * @var \Magento\Paypal\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
@@ -71,18 +66,12 @@ class Observer
     protected $_shortcutFactory;
 
     /**
-     * Shortcut template path
-     */
-    const SHORTCUT_TEMPLATE = 'express/shortcut.phtml';
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
      * @param \Magento\Framework\App\ViewInterface $view
-     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Paypal\Helper\Shortcut\Factory $shortcutFactory
@@ -94,7 +83,6 @@ class Observer
         \Magento\Framework\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
         \Magento\Framework\App\ViewInterface $view,
-        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Shortcut\Factory $shortcutFactory
@@ -105,7 +93,6 @@ class Observer
         $this->_logger = $logger;
         $this->_settlementFactory = $settlementFactory;
         $this->_view = $view;
-        $this->_authorization = $authorization;
         $this->_agreementFactory = $agreementFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_shortcutFactory = $shortcutFactory;
@@ -180,7 +167,7 @@ class Observer
                 $result = $this->_coreData->jsonDecode($controller->getResponse()->getBody('default'));
 
                 if (empty($result['error'])) {
-                    $this->_view->loadLayout('checkout_onepage_review');
+                    $this->_view->loadLayout('checkout_onepage_review', true, true, false);
                     $html = $this->_view->getLayout()->getBlock('paypal.iframe')->toHtml();
                     $result['update_section'] = array('name' => 'paypaliframe', 'html' => $html);
                     $result['redirect'] = false;
@@ -192,25 +179,6 @@ class Observer
         }
 
         return $this;
-    }
-
-    /**
-     * Block admin ability to use customer billing agreements
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function restrictAdminBillingAgreementUsage($observer)
-    {
-        $event = $observer->getEvent();
-        $methodInstance = $event->getMethodInstance();
-        if ($methodInstance instanceof \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement &&
-            false == $this->_authorization->isAllowed(
-                'Magento_Paypal::use'
-            )
-        ) {
-            $event->getResult()->isAvailable = false;
-        }
     }
 
     /**
@@ -253,6 +221,7 @@ class Observer
         /** @var \Magento\Catalog\Block\ShortcutButtons $shortcutButtons */
         $shortcutButtons = $observer->getEvent()->getContainer();
         $blocks = [
+            'Magento\Paypal\Block\Express\ShortcutContainer',
             'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\PayflowExpress\Shortcut',
             'Magento\Paypal\Block\Bml\Shortcut',
@@ -276,8 +245,6 @@ class Observer
                 $observer->getEvent()->getIsCatalogProduct()
             )->setShowOrPosition(
                 $observer->getEvent()->getOrPosition()
-            )->setTemplate(
-                self::SHORTCUT_TEMPLATE
             );
             $shortcutButtons->addShortcut($shortcut);
         }

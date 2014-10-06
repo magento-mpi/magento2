@@ -78,8 +78,12 @@ class Observer
     protected function _getBackendCart(\Magento\Framework\Event\Observer $observer)
     {
         $storeId = $observer->getRequestModel()->getParam('storeId');
-        if (is_null($storeId)) {
+        if (is_null($storeId) || $storeId === '') {
             $storeId = $observer->getRequestModel()->getParam('store_id');
+
+            if (is_null($storeId) || $storeId === '') {
+                $storeId = $observer->getSession()->getStoreId();
+            }
         }
         return $this->_cart->setSession(
             $observer->getSession()

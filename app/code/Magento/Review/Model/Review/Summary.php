@@ -9,6 +9,8 @@ namespace Magento\Review\Model\Review;
 
 /**
  * Review summary
+ *
+ * @codeCoverageIgnore
  */
 class Summary extends \Magento\Framework\Model\AbstractModel
 {

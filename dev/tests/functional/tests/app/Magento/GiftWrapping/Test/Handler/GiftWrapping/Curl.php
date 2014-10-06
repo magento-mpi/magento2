@@ -27,9 +27,6 @@ class Curl extends AbstractCurl implements GiftWrappingInterface
      * @var array
      */
     protected $mappingData = [
-        'website_ids' => [
-            'Main Website' => 1,
-        ],
         'status' => [
             'Disabled' => 0,
             'Enabled' => 1,
@@ -39,18 +36,17 @@ class Curl extends AbstractCurl implements GiftWrappingInterface
     /**
      * Post request for creating gift wrapping
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $fixture [optional]
      * @return array|mixed
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data['wrapping'] = $this->replaceMappingData($fixture->getData());
-
+        $data['wrapping'] = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'admin/giftwrapping/save/store/0/back/edit/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.1', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -61,5 +57,22 @@ class Curl extends AbstractCurl implements GiftWrappingInterface
         preg_match("~Location: [^\\s]*giftwrapping\\/edit\\/id\\/(\\d+)~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['wrapping_id' => $id];
+    }
+
+    /**
+     * Prepare data from text to values
+     *
+     * @param FixtureInterface $fixture
+     * @return array
+     */
+    protected function prepareData(FixtureInterface $fixture)
+    {
+        $data = $this->replaceMappingData($fixture->getData());
+        $websites = $fixture->getDataFieldConfig('website_ids')['source']->getWebsites();
+        foreach ($websites as $key => $website) {
+            $data['website_ids'][$key] = $website->getWebsiteId();
+        }
+
+        return $data;
     }
 }

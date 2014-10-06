@@ -7,7 +7,7 @@
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
@@ -23,7 +23,7 @@ class NewObject implements HandlerInterface
     /**
      * Store manager interface
      *
-     * @var StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -35,7 +35,7 @@ class NewObject implements HandlerInterface
     protected $defaultProductPriceString;
 
     /**
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      */
@@ -80,12 +80,9 @@ class NewObject implements HandlerInterface
         // New products are created without recurring payments
         $product->setIsRecurring(false);
         $product->unsRecurringPayment();
-        // Add MAP default values
-        $product->setMsrpEnabled(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
-        );
+        // Add Msrp default values
         $product->setMsrpDisplayActualPriceType(
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
+            \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG
         );
     }
 }

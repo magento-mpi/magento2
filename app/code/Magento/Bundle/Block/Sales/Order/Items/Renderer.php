@@ -169,4 +169,17 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
         }
         return false;
     }
+
+    /**
+     * Get the html for item price
+     *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item
+     * @return string
+     */
+    public function getItemPrice($item)
+    {
+        $block = $this->getLayout()->getBlock('item_price');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
 }

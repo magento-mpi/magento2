@@ -8,12 +8,13 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Fixture\Cart;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Test Creation for Update ShoppingCart
@@ -30,11 +31,25 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  * 4. Click "Update Shopping Cart" button
  * 5. Perform all assertion from dataset
  *
- * @group Shopping Cart (CS)
+ * @group Shopping_Cart_(CS)
  * @ZephyrId MAGETWO-25081
  */
 class UpdateShoppingCartTest extends Injectable
 {
+    /**
+     * Browser interface
+     *
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
     /**
      * Page CatalogProductView
      *
@@ -48,6 +63,19 @@ class UpdateShoppingCartTest extends Injectable
      * @var CheckoutCart
      */
     protected $checkoutCart;
+
+    /**
+     * Prepare test data
+     *
+     * @param Browser $browser
+     * @param FixtureFactory $fixtureFactory
+     * @return void
+     */
+    public function __prepare(Browser $browser, FixtureFactory $fixtureFactory)
+    {
+        $this->browser = $browser;
+        $this->fixtureFactory = $fixtureFactory;
+    }
 
     /**
      * Inject data
@@ -65,39 +93,30 @@ class UpdateShoppingCartTest extends Injectable
     }
 
     /**
-     * Create simple product with price "100"
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
-        $product->persist();
-
-        return [
-            'product' => $product
-        ];
-    }
-
-    /**
      * Update Shopping Cart
      *
-     * @param Cart $cart
      * @param CatalogProductSimple $product
-     * @return void
+     * @return array
      */
-    public function testUpdateShoppingCart(
-        Cart $cart,
-        CatalogProductSimple $product
-    ) {
+    public function test(CatalogProductSimple $product)
+    {
         // Preconditions
-        $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
+        $product->persist();
+        $this->checkoutCart->getCartBlock()->clearShoppingCart();
 
         // Steps
-        $this->catalogProductView->init($product);
-        $this->catalogProductView->open()->getViewBlock()->clickAddToCart();
-        $this->checkoutCart->getCartBlock()->setProductQty($product->getName(), $cart->getQty());
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $productView = $this->catalogProductView->getViewBlock();
+        $productView->fillOptions($product);
+        $productView->setQty(1);
+        $productView->clickAddToCart();
+
+        $qty = $product->getCheckoutData()['options']['qty'];
+        $this->checkoutCart->open();
+        $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($qty);
         $this->checkoutCart->getCartBlock()->updateShoppingCart();
+
+        $cart['data']['items'] = ['products' => [$product]];
+        return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
     }
 }

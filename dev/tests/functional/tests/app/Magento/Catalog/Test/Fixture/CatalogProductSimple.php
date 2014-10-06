@@ -73,6 +73,7 @@ class CatalogProductSimple extends InjectableFixture
     }
 
     protected $dataConfig = [
+        'type_id' => 'simple',
         'create_url_params' => [
             'type' => 'simple',
             'set' => '4',
@@ -247,7 +248,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -256,7 +257,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -265,7 +266,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'text',
     ];
 
@@ -290,14 +291,6 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => 'Use config',
-        'input' => 'select',
-    ];
-
-    protected $msrp_enabled = [
-        'attribute_code' => 'msrp_enabled',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => 'In Cart',
         'input' => 'select',
     ];
 
@@ -487,7 +480,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'autosettings',
+        'group' => 'search-engine-optimization',
     ];
 
     protected $url_path = [
@@ -531,6 +524,12 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
         'group' => 'product-details',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
+    ];
+
+    protected $attributes = [
+        'attribute_code' => 'attributes',
+        'backend_type' => 'virtual',
+        'group' => 'product-details',
     ];
 
     protected $custom_options = [
@@ -579,6 +578,13 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'stock_data',
         'backend_type' => 'virtual',
         'group' => 'advanced-inventory'
+    ];
+
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => null,
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
     ];
 
     public function getCategoryIds()
@@ -699,11 +705,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getMsrpDisplayActualPriceType()
     {
         return $this->getData('msrp_display_actual_price_type');
-    }
-
-    public function getMsrpEnabled()
-    {
-        return $this->getData('msrp_enabled');
     }
 
     public function getName()
@@ -846,6 +847,11 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('attribute_set_id');
     }
 
+    public function getAttribute()
+    {
+        return $this->getData('attributes');
+    }
+
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
@@ -871,8 +877,13 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('news_to_date');
     }
 
-    public function getStockDate()
+    public function getStockData()
     {
         return $this->getData('stock_data');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 }

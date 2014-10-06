@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="wishlist/index" module="Magento_MultipleWishlist">
+    <blocks>
+        <managementBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management</class>
+            <locator>//*[*[contains(@class,"wishlist-management")]]</locator>
+            <strategy>xpath</strategy>
+        </managementBlock>
+        <behaviourBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Behaviour</class>
+            <locator>[id$="wishlist-block"].popup.active</locator>
+            <strategy>css selector</strategy>
+        </behaviourBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.page.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <multipleItemsBlock>
+            <class>Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Items</class>
+            <locator>.products-grid.wishlist</locator>
+            <strategy>css selector</strategy>
+        </multipleItemsBlock>
+        <wishlistBlock>
+            <class>Magento\Wishlist\Test\Block\Customer\Wishlist</class>
+            <locator>#wishlist-view-form</locator>
+            <strategy>css selector</strategy>
+        </wishlistBlock>
+    </blocks>
+</page>

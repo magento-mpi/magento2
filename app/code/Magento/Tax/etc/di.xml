@@ -15,6 +15,7 @@
     <preference for="Magento\Tax\Service\V1\TaxCalculationServiceInterface"
                 type="Magento\Tax\Service\V1\TaxCalculationService"/>
     <preference for="Magento\Tax\Service\V1\TaxClassServiceInterface" type="Magento\Tax\Service\V1\TaxClassService" />
+    <preference for="Magento\Tax\Service\V1\OrderTaxServiceInterface" type="Magento\Tax\Service\V1\OrderTaxService" />
     <type name="Magento\Tax\Helper\Data">
         <arguments>
             <argument name="taxConfig" xsi:type="object">Magento\Tax\Model\Config\Proxy</argument>
@@ -30,6 +31,13 @@
     <type name="Magento\Tax\Model\Resource\Calculation">
         <arguments>
             <argument name="taxData" xsi:type="object">Magento\Tax\Helper\Data\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Pricing\Adjustment\Collection">
+        <arguments>
+            <argument name="adjustments" xsi:type="array">
+                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE</item>
+            </argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Pricing\Adjustment\Pool">

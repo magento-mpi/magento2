@@ -62,10 +62,10 @@ class Edit extends \Magento\Backend\Block\Widget
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        $block = $this->getLayout()->getBlock('head');
-        if ($this->_wysiwygConfig->isEnabled() && $block) {
-            $block->setCanLoadTinyMce(true);
-        }
+//        $block = $this->getLayout()->getBlock('head');
+//        if ($this->_wysiwygConfig->isEnabled() && $block) {
+//            $block->setCanLoadTinyMce(true);
+//        }
 
         $this->getToolbar()->addChild(
             'back_button',
@@ -93,7 +93,9 @@ class Edit extends \Magento\Backend\Block\Widget
                 'Magento\Backend\Block\Widget\Button',
                 array(
                     'label' => __('Convert to Plain Text'),
-                    'onclick' => 'templateControl.stripTags();',
+                    'data_attribute' => array(
+                        'role' => 'template-strip'
+                    ),
                     'id' => 'convert_button',
                     'class' => 'convert'
                 )
@@ -104,7 +106,9 @@ class Edit extends \Magento\Backend\Block\Widget
                 'Magento\Backend\Block\Widget\Button',
                 array(
                     'label' => __('Return HTML Version'),
-                    'onclick' => 'templateControl.unStripTags();',
+                    'data_attribute' => array(
+                        'role' => 'template-unstrip'
+                    ),
                     'id' => 'convert_button_back',
                     'style' => 'display:none',
                     'class' => 'return'
@@ -115,7 +119,13 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->getToolbar()->addChild(
             'preview_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Preview Template'), 'onclick' => 'templateControl.preview();', 'class' => 'preview')
+            array(
+                'label' => __('Preview Template'),
+                'data_attribute' => array(
+                    'role' => 'template-preview'
+                ),
+                'class' => 'preview'
+            )
         );
 
         if ($this->getEditMode()) {
@@ -124,7 +134,9 @@ class Edit extends \Magento\Backend\Block\Widget
                 'Magento\Backend\Block\Widget\Button',
                 array(
                     'label' => __('Delete Template'),
-                    'onclick' => 'templateControl.deleteTemplate();',
+                    'data_attribute' => array(
+                        'role' => 'template-delete'
+                    ),
                     'class' => 'delete'
                 )
             );
@@ -132,14 +144,26 @@ class Edit extends \Magento\Backend\Block\Widget
             $this->getToolbar()->addChild(
                 'save_as_button',
                 'Magento\Backend\Block\Widget\Button',
-                array('label' => __('Save As'), 'onclick' => 'templateControl.saveAs();', 'class' => 'save-as')
+                array(
+                    'label' => __('Save As'),
+                    'data_attribute' => array(
+                        'role' => 'template-save-as'
+                    ),
+                    'class' => 'save-as'
+                )
             );
         }
 
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Save Template'), 'onclick' => 'templateControl.save();', 'class' => 'save primary')
+            array(
+                'label' => __('Save Template'),
+                'data_attribute' => array(
+                    'role' => 'template-save'
+                ),
+                'class' => 'save primary'
+            )
         );
 
         return parent::_prepareLayout();

@@ -43,27 +43,27 @@ class RelatedProductTest extends Functional
         $simple1->persist();
         $assignToSimple1 = Factory::getFixtureFactory()->getMagentoCatalogRelatedProducts();
         $assignToSimple1->switchData('add_related_products');
-        $verify = array($assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable'));
+        $verify = [$assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable')];
         //Data
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getSku()]);
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
-        $editProductPage->getFormAction()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getFormPageActions()->save();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
-            array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
+            ['sku' => $assignToSimple1->getProduct('configurable')->getSku()]
         );
         $assignToSimple1->switchData('add_related_product');
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
-        $editProductPage->getFormAction()->save();
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getFormPageActions()->save();
+        $editProductPage->getMessagesBlock()->waitSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
     }
@@ -82,8 +82,7 @@ class RelatedProductTest extends Functional
         list($simple2, $configurable) = $assigned;
         //Open up simple1 product page
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product);
-        $productPage->open();
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->assertEquals($product->getName(), $productPage->getViewBlock()->getProductName());
 
         /** @var \Magento\Catalog\Test\Block\Product\ProductList\Related $relatedBlock */
@@ -104,9 +103,9 @@ class RelatedProductTest extends Functional
         $productPage->getViewBlock()->addToCart($configurable);
 
         //Verify that both configurable product and simple product 2 are added to shopping cart
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
-        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->waitSuccessMessage();
         $this->assertTrue(
             $checkoutCartBlock->isProductInShoppingCart($configurable),
             'Configurable product was not found in the shopping cart.'

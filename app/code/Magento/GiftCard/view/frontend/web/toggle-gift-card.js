@@ -15,8 +15,8 @@ define([
         options: {
             amountSelector: '#giftcard-amount-input',
             amountBoxSelector: '#giftcard-amount-box',
-            amountLabelSelector: '#amount-label-input',
-            amountLabelDropDownSelector: '#amount-label-select'
+            amountLabelSelector: null,
+            amountLabelDropDownSelector: null
         },
 
         /**
