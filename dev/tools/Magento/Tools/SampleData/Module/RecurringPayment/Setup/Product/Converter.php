@@ -76,7 +76,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * @param array $value
      * @return array|mixed
      */
-    public function setOptionsToValue($options, $value)
+    public function setOptionsToValues($options, $value)
     {
         $value = $this->getArrayValue($value);
         $result = [];
