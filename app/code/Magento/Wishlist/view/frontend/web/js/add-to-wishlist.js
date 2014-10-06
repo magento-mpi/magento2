@@ -40,7 +40,7 @@ define([
 
             $('[data-action="add-to-wishlist"]').each(function(index, element) {
                 var params = $(element).data('post');
-                params.data = $.extend({}, params.data, dataToAdd);
+                params.data = $.extend({}, params.data, dataToAdd, {'qty': $(this.qty)});
                 $(element).data('post', params);
             });
         }
