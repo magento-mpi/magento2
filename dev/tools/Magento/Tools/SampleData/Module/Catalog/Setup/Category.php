@@ -63,10 +63,16 @@ class Category implements SetupInterface
     protected $categoryTree;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Category
+     */
+    protected $categoryResource;
+
+    /**
      * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
      * @param \Magento\Catalog\Service\V1\Data\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
@@ -77,6 +83,7 @@ class Category implements SetupInterface
         \Magento\Catalog\Service\V1\Data\Category\TreeFactory $categoryTreeFactory,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
+        \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory
@@ -86,6 +93,7 @@ class Category implements SetupInterface
         $this->categoryTreeFactory = $categoryTreeFactory;
         $this->resourceCategoryTreeFactory = $resourceCategoryTreeFactory;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->categoryResource = $categoryResource;
         $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -118,7 +126,15 @@ class Category implements SetupInterface
                     ];
 
                     $categoryData = $this->categoryDataBuilder->populateWithArray($data)->create();
-                    $this->writeService->create($categoryData);
+                    $categoryId = $this->writeService->create($categoryData);
+                    if (!empty($row['position'])) {
+                        $adapter = $this->categoryResource->getWriteConnection();
+                        $adapter->update(
+                            'catalog_category_entity',
+                            array('position' => $row['position']),
+                            array('entity_id = ?' => $categoryId)
+                        );
+                    }
                 }
                 echo '.';
             }
