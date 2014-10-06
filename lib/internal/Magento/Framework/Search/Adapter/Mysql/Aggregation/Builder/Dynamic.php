@@ -12,16 +12,13 @@ use Magento\Framework\Search\Request\BucketInterface as RequestBucketInterface;
 
 class Dynamic implements BucketInterface
 {
-    public function __construct()
-    {
-
-    }
-
     /**
      * {@inheritdoc}
      */
     public function build(Select $baseQuery, RequestBucketInterface $bucket, array $entityIds)
     {
-
+        $baseQuery->where('main_table.entity_id IN (?)', $entityIds);
+        $baseQuery->columns(['count' => 'COUNT(*)']); // TODO: Use dynamic algorithms
+        $baseQuery->group(RequestBucketInterface::FIELD_VALUE);
     }
 }

@@ -66,10 +66,20 @@ class DynamicBucket implements BucketInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get method
+     *
+     * @return string
      */
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetrics()
+    {
+        return [];
     }
 }
