@@ -622,4 +622,5 @@ return array(
     ['CONTENT_TYPE_PHP', 'Magento\Framework\View\Publisher'],
     ['CONTENT_TYPE_PHTML', 'Magento\Framework\View\Publisher'],
     ['CONTENT_TYPE_XML', 'Magento\Framework\View\Publisher'],
+    ['XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN', 'Magento\Customer\Helper\Data'],
 );
