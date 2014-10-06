@@ -26,6 +26,10 @@ class FinalPriceBox extends BasePriceBox
      */
     protected function _toHtml()
     {
+        if (!$this->getSaleableItem() || $this->getSaleableItem()->getCanShowPrice() === false) {
+            return '';
+        }
+
         $result = parent::_toHtml();
 
         try {
