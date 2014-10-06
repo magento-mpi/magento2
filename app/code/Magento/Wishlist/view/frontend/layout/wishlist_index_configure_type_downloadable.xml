@@ -8,24 +8,26 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="head.components">
-        <block class="Magento\Framework\View\Element\Js\Components" name="wishlist_product_view_head_components" template="Magento_Wishlist::js/components.phtml"/>
-        <block class="Magento\Framework\View\Element\Js\Components" name="downloadable_page_head_components" template="Magento_Downloadable::js/components.phtml"/>
-    </referenceBlock>
-    <referenceContainer name="product.info.type">
-        <block class="Magento\Downloadable\Block\Catalog\Product\View\Type" name="product.info.downloadable" as="product_type_data" template="catalog/product/type.phtml">
-            <block class="Magento\Downloadable\Block\Catalog\Product\Samples" name="product.info.downloadable.samples" as="samples" template="catalog/product/samples.phtml"/>
-            <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.downloadable.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
-        </block>
-    </referenceContainer>
-    <referenceBlock name="product.info.options.wrapper">
-        <block class="Magento\Downloadable\Block\Catalog\Product\Links" name="product.info.downloadable.options" as="type_downloadable_options" before="-" template="catalog/product/links.phtml">
-            <block class="Magento\Catalog\Pricing\Render" name="product.price.link" after="product.info.downloadable.options">
-                <arguments>
-                    <argument name="price_render" xsi:type="string">product.price.render.default</argument>
-                    <argument name="price_type_code" xsi:type="string">link_price</argument>
-                </arguments>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="wishlist_product_view_head_components" template="Magento_Wishlist::js/components.phtml"/>
+            <block class="Magento\Framework\View\Element\Js\Components" name="downloadable_page_head_components" template="Magento_Downloadable::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="product.info.type">
+            <block class="Magento\Downloadable\Block\Catalog\Product\View\Type" name="product.info.downloadable" as="product_type_data" template="catalog/product/type.phtml">
+                <block class="Magento\Downloadable\Block\Catalog\Product\Samples" name="product.info.downloadable.samples" as="samples" template="catalog/product/samples.phtml"/>
+                <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.downloadable.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
             </block>
-        </block>
-    </referenceBlock>
+        </referenceContainer>
+        <referenceBlock name="product.info.options.wrapper">
+            <block class="Magento\Downloadable\Block\Catalog\Product\Links" name="product.info.downloadable.options" as="type_downloadable_options" before="-" template="catalog/product/links.phtml">
+                <block class="Magento\Catalog\Pricing\Render" name="product.price.link" after="product.info.downloadable.options">
+                    <arguments>
+                        <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                        <argument name="price_type_code" xsi:type="string">link_price</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceBlock>
+    </body>
 </page>

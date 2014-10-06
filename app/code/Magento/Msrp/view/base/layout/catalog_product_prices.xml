@@ -8,16 +8,18 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="render.product.prices">
-        <arguments>
-            <argument name="default" xsi:type="array">
-                <item name="prices" xsi:type="array">
-                    <item name="msrp_price" xsi:type="array">
-                        <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\PriceBox</item>
-                        <item name="render_template" xsi:type="string">Magento_Msrp::product/price/msrp.phtml</item>
+    <body>
+        <referenceBlock name="render.product.prices">
+            <arguments>
+                <argument name="default" xsi:type="array">
+                    <item name="prices" xsi:type="array">
+                        <item name="msrp_price" xsi:type="array">
+                            <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\PriceBox</item>
+                            <item name="render_template" xsi:type="string">Magento_Msrp::product/price/msrp.phtml</item>
+                        </item>
                     </item>
-                </item>
-            </argument>
-        </arguments>
-    </referenceBlock>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
 </page>
