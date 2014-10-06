@@ -30,7 +30,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollect($itemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData, $addressData,
         $verifyData
-    )  {
+    ) {
         $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
         $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
