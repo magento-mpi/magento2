@@ -12,7 +12,7 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\SalesOrderCreditMemoNew;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew;
 
 /**
  * Class CreateCreditMemoStep
@@ -37,7 +37,7 @@ class CreateCreditMemoStep implements TestStepInterface
     /**
      * OrderCreditMemoNew Page
      *
-     * @var SalesOrderCreditMemoNew
+     * @var OrderCreditMemoNew
      */
     protected $orderCreditMemoNew;
 
@@ -53,13 +53,13 @@ class CreateCreditMemoStep implements TestStepInterface
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderInjectable $order
-     * @param SalesOrderCreditMemoNew $orderCreditMemoNew
+     * @param OrderCreditMemoNew $orderCreditMemoNew
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
         OrderInjectable $order,
-        SalesOrderCreditMemoNew $orderCreditMemoNew
+        OrderCreditMemoNew $orderCreditMemoNew
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
@@ -77,7 +77,7 @@ class CreateCreditMemoStep implements TestStepInterface
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getActionsBlock()->refundOffline();
+        $this->orderCreditMemoNew->getCreateBlock()->refundOffline();
 
         return ['creditMemoIds' => $this->getCreditMemoIds()];
     }
