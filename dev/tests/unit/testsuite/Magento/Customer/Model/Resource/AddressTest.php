@@ -143,7 +143,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $attributeMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            ['getAttributeCode', 'getBackend'],
+            ['getAttributeCode', 'getBackend', '__wakeup'],
             [],
             '',
             false
