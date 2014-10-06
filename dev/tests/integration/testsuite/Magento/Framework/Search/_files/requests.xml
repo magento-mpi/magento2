@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../lib/internal/Magento/Framework/Search/etc/search_request_merged.xsd">
     <request query="one_match" index="catalogsearch_fulltext">
         <dimensions>
             <dimension name="scope" value="default"/>
@@ -87,13 +87,13 @@
                 <match field="data_index" boost="2"/>
             </query>
             <query xsi:type="filteredQuery" name="filtered_query">
-                <filterReference ref="pid"/>
+                <filterReference clause="must" ref="pid"/>
             </query>
             <query xsi:type="filteredQuery" name="filtered_query_rm">
                 <queryReference ref="fulltext_search_query_rm"/>
             </query>
             <query xsi:type="filteredQuery" name="filtered_query_filter_rm">
-                <filterReference ref="bool_filter_rm"/>
+                <filterReference clause="must" ref="bool_filter_rm"/>
             </query>
             <query xsi:type="matchQuery" value="$not_bind$" name="fulltext_search_query_rm">
                 <match field="some"/>
@@ -122,7 +122,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="range_filter">
-                <filterReference ref="range_filter"/>
+                <filterReference clause="must" ref="range_filter"/>
             </query>
         </queries>
         <filters>
@@ -141,7 +141,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="range_filter_without_from_field">
-                <filterReference ref="range_filter_without_from_field"/>
+                <filterReference clause="must" ref="range_filter_without_from_field"/>
             </query>
         </queries>
         <filters>
@@ -159,7 +159,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="range_filter_without_to_field">
-                <filterReference ref="range_filter_without_to_field"/>
+                <filterReference clause="must" ref="range_filter_without_to_field"/>
             </query>
         </queries>
         <filters>
@@ -177,7 +177,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="term_filter">
-                <filterReference ref="term_filter"/>
+                <filterReference clause="must" ref="term_filter"/>
             </query>
         </queries>
         <filters>
@@ -192,7 +192,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="bool_filter">
-                <filterReference ref="bool_filter"/>
+                <filterReference clause="must" ref="bool_filter"/>
             </query>
         </queries>
         <filters>
@@ -244,7 +244,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="bool_filter_with_nested_bool_filter">
-                <filterReference ref="bool_filter_with_nested_bool_filter"/>
+                <filterReference clause="must" ref="bool_filter_with_nested_bool_filter"/>
             </query>
         </queries>
         <filters>
@@ -274,7 +274,7 @@
         </dimensions>
         <queries>
             <query xsi:type="filteredQuery" name="bool_filter_with_range_in_nested_negative_filter">
-                <filterReference ref="bool_filter_with_range_in_nested_negative_filter"/>
+                <filterReference clause="must" ref="bool_filter_with_range_in_nested_negative_filter"/>
             </query>
         </queries>
         <filters>
@@ -310,7 +310,7 @@
                 <match field="data_index" boost="1"/>
             </query>
             <query xsi:type="filteredQuery" name="query_filter">
-                <filterReference ref="filter"/>
+                <filterReference clause="must" ref="filter"/>
             </query>
         </queries>
         <filters>
