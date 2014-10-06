@@ -21,7 +21,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
      *
      * @var string
      */
-        protected $addToMultipleWishlist = '.wishlist [data-toggle="dropdown"]';
+    protected $addToMultipleWishlist = '.wishlist [data-toggle="dropdown"]';
 
     /**
      * Item wish list
@@ -29,7 +29,6 @@ class View extends \Magento\Catalog\Test\Block\Product\View
      * @var string
      */
     protected $wishlistItem = '//*[@data-action="add-to-wishlist" and @title = "%s"]';
-    //*
 
     /**
      * Select which Wishlist you want to add product to

@@ -112,7 +112,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
             }
         );
         $this->getBundleBlock()->fillBundleOptions($bundleCheckoutData);
-
+        $this->setQty($product->getCheckoutData()['options']['qty']);
         parent::fillOptions($product);
     }
 }

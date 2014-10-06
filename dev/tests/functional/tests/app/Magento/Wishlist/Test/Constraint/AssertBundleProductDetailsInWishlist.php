@@ -14,6 +14,7 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class AssertBundleProductDetailsInWishlist
@@ -36,6 +37,7 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
      * @param WishlistIndex $wishlistIndex
      * @param InjectableFixture $product
      * @param FixtureFactory $fixtureFactory
+     * @param MultipleWishlist|null $multipleWishlist [optional]
      * @return void
      */
     public function processAssert(
@@ -43,10 +45,14 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
         CustomerAccountIndex $customerAccountIndex,
         WishlistIndex $wishlistIndex,
         InjectableFixture $product,
-        FixtureFactory $fixtureFactory
+        FixtureFactory $fixtureFactory,
+        MultipleWishlist $multipleWishlist = null
     ) {
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
+        if ($multipleWishlist !== null) {
+            $wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
+        }
         $productBlock = $wishlistIndex->getItemsBlock()->getItemProduct($product);
         $actualOptions = $this->prepareOptions($productBlock->getOptions());
         $cartFixture = $fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => [$product]]]]);
