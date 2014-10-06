@@ -51,7 +51,7 @@ class Links extends Form
      *
      * @var string
      */
-    protected $addLinkButtonBlock = '.col-actions-add:last-child';
+    protected $addLinkButtonBlock = '#dd-links .col-actions-add:last-child';
 
     /**
      * Get Downloadable link item block

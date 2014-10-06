@@ -52,7 +52,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $linkForChoice = './/*[@data-role="link"]/label/span[1]';
+    protected $linkForChoice = '[data-role="link"] label>span:first-child';
 
     /**
      * Checkbox selector item links
@@ -114,7 +114,7 @@ class Links extends Block
 
         $choiceLinks = $this->_rootElement->find($this->choiceLink, Locator::SELECTOR_XPATH)->getElements();
         foreach ($choiceLinks as $choiceLink) {
-            $link = $choiceLink->find($this->linkForChoice, Locator::SELECTOR_XPATH);
+            $link = $choiceLink->find($this->linkForChoice);
             $sample = $choiceLink->find($this->sampleLinkForChoice);
             $price = $choiceLink->find($this->priceForChoice);
             $priceAdjustments = $choiceLink->find($this->priceAdjustmentsForChoice);
