@@ -97,7 +97,7 @@ class ProductAdvancedPricingTest extends Functional
         Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productPage->getViewBlock()->addToCart($product);
         // Make sure the item is added to the cart before continuing on.
-        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
     }
 
     /**

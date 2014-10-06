@@ -10,7 +10,7 @@
 <tabs>
     <account_information>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
-        <selector>#giftcardaccount_info_tabs</selector>
+        <selector>#giftcardaccount_info_tabs_info</selector>
         <strategy>css selector</strategy>
         <fields>
             <balance/>

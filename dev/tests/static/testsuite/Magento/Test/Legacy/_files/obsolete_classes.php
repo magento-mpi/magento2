@@ -2791,6 +2791,7 @@ return array(
     ],
     ['Magento\Catalog\Block\Product'],
     ['\Magento\Sales\Model\Observer'],
+    ['\Magento\Install\Block\Begin'],
     ['\Magento\Checkout\Service\V1\QuoteLoader', '\Magento\Sales\Model\QuoteRepository'],
     ['Magento\PageCache\Model\Observer'],
     ['Magento\Rss\Block\Order\Info\Buttons\Rss'],
