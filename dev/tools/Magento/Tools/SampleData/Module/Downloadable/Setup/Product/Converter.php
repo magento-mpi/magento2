@@ -156,7 +156,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             'link_item_url'
         );
         foreach ($linkItems as $csvRow) {
-            isset($linkData[$csvRow]) ? $linkData[$csvRow] : '';
+            $linkData[$csvRow] = isset($linkData[$csvRow]) ? $linkData[$csvRow] : '';
         }
 
         $link =
