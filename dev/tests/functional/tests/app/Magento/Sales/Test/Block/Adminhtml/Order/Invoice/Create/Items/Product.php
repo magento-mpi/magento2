@@ -8,29 +8,13 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Items;
 
-use Mtf\Block\Block;
+use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm\AbstractProduct;
 
 /**
  * Class Product
  * Item product block on invoice items block
  */
-class Product extends Block
+class Product extends AbstractProduct
 {
-    /**
-     * Qty input css selector
-     *
-     * @var string
-     */
-    protected $qtyInput = '[name^="invoice[items]"]';
-
-    /**
-     * Set product quantity to invoice
-     *
-     * @param int $value
-     * @return void
-     */
-    public function setQty($value)
-    {
-        $this->_rootElement->find($this->qtyInput)->setValue($value);
-    }
+    //
 }

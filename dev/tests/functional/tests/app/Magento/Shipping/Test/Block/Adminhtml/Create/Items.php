@@ -41,27 +41,6 @@ class Items extends Block
     protected $productItems = '//tr[contains(.,"%s")]';
 
     /**
-     * Click 'Submit Shipment' button
-     *
-     * @return void
-     */
-    public function submit()
-    {
-        $this->_rootElement->find($this->submitShipment)->click();
-    }
-
-    /**
-     * Set shipment comment
-     *
-     * @param string $text
-     * @return void
-     */
-    public function setComment($text)
-    {
-        $this->_rootElement->find($this->comment)->setValue($text);
-    }
-
-    /**
      * Get item product block
      *
      * @param FixtureInterface $product

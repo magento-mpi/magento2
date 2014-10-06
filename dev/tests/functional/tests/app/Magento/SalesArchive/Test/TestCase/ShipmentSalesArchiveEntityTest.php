@@ -108,10 +108,10 @@ class ShipmentSalesArchiveEntityTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $invoice
-     * @param array $qty
+     * @param array $data
      * @return array
      */
-    public function test(OrderInjectable $order, $invoice, array $qty)
+    public function test(OrderInjectable $order, $invoice, array $data)
     {
         $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
         // Preconditions
@@ -126,8 +126,8 @@ class ShipmentSalesArchiveEntityTest extends Injectable
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->ship();
-        $this->orderShipmentNew->getShipItemsBlock()->setProductQty($order->getEntityId()['products'], $qty);
-        $this->orderShipmentNew->getShipItemsBlock()->submit();
+        $this->orderShipmentNew->getCreateBlock()->fill($data, $order->getEntityId()['products']);
+        $this->orderShipmentNew->getCreateBlock()->getFormBlock()->submit();
 
         $this->orderView->getOrderForm()->openTab('shipments');
 

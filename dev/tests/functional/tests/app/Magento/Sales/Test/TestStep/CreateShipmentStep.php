@@ -101,7 +101,7 @@ class CreateShipmentStep implements TestStepInterface
         if (!empty($this->data)) {
             $this->orderShipmentNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
         }
-        $this->orderShipmentNew->getShipItemsBlock()->submit();
+        $this->orderShipmentNew->getCreateBlock()->getFormBlock()->submit();
 
         return ['shipmentIds' => $this->getShipmentIds()];
     }

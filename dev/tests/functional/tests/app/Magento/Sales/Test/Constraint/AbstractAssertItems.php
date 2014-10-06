@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Shipping\Test\Constraint;
+namespace Magento\Sales\Test\Constraint;
 
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Sales\Test\Fixture\OrderInjectable;
@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AbstractAssertArchiveItems
- * Assert items represented in shipment entity view page
+ * Assert items represented in order's entity view page
  */
 abstract class AbstractAssertItems extends AbstractAssertForm
 {
@@ -53,8 +53,8 @@ abstract class AbstractAssertItems extends AbstractAssertForm
             $productsData[] = [
                 'product' => $product->getName(),
                 'sku' => $product->getSku(),
-                'qty' => (isset($data['qty'][$key]) && $data['qty'][$key] != '-')
-                            ? $data['qty'][$key]
+                'qty' => (isset($data[$key]['qty']) && $data[$key]['qty'] != '-')
+                            ? $data[$key]['qty']
                             : $product->getCheckoutData()['options']['qty']
             ];
         }

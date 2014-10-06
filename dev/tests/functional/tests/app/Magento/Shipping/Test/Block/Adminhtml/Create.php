@@ -8,15 +8,15 @@
 
 namespace Magento\Shipping\Test\Block\Adminhtml;
 
-use Mtf\Block\Block;
+use Magento\Shipping\Test\Block\Adminhtml\Create\Form;
 use Magento\Shipping\Test\Block\Adminhtml\Create\Items;
-use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking;
+use Magento\Sales\Test\Block\Adminhtml\Order\AbstractCreate;
 
 /**
  * Class Create
  * Shipment create block
  */
-class Create extends Block
+class Create extends AbstractCreate
 {
     /**
      * Items block css selector
@@ -24,13 +24,6 @@ class Create extends Block
      * @var string
      */
     protected $items = '#ship_items_container';
-
-    /**
-     * Tracking block css selector
-     *
-     * @var string
-     */
-    protected $tracking = '#tracking_numbers_table';
 
     /**
      * Fill shipment data
@@ -41,19 +34,13 @@ class Create extends Block
      */
     public function fill(array $data, $products = null)
     {
-        if (isset($data['comment']) && $data['comment'] != '-') {
-            $this->getItemsBlock()->setComment($data['comment']);
+        if (isset($data['form_data'])) {
+            $this->getFormBlock()->fillData($data['form_data']);
         }
-        if (isset($data['qty']) && $products !== null) {
+        if (isset($data['items_data']) && $products !== null) {
             foreach ($products as $key => $product) {
-                if ($data['qty'][$key] == '-') {
-                    continue;
-                }
-                $this->getItemsBlock()->getItemProductBlock($product)->setQty($data['qty'][$key]);
+                $this->getItemsBlock()->getItemProductBlock($product)->fillProduct($data['items_data'][$key]);
             }
-        }
-        if (isset($data['tracking']) && $data['tracking']['number'] != '-') {
-            $this->getTrackingBlock()->fill([$data['tracking']]);
         }
     }
 
@@ -71,15 +58,15 @@ class Create extends Block
     }
 
     /**
-     * Get tracking block
+     * Get form block
      *
-     * @return Tracking
+     * @return Form
      */
-    protected function getTrackingBlock()
+    public function getFormBlock()
     {
         return $this->blockFactory->create(
-            'Magento\Shipping\Test\Block\Adminhtml\Order\Tracking',
-            ['element' => $this->_rootElement->find($this->tracking)]
+            'Magento\Shipping\Test\Block\Adminhtml\Create\Form',
+            ['element' => $this->_rootElement->find($this->form)]
         );
     }
 }

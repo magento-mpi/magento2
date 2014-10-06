@@ -108,10 +108,10 @@ class CreditMemoSalesArchiveEntityTest extends Injectable
      * Create Credit Memo SalesArchive Entity
      *
      * @param OrderInjectable $order
-     * @param array $creditMemo
+     * @param array $data
      * @return array
      */
-    public function test(OrderInjectable $order, array $creditMemo)
+    public function test(OrderInjectable $order, array $data)
     {
         $this->markTestIncomplete('MAGETWO-28867');
         // Preconditions
@@ -125,8 +125,9 @@ class CreditMemoSalesArchiveEntityTest extends Injectable
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getCreateBlock()->fill($creditMemo, $order->getEntityId()['products']);
-        $this->orderCreditMemoNew->getCreateBlock()->refundOffline();
+        $this->orderCreditMemoNew->getCreateBlock()->fill($data, $order->getEntityId()['products']);
+        $this->orderCreditMemoNew->getCreateBlock()->updateQty();
+        $this->orderCreditMemoNew->getCreateBlock()->getFormBlock()->submit();
 
         $this->orderView->getOrderForm()->openTab('creditmemos');
         $creditMemoIds = $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->getIds();

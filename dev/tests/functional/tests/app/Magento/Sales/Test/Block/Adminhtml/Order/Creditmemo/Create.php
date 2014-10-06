@@ -8,14 +8,15 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo;
 
-use Mtf\Block\Block;
+use Magento\Sales\Test\Block\Adminhtml\Order\AbstractCreate;
+use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Form;
 use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Items;
 
 /**
  * Class Create
  * Credit memo create block
  */
-class Create extends Block
+class Create extends AbstractCreate
 {
     /**
      * Items block css selector
@@ -23,47 +24,6 @@ class Create extends Block
      * @var string
      */
     protected $items = '#creditmemo_item_container';
-
-    /**
-     * Refund column selector
-     *
-     * @var string
-     */
-    protected $refundColumn = '.col-refund';
-
-    /**
-     * 'Refund Offline' button
-     *
-     * @var string
-     */
-    protected $refundOffline = '[data-ui-id="order-items-submit-offline"]';
-
-    /**
-     * 'Refund' button
-     *
-     * @var string
-     */
-    protected $refund = '.submit-button.refund';
-
-    /**
-     * Fill credit memo data
-     *
-     * @param array $data
-     * @param array|null $products [optional]
-     * @return void
-     */
-    public function fill(array $data, $products = null)
-    {
-        if (isset($data['comment'])) {
-            $this->getItemsBlock()->setHistory($data['comment']);
-        }
-        if (isset($data['qty']) && $data['qty'] !== '-' && $products !== null) {
-            foreach ($products as $product) {
-                $this->getItemsBlock()->getItemProductBlockBySku($product->getSku())->setQty($data['qty']);
-            }
-            $this->getItemsBlock()->clickUpdateQty();
-        }
-    }
 
     /**
      * Get items block
@@ -79,31 +39,15 @@ class Create extends Block
     }
 
     /**
-     * Refund offline order
+     * Get form block
      *
-     * @return void
+     * @return Form
      */
-    public function refundOffline()
+    public function getFormBlock()
     {
-        $browser = $this->_rootElement;
-        $selector = $this->refundOffline . '.disabled';
-        $browser->waitUntil(
-            function () use ($browser, $selector) {
-                $element = $browser->find($selector);
-                return $element->isVisible() == false ? true : null;
-            }
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Form',
+            ['element' => $this->_rootElement->find($this->form)]
         );
-        $this->reinitRootElement();
-        $this->_rootElement->find($this->refundOffline)->click();
-    }
-
-    /**
-     * Refund order
-     *
-     * @return void
-     */
-    public function refund()
-    {
-        $this->_rootElement->find($this->refund)->click();
     }
 }

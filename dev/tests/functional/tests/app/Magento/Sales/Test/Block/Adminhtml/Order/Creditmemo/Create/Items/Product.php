@@ -8,29 +8,13 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Items;
 
-use Mtf\Block\Block;
+use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm\AbstractProduct;
 
 /**
  * Class Product
- * Item product block on credit memo items block
+ * Item product form on credit memo items block
  */
-class Product extends Block
+class Product extends AbstractProduct
 {
-    /**
-     * Qty input css selector
-     *
-     * @var string
-     */
-    protected $qtyInput = '.col-refund [name^="creditmemo[items]"]';
-
-    /**
-     * Set product quantity to credit memo
-     *
-     * @param int $value
-     * @return void
-     */
-    public function setQty($value)
-    {
-        $this->_rootElement->find($this->qtyInput)->setValue($value);
-    }
+    //
 }

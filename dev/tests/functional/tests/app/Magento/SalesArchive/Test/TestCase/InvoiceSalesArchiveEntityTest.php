@@ -106,10 +106,10 @@ class InvoiceSalesArchiveEntityTest extends Injectable
      * Create Invoice SalesArchive Entity
      *
      * @param OrderInjectable $order
-     * @param array $invoice
+     * @param array $data
      * @return array
      */
-    public function test(OrderInjectable $order, array $invoice)
+    public function test(OrderInjectable $order, array $data)
     {
         $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
         // Preconditions
@@ -121,8 +121,8 @@ class InvoiceSalesArchiveEntityTest extends Injectable
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->invoice();
-        $this->orderInvoiceNew->getCreateBlock()->fill($invoice, $order->getEntityId()['products']);
-        $this->orderInvoiceNew->getTotalsBlock()->submit();
+        $this->orderInvoiceNew->getCreateBlock()->fill($data, $order->getEntityId()['products']);
+        $this->orderInvoiceNew->getCreateBlock()->getFormBlock()->submit();
 
         $this->orderView->getOrderForm()->openTab('invoices');
 

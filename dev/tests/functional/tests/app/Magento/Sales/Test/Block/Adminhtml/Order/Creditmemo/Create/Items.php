@@ -10,21 +10,15 @@ namespace Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Items\Product;
+use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Items\Product;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
- * Block for items to credit memo on new credit memo page
+ * Credit Memo Items block on Credit Memo new page
  */
 class Items extends Block
 {
-    /**
-     * Credit memo comments css selector
-     *
-     * @var string
-     */
-    protected $comments = '[name="creditmemo[comment_text]"]';
-
     /**
      * Item product
      *
@@ -40,27 +34,17 @@ class Items extends Block
     protected $updateQty = '.update-button';
 
     /**
-     * Set credit memo history
-     *
-     * @param string $text
-     * @return void
-     */
-    public function setHistory($text)
-    {
-        $this->_rootElement->find($this->comments)->setValue($text);
-    }
-
-    /**
      * Get item product block
      *
-     * @param string $sku
+     * @param FixtureInterface $product
      * @return Product
      */
-    public function getItemProductBlockBySku($sku)
+    public function getItemProductBlock(FixtureInterface $product)
     {
+        $selector = sprintf($this->productItems, $product->getSku());
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Items\Product',
-            ['element' => $this->_rootElement->find(sprintf($this->productItems, $sku), Locator::SELECTOR_XPATH)]
+            ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -71,6 +55,6 @@ class Items extends Block
      */
     public function clickUpdateQty()
     {
-        $this->_rootElement->find($this->updateQty)->doubleClick();
+        $this->_rootElement->find($this->updateQty)->click();
     }
 }
