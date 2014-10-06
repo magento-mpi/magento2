@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml\Review\Products\Viewed;
+namespace Magento\Reports\Test\Block\Adminhtml\Viewed;
 
 use Magento\Backend\Test\Block\GridPageActions;
 
 /**
  * Class Action
- * Action block for Product Views Report
+ * Action block for Report Filter
  */
 class Action extends GridPageActions
 {

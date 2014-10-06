@@ -105,7 +105,16 @@
     <assertOrderReleaseFailMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderReleaseFailMessage>
+    <assertShipmentSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentSuccessCreateMessage>
     <assertReorderStatusIsCorrect module="Magento_Sales">
         <severeness>low</severeness>
     </assertReorderStatusIsCorrect>
+    <assertRefundSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundSuccessCreateMessage>
+    <assertRefundInRefundsTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundInRefundsTab>
 </constraint>

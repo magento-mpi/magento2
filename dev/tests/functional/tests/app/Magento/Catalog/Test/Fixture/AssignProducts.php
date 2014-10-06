@@ -40,8 +40,6 @@ class AssignProducts extends Product
         $this->_dataConfig = array(
             'assignType ' => $this->assignType,
         );
-        /** @var  $type Related|Upsell */
-        $type = 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\\' . ucfirst(strtolower($this->assignType));
         $this->_data = array(
             'fields' => array(
                 $this->assignType . '_products' => array(
