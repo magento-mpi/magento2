@@ -37,7 +37,7 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
         }
         $rowTaxExact = $this->calculationTool->calcTaxAmount($rowTotalInclTax, $rate, true, false);
         $deltaRoundingType = self::KEY_REGULAR_DELTA_ROUNDING;
-        if ($discountAmount && $applyTaxAfterDiscount) {
+        if ($applyTaxAfterDiscount) {
             $deltaRoundingType = self::KEY_TAX_BEFORE_DISCOUNT_DELTA_ROUNDING;
         }
         $rowTax = $this->roundAmount($rowTaxExact, $rate, true, $deltaRoundingType);
@@ -45,7 +45,7 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
         $price = $this->calculationTool->round($rowTotal / $quantity);
 
         //Handle discount
-        if ($discountAmount && $applyTaxAfterDiscount) {
+        if ($applyTaxAfterDiscount) {
             //TODO: handle originalDiscountAmount
             $taxableAmount = max($rowTotalInclTax - $discountAmount, 0);
             $rowTaxAfterDiscount = $this->calculationTool->calcTaxAmount(
@@ -107,14 +107,14 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
             $taxRate = $appliedRate['percent'];
             $rowTaxPerRate = $this->calculationTool->calcTaxAmount($rowTotal, $taxRate, false, false);
             $deltaRoundingType = self::KEY_REGULAR_DELTA_ROUNDING;
-            if ($discountAmount && $applyTaxAfterDiscount) {
+            if ($applyTaxAfterDiscount) {
                 $deltaRoundingType = self::KEY_TAX_BEFORE_DISCOUNT_DELTA_ROUNDING;
             }
             $rowTaxPerRate = $this->roundAmount($rowTaxPerRate, $taxId, false, $deltaRoundingType);
             $rowTaxAfterDiscount = $rowTaxPerRate;
 
             //Handle discount
-            if ($discountAmount && $applyTaxAfterDiscount) {
+            if ($applyTaxAfterDiscount) {
                 //TODO: handle originalDiscountAmount
                 $taxableAmount = max($rowTotal - $discountAmount, 0);
                 $rowTaxAfterDiscount = $this->calculationTool->calcTaxAmount(
