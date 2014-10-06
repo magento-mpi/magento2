@@ -30,7 +30,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testCollect($itemData, $shippingItemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData,
-            $addressData, $verifyData
+        $addressData, $verifyData
     ) {
         $objectManager = new ObjectManager($this);
         $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')

@@ -29,7 +29,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testCollect($itemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData, $addressData,
-            $verifyData
+        $verifyData
     )  {
         $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
