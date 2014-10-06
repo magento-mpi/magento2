@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\GiftCard\Setup;
 
 use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -42,6 +43,11 @@ class Product implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var Product\Gallery
+     */
+    protected $gallery;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
@@ -53,13 +59,15 @@ class Product implements SetupInterface
         \Magento\Catalog\Model\Config $catalogConfig,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        Gallery $gallery
     ) {
         $this->productFactory = $productFactory;
         $this->catalogConfig = $catalogConfig;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->gallery = $gallery;
     }
 
     /**
@@ -70,6 +78,9 @@ class Product implements SetupInterface
         echo 'Installing giftcard products' . PHP_EOL;
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productFactory->create();
+        $this->gallery->setFixtures([
+            'GiftCard/images_giftcard.csv'
+        ]);
         $files = [
             'GiftCard/products_giftcard.csv',
         ];
@@ -93,6 +104,7 @@ class Product implements SetupInterface
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 1, 'qty' => 100));
                 $product->save();
+                $this->gallery->install($product);
                 echo '.';
             }
         }

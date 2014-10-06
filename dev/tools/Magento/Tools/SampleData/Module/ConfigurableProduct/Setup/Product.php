@@ -11,6 +11,10 @@ use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
+/**
+ * Class Product
+ * @package Magento\Tools\SampleData\Module\ConfigurableProduct\Setup
+ */
 class Product implements SetupInterface
 {
     /**
@@ -44,6 +48,11 @@ class Product implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var Product\Gallery
+     */
+    protected $gallery;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -57,7 +66,8 @@ class Product implements SetupInterface
         \Magento\Catalog\Model\Config $catalogConfig,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        Product\Gallery $gallery
     ) {
         $this->productFactory = $productFactory;
         $this->configurableProductType = $configurableProductType;
@@ -65,6 +75,7 @@ class Product implements SetupInterface
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->gallery = $gallery;
     }
 
     /**
@@ -109,6 +120,7 @@ class Product implements SetupInterface
                 $product->setCanSaveConfigurableAttributes(true);
 
                 $product->save();
+                $this->gallery->install($product);
                 echo '.';
             }
         }

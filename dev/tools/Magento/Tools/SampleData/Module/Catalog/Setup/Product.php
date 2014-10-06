@@ -11,6 +11,10 @@ use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
+/**
+ * Class Product
+ * @package Magento\Tools\SampleData\Module\Catalog\Setup
+ */
 class Product implements SetupInterface
 {
     /**
@@ -49,6 +53,11 @@ class Product implements SetupInterface
     protected $fixtures;
 
     /**
+     * @var Product\Gallery
+     */
+    protected $gallery;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
@@ -62,6 +71,7 @@ class Product implements SetupInterface
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
+        Product\Gallery $gallery,
         array $fixtures = array(
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
@@ -73,6 +83,7 @@ class Product implements SetupInterface
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->gallery = $gallery;
         $this->fixtures = $fixtures;
     }
 
@@ -111,6 +122,7 @@ class Product implements SetupInterface
                 }
 
                 $product->save();
+                $this->gallery->install($product);
                 echo '.';
             }
         }

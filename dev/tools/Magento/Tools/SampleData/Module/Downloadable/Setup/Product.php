@@ -9,6 +9,7 @@ namespace Magento\Tools\SampleData\Module\Downloadable\Setup;
 
 use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 
 /**
  * Class Product
@@ -41,6 +42,11 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
     protected $csvReaderFactory;
 
     /**
+     * @var Gallery
+     */
+    protected $gallery;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
@@ -52,13 +58,15 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
         \Magento\Catalog\Model\Config $catalogConfig,
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        Gallery $gallery
     ) {
         $this->productFactory = $productFactory;
         $this->catalogConfig = $catalogConfig;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->gallery = $gallery;
     }
 
     /**
@@ -69,7 +77,9 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
         echo "Installing downloadable products\n";
 
         $product = $this->productFactory->create();
-
+        $this->gallery->setFixtures([
+                'Downloadable/images_products_training_video.csv'
+        ]);
         $files = [
             'Downloadable/products_training_video_download.csv',
         ];
@@ -118,6 +128,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
                     $product->setDownloadableData($downloadableData[$data['sku']]);
                 }
                 $product->save();
+                $this->gallery->install($product);
                 echo '.';
             }
         }
