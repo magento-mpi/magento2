@@ -33,7 +33,7 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
     protected $fulltext;
 
     /**
-     * @var \Magento\CatalogSearch\Model\QueryFactory
+     * @var \Magento\Search\Model\QueryFactory
      */
     protected $queryFactory;
 
@@ -68,7 +68,7 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->queryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\CatalogSearch\Model\QueryFactory'
+            'Magento\Search\Model\QueryFactory'
         );
 
         $this->productFirst = $this->getProductBySku('fulltext-1');

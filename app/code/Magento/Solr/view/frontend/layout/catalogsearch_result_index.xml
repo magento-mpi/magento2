@@ -7,11 +7,14 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="search_result_list">
         <container name="additional" label="Additional Info" after="product_list_toolbar">
-            <block class="Magento\Solr\Block\Suggestions" name="search_suggestions" template="suggestions.phtml"/>
-            <block class="Magento\Solr\Block\Recommendations" name="search_recommendations" template="recommendations.phtml"/>
+            <block class="Magento\Search\Block\Suggestions"
+                   name="search_suggestions"/>
+            <block class="Magento\Search\Block\Recommendations"
+                   name="search_recommendations"/>
         </container>
     </referenceBlock>
 </page>

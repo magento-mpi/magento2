@@ -11,8 +11,8 @@ namespace Magento\Solr\Model\Layer\AdvancedSearch;
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
 use Magento\CatalogSearch\Model\Layer\Advanced\CollectionFilter;
 use Magento\CatalogSearch\Model\Layer\Advanced\ItemCollectionProvider as CatalogCollectionProvider;
+use Magento\CatalogSearch\Model\Layer\Search\StateKey;
 use Magento\Solr\Model\Layer\Search\ItemCollectionProvider as SearchCollectionProvider;
-use Magento\Catalog\Model\Layer\Search\StateKey;
 
 class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
 {
@@ -28,7 +28,7 @@ class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
 
     /**
      * @param CatalogCollectionProvider $collectionProvider
-     * @param StateKey $stateKey
+     * @param \Magento\CatalogSearch\Model\Layer\Search\StateKey $stateKey
      * @param CollectionFilter $collectionFilter
      * @param SearchCollectionProvider $searchProvider
      * @param \Magento\Solr\Helper\Data $helper

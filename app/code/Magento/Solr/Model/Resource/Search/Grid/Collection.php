@@ -7,7 +7,7 @@
  */
 namespace Magento\Solr\Model\Resource\Search\Grid;
 
-class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
+class Collection extends \Magento\Search\Model\Resource\Query\Collection
 {
     /**
      * Registry manager
@@ -22,7 +22,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Search\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Registry $registry
      * @param mixed $connection
      * @param mixed $resource
@@ -33,7 +33,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
+        \Magento\Search\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Registry $registry,
         $connection = null,
         $resource = null
@@ -69,7 +69,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
     /**
      *  Retrieve a value from registry by a key
      *
-     * @return \Magento\CatalogSearch\Model\Query
+     * @return \Magento\Search\Model\Query
      */
     public function getQuery()
     {

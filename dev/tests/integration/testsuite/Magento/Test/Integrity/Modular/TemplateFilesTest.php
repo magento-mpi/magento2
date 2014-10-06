@@ -34,6 +34,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     $template,
                     $params
                 );
+                $this->assertInternalType('string', $file, "Block class: {$class} {$template}");
                 $this->assertFileExists($file, "Block class: {$class}");
             },
             $this->allTemplatesDataProvider()

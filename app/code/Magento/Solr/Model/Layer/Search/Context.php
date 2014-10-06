@@ -9,9 +9,9 @@
 namespace Magento\Solr\Model\Layer\Search;
 
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
-use Magento\Catalog\Model\Layer\Search\CollectionFilter;
 use Magento\Catalog\Model\Layer\Search\ItemCollectionProvider as CatalogCollectionProvider;
-use Magento\Catalog\Model\Layer\Search\StateKey;
+use Magento\CatalogSearch\Model\Layer\Search\CollectionFilter;
+use Magento\CatalogSearch\Model\Layer\Search\StateKey;
 
 class Context extends \Magento\Catalog\Model\Layer\Search\Context
 {

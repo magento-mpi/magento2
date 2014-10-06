@@ -8,8 +8,8 @@
 namespace Magento\Solr\Model\Resource;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
-use Magento\CatalogSearch\Model\Resource\Helper;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Search\Model\Resource\Helper;
 
 /**
  * Enterprise search index resource model
@@ -40,7 +40,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Filter\FilterManager $filter,
-        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
+        \Magento\Search\Model\Resource\Helper $resourceHelper,
         StoreManagerInterface $storeManager,
         EngineProvider $engineProvider
     ) {

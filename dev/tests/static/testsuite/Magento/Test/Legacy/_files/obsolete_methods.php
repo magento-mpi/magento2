@@ -2026,4 +2026,6 @@ return array(
         'Magento\Catalog\Model\Layer\Filter\Price',
         'Magento\CatalogSearch\Model\Price\Interval::loadNext'
     ],
+    ['getQuery', 'Magento\CatalogSearch\Helper\Data', 'Magento\Search\Model\QueryFactory::get'],
+    ['getQueryText', 'Magento\CatalogSearch\Helper\Data', 'Magento\Search\Model\Query::getQueryText'],
 );

@@ -59,14 +59,14 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         );
         $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
         $this->stateKeyMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search\StateKey',
+            '\Magento\CatalogSearch\Model\Layer\Search\StateKey',
             array(),
             array(),
             '',
             false
         );
         $this->collectionFilterMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search\CollectionFilter',
+            '\Magento\CatalogSearch\Model\Layer\Search\CollectionFilter',
             array(),
             array(),
             '',

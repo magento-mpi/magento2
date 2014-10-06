@@ -8,7 +8,6 @@
 namespace Magento\Solr\Model\Resource;
 
 use Magento\Catalog\Model\Category;
-use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
 /**
  * Enterprise search collection resource model
@@ -57,7 +56,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var \Magento\Solr\Model\Resource\Solr\Engine
      */
-    protected $_engine = null;
+    protected $engine = null;
 
     /**
      * Store sort orders
@@ -112,21 +111,21 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Helper\Data
+     * @var \Magento\Search\Model\QueryFactory
      */
-    protected $_catalogSearchData;
+    protected $queryFactory;
 
     /**
      * Search data
      *
      * @var \Magento\Solr\Helper\Data
      */
-    protected $_searchData;
+    protected $searchData;
 
     /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
-    protected $_localeResolver;
+    protected $localeResolver;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -148,7 +147,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Solr\Helper\Data $searchData
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Search\Model\QueryFactory $queryFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param mixed $connection
@@ -175,15 +174,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Solr\Helper\Data $searchData,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Search\Model\QueryFactory $queryFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         $connection = null
     ) {
-        $this->_searchData = $searchData;
-        $this->_catalogSearchData = $catalogSearchData;
-        $this->_localeResolver = $localeResolver;
-        $this->_engine = $engineProvider->get();
+        $this->searchData = $searchData;
+        $this->queryFactory = $queryFactory;
+        $this->localeResolver = $localeResolver;
+        $this->engine = $engineProvider->get();
         parent::__construct(
             $entityFactory,
             $logger,
@@ -223,7 +222,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $params['solr_params']['facet'] = 'on';
         $params['facet'] = $this->_facetedConditions;
 
-        $result = $this->_engine->getResultForRequest($query, $params);
+        $result = $this->engine->getResultForRequest($query, $params);
         $this->_facetedData = $result['faceted_data'];
         $this->_facetedDataIsLoaded = true;
 
@@ -292,9 +291,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addSearchFilter($queryText)
     {
         /**
-         * @var \Magento\CatalogSearch\Model\Query $query
+         * @var \Magento\Search\Model\Query $query
          */
-        $query = $this->_catalogSearchData->getQuery();
+        $query = $this->queryFactory->get();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -402,7 +401,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         $store = $this->_storeManager->getStore();
         $localeCode = $this->_scopeConfig->getValue(
-            $this->_localeResolver->getDefaultLocalePath(),
+            $this->localeResolver->getDefaultLocalePath(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -433,7 +432,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         if (is_null($this->foundEntityIds)) {
             list($query, $params) = $this->_prepareBaseParams();
 
-            $helper = $this->_searchData;
+            $helper = $this->searchData;
             $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery
                 && $helper->getSolrConfigData('server_suggestion_enabled');
             if ($searchSuggestionsEnabled) {
@@ -455,7 +454,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 $params['facet'] = $this->_facetedConditions;
             }
 
-            $result = $this->_engine->getIdsByQuery($query, $params);
+            $result = $this->engine->getIdsByQuery($query, $params);
 
             if ($searchSuggestionsEnabled && !empty($result['suggestions_data'])) {
                 $this->_suggestionsData = $result['suggestions_data'];
@@ -517,7 +516,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $params['solr_params']['stats.field'][] = $field;
         }
 
-        return $this->_engine->getStats($query, $params);
+        return $this->engine->getStats($query, $params);
     }
 
     /**
@@ -590,7 +589,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $sort = 'asc'
     ) {
         list($query, $params) = $this->_prepareBaseParams();
-        $priceField = $this->_engine->getSearchEngineFieldName('price');
+        $priceField = $this->engine->getSearchEngineFieldName('price');
         $conditions = null;
         if (!is_null($lowerPrice) || !is_null($upperPrice)) {
             $conditions = array();
@@ -617,7 +616,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $params['facet'][$priceField] = array($conditions);
         }
 
-        $data = $this->_engine->getResultForRequest($query, $params);
+        $data = $this->engine->getResultForRequest($query, $params);
         if ($getCount) {
             return array_shift($data['faceted_data'][$priceField]);
         }

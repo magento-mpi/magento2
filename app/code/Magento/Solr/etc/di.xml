@@ -8,13 +8,20 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="solr" xsi:type="string">Magento_Solr</item>
+            </argument>
+        </arguments>
+    </type>
     <preference for="Magento\Solr\Helper\ClientInterface" type="Magento\Solr\Helper\Data" />
     <type name="Magento\CatalogSearch\Model\Indexer\Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento\Solr\Model\Plugin\FulltextIndexRebuild" />
     </type>
     <type name="Magento\Solr\Block\Suggestions">
         <arguments>
-            <argument name="suggestions" xsi:type="object">Magento\Solr\Model\Suggestions\Proxy</argument>
+            <argument name="recommendations" xsi:type="object">Magento\Solr\Model\Suggestions\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Solr\Model\Layer\Category\Filter\Price">
@@ -72,6 +79,16 @@
             <argument name="intervals" xsi:type="array">
                 <item name="Magento\Solr\Model\Resource\Solr\Engine" xsi:type="string">Magento\Solr\Model\Price\Interval</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Search\Block\Recommendations">
+        <arguments>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Solr\Model\DataProvider\Recommendations</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Search\Block\Suggestions">
+        <arguments>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Solr\Model\DataProvider\Suggestions</argument>
         </arguments>
     </type>
 </config>
