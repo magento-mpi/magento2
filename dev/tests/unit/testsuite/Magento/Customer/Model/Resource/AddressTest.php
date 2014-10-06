@@ -161,7 +161,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $eavConfigType = $this->getMock(
             'Magento\Eav\Model\Entity\Type',
-            ['getEntityIdField', 'getId', 'getEntityTable'],
+            ['getEntityIdField', 'getId', 'getEntityTable', '__wakeup'],
             [],
             '',
             false
