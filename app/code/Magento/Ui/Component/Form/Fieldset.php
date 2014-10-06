@@ -19,7 +19,25 @@ class Fieldset extends AbstractView
      *
      * @var string
      */
-    protected $legendText = 'Legend text';
+    protected $legendText = '';
+
+    /**
+     * @var bool
+     */
+    protected $collapsible = false;
+
+    /**
+     * @var bool
+     */
+    protected $loadByAjax = false;
+
+    /**
+     * @return void
+     */
+    public function setNotLoadByAjax()
+    {
+        $this->loadByAjax = false;
+    }
 
     /**
      * @return string
@@ -30,14 +48,27 @@ class Fieldset extends AbstractView
     }
 
     /**
-     * Set legend text
-     *
-     * @param $legendText
-     * @return void
+     * @return bool
      */
-    public function setLegendText($legendText)
+    public function getIsCollapsible()
     {
-        $this->legendText = $legendText;
+        return $this->collapsible;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsAjax()
+    {
+        return $this->loadByAjax;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAjaxUrl()
+    {
+        return $this->getUrl('mui/form/fieldset');
     }
 
     /**
@@ -48,6 +79,9 @@ class Fieldset extends AbstractView
     public function prepare()
     {
         parent::prepare();
-        $this->elements = $this->getData('elements');
+        $this->legendText = $this->getData('label') ? $this->getData('label') : $this->legendText;
+        $this->elements = $this->getData('elements') ?: $this->elements;
+        $this->collapsible = $this->getData('collapsible') ?: $this->collapsible;
+        $this->loadByAjax = $this->getData('load_by_ajax') ?: $this->loadByAjax;
     }
 }

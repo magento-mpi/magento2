@@ -9,6 +9,4 @@
  * @var \Magento\Ui\Component\Form\Element\DataType\Date $this
  */
 ?>
-<span data-bind="datepicker: { storage: from, options: config }, attr: {placeholder: $t('From')}">
-    <?php echo $this->getDataObjectValue(); ?>
-</span>
+<?php echo $this->getData('title'); ?><input name="<?php echo $this->getData('index'); ?>" type="date" value="<?php echo $this->getValue(); ?>"/>

@@ -9,12 +9,28 @@
  * @var \Magento\Ui\Component\Form\Fieldset $this
  */
 $legendText = $this->getLegendText();
+$attributes = $this->getAttributes();
 ?>
-<fieldset>
-    <?php if (isset($legendText)): ?>
-        <legend><?php echo $legendText; ?></legend>
+<fieldset id="<?php echo $this->getData('index'); ?>" data-bind="scope: '<?php echo $this->getData('index'); ?>'" ?>
+    <?php if (!empty($legendText)): ?>
+        <legend data-bind="click: toggle"><?php echo $legendText; ?></legend>
     <?php endif; ?>
-    <?php foreach ($this->getElements() as $element): ?>
-        <?php echo $element->render(); ?>
-    <?php endforeach; ?>
+    <div data-bind="visible: opened" id="fieldset_content" data-role="content">
+        <?php if(!$this->getIsAjax()): ?>
+        <?php foreach ($this->getElements() as $element): ?>
+            <p><?php echo $element->render(); ?></p>
+        <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 </fieldset>
+<?php if ($this->getIsCollapsible()): ?>
+    <script data-mage-apply='{ "Magento_Ui/js/collapsible": "" }' type="application/json">
+{
+        "name": "<?php echo $this->getData('index'); ?>"
+        <?php if($this->getIsAjax()): ?>,
+        "source": "<?php echo $this->getAjaxUrl(); ?>",
+        "opened": false
+        <?php endif;?>
+}
+</script>
+<?php endif; ?>

@@ -12,5 +12,14 @@ namespace Magento\Ui\Component\Form\Element;
  */
 class Select extends AbstractFormElement
 {
-    //
+    /**
+     * Check if option value
+     *
+     * @param $optionValue
+     * @return bool
+     */
+    public function getIsSelected($optionValue)
+    {
+        return $this->getValue() == $optionValue;
+    }
 }

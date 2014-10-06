@@ -12,9 +12,40 @@
 ?>
 
 <div class="form">
-    <form class="">
+    <form id="demo_form" class="" action="<?php echo $this->getSaveAction(); ?>" method="post">
         <?php foreach ($this->getElements() as $element): ?>
             <?php echo $element->render(); ?>
         <?php endforeach; ?>
+        <input type="hidden" name="component" value="form"/>
+        <input type="hidden" name="name" value="<?php echo $this->getData('name')?>"/>
+        <button type="submit">Submit</button>
+        <button id="validate" type="button" data-url="<?php echo $this->getValidateAction(); ?>">Validate</button>
     </form>
 </div>
+<script type="text/javascript">
+<!--
+(function($){
+    $('#demo_form').submit(function(){
+        $(this).append(
+            '<input type="hidden" name="form_key" value="' + FORM_KEY + '">'
+        );
+        return true;
+    });
+    $('#validate').click(function() {
+        var data = $('#demo_form').serializeArray();
+        data.push({name: "form_key", value: FORM_KEY});
+        console.log(data);
+        console.log($(this).data("url"));
+        var ajaxSettings = {
+            url: $(this).data("url"),
+            showLoader: true,
+            data: data,
+            success: function(data, textStatus, transport) {
+                alert(data);
+            }
+        };
+        jQuery.ajax(ajaxSettings);
+    });
+})(jQuery);
+-->
+</script>

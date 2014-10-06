@@ -151,19 +151,50 @@ class Form extends AbstractView
                     }
                 }
                 if (isset($containers[$name])) {
+                    $data = array_merge_recursive($containers[$name], ['elements' => $elements]);
                     /** @var \Magento\Ui\Component\Form\Fieldset $container */
                     $container = $this->uiElementFactory->create(
                         $containers[$name]['name'],
-                        ['elements' => $elements]
+                        $data
                     );
                     $container->prepare();
-                    $container->setLegendText($containers[$name]['label']);
                     $this->elements[] = $container;
                 } else {
                     $this->elements = array_merge($this->elements, $elements);
                 }
             }
         }
+    }
+
+    public function getContainer($name)
+    {
+        $containers = $this->getData('containers');
+        if (!isset($containers[$name])) {
+            throw new \Exception('Container ' . $name . ' does not exist!');
+        }
+        if (!$this->hasData('data_provider_pool')) {
+            throw new \Exception('data_provider_pool is not specified!');
+        }
+        $dataProvider = $this->getRenderContext()->getStorage()->getDataProvider($name);
+        $data = $dataProvider->getData();
+        $elements = [];
+        foreach ($dataProvider->getMeta() as $metaData) {
+            $index = $this->getFieldIndex($metaData);
+            $metaData['value'] = isset($data[$index]) ? $data[$index] : null;
+            try {
+                $elements[] = $this->uiElementFactory->create($this->getFieldType($metaData), $metaData);
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
+        $data = array_merge_recursive($containers[$name], ['elements' => $elements]);
+        /** @var \Magento\Ui\Component\Form\Fieldset $container */
+        $container = $this->uiElementFactory->create(
+            $containers[$name]['name'],
+            $data
+        );
+        $container->prepare();
+        return $container;
     }
 
     /**
@@ -182,5 +213,21 @@ class Form extends AbstractView
         }
 
         return $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaveAction()
+    {
+        return $this->getUrl('mui/form/save');
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidateAction()
+    {
+        return $this->getUrl('mui/form/validate');
     }
 }

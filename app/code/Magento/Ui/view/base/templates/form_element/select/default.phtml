@@ -12,7 +12,7 @@
 <span>
     <?php echo $this->getData('title'); ?>
 </span>
-<select>
+<select name="<?php echo $this->getData('index'); ?>">
     <?php foreach ($this->getData('options') as $option): ?>
         <?php if (is_array($option['value'])): ?>
             <optgroup label="<?php echo $option['label']; ?>">
@@ -22,17 +22,19 @@
                             <?php foreach ($subOption['value'] as $subSubOption): ?>
                                 <?php if (!is_array($subSubOption['value'])): ?>
                                     <option value="<?php echo
-                                        $subSubOption['value']; ?>"><?php echo $subSubOption['label']; ?></option>
+                                        $subSubOption['value']; ?>" <?php if ($this->getIsSelected($subSubOption['value'])):?>selected="selected"<?php endif;?>><?php echo $subSubOption['label']; ?></option>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </optgroup>
                     <?php else: ?>
-                        <option value="<?php echo $subOption['value']; ?>"><?php echo $subOption['label']; ?></option>
+                        <option value="<?php echo $subOption['value']; ?>" <?php if ($this->getIsSelected($subOption['value'])):?>selected="selected"<?php endif;?>><?php echo $subOption['label']; ?></option>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </optgroup>
         <?php else: ?>
-            <option value="<?php echo $option['value']; ?>"><?php echo $option['label']; ?></option>
+            <option value="<?php echo $option['value']; ?>" <?php if ($this->getIsSelected($option['value'])):?>selected="selected"<?php endif;?>>
+                <?php echo $option['label']; ?>
+            </option>
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
