@@ -36,13 +36,36 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     protected $_dateRange = null;
 
     /**
+     * @var \Magento\Framework\View\Element\Html\Date
+     */
+    protected $dateElement;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Html\Date $dateElement
      * @param array $data
      */
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
-    {
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Html\Date $dateElement,
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
+        $this->dateElement = $dateElement;
         $this->_isScopePrivate = true;
+    }
+
+    public function getFieldHtml()
+    {
+        $this->dateElement->setData([
+            'name' => $this->getFieldName(),
+            'id' => $this->getHtmlId(),
+            'class' => $this->getHtmlClass(),
+            'value' => $this->getValue(),
+            'date_format' => $this->getDateFormat(),
+            'image' => $this->getViewFileUrl('Magento_Core::calendar.gif'),
+        ]);
+        return $this->dateElement->getHtml();
     }
 
     /**
