@@ -125,7 +125,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             'sample_item_url'
         );
         foreach ($sampleItems as $csvRow) {
-            isset($sampleData[$csvRow]) ? $sampleData[$csvRow] : '';
+            $sampleData[$csvRow] = isset($sampleData[$csvRow]) ? $sampleData[$csvRow] : '';
         }
         $sample =
             [
