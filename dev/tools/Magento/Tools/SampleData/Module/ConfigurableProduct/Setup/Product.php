@@ -53,12 +53,19 @@ class Product implements SetupInterface
     protected $gallery;
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $eavConfig;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param Product\Gallery $gallery
+     * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -67,7 +74,8 @@ class Product implements SetupInterface
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
-        Product\Gallery $gallery
+        Product\Gallery $gallery,
+        \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->productFactory = $productFactory;
         $this->configurableProductType = $configurableProductType;
@@ -75,6 +83,7 @@ class Product implements SetupInterface
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->eavConfig = $eavConfig;
         $this->gallery = $gallery;
     }
 
@@ -125,5 +134,6 @@ class Product implements SetupInterface
             }
         }
         echo "\n";
+        $this->eavConfig->clear();
     }
 }

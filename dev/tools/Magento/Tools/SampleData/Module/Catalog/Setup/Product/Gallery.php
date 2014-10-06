@@ -15,7 +15,6 @@ use \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media as GalleryAt
 
 /**
  * Class Gallery
- * @package Magento\Tools\SampleData\Module\Catalog\Setup\Product
  */
 class Gallery
 {
@@ -73,7 +72,7 @@ class Gallery
     }
 
     /**
-     * @param $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function install($product)
     {
@@ -88,7 +87,7 @@ class Gallery
      * Save image information to DB.
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param $images
+     * @param array $images
      */
     protected function storeImage($product, $images)
     {
@@ -139,6 +138,7 @@ class Gallery
 
     /**
      * Set fixtures
+     * @param array $fixtures
      */
     public function setFixtures($fixtures)
     {
@@ -156,7 +156,7 @@ class Gallery
             /** @var \Magento\Framework\File\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach($csvReader as $row) {
+            foreach ($csvReader as $row) {
                 $this->images[$row['sku']][] = $row['image'];
             }
         }
