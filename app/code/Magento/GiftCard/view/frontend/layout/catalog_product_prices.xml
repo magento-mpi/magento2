@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/layout_generic.xsd">
-    <referenceBlock class="Magento\Framework\Pricing\Render\RendererPool" name="render.product.prices">
+    <referenceBlock name="render.product.prices">
         <arguments>
             <argument name="giftcard" xsi:type="array">
                 <item name="prices" xsi:type="array">
