@@ -35,7 +35,7 @@ class Move implements Layout\ReaderInterface
      */
     public function process(Context $readerContext, Layout\Element $currentElement, Layout\Element $parentElement)
     {
-        $this->_scheduleMove($readerContext->getScheduledStructure(), $currentElement);
+        $this->scheduleMove($readerContext->getScheduledStructure(), $currentElement);
         return false;
     }
 
@@ -47,13 +47,13 @@ class Move implements Layout\ReaderInterface
      * @throws \Magento\Framework\Exception
      * @return $this
      */
-    protected function _scheduleMove(Layout\ScheduledStructure $scheduledStructure, Layout\Element $currentElement)
+    protected function scheduleMove(Layout\ScheduledStructure $scheduledStructure, Layout\Element $currentElement)
     {
         $elementName = (string)$currentElement->getAttribute('element');
         $destination = (string)$currentElement->getAttribute('destination');
         $alias = (string)$currentElement->getAttribute('as') ?: '';
         if ($elementName && $destination) {
-            list($siblingName, $isAfter) = $this->_beforeAfterToSibling($currentElement);
+            list($siblingName, $isAfter) = $this->beforeAfterToSibling($currentElement);
             $scheduledStructure->setElementToMove(
                 $elementName,
                 array($destination, $siblingName, $isAfter, $alias)
@@ -70,7 +70,7 @@ class Move implements Layout\ReaderInterface
      * @param \Magento\Framework\View\Layout\Element $node
      * @return array
      */
-    protected function _beforeAfterToSibling($node)
+    protected function beforeAfterToSibling($node)
     {
         $result = array(null, true);
         if (isset($node['after'])) {
