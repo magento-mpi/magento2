@@ -8,18 +8,18 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
-class CustomerMetadataServiceTest extends WebapiAbstract
+class AddressMetadataServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "customerCustomerMetadataServiceV1";
+    const SERVICE_NAME = "customerAddressMetadataServiceV1";
     const SERVICE_VERSION = "V1";
-    const RESOURCE_PATH = "/V1/attributeMetadata/customer";
+    const RESOURCE_PATH = "/V1/attributeMetadata/customerAddress";
 
     /**
-     * Test retrieval of attribute metadata for the customer entity type.
+     * Test retrieval of attribute metadata for the address entity type.
      *
      * @param string $attributeCode The attribute code of the requested metadata.
      * @param array $expectedMetadata Expected entity metadata for the attribute code.
@@ -35,7 +35,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAttributeMetadata'
+                'operation' => 'customerAddressMetadataServiceV1GetAttributeMetadata'
             ]
         ];
 
@@ -44,7 +44,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
-
         $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
         list($expectedMetadata, $attributeMetadata) = $validationResult;
         $this->assertEquals($expectedMetadata, $attributeMetadata);
@@ -58,62 +57,33 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     public function getAttributeMetadataDataProvider()
     {
         return [
-            Customer::FIRSTNAME => [
-                Customer::FIRSTNAME,
+            Address::KEY_POSTCODE => [
+                Address::KEY_POSTCODE,
                 [
-                    AttributeMetadata::ATTRIBUTE_CODE   => 'firstname',
-                    AttributeMetadata::FRONTEND_INPUT   => 'text',
-                    AttributeMetadata::INPUT_FILTER     => '',
-                    AttributeMetadata::STORE_LABEL      => 'First Name',
-                    AttributeMetadata::VALIDATION_RULES => [
-                        ['name' => 'min_text_length', 'value' => 1],
-                        ['name' => 'max_text_length', 'value' => 255],
-                    ],
-                    AttributeMetadata::VISIBLE          => true,
-                    AttributeMetadata::REQUIRED         => true,
-                    AttributeMetadata::MULTILINE_COUNT  => 0,
-                    AttributeMetadata::DATA_MODEL       => '',
-                    AttributeMetadata::OPTIONS          => [],
-                    AttributeMetadata::FRONTEND_CLASS   => ' required-entry',
-                    AttributeMetadata::FRONTEND_LABEL   => 'First Name',
-                    AttributeMetadata::NOTE             => '',
-                    AttributeMetadata::SYSTEM           => true,
-                    AttributeMetadata::USER_DEFINED     => false,
-                    AttributeMetadata::BACKEND_TYPE     => 'varchar',
-                    AttributeMetadata::SORT_ORDER       => 40
-                ]
-            ],
-            Customer::GENDER => [
-                Customer::GENDER,
-                [
-                    AttributeMetadata::ATTRIBUTE_CODE   => 'gender',
-                    AttributeMetadata::FRONTEND_INPUT   => 'select',
-                    AttributeMetadata::INPUT_FILTER     => '',
-                    AttributeMetadata::STORE_LABEL      => 'Gender',
+                    AttributeMetadata::ATTRIBUTE_CODE => 'postcode',
+                    AttributeMetadata::FRONTEND_INPUT => 'text',
+                    AttributeMetadata::INPUT_FILTER => '',
+                    AttributeMetadata::STORE_LABEL => 'Zip/Postal Code',
                     AttributeMetadata::VALIDATION_RULES => [],
-                    AttributeMetadata::VISIBLE          => false,
-                    AttributeMetadata::REQUIRED         => false,
-                    AttributeMetadata::MULTILINE_COUNT  => 0,
-                    AttributeMetadata::DATA_MODEL       => '',
-                    AttributeMetadata::OPTIONS          => [
-                        ['label' => null, 'value' => null],
-                        ['label' => 'Male', 'value' => '1'],
-                        ['label' => 'Female', 'value' => '2']
-                    ],
-                    AttributeMetadata::FRONTEND_CLASS   => '',
-                    AttributeMetadata::FRONTEND_LABEL   => 'Gender',
-                    AttributeMetadata::NOTE             => null,
-                    AttributeMetadata::SYSTEM           => false,
-                    AttributeMetadata::USER_DEFINED     => false,
-                    AttributeMetadata::BACKEND_TYPE     => 'int',
-                    AttributeMetadata::SORT_ORDER       => 110
+                    AttributeMetadata::VISIBLE => true,
+                    AttributeMetadata::REQUIRED => true,
+                    AttributeMetadata::MULTILINE_COUNT => 0,
+                    AttributeMetadata::DATA_MODEL => 'Magento\Customer\Model\Attribute\Data\Postcode',
+                    AttributeMetadata::OPTIONS => [],
+                    AttributeMetadata::FRONTEND_CLASS => ' required-entry',
+                    AttributeMetadata::FRONTEND_LABEL => 'Zip/Postal Code',
+                    AttributeMetadata::NOTE => '',
+                    AttributeMetadata::SYSTEM => true,
+                    AttributeMetadata::USER_DEFINED => false,
+                    AttributeMetadata::BACKEND_TYPE => 'varchar',
+                    AttributeMetadata::SORT_ORDER => 110
                 ]
             ]
         ];
     }
 
     /**
-     * Test retrieval of all customer attribute metadata.
+     * Test retrieval of all address attribute metadata.
      */
     public function testGetAllAttributesMetadata()
     {
@@ -125,22 +95,22 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAllAttributesMetadata'
+                'operation' => 'customerAddressMetadataServiceV1GetAllAttributesMetadata'
             ]
         ];
 
         $attributeMetadata = $this->_webApiCall($serviceInfo);
-
-        $this->assertCount(23, $attributeMetadata);
-
-        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][1];
-        $validationResult = $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
-        list($firstName, $attributeMetadata) = $validationResult;
-        $this->assertContains($firstName, $attributeMetadata);
+        $this->assertCount(19, $attributeMetadata);
+        $postcode = $this->getAttributeMetadataDataProvider()[Address::KEY_POSTCODE][1];
+        $validationResult = $this->checkMultipleAttributesValidationRules($postcode, $attributeMetadata);
+        list($postcode, $attributeMetadata) = $validationResult;
+        $this->assertContains($postcode, $attributeMetadata);
     }
 
     /**
-     * Test retrieval of custom customer attribute metadata.
+     * Test retrieval of custom address attribute metadata.
+     *
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_address_custom_attribute.php
      */
     public function testGetCustomAttributesMetadata()
     {
@@ -152,15 +122,14 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetCustomAttributesMetadata'
+                'operation' => 'customerAddressMetadataServiceV1GetCustomAttributesMetadata'
             ]
         ];
 
-        $attributeMetadata = $this->_webApiCall($serviceInfo);
-
-        //Default custom attribute code 'disable_auto_group_change'
-        $this->assertCount(1, $attributeMetadata);
-        $this->assertEquals('disable_auto_group_change', $attributeMetadata[0]['attribute_code']);
+        $requestData = ['attribute_code' => 'custom_attribute'];
+        $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertCount(2, $attributeMetadata);
+        $this->assertEquals('custom_attribute', $attributeMetadata[0]['attribute_code']);
     }
 
     /**
@@ -173,12 +142,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         $attributeMetadata = $this->getAttributeMetadataDataProvider();
         return [
             [
-                'adminhtml_customer',
-                $attributeMetadata[Customer::FIRSTNAME][1]
-            ],
-            [
-                'adminhtml_customer',
-                $attributeMetadata[Customer::GENDER][1]
+                'customer_address_edit',
+                $attributeMetadata[Address::KEY_POSTCODE][1]
             ]
         ];
     }
@@ -200,19 +165,20 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAttributes'
+                'operation' => 'customerAddressMetadataServiceV1GetAttributes'
             ]
         ];
 
         $requestData = [];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['formCode']   = $formCode;
+            $requestData['formCode'] = $formCode;
         }
 
         $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
         foreach ($attributeMetadataList as $attributeMetadata) {
-            if(isset($attributeMetadata['attribute_code'])
-                && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
+            if (isset($attributeMetadata['attribute_code'])
+                && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']
+            ) {
 
                 $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
                 list($expectedMetadata, $attributeMetadata) = $validationResult;
@@ -233,7 +199,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     public function checkValidationRules($expectedResult, $actualResult)
     {
         $expectedRules = [];
-        $actualRules   = [];
+        $actualRules = [];
 
         if (isset($expectedResult[AttributeMetadata::VALIDATION_RULES])) {
             $expectedRules = $expectedResult[AttributeMetadata::VALIDATION_RULES];
@@ -245,14 +211,14 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         }
 
         if (is_array($expectedRules) && is_array($actualRules)) {
-            foreach($expectedRules as $expectedRule) {
+            foreach ($expectedRules as $expectedRule) {
                 if (isset($expectedRule['name']) && isset($expectedRule['value'])) {
                     $found = false;
-                    foreach($actualRules as $actualRule) {
+                    foreach ($actualRules as $actualRule) {
                         if (isset($actualRule['name']) && isset($actualRule['value'])) {
                             if ($expectedRule['name'] == $actualRule['name']
                                 && $expectedRule['value'] == $actualRule['value']
-                            ){
+                            ) {
                                 $found = true;
                                 break;
                             }
@@ -276,10 +242,10 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         if (is_array($expectedResult) && is_array($actualResultSet)) {
             if (isset($expectedResult[AttributeMetadata::ATTRIBUTE_CODE])) {
-                foreach($actualResultSet as $actualAttributeKey => $actualAttribute) {
+                foreach ($actualResultSet as $actualAttributeKey => $actualAttribute) {
                     if (isset($actualAttribute[AttributeMetadata::ATTRIBUTE_CODE])
                         && $expectedResult[AttributeMetadata::ATTRIBUTE_CODE]
-                            == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
+                        == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
                     ) {
                         $this->checkValidationRules($expectedResult, $actualAttribute);
                         unset($actualResultSet[$actualAttributeKey][AttributeMetadata::VALIDATION_RULES]);
@@ -289,5 +255,21 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             }
         }
         return [$expectedResult, $actualResultSet];
+    }
+
+    /**
+     * Remove test attribute
+     */
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+        /** @var \Magento\Customer\Model\Attribute $attribute */
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Attribute'
+        );
+        foreach (['custom_attribute', 'custom_attributes'] as $attributeCode) {
+            $attribute->loadByCode('customer_address', $attributeCode);
+            $attribute->delete();
+        }
     }
 }
