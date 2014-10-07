@@ -144,6 +144,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
         $visitor->expects($this->once())->method('getData')->will($this->returnValue([]));
 
         $this->resource->expects($this->once())->method('save')->will($this->returnSelf());
+        $this->resource->expects($this->never())->method('beginTransaction');
 
         $event = new \Magento\Framework\Object(['visitor' => $visitor]);
         $observer = new \Magento\Framework\Object(['event' => $event]);
@@ -158,6 +159,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
         $visitor->expects($this->once())->method('getData')->will($this->returnValue(['visitor_id' => 1]));
 
         $this->resource->expects($this->once())->method('save')->will($this->returnSelf());
+        $this->resource->expects($this->never())->method('beginTransaction');
 
         $event = new \Magento\Framework\Object(['visitor' => $visitor]);
         $observer = new \Magento\Framework\Object(['event' => $event]);
