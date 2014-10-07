@@ -36,7 +36,7 @@ class Create extends Block
      *
      * @var string
      */
-    protected $refundOffline = '[data-ui-id="order-items-submit-offline"]';
+    protected $refundOffline = '[data-ui-id="order-items-submit-button"]';
 
     /**
      * 'Refund' button
