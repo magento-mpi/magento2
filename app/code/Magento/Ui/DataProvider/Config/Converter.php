@@ -64,31 +64,33 @@ class Converter implements ConverterInterface
     {
         $data = [];
         $output = $this->toArray($source);
-        foreach ($output['config']['fieldset'] as $fieldset) {
-            $data[$fieldset['@attributes']['name']] = [
-                'name' => $fieldset['@attributes']['name'],
-                'dataset' => $fieldset['@attributes']['dataset'],
+        foreach ($output['config']['datasource'] as $datasource) {
+            $data[$datasource['@attributes']['name']] = [
+                'name' => $datasource['@attributes']['name'],
+                'dataset' => $datasource['@attributes']['dataset'],
             ];
             $fields = [];
-            foreach ($fieldset['fields']['field'] as $field) {
+            foreach ($datasource['fields']['field'] as $field) {
                 foreach ($field['@attributes'] as $key => $value) {
                     $fields[$field['@attributes']['name']][$key] = $value;
                 }
-                if ($field['@attributes']['datatype'] == 'lookup') {
+                if (isset($field['@attributes']['source'])
+                    && in_array($field['@attributes']['source'], ['lookup', 'option']))
+                {
                     $fields[$field['@attributes']['name']]['reference'] =  [
                         'target' => $field['reference']['@attributes']['target'],
-                        'target_field' => $field['reference']['@attributes']['target_field'],
-                        'referenced_field' => $field['reference']['@attributes']['referenced_field'],
-                        'needed_field' => $field['reference']['@attributes']['needed_field']
+                        'targetField' => $field['reference']['@attributes']['targetField'],
+                        'referencedField' => $field['reference']['@attributes']['referencedField'],
+                        'neededField' => $field['reference']['@attributes']['neededField']
                     ];
                 }
             }
-            $data[$fieldset['@attributes']['name']]['fields'] = $fields;
-            if (!empty($fieldset['references'])) {
-                foreach ($fieldset['references'] as $reference) {
-                    $data[$reference['@attributes']['target']]['children'][$fieldset['@attributes']['name']][] = [
-                        'target_field' => $reference['@attributes']['target_field'],
-                        'referenced_field' => $reference['@attributes']['referenced_field']
+            $data[$datasource['@attributes']['name']]['fields'] = $fields;
+            if (!empty($datasource['references'])) {
+                foreach ($datasource['references'] as $reference) {
+                    $data[$reference['@attributes']['target']]['children'][$datasource['@attributes']['name']][] = [
+                        'targetField' => $reference['@attributes']['targetField'],
+                        'referencedField' => $reference['@attributes']['referencedField']
                     ];
                 }
             }
