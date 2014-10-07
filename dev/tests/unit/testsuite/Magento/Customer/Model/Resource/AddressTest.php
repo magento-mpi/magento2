@@ -15,6 +15,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Resource\Address */
     protected $addressResource;
 
+    /** @var \Magento\Customer\Model\CustomerFactory|\PHPUnit_Framework_MockObject_MockObject */
+    protected $customerFactory;
+
     protected function setUp()
     {
         $this->addressResource = (new ObjectManagerHelper($this))->getObject(
@@ -23,6 +26,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 'resource' => $this->prepareResource(),
                 'eavConfig' => $this->prepareEavConfig(),
                 'validatorFactory' => $this->prepareValidatorFactory(),
+                'customerFactory' => $this->prepareCustomerFactory()
             ]
         );
     }
@@ -39,11 +43,19 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         /** @var $customer \Magento\Customer\Model\Address|\PHPUnit_Framework_MockObject_MockObject */
         $customer = $this->getMock(
             'Magento\Customer\Model\Customer',
-            ['__wakeup', 'setDefaultBilling', 'setDefaultShipping', 'save'],
+            ['__wakeup', 'setDefaultBilling', 'setDefaultShipping', 'save', 'load'],
             [],
             '',
             false
         );
+        $customer->expects($this->any())
+            ->method('load')
+            ->willReturnSelf();
+
+        $this->customerFactory->expects($this->any())
+            ->method('create')
+            ->willReturn($customer);
+
         /** @var $address \Magento\Customer\Model\Address|\PHPUnit_Framework_MockObject_MockObject */
         $address = $this->getMock(
             'Magento\Customer\Model\Address',
@@ -53,7 +65,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 'getEntityTypeId',
                 'getIsDefaultBilling',
                 'getIsDefaultShipping',
-                'getCustomer'
             ],
             [],
             '',
@@ -71,9 +82,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 $customer->expects($this->once())->method('setDefaultShipping')->with($addressId);
             }
             $customer->expects($this->once())->method('save');
-            $address->expects($this->once())->method('getCustomer')->willReturn($customer);
         } else {
-            $address->expects($this->never())->method('getCustomer');
             $customer->expects($this->never())->method('setDefaultBilling');
             $customer->expects($this->never())->method('setDefaultShipping');
             $customer->expects($this->never())->method('save');
@@ -235,5 +244,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->willReturn($validatorMock);
 
         return $validatorFactory;
+    }
+
+    protected function prepareCustomerFactory()
+    {
+        $this->customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', ['create'], [], '', false);
+        return $this->customerFactory;
     }
 }
