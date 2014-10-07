@@ -81,7 +81,11 @@ define([
 
         update: function (value, name) {
             this.invalid(this.elems.filter(this.validate));
-            this.trigger('update');
+            
+            this.trigger('update', this.name, {
+                name: name,
+                value: value
+            });
 
             return this;
         },

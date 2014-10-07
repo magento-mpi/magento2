@@ -411,19 +411,8 @@
 <script>
     var allowLocalCache = false;
 </script>
-
-<div data-bind="scope: 'customer_form_areas' " class="entry-edit form-inline">
-    <form action="" method="post">
-        
-        <!-- ko foreach: elems -->
-        <div data-bind="visible: visible">
-            
-            <!-- ko foreach: elems -->
-                <!-- ko template: template --><!-- /ko -->
-            <!-- /ko -->
-
-        </div>
-        <!-- /ko -->
-
-    </form>
-</div>
+<form action="" method="post">
+    <div data-bind="scope: 'customer_form_areas'" class="entry-edit form-inline">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+</form>
