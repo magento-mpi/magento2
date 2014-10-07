@@ -109,16 +109,29 @@ class Helper
         $this->_overrideElementWorkaround($scheduledStructure, $name, $path);
         $scheduledStructure->setPathElement($name, $path);
         if ($scheduledStructure->hasStructureElement($name)) {
-            // union of arrays
-            $scheduledStructure->setStructureElement(
-                $name,
-                $row + $scheduledStructure->getStructureElement($name)
-            );
-        } else {
-            $scheduledStructure->setStructureElement($name, $row);
+            $row = $this->unionElementData($row, $scheduledStructure->getStructureElement($name));
         }
+        $scheduledStructure->setStructureElement($name, $row);
         return $name;
     }
+
+    /**
+     * @param array $currentElement
+     * @param array $existingElement
+     * @return array
+     */
+    protected function unionElementData($currentElement, $existingElement)
+    {
+        foreach ($existingElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA] as $name => $value) {
+            if(empty($currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name])) {
+                $currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name] = $value;
+            } else {
+                $currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name] += $value;
+            }
+        }
+        return $currentElement;
+    }
+
 
     /**
      * Destroy previous element with same name and all its children, if new element overrides it
