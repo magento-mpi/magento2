@@ -8,7 +8,28 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:include schemaLocation="page_configuration.xsd"/>
+    <xs:include schemaLocation="elements.xsd"/>
 
-    <xs:element name="layout" type="pageType"/>
+    <xs:complexType name="genericLayout">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="referenceContainer" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="layout" type="genericLayout">
+        <xs:unique name="blockKey">
+            <xs:selector xpath=".//block"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+        <xs:unique name="containerKey">
+            <xs:selector xpath=".//container"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
 </xs:schema>
