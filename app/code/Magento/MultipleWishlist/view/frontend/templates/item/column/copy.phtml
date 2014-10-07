@@ -13,7 +13,7 @@
 <?php if ($this->isMultipleEnabled() && (count($wishlists) || $this->canCreateWishlists($wishlists))): ?>
     <div class="split button" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
         <span class="label"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'><?php echo __('Add to Wish List');?></span></span>
-        <span class="action change" data-toggle="dropdown"><span><?php echo __('Add to:') ?></span></span>
+        <span class="action change" data-mage-init='{"dropdown":{}}' data-toggle="dropdown"><span><?php echo __('Add to:') ?></span></span>
         <ul class="items" data-target="dropdown">
             <?php foreach ($wishlists as $wishlist): ?>
                 <li class="item"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
