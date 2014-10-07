@@ -127,7 +127,7 @@ class Application
 
         $generationDir = "{$installDir}/generation";
         $this->_initParams = array(
-            DirectoryList::PARAM_APP_DIRS => array(
+            DirectoryList::INIT_PARAM_PATHS => array(
                 DirectoryList::CONFIG_DIR => array('path' => $this->_installEtcDir),
                 DirectoryList::VAR_DIR => array('path' => $installDir),
                 DirectoryList::MEDIA_DIR => array('path' => "{$installDir}/media"),
@@ -200,8 +200,8 @@ class Application
         }
 
         $directories = isset(
-            $overriddenParams[DirectoryList::PARAM_APP_DIRS]
-        ) ? $overriddenParams[DirectoryList::PARAM_APP_DIRS] : array();
+            $overriddenParams[DirectoryList::INIT_PARAM_PATHS]
+        ) ? $overriddenParams[DirectoryList::INIT_PARAM_PATHS] : array();
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
 
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
@@ -249,8 +249,8 @@ class Application
         $directoryListConfig->configure($directoryList);
 
         $directories = isset(
-            $overriddenParams[DirectoryList::PARAM_APP_DIRS]
-        ) ? $overriddenParams[DirectoryList::PARAM_APP_DIRS] : array();
+            $overriddenParams[DirectoryList::INIT_PARAM_PATHS]
+        ) ? $overriddenParams[DirectoryList::INIT_PARAM_PATHS] : array();
         foreach ($directories as $code => $configOverrides) {
             $config = array_merge($directoryList->getConfig($code), $configOverrides);
             $directoryList->addDirectory($code, $config);

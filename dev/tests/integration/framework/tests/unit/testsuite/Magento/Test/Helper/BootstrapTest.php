@@ -36,7 +36,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_fixtureInitParams = array(
-        DirectoryList::PARAM_APP_DIRS => array(
+        DirectoryList::INIT_PARAM_PATHS => array(
             DirectoryList::CONFIG_DIR => array('path' => __DIR__),
             DirectoryList::VAR_DIR => array('path' => __DIR__)
         )

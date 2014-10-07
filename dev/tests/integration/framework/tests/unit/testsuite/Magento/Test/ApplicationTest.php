@@ -51,7 +51,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
         $this->assertArrayHasKey(
-            DirectoryList::PARAM_APP_DIRS,
+            DirectoryList::INIT_PARAM_PATHS,
             $initParams,
             'Directories are not configured'
         );

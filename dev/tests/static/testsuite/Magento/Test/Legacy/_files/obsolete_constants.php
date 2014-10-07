@@ -622,4 +622,5 @@ return array(
     ['CONTENT_TYPE_PHP', 'Magento\Framework\View\Publisher'],
     ['CONTENT_TYPE_PHTML', 'Magento\Framework\View\Publisher'],
     ['CONTENT_TYPE_XML', 'Magento\Framework\View\Publisher'],
+    ['PARAM_APP_DIRS', 'Magento\Framework\App\Filesystem']
 );

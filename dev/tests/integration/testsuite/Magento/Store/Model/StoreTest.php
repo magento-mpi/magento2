@@ -201,7 +201,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::PARAM_APP_DIRS => array(
+                DirectoryList::INIT_PARAM_PATHS => array(
                     DirectoryList::PUB_DIR => array('uri' => '')
                 )
             )

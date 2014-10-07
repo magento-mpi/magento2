@@ -13,7 +13,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 require __DIR__ . '/../app/bootstrap.php';
 $params = $_SERVER;
-$params[DirectoryList::PARAM_APP_DIRS] = [
+$params[DirectoryList::INIT_PARAM_PATHS] = [
     DirectoryList::PUB_DIR => ['uri' => ''],
     DirectoryList::MEDIA_DIR => ['uri' => 'media'],
     DirectoryList::STATIC_VIEW_DIR => ['uri' => 'static'],

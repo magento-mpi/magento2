@@ -20,7 +20,12 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
     /**
      * Custom application dirs
      */
-    const PARAM_APP_DIRS = 'app_dirs';
+    const INIT_PARAM_PATHS = 'MAGE_DIR_PATHS';
+
+    /**
+     * Custom application urls
+     */
+    const INIT_PARAM_URLS = 'MAGE_DIR_URLS';
 
     /**
      * Code base root

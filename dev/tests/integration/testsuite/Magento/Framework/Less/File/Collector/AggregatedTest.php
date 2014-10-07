@@ -25,7 +25,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::PARAM_APP_DIRS => array(
+                DirectoryList::INIT_PARAM_PATHS => array(
                     DirectoryList::LIB_WEB => array(
                         'path' => dirname(dirname(__DIR__)) . '/_files/lib/web'
                     ),

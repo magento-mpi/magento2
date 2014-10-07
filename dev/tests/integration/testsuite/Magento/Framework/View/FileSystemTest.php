@@ -23,7 +23,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::PARAM_APP_DIRS => array(
+                DirectoryList::INIT_PARAM_PATHS => array(
                     DirectoryList::THEMES_DIR => array(
                         'path' => dirname(dirname(__DIR__)) . '/Core/Model/_files/design'
                     )

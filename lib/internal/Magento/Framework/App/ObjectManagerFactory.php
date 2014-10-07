@@ -52,8 +52,8 @@ class ObjectManagerFactory
     public function create($rootDir, array $arguments, $useCompiled = true)
     {
         $directories = isset(
-            $arguments[DirectoryList::PARAM_APP_DIRS]
-        ) ? $arguments[DirectoryList::PARAM_APP_DIRS] : array();
+            $arguments[DirectoryList::INIT_PARAM_PATHS]
+        ) ? $arguments[DirectoryList::INIT_PARAM_PATHS] : array();
         $directoryList = new DirectoryList($rootDir, $directories);
 
         (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(

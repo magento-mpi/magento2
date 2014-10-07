@@ -11,7 +11,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
     ->load(\Magento\Framework\App\Area::PART_CONFIG);
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-    DirectoryList::PARAM_APP_DIRS => array(
+    DirectoryList::INIT_PARAM_PATHS => array(
         DirectoryList::THEMES_DIR => array('path' => realpath(__DIR__)),
     ),
 ));

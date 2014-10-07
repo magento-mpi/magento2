@@ -78,7 +78,6 @@ class Rma extends \Magento\Backend\App\Action
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->readDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
-        
         $this->_fileFactory = $fileFactory;
         $this->carrierHelper = $carrierHelper;
         $this->labelService = $labelService;
