@@ -7,19 +7,17 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <body>
-        <referenceBlock name="render.product.prices">
-            <arguments>
-                <argument name="grouped" xsi:type="array">
-                    <item name="prices" xsi:type="array">
-                        <item name="final_price" xsi:type="array">
-                            <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\FinalPriceBox</item>
-                            <item name="render_template" xsi:type="string">Magento_GroupedProduct::product/price/final_price.phtml</item>
-                        </item>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/layout_generic.xsd">
+    <referenceBlock name="render.product.prices">
+        <arguments>
+            <argument name="grouped" xsi:type="array">
+                <item name="prices" xsi:type="array">
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\FinalPriceBox</item>
+                        <item name="render_template" xsi:type="string">Magento_GroupedProduct::product/price/final_price.phtml</item>
                     </item>
-                </argument>
-            </arguments>
-        </referenceBlock>
-    </body>
-</page>
+                </item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+</layout>
