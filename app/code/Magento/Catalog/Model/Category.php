@@ -27,7 +27,8 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
+class Category extends \Magento\Catalog\Model\AbstractModel
+    implements \Magento\Framework\Object\IdentityInterface,\Magento\Catalog\Api\Data\CategoryInterface
 {
     /**
      * Entity code.
@@ -1053,5 +1054,53 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             $identities[] = Product::CACHE_PRODUCT_CATEGORY_TAG . '_' . $this->getId();
         }
         return $identities;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
+    {
+        return $this->getData('path');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPosition()
+    {
+        return $this->getData('position');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildrenCount()
+    {
+        return $this->getData('children_count');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt()
+    {
+        return $this->getData('created_at');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpdatedAt()
+    {
+        return $this->getData('updated_at');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isActive()
+    {
+
     }
 }
