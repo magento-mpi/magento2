@@ -553,4 +553,6 @@ define([
             }
         }
     });
+
+    return $.mage.navigationMenu;
 });

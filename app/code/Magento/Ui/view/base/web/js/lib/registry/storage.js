@@ -19,6 +19,8 @@ define([], function(){
             var result = [],
                 record;
 
+            elems = elems || [];
+
             elems.forEach(function(elem) {
                 record = data[elem];
 

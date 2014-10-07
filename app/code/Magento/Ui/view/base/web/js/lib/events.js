@@ -30,7 +30,7 @@ define([
             var events = getEvents(this);
 
             typeof name === 'object' ?
-                _.each(name, addHandler.bind(window, events)) :
+                _.each(name, addHandler.bind(null, events)) :
                 addHandler(events, callback, name);
 
             return this;

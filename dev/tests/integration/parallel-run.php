@@ -72,13 +72,16 @@ foreach ($config['phpunit']['_value']['testsuites'] as $testsuite) {
     }
 }
 
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/testsuite');
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/framework');
+
 $pathToTests = $argv[1];
 $testCases = array();
 foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
     if (is_dir($globItem)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($globItem)) as $fileInfo) {
             $pathToTestCase = (string)$fileInfo;
-            if (preg_match('/Test\.php$/', $pathToTestCase)) {
+            if (preg_match('/Test\.php$/', $pathToTestCase) && !isTestClassAbstract($pathToTestCase)) {
                 $isExcluded = false;
                 foreach ($excludeList as $excludePath) {
                     if (preg_match('#' . $excludePath . '#', $pathToTestCase)) {
@@ -91,7 +94,7 @@ foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
                 }
             }
         }
-    } elseif (preg_match('/Test\.php$/', $globItem)) {
+    } elseif (preg_match('/Test\.php$/', $globItem) && !isTestClassAbstract($globItem)) {
         $testCases[$globItem] = true;
     }
 }
@@ -210,4 +213,17 @@ if ($cleanExitCode) {
 } else {
     echo 'Tests execution is completed, but some child processes returned non-zero exit code.', PHP_EOL;
     exit(1);
+}
+
+/**
+ * @param $testClassPath
+ * @return bool
+ */
+function isTestClassAbstract($testClassPath)
+{
+    $classPath = str_replace('testsuite/', '', $testClassPath);
+    $classPath = str_replace('.php', '', $classPath);
+    $className = str_replace('/', '\\', $classPath);
+
+    return (new ReflectionClass($className))->isAbstract();
 }

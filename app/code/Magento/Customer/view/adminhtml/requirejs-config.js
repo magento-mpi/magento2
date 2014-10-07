@@ -6,6 +6,9 @@
  */
 
 var config = {
+    paths: {
+        'customer/template': "Magento_Customer/templates"
+    },
     map: {
         '*': {
             addressTabs:            'Magento_Customer/edit/tab/js/addresses',
