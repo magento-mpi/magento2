@@ -11,6 +11,8 @@
  */
 namespace Magento\Framework\View\Design\Theme;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -77,11 +79,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         );
         $this->_filesystemMock->expects($this->at(0))
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA_DIR)
             ->will($this->returnValue($this->_mediaDirectoryMock));
         $this->_filesystemMock->expects($this->at(1))
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
+            ->with(DirectoryList::ROOT_DIR)
             ->will($this->returnValue($this->_rootDirectoryMock));
         $imageFactory = $this->getMock('Magento\Framework\Image\Factory', array(), array(), '', false, false);
         $this->_imageMock = $this->getMock('Magento\Framework\Image', array(), array(), '', false, false);

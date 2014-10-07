@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\App\View\Asset;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\View\Asset\Publisher;
 
 class PublisherTest extends \PHPUnit_Framework_TestCase
@@ -53,13 +54,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->filesystem->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->staticDirRead));
         $this->filesystem->expects($this->any())
             ->method('getDirectoryWrite')
             ->will($this->returnValueMap([
-                [\Magento\Framework\App\Filesystem::ROOT_DIR, $this->rootDirWrite],
-                [\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirWrite],
+                [DirectoryList::ROOT_DIR, $this->rootDirWrite],
+                [DirectoryList::STATIC_VIEW_DIR, $this->staticDirWrite],
             ]));
     }
 

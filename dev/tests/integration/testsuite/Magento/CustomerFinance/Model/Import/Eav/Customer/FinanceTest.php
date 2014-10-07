@@ -11,6 +11,8 @@
  */
 namespace Magento\CustomerFinance\Model\Import\Eav\Customer;
 use \Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection;
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -82,7 +84,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $directory = $objectManager->create(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
+                DirectoryList::ROOT_DIR
         );
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
@@ -155,7 +157,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
+                DirectoryList::ROOT_DIR
         );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/../_files/customer_finance_delete.csv',

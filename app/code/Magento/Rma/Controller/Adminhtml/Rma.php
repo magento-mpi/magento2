@@ -8,6 +8,7 @@
 namespace Magento\Rma\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Rma\Model\Rma as RmaModel;
 
 class Rma extends \Magento\Backend\App\Action
@@ -76,7 +77,8 @@ class Rma extends \Magento\Backend\App\Action
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->readDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+        
         $this->_fileFactory = $fileFactory;
         $this->carrierHelper = $carrierHelper;
         $this->labelService = $labelService;

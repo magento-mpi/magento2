@@ -7,6 +7,8 @@
  */
 namespace Magento\ImportExport\Model\Export\Adapter;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Abstract adapter model
  *
@@ -42,7 +44,7 @@ abstract class AbstractAdapter
      */
     public function __construct(\Magento\Framework\App\Filesystem $filesystem, $destination = null)
     {
-        $this->_directoryHandle = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $this->_directoryHandle = $filesystem->getDirectoryWrite(DirectoryList::SYS_TMP_DIR);
         if (!$destination) {
             $destination = uniqid('importexport_');
             $this->_directoryHandle->touch($destination);

@@ -7,6 +7,8 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ProductOptionsConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +22,7 @@ class ProductOptionsConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $filesystem \Magento\Framework\App\Filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
         $fileIteratorFactory = $objectManager->get('Magento\Framework\Config\FileIteratorFactory');
         $xmlFiles = $fileIteratorFactory->create(
             $modulesDirectory,

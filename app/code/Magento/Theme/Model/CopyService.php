@@ -11,6 +11,7 @@
  */
 namespace Magento\Theme\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Design\ThemeInterface;
 
 class CopyService
@@ -61,7 +62,7 @@ class CopyService
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\Design\Theme\Customization\Path $customization
     ) {
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
         $this->_updateFactory = $updateFactory;

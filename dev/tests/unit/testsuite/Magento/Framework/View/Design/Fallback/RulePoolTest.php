@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\View\Design\Fallback;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Factory Test
@@ -29,9 +30,9 @@ class RulePoolTest extends \PHPUnit_Framework_TestCase
             array('getPath', 'getDirectoryRead', '__wakeup'),
             array(
                 'dir' => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => 'themes',
-                    \Magento\Framework\App\Filesystem::MODULES_DIR => 'modules',
-                    \Magento\Framework\App\Filesystem::LIB_WEB => 'lib_web',
+                    DirectoryList::THEMES_DIR => 'themes',
+                    DirectoryList::MODULES_DIR => 'modules',
+                    DirectoryList::LIB_WEB => 'lib_web',
                 )
             ),
             '',
@@ -44,9 +45,9 @@ class RulePoolTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValueMap(
                 array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => 'themes',
-                    \Magento\Framework\App\Filesystem::MODULES_DIR => 'modules',
-                    \Magento\Framework\App\Filesystem::LIB_WEB => 'lib_web',
+                    DirectoryList::THEMES_DIR => 'themes',
+                    DirectoryList::MODULES_DIR => 'modules',
+                    DirectoryList::LIB_WEB => 'lib_web',
                 )
             )
         );

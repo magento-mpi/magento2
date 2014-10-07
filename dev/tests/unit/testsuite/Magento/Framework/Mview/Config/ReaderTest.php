@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Mview\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -42,7 +44,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDir'
         )->with(
-            \Magento\Framework\App\Filesystem::LIB_INTERNAL
+                DirectoryList::LIB_INTERNAL
         )->will(
             $this->returnValue('stub')
         );

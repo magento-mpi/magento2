@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Asset;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class MinifiedTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -62,12 +64,12 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')
             ->will($this->returnValueMap([
-                [\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR, $this->_staticViewDir],
-                [\Magento\Framework\App\Filesystem::ROOT_DIR, $this->_rootDir],
+                [DirectoryList::STATIC_VIEW_DIR, $this->_staticViewDir],
+                [DirectoryList::ROOT_DIR, $this->_rootDir],
             ]));
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->_staticViewDir));
         $this->_adapter = $this->getMockForAbstractClass('Magento\Framework\Code\Minifier\AdapterInterface');
         $this->_model = new Minified(

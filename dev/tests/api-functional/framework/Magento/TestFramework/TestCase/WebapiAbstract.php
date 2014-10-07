@@ -9,6 +9,7 @@
  */
 namespace Magento\TestFramework\TestCase;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Webapi\Model\Soap\Fault;
 
 abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
@@ -419,8 +420,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $currentEtcDir = $options->getEtcDir();
             /** @var \Magento\Framework\App\Filesystem $filesystem */
             $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-            $options->setCacheDir($filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR) . '/var/cache');
-            $options->setEtcDir($filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR) . '/app/etc');
+            $options->setCacheDir($filesystem->getPath(DirectoryList::ROOT_DIR) . '/var/cache');
+            $options->setEtcDir($filesystem->getPath(DirectoryList::ROOT_DIR) . '/app/etc');
 
             $this->_appCache = $objectManager->get('Magento\Framework\App\Cache');
 

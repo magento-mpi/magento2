@@ -7,6 +7,8 @@
  */
 namespace Magento\Core\App;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -95,7 +97,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         )->will(
             $this->returnValue($this->directoryReadMock)
         );

@@ -7,6 +7,8 @@
  */
 namespace Magento\Email\Block\Adminhtml\Template;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -247,9 +249,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultTemplatesAsOptionsArray()
     {
         $dirValueMap = array(
-            array(\Magento\Framework\App\Filesystem::ROOT_DIR, 'var/www/magento\rootdir/'),
-            array(\Magento\Framework\App\Filesystem::APP_DIR, 'var/www/magento\rootdir\app/'),
-            array(\Magento\Framework\App\Filesystem::THEMES_DIR, 'var\www/magento\rootdir\app/themes/')
+            array(DirectoryList::ROOT_DIR, 'var/www/magento\rootdir/'),
+            array(DirectoryList::APP_DIR, 'var/www/magento\rootdir\app/'),
+            array(DirectoryList::THEMES_DIR, 'var\www/magento\rootdir\app/themes/')
         );
 
         $this->directoryMock = $this->getMock(

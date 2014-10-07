@@ -7,6 +7,8 @@
  */
 namespace Magento\Theme\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class CopyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
@@ -163,7 +165,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         )->will(
             $this->returnValue($this->_dirWriteMock)
         );

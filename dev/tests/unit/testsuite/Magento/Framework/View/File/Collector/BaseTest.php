@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\View\File\Collector;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetFiles()
@@ -16,7 +18,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', ['getDirectoryRead'], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\Framework\App\Filesystem::MODULES_DIR)
+            ->with(DirectoryList::MODULES_DIR)
             ->will($this->returnValue($directory));
         $globalFiles = [
             'Namespace/One/view/base/layout/one.xml',

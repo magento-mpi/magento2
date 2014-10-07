@@ -13,6 +13,8 @@
  */
 namespace Magento\Framework\Backup;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Snapshot extends Filesystem
 {
     /**
@@ -118,7 +120,7 @@ class Snapshot extends Filesystem
         )->setTime(
             $this->getTime()
         )->setBackupsDir(
-            $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::VAR_DIR)
+            $this->_filesystem->getPath(DirectoryList::VAR_DIR)
         )->setResourceModel(
             $this->getResourceModel()
         );

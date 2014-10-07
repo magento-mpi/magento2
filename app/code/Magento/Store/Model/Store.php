@@ -7,6 +7,7 @@
  */
 namespace Magento\Store\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\AbstractModel;
 
 /**
@@ -562,7 +563,7 @@ class Store extends AbstractModel implements
                             \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                             $secure
                         ) . $this->filesystem->getUri(
-                            \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR
+                            DirectoryList::STATIC_VIEW_DIR
                         );
                     }
                     break;
@@ -577,7 +578,7 @@ class Store extends AbstractModel implements
                                 \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                                 $secure
                             ) . $this->filesystem->getUri(
-                                \Magento\Framework\App\Filesystem::MEDIA_DIR
+                                DirectoryList::MEDIA_DIR
                             );
                         }
                     }
@@ -644,7 +645,7 @@ class Store extends AbstractModel implements
                 \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                 $secure
             ) . $filesystem->getUri(
-                \Magento\Framework\App\Filesystem::PUB_DIR
+                DirectoryList::PUB_DIR
             ) . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;

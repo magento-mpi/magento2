@@ -11,6 +11,8 @@
  */
 namespace Magento\Theme\Model\Wysiwyg;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Storage
 {
     /**
@@ -79,7 +81,7 @@ class Storage
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Image\AdapterFactory $imageFactory
     ) {
-        $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
         $this->_imageFactory = $imageFactory;

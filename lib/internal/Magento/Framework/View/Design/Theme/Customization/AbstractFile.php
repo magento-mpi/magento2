@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Design\Theme\Customization;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Theme file service abstract class
  */
@@ -205,6 +207,6 @@ abstract class AbstractFile implements
      */
     protected function getDirectoryWrite()
     {
-        return $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        return $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
     }
 }

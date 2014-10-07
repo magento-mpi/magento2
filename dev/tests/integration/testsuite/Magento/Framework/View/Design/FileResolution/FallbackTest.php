@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\View\Design\FileResolution;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -26,11 +27,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+            DirectoryList::PARAM_APP_DIRS => array(
+                DirectoryList::THEMES_DIR => array(
                     'path' => __DIR__ . '/../../_files/fallback/design'
                 ),
-                \Magento\Framework\App\Filesystem::LIB_WEB => array(
+                DirectoryList::LIB_WEB => array(
                     'path' => __DIR__ . '/../../_files/fallback/lib/web'
                 ),
             )

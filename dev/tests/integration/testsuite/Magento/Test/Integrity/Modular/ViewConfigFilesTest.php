@@ -7,6 +7,8 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +22,7 @@ class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Framework\App\Filesystem'
             )->getPath(
-                \Magento\Framework\App\Filesystem::LIB_INTERNAL
+                    DirectoryList::LIB_INTERNAL
             ) . '/Magento/Framework/Config/etc/view.xsd',
             $errors
         );

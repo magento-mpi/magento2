@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Shell scripts abstract class
  */
@@ -51,7 +53,7 @@ abstract class AbstractShell
             throw new \Exception('This script cannot be run from Browser. This is the shell script.');
         }
 
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->_entryPoint = $entryPoint;
         $this->_rawArgs = $_SERVER['argv'];
         $this->_applyPhpVariables();

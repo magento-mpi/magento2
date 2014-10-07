@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\View;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
@@ -32,11 +33,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-        $themeDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $themeDir = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $themeDir->delete('theme/frontend');
         $themeDir->delete('theme/_merged');
 
-        $libPath = $filesystem->getPath(\Magento\Framework\App\Filesystem::LIB_WEB);
+        $libPath = $filesystem->getPath(DirectoryList::LIB_WEB);
         copy($libPath . '/prototype/prototype.js', $libPath . '/prototype/prototype.min.js');
     }
 
@@ -45,7 +46,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\Filesystem');
-        $libPath = $filesystem->getPath(\Magento\Framework\App\Filesystem::LIB_WEB);
+        $libPath = $filesystem->getPath(DirectoryList::LIB_WEB);
         unlink($libPath . '/prototype/prototype.min.js');
     }
 
@@ -67,8 +68,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                DirectoryList::PARAM_APP_DIRS => array(
+                    DirectoryList::THEMES_DIR => array(
                         'path' => realpath(__DIR__ . '/../_files/design')
                     )
                 )
@@ -192,7 +193,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         /** @var $filesystem \Magento\Framework\App\Filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $relativePath = $directory->getRelativePath($customConfigFile);
         try {
             $directory->writeFile(

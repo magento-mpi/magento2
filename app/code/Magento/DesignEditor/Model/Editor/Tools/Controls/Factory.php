@@ -7,6 +7,8 @@
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Controls configuration factory
  */
@@ -116,7 +118,7 @@ class Factory
             default:
                 throw new \Magento\Framework\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        $rootDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $rootDirectory = $this->filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $paths = array();
         foreach ($files as $file) {
             $paths[] = $rootDirectory->getRelativePath($file);

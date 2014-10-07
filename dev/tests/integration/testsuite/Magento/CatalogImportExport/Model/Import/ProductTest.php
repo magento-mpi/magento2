@@ -13,6 +13,7 @@
  *
  */
 namespace Magento\CatalogImportExport\Model\Import;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class ProductTest
@@ -89,7 +90,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
@@ -137,7 +138,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
             $directory
@@ -185,7 +186,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
         $this->_model->setSource($source)->setParameters(array('behavior' => $behavior))->isDataValid();
@@ -251,7 +252,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import_with_datetime.csv',
@@ -592,7 +593,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         );
         $mediaDirectory->create('import');
         $dirPath = $mediaDirectory->getAbsolutePath('import');
@@ -608,7 +609,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         );
         $mediaDirectory->delete('import');
         $mediaDirectory->delete('catalog');
@@ -656,7 +657,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Filesystem'
         );
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
         $this->_model->setSource(
             $source
@@ -696,7 +697,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Filesystem'
         );
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
         $validationResult = $this->_model->setSource(
             $source
@@ -728,7 +729,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $filesystem = $objectManager->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_multiple_stores.csv',

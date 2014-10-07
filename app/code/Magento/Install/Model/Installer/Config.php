@@ -7,6 +7,8 @@
  */
 namespace Magento\Install\Model\Installer;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Config installer
  */
@@ -70,8 +72,8 @@ class Config
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_filesystem = $filesystem;
-        $this->_pubDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::PUB_DIR);
-        $this->_configDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::CONFIG_DIR);
+        $this->_pubDirectory = $filesystem->getDirectoryRead(DirectoryList::PUB_DIR);
+        $this->_configDirectory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG_DIR);
         $this->messageManager = $messageManager;
     }
 
@@ -84,9 +86,9 @@ class Config
     public function install($config)
     {
         $defaults = array(
-            'root_dir' => $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR),
-            'app_dir' => $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::APP_DIR),
-            'var_dir' => $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::VAR_DIR),
+            'root_dir' => $this->_filesystem->getPath(DirectoryList::ROOT_DIR),
+            'app_dir' => $this->_filesystem->getPath(DirectoryList::APP_DIR),
+            'var_dir' => $this->_filesystem->getPath(DirectoryList::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl()
         );
         foreach ($defaults as $index => $value) {
@@ -183,7 +185,7 @@ class Config
         try {
             $staticFile = $this->_findFirstFileRelativePath('', '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_filesystem->getUri(
-                \Magento\Framework\App\Filesystem::PUB_DIR
+                DirectoryList::PUB_DIR
             ) . '/' . $staticFile;
             $client = new \Magento\Framework\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');

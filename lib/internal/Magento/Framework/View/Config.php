@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\View;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 /**
@@ -82,7 +83,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->assetRepo = $assetRepo;
         $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;

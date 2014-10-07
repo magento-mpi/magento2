@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Directory\Write;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
@@ -57,7 +58,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
         $this->filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::LOG_DIR)
+            ->with(DirectoryList::LOG_DIR)
             ->will($this->returnValue($this->directory));
         $this->directory->expects($this->any())->method('create')->will($this->returnValue(true));
         $this->directory->expects($this->any())->method('getAbsolutePath')->will(

@@ -52,20 +52,20 @@ class ObjectManagerFactory
     public function create($rootDir, array $arguments, $useCompiled = true)
     {
         $directories = isset(
-            $arguments[Filesystem::PARAM_APP_DIRS]
-        ) ? $arguments[Filesystem::PARAM_APP_DIRS] : array();
+            $arguments[DirectoryList::PARAM_APP_DIRS]
+        ) ? $arguments[DirectoryList::PARAM_APP_DIRS] : array();
         $directoryList = new DirectoryList($rootDir, $directories);
 
         (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($directoryList->getDir(Filesystem::GENERATION_DIR))
+            array($directoryList->getDir(DirectoryList::GENERATION_DIR))
         );
 
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             new \Magento\Framework\Filesystem\Driver\File(),
-            $directoryList->getDir(Filesystem::DI_DIR),
-            $directoryList->getDir(Filesystem::GENERATION_DIR),
+            $directoryList->getDir(DirectoryList::DI_DIR),
+            $directoryList->getDir(DirectoryList::GENERATION_DIR),
             $appArguments->get('definition.format', 'serialized')
         );
 

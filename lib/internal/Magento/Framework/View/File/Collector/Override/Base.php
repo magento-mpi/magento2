@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\View\File\Collector\Override;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
@@ -50,7 +51,7 @@ class Base implements CollectorInterface
         Factory $fileFactory,
         $subDir = ''
     ) {
-        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
         $this->fileFactory = $fileFactory;
         $this->subDir = $subDir ? $subDir . '/' : '';
     }

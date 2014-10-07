@@ -11,6 +11,8 @@
  */
 namespace Magento\TestFramework;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Application
 {
     /**
@@ -189,7 +191,7 @@ class Application
         $varDirectory = $this->getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
         $varDirectory->changePermissions('', 0777);
     }

@@ -8,6 +8,7 @@
 namespace Magento\Framework\Less\File\Collector;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Tests Library
@@ -74,8 +75,8 @@ class LibraryTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValueMap(
                     [
-                        [Filesystem::LIB_WEB, $this->libraryDirectoryMock],
-                        [Filesystem::THEMES_DIR, $this->themesDirectoryMock],
+                        [DirectoryList::LIB_WEB, $this->libraryDirectoryMock],
+                        [DirectoryList::THEMES_DIR, $this->themesDirectoryMock],
                     ]
                 )
             );

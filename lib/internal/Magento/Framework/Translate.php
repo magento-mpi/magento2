@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Translate library
  *
@@ -150,7 +152,7 @@ class Translate implements \Magento\Framework\TranslateInterface
         $this->_locale = $locale;
         $this->_appState = $appState;
         $this->request = $request;
-        $this->directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->_csvParser = $csvParser;
         $this->packDictionary = $packDictionary;
     }

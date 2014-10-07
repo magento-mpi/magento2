@@ -11,6 +11,8 @@
  */
 namespace Magento\Core\Model\Theme\Image;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class PathTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -59,7 +61,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/theme/origin'));
 
         $this->filesystem->expects($this->any())->method('getDirectoryRead')
-            ->with(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA_DIR)
             ->will($this->returnValue($this->mediaDirectory));
 
         $this->model = new Path(

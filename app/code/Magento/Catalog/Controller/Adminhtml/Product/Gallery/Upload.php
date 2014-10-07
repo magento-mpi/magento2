@@ -8,6 +8,8 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Gallery;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Upload extends \Magento\Backend\App\Action
 {
     /**
@@ -35,7 +37,7 @@ class Upload extends \Magento\Backend\App\Action
             $mediaDirectory = $this->_objectManager->get(
                 'Magento\Framework\App\Filesystem'
             )->getDirectoryRead(
-                \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
             );
             $config = $this->_objectManager->get('Magento\Catalog\Model\Product\Media\Config');
             $result = $uploader->save($mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath()));

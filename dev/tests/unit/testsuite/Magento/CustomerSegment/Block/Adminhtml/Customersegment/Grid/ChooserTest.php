@@ -9,6 +9,7 @@
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
 
 use Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid\Chooser;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class ChooserTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,7 +60,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
         $this->filesystem
             ->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with($this->equalTo(\Magento\Framework\App\Filesystem::VAR_DIR))
+            ->with($this->equalTo(DirectoryList::VAR_DIR))
             ->will($this->returnValue($writeInterface));
 
         $this->urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface', [], '', false);

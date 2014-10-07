@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @magentoAppArea adminhtml
@@ -41,7 +42,7 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
             'Magento\Framework\App\Filesystem\DirectoryList'
         );
         /** @var $directoryList \Magento\Framework\App\Filesystem\DirectoryList */
-        $directoryList->addDirectory(\Magento\Framework\App\Filesystem::SYS_TMP_DIR, array('path' => ''));
+        $directoryList->addDirectory(DirectoryList::SYS_TMP_DIR, array('path' => ''));
 
         $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')
             ->getCollection()
@@ -66,8 +67,8 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
          * Uploader can copy(upload) and then remove this temporary file.
          */
         $fileName = __DIR__ . '/_files/simple-js-file.js';
-        $varDir = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
-        $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $varDir = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $rootDir = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $destinationFilePath = 'simple-js-file.js';
 
         $rootDir->copyFile($rootDir->getRelativePath($fileName), $destinationFilePath, $varDir);

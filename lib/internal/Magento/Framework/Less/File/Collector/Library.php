@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Less\File\Collector;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
@@ -50,8 +51,8 @@ class Library implements CollectorInterface
         Factory $fileFactory
     ) {
         $this->fileListFactory = $fileListFactory;
-        $this->libraryDirectory = $filesystem->getDirectoryRead(Filesystem::LIB_WEB);
-        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
+        $this->libraryDirectory = $filesystem->getDirectoryRead(DirectoryList::LIB_WEB);
+        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
         $this->fileFactory = $fileFactory;
     }
 

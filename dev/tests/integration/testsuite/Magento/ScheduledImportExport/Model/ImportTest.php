@@ -7,6 +7,8 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,7 +37,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Filesystem\DirectoryList',
             array(
                 'directories' => array(
-                    \Magento\Framework\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                    DirectoryList::VAR_DIR => array('path' => __DIR__ . '/../_files/')
                 ),
                 'root' => BP
             )

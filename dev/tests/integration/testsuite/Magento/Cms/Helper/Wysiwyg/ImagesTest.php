@@ -7,6 +7,8 @@
  */
 namespace Magento\Cms\Helper\Wysiwyg;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ImagesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStorageRoot()
@@ -14,7 +16,7 @@ class ImagesTest extends \PHPUnit_Framework_TestCase
         $path = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         );
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Cms\Helper\Wysiwyg\Images'

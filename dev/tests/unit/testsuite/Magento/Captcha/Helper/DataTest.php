@@ -7,6 +7,8 @@
  */
 namespace Magento\Captcha\Helper;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -101,7 +103,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getPath'
         )->with(
-            \Magento\Framework\App\Filesystem::LIB_INTERNAL
+                DirectoryList::LIB_INTERNAL
         )->will(
             $this->returnValue(TESTS_TEMP_DIR . '/lib')
         );
@@ -154,7 +156,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         )->will(
             $this->returnValue($dirWriteMock)
         );

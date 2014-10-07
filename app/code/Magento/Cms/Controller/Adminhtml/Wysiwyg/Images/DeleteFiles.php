@@ -8,6 +8,8 @@
  */
 namespace Magento\Cms\Controller\Adminhtml\Wysiwyg\Images;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class DeleteFiles extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
 {
     /**
@@ -30,7 +32,7 @@ class DeleteFiles extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
                 $file = $helper->idDecode($file);
                 /** @var \Magento\Framework\App\Filesystem $filesystem */
                 $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
-                $dir = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+                $dir = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
                 $filePath = $path . '/' . $file;
                 if ($dir->isFile($dir->getRelativePath($filePath))) {
                     $this->getStorage()->deleteFile($filePath);

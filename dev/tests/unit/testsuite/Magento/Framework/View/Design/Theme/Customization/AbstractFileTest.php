@@ -11,6 +11,8 @@
  */
 namespace Magento\Framework\View\Design\Theme\Customization;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class AbstractFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -238,7 +240,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
+                DirectoryList::ROOT_DIR
         )->will(
             $this->returnValue($directoryMock)
         );
@@ -279,7 +281,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
+                DirectoryList::ROOT_DIR
         )->will(
             $this->returnValue($directoryMock)
         );

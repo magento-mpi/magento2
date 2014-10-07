@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Tests product model:
@@ -252,7 +253,7 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         );
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         $mediaDirectory->delete($config->getBaseMediaPath());

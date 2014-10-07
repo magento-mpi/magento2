@@ -10,6 +10,7 @@ namespace Magento\CatalogEvent\Model;
 use Magento\Framework\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\Exception;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
@@ -213,7 +214,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\Framework\File\Uploader) {
             $value->save(
-                $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
+                $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
             );
             $value = $value->getUploadedFileName();
         }

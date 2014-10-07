@@ -8,6 +8,7 @@
 namespace Magento\Cms\Model\Wysiwyg\Images;
 
 use Magento\Cms\Helper\Wysiwyg\Images;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Wysiwyg Images model
@@ -169,7 +170,7 @@ class Storage extends \Magento\Framework\Object
         $this->_backendUrl = $backendUrl;
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $this->_imageFactory = $imageFactory;
         $this->_assetRepo = $assetRepo;
         $this->_storageCollectionFactory = $storageCollectionFactory;

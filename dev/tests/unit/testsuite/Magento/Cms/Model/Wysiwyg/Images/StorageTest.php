@@ -1,5 +1,6 @@
 <?php
 namespace Magento\Cms\Model\Wysiwyg\Images;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * {license_notice}
@@ -134,7 +135,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         )->will(
             $this->returnValue($this->_directoryMock)
         );

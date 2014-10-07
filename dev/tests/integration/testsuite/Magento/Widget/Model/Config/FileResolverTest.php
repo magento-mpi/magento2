@@ -9,6 +9,8 @@
  */
 namespace Magento\Widget\Model\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,11 +35,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => BP,
                         'directories' => array(
-                            \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files/code'),
-                            \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                            DirectoryList::MODULES_DIR => array('path' => __DIR__ . '/_files/code'),
+                            DirectoryList::THEMES_DIR => array(
                                 'path' => __DIR__ . '/_files/design'
                             ),
-                            \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files/')
+                            DirectoryList::CONFIG_DIR => array('path' => __DIR__ . '/_files/')
                         )
                     )
                 )
@@ -73,7 +75,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files',
             '/'
         );
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::MODULES_DIR, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::MODULES_DIR, array('path' => $dirPath));
     }
 
     public function testGetDesign()

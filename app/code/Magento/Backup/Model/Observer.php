@@ -13,6 +13,7 @@
  */
 namespace Magento\Backup\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Store\Model\ScopeInterface;
 
 class Observer
@@ -133,7 +134,7 @@ class Observer
 
             if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(
-                    $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR)
+                    $this->_filesystem->getPath(DirectoryList::ROOT_DIR)
                 )->addIgnorePaths(
                     $this->_backupData->getBackupIgnorePaths()
                 );

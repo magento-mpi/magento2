@@ -8,6 +8,7 @@
  */
 namespace Magento\Wishlist\Controller\Index;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Wishlist\Controller\IndexInterface;
 use Magento\Framework\App\Action;
 
@@ -73,7 +74,7 @@ class DownloadCustomOption extends Action\Action implements IndexInterface
             $filePath = $this->_objectManager->get(
                 'Magento\Framework\App\Filesystem'
             )->getPath(
-                \Magento\Framework\App\Filesystem::ROOT_DIR
+                DirectoryList::ROOT_DIR
             ) . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 
@@ -81,7 +82,7 @@ class DownloadCustomOption extends Action\Action implements IndexInterface
                 $this->_fileResponseFactory->create(
                     $info['title'],
                     array('value' => $filePath, 'type' => 'filename'),
-                    \Magento\Framework\App\Filesystem::ROOT_DIR
+                    DirectoryList::ROOT_DIR
                 );
             }
         } catch (\Exception $e) {

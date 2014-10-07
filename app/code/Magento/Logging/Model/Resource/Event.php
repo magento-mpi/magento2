@@ -7,6 +7,8 @@
  */
 namespace Magento\Logging\Model\Resource;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Logging event resource model
  */
@@ -45,7 +47,7 @@ class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 

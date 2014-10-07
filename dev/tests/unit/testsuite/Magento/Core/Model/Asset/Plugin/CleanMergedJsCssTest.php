@@ -9,6 +9,8 @@
  */
 namespace Magento\Core\Model\Asset\Plugin;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class CleanMergedJsCssTest extends \Magento\Test\BaseTestCase
 {
     /**
@@ -60,7 +62,7 @@ class CleanMergedJsCssTest extends \Magento\Test\BaseTestCase
             ->with($mergedDir);
         $this->filesystemMock->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW_DIR)
             ->willReturn($readDirectoryMock);
 
         $this->model->aroundCleanMergedJsCss(

@@ -7,6 +7,8 @@
  */
 namespace Magento\Core\Model\File\Storage;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class SynchronizationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -70,7 +72,7 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\Framework\App\Filesystem::PUB_DIR
+                DirectoryList::PUB_DIR
         )->will(
             $this->returnValue($directory)
         );

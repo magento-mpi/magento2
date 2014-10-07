@@ -8,6 +8,7 @@
 namespace Magento\Backend\Controller\Adminhtml\System;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Store controller
@@ -96,7 +97,7 @@ class Store extends Action
                 $this->_objectManager->get(
                     'Magento\Framework\App\Filesystem'
                 )->getPath(
-                    \Magento\Framework\App\Filesystem::VAR_DIR
+                    DirectoryList::VAR_DIR
                 ) . '/backups'
             );
 

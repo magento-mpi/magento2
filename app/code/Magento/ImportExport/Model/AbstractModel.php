@@ -7,6 +7,8 @@
  */
 namespace Magento\ImportExport\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Operation abstract class
  *
@@ -69,7 +71,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
         array $data = array()
     ) {
         $this->_logger = $logger;
-        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->_adapterFactory = $adapterFactory;
         parent::__construct($data);
     }

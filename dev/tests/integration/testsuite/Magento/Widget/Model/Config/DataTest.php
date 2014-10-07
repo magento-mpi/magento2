@@ -9,6 +9,7 @@
  *
  */
 namespace Magento\Widget\Model\Config;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
@@ -38,9 +39,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => BP,
                         'directories' => array(
-                            \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files/code'),
-                            \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files/code'),
-                            \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/_files/design')
+                            DirectoryList::MODULES_DIR => array('path' => __DIR__ . '/_files/code'),
+                            DirectoryList::CONFIG_DIR => array('path' => __DIR__ . '/_files/code'),
+                            DirectoryList::THEMES_DIR => array('path' => __DIR__ . '/_files/design')
                         )
                     )
                 )
@@ -52,7 +53,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files',
             '/'
         );
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::MODULES_DIR, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::MODULES_DIR, array('path' => $dirPath));
 
         /** @var \Magento\Framework\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(

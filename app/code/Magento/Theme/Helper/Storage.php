@@ -11,6 +11,8 @@
  */
 namespace Magento\Theme\Helper;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Storage extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
@@ -100,7 +102,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
         $this->filesystem = $filesystem;
         $this->_session = $session;
         $this->_themeFactory = $themeFactory;
-        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $this->mediaDirectoryWrite->create($this->mediaDirectoryWrite->getRelativePath($this->getStorageRoot()));
     }
 

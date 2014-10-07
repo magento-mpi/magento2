@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\App\Filesystem\DirectoryList;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
 
 class VerificationTest extends \PHPUnit_Framework_TestCase
@@ -35,25 +36,25 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    \Magento\Framework\App\Filesystem::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
-                    \Magento\Framework\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    \Magento\Framework\App\Filesystem::SESSION_DIR => array(true, true, 'base_dir/var/session')
+                    DirectoryList::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
+                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION_DIR => array(true, true, 'base_dir/var/session')
                 )
             ),
             'with_not_existing_dirs' => array(
                 State::MODE_DEFAULT,
                 array(
-                    \Magento\Framework\App\Filesystem::CACHE_DIR => array(false, true, 'base_dir/var/cache'),
-                    \Magento\Framework\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    \Magento\Framework\App\Filesystem::SESSION_DIR => array(false, true, 'base_dir/var/session')
+                    DirectoryList::CACHE_DIR => array(false, true, 'base_dir/var/cache'),
+                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION_DIR => array(false, true, 'base_dir/var/session')
                 )
             ),
             'production mode' => array(
                 State::MODE_PRODUCTION,
                 array(
-                    \Magento\Framework\App\Filesystem::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
-                    \Magento\Framework\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    \Magento\Framework\App\Filesystem::SESSION_DIR => array(true, true, 'base_dir/var/session')
+                    DirectoryList::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
+                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION_DIR => array(true, true, 'base_dir/var/session')
                 )
             )
         );
@@ -84,9 +85,9 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    \Magento\Framework\App\Filesystem::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
-                    \Magento\Framework\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    \Magento\Framework\App\Filesystem::SESSION_DIR => array(true, false, 'base_dir/var/session')
+                    DirectoryList::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
+                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION_DIR => array(true, false, 'base_dir/var/session')
                 )
             )
         );
@@ -117,9 +118,9 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    \Magento\Framework\App\Filesystem::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
-                    \Magento\Framework\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    \Magento\Framework\App\Filesystem::SESSION_DIR => array(true, false, 'base_dir/var/session', true)
+                    DirectoryList::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
+                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION_DIR => array(true, false, 'base_dir/var/session', true)
                 )
             )
         );

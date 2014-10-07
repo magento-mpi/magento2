@@ -9,6 +9,7 @@ namespace Magento\Doc\Document;
 
 use Magento\Doc\Document\Content\Reader;
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class Content
@@ -30,7 +31,7 @@ class Content implements ContentInterface
     public function __construct(Reader $reader, Filesystem $filesystem)
     {
         $this->reader = $reader;
-        $this->moduleDir = $filesystem->getDirectoryWrite(Filesystem::MODULES_DIR);
+        $this->moduleDir = $filesystem->getDirectoryWrite(DirectoryList::MODULES_DIR);
     }
 
     /**

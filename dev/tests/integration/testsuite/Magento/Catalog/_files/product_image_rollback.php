@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /** @var $config \Magento\Catalog\Model\Product\Media\Config */
 $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -15,7 +16,7 @@ $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
 $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Framework\App\Filesystem'
 )->getDirectoryWrite(
-    \Magento\Framework\App\Filesystem::MEDIA_DIR
+        DirectoryList::MEDIA_DIR
 );
 
 $mediaDirectory->delete($config->getBaseMediaPath());

@@ -7,6 +7,8 @@
  */
 namespace Magento\Core\Model\File;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +29,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Framework\App\Filesystem'
             )->getPath(
-                \Magento\Framework\App\Filesystem::MEDIA_DIR
+                    DirectoryList::MEDIA_DIR
             ),
             $config['media_directory']
         );

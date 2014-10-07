@@ -7,6 +7,8 @@
  */
 namespace Magento\PageCache\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -47,7 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\Framework\App\Filesystem::MODULES_DIR
+                DirectoryList::MODULES_DIR
         )->will(
             $this->returnValue($modulesDirectoryMock)
         );

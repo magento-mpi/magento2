@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\View\Asset;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Design\FileResolution\Fallback\Resolver\Simple;
 
 /**
@@ -73,8 +74,8 @@ class Source
     ) {
         $this->cache = $cache;
         $this->filesystem = $filesystem;
-        $this->rootDir = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
-        $this->varDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->varDir = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->preProcessorPool = $preProcessorPool;
         $this->fallback = $fallback;
         $this->themeList = $themeList;
@@ -130,7 +131,7 @@ class Source
         if (!$sourceFile) {
             return false;
         }
-        $dirCode = \Magento\Framework\App\Filesystem::ROOT_DIR;
+        $dirCode = DirectoryList::ROOT_DIR;
         $path = $this->rootDir->getRelativePath($sourceFile);
         $cacheId = $path . ':' . $asset->getPath();
         $cached = $this->cache->load($cacheId);
@@ -149,7 +150,7 @@ class Source
         }
         $chain->assertValid();
         if ($chain->isChanged()) {
-            $dirCode = \Magento\Framework\App\Filesystem::VAR_DIR;
+            $dirCode = DirectoryList::VAR_DIR;
             $path = self::TMP_MATERIALIZATION_DIR . '/source/' . $asset->getPath();
             $this->varDir->writeFile($path, $chain->getContent());
         }

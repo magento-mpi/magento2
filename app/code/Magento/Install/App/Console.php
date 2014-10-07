@@ -11,6 +11,7 @@ namespace Magento\Install\App;
 
 use Magento\Framework\App\Console\Response;
 use Magento\Framework\App\Bootstrap;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Console implements \Magento\Framework\AppInterface
 {
@@ -70,7 +71,7 @@ class Console implements \Magento\Framework\AppInterface
         Response $response,
         array $arguments = array()
     ) {
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->_loader = $loader;
         $this->_state = $state;
         $this->_installerFactory = $installerFactory;

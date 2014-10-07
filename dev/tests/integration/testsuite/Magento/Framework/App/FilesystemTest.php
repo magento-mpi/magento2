@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\App;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class FilesystemTest
@@ -32,6 +33,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPath()
     {
-        $this->assertContains('design', $this->filesystem->getPath(\Magento\Framework\App\Filesystem::THEMES_DIR));
+        $this->assertContains('design', $this->filesystem->getPath(DirectoryList::THEMES_DIR));
     }
 }

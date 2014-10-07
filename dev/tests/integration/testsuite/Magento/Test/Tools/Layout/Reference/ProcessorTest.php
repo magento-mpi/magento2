@@ -7,6 +7,7 @@
  */
 namespace Magento\Test\Tools\Layout\Reference;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Tools\Layout\Formatter;
 use Magento\Tools\Layout\Reference\Processor;
 
@@ -46,7 +47,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\Filesystem');
-        $this->_varDir = $filesystem->getPath(\Magento\Framework\App\Filesystem::VAR_DIR) . '/references/';
+        $this->_varDir = $filesystem->getPath(DirectoryList::VAR_DIR) . '/references/';
         mkdir($this->_varDir, 0777, true);
 
         $this->_formatter = new Formatter();

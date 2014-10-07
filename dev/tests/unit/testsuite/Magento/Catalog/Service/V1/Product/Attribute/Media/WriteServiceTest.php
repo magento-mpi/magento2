@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
 use \Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -144,7 +145,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->mediaConfigMock->expects($this->any())->method('getBaseTmpMediaPath')
             ->will($this->returnValue($mediaTmpPath));
         $mediaDirectoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface');
-        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with(Filesystem::MEDIA_DIR)
+        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with(DirectoryList::MEDIA_DIR)
             ->will($this->returnValue($mediaDirectoryMock));
 
         $mediaDirectoryMock->expects($this->once())->method('create')->with($mediaTmpPath);

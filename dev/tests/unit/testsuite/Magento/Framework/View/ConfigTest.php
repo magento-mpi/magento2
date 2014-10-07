@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\View;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
@@ -43,7 +44,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->directoryReadMock = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->filesystemMock->expects($this->once())
             ->method('getDirectoryRead')
-            ->with($this->equalTo(\Magento\Framework\App\Filesystem::ROOT_DIR))
+            ->with($this->equalTo(DirectoryList::ROOT_DIR))
             ->will($this->returnValue($this->directoryReadMock));
         $this->repositoryMock = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);
         $this->fileSystemMock = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);

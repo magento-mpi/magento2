@@ -7,6 +7,8 @@
  */
 namespace Magento\Captcha\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Captcha cron actions
  */
@@ -58,7 +60,7 @@ class Cron
         $this->_resLogFactory = $resLogFactory;
         $this->_helper = $helper;
         $this->_adminHelper = $adminHelper;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $this->_storeManager = $storeManager;
     }
 

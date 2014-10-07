@@ -8,6 +8,7 @@
 namespace Magento\PageCache\Model;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Model is responsible for replacing default vcl template
@@ -74,7 +75,7 @@ class Config
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState
     ) {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
         $this->_scopeConfig = $scopeConfig;
         $this->_cacheState = $cacheState;
     }

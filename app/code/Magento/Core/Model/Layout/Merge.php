@@ -8,6 +8,7 @@
 namespace Magento\Core\Model\Layout;
 
 use \Magento\Core\Model\Layout\Update\Validator;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Layout merge model
@@ -669,7 +670,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme, '*.xml');
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $dir = $this->filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {
             $filename = $dir->getRelativePath($file->getFilename());

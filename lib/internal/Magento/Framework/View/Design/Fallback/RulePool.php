@@ -9,6 +9,7 @@
 namespace Magento\Framework\View\Design\Fallback;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Design\Fallback\Rule\Composite;
 use Magento\Framework\View\Design\Fallback\Rule\ModularSwitch;
 use Magento\Framework\View\Design\Fallback\Rule\RuleInterface;
@@ -60,7 +61,7 @@ class RulePool
      */
     protected function createLocaleFileRule()
     {
-        $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
         return new Theme(
             new Simple("$themesDir/<area>/<theme_path>")
         );
@@ -73,8 +74,8 @@ class RulePool
      */
     protected function createTemplateFileRule()
     {
-        $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
-        $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
+        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES_DIR);
         return new ModularSwitch(
             new Theme(
                 new Simple("$themesDir/<area>/<theme_path>/templates")
@@ -96,8 +97,8 @@ class RulePool
      */
     protected function createFileRule()
     {
-        $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
-        $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
+        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES_DIR);
         return new ModularSwitch(
             new Theme(new Simple("$themesDir/<area>/<theme_path>")),
             new Composite(
@@ -117,9 +118,9 @@ class RulePool
      */
     protected function createViewFileRule()
     {
-        $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
-        $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
-        $libDir = $this->filesystem->getPath(Filesystem::LIB_WEB);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
+        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES_DIR);
+        $libDir = $this->filesystem->getPath(DirectoryList::LIB_WEB);
         return new ModularSwitch(
             new Composite(
                 array(

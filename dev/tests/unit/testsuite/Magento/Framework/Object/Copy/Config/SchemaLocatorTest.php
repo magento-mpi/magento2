@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\Object\Copy\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -32,7 +34,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
         );
         $this->fileSystemMock->expects($this->any())
             ->method('getPath')
-            ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
+            ->with(DirectoryList::ROOT_DIR)
             ->will($this->returnValue('schema_dir'));
 
         $this->model = new \Magento\Framework\Object\Copy\Config\SchemaLocator(

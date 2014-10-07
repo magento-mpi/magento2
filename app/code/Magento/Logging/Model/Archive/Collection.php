@@ -11,6 +11,8 @@
  */
 namespace Magento\Logging\Model\Archive;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Collection extends \Magento\Framework\Data\Collection\Filesystem
 {
     /**
@@ -41,7 +43,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
-        $dir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $dir = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $dir->create($dir->getRelativePath($basePath));
         $this->addTargetDir($basePath);
         $this->_localeResolver = $localeResolver;

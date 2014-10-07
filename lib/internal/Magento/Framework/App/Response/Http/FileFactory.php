@@ -8,6 +8,8 @@
  */
 namespace Magento\Framework\App\Response\Http;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FileFactory
 {
     /**
@@ -52,7 +54,7 @@ class FileFactory
     public function create(
         $fileName,
         $content,
-        $baseDir = \Magento\Framework\App\Filesystem::ROOT_DIR,
+        $baseDir = DirectoryList::ROOT_DIR,
         $contentType = 'application/octet-stream',
         $contentLength = null
     ) {

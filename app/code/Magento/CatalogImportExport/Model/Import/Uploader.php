@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogImportExport\Model\Import;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Import entity product model
  *
@@ -69,7 +71,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreFileStorage = $coreFileStorage;
         $this->_validator = $validator;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
     }
 
     /**

@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\RequireJs\Config\File\Collector;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\View\File\CollectorInterface;
 
@@ -61,7 +62,7 @@ class Aggregated implements CollectorInterface
         CollectorInterface $themeFiles,
         CollectorInterface $themeModularFiles
     ) {
-        $this->libDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::LIB_WEB);
+        $this->libDirectory = $filesystem->getDirectoryRead(DirectoryList::LIB_WEB);
         $this->fileFactory = $fileFactory;
         $this->baseFiles = $baseFiles;
         $this->themeFiles = $themeFiles;

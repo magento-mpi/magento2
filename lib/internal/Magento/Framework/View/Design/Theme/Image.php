@@ -7,11 +7,14 @@
  */
 namespace Magento\Framework\View\Design\Theme;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme Image model class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Image
 {
@@ -101,8 +104,8 @@ class Image
         array $imageParams = array(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT),
         ThemeInterface $theme = null
     ) {
-        $this->mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-        $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $this->imageFactory = $imageFactory;
         $this->uploader = $uploader;
         $this->themeImagePath = $themeImagePath;

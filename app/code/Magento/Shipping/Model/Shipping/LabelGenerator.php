@@ -8,6 +8,7 @@
  */
 namespace Magento\Shipping\Model\Shipping;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\RequestInterface;
 
 class LabelGenerator
@@ -142,7 +143,7 @@ class LabelGenerator
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
         $directory = $this->filesystem->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::TMP_DIR
+            DirectoryList::TMP_DIR
         );
         $directory->create();
         $image = imagecreatefromstring($imageString);

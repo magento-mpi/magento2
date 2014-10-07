@@ -31,7 +31,7 @@ class MaintenanceMode
     /**
      * Maintenance flag dir
      */
-    const FLAG_DIR = Filesystem::VAR_DIR;
+    const FLAG_DIR = DirectoryList::VAR_DIR;
 
     /**
      * Path to store files

@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Filesystem;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Filesystem\DirectoryList as AppDirList;
 
 /**
  * Class DriverFactoryTest
@@ -15,7 +15,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class DriverFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var DirectoryList | \PHPUnit_Framework_MockObject_MockObject
+     * @var AppDirList | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryList;
 

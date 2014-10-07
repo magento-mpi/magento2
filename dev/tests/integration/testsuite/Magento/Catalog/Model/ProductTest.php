@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Tests product model:
@@ -39,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         );
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
@@ -140,7 +141,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA_DIR
         );
 
         $mediaDirectory->create($config->getBaseTmpMediaPath());

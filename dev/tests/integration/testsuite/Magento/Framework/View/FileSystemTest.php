@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\View;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Tests for the view layer fallback mechanism
@@ -22,8 +23,8 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                DirectoryList::PARAM_APP_DIRS => array(
+                    DirectoryList::THEMES_DIR => array(
                         'path' => dirname(dirname(__DIR__)) . '/Core/Model/_files/design'
                     )
                 )

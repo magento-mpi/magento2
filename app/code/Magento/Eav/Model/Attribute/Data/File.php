@@ -7,6 +7,7 @@
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\RequestInterface;
 
 /**
@@ -59,7 +60,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         parent::__construct($localeDate, $logger, $localeResolver);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
     }
 
     /**

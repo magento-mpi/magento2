@@ -13,6 +13,8 @@
  */
 namespace Magento\Core\Helper\File\Storage;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Database extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
@@ -304,7 +306,7 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
             $uniqueResultFile = $this->getUniqueFilename($path, $file);
 
             if ($uniqueResultFile !== $file) {
-                $dirWrite = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+                $dirWrite = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
                 $dirWrite->renameFile($path . $file, $path . $uniqueResultFile);
             }
             $this->saveFile($path . $uniqueResultFile);
@@ -335,7 +337,7 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $mediaDir = $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+            $mediaDir = $this->_filesystem->getPath(DirectoryList::MEDIA_DIR);
             $this->_mediaBaseDirectory = rtrim($mediaDir, '\\/');
         }
         return $this->_mediaBaseDirectory;

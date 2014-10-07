@@ -7,6 +7,8 @@
  */
 namespace Magento\Persistent\Model\Persistent;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Persistent Config Model
  */
@@ -83,7 +85,7 @@ class Config
         $this->_layout = $layout;
         $this->_appState = $appState;
         $this->_persistentFactory = $persistentFactory;
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
     }
 
     /**

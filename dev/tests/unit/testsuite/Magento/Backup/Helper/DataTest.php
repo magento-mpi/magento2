@@ -8,6 +8,7 @@
 namespace Magento\Backup\Helper;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\MaintenanceMode;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -38,10 +39,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->expects($this->any())->method('getPath')
             ->will($this->returnValueMap([
                 [MaintenanceMode::FLAG_DIR, MaintenanceMode::FLAG_DIR],
-                [Filesystem::SESSION_DIR, Filesystem::SESSION_DIR],
-                [Filesystem::CACHE_DIR, Filesystem::CACHE_DIR],
-                [Filesystem::LOG_DIR, Filesystem::LOG_DIR],
-                [Filesystem::VAR_DIR, Filesystem::VAR_DIR],
+                [DirectoryList::SESSION_DIR, DirectoryList::SESSION_DIR],
+                [DirectoryList::CACHE_DIR, DirectoryList::CACHE_DIR],
+                [DirectoryList::LOG_DIR, DirectoryList::LOG_DIR],
+                [DirectoryList::VAR_DIR, DirectoryList::VAR_DIR],
             ]));
 
         $this->assertEquals(
@@ -49,12 +50,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 '.git',
                 '.svn',
                 'var/' . MaintenanceMode::FLAG_FILENAME,
-                Filesystem::SESSION_DIR,
-                Filesystem::CACHE_DIR,
-                Filesystem::LOG_DIR,
-                Filesystem::VAR_DIR . '/full_page_cache',
-                Filesystem::VAR_DIR . '/locks',
-                Filesystem::VAR_DIR . '/report',
+                DirectoryList::SESSION_DIR,
+                DirectoryList::CACHE_DIR,
+                DirectoryList::LOG_DIR,
+                DirectoryList::VAR_DIR . '/full_page_cache',
+                DirectoryList::VAR_DIR . '/locks',
+                DirectoryList::VAR_DIR . '/report',
             ],
             $this->helper->getBackupIgnorePaths()
         );
@@ -65,10 +66,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->expects($this->any())->method('getPath')
             ->will($this->returnValueMap([
                 [MaintenanceMode::FLAG_DIR, MaintenanceMode::FLAG_DIR],
-                [Filesystem::SESSION_DIR, Filesystem::SESSION_DIR],
-                [Filesystem::ROOT_DIR, Filesystem::ROOT_DIR],
-                [Filesystem::LOG_DIR, Filesystem::LOG_DIR],
-                [Filesystem::VAR_DIR, Filesystem::VAR_DIR],
+                [DirectoryList::SESSION_DIR, DirectoryList::SESSION_DIR],
+                [DirectoryList::ROOT_DIR, DirectoryList::ROOT_DIR],
+                [DirectoryList::LOG_DIR, DirectoryList::LOG_DIR],
+                [DirectoryList::VAR_DIR, DirectoryList::VAR_DIR],
             ]));
 
         $this->assertEquals(
@@ -76,12 +77,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 '.svn',
                 '.git',
                 'var/' . MaintenanceMode::FLAG_FILENAME,
-                Filesystem::SESSION_DIR,
-                Filesystem::LOG_DIR,
-                Filesystem::VAR_DIR . '/locks',
-                Filesystem::VAR_DIR . '/report',
-                Filesystem::ROOT_DIR . '/errors',
-                Filesystem::ROOT_DIR . '/index.php',
+                DirectoryList::SESSION_DIR,
+                DirectoryList::LOG_DIR,
+                DirectoryList::VAR_DIR . '/locks',
+                DirectoryList::VAR_DIR . '/report',
+                DirectoryList::ROOT_DIR . '/errors',
+                DirectoryList::ROOT_DIR . '/index.php',
             ],
             $this->helper->getRollbackIgnorePaths()
         );

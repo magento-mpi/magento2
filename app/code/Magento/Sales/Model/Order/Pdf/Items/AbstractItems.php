@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model\Order\Pdf\Items;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Sales Order Pdf Items renderer Abstract
  */
@@ -86,7 +88,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     ) {
         $this->filterManager = $filterManager;
         $this->_taxData = $taxData;
-        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 

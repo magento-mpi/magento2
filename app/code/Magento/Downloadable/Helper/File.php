@@ -7,6 +7,8 @@
  */
 namespace Magento\Downloadable\Helper;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Downloadable Products File Helper
  *
@@ -49,7 +51,7 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite($filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         parent::__construct($context);
         if (!empty($mimeTypes)) {
             foreach ($mimeTypes as $key => $value) {

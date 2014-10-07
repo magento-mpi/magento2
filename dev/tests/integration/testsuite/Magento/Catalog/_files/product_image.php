@@ -6,13 +6,15 @@
  * @license     {license_link}
  */
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 /** @var $mediaConfig \Magento\Catalog\Model\Product\Media\Config */
 $mediaConfig = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
 /** @var $mediaDirectory \Magento\Framework\Filesystem\Directory\WriteInterface */
 $mediaDirectory = $objectManager->get('Magento\Framework\App\Filesystem')
-    ->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+    ->getDirectoryWrite(DirectoryList::MEDIA_DIR);
 $targetDirPath = $mediaConfig->getBaseMediaPath() . str_replace('/', DIRECTORY_SEPARATOR, '/m/a/');
 $targetTmpDirPath = $mediaConfig->getBaseTmpMediaPath() . str_replace('/', DIRECTORY_SEPARATOR, '/m/a/');
 $mediaDirectory->create($targetDirPath);

@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Asset;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Service model responsible for making a decision of whether to use the merged asset in place of original ones
  */
@@ -102,7 +104,7 @@ class MergeService
      */
     public function cleanMergedJsCss()
     {
-        $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+        $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR)
             ->delete(Merged::getRelativeDir());
     }
 }

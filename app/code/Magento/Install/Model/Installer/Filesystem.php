@@ -7,6 +7,8 @@
  */
 namespace Magento\Install\Model\Installer;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Filesystem installer
  */
@@ -106,7 +108,7 @@ class Filesystem
     protected function _checkFullPath($fullPath, $recursive, $existence)
     {
         $result = true;
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $path = $directory->getRelativePath($fullPath);
         if ($recursive && $directory->isDirectory($path)) {
             $pathsToCheck = $directory->read($path);

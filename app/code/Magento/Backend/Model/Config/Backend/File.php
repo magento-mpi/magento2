@@ -7,6 +7,8 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * System config file field backend model
  *
@@ -66,7 +68,7 @@ class File extends \Magento\Framework\App\Config\Value
         $this->_uploaderFactory = $uploaderFactory;
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
@@ -127,7 +129,7 @@ class File extends \Magento\Framework\App\Config\Value
      */
     public function validateMaxSize($filePath)
     {
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $directory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP_DIR);
         if ($this->_maxFileSize > 0 && $directory->stat(
             $directory->getRelativePath($filePath)
         )['size'] > $this->_maxFileSize * 1024

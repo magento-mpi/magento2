@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\View\File\Collector\Override;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ThemeModularTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -34,7 +36,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $filesystem->expects($this->any())->method('getDirectoryRead')
-            ->with($this->equalTo(\Magento\Framework\App\Filesystem::THEMES_DIR))
+            ->with($this->equalTo(DirectoryList::THEMES_DIR))
             ->will($this->returnValue($this->_directory));
         $this->_fileFactory = $this->getMock('Magento\Framework\View\File\Factory', array(), array(), '', false);
         $this->_model = new \Magento\Framework\View\File\Collector\Override\ThemeModular(

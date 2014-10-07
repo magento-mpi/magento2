@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @magentoAppArea adminhtml
@@ -36,7 +37,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
         $this->rootDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryRead(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
+                DirectoryList::ROOT_DIR
         );
     }
 

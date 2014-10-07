@@ -9,6 +9,7 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Service\ArrayObjectSearch;
 
 class File extends AbstractData
@@ -245,7 +246,7 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+        $path = $this->_fileSystem->getPath(DirectoryList::MEDIA_DIR)
             . '/' . $this->_entityTypeCode;
 
         $result = $original;

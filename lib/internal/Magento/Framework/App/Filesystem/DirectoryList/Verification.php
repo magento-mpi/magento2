@@ -9,6 +9,7 @@
  */
 namespace Magento\Framework\App\Filesystem\DirectoryList;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
 use Magento\Framework\App\InitException;
 use Magento\Framework\App\Filesystem;
@@ -21,14 +22,22 @@ class Verification
      *
      * @var string[]
      */
-    protected static $productionDirs = array(Filesystem::SESSION_DIR, Filesystem::CACHE_DIR, Filesystem::LOG_DIR);
+    protected static $productionDirs = array(
+        DirectoryList::SESSION_DIR,
+        DirectoryList::CACHE_DIR,
+        DirectoryList::LOG_DIR
+    );
 
     /**
      * Codes of directories to create and verify in non-production mode
      *
      * @var string[]
      */
-    protected static $nonProductionDirs = array(Filesystem::SESSION_DIR, Filesystem::CACHE_DIR, Filesystem::LOG_DIR);
+    protected static $nonProductionDirs = array(
+        DirectoryList::SESSION_DIR,
+        DirectoryList::CACHE_DIR,
+        DirectoryList::LOG_DIR
+    );
 
     /**
      * @var \Magento\Framework\App\Filesystem

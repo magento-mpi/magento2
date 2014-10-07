@@ -9,6 +9,8 @@
  */
 namespace Magento\Persistent\Model\Persistent;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,9 +26,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Filesystem\DirectoryList',
             array(
-                'root' => \Magento\Framework\App\Filesystem::ROOT_DIR,
+                'root' => DirectoryList::ROOT_DIR,
                 'directories' => array(
-                    \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => dirname(__DIR__))
+                    DirectoryList::MODULES_DIR => array('path' => dirname(__DIR__))
                 )
             )
         );

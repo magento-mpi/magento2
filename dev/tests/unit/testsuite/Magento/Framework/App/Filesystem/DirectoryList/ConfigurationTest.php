@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\Filesystem\DirectoryList;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,7 +37,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->with(
             Configuration::XML_FILESYSTEM_DIRECTORY_PATH
         )->will(
-            $this->returnValue(array(\Magento\Framework\App\Filesystem::PUB_DIR => array('uri' => '')))
+            $this->returnValue(array(DirectoryList::PUB_DIR => array('uri' => '')))
         );
 
         $config->expects(
@@ -45,7 +47,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->with(
             Configuration::XML_FILESYSTEM_WRAPPER_PATH
         )->will(
-            $this->returnValue(array(\Magento\Framework\Filesystem::HTTP => array('protocol' => 'http')))
+            $this->returnValue(array(DirectoryList::HTTP => array('protocol' => 'http')))
         );
 
         /* Mock DirectoryList model */
@@ -60,7 +62,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addProtocol'
         )->with(
-            \Magento\Framework\Filesystem::HTTP,
+            DirectoryList::HTTP,
             array('protocol' => 'http')
         );
 
@@ -69,7 +71,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isConfigured'
         )->with(
-            \Magento\Framework\App\Filesystem::PUB_DIR
+                DirectoryList::PUB_DIR
         )->will(
             $this->returnValue($pubDirIsConfigured)
         );
@@ -77,15 +79,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         if ($pubDirIsConfigured) {
             $directoryList->expects($this->once())
                 ->method('getConfig')
-                ->with(\Magento\Framework\App\Filesystem::PUB_DIR)
+                ->with(DirectoryList::PUB_DIR)
                 ->will($this->returnValue(['test_key' => 'test_value']));
             $directoryList->expects($this->once())
                 ->method('setDirectory')
-                ->with(\Magento\Framework\App\Filesystem::PUB_DIR, ['uri' => '', 'test_key' => 'test_value']);
+                ->with(DirectoryList::PUB_DIR, ['uri' => '', 'test_key' => 'test_value']);
         } else {
             $directoryList->expects($this->once())
                 ->method('setDirectory')
-                ->with(\Magento\Framework\App\Filesystem::PUB_DIR, array('uri' => ''));
+                ->with(DirectoryList::PUB_DIR, array('uri' => ''));
         }
 
         $this->dirListConfiguration = $objectManager->getObject(

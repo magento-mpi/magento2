@@ -8,6 +8,7 @@
 namespace Magento\Core\Model\File;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\AbstractModel;
 
 /**
@@ -279,7 +280,7 @@ class Storage extends AbstractModel
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = $this->filesystem->getPath(Filesystem::MEDIA_DIR);
+        $config['media_directory'] = $this->filesystem->getPath(DirectoryList::MEDIA_DIR);
 
         $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {

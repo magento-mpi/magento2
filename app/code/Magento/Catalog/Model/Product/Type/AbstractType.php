@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\Product\Type;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Abstract model for product type implementation
  */
@@ -487,7 +489,7 @@ abstract class AbstractType
 
                         try {
                             $rootDir = $this->_filesystem->getDirectoryWrite(
-                                \Magento\Framework\App\Filesystem::ROOT_DIR
+                                DirectoryList::ROOT_DIR
                             );
                             $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {

@@ -10,6 +10,7 @@
  * Test class for \Magento\PageCache\Controller\Adminhtml/PageCache
  */
 namespace Magento\PageCache\Controller\Adminhtml\PageCache;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class PageCacheTest
@@ -97,7 +98,7 @@ class ExportVarnishConfigTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->equalTo($filename),
             $this->equalTo($fileContent),
-            $this->equalTo(\Magento\Framework\App\Filesystem::VAR_DIR)
+            $this->equalTo(DirectoryList::VAR_DIR)
         )->will(
             $this->returnValue($responseMock)
         );

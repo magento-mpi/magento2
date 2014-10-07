@@ -7,6 +7,7 @@
  */
 namespace Magento\GiftWrapping\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\Exception\InputException;
 
@@ -91,7 +92,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         $this->_uploaderFactory = $uploaderFactory;
         $this->_validator = $validator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

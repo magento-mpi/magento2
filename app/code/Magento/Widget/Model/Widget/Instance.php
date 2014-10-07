@@ -7,6 +7,8 @@
  */
 namespace Magento\Widget\Model\Widget;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Widget Instance Model
  *
@@ -143,7 +145,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->mathRandom = $mathRandom;
-        $this->_directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->_namespaceResolver = $namespaceResolver;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

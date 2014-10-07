@@ -11,6 +11,8 @@
  */
 namespace Magento\Framework\App\Cache\Frontend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Factory
 {
     /**
@@ -108,13 +110,13 @@ class Factory
 
         foreach (array('backend_options', 'slow_backend_options') as $section) {
             if (!empty($options[$section]['cache_dir'])) {
-                $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+                $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
                 $directory->create($options[$section]['cache_dir']);
                 $options[$section]['cache_dir'] = $directory->getAbsolutePath($options[$section]['cache_dir']);
             }
         }
 
-        $this->_backendOptions['cache_dir'] = $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::CACHE_DIR);
+        $this->_backendOptions['cache_dir'] = $this->_filesystem->getPath(DirectoryList::CACHE_DIR);
 
         $idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
         if (!$idPrefix && isset($options['prefix'])) {
@@ -122,7 +124,7 @@ class Factory
         }
         if (empty($idPrefix)) {
             $idPrefix =
-                substr(md5($this->_filesystem->getPath(\Magento\Framework\App\Filesystem::CONFIG_DIR)), 0, 3) . '_';
+                substr(md5($this->_filesystem->getPath(DirectoryList::CONFIG_DIR)), 0, 3) . '_';
         }
         $options['frontend_options']['cache_id_prefix'] = $idPrefix;
 

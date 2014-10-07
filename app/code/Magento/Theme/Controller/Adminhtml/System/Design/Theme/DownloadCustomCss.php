@@ -8,6 +8,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Theme;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class DownloadCustomCss extends \Magento\Theme\Controller\Adminhtml\System\Design\Theme
@@ -37,7 +38,7 @@ class DownloadCustomCss extends \Magento\Theme\Controller\Adminhtml\System\Desig
                 return $this->_fileFactory->create(
                     $customCssFile->getFileName(),
                     array('type' => 'filename', 'value' => $customCssFile->getFullPath()),
-                    \Magento\Framework\App\Filesystem::ROOT_DIR
+                    DirectoryList::ROOT_DIR
                 );
             }
         } catch (\Exception $e) {

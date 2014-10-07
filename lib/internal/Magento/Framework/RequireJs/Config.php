@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\RequireJs;
+
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Provider of RequireJs config information
@@ -85,7 +86,7 @@ config;
     ) {
         $this->fileSource = $fileSource;
         $this->design = $design;
-        $this->baseDir = $appFilesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->baseDir = $appFilesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->staticContext = $assetRepo->getStaticViewFileContext();
     }
 

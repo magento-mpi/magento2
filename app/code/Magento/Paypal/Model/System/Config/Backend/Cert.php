@@ -7,6 +7,8 @@
  */
 namespace Magento\Paypal\Model\System\Config\Backend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Backend model for saving certificate file in case of using certificate based authentication
  */
@@ -51,7 +53,7 @@ class Cert extends \Magento\Framework\App\Config\Value
     ) {
         $this->_certFactory = $certFactory;
         $this->_encryptor = $encryptor;
-        $this->_tmpDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $this->_tmpDirectory = $filesystem->getDirectoryRead(DirectoryList::SYS_TMP_DIR);
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 

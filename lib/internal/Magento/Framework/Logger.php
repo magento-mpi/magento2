@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Logger model
  */
@@ -56,7 +58,7 @@ class Logger
     {
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
-            $logDir = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
+            $logDir = $this->_filesystem->getDirectoryWrite(DirectoryList::LOG_DIR);
             $logDir->create();
             $file = $logDir->getAbsolutePath($file);
         }

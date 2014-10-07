@@ -7,6 +7,8 @@
  */
 namespace Magento\Theme\Model\Favicon;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Favicon implementation
  */
@@ -52,7 +54,7 @@ class Favicon implements \Magento\Framework\View\Page\FaviconInterface
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
         $this->fileStorageDatabase = $fileStorageDatabase;
-        $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->mediaDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
     }
 
     /**

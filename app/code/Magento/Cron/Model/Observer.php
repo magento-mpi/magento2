@@ -11,6 +11,8 @@
  */
 namespace Magento\Cron\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Observer
 {
     /**#@+
@@ -137,7 +139,7 @@ class Observer
                     '%s -f %s -- --group=%s',
                     array(
                         PHP_BINARY,
-                        BP . '/' . \Magento\Framework\App\Filesystem::PUB_DIR . '/cron.php',
+                        BP . '/' . DirectoryList::PUB_DIR . '/cron.php',
                         $groupId
                     )
                 );

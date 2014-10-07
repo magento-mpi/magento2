@@ -7,6 +7,8 @@
  */
 namespace Magento\Backup\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Backup file item model
  *
@@ -89,7 +91,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
         parent::__construct($data);
 
         $this->_filesystem = $filesystem;
-        $this->varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->varDirectory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->_helper = $helper;
         $this->_localeResolver = $localeResolver;
         $this->_backendAuthSession = $authSession;
@@ -292,7 +294,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
 
         try {
             /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $varDirectory */
-            $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+            $varDirectory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
             $this->_stream = $varDirectory->openFile(
                 $this->_getFilePath(),
                 $mode,
@@ -387,7 +389,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
         }
 
         /** @var \Magento\Framework\Filesystem\Directory\ReadInterface $directory */
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $directory = $directory->readFile($this->_getFilePath());
 
         echo $directory;

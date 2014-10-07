@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /** @var \Magento\Framework\Filesystem\Directory\Write $rootDirectory */
 $rootDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Framework\App\Filesystem'
 )->getDirectoryWrite(
-    \Magento\Framework\App\Filesystem::ROOT_DIR
+        DirectoryList::ROOT_DIR
 );
 if ($rootDirectory->isExist('robots.txt')) {
     $rootDirectory->delete('robots.txt');

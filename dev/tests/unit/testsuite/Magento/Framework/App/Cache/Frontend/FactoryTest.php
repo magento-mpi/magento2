@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\Cache\Frontend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
@@ -142,8 +144,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $objectManager->expects($this->any())->method('create')->will($this->returnCallback($processFrontendFunc));
 
         $map = array(
-            array(\Magento\Framework\App\Filesystem::CACHE_DIR, 'CACHE_DIR'),
-            array(\Magento\Framework\App\Filesystem::CONFIG_DIR, 'CONFIG_DIR')
+            array(DirectoryList::CACHE_DIR, 'CACHE_DIR'),
+            array(DirectoryList::CONFIG_DIR, 'CONFIG_DIR')
         );
 
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getPath'), array(), '', false);

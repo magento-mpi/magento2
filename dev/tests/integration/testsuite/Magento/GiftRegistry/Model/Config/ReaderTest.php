@@ -7,6 +7,8 @@
  */
 namespace Magento\GiftRegistry\Model\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testRead()
@@ -21,8 +23,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => BP,
                         'directories' => array(
-                            \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
-                            \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files')
+                            DirectoryList::MODULES_DIR => array('path' => __DIR__ . '/_files'),
+                            DirectoryList::CONFIG_DIR => array('path' => __DIR__ . '/_files')
                         )
                     )
                 )

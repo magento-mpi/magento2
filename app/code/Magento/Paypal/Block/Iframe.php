@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Block;
+
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * HSS iframe block
@@ -96,7 +97,7 @@ class Iframe extends \Magento\Payment\Block\Form
             $templatePath = str_replace('_', '', $paymentCode);
             $templateFile = "{$templatePath}/iframe.phtml";
 
-            $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+            $directory = $this->_filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
             $file = $this->_viewFileSystem->getTemplateFileName($templateFile, array('module' => 'Magento_Paypal'));
             if ($file && $directory->isExist($directory->getRelativePath($file))) {
                 $this->setTemplate($templateFile);

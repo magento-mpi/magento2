@@ -11,6 +11,8 @@
  */
 namespace Magento\Theme\Model\Wysiwyg;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -67,16 +69,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             '/'
         );
 
-        $directoryList->addDirectory(\Magento\Framework\App\Filesystem::VAR_DIR, array('path' => $dirPath));
-        $directoryList->addDirectory(\Magento\Framework\App\Filesystem::TMP_DIR, array('path' => $tmpDirPath));
-        $directoryList->addDirectory(\Magento\Framework\App\Filesystem::MEDIA_DIR, array('path' => $tmpDirPath));
+        $directoryList->addDirectory(DirectoryList::VAR_DIR, array('path' => $dirPath));
+        $directoryList->addDirectory(DirectoryList::TMP_DIR, array('path' => $tmpDirPath));
+        $directoryList->addDirectory(DirectoryList::MEDIA_DIR, array('path' => $tmpDirPath));
 
         $this->_filesystem = $this->_objectManager->create(
             'Magento\Framework\App\Filesystem',
             array('directoryList' => $directoryList)
         );
-        $this->directoryVar = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
-        $this->directoryTmp = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);
+        $this->directoryVar = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->directoryTmp = $this->_filesystem->getDirectoryWrite(DirectoryList::TMP_DIR);
 
         /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')

@@ -9,6 +9,7 @@
  */
 namespace Magento\Core\App;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
 use Magento\Framework\App;
 use Magento\Framework\AppInterface;
@@ -109,7 +110,7 @@ class Media implements AppInterface
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
         $this->filesystem = $filesystem;
-        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->directory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
     }
 
     /**

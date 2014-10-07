@@ -9,6 +9,8 @@
  */
 namespace Magento\Theme\Model\Uploader;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Service
 {
     /**
@@ -66,7 +68,7 @@ class Service
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         array $uploadLimits = array()
     ) {
-        $this->_tmpDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $this->_tmpDirectory = $filesystem->getDirectoryRead(DirectoryList::SYS_TMP_DIR);
         $this->_fileSize = $fileSize;
         $this->_uploaderFactory = $uploaderFactory;
         if (isset($uploadLimits['css'])) {

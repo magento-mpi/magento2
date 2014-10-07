@@ -7,6 +7,7 @@
  *
  */
 namespace Magento\Cms\Model\Wysiwyg\Images;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  *
@@ -98,7 +99,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $uploaderFactory
         );
         $this->assertStringStartsWith(
-            str_replace('\\', '/', $filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR)),
+            str_replace('\\', '/', $filesystem->getPath(DirectoryList::MEDIA_DIR)),
             $model->getThumbsPath()
         );
     }

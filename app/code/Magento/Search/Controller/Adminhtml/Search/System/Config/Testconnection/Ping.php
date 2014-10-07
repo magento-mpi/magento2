@@ -10,6 +10,7 @@ namespace Magento\Search\Controller\Adminhtml\Search\System\Config\Testconnectio
 
 use \Magento\Backend\App\Action;
 use \Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Ping extends \Magento\Backend\App\Action
 {
@@ -48,7 +49,7 @@ class Ping extends \Magento\Backend\App\Action
         }
 
         $path = $host . ':' . $port . '/' . $path . '/admin/ping';
-        $httpResource = $this->filesystem->getRemoteResource($path, \Magento\Framework\App\Filesystem::HTTP);
+        $httpResource = $this->filesystem->getRemoteResource($path, DirectoryList::HTTP);
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];

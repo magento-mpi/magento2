@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Framework\View\Asset;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -122,7 +123,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->cache->expects($this->once())
             ->method('load')
             ->with("some/file.ext:{$filePath}")
-            ->will($this->returnValue(serialize(array(\Magento\Framework\App\Filesystem::VAR_DIR, $filePath))));
+            ->will($this->returnValue(serialize(array(DirectoryList::VAR_DIR, $filePath))));
 
         $this->varDir->expects($this->once())->method('getAbsolutePath')
             ->with($filePath)
@@ -172,7 +173,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             $this->cache->expects($this->once())
                 ->method('save')
                 ->with(
-                    serialize([\Magento\Framework\App\Filesystem::VAR_DIR, 'view_preprocessed/source/some/file.ext']),
+                    serialize([DirectoryList::VAR_DIR, 'view_preprocessed/source/some/file.ext']),
                     $cacheValue
                 );
             $this->varDir->expects($this->once())
@@ -182,7 +183,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             $this->varDir->expects($this->never())->method('writeFile');
             $this->cache->expects($this->once())
                 ->method('save')
-                ->with(serialize([\Magento\Framework\App\Filesystem::ROOT_DIR, 'source/some/file.ext']), $cacheValue);
+                ->with(serialize([DirectoryList::ROOT_DIR, 'source/some/file.ext']), $cacheValue);
             $this->rootDirRead->expects($this->once())
                 ->method('getAbsolutePath')
                 ->with('source/some/file.ext')
@@ -245,9 +246,9 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->varDir = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
 
         $readDirMap = [
-            [\Magento\Framework\App\Filesystem::ROOT_DIR, $this->rootDirRead],
-            [\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirRead],
-            [\Magento\Framework\App\Filesystem::VAR_DIR, $this->varDir],
+            [DirectoryList::ROOT_DIR, $this->rootDirRead],
+            [DirectoryList::STATIC_VIEW_DIR, $this->staticDirRead],
+            [DirectoryList::VAR_DIR, $this->varDir],
         ];
 
         $this->filesystem->expects($this->any())
@@ -255,7 +256,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($readDirMap));
         $this->filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::VAR_DIR)
+            ->with(DirectoryList::VAR_DIR)
             ->will($this->returnValue($this->varDir));
     }
 
@@ -277,7 +278,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         } else {
             $context = new \Magento\Framework\View\Asset\File\Context(
                 'http://example.com/static/',
-                \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR,
+                DirectoryList::STATIC_VIEW_DIR,
                 ''
             );
         }

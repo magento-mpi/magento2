@@ -6,6 +6,7 @@
  * @license   {license_link}
  */
 namespace Magento\Core\Model\Resource\File\Storage;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class FileTest
@@ -74,7 +75,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            $this->equalTo(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            $this->equalTo(DirectoryList::MEDIA_DIR)
         )->will(
             $this->returnValue($this->directoryReadMock)
         );

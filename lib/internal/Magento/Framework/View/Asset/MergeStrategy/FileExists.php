@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Skip merging if the merged file already exists
  */
@@ -39,7 +41,7 @@ class FileExists implements \Magento\Framework\View\Asset\MergeStrategyInterface
      */
     public function merge(array $assetsToMerge, \Magento\Framework\View\Asset\LocalInterface $resultAsset)
     {
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        $dir = $this->filesystem->getDirectoryRead(DirectoryList::STATIC_VIEW_DIR);
         if (!$dir->isExist($resultAsset->getPath())) {
             $this->strategy->merge($assetsToMerge, $resultAsset);
         }

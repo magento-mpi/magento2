@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Image\Adapter;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class InterfaceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -547,7 +549,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         $path = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
+                    DirectoryList::ROOT_DIR
         ) . '/lib/internal/LinLibertineFont/LinLibertine_Re-4.4.1.ttf';
         $adapter->createPngFromString('T', $path);
         $adapter->refreshImageDimensions();

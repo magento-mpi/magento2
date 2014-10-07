@@ -7,6 +7,8 @@
  */
 namespace Magento\Core\Helper\File\Storage;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -340,7 +342,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystemMock->expects($this->once())
             ->method('getPath')
-            ->with(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA_DIR)
             ->will($this->returnValue('/media/dir/'));
         $this->assertEquals('fullPath', $this->helper->getMediaRelativePath('/media/dir/fullPath'));
     }
@@ -432,7 +434,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->filesystemMock->expects($this->exactly($callDirWrite))
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
+            ->with(DirectoryList::ROOT_DIR)
             ->will($this->returnValue($dirWriteMock));
         $dirWriteMock->expects($this->exactly($callDirWrite))
             ->method('renameFile');
@@ -478,7 +480,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystemMock->expects($this->once())
             ->method('getPath')
-            ->with(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA_DIR)
             ->will($this->returnValue('/media/dir/'));
 
         $this->assertEquals('/media/dir', $this->helper->getMediaBaseDir());

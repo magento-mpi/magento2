@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Product image attribute backend
@@ -71,7 +72,7 @@ class Image extends AbstractBackend
             return $this;
         }
         $path = $this->_filesystem->getDirectoryRead(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+            DirectoryList::MEDIA_DIR
         )->getAbsolutePath(
             'catalog/product/'
         );

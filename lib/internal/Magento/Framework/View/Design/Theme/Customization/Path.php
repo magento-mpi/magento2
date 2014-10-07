@@ -11,6 +11,8 @@
  */
 namespace Magento\Framework\View\Design\Theme\Customization;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Theme Customization Path
  */
@@ -61,8 +63,8 @@ class Path
     ) {
         $this->filesystem = $filesystem;
         $this->filename = $filename;
-        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-        $this->themeDirectoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
+        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+        $this->themeDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
     }
 
     /**

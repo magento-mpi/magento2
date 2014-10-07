@@ -9,6 +9,7 @@
 namespace Magento\Framework\View\Design\FileResolution\Fallback\Resolver;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Design\FileResolution\Fallback;
 use Magento\Framework\View\Design\Fallback\Rule\RuleInterface;
 use Magento\Framework\View\Design\Fallback\RulePool;
@@ -41,7 +42,7 @@ class Simple implements Fallback\ResolverInterface
      */
     public function __construct(Filesystem $filesystem, RulePool $rulePool, Fallback\CacheDataInterface $cache)
     {
-        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->rulePool = $rulePool;
         $this->cache = $cache;
     }

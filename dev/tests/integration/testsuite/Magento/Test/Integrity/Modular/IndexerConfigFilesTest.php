@@ -7,6 +7,8 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +30,7 @@ class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
         $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-            \Magento\Framework\App\Filesystem::APP_DIR
+                    DirectoryList::APP_DIR
         ) . '/code/Magento/Indexer/etc/indexer.xsd';
     }
 
@@ -57,7 +59,7 @@ class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Framework\App\Filesystem'
             )->getPath(
-                \Magento\Framework\App\Filesystem::APP_DIR
+                    DirectoryList::APP_DIR
             ) . '/*/*/*/etc/indexer.xml'
         );
         $dataProviderResult = array();

@@ -1,5 +1,6 @@
 <?php
 namespace Magento\Widget\Model\Config;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * \Magento\Widget\Model\Config\Reader
@@ -32,11 +33,11 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             '/'
         );
         $this->directoryList->addDirectory(
-            \Magento\Framework\App\Filesystem::MODULES_DIR,
+            DirectoryList::MODULES_DIR,
             array('path' => $dirPath . '/code')
         );
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::CONFIG_DIR, array('path' => $dirPath));
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::ROOT_DIR, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::CONFIG_DIR, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::ROOT_DIR, array('path' => $dirPath));
 
         $filesystem = $objectManager->create(
             'Magento\Framework\App\Filesystem',

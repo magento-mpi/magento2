@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -97,7 +99,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\Framework\App\Filesystem::CONFIG_DIR
+                DirectoryList::CONFIG_DIR
         )->will(
             $this->returnValue($directory)
         );

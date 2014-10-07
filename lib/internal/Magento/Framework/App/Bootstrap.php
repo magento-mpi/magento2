@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\App;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Profiler;
 use \Magento\Framework\AppInterface;
 
@@ -323,7 +324,7 @@ class Bootstrap
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
             /** @var $fileSystem \Magento\Framework\App\Filesystem */
             $fileSystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
-            $this->configDir = $fileSystem->getDirectoryRead(Filesystem::CONFIG_DIR);
+            $this->configDir = $fileSystem->getDirectoryRead(DirectoryList::CONFIG_DIR);
         }
     }
 

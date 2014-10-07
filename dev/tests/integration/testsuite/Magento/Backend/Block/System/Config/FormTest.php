@@ -7,6 +7,7 @@
  */
 namespace Magento\Backend\Block\System\Config;
 use Magento\Framework\App\Cache\State;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @magentoAppArea adminhtml
@@ -249,7 +250,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\Filesystem');
         /** @var $directory  \Magento\Framework\Filesystem\Directory\Read */
-        $directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $fileIteratorFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Config\FileIteratorFactory'
         );

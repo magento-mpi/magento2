@@ -10,6 +10,7 @@
 namespace Magento\Framework\Module\Declaration;
 
 use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 class FileResolver implements \Magento\Framework\Config\FileResolverInterface
@@ -49,9 +50,9 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
     public function __construct(Filesystem $filesystem, \Magento\Framework\Config\FileIteratorFactory $iteratorFactory)
     {
         $this->iteratorFactory = $iteratorFactory;
-        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
-        $this->configDirectory = $filesystem->getDirectoryRead(Filesystem::CONFIG_DIR);
-        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->configDirectory = $filesystem->getDirectoryRead(DirectoryList::CONFIG_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
     }
 
     /**

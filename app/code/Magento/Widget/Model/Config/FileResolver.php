@@ -9,6 +9,8 @@
  */
 namespace Magento\Widget\Model\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {
     /**
@@ -43,8 +45,8 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
         \Magento\Framework\Module\Dir\Reader $moduleReader,
         \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->themesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
         $this->iteratorFactory = $iteratorFactory;
         $this->_moduleReader = $moduleReader;
     }

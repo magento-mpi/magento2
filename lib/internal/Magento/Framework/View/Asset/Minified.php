@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Asset;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Minified page asset
  */
@@ -116,8 +118,8 @@ class Minified implements MergeableInterface
         $this->originalAsset = $asset;
         $this->strategy = $strategy;
         $this->logger = $logger;
-        $this->rootDir = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
-        $this->staticViewDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->staticViewDir = $filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR);
         $this->baseUrl = $baseUrl;
         $this->adapter = $adapter;
     }
@@ -303,7 +305,7 @@ class Minified implements MergeableInterface
         $path = $this->originalAsset->getPath();
         $this->context = new \Magento\Framework\View\Asset\File\Context(
             $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_STATIC)),
-            \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR,
+            DirectoryList::STATIC_VIEW_DIR,
             \Magento\Framework\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified'
         );
         $this->filePath = md5($path) . '_' . $this->composeMinifiedName(basename($path));

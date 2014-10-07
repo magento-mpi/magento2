@@ -8,6 +8,7 @@
  */
 namespace Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
 
 class ExportMsxml extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
@@ -26,7 +27,7 @@ class ExportMsxml extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcard
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

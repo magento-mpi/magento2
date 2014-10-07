@@ -9,6 +9,8 @@
  */
 namespace Magento\Framework\Module;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Setup implements \Magento\Framework\Module\Updater\SetupInterface
 {
     /**
@@ -126,7 +128,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
-        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
         $this->_connectionName = $connectionName;
     }
 

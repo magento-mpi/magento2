@@ -7,6 +7,8 @@
  */
 namespace Magento\Paypal\Model\Report;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Paypal Settlement Report model
  *
@@ -177,7 +179,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $this->_tmpDirectory = $filesystem->getDirectoryWrite(DirectoryList::SYS_TMP_DIR);
         $this->_storeManager = $storeManager;
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

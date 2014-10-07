@@ -7,6 +7,8 @@
  */
 namespace Magento\Core\Model\Resource\File\Storage;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Class File
  */
@@ -42,7 +44,7 @@ class File
     {
         $files = array();
         $directories = array();
-        $directoryInstance = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $directoryInstance = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
         if ($directoryInstance->isDirectory($dir)) {
             foreach ($directoryInstance->readRecursively($dir) as $path) {
                 $itemName = basename($path);
@@ -71,7 +73,7 @@ class File
      */
     public function clear($dir = '')
     {
-        $directoryInstance = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $directoryInstance = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
         if ($directoryInstance->isDirectory($dir)) {
             foreach ($directoryInstance->read($dir) as $path) {
                 $directoryInstance->delete($path);
@@ -97,11 +99,11 @@ class File
         $path = strlen($dir['path']) ? $dir['path'] . '/' . $dir['name'] : $dir['name'];
 
         try {
-            $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR)->create($path);
+            $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR)->create($path);
         } catch (\Exception $e) {
             $this->_logger->log($e->getMessage());
             throw new \Magento\Framework\Model\Exception(
-                __('Unable to create directory: %1', \Magento\Framework\App\Filesystem::MEDIA_DIR . '/' . $path)
+                __('Unable to create directory: %1', DirectoryList::MEDIA_DIR . '/' . $path)
             );
         }
 
@@ -120,7 +122,7 @@ class File
     public function saveFile($filePath, $content, $overwrite = false)
     {
         try {
-            $directoryInstance = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+            $directoryInstance = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
             if (!$directoryInstance->isFile($filePath) || $overwrite && $directoryInstance->delete($filePath)) {
                 $directoryInstance->writeFile($filePath, $content);
                 return true;

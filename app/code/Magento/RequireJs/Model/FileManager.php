@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RequireJs\Model;
+
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * A service for handling RequireJS files in the application
@@ -73,7 +74,7 @@ class FileManager
      */
     private function ensureSourceFile($relPath)
     {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR);
         if ($this->appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER || !$dir->isExist($relPath)) {
             $dir->writeFile($relPath, $this->config->getConfig());
         }

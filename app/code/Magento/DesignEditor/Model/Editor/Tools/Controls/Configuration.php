@@ -7,6 +7,8 @@
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Configuration of controls
  */
@@ -284,7 +286,7 @@ class Configuration
     protected function _saveViewConfiguration(\DOMDocument $config)
     {
         $targetPath = $this->_theme->getCustomization()->getCustomViewConfigPath();
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
         $directory->writeFile($directory->getRelativePath($targetPath), $config->saveXML());
         return $this;
     }

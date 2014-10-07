@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model\Order\Pdf;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Sales Order PDF abstract model
  */
@@ -135,8 +137,8 @@ abstract class AbstractPdf extends \Magento\Framework\Object
         $this->_localeDate = $localeDate;
         $this->string = $string;
         $this->_scopeConfig = $scopeConfig;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;
         $this->_pdfItemsFactory = $pdfItemsFactory;
