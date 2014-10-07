@@ -39,5 +39,6 @@ define([
             }, this));
         }
     });
-
+    
+    return $.mage.giftCard;
 });

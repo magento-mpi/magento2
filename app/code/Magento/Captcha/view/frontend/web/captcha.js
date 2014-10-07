@@ -5,9 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui"], function($){
-
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.captcha', {
         options: {
             refreshClass: 'refreshing',
@@ -50,4 +53,6 @@ define(["jquery","jquery/ui"], function($){
             });
         }
     });
+
+    return $.mage.captcha;
 });

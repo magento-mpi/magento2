@@ -67,4 +67,5 @@ define([
         }
     });
 
+    return $.mage.authorizenetAuthenticate;
 });

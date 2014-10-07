@@ -292,5 +292,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.orderReview;
 });

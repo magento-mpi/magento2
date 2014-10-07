@@ -40,4 +40,5 @@ define([
         }
     });
 
+    return $.mage.wishlistSearch;
 });

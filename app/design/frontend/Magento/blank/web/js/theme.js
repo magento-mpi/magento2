@@ -6,7 +6,8 @@
  */
 define([
     "jquery",
-    "jquery/ui"
+    "mage/mage",
+    "mage/collapsible"
 ],function($) {
     'use strict';
 
@@ -19,11 +20,10 @@ define([
                 });
             }
         }
-        if($('.cart-summary').length){
-            $('.cart-summary').mage('sticky', {
-                container: '.cart-container'
-            });
-        }
+
+        $('.cart-summary').mage('sticky', {
+            container: '.cart-container'
+        });
 
         $( ".panel.header > .header.links" ).clone().appendTo( "#store\\.links" );
     });

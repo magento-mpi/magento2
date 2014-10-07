@@ -60,5 +60,7 @@ define([
             $.cookie(cookieName, cookieValue, {path: '/'});
         }
     });
+    
 
+    return $.mage.productListToolbarForm;
 });

@@ -9,7 +9,8 @@ define([
     "jquery",
     "jquery/ui"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.discountCode', {
         options: {
         },
@@ -31,4 +32,5 @@ define([
         }
     });
 
+    return $.mage.discountCode;
 });

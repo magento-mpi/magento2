@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.upsellProducts', {
         options: {
             elementsSelector: ".item.product"
@@ -53,4 +57,6 @@ define(["jquery","jquery/ui"], function($){
             return o;
         }
     });
+
+    return $.mage.upsellProducts;
 });

@@ -51,7 +51,7 @@ define([
         get: function(elems, callback) {
             var records;
 
-            elems = stringToArray(elems);
+            elems = stringToArray(elems) || [];
 
             if (typeof callback !== 'undefined') {
                 events.wait(elems, callback);

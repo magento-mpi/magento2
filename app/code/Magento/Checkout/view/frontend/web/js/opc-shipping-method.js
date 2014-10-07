@@ -71,5 +71,6 @@ define([
             return false;
         }
     });
-
+    
+    return $.mage.opcShippingMethod;
 });

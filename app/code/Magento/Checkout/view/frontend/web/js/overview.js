@@ -46,5 +46,6 @@ define([
             return true;
         }
     });
-
+    
+    return $.mage.orderOverview;
 });
