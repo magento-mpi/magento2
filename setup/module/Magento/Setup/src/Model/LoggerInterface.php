@@ -33,10 +33,18 @@ interface LoggerInterface
 
 
     /**
-     * Logs message to log writer
+     * Logs a message
      *
      * @param string $message
      * @return void
      */
     public function log($message);
+
+    /**
+     * Logs meta information
+     *
+     * @param string $message
+     * @return void
+     */
+    public function logMeta($message);
 }
