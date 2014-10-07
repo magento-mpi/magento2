@@ -30,6 +30,10 @@ before_script:
   # Install tools for static tests
   - sh -c "if [ '$TEST_SUITE' = 'static_phpcs' ] || [ '$TEST_SUITE' = 'static_annotation' ]; then pear install pear/PHP_CodeSniffer-1.5.2; fi"
   - phpenv rehash;
+  - composer install --no-interaction --prefer-source --dev
+  - cd setup
+  - composer install --no-interaction --prefer-source --dev
+  - cd ..
 script:
   # Unit tests
   - sh -c "if [ '$TEST_SUITE' = 'unit' ]; then phpunit -c dev/tests/unit/phpunit.xml.dist; fi"
