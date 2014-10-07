@@ -55,6 +55,11 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * Return field HTML
+     *
+     * @return string
+     */
     public function getFieldHtml()
     {
         $this->dateElement->setData([

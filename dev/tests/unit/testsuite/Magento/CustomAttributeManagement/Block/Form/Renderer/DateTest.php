@@ -51,8 +51,10 @@ class DateTest extends \PHPUnit_Framework_TestCase
             ->method('getLocaleDate')
             ->will($this->returnValue($this->_localeDateMock));
 
-        $this->request = $this->getMockBuilder('Magento\Framework\App\Request\Http')->disableOriginalConstructor()->getMock();
-        $this->assetRepo = $this->getMockBuilder('Magento\Framework\View\Asset\Repository')->disableOriginalConstructor()->getMock();
+        $this->request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()->getMock();
+        $this->assetRepo = $this->getMockBuilder('Magento\Framework\View\Asset\Repository')
+            ->disableOriginalConstructor()->getMock();
 
         $contextMock->expects($this->any())
             ->method('getRequest')
