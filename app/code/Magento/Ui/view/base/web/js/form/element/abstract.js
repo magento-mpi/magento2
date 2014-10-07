@@ -8,8 +8,9 @@ define([
     'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'Magento_Ui/js/lib/events'
-], function (Scope, _, utils, EventsBus) {
+    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/lib/validation/validator'
+], function (Scope, _, utils, EventsBus, validator) {
     'use strict';
 
     var defaults = {
@@ -19,7 +20,8 @@ define([
         module:         'ui',
         type:           'input',
         value:          '',
-        description:    ''
+        description:    '',
+        validation: {}
     };
 
     return Scope.extend({
@@ -44,7 +46,8 @@ define([
         initObservable: function () {
             this.observe({
                 'value': this.initialValue = this.value,
-                'required': this.required
+                'required': this.required,
+                'errorMessages': []
             });
 
             return this;
@@ -79,8 +82,8 @@ define([
         /**
          * Is being called when value is updated
          */
-        onUpdate: function(){
-            this.trigger('update')
+        onUpdate: function(value){
+            this.trigger('update', this.name, value)
                 .store();
         },
 
@@ -90,6 +93,31 @@ define([
          */
         hasChanged: function(){
             return this.value() !== this.initialValue;
+        },
+
+        isValid: function () {
+            return this.validate();
+        },
+
+        validate: function () {
+            var value    = this.value(),
+                messages = [],
+                failed   = [],
+                rules    = this.validation,
+                isValid;
+
+            _.each(rules, function (params, rule) {
+                isValid = validator.validate(rule, value, params);
+
+                if (!isValid) {
+                    failed.push(rule);
+                    messages.push(validator.messageFor(rule));
+                }
+            });
+
+            this.errorMessages(messages);
+
+            return !failed.length;
         }
     }, EventsBus);
 });
