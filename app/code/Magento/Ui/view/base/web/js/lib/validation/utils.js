@@ -4,9 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define([
-    './utils'
-], function () {
+define(function () {
     'use strict';
 
     var utils = {
