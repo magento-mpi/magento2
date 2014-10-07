@@ -143,9 +143,6 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
-        );
         list($sortField, $sortValue) = $sortData;
         if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
@@ -335,9 +332,6 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function testGet()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
-        );
         $productData = $this->productData[0];
         $serviceInfo = [
             'rest' => [

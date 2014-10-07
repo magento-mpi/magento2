@@ -48,7 +48,7 @@ class AssertCmsPageVersionNotInGrid extends AbstractConstraint
             'quantity' => $results['quantity'],
         ];
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsNew->getPageVersionsForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
+            $cmsNew->getPageVersionsForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter, false),
             'CMS Page Version with '
             . 'label \'' . $filter['label'] . '\', '
             . 'owner \'' . $filter['owner'] . '\', '

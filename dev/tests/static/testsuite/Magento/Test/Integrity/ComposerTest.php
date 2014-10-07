@@ -60,21 +60,26 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$dependencies = [];
     }
 
-    /**
-     * @param string $dir
-     * @param string $packageType
-     * @dataProvider validateComposerJsonDataProvider
-     */
-    public function testValidComposerJson($dir, $packageType)
+    public function testValidComposerJson()
     {
-        $this->assertComposerAvailable();
-        $file = $dir . '/composer.json';
-        $this->assertFileExists($file);
-        self::$shell->execute(self::$composerPath . ' validate --working-dir=%s', [$dir]);
-        $contents = file_get_contents($file);
-        $json = json_decode($contents);
-        $this->assertCodingStyle($contents);
-        $this->assertMagentoConventions($dir, $packageType, $json);
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+        /**
+         * @param string $dir
+         * @param string $packageType
+         */
+            function ($dir, $packageType) {
+                $this->assertComposerAvailable();
+                $file = $dir . '/composer.json';
+                $this->assertFileExists($file);
+                self::$shell->execute(self::$composerPath . ' validate --working-dir=%s', [$dir]);
+                $contents = file_get_contents($file);
+                $json = json_decode($contents);
+                $this->assertCodingStyle($contents);
+                $this->assertMagentoConventions($dir, $packageType, $json);
+            },
+            $this->validateComposerJsonDataProvider()
+        );
     }
 
     /**
@@ -286,6 +291,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
     {
         $packages = [];
+        if (empty($xml->module->depends)) {
+            return;
+        }
         /** @var \SimpleXMLElement $node */
         foreach ($xml->module->depends->children() as $node) {
             if ('module' === $node->getName()) {

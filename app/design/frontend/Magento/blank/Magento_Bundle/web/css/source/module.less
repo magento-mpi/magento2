@@ -37,6 +37,10 @@
         clear: both;
     }
 
+    .action.back {
+        margin-bottom: @indent-l-base;
+    }
+
     .price-box {
         .price {
             font-weight: @font-weight-bold;
@@ -44,10 +48,14 @@
         }
     }
 
+    .price-notice {
+        &:extend(.abstract-adjustment-incl-excl-tax all);
+    }
+
     .block-bundle-summary {
         padding: @indent-s-base @indent-base;
         background: @color-secondary;
-        &:extend(.add-box-sizing all);
+        &:extend(.abstract-add-box-sizing all);
 
         > .title > strong {
             .heading(h2);
@@ -65,7 +73,7 @@
         }
 
         .bundle.items {
-            &:extend(.reset-list all);
+            &:extend(.abstract-reset-list all);
             > li {
                 margin-bottom: @indent-s-base;
             }
@@ -97,7 +105,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .bundle-options-container {
         .legend.title {
-            &:extend(.reset-left-margin all);
+            &:extend(.abstract-reset-left-margin all);
         }
         .product-options-wrapper {
             float: left;

@@ -76,7 +76,7 @@
                         margin: 0;
                     }
                     span {
-                        &:extend(.visually-hidden all);
+                        &:extend(.abstract-visually-hidden all);
                     }
                 }
             }
@@ -103,19 +103,35 @@
             .price-label {
                 font-size: @font-size-s;
                 color: @text-color-muted;
+                &:after {
+                    content: ":";
+                }
             }
+        }
 
-        }
-        .special-price,
-        .old-price {
-            display: inline;
-        }
         .old-price {
             color: @text-color-muted;
+            margin: 5px 0;
             .price {
                 font-weight: normal;
             }
         }
+
+        .minimal-price {
+            .price-container {
+                display: block;
+            }
+        }
+
+        .minimal-price-link {
+            margin-top: 5px;
+        }
+
+        .price-from,
+        .price-to {
+            margin: 0;
+        }
+
         .tocompare {
             .icon-font-symbol(
                 @icon-compare-full
@@ -132,24 +148,63 @@
     }
 }
 
-.products-list .product {
-    &-item {
-        display: table;
-        width: 100%;
+.price-container {
+    .price {
+        .font-size(14);
+    }
 
-        &-info {
-            display: table-row;
+    .price-including-tax + .price-excluding-tax,
+    .weee {
+        margin-top: 5px;
+    }
+
+    .price-including-tax + .price-excluding-tax,
+    .weee,
+    .price-including-tax + .price-excluding-tax .price,
+    .weee .price,
+    .weee + .price-excluding-tax:before,
+    .weee + .price-excluding-tax .price {
+        .font-size(11);
+    }
+
+    .weee {
+        &:before {
+            content: "("attr(data-label) ": ";
         }
-        &-photo {
-            width: 1%;
-            padding: 0 @indent-l-base @indent-l-base 0;
-            vertical-align: top;
-            display: table-cell;
+        &:after {
+            content: ")";
         }
-        &-details {
-            vertical-align: top;
-            display: table-cell;
+        + .price-excluding-tax {
+            &:before {
+                content: attr(data-label) ": ";
+            }
         }
+    }
+}
+
+.products-list {
+    .product {
+        &-item {
+            display: table;
+            width: 100%;
+
+            &-info {
+                display: table-row;
+            }
+            &-photo {
+                width: 1%;
+                padding: 0 @indent-l-base @indent-l-base 0;
+                vertical-align: top;
+                display: table-cell;
+            }
+            &-details {
+                vertical-align: top;
+                display: table-cell;
+            }
+        }
+    }
+    .product-image-wrapper {
+        &:extend(.abstract-reset-image-wrapper all);
     }
 }
 
