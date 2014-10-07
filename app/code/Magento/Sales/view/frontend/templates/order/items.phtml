@@ -32,25 +32,7 @@
             <tbody>
                 <?php echo $this->getItemHtml($_item) ?>
                 <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
-                <tr id="order-item-gift-message-<?php echo $_item->getId() ?>" role="region" aria-expanded="false" tabindex="-1" style="display: none;">
                     <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($_item); ?>
-                    <td class="col message" colspan="7">
-                        <div class="gift message details">
-                            <a href="#"
-                               title="<?php echo __('Close') ?>"
-                               aria-controls="order-item-gift-message-<?php echo $_item->getId()?>"
-                               data-item-id="<?php echo $_item->getId()?>"
-                               class="action close">
-                                <?php echo __('Close') ?>
-                            </a>
-                            <dl class="gift message">
-                                <dt class="gift sender"><strong class="label"><?php echo __('From:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?></dt>
-                                <dt class="gift recipient"><strong class="label"><?php echo __('To:') ?></strong> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?></dt>
-                                <dd class="message text"><?php echo $this->helper('Magento\GiftMessage\Helper\Message')->getEscapedGiftMessage($_item) ?></dd>
-                            </dl>
-                        </div>
-                    </td>
-                </tr>
                 <?php endif ?>
             </tbody>
             <?php endforeach; ?>
@@ -61,7 +43,7 @@
 require(['jquery', "mage/mage"], function(jQuery){
 
     jQuery('a.action.show').add('a.action.close').mage('giftMessage', {});
-    
+
 });
 </script>
 <?php endif; ?>
