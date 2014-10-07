@@ -8,15 +8,13 @@
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
 /**
- * Test class for \Magento\Tax\Model\Sales\Total\Quote\Tax
+ * Test class for \Magento\Tax\Model\Sales\Total\Quote\Subtotal
  */
 use Magento\Tax\Model\Calculation;
 use Magento\TestFramework\Helper\ObjectManager;
 
-class TaxTest extends \PHPUnit_Framework_TestCase
+class SubtotalTest extends \PHPUnit_Framework_TestCase
 {
-    const TAX = 0.2;
-
     /**
      * Tests the specific method
      *
@@ -30,8 +28,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @dataProvider dataProviderCollectArray
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function testCollect($itemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData,
-        $addressData, $verifyData
+    public function testCollect($itemData, $appliedRatesData, $taxDetailsData, $quoteDetailsData, $addressData,
+        $verifyData
     ) {
         $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
@@ -93,8 +91,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getStore', 'hasSingleStore', 'isSingleStoreMode', 'getStores', 'getWebsite', 'getWebsites',
-                'reinitStores', 'getDefaultStoreView', 'setIsSingleStoreModeAllowed', 'getGroup', 'getGroups',
-                'clearWebsiteCache', 'setCurrentStore'])
+                          'reinitStores', 'getDefaultStoreView', 'setIsSingleStoreModeAllowed', 'getGroup', 'getGroups',
+                          'clearWebsiteCache', 'setCurrentStore'])
             ->getMock();
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $storeManager->expects($this->any())
@@ -102,7 +100,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($storeMock));
 
         $taxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
-
         $taxDetailsBuilder->_setDataValues($taxDetailsData);
         $taxDetails = $taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
 
@@ -123,7 +120,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $calculationTool->expects($this->any())
             ->method('calcTaxAmount')
             ->will($this->returnValue(20));
-
         $calculationTool->expects($this->any())
             ->method('getAppliedRates')
             ->will($this->returnValue($appliedRatesData));
@@ -148,7 +144,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager,
             ]
         );
-
 
         $taxClassKeyBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\TaxClassKeyBuilder')
             ->disableOriginalConstructor()
@@ -234,7 +229,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($quoteDetails));
 
-        $taxTotalsCalcModel = new Tax($taxConfig, $taxCalculationService, $quoteDetailsBuilder, $taxData);
+        $subtotalTotalsCalcModel = new Subtotal($taxConfig, $taxCalculationService, $quoteDetailsBuilder);
 
         $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
@@ -284,8 +279,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         foreach ($addressData as $key => $value) {
             $address->setData($key, $value);
         }
+        $subtotalTotalsCalcModel->collect($address);
 
-        $taxTotalsCalcModel = $taxTotalsCalcModel->collect($address);
         foreach ($verifyData as $key => $value) {
             $this->assertSame($verifyData[$key], $address->getData($key));
         }
@@ -378,328 +373,14 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     "base_shipping_amount" => 0
                 ],
                 'verifyData' => [
-                    "tax_amount" => 20.0,
+                    "base_tax_amount" => 20.0,
                     "subtotal" => 100,
                     "shipping_amount" => 0,
-                    "subtotal_incl_tax" => 120.0
+                    "base_subtotal_incl_tax" => 120.0
                 ],
             ],
         ];
 
         return $data;
-    }
-
-    /**
-     * Tests the specific method
-     *
-     * @param string $calculationSequence
-     * @param string $keyExpected
-     * @param string $keyAbsent
-     * @dataProvider dataProviderProcessConfigArray
-     */
-    public function testProcessConfigArray($calculationSequence, $keyExpected, $keyAbsent)
-    {
-        $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
-        $taxData
-            ->expects($this->any())
-            ->method('getCalculationSequence')
-            ->will($this->returnValue($calculationSequence));
-
-        $taxConfig = $this->getMock('\Magento\Tax\Model\Config', [], [], '', false);
-        $taxCalculationService = $this->getMock('\Magento\Tax\Service\V1\TaxCalculationService', [], [], '', false);
-        $quoteDetailsBuilder = $this->getMock('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder', [], [], '', false);
-
-        /** @var \Magento\Tax\Model\Sales\Total\Quote\Tax */
-        $taxTotalsCalcModel = new Tax($taxConfig, $taxCalculationService, $quoteDetailsBuilder, $taxData);
-        $array = $taxTotalsCalcModel->processConfigArray([], null);
-        $this->assertArrayHasKey($keyExpected, $array, 'Did not find the expected array key: ' . $keyExpected);
-        $this->assertArrayNotHasKey($keyAbsent, $array, 'Should not have found the array key; ' . $keyAbsent);
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderProcessConfigArray()
-    {
-        return [
-            [Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL, 'before', 'after'],
-            [Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL, 'after', 'before'],
-            [Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL, 'after', 'before'],
-            [Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL, 'after', 'before']
-        ];
-    }
-
-    /**
-     * Tests the specific method
-     *
-     * @param array $itemData
-     * @param array $addressData
-     *
-     * @dataProvider dataProviderMapQuoteExtraTaxablesArray
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function testMapQuoteExtraTaxables($itemData, $addressData)
-    {
-        $objectManager = new ObjectManager($this);
-        $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
-        $taxConfig = $this->getMock('\Magento\Tax\Model\Config', [], [], '', false);
-        $taxCalculationService = $this->getMock('\Magento\Tax\Service\V1\TaxCalculationService', [], [], '', false);
-        $quoteDetailsBuilder = $this->getMock('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder', [], [], '', false);
-
-        $taxTotalsCalcModel = new Tax($taxConfig, $taxCalculationService, $quoteDetailsBuilder, $taxData);
-        $taxClassKeyBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\TaxClassKeyBuilder')
-            ->disableOriginalConstructor()
-            ->setMethods(['setType', 'setValue', 'create'])
-            ->getMock();
-        $taxClassKeyBuilder
-            ->expects($this->any())
-            ->method('setType')
-            ->will($this->returnValue($taxClassKeyBuilder));
-        $taxClassKeyBuilder
-            ->expects($this->any())
-            ->method('setValue')
-            ->will($this->returnValue($taxClassKeyBuilder));
-        $taxClassKeyBuilder
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($taxClassKeyBuilder));
-
-        $itemBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder')
-            ->disableOriginalConstructor()
-            ->setMethods(['getTaxClassKeyBuilder', 'setTaxClassKey', 'create', 'getAssociatedTaxables'])
-            ->getMock();
-        $itemBuilder
-            ->expects($this->any())
-            ->method('getTaxClassKeyBuilder')
-            ->will($this->returnValue($taxClassKeyBuilder));
-        $itemBuilder
-            ->expects($this->any())
-            ->method('setTaxClassKey')
-            ->will($this->returnValue($itemBuilder));
-        $itemBuilder
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($itemBuilder));
-        $itemBuilder
-            ->expects($this->any())
-            ->method('getAssociatedTaxables')
-            ->will($this->returnValue(null));
-
-        $regionBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\RegionBuilder')
-            ->disableOriginalConstructor()
-            ->setMethods(['setRegionId', 'create'])
-            ->getMock();
-
-        $addressBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\AddressBuilder')
-            ->disableOriginalConstructor()
-            ->setMethods(['getRegionBuilder', 'create'])
-            ->getMock();
-        $region = $this->getMock('Magento\Customer\Service\V1\Data\Region', [], [], '', false);
-        $regionBuilder
-            ->expects($this->any())
-            ->method('setRegionId')
-            ->will($this->returnValue($regionBuilder));
-        $regionBuilder
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($region));
-        $addressBuilder
-            ->expects($this->any())
-            ->method('getRegionBuilder')
-            ->will($this->returnValue($regionBuilder));
-
-        $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
-        $item = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
-            ->disableOriginalConstructor()
-            ->setMethods(['getParentItem', 'getHasChildren', 'getProduct', 'getQuote', 'getCode', '__wakeup'])
-            ->getMock();
-        $item
-            ->expects($this->any())
-            ->method('getParentItem')
-            ->will($this->returnValue(null));
-        $item
-            ->expects($this->any())
-            ->method('getHasChildren')
-            ->will($this->returnValue(false));
-        $item
-            ->expects($this->any())
-            ->method('getCode')
-            ->will($this->returnValue("1"));
-        $item
-            ->expects($this->any())
-            ->method('getProduct')
-            ->will($this->returnValue($product));
-
-        foreach ($itemData as $key => $value) {
-            $item->setData($key, $value);
-        }
-
-        $items = array($item);
-        $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
-
-        $address = $objectManager->getObject('\Magento\Sales\Model\Quote\Address');
-        $address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
-            ->disableOriginalConstructor()
-            ->setMethods(['getAssociatedTaxables',
-                          'getQuote', 'getBillingAddress', 'getRegionId',
-                          '__wakeup'])
-            ->getMock();
-        $quote
-            ->expects($this->any())
-            ->method('getBillingAddress')
-            ->will($this->returnValue($address));
-
-        $addressData["cached_items_nonnominal"] = $items;
-        foreach ($addressData as $key => $value) {
-            $address->setData($key, $value);
-        }
-
-        $itemDataObjects = $taxTotalsCalcModel->mapQuoteExtraTaxables($itemBuilder, $address, false);
-    }
-
-    /*
-     * @return array
-     */
-    public function dataProviderMapQuoteExtraTaxablesArray()
-    {
-        $data = [
-            'default' => [
-                'itemData' => [
-                    "qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
-                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1"
-                ],
-                'addressData' => [
-                    "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
-                    "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
-                    "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
-                    "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
-                    "base_shipping_amount" => 0,
-                ]
-            ]
-        ];
-
-        return $data;
-    }
-
-    /**
-     * Tests the specific method
-     *
-     * @param string $itemData
-     * @param array $addressData
-     *
-     * @dataProvider dataProviderFetchArray
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function testFetch($appliedTaxesData, $addressData)
-    {
-        $objectManager = new ObjectManager($this);
-        $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
-
-        $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
-            ->disableOriginalConstructor()
-            ->setMethods(['displayCartTaxWithGrandTotal', 'displayCartZeroTax', 'displayCartSubtotalBoth'])
-            ->getMock();
-        $taxConfig
-            ->expects($this->once())
-            ->method('displayCartTaxWithGrandTotal')
-            ->will($this->returnValue(true));
-        $taxConfig
-            ->expects($this->once())
-            ->method('displayCartSubtotalBoth')
-            ->will($this->returnValue(true));
-
-        $taxCalculationService = $this->getMock('\Magento\Tax\Service\V1\TaxCalculationService', [], [], '', false);
-        $quoteDetailsBuilder = $this->getMock('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder', [], [], '', false);
-
-        $taxTotalsCalcModel = new Tax($taxConfig, $taxCalculationService, $quoteDetailsBuilder, $taxData);
-
-        $appliedTaxes = unserialize($appliedTaxesData);
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(['convertPrice', '__wakeup'])
-            ->getMock();
-        $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
-        $items = array();
-
-        $address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
-            ->disableOriginalConstructor()
-            ->setMethods(['getAppliedTaxes', 'getQuote', 'getAllNonNominalItems', 'getGrandTotal', '__wakeup',
-                          'addTotal', 'getTaxAmount'])
-            ->getMock();
-        $address
-            ->expects($this->once())
-            ->method('getAppliedTaxes')
-            ->will($this->returnValue($appliedTaxes));
-        $address
-            ->expects($this->any())
-            ->method('getQuote')
-            ->will($this->returnValue($quote));
-        $address
-            ->expects($this->once())
-            ->method('getAllNonNominalItems')
-            ->will($this->returnValue($items));
-        $address
-            ->expects($this->any())
-            ->method('getGrandTotal')
-            ->will($this->returnValue(88));
-        $quote
-            ->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($store));
-        $address
-            ->expects($this->any())
-            ->method('getTaxAmount')
-            ->will($this->returnValue(8));
-
-        $addressData["cached_items_nonnominal"] = $items;
-        foreach ($addressData as $key => $value) {
-            $address->setData($key, $value);
-        }
-
-        $taxTotalsCalcModel->fetch($address);
-    }
-
-    /**
-     * @return array
-     */
-    /*
-     * @return array
-     */
-    public function dataProviderFetchArray()
-    {
-        $appliedDataString = 'a:1:{s:7:"TX Rate";a:9:{s:6:"amount";d:80;s:11:"base_amount";d:80;s:7:"percent";';
-        $appliedDataString .= 'd:10;s:2:"id";s:7:"TX Rate";s:5:"rates";a:1:{i:0;a:3:{s:7:"percent";d:10;s:4:"code";';
-        $appliedDataString .= 's:7:"TX Rate";s:5:"title";s:7:"TX Rate";}}s:7:"item_id";s:1:"1";s:9:"item_type";';
-        $appliedDataString .= 's:7:"product";s:18:"associated_item_id";N;s:7:"process";i:0;}}';
-        $data = [
-            'default' => [
-                'appliedTaxesData' => $appliedDataString,
-                'addressData' => [
-                    "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
-                    "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
-                    "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
-                    "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
-                    "base_shipping_amount" => 0,
-                ]
-            ]
-        ];
-
-        return $data;
-    }
-
-    /**
-     * Tests the specific method
-     */
-    public function testGetLabel()
-    {
-        $objectManager = new ObjectManager($this);
-        $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
-
-        $taxConfig = $this->getMock('\Magento\Tax\Model\Config', [], [], '', false);
-        $taxCalculationService = $this->getMock('\Magento\Tax\Service\V1\TaxCalculationService', [], [], '', false);
-        $quoteDetailsBuilder = $this->getMock('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder', [], [], '', false);
-
-        $taxTotalsCalcModel = new Tax($taxConfig, $taxCalculationService, $quoteDetailsBuilder, $taxData);
-        $this->assertSame($taxTotalsCalcModel->getLabel(), __('Tax'));
     }
 }
