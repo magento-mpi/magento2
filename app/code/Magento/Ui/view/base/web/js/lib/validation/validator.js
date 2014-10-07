@@ -19,10 +19,16 @@ define([
          * @return {Boolean} - true, if value is valid, false otherwise
          */
         validate: function (rule, value, params) {
-            var rule      = rules[rule],
-                validator = rule[0];
+            var isValid   = true,
+                rule      = rules[rule],
+                validator;
 
-            return validator(value, params);
+            if (rule) {
+                validator = rule[0];
+                isValid   = validator(value, params);
+            }
+
+            return isValid;
         },
 
         /**
@@ -31,9 +37,18 @@ define([
          * @return {String} - error message
          */
         messageFor: function (rule) {
-            var rule = rules[rule];
+            var rule    = rules[rule],
+                message = '';
 
-            return rule[1];
+            if (rule) {
+                message = rule[1];
+            }
+
+            return message;
+        },
+
+        addRule: function (rule, validator, message) {
+            rules[rule] = [validator, message];
         }
     };
 });
