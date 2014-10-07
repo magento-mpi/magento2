@@ -72,7 +72,7 @@ class Manager
         $collection = $this->objectManager->create($config['dataset']);
 
         foreach ($config['fields'] as $field) {
-            if ($field['datatype'] == 'eav') {
+            if (isset($field['source']) && $field['source'] == 'eav') {
                 $collection->addAttributeToSelect($field['name']);
             }
         }
@@ -87,10 +87,15 @@ class Manager
         foreach ($collection as $item) {
             $row = [];
             foreach ($fields as $field) {
-                if ($field['datatype'] == 'lookup') {
-                    $lookup = $this->getData($field['reference']['target'], [$field['reference']['target_field']=> $row[$field['reference']['referenced_field']]]);
-                    $row[$field['name']] = $lookup[0][$field['reference']['needed_field']];;
-                } else {
+                if (isset($field['source']) && $field['source'] == 'lookup') {
+                    $lookup = $this->getData($field['reference']['target'],
+                        [$field['reference']['targetField']=> $row[$field['reference']['referencedField']]]
+                    );
+                    $row[$field['name']] = $lookup[0][$field['reference']['neededField']];;
+                } elseif (isset($field['source']) && $field['source'] == 'option') {
+                    $row[$field['name']] = $item->getData($field['reference']['referencedField']);
+                }
+                else {
                     $row[$field['name']] = $item->getData($field['name']);
                 }
             }
@@ -98,7 +103,7 @@ class Manager
                 foreach ($config['children'] as $name => $reference) {
                     $filter = [];
                     foreach ($reference as $metadata) {
-                        $filter[$metadata['referenced_field']] = $row[$metadata['target_field']];
+                        $filter[$metadata['referencedField']] = $row[$metadata['targetField']];
                     }
                     $row[$name] = $this->getData($name, $filter);
                 }

@@ -20,9 +20,14 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     protected $config;
 
+    /**
+     * @var array
+     */
     protected $metadata = [];
 
-
+    /**
+     * @var array
+     */
     protected $attributes = [];
 
     /**
@@ -30,14 +35,23 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     protected $dataSet;
 
+    /**
+     * @var Manager
+     */
+    protected $manager;
+    /**
+     * @param $config
+     * @param ObjectManager $objectManager
+     * @param Manager $manager
+     */
     public function __construct(
         $config,
-        ObjectManager $objectManager
-
+        ObjectManager $objectManager,
+        Manager $manager
     ) {
-
         $this->config = $config['fields'];
         $this->dataSet = $objectManager->get($config['dataset']);
+        $this->manager = $manager;
         $this->initAttributes();
 
     }
@@ -57,7 +71,7 @@ class Metadata implements \Iterator, \ArrayAccess
         if (empty($this->attributes)) {
 
             foreach ($this->config as $field) {
-                if ($field['datatype'] == 'eav') {
+                if (isset($field['source']) && $field['source'] == 'eav') {
                     $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
                     $this->attributes[$field['name']] = $attribute->getData();
 
@@ -66,20 +80,9 @@ class Metadata implements \Iterator, \ArrayAccess
                         $options = $attribute->getSource()->getAllOptions();
                     }
                     $this->attributes[$field['name']]['options'] = $options;
-                    $this->attributes[$field['name']]['validation_rules'] = $attribute->getValidateRules();
-                    $this->attributes[$field['name']]['store_label'] = $attribute->getStoreLabel();
                     $this->attributes[$field['name']]['required'] = $attribute->getRequired();
-                    $this->attributes[$field['name']]['system'] = $attribute->getSystem();
-                    $this->attributes[$field['name']]['user_defined'] = $attribute->getUserDefined();
-
                 }
-
-
             }
-//            $this->attributeCollection->addFieldToFilter('entity_type_id', $this->dataSet->getEntity()->getTypeId());
-//            foreach ($this->attributeCollection as $item) {
-//                $this->attributes[$item->getAttributeCode()] = $item->getData();
-//            }
         }
     }
 
@@ -90,39 +93,51 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function current()
     {
-
         $this->metadata[$this->key()] = [
             'name' => $this->key(),
         ];
+        $options = [];
+        if (isset($this->config[$this->key()]['source'])
+            && $this->config[$this->key()]['source']== 'option'
+        ) {
+            $rawOptions = $this->manager->getData(
+                $this->config[$this->key()]['reference']['target']
+            );
+            $options[] = [
+                'label' => null,
+                'value' => null
+            ];
+            foreach ($rawOptions as $rawOption) {
+                $options[] = [
+                    'label' => $rawOption[$this->config[$this->key()]['reference']['neededField']],
+                    'value' => $rawOption[$this->config[$this->key()]['reference']['targetField']]
+
+                ];
+            }
+        }
         $attributeCodes = [
-            'options',
-            'validation_rules',
-            'attribute_code',
-            'frontend_input',
-            'input_filter',
-            'store_label',
-            'visible',
-            'required',
-            'multiline_count',
-            'data_model',
-            'frontend_class',
-            'frontend_label',
-            'note',
-            'system',
-            'user_defined',
-            'backend_type',
-            'sort_order'
+            'options' => ['eav_map' => 'options', 'default' => $options],
+            'dataType' => ['eav_map' => 'frontend_input', 'default' => 'text'],
+            'filterType' => ['eav_map' => 'input_filter'],
+            'formElement' => ['default' => 'input'],
+            'visible' => ['eav_map' => 'is_visible', 'default' => true],
+            'required' => ['eav_map' => 'required', 'default' => false],
+            'label' => ['eav_map' => 'frontend_label'],
+            'sortOrder' => ['eav_map' => 'sort_order']
         ];
 
-        foreach ($attributeCodes as $code) {
+        foreach ($attributeCodes as  $code => $info) {
             if (isset($this->config[$this->key()][$code])) {
                 $this->metadata[$this->key()][$code] = $this->config[$this->key()][$code];
             } else {
-                if (isset($this->attributes[$this->key()])) {
-                    $this->metadata[$this->key()][$code] = $this->attributes[$this->key()][$code];
+                if (isset($this->attributes[$this->key()]) && isset($info['eav_map'])) {
+                    $this->metadata[$this->key()][$code] = $this->attributes[$this->key()][$info['eav_map']];
                 } else {
                     $this->metadata[$this->key()][$code] = null;
                 }
+            }
+            if (empty($this->metadata[$this->key()][$code]) && isset($info['default'])) {
+                $this->metadata[$this->key()][$code] = $info['default'];
             }
         }
         return $this->metadata[$this->key()];

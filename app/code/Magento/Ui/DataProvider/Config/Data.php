@@ -14,7 +14,7 @@ namespace Magento\Ui\DataProvider\Config;
 class Data extends \Magento\Framework\Config\Data
 {
     /**
-     * @param \Magento\Email\Model\Template\Config\Reader $reader
+     * @param Reader $reader
      * @param \Magento\Framework\Config\CacheInterface $cache
      */
     public function __construct(

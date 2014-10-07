@@ -1,8 +1,8 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
-    <fieldset name="customer_group" dataset="Magento\Customer\Model\Resource\Group\Collection">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/dataSource.xsd">
+    <datasource name="customer_group" dataset="Magento\Customer\Model\Resource\Group\Collection">
         <fields>
-            <field name="customer_group_id" datatype="int" visible="true"/>
-            <field name="customer_group_code" datatype="string" visible="true"/>
+            <field name="customer_group_id" datatype="numeric" visible="false"/>
+            <field name="customer_group_code" datatype="text"/>
         </fields>
-    </fieldset>
+    </datasource>
 </config>

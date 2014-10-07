@@ -1,33 +1,35 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
-    <fieldset
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/dataSource.xsd">
+    <!---->
+    <datasource
             name="customer"
             dataset="Magento\Customer\Model\Resource\Customer\Collection"
     >
         <fields>
-            <field name="entity_id" datatype="text" visible="true"/>
-            <field name="entity_type_id" datatype="text" visible="true"/>
-            <field name="email" datatype="eav" visible="true"/>
-            <field name="attribute_set_id" datatype="smallint" visible="false"/>
-            <field name="customer_group_id" datatype="int" visible="false"/>
-            <field name="website_id" datatype="int" visible="false"/>
-            <field name="default_billing" datatype="eav" visible="false"/>
-            <field name="gender" datatype="eav" visible="false"/>
-            <field name="firstname" datatype="eav" visible="false"/>
-            <field name="lastname" datatype="eav" visible="false"/>
-            <field name="customer_group_code" datatype="lookup" visible="true">
+            <field name="entity_id" dataType="text" visible="false"/>
+            <field name="entity_type_id" dataType="text" visible="false"/>
+            <field name="email" source="eav" />
+            <field name="attribute_set_id" dataType="numeric" visible="false"/>
+            <field name="group_id" dataType="numeric" visible="false"/>
+            <field name="website_id" dataType="numeric" visible="false"/>
+            <field name="default_billing" source="eav" visible="false"/>
+            <field name="gender" source="eav"/>
+            <field name="firstname" source="eav"/>
+            <field name="lastname" source="eav"/>
+            <field name="customer_group_code" dataType="text" source="option">
                 <reference target="customer_group"
-                    referenced_field="customer_group_id"
-                    target_field="customer_group_id"
-                    needed_field="customer_group_code"
+                    referencedField="group_id"
+                    targetField="customer_group_id"
+                    neededField="customer_group_code"
                 />
             </field>
-            <field name="website_code" datatype="lookup" visible="true">
+            <field name="website_code" dataType="text" source="lookup">
                 <reference target="website"
-                    referenced_field="website_id"
-                    target_field="website_id"
-                    needed_field="name"
+                    referencedField="website_id"
+                    targetField="website_id"
+                    neededField="name"
                 />
             </field>
         </fields>
-    </fieldset>
+    </datasource>
 </config>
