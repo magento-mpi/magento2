@@ -1,0 +1,35 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Layout\Tabs $this
+ */
+
+$tabs = $this->getTabs();
+?>
+<div id="<?php echo $this->getName(); ?>">
+    <div class="tab-switcher" style="float: left; width: 20%;">
+        <h3>
+            <span>Basic Settings</span>
+        </h3>
+        <ul>
+            <?php foreach ($tabs as $tab): ?>
+                <li><h4><?php echo $tab['label']; ?></h4></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="tabs-content" style="width: 80%; float: right;">
+        <?php foreach ($tabs as $tab): ?>
+            <div class="fieldset-wrapper <?php echo $tab['index']; ?>">
+                <?php foreach ($tab['elements'] as $element): ?>
+                    <p><?php echo $element->toHtml(); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <div style="clear: both"></div>
+</div>

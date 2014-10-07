@@ -1,0 +1,16 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
+    <fieldset name="customer_address" dataset="Magento\Customer\Model\Resource\Address\Collection">
+        <fields>
+            <field name="entity_id" datatype="int" visible="true"/>
+            <field name="parent_id" datatype="int" visible="true"/>
+            <field name="city" datatype="eav" visible="true"/>
+            <field name="street" datatype="eav" visible="true"/>
+        </fields>
+        <references>
+            <reference target="customer"
+               referenced_field="parent_id"
+               target_field="entity_id"
+            />
+        </references>
+    </fieldset>
+</config>

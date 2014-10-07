@@ -8,13 +8,13 @@
 ?>
 <?php
 /**
- * @var \Magento\Ui\Paging\View $this
+ * @var \Magento\Ui\Component\Paging $this
  */
 
 ?>
 <?php if (true): ?>
     <script data-mage-apply='{"Magento_Ui/js/listing/paging" : ""}' type="application/json">
-        <?php echo $this->getConfigurationBuilder()->toJson($this->getConfiguration()); ?>
+        <?php echo $this->getConfigBuilder()->toJson($this->getConfig()); ?>
     </script>
     <div data-bind="scope: '<?php echo $this->getParentName(); ?>:<?php echo $this->getName(); ?>'" class="pager">
         <!-- ko template: 'ui/pagination' --><!-- /ko -->

@@ -53,7 +53,7 @@
                         <item name="data_type" xsi:type="string">store</item>
                         <item name="sortable" xsi:type="boolean">false</item>
                         <item name="filter_type" xsi:type="string">filter_store</item>
-                        <item name="options_provider" xsi:type="string">Magento\Ui\DataProvider\Options\Store</item>
+                        <item name="options_provider" xsi:type="string">Magento\Store\Ui\DataProvider\Options</item>
                     </item>
                     <item name="is_active" xsi:type="array">
                         <item name="title" xsi:type="string" translate="true">Status</item>
@@ -90,12 +90,12 @@
                     <item name="class" xsi:type="string">Magento\Cms\Ui\DataProvider\Block\Row\Actions</item>
                 </item>
                 <item name="store_id" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Ui\DataProvider\Row\Store</item>
+                    <item name="class" xsi:type="string">Magento\Store\Ui\DataProvider\Row</item>
                 </item>
             </argument>
         </arguments>
         <referenceBlock name="listing_before">
-            <block class="Magento\Ui\ListingContainer\Massaction\View" name="massaction_top">
+            <block class="Magento\Ui\Component\MassAction" name="massaction_top">
                 <arguments>
                     <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
                     <argument name="config" xsi:type="array">

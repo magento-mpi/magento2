@@ -8,6 +8,7 @@
 namespace Magento\Framework\View\Element\UiComponent;
 
 use Magento\Framework\Data\Collection as DataCollection;
+use Magento\Ui\DataProvider\DataProviderInterface;
 
 /**
  * Class ConfigurationStorageInterface
@@ -17,10 +18,10 @@ interface ConfigStorageInterface
     /**
      * Add components configuration
      *
-     * @param ConfigInterface $configuration
+     * @param ConfigInterface $config
      * @return void
      */
-    public function addComponentsData(ConfigInterface $configuration);
+    public function addComponentsData(ConfigInterface $config);
 
     /**
      * Remove components configuration
@@ -156,4 +157,30 @@ interface ConfigStorageInterface
      * @return array|null
      */
     public function getGlobalData($key = null);
+
+    /**
+     * @param string $key
+     * @param DataProviderInterface $dataProvider
+     * @return void
+     */
+    public function addDataProvider($key, DataProviderInterface $dataProvider);
+
+    /**
+     * @param string $key
+     * @return void
+     */
+    public function removeDataProvider($key);
+
+    /**
+     * @param null|string $key
+     * @return DataProviderInterface[]|DataProviderInterface|null
+     */
+    public function getDataProvider($key = null);
+
+    /**
+     * @param string $key
+     * @param DataProviderInterface $dataProvider
+     * @return void
+     */
+    public function updateDataProvider($key, DataProviderInterface $dataProvider);
 }

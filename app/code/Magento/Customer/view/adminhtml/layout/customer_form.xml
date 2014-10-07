@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <referenceBlock name="form">
+        <arguments>
+            <argument name="save_mca" xsi:type="string">customer\index\save</argument>
+            <argument name="validate_mca" xsi:type="string">customer\index\validate</argument>
+            <argument name="meta" xsi:type="array">
+                <item name="defaults" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <argument name="name" xsi:type="string">customer_form</argument>
+            <argument name="layout" xsi:type="string">tabs</argument>
+
+            <argument name="container" xsi:type="string">fieldset</argument>
+
+            <argument name="data_provider_pool" xsi:type="array">
+
+                <!-- customer info -->
+                <item name="customer_info" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\Customer</item>
+                    <item name="arguments" xsi:type="array">
+                        <item name="meta" xsi:type="array">
+                            <item name="custom_field" xsi:type="array">
+                                <item name="data_type" xsi:type="string">text</item>
+                                <item name="required" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                        <item name="field" xsi:type="string">id</item>
+                    </item>
+
+                </item>
+
+                <!-- address info -->
+                <item name="address_info" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Customer\Ui\DataProvider\CustomerAddressCollection</item>
+                    <item name="arguments" xsi:type="array">
+                        <item name="meta" xsi:type="array">
+                            <item name="custom_field2" xsi:type="array">
+                                <item name="data_type" xsi:type="string">text</item>
+                                <item name="required" xsi:type="boolean">true</item>
+                            </item>
+                        </item>
+                        <item name="filter" xsi:type="array">
+                            <item name="parent_id" xsi:type="array">
+                                <item name="data_provider" xsi:type="array">
+                                    <item name="name" xsi:type="string">customer_info</item>
+                                    <item name="field" xsi:type="string">entity_id</item>
+                                </item>
+                                <item name="field" xsi:type="string">parent_id</item>
+                                <item name="filter_type" xsi:type="string">eq</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+
+            </argument>
+        </arguments>
+
+    </referenceBlock>
+
+    <!-- Configuration layout -->
+    <referenceBlock name="tabs">
+        <arguments>
+            <argument name="name" xsi:type="string">customer_form_tab</argument>
+            <argument name="other_tabs" xsi:type="array">
+                <item name="customerbalance_balance" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Customer Balance</item>
+                    <item name="index" xsi:type="string">customerbalance_balance</item>
+                    <item name="sort_order" xsi:type="string">1</item>
+                </item>
+                <item name="view_customer_status" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Customer Status</item>
+                    <item name="index" xsi:type="string">view_customer_status</item>
+                    <item name="sort_order" xsi:type="string">3</item>
+                </item>
+                <item name="giftregistry" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Gift Registry</item>
+                    <item name="index" xsi:type="string">giftregistry</item>
+                    <item name="sort_order" xsi:type="string">2</item>
+                </item>
+            </argument>
+        </arguments>
+        <referenceContainer label="Static Content" name="other_tabs">
+            <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance" name="customerbalance_balance" template="balance.phtml" before="sales"/>
+            <block class="Magento\Log\Block\Adminhtml\Customer\Edit\Tab\View\Status" name="view_customer_status" template="customer/status.phtml"/>
+        </referenceContainer>
+    </referenceBlock>
+</page>

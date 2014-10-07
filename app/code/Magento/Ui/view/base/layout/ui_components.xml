@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
-    <block class="Magento\Ui\Listing\View" name="listing">
+    <block class="Magento\Ui\Component\Listing" name="listing">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::listing/horizontal_grid.phtml</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
-            <argument name="client_root" xsi:type="string">mui/listing/ajax</argument>
+            <argument name="client_root" xsi:type="string">mui/index/render</argument>
         </arguments>
         <container label="Listing Head" name="listing_head"/>
         <container label="Listing Before" name="listing_before">
@@ -22,7 +22,7 @@
             <ui_component name="sorting_base" component="sorting" />
         </container>
     </block>
-    <block class="Magento\Ui\Sorting\View" name="sorting">
+    <block class="Magento\Ui\Component\Sorting" name="sorting">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
             <argument name="config" xsi:type="array">
@@ -30,76 +30,76 @@
             </argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Paging\View" name="paging">
+    <block class="Magento\Ui\Component\Paging" name="paging">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
         </arguments>
     </block>
 
-    <block class="Magento\Ui\Control\Action" name="actions">
+    <block class="Magento\Ui\Component\Control\Action" name="actions">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::control/action/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\ListingContainer\Massaction\View" name="control_massaction">
+    <block class="Magento\Ui\Component\MassAction" name="control_massaction">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
         </arguments>
     </block>
 
-    <block class="Magento\Ui\FormElement\Input" name="input">
+    <block class="Magento\Ui\Component\Form\Element\Input" name="input">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\FormElement\Select" name="select">
+    <block class="Magento\Ui\Component\Form\Element\Select" name="select">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/select/default.phtml</argument>
         </arguments>
     </block>
 
-    <block class="Magento\Ui\DataType\Boolean" name="boolean">
+    <block class="Magento\Ui\Component\Form\Element\DataType\Boolean" name="boolean">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/boolean/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\DataType\Date" name="date">
+    <block class="Magento\Ui\Component\Form\Element\DataType\Date" name="date">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/date/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\DataType\Media" name="media">
+    <block class="Magento\Ui\Component\Form\Element\DataType\Media" name="media">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/media/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\DataType\Text" name="text">
+    <block class="Magento\Ui\Component\Form\Element\DataType\Text" name="text">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/text/default.phtml</argument>
         </arguments>
     </block>
 
-    <block class="Magento\Ui\Filter\Type\Select" name="filter_select">
+    <block class="Magento\Ui\Component\Filter\Type\Select" name="filter_select">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::filter/type/select/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Filter\Type\Range" name="filter_range">
+    <block class="Magento\Ui\Component\Filter\Type\Range" name="filter_range">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::filter/type/range/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Filter\Type\Input" name="filter_input">
+    <block class="Magento\Ui\Component\Filter\Type\Input" name="filter_input">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::filter/type/input/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Filter\Type\Date" name="filter_date">
+    <block class="Magento\Ui\Component\Filter\Type\Date" name="filter_date">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::filter/type/date/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\FilterPool\View" name="filter_pool">
+    <block class="Magento\Ui\Component\FilterPool" name="filter_pool">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::filter_pool/default.phtml</argument>
             <argument name="config" xsi:type="array">
@@ -112,6 +112,30 @@
                     <item name="filter_range" xsi:type="array"/>
                 </item>
             </argument>
+        </arguments>
+    </block>
+
+    <block class="Magento\Ui\Component\Container\Content" name="content">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
+        </arguments>
+        <container label="Static Content" name="other_tabs"/>
+    </block>
+    <block class="Magento\Ui\Component\Form" name="form">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
+            <argument name="save_url" xsi:type="string">mui/form/save</argument>
+            <argument name="validate_url" xsi:type="string">mui/form/validate</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Form\Fieldset" name="fieldset">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form/fieldset/default.phtml</argument>
         </arguments>
     </block>
 
