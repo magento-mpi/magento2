@@ -74,7 +74,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         $this->customerGroupV1->afterDeleteGroup($customerGroupService);
     }
 
-    public function testAroundSaveGroupNoNeedInvalidating()
+    public function testAroundCreateGroupNoNeedInvalidating()
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Service\V1\CustomerGroupService',
@@ -98,10 +98,10 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             return 10;
         };
 
-        $this->customerGroupV1->aroundSaveGroup($customerGroupService, $proceedMock, $customerGroupMock);
+        $this->customerGroupV1->aroundCreateGroup($customerGroupService, $proceedMock, $customerGroupMock);
     }
 
-    public function testAroundSaveGroupInvalidating()
+    public function testAroundCreateGroupInvalidating()
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Service\V1\CustomerGroupService',
@@ -127,7 +127,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             return 10;
         };
 
-        $this->customerGroupV1->aroundSaveGroup($customerGroupService, $proceedMock, $customerGroupMock);
+        $this->customerGroupV1->aroundCreateGroup($customerGroupService, $proceedMock, $customerGroupMock);
     }
 
     protected function prepareIndexer()

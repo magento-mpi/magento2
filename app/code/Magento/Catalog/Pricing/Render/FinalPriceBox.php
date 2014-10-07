@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Pricing\Render;
 
 use Magento\Framework\Pricing\Render\PriceBox as BasePriceBox;
-use Magento\Catalog\Pricing\Price\MsrpPrice;
+use Magento\Msrp\Pricing\Price\MsrpPrice;
 use Magento\Framework\Pricing\Render;
 use Magento\Catalog\Pricing\Price;
 
@@ -26,6 +26,10 @@ class FinalPriceBox extends BasePriceBox
      */
     protected function _toHtml()
     {
+        if (!$this->getSaleableItem() || $this->getSaleableItem()->getCanShowPrice() === false) {
+            return '';
+        }
+
         $result = parent::_toHtml();
 
         try {
@@ -36,8 +40,9 @@ class FinalPriceBox extends BasePriceBox
             return $this->wrapResult($result);
         }
 
-        //Renders MAP price in case it is enabled
-        if ($msrpPriceType->canApplyMsrp($this->getSaleableItem())) {
+        //Renders MSRP in case it is enabled
+        $product = $this->getSaleableItem();
+        if ($msrpPriceType->canApplyMsrp($product) && $msrpPriceType->isMinimalPriceLessMsrp($product)) {
             /** @var BasePriceBox $msrpBlock */
             $msrpBlock = $this->rendererPool->createPriceRender(
                 MsrpPrice::PRICE_CODE,

@@ -171,17 +171,35 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['qty'];
+        $result['qty'] = $checkoutData['options']['qty'];
         $attributesData = $product->hasData('configurable_attributes_data')
             ? $product->getDataFieldConfig('configurable_attributes_data')['source']->getAttributesData()
             : null;
         if ($attributesData == null) {
             return $result;
         }
-        foreach ($checkoutData['configurable_options'] as $option) {
+        foreach ($checkoutData['options']['configurable_options'] as $option) {
             $attributeId = $attributesData[$option['title']]['attribute_id'];
             $optionId = $attributesData[$option['title']]['options'][$option['value']]['id'];
             $result['super_attribute'][$attributeId] = $optionId;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepare data for downloadable product
+     *
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function prepareDownloadableData(FixtureInterface $product)
+    {
+        $result = [];
+        $checkoutData = $product->getCheckoutData();
+        $result['qty'] = $checkoutData['options']['qty'];
+        foreach ($checkoutData['options']['links'] as $link) {
+            $result['links'][] = $link['id'];
         }
 
         return $result;
@@ -195,7 +213,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
      */
     protected function prepareSimpleData(FixtureInterface $product)
     {
-        return ['qty' => $product->getCheckoutData()['qty']];
+        return ['qty' => $product->getCheckoutData()['options']['qty']];
     }
 
     /**
@@ -256,7 +274,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         $result = [];
         foreach ($data['products'] as $value) {
             $result[$value->getId()] = [
-                'qty' => ['qty' => $value->getCheckoutData()['qty']],
+                'qty' => ['qty' => $value->getCheckoutData()['options']['qty']],
             ];
         }
 

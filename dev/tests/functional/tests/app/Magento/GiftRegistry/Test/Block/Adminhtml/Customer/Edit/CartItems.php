@@ -18,32 +18,31 @@ use Mtf\Client\Element\Locator;
 class CartItems extends Grid
 {
     /**
-     * Grid row selector
+     * Selector for row item
      *
      * @var string
      */
-    protected $rowSelector = '//tr';
+    protected $rowSelector = './/tr[td[contains(.,"%s")]]';
 
     /**
-     * Grid cell selector
+     * An element locator which allows to select entities in grid
      *
      * @var string
      */
-    protected $cellSelector = '[td[contains(.,"%s")]]';
+    protected $selectItem = '//*[contains(@class,"col-select")]';
 
     /**
      * Search for item and select it
      *
      * @param array $filter
      * @throws \Exception
-     * @return void
      */
     public function searchAndSelect(array $filter)
     {
-        foreach ($filter as $item) {
-            $this->rowSelector .= sprintf($this->cellSelector, $item);
-        }
-        $selectItem = $this->_rootElement->find($this->rowSelector, Locator::SELECTOR_XPATH)->find($this->selectItem);
+        $selectItem = $this->_rootElement->find(
+            sprintf($this->rowSelector, $filter['productName']) . $this->selectItem,
+            Locator::SELECTOR_XPATH
+        );
         if ($selectItem->isVisible()) {
             $selectItem->click();
         } else {

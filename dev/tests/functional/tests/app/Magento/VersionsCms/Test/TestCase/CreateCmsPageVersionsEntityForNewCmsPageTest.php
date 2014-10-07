@@ -68,7 +68,6 @@ class CreateCmsPageVersionsEntityForNewCmsPageTest extends Injectable
      */
     public function test(CmsPage $cms, array $results)
     {
-        $this->markTestIncomplete('MAGETWO-26802');
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getPageActionsBlock()->addNew();

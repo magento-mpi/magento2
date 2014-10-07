@@ -1,0 +1,35 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\FormElement\Select $this
+ */
+?>
+<select>
+    <?php foreach ($this->getData('options') as $option): ?>
+        <?php if (is_array($option['value'])): ?>
+            <optgroup label="<?php echo $option['label']; ?>">
+                <?php foreach ($option['value'] as $subOption): ?>
+                    <?php if (is_array($subOption['value'])): ?>
+                        <optgroup label="<?php echo $subOption['label']; ?>">
+                            <?php foreach ($subOption['value'] as $subSubOption): ?>
+                                <?php if (!is_array($subSubOption['value'])): ?>
+                                    <option value="<?php echo
+                                        $subSubOption['value']; ?>"><?php echo $subSubOption['label']; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </optgroup>
+                    <?php else: ?>
+                        <option value="<?php echo $subOption['value']; ?>"><?php echo $subOption['label']; ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </optgroup>
+        <?php else: ?>
+            <option value="<?php echo $option['value']; ?>"><?php echo $option['label']; ?></option>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</select>

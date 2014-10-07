@@ -9,8 +9,6 @@
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit;
 
 use Mtf\Block\Block;
-use Mtf\Block\BlockFactory;
-use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
@@ -33,25 +31,6 @@ class Preview extends Block
      * @var string
      */
     protected $contentSelector = '.column.main';
-
-    /**
-     * Browser object
-     *
-     * @var Browser $browser
-     */
-    protected $browser;
-
-    /**
-     * @param Element $element
-     * @param BlockFactory $blockFactory
-     * @param array $config
-     * @param Browser $browser
-     */
-    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser, array $config = [])
-    {
-        parent::__construct($element, $blockFactory, $config);
-        $this->browser = $browser;
-    }
 
     /**
      * Returns page content

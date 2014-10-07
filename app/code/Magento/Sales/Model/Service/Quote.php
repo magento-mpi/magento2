@@ -191,7 +191,7 @@ class Quote
                 ->setAddresses($addresses)
                 ->create();
             if ($customerData->getId()) {
-                $this->_customerAccountService->updateCustomer($customerDetails);
+                $this->_customerAccountService->updateCustomer($customerData->getId(), $customerDetails);
             } else { //for new customers
                 $customerData = $this->_customerAccountService->createCustomerWithPasswordHash(
                     $customerDetails,
@@ -259,21 +259,16 @@ class Quote
         $order->setQuote($quote);
 
         $transaction->addObject($order);
-        $transaction->addCommitCallback(array($order, 'place'));
-        $transaction->addCommitCallback(array($order, 'save'));
 
         /**
          * We can use configuration data for declare new order status
          */
         $this->_eventManager->dispatch(
-            'checkout_type_onepage_save_order',
-            array('order' => $order, 'quote' => $quote)
-        );
-        $this->_eventManager->dispatch(
             'sales_model_service_quote_submit_before',
             array('order' => $order, 'quote' => $quote)
         );
         try {
+            $order->place();
             $transaction->save();
             $this->_inactivateQuote();
             $this->_eventManager->dispatch(
