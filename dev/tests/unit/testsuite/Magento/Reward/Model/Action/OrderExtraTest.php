@@ -59,4 +59,3 @@ class OrderExtraTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
- 

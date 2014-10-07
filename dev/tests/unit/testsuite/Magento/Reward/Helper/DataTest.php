@@ -40,6 +40,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected $subject;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $websiteMock;
+
     protected function setUp()
     {
         $contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
@@ -47,6 +52,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->configMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->currencyMock = $this->getMock('\Magento\Framework\Locale\CurrencyInterface');
+        $this->websiteMock = $this->getMock('\Magento\Store\Model\Website', [], [], '', false);
         $this->ratesFactoryMock = $this->getMock(
             '\Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory',
             [],
@@ -86,12 +92,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $section = 'section';
         $field = 'field';
 
-        $websiteMock = $this->getMock('\Magento\Store\Model\Website', [], [], '', false);
         $this->storeManagerMock->expects($this->once())
             ->method('getWebsite')
             ->with($websiteId)
-            ->willReturn($websiteMock);
-        $websiteMock->expects($this->once())->method('getCode')->willReturn($code);
+            ->willReturn($this->websiteMock);
+        $this->websiteMock->expects($this->once())->method('getCode')->willReturn($code);
 
         $this->configMock->expects($this->once())
             ->method('getValue')
@@ -109,12 +114,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $section = \Magento\Reward\Helper\Data::XML_PATH_SECTION_GENERAL;
         $field = 'field';
 
-        $websiteMock = $this->getMock('\Magento\Store\Model\Website', [], [], '', false);
         $this->storeManagerMock->expects($this->once())
             ->method('getWebsite')
             ->with($websiteId)
-            ->willReturn($websiteMock);
-        $websiteMock->expects($this->once())->method('getCode')->willReturn($code);
+            ->willReturn($this->websiteMock);
+        $this->websiteMock->expects($this->once())->method('getCode')->willReturn($code);
 
         $this->configMock->expects($this->once())
             ->method('getValue')
@@ -132,12 +136,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $section = \Magento\Reward\Helper\Data::XML_PATH_SECTION_POINTS;
         $field = 'field';
 
-        $websiteMock = $this->getMock('\Magento\Store\Model\Website', [], [], '', false);
         $this->storeManagerMock->expects($this->once())
             ->method('getWebsite')
             ->with($websiteId)
-            ->willReturn($websiteMock);
-        $websiteMock->expects($this->once())->method('getCode')->willReturn($code);
+            ->willReturn($this->websiteMock);
+        $this->websiteMock->expects($this->once())->method('getCode')->willReturn($code);
 
         $this->configMock->expects($this->once())
             ->method('getValue')
@@ -155,12 +158,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $section = \Magento\Reward\Helper\Data::XML_PATH_SECTION_NOTIFICATIONS;
         $field = 'field';
 
-        $websiteMock = $this->getMock('\Magento\Store\Model\Website', [], [], '', false);
         $this->storeManagerMock->expects($this->once())
             ->method('getWebsite')
             ->with($websiteId)
-            ->willReturn($websiteMock);
-        $websiteMock->expects($this->once())->method('getCode')->willReturn($code);
+            ->willReturn($this->websiteMock);
+        $this->websiteMock->expects($this->once())->method('getCode')->willReturn($code);
 
         $this->configMock->expects($this->once())
             ->method('getValue')
@@ -171,7 +173,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $args
+     * @param int $points
      * @param string $expectedResult
      *
      * @dataProvider formatPointsDeltaDataProvider
@@ -190,10 +192,5 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ['points' => -100, 'expectedResult' => '-100'],
             ['points' => 100, 'expectedResult' => '100'],
         ];
-    }
-
-    public function testFormatAmountIfAmountIsNull()
-    {
-
     }
 }

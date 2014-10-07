@@ -54,4 +54,3 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
- 

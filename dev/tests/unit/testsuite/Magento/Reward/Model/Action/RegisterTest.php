@@ -45,4 +45,3 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Registered as customer', $this->model->getHistoryMessage());
     }
 }
- 

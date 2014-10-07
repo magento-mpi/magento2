@@ -31,4 +31,3 @@ class AdminTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Updated by moderator', $this->model->getHistoryMessage());
     }
 }
- 

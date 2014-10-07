@@ -45,4 +45,3 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('For submitting a product review', $this->model->getHistoryMessage());
     }
 }
- 

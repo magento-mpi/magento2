@@ -16,6 +16,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     protected $storeManagerMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeMock;
+
+    /**
      * @var \Magento\Reward\Helper\Customer
      */
     protected $subject;
@@ -24,6 +29,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
+        $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->subject = $objectManagerHelper->getObject(
@@ -38,13 +44,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $url = 'unsubscribe_url';
         $params = ['store_id' => $storeId];
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())
+        $this->storeMock->expects($this->once())
             ->method('getUrl')
             ->with('magento_reward/customer/unsubscribe/', $params)
             ->willReturn($url);
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->with($storeId)->willReturn($storeMock);
+        $this->storeManagerMock->expects($this->once())
+            ->method('getStore')->with($storeId)->willReturn($this->storeMock);
         $this->assertEquals($url, $this->subject->getUnsubscribeUrl(false, $storeId));
     }
 
@@ -54,13 +60,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $url = 'unsubscribe_url';
         $params = ['store_id' => $storeId, 'notification' => true];
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())
+        $this->storeMock->expects($this->once())
             ->method('getUrl')
             ->with('magento_reward/customer/unsubscribe/', $params)
             ->willReturn($url);
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->with($storeId)->willReturn($storeMock);
+        $this->storeManagerMock->expects($this->once())
+            ->method('getStore')->with($storeId)->willReturn($this->storeMock);
         $this->assertEquals($url, $this->subject->getUnsubscribeUrl(true, $storeId));
     }
 
@@ -69,14 +75,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $url = 'unsubscribe_url';
         $params = ['notification' => true];
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())
+        $this->storeMock->expects($this->once())
             ->method('getUrl')
             ->with('magento_reward/customer/unsubscribe/', $params)
             ->willReturn($url);
 
-        $this->storeManagerMock->expects($this->once())->method('getStore')->with(null)->willReturn($storeMock);
+        $this->storeManagerMock->expects($this->once())
+            ->method('getStore')->with(null)->willReturn($this->storeMock);
         $this->assertEquals($url, $this->subject->getUnsubscribeUrl(true));
     }
 }
- 
+
