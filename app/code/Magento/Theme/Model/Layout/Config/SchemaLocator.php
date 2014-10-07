@@ -26,7 +26,7 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     public function __construct(Filesystem $appFilesystem)
     {
         $this->_schema = $appFilesystem->getPath(Filesystem::LIB_INTERNAL)
-            . '/Magento/Framework/View/PageLayout/etc/elements.xsd';
+            . '/Magento/Framework/View/PageLayout/etc/layouts.xsd';
     }
 
     /**

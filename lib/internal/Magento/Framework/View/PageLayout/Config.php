@@ -20,7 +20,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/etc/elements.xsd';
+        return __DIR__ . '/etc/layouts.xsd';
     }
 
     /**
