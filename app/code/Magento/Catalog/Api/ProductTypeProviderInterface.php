@@ -14,7 +14,7 @@ interface ProductTypeProviderInterface
     /**
      * Retrieve available product types
      *
-     * @return \Magento\Catalog\Api\ProductTypeInterface[]
+     * @return \Magento\Catalog\Api\Data\ProductTypeInterface[]
      */
     public function getProductTypes();
 }

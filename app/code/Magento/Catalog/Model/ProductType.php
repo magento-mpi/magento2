@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model;
 
-use \Magento\Catalog\Api\ProductTypeInterface;
+use \Magento\Catalog\Api\Data\ProductTypeInterface;
 
 class ProductType implements ProductTypeInterface
 {

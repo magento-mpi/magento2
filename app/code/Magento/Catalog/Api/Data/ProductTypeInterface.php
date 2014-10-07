@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Catalog\Api\Data;
 
 interface ProductTypeInterface
 {
