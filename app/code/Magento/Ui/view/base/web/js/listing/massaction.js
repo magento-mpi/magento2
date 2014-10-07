@@ -115,7 +115,7 @@ define([
                 as:     'massaction'
             });
 
-            dump.trigger('update:extenders', extenders);
+            dump.resolve('update:extenders', extenders);
             meta.set('colspan', colspan + 1);
 
             return this;

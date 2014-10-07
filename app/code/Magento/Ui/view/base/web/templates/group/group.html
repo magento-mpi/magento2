@@ -1,0 +1,28 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<div class="field" data-bind="css: {'required': required}">
+    <label class="label" data-bind="attr: { for: uid }">
+        <span data-bind="text: label"></span>
+    </label>
+    <div class="control">
+        <!-- ko foreach: elems -->
+
+            <!-- ko if: $parent.breakLine -->
+                <div class="nested">
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                </div>
+            <!-- /ko -->
+            
+            <!-- ko ifnot: $parent.breakLine -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+
+        <!-- /ko -->
+    </div>
+</div>
