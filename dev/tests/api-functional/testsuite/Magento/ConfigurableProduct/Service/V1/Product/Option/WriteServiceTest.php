@@ -35,11 +35,17 @@ class WriteServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'Add'
             ]
         ];
-
         $option = [
             'attribute_id' => 'test_configurable',
+            'type' => 'select',
             'label' => 'Test',
-            'values' => []
+            'values' => [
+                [
+                    'index' => 1,
+                    'price' => '3',
+                    'percent' => 0
+                ]
+            ],
         ];
 
         /** @var int $result */

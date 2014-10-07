@@ -155,40 +155,38 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
 
         $customerDetailsAsArray = $this->customerHelper->createSampleCustomerDetailsData()->__toArray();
-        unset($customerDetailsAsArray['customer']['firstname']);
-        unset($customerDetailsAsArray['customer']['email']);
+        $invalidEmail = 'invalid';
+        $customerDetailsAsArray['customer']['email'] = $invalidEmail;
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => CustomerHelper::PASSWORD];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception did not occur.');
         } catch (\Exception $e) {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $expectedException = new InputException();
+                $expectedException->addError(
+                    InputException::INVALID_FIELD_VALUE,
+                    ['fieldName' => 'email', 'value' => $invalidEmail]
+                );
                 $this->assertInstanceOf('SoapFault', $e);
-                $exceptionData = $e->getMessage();
-                $expectedExceptionData = "SOAP-ERROR: Encoding: object has no 'email' property";
+                $this->checkSoapFault(
+                    $e,
+                    $expectedException->getRawMessage(),
+                    'env:Sender',
+                    $expectedException->getParameters() // expected error parameters
+                );
             } else {
                 $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
                 $exceptionData = $this->processRestExceptionResult($e);
                 $expectedExceptionData = [
-                        'message' => InputException::DEFAULT_MESSAGE,
-                        'errors' => [
-                            [
-                                'message' => InputException::REQUIRED_FIELD,
-                                'parameters' => [
-                                    'fieldName' => 'firstname',
-                                ]
-                            ],
-                            [
-                                'message' => InputException::INVALID_FIELD_VALUE,
-                                'parameters' => [
-                                    'fieldName' => 'email',
-                                    'value' => ''
-                                ]
-                            ]
-                        ]
+                    'message' => InputException::INVALID_FIELD_VALUE,
+                    'parameters' => [
+                        'fieldName' => 'email',
+                        'value' => $invalidEmail
+                    ]
                 ];
+                $this->assertEquals($expectedExceptionData, $exceptionData);
             }
-            $this->assertEquals($expectedExceptionData, $exceptionData);
         }
     }
 
