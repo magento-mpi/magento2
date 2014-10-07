@@ -23,7 +23,7 @@ namespace Magento\Catalog\Model\Category\CategoryImageTest;
     'save_category_without_image.log',
     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 );
-class StubZendLogWriterStreamTest extends \Zend_Log_Writer_Stream
+class StubZendLogWriterStream extends \Zend_Log_Writer_Stream
 {
     /** @var array */
     public static $exceptions = array();
