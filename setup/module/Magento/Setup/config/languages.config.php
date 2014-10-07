@@ -7,8 +7,5 @@
  */
 
 return [
-    'languages' => [
-        'en_US' => 'United State',
-        'ua_UK' => 'Ukrainian',
-    ]
+    'languages' => []
 ];
