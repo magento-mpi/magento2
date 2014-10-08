@@ -23,7 +23,7 @@ interface RepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function add($productSku, $customerGroupId, \Magento\Catalog\Api\Data\TierPriceInterface $price);
+    public function save($productSku, $customerGroupId, \Magento\Catalog\Api\Data\TierPriceInterface $price);
 
     /**
      * Remove tire price from product
@@ -35,7 +35,7 @@ interface RepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function remove($productSku, $customerGroupId, $qty);
+    public function delete($productSku, $customerGroupId, $qty);
 
     /**
      * Get tire price of product
@@ -45,5 +45,5 @@ interface RepositoryInterface
      * @return \Magento\Catalog\Api\Data\TierPriceInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($productSku, $customerGroupId);
+    public function getList($productSku, $customerGroupId);
 }
