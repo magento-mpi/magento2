@@ -122,6 +122,35 @@ abstract class AbstractStockqty extends \Magento\Framework\View\Element\Template
      */
     public function isMsgVisible()
     {
-        return $this->getStockQty() > 0 && $this->getStockQty() <= $this->getThresholdQty();
+        return $this->getStockQty() > 0 && $this->getStockQtyLeft() <= $this->getThresholdQty();
+    }
+
+    /**
+     * Retrieve current product stock qty
+     *
+     * @return float
+     */
+    public function getMinStockQty()
+    {
+        return $this->getProductMinStockQty($this->getProduct());
+    }
+
+    /**
+     * Retrieve minimal quantity available for item status in stock
+     *
+     * @param Product $product
+     * @return float
+     */
+    public function getProductMinStockQty($product)
+    {
+        return $this->stockItemService->getMinStockQty($product->getId());
+    }
+
+    /**
+     * @return float
+     */
+    public function getStockQtyLeft()
+    {
+        return $this->getStockQty() - $this->getMinStockQty();
     }
 }

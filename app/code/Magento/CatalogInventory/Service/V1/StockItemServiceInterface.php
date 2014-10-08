@@ -52,6 +52,14 @@ interface StockItemServiceInterface
     public function getMaxSaleQty($productId);
 
     /**
+     * Retrieve minimal quantity available for item status in stock
+     *
+     * @param $productId
+     * @return float
+     */
+    public function getMinStockQty($productId);
+
+    /**
      * @param int $productId
      * @return bool
      */

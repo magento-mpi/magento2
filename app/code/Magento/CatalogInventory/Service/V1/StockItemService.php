@@ -133,6 +133,18 @@ class StockItemService implements StockItemServiceInterface
     }
 
     /**
+     * Retrieve minimal quantity available for item status in stock
+     *
+     * @param $productId
+     * @return float
+     */
+    public function getMinStockQty($productId)
+    {
+        $stockItem = $this->stockItemRegistry->retrieve($productId);
+        return $stockItem->getMinQty();
+    }
+
+    /**
      * @param int $productId
      * @return int
      */
