@@ -49,9 +49,6 @@ class OfflineRefundTest extends RefundTest
             // Step 3: Click "Credit Memo" button on the Invoice Page
             $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
         } else {
-            $orderPage->getOrderActionsBlock()->invoice();
-            $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
-            $newInvoicePage->getTotalsBlock()->submit();
             // Step 2: Click "Credit Memo" button on the Order Page
             $orderPage->getOrderActionsBlock()->orderCreditMemo();
         }

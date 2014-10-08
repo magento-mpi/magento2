@@ -9,7 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <body>
-        <attribute name="class" value="type-configurable"/>
+        <attribute name="class" value="page-product-configurable"/>
     </body>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="wishlist_product_view_head_components" template="Magento_Wishlist::js/components.phtml"/>
