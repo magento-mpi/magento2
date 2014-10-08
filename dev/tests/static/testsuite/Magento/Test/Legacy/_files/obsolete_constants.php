@@ -624,4 +624,5 @@ return array(
     ['CONTENT_TYPE_XML', 'Magento\Framework\View\Publisher'],
     ['MAX_QUERY_LEN', 'Magento\CatalogSearch\Helper\Data'],
     ['QUERY_VAR_NAME', 'Magento\CatalogSearch\Helper\Data'],
+    ['XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN', 'Magento\Customer\Helper\Data'],
 );
