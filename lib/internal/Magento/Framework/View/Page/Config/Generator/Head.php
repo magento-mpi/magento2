@@ -2,43 +2,33 @@
 /**
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
+namespace Magento\Framework\View\Page\Config\Generator;
 
-namespace Magento\Framework\View\Page\Config;
+use Magento\Framework\View\Layout;
+use Magento\Framework\View\Page\Config\Structure;
 
-use Magento\Framework\View\Page\Config;
-
-/**
- * Page config generator model
- */
-class Generator
+class Head implements Layout\GeneratorInterface
 {
     /**#@+
      * Available src_type in assets
      */
     const SRC_TYPE_RESOURCE = 'resource';
-
     const SRC_TYPE_CONTROLLER = 'controller';
-
     const SRC_TYPE_URL = 'url';
     /**#@-*/
+
+    /**
+     * Type of generator
+     */
+    const TYPE = 'head';
 
     /**
      * Virtual content type
      */
     const VIRTUAL_CONTENT_TYPE_LINK = 'link';
-
-    /**
-     * @var \Magento\Framework\View\Page\Config\Structure
-     */
-    protected $structure;
-
-    /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
 
     /**
      * @var array
@@ -64,48 +54,55 @@ class Generator
     ];
 
     /**
-     * @param \Magento\Framework\View\Page\Config\Structure $structure
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @param \Magento\Framework\View\Page\Config $pageConfig
      */
-    public function __construct(Structure $structure, Config $pageConfig)
+    public function __construct(\Magento\Framework\View\Page\Config $pageConfig)
     {
-        $this->structure = $structure;
         $this->pageConfig = $pageConfig;
     }
 
     /**
-     * TODO Temporary solution, must be deleted after generation refactoring
+     * {@inheritdoc}
      *
-     * @param Structure $structure
+     * @return string
      */
-    public function setStructure(Structure $structure)
+    public function getType()
     {
-        $this->structure = $structure;
+        return self::TYPE;
     }
 
     /**
-     * @return $this
+     * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
+     * @param null $layout
+     * @return void
      */
-    public function process()
+    public function process(Layout\Reader\Context $readerContext, $layout = null)
     {
-        $this->structure->processRemoveAssets();
-        $this->processAssets();
-        $this->processTitle();
-        $this->processMetadata();
-        $this->structure->processRemoveElementAttributes();
-        $this->processElementAttributes();
-        $this->processBodyClasses();
-        return $this;
+        $structure = $readerContext->getPageConfigStructure();
+        $structure->processRemoveAssets();
+        $structure->processRemoveElementAttributes();
+
+        $this->processAssets($structure);
+        $this->processTitle($structure);
+        $this->processMetadata($structure);
+        $this->processElementAttributes($structure);
+        return;
     }
 
     /**
      * Add assets to page config
      *
+     * @param \Magento\Framework\View\Page\Config\Structure $pageStructure
      * @return $this
      */
-    protected function processAssets()
+    protected function processAssets(Structure $pageStructure)
     {
-        foreach ($this->structure->getAssets() as $name => $data) {
+        foreach ($pageStructure->getAssets() as $name => $data) {
             if (isset($data['src_type']) && in_array($data['src_type'], $this->remoteAssetTypes)) {
                 $this->pageConfig->addRemotePageAsset(
                     $name,
@@ -139,45 +136,43 @@ class Generator
     }
 
     /**
+     * Process title
+     *
+     * @param \Magento\Framework\View\Page\Config\Structure $pageStructure
      * @return $this
      */
-    protected function processTitle()
+    protected function processTitle(Structure $pageStructure)
     {
-        $this->pageConfig->setTitle($this->structure->getTitle());
+        $this->pageConfig->setTitle($pageStructure->getTitle());
         return $this;
     }
 
     /**
+     * Process metadata
+     *
+     * @param \Magento\Framework\View\Page\Config\Structure $pageStructure
      * @return $this
      */
-    protected function processMetadata()
+    protected function processMetadata(Structure $pageStructure)
     {
-        foreach ($this->structure->getMetadata() as $name => $content) {
+        foreach ($pageStructure->getMetadata() as $name => $content) {
             $this->pageConfig->setMetadata($name, $content);
         }
         return $this;
     }
 
     /**
+     * Process all element attributes
+     *
+     * @param \Magento\Framework\View\Page\Config\Structure $pageStructure
      * @return $this
      */
-    protected function processElementAttributes()
+    protected function processElementAttributes(Structure $pageStructure)
     {
-        foreach ($this->structure->getElementAttributes() as $element => $attributes) {
+        foreach ($pageStructure->getElementAttributes() as $element => $attributes) {
             foreach ($attributes as $name => $value) {
                 $this->pageConfig->setElementAttribute($element, $name, $value);
             }
-        }
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function processBodyClasses()
-    {
-        foreach ($this->structure->getBodyClasses() as $class) {
-            $this->pageConfig->addBodyClass($class);
         }
         return $this;
     }

@@ -8,6 +8,7 @@
 namespace Magento\Framework\View\Layout;
 
 use Magento\Framework\View\LayoutInterface;
+use Magento\Framework\View\Page;
 
 class GeneratorPool
 {
@@ -27,17 +28,23 @@ class GeneratorPool
      * @param ScheduledStructure\Helper $helper
      * @param Generator\Block $blockGenerator
      * @param Generator\Container $containerGenerator
+     * @param \Magento\Framework\View\Page\Config\Generator\Head $headGenerator
+     * @param \Magento\Framework\View\Page\Config\Generator\Body $bodyGenerator
      * @param array $generators
      */
     public function __construct(
         ScheduledStructure\Helper $helper,
         Generator\Block $blockGenerator,
         Generator\Container $containerGenerator,
+        Page\Config\Generator\Head $headGenerator,
+        Page\Config\Generator\Body $bodyGenerator,
         array $generators = null
     ) {
         $this->helper = $helper;
         $this->generators[$blockGenerator->getType()] = $blockGenerator;
         $this->generators[$containerGenerator->getType()] = $containerGenerator;
+        $this->generators[$headGenerator->getType()] = $headGenerator;
+        $this->generators[$bodyGenerator->getType()] = $bodyGenerator;
     }
 
     /**
@@ -61,43 +68,15 @@ class GeneratorPool
      * @param Reader\Context $readerContext
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @throws \Magento\Framework\Exception
-     * @return array
+     * @return $this
      */
     public function process(Reader\Context $readerContext, LayoutInterface $layout)
     {
-        $generated = [];
         $this->buildStructure($readerContext);
-        $scheduledStructure = $readerContext->getScheduledStructure();
-        while (false === $scheduledStructure->isElementsEmpty()) {
-            $elementName = key($scheduledStructure->getElements());
-            $generated[$elementName] = $this->processElement($readerContext, $elementName, $layout);
+        foreach ($this->generators as $generator) {
+            $generator->process($readerContext, $layout);
         }
-        return $generated;
-    }
-
-    /**
-     * @param Reader\Context $readerContext
-     * @param string $elementName
-     * @param $layout
-     * @return $this|null
-     * @throws \Magento\Framework\Exception
-     */
-    public function processElement(Reader\Context $readerContext, $elementName, $layout)
-    {
-        $element = null;
-        $scheduledStructure = $readerContext->getScheduledStructure();
-        list($type) = $scheduledStructure->getElement($elementName);
-        if (isset($this->generators[$type])) {
-            /** @var GeneratorInterface $generator */
-            $generator = $this->generators[$type];
-            $element = $generator->process($readerContext, $elementName, $layout);
-        } else {
-            throw new \Magento\Framework\Exception(
-                "Unexpected element type specified for generating: {$type}."
-            );
-        }
-        $scheduledStructure->unsetElement($elementName);
-        return $element;
+        return $this;
     }
 
     /**

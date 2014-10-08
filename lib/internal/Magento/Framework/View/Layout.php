@@ -30,11 +30,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $_update;
 
     /**
-     * @var \Magento\Framework\View\Element\BlockFactory
-     */
-    protected $_blockFactory;
-
-    /**
      * Blocks registry
      *
      * @var array
@@ -126,11 +121,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $cacheable;
 
     /**
-     * @var \Magento\Framework\View\Page\Config\Generator
-     */
-    protected $pageConfigGenerator;
-
-    /**
      * @var \Magento\Framework\View\Page\Config\Structure
      */
     protected $pageConfigStructure;
@@ -145,46 +135,41 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @param Layout\ProcessorFactory $processorFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param Layout\Data\Structure $structure
      * @param ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Design\Theme\ResolverInterface $themeResolver
-     * @param Layout\Reader\Pool $reader
-     * @param Page\Config\Generator $pageConfigGenerator
      * @param Page\Config\Structure $pageConfigStructure
+     * @param Layout\Reader\Pool $reader
      * @param Layout\GeneratorPool $generatorPool
      * @param bool $cacheable
      */
     public function __construct(
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\View\Element\BlockFactory $blockFactory,
         Layout\Data\Structure $structure,
         \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
-        \Magento\Framework\View\Layout\Reader\Pool $reader,
-        \Magento\Framework\View\Page\Config\Generator $pageConfigGenerator,
         \Magento\Framework\View\Page\Config\Structure $pageConfigStructure,
-        \Magento\Framework\View\Layout\GeneratorPool $generatorPool,
+        Layout\Reader\Pool $reader,
+        Layout\GeneratorPool $generatorPool,
         $cacheable = true
     ) {
         $this->_elementClass = 'Magento\Framework\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_eventManager = $eventManager;
-        $this->_blockFactory = $blockFactory;
-        $this->_structure = $structure;
         $this->_renderingOutput = new \Magento\Framework\Object;
-        $this->_scheduledStructure = $scheduledStructure;
+
         $this->_processorFactory = $processorFactory;
+        $this->_eventManager = $eventManager;
+        $this->_structure = $structure;
+        $this->_scheduledStructure = $scheduledStructure;
         $this->messageManager = $messageManager;
         $this->themeResolver = $themeResolver;
-        $this->reader = $reader;
-        $this->cacheable = $cacheable;
-        $this->pageConfigGenerator = $pageConfigGenerator;
         $this->pageConfigStructure = $pageConfigStructure;
+        $this->reader = $reader;
         $this->generatorPool = $generatorPool;
+        $this->cacheable = $cacheable;
 
         $this->readerContext = new Layout\Reader\Context(
             $this->_scheduledStructure,
@@ -258,12 +243,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Profiler::stop('build_structure');
 
         \Magento\Framework\Profiler::start('generate_elements');
-        $this->pageConfigGenerator->setStructure($this->readerContext->getPageConfigStructure());
-        $this->pageConfigGenerator->process();
         $this->generatorPool->process($this->readerContext, $this);
-
-        $this->_addToOutputRootContainers();
         \Magento\Framework\Profiler::stop('generate_elements');
+        $this->_addToOutputRootContainers();
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
 
@@ -398,7 +380,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if (!isset($this->_renderElementCache[$name]) || !$useCache) {
             if ($this->isUiComponent($name)) {
                 $result = $this->_renderUiComponent($name);
-            } else if ($this->isBlock($name)) {
+            } elseif ($this->isBlock($name)) {
                 $result = $this->_renderBlock($name);
             } else {
                 $result = $this->_renderContainer($name);
@@ -584,7 +566,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function setBlock($name, $block)
     {
         $this->_blocks[$name] = $block;
-        $block->setLayout($this);
         return $this;
     }
 
@@ -616,6 +597,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         $name = $this->_structure->createStructuralElement($name, Element::TYPE_BLOCK, $type);
         $block = $this->_createBlock($type, $name, $arguments);
+        $block->setLayout($this);
         return $block;
     }
 
@@ -719,9 +701,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function getBlock($name)
     {
-        if ($this->_scheduledStructure->hasElement($name)) {
-            $this->generatorPool->processElement($this->readerContext, $name, $this);
-        }
         if (isset($this->_blocks[$name])) {
             return $this->_blocks[$name];
         } else {
@@ -737,15 +716,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function getUiComponent($name)
     {
-        die('UIComponent');
-        if ($this->_scheduledStructure->hasElement($name)) {
-            $this->generatorPool->processElement($this->readerContext, $name, $this);
-        }
-        if (isset($this->_blocks[$name])) {
-            return $this->_blocks[$name];
-        } else {
-            return false;
-        }
+        return $this->getBlock($name);
     }
 
     /**
@@ -829,16 +800,15 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @param string $type
      * @return \Magento\Framework\App\Helper\AbstractHelper
-     * @throws \Magento\Framework\Model\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getBlockSingleton($type)
     {
+        if (empty($type)) {
+            throw new \Magento\Framework\Exception('Invalid block type');
+        }
         if (!isset($this->sharedBlocks[$type])) {
-            if (!$type) {
-                throw new \Magento\Framework\Model\Exception('Invalid block type');
-            }
-
-            $block = $this->_blockFactory->createBlock($type);
+            $block = $this->createBlock($type);
             if ($block) {
                 if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
                     $block->setLayout($this);
