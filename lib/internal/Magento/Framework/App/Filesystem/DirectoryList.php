@@ -18,11 +18,6 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
     const INIT_PARAM_PATHS = 'MAGE_DIRS';
 
     /**
-     * Custom application urls
-     */
-    const INIT_PARAM_URLS = 'MAGE_URLS';
-
-    /**
      * Code base root
      */
     const ROOT = 'base';
