@@ -13,11 +13,14 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertWrongPassConfirmationMessage
- * Check that error message appears
+ * Check that conformation message is present
  */
 class AssertWrongPassConfirmationMessage extends AbstractConstraint
 {
-    const ERROR_MESSAGE = 'Confirm your new password';
+    /**
+     * Conformation message
+     */
+    const CONFIRMATION_MESSAGE = 'Confirm your new password';
 
     /**
      * Constraint severeness
@@ -27,18 +30,16 @@ class AssertWrongPassConfirmationMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert error message appears
+     * Assert that conformation message is present
      *
      * @param CustomerAccountEdit $customerAccountEdit
      * @return void
      */
     public function processAssert(CustomerAccountEdit $customerAccountEdit)
     {
-        $actualMessage = $customerAccountEdit->getMessages()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::ERROR_MESSAGE,
-            $actualMessage,
-            'Wrong error message is displayed.'
+            self::CONFIRMATION_MESSAGE,
+            $customerAccountEdit->getMessages()->getErrorMessages()
         );
     }
 
@@ -49,6 +50,6 @@ class AssertWrongPassConfirmationMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Error message is displayed.';
+        return 'Conformation message is displayed.';
     }
 }

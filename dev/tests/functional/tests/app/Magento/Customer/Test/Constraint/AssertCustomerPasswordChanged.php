@@ -21,6 +21,9 @@ use Mtf\Fixture\FixtureFactory;
  */
 class AssertCustomerPasswordChanged extends AbstractConstraint
 {
+    /**
+     * Welcome message after login
+     */
     const SUCCESS_MESSAGE = 'Hello, %s!';
 
     /**
@@ -66,17 +69,16 @@ class AssertCustomerPasswordChanged extends AbstractConstraint
             ]
         );
 
-        $cmsIndex->open();
-        $cmsIndex->getLinksBlock()->openLink('Log In');
-        $customerAccountLogin->getLoginBlock()->login($customer);
+        $loginCustomer = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $loginCustomer->run();
 
         $customerName = $initialCustomer->getFirstname() . " " . $initialCustomer->getLastname();
-        $successMessage = sprintf(self::SUCCESS_MESSAGE, $customerName);
-        $actualMessage = $customerAccountIndex->getInfoBlock()->getWelcomeText();
         \PHPUnit_Framework_Assert::assertEquals(
-            $successMessage,
-            $actualMessage,
-            'Wrong welcome message is displayed.'
+            sprintf(self::SUCCESS_MESSAGE, $customerName),
+            $customerAccountIndex->getInfoBlock()->getWelcomeText()
         );
     }
 

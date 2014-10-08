@@ -13,10 +13,13 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertChangePasswordFailMessage
- * Check that fail message present
+ * Check that fail message is present
  */
 class AssertChangePasswordFailMessage extends AbstractConstraint
 {
+    /**
+     * Fail message
+     */
     const FAIL_MESSAGE = "Password doesn't match for this account.";
 
     /**
@@ -27,18 +30,16 @@ class AssertChangePasswordFailMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that fail message present
+     * Assert that fail message is present
      *
      * @param CustomerAccountEdit $customerAccountEdit
      * @return void
      */
     public function processAssert(CustomerAccountEdit $customerAccountEdit)
     {
-        $actualMessage = $customerAccountEdit->getMessages()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::FAIL_MESSAGE,
-            $actualMessage,
-            'Wrong fail message is displayed.'
+            $customerAccountEdit->getMessages()->getErrorMessages()
         );
     }
 

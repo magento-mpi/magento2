@@ -19,14 +19,15 @@ use Magento\Customer\Test\Page\CustomerAccountLogin;
  * Test Creation for ChangeCustomerPassword
  *
  * Test Flow:
+ *
  * Preconditions:
- * 1. Default test customer is created
+ * 1. Create customer
  *
  * Steps:
- * 1. Login to fronted as test customer from preconditions
- * 2. Navigate to Account Dashboard page:
+ * 1. Login to fronted as customer from preconditions
+ * 2. Navigate to My Account page
  * 3. Click "Change Password" link near "Contact Information"
- * 4. Fill fields with test data and save
+ * 4. Fill in all data according to data set and save
  * 5. Perform all assertions
  *
  * @group Customer_Account_(CS)
@@ -62,7 +63,6 @@ class ChangeCustomerPasswordTest extends Injectable
      */
     protected $customerAccountEdit;
 
-
     /**
      * Preparing pages for test
      *
@@ -85,38 +85,27 @@ class ChangeCustomerPasswordTest extends Injectable
     }
 
     /**
-     * Run Change Customer Password test
+     * Run Change customer password test
      *
      * @param CustomerInjectable $initialCustomer
      * @param CustomerInjectable $customer
      * @return void
      */
-    public function test(
-        CustomerInjectable $initialCustomer,
-        CustomerInjectable $customer
-    ) {
+    public function test(CustomerInjectable $initialCustomer, CustomerInjectable $customer)
+    {
         // Preconditions
         $initialCustomer->persist();
 
         // Steps
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink('Log In');
-        $this->customerAccountLogin->getLoginBlock()->login($initialCustomer);
+        $loginCustomer = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $initialCustomer]
+        );
+        $loginCustomer->run();
 
+        $this->cmsIndex->getLinksBlock()->openLink('My Account');
         $this->customerAccountIndex->getInfoBlock()->openChangePassword();
         $this->customerAccountEdit->getAccountInfoForm()->fill($customer);
         $this->customerAccountEdit->getAccountInfoForm()->submit();
-    }
-
-    /**
-     * Customer logout from account
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        if ($this->cmsIndex->getLinksBlock()->isVisible()) {
-            $this->cmsIndex->getLinksBlock()->openLink('Log Out');
-        }
     }
 }
