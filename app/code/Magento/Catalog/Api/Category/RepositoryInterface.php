@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Api\Category;
 
 /**
- * Interface RepositoryInterface must be implemented in model \Magento\Catalog\Model\Resource\Category
+ * Interface RepositoryInterface must be implemented in new model \Magento\Catalog\Model\CategoryRepository
  */
 interface RepositoryInterface
 {
@@ -30,7 +30,7 @@ interface RepositoryInterface
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function add(\Magento\Catalog\Api\Data\CategoryInterface $category);
+    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category);
 
     /**
      * Delete category
@@ -41,7 +41,7 @@ interface RepositoryInterface
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function remove($categoryId);
+    public function delete($categoryId);
 
     /**
      * Update category
