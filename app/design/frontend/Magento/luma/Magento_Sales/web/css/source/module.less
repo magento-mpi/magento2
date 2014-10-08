@@ -58,6 +58,9 @@
         }
     }
     .table-order-items {
+        > thead > tr > th {
+            border-bottom: 1px solid @border-color-base;
+        }
         tbody {
             & + tbody {
                 border-top: 1px solid @border-color-base;
@@ -71,10 +74,15 @@
                 padding-top: 20px;
                 padding-bottom: 20px;
             }
-            .col.label {
-                font-weight: @font-weight-bold;
-                padding-top: 0;
-                padding-bottom: 5px;
+            .col {
+                &.label {
+                    font-weight: @font-weight-bold;
+                    padding-top: 0;
+                    padding-bottom: 5px;
+                }
+                &.options {
+                    padding: 0 0 15px;
+                }
             }
             > .item-parent {
                 td {
@@ -84,7 +92,7 @@
                     padding-top: 5px;
                 }
             }
-            .item-options td {
+            .item-options-container td {
                 padding-top: 0;
                 padding-bottom: 15px;
             }
@@ -92,23 +100,27 @@
         .product-item-name {
             margin: 0 0 10px;
         }
-        .item.options {
+    }
+    .item-options {
+        margin: 0;
+        dt {
+            margin: 0;
+        }
+        dd {
+            margin: 0 0 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        &.links {
             dt {
-                margin: 0;
+                display: inline-block;
+                &:after {
+                    content: ": ";
+                }
             }
             dd {
-                margin: 0 0 15px;
-            }
-            &.links {
-                dt {
-                    display: inline-block;
-                    &:after {
-                        content: ": ";
-                    }
-                }
-                dd {
-                    margin: 0;
-                }
+                margin: 0;
             }
         }
     }
@@ -136,10 +148,23 @@
     tfoot {
         &:extend(.abstract-account-summary all);
     }
-    .action.show {
-        &:extend(.abstract-toggling-title all);
-        border-bottom: @border-width-base solid @border-color-base;
-        color: @color-primary;
+    .action {
+        &.show {
+            &:extend(.abstract-toggling-title all);
+            border-bottom: @border-width-base solid @border-color-base;
+            color: @color-primary;
+            padding-left: 0;
+            &:after {
+                right: 10px;
+            }
+            &.expanded {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+                border-bottom: none;
+            }
+        }
     }
     .product-item-name {
         .font-size(18);
@@ -198,8 +223,8 @@
         }
     }
 
-    &-additional {
-        .order-details-items & {
+    &-gift-message {
+        .column.main .order-details-items & {
             margin: 40px 0 0;
         }
         + .actions-toolbar {
@@ -311,9 +336,10 @@
     }
     .account {
         .table-order-items {
-            .col.actions {
-                &:extend(.abstract-account-col-actions all);
+            tr {
+                display: block;
             }
+            &:extend(.abstract-table-vertical-mobile-s all);
         }
         .data.table.table-order-items tfoot tr td {
             display: table-cell;
@@ -346,16 +372,26 @@
                 }
             }
         }
-        .options-label + .item-options,
-        .item-options + .item-options {
+        .data.table .col.options {
+            padding: 0 10px 15px;
+            &:before {
+                display: none;
+            }
+        }
+        .table-order-items .options-label {
+            display: none;
+        }
+        .options-label + .item-options-container,
+        .item-options-container + .item-options-container {
             &:before {
                 content: attr(data-th) ":";
                 display: block;
-                font-weight: bold;
+                font-weight: @font-weight-bold;
+                padding-left: 10px;
             }
             .col {
                 .font-size(12);
-                padding: 0;
+                padding: 0 10px;
                 &:first-child {
                     padding-top: 3px;
                 }
@@ -366,7 +402,6 @@
         }
     }
 }
-
 
 //
 //    Desktop
@@ -456,6 +491,10 @@
             &.subtotal {
                 text-align: center;
             }
+        }
+        tbody td {
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
         tfoot {
             .amount,

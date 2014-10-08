@@ -543,6 +543,12 @@
     }
 }
 
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-table-vertical-mobile-s {
+        .table-responsive();
+    }
+}
+
 //
 //    Revert side paddings
 //--------------------------------------
