@@ -16,10 +16,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     protected $dirListConfiguration;
 
-    /**
-     * @dataProvider configureDataProvider
-     */
-    public function testConfigure($pubDirIsConfigured)
+    public function testConfigure()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
@@ -32,16 +29,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $config->expects(
             $this->at(0)
-        )->method(
-            'getValue'
-        )->with(
-            Configuration::XML_FILESYSTEM_DIRECTORY_PATH
-        )->will(
-            $this->returnValue(array(DirectoryList::PUB => array('uri' => '')))
-        );
-
-        $config->expects(
-            $this->at(1)
         )->method(
             'getValue'
         )->with(
@@ -66,39 +53,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             array('protocol' => 'http')
         );
 
-        $directoryList->expects(
-            $this->atLeastOnce()
-        )->method(
-            'isConfigured'
-        )->with(
-                DirectoryList::PUB
-        )->will(
-            $this->returnValue($pubDirIsConfigured)
-        );
-
-        if ($pubDirIsConfigured) {
-            $directoryList->expects($this->once())
-                ->method('getConfig')
-                ->with(DirectoryList::PUB)
-                ->will($this->returnValue(['test_key' => 'test_value']));
-            $directoryList->expects($this->once())
-                ->method('setDirectory')
-                ->with(DirectoryList::PUB, ['uri' => '', 'test_key' => 'test_value']);
-        } else {
-            $directoryList->expects($this->once())
-                ->method('setDirectory')
-                ->with(DirectoryList::PUB, array('uri' => ''));
-        }
-
         $this->dirListConfiguration = $objectManager->getObject(
             'Magento\Framework\App\Filesystem\DirectoryList\Configuration',
             array('config' => $config)
         );
         $this->assertNull($this->dirListConfiguration->configure($directoryList));
-    }
-
-    public function configureDataProvider()
-    {
-        return array(array('pubDirIsConfigured' => true), array('pubDirIsConfigured' => false));
     }
 }

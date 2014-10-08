@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Model\Shipping;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Filesystem;
 
 class LabelService
 {
@@ -211,7 +211,7 @@ class LabelService
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
+        $dir = $this->filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
         $tmpFileName = 'shipping_labels_' . uniqid(\Magento\Framework\Math\Random::getRandomNumber()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);

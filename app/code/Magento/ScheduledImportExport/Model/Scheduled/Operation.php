@@ -8,6 +8,7 @@
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Filesystem;
 use Magento\ScheduledImportExport\Model\Scheduled\Operation\Data;
 
 /**
@@ -581,7 +582,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     protected function readData($source, $destination)
     {
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
 
         $this->validateAdapterType();
         $fileInfo = $this->getFileInfo();

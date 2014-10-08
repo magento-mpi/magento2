@@ -20,23 +20,4 @@ class DirectoryList extends \Magento\Framework\App\Filesystem\DirectoryList
     {
         return false;
     }
-
-    /**
-     * Add directory configuration
-     *
-     * @param string $code
-     * @param array $directoryConfig
-     * @return void
-     */
-    public function addDirectory($code, array $directoryConfig)
-    {
-        if (!isset($directoryConfig['path'])) {
-            $directoryConfig['path'] = null;
-        }
-        if (!$this->isAbsolute($directoryConfig['path'])) {
-            $directoryConfig['path'] = $this->makeAbsolute($directoryConfig['path']);
-        }
-
-        $this->directories[$code] = $directoryConfig;
-    }
 }

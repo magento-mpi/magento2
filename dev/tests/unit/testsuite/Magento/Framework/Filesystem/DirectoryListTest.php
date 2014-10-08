@@ -13,62 +13,6 @@ use Magento\Framework\Filesystem;
 class DirectoryListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test for add directory and getConfig methods
-     *
-     * @dataProvider addDirectoryGetConfigDataProvider
-     * @param string $root
-     * @param array $directories
-     * @param array $configs
-     * @param array $expectedConfig
-     */
-    public function testAddDirectoryGetConfig($root, array $directories, array $configs, array $expectedConfig)
-    {
-        $directoryList = new DirectoryList($root, $directories);
-        foreach ($configs as $code => $config) {
-            $directoryList->addDirectory($code, $config);
-            $this->assertEquals($expectedConfig[$code], $directoryList->getConfig($code));
-        }
-    }
-
-    public function addDirectoryGetConfigDataProvider()
-    {
-        return array(
-            'static_view' => array(
-                __DIR__,
-                array(),
-                array(
-                    'custom2_' . DirList::STATIC_VIEW => array(
-                        'path' => 'some/static',
-                        'uri' => 'some/static',
-                        'permissions' => 0777,
-                        'read_only' => true,
-                        'allow_create_dirs' => true
-                    )
-                ),
-                array(
-                    'custom2_' . DirList::STATIC_VIEW => array(
-                        'path' => str_replace('\\', '/', __DIR__ . '/some/static'),
-                        'uri' => 'some/static',
-                        'permissions' => 0777,
-                        'read_only' => true,
-                        'allow_create_dirs' => true
-                    )
-                ),
-            )
-        );
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Filesystem\FilesystemException
-     */
-    public function testAddDefinedDirectory()
-    {
-        $directories = array(DirList::STATIC_VIEW => array('path' => ''));
-        $directoryList = new DirectoryList(__DIR__, $directories);
-        $directoryList->addDirectory(DirList::STATIC_VIEW, array('path' => ''));
-    }
-
-    /**
      * Test for creating DirectoryList with invalid URI
      *
      * @param string $code

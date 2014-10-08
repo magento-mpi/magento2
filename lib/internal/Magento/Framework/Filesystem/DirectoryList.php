@@ -61,42 +61,6 @@ class DirectoryList
     }
 
     /**
-     * Add directory configuration
-     *
-     * @param string $code
-     * @param array $directoryConfig
-     * @return void
-     * @throws \Magento\Framework\Filesystem\FilesystemException
-     */
-    public function addDirectory($code, array $directoryConfig)
-    {
-        if (isset($this->directories[$code])) {
-            throw new \Magento\Framework\Filesystem\FilesystemException("Configuration for '{$code}' already defined");
-        }
-
-        $this->setDirectory($code, $directoryConfig);
-    }
-
-    /**
-     * Set a directory configuration
-     *
-     * @param string $code
-     * @param array $directoryConfig
-     * @return void
-     */
-    public function setDirectory($code, array $directoryConfig)
-    {
-        if (!isset($directoryConfig['path'])) {
-            $directoryConfig['path'] = null;
-        }
-        if (!$this->isAbsolute($directoryConfig['path'])) {
-            $directoryConfig['path'] = $this->makeAbsolute($directoryConfig['path']);
-        }
-
-        $this->directories[$code] = $directoryConfig;
-    }
-
-    /**
      * Set protocol wrapper
      *
      * @param string $wrapperCode

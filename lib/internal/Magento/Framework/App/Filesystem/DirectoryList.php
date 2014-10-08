@@ -112,10 +112,6 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
      */
     const UPLOAD = 'upload';
 
-    /**
-     * System base temporary folder
-     */
-    const SYS_TMP = 'sys_tmp';
 
     /**
      * Directories configurations
@@ -149,27 +145,48 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
         self::DI => array('path' => 'var/di'),
         self::GENERATION => array('path' => 'var/generation'),
         self::LOCALE => array('path' => 'app/i18n'),
-        self::SYS_TMP => array(
-            'path' => '',
-            'read_only' => false,
-            'allow_create_dirs' => true,
-            'permissions' => 0777
-        ),
         self::SESSION => array(
             'path' => 'var/session',
             'read_only' => false,
             'allow_create_dirs' => true,
             'permissions' => 0777
-        )
+        ),
+        self::MEDIA => array(
+            'path' => 'pub/media',
+            'read_only' => false,
+            'uri' => 'pub/media',
+            'permissions' => 0511,
+        ),
+        self::STATIC_VIEW => array(
+            'path' => 'pub/static',
+            'read_only' => false,
+            'uri' => 'pub/static',
+            'permissions' => 0511,
+        ),
+        self::PUB => array(
+            'path' => 'pub',
+            'read_only' => true,
+            'uri' => 'pub',
+            'permissions' => 0511,
+        ),
+        self::LIB_WEB => array(
+            'path' => 'lib/web',
+            'read_only' => true,
+        ),
+        self::TMP => array(
+            'path' => 'var/tmp',
+            'read_only' => false,
+            'permissions' => 0511,
+        ),
+        self::THEMES => array(
+            'path' => 'app/design',
+            'read_only' => true,
+        ),
+        self::UPLOAD => array(
+            'path' => 'pub/media/upload',
+            'read_only' => false,
+            'uri' => 'pub/media/upload',
+            'permissions' => 0511,
+        ),
     );
-
-    /**
-     * @param string $root
-     * @param array $directories
-     */
-    public function __construct($root, array $directories = array())
-    {
-        $this->directories[self::SYS_TMP]['path'] = sys_get_temp_dir();
-        parent::__construct($root, $directories);
-    }
 }

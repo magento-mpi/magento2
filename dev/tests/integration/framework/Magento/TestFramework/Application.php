@@ -136,6 +136,9 @@ class Application
                 DirectoryList::CACHE => array('path' => $installDir . '/cache'),
                 DirectoryList::LOG => array('path' => $installDir . '/log'),
                 DirectoryList::THEMES => array('path' => BP . '/app/design'),
+                DirectoryList::SESSION => array('path' => $installDir . '/session'),
+                DirectoryList::TMP => array('path' => $installDir . '/tmp'),
+                DirectoryList::UPLOAD => array('path' => $installDir . '/upload'),
             ),
             \Magento\Framework\App\State::PARAM_MODE => $appMode
         );
@@ -203,11 +206,13 @@ class Application
             $overriddenParams[DirectoryList::INIT_PARAM_PATHS]
         ) ? $overriddenParams[DirectoryList::INIT_PARAM_PATHS] : array();
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
-
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\Filesystem\DirectoryList');
-        $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem');
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem\DirectoryList\Verification');
+        /** @var \Magento\TestFramework\App\Filesystem $filesystem */
+        $filesystem = $objectManager->get('Magento\TestFramework\App\Filesystem');
+        $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem');
+        $objectManager->addSharedInstance($filesystem, 'Magento\Framework\App\Filesystem');
 
         Helper\Bootstrap::setObjectManager($objectManager);
 
@@ -244,17 +249,9 @@ class Application
         $verification = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
 
-        $directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
+        /** @var \Magento\Framework\App\Filesystem\DirectoryList\Configuration $directoryListConfig */
         $directoryListConfig = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directoryList);
-
-        $directories = isset(
-            $overriddenParams[DirectoryList::INIT_PARAM_PATHS]
-        ) ? $overriddenParams[DirectoryList::INIT_PARAM_PATHS] : array();
-        foreach ($directories as $code => $configOverrides) {
-            $config = array_merge($directoryList->getConfig($code), $configOverrides);
-            $directoryList->addDirectory($code, $config);
-        }
     }
 
     /**

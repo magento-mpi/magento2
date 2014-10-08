@@ -38,11 +38,11 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
             )
         );
 
-        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem\DirectoryList'
+        /** @var \Magento\TestFramework\App\Filesystem $fileSystem */
+        $fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\App\Filesystem'
         );
-        /** @var $directoryList \Magento\Framework\App\Filesystem\DirectoryList */
-        $directoryList->addDirectory(DirectoryList::SYS_TMP, array('path' => ''));
+        $fileSystem->overridePath(\Magento\Framework\App\Filesystem::SYS_TMP, '');
 
         $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')
             ->getCollection()

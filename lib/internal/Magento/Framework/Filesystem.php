@@ -28,17 +28,6 @@ class Filesystem
     /**#@-*/
 
     /**#@+
-     * Directories for remote access
-     */
-    const FTP = 'ftp';
-
-    const FTPS = 'ftps';
-
-    const SSH2 = 'ssh2';
-
-    /**#@-*/
-
-    /**#@+
      * Remote resource Access Protocols
      */
     const HTTP = 'http';
@@ -46,6 +35,11 @@ class Filesystem
     const HTTPS = 'https';
 
     /**#@-*/
+
+    /**
+     * System base temporary directory
+     */
+    const SYS_TMP = 'sys_tmp';
 
     /**
      * @var \Magento\Framework\Filesystem\DirectoryList
@@ -88,6 +82,13 @@ class Filesystem
     protected $remoteResourceInstances = array();
 
     /**
+     * Path to system temporary directory
+     *
+     * @var string
+     */
+    private $sysTmpPath = null;
+
+    /**
      * @param Filesystem\DirectoryList $directoryList
      * @param Filesystem\Directory\ReadFactory $readFactory
      * @param Filesystem\Directory\WriteFactory $writeFactory
@@ -119,7 +120,7 @@ class Filesystem
     public function getDirectoryRead($code)
     {
         if (!array_key_exists($code, $this->readInstances)) {
-            $config = $this->directoryList->getConfig($code);
+            $config = $this->getDirConfig($code);
             $this->readInstances[$code] = $this->readFactory->create($config, $this->driverFactory);
         }
         return $this->readInstances[$code];
@@ -135,7 +136,7 @@ class Filesystem
     public function getDirectoryWrite($code)
     {
         if (!array_key_exists($code, $this->writeInstances)) {
-            $config = $this->directoryList->getConfig($code);
+            $config = $this->getDirConfig($code);
             if (isset($config['read_only']) && $config['read_only']) {
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
@@ -143,6 +144,25 @@ class Filesystem
             $this->writeInstances[$code] = $this->writeFactory->create($config, $this->driverFactory);
         }
         return $this->writeInstances[$code];
+    }
+
+    /**
+     * Gets configuration of a directory
+     *
+     * @param string $code
+     * @return string[]
+     */
+    protected function getDirConfig($code)
+    {
+        if (self::SYS_TMP == $code) {
+            return [
+                'path' => $this->getSysTmpPath(),
+                'read_only' => false,
+                'allow_create_dirs' => true,
+                'permissions' => 0777
+            ];
+        }
+        return $this->directoryList->getConfig($code);
     }
 
     /**
@@ -181,5 +201,18 @@ class Filesystem
     {
         $config = $this->directoryList->getConfig($code);
         return isset($config['uri']) ? $config['uri'] : '';
+    }
+
+    /**
+     * Gets system temporary directory path
+     *
+     * @return string
+     */
+    protected function getSysTmpPath()
+    {
+        if (null === $this->sysTmpPath) {
+            $this->sysTmpPath = sys_get_temp_dir();
+        }
+        return $this->sysTmpPath;
     }
 }

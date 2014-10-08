@@ -43,19 +43,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $relativePath = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
-        )->getDirectoryRead(
-                DirectoryList::ROOT
-        )->getRelativePath(
-            __DIR__ . '/../../../_files/design'
-        );
-        /** @var \Magento\Framework\App\Filesystem\DirectoryList $directoryList */
-        $directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
-        $directoryList->addDirectory(DirectoryList::ROOT, array('path' => $relativePath));
-        $directoryList->addDirectory(DirectoryList::THEMES, array('path' => $relativePath));
         $designTheme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\DesignInterface'
         )->getDesignTheme();

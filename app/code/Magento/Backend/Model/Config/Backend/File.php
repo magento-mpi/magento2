@@ -8,6 +8,7 @@
 namespace Magento\Backend\Model\Config\Backend;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Filesystem;
 
 /**
  * System config file field backend model
@@ -129,7 +130,7 @@ class File extends \Magento\Framework\App\Config\Value
      */
     public function validateMaxSize($filePath)
     {
-        $directory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
+        $directory = $this->_filesystem->getDirectoryRead(Filesystem::SYS_TMP);
         if ($this->_maxFileSize > 0 && $directory->stat(
             $directory->getRelativePath($filePath)
         )['size'] > $this->_maxFileSize * 1024
