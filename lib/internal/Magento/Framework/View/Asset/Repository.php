@@ -125,6 +125,12 @@ class Repository
         return $this;
     }
 
+    /**
+     * Get default design parameter
+     *
+     * @param $name
+     * @return mixed
+     */
     private function getDefaultParameter($name)
     {
         $this->defaults = $this->design->getDesignParams();
