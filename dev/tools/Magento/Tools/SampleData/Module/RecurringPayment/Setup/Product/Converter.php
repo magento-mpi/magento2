@@ -37,54 +37,23 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     public function convertRow($row)
     {
-        $recurringData = $this->recurringPayment;
-        $data = [];
-        foreach ($row as $field => $value) {
-            if ('category' == $field) {
-                $data['category_ids'] = $this->getCategoryIds($this->getArrayValue($value));
-                continue;
-            }
-
-            if ('qty' == $field) {
-                $data['quantity_and_stock_status'] = ['qty' => $value];
-                continue;
-            }
-
-            if (isset($recurringData[$field])) {
-                $recurringData[$field] = $value;
-                continue;
-            }
-
-            $options = $this->getAttributeOptionValueIdsPair($field);
-            if ($options) {
-                $value = $this->setOptionsToValues($options, $value);
-            }
-
-            $data[$field] = $value;
-
-        }
-        if (isset($data['is_recurring']) && $data['is_recurring'] == '1') {
-            $data['recurring_payment'] = $recurringData;
+        $data['recurring_payment'] = $this->recurringPayment;
+        parent::convertRow($row);
+        if (!isset($data['is_recurring']) || $data['is_recurring'] != '1') {
+            unset($data['recurring_payment']);
         }
         return $data;
     }
 
     /**
-     * Assign options data to attribute value
-     *
-     * @param mixed $options
-     * @param array $value
-     * @return array|mixed
+     * @inheritdoc
      */
-    public function setOptionsToValues($options, $value)
+    protected function convertField(&$data, $field, $value)
     {
-        $value = $this->getArrayValue($value);
-        $result = [];
-        foreach ($value as $v) {
-            if (isset($options[$v])) {
-                $result[] = $options[$v];
-            }
+        if (isset($this->recurringPayment[$field])) {
+            $data['recurring_payment'][$field] = $value;
+            return true;
         }
-        return count($result) == 1 ? current($result) : $result;
+        return false;
     }
 }
