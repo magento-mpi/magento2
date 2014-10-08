@@ -128,7 +128,7 @@ class Repository
     /**
      * Get default design parameter
      *
-     * @param $name
+     * @param string $name
      * @return mixed
      */
     private function getDefaultParameter($name)
