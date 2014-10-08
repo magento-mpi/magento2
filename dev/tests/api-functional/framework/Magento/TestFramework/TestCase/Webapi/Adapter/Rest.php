@@ -98,7 +98,56 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             default:
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
         }
+        if (defined('GENERATE_REST_DOCUMENTATION') && GENERATE_REST_DOCUMENTATION) {
+            $this->generateDocumentation($httpMethod, $resourcePath, $arguments, $response);
+        }
+
         return $response;
+    }
+
+    /**
+     * Generate documentation based on request-response data during REST requests.
+     *
+     * @param string $httpMethod
+     * @param string $resourcePath
+     * @param array $arguments
+     * @param array $response
+     */
+    protected function generateDocumentation($httpMethod, $resourcePath, $arguments, $response)
+    {
+        $arguments = json_encode($arguments, JSON_PRETTY_PRINT);
+        $response = json_encode($response, JSON_PRETTY_PRINT);
+        $varDir = realpath(__DIR__ . '/../../../../../../var');
+        $documentationDir = $varDir . '/log/rest-documentation/';
+        $debugBackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $pathToFile = $documentationDir;
+        foreach ($debugBackTrace as $traceItem) {
+            /** Test invocation trace item is the only item which has 3 elements, other trace items have 5 elements */
+            if (count($traceItem) == 3) {
+                /** Remove 'test' prefix from method name, e.g. testCreate => create */
+                $fileName = lcfirst(substr($traceItem['function'], 4));
+                /** Remove 'Test' suffix from test class name */
+                $pathToFile .= str_replace('\\', '/', substr($traceItem['class'], 0, -4)) . '/';
+                break;
+            }
+        }
+        if (!isset($fileName)) {
+            $fileName = 'unclassified';
+        }
+        if (!file_exists($pathToFile)) {
+            if (!mkdir($pathToFile, 0755, true)) {
+                throw new \RuntimeException('Unable to create missing directory for REST documentation generation');
+            }
+        }
+        $filePath = $pathToFile . $fileName . '.txt';
+        if ($resourcePath && $arguments && $response) {
+            if (!is_writable(dirname($filePath))) {
+                throw new \RuntimeException('Directory for documentation generation is not writable.');
+            }
+            $resourcePath = urldecode($resourcePath);
+            $content = "{$httpMethod} {$resourcePath}\nInput:\n{$arguments}\nOutput:\n{$response}\n\n\n";
+            file_put_contents($filePath, $content, FILE_APPEND);
+        }
     }
 
     /**
