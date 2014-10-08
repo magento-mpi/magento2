@@ -12,6 +12,13 @@ use Magento\Framework\Data\Structure as DataStructure;
 class Structure extends DataStructure
 {
     /**
+     * Name increment counter
+     *
+     * @var array
+     */
+    protected $_nameIncrement = [];
+
+    /**
      * @var \Magento\Framework\Logger
      */
     protected $logger;
@@ -28,6 +35,53 @@ class Structure extends DataStructure
     ) {
         $this->logger = $logger;
         parent::__construct($elements);
+    }
+
+    /**
+     * Register an element in structure
+     *
+     * Will assign an "anonymous" name to the element, if provided with an empty name
+     *
+     * @param string $name
+     * @param string $type
+     * @param string $class
+     * @return string
+     */
+    public function createStructuralElement($name, $type, $class)
+    {
+        if (empty($name)) {
+            $name = $this->_generateAnonymousName($class);
+        }
+        $this->createElement($name, array('type' => $type));
+        return $name;
+    }
+
+    /**
+     * Generate anonymous element name for structure
+     *
+     * @param string $class
+     * @return string
+     */
+    protected function _generateAnonymousName($class)
+    {
+        $position = strpos($class, '\\Block\\');
+        $key = $position !== false ? substr($class, $position + 7) : $class;
+        $key = strtolower(trim($key, '_'));
+
+        if (!isset($this->_nameIncrement[$key])) {
+            $this->_nameIncrement[$key] = 0;
+        }
+
+        if ($this->_nameIncrement[$key] == 0 && !$this->hasElement($key)) {
+            $this->_nameIncrement[$key]++;
+            return $key;
+        }
+
+        do {
+            $name = $key . '_' . $this->_nameIncrement[$key]++;
+        } while ($this->hasElement($name));
+
+        return $name;
     }
 
     /**

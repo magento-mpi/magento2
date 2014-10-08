@@ -258,13 +258,6 @@ interface LayoutInterface
     public function getBlockSingleton($type);
 
     /**
-     * Retrieve block factory
-     *
-     * @return \Magento\Framework\View\Element\BlockFactory
-     */
-    public function getBlockFactory();
-
-    /**
      * Get property value of an element
      *
      * @param string $name

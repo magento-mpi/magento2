@@ -169,7 +169,7 @@ class GeneratorPool
             $alias = $childAlias;
         }
         $structure->unsetChild($element, $alias)->setAsChild($element, $destination, $alias);
-        $this->helper->reorderChild($structure, $destination, $element, $siblingName, $isAfter);
+        $structure->reorderChildElement($destination, $element, $siblingName, $isAfter);
         return $this;
     }
 }

@@ -39,21 +39,21 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var array
      */
-    protected $_blocks = array();
+    protected $_blocks = [];
 
     /**
      * Cache of elements to output during rendering
      *
      * @var array
      */
-    protected $_output = array();
+    protected $_output = [];
 
     /**
      * Helper blocks cache for this layout
      *
      * @var array
      */
-    protected $_helpers = array();
+    protected $sharedBlocks = [];
 
     /**
      * A variable for transporting output into observer during rendering
@@ -75,13 +75,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @var Layout\Data\Structure
      */
     protected $_structure;
-
-    /**
-     * An increment to generate names
-     *
-     * @var int
-     */
-    protected $_nameIncrement = array();
 
     /**
      * @var \Magento\Framework\View\Layout\ScheduledStructure
@@ -282,55 +275,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected function _addToOutputRootContainers()
     {
         foreach ($this->_structure->exportElements() as $name => $element) {
-            if ($element['type'] == 'container' && empty($element['parent'])) {
+            if ($element['type'] === Element::TYPE_CONTAINER && empty($element['parent'])) {
                 $this->addOutputElement($name);
             }
         }
         return $this;
-    }
-
-    /**
-     * Register an element in structure
-     *
-     * Will assign an "anonymous" name to the element, if provided with an empty name
-     *
-     * @param string $name
-     * @param string $type
-     * @param string $class
-     * @return string
-     */
-    protected function _createStructuralElement($name, $type, $class)
-    {
-        if (empty($name)) {
-            $structure = $this->_structure;
-            $nameGenerator = function($key, &$incrementName) use ($structure) {
-                do {
-                    $name = $key . '_' . $incrementName++;
-                } while ($structure->hasElement($name));
-                return $name;
-            };
-            $name = $this->_generateAnonymousName($class, $nameGenerator);
-        }
-        $this->_structure->createElement($name, array('type' => $type));
-        return $name;
-    }
-
-    /**
-     * Generate anonymous element name for structure
-     *
-     * @param string $class
-     * @param callback $nameGenerator
-     * @return string
-     */
-    protected function _generateAnonymousName($class, $nameGenerator)
-    {
-        $position = strpos($class, '\\Block\\');
-        $key = $position !== false ? substr($class, $position + 7) : $class;
-        $key = strtolower(trim($key, '_'));
-        if (!isset($this->_nameIncrement[$key])) {
-            $this->_nameIncrement[$key] = 0;
-        }
-        return $nameGenerator($key, $this->_nameIncrement[$key]);
     }
 
     /**
@@ -652,7 +601,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             unset($this->_blocks[$name]);
         }
         $this->_structure->unsetElement($name);
-
         return $this;
     }
 
@@ -666,7 +614,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function createBlock($type, $name = '', array $arguments = array())
     {
-        $name = $this->_createStructuralElement($name, Element::TYPE_BLOCK, $type);
+        $name = $this->_structure->createStructuralElement($name, Element::TYPE_BLOCK, $type);
         $block = $this->_createBlock($type, $name, $arguments);
         return $block;
     }
@@ -702,7 +650,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if (empty($name) && $block instanceof \Magento\Framework\View\Element\AbstractBlock) {
             $name = $block->getNameInLayout();
         }
-        $name = $this->_createStructuralElement(
+        $name = $this->_structure->createStructuralElement(
             $name,
             Element::TYPE_BLOCK,
             $name ?: (is_object($block) ? get_class($block) : $block)
@@ -725,8 +673,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
     {
-        die(__METHOD__);
-        $name = $this->_createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
+        $name = $this->_structure->createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
         // TODO: eliminate options
         $this->_generateContainer($name, $label, $options);
         if ($parent) {
@@ -860,7 +807,6 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         foreach ($this->_output as $name) {
             $out .= $this->renderElement($name);
         }
-
         return $out;
     }
 
@@ -887,30 +833,20 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function getBlockSingleton($type)
     {
-        if (!isset($this->_helpers[$type])) {
+        if (!isset($this->sharedBlocks[$type])) {
             if (!$type) {
                 throw new \Magento\Framework\Model\Exception('Invalid block type');
             }
 
-            $helper = $this->_blockFactory->createBlock($type);
-            if ($helper) {
-                if ($helper instanceof \Magento\Framework\View\Element\AbstractBlock) {
-                    $helper->setLayout($this);
+            $block = $this->_blockFactory->createBlock($type);
+            if ($block) {
+                if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
+                    $block->setLayout($this);
                 }
-                $this->_helpers[$type] = $helper;
+                $this->sharedBlocks[$type] = $block;
             }
         }
-        return $this->_helpers[$type];
-    }
-
-    /**
-     * Retrieve block factory
-     *
-     * @return \Magento\Framework\View\Element\BlockFactory
-     */
-    public function getBlockFactory()
-    {
-        return $this->_blockFactory;
+        return $this->sharedBlocks[$type];
     }
 
     /**
