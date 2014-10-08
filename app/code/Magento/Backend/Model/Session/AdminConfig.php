@@ -93,11 +93,7 @@ class AdminConfig extends Config
      */
     private function extractAdminPath()
     {
-        $type = strpos(
-            $this->_httpRequest->getBaseUrl(),
-            $this->_filesystem->getUri(\Magento\Framework\App\Filesystem::PUB_DIR)
-        ) ? UrlInterface::URL_TYPE_STATIC : UrlInterface::URL_TYPE_LINK;
-        $parsedUrl = parse_url($this->_storeManager->getStore()->getBaseUrl($type));
+        $parsedUrl = parse_url($this->_storeManager->getStore()->getBaseUrl());
         $baseUrl = $parsedUrl['path'];
         $adminPath = $this->_frontNameResolver->getFrontName();
 
