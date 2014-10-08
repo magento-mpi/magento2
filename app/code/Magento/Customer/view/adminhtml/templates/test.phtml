@@ -100,6 +100,10 @@
                             "index": "taxvat",
                             "data_type": "text",
                             "input_type": "input",
+                            "disable_rules": {
+                                "customer.prefix": "xx",
+                                "customer.general": "2"
+                            },
                             "label": "Tax/VAT Number"
                         },
                         "price": {
@@ -108,6 +112,11 @@
                             "data_type": "price",
                             "input_type": "price",
                             "currency_sign": "$",
+                            "disabled": "true",
+                            "disable_rules": {
+                                "customer.prefix": "xx",
+                                "customer.general": "2"
+                            },
                             "label": "Price / currency fireld"
                         },
                         "send_email": {
