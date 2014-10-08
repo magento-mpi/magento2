@@ -24,7 +24,7 @@ interface RepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function add($productSku, \Magento\Catalog\Api\Data\GroupPriceInterface $price);
+    public function save($productSku, \Magento\Catalog\Api\Data\GroupPriceInterface $price);
 
     /**
      * Remove group price from product
@@ -35,7 +35,7 @@ interface RepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function remove($productSku, $customerGroupId);
+    public function delete($productSku, $customerGroupId);
 
     /**
      * Retrieve list of product prices
@@ -44,6 +44,6 @@ interface RepositoryInterface
      * @return \Magento\Catalog\Service\V1\Data\Product\GroupPrice[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($productSku);
+    public function getList($productSku);
 }
 
