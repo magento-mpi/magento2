@@ -33,6 +33,11 @@ class Layout extends View\Element\Template
     protected $layoutFactory;
 
     /**
+     * @var \Magento\Framework\View\Layout\Reader\Pool
+     */
+    protected $layoutReaderPool;
+
+    /**
      * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
@@ -47,16 +52,19 @@ class Layout extends View\Element\Template
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
+     * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param array $data
      */
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
+        View\Layout\Reader\Pool $layoutReaderPool,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         array $data = array()
     ) {
         $this->layoutFactory = $layoutFactory;
+        $this->layoutReaderPool = $layoutReaderPool;
         $this->_layout = $context->getLayout();
         $this->translateInline = $translateInline;
         parent::__construct($context, $data);
@@ -69,6 +77,9 @@ class Layout extends View\Element\Template
      */
     public function getLayout()
     {
+        if (empty($this->_layout)) {
+            $this->_layout = $this->layoutFactory->create(['reader' => $this->layoutReaderPool]);
+        }
         return $this->_layout;
     }
 

@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\View\Result;
 
+use Magento\Framework;
 use Magento\Framework\View;
 use Magento\Framework\App\ResponseInterface;
 
@@ -51,7 +52,8 @@ class Page extends Layout
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
-     * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     * @param View\Layout\Reader\Pool $layoutReaderPool
+     * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Page\Config\Renderer $pageConfigRenderer
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
@@ -60,13 +62,14 @@ class Page extends Layout
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
-        \Magento\Framework\Translate\InlineInterface $translateInline,
+        View\Layout\Reader\Pool $layoutReaderPool,
+        Framework\Translate\InlineInterface $translateInline,
         View\Page\Config\Renderer $pageConfigRenderer,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
         array $data = array()
     ) {
-        parent::__construct($context, $layoutFactory, $translateInline, $data);
+        parent::__construct($context, $layoutFactory, $layoutReaderPool, $translateInline, $data);
         $this->pageConfigRenderer = $pageConfigRenderer;
         $this->pageLayoutReader = $pageLayoutReader;
         $this->_template = $template;
@@ -165,12 +168,20 @@ class Page extends Layout
         return $this;
     }
 
+    /**
+     * Read page layout before generation generic layout
+     *
+     * @return $this
+     */
     public function generateLayoutBlocks()
     {
         $this->readPageLayout();
         return parent::generateLayoutBlocks();
     }
 
+    /**
+     * Read page layout and write structure to ReadContext
+     */
     public function readPageLayout()
     {
         $pageLayout = $this->getPageLayout();
