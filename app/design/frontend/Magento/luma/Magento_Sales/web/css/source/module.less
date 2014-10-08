@@ -58,6 +58,9 @@
         }
     }
     .table-order-items {
+        > thead > tr > th {
+            border-bottom: 1px solid @border-color-base;
+        }
         tbody {
             & + tbody {
                 border-top: 1px solid @border-color-base;
@@ -150,11 +153,16 @@
             &:extend(.abstract-toggling-title all);
             border-bottom: @border-width-base solid @border-color-base;
             color: @color-primary;
+            padding-left: 0;
+            &:after {
+                right: 10px;
+            }
             &.expanded {
                 .icon-font-symbol(
-                @_icon-font-content: @icon-up,
-                @_icon-font-position: after
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
                 );
+                border-bottom: none;
             }
         }
     }

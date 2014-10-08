@@ -80,7 +80,7 @@
 </tr>
 <?php endforeach; ?>
 
-<?php if ($_showlastRow): ?>
+<?php if ($_showlastRow && (($_options = $this->getItemOptions()) || $this->escapeHtml($_item->getDescription()))): ?>
     <tr>
         <td class="col options" colspan="7">
             <?php if($_options = $this->getItemOptions()): ?>
@@ -107,15 +107,6 @@
                 </dl>
             <?php endif; ?>
             <?php echo $this->escapeHtml($_item->getDescription()) ?>
-            <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
-                <a href="#"
-                   id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>"
-                   class="action show"
-                   aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>"
-                   data-item-id="<?php echo $parentItem->getId() ?>">
-                    <?php echo __('Gift Message') ?>
-                </a>
-            <?php endif; ?>
         </td>
     </tr>
 <?php endif; ?>

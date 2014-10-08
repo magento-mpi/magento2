@@ -33,6 +33,32 @@
                 <?php echo $this->getItemHtml($_item) ?>
                 <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
                     <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($_item); ?>
+                    <tr>
+                        <td class="col options" colspan="5">
+                            <a href="#"
+                               id="order-item-gift-message-link-<?php echo $_item->getId() ?>"
+                               class="action show"
+                               aria-controls="order-item-gift-message-<?php echo $_item->getId() ?>"
+                               data-item-id="<?php echo $_item->getId() ?>">
+                                <?php echo __('Gift Message') ?>
+                            </a>
+                            <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($_item); ?>
+                            <div class="order-gift-message" id="order-item-gift-message-<?php echo $_item->getId() ?>" role="region" aria-expanded="false" tabindex="-1">
+                                <a href="#"
+                                   title="<?php echo __('Close') ?>"
+                                   aria-controls="order-item-gift-message-<?php echo $_item->getId()?>"
+                                   data-item-id="<?php echo $_item->getId()?>"
+                                   class="action close">
+                                    <?php echo __('Close') ?>
+                                </a>
+                                <dl class="item-options">
+                                    <dt class="item-sender"><strong class="label"><?php echo __('From') ?></strong><?php echo $this->escapeHtml($_giftMessage->getSender()) ?></dt>
+                                    <dt class="item-recipient"><strong class="label"><?php echo __('To') ?></strong><?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?></dt>
+                                    <dd class="item-message"><?php echo $this->helper('Magento\GiftMessage\Helper\Message')->getEscapedGiftMessage($_item) ?></dd>
+                                </dl>
+                            </div>
+                        </td>
+                    </tr>
                 <?php endif ?>
             </tbody>
             <?php endforeach; ?>

@@ -103,7 +103,8 @@
     </td>
 </tr>
 <?php endforeach; ?>
-<?php if ($_showlastRow): ?>
+
+<?php if ($_showlastRow && (($_options = $this->getItemOptions()) || $this->escapeHtml($_item->getDescription()))): ?>
 <tr>
     <td class="col options" colspan="5">
         <?php if($_options = $this->getItemOptions()): ?>
@@ -130,31 +131,6 @@
             </dl>
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
-        <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
-            <a href="#"
-               id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>"
-               class="action show"
-               aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>"
-               data-item-id="<?php echo $parentItem->getId()?>">
-                <?php echo __('Gift Message') ?>
-            </a>
-
-            <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessageForEntity($parentItem); ?>
-            <div class="order-gift-message" id="order-item-gift-message-<?php echo $parentItem->getId() ?>" role="region" aria-expanded="false" tabindex="-1">
-                <a href="#"
-                   title="<?php echo __('Close') ?>"
-                   aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>"
-                   data-item-id="<?php echo $parentItem->getId()?>"
-                   class="action close">
-                    <?php echo __('Close') ?>
-                </a>
-                <dl class="item-options">
-                    <dt class="item-sender"><strong class="label"><?php echo __('From') ?></strong><?php echo $this->escapeHtml($_giftMessage->getSender()) ?></dt>
-                    <dt class="item-recipient"><strong class="label"><?php echo __('To') ?></strong><?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?></dt>
-                    <dd class="item-message"><?php echo $this->helper('Magento\GiftMessage\Helper\Message')->getEscapedGiftMessage($parentItem) ?></dd>
-                </dl>
-            </div>
-        <?php endif; ?>
     </td>
 </tr>
 <?php endif; ?>

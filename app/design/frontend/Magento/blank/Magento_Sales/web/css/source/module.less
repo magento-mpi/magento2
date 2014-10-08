@@ -43,9 +43,12 @@
         }
     }
     .table-order-items {
-        .table-bordered(
-            @_type: horizontal
-        );
+        .product-item-name {
+            margin-top: 0;
+        }
+        tbody + tbody {
+            border-top: @border-width-base solid @border-color-base;
+        }
         .account & {
             tfoot {
                 &:extend(.abstract-account-summary all);
