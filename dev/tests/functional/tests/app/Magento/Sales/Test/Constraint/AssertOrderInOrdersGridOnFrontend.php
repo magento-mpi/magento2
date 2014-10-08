@@ -17,7 +17,7 @@ use Mtf\ObjectManager;
 
 /**
  * Class AssertOrderInOrdersGridOnFrontend
- * Assert that order is present in Orders on frontend
+ * Assert that order is present in Orders grid on frontend
  */
 class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
 {
@@ -29,17 +29,16 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that order with fixture data is present in MyAccount -> Orders on frontend
+     * Assert that order is present in Orders grid on frontend
      *
      * @param OrderInjectable $order
      * @param CustomerInjectable $customer
-     * @param \Mtf\ObjectManager $objectManager
+     * @param ObjectManager $objectManager
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
      * @param string $orderStatus
      * @param string $orderId
      * @param string|null $statusToCheck
-     * @param string [optional] $orderId
      * @return void
      */
     public function processAssert(

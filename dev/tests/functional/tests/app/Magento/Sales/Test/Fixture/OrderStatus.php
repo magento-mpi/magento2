@@ -12,7 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class OrderStatus
- *
  */
 class OrderStatus extends InjectableFixture
 {
@@ -47,6 +46,30 @@ class OrderStatus extends InjectableFixture
         'input' => '',
     ];
 
+    protected $state = [
+        'attribute_code' => 'state',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $is_default = [
+        'attribute_code' => 'is_default',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
+    protected $visible_on_front = [
+        'attribute_code' => 'visible_on_front',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '0',
+        'input' => '',
+    ];
+
     public function getStatus()
     {
         return $this->getData('status');
@@ -55,5 +78,20 @@ class OrderStatus extends InjectableFixture
     public function getLabel()
     {
         return $this->getData('label');
+    }
+
+    public function getState()
+    {
+        return $this->getData('state');
+    }
+
+    public function getIsDefault()
+    {
+        return $this->getData('is_default');
+    }
+
+    public function getVisibleOnFront()
+    {
+        return $this->getData('visible_on_front');
     }
 }

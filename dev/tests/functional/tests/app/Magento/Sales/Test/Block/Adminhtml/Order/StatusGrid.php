@@ -12,12 +12,12 @@ use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class StatusGrid
- * Adminhtml sales order's status management grid
+ * Backend sales order's status management grid
  */
 class StatusGrid extends Grid
 {
     /**
-     * Initialize block elements
+     * Filters array mapping
      */
     protected $filters = [
         'label' => [

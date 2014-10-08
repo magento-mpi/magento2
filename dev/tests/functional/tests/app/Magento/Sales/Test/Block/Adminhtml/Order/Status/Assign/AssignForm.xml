@@ -9,9 +9,10 @@
 -->
 <mapping strict="1">
     <fields>
-        <status>
+        <label>
+            <selector>[name="status"]</selector>
             <input>select</input>
-        </status>
+        </label>
         <state>
             <input>select</input>
         </state>

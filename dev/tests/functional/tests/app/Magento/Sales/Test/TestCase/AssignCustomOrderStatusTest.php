@@ -15,6 +15,7 @@ use Magento\Sales\Test\Fixture\OrderStatus;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusAssign;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -28,10 +29,12 @@ use Mtf\TestCase\Injectable;
  * Steps:
  * 1. Log in as admin
  * 2. Navigate to the Stores > Settings > Order Status
- * 3. Fill in all data according to data set
- * 4. Save Status Assignment
- * 5. Call assert assertOrderStatusSuccessAssignMessage
- * 6. Perform all assertions from dataSet
+ * 3. Click on "Assign Status to State
+ * 4. Fill in all data according to data set
+ * 5. Save Status Assignment
+ * 6. Call assert assertOrderStatusSuccessAssignMessage
+ * 7. Create Order
+ * 8. Perform all assertions from dataSet
  *
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-29382
@@ -81,6 +84,24 @@ class AssignCustomOrderStatusTest extends Injectable
     protected $order;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
+     * Prepare data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @return void
+     */
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
+        $this->fixtureFactory = $fixtureFactory;
+    }
+
+    /**
      * Injection data
      *
      * @param OrderStatusIndex $orderStatusIndex
@@ -104,37 +125,43 @@ class AssignCustomOrderStatusTest extends Injectable
     /**
      * Run Assign Custom OrderStatus test
      *
-     * @param OrderStatus $orderStatus
+     * @param OrderStatus $initialOrderStatus
      * @param OrderInjectable $order
-     * @param array $data
+     * @param array $orderStatusState
      * @param AssertOrderStatusSuccessAssignMessage $assertion
      * @return array
      */
     public function test(
-        OrderStatus $orderStatus,
+        OrderStatus $initialOrderStatus,
         OrderInjectable $order,
-        array $data,
+        array $orderStatusState,
         AssertOrderStatusSuccessAssignMessage $assertion
     ) {
         // Preconditions:
-        $orderStatus->persist();
-        $this->orderStatus = $orderStatus;
-        $statusLabel = $this->orderStatus->getLabel();
-        $data['status'] = $statusLabel;
+        $initialOrderStatus->persist();
+        /** @var OrderStatus $orderStatus */
+        $orderStatus = $this->fixtureFactory->createByCode(
+            'orderStatus',
+            ['data' => array_merge($initialOrderStatus->getData(), $orderStatusState)]
+        );
 
         // Steps:
         $this->orderStatusIndex->open();
         $this->orderStatusIndex->getGridPageActions()->assignStatusToState();
-        $this->orderStatusAssign->getAssignForm()->fillForm($data);
+        $this->orderStatusAssign->getAssignForm()->fill($orderStatus);
         $this->orderStatusAssign->getPageActionsBlock()->save();
         $assertion->processAssert($this->orderStatusIndex);
+
         $order->persist();
+
+        // Prepare data for tear down
+        $this->orderStatus = $orderStatus;
         $this->order = $order;
 
         return [
             'orderId' => $order->getId(),
             'customer' => $order->getDataFieldConfig('customer_id')['source']->getCustomer(),
-            'orderStatus' => $statusLabel
+            'orderStatus' => $orderStatus->getLabel()
         ];
     }
 

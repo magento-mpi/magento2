@@ -1,4 +1,4 @@
-"data/state";"data/is_default";"data/visible_on_front";"statusToCheck";"constraint"
+"orderStatusState/state";"orderStatusState/is_default";"orderStatusState/visible_on_front";"statusToCheck";"constraint"
 "Pending";"No";"Yes";"Pending";"assertOrderStatusInGrid, assertOrderStatusIsCorrect, assertOrderInOrdersGridOnFrontend"
 "Pending";"Yes";"No";"";"assertOrderStatusInGrid, assertOrderStatusIsCorrect, assertOrderNotVisibleOnMyAccount"
 "Pending";"Yes";"Yes";"";"assertOrderStatusInGrid, assertOrderStatusIsCorrect, assertOrderInOrdersGridOnFrontend"

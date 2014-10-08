@@ -16,15 +16,5 @@ use Mtf\Block\Form;
  */
 class AssignForm extends Form
 {
-    /**
-     * Fill assign form
-     *
-     * @param array $fields
-     * @return void
-     */
-    public function fillForm(array $fields)
-    {
-        $mapping = $this->dataMapping($fields);
-        $this->_fill($mapping);
-    }
+    //
 }
