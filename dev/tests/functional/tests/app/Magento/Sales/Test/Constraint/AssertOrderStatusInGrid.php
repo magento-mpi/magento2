@@ -31,10 +31,8 @@ class AssertOrderStatusInGrid extends AbstractConstraint
      * @param OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
-    public function processAssert(
-        $orderStatus,
-        OrderStatusIndex $orderStatusIndexPage
-    ) {
+    public function processAssert($orderStatus, OrderStatusIndex $orderStatusIndexPage)
+    {
         $orderStatusIndexPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible(['label' => $orderStatus]),

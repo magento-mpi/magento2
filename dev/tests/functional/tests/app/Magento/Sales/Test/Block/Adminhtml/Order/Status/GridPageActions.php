@@ -8,13 +8,11 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Status;
 
-use Magento\Backend\Test\Block\GridPageActions as ParentPageActions;
-
 /**
  * Class GridPageActions
  * Grid page actions block on OrderStatus index page
  */
-class GridPageActions extends ParentPageActions
+class GridPageActions extends \Magento\Backend\Test\Block\GridPageActions
 {
     /**
      * "Assign Status To state" button

@@ -35,7 +35,6 @@ class StatusGrid extends Grid
      */
     protected $unassignLink = '[data-column="unassign"] a';
 
-
     /**
      * Search custom status and unassign it
      *

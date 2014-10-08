@@ -11,9 +11,9 @@ namespace Magento\Sales\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertOrderInOrdersGridOnFrontend
@@ -33,18 +33,19 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
      *
      * @param OrderInjectable $order
      * @param CustomerInjectable $customer
-     * @param CustomerAccountLogin $customerAccountLogin
+     * @param \Mtf\ObjectManager $objectManager
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
      * @param string $orderStatus
      * @param string $orderId
      * @param string|null $statusToCheck
+     * @param string [optional] $orderId
      * @return void
      */
     public function processAssert(
         OrderInjectable $order,
         CustomerInjectable $customer,
-        CustomerAccountLogin $customerAccountLogin,
+        ObjectManager $objectManager,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
         $orderStatus,
@@ -55,7 +56,11 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
             'id' => $order->hasData('id') ? $order->getId() : $orderId,
             'status' => $statusToCheck === null ? $orderStatus : $statusToCheck
         ];
-        $customerAccountLogin->open()->getLoginBlock()->login($customer);
+        $customerLogin = $objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $customerLogin->run();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Orders');
         $errorMessage = implode(', ', $filter);
         \PHPUnit_Framework_Assert::assertTrue(

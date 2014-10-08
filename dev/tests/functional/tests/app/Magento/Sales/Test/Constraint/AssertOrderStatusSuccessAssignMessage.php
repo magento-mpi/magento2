@@ -17,6 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertOrderStatusSuccessAssignMessage extends AbstractConstraint
 {
+    /**
+     * OrderStatus assigning success message
+     */
     const SUCCESS_MESSAGE = 'You have assigned the order status.';
 
     /**
@@ -27,15 +30,17 @@ class AssertOrderStatusSuccessAssignMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after order status assigning.
+     * Assert that success message is displayed after order status assigning
      *
      * @param OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
     public function processAssert(OrderStatusIndex $orderStatusIndexPage)
     {
-        $actualMessage = $orderStatusIndexPage->getMessagesBlock()->getSuccessMessages();
-        \PHPUnit_Framework_Assert::assertEquals(self::SUCCESS_MESSAGE, $actualMessage);
+        \PHPUnit_Framework_Assert::assertEquals(
+            self::SUCCESS_MESSAGE,
+            $orderStatusIndexPage->getMessagesBlock()->getSuccessMessages()
+        );
     }
 
     /**

@@ -26,7 +26,6 @@ use Mtf\TestCase\Injectable;
  * 1. Custom Order Status is created
  *
  * Steps:
- *
  * 1. Log in as admin
  * 2. Navigate to the Stores > Settings > Order Status
  * 3. Fill in all data according to data set
@@ -88,6 +87,7 @@ class AssignCustomOrderStatusTest extends Injectable
      * @param OrderStatusAssign $orderStatusAssign
      * @param CustomerAccountLogout $customerAccountLogout
      * @param OrderIndex $orderIndex
+     * @return void
      */
     public function __inject(
         OrderStatusIndex $orderStatusIndex,
@@ -139,7 +139,7 @@ class AssignCustomOrderStatusTest extends Injectable
     }
 
     /**
-     * Change created order status, unassign custom order status and log out from customer account
+     * Change created order status and unassign custom order status
      *
      * @return void
      */
@@ -148,6 +148,5 @@ class AssignCustomOrderStatusTest extends Injectable
         $this->orderIndex->open()->getSalesOrderGrid()->massaction([['id' => $this->order->getId()]], 'Cancel');
         $filter = ['label' => $this->orderStatus->getLabel()];
         $this->orderStatusIndex->open()->getOrderStatusGrid()->searchAndUnassign($filter);
-        $this->customerAccountLogout->open();
     }
 }

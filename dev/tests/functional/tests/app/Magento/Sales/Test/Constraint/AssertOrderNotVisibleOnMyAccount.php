@@ -8,17 +8,16 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Magento\Sales\Test\Fixture\OrderStatus;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertOrderNotVisibleOnMyAccount
- * Assert order is not visible on frontend in customer account
+ * Assert order is not visible in customer account on frontend
  */
 class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
 {
@@ -30,11 +29,11 @@ class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert order is not visible on frontend in customer account
+     * Assert order is not visible in customer account on frontend
      *
      * @param OrderInjectable $order
      * @param CustomerInjectable $customer
-     * @param CustomerAccountLogin $customerAccountLogin
+     * @param ObjectManager $objectManager
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
      * @param string $orderStatus
@@ -43,7 +42,7 @@ class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
     public function processAssert(
         OrderInjectable $order,
         CustomerInjectable $customer,
-        CustomerAccountLogin $customerAccountLogin,
+        ObjectManager $objectManager,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
         $orderStatus
@@ -52,12 +51,15 @@ class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
             'id' => $order->getId(),
             'status' => $orderStatus,
         ];
-        $customerAccountLogin->open()->getLoginBlock()->login($customer);
+        $customerLogin = $objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $customerLogin->run();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Orders');
-        $errorMessage = implode(', ', $filter);
         \PHPUnit_Framework_Assert::assertFalse(
             $orderHistory->getOrderHistoryBlock()->isOrderVisible($filter),
-            'Order with following data \'' . $errorMessage . '\' is present in Orders block on frontend.'
+            'Order with following data \'' . implode(', ', $filter) . '\' is present in Orders block on frontend.'
         );
     }
 

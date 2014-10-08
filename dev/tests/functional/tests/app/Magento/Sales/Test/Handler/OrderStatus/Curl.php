@@ -42,9 +42,8 @@ class Curl extends AbstractCurl implements OrderStatusInterface
     {
         $url = $_ENV['app_backend_url'] . 'sales/order_status/save/';
         $data = array_merge($this->defaultAttributeValues, $fixture->getData());
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.1', [], $data);
         $response = $curl->read();
         $curl->close();
 
