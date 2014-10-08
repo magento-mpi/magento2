@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\View\Result;
 
+use Magento\Framework;
 use Magento\Framework\View;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\App\ResponseInterface;
@@ -16,8 +17,7 @@ use Magento\Framework\App\ResponseInterface;
  * A generic layout response can be used for rendering any kind of layout
  * So it comprises a response body from the layout elements it has and sets it to the HTTP response
  */
-class Layout extends View\Element\Template
-    implements ResultInterface
+class Layout implements ResultInterface
 {
     /**
      * Temporary state flag to know where page was created
@@ -40,7 +40,7 @@ class Layout extends View\Element\Template
     /**
      * @var \Magento\Framework\View\LayoutInterface
      */
-    protected $_layout;
+    protected $layout;
 
     /**
      * @var \Magento\Framework\Translate\InlineInterface
@@ -48,26 +48,35 @@ class Layout extends View\Element\Template
     protected $translateInline;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
+     * @var \Magento\Framework\App\Request\Http
+     */
+    protected $request;
+
+    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
-     * @param \Magento\Framework\Translate\InlineInterface $translateInline
-     * @param array $data
+     * @param Framework\Translate\InlineInterface $translateInline
      */
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
-        \Magento\Framework\Translate\InlineInterface $translateInline,
-        array $data = array()
+        Framework\Translate\InlineInterface $translateInline
     ) {
         $this->layoutFactory = $layoutFactory;
         $this->layoutReaderPool = $layoutReaderPool;
-        $this->_layout = $context->getLayout();
+        $this->layout = $context->getLayout();
+        $this->eventManager = $context->getEventManager();
+        $this->request = $context->getRequest();
         $this->translateInline = $translateInline;
-        parent::__construct($context, $data);
     }
 
     /**
@@ -77,10 +86,10 @@ class Layout extends View\Element\Template
      */
     public function getLayout()
     {
-        if (empty($this->_layout)) {
-            $this->_layout = $this->layoutFactory->create(['reader' => $this->layoutReaderPool]);
+        if (empty($this->layout)) {
+            $this->layout = $this->layoutFactory->create(['reader' => $this->layoutReaderPool]);
         }
-        return $this->_layout;
+        return $this->layout;
     }
 
     /**
@@ -89,6 +98,25 @@ class Layout extends View\Element\Template
     public function initLayout()
     {
         return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addDefaultHandle()
+    {
+        $this->addHandle($this->getDefaultLayoutHandle());
+        return $this;
+    }
+
+    /**
+     * Retrieve the default layout handle name for the current action
+     *
+     * @return string
+     */
+    public function getDefaultLayoutHandle()
+    {
+        return strtolower($this->request->getFullActionName());
     }
 
     /**
@@ -122,13 +150,15 @@ class Layout extends View\Element\Template
     {
         \Magento\Framework\Profiler::start('LAYOUT');
         // dispatch event for adding handles to layout update
-        $this->_eventManager->dispatch(
+        $this->eventManager->dispatch(
             'controller_action_layout_load_before',
-            array('full_action_name' => $this->_request->getFullActionName(), 'layout' => $this->getLayout())
+            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->getLayout())
         );
         // load layout updates by specified handles
         \Magento\Framework\Profiler::start('layout_load');
+
         $this->getLayout()->getUpdate()->load();
+
         \Magento\Framework\Profiler::stop('layout_load');
         \Magento\Framework\Profiler::stop('LAYOUT');
         return $this;
@@ -144,7 +174,9 @@ class Layout extends View\Element\Template
         \Magento\Framework\Profiler::start('LAYOUT');
         // generate xml from collected text updates
         \Magento\Framework\Profiler::start('layout_generate_xml');
+
         $this->getLayout()->generateXml();
+
         \Magento\Framework\Profiler::stop('layout_generate_xml');
         \Magento\Framework\Profiler::stop('LAYOUT');
         return $this;
@@ -161,17 +193,19 @@ class Layout extends View\Element\Template
     {
         \Magento\Framework\Profiler::start('LAYOUT');
         // dispatch event for adding xml layout elements
-        $this->_eventManager->dispatch(
+        $this->eventManager->dispatch(
             'controller_action_layout_generate_blocks_before',
-            array('full_action_name' => $this->_request->getFullActionName(), 'layout' => $this->getLayout())
+            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->getLayout())
         );
-        // generate blocks from xml layout
         \Magento\Framework\Profiler::start('layout_generate_blocks');
+
+        /* generate blocks from xml layout */
         $this->getLayout()->generateElements();
+
         \Magento\Framework\Profiler::stop('layout_generate_blocks');
-        $this->_eventManager->dispatch(
+        $this->eventManager->dispatch(
             'controller_action_layout_generate_blocks_after',
-            array('full_action_name' => $this->_request->getFullActionName(), 'layout' => $this->getLayout())
+            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->getLayout())
         );
         \Magento\Framework\Profiler::stop('LAYOUT');
         return $this;
@@ -190,10 +224,12 @@ class Layout extends View\Element\Template
         }
         \Magento\Framework\Profiler::start('LAYOUT');
         \Magento\Framework\Profiler::start('layout_render');
-        $this->_renderResult($response);
-        $this->_eventManager->dispatch('controller_action_layout_render_before');
-        $this->_eventManager->dispatch(
-            'controller_action_layout_render_before_' . $this->_request->getFullActionName()
+
+        $this->render($response);
+
+        $this->eventManager->dispatch('controller_action_layout_render_before');
+        $this->eventManager->dispatch(
+            'controller_action_layout_render_before_' . $this->request->getFullActionName()
         );
         \Magento\Framework\Profiler::stop('layout_render');
         \Magento\Framework\Profiler::stop('LAYOUT');
@@ -219,9 +255,9 @@ class Layout extends View\Element\Template
      * @param ResponseInterface $response
      * @return $this
      */
-    protected function _renderResult(ResponseInterface $response)
+    protected function render(ResponseInterface $response)
     {
-        $response->appendBody($this->_layout->getOutput());
+        $response->appendBody($this->layout->getOutput());
         return $this;
     }
 

@@ -48,12 +48,28 @@ class Page extends Layout
     protected $pageLayoutReader;
 
     /**
+     * @var \Magento\Framework\View\FileSystem
+     */
+    protected $viewFileSystem;
+
+    /**
+     * @var array
+     */
+    protected $viewVars;
+
+    /**
+     * @var string
+     */
+    protected $template;
+
+    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
+     * @param View\Page\ConfigFactory $pageConfigFactory
      * @param View\Page\Config\Renderer $pageConfigRenderer
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
@@ -64,15 +80,18 @@ class Page extends Layout
         View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
+        View\Page\ConfigFactory $pageConfigFactory,
         View\Page\Config\Renderer $pageConfigRenderer,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
         array $data = array()
     ) {
         parent::__construct($context, $layoutFactory, $layoutReaderPool, $translateInline, $data);
+        $this->pageConfig = $pageConfigFactory->create();
+        $this->viewFileSystem = $context->getViewFileSystem();
         $this->pageConfigRenderer = $pageConfigRenderer;
         $this->pageLayoutReader = $pageLayoutReader;
-        $this->_template = $template;
+        $this->template = $template;
     }
 
     /**
@@ -87,6 +106,12 @@ class Page extends Layout
             $update->removeHandle('default');
         }
         return parent::initLayout();
+    }
+
+    public function addDefaultHandle()
+    {
+        $this->addHandle('default');
+        return parent::addDefaultHandle();
     }
 
     /**
@@ -116,20 +141,10 @@ class Page extends Layout
     }
 
     /**
-     * Retrieve the default layout handle name for the current action
-     *
-     * @return string
-     */
-    public function getDefaultLayoutHandle()
-    {
-        return strtolower($this->_request->getFullActionName());
-    }
-
-    /**
      * @param ResponseInterface $response
      * @return $this
      */
-    protected function _renderResult(ResponseInterface $response)
+    protected function render(ResponseInterface $response)
     {
         if ($this->getPageLayout()) {
             $config = $this->getConfig();
@@ -146,9 +161,9 @@ class Page extends Layout
             $output = $this->getLayout()->getOutput();
             $this->translateInline->processResponseBody($output);
             $this->assign('layoutContent', $output);
-            $response->appendBody($this->toHtml());
+            $response->appendBody($this->renderPage());
         } else {
-            parent::_renderResult($response);
+            parent::render($response);
         }
         return $this;
     }
@@ -160,7 +175,7 @@ class Page extends Layout
      */
     protected function addDefaultBodyClasses()
     {
-        $this->pageConfig->addBodyClass($this->_request->getFullActionName('-'));
+        $this->pageConfig->addBodyClass($this->request->getFullActionName('-'));
         $pageLayout = $this->pageConfig->getPageLayout();
         if ($pageLayout) {
             $this->pageConfig->addBodyClass('page-layout-' . $pageLayout);
@@ -196,10 +211,48 @@ class Page extends Layout
      */
     protected function getPageLayout()
     {
-        $pageLayout = $this->pageConfig->getPageLayout();
-        if(!$pageLayout){
-            $pageLayout = $this->getLayout()->getUpdate()->getPageLayout();
+        return $this->pageConfig->getPageLayout() ?: $this->getLayout()->getUpdate()->getPageLayout();
+    }
+
+    /**
+     * Assign variable
+     *
+     * @param   string|array $key
+     * @param   mixed $value
+     * @return  $this
+     */
+    public function assign($key, $value = null)
+    {
+        if (is_array($key)) {
+            foreach ($key as $subKey => $subValue) {
+                $this->assign($subKey, $subValue);
+            }
+        } else {
+            $this->viewVars[$key] = $value;
         }
-        return $pageLayout;
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    protected function renderPage()
+    {
+        $fileName = $this->viewFileSystem->getTemplateFileName($this->template);
+        if (!$fileName) {
+            throw new \InvalidArgumentException('Template "' . $this->template . '" is not found');
+        }
+
+        ob_start();
+        try {
+            extract($this->viewVars, EXTR_SKIP);
+            include $fileName;
+        } catch (\Exception $exception) {
+            ob_end_clean();
+            throw $exception;
+        }
+        $output = ob_get_clean();
+        return $output;
     }
 }
