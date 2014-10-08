@@ -49,6 +49,14 @@ define([
         return uid;
     }
 
+    function isValid(element) {
+        return !element.isValid();
+    }
+
+    function getName(element) {
+        return element.name;
+    }
+
     var FormGroup = Scope.extend({
         initialize: function(config) {
             _.extend(this, defaults, config);
@@ -75,11 +83,18 @@ define([
         },
 
         validate: function () {
-            var invalidElements = this.elems.filter(function (element) {
-                return !element.isValid();
-            });
+            var params                  = this.provider.params,
+                elements                = this.elems,
+                previousInvalidNames    = params.get('invalid'),
+                invalidElements         = [],
+                invalidNames            = [];
+
+            invalidElements = elements.filter(isValid);
+            invalidNames = invalidElements.map(getName);
+            invalidNames = _.uniq(invalidNames.concat(previousInvalidNames));
 
             this.invalid(invalidElements);
+            params.set('invalid', invalidNames);
 
             return this;
         },
@@ -92,9 +107,7 @@ define([
                 elem.on('update', update);
             }, this);
 
-            this.provider.params.on('update:validated', function (isValidated) {
-                !isValidated && validate();
-            });
+            this.provider.params.on('update:validated', validate);
 
             return this;
         },

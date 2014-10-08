@@ -150,12 +150,31 @@ define(function (require) {
             }
         },
 
+        submit: function () {
+            var isValid = this.validate();
+
+            if (isValid) {
+                this._submit();
+            }
+        },
+
+        _submit: function () {
+            console.log('submitting form lalala')
+        },
+
         /**
          * Sets 'validated' property of params storage to false,
          *     so that all form groups invoke their validate methods.
          */
         validate: function () {
-            this.refs.provider.params.set('validated', false);
+            var provider = this.refs.provider,
+                params   = provider.params;
+
+            params
+                .set('invalid', [])
+                .set('validated', false);
+
+            return !params.get('invalid').length;
         }
     });
     
