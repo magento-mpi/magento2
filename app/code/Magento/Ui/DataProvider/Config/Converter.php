@@ -17,6 +17,19 @@ use Zend\XmlRpc\Generator\DomDocument;
 class Converter implements ConverterInterface
 {
     /**
+     * @var \Magento\Eav\Model\Entity\TypeFactory
+     */
+    protected $entityTypeFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     */
+    public function __construct(\Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory)
+    {
+        $this->entityTypeFactory = $entityTypeFactory;
+    }
+
+    /**
      * Transform Xml to array
      *
      * @param $source
@@ -70,6 +83,17 @@ class Converter implements ConverterInterface
                 'dataset' => $datasource['@attributes']['dataset'],
             ];
             $fields = [];
+            if (isset($datasource['fields']['@attributes']['entityType'])) {
+                $entityType = $this->entityTypeFactory->create()
+                    ->load($datasource['fields']['@attributes']['entityType'], 'entity_type_code');
+                $attributeCollection = $entityType->getAttributeCollection();
+                foreach ($attributeCollection  as $attribute) {
+                    $fields[$attribute->getAttributeCode()] = [
+                        'name' => $attribute->getAttributeCode(),
+                        'source' => 'eav'
+                    ];
+                }
+            }
             foreach ($datasource['fields']['field'] as $field) {
                 foreach ($field['@attributes'] as $key => $value) {
                     $fields[$field['@attributes']['name']][$key] = $value;

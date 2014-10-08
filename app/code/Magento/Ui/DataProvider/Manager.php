@@ -94,8 +94,7 @@ class Manager
                     $row[$field['name']] = $lookup[0][$field['reference']['neededField']];;
                 } elseif (isset($field['source']) && $field['source'] == 'option') {
                     $row[$field['name']] = $item->getData($field['reference']['referencedField']);
-                }
-                else {
+                } else {
                     $row[$field['name']] = $item->getData($field['name']);
                 }
             }
