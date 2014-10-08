@@ -1,7 +1,5 @@
 <?php
 /**
- * Quote shipping method read service
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,25 +7,26 @@
  */
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
+/**
+ * Quote shipping method read service interface.
+ */
 interface ReadServiceInterface
 {
     /**
-     * Get selected shipping method of the quote
+     * Returns selected shipping method for a specified quote.
      *
-     * @param int $cartId
-     * @return \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\StateException
+     * @param int $cartId The shopping cart ID.
+     * @return ShippingMethod|null Shipping method. Otherwise, null.
+     * @throws \Magento\Framework\Exception\StateException The shipping address is not set.
      */
     public function getMethod($cartId);
 
     /**
-     * Get list of applicable shipping methods for quote
+     * Lists applicable shipping methods for a specified quote.
      *
-     * @param int $cartId
-     * @return \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod[]
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\StateException
+     * @param int $cartId The shopping cart ID.
+     * @return array|\Magento\Checkout\Service\V1\Data\Cart\ShippingMethod[] An array of shipping methods.
+     * @throws \Magento\Framework\Exception\StateException The shipping address is not set.
      */
     public function getList($cartId);
 }
