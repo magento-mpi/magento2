@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="1">
+    <fields>
+        <status>
+            <input>select</input>
+        </status>
+        <state>
+            <input>select</input>
+        </state>
+        <is_default>
+            <input>checkbox</input>
+        </is_default>
+        <visible_on_front>
+            <input>checkbox</input>
+        </visible_on_front>
+    </fields>
+</mapping>

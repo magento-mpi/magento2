@@ -117,4 +117,10 @@
     <assertRefundInRefundsTab module="Magento_Sales">
         <severeness>low</severeness>
     </assertRefundInRefundsTab>
+    <assertOrderStatusSuccessAssignMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusSuccessAssignMessage>
+    <assertOrderNotVisibleOnMyAccount module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderNotVisibleOnMyAccount>
 </constraint>

@@ -52,7 +52,10 @@ class CreateCustomOrderStatusEntityTest extends Injectable
     }
 
     /**
+     * Run Create Order Status test
+     *
      * @param OrderStatus $orderStatus
+     * @return array
      */
     public function testCreateOrderStatus(OrderStatus $orderStatus)
     {
@@ -61,5 +64,7 @@ class CreateCustomOrderStatusEntityTest extends Injectable
         $this->orderStatusIndexPage->getGridPageActions()->addNew();
         $this->orderStatusNewPage->getOrderStatusForm()->fill($orderStatus);
         $this->orderStatusNewPage->getFormPageActions()->save();
+
+        return ['orderStatus' => $orderStatus->getLabel()];
     }
 }
