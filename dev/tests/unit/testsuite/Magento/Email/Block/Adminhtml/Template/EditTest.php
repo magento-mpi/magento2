@@ -43,11 +43,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $directoryMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $filesystemMock;
 
     protected function setUp()
@@ -75,7 +70,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_emailConfigMock = $this->getMock('Magento\Email\Model\Template\Config', array(), array(), '', false);
 
         $this->filesystemMock = $this->getMock(
-            '\Magento\Framework\App\Filesystem',
+            '\Magento\Framework\Filesystem',
             array('getFilesystem', '__wakeup', 'getPath', 'getDirectoryRead'),
             array(),
             '',
@@ -94,7 +89,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getTemplateFileName'
         )->will(
-            $this->returnValue('var/www/magento\rootdir/app\custom/filename.phtml')
+            $this->returnValue(DirectoryList::ROOT . '/custom/filename.phtml')
         );
 
         $params = array(
@@ -248,30 +243,18 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultTemplatesAsOptionsArray()
     {
-        $dirValueMap = array(
-            array(DirectoryList::ROOT, 'var/www/magento\rootdir/'),
-            array(DirectoryList::APP, 'var/www/magento\rootdir\app/'),
-            array(DirectoryList::THEMES, 'var\www/magento\rootdir\app/themes/')
-        );
-
-        $this->directoryMock = $this->getMock(
+        $directoryMock = $this->getMock(
             '\Magento\Framework\Filesystem\Directory\Read',
             array(),
             array(),
             '',
             false
         );
-        $this->directoryMock->expects($this->any())->method('isFile')->will($this->returnValue(false));
-        $this->directoryMock->expects($this->any())->method('getRelativePath')->will($this->returnValue(''));
 
-        $this->filesystemMock->expects(
-            $this->any()
-        )->method(
-            'getDirectoryRead'
-        )->will(
-            $this->returnValue($this->directoryMock)
-        );
-        $this->filesystemMock->expects($this->any())->method('getPath')->will($this->returnValueMap($dirValueMap));
+        $this->filesystemMock->expects($this->any())
+            ->method('getDirectoryRead')
+            ->will($this->returnValue($directoryMock))
+        ;
 
         $this->_emailConfigMock
             ->expects($this->once())

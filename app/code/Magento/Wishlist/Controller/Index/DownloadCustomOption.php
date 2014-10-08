@@ -71,17 +71,12 @@ class DownloadCustomOption extends Action\Action implements IndexInterface
 
         try {
             $info = unserialize($option->getValue());
-            $filePath = $this->_objectManager->get(
-                'Magento\Framework\App\Filesystem'
-            )->getPath(
-                DirectoryList::ROOT
-            ) . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 
             if ($secretKey == $info['secret_key']) {
                 $this->_fileResponseFactory->create(
                     $info['title'],
-                    array('value' => $filePath, 'type' => 'filename'),
+                    array('value' => $info['quote_path'], 'type' => 'filename'),
                     DirectoryList::ROOT
                 );
             }

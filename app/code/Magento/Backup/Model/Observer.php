@@ -60,7 +60,7 @@ class Observer
     /**
      * Filesystem facade
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -79,7 +79,7 @@ class Observer
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Backup\Factory $backupFactory
      * @param \Magento\Framework\App\MaintenanceMode $maintenanceMode
      */
@@ -88,7 +88,7 @@ class Observer
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Backup\Factory $backupFactory,
         \Magento\Framework\App\MaintenanceMode $maintenanceMode
     ) {
@@ -134,7 +134,7 @@ class Observer
 
             if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(
-                    $this->_filesystem->getPath(DirectoryList::ROOT)
+                    $this->_filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath()
                 )->addIgnorePaths(
                     $this->_backupData->getBackupIgnorePaths()
                 );

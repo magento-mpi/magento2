@@ -22,14 +22,6 @@ class Filesystem extends \Magento\Framework\App\Filesystem
     /**
      * {@inheritdoc}
      */
-    public function getPath($code = DirectoryList::ROOT)
-    {
-        return $this->getOverriddenPath($code, parent::getPath($code));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getDirPath($code)
     {
         return $this->getOverriddenPath($code, parent::getDirPath($code));

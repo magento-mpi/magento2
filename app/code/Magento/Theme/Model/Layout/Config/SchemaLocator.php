@@ -9,7 +9,7 @@
  */
 namespace Magento\Theme\Model\Layout\Config;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
@@ -22,11 +22,11 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     protected $_schema;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $appFilesystem
+     * @param Filesystem $appFilesystem
      */
     public function __construct(Filesystem $appFilesystem)
     {
-        $this->_schema = $appFilesystem->getPath(DirectoryList::LIB_INTERNAL)
+        $this->_schema = $appFilesystem->getDirectoryRead(DirectoryList::LIB_INTERNAL)->getAbsolutePath()
             . '/Magento/Framework/View/PageLayout/etc/layouts.xsd';
     }
 

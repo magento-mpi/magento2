@@ -9,6 +9,7 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Service\ArrayObjectSearch;
 
@@ -34,7 +35,7 @@ class File extends AbstractData
     protected $_fileValidator;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $_fileSystem;
 
@@ -48,7 +49,7 @@ class File extends AbstractData
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
-     * @param \Magento\Framework\App\Filesystem $fileSystem
+     * @param Filesystem $fileSystem
      */
     public function __construct(
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -60,7 +61,7 @@ class File extends AbstractData
         $isAjax,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
-        \Magento\Framework\App\Filesystem $fileSystem
+        Filesystem $fileSystem
     ) {
         parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
@@ -246,18 +247,12 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(DirectoryList::MEDIA)
-            . '/' . $this->_entityTypeCode;
-
+        $mediaDir = $this->_fileSystem->getDirectoryWrite(DirectoryList::MEDIA);
         $result = $original;
         // unlink entity file
         if ($toDelete) {
             $result = '';
-            $file = $path . $original;
-            $ioFile = new \Magento\Framework\Io\File();
-            if ($ioFile->fileExists($file)) {
-                $ioFile->rm($file);
-            }
+            $mediaDir->delete($this->_entityTypeCode . $original);
         }
 
         if (!empty($value['tmp_name'])) {
@@ -266,7 +261,7 @@ class File extends AbstractData
                 $uploader->setFilesDispersion(true);
                 $uploader->setFilenamesCaseSensitivity(false);
                 $uploader->setAllowRenameFiles(true);
-                $uploader->save($path, $value['name']);
+                $uploader->save($mediaDir->getAbsolutePath($this->_entityTypeCode, $value['name']));
                 $fileName = $uploader->getUploadedFileName();
                 $result = $fileName;
             } catch (\Exception $e) {

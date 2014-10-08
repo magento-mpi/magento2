@@ -165,7 +165,7 @@ class Merged implements \Iterator
     }
 
     /**
-     * Returns directory for storing merged files relative to STATIC_VIEW_DIR
+     * Returns directory for storing merged files relative to STATIC_VIEW
      *
      * @return string
      */

@@ -59,9 +59,10 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
                 )
             );
 
+            /** @var \Magento\Framework\App\Filesystem $filesystem */
             $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
-            $modulesDir = $filesystem->getPath($this->getDirectoryConstant());
-            $this->_schemaFile = $modulesDir . $this->_getXsdPath();
+            $this->_schemaFile = $filesystem->getDirectoryRead($this->getDirectoryConstant())
+                ->getAbsolutePath($this->_getXsdPath());
         }
     }
 

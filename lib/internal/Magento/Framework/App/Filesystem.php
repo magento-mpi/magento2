@@ -13,14 +13,4 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Filesystem extends \Magento\Framework\Filesystem
 {
-    /**
-     * Retrieve absolute path for for given code
-     *
-     * @param string $code
-     * @return string
-     */
-    public function getPath($code = DirectoryList::ROOT)
-    {
-        return str_replace('\\', '/', $this->directoryList->getPath($code));
-    }
 }

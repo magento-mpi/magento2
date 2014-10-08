@@ -33,6 +33,11 @@ class NomediaTest extends \PHPUnit_Framework_TestCase
         require __DIR__ . '/_files/app_dirs.php';
     }
 
+    public static function tearDownAfterClass()
+    {
+        require __DIR__ . '/_files/app_dirs_rollback.php';
+    }
+
     protected function setUp()
     {
         $this->_backupDbMock = $this->getMock('Magento\Framework\Backup\Db', array(), array(), '', false);
@@ -55,6 +60,11 @@ class NomediaTest extends \PHPUnit_Framework_TestCase
         $this->_backupDbMock->expects($this->any())->method('create')->will($this->returnValue(true));
 
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $dirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
+        $this->_filesystemMock->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($dirMock));
+
         $this->_backupFactoryMock = $this->getMock('Magento\Framework\Backup\Factory', array(), array(), '', false);
         $this->_backupFactoryMock->expects(
             $this->once()

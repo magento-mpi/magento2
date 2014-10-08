@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Element;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -372,8 +372,8 @@ class Template extends AbstractBlock
     {
         $fileName = str_replace('\\', '/', $fileName);
 
-        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(DirectoryList::THEMES));
-        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(DirectoryList::APP));
+        $themesDir = $this->_filesystem->getDirectoryRead(DirectoryList::THEMES)->getAbsolutePath();
+        $appDir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
         return ($this->isPathInDirectory(
             $fileName,
             $appDir

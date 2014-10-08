@@ -13,6 +13,7 @@ use Magento\Customer\Model\Metadata\ElementFactory;
 
 class FileTest extends AbstractFormTestCase
 {
+    const ENTITY_TYPE = 0;
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Helper\Data */
     protected $coreDataMock;
 
@@ -251,21 +252,26 @@ class FileTest extends AbstractFormTestCase
         $this->assertSame($fileForm, $fileForm->compactValue('aValue'));
     }
 
-    /**
-     * @param string $expected
-     * @param array $value
-     * @dataProvider compactValueDataProvider
-     */
-    public function testCompactValue($expected, $value)
+    public function testCompactValueNoDelete()
     {
         $fileForm = $this->getClass('value', false);
         $this->attributeMetadataMock->expects($this->any())->method('isRequired')->will($this->returnValue(false));
-        $this->assertSame($expected, $fileForm->compactValue($value));
+        $this->assertSame('value', $fileForm->compactValue([]));
     }
 
-    public function compactValueDataProvider()
+    public function testCompactValueDelete()
     {
-        return array('notDelete' => array('value', []), 'delete' => array('', array('delete' => true)));
+        $fileForm = $this->getClass('value', false);
+        $this->attributeMetadataMock->expects($this->any())->method('isRequired')->will($this->returnValue(false));
+        $mediaDirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
+        $mediaDirMock->expects($this->once())
+            ->method('delete')
+            ->with(self::ENTITY_TYPE . 'value');
+        $this->fileSystemMock->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)
+            ->will($this->returnValue($mediaDirMock));
+        $this->assertSame('', $fileForm->compactValue(['delete' => true]));
     }
 
     public function testRestoreValue()
@@ -332,7 +338,7 @@ class FileTest extends AbstractFormTestCase
                 $this->attributeMetadataMock,
                 $this->localeResolverMock,
                 $value,
-                0,
+                self::ENTITY_TYPE,
                 $isAjax,
                 $this->coreDataMock,
                 $this->fileValidatorMock,

@@ -25,12 +25,12 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('media_directory', $config);
         $this->assertArrayHasKey('allowed_resources', $config);
         $this->assertArrayHasKey('update_time', $config);
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\Filesystem'
+        );
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\App\Filesystem'
-            )->getPath(
-                DirectoryList::MEDIA
-            ),
+            $filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath(),
             $config['media_directory']
         );
         $this->assertInternalType('array', $config['allowed_resources']);

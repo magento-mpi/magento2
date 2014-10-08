@@ -7,6 +7,7 @@
  */
 namespace Magento\Backup\Helper;
 
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\MaintenanceMode;
 
@@ -16,7 +17,7 @@ use Magento\Framework\App\MaintenanceMode;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $_filesystem;
 
@@ -34,13 +35,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\App\Filesystem $filesystem,
+        Filesystem $filesystem,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {
@@ -97,7 +98,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBackupsDir()
     {
-        return $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/backups';
+        return $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR)->getAbsolutePath('backups');
     }
 
     /**
@@ -168,13 +169,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return array(
             '.git',
             '.svn',
-            $this->_filesystem->getPath(MaintenanceMode::FLAG_DIR) . '/' . MaintenanceMode::FLAG_FILENAME,
-            $this->_filesystem->getPath(DirectoryList::SESSION),
-            $this->_filesystem->getPath(DirectoryList::CACHE),
-            $this->_filesystem->getPath(DirectoryList::LOG),
-            $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/full_page_cache',
-            $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/locks',
-            $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/report'
+            $this->_filesystem->getDirectoryRead(MaintenanceMode::FLAG_DIR)->getAbsolutePath()
+                . '/' . MaintenanceMode::FLAG_FILENAME,
+            $this->_filesystem->getDirectoryRead(DirectoryList::SESSION)->getAbsolutePath(),
+            $this->_filesystem->getDirectoryRead(DirectoryList::CACHE)->getAbsolutePath(),
+            $this->_filesystem->getDirectoryRead(DirectoryList::LOG)->getAbsolutePath(),
+            $this->_filesystem->getDirectoryRead(DirectoryList::VAR_DIR)->getAbsolutePath('full_page_cache'),
+            $this->_filesystem->getDirectoryRead(DirectoryList::VAR_DIR)->getAbsolutePath('locks'),
+            $this->_filesystem->getDirectoryRead(DirectoryList::VAR_DIR)->getAbsolutePath('report'),
         );
     }
 
@@ -188,13 +190,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return array(
             '.svn',
             '.git',
-            $this->_filesystem->getPath(MaintenanceMode::FLAG_DIR) . '/' . MaintenanceMode::FLAG_FILENAME,
-            $this->_filesystem->getPath(DirectoryList::SESSION),
-            $this->_filesystem->getPath(DirectoryList::LOG),
-            $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/locks',
-            $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/report',
-            $this->_filesystem->getPath(DirectoryList::ROOT) . '/errors',
-            $this->_filesystem->getPath(DirectoryList::ROOT) . '/index.php'
+            $this->_filesystem->getDirectoryRead(MaintenanceMode::FLAG_DIR)->getAbsolutePath()
+                . '/' . MaintenanceMode::FLAG_FILENAME,
+            $this->_filesystem->getDirectoryRead(DirectoryList::SESSION)->getAbsolutePath(),
+            $this->_filesystem->getDirectoryRead(DirectoryList::LOG)->getAbsolutePath(),
+            $this->_filesystem->getDirectoryRead(DirectoryList::VAR_DIR)->getAbsolutePath('locks'),
+            $this->_filesystem->getDirectoryRead(DirectoryList::VAR_DIR)->getAbsolutePath('report'),
+            $this->_filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath('errors'),
+            $this->_filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath('index.php'),
         );
     }
 

@@ -9,6 +9,7 @@
  */
 namespace Magento\Framework\Object\Copy\Config;
 
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
@@ -28,14 +29,15 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     protected $_perFileSchema;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param string $schema
      * @param string $perFileSchema
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, $schema, $perFileSchema)
+    public function __construct(Filesystem $filesystem, $schema, $perFileSchema)
     {
-        $this->_schema = $filesystem->getPath(DirectoryList::ROOT) . '/' . $schema;
-        $this->_perFileSchema = $filesystem->getPath(DirectoryList::ROOT) . '/' . $perFileSchema;
+        $rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->_schema = $rootDir->getAbsolutePath($schema);
+        $this->_perFileSchema = $rootDir->getAbsolutePath($perFileSchema);
     }
 
     /**

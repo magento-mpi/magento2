@@ -9,6 +9,7 @@
  */
 namespace Magento\Framework\Filesystem;
 
+use Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList as AppDirectoryList;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -20,7 +21,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
@@ -52,6 +53,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUri()
     {
-        $this->assertContains('media', $this->filesystem->getPath(AppDirectoryList::MEDIA));
+        $this->assertContains('media', $this->filesystem->getDirectoryRead(AppDirectoryList::MEDIA)->getAbsolutePath());
     }
 }

@@ -13,6 +13,7 @@
  */
 namespace Magento\Core\Helper\File\Storage;
 
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Database extends \Magento\Framework\App\Helper\AbstractHelper
@@ -44,7 +45,7 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_mediaBaseDirectory;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $_filesystem;
 
@@ -67,14 +68,14 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
      * @param \Magento\Core\Model\File\Storage\File $fileStorage
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
         \Magento\Core\Model\File\Storage\File $fileStorage,
-        \Magento\Framework\App\Filesystem $filesystem,
+        Filesystem $filesystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->_filesystem = $filesystem;
@@ -337,8 +338,8 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $mediaDir = $this->_filesystem->getPath(DirectoryList::MEDIA);
-            $this->_mediaBaseDirectory = rtrim($mediaDir, '\\/');
+            $mediaDir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath();
+            $this->_mediaBaseDirectory = rtrim($mediaDir, '/');
         }
         return $this->_mediaBaseDirectory;
     }

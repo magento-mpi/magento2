@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\View;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -31,23 +32,23 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = $objectManager->get('Magento\Framework\Filesystem');
         $themeDir = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $themeDir->delete('theme/frontend');
         $themeDir->delete('theme/_merged');
 
-        $libPath = $filesystem->getPath(DirectoryList::LIB_WEB);
-        copy($libPath . '/prototype/prototype.js', $libPath . '/prototype/prototype.min.js');
+        $libDir = $filesystem->getDirectoryWrite(DirectoryList::LIB_WEB);
+        $libDir->copyFile('prototype/prototype.js', 'prototype/prototype.min.js');
     }
 
     public static function tearDownAfterClass()
     {
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Framework\App\Filesystem');
-        $libPath = $filesystem->getPath(DirectoryList::LIB_WEB);
-        unlink($libPath . '/prototype/prototype.min.js');
+            ->get('Magento\Framework\Filesystem');
+        $libDir = $filesystem->getDirectoryWrite(DirectoryList::LIB_WEB);
+        $libDir->delete('prototype/prototype.min.js');
     }
 
     protected function setUp()
@@ -190,9 +191,9 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\DesignInterface'
         )->getDesignTheme();
         $customConfigFile = $theme->getCustomization()->getCustomViewConfigPath();
-        /** @var $filesystem \Magento\Framework\App\Filesystem */
+        /** @var $filesystem \Magento\Framework\Filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Framework\App\Filesystem');
+            ->create('Magento\Framework\Filesystem');
         $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $relativePath = $directory->getRelativePath($customConfigFile);
         try {

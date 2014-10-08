@@ -158,7 +158,7 @@ class Http implements \Magento\Framework\AppInterface
     {
         $bootstrapCode = $bootstrap->getErrorCode();
         if (Bootstrap::ERR_MAINTENANCE == $bootstrapCode) {
-            require $this->_filesystem->getPath(DirectoryList::PUB) . '/errors/503.php';
+            require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/503.php');
             return true;
         }
         if (Bootstrap::ERR_IS_INSTALLED == $bootstrapCode) {
@@ -197,7 +197,7 @@ class Http implements \Magento\Framework\AppInterface
     private function handleInitException(\Exception $exception)
     {
         if ($exception instanceof \Magento\Framework\App\InitException) {
-            require $this->_filesystem->getPath(DirectoryList::PUB) . '/errors/404.php';
+            require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/404.php');
             return true;
         }
         return false;
@@ -220,7 +220,7 @@ class Http implements \Magento\Framework\AppInterface
         if (isset($params['SCRIPT_NAME'])) {
             $reportData['script_name'] = $params['SCRIPT_NAME'];
         }
-        require $this->_filesystem->getPath(DirectoryList::PUB) . '/errors/report.php';
+        require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/report.php');
         return true;
     }
 

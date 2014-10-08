@@ -18,7 +18,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
     }
 
     protected function _getHelper($store, $config, $factory)
@@ -98,20 +98,24 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFonts()
     {
-        $this->_filesystem->expects(
-            $this->once()
-        )->method(
-            'getPath'
-        )->with(
-            DirectoryList::LIB_INTERNAL
-        )->will(
-            $this->returnValue(TESTS_TEMP_DIR . '/lib')
-        );
+        $fontPath = 'path/to/fixture.ttf';
+        $expectedFontPath = 'lib/' . $fontPath;
+
+        $libDirMock = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
+        $libDirMock->expects($this->once())
+            ->method('getAbsolutePath')
+            ->with($fontPath)
+            ->will($this->returnValue($expectedFontPath));
+        $this->_filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(DirectoryList::LIB_INTERNAL)
+            ->will($this->returnValue($libDirMock))
+        ;
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
 
         $config = $this->_getConfigStub();
-        $configData = array('font_code' => array('label' => 'Label', 'path' => 'path/to/fixture.ttf'));
+        $configData = array('font_code' => array('label' => 'Label', 'path' => $fontPath));
 
         $config->expects(
             $this->any()
@@ -131,8 +135,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('label', $fonts['font_code']);
         $this->assertArrayHasKey('path', $fonts['font_code']);
         $this->assertEquals('Label', $fonts['font_code']['label']);
-        $this->assertStringStartsWith(TESTS_TEMP_DIR, $fonts['font_code']['path']);
-        $this->assertStringEndsWith('path/to/fixture.ttf', $fonts['font_code']['path']);
+        $this->assertEquals($expectedFontPath, $fonts['font_code']['path']);
     }
 
     /**

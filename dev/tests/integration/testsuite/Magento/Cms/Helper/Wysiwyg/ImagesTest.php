@@ -13,16 +13,16 @@ class ImagesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetStorageRoot()
     {
-        $path = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
-        )->getPath(
-                DirectoryList::MEDIA
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\Filesystem'
         );
+        $mediaPath = $filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath();
+        /** @var \Magento\Cms\Helper\Wysiwyg\Images $helper */
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Cms\Helper\Wysiwyg\Images'
         );
-        $realPath = str_replace('\\', '/', $path);
-        $this->assertStringStartsWith($realPath, $helper->getStorageRoot());
+        $this->assertStringStartsWith($mediaPath, $helper->getStorageRoot());
     }
 
     public function testGetCurrentUrl()

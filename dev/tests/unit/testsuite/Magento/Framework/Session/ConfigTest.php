@@ -443,6 +443,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->configMock->method('getValue')
             ->will($this->returnValueMap($getValueReturnMap));
 
+        $filesystemMock = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
+        $dirMock = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
+        $filesystemMock->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($dirMock));
+
         $this->config = $this->helper->getObject(
             'Magento\Framework\Session\Config',
             [
@@ -452,6 +458,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'cacheLimiter' => \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,
                 'lifetimePath' => 'test_web/test_cookie/test_cookie_lifetime',
                 'request' => $this->requestMock,
+                'filesystem' => $filesystemMock,
             ]
 
         );
