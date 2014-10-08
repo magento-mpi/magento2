@@ -112,7 +112,6 @@ class Repository
             $params['themeModel'] = $this->getDefaultParameter('themeModel');
         }
 
-
         // Set module
         if (!array_key_exists('module', $params)) {
             $params['module'] = false;
