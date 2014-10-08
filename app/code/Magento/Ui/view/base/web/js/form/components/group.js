@@ -17,7 +17,8 @@ define([
         label:      '',
         required:   false,
         template:   'ui/group/group',
-        breakLine:  false
+        breakLine:  false,
+        invalid: []
     };
 
     function getLabel(elems, obj){
@@ -52,8 +53,15 @@ define([
         initialize: function(config) {
             _.extend(this, defaults, config);
 
-            this.initListeners()
+            this.initObservable()
+                .initListeners()
                 .extractData();
+        },
+
+        initObservable: function () {
+            this.observe('invalid', this.invalid || []);
+
+            return this;
         },
 
         extractData: function(){
@@ -66,13 +74,28 @@ define([
             });
         },
 
+        validate: function () {
+            var invalidElements = this.elems.filter(function (element) {
+                return !element.isValid();
+            });
+
+            this.invalid(invalidElements);
+
+            return this;
+        },
+
         initListeners: function(){
-            var trigger = this.trigger.bind(this, 'update');
+            var update      = this.trigger.bind(this, 'update'),
+                validate    = this.validate.bind(this);
 
             this.elems.forEach(function(elem){
-                elem.on('update', trigger);
+                elem.on('update', update);
+            }, this);
+
+            this.provider.params.on('update:validated', function (isValidated) {
+                !isValidated && validate();
             });
-            
+
             return this;
         },
 

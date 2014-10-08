@@ -60,6 +60,10 @@ define([
             this.elems.push(item);
 
             registry.set(fullName, item);
+        },
+
+        getTemplate: function () {
+            return 'ui/collection';
         }
     });
 });
