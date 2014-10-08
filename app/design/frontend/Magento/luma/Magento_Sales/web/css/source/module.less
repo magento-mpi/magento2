@@ -56,6 +56,9 @@
         + .actions-toolbar {
             display: none;
         }
+        &:not(:last-child) {
+            margin-bottom: @indent-l-base;
+        }
     }
     .table-order-items {
         > thead > tr > th {
@@ -234,7 +237,9 @@
 }
 
 .order-tracking {
-    border-bottom: @border-width-base solid @border-color-base;
+    .order-title + & {
+        border-bottom: @border-width-base solid @border-color-base;
+    }
     margin: 0;
     padding: 20px 0;
     .tracking-title {

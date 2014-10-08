@@ -49,7 +49,7 @@
         tbody + tbody {
             border-top: @border-width-base solid @border-color-base;
         }
-        .account & {
+        .columns & {
             tfoot {
                 &:extend(.abstract-account-summary all);
             }
@@ -92,16 +92,16 @@
     text-transform: uppercase;
 }
 
-.sales-order-view {
-    .page-title {
-        .title {
-            margin-right: 25px;
-        }
-        .order-date {
-            margin: 0 0 20px;
-        }
+
+.page-title {
+    .title {
+        margin-right: 25px;
+    }
+    .order-date {
+        margin: 0 0 20px;
     }
 }
+
 
 .form.orders.search {
     .field {
