@@ -38,10 +38,10 @@ class Match implements QueryInterface
 
         $queryBoost = $query->getBoost();
         $scoreBuilder->addCondition(
-            $select->getMatchQuery($fieldList, $queryValue, Select::FULLTEXT_MODE_BOOLEAN),
+            $select->getMatchQuery('data_index', $queryValue, Select::FULLTEXT_MODE_BOOLEAN),
             !is_null($queryBoost) ? $queryBoost : 1
         );
-        $select->match($fieldList, $queryValue, true, Select::FULLTEXT_MODE_BOOLEAN);
+        $select->match('data_index', $queryValue, true, Select::FULLTEXT_MODE_BOOLEAN);
 
         return $select;
     }

@@ -31,7 +31,7 @@ class RequestGenerator
     public function generate()
     {
         $requests = [];
-        $requests['quick_search_container'] = $this->generateQuickSearchRequest();
+//        $requests['quick_search_container'] = $this->generateQuickSearchRequest();
         $requests['advanced_search_container'] = $this->generateAdvancedSearchRequest();
         return $requests;
     }
@@ -108,6 +108,7 @@ class RequestGenerator
                     ];
                     $request['filters'][$filterName] = [
                         'field' => $attribute->getAttributeCode(),
+                        'name' => $filterName,
                         'type' => 'rangeFilter',
                         'from' => '$' . $attribute->getAttributeCode() . '.from$',
                         'to' => '$' . $attribute->getAttributeCode() . '.to$',
@@ -123,6 +124,7 @@ class RequestGenerator
 
                     $request['filters'][$filterName] = [
                         'type' => 'termFilter',
+                        'name' => $filterName,
                         'field' => $attribute->getAttributeCode(),
                         'value' => '$' . $attribute->getAttributeCode() . '$',
                     ];

@@ -74,7 +74,7 @@ class Builder
         $fieldName = $this->entityMetadata->getEntityId();
         $entityIds = [];
         foreach ($documents as $document) {
-            $entityIds[] = $document[$fieldName];
+           // $entityIds[] = $document->getId();
         }
         return $entityIds;
     }

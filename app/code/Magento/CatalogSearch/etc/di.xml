@@ -12,7 +12,7 @@
     <type name="Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderContainer">
         <arguments>
             <argument name="dataProviders" xsi:type="array">
-                <item name="catalogsearch_fulltext" xsi:type="object">Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider</item>
+                <item name="catalog_product_search_flat" xsi:type="object">Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider</item>
             </argument>
         </arguments>
     </type>
@@ -56,7 +56,7 @@
     <type name="Magento\Framework\Search\EntityMetadata" />
     <virtualType name="Magento\Framework\Search\ProductEntityMetadata" type="Magento\Framework\Search\EntityMetadata">
         <arguments>
-            <argument name="entityId" xsi:type="string">product_id</argument>
+            <argument name="entityId" xsi:type="string">entity_id</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Framework\Search\Adapter\Mysql\DocumentFactory">

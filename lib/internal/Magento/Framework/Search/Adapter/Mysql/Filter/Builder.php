@@ -7,6 +7,9 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Filter;
 
+use Magento\Eav\Model\Config;
+use Magento\Framework\App\Resource;
+use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term;
@@ -36,23 +39,44 @@ class Builder implements BuilderInterface
      * @var Wildcard
      */
     private $wildcard;
+    /**
+     * @var ScopeResolverInterface
+     */
+    private $scopeResolver;
+    /**
+     * @var Resource
+     */
+    private $resource;
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * @param Range $range
      * @param Term $term
      * @param Wildcard $wildcard
      * @param ConditionManager $conditionManager
+     * @param ScopeResolverInterface $scopeResolver
+     * @param Resource $resource
+     * @param Config $config
      */
     public function __construct(
         Range $range,
         Term $term,
         Wildcard $wildcard,
-        ConditionManager $conditionManager
+        ConditionManager $conditionManager,
+        ScopeResolverInterface $scopeResolver,
+        Resource $resource,
+        Config $config
     ) {
         $this->range = $range;
         $this->term = $term;
         $this->conditionManager = $conditionManager;
         $this->wildcard = $wildcard;
+        $this->scopeResolver = $scopeResolver;
+        $this->resource = $resource;
+        $this->config = $config;
     }
 
     /**
@@ -61,6 +85,22 @@ class Builder implements BuilderInterface
     public function build(RequestFilterInterface $filter, $conditionType)
     {
         return $this->processFilter($filter, $this->isNegation($conditionType));
+    }
+
+    /**
+     * @return Select
+     */
+    private function getSelect()
+    {
+        return $this->getConnection()->select();
+    }
+
+    /**
+     * @return AdapterInterface
+     */
+    private function getConnection()
+    {
+        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
     }
 
     /**
@@ -87,7 +127,43 @@ class Builder implements BuilderInterface
             default:
                 throw new \InvalidArgumentException(sprintf('Unknown filter type \'%s\'', $filter->getType()));
         }
-        return $this->conditionManager->wrapBrackets($query);
+
+        $currentStoreId  = $this->scopeResolver->getScope()->getId();
+
+        $attribute = $this->config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $filter->getField());
+        $select = $this->getSelect();
+        $table = $attribute->getBackendTable();
+        if ($filter->getField() == 'price') {
+            $select->from(['main_table' => $this->resource->getTable('catalog_product_index_price')], 'entity_id')
+                ->where($query);
+        } else  if ($attribute->isStatic()) {
+            $select->from(['main_table' => $table], 'entity_id')
+                ->where($query);
+        } else {
+
+            $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
+
+            $select->from(['main_table' => $table], 'entity_id')
+                ->joinLeft(
+                    ['current_store' => $table],
+                    'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = '
+                    . $currentStoreId,
+                    null
+                )
+                ->columns([$filter->getField() => $ifNullCondition])
+                ->where(
+                    'main_table.attribute_id = ?',
+                    $attribute->getAttributeId()
+                )
+                ->where('main_table.store_id = ?', 0)
+                ->having($query);
+        }
+
+
+        return  'product_id '. ( $isNegation ? 'NOT' : '' ) .' IN (
+                select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
+             as filter)';
+       ;
     }
 
     /**
