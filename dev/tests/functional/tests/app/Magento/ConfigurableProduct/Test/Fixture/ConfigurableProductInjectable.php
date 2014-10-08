@@ -599,7 +599,7 @@ class ConfigurableProductInjectable extends InjectableFixture
         'attribute_code' => 'up_sell_products',
         'backend_type' => 'virtual',
         'group' => 'upsells',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts'
     ];
 
     public function getCategoryIds()

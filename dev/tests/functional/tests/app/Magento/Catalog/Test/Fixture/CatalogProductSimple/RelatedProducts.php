@@ -13,10 +13,10 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class AbstractRelatedProducts
- * Base class create related products
+ * Class RelatedProducts
+ * Base class for create related products
  */
-class AbstractRelatedProducts implements FixtureInterface
+class RelatedProducts implements FixtureInterface
 {
     /**
      * Data set configuration settings

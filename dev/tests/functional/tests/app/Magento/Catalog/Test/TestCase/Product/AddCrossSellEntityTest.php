@@ -8,13 +8,6 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts;
-
 /**
  * Class AddCrossSellEntityTest
  *
@@ -34,50 +27,12 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts;
  * @group Cross-sells_(MX)
  * @ZephyrId MAGETWO-29081
  */
-class AddCrossSellEntityTest extends Injectable
+class AddCrossSellEntityTest extends AbstractAddRelatedProductsEntityTest
 {
     /**
-     * Catalog product index page on backend
+     * Type of related products
      *
-     * @var CatalogProductIndex
+     * @var string
      */
-    protected $catalogProductIndex;
-
-    /**
-     * Catalog product view page on backend
-     *
-     * @var CatalogProductNew
-     */
-    protected $catalogProductNew;
-
-    /**
-     * Inject data
-     *
-     * @param CatalogProductIndex $catalogProductIndex
-     * @param CatalogProductNew $catalogProductNew
-     * @return void
-     */
-    public function __inject(CatalogProductIndex $catalogProductIndex, CatalogProductNew $catalogProductNew)
-    {
-        $this->catalogProductIndex = $catalogProductIndex;
-        $this->catalogProductNew = $catalogProductNew;
-    }
-
-    /**
-     * Run test add cross sell entity
-     *
-     * @param CatalogProductSimple $product
-     * @return array
-     */
-    public function test(CatalogProductSimple $product)
-    {
-        $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getGridPageActionBlock()->addProduct('simple');
-        $this->catalogProductNew->getProductForm()->fill($product);
-        $this->catalogProductNew->getFormPageActions()->save();
-
-        /** @var CrossSellProducts $crossSellProducts*/
-        $crossSellProducts = $product->getDataFieldConfig('cross_sell_products')['source'];
-        return ['relatedProducts' => $crossSellProducts->getProducts()];
-    }
+    protected $typeRelatedProducts = 'cross_sell_products';
 }

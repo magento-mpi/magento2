@@ -451,14 +451,20 @@
             <attribute_code>cross_sell_products</attribute_code>
             <backend_type>virtual</backend_type>
             <group>crosssells</group>
-            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts</source>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts</source>
         </cross_sell_products>
         <up_sell_products>
             <attribute_code>cross_sell_products</attribute_code>
             <backend_type>virtual</backend_type>
             <group>crosssells</group>
-            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts</source>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts</source>
         </up_sell_products>
+        <related_products>
+            <attribute_code>related_products</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>related-products</group>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts</source>
+        </related_products>
     </fields>
     <data_set>
         <sku></sku>
