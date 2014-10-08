@@ -18,6 +18,7 @@
     <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
     <preference for="Magento\Backend\Model\UrlInterface" type="Magento\Backend\Model\Url" />
     <preference for="Magento\Backend\Block\Widget\Button\ToolbarInterface" type="Magento\Backend\Block\Widget\Button\Toolbar" />
+    <preference for="Magento\Backend\Service\V1\ModuleServiceInterface" type="Magento\Backend\Service\V1\ModuleService" />
     <type name="Magento\Backend\Block\Widget\Button\ButtonList" shared="false" />
     <type name="Magento\Framework\App\AreaList">
         <arguments>
