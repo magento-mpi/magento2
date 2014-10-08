@@ -17,11 +17,6 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Install\Block\Begin">
-        <arguments>
-            <argument name="eulaFile" xsi:type="string">LICENSE_EE.html</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">

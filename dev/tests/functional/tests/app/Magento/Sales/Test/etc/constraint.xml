@@ -105,16 +105,31 @@
     <assertOrderReleaseFailMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderReleaseFailMessage>
-    <assertShipmentSuccessCreateMessage module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertShipmentSuccessCreateMessage>
     <assertReorderStatusIsCorrect module="Magento_Sales">
         <severeness>low</severeness>
     </assertReorderStatusIsCorrect>
     <assertRefundSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
     </assertRefundSuccessCreateMessage>
-    <assertRefundInRefundsTab module="Magento_Sales">
+    <assertCreditMemoButton module="Magento_Sales">
         <severeness>low</severeness>
-    </assertRefundInRefundsTab>
+    </assertCreditMemoButton>
+    <assertRefundInCreditMemoTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundInCreditMemoTab>
+    <assertRefundInRefundsGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundInRefundsGrid>
+    <assertRefundedGrandTotalOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertRefundedGrandTotalOnFrontend>
+    <assertNoCreditMemoButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoCreditMemoButton>
+    <assertCreditMemoItems module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertCreditMemoItems>
+    <assertInvoiceItems module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceItems>
 </constraint>
