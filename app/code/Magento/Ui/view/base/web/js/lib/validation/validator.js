@@ -47,6 +47,13 @@ define([
             return message;
         },
 
+        /**
+         * Adds new validation rule.
+         * 
+         * @param {String} rule - rule name
+         * @param {Function} validator - validation function
+         * @param {String} message - validation message
+         */
         addRule: function (rule, validator, message) {
             rules[rule] = [validator, message];
         }
