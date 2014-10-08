@@ -101,29 +101,19 @@ class Emulation extends \Magento\Framework\Object
      *
      * @param integer $storeId
      * @param string $area
-     * @param bool $emulateStoreInlineTranslation emulate inline translation of the specified store or just disable it
      * @returns void
      */
     public function startEnvironmentEmulation(
         $storeId,
-        $area = \Magento\Framework\App\Area::AREA_FRONTEND,
-        $emulateStoreInlineTranslation = false
+        $area = \Magento\Framework\App\Area::AREA_FRONTEND
     ) {
         if ($storeId == $this->_storeManager->getStore()->getStoreId()) {
             return;
         }
         $this->storeCurrentEnvironmentInfo();
 
-        if ($area === null) {
-            $area = \Magento\Framework\App\Area::AREA_FRONTEND;
-        }
-
         // emulate inline translations
-        $this->inlineTranslation->suspend(
-            $emulateStoreInlineTranslation
-                ? false
-                : $this->inlineConfig->isActive($storeId)
-        );
+        $this->inlineTranslation->suspend($this->inlineConfig->isActive($storeId));
 
         // emulate design
         $storeTheme = $this->_viewDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
@@ -146,7 +136,7 @@ class Emulation extends \Magento\Framework\Object
             $storeId
         );
         $this->_localeResolver->setLocaleCode($newLocaleCode);
-        $this->_translate->setLocale($newLocaleCode)->loadData($area, true);
+        $this->_translate->setLocale($newLocaleCode)->loadData($area);
 
         return;
     }
@@ -230,7 +220,7 @@ class Emulation extends \Magento\Framework\Object
         $initialArea = \Magento\Framework\App\Area::AREA_ADMIN
     ) {
         $this->_localeResolver->setLocaleCode($initialLocaleCode);
-        $this->_translate->setLocale($initialLocaleCode)->loadData($initialArea, true);
+        $this->_translate->setLocale($initialLocaleCode)->loadData($initialArea);
 
         return $this;
     }
