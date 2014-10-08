@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\Model;
 
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -143,5 +145,44 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $this->actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
         $this->model->delete();
+    }
+
+    /**
+     * Test implementation of interface for work with custom attributes.
+     */
+    public function testCustomAttributes()
+    {
+        $this->assertEquals(
+            [],
+            $this->model->getCustomAttributes(),
+            "Empty array is expected as a result of getCustomAttributes() when custom attributes are not set."
+        );
+        $this->assertEquals(
+            null,
+            $this->model->getCustomAttribute('not_existing_custom_attribute'),
+            "Null is expected as a result of getCustomAttribute(\$code) when custom attribute is not set."
+        );
+        $objectManager = new ObjectManagerHelper($this);
+        /** @var \Magento\Framework\Service\Data\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
+        $attributesAsArray = ['attribute1' => true, 'attribute2' => 'Attribute Value', 'attribute3' => 333];
+        $expectedAttributes = [];
+        foreach ($attributesAsArray as $attributeCode => $attributeValue) {
+            $expectedAttributes[$attributeCode] = $attributeValueBuilder
+                ->setAttributeCode($attributeCode)
+                ->setValue($attributeValue)
+                ->create();
+            $this->model->setCustomAttribute($attributeCode, $expectedAttributes[$attributeCode]);
+            $this->model->getCustomAttribute(
+                $attributeCode,
+                $expectedAttributes[$attributeCode],
+                "Custom attribute '$attributeCode' retrieved from the model is invalid."
+            );
+        }
+        $this->assertEquals(
+            $expectedAttributes,
+            $this->model->getCustomAttributes(),
+            'Custom attributes retrieved from the model using getCustomAttributes() are invalid.'
+        );
     }
 }
