@@ -12,12 +12,13 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\CreditMemos\Grid;
 
 /**
- * Class AssertRefundInRefundsTab
- * Assert that refund is present in the Credit Memo tab with correct refunded items quantity
+ * Class AssertRefundInCreditMemoTab
+ * Assert that refund is present in the tab with ID and refunded amount(depending on full/partial refund)
  */
-class AssertRefundInRefundsTab extends AbstractConstraint
+class AssertRefundInCreditMemoTab extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,36 +28,38 @@ class AssertRefundInRefundsTab extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that refund is present in the Credit Memo tab with correct refunded items quantity
+     * Assert that refund is present in the tab with ID and refunded amount(depending on full/partial refund)
      *
      * @param OrderView $orderView
      * @param OrderIndex $orderIndex
      * @param OrderInjectable $order
      * @param array $ids
-     * @param array $creditMemo
      * @return void
      */
     public function processAssert(
         OrderView $orderView,
         OrderIndex $orderIndex,
         OrderInjectable $order,
-        array $ids,
-        array $creditMemo
+        array $ids
     ) {
         $orderIndex->open();
         $orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $orderView->getOrderForm()->openTab('creditmemos');
-
-        foreach ($ids['creditMemoIds'] as $creditMemoId) {
-            $amount = $creditMemo['qty'];
+        /** @var Grid $grid */
+        $grid = $orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock();
+        $amount = $order->getPrice();
+        foreach ($ids['creditMemoIds'] as $key => $creditMemoId) {
             $filter = [
                 'id' => $creditMemoId,
-                'amount_from' => $amount,
-                'amount_to' => $amount
+                'amount_from' => $amount[$key]['grand_creditmemo_total'],
+                'amount_to' => $amount[$key]['grand_creditmemo_total']
             ];
+            $grid->search($filter);
+            $filter['amount_from'] = number_format($amount[$key]['grand_creditmemo_total'], 2);
+            $filter['amount_to'] = number_format($amount[$key]['grand_creditmemo_total'], 2);
             \PHPUnit_Framework_Assert::assertTrue(
-                $orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->isRowVisible($filter),
-                'Refund is absent on credit memo tab.'
+                $grid->isRowVisible($filter, false, false),
+                'Credit memo is absent on credit memos tab.'
             );
         }
     }
@@ -68,6 +71,6 @@ class AssertRefundInRefundsTab extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Refund is present on credit memo tab.';
+        return 'Credit memo is present on credit memos tab.';
     }
 }

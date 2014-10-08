@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Order\Invoice;
+namespace Magento\Sales\Test\Block\Order;
 
 use Mtf\Block\Block;
 
 /**
  * Class Items
- * Items block on invoice view page
+ * Items block on order's view page
  */
 class Items extends Block
 {
