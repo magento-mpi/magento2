@@ -52,6 +52,11 @@ class Observer
     protected $_customerConverter;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Framework\App\RequestInterface $request
@@ -67,7 +72,8 @@ class Observer
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Customer\Model\Converter $customerConverter
+        \Magento\Customer\Model\Converter $customerConverter,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
         $this->_onePageCheckout = $onePageCheckout;
         $this->_balanceFactory = $balanceFactory;
@@ -76,6 +82,7 @@ class Observer
         $this->_customerBalanceData = $customerBalanceData;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerConverter = $customerConverter;
+        $this->priceCurrency = $priceCurrency;
     }
 
     /**
@@ -507,10 +514,10 @@ class Observer
             if ($enable && is_numeric($amount)) {
                 $amount = max(0, min($creditmemo->getBaseCustomerBalanceReturnMax(), $amount));
                 if ($amount) {
-                    $amount = $creditmemo->getStore()->roundPrice($amount);
+                    $amount = $this->priceCurrency->round($amount);
                     $creditmemo->setBsCustomerBalTotalRefunded($amount);
 
-                    $amount = $creditmemo->getStore()->roundPrice(
+                    $amount = $this->priceCurrency->round(
                         $amount * $creditmemo->getOrder()->getBaseToOrderRate()
                     );
                     $creditmemo->setCustomerBalTotalRefunded($amount);

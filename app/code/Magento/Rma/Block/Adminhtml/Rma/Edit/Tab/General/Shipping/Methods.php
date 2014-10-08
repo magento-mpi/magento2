@@ -31,6 +31,11 @@ class Methods extends \Magento\Framework\View\Element\Template
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
@@ -42,11 +47,13 @@ class Methods extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $data);
     }
 
@@ -71,13 +78,7 @@ class Methods extends \Magento\Framework\View\Element\Template
      */
     public function getShippingPrice($price)
     {
-        return $this->_coreRegistry->registry(
-            'current_rma'
-        )->getStore()->convertPrice(
-            $this->_taxData->getShippingPrice($price),
-            true,
-            false
-        );
+        return $this->priceCurrency->convert($this->_taxData->getShippingPrice($price), true, false);
     }
 
     /**
