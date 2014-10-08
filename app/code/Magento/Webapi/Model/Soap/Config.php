@@ -80,7 +80,7 @@ class Config
         \Magento\Webapi\Helper\Data $helper
     ) {
         // TODO: Check if Service specific XSD is already cached
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;

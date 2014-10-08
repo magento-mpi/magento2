@@ -83,7 +83,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
-        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->assetRepo = $assetRepo;
         $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;

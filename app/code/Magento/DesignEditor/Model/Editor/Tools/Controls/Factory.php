@@ -118,7 +118,7 @@ class Factory
             default:
                 throw new \Magento\Framework\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        $rootDirectory = $this->filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $rootDirectory = $this->filesystem->getDirectoryRead(DirectoryList::ROOT);
         $paths = array();
         foreach ($files as $file) {
             $paths[] = $rootDirectory->getRelativePath($file);

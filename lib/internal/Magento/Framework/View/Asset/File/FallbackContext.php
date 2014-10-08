@@ -41,7 +41,7 @@ class FallbackContext extends Context
         $this->area = $areaType;
         $this->theme = $themePath;
         $this->locale = $localeCode;
-        parent::__construct($baseUrl, DirectoryList::STATIC_VIEW_DIR, $this->generatePath());
+        parent::__construct($baseUrl, DirectoryList::STATIC_VIEW, $this->generatePath());
     }
 
     /**

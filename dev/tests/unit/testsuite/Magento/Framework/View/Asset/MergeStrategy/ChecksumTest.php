@@ -44,12 +44,12 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::ROOT_DIR)
+            ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->sourceDir))
         ;
         $filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->targetDir))
         ;
         $this->checksum = new Checksum($this->mergerMock, $filesystem);

@@ -21,7 +21,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
                 DirectoryList::INIT_PARAM_PATHS => array(
-                    DirectoryList::APP_DIR => array('path' => BP . '/dev/tests/integration')
+                    DirectoryList::APP => array('path' => BP . '/dev/tests/integration')
                 )
             )
         );

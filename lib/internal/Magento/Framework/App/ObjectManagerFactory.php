@@ -57,15 +57,15 @@ class ObjectManagerFactory
         $directoryList = new DirectoryList($rootDir, $directories);
 
         (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($directoryList->getDir(DirectoryList::GENERATION_DIR))
+            array($directoryList->getDir(DirectoryList::GENERATION))
         );
 
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             new \Magento\Framework\Filesystem\Driver\File(),
-            $directoryList->getDir(DirectoryList::DI_DIR),
-            $directoryList->getDir(DirectoryList::GENERATION_DIR),
+            $directoryList->getDir(DirectoryList::DI),
+            $directoryList->getDir(DirectoryList::GENERATION),
             $appArguments->get('definition.format', 'serialized')
         );
 

@@ -35,7 +35,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $filesystemMock->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA)
             ->will($this->returnValue($this->dirMock));
         $dateMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\DateTime')
             ->disableOriginalConstructor()

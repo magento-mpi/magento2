@@ -22,6 +22,11 @@ class Minified implements MergeableInterface
     /**#@-*/
 
     /**
+     * Directory for dynamically generated public view files, relative to STATIC_VIEW
+     */
+    const CACHE_VIEW_REL = '_cache';
+
+    /**
      * LocalInterface
      *
      * @var LocalInterface
@@ -118,8 +123,8 @@ class Minified implements MergeableInterface
         $this->originalAsset = $asset;
         $this->strategy = $strategy;
         $this->logger = $logger;
-        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
-        $this->staticViewDir = $filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR);
+        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->staticViewDir = $filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
         $this->baseUrl = $baseUrl;
         $this->adapter = $adapter;
     }
@@ -305,8 +310,8 @@ class Minified implements MergeableInterface
         $path = $this->originalAsset->getPath();
         $this->context = new \Magento\Framework\View\Asset\File\Context(
             $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_STATIC)),
-            DirectoryList::STATIC_VIEW_DIR,
-            \Magento\Framework\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified'
+            DirectoryList::STATIC_VIEW,
+            self::CACHE_VIEW_REL . '/minified'
         );
         $this->filePath = md5($path) . '_' . $this->composeMinifiedName(basename($path));
         $this->path = $this->context->getPath() . '/' . $this->filePath;

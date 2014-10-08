@@ -249,9 +249,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultTemplatesAsOptionsArray()
     {
         $dirValueMap = array(
-            array(DirectoryList::ROOT_DIR, 'var/www/magento\rootdir/'),
-            array(DirectoryList::APP_DIR, 'var/www/magento\rootdir\app/'),
-            array(DirectoryList::THEMES_DIR, 'var\www/magento\rootdir\app/themes/')
+            array(DirectoryList::ROOT, 'var/www/magento\rootdir/'),
+            array(DirectoryList::APP, 'var/www/magento\rootdir\app/'),
+            array(DirectoryList::THEMES, 'var\www/magento\rootdir\app/themes/')
         );
 
         $this->directoryMock = $this->getMock(

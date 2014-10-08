@@ -15,8 +15,8 @@ $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
 /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
 $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-$mediaPath = $filesystem->getPath(DirectoryList::MEDIA_DIR);
-$mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+$mediaPath = $filesystem->getPath(DirectoryList::MEDIA);
+$mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
 
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 $mediaDirectory->create($baseTmpMediaPath);

@@ -61,7 +61,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('/theme/origin'));
 
         $this->filesystem->expects($this->any())->method('getDirectoryRead')
-            ->with(DirectoryList::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA)
             ->will($this->returnValue($this->mediaDirectory));
 
         $this->model = new Path(

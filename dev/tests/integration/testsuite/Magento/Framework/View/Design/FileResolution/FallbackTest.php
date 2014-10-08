@@ -28,7 +28,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     {
         Bootstrap::getInstance()->reinitialize(array(
             DirectoryList::INIT_PARAM_PATHS => array(
-                DirectoryList::THEMES_DIR => array(
+                DirectoryList::THEMES => array(
                     'path' => __DIR__ . '/../../_files/fallback/design'
                 ),
                 DirectoryList::LIB_WEB => array(

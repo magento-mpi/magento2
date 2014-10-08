@@ -134,7 +134,7 @@ class Observer
 
             if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(
-                    $this->_filesystem->getPath(DirectoryList::ROOT_DIR)
+                    $this->_filesystem->getPath(DirectoryList::ROOT)
                 )->addIgnorePaths(
                     $this->_backupData->getBackupIgnorePaths()
                 );

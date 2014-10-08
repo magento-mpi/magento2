@@ -29,7 +29,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     DirectoryList::LIB_WEB => array(
                         'path' => dirname(dirname(__DIR__)) . '/_files/lib/web'
                     ),
-                    DirectoryList::THEMES_DIR => array(
+                    DirectoryList::THEMES => array(
                         'path' => dirname(dirname(__DIR__)) . '/_files/design'
                     )
                 )
@@ -47,10 +47,10 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => BP,
                         'directories' => array(
-                            DirectoryList::MODULES_DIR => array(
+                            DirectoryList::MODULES => array(
                                 'path' => dirname(dirname(__DIR__)) . '/_files/code'
                             ),
-                            DirectoryList::THEMES_DIR => array(
+                            DirectoryList::THEMES => array(
                                 'path' => dirname(dirname(__DIR__)) . '/_files/design'
                             ),
                         )

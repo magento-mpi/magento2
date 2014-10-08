@@ -143,7 +143,7 @@ class Migration extends \Magento\Framework\Module\Setup
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
         $compositeModules = array()
     ) {
-        $this->_directory = $context->getFilesystem()->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->_directory = $context->getFilesystem()->getDirectoryRead(DirectoryList::ROOT);
         $this->_pathToMapFile = $confPathToMapFile;
         $this->_migrationData = $migrationData;
         $this->_replacePatterns = array(

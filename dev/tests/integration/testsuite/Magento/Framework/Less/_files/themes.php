@@ -10,7 +10,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
     array(
         DirectoryList::INIT_PARAM_PATHS => array(
-            DirectoryList::THEMES_DIR => array('path' => __DIR__ . '/design')
+            DirectoryList::THEMES => array('path' => __DIR__ . '/design')
         )
     )
 );

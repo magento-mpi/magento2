@@ -33,11 +33,11 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             '/'
         );
         $this->directoryList->addDirectory(
-            DirectoryList::MODULES_DIR,
+            DirectoryList::MODULES,
             array('path' => $dirPath . '/code')
         );
-        $this->directoryList->addDirectory(DirectoryList::CONFIG_DIR, array('path' => $dirPath));
-        $this->directoryList->addDirectory(DirectoryList::ROOT_DIR, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::CONFIG, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::ROOT, array('path' => $dirPath));
 
         $filesystem = $objectManager->create(
             'Magento\Framework\App\Filesystem',

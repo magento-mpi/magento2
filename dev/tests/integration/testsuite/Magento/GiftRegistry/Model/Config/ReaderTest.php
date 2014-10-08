@@ -23,8 +23,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => BP,
                         'directories' => array(
-                            DirectoryList::MODULES_DIR => array('path' => __DIR__ . '/_files'),
-                            DirectoryList::CONFIG_DIR => array('path' => __DIR__ . '/_files')
+                            DirectoryList::MODULES => array('path' => __DIR__ . '/_files'),
+                            DirectoryList::CONFIG => array('path' => __DIR__ . '/_files')
                         )
                     )
                 )

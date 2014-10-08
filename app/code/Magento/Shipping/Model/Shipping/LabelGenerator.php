@@ -143,7 +143,7 @@ class LabelGenerator
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
         $directory = $this->filesystem->getDirectoryWrite(
-            DirectoryList::TMP_DIR
+            DirectoryList::TMP
         );
         $directory->create();
         $image = imagecreatefromstring($imageString);

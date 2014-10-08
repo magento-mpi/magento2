@@ -46,7 +46,7 @@ class Publisher
         if ($this->appState->getMode() === \Magento\Framework\App\State::MODE_DEVELOPER) {
             return false;
         }
-        $dir = $this->filesystem->getDirectoryRead(DirectoryList::STATIC_VIEW_DIR);
+        $dir = $this->filesystem->getDirectoryRead(DirectoryList::STATIC_VIEW);
         if ($dir->isExist($asset->getPath())) {
             return true;
         }
@@ -61,8 +61,8 @@ class Publisher
      */
     private function publishAsset(Asset\LocalInterface $asset)
     {
-        $dir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR);
-        $rootDir = $this->filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
+        $rootDir = $this->filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $source = $rootDir->getRelativePath($asset->getSourceFile());
         $destination = $asset->getPath();
         return $rootDir->copyFile($source, $destination, $dir);

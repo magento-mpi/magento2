@@ -137,8 +137,8 @@ abstract class AbstractPdf extends \Magento\Framework\Object
         $this->_localeDate = $localeDate;
         $this->string = $string;
         $this->_scopeConfig = $scopeConfig;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
-        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;
         $this->_pdfItemsFactory = $pdfItemsFactory;

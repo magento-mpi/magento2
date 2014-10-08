@@ -72,7 +72,7 @@ class Image extends AbstractBackend
             return $this;
         }
         $path = $this->_filesystem->getDirectoryRead(
-            DirectoryList::MEDIA_DIR
+            DirectoryList::MEDIA
         )->getAbsolutePath(
             'catalog/product/'
         );

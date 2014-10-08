@@ -72,7 +72,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Filesystem\Directory\ReadInterface $dirReadMock */
         $dirReadMock = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->_dirReadFactoryMock->expects($this->once())->method('create')->will($this->returnValue($dirReadMock));
-        $this->assertEquals($dirReadMock, $this->_filesystem->getDirectoryRead(DirectoryList::ROOT_DIR));
+        $this->assertEquals($dirReadMock, $this->_filesystem->getDirectoryRead(DirectoryList::ROOT));
     }
 
     /**
@@ -81,7 +81,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     public function testGetDirectoryWriteReadOnly()
     {
         $this->_setupDirectoryListMock(array('read_only' => true));
-        $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
     }
 
     public function testGetDirectoryWrite()
@@ -90,7 +90,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $dirWriteMock */
         $dirWriteMock = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->_dirWriteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($dirWriteMock));
-        $this->assertEquals($dirWriteMock, $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR));
+        $this->assertEquals($dirWriteMock, $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT));
     }
 
     public function testGetRemoteResource()
@@ -115,7 +115,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $uri = 'http://example.com';
         $this->_setupDirectoryListMock(array('uri' => $uri));
-        $this->assertEquals($uri, $this->_filesystem->getUri(DirectoryList::ROOT_DIR));
+        $this->assertEquals($uri, $this->_filesystem->getUri(DirectoryList::ROOT));
     }
 
     protected function _setupDirectoryListMock(array $config)

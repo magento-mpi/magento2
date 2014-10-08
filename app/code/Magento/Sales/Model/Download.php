@@ -43,7 +43,7 @@ class Download
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
-        $this->_rootDir = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $this->_rootDir = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $this->_fileStorageDatabase = $fileStorageDatabase;
         $this->_storageDatabaseFactory = $storageDatabaseFactory;
         $this->_fileFactory = $fileFactory;
@@ -70,7 +70,7 @@ class Download
         $this->_fileFactory->create(
             $info['title'],
             array('value' => $this->_rootDir->getRelativePath($relativePath), 'type' => 'filename'),
-            DirectoryList::ROOT_DIR
+            DirectoryList::ROOT
         );
     }
 

@@ -257,7 +257,7 @@ class Tablerate extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $this->_importErrors = array();
         $this->_importedRows = 0;
 
-        $tmpDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP_DIR);
+        $tmpDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
         $path = $tmpDirectory->getRelativePath($csvFile);
         $stream = $tmpDirectory->openFile($path);
 

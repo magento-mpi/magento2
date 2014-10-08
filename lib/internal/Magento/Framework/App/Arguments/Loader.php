@@ -55,7 +55,7 @@ class Loader
      */
     public function __construct(\Magento\Framework\App\Filesystem\DirectoryList $dirList, $customFile = null)
     {
-        $this->_dir = $dirList->getDir(DirectoryList::CONFIG_DIR);
+        $this->_dir = $dirList->getDir(DirectoryList::CONFIG);
         $this->_customFile = $customFile;
     }
 

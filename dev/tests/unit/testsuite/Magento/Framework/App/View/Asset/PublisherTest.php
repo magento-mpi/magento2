@@ -54,13 +54,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->filesystem->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->staticDirRead));
         $this->filesystem->expects($this->any())
             ->method('getDirectoryWrite')
             ->will($this->returnValueMap([
-                [DirectoryList::ROOT_DIR, $this->rootDirWrite],
-                [DirectoryList::STATIC_VIEW_DIR, $this->staticDirWrite],
+                [DirectoryList::ROOT, $this->rootDirWrite],
+                [DirectoryList::STATIC_VIEW, $this->staticDirWrite],
             ]));
     }
 

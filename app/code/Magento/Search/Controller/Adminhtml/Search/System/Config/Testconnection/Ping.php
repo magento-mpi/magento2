@@ -49,7 +49,7 @@ class Ping extends \Magento\Backend\App\Action
         }
 
         $path = $host . ':' . $port . '/' . $path . '/admin/ping';
-        $httpResource = $this->filesystem->getRemoteResource($path, DirectoryList::HTTP);
+        $httpResource = $this->filesystem->getRemoteResource($path, \Magento\Framework\Filesystem::HTTP);
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];

@@ -134,7 +134,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directory = $objectManager->get('Magento\Framework\App\Filesystem')
-            ->getDirectoryRead(DirectoryList::MODULES_DIR);
+            ->getDirectoryRead(DirectoryList::MODULES);
 
         return $objectManager->get('\Magento\Framework\Config\FileIteratorFactory')
             ->create($directory, $directory->search($this->_getConfigFilePathGlob()));
@@ -147,7 +147,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
      */
     protected function getDirectoryConstant()
     {
-        return DirectoryList::MODULES_DIR;
+        return DirectoryList::MODULES;
     }
 
     /**

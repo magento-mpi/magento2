@@ -250,7 +250,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\Filesystem');
         /** @var $directory  \Magento\Framework\Filesystem\Directory\Read */
-        $directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $directory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $fileIteratorFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Config\FileIteratorFactory'
         );

@@ -51,7 +51,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::ROOT_DIR)
+            ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->writeDirectoryMock));
 
         $this->storageMock = $this->getMockBuilder('Magento\Core\Helper\File\Storage\Database')
@@ -222,7 +222,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $info['title'],
                 ['value' => $info['order_path'], 'type' => 'filename'],
-                DirectoryList::ROOT_DIR,
+                DirectoryList::ROOT,
                 'application/octet-stream',
                 null
             );

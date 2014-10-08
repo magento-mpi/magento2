@@ -71,7 +71,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreFileStorage = $coreFileStorage;
         $this->_validator = $validator;
-        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
     }
 
     /**

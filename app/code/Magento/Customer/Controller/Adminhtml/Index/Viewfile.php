@@ -44,7 +44,7 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
 
         /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+        $directory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $fileName = 'customer' . '/' . ltrim($file, '/');
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile($fileName)
@@ -92,7 +92,7 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
             $this->_fileFactory->create(
                 $name,
                 array('type' => 'filename', 'value' => $fileName),
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
             )->sendResponse();
         }
 

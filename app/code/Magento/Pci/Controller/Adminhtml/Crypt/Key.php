@@ -27,7 +27,7 @@ class Key extends \Magento\Backend\App\Action
         $configDirectory = $this->_objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            DirectoryList::CONFIG_DIR
+            DirectoryList::CONFIG
         );
         if (!$configDirectory->isWritable('local.xml')) {
             $this->messageManager->addError(

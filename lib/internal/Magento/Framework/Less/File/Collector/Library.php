@@ -52,7 +52,7 @@ class Library implements CollectorInterface
     ) {
         $this->fileListFactory = $fileListFactory;
         $this->libraryDirectory = $filesystem->getDirectoryRead(DirectoryList::LIB_WEB);
-        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
         $this->fileFactory = $fileFactory;
     }
 

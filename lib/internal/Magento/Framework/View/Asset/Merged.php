@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\View\Asset;
+use Magento\Framework\View\Asset\Minified;
 
 /**
  * \Iterator that aggregates one or more assets and provides a single public file with equivalent behavior
@@ -171,6 +172,6 @@ class Merged implements \Iterator
      */
     public static function getRelativeDir()
     {
-        return \Magento\Framework\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/merged';
+        return Minified::CACHE_VIEW_REL . '/merged';
     }
 }

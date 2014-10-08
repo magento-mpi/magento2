@@ -39,7 +39,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
         $this->writeDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
         $filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->writeDir))
         ;
         $this->resultAsset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);

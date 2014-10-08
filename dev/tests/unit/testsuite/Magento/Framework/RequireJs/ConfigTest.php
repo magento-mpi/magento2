@@ -47,7 +47,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::ROOT_DIR)
+            ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->baseDir));
         $repo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->context = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\ContextInterface');

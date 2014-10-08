@@ -42,7 +42,7 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
             'Magento\Framework\App\Filesystem\DirectoryList'
         );
         /** @var $directoryList \Magento\Framework\App\Filesystem\DirectoryList */
-        $directoryList->addDirectory(DirectoryList::SYS_TMP_DIR, array('path' => ''));
+        $directoryList->addDirectory(DirectoryList::SYS_TMP, array('path' => ''));
 
         $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')
             ->getCollection()
@@ -68,7 +68,7 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
          */
         $fileName = __DIR__ . '/_files/simple-js-file.js';
         $varDir = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-        $rootDir = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $rootDir = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $destinationFilePath = 'simple-js-file.js';
 
         $rootDir->copyFile($rootDir->getRelativePath($fileName), $destinationFilePath, $varDir);

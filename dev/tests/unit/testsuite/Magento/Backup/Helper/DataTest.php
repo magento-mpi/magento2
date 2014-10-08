@@ -39,9 +39,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->expects($this->any())->method('getPath')
             ->will($this->returnValueMap([
                 [MaintenanceMode::FLAG_DIR, MaintenanceMode::FLAG_DIR],
-                [DirectoryList::SESSION_DIR, DirectoryList::SESSION_DIR],
-                [DirectoryList::CACHE_DIR, DirectoryList::CACHE_DIR],
-                [DirectoryList::LOG_DIR, DirectoryList::LOG_DIR],
+                [DirectoryList::SESSION, DirectoryList::SESSION],
+                [DirectoryList::CACHE, DirectoryList::CACHE],
+                [DirectoryList::LOG, DirectoryList::LOG],
                 [DirectoryList::VAR_DIR, DirectoryList::VAR_DIR],
             ]));
 
@@ -50,9 +50,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 '.git',
                 '.svn',
                 'var/' . MaintenanceMode::FLAG_FILENAME,
-                DirectoryList::SESSION_DIR,
-                DirectoryList::CACHE_DIR,
-                DirectoryList::LOG_DIR,
+                DirectoryList::SESSION,
+                DirectoryList::CACHE,
+                DirectoryList::LOG,
                 DirectoryList::VAR_DIR . '/full_page_cache',
                 DirectoryList::VAR_DIR . '/locks',
                 DirectoryList::VAR_DIR . '/report',
@@ -66,9 +66,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->expects($this->any())->method('getPath')
             ->will($this->returnValueMap([
                 [MaintenanceMode::FLAG_DIR, MaintenanceMode::FLAG_DIR],
-                [DirectoryList::SESSION_DIR, DirectoryList::SESSION_DIR],
-                [DirectoryList::ROOT_DIR, DirectoryList::ROOT_DIR],
-                [DirectoryList::LOG_DIR, DirectoryList::LOG_DIR],
+                [DirectoryList::SESSION, DirectoryList::SESSION],
+                [DirectoryList::ROOT, DirectoryList::ROOT],
+                [DirectoryList::LOG, DirectoryList::LOG],
                 [DirectoryList::VAR_DIR, DirectoryList::VAR_DIR],
             ]));
 
@@ -77,12 +77,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 '.svn',
                 '.git',
                 'var/' . MaintenanceMode::FLAG_FILENAME,
-                DirectoryList::SESSION_DIR,
-                DirectoryList::LOG_DIR,
+                DirectoryList::SESSION,
+                DirectoryList::LOG,
                 DirectoryList::VAR_DIR . '/locks',
                 DirectoryList::VAR_DIR . '/report',
-                DirectoryList::ROOT_DIR . '/errors',
-                DirectoryList::ROOT_DIR . '/index.php',
+                DirectoryList::ROOT . '/errors',
+                DirectoryList::ROOT . '/index.php',
             ],
             $this->helper->getRollbackIgnorePaths()
         );

@@ -85,7 +85,7 @@ class Config
         $this->_layout = $layout;
         $this->_appState = $appState;
         $this->_persistentFactory = $persistentFactory;
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
     }
 
     /**

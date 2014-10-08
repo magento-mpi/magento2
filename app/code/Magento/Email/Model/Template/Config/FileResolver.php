@@ -32,7 +32,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
         \Magento\Framework\App\Filesystem $filesystem,
         FileIteratorFactory $iteratorFactory
     ) {
-        $this->directoryRead = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->directoryRead = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->iteratorFactory = $iteratorFactory;
     }
 

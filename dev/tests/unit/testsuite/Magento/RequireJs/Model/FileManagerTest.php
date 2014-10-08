@@ -52,7 +52,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
         $this->dir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->fileSystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->dir))
         ;
         $this->config->expects($this->once())

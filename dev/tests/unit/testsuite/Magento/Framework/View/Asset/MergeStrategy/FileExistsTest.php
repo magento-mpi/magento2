@@ -38,7 +38,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->dirMock))
         ;
         $this->fileExists = new FileExists($this->mergerMock, $filesystem);

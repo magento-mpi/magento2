@@ -75,7 +75,7 @@ class Config
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState
     ) {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_scopeConfig = $scopeConfig;
         $this->_cacheState = $cacheState;
     }

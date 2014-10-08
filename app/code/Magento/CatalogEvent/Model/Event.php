@@ -214,7 +214,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\Framework\File\Uploader) {
             $value->save(
-                $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
+                $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath(self::IMAGE_PATH)
             );
             $value = $value->getUploadedFileName();
         }

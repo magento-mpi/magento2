@@ -63,8 +63,8 @@ class Path
     ) {
         $this->filesystem = $filesystem;
         $this->filename = $filename;
-        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
-        $this->themeDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
+        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        $this->themeDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::THEMES);
     }
 
     /**

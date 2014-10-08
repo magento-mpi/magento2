@@ -35,7 +35,7 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $filesystem \Magento\Framework\App\Filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-        $configDirectory = $filesystem->getDirectoryRead(DirectoryList::CONFIG_DIR);
+        $configDirectory = $filesystem->getDirectoryRead(DirectoryList::CONFIG);
         $fileIteratorFactory = $objectManager->get('Magento\Framework\Config\FileIteratorFactory');
         self::$_primaryFiles = $fileIteratorFactory->create(
             $configDirectory,

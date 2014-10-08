@@ -90,7 +90,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
             $this->_fileFactory->create(
                 $name,
                 array('type' => 'filename', 'value' => $this->readDirectory->getAbsolutePath($filePath)),
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
             )->sendResponse();
         }
 

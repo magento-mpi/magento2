@@ -55,7 +55,7 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
             $directory = $this->_objectManager->get(
                 'Magento\Framework\App\Filesystem'
             )->getDirectoryWrite(
-                DirectoryList::ROOT_DIR
+                DirectoryList::ROOT
             );
 
             if ($this->getRequest()->getParam('sitemap_id')) {

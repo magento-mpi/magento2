@@ -156,7 +156,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
         )->will(
             $this->returnValue($dirWriteMock)
         );

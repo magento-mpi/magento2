@@ -33,7 +33,7 @@ class DownloadCss extends \Magento\Theme\Controller\Adminhtml\System\Design\Them
                 throw new \InvalidArgumentException(sprintf('Theme not found: "%1".', $themeId));
             }
             $asset = $this->_assetRepo->createAsset($fileId, array('themeModel' => $theme));
-            $relPath = $this->_appFileSystem->getDirectoryRead(DirectoryList::ROOT_DIR)
+            $relPath = $this->_appFileSystem->getDirectoryRead(DirectoryList::ROOT)
                 ->getRelativePath($asset->getSourceFile());
             return $this->_fileFactory->create(
                 $relPath,
@@ -41,7 +41,7 @@ class DownloadCss extends \Magento\Theme\Controller\Adminhtml\System\Design\Them
                     'type'  => 'filename',
                     'value' => $relPath
                 ),
-                DirectoryList::ROOT_DIR
+                DirectoryList::ROOT
             );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('File not found: "%1".', $fileId));

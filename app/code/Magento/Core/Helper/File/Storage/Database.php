@@ -306,7 +306,7 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
             $uniqueResultFile = $this->getUniqueFilename($path, $file);
 
             if ($uniqueResultFile !== $file) {
-                $dirWrite = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+                $dirWrite = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
                 $dirWrite->renameFile($path . $file, $path . $uniqueResultFile);
             }
             $this->saveFile($path . $uniqueResultFile);
@@ -337,7 +337,7 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $mediaDir = $this->_filesystem->getPath(DirectoryList::MEDIA_DIR);
+            $mediaDir = $this->_filesystem->getPath(DirectoryList::MEDIA);
             $this->_mediaBaseDirectory = rtrim($mediaDir, '\\/');
         }
         return $this->_mediaBaseDirectory;

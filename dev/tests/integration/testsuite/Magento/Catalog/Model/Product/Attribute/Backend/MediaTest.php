@@ -37,7 +37,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
         );
 
         self::$_mediaTmpDir = $mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath());
@@ -62,7 +62,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
         );
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {

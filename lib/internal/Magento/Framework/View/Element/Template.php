@@ -338,7 +338,7 @@ class Template extends AbstractBlock
     protected function getRootDirectory()
     {
         if (null === $this->directory) {
-            $this->directory = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+            $this->directory = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT);
         }
 
         return $this->directory;
@@ -352,7 +352,7 @@ class Template extends AbstractBlock
     protected function getMediaDirectory()
     {
         if (!$this->mediaDirectory) {
-            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
         }
         return $this->mediaDirectory;
     }
@@ -372,8 +372,8 @@ class Template extends AbstractBlock
     {
         $fileName = str_replace('\\', '/', $fileName);
 
-        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(DirectoryList::THEMES_DIR));
-        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(DirectoryList::APP_DIR));
+        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(DirectoryList::THEMES));
+        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(DirectoryList::APP));
         return ($this->isPathInDirectory(
             $fileName,
             $appDir

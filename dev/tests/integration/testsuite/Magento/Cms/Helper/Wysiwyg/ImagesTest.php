@@ -16,7 +16,7 @@ class ImagesTest extends \PHPUnit_Framework_TestCase
         $path = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
         );
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Cms\Helper\Wysiwyg\Images'

@@ -18,7 +18,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', ['getDirectoryRead'], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::MODULES_DIR)
+            ->with(DirectoryList::MODULES)
             ->will($this->returnValue($directory));
         $globalFiles = [
             'Namespace/One/view/base/layout/one.xml',

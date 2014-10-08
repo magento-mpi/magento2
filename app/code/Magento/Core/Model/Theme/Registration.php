@@ -68,7 +68,7 @@ class Registration
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_themeCollection = $filesystemCollection;
-        $this->directoryRead = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+        $this->directoryRead = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
     }
 
     /**

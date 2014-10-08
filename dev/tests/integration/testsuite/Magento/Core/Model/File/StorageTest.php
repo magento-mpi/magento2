@@ -29,7 +29,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Framework\App\Filesystem'
             )->getPath(
-                    DirectoryList::MEDIA_DIR
+                    DirectoryList::MEDIA
             ),
             $config['media_directory']
         );

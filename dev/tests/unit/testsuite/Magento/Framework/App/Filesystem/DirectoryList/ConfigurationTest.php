@@ -37,7 +37,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->with(
             Configuration::XML_FILESYSTEM_DIRECTORY_PATH
         )->will(
-            $this->returnValue(array(DirectoryList::PUB_DIR => array('uri' => '')))
+            $this->returnValue(array(DirectoryList::PUB => array('uri' => '')))
         );
 
         $config->expects(
@@ -47,7 +47,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->with(
             Configuration::XML_FILESYSTEM_WRAPPER_PATH
         )->will(
-            $this->returnValue(array(DirectoryList::HTTP => array('protocol' => 'http')))
+            $this->returnValue(array(\Magento\Framework\Filesystem::HTTP => array('protocol' => 'http')))
         );
 
         /* Mock DirectoryList model */
@@ -62,7 +62,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addProtocol'
         )->with(
-            DirectoryList::HTTP,
+                \Magento\Framework\Filesystem::HTTP,
             array('protocol' => 'http')
         );
 
@@ -71,7 +71,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isConfigured'
         )->with(
-                DirectoryList::PUB_DIR
+                DirectoryList::PUB
         )->will(
             $this->returnValue($pubDirIsConfigured)
         );
@@ -79,15 +79,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         if ($pubDirIsConfigured) {
             $directoryList->expects($this->once())
                 ->method('getConfig')
-                ->with(DirectoryList::PUB_DIR)
+                ->with(DirectoryList::PUB)
                 ->will($this->returnValue(['test_key' => 'test_value']));
             $directoryList->expects($this->once())
                 ->method('setDirectory')
-                ->with(DirectoryList::PUB_DIR, ['uri' => '', 'test_key' => 'test_value']);
+                ->with(DirectoryList::PUB, ['uri' => '', 'test_key' => 'test_value']);
         } else {
             $directoryList->expects($this->once())
                 ->method('setDirectory')
-                ->with(DirectoryList::PUB_DIR, array('uri' => ''));
+                ->with(DirectoryList::PUB, array('uri' => ''));
         }
 
         $this->dirListConfiguration = $objectManager->getObject(

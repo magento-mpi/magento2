@@ -52,7 +52,7 @@ class Base implements CollectorInterface
         Factory $fileFactory,
         $subDir = ''
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->fileFactory = $fileFactory;
         $this->subDir = $subDir ? $subDir . '/' : '';
     }

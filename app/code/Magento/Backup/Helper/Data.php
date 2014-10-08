@@ -169,9 +169,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             '.git',
             '.svn',
             $this->_filesystem->getPath(MaintenanceMode::FLAG_DIR) . '/' . MaintenanceMode::FLAG_FILENAME,
-            $this->_filesystem->getPath(DirectoryList::SESSION_DIR),
-            $this->_filesystem->getPath(DirectoryList::CACHE_DIR),
-            $this->_filesystem->getPath(DirectoryList::LOG_DIR),
+            $this->_filesystem->getPath(DirectoryList::SESSION),
+            $this->_filesystem->getPath(DirectoryList::CACHE),
+            $this->_filesystem->getPath(DirectoryList::LOG),
             $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/full_page_cache',
             $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/locks',
             $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/report'
@@ -189,12 +189,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             '.svn',
             '.git',
             $this->_filesystem->getPath(MaintenanceMode::FLAG_DIR) . '/' . MaintenanceMode::FLAG_FILENAME,
-            $this->_filesystem->getPath(DirectoryList::SESSION_DIR),
-            $this->_filesystem->getPath(DirectoryList::LOG_DIR),
+            $this->_filesystem->getPath(DirectoryList::SESSION),
+            $this->_filesystem->getPath(DirectoryList::LOG),
             $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/locks',
             $this->_filesystem->getPath(DirectoryList::VAR_DIR) . '/report',
-            $this->_filesystem->getPath(DirectoryList::ROOT_DIR) . '/errors',
-            $this->_filesystem->getPath(DirectoryList::ROOT_DIR) . '/index.php'
+            $this->_filesystem->getPath(DirectoryList::ROOT) . '/errors',
+            $this->_filesystem->getPath(DirectoryList::ROOT) . '/index.php'
         );
     }
 

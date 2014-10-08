@@ -70,15 +70,15 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         );
 
         $directoryList->addDirectory(DirectoryList::VAR_DIR, array('path' => $dirPath));
-        $directoryList->addDirectory(DirectoryList::TMP_DIR, array('path' => $tmpDirPath));
-        $directoryList->addDirectory(DirectoryList::MEDIA_DIR, array('path' => $tmpDirPath));
+        $directoryList->addDirectory(DirectoryList::TMP, array('path' => $tmpDirPath));
+        $directoryList->addDirectory(DirectoryList::MEDIA, array('path' => $tmpDirPath));
 
         $this->_filesystem = $this->_objectManager->create(
             'Magento\Framework\App\Filesystem',
             array('directoryList' => $directoryList)
         );
         $this->directoryVar = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-        $this->directoryTmp = $this->_filesystem->getDirectoryWrite(DirectoryList::TMP_DIR);
+        $this->directoryTmp = $this->_filesystem->getDirectoryWrite(DirectoryList::TMP);
 
         /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')

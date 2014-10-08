@@ -37,7 +37,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
         $this->rootDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryRead(
-                DirectoryList::ROOT_DIR
+                DirectoryList::ROOT
         );
     }
 

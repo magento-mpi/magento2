@@ -75,7 +75,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            $this->equalTo(DirectoryList::MEDIA_DIR)
+            $this->equalTo(DirectoryList::MEDIA)
         )->will(
             $this->returnValue($this->directoryReadMock)
         );

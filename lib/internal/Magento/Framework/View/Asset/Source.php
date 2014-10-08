@@ -74,7 +74,7 @@ class Source
     ) {
         $this->cache = $cache;
         $this->filesystem = $filesystem;
-        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->rootDir = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->varDir = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->preProcessorPool = $preProcessorPool;
         $this->fallback = $fallback;
@@ -131,7 +131,7 @@ class Source
         if (!$sourceFile) {
             return false;
         }
-        $dirCode = DirectoryList::ROOT_DIR;
+        $dirCode = DirectoryList::ROOT;
         $path = $this->rootDir->getRelativePath($sourceFile);
         $cacheId = $path . ':' . $asset->getPath();
         $cached = $this->cache->load($cacheId);

@@ -86,7 +86,7 @@ config;
     ) {
         $this->fileSource = $fileSource;
         $this->design = $design;
-        $this->baseDir = $appFilesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->baseDir = $appFilesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->staticContext = $assetRepo->getStaticViewFileContext();
     }
 

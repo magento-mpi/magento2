@@ -489,7 +489,7 @@ abstract class AbstractType
 
                         try {
                             $rootDir = $this->_filesystem->getDirectoryWrite(
-                                DirectoryList::ROOT_DIR
+                                DirectoryList::ROOT
                             );
                             $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {

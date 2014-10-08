@@ -35,11 +35,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => BP,
                         'directories' => array(
-                            DirectoryList::MODULES_DIR => array('path' => __DIR__ . '/_files/code'),
-                            DirectoryList::THEMES_DIR => array(
+                            DirectoryList::MODULES => array('path' => __DIR__ . '/_files/code'),
+                            DirectoryList::THEMES => array(
                                 'path' => __DIR__ . '/_files/design'
                             ),
-                            DirectoryList::CONFIG_DIR => array('path' => __DIR__ . '/_files/')
+                            DirectoryList::CONFIG => array('path' => __DIR__ . '/_files/')
                         )
                     )
                 )
@@ -75,7 +75,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files',
             '/'
         );
-        $this->directoryList->addDirectory(DirectoryList::MODULES_DIR, array('path' => $dirPath));
+        $this->directoryList->addDirectory(DirectoryList::MODULES, array('path' => $dirPath));
     }
 
     public function testGetDesign()

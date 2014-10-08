@@ -56,13 +56,13 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $relativePath = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryRead(
-                DirectoryList::ROOT_DIR
+                DirectoryList::ROOT
         )->getRelativePath(
             __DIR__ . '/_files'
         );
         /** @var $directoryList \Magento\Framework\App\Filesystem\DirectoryList */
         $directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
-        $directoryList->addDirectory(DirectoryList::THEMES_DIR, array('path' => $relativePath));
+        $directoryList->addDirectory(DirectoryList::THEMES, array('path' => $relativePath));
 
         $cssUrl = $this->_block->getViewFileUrl(
             'css/wrong.css',

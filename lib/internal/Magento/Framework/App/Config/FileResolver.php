@@ -49,7 +49,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $directory = $this->filesystem->getDirectoryRead(DirectoryList::CONFIG_DIR);
+                $directory = $this->filesystem->getDirectoryRead(DirectoryList::CONFIG);
                 $iterator = $this->iteratorFactory->create(
                     $directory,
                     $directory->search('{' . $filename . ',*/' . $filename . '}')

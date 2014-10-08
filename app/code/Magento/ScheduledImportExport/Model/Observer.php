@@ -92,7 +92,7 @@ class Observer
         $this->_transportBuilder = $transportBuilder;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
-        $this->_logDirectory = $filesystem->getDirectoryWrite(DirectoryList::LOG_DIR);
+        $this->_logDirectory = $filesystem->getDirectoryWrite(DirectoryList::LOG);
     }
 
     /**

@@ -108,7 +108,7 @@ class Filesystem
     protected function _checkFullPath($fullPath, $recursive, $existence)
     {
         $result = true;
-        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $path = $directory->getRelativePath($fullPath);
         if ($recursive && $directory->isDirectory($path)) {
             $pathsToCheck = $directory->read($path);

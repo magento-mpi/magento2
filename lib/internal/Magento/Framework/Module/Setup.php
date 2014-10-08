@@ -128,7 +128,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
-        $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_connectionName = $connectionName;
     }
 

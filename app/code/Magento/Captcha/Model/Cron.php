@@ -60,7 +60,7 @@ class Cron
         $this->_resLogFactory = $resLogFactory;
         $this->_helper = $helper;
         $this->_adminHelper = $adminHelper;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_storeManager = $storeManager;
     }
 

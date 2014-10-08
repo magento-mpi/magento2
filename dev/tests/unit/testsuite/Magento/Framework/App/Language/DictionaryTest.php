@@ -33,7 +33,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::LOCALE_DIR)
+            ->with(DirectoryList::LOCALE)
             ->will($this->returnValue($this->dir));
         $this->configFactory = $this->getMockBuilder('\Magento\Framework\App\Language\ConfigFactory')
             ->setMethods(['create'])

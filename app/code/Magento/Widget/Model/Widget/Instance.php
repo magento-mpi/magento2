@@ -145,7 +145,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->mathRandom = $mathRandom;
-        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->_namespaceResolver = $namespaceResolver;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

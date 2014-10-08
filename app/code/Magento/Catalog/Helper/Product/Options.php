@@ -28,7 +28,7 @@ class Options extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Framework\App\Filesystem $filesystem)
     {
         parent::__construct($context);
-        $this->directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->directory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
     }
 
     /**

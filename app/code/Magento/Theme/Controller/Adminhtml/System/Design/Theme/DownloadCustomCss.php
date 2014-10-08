@@ -38,7 +38,7 @@ class DownloadCustomCss extends \Magento\Theme\Controller\Adminhtml\System\Desig
                 return $this->_fileFactory->create(
                     $customCssFile->getFileName(),
                     array('type' => 'filename', 'value' => $customCssFile->getFullPath()),
-                    DirectoryList::ROOT_DIR
+                    DirectoryList::ROOT
                 );
             }
         } catch (\Exception $e) {

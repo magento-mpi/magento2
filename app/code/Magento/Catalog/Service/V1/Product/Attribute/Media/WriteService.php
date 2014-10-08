@@ -110,7 +110,7 @@ class WriteService implements WriteServiceInterface
 
         $fileContent = @base64_decode($entryContent->getData(), true);
         $mediaTmpPath = $this->mediaConfig->getBaseTmpMediaPath();
-        $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $mediaDirectory->create($mediaTmpPath);
         $fileName = $entryContent->getName() . '.' . $this->mimeTypeExtensionMap[$entryContent->getMimeType()];
         $relativeFilePath = $mediaTmpPath . DIRECTORY_SEPARATOR . $fileName;

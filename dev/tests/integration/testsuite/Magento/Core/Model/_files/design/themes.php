@@ -12,7 +12,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
     ->load(\Magento\Framework\App\Area::PART_CONFIG);
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
     DirectoryList::INIT_PARAM_PATHS => array(
-        DirectoryList::THEMES_DIR => array('path' => realpath(__DIR__)),
+        DirectoryList::THEMES => array('path' => realpath(__DIR__)),
     ),
 ));
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(

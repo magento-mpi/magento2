@@ -152,7 +152,7 @@ class Translate implements \Magento\Framework\TranslateInterface
         $this->_locale = $locale;
         $this->_appState = $appState;
         $this->request = $request;
-        $this->directory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->directory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->_csvParser = $csvParser;
         $this->packDictionary = $packDictionary;
     }

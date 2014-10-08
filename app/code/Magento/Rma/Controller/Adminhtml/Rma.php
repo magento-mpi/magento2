@@ -77,7 +77,7 @@ class Rma extends \Magento\Backend\App\Action
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->readDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+        $this->readDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $this->_fileFactory = $fileFactory;
         $this->carrierHelper = $carrierHelper;
         $this->labelService = $labelService;

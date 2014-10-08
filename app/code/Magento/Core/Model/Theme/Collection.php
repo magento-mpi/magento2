@@ -44,7 +44,7 @@ class Collection extends \Magento\Framework\Data\Collection implements ListInter
         \Magento\Framework\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
-        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
+        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
     }
 
     /**

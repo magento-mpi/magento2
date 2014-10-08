@@ -41,7 +41,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::ROOT_DIR)
+            ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->directory));
         $this->rule = $this->getMock(
             '\Magento\Framework\View\Design\Fallback\Rule\RuleInterface', array(), array(), '', false

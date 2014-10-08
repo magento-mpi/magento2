@@ -342,7 +342,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystemMock->expects($this->once())
             ->method('getPath')
-            ->with(DirectoryList::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA)
             ->will($this->returnValue('/media/dir/'));
         $this->assertEquals('fullPath', $this->helper->getMediaRelativePath('/media/dir/fullPath'));
     }
@@ -434,7 +434,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->filesystemMock->expects($this->exactly($callDirWrite))
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::ROOT_DIR)
+            ->with(DirectoryList::ROOT)
             ->will($this->returnValue($dirWriteMock));
         $dirWriteMock->expects($this->exactly($callDirWrite))
             ->method('renameFile');
@@ -480,7 +480,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystemMock->expects($this->once())
             ->method('getPath')
-            ->with(DirectoryList::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA)
             ->will($this->returnValue('/media/dir/'));
 
         $this->assertEquals('/media/dir', $this->helper->getMediaBaseDir());

@@ -45,8 +45,8 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
         \Magento\Framework\Module\Dir\Reader $moduleReader,
         \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->iteratorFactory = $iteratorFactory;
         $this->_moduleReader = $moduleReader;
     }

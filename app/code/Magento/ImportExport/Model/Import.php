@@ -212,7 +212,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     {
         return \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
             $sourceFile,
-            $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR)
+            $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT)
         );
     }
 

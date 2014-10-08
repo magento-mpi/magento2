@@ -40,7 +40,7 @@ class Synchronization
         \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->storageFactory = $storageFactory;
-        $this->pubDirectory = $filesystem->getDirectoryWrite(DirectoryList::PUB_DIR);
+        $this->pubDirectory = $filesystem->getDirectoryWrite(DirectoryList::PUB);
     }
 
     /**

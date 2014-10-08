@@ -116,7 +116,7 @@ class Factory
             }
         }
 
-        $this->_backendOptions['cache_dir'] = $this->_filesystem->getPath(DirectoryList::CACHE_DIR);
+        $this->_backendOptions['cache_dir'] = $this->_filesystem->getPath(DirectoryList::CACHE);
 
         $idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
         if (!$idPrefix && isset($options['prefix'])) {
@@ -124,7 +124,7 @@ class Factory
         }
         if (empty($idPrefix)) {
             $idPrefix =
-                substr(md5($this->_filesystem->getPath(DirectoryList::CONFIG_DIR)), 0, 3) . '_';
+                substr(md5($this->_filesystem->getPath(DirectoryList::CONFIG)), 0, 3) . '_';
         }
         $options['frontend_options']['cache_id_prefix'] = $idPrefix;
 

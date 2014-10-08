@@ -53,7 +53,7 @@ class Cert extends \Magento\Framework\App\Config\Value
     ) {
         $this->_certFactory = $certFactory;
         $this->_encryptor = $encryptor;
-        $this->_tmpDirectory = $filesystem->getDirectoryRead(DirectoryList::SYS_TMP_DIR);
+        $this->_tmpDirectory = $filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 

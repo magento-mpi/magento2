@@ -38,7 +38,7 @@ class Primary implements \Magento\Framework\Config\FileResolverInterface
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->configDirectory = $filesystem->getDirectoryRead(DirectoryList::CONFIG_DIR);
+        $this->configDirectory = $filesystem->getDirectoryRead(DirectoryList::CONFIG);
         $this->iteratorFactory = $iteratorFactory;
     }
 

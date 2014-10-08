@@ -549,7 +549,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         $path = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-                    DirectoryList::ROOT_DIR
+                    DirectoryList::ROOT
         ) . '/lib/internal/LinLibertineFont/LinLibertine_Re-4.4.1.ttf';
         $adapter->createPngFromString('T', $path);
         $adapter->refreshImageDimensions();

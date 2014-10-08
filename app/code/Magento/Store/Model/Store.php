@@ -563,7 +563,7 @@ class Store extends AbstractModel implements
                             \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                             $secure
                         ) . $this->filesystem->getUri(
-                            DirectoryList::STATIC_VIEW_DIR
+                            DirectoryList::STATIC_VIEW
                         );
                     }
                     break;
@@ -578,7 +578,7 @@ class Store extends AbstractModel implements
                                 \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                                 $secure
                             ) . $this->filesystem->getUri(
-                                DirectoryList::MEDIA_DIR
+                                DirectoryList::MEDIA
                             );
                         }
                     }
@@ -645,7 +645,7 @@ class Store extends AbstractModel implements
                 \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                 $secure
             ) . $filesystem->getUri(
-                DirectoryList::PUB_DIR
+                DirectoryList::PUB
             ) . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;

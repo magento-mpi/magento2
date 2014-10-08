@@ -62,7 +62,7 @@ class CleanMergedJsCssTest extends \Magento\Test\BaseTestCase
             ->with($mergedDir);
         $this->filesystemMock->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->willReturn($readDirectoryMock);
 
         $this->model->aroundCleanMergedJsCss(

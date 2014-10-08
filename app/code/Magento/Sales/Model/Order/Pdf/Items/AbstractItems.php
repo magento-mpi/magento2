@@ -88,7 +88,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     ) {
         $this->filterManager = $filterManager;
         $this->_taxData = $taxData;
-        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 

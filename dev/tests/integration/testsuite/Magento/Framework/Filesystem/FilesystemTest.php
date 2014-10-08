@@ -54,7 +54,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDirectoryWriteException()
     {
-        $this->filesystem->getDirectoryWrite(DirList::THEMES_DIR);
+        $this->filesystem->getDirectoryWrite(DirList::THEMES);
     }
 
     /**
@@ -62,6 +62,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUri()
     {
-        $this->assertContains('media', $this->filesystem->getPath(DirList::MEDIA_DIR));
+        $this->assertContains('media', $this->filesystem->getPath(DirList::MEDIA));
     }
 }

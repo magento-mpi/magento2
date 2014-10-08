@@ -47,7 +47,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
         );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::THEMES_DIR)
+            ->with(DirectoryList::THEMES)
             ->will($this->returnValue($this->directory));
         $this->fileFactory = $this->getMock('Magento\Framework\View\File\Factory', array(), array(), '', false);
         $this->model = new \Magento\Framework\View\File\Collector\ThemeModular(

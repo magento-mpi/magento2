@@ -81,7 +81,7 @@ class Validate extends \Magento\ImportExport\Controller\Adminhtml\Import
                     $this->_objectManager->create(
                         'Magento\Framework\App\Filesystem'
                     )->getDirectoryWrite(
-                        DirectoryList::ROOT_DIR
+                        DirectoryList::ROOT
                     )
                 );
                 $validationResult = $import->validateSource($source);

@@ -107,7 +107,7 @@ class Gallery extends \Magento\Framework\View\Element\Template
     {
         $file = $this->getCurrentImage()->getPath();
 
-        if ($this->_filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR)->isFile($file)) {
+        if ($this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->isFile($file)) {
             $size = getimagesize($file);
             if (isset($size[0])) {
                 if ($size[0] > 600) {

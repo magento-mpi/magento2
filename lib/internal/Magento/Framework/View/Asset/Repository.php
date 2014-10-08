@@ -189,7 +189,7 @@ class Repository
     private function getFallbackContext($urlType, $isSecure, $area, $themePath, $locale)
     {
         $secureKey = null === $isSecure ? 'null' : (int)$isSecure;
-        $baseDirType = DirectoryList::STATIC_VIEW_DIR;
+        $baseDirType = DirectoryList::STATIC_VIEW;
         $id = implode('|', array($baseDirType, $urlType, $secureKey, $area, $themePath, $locale));
         if (!isset($this->fallbackContext[$id])) {
             $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType, '_secure' => $isSecure));
@@ -240,7 +240,7 @@ class Repository
     public function createArbitrary(
         $filePath,
         $dirPath,
-        $baseDirType = DirectoryList::STATIC_VIEW_DIR,
+        $baseDirType = DirectoryList::STATIC_VIEW,
         $baseUrlType = UrlInterface::URL_TYPE_STATIC
     ) {
         $context = $this->getFileContext($baseDirType, $baseUrlType, $dirPath);

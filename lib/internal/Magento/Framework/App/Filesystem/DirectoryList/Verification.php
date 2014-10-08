@@ -23,9 +23,9 @@ class Verification
      * @var string[]
      */
     protected static $productionDirs = array(
-        DirectoryList::SESSION_DIR,
-        DirectoryList::CACHE_DIR,
-        DirectoryList::LOG_DIR
+        DirectoryList::SESSION,
+        DirectoryList::CACHE,
+        DirectoryList::LOG
     );
 
     /**
@@ -34,9 +34,9 @@ class Verification
      * @var string[]
      */
     protected static $nonProductionDirs = array(
-        DirectoryList::SESSION_DIR,
-        DirectoryList::CACHE_DIR,
-        DirectoryList::LOG_DIR
+        DirectoryList::SESSION,
+        DirectoryList::CACHE,
+        DirectoryList::LOG
     );
 
     /**

@@ -38,7 +38,7 @@ class PrintPackage extends \Magento\Rma\Controller\Adminhtml\Rma
             return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                DirectoryList::MEDIA_DIR,
+                DirectoryList::MEDIA,
                 'application/pdf'
             );
         } else {

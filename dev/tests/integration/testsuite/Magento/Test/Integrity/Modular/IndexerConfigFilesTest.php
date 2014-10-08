@@ -30,7 +30,7 @@ class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
         $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-                    DirectoryList::APP_DIR
+                    DirectoryList::APP
         ) . '/code/Magento/Indexer/etc/indexer.xsd';
     }
 
@@ -59,7 +59,7 @@ class IndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Framework\App\Filesystem'
             )->getPath(
-                    DirectoryList::APP_DIR
+                    DirectoryList::APP
             ) . '/*/*/*/etc/indexer.xml'
         );
         $dataProviderResult = array();

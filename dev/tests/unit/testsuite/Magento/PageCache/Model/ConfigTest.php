@@ -49,7 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-                DirectoryList::MODULES_DIR
+                DirectoryList::MODULES
         )->will(
             $this->returnValue($modulesDirectoryMock)
         );

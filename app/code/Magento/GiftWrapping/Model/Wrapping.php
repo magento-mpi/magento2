@@ -92,7 +92,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_uploaderFactory = $uploaderFactory;
         $this->_validator = $validator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

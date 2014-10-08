@@ -139,7 +139,7 @@ class Observer
                     '%s -f %s -- --group=%s',
                     array(
                         PHP_BINARY,
-                        BP . '/' . DirectoryList::PUB_DIR . '/cron.php',
+                        BP . '/' . DirectoryList::PUB . '/cron.php',
                         $groupId
                     )
                 );

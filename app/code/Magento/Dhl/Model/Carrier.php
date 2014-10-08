@@ -241,7 +241,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         array $data = array()
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_carrierHelper = $carrierHelper;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;

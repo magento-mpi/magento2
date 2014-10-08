@@ -99,7 +99,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-                DirectoryList::CONFIG_DIR
+                DirectoryList::CONFIG
         )->will(
             $this->returnValue($directory)
         );

@@ -47,7 +47,7 @@ class Indexer implements \Magento\Framework\AppInterface
     public function launch()
     {
         /* Clean reports */
-        $directory = $this->filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $directory = $this->filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $path = $directory->getRelativePath($this->reportDir);
         if ($directory->isExist($path)) {
             $directory->delete($path);

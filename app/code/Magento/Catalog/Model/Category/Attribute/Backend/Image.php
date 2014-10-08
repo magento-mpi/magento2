@@ -76,7 +76,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         $path = $this->_filesystem->getDirectoryRead(
-            DirectoryList::MEDIA_DIR
+            DirectoryList::MEDIA
         )->getAbsolutePath(
             'catalog/category/'
         );

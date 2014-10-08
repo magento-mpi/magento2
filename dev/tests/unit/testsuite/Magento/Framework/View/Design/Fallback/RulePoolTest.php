@@ -30,8 +30,8 @@ class RulePoolTest extends \PHPUnit_Framework_TestCase
             array('getPath', 'getDirectoryRead', '__wakeup'),
             array(
                 'dir' => array(
-                    DirectoryList::THEMES_DIR => 'themes',
-                    DirectoryList::MODULES_DIR => 'modules',
+                    DirectoryList::THEMES => 'themes',
+                    DirectoryList::MODULES => 'modules',
                     DirectoryList::LIB_WEB => 'lib_web',
                 )
             ),
@@ -45,8 +45,8 @@ class RulePoolTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValueMap(
                 array(
-                    DirectoryList::THEMES_DIR => 'themes',
-                    DirectoryList::MODULES_DIR => 'modules',
+                    DirectoryList::THEMES => 'themes',
+                    DirectoryList::MODULES => 'modules',
                     DirectoryList::LIB_WEB => 'lib_web',
                 )
             )

@@ -145,7 +145,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->mediaConfigMock->expects($this->any())->method('getBaseTmpMediaPath')
             ->will($this->returnValue($mediaTmpPath));
         $mediaDirectoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface');
-        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with(DirectoryList::MEDIA_DIR)
+        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with(DirectoryList::MEDIA)
             ->will($this->returnValue($mediaDirectoryMock));
 
         $mediaDirectoryMock->expects($this->once())->method('create')->with($mediaTmpPath);

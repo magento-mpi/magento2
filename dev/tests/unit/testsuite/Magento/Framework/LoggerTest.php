@@ -58,7 +58,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
         $this->filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::LOG_DIR)
+            ->with(DirectoryList::LOG)
             ->will($this->returnValue($this->directory));
         $this->directory->expects($this->any())->method('create')->will($this->returnValue(true));
         $this->directory->expects($this->any())->method('getAbsolutePath')->will(

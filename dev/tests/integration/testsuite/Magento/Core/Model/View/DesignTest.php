@@ -33,7 +33,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-        $themeDir = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $themeDir = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $themeDir->delete('theme/frontend');
         $themeDir->delete('theme/_merged');
 
@@ -69,7 +69,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
                 DirectoryList::INIT_PARAM_PATHS => array(
-                    DirectoryList::THEMES_DIR => array(
+                    DirectoryList::THEMES => array(
                         'path' => realpath(__DIR__ . '/../_files/design')
                     )
                 )
@@ -193,7 +193,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         /** @var $filesystem \Magento\Framework\App\Filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\App\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $relativePath = $directory->getRelativePath($customConfigFile);
         try {
             $directory->writeFile(

@@ -138,7 +138,7 @@ class ImageUploader extends \Magento\Framework\Object
      */
     public function removeFile($file)
     {
-        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $path = $directory->getRelativePath($this->getStoragePath() . '/' . $file);
         if ($directory->isExist($path)) {
             $directory->delete($path);

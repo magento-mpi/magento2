@@ -14,10 +14,10 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 require __DIR__ . '/../app/bootstrap.php';
 $params = $_SERVER;
 $params[DirectoryList::INIT_PARAM_PATHS] = [
-    DirectoryList::PUB_DIR => ['uri' => ''],
-    DirectoryList::MEDIA_DIR => ['uri' => 'media'],
-    DirectoryList::STATIC_VIEW_DIR => ['uri' => 'static'],
-    DirectoryList::UPLOAD_DIR => ['uri' => 'media/upload'],
+    DirectoryList::PUB => ['uri' => ''],
+    DirectoryList::MEDIA => ['uri' => 'media'],
+    DirectoryList::STATIC_VIEW => ['uri' => 'static'],
+    DirectoryList::UPLOAD => ['uri' => 'media/upload'],
 ];
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var \Magento\Framework\App\Http $app */

@@ -47,7 +47,7 @@ class CleanMergedJsCss
         $proceed();
 
         /** @var \Magento\Framework\Filesystem\Directory\ReadInterface $pubStaticDirectory */
-        $pubStaticDirectory = $this->filesystem->getDirectoryRead(DirectoryList::STATIC_VIEW_DIR);
+        $pubStaticDirectory = $this->filesystem->getDirectoryRead(DirectoryList::STATIC_VIEW);
         $mergedDir = $pubStaticDirectory->getAbsolutePath() . '/'
             . \Magento\Framework\View\Asset\Merged::getRelativeDir();
         $this->database->deleteFolder($mergedDir);

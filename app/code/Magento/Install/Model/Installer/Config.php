@@ -72,8 +72,8 @@ class Config
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_filesystem = $filesystem;
-        $this->_pubDirectory = $filesystem->getDirectoryRead(DirectoryList::PUB_DIR);
-        $this->_configDirectory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG_DIR);
+        $this->_pubDirectory = $filesystem->getDirectoryRead(DirectoryList::PUB);
+        $this->_configDirectory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG);
         $this->messageManager = $messageManager;
     }
 
@@ -86,8 +86,8 @@ class Config
     public function install($config)
     {
         $defaults = array(
-            'root_dir' => $this->_filesystem->getPath(DirectoryList::ROOT_DIR),
-            'app_dir' => $this->_filesystem->getPath(DirectoryList::APP_DIR),
+            'root_dir' => $this->_filesystem->getPath(DirectoryList::ROOT),
+            'app_dir' => $this->_filesystem->getPath(DirectoryList::APP),
             'var_dir' => $this->_filesystem->getPath(DirectoryList::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl()
         );
@@ -185,7 +185,7 @@ class Config
         try {
             $staticFile = $this->_findFirstFileRelativePath('', '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_filesystem->getUri(
-                DirectoryList::PUB_DIR
+                DirectoryList::PUB
             ) . '/' . $staticFile;
             $client = new \Magento\Framework\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');

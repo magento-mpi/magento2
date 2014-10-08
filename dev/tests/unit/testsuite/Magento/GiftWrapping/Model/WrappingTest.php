@@ -36,7 +36,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $this->mediaDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\WriteInterface')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $this->filesystemMock->expects($this->once())->method('getDirectoryWrite')
-            ->with(DirectoryList::MEDIA_DIR)->will($this->returnValue($this->mediaDirectoryMock));
+            ->with(DirectoryList::MEDIA)->will($this->returnValue($this->mediaDirectoryMock));
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->wrapping = $this->objectManagerHelper->getObject(

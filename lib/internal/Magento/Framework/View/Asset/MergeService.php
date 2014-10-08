@@ -104,7 +104,7 @@ class MergeService
      */
     public function cleanMergedJsCss()
     {
-        $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR)
+        $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW)
             ->delete(Merged::getRelativeDir());
     }
 }

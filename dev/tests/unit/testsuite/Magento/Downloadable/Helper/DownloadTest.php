@@ -227,7 +227,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
         )->will(
             $this->returnValue($this->_workingDirectoryMock)
         );

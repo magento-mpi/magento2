@@ -246,7 +246,7 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(DirectoryList::MEDIA_DIR)
+        $path = $this->_fileSystem->getPath(DirectoryList::MEDIA)
             . '/' . $this->_entityTypeCode;
 
         $result = $original;

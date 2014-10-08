@@ -27,7 +27,7 @@ class Dir
      */
     public function __construct(Filesystem $filesystem)
     {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
     }
 
     /**

@@ -196,7 +196,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $result = $this->_mediaDirectory->create($this->_catalogProductMediaConfig->getBaseMediaPath());
         $this->_imageFactory = $imageFactory;
         $this->_assetRepo = $assetRepo;

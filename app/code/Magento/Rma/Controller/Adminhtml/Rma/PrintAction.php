@@ -32,7 +32,7 @@ class PrintAction extends \Magento\Rma\Controller\Adminhtml\Rma
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    DirectoryList::MEDIA_DIR,
+                    DirectoryList::MEDIA,
                     'application/pdf'
                 );
             }

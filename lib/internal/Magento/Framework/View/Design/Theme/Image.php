@@ -104,8 +104,8 @@ class Image
         array $imageParams = array(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT),
         ThemeInterface $theme = null
     ) {
-        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
-        $this->rootDirectory = $filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->rootDirectory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $this->imageFactory = $imageFactory;
         $this->uploader = $uploader;
         $this->themeImagePath = $themeImagePath;

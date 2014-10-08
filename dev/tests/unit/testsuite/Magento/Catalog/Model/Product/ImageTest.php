@@ -105,7 +105,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
         $this->filesystem->expects($this->once())->method('getDirectoryWrite')
-            ->with(DirectoryList::MEDIA_DIR)
+            ->with(DirectoryList::MEDIA)
             ->will($this->returnValue($this->mediaDirectory));
         $this->factory = $this->getMock('Magento\Framework\Image\Factory', [], [], '', false);
         $this->repository = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);

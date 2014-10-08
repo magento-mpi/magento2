@@ -20,6 +20,6 @@ class FileIterator extends \Magento\Framework\Config\FileIterator
      */
     public function __construct(Filesystem $filesystem, array $paths)
     {
-        parent::__construct($filesystem->getDirectoryRead(DirectoryList::APP_DIR), $paths);
+        parent::__construct($filesystem->getDirectoryRead(DirectoryList::APP), $paths);
     }
 }

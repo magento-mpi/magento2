@@ -183,7 +183,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             $this->varDir->expects($this->never())->method('writeFile');
             $this->cache->expects($this->once())
                 ->method('save')
-                ->with(serialize([DirectoryList::ROOT_DIR, 'source/some/file.ext']), $cacheValue);
+                ->with(serialize([DirectoryList::ROOT, 'source/some/file.ext']), $cacheValue);
             $this->rootDirRead->expects($this->once())
                 ->method('getAbsolutePath')
                 ->with('source/some/file.ext')
@@ -246,8 +246,8 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         $this->varDir = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
 
         $readDirMap = [
-            [DirectoryList::ROOT_DIR, $this->rootDirRead],
-            [DirectoryList::STATIC_VIEW_DIR, $this->staticDirRead],
+            [DirectoryList::ROOT, $this->rootDirRead],
+            [DirectoryList::STATIC_VIEW, $this->staticDirRead],
             [DirectoryList::VAR_DIR, $this->varDir],
         ];
 
@@ -278,7 +278,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         } else {
             $context = new \Magento\Framework\View\Asset\File\Context(
                 'http://example.com/static/',
-                DirectoryList::STATIC_VIEW_DIR,
+                DirectoryList::STATIC_VIEW,
                 ''
             );
         }

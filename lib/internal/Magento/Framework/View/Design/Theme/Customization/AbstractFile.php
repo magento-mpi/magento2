@@ -207,6 +207,6 @@ abstract class AbstractFile implements
      */
     protected function getDirectoryWrite()
     {
-        return $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        return $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
     }
 }

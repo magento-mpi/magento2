@@ -47,7 +47,7 @@ class PrintLabel extends \Magento\Rma\Controller\Adminhtml\Rma
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
-                    DirectoryList::MEDIA_DIR,
+                    DirectoryList::MEDIA,
                     'application/pdf'
                 );
             }

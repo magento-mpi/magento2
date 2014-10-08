@@ -33,6 +33,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPath()
     {
-        $this->assertContains('design', $this->filesystem->getPath(DirectoryList::THEMES_DIR));
+        $this->assertContains('design', $this->filesystem->getPath(DirectoryList::THEMES));
     }
 }

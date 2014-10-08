@@ -155,7 +155,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getImgDir($website = null)
     {
-        $mediaDir = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $mediaDir = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $captchaDir = '/captcha/' . $this->_getWebsiteCode($website);
         $mediaDir->create($captchaDir);
         $mediaDir->changePermissions($captchaDir, 0775);
@@ -183,7 +183,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getImgUrl($website = null)
     {
         return $this->_storeManager->getStore()->getBaseUrl(
-            DirectoryList::MEDIA_DIR
+            DirectoryList::MEDIA
         ) . 'captcha' . '/' . $this->_getWebsiteCode(
             $website
         ) . '/';

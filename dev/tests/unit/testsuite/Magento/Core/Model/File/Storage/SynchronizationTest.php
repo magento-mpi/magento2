@@ -72,7 +72,7 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-                DirectoryList::PUB_DIR
+                DirectoryList::PUB
         )->will(
             $this->returnValue($directory)
         );

@@ -240,7 +240,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-                DirectoryList::ROOT_DIR
+                DirectoryList::ROOT
         )->will(
             $this->returnValue($directoryMock)
         );
@@ -281,7 +281,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-                DirectoryList::ROOT_DIR
+                DirectoryList::ROOT
         )->will(
             $this->returnValue($directoryMock)
         );

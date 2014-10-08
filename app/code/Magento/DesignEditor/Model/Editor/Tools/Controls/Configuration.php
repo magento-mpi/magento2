@@ -286,7 +286,7 @@ class Configuration
     protected function _saveViewConfiguration(\DOMDocument $config)
     {
         $targetPath = $this->_theme->getCustomization()->getCustomViewConfigPath();
-        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $directory->writeFile($directory->getRelativePath($targetPath), $config->saveXML());
         return $this;
     }

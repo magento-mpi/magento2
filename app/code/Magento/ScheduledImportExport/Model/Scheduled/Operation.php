@@ -431,7 +431,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
             $operation->addLogComment($e->getMessage());
         }
 
-        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG_DIR);
+        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
         $filePath = $this->getHistoryFilePath();
 
         if ($logDirectory->isExist($logDirectory->getRelativePath($filePath))) {
@@ -581,7 +581,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     protected function readData($source, $destination)
     {
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
 
         $this->validateAdapterType();
         $fileInfo = $this->getFileInfo();
@@ -658,7 +658,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     protected function _saveOperationHistory($source)
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG_DIR);
+        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
         $filePath = $logDirectory->getRelativePath($this->getHistoryFilePath());
 
         try {
@@ -677,7 +677,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     public function getHistoryFilePath()
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG_DIR);
+        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
         $dirPath = self::LOG_DIRECTORY . $this->_dateModel->date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 

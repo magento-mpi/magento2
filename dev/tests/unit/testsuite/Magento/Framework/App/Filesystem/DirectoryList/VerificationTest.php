@@ -36,25 +36,25 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    DirectoryList::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
-                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    DirectoryList::SESSION_DIR => array(true, true, 'base_dir/var/session')
+                    DirectoryList::CACHE => array(true, true, 'base_dir/var/cache'),
+                    DirectoryList::LOG => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION => array(true, true, 'base_dir/var/session')
                 )
             ),
             'with_not_existing_dirs' => array(
                 State::MODE_DEFAULT,
                 array(
-                    DirectoryList::CACHE_DIR => array(false, true, 'base_dir/var/cache'),
-                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    DirectoryList::SESSION_DIR => array(false, true, 'base_dir/var/session')
+                    DirectoryList::CACHE => array(false, true, 'base_dir/var/cache'),
+                    DirectoryList::LOG => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION => array(false, true, 'base_dir/var/session')
                 )
             ),
             'production mode' => array(
                 State::MODE_PRODUCTION,
                 array(
-                    DirectoryList::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
-                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    DirectoryList::SESSION_DIR => array(true, true, 'base_dir/var/session')
+                    DirectoryList::CACHE => array(true, true, 'base_dir/var/cache'),
+                    DirectoryList::LOG => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION => array(true, true, 'base_dir/var/session')
                 )
             )
         );
@@ -85,9 +85,9 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    DirectoryList::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
-                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    DirectoryList::SESSION_DIR => array(true, false, 'base_dir/var/session')
+                    DirectoryList::CACHE => array(true, false, 'base_dir/var/cache'),
+                    DirectoryList::LOG => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION => array(true, false, 'base_dir/var/session')
                 )
             )
         );
@@ -118,9 +118,9 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    DirectoryList::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
-                    DirectoryList::LOG_DIR => array(true, true, 'base_dir/var/log'),
-                    DirectoryList::SESSION_DIR => array(true, false, 'base_dir/var/session', true)
+                    DirectoryList::CACHE => array(true, false, 'base_dir/var/cache'),
+                    DirectoryList::LOG => array(true, true, 'base_dir/var/log'),
+                    DirectoryList::SESSION => array(true, false, 'base_dir/var/session', true)
                 )
             )
         );

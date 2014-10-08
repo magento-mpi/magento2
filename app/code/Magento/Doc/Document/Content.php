@@ -31,7 +31,7 @@ class Content implements ContentInterface
     public function __construct(Reader $reader, Filesystem $filesystem)
     {
         $this->reader = $reader;
-        $this->moduleDir = $filesystem->getDirectoryWrite(DirectoryList::MODULES_DIR);
+        $this->moduleDir = $filesystem->getDirectoryWrite(DirectoryList::MODULES);
     }
 
     /**

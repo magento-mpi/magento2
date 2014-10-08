@@ -65,7 +65,7 @@ class Reader
         $this->moduleDirs = $moduleDirs;
         $this->modulesList = $moduleList;
         $this->fileIteratorFactory = $fileIteratorFactory;
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
     }
 
     /**

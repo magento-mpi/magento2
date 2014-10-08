@@ -53,7 +53,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
             StoreManager::PARAM_RUN_CODE => 'admin',
             StoreManager::PARAM_RUN_TYPE => 'store',
             DirectoryList::INIT_PARAM_PATHS => array(
-                DirectoryList::THEMES_DIR => array('path' => __DIR__ . '/../../_files/design')
+                DirectoryList::THEMES => array('path' => __DIR__ . '/../../_files/design')
             ),
         ));
     }

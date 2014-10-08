@@ -51,7 +51,7 @@ class ThemeModular implements CollectorInterface
         Factory $fileFactory,
         $subDir = ''
     ) {
-        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
         $this->fileFactory = $fileFactory;
         $this->subDir = $subDir ? $subDir . '/' : '';
     }

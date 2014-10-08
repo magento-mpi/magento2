@@ -21,7 +21,7 @@ class ConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $filesystem \Magento\Framework\App\Filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-        $modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $fileIteratorFactory = $objectManager->get('Magento\Framework\Config\FileIteratorFactory');
         $xmlFiles = $fileIteratorFactory->create(
             $modulesDirectory,

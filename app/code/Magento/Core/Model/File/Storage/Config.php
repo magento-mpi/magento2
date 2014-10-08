@@ -46,7 +46,7 @@ class Config
         $cacheFile
     ) {
         $this->config = $storage->getScriptConfig();
-        $this->pubDirectory = $filesystem->getDirectoryWrite(DirectoryList::PUB_DIR);
+        $this->pubDirectory = $filesystem->getDirectoryWrite(DirectoryList::PUB);
         $this->cacheFilePath = $cacheFile;
     }
 

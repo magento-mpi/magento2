@@ -61,7 +61,7 @@ class RulePool
      */
     protected function createLocaleFileRule()
     {
-        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES);
         return new Theme(
             new Simple("$themesDir/<area>/<theme_path>")
         );
@@ -74,8 +74,8 @@ class RulePool
      */
     protected function createTemplateFileRule()
     {
-        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
-        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES);
+        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES);
         return new ModularSwitch(
             new Theme(
                 new Simple("$themesDir/<area>/<theme_path>/templates")
@@ -97,8 +97,8 @@ class RulePool
      */
     protected function createFileRule()
     {
-        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
-        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES);
+        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES);
         return new ModularSwitch(
             new Theme(new Simple("$themesDir/<area>/<theme_path>")),
             new Composite(
@@ -118,8 +118,8 @@ class RulePool
      */
     protected function createViewFileRule()
     {
-        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES_DIR);
-        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES_DIR);
+        $themesDir = $this->filesystem->getPath(DirectoryList::THEMES);
+        $modulesDir = $this->filesystem->getPath(DirectoryList::MODULES);
         $libDir = $this->filesystem->getPath(DirectoryList::LIB_WEB);
         return new ModularSwitch(
             new Composite(

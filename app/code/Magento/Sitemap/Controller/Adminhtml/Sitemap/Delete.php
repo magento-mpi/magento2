@@ -24,7 +24,7 @@ class Delete extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
         $directory = $this->_objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            DirectoryList::ROOT_DIR
+            DirectoryList::ROOT
         );
 
         // check if we know what should be deleted

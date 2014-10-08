@@ -64,12 +64,12 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')
             ->will($this->returnValueMap([
-                [DirectoryList::STATIC_VIEW_DIR, $this->_staticViewDir],
-                [DirectoryList::ROOT_DIR, $this->_rootDir],
+                [DirectoryList::STATIC_VIEW, $this->_staticViewDir],
+                [DirectoryList::ROOT, $this->_rootDir],
             ]));
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->_staticViewDir));
         $this->_adapter = $this->getMockForAbstractClass('Magento\Framework\Code\Minifier\AdapterInterface');
         $this->_model = new Minified(

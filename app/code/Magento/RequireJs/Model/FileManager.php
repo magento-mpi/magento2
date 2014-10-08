@@ -74,7 +74,7 @@ class FileManager
      */
     private function ensureSourceFile($relPath)
     {
-        $dir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
         if ($this->appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER || !$dir->isExist($relPath)) {
             $dir->writeFile($relPath, $this->config->getConfig());
         }

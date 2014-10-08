@@ -42,7 +42,7 @@ class Simple implements Fallback\ResolverInterface
      */
     public function __construct(Filesystem $filesystem, RulePool $rulePool, Fallback\CacheDataInterface $cache)
     {
-        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->rulePool = $rulePool;
         $this->cache = $cache;
     }

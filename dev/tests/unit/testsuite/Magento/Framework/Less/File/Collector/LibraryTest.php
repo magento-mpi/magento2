@@ -76,7 +76,7 @@ class LibraryTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         [DirectoryList::LIB_WEB, $this->libraryDirectoryMock],
-                        [DirectoryList::THEMES_DIR, $this->themesDirectoryMock],
+                        [DirectoryList::THEMES, $this->themesDirectoryMock],
                     ]
                 )
             );

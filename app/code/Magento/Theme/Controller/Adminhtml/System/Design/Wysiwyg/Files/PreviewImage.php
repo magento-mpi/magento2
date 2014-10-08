@@ -27,7 +27,7 @@ class PreviewImage extends \Magento\Theme\Controller\Adminhtml\System\Design\Wys
             return $this->_fileFactory->create(
                 $file,
                 array('type' => 'filename', 'value' => $helper->getThumbnailPath($file)),
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
             );
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);

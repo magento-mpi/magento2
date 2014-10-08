@@ -220,7 +220,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         );
         if ($fileName) {
             $uploadDir = \Magento\Backend\Model\Config\Backend\Email\Logo::UPLOAD_DIR;
-            $mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA_DIR);
+            $mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
                 return $this->_storeManager->getStore()->getBaseUrl(
                     \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
@@ -318,7 +318,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         $templateTypeCode = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
         $this->setTemplateType($templateTypeCode);
 
-        $modulesDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MODULES_DIR);
+        $modulesDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MODULES);
         $templateText = $modulesDirectory->readFile($modulesDirectory->getRelativePath($templateFile));
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {

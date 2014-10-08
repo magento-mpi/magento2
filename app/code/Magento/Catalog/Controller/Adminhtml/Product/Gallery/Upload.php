@@ -37,7 +37,7 @@ class Upload extends \Magento\Backend\App\Action
             $mediaDirectory = $this->_objectManager->get(
                 'Magento\Framework\App\Filesystem'
             )->getDirectoryRead(
-                DirectoryList::MEDIA_DIR
+                DirectoryList::MEDIA
             );
             $config = $this->_objectManager->get('Magento\Catalog\Model\Product\Media\Config');
             $result = $uploader->save($mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath()));
