@@ -118,7 +118,12 @@ class Category implements SetupInterface
                     ];
 
                     $categoryData = $this->categoryDataBuilder->populateWithArray($data)->create();
-                    $this->writeService->create($categoryData);
+                    $categoryId = $this->writeService->create($categoryData);
+                    if (!empty($row['position'])) {
+                        $positionData = array('position' => $row['position']);
+                        $updateCategoryData = $this->categoryDataBuilder->populateWithArray($positionData)->create();
+                        $this->writeService->update($categoryId, $updateCategoryData);
+                    }
                 }
                 echo '.';
             }
