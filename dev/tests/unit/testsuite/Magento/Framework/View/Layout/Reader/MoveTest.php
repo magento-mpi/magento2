@@ -37,8 +37,6 @@ class MoveTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManagerHelper = new ObjectManagerHelper($this);
 
-        $this->readerFactoryMock = $this->getMockBuilder('Magento\Framework\View\Layout\ReaderFactory')
-            ->disableOriginalConstructor()->getMock();
         $this->scheduledStructureMock = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure')
             ->disableOriginalConstructor()->getMock();
         $this->contextMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
