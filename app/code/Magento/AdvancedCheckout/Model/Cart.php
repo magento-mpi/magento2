@@ -730,6 +730,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      *
      * @param array $failedItems
      * @param array $cartItems
+     * @return void
      */
     public function updateFailedItems($failedItems, $cartItems)
     {
