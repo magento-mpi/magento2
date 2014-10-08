@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\View\Asset;
-use Magento\Framework\View\Asset\Minified;
 
 /**
  * \Iterator that aggregates one or more assets and provides a single public file with equivalent behavior
