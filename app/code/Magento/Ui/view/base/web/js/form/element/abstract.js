@@ -84,7 +84,7 @@ define([
          */
         onUpdate: function(value){
             this.trigger('update', this.name, value)
-                .store();
+                .store(value);
         },
 
         /**

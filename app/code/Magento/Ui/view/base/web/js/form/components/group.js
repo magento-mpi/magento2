@@ -55,8 +55,7 @@ define([
 
             this.initObservable()
                 .initListeners()
-                .extractData()
-                .update();
+                .extractData();
         },
 
         initObservable: function () {
@@ -75,26 +74,28 @@ define([
             });
         },
 
-        validate: function (element) {
-            return !element.isValid();
-        },
-
-        update: function (value, name) {
-            this.invalid(this.elems.filter(this.validate));
-            
-            this.trigger('update', this.name, {
-                name: name,
-                value: value
+        validate: function () {
+            var invalidElements = this.elems.filter(function (element) {
+                return !element.isValid();
             });
+
+            this.invalid(invalidElements);
 
             return this;
         },
 
         initListeners: function(){
+            var update      = this.trigger.bind(this, 'update'),
+                validate    = this.validate.bind(this);
+
             this.elems.forEach(function(elem){
-                elem.on('update', this.update.bind(this));
+                elem.on('update', update);
             }, this);
-            
+
+            this.provider.params.on('update:validated', function (isValidated) {
+                !isValidated && validate();
+            });
+
             return this;
         },
 

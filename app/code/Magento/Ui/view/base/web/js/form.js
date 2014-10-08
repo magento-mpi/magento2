@@ -15,7 +15,8 @@ define(function (require) {
         _           = require('underscore');
 
     var defaults = {
-        elements: {}
+        elements: [],
+        validateOnSubmit: false
     };
 
     /**
@@ -42,9 +43,14 @@ define(function (require) {
         initialize: function (config) {
             _.extend(this, defaults, config);
 
-            this.initElements();
+            this.initElements()
+                .initValidation();
         },
 
+        /**
+         * Initializes data and meta properties and invokes createElements
+         *     method with single parameter this.meta.
+         */
         initElements: function () {
             var provider = this.refs.provider;
 
@@ -52,6 +58,8 @@ define(function (require) {
             this.meta = provider.meta.get();
 
             this.createElements(this.meta);
+
+            return this;
         },
 
         /**
@@ -77,7 +85,7 @@ define(function (require) {
                 }
 
                 isMetaDescriptor(element) 
-                    ? this.createElement(path, element)
+                    ? this.createElement(element, path)
                     : this.createElements(element, path);
 
             }, this);
@@ -90,8 +98,9 @@ define(function (require) {
          * Invokes registerElement method passing instance and it's name to it.
          * 
          * @param  {Object} config - config for instance
+         * @param  {Object} name - name for instance
          */
-        createElement: function (name, config) {
+        createElement: function (config, name) {
             var metaReference   = config.meta_ref,
                 type            = config.input_type,
                 constr          = elements[type],
@@ -121,8 +130,32 @@ define(function (require) {
          * @param  {Object} element
          */
         registerElement: function (name, element) {
-            this.elements[name] = element;
+            this.elements.push(name);
             registry.set(name, element);
+        },
+
+        /**
+         * If validateOnSubmit option is set to false, attaches 'validate' method
+         *     as a listener to update event of all elements 
+         */
+        initValidation: function () {
+            var provider = this.refs.provider.data,
+                elements = this.elements,
+                validate = this.validate.bind(this);
+
+            if (!this.validateOnSubmit) {
+                elements.forEach(function (name) {
+                    provider.on('update:' + name, validate);
+                });
+            }
+        },
+
+        /**
+         * Sets 'validated' property of params storage to false,
+         *     so that all form groups invoke their validate methods.
+         */
+        validate: function () {
+            this.refs.provider.params.set('validated', false);
         }
     });
     
