@@ -162,27 +162,78 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             $this->model->getCustomAttribute('not_existing_custom_attribute'),
             "Null is expected as a result of getCustomAttribute(\$code) when custom attribute is not set."
         );
-        $objectManager = new ObjectManagerHelper($this);
-        /** @var \Magento\Framework\Service\Data\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
         $attributesAsArray = ['attribute1' => true, 'attribute2' => 'Attribute Value', 'attribute3' => 333];
-        $expectedAttributes = [];
-        foreach ($attributesAsArray as $attributeCode => $attributeValue) {
-            $expectedAttributes[$attributeCode] = $attributeValueBuilder
-                ->setAttributeCode($attributeCode)
-                ->setValue($attributeValue)
-                ->create();
-            $this->model->setCustomAttribute($attributeCode, $expectedAttributes[$attributeCode]);
-            $this->model->getCustomAttribute(
-                $attributeCode,
-                $expectedAttributes[$attributeCode],
-                "Custom attribute '$attributeCode' retrieved from the model is invalid."
-            );
-        }
+        $addedAttributes = $this->addCustomAttributesToModel($attributesAsArray, $this->model);
         $this->assertEquals(
-            $expectedAttributes,
+            $addedAttributes,
             $this->model->getCustomAttributes(),
             'Custom attributes retrieved from the model using getCustomAttributes() are invalid.'
         );
+    }
+
+    /**
+     * Test if getData works with custom attributes as expected
+     */
+    public function testGetDataWithCustomAttributes()
+    {
+        $attributesAsArray = ['attribute1' => true, 'attribute2' => 'Attribute Value', 'attribute3' => 333];
+        $modelData = ['key1' => 'value1', 'key2' => 222];
+        $this->model->setData($modelData);
+        $addedAttributes = $this->addCustomAttributesToModel($attributesAsArray, $this->model);
+        $modelDataAsFlatArray = array_merge($modelData, $addedAttributes);
+        $this->assertEquals(
+            $modelDataAsFlatArray,
+            $this->model->getData(),
+            'All model data should be represented as a flat array, including custom attributes.'
+        );
+        foreach ($modelDataAsFlatArray as $field => $value) {
+            $this->assertEquals(
+                $value,
+                $this->model->getData($field),
+                "Model data item '{$field}' was retrieved incorrectly."
+            );
+        }
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testRestrictedCustomAttributesGet()
+    {
+        $this->model->getData(\Magento\Framework\Model\AbstractModel::CUSTOM_ATTRIBUTES_KEY);
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testRestrictedCustomAttributesSet()
+    {
+        $this->model->setData(\Magento\Framework\Model\AbstractModel::CUSTOM_ATTRIBUTES_KEY, 'value');
+    }
+
+    /**
+     * @param string[] $attributesAsArray
+     * @param \Magento\Framework\Model\AbstractModel $model
+     * @return \Magento\Framework\Service\Data\AttributeValueInterface[]
+     */
+    protected function addCustomAttributesToModel($attributesAsArray, $model)
+    {
+        $objectManager = new ObjectManagerHelper($this);
+        /** @var \Magento\Framework\Service\Data\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
+        $addedAttributes = [];
+        foreach ($attributesAsArray as $attributeCode => $attributeValue) {
+            $addedAttributes[$attributeCode] = $attributeValueBuilder
+                ->setAttributeCode($attributeCode)
+                ->setValue($attributeValue)
+                ->create();
+            $model->setCustomAttribute($attributeCode, $addedAttributes[$attributeCode]);
+            $model->getCustomAttribute(
+                $attributeCode,
+                $addedAttributes[$attributeCode],
+                "Custom attribute '$attributeCode' retrieved from the model is invalid."
+            );
+        }
+        return $addedAttributes;
     }
 }
