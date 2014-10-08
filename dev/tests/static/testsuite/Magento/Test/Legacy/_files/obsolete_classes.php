@@ -2794,7 +2794,7 @@ return array(
     ['\Magento\Install\Block\Begin'],
     ['\Magento\Checkout\Service\V1\QuoteLoader', '\Magento\Sales\Model\QuoteRepository'],
     ['Magento\PageCache\Model\Observer'],
-    ['Magento\Catalog\Model\Layer\Filter\Price\Algorithm', 'Magento\Framework\Search\Dynamic\Algorithm']
+    ['Magento\Catalog\Model\Layer\Filter\Price\Algorithm', 'Magento\Framework\Search\Dynamic\Algorithm'],
     ['Magento\Rss\Block\Order\Info\Buttons\Rss'],
     ['Magento\Rss\Block\Order\NewOrder'],
     ['Magento\Rss\Block\Order\Status'],
