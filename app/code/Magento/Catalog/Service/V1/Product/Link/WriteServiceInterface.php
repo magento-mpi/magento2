@@ -8,6 +8,9 @@
  
 namespace Magento\Catalog\Service\V1\Product\Link;
 
+/**
+ * @todo remove this interface
+ */
 interface WriteServiceInterface
 {
     /**
