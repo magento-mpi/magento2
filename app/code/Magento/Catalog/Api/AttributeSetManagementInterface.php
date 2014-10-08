@@ -15,10 +15,10 @@ interface AttributeSetManagementInterface
 {
     /**
      * @param int $attributeSetId
-     * @param $data // new attribute interface
+     * @param \Magento\Catalog\Api\Data\AttributeInterface $data
      * @return int
      */
-    public function addAttribute($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeSet\Attribute $data);
+    public function addAttribute($attributeSetId, \Magento\Catalog\Api\Data\AttributeInterface $data);
 
     /**
      * Remove attribute from attribute set
@@ -37,7 +37,7 @@ interface AttributeSetManagementInterface
      *
      * @param int $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Attribute[]
+     * @return \Magento\Catalog\Api\Data\AttributeInterface[]
      */
     public function getAttributeList($attributeSetId);
 }

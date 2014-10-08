@@ -16,27 +16,27 @@ interface AttributeSetRepositoryInterface
     /**
      * Create attribute set from data
      *
-     * @param \Magento\Catalog\Api\Data\AttributeSet $attributeSet
+     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet
      * @param int $skeletonId
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function create(\Magento\Catalog\Api\Data\AttributeSet $attributeSet, $skeletonId);
+    public function create(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
 
     /**
      * Update attribute set data
      *
-     * @param \Magento\Catalog\Api\Data\AttributeSet $attributeSetData
+     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData
      * @return int attribute set ID
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
      */
-    public function update(\Magento\Catalog\Api\Data\AttributeSet $attributeSetData);
+    public function update(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData);
 
     /**
      * Retrieve list of Attribute Sets
      *
-     * @return \Magento\Catalog\Api\Data\AttributeSet[]
+     * @return \Magento\Catalog\Api\Data\AttributeSetInterface[]
      */
     public function getList();
 
@@ -45,7 +45,7 @@ interface AttributeSetRepositoryInterface
      *
      * @param int $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
-     * @return \Magento\Catalog\Api\Data\AttributeSet
+     * @return \Magento\Catalog\Api\Data\AttributeSetInterface
      */
     public function get($attributeSetId);
 
