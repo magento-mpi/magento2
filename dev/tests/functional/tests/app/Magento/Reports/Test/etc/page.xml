@@ -88,4 +88,9 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\SalesReport</class>
     </salesReport>
+    <salesInvoiceReport>
+        <mca>reports/report_sales/invoiced</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SalesInvoiceReport</class>
+    </salesInvoiceReport>
 </page>

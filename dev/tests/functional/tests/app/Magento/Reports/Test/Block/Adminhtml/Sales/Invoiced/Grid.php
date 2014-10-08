@@ -6,23 +6,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Test\Block\Adminhtml\Sales\Orders\Viewed;
+namespace Magento\Reports\Test\Block\Adminhtml\Sales\Invoiced;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class FilterGrid
- * Sales Report filter grid
+ * Class Grid
+ * Invoice Report filter grid
  */
-class FilterGrid extends Grid
+class Grid extends ParentGrid
 {
     /**
      * Filters row locator
      *
      * @var string
      */
-    protected $filterRows = '(//tr[td[contains(@class, "col-orders")]])[last()]/td[contains(@class, "col-%s")]';
+    protected $filterRows = '(//tr[td[contains(@class, "col-qty")]])[last()]/td[contains(@class, "col-%s")]';
 
     /**
      * Filters row locator
@@ -32,39 +32,38 @@ class FilterGrid extends Grid
     protected $totalRows = '//tfoot/tr/th[contains(@class, "col-%s")]';
 
     /**
-     * Rows for get sales result
+     * Rows for get invoice result
      *
      * @var array
      */
     protected $rows = [
-        'orders',
-        'sales-items',
-        'sales-total',
+        'qty',
         'invoiced',
+        'total-invoiced'
     ];
 
     /**
-     * Get last sales from Sales Report grid
+     * Get last invoice from Invoice Report grid
      *
      * @return array
      */
-    public function getLastSalesResult()
+    public function getLastInvoiceResult()
     {
         return $this->getResults($this->filterRows);
     }
 
     /**
-     * Get total sales from Sales Report grid
+     * Get total invoice from Invoice Report grid
      *
      * @return array
      */
-    public function getSalesTotalResult()
+    public function getInvoiceTotalResult()
     {
         return $this->getResults($this->totalRows);
     }
 
     /**
-     * Get sales data from Sales Report grid
+     * Get sales data from Invoice Report grid
      *
      * @param array $filterRows
      * @return array
