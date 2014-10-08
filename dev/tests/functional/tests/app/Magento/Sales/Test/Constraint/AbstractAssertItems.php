@@ -54,8 +54,8 @@ abstract class AbstractAssertItems extends AbstractAssertForm
                 'product' => $product->getName(),
                 'sku' => $product->getSku(),
                 'qty' => (isset($data[$key]['qty']) && $data[$key]['qty'] != '-')
-                            ? $data[$key]['qty']
-                            : $product->getCheckoutData()['options']['qty']
+                    ? $data[$key]['qty']
+                    : $product->getCheckoutData()['options']['qty']
             ];
         }
 

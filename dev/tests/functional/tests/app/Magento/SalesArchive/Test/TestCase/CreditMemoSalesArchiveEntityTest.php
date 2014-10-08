@@ -125,9 +125,9 @@ class CreditMemoSalesArchiveEntityTest extends Injectable
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getCreateBlock()->fill($data, $order->getEntityId()['products']);
-        $this->orderCreditMemoNew->getCreateBlock()->updateQty();
-        $this->orderCreditMemoNew->getCreateBlock()->getFormBlock()->submit();
+        $this->orderCreditMemoNew->getFormBlock()->fillData($data, $order->getEntityId()['products']);
+        $this->orderCreditMemoNew->getFormBlock()->updateQty();
+        $this->orderCreditMemoNew->getFormBlock()->submit();
 
         $this->orderView->getOrderForm()->openTab('creditmemos');
         $creditMemoIds = $this->orderView->getOrderForm()->getTabElement('creditmemos')->getGridBlock()->getIds();

@@ -114,15 +114,15 @@
     <assertCreditMemoButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertCreditMemoButton>
-    <assertRefundInRefundsTab module="Magento_Sales">
+    <assertRefundInCreditMemoTab module="Magento_Sales">
         <severeness>low</severeness>
-    </assertRefundInRefundsTab>
+    </assertRefundInCreditMemoTab>
     <assertRefundInRefundsGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertRefundInRefundsGrid>
-    <assertRefundedGrandTotal module="Magento_Sales">
+    <assertRefundedGrandTotalOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
-    </assertRefundedGrandTotal>
+    </assertRefundedGrandTotalOnFrontend>
     <assertNoCreditMemoButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertNoCreditMemoButton>

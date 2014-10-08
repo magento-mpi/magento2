@@ -11,7 +11,6 @@ namespace Magento\Shipping\Test\TestCase;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test Creation for CreateShipment for offline payment methods

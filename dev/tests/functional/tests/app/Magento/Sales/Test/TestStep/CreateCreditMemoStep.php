@@ -88,10 +88,10 @@ class CreateCreditMemoStep implements TestStepInterface
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
         if (!empty($this->data)) {
-            $this->orderCreditMemoNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
-            $this->orderCreditMemoNew->getCreateBlock()->updateQty();
+            $this->orderCreditMemoNew->getFormBlock()->fillData($this->data, $this->order->getEntityId()['products']);
+            $this->orderCreditMemoNew->getFormBlock()->updateQty();
         }
-        $this->orderCreditMemoNew->getCreateBlock()->getFormBlock()->submit();
+        $this->orderCreditMemoNew->getFormBlock()->submit();
 
         return ['creditMemoIds' => $this->getCreditMemoIds()];
     }

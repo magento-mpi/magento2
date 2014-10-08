@@ -126,8 +126,8 @@ class ShipmentSalesArchiveEntityTest extends Injectable
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->ship();
-        $this->orderShipmentNew->getCreateBlock()->fill($data, $order->getEntityId()['products']);
-        $this->orderShipmentNew->getCreateBlock()->getFormBlock()->submit();
+        $this->orderShipmentNew->getFormBlock()->fillData($data, $order->getEntityId()['products']);
+        $this->orderShipmentNew->getFormBlock()->submit();
 
         $this->orderView->getOrderForm()->openTab('shipments');
 

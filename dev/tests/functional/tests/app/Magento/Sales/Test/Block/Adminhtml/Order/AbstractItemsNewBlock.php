@@ -9,22 +9,21 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create\Items\Product;
+use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm\Product;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AbstractItemsNewBlock
- * Items block on Credit Memo, Invoice, Shipment new page
+ * Items block on Credit Memo, Invoice, Shipment new pages
  */
 abstract class AbstractItemsNewBlock extends Block
 {
     /**
-     * Item product
+     * Item product row selector
      *
      * @var string
      */
-    protected $productItems = '//tr[contains(.,"%s")]';
+    protected $productItem = '//tr[contains(.,"%s")]';
 
     /**
      * 'Update Qty's' button css selector

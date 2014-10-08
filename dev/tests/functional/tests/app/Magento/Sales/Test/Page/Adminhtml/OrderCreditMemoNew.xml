@@ -14,10 +14,10 @@
             <locator>.order-totals-bottom .actions</locator>
             <strategy>css selector</strategy>
         </actionsBlock>
-        <createBlock>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create</class>
-            <locator>[id="page:main-container"]</locator>
+        <formBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form</class>
+            <locator>#edit_form</locator>
             <strategy>css selector</strategy>
-        </createBlock>
+        </formBlock>
     </blocks>
 </page>

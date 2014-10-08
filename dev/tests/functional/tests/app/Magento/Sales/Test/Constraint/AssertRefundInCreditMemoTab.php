@@ -15,10 +15,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\CreditMemos\Grid;
 
 /**
- * Class AssertRefundInRefundsTab
+ * Class AssertRefundInCreditMemoTab
  * Assert that refund is present in the tab with ID and refunded amount(depending on full/partial refund)
  */
-class AssertRefundInRefundsTab extends AbstractConstraint
+class AssertRefundInCreditMemoTab extends AbstractConstraint
 {
     /**
      * Constraint severeness

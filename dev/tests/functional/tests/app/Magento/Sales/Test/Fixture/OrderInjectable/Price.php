@@ -67,7 +67,7 @@ class Price extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price
             ],
             'partial_refund' => [
                 [
-                    'grand_creditmemo_total' => 100
+                    'grand_creditmemo_total' => 110
                 ]
             ],
         ];

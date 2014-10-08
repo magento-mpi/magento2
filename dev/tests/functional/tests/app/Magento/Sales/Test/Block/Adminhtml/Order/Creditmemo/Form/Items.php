@@ -6,39 +6,32 @@
  * @license     {license_link}
  */
 
-namespace Magento\Shipping\Test\Block\Adminhtml\Create;
+namespace Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form;
 
 use Mtf\Block\Block;
-use Magento\Shipping\Test\Block\Adminhtml\Create\Items\Product;
 use Mtf\Client\Element\Locator;
+use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form\Items\Product;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
- * Adminhtml items to ship block
+ * Credit Memo Items block on Credit Memo new page
  */
 class Items extends Block
 {
-    /**
-     * Shipment submit button
-     *
-     * @var string
-     */
-    protected $submitShipment = '[data-ui-id="order-items-submit-button"]';
-
-    /**
-     * Shipment comment css selector
-     *
-     * @var string
-     */
-    protected $comment = '[name="shipment[comment_text]"]';
-
     /**
      * Item product
      *
      * @var string
      */
     protected $productItems = '//tr[contains(.,"%s")]';
+
+    /**
+     * 'Update Qty's' button css selector
+     *
+     * @var string
+     */
+    protected $updateQty = '.update-button';
 
     /**
      * Get item product block
@@ -50,8 +43,18 @@ class Items extends Block
     {
         $selector = sprintf($this->productItems, $product->getSku());
         return $this->blockFactory->create(
-            'Magento\Shipping\Test\Block\Adminhtml\Create\Items\Product',
+            'Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form\Items\Product',
             ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]
         );
+    }
+
+    /**
+     * Click update qty button
+     *
+     * @return void
+     */
+    public function clickUpdateQty()
+    {
+        $this->_rootElement->find($this->updateQty)->click();
     }
 }

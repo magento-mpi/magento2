@@ -111,7 +111,7 @@ class CreateCreditMemoEntityTest extends Injectable
     }
 
     /**
-     * Get fixture product
+     * Get product's fixture
      *
      * @param OrderInjectable $order
      * @param array $data
@@ -127,11 +127,7 @@ class CreateCreditMemoEntityTest extends Injectable
         $productData = $product->getData();
         $checkoutDataQty = $productData['checkout_data']['options']['qty'];
         $productData['quantity_and_stock_status']['qty'] -= ($checkoutDataQty - $data['items_data'][$index]['qty']);
-        foreach ($productData as $fieldName => $value) {
-            if (in_array($fieldName, $this->skipFields)) {
-                unset($productData[$fieldName]);
-            }
-        }
+        $productData = array_diff_key($productData, array_flip($this->skipFields));
 
         return $this->fixtureFactory->create(get_class($product), ['data' => $productData]);
     }

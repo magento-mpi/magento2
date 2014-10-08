@@ -14,10 +14,10 @@ use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Class AssertRefundedGrandTotal
+ * Class AssertRefundedGrandTotalOnFrontend
  * Assert that refunded grand total is equal to data from fixture on My Account page
  */
-class AssertRefundedGrandTotal extends AbstractAssertOrderOnFrontend
+class AssertRefundedGrandTotalOnFrontend extends AbstractAssertOrderOnFrontend
 {
     /**
      * Constraint severeness

@@ -6,17 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create;
+namespace Magento\Shipping\Test\Block\Adminhtml\Form;
 
-use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Items\Product;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractItemsNewBlock;
+use Magento\Shipping\Test\Block\Adminhtml\Form\Items\Product;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
- * Block for items to invoice on new invoice page
+ * Adminhtml items to ship block
  */
 class Items extends AbstractItemsNewBlock
 {
@@ -28,9 +27,9 @@ class Items extends AbstractItemsNewBlock
      */
     public function getItemProductBlock(FixtureInterface $product)
     {
-        $selector = sprintf($this->productItems, $product->getSku());
+        $selector = sprintf($this->productItem, $product->getSku());
         return $this->blockFactory->create(
-            'Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Items\Product',
+            'Magento\Shipping\Test\Block\Adminhtml\Form\Items\Product',
             ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]
         );
     }

@@ -8,13 +8,13 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Mtf\Client\Element\Locator;
+use Mtf\Block\Form;
 
 /**
  * Class Form
  * Abstract Form block
  */
-abstract class AbstractForm extends \Mtf\Block\Form
+abstract class AbstractForm extends Form
 {
     /**
      * Send button css selector
@@ -31,16 +31,42 @@ abstract class AbstractForm extends \Mtf\Block\Form
     protected $loader = '#loading_mask_loader';
 
     /**
-     * Fil data
+     * Fill form data
      *
      * @param array $data
+     * @param array|null $products [optional]
      * @return void
      */
-    public function fillData(array $data)
+    public function fillData(array $data, $products = null)
     {
-        $data = $this->dataMapping($this->prepareData($data));
-        $this->_fill($data);
+        $data = $this->prepareData($data);
+        if (isset($data['form_data'])) {
+            $data['form_data'] = $this->dataMapping($data['form_data']);
+            $this->_fill($data['form_data']);
+        }
+        if (isset($data['items_data']) && $products !== null) {
+            foreach ($products as $key => $product) {
+                $this->getItemsBlock()->getItemProductBlock($product)->fillProduct($data['items_data'][$key]);
+            }
+        }
     }
+
+    /**
+     * Click update qty's button
+     *
+     * @return void
+     */
+    public function updateQty()
+    {
+        $this->getItemsBlock()->clickUpdateQty();
+    }
+
+    /**
+     * Get items block
+     *
+     * @return AbstractItemsNewBlock
+     */
+    abstract protected function getItemsBlock();
 
     /**
      * Submit order
