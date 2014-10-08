@@ -35,7 +35,7 @@ class AssertInvoiceReportIntervalResult extends AbstractAssertInvoiceReportResul
     {
         $this->order = $order;
         $this->searchInInvoiceReportGrid($invoiceReport);
-        $invoiceResult = $this->salesInvoiceReport->getGridBlock()->getLastInvoiceResult();
+        $invoiceResult = $this->salesInvoiceReport->getGridBlock()->getLastResult();
         $prepareInitialResult = $this->prepareExpectedResult($initialInvoiceResult);
         \PHPUnit_Framework_Assert::assertEquals(
             $prepareInitialResult,

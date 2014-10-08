@@ -42,39 +42,22 @@ use Mtf\TestCase\Injectable;
 class SalesInvoiceReportEntityTest extends Injectable
 {
     /**
-     * Sales Invoice Report page
-     *
-     * @var SalesInvoiceReport
-     */
-    protected $salesInvoiceReport;
-
-    /**
-     * Inject page
-     *
-     * @param SalesInvoiceReport $salesInvoiceReport
-     * @return void
-     */
-    public function __inject(SalesInvoiceReport $salesInvoiceReport)
-    {
-        $this->salesInvoiceReport = $salesInvoiceReport;
-    }
-
-    /**
      * Sales invoice report
      *
+     * @param SalesInvoiceReport $salesInvoiceReport
      * @param OrderInjectable $order
      * @param array $invoiceReport
      * @return array
      */
-    public function test(OrderInjectable $order, array $invoiceReport)
+    public function test(SalesInvoiceReport $salesInvoiceReport, OrderInjectable $order, array $invoiceReport)
     {
         // Preconditions
-        $this->salesInvoiceReport->open();
-        $this->salesInvoiceReport->getMessagesBlock()->clickLinkInMessages('notice', 'here');
-        $this->salesInvoiceReport->getFilterForm()->viewsReport($invoiceReport);
-        $this->salesInvoiceReport->getActionBlock()->showReport();
-        $initialInvoiceResult = $this->salesInvoiceReport->getGridBlock()->getLastInvoiceResult();
-        $initialInvoiceTotalResult = $this->salesInvoiceReport->getGridBlock()->getInvoiceTotalResult();
+        $salesInvoiceReport->open();
+        $salesInvoiceReport->getMessagesBlock()->clickLinkInMessages('notice', 'here');
+        $salesInvoiceReport->getFilterForm()->viewsReport($invoiceReport);
+        $salesInvoiceReport->getActionBlock()->showReport();
+        $initialInvoiceResult = $salesInvoiceReport->getGridBlock()->getLastResult();
+        $initialInvoiceTotalResult = $salesInvoiceReport->getGridBlock()->getTotalResult();
         $order->persist();
         $invoice = $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order]);
         $invoice->run();

@@ -35,7 +35,7 @@ class AssertInvoiceReportTotalResult extends AbstractAssertInvoiceReportResult
     {
         $this->order = $order;
         $this->searchInInvoiceReportGrid($invoiceReport);
-        $invoiceResult = $this->salesInvoiceReport->getGridBlock()->getInvoiceTotalResult();
+        $invoiceResult = $this->salesInvoiceReport->getGridBlock()->getTotalResult();
         $prepareInitialResult = $this->prepareExpectedResult($initialInvoiceTotalResult);
         \PHPUnit_Framework_Assert::assertEquals(
             $prepareInitialResult,
