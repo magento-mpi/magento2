@@ -10,7 +10,7 @@ namespace Magento\Framework\Service\Data;
 /**
  * Custom Attribute Data object
  */
-class AttributeValue extends AbstractSimpleObject
+class AttributeValue extends AbstractSimpleObject implements AttributeValueInterface
 {
     /**#@+
      * Constant used as key into $_data
@@ -20,9 +20,7 @@ class AttributeValue extends AbstractSimpleObject
     /**#@-*/
 
     /**
-     * Get attribute code
-     *
-     * @return string the attribute code
+     * {@inheritdoc}
      */
     public function getAttributeCode()
     {
@@ -30,9 +28,7 @@ class AttributeValue extends AbstractSimpleObject
     }
 
     /**
-     * Get attribute value
-     *
-     * @return mixed the attribute value
+     * {@inheritdoc}
      */
     public function getValue()
     {

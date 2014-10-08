@@ -11,7 +11,7 @@ namespace Magento\Framework\Service\Data;
  * Base Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractExtensibleObject extends AbstractSimpleObject
+abstract class AbstractExtensibleObject extends AbstractSimpleObject implements ExtensibleEntityInterface
 {
     /**
      * Array key for custom attributes
@@ -19,10 +19,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
     /**
-     * Get an attribute value.
-     *
-     * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\AttributeValue|null The value. Null if the attribute has not been set
+     * {@inheritdoc}
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -33,9 +30,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject
     }
 
     /**
-     * Retrieve custom attributes values as an associative array.
-     *
-     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
+     * {@inheritdoc}
      */
     public function getCustomAttributes()
     {
