@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,33 +12,44 @@ use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\QuoteRepository;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 
+/** Cart totals service object. */
 class TotalsService implements TotalsServiceInterface
 {
     /**
+     * Cart totals builder.
+     *
      * @var Cart\TotalsBuilder
      */
     private $totalsBuilder;
 
     /**
+     * Cart totals mapper.
+     *
      * @var Cart\TotalsMapper
      */
     private $totalsMapper;
 
     /**
+     * Quote repository.
+     *
      * @var QuoteRepository
      */
     private $quoteRepository;
 
     /**
+     * Item totals mapper.
+     *
      * @var Totals\ItemMapper;
      */
     private $itemTotalsMapper;
 
     /**
-     * @param Cart\TotalsBuilder $totalsBuilder
-     * @param Cart\TotalsMapper $totalsMapper
-     * @param QuoteRepository $quoteRepository
-     * @param Totals\ItemMapper $itemTotalsMapper
+     * Constructs a cart totals service object.
+     *
+     * @param Cart\TotalsBuilder $totalsBuilder Cart totals builder.
+     * @param Cart\TotalsMapper $totalsMapper Cart totals mapper.
+     * @param QuoteRepository $quoteRepository Quote repository.
+     * @param Totals\ItemMapper $itemTotalsMapper Item totals mapper.
      */
     public function __construct(
         Cart\TotalsBuilder $totalsBuilder,
@@ -54,11 +64,18 @@ class TotalsService implements TotalsServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param int $cartId The cart ID.
+     * @return Totals Quote totals data.
      */
     public function getTotals($cartId)
     {
-        /** @var \Magento\Sales\Model\Quote $quote */
+        /**
+         * Quote.
+         *
+         * @var \Magento\Sales\Model\Quote $quote
+         */
         $quote = $this->quoteRepository->get($cartId);
 
         $this->totalsBuilder->populateWithArray($this->totalsMapper->map($quote));

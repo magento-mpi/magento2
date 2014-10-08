@@ -16,29 +16,40 @@ use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use \Magento\Checkout\Service\V1\Data;
 
+/** Cart read service object. */
 class ReadService implements ReadServiceInterface
 {
     /**
+     * Quote repository.
+     *
      * @var QuoteRepository
      */
     private $quoteRepository;
 
     /**
+     * Quote collection.
+     *
      * @var QuoteCollection
      */
     private $quoteCollection;
 
     /**
+     * Search results builder.
+     *
      * @var Data\CartSearchResultsBuilder
      */
     private $searchResultsBuilder;
 
     /**
+     * Cart mapper.
+     *
      * @var Data\CartMapper
      */
     private $cartMapper;
 
     /**
+     * Array of valid search fields.
+     *
      * @var array
      */
     private $validSearchFields = array(
@@ -51,7 +62,7 @@ class ReadService implements ReadServiceInterface
     );
 
     /**
-     * Cart data object - quote field map
+     * Cart data object - quote field map.
      *
      * @var array
      */
@@ -60,10 +71,12 @@ class ReadService implements ReadServiceInterface
     );
 
     /**
-     * @param QuoteRepository $quoteRepository
-     * @param QuoteCollection $quoteCollection
-     * @param Data\CartSearchResultsBuilder $searchResultsBuilder
-     * @param Data\CartMapper $cartMapper
+     * Constructs a cart read service object.
+     *
+     * @param QuoteRepository $quoteRepository Quote repository.
+     * @param QuoteCollection $quoteCollection Quote collection.
+     * @param Data\CartSearchResultsBuilder $searchResultsBuilder Search results builder.
+     * @param Data\CartMapper $cartMapper Cart mapper.
      */
     public function __construct(
         QuoteRepository $quoteRepository,
@@ -78,7 +91,11 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param int $cartId The cart ID.
+     * @return \Magento\Checkout\Service\V1\Data\Cart Cart object.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
      */
     public function getCart($cartId)
     {
@@ -87,7 +104,11 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param int $customerId The customer ID.
+     * @return \Magento\Checkout\Service\V1\Data\Cart Cart object.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified customer does not exist.
      */
     public function getCartForCustomer($customerId)
     {
@@ -96,7 +117,10 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria The search criteria.
+     * @return \Magento\Checkout\Service\V1\Data\CartSearchResults Cart search results object.
      */
     public function getCartList(SearchCriteria $searchCriteria)
     {
@@ -130,12 +154,12 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * Add FilterGroup to the given quote collection.
+     * Adds a specified filter group to the specified quote collection.
      *
-     * @param FilterGroup $filterGroup
-     * @param QuoteCollection $collection
+     * @param FilterGroup $filterGroup The filter group.
+     * @param QuoteCollection $collection The quote collection.
      * @return void
-     * @throws InputException
+     * @throws InputException The specified filter group or quote collection does not exist.
      */
     protected function addFilterGroupToCollection(FilterGroup $filterGroup, QuoteCollection $collection)
     {
@@ -152,11 +176,11 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * Retrieve mapped search field
+     * Returns a mapped search field.
      *
-     * @param string $field
-     * @return string
-     * @throws InputException
+     * @param string $field The field.
+     * @return string Mapped search field.
+     * @throws InputException The specified field cannot be used for search.
      */
     protected function getQuoteSearchField($field)
     {
