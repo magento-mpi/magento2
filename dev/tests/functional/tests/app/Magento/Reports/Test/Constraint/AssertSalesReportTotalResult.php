@@ -15,7 +15,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * Class AssertSalesReportTotalResult
  * Assert that total sales info in report grid is actual
  */
-class AssertSalesReportTotalResult extends AbstractAssertOrdersReportResult
+class AssertSalesReportTotalResult extends AbstractAssertSalesReportResult
 {
     /**
      * Constraint severeness
@@ -39,7 +39,7 @@ class AssertSalesReportTotalResult extends AbstractAssertOrdersReportResult
         array $initialSalesTotalResult,
         SalesReport $salesReportPage
     ) {
-        $this->orderReportPage = $salesReportPage;
+        $this->salesReportPage = $salesReportPage;
         $this->order = $order;
         $this->searchInSalesReportGrid($salesReport);
         $salesResult = $salesReportPage->getGridBlock()->getTotalResult();

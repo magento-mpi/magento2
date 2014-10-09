@@ -9,22 +9,22 @@
 namespace Magento\Reports\Test\Constraint;
 
 use Mtf\ObjectManager;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Reports\Test\Page\Adminhtml\SalesReport;
+use Mtf\Page\BackendPage;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Class AbstractAssertOrdersReportResult
- * Abstract assert for search in report grid
+ * Class AbstractAssertSalesReportResult
+ * Abstract assert for search in sales report grid
  */
-abstract class AbstractAssertOrdersReportResult extends AbstractConstraint
+abstract class AbstractAssertSalesReportResult extends AbstractConstraint
 {
     /**
      * Sales report page
      *
-     * @var SalesReport
+     * @var BackendPage
      */
-    protected $orderReportPage;
+    protected $salesReportPage;
 
     /**
      * Order
@@ -41,10 +41,10 @@ abstract class AbstractAssertOrdersReportResult extends AbstractConstraint
      */
     protected function searchInSalesReportGrid(array $salesReport)
     {
-        $this->orderReportPage->open();
-        $this->orderReportPage->getMessagesBlock()->clickLinkInMessages('notice', 'here');
-        $this->orderReportPage->getFilterBlock()->viewsReport($salesReport);
-        $this->orderReportPage->getActionBlock()->showReport();
+        $this->salesReportPage->open();
+        $this->salesReportPage->getMessagesBlock()->clickLinkInMessages('notice', 'here');
+        $this->salesReportPage->getFilterBlock()->viewsReport($salesReport);
+        $this->salesReportPage->getActionBlock()->showReport();
     }
 
     /**

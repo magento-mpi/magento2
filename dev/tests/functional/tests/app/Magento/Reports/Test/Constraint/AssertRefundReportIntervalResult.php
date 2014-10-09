@@ -15,7 +15,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * Class AssertRefundReportIntervalResult
  * Assert Credit Memo info in report grid
  */
-class AssertRefundReportIntervalResult extends AbstractAssertOrdersReportResult
+class AssertRefundReportIntervalResult extends AbstractAssertSalesReportResult
 {
     /**
      * Constraint severeness
@@ -39,7 +39,7 @@ class AssertRefundReportIntervalResult extends AbstractAssertOrdersReportResult
         array $initialRefundsResult,
         RefundsReport $refundsReportPage
     ) {
-        $this->orderReportPage = $refundsReportPage;
+        $this->salesReportPage = $refundsReportPage;
         $this->order = $order;
         $this->searchInSalesReportGrid($refundsReport);
         $salesResult = $refundsReportPage->getGridBlock()->getLastResult();

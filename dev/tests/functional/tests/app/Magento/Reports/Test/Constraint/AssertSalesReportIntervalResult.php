@@ -15,7 +15,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * Class AssertSalesReportIntervalResult
  * Assert that sales info in report grid is actual
  */
-class AssertSalesReportIntervalResult extends AbstractAssertOrdersReportResult
+class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
 {
     /**
      * Constraint severeness
@@ -39,7 +39,7 @@ class AssertSalesReportIntervalResult extends AbstractAssertOrdersReportResult
         array $initialSalesResult,
         SalesReport $salesReportPage
     ) {
-        $this->orderReportPage = $salesReportPage;
+        $this->salesReportPage = $salesReportPage;
         $this->order = $order;
         $this->searchInSalesReportGrid($salesReport);
         $salesResult = $salesReportPage->getGridBlock()->getLastResult();
