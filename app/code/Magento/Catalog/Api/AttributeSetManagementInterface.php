@@ -62,4 +62,12 @@ interface AttributeSetManagementInterface
      * @return \Magento\Catalog\Api\Data\AttributeInterface[]
      */
     public function getAttributeList($attributeSetId);
+
+    /**
+     * Retrieve the list of media attributes (fronted input type is media_image) assigned to the given attribute set.
+     *
+     * @param int $attributeSetId
+     * @return \Magento\Catalog\Api\Data\AttributeInterface[]
+     */
+    public function getMediaAttributes($attributeSetId);
 }
