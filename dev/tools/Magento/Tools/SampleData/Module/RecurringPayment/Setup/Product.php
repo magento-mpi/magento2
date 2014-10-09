@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\RecurringPayment\Setup;
 
 use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -48,6 +49,11 @@ class Product implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var Gallery
+     */
+    protected $gallery;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Tools\SampleData\Module\RecurringPayment\Setup\Product\Converter $converter
@@ -59,13 +65,15 @@ class Product implements SetupInterface
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Tools\SampleData\Module\RecurringPayment\Setup\Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        Gallery $gallery
     ) {
         $this->productFactory = $productFactory;
         $this->catalogConfig = $catalogConfig;
         $this->converter = $converter;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->gallery = $gallery;
     }
 
     /**
@@ -78,9 +86,11 @@ class Product implements SetupInterface
         $product = $this->productFactory->create();
 
         $files = [
-            'RecurringPayment/products_training_subscription.csv',
+            'RecurringPayment/products_training_subscription.csv'
         ];
-
+        $this->gallery->setFixtures([
+            'RecurringPayment/images_training_subscription.csv'
+        ]);
         foreach ($files as $file) {
             /** @var \Magento\Framework\File\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
@@ -104,6 +114,7 @@ class Product implements SetupInterface
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
 
                 $product->save();
+                $this->gallery->install($product);
                 echo '.';
             }
         }
