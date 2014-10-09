@@ -24,7 +24,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Catalog\Api\AttributeSetRepositoryInterface::save
+     * @see \Magento\Catalog\Api\AttributeSetManagementInterface::createSet
      */
     public function create(AttributeSet $attributeSet, $skeletonId);
 
@@ -35,7 +35,7 @@ interface WriteServiceInterface
      * @return int attribute set ID
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
      * @deprecated
-     * @see \Magento\Catalog\Api\AttributeSetRepositoryInterface::update
+     * @see \Magento\Catalog\Api\AttributeSetManagementInterface::updateSet
      */
     public function update(AttributeSet $attributeSetData);
 

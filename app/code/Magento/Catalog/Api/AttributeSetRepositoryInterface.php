@@ -15,24 +15,15 @@ namespace Magento\Catalog\Api;
 interface AttributeSetRepositoryInterface
 {
     /**
-     * Create attribute set from data
-     *
-     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet
-     * @param int $skeletonId
-     * @return int
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function save(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
-
-    /**
-     * Update attribute set data
+     * Save attribute set data
      *
      * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData
      * @return int attribute set ID
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
      */
-    public function update(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData);
+    public function save(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData);
 
     /**
      * Retrieve list of Attribute Sets

@@ -15,11 +15,32 @@ namespace Magento\Catalog\Api;
 interface AttributeSetManagementInterface
 {
     /**
+     * Create attribute set from data
+     *
+     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet
+     * @param int $skeletonId
+     * @return int
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function createSet(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
+
+    /**
+     * Update attribute set from data
+     *
+     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet
+     * @return bool
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function updateSet(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet);
+
+    /**
      * @param int $attributeSetId
      * @param \Magento\Catalog\Api\Data\AttributeInterface $data
      * @return int
      */
-    public function addAttribute($attributeSetId, \Magento\Catalog\Api\Data\AttributeInterface $data);
+    public function addToAttributeSet($attributeSetId, \Magento\Catalog\Api\Data\AttributeInterface $data);
 
     /**
      * Remove attribute from attribute set
@@ -31,7 +52,7 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
      */
-    public function deleteAttribute($attributeSetId, $attributeId);
+    public function removeFromAttributeSet($attributeSetId, $attributeId);
 
     /**
      * Retrieve related attributes based on given attribute set ID

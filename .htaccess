@@ -189,3 +189,4 @@
 
     #FileETag none
 
+SetEnv MAGE_MODE developer
