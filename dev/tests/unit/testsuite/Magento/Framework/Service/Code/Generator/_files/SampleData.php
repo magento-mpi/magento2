@@ -13,7 +13,7 @@ use Magento\Framework\Model\AbstractModel;
 /**
  * Class Sample for Proxy and Factory generation
  */
-class SampleData extends AbstractModel implements SampleDataInterface
+class SampleData extends AbstractModel implements \Magento\Framework\Service\Code\Generator\SampleDataInterface
 {
     /**
      * {@inheritdoc}

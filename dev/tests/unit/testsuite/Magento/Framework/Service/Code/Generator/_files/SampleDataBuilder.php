@@ -11,7 +11,7 @@ namespace Magento\Framework\Service\Code\Generator;
 use Magento\Framework\Service\Data\ExtensibleEntityBuilder;
 
 /**
- * Builder for SampleData
+ * DataBuilder class for \Magento\Framework\Service\Code\Generator\SampleData
  */
 class SampleDataBuilder extends ExtensibleEntityBuilder
 {
