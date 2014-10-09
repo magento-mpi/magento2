@@ -85,7 +85,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $directory = $objectManager->create(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::ROOT
+            DirectoryList::ROOT
         );
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';

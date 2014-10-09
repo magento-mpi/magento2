@@ -1,5 +1,6 @@
 <?php
 namespace Magento\Cms\Model\Wysiwyg\Images;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

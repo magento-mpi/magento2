@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Logging\Model\Config;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
