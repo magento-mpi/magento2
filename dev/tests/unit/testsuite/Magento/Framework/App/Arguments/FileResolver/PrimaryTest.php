@@ -34,7 +34,7 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-                DirectoryList::CONFIG
+            DirectoryList::CONFIG
         )->will(
             $this->returnValue($directory)
         );

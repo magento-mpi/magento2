@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

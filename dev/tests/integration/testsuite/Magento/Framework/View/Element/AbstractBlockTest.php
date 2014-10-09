@@ -7,8 +7,6 @@
  */
 namespace Magento\Framework\View\Element;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
-
 /**
  * @magentoAppIsolation enabled
  */

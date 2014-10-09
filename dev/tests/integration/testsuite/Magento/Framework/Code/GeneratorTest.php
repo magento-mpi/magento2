@@ -51,7 +51,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::VAR_DIR
+            DirectoryList::VAR_DIR
         );
         $generationDirectory = $this->varDirectory->getAbsolutePath('generation');
 

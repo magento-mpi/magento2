@@ -44,7 +44,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDir'
         )->with(
-                DirectoryList::LIB_INTERNAL
+            DirectoryList::LIB_INTERNAL
         )->will(
             $this->returnValue('stub')
         );

@@ -103,7 +103,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getPath'
         )->with(
-                DirectoryList::LIB_INTERNAL
+            DirectoryList::LIB_INTERNAL
         )->will(
             $this->returnValue(TESTS_TEMP_DIR . '/lib')
         );
@@ -156,7 +156,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-                DirectoryList::MEDIA
+            DirectoryList::MEDIA
         )->will(
             $this->returnValue($dirWriteMock)
         );

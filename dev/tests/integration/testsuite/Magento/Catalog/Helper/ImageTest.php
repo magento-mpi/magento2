@@ -34,7 +34,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::MEDIA
+            DirectoryList::MEDIA
         );
 
         // image fixtures
@@ -84,7 +84,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::MEDIA
+            DirectoryList::MEDIA
         );
 
         $mediaDirectory->delete($config->getBaseMediaPath());

@@ -13,6 +13,7 @@
  *
  */
 namespace Magento\CatalogImportExport\Model\Import;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -593,7 +594,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::MEDIA
+            DirectoryList::MEDIA
         );
         $mediaDirectory->create('import');
         $dirPath = $mediaDirectory->getAbsolutePath('import');
@@ -609,7 +610,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-                DirectoryList::MEDIA
+            DirectoryList::MEDIA
         );
         $mediaDirectory->delete('import');
         $mediaDirectory->delete('catalog');

@@ -6,6 +6,7 @@
  * @license   {license_link}
  */
 namespace Magento\Core\Model\Resource\File\Storage;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

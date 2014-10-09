@@ -8,7 +8,6 @@
  * @license    {license_link}
  */
 
-use Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 require __DIR__ . '/../app/bootstrap.php';

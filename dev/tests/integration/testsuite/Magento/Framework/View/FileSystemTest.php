@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\View;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

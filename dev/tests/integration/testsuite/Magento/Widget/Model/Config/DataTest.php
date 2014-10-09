@@ -9,6 +9,7 @@
  *
  */
 namespace Magento\Widget\Model\Config;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

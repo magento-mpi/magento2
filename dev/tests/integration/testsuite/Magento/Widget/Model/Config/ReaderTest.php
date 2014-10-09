@@ -1,5 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Widget\Model\Config;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

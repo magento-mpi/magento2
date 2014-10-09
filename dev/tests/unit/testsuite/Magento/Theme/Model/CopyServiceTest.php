@@ -165,7 +165,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-                DirectoryList::MEDIA
+            DirectoryList::MEDIA
         )->will(
             $this->returnValue($this->_dirWriteMock)
         );

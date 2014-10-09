@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\App;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

@@ -10,6 +10,7 @@
  * Test class for \Magento\PageCache\Controller\Adminhtml/PageCache
  */
 namespace Magento\PageCache\Controller\Adminhtml\PageCache;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

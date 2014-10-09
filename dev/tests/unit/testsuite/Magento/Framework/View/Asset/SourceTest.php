@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Framework\View\Asset;
+
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

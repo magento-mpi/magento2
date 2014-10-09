@@ -30,7 +30,7 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
         $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getPath(
-                    DirectoryList::LIB_INTERNAL
+            DirectoryList::LIB_INTERNAL
         ) . '/Magento/Framework/Acl/etc/acl.xsd';
     }
 

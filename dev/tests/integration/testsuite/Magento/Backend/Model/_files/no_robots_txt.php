@@ -11,7 +11,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 $rootDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Framework\App\Filesystem'
 )->getDirectoryWrite(
-        DirectoryList::ROOT
+    DirectoryList::ROOT
 );
 if ($rootDirectory->isExist('robots.txt')) {
     $rootDirectory->delete('robots.txt');
