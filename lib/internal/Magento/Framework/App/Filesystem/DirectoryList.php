@@ -155,19 +155,19 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
             'path' => 'pub/media',
             'read_only' => false,
             'uri' => 'pub/media',
-            'permissions' => 0511,
+            'permissions' => 0755,
         ),
         self::STATIC_VIEW => array(
             'path' => 'pub/static',
             'read_only' => false,
             'uri' => 'pub/static',
-            'permissions' => 0511,
+            'permissions' => 0755,
         ),
         self::PUB => array(
             'path' => 'pub',
             'read_only' => true,
             'uri' => 'pub',
-            'permissions' => 0511,
+            'permissions' => 0755,
         ),
         self::LIB_WEB => array(
             'path' => 'lib/web',
@@ -176,7 +176,7 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
         self::TMP => array(
             'path' => 'var/tmp',
             'read_only' => false,
-            'permissions' => 0511,
+            'permissions' => 0755,
         ),
         self::THEMES => array(
             'path' => 'app/design',
@@ -186,7 +186,7 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
             'path' => 'pub/media/upload',
             'read_only' => false,
             'uri' => 'pub/media/upload',
-            'permissions' => 0511,
+            'permissions' => 0755,
         ),
     );
 }

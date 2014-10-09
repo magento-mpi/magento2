@@ -97,10 +97,6 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $this->_resourceModel = $resourceProductAttribute;
         $this->_mediaConfig = $mediaConfig;
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-
-        $this->_mediaDirectory->create($this->_mediaConfig->getBaseMediaPath());
-        $this->_mediaDirectory->create($this->_mediaConfig->getBaseTmpMediaPath());
-
         parent::__construct($logger);
     }
 
