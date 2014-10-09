@@ -8,9 +8,9 @@
 
 namespace Magento\Ui\DataProvider;
 
-use Magento\Ui\DataProvider\Config\Data as Config;
 use Magento\Framework\ObjectManager;
 use Magento\Ui\DataProvider\MetadataFactory;
+use Magento\Ui\DataProvider\Config\Data as Config;
 
 /**
  * Class Manager
@@ -35,7 +35,7 @@ class Manager
     /**
      * @param Config $config
      * @param ObjectManager $objectManager
-     * @param MetadataFactory $metadata
+     * @param MetadataFactory $metadataFactory
      */
     public function __construct(Config $config, ObjectManager $objectManager, MetadataFactory $metadataFactory)
     {
@@ -94,8 +94,7 @@ class Manager
                     $row[$field['name']] = $lookup[0][$field['reference']['neededField']];;
                 } elseif (isset($field['source']) && $field['source'] == 'option') {
                     $row[$field['name']] = $item->getData($field['reference']['referencedField']);
-                }
-                else {
+                } else {
                     $row[$field['name']] = $item->getData($field['name']);
                 }
             }

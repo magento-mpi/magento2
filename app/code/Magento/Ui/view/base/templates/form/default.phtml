@@ -11,7 +11,7 @@
 ?>
 
 <div class="form">
-    <form id="demo_form" class="" action="<?php echo $this->getSaveAction(); ?>" method="post">
+    <form id="demo_form" class="default-form" action="<?php echo $this->getSaveAction(); ?>" method="post">
         <?php foreach ($this->getElements() as $element): ?>
             <?php echo $element->render(); ?>
         <?php endforeach; ?>

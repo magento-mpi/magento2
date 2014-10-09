@@ -7,13 +7,15 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\UiElementFactory;
+use Magento\Ui\DataProvider\Manager;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\DataProvider\Metadata;
 
 /**
  * Class Form
@@ -21,18 +23,44 @@ use Magento\Framework\View\Element\UiElementFactory;
 class Form extends AbstractView
 {
     /**
-     * @var UiElementFactory
+     * Default form element
      */
-    protected $uiElementFactory;
+    const DEFAULT_FORM_ELEMENT = 'input';
 
     /**
+     * From element map
+     *
+     * @var array
+     */
+    protected $formElementMap = [
+        'text' => 'input',
+        'number' => 'input'
+    ];
+
+    /**
+     * Ui element builder
+     *
+     * @var ElementRendererBuilder
+     */
+    protected $elementRendererBuilder;
+
+    /**
+     * @var UiElementFactory
+     */
+    protected $factory;
+
+    /**
+     * Constructor
+     *
      * @param TemplateContext $context
      * @param Context $renderContext
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
      * @param DataProviderFactory $dataProviderFactory
-     * @param UiElementFactory $uiElementFactory
+     * @param Manager $dataProviderManager
+     * @param ElementRendererBuilder $elementRendererBuilder
+     * @param UiElementFactory $factory
      * @param array $data
      */
     public function __construct(
@@ -42,12 +70,23 @@ class Form extends AbstractView
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
         DataProviderFactory $dataProviderFactory,
-        UiElementFactory $uiElementFactory,
+        Manager $dataProviderManager,
+        ElementRendererBuilder $elementRendererBuilder,
+        UiElementFactory $factory,
         array $data = []
     ) {
-        $this->uiElementFactory = $uiElementFactory;
-        parent::__construct($context, $renderContext, $contentTypeFactory, $configFactory, $configBuilder,
-            $dataProviderFactory, $data);
+        $this->elementRendererBuilder = $elementRendererBuilder;
+        $this->factory = $factory;
+        parent::__construct(
+            $context,
+            $renderContext,
+            $contentTypeFactory,
+            $configFactory,
+            $configBuilder,
+            $dataProviderFactory,
+            $dataProviderManager,
+            $data
+        );
     }
 
     /**
@@ -58,20 +97,12 @@ class Form extends AbstractView
     public function prepare()
     {
         parent::prepare();
-        $config = $this->configFactory->create(
-            [
-                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
-                'parentName' => $this->renderContext->getNamespace(),
-            ]
-        );
+        $this->prepareConfiguration(null, $this->getData('name'));
 
-        $this->setConfig($config);
-        $this->renderContext->getStorage()->addComponentsData($config);
-
-        $this->createDataProviders();
+        //$this->createDataProviders();
         $this->renderContext->getStorage()->addMeta($this->getName(), $this->getData('meta'));
         $this->createElements();
-        $this->setRenderLayout();
+        //$this->setRenderLayout();
     }
 
     /**
@@ -89,8 +120,8 @@ class Form extends AbstractView
     public function getFieldType(array $fieldData)
     {
         $type = '';
-        if (isset($fieldData['data_type'])) {
-            $type = $fieldData['data_type'];
+        if (isset($fieldData['dataType'])) {
+            $type = $fieldData['dataType'];
         } else {
             if (isset($fieldData['frontend_input'])) {
                 $type = $fieldData['frontend_input'];
@@ -98,17 +129,6 @@ class Form extends AbstractView
         }
 
         return $type;
-    }
-
-    /**
-     * Render content
-     *
-     * @return string
-     */
-    public function render()
-    {
-        return $this->contentTypeFactory->get($this->renderContext->getAcceptType())
-            ->render($this, $this->getContentTemplate());
     }
 
     /**
@@ -134,36 +154,47 @@ class Form extends AbstractView
      */
     protected function createElements()
     {
-        $containers = $this->getData('containers');
+        $formLayout = $this->getData('layout');
+        $containerConfiguration = $formLayout['configuration'];
 
-        if ($this->hasData('data_provider_pool')) {
-            foreach ($this->getData('data_provider_pool') as $name => $config) {
-                $dataProvider = $this->getRenderContext()->getStorage()->getDataProvider($name);
-                $data = $dataProvider->getData();
-                $elements = [];
-                foreach ($dataProvider->getMeta() as $metaData) {
-                    $index = $this->getFieldIndex($metaData);
-                    $metaData['value'] = isset($data[$index]) ? $data[$index] : null;
-                    try {
-                        $elements[] = $this->uiElementFactory->create($this->getFieldType($metaData), $metaData);
-                    } catch (\Exception $e) {
-                        continue;
-                    }
+        if ($this->hasData('data_sources')) {
+            foreach ($this->getData('data_sources') as $name => $dataSource) {
+                $data = $this->dataManager->getData($dataSource, ['entity_id' => 1]);
+                $meta = $this->dataManager->getMetadata($dataSource);
+                if (isset($formLayout['configuration']['areas'][$name])) {
+                    $containerConfiguration = $formLayout['configuration']['areas'][$name];
                 }
-                if (isset($containers[$name])) {
-                    $data = array_merge_recursive($containers[$name], ['elements' => $elements]);
-                    /** @var \Magento\Ui\Component\Form\Fieldset $container */
-                    $container = $this->uiElementFactory->create(
-                        $containers[$name]['name'],
-                        $data
-                    );
-                    $container->prepare();
-                    $this->elements[] = $container;
-                } else {
-                    $this->elements = array_merge($this->elements, $elements);
+                $this->elements[] = $this->prepareFieldset($meta, $data[0], $containerConfiguration);
+            }
+        }
+    }
+
+    protected function prepareFieldset($meta, $data, $containerConfiguration)
+    {
+        $containerType = $containerConfiguration['type'];
+        $elements = [];
+        foreach ($meta as $metaKey => $metaData) {
+            if ($metaKey == 'childDataSources') {
+                foreach ($metaData as $key => $metaProvider) {
+                    if (isset($formLayout['configuration']['areas'][$key])) {
+                        $containerConfiguration = $containerConfiguration['configuration']['areas'][$key];
+                    }
+                    $elements[] = $this->prepareFieldset($metaProvider, $data[$key], $containerConfiguration);
+                }
+            } else {
+                $metaData['value'] = isset($data[$metaData['name']]) ? $data[$metaData['name']] : null;
+                $element = $this->renderContext->getRender()->getUiElementView($this->getFormElement($metaData));
+                try {
+                    $elements[] = $this->elementRendererBuilder->create($element, $metaData);
+                } catch (\Exception $e) {
+                    continue;
                 }
             }
         }
+        $data = array_merge_recursive($containerConfiguration, ['elements' => $elements]);
+        $container = $this->factory->create($containerType, $data);
+        $container->prepare();
+        return $container;
     }
 
     public function getContainer($name)
@@ -182,14 +213,14 @@ class Form extends AbstractView
             $index = $this->getFieldIndex($metaData);
             $metaData['value'] = isset($data[$index]) ? $data[$index] : null;
             try {
-                $elements[] = $this->uiElementFactory->create($this->getFieldType($metaData), $metaData);
+                $elements[] = $this->factory->create($this->getFieldType($metaData), $metaData);
             } catch (\Exception $e) {
                 continue;
             }
         }
         $data = array_merge_recursive($containers[$name], ['elements' => $elements]);
         /** @var \Magento\Ui\Component\Form\Fieldset $container */
-        $container = $this->uiElementFactory->create(
+        $container = $this->factory->create(
             $containers[$name]['name'],
             $data
         );
@@ -198,21 +229,22 @@ class Form extends AbstractView
     }
 
     /**
-     * @param array $fieldData
+     * Get form element name
+     *
+     * @param array $metaField
      * @return string
      */
-    public function getFieldIndex(array $fieldData)
+    protected function getFormElement(array $metaField)
     {
-        $type = '';
-        if (isset($fieldData['attribute_code'])) {
-            $type = $fieldData['attribute_code'];
-        } else {
-            if (isset($fieldData['index'])) {
-                $type = $fieldData['index'];
-            }
+        if (isset($metaField['formElement'])) {
+            return $metaField['formElement'];
         }
-
-        return $type;
+        if (!isset($metaField['dataType'])) {
+            return static::DEFAULT_FORM_ELEMENT;
+        }
+        return isset($this->formElementMap[$metaField['dataType']])
+            ? $this->formElementMap[$metaField['dataType']]
+            : static::DEFAULT_FORM_ELEMENT;
     }
 
     /**

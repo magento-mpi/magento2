@@ -8,12 +8,13 @@
 namespace Magento\Ui\Component;
 
 use Magento\Backend\Helper\Data;
+use Magento\Ui\DataProvider\Manager;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\Component\Filter\FilterAbstract;
 use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\Component\Filter\FilterAbstract;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
@@ -48,6 +49,7 @@ class FilterPool extends AbstractView
      * @param Data $dataHelper
      * @param FilterPoolProvider $filterPool
      * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
      * @param array $data
      */
     public function __construct(
@@ -59,6 +61,7 @@ class FilterPool extends AbstractView
         Data $dataHelper,
         FilterPoolProvider $filterPool,
         DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
         array $data = []
     ) {
         $this->dataHelper = $dataHelper;
@@ -70,6 +73,7 @@ class FilterPool extends AbstractView
             $configFactory,
             $configBuilder,
             $dataProviderFactory,
+            $dataProviderManager,
             $data
         );
     }
@@ -85,17 +89,7 @@ class FilterPool extends AbstractView
         if ($this->hasData('config')) {
             $configData = array_merge($configData, $this->getData('config'));
         }
-
-        $config = $this->configFactory->create(
-            [
-                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
-                'parentName' => $this->renderContext->getNamespace(),
-                'configuration' => $configData
-            ]
-        );
-
-        $this->setConfig($config);
-        $this->renderContext->getStorage()->addComponentsData($config);
+        $this->prepareConfiguration($configData);
         $this->updateDataCollection();
     }
 
@@ -175,7 +169,7 @@ class FilterPool extends AbstractView
         foreach ($filterData as $field => $value) {
             if (isset($metaData[$field]['filter_type'])) {
                 $filters[$field] = [
-                    'title' => $metaData[$field]['title'],
+                    'label' => $metaData[$field]['label'],
                     'current_display_value' => $value
                 ];
             }

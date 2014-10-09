@@ -16,6 +16,11 @@ use Magento\Framework\ObjectManager;
 class Metadata implements \Iterator, \ArrayAccess
 {
     /**
+     * Node name of children data sources
+     */
+    const CHILD_DATA_SOURCES = 'childDataSources';
+
+    /**
      * @var array
      */
     protected $config;
@@ -36,24 +41,29 @@ class Metadata implements \Iterator, \ArrayAccess
     protected $dataSet;
 
     /**
+     * @var array
+     */
+    protected $children;
+
+    /**
      * @var Manager
      */
     protected $manager;
+
     /**
-     * @param $config
+     * @param array $config
      * @param ObjectManager $objectManager
      * @param Manager $manager
      */
-    public function __construct(
-        $config,
-        ObjectManager $objectManager,
-        Manager $manager
-    ) {
+    public function __construct(array $config, ObjectManager $objectManager, Manager $manager)
+    {
         $this->config = $config['fields'];
+        if (isset($config['children'])) {
+            $this->config[self::CHILD_DATA_SOURCES] = array_keys($config['children']);
+        }
         $this->dataSet = $objectManager->get($config['dataset']);
         $this->manager = $manager;
         $this->initAttributes();
-
     }
 
     /**
@@ -93,6 +103,12 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function current()
     {
+        if ($this->key() == self::CHILD_DATA_SOURCES) {
+            foreach ($this->config[$this->key()] as $child) {
+                $this->metadata[$this->key()][$child] = $this->manager->getMetadata($child);
+            }
+            return $this->metadata[$this->key()];
+        }
         $this->metadata[$this->key()] = [
             'name' => $this->key(),
         ];
@@ -140,6 +156,7 @@ class Metadata implements \Iterator, \ArrayAccess
                 $this->metadata[$this->key()][$code] = $info['default'];
             }
         }
+
         return $this->metadata[$this->key()];
     }
 

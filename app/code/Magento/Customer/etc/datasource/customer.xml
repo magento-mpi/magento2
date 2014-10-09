@@ -1,29 +1,28 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/dataSource.xsd">
-    <!---->
     <datasource
             name="customer"
             dataset="Magento\Customer\Model\Resource\Customer\Collection"
     >
-        <fields>
+        <fields entityType="customer">
             <field name="entity_id" dataType="text" visible="false"/>
             <field name="entity_type_id" dataType="text" visible="false"/>
             <field name="email" source="eav" />
-            <field name="attribute_set_id" dataType="numeric" visible="false"/>
-            <field name="group_id" dataType="numeric" visible="false"/>
-            <field name="website_id" dataType="numeric" visible="false"/>
+            <field name="attribute_set_id" dataType="number" visible="false"/>
+            <field name="group_id" dataType="number" visible="false"/>
+            <field name="website_id" dataType="number" visible="false"/>
             <field name="default_billing" source="eav" visible="false"/>
             <field name="gender" source="eav"/>
             <field name="firstname" source="eav"/>
             <field name="lastname" source="eav"/>
-            <field name="customer_group_code" dataType="text" source="option">
+            <field name="customer_group_code" dataType="select" source="option" label="Customer Group">
                 <reference target="customer_group"
                     referencedField="group_id"
                     targetField="customer_group_id"
                     neededField="customer_group_code"
                 />
             </field>
-            <field name="website_code" dataType="text" source="lookup">
+            <field name="website_code" dataType="text" source="lookup" label="Website">
                 <reference target="website"
                     referencedField="website_id"
                     targetField="website_id"
