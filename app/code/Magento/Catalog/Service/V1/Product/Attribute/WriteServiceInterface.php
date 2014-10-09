@@ -21,7 +21,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      * @deprecated
-     * @see \Magento\Catalog\Api\AttributeManagementInterface::create
+     * @see \Magento\Catalog\Api\Product\Attribute\AttributeManagementInterface::create
      */
     public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata $attributeMetadata);
 
@@ -34,7 +34,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Catalog\Api\AttributeManagementInterface::update
+     * @see \Magento\Catalog\Api\Product\Attribute\AttributeManagementInterface::update
      */
     public function update($id, \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata $attribute);
 
@@ -46,7 +46,7 @@ interface WriteServiceInterface
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      * @deprecated
-     * @see \Magento\Catalog\Api\AttributeRepositoryInterface::remove
+     * @see \Magento\Catalog\Api\Product\Attribute\AttributeRepositoryInterface::remove
      */
     public function remove($attributeId);
 }

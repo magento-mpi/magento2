@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Catalog\Api\Product\Attribute;
 
 interface AttributeRepositoryInterface
 {
@@ -18,7 +18,7 @@ interface AttributeRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function save(Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
+    public function save(\Magento\Catalog\Api\Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
 
     /**
      * Get full information about a required attribute with the list of options

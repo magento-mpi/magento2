@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Catalog\Api\Product\Attribute;
 
 interface AttributeManagementInterface
 {
@@ -18,7 +18,7 @@ interface AttributeManagementInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function create(Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
+    public function create(\Magento\Catalog\Api\Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
 
     /**
      * Update product attribute process
@@ -29,7 +29,7 @@ interface AttributeManagementInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function update(Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
+    public function update(\Magento\Catalog\Api\Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
 
     /**
      * Retrieve list of product attribute types

@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Catalog\Api\Product\Attribute;
 
 /**
  * Interface AttributeSetRepositoryInterface must be implemented in
