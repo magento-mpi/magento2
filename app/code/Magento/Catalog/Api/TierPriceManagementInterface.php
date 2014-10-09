@@ -6,12 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\TierPrice;
+namespace Magento\Catalog\Api;
 
 /**
  * Interface Tier/RepositoryInterface must be implemented by new Group Price repository model
  */
-interface RepositoryInterface
+interface TierPriceManagementInterface
 {
     /**
      * Create tire price for product

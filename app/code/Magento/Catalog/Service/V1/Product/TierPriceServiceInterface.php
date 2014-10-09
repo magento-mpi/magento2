@@ -8,6 +8,9 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
+/**
+ * @todo remove this interface
+ */
 interface TierPriceServiceInterface
 {
     /**
@@ -19,6 +22,8 @@ interface TierPriceServiceInterface
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @deprecated
+     * @see \Magento\Catalog\Api\TierPriceManagementInterface::save
      */
     public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price);
 
@@ -31,6 +36,8 @@ interface TierPriceServiceInterface
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @deprecated
+     * @see \Magento\Catalog\Api\TierPriceManagementInterface::delete
      */
     public function delete($productSku, $customerGroupId, $qty);
 
@@ -41,6 +48,8 @@ interface TierPriceServiceInterface
      * @param string $customerGroupId
      * @return \Magento\Catalog\Service\V1\Data\Product\TierPrice[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @deprecated
+     * @see \Magento\Catalog\Api\TierPriceManagementInterface::getList
      */
     public function getList($productSku, $customerGroupId);
 }
