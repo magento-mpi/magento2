@@ -21,22 +21,22 @@
         <table class="data table table-order-items returns" id="my-returns-table">
             <thead>
                 <tr>
-                    <th class="col id"><?php echo __('Return #') ?></th>
-                    <th class="col date"><?php echo __('Date') ?></th>
-                    <th class="col shipping"><?php echo __('Ship From') ?></th>
-                    <th class="col status"><?php echo __('Return Status') ?></th>
-                    <th class="col actions">&nbsp;</th>
+                    <th scope="col" class="col id"><?php echo __('Return #') ?></th>
+                    <th scope="col" class="col date"><?php echo __('Date') ?></th>
+                    <th scope="col" class="col shipping"><?php echo __('Ship From') ?></th>
+                    <th scope="col" class="col status"><?php echo __('Return Status') ?></th>
+                    <th scope="col" class="col actions">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $_odd = ''; ?>
                 <?php foreach ($_returns as $_return): ?>
                 <tr>
-                    <td class="col id" data-th="<?php echo $this->escapeHtml(__('Return #')); ?>"><?php echo $_return->getIncrementId() ?></td>
-                    <td class="col date" data-th="<?php echo $this->escapeHtml(__('Date')); ?>"><?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_return->getDateRequested()) ?></td>
-                    <td class="col shipping" data-th="<?php echo $this->escapeHtml(__('Ship From')); ?>"><?php echo $this->escapeHtml($_return->getCustomerName()) ?></td>
-                    <td class="col status" data-th="<?php echo $this->escapeHtml(__('Return Status')); ?>"><?php echo $this->escapeHtml($_return->getStatusLabel()) ?></td>
-                    <td class="col actions" data-th="<?php echo $this->escapeHtml(__('Actions')); ?>">
+                    <td data-th="<?php echo $this->escapeHtml(__('Return #')) ?>" class="col id" data-th="<?php echo $this->escapeHtml(__('Return #')); ?>"><?php echo $_return->getIncrementId() ?></td>
+                    <td data-th="<?php echo $this->escapeHtml(__('Date')) ?>" class="col date" data-th="<?php echo $this->escapeHtml(__('Date')); ?>"><?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_return->getDateRequested()) ?></td>
+                    <td data-th="<?php echo $this->escapeHtml(__('Ship From')) ?>" class="col shipping" data-th="<?php echo $this->escapeHtml(__('Ship From')); ?>"><?php echo $this->escapeHtml($_return->getCustomerName()) ?></td>
+                    <td data-th="<?php echo $this->escapeHtml(__('eturn Status')) ?>" class="col status" data-th="<?php echo $this->escapeHtml(__('Return Status')); ?>"><?php echo $this->escapeHtml($_return->getStatusLabel()) ?></td>
+                    <td data-th="" class="col actions" data-th="<?php echo $this->escapeHtml(__('Actions')); ?>">
                         <a href="<?php echo $this->getViewUrl($_return) ?>" class="cation view"><span><?php echo __('View Return') ?></span></a>
                     </td>
                 </tr>

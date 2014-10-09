@@ -8,7 +8,7 @@
 
 .form-giftregistry-share,
 .form-giftregistry-edit {
-    &:extend(.abstract-add-recipients all);
+    &:extend(.abstract-add-fields all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
     }
@@ -76,6 +76,6 @@
 .responsive(@break) when (@break = @screen-m) {
     .form-giftregistry-share,
     .form-giftregistry-edit {
-        &:extend(.abstract-add-recipients-desktop all);
+        &:extend(.abstract-add-fields-desktop all);
     }
 }

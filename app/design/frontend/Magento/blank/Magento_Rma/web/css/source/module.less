@@ -1,0 +1,39 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form-create-return {
+    &:extend(.abstract-add-fields all);
+    .additional {
+        &:first-child {
+            margin-top: 0;
+        }
+        .field:nth-last-child(2) {
+            margin-bottom: 0;
+        }
+        .field:last-child {
+            margin-top: @form-field-vertical-indent;
+        }
+    }
+    .field.comment {
+        margin-top: 55px;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .form-create-return {
+        &:extend(.abstract-add-fields-desktop all);
+        .additional {
+            .field:last-child {
+                margin-top: @form-field-vertical-indent-desktop;
+            }
+        }
+    }
+}

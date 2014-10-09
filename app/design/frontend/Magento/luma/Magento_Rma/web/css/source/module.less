@@ -14,3 +14,47 @@
         }
     }
 }
+
+.form-create-return {
+    &:extend(.abstract-add-fields all);
+    .additional {
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    .field.comment {
+        margin-top: 55px;
+    }
+    .actions-toolbar {
+        &:extend(.abstract-add-clearfix all);
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .form-create-return {
+        .additional {
+            .field:nth-last-child(2) {
+                margin-bottom: 0;
+            }
+            .field:last-child {
+                margin-top: @form-field-vertical-indent;
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .form-create-return {
+        &:extend(.abstract-add-fields-desktop all);
+        &:extend(.form-field-column-2 all);
+        .fieldset .field {
+           width: 45%;
+        }
+    }
+}

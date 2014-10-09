@@ -67,14 +67,11 @@
                 <table class="data table" id="track-info-table">
                     <thead>
                         <tr>
-                            <th class="col carrier"><?php echo __('Carrier') ?></th>
-                            <th class="col id"><?php echo __('Number') ?></th>
-                            <th class="col actions"><?php echo __('Action') ?></th>
+                            <th scope="col" class="col carrier"><?php echo __('Carrier') ?></th>
+                            <th scope="col" class="col id"><?php echo __('Number') ?></th>
+                            <th scope="col" class="col actions"><?php echo __('Action') ?></th>
                         </tr>
                     </thead>
-                    <tbody id="track-info-tbody">
-                        <?php echo $this->getTrackingInfo('tracking') ?>
-                    </tbody>
                     <?php if ($this->isPrintShippingLabelAllowed()): ?>
                     <tfoot>
                         <tr>
@@ -95,6 +92,9 @@
                         </tr>
                     </tfoot>
                     <?php endif ?>
+                    <tbody id="track-info-tbody">
+                        <?php echo $this->getTrackingInfo('tracking') ?>
+                    </tbody>
                 </table>
             </form>
         </div>

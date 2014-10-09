@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@form-field-vertical-indent-desktop: 29px;
+
 .fieldset {
     .legend + .fieldset,
     .legend + div {
@@ -85,7 +87,7 @@ select:focus ~ .tooltip .tooltip-content {
         }
         > .field {
             .form-field-type-revert();
-            margin: 0 0 29px;
+            margin: 0 0 @form-field-vertical-indent-desktop;
         }
     }
 }

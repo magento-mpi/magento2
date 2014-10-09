@@ -244,12 +244,12 @@
 //
 //    Add Recipient
 //--------------------------------------
-.abstract-add-recipients {
-    .recipients {
+.abstract-add-fields {
+    .fieldset {
         margin-bottom: 50px;
         .field {
              .control {
-                width: 50%;
+                width: 50% !important;
             }
         }
         .additional {
@@ -282,8 +282,8 @@
 //    Add Recipient for desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .abstract-add-recipients-desktop {
-        .recipients {
+    .abstract-add-fields-desktop {
+        .fieldset {
             .additional {
                 .action.remove {
                     &:extend(.abstract-action-remove-desktop all);
