@@ -85,14 +85,14 @@
 //
 //    Product options list
 //--------------------------------------
-.product-options-list {
-    dt:after {
-        content: ': ';
-    }
+.abstract-product-options-list {
     dt {
         float: left;
         clear: left;
         margin: 0 10px 5px 0;
+        &:after {
+            content: ': ';
+        }
     }
     dd {
         float: left;
@@ -118,7 +118,7 @@
 //    Blocks in 2 columns
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .blocks-2columns {
+    .abstract-blocks-2columns {
         width: 48%;
         &:nth-child(1) {
             float: left;
@@ -130,8 +130,8 @@
                 clear: both;
             }
         }
-        }
-    .blocks-2columns-reverse {
+    }
+    .abstract-blocks-2columns-reverse {
         width: 48.8%;
         &:nth-child(1) {
             float: right;
@@ -140,6 +140,17 @@
         &:nth-child(2) {
             float: left;
         }
+    }
+}
+
+//
+//    Reset image alignment in container
+//--------------------------------------
+.abstract-reset-image-wrapper {
+    height: auto;
+    padding: 0!important;
+    .product-image-photo {
+        position: static;
     }
 }
 
@@ -329,22 +340,30 @@
 //
 //    Visually hidden / show visually hidden
 //--------------------------------------
-.visually-hidden {
+.abstract-visually-hidden {
     .visually-hidden();
 }
 
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .visually-hidden-mobile {
+    .abstract-visually-hidden-mobile {
         .visually-hidden();
     }
 }
+
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .visually-hidden-mobile-m {
+    .abstract-visually-hidden-mobile-m {
         .visually-hidden();
     }
 }
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-visually-hidden-desktop-s {
+        .visually-hidden();
+    }
+}
+
 .responsive(@break) when (@break = @screen-m) {
-    .visually-hidden-desktop {
+    .abstract-visually-hidden-desktop {
         .visually-hidden();
     }
 }
@@ -352,24 +371,24 @@
 //
 //    Clearfix
 //--------------------------------------
-.add-clearfix {
+.abstract-add-clearfix {
     .clearfix();
 }
 
 .responsive(@break) when (@break = @screen-m) {
-    .add-clearfix-desktop {
+    .abstract-add-clearfix-desktop {
         .clearfix();
     }
 }
 
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .add-clearfix-mobile {
+    .abstract-add-clearfix-mobile {
         .clearfix();
     }
 }
 
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .add-clearfix-mobile-m {
+    .abstract-add-clearfix-mobile-m {
         .clearfix();
     }
 }
@@ -424,7 +443,6 @@
 //
 //    Split button
 //--------------------------------------
-
 .abstract-split-button {
     .dropdown-split(
         @_options-selector : ~".items",
@@ -448,10 +466,10 @@
                 .field {
                     width: 100%;
                     padding: 0;
+                }
             }
         }
     }
-}
 }
 
 //
@@ -466,7 +484,7 @@
 //
 //    Checkout shipping methods title
 //--------------------------------------
-.abstract-shipping-methods-title {
+.abstract-methods-shipping-title {
     .font-size(16);
     margin-bottom: 15px;
     font-weight: @font-weight-semibold;
@@ -520,7 +538,7 @@
 //    Vertical Table
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .table-vertical-mobile {
+    .abstract-table-vertical-mobile {
         .table-responsive();
     }
 }
@@ -627,13 +645,70 @@
 }
 
 //
+//    Checkout order review price
+//--------------------------------------
+.abstract-checkout-cart-price {
+    color: @color-primary-lighter;
+    .font-size(16);
+    font-weight: @font-weight-bold;
+}
+
+//
+//    Checkout order product name
+//--------------------------------------
+.abstract-checkout-product-name {
+    .font-size(18);
+    font-weight: @font-weight-light;
+}
+
+//
+//    Mobile checkout order product name
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-product-items-summary {
+        tbody {
+            .col {
+                padding: @indent-s-base 0 0;
+                &:last-child {
+                    padding-bottom: @indent-s-base
+                }
+            }
+        }
+        tfoot {
+            .mark {
+                padding-bottom: @indent-xs-base;
+                text-align: left;
+            }
+            .amount {
+                padding-top: 0;
+                text-align: left;
+            }
+            .grand.totals {
+                .font-size(16);
+                .mark {
+                    padding-top: @indent-xs-base;
+                    padding-bottom: 0;
+                }
+                .amount {
+                    padding-bottom: @indent-s-base;
+                    padding-top: 0;
+                    strong {
+                        border-top: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+//
 //    Account pages: title
 //--------------------------------------
 .abstract-account-title {
     > strong,
     > span {
-        //.heading(h3);
-        font-size: 22px;
+        .font-size(22);
         .css(font-weight, @font-weight-light);
     }
     .css(margin-bottom, @indent-m-base);
@@ -693,6 +768,15 @@
 }
 
 //
+//    Account pages: order table summary
+//--------------------------------------
+.abstract-account-summary {
+    td {
+        background: @sidebar-background;
+    }
+}
+
+//
 //    Action print with icon
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
@@ -716,11 +800,11 @@
 .abstract-incl-excl-tax {
     .price-including-tax,
     .price-excluding-tax {
-        white-space: nowrap;
         color: @cart-price-color;
         display: block;
         .font-size(18);
         line-height: 1;
+        white-space: nowrap;
         .price {
             font-weight: @font-weight-bold;
         }
@@ -879,6 +963,7 @@
         );
     }
 }
+
 //
 //    Dropdown items - create new
 //--------------------------------------
@@ -895,4 +980,11 @@
             margin-right: 5px;
         }
     }
+}
+
+//
+//    Abstract no display
+//--------------------------------------
+.abstract-no-display {
+    display: none;
 }
