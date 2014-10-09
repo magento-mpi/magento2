@@ -1,4 +1,4 @@
-sku,news_from_date,_type
-simple1,"1/1/2015 12:00 pm",simple
-simple2,"10/8/2012 3:58 pm",simple
-simple3,"12/31/1998 10:30 am",simple
+sku,news_from_date
+simple1,"1/1/2015 12:00 pm"
+simple2,"10/8/2012 3:58 pm"
+simple3,"12/31/1998 10:30 am"

@@ -2060,11 +2060,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function isWeightValid($rowData, $rowNum)
     {
-        if ($rowData['_type'] != \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-        && $rowData['_type'] !=  \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE
-        && !empty($rowData['weight'])
-            && (!is_numeric($rowData['weight']) || $rowData['weight'] < 0)
-        ) {
+        if (!empty($rowData['weight']) && (!is_numeric($rowData['weight']) || $rowData['weight'] < 0)) {
             $this->addRowError(self::ERROR_INVALID_WEIGHT, $rowNum);
             return false;
         }
