@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="cms_page_edit"/>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
