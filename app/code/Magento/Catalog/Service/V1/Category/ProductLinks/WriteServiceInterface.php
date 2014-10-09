@@ -9,6 +9,10 @@ namespace Magento\Catalog\Service\V1\Category\ProductLinks;
 
 use Magento\Catalog\Service\V1\Data\Category\ProductLink;
 
+/**
+ * @deprecated
+ * @todo remove this interface
+ */
 interface WriteServiceInterface
 {
     /**
@@ -20,6 +24,9 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\CategoryLinkManagement::save
      */
     public function assignProduct($categoryId, ProductLink $productLink);
 
@@ -30,6 +37,9 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\CategoryLinkManagement::save
      */
     public function updateProduct($categoryId, ProductLink $productLink);
 
@@ -41,6 +51,9 @@ interface WriteServiceInterface
      * @return bool Will returned True if products sucessfully deleted
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\StateException
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\CategoryLinkManagement::remove
      */
     public function removeProduct($categoryId, $productSku);
 }
