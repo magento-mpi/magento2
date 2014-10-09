@@ -126,31 +126,15 @@ abstract class AbstractStockqty extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Retrieve current product stock qty
+     * Retrieve current product qty left in stock
      *
-     * @return float
-     */
-    public function getMinStockQty()
-    {
-        return $this->getProductMinStockQty($this->getProduct());
-    }
-
-    /**
-     * Retrieve minimal quantity available for item status in stock
-     *
-     * @param Product $product
-     * @return float
-     */
-    public function getProductMinStockQty($product)
-    {
-        return $this->stockItemService->getMinStockQty($product->getId());
-    }
-
-    /**
      * @return float
      */
     public function getStockQtyLeft()
     {
-        return $this->getStockQty() - $this->getMinStockQty();
+        /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItem */
+        $stockItem = $this->stockItemService->getStockItem($this->getProduct()->getId());
+        $minStockQty = $stockItem->getMinQty();
+        return $this->getStockQty() - $minStockQty;
     }
 }
