@@ -50,7 +50,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Framework\Data\Structure
+     * @return \Magento\Framework\View\Layout\Data\Structure
      */
     public function getStructure()
     {

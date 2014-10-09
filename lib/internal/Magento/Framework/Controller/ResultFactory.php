@@ -21,6 +21,7 @@ class ResultFactory
     const TYPE_JSON     = 'json';
     const TYPE_RAW      = 'raw';
     const TYPE_REDIRECT = 'redirect';
+    const TYPE_FORWARD  = 'forward';
     const TYPE_LAYOUT   = 'layout';
     const TYPE_PAGE     = 'page';
     /**#@-*/
@@ -34,6 +35,7 @@ class ResultFactory
         self::TYPE_JSON     => 'Magento\Framework\Controller\Result\JSON',
         self::TYPE_RAW      => 'Magento\Framework\Controller\Result\Raw',
         self::TYPE_REDIRECT => 'Magento\Framework\Controller\Result\Redirect',
+        self::TYPE_FORWARD  => 'Magento\Framework\Controller\Result\Forward',
         self::TYPE_LAYOUT   => 'Magento\Framework\View\Result\Layout',
         self::TYPE_PAGE     => 'Magento\Framework\View\Result\Page',
     ];
@@ -85,7 +87,6 @@ class ResultFactory
         if ($resultInstance instanceof \Magento\Framework\View\Result\Layout) {
             // Initialization has to be in constructor of ResultPage
             $resultInstance->addDefaultHandle();
-            $resultInstance->setIsControllerPage(true);
         }
 
         return $resultInstance;

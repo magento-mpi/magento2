@@ -33,35 +33,39 @@ class Container implements Layout\GeneratorInterface
     }
 
     /**
+     * Process container elements
+     *
      * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
-     * @param string $elementName
      * @param null $layout
      * @return void
      */
-    public function process(Layout\Reader\Context $readerContext, $elementName, $layout = null)
+    public function process(Layout\Reader\Context $readerContext, $layout = null)
     {
-        $this->_generateContainer(
-            $readerContext->getScheduledStructure(),
-            $readerContext->getStructure(),
-            $elementName
-        );
+        $structure = $readerContext->getStructure();
+        $scheduledStructure = $readerContext->getScheduledStructure();
+        foreach ($scheduledStructure->getElements() as $elementName => $element) {
+            list($type, $data) = $element;
+            if ($type === self::TYPE) {
+                $this->_generateContainer($structure, $elementName, $data);
+                $scheduledStructure->unsetElement($elementName);
+            }
+        }
     }
 
     /**
      * Set container-specific data to structure element
      *
-     * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\Data\Structure $structure
-     * @param $elementName
+     * @param string $elementName
+     * @param array $data
      * @throws \Magento\Framework\Exception If any of arguments are invalid
      * @return void
      */
     protected function _generateContainer(
-        Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\Data\Structure $structure,
-        $elementName
+        $elementName,
+        $data
     ) {
-        list(, $data) = $scheduledStructure->getElement($elementName);
         $options = $data['attributes'];
         $structure->setAttribute($elementName, Layout\Element::CONTAINER_OPT_LABEL, $options[Layout\Element::CONTAINER_OPT_LABEL]);
         unset($options[Layout\Element::CONTAINER_OPT_LABEL]);

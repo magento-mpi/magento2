@@ -243,7 +243,6 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
     {
         $this->_layout = $layout;
         $this->_prepareLayout();
-        $this->_eventManager->dispatch('core_layout_block_create_after', ['block' => $this]);
         return $this;
     }
 

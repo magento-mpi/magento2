@@ -20,17 +20,12 @@ class Redirect implements ResultInterface
     /**
      * @var string
      */
-    private $url;
+    private $url = '';
 
     /**
      * @var string
      */
-    private $type;
-
-    /**
-     * @var string
-     */
-    private $code;
+    private $code = 302;
 
     /**
      * @param string $url
@@ -43,17 +38,7 @@ class Redirect implements ResultInterface
     }
 
     /**
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type = PERMANENT)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
-    /**
-     * @param string $code
+     * @param int $code
      * @return $this
      */
     public function setCode($code)

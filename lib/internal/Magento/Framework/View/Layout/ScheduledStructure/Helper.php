@@ -8,7 +8,6 @@
 namespace Magento\Framework\View\Layout\ScheduledStructure;
 
 use Magento\Framework\View\Layout;
-use Magento\Framework\Data\Structure;
 
 class Helper
 {
@@ -183,7 +182,7 @@ class Helper
      * while referenced element itself is not declared yet.
      *
      * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Framework\Data\Structure $structure
+     * @param Layout\Data\Structure $structure
      * @param string $key in _scheduledStructure represent element name
      * @return void
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -191,7 +190,7 @@ class Helper
      */
     public function scheduleElement(
         Layout\ScheduledStructure $scheduledStructure,
-        Structure $structure,
+        Layout\Data\Structure $structure,
         $key
     ) {
         $row = $scheduledStructure->getStructureElement($key);
@@ -236,7 +235,7 @@ class Helper
             if ($scheduledStructure->hasStructureElement($siblingName)) {
                 $this->scheduleElement($scheduledStructure, $structure, $siblingName);
             }
-            $this->reorderChild($structure, $parentName, $name, $siblingName, $isAfter);
+            $structure->reorderChildElement($parentName, $name, $siblingName, $isAfter);
         }
     }
 
@@ -245,81 +244,18 @@ class Helper
      *
      * Will assign an "anonymous" name to the element, if provided with an empty name
      *
-     * @param \Magento\Framework\Data\Structure $structure
+     * @param Layout\Data\Structure $structure
      * @param string $name
      * @param string $type
      * @param string $class
      * @return string
      */
-    protected function _createStructuralElement(Structure $structure, $name, $type, $class)
+    protected function _createStructuralElement(Layout\Data\Structure $structure, $name, $type, $class)
     {
         if (empty($name)) {
             $name = $this->_generateAnonymousName($class);
         }
         $structure->createElement($name, array('type' => $type));
         return $name;
-    }
-
-    /**
-     * Reorder a child of a specified element
-     *
-     * If $offsetOrSibling is null, it will put the element to the end
-     * If $offsetOrSibling is numeric (integer) value, it will put the element after/before specified position
-     * Otherwise -- after/before specified sibling
-     *
-     * @param \Magento\Framework\Data\Structure $structure
-     * @param string $parentName
-     * @param string $childName
-     * @param string|int|null $offsetOrSibling
-     * @param bool $after
-     * @return void
-     */
-    public function reorderChild(Structure $structure, $parentName, $childName, $offsetOrSibling, $after = true)
-    {
-        if (is_numeric($offsetOrSibling)) {
-            $offset = (int)abs($offsetOrSibling) * ($after ? 1 : -1);
-            $structure->reorderChild($parentName, $childName, $offset);
-        } elseif (null === $offsetOrSibling) {
-            $structure->reorderChild($parentName, $childName, null);
-        } else {
-            $children = array_keys($structure->getChildren($parentName));
-            if ($structure->getChildId($parentName, $offsetOrSibling) !== false) {
-                $offsetOrSibling = $structure->getChildId($parentName, $offsetOrSibling);
-            }
-            $sibling = $this->_filterSearchMinus($offsetOrSibling, $children, $after);
-            if ($childName !== $sibling) {
-                $siblingParentName = $structure->getParentId($sibling);
-                if ($parentName !== $siblingParentName) {
-                    $this->logger->log(
-                        "Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', but " .
-                        "their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
-                        \Zend_Log::CRIT
-                    );
-                    return;
-                }
-                $structure->reorderToSibling($parentName, $childName, $sibling, $after ? 1 : -1);
-            }
-        }
-    }
-
-    /**
-     * Search for an array element using needle, but needle may be '-', which means "first" or "last" element
-     *
-     * Returns first or last element in the haystack, or the $needle argument
-     *
-     * @param string $needle
-     * @param array $haystack
-     * @param bool $isLast
-     * @return string
-     */
-    protected function _filterSearchMinus($needle, array $haystack, $isLast)
-    {
-        if ('-' === $needle) {
-            if ($isLast) {
-                return array_pop($haystack);
-            }
-            return array_shift($haystack);
-        }
-        return $needle;
     }
 }

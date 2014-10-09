@@ -11,6 +11,9 @@ use Magento\Framework\View\Layout;
 
 class Block implements Layout\GeneratorInterface
 {
+    /**
+     * Type of generator
+     */
     const TYPE = 'block';
 
     /**
@@ -24,34 +27,33 @@ class Block implements Layout\GeneratorInterface
     protected $argumentInterpreter;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * @var \Magento\Framework\Logger
      */
     protected $logger;
-
-    /**
-     * @var \Magento\Framework\View\LayoutInterface
-     */
-    protected $layout;
 
     /**
      * Constructor
      *
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\View\LayoutInterface\Proxy $layout
      */
     public function __construct(
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter,
-        \Magento\Framework\Logger $logger,
-        \Magento\Framework\View\LayoutInterface\Proxy $layout
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger
     ) {
         $this->blockFactory = $blockFactory;
         $this->argumentInterpreter = $argumentInterpreter;
+        $this->eventManager = $eventManager;
         $this->logger = $logger;
-        // has to be not injected as shared object
-        $this->layout = $layout;
     }
 
     /**
@@ -65,20 +67,59 @@ class Block implements Layout\GeneratorInterface
     }
 
     /**
-     * Creates block object based on xml node data and add it to the layout
+     * Creates block object based on data and add it to the layout
+     *
+     * @param Layout\Reader\Context $readerContext
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @return $this|array
+     */
+    public function process(Layout\Reader\Context $readerContext, $layout = null)
+    {
+        /** @var $blocks \Magento\Framework\View\Element\AbstractBlock[] */
+        $blocks = [];
+        $blockActions = [];
+        $scheduledStructure = $readerContext->getScheduledStructure();
+        // Instantiate blocks and collect all actions data
+        foreach ($scheduledStructure->getElements() as $elementName => $element) {
+            list($type, $data) = $element;
+            if ($type === self::TYPE) {
+                $block = $this->_generateBlock($readerContext, $elementName, $layout);
+                $blocks[$elementName] = $block;
+                $layout->setBlock($elementName, $block);
+                if (!empty($data['actions'])) {
+                    $blockActions[$elementName] = $data['actions'];
+                }
+            }
+        }
+        // Set layout instance to all generated block (trigger _prepareLayout method)
+        foreach ($blocks as  $elementName => $block) {
+            $block->setLayout($layout);
+            $this->eventManager->dispatch('core_layout_block_create_after', ['block' => $block]);
+            $scheduledStructure->unsetElement($elementName);
+        }
+        // Run all actions after layout initialization
+        foreach ($blockActions as $elementName => $actions) {
+            foreach ($actions as $action) {
+                list($methodName, $actionArguments) = $action;
+                $this->_generateAction($blocks[$elementName], $methodName, $actionArguments);
+            }
+        }
+        return $blocks;
+    }
+
+    /**
+     * Create block and set related data
      *
      * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
      * @param string $elementName
-     * @param \Magento\Framework\View\LayoutInterface $layout
-     * @return $this
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    public function process(Layout\Reader\Context $readerContext, $elementName, $layout = null)
+    public function _generateBlock(Layout\Reader\Context $readerContext, $elementName)
     {
         $scheduledStructure = $readerContext->getScheduledStructure();
         $structure = $readerContext->getStructure();
 
-        $row = $scheduledStructure->getElement($elementName);
-        list(, $data) = $row;
+        list(, $data) = $scheduledStructure->getElement($elementName);;
         $attributes = $data['attributes'];
 
         if (!empty($attributes['group'])) {
@@ -96,12 +137,6 @@ class Block implements Layout\GeneratorInterface
         if (!empty($attributes['ttl'])) {
             $ttl = (int)$attributes['ttl'];
             $block->setTtl($ttl);
-        }
-        $layout->setBlock($elementName, $block);
-        // execute block methods
-        foreach ($data['actions'] as $action) {
-            list($methodName, $actionArguments) = $action;
-            $this->_generateAction($block, $methodName, $actionArguments);
         }
         return $block;
     }
