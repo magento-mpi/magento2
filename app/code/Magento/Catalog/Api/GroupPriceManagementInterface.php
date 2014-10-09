@@ -10,9 +10,9 @@
 namespace Magento\Catalog\Api\GroupPrice;
 
 /**
- * Interface Group/RepositoryInterface must be implemented by new Group Price repository model
+ * Interface GroupRepositoryInterface must be implemented by new Group Price repository model
  */
-interface RepositoryInterface
+interface GroupPriceManagementInterface
 {
 
     /**
@@ -41,9 +41,8 @@ interface RepositoryInterface
      * Retrieve list of product prices
      *
      * @param string $productSku
-     * @return \Magento\Catalog\Service\V1\Data\Product\GroupPrice[]
+     * @return \Magento\Catalog\Api\Data\GroupPriceInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getList($productSku);
 }
-
