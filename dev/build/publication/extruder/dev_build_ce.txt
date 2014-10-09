@@ -1,10 +1,6 @@
 # Special case for CE edition in build mode: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
 
-dev/tools/performance_toolkit
-dev/tests/integration/testsuite/Magento/ToolkitFramework/_files/tax_rates.csv
-dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
-
 # Functional tests
 ~dev/tests/functional/tests/app/Magento/Authorizenet
 ~dev/tests/functional/tests/app/Magento/Banner
