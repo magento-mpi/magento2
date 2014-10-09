@@ -15,6 +15,8 @@ use Magento\Store\Model\ScopeInterface;
 
 class EngineProvider
 {
+    const CONFIG_ENGINE_PATH = 'catalog/search/engine';
+
     /**
      * @var \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
@@ -50,7 +52,7 @@ class EngineProvider
     public function get()
     {
         if (!$this->_engine) {
-            $engineClassName = $this->_scopeConfig->getValue('catalog/search/engine', ScopeInterface::SCOPE_STORE);
+            $engineClassName = $this->_scopeConfig->getValue(self::CONFIG_ENGINE_PATH, ScopeInterface::SCOPE_STORE);
 
             /**
              * This needed if there already was saved in configuration some none-default engine
@@ -62,9 +64,6 @@ class EngineProvider
                 if ($engine && $engine->test()) {
                     $this->_engine = $engine;
                 }
-            }
-            if (!$this->_engine) {
-                $this->_engine = $this->_engineFactory->create('Magento\CatalogSearch\Model\Resource\Fulltext\Engine');
             }
         }
 
