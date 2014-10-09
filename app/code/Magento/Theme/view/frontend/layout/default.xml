@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <!-- Temporary solution -->
     <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Theme::js/require_js.phtml" />
     <referenceContainer name="after.body.start">

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="page.main.actions">
         <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" template="Magento_Backend::store/switcher.phtml"/>
     </referenceContainer>

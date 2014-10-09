@@ -9,7 +9,7 @@
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:redefine schemaLocation="../../../../../lib/internal/Magento/Framework/Data/etc/argument/types.xsd">
+    <xs:redefine schemaLocation="../../../Data/etc/argument/types.xsd">
         <xs:complexType name="argumentType" abstract="true" mixed="true">
             <xs:complexContent>
                 <xs:extension base="argumentType">
@@ -57,21 +57,6 @@
                 <xs:attribute name="helper" use="required"/>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="layoutType">
-        <xs:annotation>
-            <xs:documentation>
-                Layout Type definition
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="referenceContainer" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="updaterType">
