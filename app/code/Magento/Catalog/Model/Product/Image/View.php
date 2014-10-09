@@ -118,6 +118,8 @@ class View extends \Magento\Framework\Object
             $this->getType()
         )->keepFrame(
             $this->isWhiteBorders()
+        )->constrainOnly(
+            true
         )->resize(
             $this->getWidth(),
             $this->getHeight()
