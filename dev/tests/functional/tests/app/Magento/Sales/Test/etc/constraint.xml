@@ -132,4 +132,10 @@
     <assertInvoiceItems module="Magento_Sales">
         <severeness>low</severeness>
     </assertInvoiceItems>
+    <assertOrderStatusSuccessAssignMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusSuccessAssignMessage>
+    <assertOrderNotVisibleOnMyAccount module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderNotVisibleOnMyAccount>
 </constraint>

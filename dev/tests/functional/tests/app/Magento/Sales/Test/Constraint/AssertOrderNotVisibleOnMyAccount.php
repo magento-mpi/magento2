@@ -16,10 +16,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\ObjectManager;
 
 /**
- * Class AssertOrderInOrdersGridOnFrontend
- * Assert that order is present in Orders grid on frontend
+ * Class AssertOrderNotVisibleOnMyAccount
+ * Assert order is not visible in customer account on frontend
  */
-class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
+class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -29,7 +29,7 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that order is present in Orders grid on frontend
+     * Assert order is not visible in customer account on frontend
      *
      * @param OrderInjectable $order
      * @param CustomerInjectable $customer
@@ -37,8 +37,6 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
      * @param string $orderStatus
-     * @param string $orderId
-     * @param string|null $statusToCheck
      * @return void
      */
     public function processAssert(
@@ -47,13 +45,11 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
         ObjectManager $objectManager,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
-        $orderStatus,
-        $orderId = '',
-        $statusToCheck = null
+        $orderStatus
     ) {
         $filter = [
-            'id' => $order->hasData('id') ? $order->getId() : $orderId,
-            'status' => $statusToCheck === null ? $orderStatus : $statusToCheck
+            'id' => $order->getId(),
+            'status' => $orderStatus,
         ];
         $customerLogin = $objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
@@ -61,10 +57,9 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
         );
         $customerLogin->run();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Orders');
-        $errorMessage = implode(', ', $filter);
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $orderHistory->getOrderHistoryBlock()->isOrderVisible($filter),
-            'Order with following data \'' . $errorMessage . '\' is absent in Orders block on frontend.'
+            'Order with following data \'' . implode(', ', $filter) . '\' is present in Orders block on frontend.'
         );
     }
 
@@ -75,6 +70,6 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Sales order is present in orders on frontend.';
+        return 'Sales order absent in orders on frontend.';
     }
 }
