@@ -1,5 +1,5 @@
-sku,_store,name,price
-simple1,,"simple 1",25
-,German,"simple 1 German",
-simple2,,"simple 2",34
-simple3,,"simple 3",58
+sku,_store,name,price,_type
+simple1,,"simple 1",25,simple
+,German,"simple 1 German",simple
+simple2,,"simple 2",34,simple
+simple3,,"simple 3",58,simple
