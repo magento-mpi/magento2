@@ -9,7 +9,8 @@
 namespace Magento\Catalog\Api;
 
 /**
- * Interface AttributeSetRepository must be implemented in new model AttributeSetRepository
+ * Interface AttributeSetRepositoryInterface must be implemented in
+ * new model \Magento\Catalog\Model\AttributeSetRepository
  */
 interface AttributeSetRepositoryInterface
 {
@@ -22,7 +23,7 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function create(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
+    public function save(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
 
     /**
      * Update attribute set data
@@ -57,5 +58,5 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @return bool
      */
-    public function delete($attributeSetId);
+    public function remove($attributeSetId);
 }

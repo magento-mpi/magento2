@@ -13,6 +13,8 @@ interface AttributeServiceInterface
      * @param int $attributeSetId
      * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet\Attribute $data
      * @return int
+     * @deprecated
+     * @see \Magento\Catalog\Api\AttributeSetManagementInterface::addAttribute
      */
     public function addAttribute($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeSet\Attribute $data);
 
@@ -25,6 +27,8 @@ interface AttributeServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
+     * @deprecated
+     * @see \Magento\Catalog\Api\AttributeSetManagementInterface::deleteAttribute
      */
     public function deleteAttribute($attributeSetId, $attributeId);
 }

@@ -9,7 +9,8 @@
 namespace Magento\Catalog\Api;
 
 /**
- * Interface AttributeSetManagement must be implemented in new model AttributeSetManagement
+ * Interface AttributeSetManagement must be implemented
+ * in new model \Magento\Catalog\Model\AttributeSetManagement
  */
 interface AttributeSetManagementInterface
 {

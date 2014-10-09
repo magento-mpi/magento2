@@ -9,28 +9,9 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * Interface AttributeSet must be implemented by \Magento\Eav\Model\Entity\Attribute\Set
+ * Interface AttributeSetInterface must be implemented in new model \Magento\Catalog\Model\Attribute\AttributeSet
  */
-interface AttributeSetInterface
+interface AttributeSetInterface extends \Magento\Eav\Api\Data\AttributeSetInterface
 {
-    /**
-     * Get attribute set id
-     *
-     * @return int
-     */
-    public function getId();
 
-    /**
-     * Get attribute set name
-     *
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * Get attribute set sort order index
-     *
-     * @return int
-     */
-    public function getSortOrder();
 }
