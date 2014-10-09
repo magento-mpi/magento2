@@ -14,6 +14,19 @@ use Magento\Framework\Service\Data\AbstractSimpleObject;
 class SimpleDataObjectConverter
 {
     /**
+     * @var DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
+     * @param DataObjectProcessor $dataObjectProcessor
+     */
+    public function __constructor(DataObjectProcessor $dataObjectProcessor)
+    {
+        $this->$dataObjectProcessor = $dataObjectProcessor;
+    }
+
+    /**
      * Convert nested array into flat array.
      *
      * @param AbstractExtensibleObject $dataObject
@@ -146,14 +159,14 @@ class SimpleDataObjectConverter
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if ($datum instanceof AbstractSimpleObject) {
-                    $datum = $this->processDataObject($datum->__toArray());
+                if (is_object($datum)) {
+                    $datum = $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($datum));
                 }
                 $result[] = $datum;
             }
             return $result;
-        } else if ($data instanceof AbstractSimpleObject) {
-            return $this->processDataObject($data->__toArray());
+        } else if (is_object($data)) {
+            return $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($data));
         } else if (is_null($data)) {
             return [];
         } else {
