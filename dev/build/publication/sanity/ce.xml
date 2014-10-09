@@ -82,6 +82,12 @@
     </words>
     <whitelist>
         <item>
+            <path>vendor</path>
+        </item>
+        <item>
+            <path>setup/vendor</path>
+        </item>
+        <item>
             <path>CHANGELOG.md</path>
         </item>
         <item>
