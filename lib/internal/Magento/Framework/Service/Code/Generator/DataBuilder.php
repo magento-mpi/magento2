@@ -65,7 +65,7 @@ class DataBuilder extends EntityAbstract
                     $method->getName(),
                     array('__sleep', '__wakeup', '__clone')
                 ) &&
-                $method->class !== 'Magento\Framework\Service\Data\ExtensibleEntityInterface'
+                $method->class !== 'Magento\Framework\Api\ExtensibleDataInterface'
             ) {
                 if (substr($method->getName(), 0, 3) == 'get') {
                     $methods[] = $this->_getMethodInfo($reflectionClass, $method);
@@ -138,7 +138,7 @@ class DataBuilder extends EntityAbstract
             $this->_getClassMethods()
         )->setClassDocBlock(
             $this->_getClassDocBlock()
-        )->setExtendedClass('\\Magento\Framework\Api\ExtensibleEntityBuilderInterface');
+        )->setExtendedClass('\\Magento\Framework\Api\ExtensibleDataBuilderInterface');
 
         return $this->_getGeneratedCode();
     }
