@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_status/index" module="Magento_Sales">
+<page mca="newsletter/template/edit" module="Magento_Newsletter">
     <blocks>
-        <orderStatusGrid>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\StatusGrid</class>
-            <locator>#sales_order_status_grid</locator>
-            <strategy>css selector</strategy>
-        </orderStatusGrid>
-        <gridPageActions>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Status\GridPageActions</class>
+        <formPageActions>
+            <class>Magento\Newsletter\Test\Block\Adminhtml\Template\FormPageActions</class>
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
-        </gridPageActions>
+        </formPageActions>
+        <editForm>
+            <class>Magento\Backend\Test\Block\Widget\Form</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </editForm>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>
             <locator>#messages</locator>
