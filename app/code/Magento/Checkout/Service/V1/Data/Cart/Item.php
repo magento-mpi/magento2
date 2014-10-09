@@ -9,7 +9,7 @@
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
- * Shopping Cart item data object.
+ * Shopping cart item data object.
  * 
  * @codeCoverageIgnore
  */
@@ -31,12 +31,12 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const QTY = 'qty';
 
     /**
-     * Product price.
+     * Product name.
      */
     const NAME = 'name';
 
     /**
-     * Product name.
+     * Product price.
      */
     const PRICE = 'price';
 
