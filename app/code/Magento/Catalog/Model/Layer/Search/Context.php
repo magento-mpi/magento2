@@ -8,20 +8,17 @@
  */
 namespace Magento\Catalog\Model\Layer\Search;
 
-use Magento\CatalogSearch\Model\Layer\Search\CollectionFilter;
-use Magento\CatalogSearch\Model\Layer\Search\StateKey;
-
 class Context extends \Magento\Catalog\Model\Layer\Context
 {
     /**
-     * @param ItemCollectionProvider $collectionProvider
-     * @param StateKey $stateKey
-     * @param CollectionFilter $collectionFilter
+     * @param ItemCollectionProviderInterface $collectionProvider
+     * @param StateKeyInterface $stateKey
+     * @param CollectionFilterInterface $collectionFilter
      */
     public function __construct(
-        \Magento\Catalog\Model\Layer\Search\ItemCollectionProvider $collectionProvider,
-        \Magento\CatalogSearch\Model\Layer\Search\StateKey $stateKey,
-        \Magento\CatalogSearch\Model\Layer\Search\CollectionFilter $collectionFilter
+        ItemCollectionProviderInterface $collectionProvider,
+        StateKeyInterface $stateKey,
+        CollectionFilterInterface $collectionFilter
     ) {
         parent::__construct($collectionProvider, $stateKey, $collectionFilter);
     }

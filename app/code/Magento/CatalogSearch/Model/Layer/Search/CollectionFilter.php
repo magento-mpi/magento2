@@ -9,7 +9,7 @@
 namespace Magento\CatalogSearch\Model\Layer\Search;
 
 use Magento\Catalog\Model\Config;
-use Magento\Catalog\Model\Layer\CollectionFilterInterface;
+use Magento\Catalog\Model\Layer\Search\CollectionFilterInterface;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Search\Model\QueryFactory;

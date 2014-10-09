@@ -52,6 +52,9 @@
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Composite" />
     <preference for="Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite" />
     <preference for="Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite" />
+    <preference for="Magento\Catalog\Model\Layer\Search\ItemCollectionProviderInterface" type="Magento\Catalog\Model\Layer\Search\ItemCollectionProvider" />
+    <preference for="Magento\Catalog\Model\Layer\Search\CollectionFilterInterface" type="Magento\Catalog\Model\Layer\Search\CollectionFilter" />
+    <preference for="Magento\Catalog\Model\Layer\Search\StateKeyInterface" type="Magento\Catalog\Model\Layer\Search\StateKey" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
