@@ -9,7 +9,6 @@ namespace Magento\Framework\Service;
 
 use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Service\Data\AbstractSimpleObject;
 
 class SimpleDataObjectConverter
 {
@@ -21,9 +20,9 @@ class SimpleDataObjectConverter
     /**
      * @param DataObjectProcessor $dataObjectProcessor
      */
-    public function __constructor(DataObjectProcessor $dataObjectProcessor)
+    public function __construct(DataObjectProcessor $dataObjectProcessor)
     {
-        $this->$dataObjectProcessor = $dataObjectProcessor;
+        $this->dataObjectProcessor = $dataObjectProcessor;
     }
 
     /**
