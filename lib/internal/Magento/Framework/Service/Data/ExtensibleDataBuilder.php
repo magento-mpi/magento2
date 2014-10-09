@@ -10,6 +10,8 @@ namespace Magento\Framework\Service\Data;
 
 use Magento\Framework\Api\ExtensibleDataBuilderInterface;
 use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Interface for entities which can be extended with custom attributes.
@@ -17,17 +19,32 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
 {
     /**
-     * @var ExtensibleDataInterface
+     * @var string
      */
-    protected $dataModel;
+    protected $modelClassInterface;
 
     /**
-     * @param ExtensibleDataInterface $dataModel
+     * @var array
      */
-    public function __construct(ExtensibleDataInterface $dataModel)
+    protected $data;
+
+    /**
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
+
+    /**
+     * Initialize the builder
+     *
+     * @param ObjectManager $objectManager
+     * @param string $modelClassInterface
+     */
+    public function __construct(ObjectManager $objectManager, $modelClassInterface)
     {
-        //Make sure that the ExtensibleDataInterface instance preference is not shared in di
-        $this->dataModel = $dataModel;
+        $this->objectManager = $objectManager;
+        $this->modelClassInterface = $modelClassInterface;
+
     }
 
     /**
@@ -35,7 +52,8 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
     {
-        $this->dataModel->setCustomAttribute($attribute);
+        $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]
+            = $attribute->getValue();
         return $this;
     }
 
@@ -44,7 +62,9 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttributes(array $attributes)
     {
-        $this->dataModel->setCustomAttributes($attributes);
+        foreach ($attributes as $attribute) {
+            $this->setCustomAttributes($attribute);
+        }
         return $this;
     }
 
@@ -53,6 +73,6 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function create()
     {
-        return $this->dataModel;
+        return $this->objectManager->create($this->modelClassInterface, ['data' => $this->data]);
     }
 }

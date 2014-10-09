@@ -9,6 +9,7 @@
 namespace Magento\Framework\Service\Code\Generator;
 
 use Magento\Framework\Code\Generator\EntityAbstract;
+use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Class Builder
@@ -19,6 +20,11 @@ class DataBuilder extends EntityAbstract
      * Entity type
      */
     const ENTITY_TYPE = 'dataBuilder';
+
+    /**
+     * Data Model property name
+     */
+    const DATA_PROPERTY_NAME = 'data';
 
     /**
      * Retrieve class properties
@@ -37,7 +43,20 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        return [];
+        $constructorDefinition = [
+            'name' => '__construct',
+            'parameters' => [
+                ['name' => 'objectManager', 'type' => '\Magento\Framework\App\ObjectManager']
+            ],
+            'docblock' => [
+                'shortDescription' => 'Initialize the builder',
+                'tags' => [['name' => 'param', 'description' => '\Magento\Framework\App\ObjectManager $objectManager']]
+            ],
+            'body' => "parent::__construct(\$objectManager, "
+            . "'" . $this->_getSourceClassName() . "Interface');"
+        ];
+
+        return $constructorDefinition;
     }
 
     /**
@@ -73,6 +92,7 @@ class DataBuilder extends EntityAbstract
 
             }
         }
+        $methods[] = $this->_getDefaultConstructorDefinition();
         return $methods;
     }
 
@@ -85,16 +105,23 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getMethodInfo(\ReflectionClass $class, \ReflectionMethod $method)
     {
+        $propertyName = substr($method->getName(), 3);
+
+        $returnType = (new ClassReflection($this->_getSourceClassName() . 'Interface'))
+            ->getMethod($method->getName())
+            ->getDocBlock()
+            ->getTag('return')
+            ->getType();
+
         $methodInfo = [
-            'name' => 'set' . substr($method->getName(), 3),
+            'name' => 'set' . $propertyName,
             'parameters' => [
-                ['name' => lcfirst(substr($method->getName(), 3))]
+                ['name' => lcfirst($propertyName)]
             ],
-            'body' => "\$this->_set("
-                . '\\' . $class->getName() . "::"
-                . strtoupper(preg_replace('/(.)([A-Z])/', "$1_$2", substr($method->getName(), 3)))
-                . ", \$" . lcfirst(substr($method->getName(), 3)) . ");",
-            'docblock' => array('shortDescription' => '{@inheritdoc}')
+            'body' => "\$this->" . self::DATA_PROPERTY_NAME . "['"
+                . strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName))
+                . "'] = \$" . lcfirst($propertyName) . ";",
+            'docblock' => array('shortDescription' => '@param ' . $returnType . " \$" . lcfirst($propertyName))
         ];
 
         return $methodInfo;

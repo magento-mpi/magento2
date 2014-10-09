@@ -8,12 +8,13 @@
 
 namespace Magento\Framework\Service\Code\Generator;
 
-use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
- * Class Sample for Proxy and Factory generation
+ * Class SampleData
  */
-class SampleData extends AbstractModel implements \Magento\Framework\Service\Code\Generator\SampleDataInterface
+class SampleData extends AbstractExtensibleModel implements
+    \Magento\Framework\Service\Code\Generator\SampleDataInterface
 {
     /**
      * {@inheritdoc}
@@ -37,5 +38,13 @@ class SampleData extends AbstractModel implements \Magento\Framework\Service\Cod
     public function getCount()
     {
         $this->getData('count');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt()
+    {
+        $this->getData('created_at');
     }
 }

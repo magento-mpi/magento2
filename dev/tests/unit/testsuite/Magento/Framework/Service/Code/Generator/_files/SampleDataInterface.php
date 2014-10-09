@@ -29,4 +29,9 @@ interface SampleDataInterface extends ExtensibleDataInterface
      * @return int
      */
     public function getCount();
+
+    /**
+     * @return int
+     */
+    public function getCreatedAt();
 }

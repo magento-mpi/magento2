@@ -14,16 +14,11 @@ namespace Magento\Framework\Service\Code\Generator;
 class SampleDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
     /**
-     * @var \Magento\Framework\Service\Code\Generator\SampleDataInterface
+     * @param \Magento\Framework\App\ObjectManager $objectManager
      */
-    protected $dataModel;
-
-    /**
-     * @param \Magento\Framework\Service\Code\Generator\SampleDataInterface $dataModel
-     */
-    public function __construct(\Magento\Framework\Service\Code\Generator\SampleDataInterface $dataModel)
+    public function __construct(\Magento\Framework\App\ObjectManager $objectManager)
     {
-        parent::__construct($dataModel);
+        parent::__construct($objectManager, 'Magento\Framework\Service\Code\Generator\SampleDataInterface');
     }
 
     /**
@@ -31,7 +26,7 @@ class SampleDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBu
      */
     public function setItems(array $items)
     {
-        $this->dataModel->setItems($items);
+        $this->data['items'] = $items;
     }
 
     /**
@@ -39,7 +34,7 @@ class SampleDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBu
      */
     public function setName($name)
     {
-        $this->dataModel->setName($name);
+        $this->data['name'] = $name;
     }
 
     /**
@@ -47,6 +42,14 @@ class SampleDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBu
      */
     public function setCount($count)
     {
-        $this->dataModel->setCount($count);
+        $this->data['count'] = $count;
+    }
+
+    /**
+     * @param int $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->data['create_at'] = $createdAt;
     }
 }
