@@ -26,17 +26,14 @@ class Category
      * @param \Magento\Framework\Model\AbstractModel $category
      * @return mixed
      */
-    public function aroundSave(
-        \Magento\Framework\Model\Resource\AbstractResource $subject,
-        \Closure $proceed,
+    public function afterSave(
         \Magento\Framework\Model\AbstractModel $category
     ) {
         /** @var \Magento\Catalog\Model\Category $category */
-        $productIds = array_keys($category->getPostedProducts());
-        $result = $proceed($category);
+        $productIds = $category->getAffectedProductIds();
         if ($productIds && !$this->productProcessor->getIndexer()->isScheduled()) {
             $this->productProcessor->reindexList($productIds);
         }
-        return $result;
+        return $category;
     }
 }
