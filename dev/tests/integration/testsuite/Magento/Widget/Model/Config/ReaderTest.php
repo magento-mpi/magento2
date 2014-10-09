@@ -24,6 +24,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\TestFramework\App\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
         $filesystem->overridePath(DirectoryList::MODULES, __DIR__ . '/_files/code');
+        $filesystem->overridePath(DirectoryList::ROOT, __DIR__ . '/_files');
+        $filesystem->overridePath(DirectoryList::CONFIG, __DIR__ . '/_files');
 
         /** @var \Magento\Framework\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
