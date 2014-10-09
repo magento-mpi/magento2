@@ -30,10 +30,12 @@ class DataObjectProcessor
                 continue;
             }
             if (substr($method->getName(), 0, 2) === 'is') {
-                $outputData[$this->_fieldNameConverter(substr($method->getName(), 2))] = $dataObject->{$method->getName()}();
+                $outputData[$this->_fieldNameConverter(substr($method->getName(), 2))]
+                    = $dataObject->{$method->getName()}();
 
-            }  elseif (substr($method->getName(), 0, 3) === 'get') {
-                $outputData[$this->_fieldNameConverter(substr($method->getName(), 3))] = $dataObject->{$method->getName()}();
+            } elseif (substr($method->getName(), 0, 3) === 'get') {
+                $outputData[$this->_fieldNameConverter(substr($method->getName(), 3))]
+                    = $dataObject->{$method->getName()}();
             }
         }
         return $outputData;
@@ -45,7 +47,8 @@ class DataObjectProcessor
      * @param string $name
      * @return string
      */
-    protected function _fieldNameConverter($name) {
+    protected function _fieldNameConverter($name)
+    {
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         return $result;
     }
