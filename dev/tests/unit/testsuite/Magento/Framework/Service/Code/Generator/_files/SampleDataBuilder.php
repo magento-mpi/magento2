@@ -8,22 +8,20 @@
 
 namespace Magento\Framework\Service\Code\Generator;
 
-use Magento\Framework\Service\Data\ExtensibleDataBuilder;
-
 /**
  * DataBuilder class for \Magento\Framework\Service\Code\Generator\SampleData
  */
-class SampleDataBuilder extends ExtensibleDataBuilder
+class SampleDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
     /**
-     * @var SampleDataInterface
+     * @var \Magento\Framework\Service\Code\Generator\SampleDataInterface
      */
     protected $dataModel;
 
     /**
-     * @param SampleDataInterface $dataModel
+     * @param \Magento\Framework\Service\Code\Generator\SampleDataInterface $dataModel
      */
-    public function __construct(SampleDataInterface $dataModel)
+    public function __construct(\Magento\Framework\Service\Code\Generator\SampleDataInterface $dataModel)
     {
         parent::__construct($dataModel);
     }
