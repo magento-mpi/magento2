@@ -11,7 +11,6 @@
  */
 namespace Magento\Framework\View\Layout\Reader;
 
-
 class BlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -54,9 +53,15 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      */
     protected $pool;
 
+    /**
+     * @var \Magento\Framework\View\Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $scheduledStructure;
+
     public function setUp()
     {
         $this->helper = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure\Helper')
+            ->setMethods(['scheduleStructure'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -73,11 +78,12 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->pool = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Pool')
+        ->setMethods(['readStructure'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->scheduledStructure = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure')
-            ->disableOriginalConstructor()->setMethods(['setElementToRemoveList', '__wakeup'])
+            ->disableOriginalConstructor()->setMethods(['setElementToRemoveList', '__wakeup', 'getStructureElement'])
             ->getMock();
 
         $this->model = new \Magento\Framework\View\Layout\Reader\Block(
@@ -95,46 +101,98 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->model->getSupportedNodes());
     }
 
+    public function testProcessEmpty()
+    {
+        $xml = '<?xml version="1.0"?>
+<page>
+    <body>
+    </body>
+</page>';
+
+        $this->context = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->element = new \Magento\Framework\View\Layout\Element($xml);
+
+        $this->helper->expects($this->never())->method('scheduleStructure');
+        $this->scheduledStructure->expects($this->never())->method('getStructureElement');
+        $this->scheduledStructure->expects($this->never())->method('setStructureElement');
+
+        $this->context->expects($this->any())->method('getScheduledStructure')->will(
+            $this->returnValue($this->scheduledStructure)
+        );
+        $this->scopeConfig->expects($this->never())->method('isSetFlag');
+        $this->scopeResolver->expects($this->never())->method('getScope');
+        $this->scheduledStructure->expects($this->never())->method('setElementToRemoveList');
+        $this->pool->expects($this->once())->method('readStructure')->with($this->context, $this->element)->will(
+            $this->returnValue($this->pool)
+        );
+        $this->model->process($this->context, $this->element, $this->element);
+    }
+
+    public function testProcessBlock()
+    {
+        $xml = '<?xml version="1.0"?>
+            <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
+                <arguments>
+                    <argument name="file">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
+                </arguments>
+            </block>';
+
+        $this->context = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->element = new \Magento\Framework\View\Layout\Element($xml);
+
+        $this->helper->expects($this->any())->method('scheduleStructure');
+        $this->scheduledStructure->expects($this->never())->method('getStructureElement');
+        $this->scheduledStructure->expects($this->never())->method('setStructureElement');
+
+        $this->context->expects($this->any())->method('getScheduledStructure')->will(
+            $this->returnValue($this->scheduledStructure)
+        );
+        $this->scopeConfig->expects($this->never())->method('isSetFlag');
+        $this->scopeResolver->expects($this->never())->method('getScope');
+        $this->scheduledStructure->expects($this->never())->method('setElementToRemoveList');
+        $this->pool->expects($this->once())->method('readStructure')->with($this->context, $this->element)->will(
+            $this->returnValue($this->pool)
+        );
+        $this->model->process($this->context, $this->element, $this->element);
+    }
+
     /**
-     * @dataProvider processDataProvider
+     * @param string $xml
+     * @dataProvider referenceBlockDataProvider
      */
-    public function testProcess($xml)
+    public function testProcessReferenceBlock($xml)
     {
         $this->context = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->element = new \Magento\Framework\View\Layout\Element($xml);
 
+        $this->helper->expects($this->never())->method('scheduleStructure');
+        $this->scheduledStructure->expects($this->any())->method('getStructureElement');
+        $this->scheduledStructure->expects($this->any())->method('setStructureElement');
+
         $this->context->expects($this->any())->method('getScheduledStructure')->will(
             $this->returnValue($this->scheduledStructure)
+        );
+        $this->scopeConfig->expects($this->never())->method('isSetFlag');
+        $this->scopeResolver->expects($this->never())->method('getScope');
+        $this->scheduledStructure->expects($this->never())->method('setElementToRemoveList');
+        $this->pool->expects($this->once())->method('readStructure')->with($this->context, $this->element)->will(
+            $this->returnValue($this->pool)
         );
         $this->model->process($this->context, $this->element, $this->element);
     }
 
-    public function processDataProvider()
+
+    public function referenceBlockDataProvider()
     {
         return [
             [
-                $xml = '<?xml version="1.0"?>
-<page>
-    <body>
-        <referenceBlock name="head">
-            <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
-                <arguments>
-                    <argument name="file">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
-                </arguments>
-            </block>
-            <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-fileuploader-bootstrap-js">
-                <arguments>
-                    <argument name="file">jquery/fileUploader/bootstrap.js</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
-    </body>
-</page>'
-            ],
-            [
-                $xml = '<?xml version="1.0"?>
+                '<?xml version="1.0"?>
         <referenceBlock name="head">
             <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
                 <arguments>
@@ -149,15 +207,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         </referenceBlock>'
             ],
             [
-                $xml = '<?xml version="1.0"?>
-            <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
-                <arguments>
-                    <argument name="file">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
-                </arguments>
-            </block>'
-            ],
-            [
-                $xml = '<?xml version="1.0"?>
+                '<?xml version="1.0"?>
         <referenceBlock name="head">
             <action method="addTab">
                 <argument name="name">properties_section</argument>
