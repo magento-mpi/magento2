@@ -39,6 +39,7 @@ foreach ($regex as $file) {
 
     $count = count($tokens);
     $i = 0;
+    $namespace = '';
     while ($i < $count) {
         $token = $tokens[$i];
 
@@ -50,6 +51,25 @@ foreach ($regex as $file) {
         list($id, $content, $line) = $token;
 
         switch ($id) {
+            case T_NAMESPACE:
+                if (!empty($namespace)) {
+                    throw new \Exception('Namespace declared more that once in ' . $file[0]);
+                }
+                do {
+                    ++$i;
+                    $token = $tokens[$i];
+                    if (is_string($token)) {
+                        continue;
+                    }
+                    list($type, $content, $line) = $token;
+                    switch ($type) {
+                        case T_STRING:
+                        case T_NS_SEPARATOR:
+                            $namespace .= $content;
+                            break;
+                    }
+                } while ($token !== ';' && $i < $count);
+                break;
             case T_CLASS:
             case T_INTERFACE:
                 $class = '';
@@ -70,7 +90,7 @@ foreach ($regex as $file) {
                 // If a classname was found, set it in the object, and
                 // return boolean true (found)
                 if (!empty($class)) {
-                    $map[$class] = $filePath;
+                    $map[$namespace . '\\' . $class] = $filePath;
                 }
                 break;
             default:
