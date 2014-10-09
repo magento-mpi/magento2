@@ -332,6 +332,12 @@
     <type name="Magento\Framework\View\Layout\Reader\Block">
         <arguments>
             <argument name="readerPool" xsi:type="object">blockRenderPool</argument>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Layout\Reader\UiComponent">
+        <arguments>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
     <virtualType name="bodyRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
@@ -366,9 +372,7 @@
     </virtualType>
     <type name="Magento\Framework\View\Layout">
         <arguments>
-            <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
             <argument name="reader" xsi:type="object">commonRenderPool</argument>
-            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
     <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
@@ -403,6 +407,11 @@
         </arguments>
     </type>
     <type name="Magento\Framework\View\Layout\Generator\Block">
+        <arguments>
+            <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Layout\Generator\UiComponent">
         <arguments>
             <argument name="argumentInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
         </arguments>

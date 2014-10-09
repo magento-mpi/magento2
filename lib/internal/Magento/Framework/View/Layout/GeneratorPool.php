@@ -28,6 +28,7 @@ class GeneratorPool
      * @param ScheduledStructure\Helper $helper
      * @param Generator\Block $blockGenerator
      * @param Generator\Container $containerGenerator
+     * @param Generator\UiComponent $uiGenerator
      * @param \Magento\Framework\View\Page\Config\Generator\Head $headGenerator
      * @param \Magento\Framework\View\Page\Config\Generator\Body $bodyGenerator
      * @param array $generators
@@ -36,6 +37,7 @@ class GeneratorPool
         ScheduledStructure\Helper $helper,
         Generator\Block $blockGenerator,
         Generator\Container $containerGenerator,
+        Generator\UiComponent $uiGenerator,
         Page\Config\Generator\Head $headGenerator,
         Page\Config\Generator\Body $bodyGenerator,
         array $generators = null
@@ -43,6 +45,7 @@ class GeneratorPool
         $this->helper = $helper;
         $this->generators[$blockGenerator->getType()] = $blockGenerator;
         $this->generators[$containerGenerator->getType()] = $containerGenerator;
+        $this->generators[$uiGenerator->getType()] = $uiGenerator;
         $this->generators[$headGenerator->getType()] = $headGenerator;
         $this->generators[$bodyGenerator->getType()] = $bodyGenerator;
     }

@@ -68,24 +68,25 @@ class Block implements Layout\ReaderInterface
      *
      * @param Layout\ScheduledStructure\Helper $helper
      * @param Layout\Argument\Parser $argumentParser
+     * @param Layout\Reader\Pool $readerPool
      * @param App\Config\ScopeConfigInterface $scopeConfig
      * @param App\ScopeResolverInterface $scopeResolver
-     * @param Layout\Reader\Pool $readerPool
+     * @param string|null $scopeType
      */
     public function __construct(
         Layout\ScheduledStructure\Helper $helper,
         Layout\Argument\Parser $argumentParser,
+        Layout\Reader\Pool $readerPool,
         App\Config\ScopeConfigInterface $scopeConfig,
         App\ScopeResolverInterface $scopeResolver,
-        Layout\Reader\Pool $readerPool
+        $scopeType = null
     ) {
         $this->helper = $helper;
         $this->argumentParser = $argumentParser;
         $this->scopeConfig = $scopeConfig;
         $this->scopeResolver = $scopeResolver;
         $this->readerPool = $readerPool;
-        // TODO: Must be included through DI configuration
-        $this->scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $this->scopeType = $scopeType;
     }
 
     /**

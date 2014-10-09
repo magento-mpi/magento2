@@ -245,7 +245,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         \Magento\Framework\Profiler::start('generate_elements');
         $this->generatorPool->process($this->readerContext, $this);
         \Magento\Framework\Profiler::stop('generate_elements');
-        $this->_addToOutputRootContainers();
+        $this->addToOutputRootContainers();
         \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
 
@@ -254,7 +254,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @return $this
      */
-    protected function _addToOutputRootContainers()
+    protected function addToOutputRootContainers()
     {
         foreach ($this->_structure->exportElements() as $name => $element) {
             if ($element['type'] === Element::TYPE_CONTAINER && empty($element['parent'])) {
