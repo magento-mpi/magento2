@@ -214,7 +214,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string[] $attributesAsArray
      * @param \Magento\Framework\Model\AbstractModel $model
-     * @return \Magento\Framework\Service\Data\AttributeValueInterface[]
+     * @return \Magento\Framework\Api\AttributeInterface[]
      */
     protected function addCustomAttributesToModel($attributesAsArray, $model)
     {

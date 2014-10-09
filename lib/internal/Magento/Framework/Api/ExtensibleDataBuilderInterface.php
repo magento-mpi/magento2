@@ -6,23 +6,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
+
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Interface for entities which can be extended with custom attributes.
  */
-interface ExtensibleEntityBuilderInterface
+interface ExtensibleDataBuilderInterface
 {
     /**
      * Set custom attribute value.
      *
      * @param string $attributeCode
-     * @param \Magento\Framework\Service\Data\AttributeValueInterface $attributeValue
+     * @param \Magento\Framework\Api\AttributeInterface $attributeValue
      * @return $this
      */
     public function setCustomAttribute(
         $attributeCode,
-        \Magento\Framework\Service\Data\AttributeValueInterface $attributeValue
+        \Magento\Framework\Api\AttributeInterface $attributeValue
     );
 
     /**
@@ -37,7 +39,7 @@ interface ExtensibleEntityBuilderInterface
     /**
      * Return created DataInterface object
      *
-     * @return ExtensibleEntityInterface
+     * @return ExtensibleDataInterface
      */
     public function create();
 }

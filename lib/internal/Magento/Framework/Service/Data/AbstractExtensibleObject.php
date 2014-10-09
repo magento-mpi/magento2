@@ -7,11 +7,13 @@
  */
 namespace Magento\Framework\Service\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Base Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractExtensibleObject extends AbstractSimpleObject implements ExtensibleEntityInterface
+abstract class AbstractExtensibleObject extends AbstractSimpleObject implements ExtensibleDataInterface
 {
     /**
      * Array key for custom attributes

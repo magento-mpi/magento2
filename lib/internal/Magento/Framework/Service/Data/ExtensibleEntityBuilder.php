@@ -8,22 +8,25 @@
 
 namespace Magento\Framework\Service\Data;
 
+use Magento\Framework\Api\ExtensibleDataBuilderInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Interface for entities which can be extended with custom attributes.
  */
-class ExtensibleEntityBuilder implements ExtensibleEntityBuilderInterface
+class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
 {
     /**
-     * @var ExtensibleEntityInterface
+     * @var ExtensibleDataInterface
      */
     protected $dataModel;
 
     /**
-     * @param ExtensibleEntityInterface $dataModel
+     * @param ExtensibleDataInterface $dataModel
      */
-    public function __construct(ExtensibleEntityInterface $dataModel)
+    public function __construct(ExtensibleDataInterface $dataModel)
     {
-        //Make sure that the ExtensibleEntityInterface instance preference is not shared in di
+        //Make sure that the ExtensibleDataInterface instance preference is not shared in di
         $this->dataModel = $dataModel;
     }
 
@@ -32,7 +35,7 @@ class ExtensibleEntityBuilder implements ExtensibleEntityBuilderInterface
      */
     public function setCustomAttribute(
         $attributeCode,
-        \Magento\Framework\Service\Data\AttributeValueInterface $attributeValue
+        \Magento\Framework\Api\AttributeInterface $attributeValue
     ) {
         $this->dataModel->setCustomAttribute($attributeCode, $attributeValue);
         return $this;

@@ -14,7 +14,7 @@ namespace Magento\Framework\Model;
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractModel extends \Magento\Framework\Object
-    implements \Magento\Framework\Service\Data\ExtensibleEntityInterface
+    implements \Magento\Framework\Api\ExtensibleDataInterface
 {
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
@@ -709,12 +709,12 @@ abstract class AbstractModel extends \Magento\Framework\Object
      * Set custom attribute value.
      *
      * @param string $attributeCode
-     * @param \Magento\Framework\Service\Data\AttributeValueInterface $attributeValue
+     * @param \Magento\Framework\Api\AttributeInterface $attributeValue
      * @return $this
      */
     public function setCustomAttribute(
         $attributeCode,
-        \Magento\Framework\Service\Data\AttributeValueInterface $attributeValue
+        \Magento\Framework\Api\AttributeInterface $attributeValue
     ) {
         if (!isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
             || ($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode] != $attributeValue)
