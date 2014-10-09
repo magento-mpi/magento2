@@ -31,7 +31,7 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink[]
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\getList::get
+     * @see \Magento\Catalog\Api\ProductLinkManagementInterface::getList
      */
     public function getLinkedProducts($productSku, $type);
 

@@ -12,8 +12,11 @@ namespace Magento\Catalog\Api;
  * Created from
  * @see \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface
  * @see \Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface
+ *
+ * @todo Create new model that implements this interface
+ * \Magento\Catalog\Model\ProductLinkManagement
  */
-interface ProductLinkInterface
+interface ProductLinkManagementInterface
 {
     /**
      * Provide the list of links for a specific product
@@ -35,7 +38,7 @@ interface ProductLinkInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
-    public function assign($productSku, $linkType, array $items);//add
+    public function assign($productSku, $linkType, array $items);
 
     /**
      * Update product link
@@ -59,5 +62,5 @@ interface ProductLinkInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
-    public function remove($productSku, $linkType, $linkedProductSku);//remove
+    public function remove($productSku, $linkType, $linkedProductSku);
 }
