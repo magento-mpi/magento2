@@ -69,7 +69,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                $xml = '<?xml version="1.0"?>
+                '<?xml version="1.0"?>
 <page>
     <body>
         <remove name="header"/>
