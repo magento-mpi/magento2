@@ -29,6 +29,7 @@ class MultishippingTest extends Functional
      */
     public function testMultishippingCheckout(GuestPaypalDirect $fixture)
     {
+        $this->markTestIncomplete('MAGETWO-28220');
         $fixture->persist();
 
         //Ensure shopping cart is empty
@@ -42,7 +43,7 @@ class MultishippingTest extends Functional
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         }
 
         //Proceed to checkout
@@ -106,9 +107,9 @@ class MultishippingTest extends Functional
             $orderPage = Factory::getPageFactory()->getSalesOrder();
             $orderPage->open();
             $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
-            $this->assertContains(
-                Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
+            $this->assertEquals(
                 $grandTotals[$num],
+                Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
                 'Incorrect grand total value for the order #' . $orderId
             );
         }

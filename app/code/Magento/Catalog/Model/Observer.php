@@ -29,13 +29,6 @@ class Observer
     protected $_catalogCategory;
 
     /**
-     * Index indexer
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexIndexer;
-
-    /**
      * Catalog layer
      *
      * @var \Magento\Catalog\Model\Layer
@@ -45,7 +38,7 @@ class Observer
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -64,13 +57,6 @@ class Observer
     protected $_categoryResource;
 
     /**
-     * Url factory
-     *
-     * @var \Magento\Catalog\Model\UrlFactory
-     */
-    protected $_urlFactory;
-
-    /**
      * Factory for product resource
      *
      * @var \Magento\Catalog\Model\Resource\ProductFactory
@@ -78,35 +64,29 @@ class Observer
     protected $_productResourceFactory;
 
     /**
-     * @param \Magento\Catalog\Model\UrlFactory $urlFactory
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
-     * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param Indexer\Category\Flat\State $categoryFlatState
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
      */
     public function __construct(
-        \Magento\Catalog\Model\UrlFactory $urlFactory,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
-        \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatState,
         \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
     ) {
-        $this->_urlFactory = $urlFactory;
         $this->_categoryResource = $categoryResource;
         $this->_catalogProduct = $catalogProduct;
         $this->_storeManager = $storeManager;
         $this->_catalogLayer = $catalogLayer;
-        $this->_indexIndexer = $indexIndexer;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
         $this->categoryFlatConfig = $categoryFlatState;
@@ -168,7 +148,7 @@ class Observer
             $categoryNode = new \Magento\Framework\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
-            if ($this->categoryFlatConfig->isFlatEnabled()) {
+            if ($this->categoryFlatConfig->isFlatEnabled() && $category->getUseFlatResource()) {
                 $subcategories = (array)$category->getChildrenNodes();
             } else {
                 $subcategories = $category->getChildren();

@@ -122,7 +122,7 @@ class User extends AbstractModel implements StorageInterface
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -138,7 +138,7 @@ class User extends AbstractModel implements StorageInterface
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -153,7 +153,7 @@ class User extends AbstractModel implements StorageInterface
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -195,7 +195,8 @@ class User extends AbstractModel implements StorageInterface
                 '_roleFactory',
                 '_encryptor',
                 '_transportBuilder',
-                '_storeManager'
+                '_storeManager',
+                '_validatorBeforeSave'
             )
         );
     }
@@ -215,7 +216,7 @@ class User extends AbstractModel implements StorageInterface
         $this->_roleFactory = $objectManager->get('Magento\Authorization\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
         $this->_transportBuilder = $objectManager->get('Magento\Framework\Mail\Template\TransportBuilder');
-        $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
     }
 
     /**
@@ -555,15 +556,8 @@ class User extends AbstractModel implements StorageInterface
             );
             $this->loadByUsername($username);
             $sensitive = $config ? $username == $this->getUsername() : true;
-
-            if ($sensitive && $this->getId() && $this->_encryptor->validateHash($password, $this->getPassword())) {
-                if ($this->getIsActive() != '1') {
-                    throw new \Magento\Backend\Model\Auth\Exception(__('This account is inactive.'));
-                }
-                if (!$this->hasAssigned2Role($this->getId())) {
-                    throw new \Magento\Backend\Model\Auth\Exception(__('Access denied.'));
-                }
-                $result = true;
+            if ($sensitive && $this->getId()) {
+                $result = $this->verifyIdentity($password);
             }
 
             $this->_eventManager->dispatch(
@@ -577,6 +571,28 @@ class User extends AbstractModel implements StorageInterface
 
         if (!$result) {
             $this->unsetData();
+        }
+        return $result;
+    }
+
+    /**
+     * Ensure that provided password matches the current user password. Check if the current user account is active.
+     *
+     * @param string $password
+     * @return bool
+     * @throws \Magento\Backend\Model\Auth\Exception
+     */
+    public function verifyIdentity($password)
+    {
+        $result = false;
+        if ($this->_encryptor->validateHash($password, $this->getPassword())) {
+            if ($this->getIsActive() != '1') {
+                throw new \Magento\Backend\Model\Auth\Exception(__('This account is inactive.'));
+            }
+            if (!$this->hasAssigned2Role($this->getId())) {
+                throw new \Magento\Backend\Model\Auth\Exception(__('Access denied.'));
+            }
+            $result = true;
         }
         return $result;
     }

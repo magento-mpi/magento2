@@ -24,17 +24,29 @@ class ReadServiceTest extends WebapiAbstract
         $productSku = 'bundle-product';
         $expected = [
             [
-                'required' => '1',
-                'position' => '0',
+                'required' => true,
+                'position' => 0,
                 'type' => 'select',
                 'title' => 'Bundle Product Items',
-                'sku' => $productSku
+                'sku' => $productSku,
+                'product_links' => [
+                    [
+                        'sku' => 'simple',
+                        'qty' => 1.0,
+                        'position' => 0,
+                        'defined' => true,
+                        'default' => false,
+                        'price' => null,
+                        'price_type' => null
+                    ]
+                ]
             ]
         ];
         $result = $this->getList($productSku);
 
         $this->assertArrayHasKey(0, $result);
         $this->assertArrayHasKey('id', $result[0]);
+        $expected[0]['product_links'][0]['option_id'] = $result[0]['id'];
         unset($result[0]['id']);
 
         ksort($expected[0]);
@@ -49,16 +61,28 @@ class ReadServiceTest extends WebapiAbstract
     {
         $productSku = 'bundle-product';
         $expected = [
-            'required' => '1',
-            'position' => '0',
+            'required' => true,
+            'position' => 0,
             'type' => 'select',
             'title' => 'Bundle Product Items',
-            'sku' => $productSku
+            'sku' => $productSku,
+            'product_links' => [
+                [
+                    'sku' => 'simple',
+                    'qty' => 1.0,
+                    'position' => 0,
+                    'defined' => true,
+                    'default' => false,
+                    'price' => null,
+                    'price_type' => null
+                ]
+            ]
         ];
         $optionId = $this->getList($productSku)[0]['id'];
         $result = $this->get($productSku, $optionId);
 
         $this->assertArrayHasKey('id', $result);
+        $expected['product_links'][0]['option_id'] = $result['id'];
         unset($result['id']);
 
         ksort($expected);

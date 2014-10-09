@@ -2,16 +2,3 @@
 # These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/common.txt
 # This file will not be published, too
 #
-dev/tests/functional-old/testsuite/Core/Mage/UrlRewrite/Helper.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/Acl/CatalogManageCategoryTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/Acl/SystemPermissionTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/AddBySku/BackendAddBySkuTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/AddBySku/BackendOrderTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/AddBySku/FrontendOrderBySkuTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/AddBySku/FrontendSkuTabValidationTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/AddBySku/FrontendSkuWidgetTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/AddBySku/Helper.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribute/Create/AttachmentFileTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
-dev/tests/functional-old/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontendTest.php
-dev/tests/functional-old/testsuite/Core/Mage/Product/Create/ChangeAttributeSetTest.php

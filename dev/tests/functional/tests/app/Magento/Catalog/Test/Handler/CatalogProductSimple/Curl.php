@@ -129,7 +129,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->prepareData($fixture, $prefix);
 
-        return ['id' => $this->createProduct($data, $config)];
+        return $this->createProduct($data, $config);
     }
 
     /**
@@ -145,6 +145,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
         $fields = $this->replaceMappingData($fixture->getData());
+
         // Getting Tax class id
         if ($fixture->hasData('tax_class_id')) {
             $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClassId();
@@ -183,6 +184,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                 ->getAttributeSet()
                 ->getAttributeSetId();
             $fields['attribute_set_id'] = $attributeSetId;
+        }
+
+        // Prepare assigned attribute
+        if (isset($fields['attributes'])) {
+            $fields += $fields['attributes'];
+            unset($fields['attributes']);
         }
 
         $fields = $this->prepareStockData($fields);
@@ -319,7 +326,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      *
      * @param array $data
      * @param array $config
-     * @return int|null
+     * @return array
      * @throws \Exception
      */
     protected function createProduct(array $data, array $config)
@@ -336,7 +343,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         }
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
 
-        return isset($matches[1]) ? $matches[1] : null;
+        return ['id' => isset($matches[1]) ? $matches[1] : null];
     }
 
     /**

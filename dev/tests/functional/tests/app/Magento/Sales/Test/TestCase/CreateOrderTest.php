@@ -45,13 +45,19 @@ class CreateOrderTest extends Functional
         $orderGridPage->open();
         $orderCreatePage->getActionsBlock()->addNew();
         $orderCreatePage->getCustomerBlock()->selectCustomer($fixture->getCustomer());
-        $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
+        $orderCreatePage->getStoreBlock()->selectStoreView();
 
-        $orderCreatePage->getCreateBlock()->addProducts($fixture);
-        $orderCreatePage->getCreateBlock()->fillAddresses($fixture);
-        $orderCreatePage->getCreateBlock()->selectShippingMethod($fixture);
-        $orderCreatePage->getCreateBlock()->selectPaymentMethod($fixture);
-        $orderCreatePage->getCreateBlock()->submitOrder();
+        $orderCreateBlock = $orderCreatePage->getCreateBlock();
+        $orderCreateBlock->waitOrderItemsGrid();
+        $orderCreateBlock->addProducts($fixture->getProducts());
+        $billingAddress = $fixture->getBillingAddress();
+        if (empty($billingAddress)) {
+            $billingAddress = $fixture->getCustomer()->getDefaultBillingAddress();
+        }
+        $orderCreateBlock->fillAddresses($billingAddress);
+        $orderCreateBlock->selectShippingMethod($fixture->getShippingMethod()->getData('fields'));
+        $orderCreateBlock->selectPaymentMethod(['method' => $fixture->getPaymentMethod()->getPaymentCode()]);
+        $orderCreateBlock->submitOrder();
         //Verification
         $this->_checkOrderAndCustomer($fixture);
     }
@@ -72,9 +78,7 @@ class CreateOrderTest extends Functional
         $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
         //Test flow - order grand total check
         $orderGridPage->open();
-        $orderGrid->searchAndOpen([
-            'id' => $orderId
-        ]);
+        $orderGrid->searchAndOpen(['id' => $orderId]);
         $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
         $this->_checkCustomer($fixture, $email);
     }
@@ -95,9 +99,7 @@ class CreateOrderTest extends Functional
 
         //Test flow - customer saved check
         $customerGridPage->open();
-        $customerGrid->searchAndOpen([
-            'email' => $email
-        ]);
+        $customerGrid->searchAndOpen(['email' => $email]);
         $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
 
         $customer = $fixture->getCustomer();

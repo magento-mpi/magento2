@@ -7,32 +7,34 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Model\CustomerRegistry;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SortOrder;
+use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Framework\Exception\InputException;
 
 /**
  * Class CustomerAccountServiceTest
- * 
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerAccountServiceTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
     const SERVICE_NAME = 'customerCustomerAccountServiceV1';
-    const RESOURCE_PATH = '/V1/customerAccounts';
+    const RESOURCE_PATH = '/V1/customers';
 
     /** Sample values for testing */
     const ATTRIBUTE_CODE = 'attribute_code';
@@ -68,6 +70,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
     private $customerHelper;
 
     /**
+     * @var array
+     */
+    private $currentCustomerId;
+
+    /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
@@ -92,6 +104,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
+        $this->sortOrderBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
         $this->filterGroupBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder'
         );
@@ -100,20 +115,31 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function tearDown()
     {
+        if (!empty($this->currentCustomerId)) {
+            foreach ($this->currentCustomerId as $customerId) {
+                $serviceInfo = [
+                    'rest' => [
+                        'resourcePath' => self::RESOURCE_PATH . '/' . $customerId,
+                        'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                    ],
+                    'soap' => [
+                        'service' => self::SERVICE_NAME,
+                        'serviceVersion' => self::SERVICE_VERSION,
+                        'operation' => self::SERVICE_NAME . 'DeleteCustomer'
+                    ]
+                ];
+
+                $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerId]);
+
+                $this->assertTrue($response);
+            }
+        }
         unset($this->customerAccountService);
-        $model = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Attribute');
-        $model->load('address_user_attribute', 'attribute_code')
-            ->delete();
-        $model = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Attribute');
-        $model->load('user_attribute', 'attribute_code')
-            ->delete();
     }
 
     public function testCreateCustomer()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         $this->assertNotNull($customerData['id']);
     }
 
@@ -129,47 +155,76 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
 
         $customerDetailsAsArray = $this->customerHelper->createSampleCustomerDetailsData()->__toArray();
-        unset($customerDetailsAsArray['customer']['firstname']);
-        unset($customerDetailsAsArray['customer']['email']);
+        $invalidEmail = 'invalid';
+        $customerDetailsAsArray['customer']['email'] = $invalidEmail;
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => CustomerHelper::PASSWORD];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception did not occur.');
         } catch (\Exception $e) {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $expectedException = new InputException();
+                $expectedException->addError(
+                    InputException::INVALID_FIELD_VALUE,
+                    ['fieldName' => 'email', 'value' => $invalidEmail]
+                );
                 $this->assertInstanceOf('SoapFault', $e);
-                $exceptionData = $e->getMessage();
-                $expectedExceptionData = "SOAP-ERROR: Encoding: object has no 'email' property";
+                $this->checkSoapFault(
+                    $e,
+                    $expectedException->getRawMessage(),
+                    'env:Sender',
+                    $expectedException->getParameters() // expected error parameters
+                );
             } else {
                 $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
                 $exceptionData = $this->processRestExceptionResult($e);
                 $expectedExceptionData = [
-                        'message' => InputException::DEFAULT_MESSAGE,
-                        'errors' => [
-                            [
-                                'message' => InputException::REQUIRED_FIELD,
-                                'parameters' => [
-                                    'fieldName' => 'firstname',
-                                ]
-                            ],
-                            [
-                                'message' => InputException::INVALID_FIELD_VALUE,
-                                'parameters' => [
-                                    'fieldName' => 'email',
-                                    'value' => ''
-                                ]
-                            ]
-                        ]
+                    'message' => InputException::INVALID_FIELD_VALUE,
+                    'parameters' => [
+                        'fieldName' => 'email',
+                        'value' => $invalidEmail
+                    ]
                 ];
+                $this->assertEquals($expectedExceptionData, $exceptionData);
             }
-            $this->assertEquals($expectedExceptionData, $exceptionData);
         }
+    }
+
+    /**
+     * Test customer activation when it is required
+     *
+     * @magentoConfigFixture default_store customer/create_account/confirm 0
+     */
+    public function testActivateCustomer()
+    {
+        $customerData = $this->_createCustomer();
+        $this->assertNotNull($customerData[Customer::CONFIRMATION], 'Customer activation is not required');
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activate',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ActivateCustomer'
+            ]
+        ];
+
+        $requestData = ['confirmationKey' => $customerData[Customer::CONFIRMATION]];
+        $requestData['customerId'] = $customerData[Customer::ID];
+
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals($customerData[Customer::ID], $result[Customer::ID], 'Wrong customer!');
+        $this->assertArrayNotHasKey(Customer::CONFIRMATION, $result, 'Customer is not activated');
     }
 
     public function testGetCustomerDetails()
     {
         //Create a customer
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         //Get expected details from the Service directly
         $expectedCustomerDetails = $this->_getCustomerDetails($customerData['id'])->__toArray();
@@ -186,11 +241,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetCustomerDetails'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerDetailsResponse = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
-        } else {
-            $customerDetailsResponse = $this->_webApiCall($serviceInfo);
-        }
+
+        $customerDetailsResponse = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+
         // TODO: Reset custom_attributes to empty array for now since webapi does not support it. Need to fix this.
         unset($expectedCustomerDetails['customer']['custom_attributes']);
         unset($customerDetailsResponse['customer']['customAttributes']); //For SOAP
@@ -199,36 +252,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
     }
 
-    public function testGetCustomer()
-    {
-        $customerData = $this->customerHelper->createSampleCustomer();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/customer',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomer'
-            ]
-        ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerResponseData = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
-        } else {
-            $customerResponseData = $this->_webApiCall($serviceInfo);
-        }
-        $this->assertEquals($customerData, $customerResponseData);
-    }
-
     public function testGetCustomerActivateCustomer()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activateCustomer',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -238,12 +268,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['confirmationKey' => $customerData[Customer::CONFIRMATION]];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['customerId'] = $customerData['id'];
-            $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        } else {
-            $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        }
+        $requestData['customerId'] = $customerData['id'];
+
+        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
+
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
         // Confirmation key is removed after confirmation
         $this->assertFalse(isset($customerResponseData[Customer::CONFIRMATION]));
@@ -251,12 +279,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testAuthenticateCustomer()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/authenticate',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'resourcePath' => self::RESOURCE_PATH . '/login',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -269,46 +297,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
     }
 
-    public function testChangePassword()
-    {
-        $customerData = $this->customerHelper->createSampleCustomer();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/changePassword',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'ChangePassword'
-            ]
-        ];
-        $requestData = ['currentPassword' => CustomerHelper::PASSWORD, 'newPassword' => '123@test'];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['customerId'] = $customerData['id'];
-        }
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/authenticate',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Authenticate'
-            ]
-        ];
-        $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => '123@test'];
-        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
-    }
-
     public function testValidateResetPasswordLinkToken()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = Bootstrap::getObjectManager()->create('Magento\Customer\Model\CustomerFactory')
             ->create();
@@ -317,7 +308,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerModel->setRpToken('lsdj579slkj5987slkj595lkj');
         $customerModel->setRpTokenCreatedAt(date('Y-m-d'));
         $customerModel->save();
-        $path = self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/validateResetPasswordLinkToken/' . $rpToken;
+        $path = self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/password/resetLinkToken/' . $rpToken;
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $path,
@@ -329,20 +320,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'ValidateResetPasswordLinkToken'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->_webApiCall(
-                $serviceInfo,
-                ['customerId' => $customerData['id'], 'resetPasswordLinkToken' => $rpToken]
-            );
-        } else {
-            $this->_webApiCall($serviceInfo);
-        }
+
+        $this->_webApiCall(
+            $serviceInfo,
+            ['customerId' => $customerData['id'], 'resetPasswordLinkToken' => $rpToken]
+        );
     }
 
     public function testValidateResetPasswordLinkTokenInvalidToken()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
-        $path = self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/validateResetPasswordLinkToken/invalid';
+        $customerData = $this->_createCustomer();
+        $invalidToken = 'fjjkafjie';
+        $path = self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/password/resetLinkToken/' . $invalidToken;
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $path,
@@ -354,6 +343,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'ValidateResetPasswordLinkToken'
             ]
         ];
+
+        $expectedMessage = 'Reset password token mismatch.';
+
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
                 $this->_webApiCall(
@@ -363,20 +355,27 @@ class CustomerAccountServiceTest extends WebapiAbstract
             } else {
                 $this->_webApiCall($serviceInfo);
             }
+            $this->fail("Expected exception to be thrown.");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception message does not match"
+            );
         } catch (\Exception $e) {
             $errorObj = $this->processRestExceptionResult($e);
-            $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
 
     public function testInitiatePasswordReset()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/initiatePasswordReset',
+                'resourcePath' => self::RESOURCE_PATH . '/password',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -400,7 +399,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/initiatePasswordReset',
+                'resourcePath' => self::RESOURCE_PATH . '/password',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -435,11 +434,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testGetConfirmationStatus()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/confirmationStatus',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/confirm',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -448,22 +447,20 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetConfirmationStatus'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $confirmationResponse = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
-        } else {
-            $confirmationResponse = $this->_webApiCall($serviceInfo);
-        }
+
+        $confirmationResponse = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+
         $this->assertEquals(CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED, $confirmationResponse);
     }
 
     public function testResendConfirmation()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/resendConfirmation',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'resourcePath' => self::RESOURCE_PATH . '/confirm',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -485,8 +482,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/resendConfirmation',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'resourcePath' => self::RESOURCE_PATH . '/confirm',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -524,7 +521,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/validateCustomerData',
+                'resourcePath' => self::RESOURCE_PATH . '/validate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -542,11 +539,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testCanModify()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/canModify',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/permissions/modify',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -555,21 +552,19 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'CanModify'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
-        } else {
-            $response = $this->_webApiCall($serviceInfo);
-        }
+
+        $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+
         $this->assertTrue($response);
     }
 
     public function testCanDelete()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/canDelete',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/permissions/delete',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -578,17 +573,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'CanDelete'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
-        } else {
-            $response = $this->_webApiCall($serviceInfo);
-        }
+
+        $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+
         $this->assertTrue($response);
     }
 
     public function testDeleteCustomer()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
+        $this->currentCustomerId = [];
 
         $serviceInfo = [
             'rest' => [
@@ -635,11 +629,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['customerId' => $invalidId]);
-            } else {
-                $this->_webApiCall($serviceInfo);
-            }
+
+            $this->_webApiCall($serviceInfo, ['customerId' => $invalidId]);
+
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
@@ -657,12 +649,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testEmailAvailable()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/isEmailAvailable',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -682,7 +674,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/isEmailAvailable',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -699,7 +691,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testUpdateCustomer()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
@@ -714,7 +706,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/{$customerData[Customer::ID]}",
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -724,7 +716,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $requestData = ['customerId' => $customerData[Customer::ID], 'customerDetails' => $customerDetailsAsArray];
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response);
 
@@ -753,7 +745,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/{$customerData[Customer::ID]}",
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -764,7 +756,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
         unset($customerDetailsAsArray['customer']['website_id']);
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $requestData = ['customerId' => $customerData[Customer::ID], 'customerDetails' => $customerDetailsAsArray];
 
         $expectedMessage = '"Associate to Website" is a required value.';
         try {
@@ -785,7 +777,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testUpdateCustomerException()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
@@ -801,7 +793,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . "/-1",
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -811,7 +803,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $requestData = ['customerId' => -1, 'customerDetails' => $customerDetailsAsArray];
 
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
@@ -838,7 +830,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testSearchCustomers()
     {
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         $filter = $builder
             ->setField(Customer::EMAIL)
             ->setValue($customerData[Customer::EMAIL])
@@ -847,7 +839,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -863,13 +855,41 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
     /**
+     * Test with a single filter using GET
+     */
+    public function testSearchCustomersUsingGET()
+    {
+        $this->_markTestAsRestOnly('SOAP test is covered in testSearchCustomers');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData = $this->_createCustomer();
+        $filter = $builder
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData[Customer::EMAIL])
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter]);
+
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $searchResults = $this->_webApiCall($serviceInfo);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+    }
+
+    /**
      * Test using multiple filters
      */
     public function testSearchCustomersMultipleFiltersWithSort()
     {
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
-        $customerData1 = $this->customerHelper->createSampleCustomer();
-        $customerData2 = $this->customerHelper->createSampleCustomer();
+        $customerData1 = $this->_createCustomer();
+        $customerData2 = $this->_createCustomer();
         $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
@@ -881,12 +901,20 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->create();
         $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
         $this->searchCriteriaBuilder->addFilter([$filter3]);
-        $this->searchCriteriaBuilder->setSortOrders([Customer::EMAIL => SearchCriteria::SORT_ASC]);
+
+        /**@var \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder */
+        $sortOrderBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
+        /** @var \Magento\Framework\Service\V1\Data\SortOrder $sortOrder */
+        $sortOrder = $sortOrderBuilder->setField(Customer::EMAIL)->setDirection(SearchCriteria::SORT_ASC)->create();
+        $this->searchCriteriaBuilder->setSortOrders([$sortOrder]);
+
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -903,13 +931,50 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
     /**
+     * Test using multiple filters using GET
+     */
+    public function testSearchCustomersMultipleFiltersWithSortUsingGET()
+    {
+        $this->_markTestAsRestOnly('SOAP test is covered in testSearchCustomers');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData1 = $this->_createCustomer();
+        $customerData2 = $this->_createCustomer();
+        $filter1 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = $builder->setField(Customer::LASTNAME)
+            ->setValue($customerData1[Customer::LASTNAME])
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
+        $this->searchCriteriaBuilder->setSortOrders([Customer::EMAIL => SearchCriteria::SORT_ASC]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ]
+        ];
+        $searchResults = $this->_webApiCall($serviceInfo);
+        $this->assertEquals(2, $searchResults['total_count']);
+        $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+        $this->assertEquals($customerData2[Customer::ID], $searchResults['items'][1]['customer'][Customer::ID]);
+    }
+
+    /**
      * Test and verify multiple filters using And-ed non-existent filter value
      */
     public function testSearchCustomersNonExistentMultipleFilters()
     {
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
-        $customerData1 = $this->customerHelper->createSampleCustomer();
-        $customerData2 = $this->customerHelper->createSampleCustomer();
+        $customerData1 = $this->_createCustomer();
+        $customerData2 = $this->_createCustomer();
         $filter1 = $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
@@ -925,7 +990,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -939,36 +1004,43 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
     }
 
-    public function testGetCustomerByEmail()
+    /**
+     * Test and verify multiple filters using And-ed non-existent filter value using GET
+     */
+    public function testSearchCustomersNonExistentMultipleFiltersGET()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
-
+        $this->_markTestAsRestOnly('SOAP test is covered in testSearchCustomers');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData1 = $this->_createCustomer();
+        $customerData2 = $this->_createCustomer();
+        $filter1 = $filter1 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = $builder->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = $builder->setField(Customer::LASTNAME)
+            ->setValue('INVALID')
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchQueryString = http_build_query($requestData);
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '?customerEmail='. $customerData[Customer::EMAIL],
+                'resourcePath' => self::RESOURCE_PATH . '/search?' . $searchQueryString,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomerByEmail'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerResponseData = $this->_webApiCall(
-                $serviceInfo,
-                ['customerEmail' => $customerData[Customer::EMAIL]]
-            );
-        } else {
-            $customerResponseData = $this->_webApiCall($serviceInfo);
-        }
-        $this->assertEquals($customerData, $customerResponseData);
-
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
     }
 
     public function testGetCustomerDetailsByEmail()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         //Get expected details from the Service directly
         $expectedCustomerDetails = $this->customerAccountService
             ->getCustomerDetailsByEmail($customerData[Customer::EMAIL])
@@ -977,7 +1049,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         //Test GetDetails
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/details/?customerEmail=' . $customerData[Customer::EMAIL],
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL],
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -986,14 +1058,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetCustomerDetailsByEmail'
             ]
         ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerDetailsResponse = $this->_webApiCall(
-                $serviceInfo,
-                ['customerEmail' => $customerData[Customer::EMAIL]]
-            );
-        } else {
-            $customerDetailsResponse = $this->_webApiCall($serviceInfo);
-        }
+
+        $customerDetailsResponse = $this->_webApiCall(
+            $serviceInfo,
+            ['customerEmail' => $customerData[Customer::EMAIL]]
+        );
+
         // TODO: Reset custom_attributes to empty array for now since webapi does not support it. Need to fix this.
         unset($expectedCustomerDetails['customer']['custom_attributes']);
         unset($customerDetailsResponse['customer']['customAttributes']); //For SOAP
@@ -1002,9 +1072,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
     }
 
-    public function testUpdateCustomerDetailsByEmail()
+    public function testUpdateCustomerByEmail()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
+        $customerData = $this->_createCustomer();
         $customerId = $customerData[Customer::ID];
         $customerDetails = $this->_getCustomerDetails($customerId);
         $customer = $customerDetails->getCustomer();
@@ -1035,13 +1105,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/details',
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateCustomerDetailsByEmail'
+                'operation' => self::SERVICE_NAME . 'UpdateCustomerByEmail'
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
@@ -1064,8 +1134,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testDeleteCustomerByEmail()
     {
-        $customerData = $this->customerHelper->createSampleCustomer();
-
+        $customerData = $this->_createCustomer();
+        $this->currentCustomerId = [];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL] ,
@@ -1111,11 +1181,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $expectedMessage = NoSuchEntityException::MESSAGE_DOUBLE_FIELDS;
 
         try {
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['customerEmail' => $unknownEmail]);
-            } else {
-                $this->_webApiCall($serviceInfo);
-            }
+            $this->_webApiCall($serviceInfo, ['customerEmail' => $unknownEmail]);
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
@@ -1135,7 +1201,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersMultipleFilterGroups()
     {
-        $customerData1 = $this->customerHelper->createSampleCustomer();
+        $customerData1 = $this->_createCustomer();
 
         /** @var \Magento\Framework\Service\V1\Data\FilterBuilder $builder */
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
@@ -1159,7 +1225,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -1238,9 +1304,25 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $customerDetailsAsArray = $customerDetails->__toArray();
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => CustomerHelper::PASSWORD];
+        $customerEmail = $requestData['customerDetails']['customer']['email'];
         $customerData = $this->_webApiCall($serviceInfo, $requestData);
         //TODO: Fix assertions to verify custom attributes
         $this->assertNotNull($customerData);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerEmail ,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+            ]
+        ];
+
+        $response = $this->_webApiCall($serviceInfo, ['customerEmail' => $customerEmail]);
+        $this->assertTrue($response);
     }
 
     /**
@@ -1254,5 +1336,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $details =  $this->customerAccountService->getCustomerDetails($customerId);
         $this->customerRegistry->remove($customerId);
         return $details;
+    }
+
+    /**
+     * @return array|bool|float|int|string
+     */
+    protected function _createCustomer()
+    {
+        $customerData = $this->customerHelper->createSampleCustomer();
+        $this->currentCustomerId[] = $customerData['id'];
+        return $customerData;
     }
 }

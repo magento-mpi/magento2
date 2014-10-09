@@ -66,7 +66,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Edit Customer just created
         $customerGridPage->open();
         $customerGrid = $customerGridPage->getCustomerGridBlock();
-        $customerGrid->searchAndOpen(array('email' => $customerFixture->getEmail()));
+        $customerGrid->searchAndOpen(['email' => $customerFixture->getEmail()]);
         $customerEditPage = Factory::getPageFactory()->getCustomerIndexEdit();
         $editCustomerForm = $customerEditPage->getCustomerForm();
         // Set group to Retailer
@@ -100,7 +100,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
-        $messagesBlock->assertSuccessMessage();
+        $messagesBlock->waitSuccessMessage();
 
         // Verify Notice Message
         $messagesBlock->assertNoticeMessage();
@@ -111,7 +111,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $catalogRuleGrid->applyRules();
 
         // Verify Success Message
-        $catalogRulePage->getMessagesBlock()->assertSuccessMessage();
+        $catalogRulePage->getMessagesBlock()->waitSuccessMessage();
 
         $this->verifyGuestPrice($simpleProductFixture);
         $this->verifyCustomerPrice($simpleProductFixture, $customerFixture);
@@ -145,16 +145,15 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productViewBlock = $productPage->getViewBlock();
-        $productPriceBlock = $productViewBlock->getProductPriceBlock();
+        $productPriceBlock = $productViewBlock->getPriceBlock();
         // verify special price is not applied
         $this->assertFalse($productPriceBlock->isSpecialPriceVisible(), 'Special price is visible adn not expected.');
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
-        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
-
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $this->assertContains(
             $product->getProductPrice(),
             (string)$unitPrice,
@@ -204,18 +203,18 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productViewBlock = $productPage->getViewBlock();
-        $productPriceBlock = $productViewBlock->getProductPriceBlock();
+        $productPriceBlock = $productViewBlock->getPriceBlock();
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),
             $productPriceBlock->getSpecialPrice()
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),
-            (string)$checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
+            (string)$checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice(),
             "Discount was not correctly applied"
         );
     }

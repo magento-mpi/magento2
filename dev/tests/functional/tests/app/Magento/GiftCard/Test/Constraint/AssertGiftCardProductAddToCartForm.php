@@ -9,14 +9,16 @@
 namespace Magento\GiftCard\Test\Constraint;
 
 use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertGiftCardProductAddToCartForm
+ *
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
-class AssertGiftCardProductAddToCartForm extends AbstractConstraint
+class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
 {
     /**
      * Value for choose custom option
@@ -44,17 +46,14 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         $giftcardAmounts = $product->hasData('giftcard_amounts') ? $product->getGiftcardAmounts() : [];
-        $amountForm = $catalogProductView->getGiftCardBlock()->getAmountValues();
+        $amountForm = (1 == count($giftcardAmounts))
+            ? [$catalogProductView->getViewBlock()->getPriceBlock()->getFinalPrice()]
+            : $catalogProductView->getGiftCardBlock()->getAmountValues();
         $amountFixture = [];
+
         foreach ($giftcardAmounts as $amount) {
             $amountFixture[] = $amount['price'];
         }
-        $amountDiff = array_diff($amountFixture, $amountForm);
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $amountDiff,
-            'Amount data on product page(frontend) not equals to passed from fixture.'
-            . "\nFailed values: " . implode(', ', $amountDiff) . '.'
-        );
 
         if (!empty($amountFixture)
             && $product->hasData('allow_open_amount')
@@ -66,9 +65,18 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
                 'Amount data on product page(frontend) not equals to passed from fixture.'
                 . 'On product page(frontend) cannot choose custom amount.'
             );
+
+            $amountFixture[] = 'custom';
         }
 
-        $errors = $this->verifyFields($catalogProductView, $product);
+        $errors = $this->verifyData($amountFixture, $amountForm, true, false);
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
+            $this->prepareErrors($errors, "Amount data on product page(frontend) not equals to passed from fixture:\n")
+        );
+
+
+        $errors = $this->verifyFields($catalogProductView, $product, $amountFixture);
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
             "\nErrors fields: \n" . implode("\n", $errors)
@@ -80,13 +88,17 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param GiftCardProduct $product
+     * @param array $amountFixture [optional]
      * @return array
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function verifyFields(CatalogProductView $catalogProductView, GiftCardProduct $product)
-    {
+    protected function verifyFields(
+        CatalogProductView $catalogProductView,
+        GiftCardProduct $product,
+        array $amountFixture = []
+    ) {
         $giftCard = $catalogProductView->getGiftCardBlock();
         $isAmountSelectVisible = $giftCard->isAmountSelectVisible();
         $isAmountInputVisible = $giftCard->isAmountInputVisible();
@@ -107,7 +119,7 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
         if ($isAmountSelectVisible && !$isShowSelectAmount) {
             $errors[] = '- select amount is displayed.';
         }
-        if ($isAllowOpenAmount && !$isAmountInputVisible) {
+        if (count($amountFixture) == 0 && $isAllowOpenAmount && !$isAmountInputVisible) {
             $errors[] = '- input amount is not displayed.';
         }
         if (!$isAllowOpenAmount && $isAmountInputVisible) {

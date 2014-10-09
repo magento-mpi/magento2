@@ -93,7 +93,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     protected $_schedOperFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -123,7 +123,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
@@ -140,7 +140,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Framework\App\Config\ValueFactory $configValueFactory,
@@ -166,16 +166,6 @@ class Operation extends \Magento\Framework\Model\AbstractModel
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
-    }
-
-    /**
-     * Date model getter
-     *
-     * @return \Magento\Framework\Stdlib\DateTime\DateTime
-     */
-    public function getDateModel()
-    {
-        return $this->_dateModel;
     }
 
     /**
@@ -425,8 +415,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     public function run()
     {
-        $runDate = $this->getDateModel()->date();
-        $runDateTimestamp = $this->getDateModel()->gmtTimestamp($runDate);
+        $runDate = $this->_dateModel->date();
+        $runDateTimestamp = $this->_dateModel->gmtTimestamp($runDate);
 
         $this->setLastRunDate($runDateTimestamp);
 
@@ -687,7 +677,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     public function getHistoryFilePath()
     {
         $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
-        $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
+        $dirPath = self::LOG_DIRECTORY . $this->_dateModel->date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 
         $fileName = join('_', array($this->_getRunTime(), $this->getOperationType(), $this->getEntityType()));
@@ -712,6 +702,6 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     protected function _getRunTime()
     {
         $runDate = $this->getLastRunDate() ? $this->getLastRunDate() : null;
-        return $this->getDateModel()->date('H-i-s', $runDate);
+        return $this->_dateModel->date('H-i-s', $runDate);
     }
 }

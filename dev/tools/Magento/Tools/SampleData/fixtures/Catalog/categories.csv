@@ -1,0 +1,5 @@
+name;path;active;is_anchor;include_in_menu;position
+Gear;;1;1;1;3
+Bags;Gear;1;1;1;
+Fitness Equipment;Gear;1;1;1;
+Watches;Gear;1;1;1;

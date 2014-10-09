@@ -11,11 +11,11 @@ namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
+ * Class Items
  * Block for items ordered on order page
- *
  */
 class Items extends Block
 {
@@ -38,13 +38,18 @@ class Items extends Block
 
         if ($product instanceof ConfigurableProduct) {
             // Find the price for the specific configurable product that was purchased
-            $productOptions = $product->getProductOptions();
-            $checkoutOption = current($productOptions);
+            $configurableAttributes = $product->getConfigurableAttributes();
+            $productOptions = $product->getCheckoutData()['options']['configurable_options'];
+            $checkoutOption = reset($productOptions);
+            $attributeKey = $checkoutOption['title'];
+            $optionKey = $checkoutOption['value'];
+            $attributeValue = $configurableAttributes[$attributeKey]['label']['value'];
+            $optionValue = $configurableAttributes[$attributeKey][$optionKey]['option_label']['value'];
 
             $productDisplay = $productName . ' SKU: ' . $product->getVariationSku($checkoutOption);
-            $productDisplay .= ' ' . key($productOptions) . ' ' . $checkoutOption;
+            $productDisplay .= ' ' . $attributeValue . ' ' . $optionValue;
         } else {
-            $productDisplay = $productName . ' SKU: ' . $product->getProductSku();
+            $productDisplay = $productName . ' SKU: ' . $product->getSku();
         }
         $selector = '//tr[normalize-space(td)="' . $productDisplay .'"]' . $this->priceSelector;
 

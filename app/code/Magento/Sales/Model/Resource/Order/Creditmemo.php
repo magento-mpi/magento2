@@ -7,12 +7,19 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
+use Magento\Framework\Stdlib\DateTime;
+use Magento\Sales\Model\Resource\Attribute;
+use Magento\Framework\App\Resource as AppResource;
+use Magento\Sales\Model\Increment as SalesIncrement;
+use Magento\Sales\Model\Resource\Entity as SalesResource;
+use Magento\Sales\Model\Resource\Order\Creditmemo\Grid as CreditmemoGrid;
+
 /**
  * Flat sales order creditmemo resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Creditmemo extends AbstractOrder
+class Creditmemo extends SalesResource
 {
     /**
      * Event prefix
@@ -20,27 +27,6 @@ class Creditmemo extends AbstractOrder
      * @var string
      */
     protected $_eventPrefix = 'sales_order_creditmemo_resource';
-
-    /**
-     * Is grid available
-     *
-     * @var bool
-     */
-    protected $_grid = true;
-
-    /**
-     * Flag for using of increment id
-     *
-     * @var bool
-     */
-    protected $_useIncrementId = true;
-
-    /**
-     * Entity code for increment id (Eav entity code)
-     *
-     * @var string
-     */
-    protected $_entityTypeForIncrementId = 'creditmemo';
 
     /**
      * Model initialization
@@ -53,35 +39,21 @@ class Creditmemo extends AbstractOrder
     }
 
     /**
-     * Init virtual grid records for entity
+     * Constructor
      *
-     * @return $this
+     * @param AppResource $resource
+     * @param DateTime $dateTime
+     * @param Attribute $attribute
+     * @param SalesIncrement $salesIncrement
+     * @param CreditmemoGrid $gridAggregator
      */
-    protected function _initVirtualGridColumns()
-    {
-        parent::_initVirtualGridColumns();
-        $adapter = $this->getReadConnection();
-        $checkedFirstname = $adapter->getIfNullSql('{{table}}.firstname', $adapter->quote(''));
-        $checkedLastname = $adapter->getIfNullSql('{{table}}.lastname', $adapter->quote(''));
-        $concatName = $adapter->getConcatSql(array($checkedFirstname, $adapter->quote(' '), $checkedLastname));
-
-        $this->addVirtualGridColumn(
-            'billing_name',
-            'sales_flat_order_address',
-            array('billing_address_id' => 'entity_id'),
-            $concatName
-        )->addVirtualGridColumn(
-            'order_increment_id',
-            'sales_flat_order',
-            array('order_id' => 'entity_id'),
-            'increment_id'
-        )->addVirtualGridColumn(
-            'order_created_at',
-            'sales_flat_order',
-            array('order_id' => 'entity_id'),
-            'created_at'
-        );
-
-        return $this;
+    public function __construct(
+        AppResource $resource,
+        DateTime $dateTime,
+        Attribute $attribute,
+        SalesIncrement $salesIncrement,
+        CreditmemoGrid $gridAggregator
+    ) {
+        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
     }
 }

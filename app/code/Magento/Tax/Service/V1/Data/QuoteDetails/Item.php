@@ -31,6 +31,8 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const KEY_PARENT_CODE = 'parent_code';
 
     const KEY_ASSOCIATED_ITEM_CODE = 'association_code';
+
+    const KEY_TAX_CLASS_ID = 'tax_class_id';
     /**#@-*/
 
     /**
@@ -131,5 +133,15 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     public function getAssociatedItemCode()
     {
         return $this->_get(self::KEY_ASSOCIATED_ITEM_CODE);
+    }
+
+    /**
+     * Get associated item tax class id
+     *
+     * @return int
+     */
+    public function getTaxClassId()
+    {
+        return $this->_get(self::KEY_TAX_CLASS_ID);
     }
 }

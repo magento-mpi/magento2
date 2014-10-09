@@ -73,19 +73,19 @@ class RmaTest extends Functional
         // Step 13: Authorize Simple and Configurable Product
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'AUTHORIZE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
-        $rmaPage->getMessagesBlock()->assertSuccessMessage();
+        $rmaPage->getMessagesBlock()->waitSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('return_items');
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'RETURN_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
-        $rmaPage->getMessagesBlock()->assertSuccessMessage();
+        $rmaPage->getMessagesBlock()->waitSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('return_items');
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'APPROVE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
-        $rmaPage->getMessagesBlock()->assertSuccessMessage();
+        $rmaPage->getMessagesBlock()->waitSuccessMessage();
     }
 
     /**
@@ -108,7 +108,7 @@ class RmaTest extends Functional
     {
         // precondition 2a: MAGETWO-12415 - Guest Checkout using "Checkout with PayPal":
         $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder();
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $configurable->persist();
         $payPalExpressOrder->setAdditionalProducts(array($configurable));
         $payPalExpressOrder->persist();
@@ -155,7 +155,7 @@ class RmaTest extends Functional
 
         // Validate that the success message is displayed on the 'returns' page.
         $completedReturn = Factory::getPageFactory()->getSalesGuestReturns();
-        $completedReturn->getMessagesBlock()->assertSuccessMessage();
+        $completedReturn->getMessagesBlock()->waitSuccessMessage();
 
         // Get the return id in order to validate on the grid.
         $successMessage = $completedReturn->getMessagesBlock()->getSuccessMessages();

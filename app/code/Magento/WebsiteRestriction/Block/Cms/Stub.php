@@ -27,7 +27,7 @@ class Stub extends \Magento\Cms\Block\Page
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\View\Page\Config $pageConfig
@@ -37,7 +37,7 @@ class Stub extends \Magento\Cms\Block\Page
         \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\Registry $registry,
@@ -71,12 +71,9 @@ class Stub extends \Magento\Cms\Block\Page
     {
         $page = $this->getPage();
         $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
-
-        if ($head = $this->getLayout()->getBlock('head')) {
-            $head->setTitle($page->getTitle());
-            $head->setKeywords($page->getMetaKeywords());
-            $head->setDescription($page->getMetaDescription());
-        }
+        $this->pageConfig->setTitle($page->getTitle());
+        $this->pageConfig->setKeywords($page->getMetaKeywords());
+        $this->pageConfig->setDescription($page->getMetaDescription());
 
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {

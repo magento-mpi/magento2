@@ -29,5 +29,15 @@
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </actionsBlock>
+        <couponsBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\Coupons</class>
+            <locator>#order-coupons</locator>
+            <strategy>css selector</strategy>
+        </couponsBlock>
+        <customerActivitiesBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities</class>
+            <locator>.customer-current-activity</locator>
+            <strategy>css selector</strategy>
+        </customerActivitiesBlock>
     </blocks>
 </page>

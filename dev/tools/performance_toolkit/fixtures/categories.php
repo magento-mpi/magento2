@@ -31,6 +31,8 @@ $categoryIndex = 1;
 
 while ($categoryIndex <= $categoriesNumber) {
     $category->setId(null)
+        ->setUrlKey(null)
+        ->setUrlPath(null)
         ->setName("Category $categoryIndex")
         ->setParentId($parentCategoryId[$groupNumber])
         ->setPath($nestingPath[$groupNumber])

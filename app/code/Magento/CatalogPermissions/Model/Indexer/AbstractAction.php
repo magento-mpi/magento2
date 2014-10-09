@@ -11,7 +11,7 @@ use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionF
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
 
 abstract class AbstractAction

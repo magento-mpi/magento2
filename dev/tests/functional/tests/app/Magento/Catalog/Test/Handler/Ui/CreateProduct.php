@@ -34,9 +34,8 @@ class CreateProduct extends Ui
                 'set' => $fixture->getDataConfig()['create_url_params']['set']
             ]);
 
-        $productForm = $createProductPage->getProductForm();
-        $productForm->fill($fixture);
-        $createProductPage->getFormAction()->save();
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getProductForm()->fill($fixture);
+        $createProductPage->getFormPageActions()->save();
+        $createProductPage->getMessagesBlock()->waitSuccessMessage();
     }
 }

@@ -59,7 +59,7 @@ class CheckoutOnepageTest extends Functional
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         }
     }
 
@@ -114,8 +114,8 @@ class CheckoutOnepageTest extends Functional
     {
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        $paypalPage->getLoginBlock()->login($paypalCustomer);
-        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getLoginExpressBlock()->login($paypalCustomer);
+        $paypalPage->getReviewExpressBlock()->continueCheckout();
     }
 
     /**

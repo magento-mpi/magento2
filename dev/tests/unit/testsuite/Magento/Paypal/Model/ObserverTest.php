@@ -77,6 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             array('createBlock')
         )->disableOriginalConstructor()->getMock();
         $blocks = [
+            'Magento\Paypal\Block\Express\ShortcutContainer' => 'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\Express\Shortcut' => 'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\PayflowExpress\Shortcut' => 'Magento\Paypal\Block\Express\Shortcut',
             'Magento\Paypal\Block\Bml\Shortcut' => 'Magento\Paypal\Block\Bml\Shortcut',
@@ -111,62 +112,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
         $this->_event->setContainer($shortcutButtonsMock);
         $this->_model->addPaypalShortcuts($this->_observer);
-
-        foreach ($blockInstances as $instance) {
-            $this->assertEquals(\Magento\Paypal\Model\Observer::SHORTCUT_TEMPLATE, $instance->getTemplate());
-        }
-    }
-
-    /**
-     * @param object $methodInstance
-     * @param bool $isAllowed
-     * @param bool $isAvailable
-     * @dataProvider restrictAdminBillingAgreementUsageDataProvider
-     */
-    public function testRestrictAdminBillingAgreementUsage($methodInstance, $isAllowed, $isAvailable)
-    {
-        $this->_event->setMethodInstance($methodInstance);
-        $this->_authorization->expects(
-            $this->any()
-        )->method(
-            'isAllowed'
-        )->with(
-            'Magento_Paypal::use'
-        )->will(
-            $this->returnValue($isAllowed)
-        );
-        $result = new \stdClass();
-        $result->isAvailable = true;
-        $this->_event->setResult($result);
-        $this->_model->restrictAdminBillingAgreementUsage($this->_observer);
-        $this->assertEquals($isAvailable, $result->isAvailable);
-    }
-
-    public function restrictAdminBillingAgreementUsageDataProvider()
-    {
-        return array(
-            array(new \stdClass(), false, true),
-            array(
-                $this->getMockForAbstractClass(
-                    'Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement',
-                    array(),
-                    '',
-                    false
-                ),
-                true,
-                true
-            ),
-            array(
-                $this->getMockForAbstractClass(
-                    'Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement',
-                    array(),
-                    '',
-                    false
-                ),
-                false,
-                false
-            )
-        );
     }
 
     public function testAddBillingAgreementToSessionNoData()

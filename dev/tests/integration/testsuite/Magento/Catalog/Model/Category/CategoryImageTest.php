@@ -15,7 +15,7 @@
  */
 namespace Magento\Catalog\Model\Category;
 
-use Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest;
+use Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStream;
 
 class CategoryImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,12 +31,12 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_oldLogActive = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->getStore()->getConfig(
             'dev/log/active'
         );
         $this->_oldExceptionFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManagerInterface'
+            'Magento\Framework\StoreManagerInterface'
         )->getStore()->getConfig(
             'dev/log/exception_file'
         );
@@ -73,7 +73,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
          * Added a quick fix to be able run separate tests with "phpunit --filter testMethod"
          */
         if (class_exists('Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest', false)) {
-            StubZendLogWriterStreamTest::$exceptions = array();
+            StubZendLogWriterStream::$exceptions = array();
         }
     }
 
@@ -94,7 +94,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
             ->registry('_fixture/Magento\Catalog\Model\Category');
         $this->assertNotEmpty($category->getId());
 
-        foreach (StubZendLogWriterStreamTest::$exceptions as $exception) {
+        foreach (StubZendLogWriterStream::$exceptions as $exception) {
             $this->assertNotContains('$_FILES array is empty', $exception['message']);
         }
     }

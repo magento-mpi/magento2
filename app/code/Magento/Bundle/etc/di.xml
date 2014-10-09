@@ -38,12 +38,6 @@
         </arguments>
     </type>
     <virtualType name="Magento\Bundle\Pricing\Adjustment\Collection" type="Magento\Framework\Pricing\Adjustment\Collection">
-        <arguments>
-            <argument name="adjustments" xsi:type="array">
-                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE</item>
-                <item name="weee" xsi:type="const">Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE</item>
-            </argument>
-        </arguments>
     </virtualType>
     <preference for="Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface" type="Magento\Bundle\Pricing\Adjustment\Calculator" />
     <virtualType name="Magento\Bundle\Pricing\PriceInfo" type="Magento\Framework\Pricing\PriceInfo\Base">
@@ -59,7 +53,6 @@
                 <item name="tier_price" xsi:type="string">Magento\Bundle\Pricing\Price\TierPrice</item>
                 <item name="group_price" xsi:type="string">Magento\Bundle\Pricing\Price\GroupPrice</item>
                 <item name="special_price" xsi:type="string">Magento\Bundle\Pricing\Price\SpecialPrice</item>
-                <item name="msrp_price" xsi:type="string">Magento\Catalog\Pricing\Price\MsrpPrice</item>
                 <item name="custom_option_price" xsi:type="string">Magento\Catalog\Pricing\Price\CustomOptionPrice</item>
                 <item name="base_price" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
                 <item name="configured_price" xsi:type="string">Magento\Bundle\Pricing\Price\ConfiguredPrice</item>
@@ -85,6 +78,26 @@
     <type name="Magento\Bundle\Pricing\Price\FinalPrice">
         <arguments>
             <argument name="calculator" xsi:type="object">Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite">
+        <arguments>
+            <argument name="loadProcessors" xsi:type="array">
+                <item name="bundleProductLoadProcessor" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\Bundle\Service\V1\Product\BundleProductLoadProcessor</item>
+                    <item name="sortOrder" xsi:type="string">50</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite">
+        <arguments>
+            <argument name="saveProcessors" xsi:type="array">
+                <item name="bundleProductSaveProcessor" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\Bundle\Service\V1\Product\BundleProductSaveProcessor</item>
+                    <item name="sortOrder" xsi:type="string">50</item>
+                </item>
+            </argument>
         </arguments>
     </type>
 </config>

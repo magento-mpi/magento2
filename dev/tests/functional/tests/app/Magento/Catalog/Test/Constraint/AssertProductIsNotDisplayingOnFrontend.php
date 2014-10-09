@@ -146,13 +146,13 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $isProductVisible = $this->catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
-        while (!$isProductVisible && $this->catalogCategoryView->getToolbar()->nextPage()) {
+        while (!$isProductVisible && $this->catalogCategoryView->getBottomToolbar()->nextPage()) {
             $isProductVisible = $this->catalogCategoryView->getListProductBlock()
                 ->isProductVisible($product->getName());
         }
 
         if ($isProductVisible) {
-            $errors[] = '- product with name "{$product->getName()}" is found in this category.';
+            $errors[] = "- product with name '{$product->getName()}' is found in this category.";
         }
 
         return $errors;

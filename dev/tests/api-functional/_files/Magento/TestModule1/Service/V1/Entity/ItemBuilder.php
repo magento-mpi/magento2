@@ -46,6 +46,9 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObje
      */
     public function getCustomAttributesCodes()
     {
-        return [self::CUSTOM_ATTRIBUTE_1, self::CUSTOM_ATTRIBUTE_2, self::CUSTOM_ATTRIBUTE_3];
+        return array_merge(
+            parent::getCustomAttributesCodes(),
+            [self::CUSTOM_ATTRIBUTE_1, self::CUSTOM_ATTRIBUTE_2, self::CUSTOM_ATTRIBUTE_3]
+        );
     }
 }

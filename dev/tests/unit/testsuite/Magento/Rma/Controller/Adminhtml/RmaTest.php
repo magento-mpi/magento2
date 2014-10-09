@@ -112,6 +112,12 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
     protected $helperMock;
 
     /**
+     * @var \Magento\Rma\Model\Rma\RmaDataMapper|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rmaDataMapperMock;
+
+
+    /**
      * test setUp
      */
     public function setUp()
@@ -119,6 +125,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $contextMock = $this->getMock('Magento\Backend\App\Action\Context', [], [], '', false);
         $backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
+        $this->rmaDataMapperMock = $this->getMock('Magento\Rma\Model\Rma\RmaDataMapper', [], [], '', false);
         $this->viewMock = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
         $this->titleMock = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
         $this->formMock = $this->getMock('Magento\Framework\Data\Form', ['hasNewAttributes', 'toHtml'], [], '', false);
@@ -156,7 +163,8 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
             '\\Magento\\Rma\\Controller\\Adminhtml\\Rma\\' . $this->name,
             [
                 'context' => $contextMock,
-                'coreRegistry' => $this->coreRegistryMock
+                'coreRegistry' => $this->coreRegistryMock,
+                'rmaDataMapper' => $this->rmaDataMapperMock
             ]
         );
     }
@@ -236,6 +244,14 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
     protected function initRequestData($commentText = '', $visibleOnFront = true)
     {
         $rmaConfirmation = true;
+        $post = [
+            'items' => [],
+            'rma_confirmation' => $rmaConfirmation,
+            'comment' => [
+                'comment' => $commentText,
+                'is_visible_on_front' => $visibleOnFront,
+            ]
+        ];
         $this->requestMock->expects($this->once())
             ->method('isPost')
             ->will($this->returnValue(true));
@@ -253,5 +269,6 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
                     ]
                 )
             );
+        return $post;
     }
 }

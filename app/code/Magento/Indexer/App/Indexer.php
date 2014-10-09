@@ -7,6 +7,8 @@
  */
 namespace Magento\Indexer\App;
 
+use Magento\Framework\App;
+
 class Indexer implements \Magento\Framework\AppInterface
 {
     /**
@@ -20,11 +22,6 @@ class Indexer implements \Magento\Framework\AppInterface
      * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
-
-    /**
-     * @var \Magento\Index\Model\IndexerFactory
-     */
-    protected $_indexerFactory;
 
     /**
      * @param string $reportDir
@@ -59,5 +56,13 @@ class Indexer implements \Magento\Framework\AppInterface
         $this->processor->reindexAll();
 
         return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
+    {
+        return false;
     }
 }

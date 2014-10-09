@@ -14,7 +14,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class AdvancedSearchTest
  * Searching product in the Frontend via advanced search
- *
  */
 class AdvancedSearchTest extends Functional
 {

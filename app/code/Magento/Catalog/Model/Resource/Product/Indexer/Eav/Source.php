@@ -147,7 +147,7 @@ class Source extends AbstractEav
         }
 
         /**@var $select \Magento\Framework\DB\Select*/
-        $select = $adapter->select()->from(
+        $select = $adapter->select()->distinct(true)->from(
             array('pid' => new \Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
             array()
         )->joinLeft(
@@ -169,6 +169,11 @@ class Source extends AbstractEav
         $select->where($this->_resourceHelper->getIsNullNotNullCondition('pis.value', 'pid.value'));
 
         /**
+         * Exclude attribute values that contains NULL
+         */
+        $select->where('NOT(pis.value IS NULL AND pis.value_id IS NOT NULL)');
+
+        /**
          * Add additional external limitation
          */
         $this->_eventManager->dispatch(
@@ -180,7 +185,6 @@ class Source extends AbstractEav
                 'store_field' => new \Zend_Db_Expr('pid.store_id')
             )
         );
-
         $query = $select->insertFromSelect($idxTable);
         $adapter->query($query);
 

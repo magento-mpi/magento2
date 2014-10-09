@@ -17,7 +17,7 @@ class Product extends DataFixture
      * Attribute set for mapping data into ui tabs
      */
     const GROUP_PRODUCT_DETAILS     = 'product-details';
-    const GROUP_ADVANCED_SEO        = 'search-optimization';
+    const GROUP_ADVANCED_SEO        = 'search-engine-optimization';
     const GROUP_PRODUCT_WEBSITE     = 'websites';
     const GROUP_PRODUCT_INVENTORY   = 'advanced-inventory';
     const GROUP_PRODUCT_PRICING     = 'advanced-pricing';
@@ -146,7 +146,7 @@ class Product extends DataFixture
                         ->getMagentoDownloadableDownloadableProductLinksNotPurchasedSeparately();
                     break;
                 case 'configurable':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+                    $product = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
                     break;
                 default:
                     throw new \InvalidArgumentException(
@@ -229,7 +229,7 @@ class Product extends DataFixture
      *
      * @return string
      */
-    public function getProductSku()
+    public function getSku()
     {
         return $this->getData('fields/sku/value');
     }
@@ -363,5 +363,15 @@ class Product extends DataFixture
     public function getProductMapPrice()
     {
         return $this->getData('fields/msrp/value');
+    }
+
+    /**
+     * Get checkout data for fill options of product
+     *
+     * @return array|null
+     */
+    public function getCheckoutData()
+    {
+        return $this->getData('fields/checkout_data');
     }
 }

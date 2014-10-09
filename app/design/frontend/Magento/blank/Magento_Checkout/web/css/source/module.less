@@ -15,10 +15,10 @@
 //    One Page Checkout
 //--------------------------------------
 .opc-wrapper {
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     .css(padding-bottom, @indent-xl-base);
     > .opc {
-        &:extend(.reset-list all);
+        &:extend(.abstract-reset-list all);
     }
     .section {
         &.allow .step-title {
@@ -120,8 +120,9 @@
             .price {
                 font-weight: @font-weight-bold;
             }
+            &:extend(.abstract-adjustment-incl-excl-tax all);
         }
-        .price.box {
+        .price-box {
             margin-left: 20px;
             .label + .price {
                 font-weight: @font-weight-bold;
@@ -157,7 +158,7 @@
 
     // Order review
     .data.table {
-        &:extend(.product-options-list all);
+        &:extend(.abstract-product-options-list all);
         .table-caption(@_table-caption-hide: true);
         tbody tr:first-child td {
             border-top: @border-width-base solid @border-color-base;
@@ -173,9 +174,6 @@
                 white-space: nowrap;
             }
         }
-        th.col.subtotal {
-            text-align: center;
-        }
         .mark,
         .amount {
             text-align: right;
@@ -189,7 +187,7 @@
         .review-item-options {
             font-size: @font-size-s;
             margin: 10px 0 0;
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-add-clearfix all);
         }
     }
 
@@ -205,7 +203,7 @@
     .login-wrapper {
         .block {
             > .title {
-                &:extend(.login-block-title all);
+                &:extend(.abstract-login-block-title all);
             }
             .fieldset.guest {
                 margin-top: 20px;
@@ -221,11 +219,15 @@
     }
 }
 
+.cart-tax-info + .cart-tax-total {
+    display: block;
+}
+
 //
 //    Checkout Progress
 //--------------------------------------
 .opc-block-progress {
-    &:extend(.add-box-sizing all);
+    &:extend(.abstract-add-box-sizing all);
     margin-bottom: @indent-l-base;
     > .title {
         background: @sidebar-background;
@@ -302,7 +304,7 @@
 .responsive-smaller(@break) when (@break = @screen-m) {
     .opc-wrapper {
         .data.table {
-            &:extend(.table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile all);
             tbody tr {
                 &:first-child,
                 &:last-child {
@@ -330,12 +332,12 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .checkout-onepage-index .column.main {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
     }
 
     .opc-wrapper {
         .layout-column(2, 2, @layout-column-checkout-main-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         .step-content {
             padding: 20px 18px 40px;
             .addresses .control {
@@ -346,7 +348,7 @@
                     text-align: right;
                 }
                 &:not(.login) .actions-toolbar {
-                    &:extend(.reset-left-margin-desktop all);
+                    &:extend(.abstract-reset-left-margin-desktop all);
                 }
                 > .field.choice,
                 .fieldset > .field {
@@ -360,7 +362,7 @@
             }
             .fieldset.login {
                 &:after {
-                    &:extend(.margin-for-forms-desktop all);
+                    &:extend(.abstract-margin-for-forms-desktop all);
                     text-align: left;
                 }
             }
@@ -370,11 +372,11 @@
     .opc-block-progress {
         .layout-column(2, 1, @layout-column-checkout-left-width);
         padding-right: @layout-column-main-sidebar-offset;
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
     }
 
     .login-wrapper {
-        &:extend(.add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop all);
         .block {
             &:extend(.blocks-2columns all);
         }
@@ -385,7 +387,7 @@
         }
         .fieldset.login {
             .actions {
-                &:extend(.margin-for-forms-desktop all);
+                &:extend(.abstract-margin-for-forms-desktop all);
             }
         }
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <globalSearch module="Magento_Backend">
+        <type>virtual</type>
+        <entity_type>global_search</entity_type>
+    </globalSearch>
+</fixture>

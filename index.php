@@ -5,10 +5,12 @@
  * Example - run a particular store or website:
  * --------------------------------------------
  * $params = $_SERVER;
- * $params['MAGE_RUN_CODE'] = 'website2';
- * $params['MAGE_RUN_TYPE'] = 'website';
- * ...
- * $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $params);
+ * $params[StoreManager::PARAM_RUN_CODE] = 'website2';
+ * $params[StoreManager::PARAM_RUN_TYPE] = 'website';
+ * $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
+ * \/** @var \Magento\Framework\App\Http $app *\/
+ * $app = $bootstrap->createApplication('Magento\Framework\App\Http');
+ * $bootstrap->run($app);
  * --------------------------------------------
  *
  * {license_notice}
@@ -16,6 +18,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+
 require __DIR__ . '/app/bootstrap.php';
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
-$entryPoint->run('Magento\Framework\App\Http');
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+/** @var \Magento\Framework\App\Http $app */
+$app = $bootstrap->createApplication('Magento\Framework\App\Http');
+$bootstrap->run($app);

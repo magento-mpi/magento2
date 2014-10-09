@@ -38,7 +38,7 @@ class Link extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Set element Id
+     * @inheritdoc
      */
     protected function _construct()
     {

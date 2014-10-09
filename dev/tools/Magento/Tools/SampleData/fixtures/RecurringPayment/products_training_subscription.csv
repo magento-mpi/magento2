@@ -1,0 +1,148 @@
+category;name;sku;price;qty;description;topics;duration;package;benefits;is_recurring;period_frequency;trial_billing_amount;attribute_set
+"Training
+Subscription";Basic-6-month;241-MB06;12;100;"<p>Our Basic Luma Subscription includes these membership benefits:</p>
+<ul>
+<li>All-Access Video</li>
+<li>Weekly Newsletter</li>
+<li>Community boards</li>
+<li>Recipes and Library</li>
+<li>Expert tips</li>
+</ul>";"Training
+Education";6 months;Basic;"All-Access Video
+Weekly Newsletter
+Community boards
+Recipes and Library
+Expert tips";1;6;6;Membership
+"Training
+Subscription";Basic-12-month;241-MB12;10;100;"<p>Our Basic Luma Subscription includes these membership benefits:</p>
+<ul>
+<li>All-Access Video</li>
+<li>Weekly Newsletter</li>
+<li>Community boards</li>
+<li>Recipes and Library</li>
+<li>Expert tips</li>
+</ul>";"Training
+Education
+Discounts";12 months;Basic;"All-Access Video
+Weekly Newsletter
+Community boards
+Recipes and Library
+Expert tips";1;12;5;Membership
+"Training
+Subscription";Gold-6-month;242-MB06;18;100;"<p>Our Gold Luma Subscription includes these membership benefits:</p>
+<ul>
+<li>All-Access Video
+<li>Weekly Newsletter
+<li>Community boards
+<li>Recipes and Library
+<li>Expert tips
+<li>Free 2-day Shipping
+<li>LumaTrak App
+<li>Luma Visa®
+<li>Luma Partner Program
+</ul>";"Training
+Education
+Discounts
+Coaching";6 months;"Basic
+Gold";"All-Access Video
+Weekly Newsletter
+Community boards
+Recipes and Library
+Expert tips
+Free 2-day Shipping
+LumaTrak App
+Luma Visa®
+Luma Partner Program";1;6;9;Membership
+"Training
+Subscription";Gold-12-month;242-MB12;14;100;"<p>Our Gold Luma Subscription includes these membership benefits:</p>
+<ul>
+<li>All-Access Video
+<li>Weekly Newsletter
+<li>Community boards
+<li>Recipes and Library
+<li>Expert tips
+<li>Free 2-day Shipping
+<li>LumaTrak App
+<li>Luma Visa®
+<li>Luma Partner Program
+</ul>";"Training
+Education
+Discounts
+Coaching";12 months;"Basic
+Gold";"All-Access Video
+Weekly Newsletter
+Community boards
+Recipes and Library
+Expert tips
+Free 2-day Shipping
+LumaTrak App
+Luma Visa®
+Luma Partner Program";1;12;7;Membership
+"Training
+Subscription";Deluxe-6-month;241-MB08;24;100;"<p>Our Deluxe Luma Subscription includes these membership benefits:</p>
+<ul>
+<li>All-Access Video
+<li>Weekly Newsletter
+<li>Community boards
+<li>Recipes and Library
+<li>Expert tips
+<li>Free 2-day Shipping
+<li>LumaTrak App
+<li>Luma Visa®
+<li>Luma Partner Program
+<li>Product Discounts
+<li>Annual refund
+<li>Live coach
+<li>Custom workout programming
+</ul>";"Training
+Discounts
+Coaching
+Education";6 months;"Basic
+Gold
+Deluxe ";"All-Access Video
+Weekly Newsletter
+Community boards
+Recipes and Library
+Expert tips
+Free 2-day Shipping
+LumaTrak App
+Luma Visa®
+Luma Partner Program
+Product Discounts
+Annual refund
+Live coach
+Custom workout programming";1;6;12;Membership
+"Training
+Subscription";Deluxe-12-month;243-MB06;20;100;"<p>Our Deluxe Luma Subscription includes these membership benefits:</p>
+<ul>
+<li>All-Access Video
+<li>Weekly Newsletter
+<li>Community boards
+<li>Recipes and Library
+<li>Expert tips
+<li>Free 2-day Shipping
+<li>LumaTrak App
+<li>Luma Visa®
+<li>Luma Partner Program
+<li>Product Discounts
+<li>Annual refund
+<li>Live coach
+<li>Custom workout programming
+</ul>";"Training
+Discounts
+Coaching
+Education";12 months;"Basic
+Gold
+Deluxe ";"All-Access Video
+Weekly Newsletter
+Community boards
+Recipes and Library
+Expert tips
+Free 2-day Shipping
+LumaTrak App
+Luma Visa®
+Luma Partner Program
+Product Discounts
+Annual refund
+Live coach
+Custom workout programming";1;12;10;Membership

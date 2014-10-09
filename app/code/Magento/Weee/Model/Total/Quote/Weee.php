@@ -7,6 +7,7 @@
  */
 namespace Magento\Weee\Model\Total\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Tax\Model\Calculation;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
@@ -62,11 +63,19 @@ class Weee extends AbstractTotal
     protected $weeeBaseTotalExclTax;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Weee\Helper\Data $weeeData
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
-        \Magento\Weee\Helper\Data $weeeData
+        \Magento\Weee\Helper\Data $weeeData,
+        PriceCurrencyInterface $priceCurrency
     ) {
+        $this->priceCurrency = $priceCurrency;
         $this->weeeData = $weeeData;
         $this->setCode('weee');
         $this->weeeCodeToItemMap = [];
@@ -150,10 +159,12 @@ class Weee extends AbstractTotal
             $title          = $attribute->getName();
 
             $baseValueExclTax = $baseValueInclTax = $attribute->getAmount();
-            $valueExclTax = $valueInclTax = $this->_store->roundPrice($this->_store->convertPrice($baseValueExclTax));
+            $valueExclTax = $valueInclTax = $this->priceCurrency->round(
+                $this->priceCurrency->convert($baseValueExclTax, $this->_store)
+            );
 
-            $rowValueInclTax = $rowValueExclTax = $this->_store->roundPrice($valueInclTax * $item->getTotalQty());
-            $baseRowValueInclTax = $this->_store->roundPrice($baseValueInclTax * $item->getTotalQty());
+            $rowValueInclTax = $rowValueExclTax = $this->priceCurrency->round($valueInclTax * $item->getTotalQty());
+            $baseRowValueInclTax = $this->priceCurrency->round($baseValueInclTax * $item->getTotalQty());
             $baseRowValueExclTax = $baseRowValueInclTax;
 
             $totalValueInclTax += $valueInclTax;
@@ -230,16 +241,16 @@ class Weee extends AbstractTotal
     {
         if (!$this->weeeData->isTaxable($this->_store)) {
             //Accumulate the values.  Will be used later in the 'weee tax' collector
-            $this->weeeTotalExclTax += $this->_store->roundPrice($rowValueExclTax);
-            $this->weeeBaseTotalExclTax += $this->_store->roundPrice($baseRowValueExclTax);
+            $this->weeeTotalExclTax += $this->priceCurrency->round($rowValueExclTax);
+            $this->weeeBaseTotalExclTax += $this->priceCurrency->round($baseRowValueExclTax);
         }
 
         //This value is used to calculate shipping cost; it will be overridden by tax collector
         $address->setSubtotalInclTax(
-            $address->getSubtotalInclTax() + $this->_store->roundPrice($rowValueInclTax)
+            $address->getSubtotalInclTax() + $this->priceCurrency->round($rowValueInclTax)
         );
         $address->setBaseSubtotalInclTax(
-            $address->getBaseSubtotalInclTax() + $this->_store->roundPrice($baseRowValueInclTax)
+            $address->getBaseSubtotalInclTax() + $this->priceCurrency->round($baseRowValueInclTax)
         );
         return $this;
     }

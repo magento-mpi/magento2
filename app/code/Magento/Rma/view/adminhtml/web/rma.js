@@ -30,6 +30,7 @@ AdminRma.prototype = {
         this.gridProducts           = $H({});
         this.grid                   = false;
         this.itemDivPrefix          = 'itemDiv_';
+        this.formKey                = false;
         this.loadProductsCallback = function () {};
     },
 
@@ -162,8 +163,18 @@ AdminRma.prototype = {
         $(divId).show().setStyle({
             'marginTop': -$(divId).getDimensions().height / 2 + 'px'
         });
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
+        );
         $('popup-window-mask').setStyle({
-            height: $('html-body').getHeight() + 'px'
+            height: height + 'px'
         }).show();
     },
 
@@ -174,7 +185,9 @@ AdminRma.prototype = {
         $$('.rma-popup [name=items_selector]').each(function(input) {
             input.checked = false;
         });
-        $('details_container').childElements().each(Element.hide);
+        if ($('details_container')) {
+            $('details_container').childElements().each(Element.hide);
+        }
         $$('.rma-popup').each(Element.hide);
         $('popup-window-mask').hide();
     },
@@ -390,20 +403,20 @@ AdminRma.prototype = {
         var url = this.getLoadAttributesLink(this.newRmaItemId);
         var hasUserAttributes = false;
 
-//        if (this.bundleArray[idElement.value] !== undefined) {
-//            var obj = this.bundleArray[idElement.value];
-//            for(var key in obj) {
-//                this.addOrderItemToGrid(obj[key], className);
-//            }
-//        } else {
-//            var orderItem = this.getOrderItem(idElement);
-//            this.addOrderItemToGrid(orderItem, className);
-//        }
+        //if (this.bundleArray[idElement.value] !== undefined) {
+        //    var obj = this.bundleArray[idElement.value];
+        //    for(var key in obj) {
+        //        this.addOrderItemToGrid(obj[key], className);
+        //    }
+        //} else {
+        //    var orderItem = this.getOrderItem(idElement);
+        //    this.addOrderItemToGrid(orderItem, className);
+        //}
 
         new Ajax.Request(url, {
             onSuccess: function(transport) {
                 var response = transport.responseText;
-                if (response.length !== 0) {
+               if (response.length !== 0) {
                     hasUserAttributes = true;
                 }
                 if (self.bundleArray[idElement.value] !== undefined) {
@@ -701,30 +714,42 @@ AdminRma.prototype = {
         this.loadPslUrl  = url;
     },
 
+    setFormKey: function(formKey) {
+        this.formKey = formKey;
+    },
+
     showShippingMethods: function() {
-        var url         = this.loadShippingMethodsUrl;
         var parentDiv   = $('get-psl');
         var divId       = 'get-shipping-method';
 
         if ($(divId)) {
             this.showPopup(divId);
         } else {
-            new Ajax.Request(url, {
-                onSuccess: function(transport) {
+            var ajaxSettings = {
+                url: this.loadShippingMethodsUrl,
+                showLoader: true,
+                data: {form_key: this.formKey},
+                success: function(data, textStatus, transport) {
                     var response = transport.responseText;
                     parentDiv.insert({
                         after: new Element('div', {id: divId}).update(response).addClassName('rma-popup')
                     });
                     this.showPopup(divId);
-                    Event.observe($('get-shipping-method-cancel-button'), 'click', this.shippingMethodsCancelButton.bind(this));
-                    Event.observe($('get-shipping-method-ok-button'), 'click', this.shippingMethodsCancelButton.bind(this));
-
-                    var this_rma = this;
-                    $$('input[id^="s_method_"]').each(function(element){
-                        Event.observe(element, 'click', this_rma.showLabelPopup.bind(this_rma, element.value));
+                    $('get-shipping-method-cancel-button').on('click', this.shippingMethodsCancelButton.bind(this));
+                    var thisRma = this;
+                    $$("input[id^='s_method_']").each(function(element) {
+                        $(element).on("click", function () {
+                            $('get-shipping-method-ok-button').enable().on(
+                                "click",
+                                function() {
+                                    thisRma.showLabelPopup(element.value)
+                                }
+                            );
+                        });
                     });
                 }.bind(this)
-            });
+            };
+            jQuery.ajax(ajaxSettings);
         }
     },
 
@@ -735,13 +760,17 @@ AdminRma.prototype = {
     showLabelPopup: function(method) {
         this.hidePopups();
         var url = this.loadPslUrl + 'method/' + method + '?isAjax=true';
-        new Ajax.Request(url, {
-            onSuccess: function(transport) {
+        var ajaxSettings = {
+            url: url,
+            showLoader:true,
+            data: {form_key: this.formKey},
+            success: function(data, textStatus, transport) {
                 var response = transport.responseText;
                 $('get-psl').update(response);
                 this.showWindow(method);
             }.bind(this)
-        });
+        };
+        jQuery.ajax(ajaxSettings);
     },
 
     cancelPack: function() {

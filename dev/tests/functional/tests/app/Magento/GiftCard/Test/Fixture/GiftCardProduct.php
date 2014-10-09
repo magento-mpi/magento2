@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCard\Test\Fixture;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftCardProduct
@@ -17,7 +17,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class GiftCardProduct extends CatalogProductSimple
+class GiftCardProduct extends InjectableFixture
 {
     /**
      * @var string
@@ -47,7 +47,17 @@ class GiftCardProduct extends CatalogProductSimple
         'attribute_set_id' => ['dataSet' => 'default']
     ];
 
+    protected $name = [
+        'attribute_code' => 'name',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'product-details',
+    ];
+
     protected $dataConfig = [
+        'type_id' => 'giftcard',
         'create_url_params' => [
             'type' => 'giftcard',
             'set' => '4',
@@ -70,6 +80,24 @@ class GiftCardProduct extends CatalogProductSimple
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'product-details',
+    ];
+
+    protected $url_key = [
+        'attribute_code' => 'url_key',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'search-engine-optimization',
+    ];
+
+    protected $sku = [
+        'attribute_code' => 'sku',
+        'backend_type' => 'static',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
         'group' => 'product-details',
     ];
 
@@ -227,9 +255,115 @@ class GiftCardProduct extends CatalogProductSimple
         'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\Price',
     ];
 
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => null,
+        'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\CheckoutData',
+    ];
+
+    protected $quantity_and_stock_status = [
+        'attribute_code' => 'quantity_and_stock_status',
+        'backend_type' => 'array',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => '',
+        'group' => 'product-details',
+    ];
+
+    protected $visibility = [
+        'attribute_code' => 'visibility',
+        'backend_type' => 'int',
+        'is_required' => '0',
+        'default_value' => 'Catalog, Search',
+        'input' => 'select',
+        'group' => 'autosettings',
+    ];
+
+    protected $special_price = [
+        'attribute_code' => 'special_price',
+        'backend_type' => 'decimal',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'price',
+        'group' => 'advanced-pricing',
+    ];
+
+    protected $description = [
+        'attribute_code' => 'description',
+        'backend_type' => 'text',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'textarea',
+        'group' => 'product-details',
+    ];
+
+    protected $short_description = [
+        'attribute_code' => 'short_description',
+        'backend_type' => 'text',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'textarea',
+        'group' => 'autosettings',
+    ];
+
+    protected $category_ids = [
+        'attribute_code' => 'category_ids',
+        'backend_type' => 'static',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
+    ];
+
+    protected $custom_options = [
+        'attribute_code' => 'custom_options',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'customer-options',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+    ];
+
+    protected $status = [
+        'attribute_code' => 'status',
+        'backend_type' => 'int',
+        'is_required' => '0',
+        'default_value' => 'Product online',
+        'input' => 'checkbox',
+        'group' => 'product-details',
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
+        'group' => 'websites',
+    ];
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
+    }
+
+    public function getName()
+    {
+        return $this->getData('name');
+    }
+
     public function getAllowMessage()
     {
         return $this->getData('allow_message');
+    }
+
+    public function getUrlKey()
+    {
+        return $this->getData('url_key');
+    }
+
+    public function getSku()
+    {
+        return $this->getData('sku');
     }
 
     public function getAllowOpenAmount()
@@ -320,5 +454,50 @@ class GiftCardProduct extends CatalogProductSimple
     public function getUseConfigLifetime()
     {
         return $this->getData('use_config_lifetime');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
+    }
+
+    public function getQuantityAndStockStatus()
+    {
+        return $this->getData('quantity_and_stock_status');
+    }
+
+    public function getVisibility()
+    {
+        return $this->getData('visibility');
+    }
+
+    public function getSpecialPrice()
+    {
+        return $this->getData('special_price');
+    }
+
+    public function getDescription()
+    {
+        return $this->getData('description');
+    }
+
+    public function getShortDescription()
+    {
+        return $this->getData('short_description');
+    }
+
+    public function getCategoryIds()
+    {
+        return $this->getData('category_ids');
+    }
+
+    public function getCustomOptions()
+    {
+        return $this->getData('custom_options');
+    }
+
+    public function getStatus()
+    {
+        return $this->getData('status');
     }
 }
