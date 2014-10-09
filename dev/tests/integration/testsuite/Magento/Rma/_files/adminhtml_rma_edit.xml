@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit" name="magento_rma_edit" />
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/details.phtml" />
