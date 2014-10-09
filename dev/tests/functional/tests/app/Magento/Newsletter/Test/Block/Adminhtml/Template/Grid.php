@@ -28,6 +28,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     ];
 
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = 'td.col-template';
+
+    /**
      * Locator for "Action"
      *
      * @var string
