@@ -10,7 +10,6 @@ namespace Magento\Customer\Test\Constraint;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Fixture\FixtureFactory;
@@ -39,7 +38,6 @@ class AssertCustomerPasswordChanged extends AbstractConstraint
      * @param FixtureFactory $fixtureFactory
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountIndex $customerAccountIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerInjectable $initialCustomer
      * @param CustomerInjectable $customer
      * @return void
@@ -48,7 +46,6 @@ class AssertCustomerPasswordChanged extends AbstractConstraint
         FixtureFactory $fixtureFactory,
         CmsIndex $cmsIndex,
         CustomerAccountIndex $customerAccountIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerInjectable $initialCustomer,
         CustomerInjectable $customer
     ) {

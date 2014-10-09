@@ -35,7 +35,7 @@ class Info extends Block
      *
      * @var string
      */
-    protected $dashboardWelcome = '.block-dashboard-welcome';
+    protected $dashboardWelcome = '.block-dashboard-welcome .block-title';
 
     /**
      * Click on Contact Information Edit Link
@@ -64,8 +64,6 @@ class Info extends Block
      */
     public function getWelcomeText()
     {
-        $text = explode("\n", $this->_rootElement->find($this->dashboardWelcome)->getText());
-
-        return $text[0];
+        return $this->_rootElement->find($this->dashboardWelcome)->getText();
     }
 }
