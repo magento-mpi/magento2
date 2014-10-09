@@ -81,11 +81,11 @@ class Container implements Layout\ReaderInterface
                     $currentElement,
                     $parentElement
                 );
-                $this->_mergeContainerAttributes($readerContext->getScheduledStructure(), $currentElement);
+                $this->mergeContainerAttributes($readerContext->getScheduledStructure(), $currentElement);
                 break;
 
             case self::TYPE_REFERENCE_CONTAINER:
-                $this->_mergeContainerAttributes($readerContext->getScheduledStructure(), $currentElement);
+                $this->mergeContainerAttributes($readerContext->getScheduledStructure(), $currentElement);
                 break;
 
             default:
@@ -101,7 +101,7 @@ class Container implements Layout\ReaderInterface
      * @param \Magento\Framework\View\Layout\Element $currentElement
      * @return void
      */
-    protected function _mergeContainerAttributes(
+    protected function mergeContainerAttributes(
         Layout\ScheduledStructure $scheduledStructure,
         Layout\Element $currentElement
     ) {
