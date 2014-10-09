@@ -149,7 +149,7 @@ class Handler
      * Convert service response into format acceptable by SoapServer.
      *
      * @param object|array|string|int|float|null $data
-     * @param mixed $dataType
+     * @param string $dataType
      * @return array
      * @throws \InvalidArgumentException
      */

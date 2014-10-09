@@ -35,7 +35,8 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
             'required_billing' => 'false'
         ];
 
-        $outputData = $this->dataObjectProcessor->buildOutputDataArray($testDataObject);
+        $testDataObjectType = 'Magento\Framework\Service\Files\TestDataInterface';
+        $outputData = $this->dataObjectProcessor->buildOutputDataArray($testDataObject, $testDataObjectType);
         $this->assertEquals($expectedOutputDataArray, $outputData);
     }
 }

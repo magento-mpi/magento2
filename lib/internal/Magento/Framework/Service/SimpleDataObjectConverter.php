@@ -151,7 +151,7 @@ class SimpleDataObjectConverter
      * contents and convert each piece individually.
      *
      * @param mixed $data
-     * @param mixed $dataType
+     * @param string $dataType
      * @return array|int|string|bool|float Scalar or array of scalars
      */
     public function processServiceOutput($data, $dataType)
@@ -160,13 +160,13 @@ class SimpleDataObjectConverter
             $result = [];
             foreach ($data as $datum) {
                 if (is_object($datum)) {
-                    $datum = $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($datum));
+                    $datum = $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($datum, $dataType));
                 }
                 $result[] = $datum;
             }
             return $result;
         } else if (is_object($data)) {
-            return $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($data));
+            return $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } else if (is_null($data)) {
             return [];
         } else {

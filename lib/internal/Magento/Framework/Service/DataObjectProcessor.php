@@ -16,12 +16,12 @@ class DataObjectProcessor
      * Use class reflection on given data interface to build output data array
      *
      * @param mixed $dataObject
+     * @param string $dataObjectType
      * @return array
      */
-    public function buildOutputDataArray($dataObject)
+    public function buildOutputDataArray($dataObject, $dataObjectType)
     {
-        $className = get_class($dataObject);
-        $class = new ClassReflection($className);
+        $class = new ClassReflection($dataObjectType);
         $methods = $class->getMethods();
 
         $outputData = [];
