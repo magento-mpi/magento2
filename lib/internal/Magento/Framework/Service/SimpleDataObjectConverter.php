@@ -152,9 +152,10 @@ class SimpleDataObjectConverter
      * contents and convert each piece individually.
      *
      * @param mixed $data
+     * @param mixed $dataType
      * @return array|int|string|bool|float Scalar or array of scalars
      */
-    public function processServiceOutput($data)
+    public function processServiceOutput($data, $dataType)
     {
         if (is_array($data)) {
             $result = [];
