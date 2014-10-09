@@ -37,7 +37,7 @@
     <module name="Magento_Rma" active="true" />
     <module name="Magento_SalesArchive" active="true" />
     <module name="Magento_ScheduledImportExport" active="true" />
-    <module name="Magento_Search" active="true" />
+    <module name="Magento_Solr" active="true" />
     <module name="Magento_TargetRule" active="true" />
     <module name="Magento_WebsiteRestriction" active="true" />
     <module name="Magento_MultipleWishlist" active="true" />
