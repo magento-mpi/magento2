@@ -13,14 +13,12 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts;
 
 /**
  * Class AbstractAddRelatedProductsEntityTest
  * Base class for add related products entity test
  */
-class AbstractAddRelatedProductsEntityTest extends Injectable
+abstract class AbstractAddRelatedProductsEntityTest extends Injectable
 {
     /**
      * Fixture factory
@@ -75,15 +73,37 @@ class AbstractAddRelatedProductsEntityTest extends Injectable
     }
 
     /**
-     * Run test add related products entity
+     * Get product by data
      *
      * @param string $productData
-     * @param string $relatedProductsData
-     * @return array
+     * @param array $relatedProductsData
+     * @return FixtureInterface
      */
-    public function test($productData, $relatedProductsData)
+    protected function getProductByData($productData, array $relatedProductsData)
     {
-        $product = $this->createProduct($productData, $relatedProductsData);
+        list($fixtureName, $dataSet) = explode('::', $productData);
+        $relatedProductsPresets = [];
+        foreach ($relatedProductsData as $type => $presets) {
+            $relatedProductsPresets[$type]['presets'] = $presets;
+        }
+
+        return $this->fixtureFactory->createByCode(
+            $fixtureName,
+            [
+                'dataSet' => $dataSet,
+                'data' => $relatedProductsPresets
+            ]
+        );
+    }
+
+    /**
+     * Create and save product
+     *
+     * @param FixtureInterface $product
+     * @return void
+     */
+    protected function createAndSaveProduct(FixtureInterface $product)
+    {
         $dataConfig = $product->getDataConfig();
         $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
 
@@ -91,35 +111,5 @@ class AbstractAddRelatedProductsEntityTest extends Injectable
         $this->catalogProductIndex->getGridPageActionBlock()->addProduct($typeId);
         $this->catalogProductNew->getProductForm()->fill($product);
         $this->catalogProductNew->getFormPageActions()->save($product);
-
-        /** @var RelatedProducts $relatedProducts*/
-        $relatedProducts = $product->getDataFieldConfig($this->typeRelatedProducts)['source'];
-        return [
-            'product' => $product,
-            'relatedProducts' => $relatedProducts->getProducts()
-        ];
-    }
-
-    /**
-     * Create product
-     *
-     * @param string $productData
-     * @param string $relatedProductsData
-     * @return FixtureInterface
-     */
-    protected function createProduct($productData, $relatedProductsData)
-    {
-        list($fixtureCode, $dataSet) = explode('::', $productData);
-        return $this->fixtureFactory->createByCode(
-            $fixtureCode,
-            [
-                'dataSet' => $dataSet,
-                'data' => [
-                    $this->typeRelatedProducts => [
-                        'presets' => $relatedProductsData
-                    ]
-                ]
-            ]
-        );
     }
 }

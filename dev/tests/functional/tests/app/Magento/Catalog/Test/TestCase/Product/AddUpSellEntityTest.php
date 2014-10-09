@@ -8,6 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts;
+
 /**
  * Class AddUpSellEntityTest
  *
@@ -29,9 +31,22 @@ namespace Magento\Catalog\Test\TestCase\Product;
 class AddUpSellEntityTest extends AbstractAddRelatedProductsEntityTest
 {
     /**
-     * Type of related products
+     * Run test add up sell products entity
      *
-     * @var string
+     * @param string $productData
+     * @param string $upSellProductsData
+     * @return array
      */
-    protected $typeRelatedProducts = 'up_sell_products';
+    public function test($productData, $upSellProductsData)
+    {
+        $product = $this->getProductByData($productData, ['up_sell_products' => $upSellProductsData]);
+        $this->createAndSaveProduct($product);
+
+        /** @var UpSellProducts $upSellProducts */
+        $upSellProducts = $product->getDataFieldConfig('up_sell_products')['source'];
+        return [
+            'product' => $product,
+            'relatedProducts' => $upSellProducts->getProducts()
+        ];
+    }
 }

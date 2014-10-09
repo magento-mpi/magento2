@@ -8,6 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts;
+
 /**
  * Class AddRelatedProductsEntityTest
  *
@@ -18,12 +20,12 @@ namespace Magento\Catalog\Test\TestCase\Product;
  * 2. Create Configurable Product
 
  * Steps:
- * Open Backend
- * Go to Products> Catalog
- * Add Product
- * Fill data according to dataSet
- * Save product
- * Perform all assertions
+ * 1. Open Backend
+ * 2. Go to Products> Catalog
+ * 3. Add Product
+ * 4. Fill data according to dataSet
+ * 5. Save product
+ * 6. Perform all assertions
  *
  * @group Related_Products_(MX)
  * @ZephyrId MAGETWO-29352
@@ -31,9 +33,22 @@ namespace Magento\Catalog\Test\TestCase\Product;
 class AddRelatedProductsEntityTest extends AbstractAddRelatedProductsEntityTest
 {
     /**
-     * Type of related products
+     * Run test add related products entity
      *
-     * @var string
+     * @param string $productData
+     * @param string $relatedProductsData
+     * @return array
      */
-    protected $typeRelatedProducts = 'related_products';
+    public function test($productData, $relatedProductsData)
+    {
+        $product = $this->getProductByData($productData, ['related_products' => $relatedProductsData]);
+        $this->createAndSaveProduct($product);
+
+        /** @var RelatedProducts $relatedProducts */
+        $relatedProducts = $product->getDataFieldConfig('related_products')['source'];
+        return [
+            'product' => $product,
+            'relatedProducts' => $relatedProducts->getProducts()
+        ];
+    }
 }

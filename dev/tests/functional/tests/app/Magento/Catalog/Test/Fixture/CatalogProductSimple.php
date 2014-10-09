@@ -591,14 +591,14 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'cross_sell_products',
         'backend_type' => 'virtual',
         'group' => 'crosssells',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts'
     ];
 
     protected $up_sell_products = [
         'attribute_code' => 'up_sell_products',
         'backend_type' => 'virtual',
         'group' => 'upsells',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts'
     ];
 
     protected $related_products = [

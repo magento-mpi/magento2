@@ -9,10 +9,10 @@
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class RelatedProducts
- * Create related products
+ * Class CrossSellProducts
+ * Create cross sell products
  */
-class RelatedProducts extends AbstractRelatedProducts
+class CrossSellProducts extends AbstractRelatedProducts
 {
     //
 }

@@ -8,6 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts;
+
 /**
  * Class AddCrossSellEntityTest
  *
@@ -30,9 +32,22 @@ namespace Magento\Catalog\Test\TestCase\Product;
 class AddCrossSellEntityTest extends AbstractAddRelatedProductsEntityTest
 {
     /**
-     * Type of related products
+     * Run test add cross sell products entity
      *
-     * @var string
+     * @param string $productData
+     * @param string $crossSellProductsData
+     * @return array
      */
-    protected $typeRelatedProducts = 'cross_sell_products';
+    public function test($productData, $crossSellProductsData)
+    {
+        $product = $this->getProductByData($productData, ['cross_sell_products' => $crossSellProductsData]);
+        $this->createAndSaveProduct($product);
+
+        /** @var CrossSellProducts $crossSellProducts */
+        $crossSellProducts = $product->getDataFieldConfig('cross_sell_products')['source'];
+        return [
+            'product' => $product,
+            'relatedProducts' => $crossSellProducts->getProducts()
+        ];
+    }
 }
