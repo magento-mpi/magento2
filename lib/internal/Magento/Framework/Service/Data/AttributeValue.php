@@ -5,12 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Framework\Service\Data;
+
+use Magento\Framework\Api\AttributeInterface;
 
 /**
  * Custom Attribute Data object
  */
-class AttributeValue extends AbstractSimpleObject implements AttributeValueInterface
+class AttributeValue extends AbstractSimpleObject implements AttributeInterface
 {
     /**#@+
      * Constant used as key into $_data
