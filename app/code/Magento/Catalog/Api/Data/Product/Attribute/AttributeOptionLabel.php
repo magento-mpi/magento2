@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data;
+namespace Magento\Catalog\Api\Data\Product\Attribute;
 
-interface AttributeTypeInterface
+interface AttributeOptionLabel
 {
     /**
      * Get option label
@@ -18,9 +18,9 @@ interface AttributeTypeInterface
     public function getLabel();
 
     /**
-     * Get option value
+     * Get store id
      *
-     * @return string
+     * @return int
      */
-    public function getValue();
+    public function getStoreId();
 }
