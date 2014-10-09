@@ -9,6 +9,8 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
 /**
  * @codeCoverageIgnore
+ * @see \Magento\Catalog\Api\Data\Category\TreeInterface
+ * @deprecated
  */
 class Tree extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

@@ -10,6 +10,10 @@
 
 namespace Magento\Catalog\Api\Data;
 
+/**
+ * Implement in the @see \Magento\Catalog\Model\Category
+ * Created from @see \Magento\Catalog\Service\V1\Data\Category
+ */
 interface CategoryInterface
 {
     /**
@@ -80,19 +84,4 @@ interface CategoryInterface
      * @return bool|null
      */
     public function isActive();
-
-    /**
-     * Get category level
-     *
-     * @return \Magento\Catalog\Api\Data\CategoryInterface[]|null
-     */
-    public function getChildren();
-
-    /**
-     * Get product count
-     *
-     * @return int|null
-     */
-    public function getProductCount();
-
 }

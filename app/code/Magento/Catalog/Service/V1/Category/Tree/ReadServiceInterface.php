@@ -25,7 +25,7 @@ interface ReadServiceInterface
      * @param int $depth
      * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Tree containing Tree objects
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::getList
+     * @see \Magento\Catalog\Api\CategoryManagementInterface::getTree
      */
     public function tree($rootCategoryId = null, $depth = null);
 }

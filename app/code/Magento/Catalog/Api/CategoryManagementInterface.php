@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Api;
 
 /**
- * Interface ManagerInterface must be implemented in new model \Magento\Catalog\Model\CategoryManager
+ * Interface CategoryManagementInterface must be implemented in new model \Magento\Catalog\Model\CategoryManagement
  */
 interface CategoryManagementInterface
 {
@@ -20,6 +20,7 @@ interface CategoryManagementInterface
      * @param int $categoryId
      * @return \Magento\Catalog\Api\Data\CategoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\Category\ReadServiceInterface::info
      */
     public function get($categoryId);
 
@@ -29,6 +30,7 @@ interface CategoryManagementInterface
      * @param \Magento\Catalog\Api\Data\CategoryInterface $category
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::create
      */
     public function save(\Magento\Catalog\Api\Data\CategoryInterface $category);
 
@@ -40,6 +42,7 @@ interface CategoryManagementInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::delete
      */
     public function delete($categoryId);
 
@@ -51,6 +54,7 @@ interface CategoryManagementInterface
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\InputException
+     * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::update
      */
     public function update($categoryId, \Magento\Catalog\Api\Data\CategoryInterface $category);
 
@@ -58,9 +62,10 @@ interface CategoryManagementInterface
      * Retrieve list of categories
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @return \Magento\Catalog\Api\Data\CategoryInterface containing Tree objects
+     * @return \Magento\Catalog\Api\Data\Category\TreeInterface containing Tree objects
+     * @see \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface::tree
      */
-    public function getList();
+    public function getTree();
 
     /**
      * Move category
@@ -71,6 +76,7 @@ interface CategoryManagementInterface
      * @return bool
      * @throws \Magento\Framework\Model\Exception
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::move
      */
     public function move($categoryId, $parentId, $afterId = null);
 }
