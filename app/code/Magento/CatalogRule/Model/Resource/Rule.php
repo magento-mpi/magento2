@@ -188,6 +188,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param ModelRule $rule
      * @return $this
      * @throws \Exception
+     *
+     * TODO: CatalogRule: should be deleted after \Magento\CatalogRule\Model\Observer::createCatalogRulesRelations
      */
     public function updateRuleProductData(ModelRule $rule)
     {
@@ -281,6 +283,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      * @return array
+     *
+     * TODO: CatalogRule: has not found use
      */
     public function getRuleProductIds($ruleId)
     {

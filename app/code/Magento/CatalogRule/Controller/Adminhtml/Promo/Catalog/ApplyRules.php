@@ -12,7 +12,6 @@ use Magento\CatalogRule\Model\Rule\Job;
 
 class ApplyRules extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
 {
-
     /**
      * Apply all active catalog price rules
      *
@@ -22,13 +21,18 @@ class ApplyRules extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
     {
         $errorMessage = __('Unable to apply rules.');
         try {
-            /** @var \Magento\CatalogRule\Model\Indexer\Rule\Action\Full $ruleProcessor */
-            $ruleProcessor = $this->_objectManager->get('Magento\CatalogRule\Model\Indexer\Rule\Action\Full');
-            $ruleProcessor->execute();
-            $this->messageManager->addSuccess(__('The rules will be applied in background'));
-            $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()->setState(0)->save();
+            /** @var Job $ruleJob */
+            $ruleJob = $this->_objectManager->get('Magento\CatalogRule\Model\Rule\Job');
+            $ruleJob->applyAll();
+
+            if ($ruleJob->hasSuccess()) {
+                $this->messageManager->addSuccess($ruleJob->getSuccess());
+                $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()->setState(0)->save();
+            } elseif ($ruleJob->hasError()) {
+                $this->messageManager->addError($errorMessage . ' ' . $ruleJob->getError());
+            }
         } catch (\Exception $e) {
-            $this->messageManager->addError($e->getMessage());
+            $this->messageManager->addError($errorMessage);
         }
         $this->_redirect('catalog_rule/*');
     }

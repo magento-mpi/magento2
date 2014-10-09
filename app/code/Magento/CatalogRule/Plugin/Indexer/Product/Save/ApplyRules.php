@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogRule\Model\Indexer\Product\Plugin\Save;
+namespace Magento\CatalogRule\Plugin\Indexer\Product\Save;
 
 use Magento\Catalog\Model\Product;
 use Magento\CatalogRule\Model\Indexer\ProductRuleIndexer;

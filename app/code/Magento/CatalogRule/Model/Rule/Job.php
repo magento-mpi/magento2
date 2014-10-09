@@ -27,24 +27,18 @@ namespace Magento\CatalogRule\Model\Rule;
 class Job extends \Magento\Framework\Object
 {
     /**
-     * Instance of event manager model
-     *
-     * @var \Magento\Framework\Event\ManagerInterface
+     * @var \Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor
      */
-    protected $_eventManager;
-    protected $objectWhichWorkWithCatalogRulesAndIndexer;
+    protected $ruleProcessor;
 
     /**
      * Basic object initialization
      *
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor $ruleProcessor
      */
-    public function __construct(
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\CatalogRule\Model\Indexer\Product\ObjectWhichWorkWithCatalogRulesAndIndexer $o
-    ) {
-        $this->_eventManager = $eventManager;
-        $this->objectWhichWorkWithCatalogRulesAndIndexer = $o;
+    public function __construct(\Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor $ruleProcessor)
+    {
+        $this->ruleProcessor = $ruleProcessor;
     }
 
     /**
@@ -55,8 +49,7 @@ class Job extends \Magento\Framework\Object
     public function applyAll()
     {
         try {
-//            $this->_eventManager->dispatch('catalogrule_apply_all');
-            $this->objectWhichWorkWithCatalogRulesAndIndexer->reindexAll();
+            $this->ruleProcessor->reindexAll();
             $this->setSuccess(__('The rules have been applied.'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->setError($e->getMessage());
