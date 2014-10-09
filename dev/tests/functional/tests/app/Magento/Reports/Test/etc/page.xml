@@ -93,4 +93,9 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\SalesInvoiceReport</class>
     </salesInvoiceReport>
+    <refundsReport>
+        <mca>reports/report_sales/refunded</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\RefundsReport</class>
+    </refundsReport>
 </page>

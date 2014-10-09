@@ -14,17 +14,17 @@ use Magento\Reports\Test\Page\Adminhtml\SalesReport;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AbstractAssertSalesReportResult
- * Abstract assert for search in sales report grid
+ * Class AbstractAssertOrdersReportResult
+ * Abstract assert for search in report grid
  */
-abstract class AbstractAssertSalesReportResult extends AbstractConstraint
+abstract class AbstractAssertOrdersReportResult extends AbstractConstraint
 {
     /**
      * Sales report page
      *
      * @var SalesReport
      */
-    protected $salesReportPage;
+    protected $orderReportPage;
 
     /**
      * Order
@@ -34,17 +34,6 @@ abstract class AbstractAssertSalesReportResult extends AbstractConstraint
     protected $order;
 
     /**
-     * @constructor
-     * @param ObjectManager $objectManager
-     * @param SalesReport $salesReportPage
-     */
-    public function __construct(ObjectManager $objectManager, SalesReport $salesReportPage)
-    {
-        parent::__construct($objectManager);
-        $this->salesReportPage = $salesReportPage;
-    }
-
-    /**
      * Search in sales report grid
      *
      * @param array $salesReport
@@ -52,10 +41,10 @@ abstract class AbstractAssertSalesReportResult extends AbstractConstraint
      */
     protected function searchInSalesReportGrid(array $salesReport)
     {
-        $this->salesReportPage->open();
-        $this->salesReportPage->getMessagesBlock()->clickLinkInMessages('notice', 'here');
-        $this->salesReportPage->getFilterBlock()->viewsReport($salesReport);
-        $this->salesReportPage->getActionBlock()->showReport();
+        $this->orderReportPage->open();
+        $this->orderReportPage->getMessagesBlock()->clickLinkInMessages('notice', 'here');
+        $this->orderReportPage->getFilterBlock()->viewsReport($salesReport);
+        $this->orderReportPage->getActionBlock()->showReport();
     }
 
     /**

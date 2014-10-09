@@ -8,13 +8,14 @@
 
 namespace Magento\Reports\Test\Constraint;
 
+use Magento\Reports\Test\Page\Adminhtml\SalesReport;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Class AssertSalesReportIntervalResult
  * Assert that sales info in report grid is actual
  */
-class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
+class AssertSalesReportIntervalResult extends AbstractAssertOrdersReportResult
 {
     /**
      * Constraint severeness
@@ -29,13 +30,19 @@ class AssertSalesReportIntervalResult extends AbstractAssertSalesReportResult
      * @param OrderInjectable $order
      * @param array $salesReport
      * @param array $initialSalesResult
+     * @param SalesReport $salesReportPage
      * @return void
      */
-    public function processAssert(OrderInjectable $order, array $salesReport, array $initialSalesResult)
-    {
+    public function processAssert(
+        OrderInjectable $order,
+        array $salesReport,
+        array $initialSalesResult,
+        SalesReport $salesReportPage
+    ) {
+        $this->orderReportPage = $salesReportPage;
         $this->order = $order;
         $this->searchInSalesReportGrid($salesReport);
-        $salesResult = $this->salesReportPage->getGridBlock()->getLastResult();
+        $salesResult = $salesReportPage->getGridBlock()->getLastResult();
         $prepareInitialResult = $this->prepareExpectedResult($initialSalesResult);
         \PHPUnit_Framework_Assert::assertEquals(
             $prepareInitialResult,
