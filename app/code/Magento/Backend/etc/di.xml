@@ -126,10 +126,6 @@
     <type name="Magento\Backend\Controller\Adminhtml\Index\GlobalSearch">
         <arguments>
             <argument name="searchModules" xsi:type="array">
-                <item name="products" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Backend\Model\Search\Catalog</item>
-                    <item name="acl" xsi:type="string">Magento_Catalog::catalog</item>
-                </item>
                 <item name="customers" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\Backend\Model\Search\Customer</item>
                     <item name="acl" xsi:type="string">Magento_Customer::customer</item>
