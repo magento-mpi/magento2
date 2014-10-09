@@ -32,6 +32,7 @@
             <xs:sequence>
                 <xs:element ref="field" maxOccurs="unbounded" minOccurs="1"/>
             </xs:sequence>
+            <xs:attribute type="required_attribute" name="entityType" use="optional"/>
         </xs:complexType>
     </xs:element>
     <!-- -->
@@ -43,6 +44,7 @@
             <xs:attribute type="required_attribute" name="name" use="required"/>
             <xs:attribute type="required_attribute" name="dataType" use="optional"/>
             <xs:attribute type="required_attribute" name="source" use="optional"/>
+            <xs:attribute type="text_attribute" name="label" use="optional"/>
             <xs:attribute type="visible_attribute" name="visible" use="optional"/>
         </xs:complexType>
     </xs:element>
@@ -80,8 +82,17 @@
         <xs:annotation>
             <xs:documentation>The value should only be {true|false}.</xs:documentation>
         </xs:annotation>
-        <xs:restriction base="xs:string">
+        <xs:restriction base="xs:boolean">
             <xs:pattern value="true|false" />
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- -->
+    <xs:simpleType name="text_attribute">
+        <xs:annotation>
+            <xs:documentation>Any text value</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z_ -]+" />
         </xs:restriction>
     </xs:simpleType>
     <!-- -->

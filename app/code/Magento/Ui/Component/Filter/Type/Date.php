@@ -7,10 +7,11 @@
  */
 namespace Magento\Ui\Component\Filter\Type;
 
-use Magento\Ui\Component\Filter\FilterAbstract;
+use Magento\Ui\DataProvider\Manager;
 use Magento\Framework\LocaleInterface;
 use Magento\Ui\Component\Filter\FilterPool;
 use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\Component\Filter\FilterAbstract;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\UiComponent\ConfigFactory;
@@ -55,6 +56,7 @@ class Date extends FilterAbstract
      * @param FilterPool $filterPool
      * @param ResolverInterface $localeResolver
      * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
      * @param array $data
      */
     public function __construct(
@@ -66,6 +68,7 @@ class Date extends FilterAbstract
         FilterPool $filterPool,
         ResolverInterface $localeResolver,
         DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
         array $data = []
     ) {
         $this->localeDate = $context->getLocaleDate();
@@ -79,6 +82,7 @@ class Date extends FilterAbstract
             $configBuilder,
             $filterPool,
             $dataProviderFactory,
+            $dataProviderManager,
             $data
         );
     }

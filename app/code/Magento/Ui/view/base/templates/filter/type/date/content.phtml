@@ -10,9 +10,7 @@
  */
 ?>
 <fieldset class="field field-range field-<?php echo $this->getData('data_type') ?>">
-    <legend class="label"><?php echo $this->renderElementLabel('input', [
-            'title' => $this->getData('title')
-        ]); ?></legend><br />
+    <legend class="label"><?php echo $this->renderLabel(); ?></legend><br />
     <div class="control">
         <div class="fields group group-2">
             <div class="field field-range-from">

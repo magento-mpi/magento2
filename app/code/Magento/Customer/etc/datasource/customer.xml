@@ -8,9 +8,9 @@
             <field name="entity_id" dataType="text" visible="false"/>
             <field name="entity_type_id" dataType="text" visible="false"/>
             <field name="email" source="eav" />
-            <field name="attribute_set_id" dataType="numeric" visible="false"/>
-            <field name="group_id" dataType="numeric" visible="false"/>
-            <field name="website_id" dataType="numeric" visible="false"/>
+            <field name="attribute_set_id" dataType="number" visible="false"/>
+            <field name="group_id" dataType="number" visible="false"/>
+            <field name="website_id" dataType="number" visible="false"/>
             <field name="default_billing" source="eav" visible="false"/>
             <field name="gender" source="eav"/>
             <field name="firstname" source="eav"/>

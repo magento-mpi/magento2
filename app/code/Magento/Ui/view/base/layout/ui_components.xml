@@ -16,24 +16,40 @@
         </arguments>
         <container label="Listing Head" name="listing_head"/>
         <container label="Listing Before" name="listing_before">
-            <ui_component name="paging_small_top" component="paging" />
-            <ui_component name="filter_base" component="filter_pool" />
-            <ui_component name="massaction_top" component="control_massaction" />
-            <ui_component name="sorting_base" component="sorting" />
+            <block class="Magento\Ui\Component\Paging" name="paging">
+                <arguments>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Ui\Component\FilterPool" name="filter_pool">
+                <arguments>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::filter_pool/default.phtml</argument>
+                    <argument name="config" xsi:type="array">
+                        <item name="types" xsi:type="array">
+                            <item name="filter_date" xsi:type="array">
+                                <item name="dateFormat" xsi:type="string">mm/dd/yyyy</item>
+                            </item>
+                            <item name="filter_input" xsi:type="array"/>
+                            <item name="filter_select" xsi:type="array"/>
+                            <item name="filter_range" xsi:type="array"/>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento\Ui\Component\Sorting" name="sorting">
+                <arguments>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
+                    <argument name="config" xsi:type="array">
+                        <item name="direction" xsi:type="string">asc</item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento\Ui\Component\MassAction" name="control_massaction">
+                <arguments>
+                    <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
+                </arguments>
+            </block>
         </container>
-    </block>
-    <block class="Magento\Ui\Component\Sorting" name="sorting">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
-            <argument name="config" xsi:type="array">
-                <item name="direction" xsi:type="string">asc</item>
-            </argument>
-        </arguments>
-    </block>
-    <block class="Magento\Ui\Component\Paging" name="paging">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
-        </arguments>
     </block>
 
     <block class="Magento\Ui\Component\Control\Action" name="actions">
@@ -41,12 +57,6 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::control/action/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Component\MassAction" name="control_massaction">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
-        </arguments>
-    </block>
-
     <block class="Magento\Ui\Component\Form\Element\Input" name="input">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
@@ -99,21 +109,6 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::filter/type/date/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Component\FilterPool" name="filter_pool">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::filter_pool/default.phtml</argument>
-            <argument name="config" xsi:type="array">
-                <item name="types" xsi:type="array">
-                    <item name="filter_date" xsi:type="array">
-                        <item name="dateFormat" xsi:type="string">mm/dd/yyyy</item>
-                    </item>
-                    <item name="filter_input" xsi:type="array"/>
-                    <item name="filter_select" xsi:type="array"/>
-                    <item name="filter_range" xsi:type="array"/>
-                </item>
-            </argument>
-        </arguments>
-    </block>
 
     <block class="Magento\Ui\Component\Container\Content" name="content">
         <arguments>
@@ -131,6 +126,9 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
             <argument name="save_url" xsi:type="string">mui/form/save</argument>
             <argument name="validate_url" xsi:type="string">mui/form/validate</argument>
+            <argument name="layout" xsi:type="array">
+                <item name="type" xsi:type="string">fieldset</item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Fieldset" name="fieldset">

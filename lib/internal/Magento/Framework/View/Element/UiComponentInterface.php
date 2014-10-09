@@ -30,9 +30,10 @@ interface UiComponentInterface extends BlockInterface
     /**
      * Render component
      *
+     * @param array $data
      * @return string
      */
-    public function render();
+    public function render(array $data = []);
 
     /**
      * Render label

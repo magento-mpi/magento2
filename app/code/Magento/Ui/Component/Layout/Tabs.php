@@ -49,15 +49,7 @@ class Tabs extends AbstractView
             $configData = array_merge($configData, $this->getData('config'));
         }
 
-        $config = $this->configFactory->create(
-            [
-                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
-                'parentName' => $this->renderContext->getNamespace(),
-                'configuration' => $configData
-            ]
-        );
-        $this->setConfig($config);
-        $this->renderContext->getStorage()->addComponentsData($config);
+        $this->prepareConfiguration($configData);
 
         $this->createDataProviders();
     }

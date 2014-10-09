@@ -7,15 +7,16 @@
  */
 namespace Magento\Ui\Component\Filter;
 
+use Magento\Ui\DataProvider\Manager;
 use Magento\Ui\Component\AbstractView;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class Filter
@@ -44,6 +45,7 @@ abstract class FilterAbstract extends AbstractView implements FilterInterface
      * @param ConfigBuilderInterface $configBuilder
      * @param FilterPoolProvider $filterPool
      * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
      * @param array $data
      */
     public function __construct(
@@ -54,6 +56,7 @@ abstract class FilterAbstract extends AbstractView implements FilterInterface
         ConfigBuilderInterface $configBuilder,
         FilterPoolProvider $filterPool,
         DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
         array $data = []
     ) {
         $this->filterPool = $filterPool;
@@ -64,6 +67,7 @@ abstract class FilterAbstract extends AbstractView implements FilterInterface
             $configFactory,
             $configBuilder,
             $dataProviderFactory,
+            $dataProviderManager,
             $data
         );
     }
@@ -80,14 +84,17 @@ abstract class FilterAbstract extends AbstractView implements FilterInterface
             $configData = array_merge($configData, $this->getData('config'));
         }
 
-        $config = $this->configFactory->create(
-            [
-                'name' => $this->renderContext->getNamespace() . '_' . $this->getNameInLayout(),
-                'parentName' => $this->renderContext->getNamespace(),
-                'configuration' => $configData
-            ]
-        );
-        $this->setConfig($config);
-        $this->renderContext->getStorage()->addComponentsData($config);
+        $this->prepareConfiguration($configData);
+    }
+
+    /**
+     * Get condition by data type
+     *
+     * @param string|array $value
+     * @return array|null
+     */
+    public function getCondition($value)
+    {
+        return $value;
     }
 }

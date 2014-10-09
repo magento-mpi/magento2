@@ -11,11 +11,11 @@
 ?>
 <fieldset class="field field-<?php echo $this->getData('data_type') ?>">
     <legend class="label"><?php echo $this->renderElementLabel($this->getData('data_type'), [
-            'title' => $this->getData('title')
+            'label' => $this->getData('label')
         ]); ?></legend>
     <div class="control">
         <?php echo $this->renderElement($this->getData('filter_type'), [
-            'title' => $this->getData('title'),
+            'label' => $this->getData('label'),
             'options' => $this->getData('options')
         ]); ?>
     </div>

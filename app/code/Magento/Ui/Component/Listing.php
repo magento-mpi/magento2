@@ -7,6 +7,7 @@
  */
 namespace Magento\Ui\Component;
 
+use Magento\Ui\DataProvider\Manager;
 use Magento\Ui\Component\Listing\RowPool;
 use Magento\Ui\Component\Control\ActionPool;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -58,6 +59,7 @@ class Listing extends AbstractView
      * @param ActionPool $actionPool
      * @param RowPool $dataProviderRowPool
      * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
      * @param array $data
      */
     public function __construct(
@@ -70,6 +72,7 @@ class Listing extends AbstractView
         ActionPool $actionPool,
         RowPool $dataProviderRowPool,
         DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
         array $data = []
     ) {
         $this->actionPool = $actionPool;
@@ -82,6 +85,7 @@ class Listing extends AbstractView
             $configFactory,
             $configBuilder,
             $dataProviderFactory,
+            $dataProviderManager,
             $data
         );
     }
@@ -114,30 +118,22 @@ class Listing extends AbstractView
         }
         unset($defaultConfigData['page_actions']);
 
-        $config = $this->configFactory->create(
-            [
-                'name' => $this->getData('name'),
-                'parentName' => $this->getData('name'),
-                'configuration' => $defaultConfigData
-            ]
-        );
-
-        $this->setConfig($config);
-        $this->renderContext->getStorage()->addComponentsData($config);
+        $this->prepareConfiguration($defaultConfigData, $this->getData('name'));
         $this->renderContext->getStorage()->addMeta($this->getData('name'), $meta);
         $this->renderContext->getStorage()->addDataCollection($this->getData('name'), $this->getData('dataSource'));
     }
 
     /**
-     * Render view
+     * Render content
      *
-     * @return mixed|string
+     * @param array $data
+     * @return string
      */
-    public function render()
+    public function render(array $data = [])
     {
         $this->initialConfiguration();
 
-        return parent::render();
+        return parent::render($data);
     }
 
     /**
@@ -226,8 +222,7 @@ class Listing extends AbstractView
         );
         $this->renderContext->getStorage()->addGlobalData('dump', ['extenders' => []]);
 
-        $storage = $this->renderContext->getStorage();
-        $collection = $storage->getDataCollection($this->getName());
+        $collection = $this->renderContext->getStorage()->getDataCollection($this->getName());
         $countItems = $collection->getSize();
         $this->renderContext->getStorage()->addData(
             $this->getName(),

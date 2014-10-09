@@ -7,6 +7,7 @@
  */
 namespace Magento\Ui\Component;
 
+use Magento\Ui\DataProvider\Manager;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -73,9 +74,14 @@ abstract class AbstractView extends Template implements UiComponentInterface
     protected $dataProviderFactory;
 
     /**
-     * Children elements
+     * @var \Magento\Ui\DataProvider\Manager
+     */
+    protected $dataManager;
+
+    /**
+     * Elements for the render
      *
-     * @var UiComponentInterface[]
+     * @var ElementRendererInterface[]
      */
     protected $elements = [];
 
@@ -87,7 +93,8 @@ abstract class AbstractView extends Template implements UiComponentInterface
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
-     * @param DataProviderFactory $dataProviderFactory
+     * DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
      * @param array $data
      */
     public function __construct(
@@ -97,6 +104,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
         DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
         array $data = []
     ) {
         $this->renderContext = $renderContext;
@@ -105,19 +113,20 @@ abstract class AbstractView extends Template implements UiComponentInterface
         $this->configFactory = $configFactory;
         $this->configBuilder = $configBuilder;
         $this->dataProviderFactory = $dataProviderFactory;
+        $this->dataManager = $dataProviderManager;
         parent::__construct($context, $data);
     }
 
     /**
      * Update data
      *
-     * @param array $arguments
+     * @param array $data
      * @return void
      */
-    public function update(array $arguments = [])
+    public function update(array $data = [])
     {
-        if (!empty($arguments)) {
-            $this->_data = array_merge($this->_data, $arguments);
+        if (!empty($data)) {
+            $this->_data = array_merge($this->_data, $data);
         }
     }
 
@@ -134,12 +143,20 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * Render content
      *
+     * @param array $data
      * @return string
      */
-    public function render()
+    public function render(array $data = [])
     {
-        return $this->contentTypeFactory->get($this->renderContext->getAcceptType())
-                ->render($this, $this->getContentTemplate());
+        $prevData = $this->getData();
+        $this->update($data);
+
+        $renderResult = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
+            ->render($this, $this->getContentTemplate());
+
+        $this->setData($prevData);
+
+        return $renderResult;
     }
 
     /**
@@ -149,9 +166,8 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function renderLabel()
     {
-        $result = $this->contentTypeFactory->get($this->renderContext->getAcceptType())
+        return $this->contentTypeFactory->get($this->renderContext->getAcceptType())
             ->render($this, $this->getLabelTemplate());
-        return $result;
     }
 
     /**
@@ -163,7 +179,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function renderElement($elementName, array $arguments)
     {
-        $element = $this->renderContext->getRender()->createUiComponent($elementName);
+        $element = $this->renderContext->getRender()->getUiElementView($elementName);
         $prevData = $element->getData();
         $element->update($arguments);
         $result = $element->render();
@@ -181,7 +197,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      */
     public function renderElementLabel($elementName, array $arguments)
     {
-        $element = $this->renderContext->getRender()->createUiComponent($elementName);
+        $element = $this->renderContext->getRender()->getUiElementView($elementName);
         $prevData = $element->getData();
         $element->update($arguments);
         $result = $element->renderLabel();
@@ -254,12 +270,18 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * Set component configuration
      *
-     * @param ConfigInterface $config
      * @return void
      */
-    public function setConfig(ConfigInterface $config)
+    public function prepareConfiguration($configData = null, $name = null, $parentName = null)
     {
-        $this->config = $config;
+        $arguments = [];
+        $arguments['name'] = $name ?: $this->renderContext->getNamespace() . '_' . $this->getNameInLayout();
+        $arguments['parentName'] = $parentName ?: $this->renderContext->getNamespace();
+        if ($configData) {
+            $arguments['configuration'] = $configData;
+        }
+        $this->config = $this->configFactory->create($arguments);
+        $this->renderContext->getStorage()->addComponentsData($this->config);
     }
 
     /**
@@ -283,9 +305,9 @@ abstract class AbstractView extends Template implements UiComponentInterface
     }
 
     /**
-     * Get elements
+     * Get elements to the render
      *
-     * @return UiComponentInterface[]
+     * @return ElementRendererInterface[]
      */
     public function getElements()
     {
@@ -293,9 +315,9 @@ abstract class AbstractView extends Template implements UiComponentInterface
     }
 
     /**
-     * Set elements
+     * Set elements for the render
      *
-     * @param array $elements
+     * @param ElementRendererInterface[] $elements
      */
     public function setElements(array $elements)
     {

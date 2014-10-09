@@ -1,7 +1,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/dataSource.xsd">
     <datasource name="customer_group" dataset="Magento\Customer\Model\Resource\Group\Collection">
         <fields>
-            <field name="customer_group_id" dataType="numeric" visible="false"/>
+            <field name="customer_group_id" dataType="number" visible="false"/>
             <field name="customer_group_code" dataType="text"/>
         </fields>
     </datasource>
