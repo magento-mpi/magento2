@@ -8,7 +8,7 @@
 
 .block-balance {
     .balance-price-label {
-        &:extend(.visually-hidden all);
+        &:extend(.abstract-visually-hidden all);
     }
     .price {
         .font-size(32);
@@ -24,7 +24,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .storecredit {
         .block {
-            &:extend(.blocks-2columns all);
+            &:extend(.abstract-blocks-2columns all);
         }
         .block-balance-history {
             width: 100%;

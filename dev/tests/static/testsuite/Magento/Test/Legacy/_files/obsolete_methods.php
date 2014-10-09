@@ -1899,4 +1899,13 @@ return array(
     ['_addHeader', 'Magento\Rss\Model\Rss'],
     ['_addEntries', 'Magento\Rss\Model\Rss'],
     ['_addEntry', 'Magento\Rss\Model\Rss'],
+    ['_welcomeCustomer', 'Magento\Customer\Controller\Account'],
+    ['_addWelcomeMessage', 'Magento\Customer\Controller\Account'],
+    ['_isVatValidationEnabled', 'Magento\Customer\Controller\Account'],
+    ['_createUrl', 'Magento\Customer\Controller\Account'],
+    ['_extractAddress', 'Magento\Customer\Controller\Account\CreatePost', 'Magento\Customer\Controller\Account\CreatePost::extractAddress'],
+    ['_loginPostRedirect', 'Magento\Customer\Controller\Account\LoginPost', 'Magento\Customer\Controller\Account\LoginPost::loginPostRedirect'],
+    ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
+    ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
+    ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
 );
