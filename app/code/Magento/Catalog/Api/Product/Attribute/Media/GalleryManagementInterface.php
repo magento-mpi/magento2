@@ -13,10 +13,10 @@ use \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryContentInterfa
 use \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryInterface;
 
 /**
- * @todo implement this interface as a \Magento\Catalog\Model\Product\Attribute\Media\GalleryRepository.
+ * @todo implement this interface as a \Magento\Catalog\Model\Product\Attribute\Media\GalleryManagement.
  * Move logic from service there.
  */
-interface GalleryRepositoryInterface
+interface GalleryManagementInterface
 {
     /**
      * Create new gallery entry
