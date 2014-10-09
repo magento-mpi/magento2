@@ -17,7 +17,7 @@
         <categories>1000</categories> <!-- Number of categories to generate -->
         <categories_nesting_level>3</categories_nesting_level> <!-- Nesting level for categories -->
         <catalog_price_rules>50</catalog_price_rules> <!-- Number os catalog price rules -->
-        <catalog_target_rules>10</catalog_target_rules> <!-- NUmber of catalog target rules -->
+        <catalog_target_rules>10</catalog_target_rules> <!-- Number of catalog target rules -->
         <cart_price_rules>50</cart_price_rules> <!-- Number of shopping cart price rules -->
         <cart_price_rules_floor>2</cart_price_rules_floor> <!-- The price rule condition: minimum products amount in shopping cart for price rule to be aaplied -->
         <customers>2000</customers> <!-- Number of customers to generate -->

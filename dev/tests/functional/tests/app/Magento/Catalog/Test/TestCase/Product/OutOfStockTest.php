@@ -24,7 +24,6 @@ class OutOfStockTest extends Functional
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-27998');
         Factory::getApp()->magentoBackendLoginUser();
     }
 
