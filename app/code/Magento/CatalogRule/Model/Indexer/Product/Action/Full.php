@@ -7,20 +7,24 @@
  */
 namespace Magento\CatalogRule\Model\Indexer\Product\Action;
 
-use Magento\CatalogRule\CatalogRuleException;
-
-class Full extends AbstractAction
+class Full
 {
+    protected $fullAction;
+
     /**
-     * TODO: think about single interface
+     * @param \Magento\CatalogRule\Model\Indexer\Rule\Action\Full $fullAction
+     */
+    public function __construct(
+        \Magento\CatalogRule\Model\Indexer\Rule\Action\Full $fullAction
+    ) {
+        $this->fullAction = $fullAction;
+    }
+
+    /**
      * Full Row reindex
      */
     public function execute()
     {
-        try {
-            $this->objectWhichWorkCatalogRulesAndIndexers->reindexAll();
-        } catch (\Exception $e) {
-            throw new CatalogRuleException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->fullAction->execute();
     }
 }

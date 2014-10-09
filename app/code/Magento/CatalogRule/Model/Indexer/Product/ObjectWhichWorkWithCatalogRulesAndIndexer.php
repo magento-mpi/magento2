@@ -9,7 +9,7 @@ namespace Magento\CatalogRule\Model\Indexer\Product;
 
 use Magento\CatalogRule\Model\Indexer\Product\ProductProcessor;
 use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionFactory;
-use Magento\CatalogRule\Model\Rule as ModelRule;
+use Magento\CatalogRule\Model\Rule;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Product;
 
@@ -92,11 +92,12 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
      */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
+        \Magento\Framework\Stdlib\DateTime $dateFormat,
         \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
-        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
@@ -125,15 +126,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
      */
     public function reindexById($id)
     {
-        $rules = $this->ruleCollectionFactory->create()
-            ->addFieldToFilter('is_active', 1);
-
-        $collectedData = [];
-        foreach ($rules as $rule) {
-            // TODO: only array_intersect($product->getWebsiteIds(), $rule->getWebsiteIds())
-            $collectedData[] = $rule->getId();
-        }
-        $this->indexer->reindexRow($id);
+        $this->reindexByIds([$id]);
     }
 
     /**
@@ -144,6 +137,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
      */
     public function reindexByIds(array $ids)
     {
+        $this->cleanByIds($ids);
         $rules = $this->ruleCollectionFactory->create()
             ->addFieldToFilter('is_active', 1);
 
@@ -159,29 +153,35 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
     }
 
     /**
-     * Reindex all
+     * Clean by product ids
      *
      * @return void
      */
-    public function reindexAll()
+    public function cleanByIds($productIds)
     {
-        $rules = $this->ruleCollectionFactory->create()
-            ->addFieldToFilter('is_active', 1)
-            ->setOrder('sort_order');
-        foreach ($rules as $rule) {
-            /** @var $rule \Magento\CatalogRule\Model\Rule */
-            $this->updateRuleProductData($rule);
-        }
-        $this->applyAllRulesForDateRange();
-    }
+        $this->getWriteAdapter()->deleteFromSelect(
+            $this->getWriteAdapter()->select(
+                $this->resource->getTableName('catalogrule_product'),
+                'product_id'
+            )->distinct()
+            ->where(
+                'product_id IN (?)',
+                $productIds
+            ),
+            $this->resource->getTableName('catalogrule_product')
+        );
 
-    /**
-     * Clean all
-     *
-     * @return void
-     */
-    public function cleanAll()
-    {
+        $this->getWriteAdapter()->deleteFromSelect(
+            $this->getWriteAdapter()->select(
+                $this->resource->getTableName('catalogrule_product_price'),
+                'product_id'
+            )->distinct()
+                ->where(
+                    'product_id IN (?)',
+                    $productIds
+                ),
+            $this->resource->getTableName('catalogrule_product_price')
+        );
     }
 
 
@@ -210,7 +210,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         return $this->resource->getConnection('write');
     }
 
-    protected function updateRuleProductData(ModelRule $rule)
+    protected function updateRuleProductData(Rule $rule)
     {
         $ruleId = $rule->getId();
         $write = $this->getWriteAdapter();
@@ -289,39 +289,17 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         return $this;
     }
 
-    public function applyAllRulesForDateRange($fromDate = null, $toDate = null, $productId = null)
+    protected function applyAllRulesForDateRange($productId = null)
     {
         $write = $this->getWriteAdapter();
 
-        $clearOldData = false;
-        if ($fromDate === null) {
-            $fromDate = mktime(0, 0, 0, date('m'), date('d') - 1);
-            /**
-             * If fromDate not specified we can delete all data oldest than 1 day
-             * We have run it for clear table in case when cron was not installed
-             * and old data exist in table
-             */
-            $clearOldData = true;
-        }
-        if (is_string($fromDate)) {
-            $fromDate = strtotime($fromDate);
-        }
-        if ($toDate === null) {
-            $toDate = mktime(0, 0, 0, date('m'), date('d') + 1);
-        }
-        if (is_string($toDate)) {
-            $toDate = strtotime($toDate);
-        }
+        $fromDate = mktime(0, 0, 0, date('m'), date('d') - 1);
+        $toDate = mktime(0, 0, 0, date('m'), date('d') + 1);
 
         $product = null;
         if ($productId instanceof Product) {
             $product = $productId;
             $productId = $productId->getId();
-        }
-
-        $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
-        if ($clearOldData) {
-            $this->deleteOldData($fromDate, $productId);
         }
 
         $dayPrices = array();
@@ -467,68 +445,6 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
     }
 
     /**
-     * Remove catalog rules product prices for specified date range and product
-     *
-     * @param int|string $fromDate
-     * @param int|string $toDate
-     * @param int|null $productId
-     * @return $this
-     */
-    public function removeCatalogPricesForDateRange($fromDate, $toDate, $productId = null)
-    {
-        $write = $this->getWriteAdapter();
-        $conds = array();
-        $cond = $write->quoteInto('rule_date between ?', $this->dateTime->date($fromDate));
-        $cond = $write->quoteInto($cond . ' and ?', $this->dateTime->date($toDate));
-        $conds[] = $cond;
-        if (!is_null($productId)) {
-            $conds[] = $write->quoteInto('product_id=?', $productId);
-        }
-
-        /**
-         * Add information about affected products
-         * It can be used in processes which related with product price (like catalog index)
-         */
-        $select = $this->getWriteAdapter()->select()->from(
-            $this->resource->getTableName('catalogrule_product_price'),
-            'product_id'
-        )->where(
-            implode(' AND ', $conds)
-        )->group(
-            'product_id'
-        );
-
-        $replace = $write->insertFromSelect(
-            $select,
-            $this->resource->getTableName('catalogrule_affected_product'),
-            array('product_id'),
-            true
-        );
-        $write->query($replace);
-        $write->delete($this->resource->getTableName('catalogrule_product_price'), $conds);
-        return $this;
-    }
-
-    /**
-     * Delete old price rules data
-     *
-     * @param string $date
-     * @param int|null $productId
-     * @return $this
-     */
-    protected function deleteOldData($date, $productId = null)
-    {
-        $write = $this->getWriteAdapter();
-        $conds = array();
-        $conds[] = $write->quoteInto('rule_date<?', $this->dateTime->date($date));
-        if (!is_null($productId)) {
-            $conds[] = $write->quoteInto('product_id=?', $productId);
-        }
-        $write->delete($this->resource->getTableName('catalogrule_product_price'), $conds);
-        return $this;
-    }
-
-    /**
      * Calculate product price based on price rule data and previous information
      *
      * @param array $ruleData
@@ -540,41 +456,27 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         if ($productData !== null && isset($productData['rule_price'])) {
             $productPrice = $productData['rule_price'];
         } else {
-            $websiteId = $ruleData['website_id'];
-            if (isset($ruleData['website_' . $websiteId . '_price'])) {
-                $productPrice = $ruleData['website_' . $websiteId . '_price'];
-            } else {
-                $productPrice = $ruleData['default_price'];
-            }
+            $productPrice = $ruleData['default_price'];
         }
 
-        $productPrice = $this->calcPriceRule(
-            $ruleData['action_operator'],
-            $ruleData['action_amount'],
-            $productPrice
-        );
-
-        return $this->priceCurrency->round($productPrice);
-    }
-
-    protected function calcPriceRule($actionOperator, $ruleAmount, $price)
-    {
-        $priceRule = 0;
-        switch ($actionOperator) {
+        switch ($ruleData['action_operator']) {
             case 'to_fixed':
-                $priceRule = min($ruleAmount, $price);
+                $productPrice = min($ruleData['action_amount'], $productPrice);
                 break;
             case 'to_percent':
-                $priceRule = $price * $ruleAmount / 100;
+                $productPrice = $productPrice * $ruleData['action_amount'] / 100;
                 break;
             case 'by_fixed':
-                $priceRule = max(0, $price - $ruleAmount);
+                $productPrice = max(0, $productPrice - $ruleData['action_amount']);
                 break;
             case 'by_percent':
-                $priceRule = $price * (1 - $ruleAmount / 100);
+                $productPrice = $productPrice * (1 - $ruleData['action_amount'] / 100);
                 break;
+            default:
+                $productPrice = 0;
         }
-        return $priceRule;
+
+        return $this->priceCurrency->round($productPrice);
     }
 
     protected function getRuleProductsStmt($fromDate, $toDate, $productId = null, $websiteId = null)
@@ -622,59 +524,41 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         $select->join(
             array('pp_default' => $priceTable),
             sprintf($joinCondition, 'pp_default', \Magento\Store\Model\Store::DEFAULT_STORE_ID),
-            array('default_price' => 'pp_default.value')
+            array()
         );
 
-        if ($websiteId !== null) {
-            $website = $this->storeManager->getWebsite($websiteId);
-            $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof \Magento\Store\Model\Group) {
-                $storeId = $defaultGroup->getDefaultStoreId();
-            } else {
-                $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
-            }
-
-            $select->joinInner(
-                array('product_website' => $this->resource->getTableName('catalog_product_website')),
-                'product_website.product_id=rp.product_id ' .
-                'AND rp.website_id=product_website.website_id ' .
-                'AND product_website.website_id=' .
-                $websiteId,
-                array()
-            );
-
-            $tableAlias = 'pp' . $websiteId;
-            $fieldAlias = 'website_' . $websiteId . '_price';
-            $select->joinLeft(
-                array($tableAlias => $priceTable),
-                sprintf($joinCondition, $tableAlias, $storeId),
-                array($fieldAlias => $tableAlias . '.value')
-            );
+        $website = $this->storeManager->getWebsite($websiteId);
+        $defaultGroup = $website->getDefaultGroup();
+        if ($defaultGroup instanceof \Magento\Store\Model\Group) {
+            $storeId = $defaultGroup->getDefaultStoreId();
         } else {
-            foreach ($this->storeManager->getWebsites() as $website) {
-                $websiteId = $website->getId();
-                $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof \Magento\Store\Model\Group) {
-                    $storeId = $defaultGroup->getDefaultStoreId();
-                } else {
-                    $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
-                }
-
-                $tableAlias = 'pp' . $websiteId;
-                $fieldAlias = 'website_' . $websiteId . '_price';
-                $select->joinLeft(
-                    array($tableAlias => $priceTable),
-                    sprintf($joinCondition, $tableAlias, $storeId),
-                    array($fieldAlias => $tableAlias . '.value')
-                );
-            }
+            $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         }
+
+        $select->joinInner(
+            array('product_website' => $this->resource->getTableName('catalog_product_website')),
+            'product_website.product_id=rp.product_id ' .
+            'AND rp.website_id=product_website.website_id ' .
+            'AND product_website.website_id=' .
+            $websiteId,
+            array()
+        );
+
+        $tableAlias = 'pp' . $websiteId;
+        $select->joinLeft(
+            array($tableAlias => $priceTable),
+            sprintf($joinCondition, $tableAlias, $storeId),
+            array()
+        );
+        $select->columns([
+            'default_price' => $this->getReadAdapter()->getIfNullSql($tableAlias . '.value', 'pp_default.value')
+        ]);
 
         return $read->query($select);
     }
 
 
-    protected function getMatchingProductIdsByRule(ModelRule $rule)
+    protected function getMatchingProductIdsByRule(Rule $rule)
     {
         $productCollection = $this->productFactory->create()->getCollection();
         $this->sqlBuilder->attachConditionToCollection($productCollection, $rule->getConditions());
@@ -689,7 +573,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         return $productIds;
     }
 
-    protected function applyToProduct(ModelRule $rule, $product)
+    protected function applyToProduct(Rule $rule, $product)
     {
         if (!$rule->getIsActive()) {
             return $this;
@@ -758,7 +642,7 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
             throw $e;
         }
 
-        $this->applyAllRulesForDateRange(null, null, $product);
+        $this->applyAllRulesForDateRange($product);
 
         return $this;
     }

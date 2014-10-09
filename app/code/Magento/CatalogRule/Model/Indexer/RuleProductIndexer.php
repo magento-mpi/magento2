@@ -102,12 +102,9 @@ class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
     {
         $this->indexer->load(static::INDEXER_ID);
 
-        // TODO: create state object (see \Magento\CatalogRule\Model\Indexer\Product\IndexProcessor)
-        if ($this->indexer->isWorking()) {
-            // TODO: setter or action
-            $this->rowsAction->execute($ids, true);
+        if (!$this->indexer->isWorking()) {
+            $this->fullAction->execute();
         }
-        $this->rowsAction->execute($ids);
 
         return $this;
     }
