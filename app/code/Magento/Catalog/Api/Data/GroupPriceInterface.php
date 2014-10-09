@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * Interface GroupPrice must be implemented Magento\Catalog\Model\Product\Type\Price  model
+ * Interface GroupPrice must be implemented Magento\Catalog\Model\Product\Type\Price\Group  model
  */
 interface GroupPriceInterface
 {

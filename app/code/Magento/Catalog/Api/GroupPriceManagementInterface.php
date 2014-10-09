@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Api\GroupPrice;
 
 /**
- * Interface GroupRepositoryInterface must be implemented by new Group Price repository model
+ * Interface GroupPriceManagementInterface must be implemented by new GroupPrice management model
  */
 interface GroupPriceManagementInterface
 {
