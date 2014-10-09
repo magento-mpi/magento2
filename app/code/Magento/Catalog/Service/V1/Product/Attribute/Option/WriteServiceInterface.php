@@ -15,6 +15,9 @@ interface WriteServiceInterface
     /**
      * Add option to attribute
      *
+     * @deprecated
+     * @see \Magento\Catalog\Api\Product\Attribute\OptionManagementInterface::addOption
+     *
      * @param string $id
      * @param \Magento\Catalog\Service\V1\Data\Eav\Option $option
      * @throws \Magento\Framework\Exception\StateException
@@ -24,6 +27,9 @@ interface WriteServiceInterface
 
     /**
      * Delete option from attribute
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\Product\Attribute\OptionManagementInterface::removeOption
      *
      * @param string $id
      * @param int $optionId
