@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Api;
 
-interface ProductTypeProviderInterface
+interface ProductTypeListInterface
 {
     /**
      * Retrieve available product types

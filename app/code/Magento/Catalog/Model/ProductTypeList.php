@@ -9,10 +9,10 @@
  */
 namespace Magento\Catalog\Model;
 
-use \Magento\Catalog\Api\ProductTypeProviderInterface;
+use \Magento\Catalog\Api\ProductTypeListInterface;
 use \Magento\Catalog\Model\ProductTypes\ConfigInterface;
 
-class ProductTypeProvider implements ProductTypeProviderInterface
+class ProductTypeList implements ProductTypeListInterface
 {
     /**
      * Product type configuration provider
