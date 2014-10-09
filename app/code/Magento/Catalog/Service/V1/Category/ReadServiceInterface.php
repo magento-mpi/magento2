@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Service\V1\Category;
-
+/**
+ * @todo remove this interface
+ */
 interface ReadServiceInterface
 {
     /**
@@ -15,6 +17,8 @@ interface ReadServiceInterface
      * @param int $categoryId
      * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @deprecated
+     * @see \Magento\Catalog\Api\CategoryManagementInterface::get
      */
     public function info($categoryId);
 }

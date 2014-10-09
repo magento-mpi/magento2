@@ -80,4 +80,19 @@ interface CategoryInterface
      * @return bool|null
      */
     public function isActive();
+
+    /**
+     * Get category level
+     *
+     * @return \Magento\Catalog\Api\Data\CategoryInterface[]|null
+     */
+    public function getChildren();
+
+    /**
+     * Get product count
+     *
+     * @return int|null
+     */
+    public function getProductCount();
+
 }

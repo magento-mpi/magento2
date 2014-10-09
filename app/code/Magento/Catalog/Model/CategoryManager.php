@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-class CategoryManager implements \Magento\Catalog\Api\Category\ManagerInterface
+class CategoryManager implements \Magento\Catalog\Api\CategoryManagementInterface
 {
     /**
      * @var CategoryFactory

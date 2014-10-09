@@ -1,27 +1,36 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Category;
+
+namespace Magento\Catalog\Api;
 
 /**
- * @todo remove this interface
+ * Interface ManagerInterface must be implemented in new model \Magento\Catalog\Model\CategoryManager
  */
-interface WriteServiceInterface
+interface CategoryManagementInterface
 {
+    /**
+     * Get info about category by category id
+     *
+     * @param int $categoryId
+     * @return \Magento\Catalog\Api\Data\CategoryInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function get($categoryId);
+
     /**
      * Create category service
      *
-     * @param \Magento\Catalog\Service\V1\Data\Category $category
+     * @param \Magento\Catalog\Api\Data\CategoryInterface $category
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::save
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Category $category);
+    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category);
 
     /**
      * Delete category
@@ -31,8 +40,6 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::delete
      */
     public function delete($categoryId);
 
@@ -40,14 +47,20 @@ interface WriteServiceInterface
      * Update category
      *
      * @param int $categoryId category to be updated
-     * @param \Magento\Catalog\Service\V1\Data\Category $category
+     * @param \Magento\Catalog\Api\Data\CategoryInterface $category
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\InputException
-     * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::update
      */
-    public function update($categoryId, \Magento\Catalog\Service\V1\Data\Category $category);
+    public function update($categoryId, \Magento\Catalog\Api\Data\CategoryInterface $category);
+
+    /**
+     * Retrieve list of categories
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
+     * @return \Magento\Catalog\Api\Data\CategoryInterface containing Tree objects
+     */
+    public function getList();
 
     /**
      * Move category
@@ -58,8 +71,6 @@ interface WriteServiceInterface
      * @return bool
      * @throws \Magento\Framework\Model\Exception
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::move
      */
     public function move($categoryId, $parentId, $afterId = null);
 }
