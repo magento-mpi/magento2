@@ -670,7 +670,7 @@
 //
 //    Mobile checkout order product name
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-product-items-summary {
         tbody {
             .col {
@@ -993,4 +993,10 @@
 //--------------------------------------
 .abstract-no-display {
     display: none;
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-no-display-s {
+        display: none;
+    }
 }

@@ -311,7 +311,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .checkout-onepage-index {
         .nav-toggle {
             display: none;
@@ -323,7 +323,7 @@
 
     .opc-wrapper {
         .data.table {
-            &:extend(.abstract-table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile-s all);
             &:extend(.abstract-product-items-summary all);
             tbody tr {
                 &:first-child,
@@ -335,13 +335,26 @@
                 td:last-child {
                     border-bottom: @border-width-base solid @border-color-base;
                 }
+                .product-item-name {
+                    display: inline-block;
+                }
                 .col {
-                    &.qty,
+                    &.qty {
+                        text-align: left;
+                    }
                     &.price,
                     &.subtotal {
                         text-align: left;
+                        .price-including-tax,
+                        .price-excluding-tax {
+                            display: inline-block;
+                        }
                     }
                 }
+            }
+            .mark,
+            .amount {
+                padding-left: 0;
             }
         }
     }

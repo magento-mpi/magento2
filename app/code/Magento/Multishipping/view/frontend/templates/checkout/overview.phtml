@@ -82,7 +82,7 @@
                 <div class="box box-items">
                     <div class="box-content">
                         <div class="table-wrapper">
-                            <table class="items data table order review" id="overview-table-<?php echo $_address->getId() ?>">
+                            <table class="items data table order-review" id="overview-table-<?php echo $_address->getId() ?>">
                                 <thead>
                                 <tr>
                                     <th class="col item"><?php echo __('Item') ?>
@@ -119,7 +119,7 @@
             </strong>
             <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
             <div class="table-wrapper">
-                <table class="items data table order review" id="virtual-overview-table">
+                <table class="items data table order-review" id="virtual-overview-table">
                     <thead>
                         <tr>
                             <th class="col item"><?php echo __('Product Name') ?></th>

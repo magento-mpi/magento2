@@ -489,6 +489,23 @@
     }
 }
 
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-table-vertical-mobile-s {
+        .table-responsive();
+        tbody > tr {
+            > td {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            &:not(:last-child) {
+                td:last-child {
+                    padding-bottom: @indent-base;
+                }
+            }
+        }
+    }
+}
+
 //
 //    Excl/Incl tax
 //--------------------------------------
@@ -568,19 +585,13 @@
 }
 
 //
-//    Checkout order product name
-//--------------------------------------
-.abstract-product-items-summary {
-    td {
-        text-align: left;
-    }
-}
-
-//
 //    Mobile checkout order product name
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-product-items-summary {
+        td {
+            text-align: left;
+        }
         tbody {
             .col {
                 padding: @indent-s-base 0 0;
@@ -691,4 +702,10 @@
 //--------------------------------------
 .abstract-no-display {
     display: none;
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-no-display-s {
+        display: none;
+    }
 }

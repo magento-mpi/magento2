@@ -54,10 +54,19 @@
         margin-top: @indent-xl-base;
     }
 
-    .actions-toolbar > .secondary {
-        display: block;
-        .action.back {
+    .actions-toolbar {
+        > .secondary {
             display: block;
+            .action {
+                margin-bottom: @indent-m-base;
+                &.back {
+                    display: block;
+                    margin-left: 0;
+                }
+            }
+        }
+        > .primary {
+            margin-right: @indent-s-base;
         }
     }
 
@@ -142,19 +151,20 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     [class^="multishipping-"] {
         .nav-toggle {
-            &:extend(.abstract-no-display all);
+            &:extend(.abstract-no-display-s all);
         }
         .logo {
+
             margin-left: 0;
         }
     }
 
     .multicheckout {
         .data.table {
-            &:extend(.abstract-table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile-s all);
             &:extend(.abstract-product-items-summary all);
             > tbody {
                 > tr td {
@@ -169,7 +179,7 @@
                         padding-top: 9px;
                         padding-bottom: 15px;
                         &:before {
-                            &:extend(.abstract-visually-hidden-mobile-m all);
+                            display: none;
                         }
                     }
                     &:last-child {
@@ -177,6 +187,12 @@
                     }
                 }
             }
+        }
+
+        .product-item-name,
+        .price-including-tax,
+        .price-excluding-tax {
+            display: inline-block;
         }
 
         .block-content .box {
@@ -189,13 +205,38 @@
         }
 
         &.order-review {
-            .data.table {
-                thead {
+            .box-items {
+                .data.table thead {
                     .col.item {
                         display: block;
                         padding: 0;
                     }
                 }
+            }
+            .data.table {
+                .col {
+                    &.qty {
+                        text-align: left;
+                    }
+                    &.actions:before {
+                        display: none;
+                    }
+                }
+                > tfoot {
+                    tr:first-child td {
+                        border-top: 0;
+                    }
+                } 
+            }
+        }
+
+        .actions-toolbar {
+            .action {
+                margin-bottom: @indent-m-base;
+            }
+            > .primary {
+                margin-right: 0;
+                margin-bottom: @indent-m-base;
             }
         }
     }

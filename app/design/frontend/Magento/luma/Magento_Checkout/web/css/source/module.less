@@ -214,19 +214,21 @@
             td {
                 padding: 0 0 40px;
                 > strong {
+                    border-top: @border-width-base solid @border-color-base;
                     display: block;
+                    padding-top: 11px;
                 }
             }
             .mark {
-                padding-left: 15px;
+                padding-left: 10px;
                 strong {
                     font-weight: @font-weight-bold;
                     padding-right: 15px;
                 }
             }
             .amount {
-                padding-right: 15px;
-                padding-left: 15px;
+                padding-right: 10px;
+                padding-left: 10px;
             }
         }
     }
@@ -445,7 +447,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .checkout-onepage-index {
         .nav-toggle {
             display: none;
@@ -456,7 +458,7 @@
     }
     .opc-wrapper {
         .data.table {
-            &:extend(.abstract-table-vertical-mobile all);
+            &:extend(.abstract-table-vertical-mobile-s all);
             &:extend(.abstract-product-items-summary all);
             tbody tr {
                 td:not(:last-child) {
@@ -466,11 +468,20 @@
                     border-top: none;
                     border-bottom: @border-width-base solid @border-color-base;
                 }
+                .product-item-name {
+                    display: inline-block;
+                }
                 .col {
-                    &.qty,
+                    &.qty {
+                        text-align: left;
+                    }
                     &.price,
                     &.subtotal {
                         text-align: left;
+                        .price-including-tax,
+                        .price-excluding-tax {
+                            display: inline-block;
+                        }
                     }
                 }
             }
@@ -550,11 +561,8 @@
         }
         .data.table {
             .grand.totals {
-                td {
-                    > strong {
-                        border-top: @border-width-base solid @border-color-base;
-                        padding-top: 11px;
-                    }
+                .amount {
+                    padding-left: 0;
                 }
             }
         }
