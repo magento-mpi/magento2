@@ -6,44 +6,18 @@
  * @license     {license_link}
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
-use Magento\Framework\App\Filesystem\DirectoryList;
+
+use Magento\Framework\App\Filesystem;
 
 /**
  * @magentoAppArea adminhtml
  */
 class ThemeControllerTest extends \Magento\Backend\Utility\Controller
 {
-    /** @var \Magento\Framework\App\Filesystem */
-    protected $_filesystem;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->_filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
-    }
-
-    /**
-     * Test upload JS file
-     */
     public function testUploadJsAction()
     {
-        $_FILES = array(
-            'js_files_uploader' => array(
-                'name' => 'simple-js-file.js',
-                'type' => 'application/x-javascript',
-                'tmp_name' => $this->_prepareFileForUploading(),
-                'error' => '0',
-                'size' => '28'
-            )
-        );
-
-        /** @var \Magento\TestFramework\App\Filesystem $fileSystem */
-        $fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
-        );
-        $fileSystem->overridePath(\Magento\Framework\App\Filesystem::SYS_TMP, '');
-
+        $name = 'simple-js-file.js';
+        $this->createUploadFixture($name);
         $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')
             ->getCollection()
             ->getFirstItem();
@@ -52,27 +26,32 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/system_design_theme/uploadjs');
         $output = $this->getResponse()->getBody();
         $this->assertContains('"error":false', $output);
-        $this->assertContains('simple-js-file.js', $output);
+        $this->assertContains($name, $output);
     }
 
     /**
-     * Prepare file for uploading
+     * Creates a fixture for testing uploaded file
      *
-     * @return string
+     * @param string $name
+     * @return void
      */
-    protected function _prepareFileForUploading()
+    private function createUploadFixture($name)
     {
-        /**
-         * Copy file to writable directory.
-         * Uploader can copy(upload) and then remove this temporary file.
-         */
-        $fileName = __DIR__ . '/_files/simple-js-file.js';
-        $varDir = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-        $rootDir = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
-        $destinationFilePath = 'simple-js-file.js';
-
-        $rootDir->copyFile($rootDir->getRelativePath($fileName), $destinationFilePath, $varDir);
-
-        return $varDir->getAbsolutePath($destinationFilePath);
+        /** @var \Magento\TestFramework\App\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
+        $tmpDir = $filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
+        $subDir = str_replace('\\', '_', __CLASS__);
+        $tmpDir->create($subDir);
+        $target = $tmpDir->getAbsolutePath("{$subDir}/{$name}");
+        copy(__DIR__ . "/_files/{$name}", $target);
+        $_FILES = array(
+            'js_files_uploader' => array(
+                'name' => 'simple-js-file.js',
+                'type' => 'application/x-javascript',
+                'tmp_name' => $target,
+                'error' => '0',
+                'size' => '28'
+            )
+        );
     }
 }
