@@ -72,6 +72,7 @@ class Page extends Layout
      * @param View\Page\ConfigFactory $pageConfigFactory
      * @param View\Page\Config\Renderer $pageConfigRenderer
      * @param View\Page\Layout\Reader $pageLayoutReader
+     * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
      * @param array $data
      */
@@ -83,15 +84,30 @@ class Page extends Layout
         View\Page\ConfigFactory $pageConfigFactory,
         View\Page\Config\Renderer $pageConfigRenderer,
         View\Page\Layout\Reader $pageLayoutReader,
+        View\Layout\BuilderFactory $layoutBuilderFactory,
         $template,
         array $data = array()
     ) {
-        parent::__construct($context, $layoutFactory, $layoutReaderPool, $translateInline, $data);
         $this->pageConfig = $pageConfigFactory->create();
+        $this->pageLayoutReader = $pageLayoutReader;
         $this->viewFileSystem = $context->getViewFileSystem();
         $this->pageConfigRenderer = $pageConfigRenderer;
-        $this->pageLayoutReader = $pageLayoutReader;
         $this->template = $template;
+        parent::__construct(
+            $context, $layoutFactory, $layoutReaderPool, $translateInline, $layoutBuilderFactory, $data
+        );
+    }
+
+    /**
+     * Create layout builder
+     */
+    protected function initLayoutBuilder()
+    {
+        $this->layoutBuilderFactory->create(View\Layout\BuilderFactory::TYPE_PAGE, [
+            'layout' => $this->layout,
+            'pageConfig' => $this->pageConfig,
+            'pageLayoutReader' => $this->pageLayoutReader
+        ]);
     }
 
     /**
@@ -146,6 +162,7 @@ class Page extends Layout
      */
     protected function render(ResponseInterface $response)
     {
+        $this->pageConfig->publicBuild();
         if ($this->getPageLayout()) {
             $config = $this->getConfig();
 
@@ -181,29 +198,6 @@ class Page extends Layout
             $this->pageConfig->addBodyClass('page-layout-' . $pageLayout);
         }
         return $this;
-    }
-
-    /**
-     * Read page layout before generation generic layout
-     *
-     * @return $this
-     */
-    public function generateLayoutBlocks()
-    {
-        $this->readPageLayout();
-        return parent::generateLayoutBlocks();
-    }
-
-    /**
-     * Read page layout and write structure to ReadContext
-     */
-    public function readPageLayout()
-    {
-        $pageLayout = $this->getPageLayout();
-        if ($pageLayout) {
-            $readerContext = $this->getLayout()->getReaderContext();
-            $this->pageLayoutReader->read($readerContext, $pageLayout);
-        }
     }
 
     /**

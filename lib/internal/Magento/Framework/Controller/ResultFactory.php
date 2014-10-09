@@ -87,7 +87,6 @@ class ResultFactory
         if ($resultInstance instanceof \Magento\Framework\View\Result\Layout) {
             // Initialization has to be in constructor of ResultPage
             $resultInstance->addDefaultHandle();
-            $resultInstance->setIsControllerPage(true);
         }
 
         return $resultInstance;

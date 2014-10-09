@@ -20,17 +20,14 @@ use Magento\Framework\App\ResponseInterface;
 class Layout implements ResultInterface
 {
     /**
-     * Temporary state flag to know where page was created
-     * Default value is false, it means that the page was created in App\View model
-     *
-     * @var bool
-     */
-    protected  $isControllerPage = false;
-
-    /**
      * @var \Magento\Framework\View\LayoutFactory
      */
     protected $layoutFactory;
+
+    /**
+     * @var \Magento\Framework\View\Layout\BuilderFactory
+     */
+    protected $layoutBuilderFactory;
 
     /**
      * @var \Magento\Framework\View\Layout\Reader\Pool
@@ -64,19 +61,33 @@ class Layout implements ResultInterface
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
+     * @param View\Layout\BuilderFactory $layoutBuilderFactory
      */
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
-        Framework\Translate\InlineInterface $translateInline
+        Framework\Translate\InlineInterface $translateInline,
+        View\Layout\BuilderFactory $layoutBuilderFactory
     ) {
         $this->layoutFactory = $layoutFactory;
+        $this->layoutBuilderFactory = $layoutBuilderFactory;
         $this->layoutReaderPool = $layoutReaderPool;
-        $this->layout = $context->getLayout();
         $this->eventManager = $context->getEventManager();
         $this->request = $context->getRequest();
         $this->translateInline = $translateInline;
+        // TODO Shared layout object will be deletes in MAGETWO-28359
+        //$this->layout = $this->layoutFactory->create(['reader' => $this->layoutReaderPool]);
+        $this->layout = $context->getLayout();
+        $this->initLayoutBuilder();
+    }
+
+    /**
+     * Create layout builder
+     */
+    protected function initLayoutBuilder()
+    {
+        $this->layoutBuilderFactory->create(View\Layout\BuilderFactory::TYPE_LAYOUT, ['layout' => $this->layout]);
     }
 
     /**
@@ -86,9 +97,6 @@ class Layout implements ResultInterface
      */
     public function getLayout()
     {
-        if (empty($this->layout)) {
-            $this->layout = $this->layoutFactory->create(['reader' => $this->layoutReaderPool]);
-        }
         return $this->layout;
     }
 
@@ -142,76 +150,6 @@ class Layout implements ResultInterface
     }
 
     /**
-     * Load layout updates
-     *
-     * @return $this
-     */
-    protected function loadLayoutUpdates()
-    {
-        \Magento\Framework\Profiler::start('LAYOUT');
-        // dispatch event for adding handles to layout update
-        $this->eventManager->dispatch(
-            'controller_action_layout_load_before',
-            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->getLayout())
-        );
-        // load layout updates by specified handles
-        \Magento\Framework\Profiler::start('layout_load');
-
-        $this->getLayout()->getUpdate()->load();
-
-        \Magento\Framework\Profiler::stop('layout_load');
-        \Magento\Framework\Profiler::stop('LAYOUT');
-        return $this;
-    }
-
-    /**
-     * Generate layout xml
-     *
-     * @return $this
-     */
-    public function generateLayoutXml()
-    {
-        \Magento\Framework\Profiler::start('LAYOUT');
-        // generate xml from collected text updates
-        \Magento\Framework\Profiler::start('layout_generate_xml');
-
-        $this->getLayout()->generateXml();
-
-        \Magento\Framework\Profiler::stop('layout_generate_xml');
-        \Magento\Framework\Profiler::stop('LAYOUT');
-        return $this;
-    }
-
-    /**
-     * Generate layout blocks
-     *
-     * TODO: Restore action flag functionality to have ability to turn off event dispatching
-     *
-     * @return $this
-     */
-    public function generateLayoutBlocks()
-    {
-        \Magento\Framework\Profiler::start('LAYOUT');
-        // dispatch event for adding xml layout elements
-        $this->eventManager->dispatch(
-            'controller_action_layout_generate_blocks_before',
-            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->getLayout())
-        );
-        \Magento\Framework\Profiler::start('layout_generate_blocks');
-
-        /* generate blocks from xml layout */
-        $this->getLayout()->generateElements();
-
-        \Magento\Framework\Profiler::stop('layout_generate_blocks');
-        $this->eventManager->dispatch(
-            'controller_action_layout_generate_blocks_after',
-            array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->getLayout())
-        );
-        \Magento\Framework\Profiler::stop('LAYOUT');
-        return $this;
-    }
-
-    /**
      * Render current layout
      *
      * @param ResponseInterface $response
@@ -219,9 +157,6 @@ class Layout implements ResultInterface
      */
     public function renderResult(ResponseInterface $response)
     {
-        if ($this->isControllerPage) {
-            $this->_initLayout();
-        }
         \Magento\Framework\Profiler::start('LAYOUT');
         \Magento\Framework\Profiler::start('layout_render');
 
@@ -237,19 +172,6 @@ class Layout implements ResultInterface
     }
 
     /**
-     * Create new instance of layout for current page
-     *
-     * @return $this
-     */
-    protected function _initLayout()
-    {
-        $this->loadLayoutUpdates();
-        $this->generateLayoutXml();
-        $this->generateLayoutBlocks();
-        return $this;
-    }
-
-    /**
      * Render current layout
      *
      * @param ResponseInterface $response
@@ -258,18 +180,6 @@ class Layout implements ResultInterface
     protected function render(ResponseInterface $response)
     {
         $response->appendBody($this->layout->getOutput());
-        return $this;
-    }
-
-    /**
-     * Set state of current instance
-     *
-     * @param bool $state
-     * @return $this
-     */
-    public function setIsControllerPage($state)
-    {
-        $this->isControllerPage = $state;
         return $this;
     }
 }
