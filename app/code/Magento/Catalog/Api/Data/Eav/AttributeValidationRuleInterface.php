@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product\Attribute;
+namespace Magento\Catalog\Api\Data\Eav;
 
 interface AttributeValidationRuleInterface 
 {

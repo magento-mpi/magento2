@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product\Attribute;
+namespace Magento\Catalog\Api\Data\Eav;
 
 interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\MetadataObjectInterface
 {
@@ -40,7 +40,7 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
     /**
      * Retrieve validation rules.
      *
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeValidationRuleInterface[]|null
+     * @return \Magento\Catalog\Api\Data\Eav\AttributeValidationRuleInterface[]|null
      */
     public function getValidationRules();
 
@@ -59,7 +59,7 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeOptionInterface[]|null
+     * @return \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface[]|null
      */
     public function getOptions();
 
@@ -72,7 +72,7 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
     /**
      * Get label which supposed to be displayed on frontend.
      *
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeFrontendLabelInterface[]|null
+     * @return \Magento\Catalog\Api\Data\Eav\AttributeFrontendLabelInterface[]|null
      */
     public function getFrontendLabel();
 

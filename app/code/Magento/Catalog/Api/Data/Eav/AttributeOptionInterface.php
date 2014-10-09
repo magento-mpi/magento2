@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product\Attribute;
+namespace Magento\Catalog\Api\Data\Eav;
 
 interface AttributeOptionInterface 
 {
@@ -41,7 +41,7 @@ interface AttributeOptionInterface
     /**
      * Set option label for store scopes
      *
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeOptionLabel[]|null
+     * @return \Magento\Catalog\Api\Data\Eav\AttributeOptionLabel[]|null
      */
     public function getStoreLabels();
 }

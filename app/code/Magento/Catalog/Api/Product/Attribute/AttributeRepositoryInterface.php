@@ -13,12 +13,12 @@ interface AttributeRepositoryInterface
     /**
      * Save attribute data
      *
-     * @param \Magento\Catalog\Api\Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata
+     * @param \Magento\Catalog\Api\Data\Eav\AttributeMetadataInterface $attributeMetadata
      * @return string
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function save(\Magento\Catalog\Api\Data\Product\Attribute\AttributeMetadataInterface $attributeMetadata);
+    public function save(\Magento\Catalog\Api\Data\Eav\AttributeMetadataInterface $attributeMetadata);
 
     /**
      * Get full information about a required attribute with the list of options
