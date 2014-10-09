@@ -35,8 +35,8 @@ define([
             _.extend(this, defaults, config);
 
             this.setUniqueId()
-                .initDisableStatus()
-                .initObservable();
+                .initObservable()
+                .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
 
