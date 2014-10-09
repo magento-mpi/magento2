@@ -122,7 +122,8 @@ class Handler
         $serviceClassReflector = new ClassReflection($serviceClass);
         $serviceMethodReturnType = $serviceClassReflector->getMethod($serviceMethod)
             ->getDocBlock()
-            ->getTag('return');
+            ->getTag('return')
+            ->getType();
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
         $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
         return $this->_prepareResponseData($outputData, $serviceMethodReturnType);
@@ -156,11 +157,11 @@ class Handler
     {
         $result = null;
         if ($data instanceof AbstractSimpleObject) {
-            $result = $this->_dataObjectConverter->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data));
+            $result = $this->_dataObjectConverter->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
                 if ($value instanceof AbstractSimpleObject) {
-                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($value));
+                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($value, $dataType));
                 } else {
                     $result[$key] = $value;
                 }

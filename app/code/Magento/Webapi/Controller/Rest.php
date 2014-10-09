@@ -165,7 +165,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $serviceClassReflector = new ClassReflection($serviceClassName);
             $serviceMethodReturnType = $serviceClassReflector->getMethod($serviceMethodName)
                 ->getDocBlock()
-                ->getTag('return');
+                ->getTag('return')
+                ->getType();
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceMethodReturnType);
