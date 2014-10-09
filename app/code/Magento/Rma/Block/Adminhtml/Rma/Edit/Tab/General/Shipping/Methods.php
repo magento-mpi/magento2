@@ -7,6 +7,9 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
+/**
+ * Class Methods
+ */
 class Methods extends \Magento\Framework\View\Element\Template
 {
     /**
