@@ -48,7 +48,7 @@ class Manager
      * returns datasource metadata
      *
      * @param $datasource
-     * @return array|mixed|null
+     * @return \Magento\Ui\DataProvider\Metadata
      */
     public function getMetadata($datasource)
     {
@@ -61,8 +61,8 @@ class Manager
     /**
      * Returns data by specified datasource name
      *
-     * @param $datasource
-     * @param null $filters
+     * @param string $datasource
+     * @param array $filters
      * @return array
      */
     public function getData($datasource, $filters = null)

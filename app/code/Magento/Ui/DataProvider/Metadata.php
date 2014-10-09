@@ -194,11 +194,11 @@ class Metadata implements \Iterator, \ArrayAccess
      * Returns price class by code
      *
      * @param string $code
-     * @return string
+     * @return string|array
      */
     public function get($code)
     {
-        return $this->config[$code];
+        return isset($this->config[$code]) ? $this->config[$code] : false;
     }
 
     /**

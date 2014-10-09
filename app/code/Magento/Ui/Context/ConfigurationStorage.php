@@ -60,6 +60,59 @@ class ConfigurationStorage implements ConfigStorageInterface
     protected $dataProviderStorage = [];
 
     /**
+     * @var array
+     */
+    protected $components = [];
+
+    /**
+     * @var array
+     */
+    protected $layoutNodes = [];
+
+    /**
+     * @param string $name
+     * @param array $value
+     */
+    public function addLayoutNode($name, array $value)
+    {
+        $this->layoutNodes[$name] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLayoutNodes()
+    {
+        return $this->layoutNodes;
+    }
+
+    /**
+     * @param string $name
+     * @param array $data
+     * @return mixed
+     */
+    public function addComponent($name, $data)
+    {
+        $this->components[$name] = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComponents()
+    {
+        return $this->components;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaKeys()
+    {
+        return array_keys($this->metaStorage);
+    }
+
+    /**
      * Add components configuration
      *
      * @param ConfigInterface $config

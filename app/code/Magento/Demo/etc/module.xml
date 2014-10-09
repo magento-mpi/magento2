@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <module name="Magento_Demo" schema_version="1.6.0.0" active="true">
+        <sequence>
+            <module name="Magento_Backend"/>
+        	<module name="Magento_Directory"/>
+        </sequence>
+        <depends>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Store"/>
+        </depends>
+    </module>
+</config>

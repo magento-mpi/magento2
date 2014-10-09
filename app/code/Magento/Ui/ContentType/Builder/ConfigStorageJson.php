@@ -51,4 +51,25 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
 
         return json_encode($result);
     }
+
+    /**
+     * Config storage data to JSON by output
+     *
+     * @param ConfigStorageInterface $storage
+     * @return string
+     */
+    public function toJsonNew(ConfigStorageInterface $storage)
+    {
+        $result = [];
+        foreach ($storage->getMetaKeys() as $key) {
+            $result['providers'][$key] = [
+                'path' => 'Magento_Ui/js/form/provider/provider',
+                'meta' => $storage->getMeta($key),
+                'data' => $storage->getData($key)
+            ];
+        }
+        $result['components'] = $storage->getComponents();
+        $result['layout'] = $storage->getLayoutNodes();
+        return json_encode($result);
+    }
 }

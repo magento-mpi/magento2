@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+    <referenceBlock name="form">
+        <arguments>
+            <argument name="save_mca" xsi:type="string">demo\index\save</argument>
+            <argument name="validate_mca" xsi:type="string">demo\index\validate</argument>
+            <argument name="meta" xsi:type="array">
+                <item name="defaults" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <argument name="name" xsi:type="string">demo_form</argument>
+
+            <argument name="layout" xsi:type="array">
+                <item name="configuration" xsi:type="array">
+                    <item name="type" xsi:type="string">fieldset</item>
+                    <item name="areas" xsi:type="array">
+                        <item name="customer_info" xsi:type="array">
+                            <item name="index" xsi:type="string">sample_data</item>
+                            <item name="type" xsi:type="string">fieldset</item>
+                            <item name="label" xsi:type="string" translate="true">Customer Info</item>
+                            <item name="collapsible" xsi:type="boolean">true</item>
+                            <item name="ajax" xsi:type="boolean">true</item>
+                            <item name="configuration" xsi:type="array">
+                                <item name="areas" xsi:type="array">
+                                    <item name="customer_address" xsi:type="array">
+                                        <item name="index" xsi:type="string">sample_data2</item>
+                                        <item name="type" xsi:type="string">fieldset</item>
+                                        <item name="label" xsi:type="string" translate="true">Customer Address</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                        <!--<item name="sample_data3" xsi:type="array">-->
+                            <!--<item name="index" xsi:type="string">sample_data3</item>-->
+                            <!--<item name="name" xsi:type="string">fieldset</item>-->
+                            <!--<item name="label" xsi:type="string" translate="true">Demo fieldset (AJAX)</item>-->
+                            <!--<item name="collapsible" xsi:type="boolean">true</item>-->
+                            <!--<item name="load_by_ajax" xsi:type="boolean">true</item>-->
+                        <!--</item>-->
+                    </item>
+                </item>
+            </argument>
+
+            <argument name="data_sources" xsi:type="array">
+                <item name="customer_info" xsi:type="string">customer</item>
+            </argument>
+
+            <!--<argument name="data_provider_pool" xsi:type="array">-->
+                <!--<item name="sample_data" xsi:type="array">-->
+                    <!--<item name="class" xsi:type="string">Magento\Demo\Ui\DataProvider\Sample</item>-->
+                <!--</item>-->
+                <!--<item name="sample_data2" xsi:type="array">-->
+                    <!--<item name="class" xsi:type="string">Magento\Demo\Ui\DataProvider\Sample</item>-->
+                <!--</item>-->
+                <!--<item name="sample_data3" xsi:type="array">-->
+                    <!--<item name="class" xsi:type="string">Magento\Demo\Ui\DataProvider\Sample</item>-->
+                <!--</item>-->
+            <!--</argument>-->
+        </arguments>
+    </referenceBlock>
+</page>

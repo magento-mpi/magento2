@@ -9,7 +9,8 @@
 -->
 <page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="content">
-        <block class="Magento\Backend\Block\Template" template="Magento_Customer::test.phtml" name="customer.test" as="customer_test"/>
+            <ui_component name="customer_form" component="form"/>
+        <!--<block class="Magento\Backend\Block\Template" template="Magento_Customer::test.phtml" name="customer.test" as="customer_test"/>-->
         <block class="Magento\Customer\Block\Adminhtml\Edit" name="customer_edit"/>
     </referenceContainer>
     <referenceContainer name="left">
