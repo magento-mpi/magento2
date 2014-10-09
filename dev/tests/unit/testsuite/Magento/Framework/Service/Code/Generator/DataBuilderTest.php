@@ -90,6 +90,7 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerate()
     {
+        $this->markTestIncomplete('Incomplete feature');
         $generatedCode = 'Generated code';
         $sourceFileName = 'SampleData.php';
         $resultFileName = self::OUTPUT_FILE_NAME;
