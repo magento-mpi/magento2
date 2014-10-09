@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Api;
 
 /**
- * Interface Tier/RepositoryInterface must be implemented by new Group Price repository model
+ * Interface TierPriceManagementInterface must be implemented by new Tier Price management model
  */
 interface TierPriceManagementInterface
 {

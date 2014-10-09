@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * Interface TierPrice must be implemented Magento\Catalog\Model\Product\Type\Price  model
+ * Interface TierPrice must be implemented Magento\Catalog\Model\Product\Type\Price\Tier  model
  */
 interface TierPriceInterface
 {
