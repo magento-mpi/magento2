@@ -24,5 +24,11 @@
             <!-- /ko -->
 
         <!-- /ko -->
+
+        <!-- ko foreach: { data: invalid, as: 'element' } -->
+            <!-- ko foreach: { data: element.errorMessages, as: 'message' } -->
+            <label class="mage-error" data-bind="attr: { for: $parent.uid }, text: message"></label>
+            <!-- /ko -->
+        <!-- /ko -->
     </div>
 </div>

@@ -31,12 +31,14 @@ define([
             var deps,
                 callback;
                 
-            _.each(this.layout.items, function(item, name){
-                callback    = this.initItem.bind(this, item, name),
+            _.each(this.layout, function(item, name){
+                callback    = this.initItem.bind(this, item, name);
                 deps        = item.injections;
 
                 registry.get(deps, callback);
             }, this);
+
+            console.log('this.layout ',this.layout);
 
             return this;
         },
@@ -60,6 +62,10 @@ define([
             this.elems.push(item);
 
             registry.set(fullName, item);
+        },
+
+        getTemplate: function () {
+            return 'ui/collection';
         }
     });
 });

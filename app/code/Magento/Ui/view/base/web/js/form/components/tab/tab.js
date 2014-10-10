@@ -61,7 +61,7 @@ define([
         },
 
         setActive: function() {
-            this.active(true)
+            this.active(true);
 
             this.pushParams();
         },

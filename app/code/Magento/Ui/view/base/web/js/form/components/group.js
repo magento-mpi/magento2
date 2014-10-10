@@ -17,9 +17,18 @@ define([
         label:      '',
         required:   false,
         template:   'ui/group/group',
-        breakLine:  false
+        breakLine:  false,
+        invalid: []
     };
 
+    /**
+     * Either takes label property of 'obj' or if undefined loops over 
+     *     elements and returnes first label found.
+     * 
+     * @param  {Array} elems - array of elements
+     * @param  {Object} obj - alternate source of label
+     * @return {String} - label string
+     */
     function getLabel(elems, obj){
         var label = obj.label;
 
@@ -32,12 +41,25 @@ define([
         return label;
     }
 
+    /**
+     * Returns true if at least one of passed elements has it's required
+     *     observable attribute set to true.
+     *     
+     * @param  {Array} elems
+     * @return {Boolean}
+     */
     function getRequired(elems){
         return elems.some(function(elem){
             return elem.required();
         });
     }
 
+    /**
+     * Loops over elems array and returnes first uid found.
+     * 
+     * @param  {Array} elems
+     * @return {String}
+     */
     function getUid(elems){
         var uid;
 
@@ -49,13 +71,36 @@ define([
     }
 
     var FormGroup = Scope.extend({
+
+        /**
+         * Extends this with defaults and config.
+         * Then calls initObservable, iniListenes and extractData methods.
+         * 
+         * @param  {Object} config
+         */
         initialize: function(config) {
             _.extend(this, defaults, config);
 
-            this.initListeners()
+            this.initObservable()
+                .initListeners()
                 .extractData();
         },
 
+        /**
+         * Initializes observable properties of instance.
+         * @return {Object} - reference to instance
+         */
+        initObservable: function () {
+            this.observe('invalid', this.invalid || []);
+
+            return this;
+        },
+
+        /**
+         * Extends instance with additional properties.
+         * 
+         * @return {Object} - reference to instance
+         */
         extractData: function(){
             var elems = this.elems;
 
@@ -66,20 +111,62 @@ define([
             });
         },
 
-        initListeners: function(){
-            var trigger = this.trigger.bind(this, 'update');
+        /**
+         * Reacts on element's being validated.
+         * If isValid is falsy, updates provider's params storage's invalid
+         *     property. Also, updates instance's invalid observable array.
+         * 
+         * @param  {Object}  element - element, that has been validated
+         * @param  {Boolean} isValid - result of element's validation
+         */
+        validate: function (element, isValid) {
+            var params = this.provider.params,
+                invalid,
+                localInvalid;
 
-            this.elems.forEach(function(elem){
-                elem.on('update', trigger);
-            });
-            
+            if (!isValid) {
+                invalid         = params.get('invalid');
+                localInvalid    = this.invalid();
+
+                invalid.push(element.name);
+                localInvalid.push(element);
+
+                params.set('invalid', _.uniq(invalid));
+                this.invalid(_.uniq(localInvalid));
+            }
+        },
+
+        /**
+         * Initializes instance's listeners.
+         * 
+         * @return {Object} - reference to instance
+         */
+        initListeners: function(){
+            var update      = this.trigger.bind(this, 'update'),
+                validate    = this.validate;
+
+            this.elems.forEach(function(element){
+                element.on('update',   update);
+                element.on('validate', validate.bind(this, element));
+            }, this);
+
             return this;
         },
 
+        /**
+         * Returns path(alias) to instance's template.
+         * 
+         * @return {String}
+         */
         getTemplate: function(){
             return this.template;
         },
 
+        /**
+         * Returns true, if at least one of elements' value has changed.
+         * 
+         * @return {Boolean}
+         */
         hasChanged: function(){
             return this.elems.some(function(elem){
                 return elem.hasChanged();

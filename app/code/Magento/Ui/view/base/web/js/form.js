@@ -14,117 +14,167 @@ define(function (require) {
         utils       = require('mage/utils'),
         _           = require('underscore');
 
+    var defaults = {
+        elements: {},
+        validateOnChange: true
+    };
+
     /**
-     * Concatenates path and subpath by '.' separator
-     * 
-     * @param  {String} path
-     * @param  {String} subpath
-     * @return {String} result path
+     * Defines if an object is meta descriptor by checking if one has
+     *     "meta_ref" or "input_type" properties defined
+     *     
+     * @param  {Object}  obj
+     * @return {Boolean} - true, if object is meta descriptor
      */
-    function incrementPath(path, subpath) {
-        return path + '.' + subpath;
-    }
+    function isMetaDescriptor(obj) {
+        var isMetaReference = obj.meta_ref,
+            hasInputType    = obj.input_type;
+
+        return isMetaReference || hasInputType;
+    };
 
     var Form = Scope.extend({
 
         /**
-         * Extends instance with config, initializes observable properties,
-         *     invokes initElements method.
+         * Extends instance with config, initializes instances core properties;
          *     
          * @param  {Object} config
          */
         initialize: function (config) {
-            _.extend(this, config);
+            _.extend(this, defaults, config);
 
-            this.initElements = this.initElements.bind(
-                this, 
-                this.refs.provider.meta.get(),
-                this.refs.provider.data.get()
-            );
-
-            this.initElements();
+            this.initProperties()
+                .createElements(this.meta);
         },
 
         /**
-         * Recursively loops over initial object's properties,
+         * Initializes instance's properties, also initializes 'invalid'
+         *     array in params storage.
+         *     
+         * @return {Object} - reference to instance
+         */
+        initProperties: function () {
+            var provider = this.refs.provider;
+
+            this.data = provider.data.get();
+            this.meta = provider.meta.get();
+
+            provider.params.set('invalid', []);
+
+            return this;
+        },
+
+        /**
+         * Recursively loops over 'obj' object's properties,
          *     checkes if property is meta descriptor, looks for "meta_ref"
          *     property, merges found reference object, builds config for element
-         *     and invoces initElement with built config.
-         * If property is not meta descriptor, invoces itself with new path and initial
-         *     parameters.
+         *     and invokes initElement with config.
+         * If property is not meta descriptor, invokes itself with new obj(nested one) and path.
          *     
-         * @param  {Object} meta - reference to meta
-         * @param  {Object} data - reference to data
-         * @param  {Object} initial - target object to format
-         * @param  {String} basePath - path to initial (e.g. "customer.website")
+         * @param  {Object} obj - target object to format
+         * @param  {String} basePath - path to obj (e.g. "customer.website")
          */
-        initElements: function (meta, data, initial, basePath) {
-            var target,
-                isObject,
-                reference,
-                value,
+        createElements: function (obj, basePath) {
+            var reference,
                 path = '';
 
-            initial = initial  || meta;
-
-            for (var name in initial) {
-                target      = initial[name];
-                isObject    = typeof target === 'object';
+            _.each(obj, function (element, name) {
+                element     = obj[name];
                 path        = basePath ? basePath + '.' + name : name;
 
-                if (isObject && this.isMetaDescriptor(target)) {
-
-                    if (reference = target['meta_ref']) {
-                        _.extend(target, meta[reference]);
-                        delete target['meta_ref'];
-                    }
-                    
-                    _.extend(target, {
-                        name: path,
-                        type: target.input_type,
-                        refs: this.refs,
-                        value: utils.nested(data, path)
-                    });
-
-                    this.initElement(target);
-                } else if (isObject) {
-                    this.initElements(target, path);            
+                if (typeof element !== 'object') {
+                    return;
                 }
+
+                isMetaDescriptor(element) 
+                    ? this.createElement(element, path)
+                    : this.createElements(element, path);
+
+            }, this);
+        },
+
+        /**
+         * Formats config by merging corresponding meta data into it,
+         *     looks up for corresponding constructor in elements object,
+         *     creates an instance of it passing prepared config as a single parameter.
+         * Invokes registerElement method passing instance and it's name to it.
+         * 
+         * @param  {Object} config - config for instance
+         * @param  {Object} name - name for instance
+         */
+        createElement: function (config, name) {
+            var metaReference   = config.meta_ref,
+                type            = config.input_type,
+                constr          = elements[type],
+                element;
+
+            if (metaReference) {
+                _.extend(config, this.meta[metaReference]);
+                delete config.meta_ref;
+            }
+
+            _.extend(config, {
+                name: name,
+                type: type,
+                refs: this.refs,
+                value: utils.nested(this.data, name),
+                validateOnChange: this.validateOnChange
+            });
+
+            delete config.input_type;
+
+            element = new constr(config);
+            this.registerElement(name, element);
+        },
+
+        /**
+         * Registers element by it's name.
+         * @param  {String} name
+         * @param  {Object} element
+         */
+        registerElement: function (name, element) {
+            this.elements[name] = element;
+            registry.set(name, element);
+        },
+
+        /**
+         * Handler for submit action. Validates form and then, if form is valid,
+         *     invokes 'submit' method.
+         */
+        onSubmit: function () {
+            var isValid = this.validate();
+
+            if (isValid) {
+                this.submit();
             }
         },
 
         /**
-         * Looks up for corresponding constructor in elements object,
-         *     creates an instance of it passing config as a single parameted.
-         * Invokes register method passing instance to it.
-         * 
-         * @param  {Object} config - config for instance
+         * Submits form
          */
-        initElement: function (config) {
-            var constr  = elements[config.type],
-                element = new constr(config);
-
-            this.register(element);
+        submit: function () {
+            console.log('submitting form lalala')
         },
 
         /**
-         * Registes element by it's name to registry
+         * Validates each element and returns true, if all elements are valid.
          * 
-         * @param  {Object} element
+         * @return {Boolean}
          */
-        register: function (element) {
-            registry.set(element.name, element);
-        },
+        validate: function () {
+            var provider = this.refs.provider,
+                params   = provider.params,
+                isValid;
 
-        /**
-         * Defines if an object is meta descriptor by checking if one has
-         *     "meta_ref" or "input_type" properties defined
-         *     
-         * @param  {Object}  obj
-         * @return {Boolean} - true, if object is meta descriptor
-         */
-        isMetaDescriptor: function (obj) {
-            return ('meta_ref' in obj) || ('input_type' in obj);
+            params.set('invalid', [])
+
+            _.each(this.elements, function (element) {
+                element.validate();
+            });
+
+            isValid = !params.get('invalid').length;
+
+            return isValid;
         }
     });
     

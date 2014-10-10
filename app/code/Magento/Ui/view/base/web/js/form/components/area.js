@@ -69,6 +69,10 @@ define([
                 _.without(areas, this.name);
 
             params.set('changedAreas', areas);
+        },
+
+        getTemplate: function () {
+            return 'ui/area';
         }
     });
 

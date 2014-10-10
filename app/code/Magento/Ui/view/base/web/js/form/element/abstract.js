@@ -8,8 +8,9 @@ define([
     'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'Magento_Ui/js/lib/events'
-], function (Scope, _, utils, EventsBus) {
+    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/lib/validation/validator'
+], function (Scope, _, utils, EventsBus, validator) {
     'use strict';
 
     var defaults = {
@@ -19,7 +20,9 @@ define([
         module:         'ui',
         type:           'input',
         value:          '',
-        description:    ''
+        description:    '',
+        validation: {},
+        validateOnChange: true
     };
 
     return Scope.extend({
@@ -44,7 +47,8 @@ define([
         initObservable: function () {
             this.observe({
                 'value': this.initialValue = this.value,
-                'required': this.required
+                'required': this.required,
+                'errorMessages': []
             });
 
             return this;
@@ -79,9 +83,13 @@ define([
         /**
          * Is being called when value is updated
          */
-        onUpdate: function(){
-            this.trigger('update')
-                .store();
+        onUpdate: function(value){
+            if (this.validateOnChange) {
+                this.trigger('validate', this.validate());
+            }
+
+            this.trigger('update', this.name, value)
+                .store(value);
         },
 
         /**
@@ -90,6 +98,36 @@ define([
          */
         hasChanged: function(){
             return this.value() !== this.initialValue;
+        },
+
+        /**
+         * Validates itself by it's validation rules using validator.
+         * If validation of a rule did not pass, writes it's message to
+         *     errorMessages array.
+         * Triggers validate event on the instance passing the result of
+         *     validation to it.
+         *     
+         * @return {Boolean} - true, if element is valid
+         */
+        validate: function () {
+            var value       = this.value(),
+                messages    = [],
+                invalid     = [],
+                rules       = this.validation,
+                isValid;
+
+            _.each(rules, function (params, rule) {
+                if (!validator.validate(rule, value, params)) {
+                    invalid.push(rule);
+                    messages.push(validator.messageFor(rule));
+                }
+            });
+
+            isValid = !invalid.length;
+            this.errorMessages(messages);
+            this.trigger('validate', isValid);
+
+            return isValid;
         }
     }, EventsBus);
 });
