@@ -28,6 +28,10 @@ $opt = getopt(
     ]
 );
 
+$logWriter = new Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new Zend_Log($logWriter);
+
 if (empty($opt) || isset($opt['help'])) {
     echo USAGE;
     exit(1);
@@ -62,7 +66,10 @@ try {
 
     // Get modules currently installed
     $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
-    $tempList = $shell->execute('ls ./../../app/code/Magento');
+    $tempList = $shell->execute('ls ./../../app/code/Magento', $logger);
+    if (!$tempList) {
+        throw new Exception("Problem finding Magento module directory.");
+    }
     $tok = strtok($tempList, " \n");
 
     while ($tok !== false) {
@@ -80,7 +87,7 @@ try {
             throw new Exception("The file or directory '{$directory} is marked for deletion, but it doesn't exist.");
         }
         $command = 'rm -rf ' . $directory;
-        $result = $shell->execute($command);
+        $result = $shell->execute($command,$logger);
         if ($result) {
             throw new Exception("Problem removing Magento module directory.");
         }
@@ -94,6 +101,7 @@ try {
         $message = $e->getMessage();
     }
     echo "\nError: " . $message . "\n\n";
+    $logger->log($message, Zend_Log::ERR);
 
     exit(1);
 }
