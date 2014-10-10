@@ -160,13 +160,17 @@ class SimpleDataObjectConverter
             $result = [];
             foreach ($data as $datum) {
                 if (is_object($datum)) {
-                    $datum = $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($datum, $dataType));
+                    $datum = $this->processDataObject(
+                        $this->dataObjectProcessor->buildOutputDataArray($datum, $dataType)
+                    );
                 }
                 $result[] = $datum;
             }
             return $result;
         } else if (is_object($data)) {
-            return $this->processDataObject($this->dataObjectProcessor->buildOutputDataArray($data, $dataType));
+            return $this->processDataObject(
+                $this->dataObjectProcessor->buildOutputDataArray($data, $dataType)
+            );
         } else if (is_null($data)) {
             return [];
         } else {

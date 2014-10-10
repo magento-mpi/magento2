@@ -157,11 +157,19 @@ class Handler
     {
         $result = null;
         if ($data instanceof AbstractSimpleObject) {
-            $result = $this->_dataObjectConverter->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
+            $result = $this->_dataObjectConverter
+                ->convertKeysToCamelCase(
+                    $this->_dataObjectProcessor
+                        ->buildOutputDataArray($data, $dataType)
+                );
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
                 if ($value instanceof AbstractSimpleObject) {
-                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($value, $dataType));
+                    $result[] = $this->_dataObjectConverter
+                        ->convertKeysToCamelCase(
+                            $this->_dataObjectProcessor
+                                ->buildOutputDataArray($value, $dataType)
+                        );
                 } else {
                     $result[$key] = $value;
                 }
