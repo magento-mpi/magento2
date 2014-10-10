@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogRule\Plugin\Indexer\Category\Resource\Save;
 
-use Magento\CatalogRule\Model\Indexer\ProductRuleProcessor;
+use Magento\CatalogRule\Model\Indexer\Product\ProductRuleProcessor;
 
 class Category
 {

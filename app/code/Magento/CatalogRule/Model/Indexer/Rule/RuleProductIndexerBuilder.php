@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogRule\Model\Indexer\Rule\Action;
+
+namespace Magento\CatalogRule\Model\Indexer\Rule;
 
 use Magento\CatalogRule\CatalogRuleException;
 use Magento\CatalogRule\Model\Rule;
@@ -13,7 +14,7 @@ use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionF
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Product;
 
-class Full
+class RuleProductIndexerBuilder
 {
     const SECONDS_IN_DAY = 86400;
 
@@ -88,9 +89,9 @@ class Full
     }
 
     /**
-     * Full Row reindex
+     * Full reindex
      */
-    public function execute()
+    public function reindex()
     {
         try {
             $rules = $this->ruleCollectionFactory->create()
@@ -435,8 +436,8 @@ class Full
             array()
         );
         $select->columns([
-            'default_price' => $this->getReadAdapter()->getIfNullSql($tableAlias . '.value', 'pp_default.value'),
-        ]);
+                'default_price' => $this->getReadAdapter()->getIfNullSql($tableAlias . '.value', 'pp_default.value'),
+            ]);
 
         return $read->query($select);
     }
@@ -465,5 +466,4 @@ class Full
 
         return $this;
     }
-}
- 
+} 

@@ -7,7 +7,6 @@
  */
 namespace Magento\CatalogRule\Model\Indexer\Product;
 
-use Magento\CatalogRule\Model\Indexer\Product\ProductProcessor;
 use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionFactory;
 use Magento\CatalogRule\Model\Rule;
 use Magento\Framework\Pricing\PriceCurrencyInterface;

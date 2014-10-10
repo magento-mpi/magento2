@@ -131,8 +131,8 @@ class Observer
         Registry $coreRegistry,
         DateTime $dateTime,
         ManagerInterface $messageManager,
-        \Magento\CatalogRule\Model\Indexer\Product\ProductProcessor $productProcessor,
-        \Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor $ruleProcessor
+        \Magento\CatalogRule\Model\Indexer\Product\ProductRuleProcessor $productProcessor,
+        \Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor $ruleProcessor
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
