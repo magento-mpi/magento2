@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="msrp_popup"/>
     <referenceContainer name="checkout.cart.totals.container">
         <block name="checkout.cart.totals.msrp" before="checkout.cart.totals" class="Magento\Msrp\Block\Total" template="cart/totals.phtml">
