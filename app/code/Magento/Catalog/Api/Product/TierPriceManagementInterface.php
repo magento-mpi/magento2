@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Catalog\Api\Product;
 
 /**
  * Interface TierPriceManagementInterface must be implemented by new Tier Price management model
@@ -18,12 +18,12 @@ interface TierPriceManagementInterface
      *
      * @param string $productSku
      * @param string $customerGroupId
-     * @param \Magento\Catalog\Api\Data\TierPriceInterface $price
+     * @param \Magento\Catalog\Api\Data\Product\TierPriceInterface $price
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function add($productSku, $customerGroupId, \Magento\Catalog\Api\Data\TierPriceInterface $price);
+    public function add($productSku, $customerGroupId, \Magento\Catalog\Api\Data\Product\TierPriceInterface $price);
 
     /**
      * Remove tire price from product
@@ -42,7 +42,7 @@ interface TierPriceManagementInterface
      *
      * @param string $productSku
      * @param string $customerGroupId
-     * @return \Magento\Catalog\Api\Data\TierPriceInterface[]
+     * @return \Magento\Catalog\Api\Data\Product\TierPriceInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getList($productSku, $customerGroupId);
