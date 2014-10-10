@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Data\ProductLink;
+namespace Magento\Catalog\Api\Product\Link;
 /**
  * Implementation: @see \Magento\Catalog\Model\Product\LinkTypeProvider
  * Add method \Magento\Catalog\Model\Product\LinkTypeProvider::getLinkAttributes($type);

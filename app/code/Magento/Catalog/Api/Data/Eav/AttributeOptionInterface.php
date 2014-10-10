@@ -8,6 +8,10 @@
  */
 namespace Magento\Catalog\Api\Data\Eav;
 
+/**
+ * Created from:
+ * @see \Magento\Catalog\Service\V1\Data\Eav\Option
+ */
 interface AttributeOptionInterface 
 {
     /**

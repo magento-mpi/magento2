@@ -10,6 +10,7 @@ namespace Magento\Catalog\Api\Data\ProductLink;
 
 /**
  * Implementation: create new model \Magento\Catalog\Model\ProductLink\Type
+ * @todo extend from Framework\KeyValueInterface
  */
 interface TypeInterface
 {

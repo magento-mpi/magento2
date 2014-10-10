@@ -13,9 +13,9 @@ namespace Magento\Catalog\Api;
  * @see \Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface
  * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface
  *
- * Crete new model \Magento\Catalog\Model\CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagement
+ * Crete new model \Magento\Catalog\Model\CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagementInterface
  */
-interface CategoryLinkManagement
+interface CategoryLinkManagementInterface
 {
     /**
      * Get assigned product links to the category

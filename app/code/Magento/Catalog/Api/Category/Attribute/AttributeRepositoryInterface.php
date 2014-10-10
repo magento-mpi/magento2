@@ -8,6 +8,10 @@
  */
 namespace Magento\Catalog\Api\Category\Attribute;
 
+/**
+ * Created from:
+ * @see \Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface
+ */
 interface AttributeRepositoryInterface
 {
     /**
@@ -17,6 +21,7 @@ interface AttributeRepositoryInterface
      * @return \Magento\Catalog\Api\Data\Eav\AttributeMetadataInterface
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     *
      */
     public function get($attributeId);
 

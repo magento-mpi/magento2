@@ -18,6 +18,7 @@ interface OptionManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *
      * @todo maybe, get rid of this interface because AttributeMetadataInterface has getOptions() method.
+     * @see \Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface::options- previous implementation
      */
     public function getList($attributeId);
 }

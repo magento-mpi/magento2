@@ -19,7 +19,7 @@ interface ReadServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryLinkManagement::getList
+     * @see \Magento\Catalog\Api\CategoryLinkManagementInterface::getList
      */
     public function assignedProducts($categoryId);
 }

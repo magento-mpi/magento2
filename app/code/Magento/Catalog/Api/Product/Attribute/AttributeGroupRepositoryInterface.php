@@ -8,6 +8,10 @@
  */
 namespace Magento\Catalog\Api\Product\Attribute;
 
+/**
+ * @todo Create new model \Magento\Catalog\Model\Product\Attribute\AttributeGroupRepository
+X
+ */
 interface AttributeGroupRepositoryInterface 
 {
     /**
@@ -24,6 +28,7 @@ interface AttributeGroupRepositoryInterface
      * @param string $attributeSetId
      * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface::getList
      */
     public function getList($attributeSetId);
 

@@ -15,7 +15,7 @@ interface OptionManagementInterface
     /**
      * Add option to attribute
      *
-     * instead of \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::addOption
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::addOption
      * @param string $attributeId
      * @param \Magento\Catalog\Api\Data\Product\Attribute\OptionInterface $option
      * @throws \Magento\Framework\Exception\StateException

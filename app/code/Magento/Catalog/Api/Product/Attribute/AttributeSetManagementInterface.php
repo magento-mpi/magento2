@@ -22,6 +22,7 @@ interface AttributeSetManagementInterface
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
      */
     public function createSet(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
 
@@ -32,6 +33,8 @@ interface AttributeSetManagementInterface
      * @return bool
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     *
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
      */
     public function updateSet(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet);
 

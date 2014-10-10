@@ -8,6 +8,10 @@
  */
 namespace Magento\Catalog\Api\Product\Attribute;
 
+/**
+ * Created from:
+ * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface
+ */
 interface AttributeGroupManagementInterface 
 {
     /**
@@ -18,6 +22,7 @@ interface AttributeGroupManagementInterface
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::create
      */
     public function create(
         $attributeSetId,
@@ -34,6 +39,7 @@ interface AttributeGroupManagementInterface
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::update
      */
     public function update(
         $attributeSetId,
@@ -47,7 +53,7 @@ interface AttributeGroupManagementInterface
      * @param string $attributeSetId
      * @param string $groupId
      * @return bool
+     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::delete
      */
     public function delete($attributeSetId, $groupId);
 }
- 

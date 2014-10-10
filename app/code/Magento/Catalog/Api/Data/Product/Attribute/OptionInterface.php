@@ -17,6 +17,12 @@ namespace Magento\Catalog\Api\Data\Product\Attribute;
  *
  * @codeCoverageIgnore
  */
+/**
+ * Created from:
+ * @see \Magento\Catalog\Service\V1\Data\Eav\Option
+ * @todo remove DUPLICATE
+ * @see \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface
+ */
 interface OptionInterface
 {
     /**

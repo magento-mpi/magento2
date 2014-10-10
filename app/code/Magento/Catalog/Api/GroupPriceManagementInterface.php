@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\GroupPrice;
+namespace Magento\Catalog\Api;
 
 /**
  * Interface GroupPriceManagementInterface must be implemented by new GroupPrice management model
@@ -24,7 +24,7 @@ interface GroupPriceManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save($productSku, \Magento\Catalog\Api\Data\GroupPriceInterface $price);
+    public function add($productSku, \Magento\Catalog\Api\Data\GroupPriceInterface $price);
 
     /**
      * Remove group price from product
@@ -35,7 +35,7 @@ interface GroupPriceManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function delete($productSku, $customerGroupId);
+    public function remove($productSku, $customerGroupId);
 
     /**
      * Retrieve list of product prices

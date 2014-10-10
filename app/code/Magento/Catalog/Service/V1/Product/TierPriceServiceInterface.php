@@ -23,7 +23,7 @@ interface TierPriceServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @deprecated
-     * @see \Magento\Catalog\Api\TierPriceManagementInterface::save
+     * @see \Magento\Catalog\Api\TierPriceManagementInterface::add
      */
     public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price);
 
@@ -37,7 +37,7 @@ interface TierPriceServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @deprecated
-     * @see \Magento\Catalog\Api\TierPriceManagementInterface::delete
+     * @see \Magento\Catalog\Api\TierPriceManagementInterface::remove
      */
     public function delete($productSku, $customerGroupId, $qty);
 

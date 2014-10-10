@@ -26,7 +26,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\StateException
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryLinkManagement::save
+     * @see \Magento\Catalog\Api\CategoryLinkManagementInterface::save
      */
     public function assignProduct($categoryId, ProductLink $productLink);
 
@@ -39,7 +39,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\StateException
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryLinkManagement::save
+     * @see \Magento\Catalog\Api\CategoryLinkManagementInterface::save
      */
     public function updateProduct($categoryId, ProductLink $productLink);
 
