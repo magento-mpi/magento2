@@ -49,6 +49,9 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     protected function convertField(&$data, $field, $value)
     {
+        if (!isset($data['recurring_payment'])) {
+            $data['recurring_payment'] = $this->recurringPayment;
+        }
         if (isset($this->recurringPayment[$field])) {
             $data['recurring_payment'][$field] = $value;
             return true;
