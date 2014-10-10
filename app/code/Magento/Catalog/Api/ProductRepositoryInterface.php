@@ -9,7 +9,6 @@
 
 namespace Magento\Catalog\Api;
 
-
 interface ProductRepositoryInterface
 {
     /**
@@ -18,6 +17,8 @@ interface ProductRepositoryInterface
      * @param \Magento\Catalog\Api\Data\ProductInterface $category
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @see \Magento\Catalog\Service\V1\ProductServiceInterface::update - previous imlementation
+     * @see \Magento\Catalog\Service\V1\ProductServiceInterface::create - previous imlementation
      */
     public function save(\Magento\Catalog\Api\Data\ProductInterface $product);
 

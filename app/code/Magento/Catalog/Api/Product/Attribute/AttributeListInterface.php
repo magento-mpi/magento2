@@ -15,5 +15,5 @@ interface AttributeListInterface
      *
      * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeTypeInterface[]
      */
-    public function getAttributeTypes();
+    public function getItems();
 }

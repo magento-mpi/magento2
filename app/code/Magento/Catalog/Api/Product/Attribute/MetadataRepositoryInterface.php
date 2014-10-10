@@ -11,6 +11,7 @@ namespace Magento\Catalog\Api\Product\Attribute;
 /**
  * Interface MetadataRepositoryInterface
  * @see \Magento\Catalog\Service\V1\Product\MetadataServiceInterface
+ * @todo remote interface body
  */
 interface MetadataRepositoryInterface extends \Magento\Eav\Api\Entity\Attribute\MetadataRepositoryInterface
 {
@@ -39,7 +40,7 @@ interface MetadataRepositoryInterface extends \Magento\Eav\Api\Entity\Attribute\
     public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME);
 
     /**
-     * @todo: maybe move create and update methods to EAV attribute MetadataRepository (currently category attributes cannot be created by user)
+     * @todo: move create and update methods to EAV attribute MetadataRepository (currently category attributes cannot be created by user)
      * Create attribute data
      *
      * @param \Magento\Catalog\Api\Data\Product\Attribute\MetadataInterface $attributeMetadata

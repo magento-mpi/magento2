@@ -11,6 +11,7 @@ namespace Magento\Catalog\Api\Category\Attribute;
 /**
  * Interface MetadataRepositoryInterface
  * @see \Magento\Catalog\Service\V1\Category\MetadataServiceInterface
+ * @todo remote interface body
  */
 interface MetadataRepositoryInterface extends \Magento\Eav\Api\Entity\Attribute\MetadataRepositoryInterface
 {

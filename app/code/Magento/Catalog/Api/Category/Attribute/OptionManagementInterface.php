@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Api\Category\Attribute;
 
+/**
+ * @todo Remove this interface
+ */
 interface OptionManagementInterface
 {
     /**

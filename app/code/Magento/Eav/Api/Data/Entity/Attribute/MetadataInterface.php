@@ -7,7 +7,9 @@
  * @license     {license_link}
  */
 namespace Magento\Eav\Api\Data\Entity\Attribute;
-
+/**
+ * @todo move methods +/- Catalog\Api\Data\Entity\AttributeInterface
+ */
 interface MetadataInterface
 {
     /**

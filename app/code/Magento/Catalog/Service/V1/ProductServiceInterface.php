@@ -46,7 +46,7 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return string id
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductManagementInterface::save
+     * @see \Magento\Catalog\WebApi\ProductInterface::create
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product);
 
@@ -60,7 +60,7 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return string id
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductManagementInterface::update
+     * @see \Magento\Catalog\WebApi\ProductInterface::update
      */
     public function update($id, \Magento\Catalog\Service\V1\Data\Product $product);
 

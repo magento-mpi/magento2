@@ -11,6 +11,7 @@
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/products" method="POST">
         <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="create"/>
+        <service class="\Magento\Catalog\WebApi\ProductInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
