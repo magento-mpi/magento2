@@ -16,7 +16,7 @@ $this->addAttribute(
         'required' => false,
         'sort_order' => 3,
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-        'group' => 'General Information'
+        'group' => 'General Information',
     )
 );
 
@@ -29,6 +29,7 @@ $this->addAttribute(
         'sort_order' => 17,
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible' => false,
+        'group' => 'General Information',
     )
 );
 
@@ -43,7 +44,7 @@ $this->addAttribute(
         'sort_order' => 10,
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'used_in_product_listing' => true,
-        'group' => 'Search Engine Optimization'
+        'group' => 'Search Engine Optimization',
     )
 );
 

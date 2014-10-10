@@ -146,7 +146,7 @@ define([
          * @return {(int|null)} - Item qty
          */
         _getQty: function(elem) {
-            var qty = elem.closest('tr').find('input.qty');
+            var qty = elem.closest('div.product-item-info').find('input.qty');
             return qty.length ? qty[0].value : null;
         },
 

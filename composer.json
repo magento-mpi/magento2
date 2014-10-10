@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha97",
+    "version": "0.1.0-alpha98",
     "require": {
         "php": "~5.4.11|~5.5.0"
     },
@@ -107,8 +107,9 @@
         "magento/module-sales": "self.version",
         "magento/module-sales-archive": "self.version",
         "magento/module-sales-rule": "self.version",
-        "magento/module-scheduled-import-export": "self.version",
         "magento/module-search": "self.version",
+        "magento/module-scheduled-import-export": "self.version",
+        "magento/module-solr": "self.version",
         "magento/module-sendfriend": "self.version",
         "magento/module-shipping": "self.version",
         "magento/module-sitemap": "self.version",
