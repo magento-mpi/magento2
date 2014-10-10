@@ -13,14 +13,13 @@ use Magento\Framework\Search\Request\Dimension;
 
 class Dimensions
 {
-    const DEFAULT_DIMENSION_NAME = 'scope';
-
     const STORE_FIELD_NAME = 'store_id';
 
     /**
      * @var ScopeResolverInterface
      */
     private $scopeResolver;
+
     /**
      * @var ConditionManager
      */
@@ -56,7 +55,7 @@ class Dimensions
         $field = $dimension->getName();
         $value = $dimension->getValue();
 
-        if (self::DEFAULT_DIMENSION_NAME === $field) {
+        if (Dimension::SCOPE === $field) {
             $field = self::STORE_FIELD_NAME;
             $value = $this->scopeResolver->getScope($value)->getId();
         }
