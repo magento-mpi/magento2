@@ -67,12 +67,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPath()
     {
-        $this->_setupDirectoryListMock(array('path' => '\\some\\path'));
+        $this->_directoryListMock->expects($this->once())->method('getPath')->will($this->returnValue('\\some\\path'));
         $this->assertEquals('/some/path', $this->_filesystem->getPath(DirectoryList::ROOT));
-    }
-
-    protected function _setupDirectoryListMock(array $config)
-    {
-        $this->_directoryListMock->expects($this->any())->method('getConfig')->will($this->returnValue($config));
     }
 }

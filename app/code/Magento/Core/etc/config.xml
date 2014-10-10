@@ -61,24 +61,6 @@
                     <design_theme_folder>theme</design_theme_folder>
                 </allowed_resources>
             </media_storage_configuration>
-            <filesystem>
-                <protocol>
-                    <zlib>
-                        <driver>Magento\Framework\Filesystem\Driver\Zlib</driver>
-                        <protocol>compress.zlib</protocol>
-                    </zlib>
-                    <http>
-                        <read_only>1</read_only>
-                        <driver>Magento\Framework\Filesystem\Driver\Http</driver>
-                        <protocol>http</protocol>
-                    </http>
-                    <https>
-                        <read_only>1</read_only>
-                        <driver>Magento\Framework\Filesystem\Driver\Https</driver>
-                        <protocol>https</protocol>
-                    </https>
-                </protocol>
-            </filesystem>
         </system>
         <web>
             <url>

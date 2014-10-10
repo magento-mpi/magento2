@@ -45,10 +45,7 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test for getting uri from DirectoryList
-     */
-    public function testGetUri()
+    public function testGetUrlPath()
     {
         $dir = new DirectoryList(
             __DIR__,
@@ -59,15 +56,12 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals('test2', $dir->getConfig('custom')['uri']);
-        $this->assertEquals('', $dir->getConfig(DirList::PUB)['uri']);
-        $this->assertEquals('test', $dir->getConfig(DirList::MEDIA)['uri']);
+        $this->assertEquals('test2', $dir->getUrlPath('custom'));
+        $this->assertEquals('', $dir->getUrlPath(DirList::PUB));
+        $this->assertEquals('test', $dir->getUrlPath(DirList::MEDIA));
     }
 
-    /**
-     * Test for getting directory path from DirectoryList
-     */
-    public function testGetDir()
+    public function testGetPath()
     {
         $newRoot = __DIR__ . '/root';
         $newMedia = __DIR__ . '/media';
@@ -80,16 +74,8 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals('test2', $dir->getDir('custom'));
-        $this->assertEquals(str_replace('\\', '/', $newRoot), $dir->getConfig(DirList::ROOT)['path']);
-        $this->assertEquals(str_replace('\\', '/', $newMedia), $dir->getConfig(DirList::MEDIA)['path']);
-    }
-
-    public function testIsConfigured()
-    {
-        $dir = new DirectoryList(__DIR__, array(DirList::PUB => array('uri' => '')));
-
-        $this->assertTrue($dir->isConfigured(DirList::PUB));
-        $this->assertFalse($dir->isConfigured(DirList::MEDIA));
+        $this->assertEquals('test2', $dir->getPath('custom'));
+        $this->assertEquals(str_replace('\\', '/', $newRoot), $dir->getPath(DirList::ROOT));
+        $this->assertEquals(str_replace('\\', '/', $newMedia), $dir->getPath(DirList::MEDIA));
     }
 }

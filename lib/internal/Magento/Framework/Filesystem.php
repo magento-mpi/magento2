@@ -9,33 +9,10 @@
  */
 namespace Magento\Framework;
 
-use Magento\Framework\Filesystem\FilesystemException;
 use Magento\Framework\Filesystem\File\ReadInterface;
 
 class Filesystem
 {
-    /**#@+
-     * Content wrappers
-     */
-    const WRAPPER_CONTENT_ZLIB = 'compress.zlib';
-
-    const WRAPPER_CONTENT_PHAR = 'phar';
-
-    const WRAPPER_CONTENT_RAR = 'rar';
-
-    const WRAPPER_CONTENT_OGG = 'ogg';
-
-    /**#@-*/
-
-    /**#@+
-     * Remote resource Access Protocols
-     */
-    const HTTP = 'http';
-
-    const HTTPS = 'https';
-
-    /**#@-*/
-
     /**
      * System base temporary directory
      */
@@ -67,11 +44,6 @@ class Filesystem
     protected $readInstances = array();
 
     /**
-     * @var \Magento\Framework\Filesystem\WrapperFactory
-     */
-    protected $wrapperFactory;
-
-    /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface[]
      */
     protected $writeInstances = array();
@@ -93,22 +65,17 @@ class Filesystem
      * @param Filesystem\Directory\ReadFactory $readFactory
      * @param Filesystem\Directory\WriteFactory $writeFactory
      * @param Filesystem\File\ReadFactory $fileReadFactory
-     * @param Filesystem\File\WriteFactory $fileWriteFactory
      */
     public function __construct(
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Filesystem\Directory\ReadFactory $readFactory,
         \Magento\Framework\Filesystem\Directory\WriteFactory $writeFactory,
-        \Magento\Framework\Filesystem\File\ReadFactory $fileReadFactory = null,
-        \Magento\Framework\Filesystem\File\WriteFactory $fileWriteFactory = null
+        \Magento\Framework\Filesystem\File\ReadFactory $fileReadFactory = null
     ) {
         $this->directoryList = $directoryList;
         $this->readFactory = $readFactory;
         $this->writeFactory = $writeFactory;
         $this->fileReadFactory = $fileReadFactory;
-        $this->fileWriteFactory = $fileWriteFactory;
-
-        $this->driverFactory = new \Magento\Framework\Filesystem\DriverFactory($this->directoryList);
     }
 
     /**
@@ -120,8 +87,7 @@ class Filesystem
     public function getDirectoryRead($code)
     {
         if (!array_key_exists($code, $this->readInstances)) {
-            $config = $this->getDirConfig($code);
-            $this->readInstances[$code] = $this->readFactory->create($config, $this->driverFactory);
+            $this->readInstances[$code] = $this->readFactory->create($this->getDirPath($code));
         }
         return $this->readInstances[$code];
     }
@@ -136,12 +102,7 @@ class Filesystem
     public function getDirectoryWrite($code)
     {
         if (!array_key_exists($code, $this->writeInstances)) {
-            $config = $this->getDirConfig($code);
-            if (isset($config['read_only']) && $config['read_only']) {
-                throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
-            }
-
-            $this->writeInstances[$code] = $this->writeFactory->create($config, $this->driverFactory);
+            $this->writeInstances[$code] = $this->writeFactory->create($this->getDirPath($code));
         }
         return $this->writeInstances[$code];
     }
@@ -150,19 +111,14 @@ class Filesystem
      * Gets configuration of a directory
      *
      * @param string $code
-     * @return string[]
+     * @return string
      */
-    protected function getDirConfig($code)
+    protected function getDirPath($code)
     {
         if (self::SYS_TMP == $code) {
-            return [
-                'path' => $this->getSysTmpPath(),
-                'read_only' => false,
-                'allow_create_dirs' => true,
-                'permissions' => 0777
-            ];
+            return $this->getSysTmpPath();
         }
-        return $this->directoryList->getConfig($code);
+        return $this->directoryList->getPath($code);
     }
 
     /**
@@ -199,8 +155,7 @@ class Filesystem
      */
     public function getUri($code)
     {
-        $config = $this->directoryList->getConfig($code);
-        return isset($config['uri']) ? $config['uri'] : '';
+        return $this->directoryList->getUrlPath($code);
     }
 
     /**

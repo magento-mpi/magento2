@@ -126,67 +126,43 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
         self::LIB_INTERNAL => array('path' => 'lib/internal'),
         self::VAR_DIR => array(
             'path' => 'var',
-            'read_only' => false,
-            'allow_create_dirs' => true,
-            'permissions' => 0777
         ),
         self::CACHE => array(
             'path' => 'var/cache',
-            'read_only' => false,
-            'allow_create_dirs' => true,
-            'permissions' => 0777
         ),
         self::LOG => array(
             'path' => 'var/log',
-            'read_only' => false,
-            'allow_create_dirs' => true,
-            'permissions' => 0777
         ),
         self::DI => array('path' => 'var/di'),
         self::GENERATION => array('path' => 'var/generation'),
         self::LOCALE => array('path' => 'app/i18n'),
         self::SESSION => array(
             'path' => 'var/session',
-            'read_only' => false,
-            'allow_create_dirs' => true,
-            'permissions' => 0777
         ),
         self::MEDIA => array(
             'path' => 'pub/media',
-            'read_only' => false,
             'uri' => 'pub/media',
-            'permissions' => 0755,
         ),
         self::STATIC_VIEW => array(
             'path' => 'pub/static',
-            'read_only' => false,
             'uri' => 'pub/static',
-            'permissions' => 0755,
         ),
         self::PUB => array(
             'path' => 'pub',
-            'read_only' => true,
             'uri' => 'pub',
-            'permissions' => 0755,
         ),
         self::LIB_WEB => array(
             'path' => 'lib/web',
-            'read_only' => true,
         ),
         self::TMP => array(
             'path' => 'var/tmp',
-            'read_only' => false,
-            'permissions' => 0755,
         ),
         self::THEMES => array(
             'path' => 'app/design',
-            'read_only' => true,
         ),
         self::UPLOAD => array(
             'path' => 'pub/media/upload',
-            'read_only' => false,
             'uri' => 'pub/media/upload',
-            'permissions' => 0755,
         ),
     );
 }

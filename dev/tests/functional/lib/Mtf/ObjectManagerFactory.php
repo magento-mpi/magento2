@@ -68,7 +68,7 @@ class ObjectManagerFactory
             $directories
         );
         (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($directoryList->getDir(DirectoryList::GENERATION))
+            array($directoryList->getPath(DirectoryList::GENERATION))
         );
 
         $factory = new Factory($diConfig);

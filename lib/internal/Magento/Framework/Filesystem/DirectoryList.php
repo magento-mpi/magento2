@@ -29,11 +29,8 @@ class DirectoryList
     protected $directories = array();
 
     /**
-     * @var array
-     */
-    protected $protocol = array();
-
-    /**
+     * Constructor
+     *
      * @param string $root
      * @param array $directories
      */
@@ -58,25 +55,6 @@ class DirectoryList
                 $this->setUri($code, $directoryConfig['uri']);
             }
         }
-    }
-
-    /**
-     * Set protocol wrapper
-     *
-     * @param string $wrapperCode
-     * @param array $configuration
-     * @return void
-     */
-    public function addProtocol($wrapperCode, array $configuration)
-    {
-        $wrapperCode = isset($configuration['protocol']) ? $configuration['protocol'] : $wrapperCode;
-        if (isset($configuration['wrapper'])) {
-            $flag = isset($configuration['url_stream']) ? $configuration['url_stream'] : 0;
-            $wrapperClass = $configuration['wrapper'];
-            stream_wrapper_register($wrapperCode, $wrapperClass, $flag);
-        }
-
-        $this->protocol[$wrapperCode] = $configuration;
     }
 
     /**
@@ -126,53 +104,41 @@ class DirectoryList
     }
 
     /**
-     * Check whether configured directory
+     * Gets path of a directory
      *
      * @param string $code
-     * @return bool
+     * @return string
      */
-    public function isConfigured($code)
+    public function getPath($code)
     {
-        return isset($this->directories[$code]);
+        $this->assertCode($code);
+        return $this->directories[$code]['path'];
     }
 
     /**
-     * Get configuration for directory code
+     * Gets URL path of a directory
      *
      * @param string $code
-     * @return array
-     * @throws \Magento\Framework\Filesystem\FilesystemException
+     * @return string
      */
-    public function getConfig($code)
+    public function getUrlPath($code)
+    {
+        $this->assertCode($code);
+        return $this->directories[$code]['uri'];
+    }
+
+    /**
+     * Assert that specified directory code is in the registry
+     *
+     * @param string $code
+     * @throws FilesystemException
+     * @return void
+     */
+    private function assertCode($code)
     {
         if (!isset($this->directories[$code])) {
-            throw new \Magento\Framework\Filesystem\FilesystemException(
-                sprintf('The "%s" directory is not specified in configuration', $code)
-            );
+            throw new FilesystemException("Unknown directory type: '$code'");
         }
-        return $this->directories[$code];
-    }
-
-    /**
-     * Return protocol configuration
-     *
-     * @param string $wrapperCode
-     * @return null|array
-     */
-    public function getProtocolConfig($wrapperCode)
-    {
-        return isset($this->protocol[$wrapperCode]) ? $this->protocol[$wrapperCode] : null;
-    }
-
-    /**
-     * \Directory path getter
-     *
-     * @param string $code One of self const
-     * @return string|bool
-     */
-    public function getDir($code)
-    {
-        return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }
 
     /**

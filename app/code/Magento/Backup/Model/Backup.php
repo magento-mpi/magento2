@@ -298,7 +298,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
             $this->_stream = $varDirectory->openFile(
                 $this->_getFilePath(),
                 $mode,
-                \Magento\Framework\App\Filesystem::WRAPPER_CONTENT_ZLIB
+                \Magento\Framework\Filesystem\DriverPool::ZLIB
             );
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             throw new \Magento\Framework\Backup\Exception\NotEnoughPermissions(

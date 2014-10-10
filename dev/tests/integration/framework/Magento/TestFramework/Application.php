@@ -205,7 +205,7 @@ class Application
         $directories = isset(
             $overriddenParams[DirectoryList::INIT_PARAM_PATHS]
         ) ? $overriddenParams[DirectoryList::INIT_PARAM_PATHS] : array();
-        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
+        $directoryList = new DirectoryList(BP, $directories);
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\Filesystem\DirectoryList');
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem\DirectoryList\Verification');
@@ -248,10 +248,6 @@ class Application
         /** @var \Magento\Framework\App\Filesystem\DirectoryList\Verification $verification */
         $verification = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
-
-        /** @var \Magento\Framework\App\Filesystem\DirectoryList\Configuration $directoryListConfig */
-        $directoryListConfig = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Configuration');
-        $directoryListConfig->configure($directoryList);
     }
 
     /**

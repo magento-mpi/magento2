@@ -11,6 +11,7 @@ namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Profiler;
+use Magento\Framework\Filesystem\DriverPool;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -57,15 +58,16 @@ class ObjectManagerFactory
         $directoryList = new DirectoryList($rootDir, $directories);
 
         (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($directoryList->getDir(DirectoryList::GENERATION))
+            array($directoryList->getPath(DirectoryList::GENERATION))
         );
 
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
+        $driverPool = new DriverPool;
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
-            new \Magento\Framework\Filesystem\Driver\File(),
-            $directoryList->getDir(DirectoryList::DI),
-            $directoryList->getDir(DirectoryList::GENERATION),
+            $driverPool->getDriver(DriverPool::FILE),
+            $directoryList->getPath(DirectoryList::DI),
+            $directoryList->getPath(DirectoryList::GENERATION),
             $appArguments->get('definition.format', 'serialized')
         );
 
@@ -80,7 +82,7 @@ class ObjectManagerFactory
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
 
         $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
-        $configData = $this->_loadPrimaryConfig($directoryList, $argumentMapper, $appMode);
+        $configData = $this->_loadPrimaryConfig($directoryList, $driverPool, $argumentMapper, $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
@@ -104,6 +106,7 @@ class ObjectManagerFactory
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
             'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,
+            'Magento\Framework\Filesystem\DriverPool' => $driverPool,
             'Magento\Framework\Filesystem\DirectoryList' => $directoryList,
             'Magento\Framework\ObjectManager\Relations' => $relations,
             'Magento\Framework\Interception\Definition' => $definitionFactory->createPluginDefinition(),
@@ -134,8 +137,6 @@ class ObjectManagerFactory
             ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
         $interceptionConfig = $objectManager->get('Magento\Framework\Interception\Config\Config');
         $diConfig->setInterceptionConfig($interceptionConfig);
-
-        $this->configureDirectories($objectManager);
 
         return $objectManager;
     }
@@ -188,34 +189,24 @@ class ObjectManagerFactory
     }
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @return void
-     */
-    protected function configureDirectories(\Magento\Framework\ObjectManager $objectManager)
-    {
-        $directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
-        $directoryListConfig = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Configuration');
-        $directoryListConfig->configure($directoryList);
-    }
-
-    /**
      * Load primary config
      *
      * @param DirectoryList $directoryList
+     * @param DriverPool $driverPool
      * @param mixed $argumentMapper
      * @param string $appMode
      * @return array
      * @throws \Magento\Framework\App\InitException
      */
-    protected function _loadPrimaryConfig(DirectoryList $directoryList, $argumentMapper, $appMode)
+    protected function _loadPrimaryConfig(DirectoryList $directoryList, $driverPool, $argumentMapper, $appMode)
     {
         $configData = null;
         try {
             $fileResolver = new \Magento\Framework\App\Arguments\FileResolver\Primary(
                 new \Magento\Framework\App\Filesystem(
                     $directoryList,
-                    new \Magento\Framework\Filesystem\Directory\ReadFactory(),
-                    new \Magento\Framework\Filesystem\Directory\WriteFactory()
+                    new \Magento\Framework\Filesystem\Directory\ReadFactory($driverPool),
+                    new \Magento\Framework\Filesystem\Directory\WriteFactory($driverPool)
                 ),
                 new \Magento\Framework\Config\FileIteratorFactory()
             );

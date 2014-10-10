@@ -21,8 +21,6 @@ class Filesystem extends \Magento\Framework\Filesystem
      */
     public function getPath($code = DirectoryList::ROOT)
     {
-        $config = $this->directoryList->getConfig($code);
-        $path = isset($config['path']) ? $config['path'] : '';
-        return str_replace('\\', '/', $path);
+        return str_replace('\\', '/', $this->directoryList->getPath($code));
     }
 }

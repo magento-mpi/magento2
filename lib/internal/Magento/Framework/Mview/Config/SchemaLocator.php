@@ -30,7 +30,7 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Framework\Filesystem\DirectoryList $directoryList)
     {
-        $etcDir = $directoryList->getDir(DirectoryList::LIB_INTERNAL)
+        $etcDir = $directoryList->getPath(DirectoryList::LIB_INTERNAL)
             . '/Magento/Framework/Mview/etc';
         $this->_schema = $etcDir . '/mview.xsd';
         $this->_perFileSchema = $etcDir . '/mview.xsd';

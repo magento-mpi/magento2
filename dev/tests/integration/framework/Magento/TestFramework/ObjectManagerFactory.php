@@ -8,6 +8,7 @@
 namespace Magento\TestFramework;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem\DriverPool;
 
 /**
  * Class ObjectManagerFactory
@@ -77,7 +78,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         $directories = isset($arguments[DirectoryList::INIT_PARAM_PATHS])
             ? $arguments[DirectoryList::INIT_PARAM_PATHS]
             : array();
-        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
+        $directoryList = new DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
 
@@ -102,18 +103,16 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      * Load primary config
      *
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
+     * @param DriverPool $driverPool
      * @param mixed $argumentMapper
      * @param string $appMode
      * @return array
      */
-    protected function _loadPrimaryConfig(
-        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
-        $argumentMapper,
-        $appMode
-    ) {
+    protected function _loadPrimaryConfig(DirectoryList $directoryList, $driverPool, $argumentMapper, $appMode)
+    {
         if (null === $this->_primaryConfigData) {
             $this->_primaryConfigData = array_replace(
-                parent::_loadPrimaryConfig($directoryList, $argumentMapper, $appMode),
+                parent::_loadPrimaryConfig($directoryList, $driverPool, $argumentMapper, $appMode),
                 array(
                     'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
                 )
@@ -137,15 +136,5 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
             );
         }
         return $this->_primaryConfigData;
-    }
-
-    /**
-     * Override method in while running integration tests to prevent getting Exception
-     *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function configureDirectories(\Magento\Framework\ObjectManager $objectManager)
-    {
     }
 }

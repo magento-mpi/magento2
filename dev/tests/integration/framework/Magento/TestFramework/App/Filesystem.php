@@ -30,11 +30,9 @@ class Filesystem extends \Magento\Framework\App\Filesystem
     /**
      * {@inheritdoc}
      */
-    protected function getDirConfig($code)
+    protected function getDirPath($code)
     {
-        $config = parent::getDirConfig($code);
-        $config['path'] = $this->getOverriddenPath($code, $config['path']);
-        return $config;
+        return $this->getOverriddenPath($code, parent::getDirPath($code));
     }
 
     /**

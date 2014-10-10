@@ -255,7 +255,6 @@
     <type name="Magento\Framework\App\Filesystem">
         <arguments>
             <argument name="fileReadFactory" xsi:type="object">Magento\Framework\Filesystem\File\ReadFactory</argument>
-            <argument name="fileWriteFactory" xsi:type="object">Magento\Framework\Filesystem\File\WriteFactory</argument>
         </arguments>
     </type>
     <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Framework\Data\Argument\Interpreter\Composite">
