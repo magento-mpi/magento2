@@ -1086,3 +1086,26 @@
         display: none;
     }
 }
+
+//
+//    Status
+//--------------------------------------
+.abstract-status {
+    border: 2px solid @border-color-base;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 3px 0 0;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    vertical-align: top;
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-status-desktop {
+        margin-top: 6px;
+        padding: 5px 10px;
+    }
+}
