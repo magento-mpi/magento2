@@ -13,7 +13,7 @@ use Magento\CatalogRule\Model\Rule;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Product;
 
-class ObjectWhichWorkWithCatalogRulesAndIndexer
+class ProductRuleIndexerBuilder
 {
     /**
      * Store number of seconds in a day
@@ -24,11 +24,6 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
      * @var RuleCollectionFactory
      */
     protected $ruleCollectionFactory;
-
-    /**
-     * @var ProductProcessor
-     */
-    protected $indexer;
 
     /**
      * Core event manager proxy
@@ -79,16 +74,16 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
 
     /**
      * @param RuleCollectionFactory $ruleCollectionFactory
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Stdlib\DateTime $dateFormat
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
-     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param ProductProcessor $indexer
      */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
@@ -101,16 +96,12 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        ProductProcessor $indexer
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         $this->ruleCollectionFactory = $ruleCollectionFactory;
-        $this->indexer = $indexer;
-
         $this->eventManager = $eventManager;
         $this->eavConfig = $eavConfig;
         $this->priceCurrency = $priceCurrency;
-
         $this->storeManager = $storeManager;
         $this->dateTime = $dateTime;
         $this->resource = $resource;
@@ -150,6 +141,11 @@ class ObjectWhichWorkWithCatalogRulesAndIndexer
                 $this->applyToProduct($rule, $collectedData[$productId]);
             }
         }
+    }
+
+    public function reindexFull()
+    {
+
     }
 
     /**

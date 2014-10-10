@@ -8,22 +8,21 @@
 namespace Magento\CatalogRule\Plugin\Indexer\Product\Save;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogRule\Model\Indexer\ProductRuleIndexer;
+use Magento\CatalogRule\Model\Indexer\Product\ProductRuleProcessor;
 
 class ApplyRules
 {
     /**
-     * @var ProductRuleIndexer
+     * @var ProductRuleProcessor
      */
-    protected $productRuleIndexer;
+    protected $productRuleProcessor;
 
     /**
-     * @param ProductRuleIndexer $productRuleIndexer
+     * @param ProductRuleProcessor $productRuleProcessor
      */
-    public function __construct(
-        ProductRuleIndexer $productRuleIndexer
-    ) {
-        $this->productRuleIndexer = $productRuleIndexer;
+    public function __construct(ProductRuleProcessor $productRuleProcessor)
+    {
+        $this->productRuleProcessor = $productRuleProcessor;
     }
 
     /**
@@ -34,9 +33,8 @@ class ApplyRules
      */
     public function afterSave(Product $product)
     {
-        // TODO: check on save or schedule
         if (!$product->getIsMassupdate()) {
-            $this->productRuleIndexer->executeRow($product->getId());
+            $this->productRuleProcessor->reindexRow($product->getId());
         }
         return $product;
     }

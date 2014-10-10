@@ -7,32 +7,36 @@
  */
 namespace Magento\CatalogRule\Plugin\Indexer\Category\Resource\Save;
 
+use Magento\CatalogRule\Model\Indexer\ProductRuleProcessor;
+
 class Category
 {
-    protected $productProcessor;
+    /**
+     * @var ProductRuleProcessor
+     */
+    protected $productRuleProcessor;
 
     /**
-     * @param \Magento\CatalogRule\Model\Indexer\Product\ProductProcessor $productProcessor
+     * @param ProductRuleProcessor $productRuleProcessor
      */
     public function __construct(
-        \Magento\CatalogRule\Model\Indexer\Product\ProductProcessor $productProcessor
+        ProductRuleProcessor $productRuleProcessor
     ) {
-        $this->productProcessor = $productProcessor;
+        $this->productRuleProcessor = $productRuleProcessor;
     }
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Category\Interceptor $subject
-     * @param callable $proceed
      * @param \Magento\Framework\Model\AbstractModel $category
-     * @return mixed
+     * @internal param callable $proceed
+     * @return \Magento\Catalog\Model\Category
      */
     public function afterSave(
         \Magento\Framework\Model\AbstractModel $category
     ) {
         /** @var \Magento\Catalog\Model\Category $category */
         $productIds = $category->getAffectedProductIds();
-        if ($productIds && !$this->productProcessor->getIndexer()->isScheduled()) {
-            $this->productProcessor->reindexList($productIds);
+        if ($productIds && !$this->productRuleProcessor->getIndexer()->isScheduled()) {
+            $this->productRuleProcessor->reindexList($productIds);
         }
         return $category;
     }

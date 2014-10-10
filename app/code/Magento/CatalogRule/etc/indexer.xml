@@ -12,7 +12,7 @@
         <title translate="true">Catalog Rule Product</title>
         <description translate="true">Indexed rule/product association</description>
     </indexer>
-    <indexer id="catalogrule_product" view_id="catalogrule_product" class="Magento\CatalogRule\Model\Indexer\ProductRuleIndexer">
+    <indexer id="catalogrule_product" view_id="catalogrule_product" class="Magento\CatalogRule\Model\Indexer\Product\ProductRuleIndexer">
         <title translate="true">Catalog Product Rule</title>
         <description translate="true">Indexed product/rule association</description>
     </indexer>
