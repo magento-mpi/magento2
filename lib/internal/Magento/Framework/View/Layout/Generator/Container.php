@@ -23,6 +23,25 @@ class Container implements Layout\GeneratorInterface
     const TYPE = 'container';
 
     /**
+     * @var array
+     */
+    protected $allowedTags = [
+        'dd',
+        'div',
+        'dl',
+        'fieldset',
+        'header',
+        'footer',
+        'hgroup',
+        'ol',
+        'p',
+        'section',
+        'table',
+        'tfoot',
+        'ul'
+    ];
+
+    /**
      * {@inheritdoc}
      *
      * @return string
@@ -46,7 +65,7 @@ class Container implements Layout\GeneratorInterface
         foreach ($scheduledStructure->getElements() as $elementName => $element) {
             list($type, $data) = $element;
             if ($type === self::TYPE) {
-                $this->_generateContainer($structure, $elementName, $data);
+                $this->generateContainer($structure, $elementName, $data);
                 $scheduledStructure->unsetElement($elementName);
             }
         }
@@ -58,56 +77,59 @@ class Container implements Layout\GeneratorInterface
      * @param \Magento\Framework\Data\Structure $structure
      * @param string $elementName
      * @param array $data
-     * @throws \Magento\Framework\Exception If any of arguments are invalid
      * @return void
      */
-    protected function _generateContainer(
+    protected function generateContainer(
         \Magento\Framework\Data\Structure $structure,
         $elementName,
         $data
     ) {
         $options = $data['attributes'];
-        $structure->setAttribute($elementName, Layout\Element::CONTAINER_OPT_LABEL, $options[Layout\Element::CONTAINER_OPT_LABEL]);
+        $structure->setAttribute(
+            $elementName,
+            Layout\Element::CONTAINER_OPT_LABEL,
+            $options[Layout\Element::CONTAINER_OPT_LABEL]
+        );
         unset($options[Layout\Element::CONTAINER_OPT_LABEL]);
         unset($options['type']);
-        $allowedTags = array(
-            'dd',
-            'div',
-            'dl',
-            'fieldset',
-            'header',
-            'footer',
-            'hgroup',
-            'ol',
-            'p',
-            'section',
-            'table',
-            'tfoot',
-            'ul'
-        );
-        if (!empty($options[Layout\Element::CONTAINER_OPT_HTML_TAG]) && !in_array(
+
+        $this->validateOptions($options);
+
+        foreach ($options as $key => $value) {
+            $structure->setAttribute($elementName, $key, $value);
+        }
+    }
+
+    /**
+     * @param array $options
+     * @throws \Magento\Framework\Exception
+     */
+    protected function validateOptions($options)
+    {
+        if (!empty($options[Layout\Element::CONTAINER_OPT_HTML_TAG])
+            && !in_array(
                 $options[Layout\Element::CONTAINER_OPT_HTML_TAG],
-                $allowedTags
+                $this->allowedTags
             )
         ) {
             throw new \Magento\Framework\Exception(
-                __(
+                sprintf(
                     'Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
                     $options[Layout\Element::CONTAINER_OPT_HTML_TAG],
-                    implode(', ', $allowedTags)
+                    implode(', ', $this->allowedTags)
                 )
             );
         }
+
         if (empty($options[Layout\Element::CONTAINER_OPT_HTML_TAG])
-            && (!empty($options[Layout\Element::CONTAINER_OPT_HTML_ID])
-                || !empty($options[Layout\Element::CONTAINER_OPT_HTML_CLASS]))
+            && (
+                !empty($options[Layout\Element::CONTAINER_OPT_HTML_ID])
+                || !empty($options[Layout\Element::CONTAINER_OPT_HTML_CLASS])
+            )
         ) {
             throw new \Magento\Framework\Exception(
                 'HTML ID or class will not have effect, if HTML tag is not specified.'
             );
-        }
-        foreach ($options as $key => $value) {
-            $structure->setAttribute($elementName, $key, $value);
         }
     }
 }
