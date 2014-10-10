@@ -10,6 +10,7 @@ namespace Magento\Framework\Controller\Result;
 
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Translate\InlineInterface;
 
 /**
  * A possible implementation of JSON response type (instead of hardcoding json_encode() all over the place)
@@ -18,28 +19,36 @@ use Magento\Framework\App\ResponseInterface;
 class JSON implements ResultInterface
 {
     /**
-     * @var string
+     * @var \Magento\Framework\Translate\InlineInterface
      */
-    private $json;
+    protected $translateInline;
 
     /**
-     * Set json data as array
-     *
-     * @param array $array
+     * @var string
      */
-    public function setArray(array $array)
+    protected $json;
+
+    /**
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     */
+    public function __construct(InlineInterface $translateInline)
     {
-        $this->json = $array;
+        $this->translateInline = $translateInline;
     }
 
     /**
-     * Set json data as object
+     * Set json data
      *
-     * @param \StdClass $object
+     * @param mixed $jsonData
+     * @param boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
+     * @param array $options Additional options used during encoding
+     * @return string
+     * @return $this
      */
-    public function setObject(\StdClass $object)
+    public function setJsonData($jsonData, $cycleCheck = false, $options = array())
     {
-        $this->json = $object;
+        $this->json = \Zend_Json::encode($jsonData, $cycleCheck, $options);
+        return $this;
     }
 
     /**
@@ -47,7 +56,7 @@ class JSON implements ResultInterface
      */
     public function renderResult(ResponseInterface $response)
     {
-        $response->setBody(json_encode($this->json));
+        $response->representJson($this->translateInline->processResponseBody($this->json, true));
         return $this;
     }
 }

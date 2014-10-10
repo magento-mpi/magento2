@@ -49,14 +49,28 @@ class ResultFactory
      * Constructor
      *
      * @param ObjectManager $objectManager
-     * @param array $types
+     * @param array $typeMap
      */
     public function __construct(
         ObjectManager $objectManager,
-        array $types = []
+        array $typeMap = []
     ) {
         $this->objectManager = $objectManager;
-        $this->typeMap += $types;
+        $this->mergeTypes($typeMap);
+    }
+
+    /**
+     * Add or override result types
+     *
+     * @param array $typeMap
+     */
+    protected function mergeTypes(array $typeMap)
+    {
+        foreach ($typeMap as $typeInfo) {
+            if (isset($typeInfo['type']) && isset($typeInfo['class'])) {
+                $this->typeMap[$typeInfo['type']] = $typeInfo['class'];
+            }
+        }
     }
 
     /**

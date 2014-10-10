@@ -9,7 +9,7 @@
 namespace Magento\Framework\Controller\Result;
 
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App;
 
 /**
  * In many cases controller actions may result in a redirect
@@ -18,14 +18,27 @@ use Magento\Framework\App\ResponseInterface;
 class Redirect implements ResultInterface
 {
     /**
-     * @var string
+     * @var \Magento\Framework\App\Response\RedirectInterface
      */
-    private $url = '';
+    protected $redirect;
 
     /**
      * @var string
      */
-    private $code = 302;
+    protected $url = '';
+
+    /**
+     * @var array
+     */
+    protected $arguments = [];
+
+    /**
+     * @param App\Response\RedirectInterface $redirect
+     */
+    public function __construct(App\Response\RedirectInterface $redirect)
+    {
+        $this->redirect = $redirect;
+    }
 
     /**
      * @param string $url
@@ -38,21 +51,21 @@ class Redirect implements ResultInterface
     }
 
     /**
-     * @param int $code
+     * @param array $arguments
      * @return $this
      */
-    public function setCode($code)
+    public function setArguments(array $arguments)
     {
-        $this->code = $code;
+        $this->arguments = $arguments;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function renderResult(ResponseInterface $response)
+    public function renderResult(App\ResponseInterface $response)
     {
-        $response->setRedirect($this->url, $this->code);
+        $this->redirect->redirect($response, $this->url, $this->arguments);
         return $this;
     }
 }

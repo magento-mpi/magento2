@@ -20,14 +20,57 @@ class Raw implements ResultInterface
     /**
      * @var string
      */
-    private $contents;
+    protected $contents;
+
+    /**
+     * @var int
+     */
+    protected $httpResponseCode;
+
+    /**
+     * @var array
+     */
+    protected $headers = [];
 
     /**
      * @param string $contents
+     * @return $this
      */
     public function setContents($contents)
     {
         $this->contents = $contents;
+        return $this;
+    }
+
+    /**
+     * @param int $httpCode
+     * @return $this
+     */
+    public function setHttpResponseCode($httpCode)
+    {
+        $this->httpResponseCode = $httpCode;
+        return $this;
+    }
+
+    /**
+     * Set a header
+     *
+     * If $replace is true, replaces any headers already defined with that
+     * $name.
+     *
+     * @param string $name
+     * @param string $value
+     * @param boolean $replace
+     * @return $this
+     */
+    public function setHeader($name, $value, $replace = false)
+    {
+        $this->headers[] = [
+            'name'    => $name,
+            'value'   => $value,
+            'replace' => $replace
+        ];
+        return $this;
     }
 
     /**
@@ -35,6 +78,16 @@ class Raw implements ResultInterface
      */
     public function renderResult(ResponseInterface $response)
     {
+        if (!empty($this->httpResponseCode)) {
+            $response->setHttpResponseCode($this->httpResponseCode);
+        }
+
+        if (!empty($this->headers)) {
+            foreach ($this->headers as $headerData) {
+                $response->setHeader($headerData['name'], $headerData['value'], $headerData['replace']);
+            }
+        }
+
         $response->setBody($this->contents);
         return $this;
     }
