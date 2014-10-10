@@ -47,7 +47,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_observer = (new ObjectManager($this))->getObject('\Magento\TargetRule\Model\Observer', [
             'productRuleIndexerProcessor' => $this->_productRuleProcessorMock,
-            'productRuleIndexer' => $this->_productRuleIndexer,
+            'productRuleProcessor' => $this->_productRuleIndexer,
         ]);
     }
 

@@ -8,20 +8,21 @@
 namespace Magento\CatalogRule\Model\Indexer\Product;
 
 use Magento\CatalogRule\CatalogRuleException;
+use Magento\CatalogRule\Model\Indexer\IndexerBuilder;
 use Magento\Framework\Mview\ActionInterface as MviewActionInterface;
 use Magento\Indexer\Model\ActionInterface as IndexerActionInterface;
 
 class ProductRuleIndexer implements IndexerActionInterface, MviewActionInterface
 {
     /**
-     * @var ProductRuleIndexerBuilder
+     * @var IndexerBuilder
      */
     protected $indexerBuilder;
 
     /**
-     * @param ProductRuleIndexerBuilder $indexerBuilder
+     * @param IndexerBuilder $indexerBuilder
      */
-    public function __construct(ProductRuleIndexerBuilder $indexerBuilder)
+    public function __construct(IndexerBuilder $indexerBuilder)
     {
         $this->indexerBuilder = $indexerBuilder;
     }
@@ -33,7 +34,7 @@ class ProductRuleIndexer implements IndexerActionInterface, MviewActionInterface
      */
     public function execute($ids)
     {
-        $this->indexerBuilder->reindexByIds(array_unique($ids));
+        $this->executeList($ids);
     }
 
     /**

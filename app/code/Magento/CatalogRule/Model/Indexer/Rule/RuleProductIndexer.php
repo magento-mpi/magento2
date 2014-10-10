@@ -8,20 +8,21 @@
 namespace Magento\CatalogRule\Model\Indexer\Rule;
 
 use Magento\CatalogRule\CatalogRuleException;
+use Magento\CatalogRule\Model\Indexer\IndexerBuilder;
 use Magento\Framework\Mview\ActionInterface as MviewActionInterface;
 use Magento\Indexer\Model\ActionInterface as IndexerActionInterface;
 
 class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
 {
     /**
-     * @var RuleProductIndexerBuilder
+     * @var IndexerBuilder
      */
     protected $indexerBuilder;
 
     /**
-     * @param RuleProductIndexerBuilder $indexerBuilder
+     * @param IndexerBuilder $indexerBuilder
      */
-    public function __construct(RuleProductIndexerBuilder $indexerBuilder)
+    public function __construct(IndexerBuilder $indexerBuilder)
     {
         $this->indexerBuilder = $indexerBuilder;
     }
@@ -33,7 +34,7 @@ class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
      */
     public function execute($ids)
     {
-        $this->indexerBuilder->reindex();
+        $this->executeList($ids);
     }
 
     /**
@@ -41,7 +42,7 @@ class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
      */
     public function executeFull()
     {
-        $this->indexerBuilder->reindex();
+        $this->indexerBuilder->reindexFull();
     }
 
     /**
@@ -55,7 +56,7 @@ class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
         if (!$ids) {
             throw new CatalogRuleException(__('Could not rebuild index for empty products array'));
         }
-        $this->indexerBuilder->reindex();
+        $this->indexerBuilder->reindexFull();
     }
 
     /**
@@ -69,6 +70,6 @@ class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
         if (!$id) {
             throw new CatalogRuleException(__('Could not rebuild index for undefined product'));
         }
-        $this->indexerBuilder->reindex();
+        $this->indexerBuilder->reindexFull();
     }
 }

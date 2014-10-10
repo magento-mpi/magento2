@@ -1,12 +1,12 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Model\Indexer\Rule;
+namespace Magento\CatalogRule\Model\Indexer;
 
 use Magento\CatalogRule\CatalogRuleException;
 use Magento\CatalogRule\Model\Rule;
@@ -14,7 +14,7 @@ use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionF
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Product;
 
-class RuleProductIndexerBuilder
+class IndexerBuilder
 {
     const SECONDS_IN_DAY = 86400;
 
@@ -59,6 +59,16 @@ class RuleProductIndexerBuilder
     protected $dateTime;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product[]
+     */
+    protected $loadedProducts;
+
+    /**
      * @param RuleCollectionFactory $ruleCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\App\Resource $resource
@@ -67,6 +77,7 @@ class RuleProductIndexerBuilder
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Stdlib\DateTime $dateFormat
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
@@ -76,7 +87,8 @@ class RuleProductIndexerBuilder
         \Magento\Framework\Logger $logger,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Stdlib\DateTime $dateFormat,
-        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         $this->resource = $resource;
         $this->storeManager = $storeManager;
@@ -86,26 +98,176 @@ class RuleProductIndexerBuilder
         $this->eavConfig = $eavConfig;
         $this->dateFormat = $dateFormat;
         $this->dateTime = $dateTime;
+        $this->productFactory = $productFactory;
+    }
+
+    /**
+     * Reindex by id
+     *
+     * @param int $id
+     * @return void
+     */
+    public function reindexById($id)
+    {
+        $this->reindexByIds([$id]);
+    }
+
+    /**
+     * Reindex by ids
+     *
+     * @param array $ids
+     * @throws \Magento\CatalogRule\CatalogRuleException
+     * @return void
+     */
+    public function reindexByIds(array $ids)
+    {
+        try {
+            $this->doReindexByIds($ids);
+        } catch (\Exception $e) {
+            $this->logException($e);
+            throw new CatalogRuleException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Reindex by ids. Template method
+     *
+     * @param array $ids
+     * @return void
+     */
+    protected function doReindexByIds($ids)
+    {
+        $this->cleanByIds($ids);
+
+        foreach ($this->getActiveRules() as $rule) {
+            foreach ($ids as $productId) {
+                $this->applyRule($rule, $this->getProduct($productId));
+            }
+        }
     }
 
     /**
      * Full reindex
      */
-    public function reindex()
+    public function reindexFull()
     {
         try {
-            $rules = $this->ruleCollectionFactory->create()
-                ->addFieldToFilter('is_active', 1);
-
-            foreach ($rules as $rule) {
-                $this->updateRuleProductData($rule);
-            }
-            $this->applyAllRules();
-
+            $this->doReindexFull();
         } catch (\Exception $e) {
-            $this->logger->logException($e);
+            $this->logException($e);
             throw new CatalogRuleException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * Full reindex Template method
+     */
+    protected function doReindexFull()
+    {
+        foreach ($this->getActiveRules() as $rule) {
+            $this->updateRuleProductData($rule);
+        }
+        $this->applyAllRules();
+    }
+
+    /**
+     * Clean by product ids
+     *
+     * @param array $productIds
+     * @return void
+     */
+    protected function cleanByIds($productIds)
+    {
+        $this->getWriteAdapter()->deleteFromSelect(
+            $this->getWriteAdapter()
+                ->select($this->resource->getTableName('catalogrule_product'), 'product_id')
+                ->distinct()
+                ->where('product_id IN (?)', $productIds),
+            $this->resource->getTableName('catalogrule_product')
+        );
+
+        $this->getWriteAdapter()->deleteFromSelect(
+            $this->getWriteAdapter()->select($this->resource->getTableName('catalogrule_product_price'), 'product_id')
+                ->distinct()
+                ->where('product_id IN (?)', $productIds),
+            $this->resource->getTableName('catalogrule_product_price')
+        );
+    }
+
+    /**
+     * @param Rule $rule
+     * @param \Magento\Catalog\Model\Product $product
+     * @return $this
+     * @throws \Exception
+     */
+    protected function applyRule(Rule $rule, $product)
+    {
+        $ruleId = $rule->getId();
+        $productId = $product->getId();
+        $websiteIds = array_intersect($product->getWebsiteIds(), $rule->getWebsiteIds());
+
+        $write = $this->getWriteAdapter();
+
+        $write->delete(
+            $this->resource->getTableName('catalogrule_product'),
+            array($write->quoteInto('rule_id = ?', $ruleId), $write->quoteInto('product_id = ?', $productId))
+        );
+
+        if (!$rule->getConditions()->validate($product)) {
+            $write->delete(
+                $this->resource->getTableName('catalogrule_product_price'),
+                array($write->quoteInto('product_id = ?', $productId))
+            );
+            return $this;
+        }
+
+        $customerGroupIds = $rule->getCustomerGroupIds();
+        $fromTime = strtotime($rule->getFromDate());
+        $toTime = strtotime($rule->getToDate());
+        $toTime = $toTime ? $toTime + self::SECONDS_IN_DAY - 1 : 0;
+        $sortOrder = (int)$rule->getSortOrder();
+        $actionOperator = $rule->getSimpleAction();
+        $actionAmount = $rule->getDiscountAmount();
+        $actionStop = $rule->getStopRulesProcessing();
+        $subActionOperator = $rule->getSubIsEnable() ? $rule->getSubSimpleAction() : '';
+        $subActionAmount = $rule->getSubDiscountAmount();
+
+        $rows = array();
+        try {
+            foreach ($websiteIds as $websiteId) {
+                foreach ($customerGroupIds as $customerGroupId) {
+                    $rows[] = array(
+                        'rule_id' => $ruleId,
+                        'from_time' => $fromTime,
+                        'to_time' => $toTime,
+                        'website_id' => $websiteId,
+                        'customer_group_id' => $customerGroupId,
+                        'product_id' => $productId,
+                        'action_operator' => $actionOperator,
+                        'action_amount' => $actionAmount,
+                        'action_stop' => $actionStop,
+                        'sort_order' => $sortOrder,
+                        'sub_simple_action' => $subActionOperator,
+                        'sub_discount_amount' => $subActionAmount
+                    );
+
+                    if (count($rows) == 1000) {
+                        $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
+                        $rows = array();
+                    }
+                }
+            }
+
+            if (!$rows) {
+                $write->insertMultiple($this->resource->getTableName('catalogrule_product'), $rows);
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        $this->applyAllRules($product);
+
+        return $this;
     }
 
     /**
@@ -157,10 +319,6 @@ class RuleProductIndexerBuilder
             );
         } else {
             $write->delete($this->getTable('catalogrule_product'), $write->quoteInto('rule_id=?', $ruleId));
-        }
-
-        if (!$rule->getIsActive()) {
-            return $this;
         }
 
         $websiteIds = $rule->getWebsiteIds();
@@ -466,4 +624,35 @@ class RuleProductIndexerBuilder
 
         return $this;
     }
-} 
+
+    /**
+     * Get active rules
+     *
+     * @return array
+     */
+    protected function getActiveRules()
+    {
+        return $this->ruleCollectionFactory->create()
+            ->addFieldToFilter('is_active', 1);
+    }
+
+    /**
+     * @param int $productId
+     * @return \Magento\Catalog\Model\Product
+     */
+    protected function getProduct($productId)
+    {
+        if (!isset($this->loadedProducts[$productId])) {
+            $this->loadedProducts[$productId] = $this->productFactory->create()->load($productId);
+        }
+        return $this->loadedProducts[$productId];
+    }
+
+    /**
+     * @param \Exception $e
+     */
+    protected function logException($e)
+    {
+        $this->logger->logException($e);
+    }
+}
