@@ -9,9 +9,8 @@
 namespace Magento\Framework\Service\Data;
 
 use Magento\Framework\Api\ExtensibleDataBuilderInterface;
-use Magento\Framework\Api\ExtensibleDataInterface;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\ObjectManager;
 
 /**
  * Interface for entities which can be extended with custom attributes.

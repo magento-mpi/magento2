@@ -46,11 +46,11 @@ class DataBuilder extends EntityAbstract
         $constructorDefinition = [
             'name' => '__construct',
             'parameters' => [
-                ['name' => 'objectManager', 'type' => '\Magento\Framework\App\ObjectManager']
+                ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager']
             ],
             'docblock' => [
                 'shortDescription' => 'Initialize the builder',
-                'tags' => [['name' => 'param', 'description' => '\Magento\Framework\App\ObjectManager $objectManager']]
+                'tags' => [['name' => 'param', 'description' => '\Magento\Framework\ObjectManager $objectManager']]
             ],
             'body' => "parent::__construct(\$objectManager, "
             . "'" . $this->_getSourceClassName() . "Interface');"
@@ -140,9 +140,11 @@ class DataBuilder extends EntityAbstract
             $sourceClassName = $this->_getSourceClassName();
             $resultClassName = $this->_getResultClassName();
 
-            if ($resultClassName !== $sourceClassName . 'Builder') {
+            if ($resultClassName !== $sourceClassName . ucfirst(self::ENTITY_TYPE)) {
                 $this->_addError(
-                    'Invalid Builder class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Builder'
+                    'Invalid Builder class name [' . $resultClassName . ']. Use '
+                    . $sourceClassName
+                    . ucfirst(self::ENTITY_TYPE)
                 );
                 $result = false;
             }
@@ -165,7 +167,7 @@ class DataBuilder extends EntityAbstract
             $this->_getClassMethods()
         )->setClassDocBlock(
             $this->_getClassDocBlock()
-        )->setExtendedClass('\\Magento\Framework\Api\ExtensibleDataBuilderInterface');
+        )->setExtendedClass('\\Magento\Framework\Service\Data\ExtensibleDataBuilder');
 
         return $this->_getGeneratedCode();
     }
