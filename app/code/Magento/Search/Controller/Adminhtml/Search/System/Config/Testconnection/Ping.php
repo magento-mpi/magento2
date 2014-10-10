@@ -10,7 +10,6 @@ namespace Magento\Search\Controller\Adminhtml\Search\System\Config\Testconnectio
 
 use \Magento\Backend\App\Action;
 use \Magento\Framework\App\Filesystem;
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Ping extends \Magento\Backend\App\Action
 {

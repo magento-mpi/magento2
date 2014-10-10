@@ -49,7 +49,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addProtocol'
         )->with(
-                \Magento\Framework\Filesystem::HTTP,
+            \Magento\Framework\Filesystem::HTTP,
             array('protocol' => 'http')
         );
 
