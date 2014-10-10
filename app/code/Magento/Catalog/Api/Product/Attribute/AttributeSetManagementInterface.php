@@ -24,7 +24,7 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
      */
-    public function createSet(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
+    public function create(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
 
     /**
      * Update attribute set from data
@@ -36,14 +36,14 @@ interface AttributeSetManagementInterface
      *
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
      */
-    public function updateSet(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet);
+    public function update(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet);
 
     /**
      * @param int $attributeSetId
      * @param \Magento\Catalog\Api\Data\AttributeInterface $data
      * @return int
      */
-    public function addToAttributeSet($attributeSetId, \Magento\Catalog\Api\Data\AttributeInterface $data);
+    public function assignAttribute($attributeSetId, \Magento\Catalog\Api\Data\AttributeInterface $data);
 
     /**
      * Remove attribute from attribute set
@@ -55,7 +55,7 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
      */
-    public function removeFromAttributeSet($attributeSetId, $attributeId);
+    public function unAssignAttribute($attributeSetId, $attributeId);
 
     /**
      * Retrieve related attributes based on given attribute set ID
@@ -64,7 +64,7 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Catalog\Api\Data\AttributeInterface[]
      */
-    public function getAttributeList($attributeSetId);
+    public function getAttributes($attributeSetId);
 
     /**
      * Retrieve the list of media attributes (fronted input type is media_image) assigned to the given attribute set.

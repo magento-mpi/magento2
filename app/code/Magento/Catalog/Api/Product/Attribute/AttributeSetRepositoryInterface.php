@@ -49,5 +49,5 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @return bool
      */
-    public function remove($attributeSetId);
+    public function delete($attributeSetId);
 }
