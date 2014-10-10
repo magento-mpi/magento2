@@ -556,7 +556,7 @@ return array(
         '\Magento\Framework\App\Filesystem',
         '\Magento\Framework\App\Filesystem\DirectoryList::STATIC_VIEW'
     ),
-    array('VAR_DIR', '\Magento\Framework\App\Filesystem', '\Magento\Framework\App\Filesystem\DirectoryList'),
+    array('VAR_DIR', '\Magento\Framework\App\Filesystem', '\Magento\Framework\App\Filesystem\DirectoryList::VAR_DIR'),
     array('TMP_DIR', '\Magento\Framework\App\Filesystem', '\Magento\Framework\App\Filesystem\DirectoryList::TMP'),
     array('CACHE_DIR', '\Magento\Framework\App\Filesystem', '\Magento\Framework\App\Filesystem\DirectoryList::CACHE'),
     array('LOG_DIR', '\Magento\Framework\App\Filesystem', '\Magento\Framework\App\Filesystem\DirectoryList::LOG'),
