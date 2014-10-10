@@ -37,8 +37,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     public function convertRow($row)
     {
-        $data['recurring_payment'] = $this->recurringPayment;
-        parent::convertRow($row);
+        $data = parent::convertRow($row);
         if (!isset($data['is_recurring']) || $data['is_recurring'] != '1') {
             unset($data['recurring_payment']);
         }
