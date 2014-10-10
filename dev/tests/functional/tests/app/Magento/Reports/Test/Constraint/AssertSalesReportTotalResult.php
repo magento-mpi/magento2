@@ -8,6 +8,7 @@
 
 namespace Magento\Reports\Test\Constraint;
 
+use Magento\Reports\Test\Page\Adminhtml\SalesReport;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
@@ -29,13 +30,19 @@ class AssertSalesReportTotalResult extends AbstractAssertSalesReportResult
      * @param OrderInjectable $order
      * @param array $salesReport
      * @param array $initialSalesTotalResult
+     * @param SalesReport $salesReportPage
      * @return void
      */
-    public function processAssert(OrderInjectable $order, array $salesReport, array $initialSalesTotalResult)
-    {
+    public function processAssert(
+        OrderInjectable $order,
+        array $salesReport,
+        array $initialSalesTotalResult,
+        SalesReport $salesReportPage
+    ) {
+        $this->salesReportPage = $salesReportPage;
         $this->order = $order;
         $this->searchInSalesReportGrid($salesReport);
-        $salesResult = $this->salesReportPage->getGridBlock()->getTotalResult();
+        $salesResult = $salesReportPage->getGridBlock()->getTotalResult();
         $prepareInitialResult = $this->prepareExpectedResult($initialSalesTotalResult);
         \PHPUnit_Framework_Assert::assertEquals(
             $prepareInitialResult,
