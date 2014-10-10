@@ -129,6 +129,7 @@
         <mkdir dir="${env.COMPOSER_HOME}"/>
         <echo message="Run 'composer install' for directory '${target_composer_dir}'"/>
         <exec executable="/usr/local/bin/composer" dir="${target_composer_dir}" failonerror="true">
+            <env key="COMPOSER_PROCESS_TIMEOUT" value="600"/>
             <arg line="install --prefer-source --no-interaction"/>
         </exec>
     </target>
