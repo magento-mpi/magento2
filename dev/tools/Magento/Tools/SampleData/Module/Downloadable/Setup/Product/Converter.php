@@ -13,43 +13,6 @@ namespace Magento\Tools\SampleData\Module\Downloadable\Setup\Product;
 class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
 {
     /**
-     * Convert CSV format row to product data array
-     *
-     * @param array $row
-     * @return array
-     */
-    public function convertRow($row)
-    {
-        $data = [];
-        foreach ($row as $field => $value) {
-            if ('category' == $field) {
-                $data['category_ids'] = $this->getCategoryIds($this->getArrayValue($value));
-                continue;
-            }
-
-            if ('qty' == $field) {
-                $data['quantity_and_stock_status'] = ['qty' => $value];
-                continue;
-            }
-
-            $options = $this->getAttributeOptionValueIdsPair($field);
-            if ($options) {
-                $value = $this->getArrayValue($value);
-                $result = [];
-                foreach ($value as $valueItem) {
-                    if (isset($options[$valueItem])) {
-                        $result[] = $options[$valueItem];
-                    }
-                }
-                $value = count($result) == 1 ? current($result) : $result;
-            }
-            $data[$field] = $value;
-        }
-
-        return $data;
-    }
-
-    /**
      * Get downloadable data from array
      *
      * @param array $row
@@ -71,10 +34,11 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * Group downloadable data by link and sample array keys.
      *
      * @param array $downloadableData
-     * @return mixed
+     * @return array
      */
     public function groupDownloadableData($downloadableData)
     {
+        $groupedData = [];
         foreach ($downloadableData as $dataKey => $dataValue) {
             if (!empty($dataValue)) {
                 if ((preg_match('/^(link_item)/', $dataKey, $matches)) && is_array($matches)) {
@@ -94,10 +58,11 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * Will format data corresponding to the product sample data array values.
      *
      * @param array $groupedData
-     * @return mixed
+     * @return array
      */
     public function getFormattedData($groupedData)
     {
+        $formattedData = [];
         foreach (array_keys($groupedData) as $dataType) {
             switch ($dataType) {
                 case 'link':

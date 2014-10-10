@@ -9,7 +9,7 @@ namespace Magento\Tools\SampleData\Module\Catalog\Setup\Product;
 
 use Magento\Framework\App\Filesystem;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use \Magento\Catalog\Model\ProductFactory;
 use \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media as GalleryAttribute;
 
@@ -163,7 +163,7 @@ class Gallery
     {
         $this->images = [];
         foreach ($this->fixtures as $file) {
-            /** @var \Magento\Framework\File\Csv\Reader $csvReader */
+            /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
