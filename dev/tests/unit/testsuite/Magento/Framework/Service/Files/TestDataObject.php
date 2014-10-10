@@ -15,15 +15,18 @@ class TestDataObject implements TestDataInterface
         return '1';
     }
 
-    public function getAddress(){
+    public function getAddress()
+    {
         return 'someAddress';
     }
 
-    public function isDefaultShipping(){
+    public function isDefaultShipping()
+    {
         return 'true';
     }
 
-    public function isRequiredBilling(){
+    public function isRequiredBilling()
+    {
         return 'false';
     }
 }

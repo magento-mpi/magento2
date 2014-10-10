@@ -305,6 +305,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
 
 class TestService
 {
+    /**
+     * @return null
+     */
     public function testMethod()
     {
         return null;
