@@ -62,6 +62,8 @@ define([
             this.elems.push(item);
 
             registry.set(fullName, item);
+
+            console.log('Collection this=', this);
         },
 
         getTemplate: function () {

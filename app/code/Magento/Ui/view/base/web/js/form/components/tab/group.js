@@ -15,7 +15,8 @@ define([
 
     var defaults = {
         collapsible:    false,
-        opened:         true
+        opened:         true,
+        label:          ''
     };
 
     var TabsGroup = Scope.extend({

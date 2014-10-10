@@ -20,16 +20,22 @@ class Fieldset extends \Magento\Ui\Controller\Adminhtml\AbstractAction
      */
     public function execute()
     {
-        $component = $this->getComponent();
-        $name = $this->getName();
-        if ($component && $name) {
-            $fieldset = $this->factory->createUiComponent($this->getComponent(), $this->getName())->getContainer($this->_request->getParam('container'));
-            $fieldset->setNotLoadByAjax();
-            $this->_response->appendBody(
-                $fieldset->render()
-            );
-        } else {
-            $this->_redirect('admin');
-        }
+//        $component = $this->getComponent();
+//        $name = $this->getName();
+//        if ($component && $name) {
+//            $fieldset = $this->factory->createUiComponent($this->getComponent(), $this->getName())->getContainer($this->_request->getParam('container'));
+//            $fieldset->setNotLoadByAjax();
+//            $this->_response->appendBody(
+//                $fieldset->render()
+//            );
+//        } else {
+//            $this->_redirect('admin');
+//        }
+        $tabIndex = $this->getRequest()->getParam('container');
+        $this->getResponse()->appendBody(
+            json_encode(
+                ['layout' => ['customer_form_tabs' => [$tabIndex => ['label' => 'loaded', 'content' => 'content is loaded']]]]
+            )
+        );
     }
 }

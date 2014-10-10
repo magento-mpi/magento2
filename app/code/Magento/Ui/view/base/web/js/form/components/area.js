@@ -12,7 +12,8 @@ define([
     'use strict';
 
     var defaults = {
-        visible: false
+        visible: false,
+        label:   ''
     };
 
     var Area = Scope.extend({
@@ -22,6 +23,8 @@ define([
             this.initObservable()
                 .initListeners()
                 .pullParams();
+
+            console.log('Area.js this=', this);
         },
 
         initObservable: function() {

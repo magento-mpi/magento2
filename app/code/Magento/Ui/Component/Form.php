@@ -16,6 +16,7 @@ use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Ui\DataProvider\Metadata;
+use Magento\Webapi\Exception;
 
 /**
  * Class Form
@@ -137,11 +138,10 @@ class Form extends AbstractView
                 $layoutGroups = [];
                 $layoutFieldsets = [];
                 $layoutAreas = [];
-                $layoutTabs = [];
+                $layoutTabs = ['default' => ['label' => 'Tab Group']];
 
-//                $id = $this->renderContext->getRequestParam('id');
-//                $data = $id ? $this->dataManager->getDataById($dataSource, ['entity_id' => $id]) : [];
-                $data = $this->dataManager->getData($dataSource, ['entity_id' => 1]);
+                $id = $this->renderContext->getRequestParam('id');
+                $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
                 $meta = $this->dataManager->getMetadata($dataSource);
                 $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
 
@@ -150,40 +150,66 @@ class Form extends AbstractView
                 foreach ($meta as $key => $value) {
                     if ($key != Metadata::CHILD_DATA_SOURCES) {
                         $preparedMeta[$dataSource][$key] = $value;
-                        $layoutGroups[$key]['injections'] = $dataSource . '.' . $key;
+                        $layoutGroups[$key]['injections'][] = $dataSource . '.' . $key;
                         $layoutFieldsets[$dataSource]['injections'][] = $this->getData('name') . '_groups.' . $key;
                     }
                 }
                 $layoutFieldsets[$dataSource]['label'] = $dataSource;
-                $layoutAreas[$dataSource]['injections'] = $this->getData('name') . '_fieldsets.' . $dataSource;
-                $layoutTabs[$dataSource]['items'][] = ['name' => $dataSource, 'label' => $dataSource, 'active' => true];
+                $layoutAreas[$dataSource]['injections'][] = $this->getData('name') . '_fieldsets.' . $dataSource;
+                $layoutTabs['default']['items'][$dataSource] = ['name' => $dataSource, 'label' => $dataSource, 'active' => true];
                 foreach ($children as $childName) {
                     $childMeta = $this->dataManager->getMetadata($childName);
                     foreach ($childMeta as $key => $value) {
                         $preparedMeta[$childName][$key] = $value;
-                        $layoutGroups[$key]['injections'] = $childName . '.' . $key;
+                        $layoutGroups[$key]['injections'][] = $childName . '.' . $key;
                         $layoutFieldsets[$childName]['injections'][] = $this->getData('name') . '_groups.' . $key;
                     }
                     $layoutFieldsets[$childName]['label'] = $childName;
-                    $layoutAreas[$childName]['injections'] = $this->getData('name') . '_fieldsets.' . $childName;
-                    $layoutTabs[$childName]['items'][] = ['name' => $childName, 'label' => $childName];
+                    $layoutAreas[$childName]['injections'][] = $this->getData('name') . '_fieldsets.' . $childName;
+                    $layoutTabs['default']['items'][$childName] = ['name' => $childName, 'label' => $childName];
                 }
+
+                //Add child blocks content
+                foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $childBlock) {
+                    if (!($childBlock instanceof \Magento\Backend\Block\Widget\Tab\TabInterface)) {
+                        throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
+                    }
+                    $layoutTabs['default']['items'][$childBlock->getNameInLayout()] = [
+                        'name' => $childBlock->getNameInLayout(),
+                        'label' => $childBlock->getTabTitle(),
+                        'ajax' => $this->getUrl(
+                            'mui/form/fieldset',
+                            [
+                                'component' => 'form',
+                                'name' => $this->getData('name'),
+                                'container' => $childBlock->getNameInLayout()
+                            ]
+                        )
+                    ];
+                }
+
+                $layoutTabs['default']['items']['test_tab_with_content'] = [
+                    'name' => 'test_tab',
+                    'label' => 'Test tab with content',
+                    'content' => 'Hello World!',
+                    'id' => $id
+                ];
 
                 $this->renderContext->getStorage()->addLayoutNode(
                     $this->getData('name') . '_groups',
-                    ['items' => $layoutGroups]
+                    $layoutGroups
                 );
                 $this->renderContext->getStorage()->addLayoutNode(
                     $this->getData('name') . '_fieldsets',
-                    ['items' => $layoutFieldsets]
+                    $layoutFieldsets
                 );
                 $this->renderContext->getStorage()->addLayoutNode(
                     $this->getData('name') . '_tabs',
-                    ['items' => $layoutTabs]
+                    $layoutTabs
                 );
                 $this->renderContext->getStorage()->addLayoutNode(
                     $this->getData('name') . '_areas',
-                    ['items' => $layoutAreas]
+                    $layoutAreas
                 );
 
                 $preparedData = [];

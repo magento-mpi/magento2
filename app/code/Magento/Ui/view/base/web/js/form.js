@@ -27,11 +27,11 @@ define(function (require) {
      * @return {Boolean} - true, if object is meta descriptor
      */
     function isMetaDescriptor(obj) {
-        var isMetaReference = obj.meta_ref,
-            hasInputType    = obj.input_type;
+        var isMetaReference = obj && obj.meta_ref,
+            hasInputType    = obj && obj.input_type;
 
-        return isMetaReference || hasInputType;
-    };
+        return !!(isMetaReference || hasInputType);
+    }
 
     var Form = Scope.extend({
 

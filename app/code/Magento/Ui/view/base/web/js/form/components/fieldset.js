@@ -16,6 +16,7 @@ define([
         collapsible:    false,
         opened:         true,
         template:       'ui/fieldset/fieldset',
+        label:        '',
         content:        '',
         ajax:           false
     };

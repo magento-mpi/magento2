@@ -61,8 +61,8 @@ define([
         formatOptions: function (options) {
             return _.map(options, function (fullValue, index) {
                 return {
-                    label: fullValue.label,
-                    value: fullValue.name
+                    label: fullValue.label || '',
+                    value: fullValue.name || ''
                 };
             });
         },

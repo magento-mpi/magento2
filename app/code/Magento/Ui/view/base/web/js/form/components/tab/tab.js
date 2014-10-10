@@ -11,7 +11,8 @@ define([
     'use strict';
 
     var defaults = {
-        active: false
+        active: false,
+        label: ''
     };
 
     return Scope.extend({

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="form">
         <arguments>
             <argument name="save_mca" xsi:type="string">customer\index\save</argument>
@@ -26,7 +26,7 @@
                 <item name="configuration" xsi:type="array">
                     <item name="type" xsi:type="string">fieldset</item>
                     <item name="areas" xsi:type="array">
-                        <item name="customer_info" xsi:type="array">
+                        <item name="general" xsi:type="array">
                             <item name="index" xsi:type="string">account_info</item>
                             <item name="type" xsi:type="string">fieldset</item>
                             <item name="label" xsi:type="string" translate="true">Customer Info</item>
@@ -35,7 +35,7 @@
                         </item>
                         <item name="customer_address" xsi:type="array">
                             <item name="index" xsi:type="string">customer_address</item>
-                            <item name="type" xsi:type="string">fieldset</item>
+                            <item name="type" xsi:type="string">tab</item>
                             <item name="label" xsi:type="string" translate="true">Customer Address</item>
                         </item>
                     </item>

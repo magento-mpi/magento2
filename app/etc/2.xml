@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<!-- Basic configuration for Magento application framework. -->
+<config>
+    <install>
+        <!-- Date of installation. Its validity indicates whether an application is installed or not. -->
+        <date><![CDATA[Sun, 28 Sep 2014 23:51:43 +0300]]></date>
+    </install>
+    <crypt>
+        <!-- Cryptography key, used to encrypt sensitive information. -->
+        <key><![CDATA[715a3bcd5d8eb5bbe98e40eb03edc443]]></key>
+    </crypt>
+    <db>
+        <!-- A prefix to use for names of Magento tables in DB. Helps to avoid table name conflicts, if other
+            applications use same database for storing their own tables. Can be empty. -->
+        <table_prefix><![CDATA[]]></table_prefix>
+    </db>
+    <connection name="default">
+        <!-- Endpoint to connect to DB backend. For MySQL it can be IP (e.g. 127.0.0.1), domain with
+            optional port (e.g. mysql.example.com or mysql.example.com:3306) or unix socket
+            (e.g. /var/lib/mysql/mysql.sock). -->
+        <host><![CDATA[localhost]]></host>
+        <!-- MySQL unix socket as endpoint to DB backend. If used instead of '<host>', then remove
+            the latter one. -->
+        <!-- <unix_socket><![CDATA[/var/lib/mysql/mysql.sock]]></unix_socket> -->
+        <username><![CDATA[magento]]></username>
+        <password><![CDATA[123123q]]></password>
+        <dbName><![CDATA[m2]]></dbName>
+        <!-- Database statements to be executed at DB backend upon connection establishment.
+            For MySQL multiple statements can be entered, if separated with a semicolon. -->
+        <initStatements><![CDATA[SET NAMES utf8;]]></initStatements>
+        <!-- DB model layer. Used to determine names of resource helpers and
+            specific installs/upgrades for a DB vendor. -->
+        <model><![CDATA[mysql4]]></model>
+        <adapter>Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql</adapter>
+        <!-- Connection activation. Default connection is last level of fallback, thus
+            it must be always left active.  -->
+        <active>1</active>
+    </connection>
+    <resource name="default_setup" connection="default"/>
+    <!-- Session storage method. Can be 'files' (default), 'db', 'memcache', 'memcached', 'eaccelerator', 'redis' (phpredis). -->
+    <session_save><![CDATA[files]]></session_save>
+    <!-- Example save path for 'redis', but can also be used for other session storage types such as 'files' -->
+    <!--<session_save_path><![CDATA[tcp://127.0.0.1:6379?timeout=2.5]]></session_save_path> -->
+    <backend>
+        <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
+        <frontName><![CDATA[backend]]></frontName>
+    </backend>
+</config>
