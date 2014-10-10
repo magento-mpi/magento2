@@ -59,9 +59,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->any())
             ->method('getScheduledStructure')
             ->will($this->returnValue($this->scheduledStructure));
-        $this->scheduledStructure->expects($this->once())->method('setElementToRemoveList')->with(
-            (string)$this->element->getAttribute('name')
-        );
+        $this->scheduledStructure->expects($this->once())->method('setElementToRemoveList')->with('header');
         $this->model->process($this->context, $this->element, $this->element);
     }
 
@@ -69,13 +67,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                '<?xml version="1.0"?>
-<page>
-    <body>
-        <remove name="header"/>
-        <remove name="menu"/>
-    </body>
-</page>'
+                '<remove name="header"/>'
             ]
         ];
     }
