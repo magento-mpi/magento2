@@ -11,6 +11,8 @@ namespace Magento\Wishlist\Test\Block\Customer\Wishlist;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
+use Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product;
 
 /**
  * Class Items
@@ -19,22 +21,44 @@ use Mtf\Client\Element\Locator;
 class Items extends Block
 {
     /**
-     * Product name link selector
+     * Item product block
      *
      * @var string
      */
-    protected $productName = '//a[contains(@class,"product-item-link") and contains(.,"%s")]';
+    protected $itemBlock = '//li[.//a[contains(.,"%s")]]';
 
     /**
-     * Check that product present in wishlist
+     * Selector for 'Remove item' button
      *
-     * @param string $productName
-     * @return bool
+     * @var string
      */
-    public function isProductPresent($productName)
-    {
-        $productNameSelector = sprintf($this->productName, $productName);
+    protected $remove = '[data-role="remove"]';
 
-        return $this->_rootElement->find($productNameSelector, Locator::SELECTOR_XPATH)->isVisible();
+    /**
+     * Get item product block
+     *
+     * @param FixtureInterface $product
+     * @return Product
+     */
+    public function getItemProduct(FixtureInterface $product)
+    {
+        $productBlock = sprintf($this->itemBlock, $product->getName());
+        return $this->blockFactory->create(
+            'Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product',
+            ['element' => $this->_rootElement->find($productBlock, Locator::SELECTOR_XPATH)]
+        );
+    }
+
+    /**
+     * Remove all products from wish list
+     *
+     * @return void
+     */
+    public function removeAllProducts()
+    {
+        while ($this->_rootElement->find($this->remove)->isVisible()) {
+            $this->_rootElement->find($this->remove)->click();
+            $this->reinitRootElement();
+        }
     }
 }

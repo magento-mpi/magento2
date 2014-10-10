@@ -7,60 +7,68 @@
  */
 namespace Magento\Setup\Controller\Install;
 
-use Magento\Module\ModuleListInterface;
-use Magento\Setup\Model\Logger;
+use Magento\Setup\Model\WebLogger;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Magento\Setup\Model\Installer\ProgressFactory;
 
 class ProgressController extends AbstractActionController
 {
     /**
+     * JSON response
+     *
      * @var \Zend\View\Model\JsonModel
      */
     protected $json;
 
     /**
-     * @var Logger
+     * Web logger
+     *
+     * @var WebLogger
      */
     protected $logger;
 
-    protected $moduleList;
+    /**
+     * Progress indicator factory
+     *
+     * @var ProgressFactory
+     */
+    protected $progressFactory;
 
     /**
+     * Constructor
+     *
      * @param JsonModel $view
-     * @param ModuleListInterface $moduleList
-     * @param Logger $logger
+     * @param WebLogger $logger
+     * @param ProgressFactory $progressFactory
      */
     public function __construct(
         JsonModel $view,
-        ModuleListInterface $moduleList,
-        Logger $logger
+        WebLogger $logger,
+        ProgressFactory $progressFactory
     ) {
-        $this->moduleList = $moduleList;
         $this->logger = $logger;
         $this->json = $view;
+        $this->progressFactory = $progressFactory;
     }
 
     /**
+     * Checks progress of installation
+     *
      * @return JsonModel
      */
     public function indexAction()
     {
-        //@todo I fix it
-        $moduleCount = count($this->moduleList->getModules());
-        $log = $this->logger->get();
-        $progress = 0;
-        if (!empty($log)) {
-            $progress = round(count($log)/$moduleCount*90);
+        $percent = 0;
+        $success = false;
+        try {
+            $progress = $this->progressFactory->createFromLog($this->logger);
+            $percent = sprintf('%d', $progress->getRatio() * 100);
+            $success = true;
+            $contents = $this->logger->get();
+        } catch (\Exception $e) {
+            $contents = [(string)$e];
         }
-        $progress += 5;
-
-        return $this->json->setVariables(
-            array(
-                'progress' => $progress,
-                'success' => !$this->logger->hasError(),
-                'console' => $log
-            )
-        );
+        return $this->json->setVariables(['progress' => $percent, 'success' => $success, 'console' => $contents]);
     }
 }

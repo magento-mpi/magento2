@@ -14,7 +14,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Selector
- * URL rewrite type selector
+ * URL rewrite entity type selector
  */
 class Selector extends Block
 {
@@ -26,7 +26,7 @@ class Selector extends Block
      */
     public function selectType($urlrewriteType)
     {
-        $this->_rootElement->find("[id=url-rewrite-option-select]", Locator::SELECTOR_CSS, 'select')
+        $this->_rootElement->find("[data-role=entity-type-selector]", Locator::SELECTOR_CSS, 'select')
             ->setValue($urlrewriteType);
     }
 }

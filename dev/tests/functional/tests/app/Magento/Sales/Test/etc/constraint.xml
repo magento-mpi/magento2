@@ -45,16 +45,73 @@
     <assertOrderInOrdersGrid module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderInOrdersGrid>
+    <assertOrdersInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrdersInOrdersGrid>
     <assertOrderInOrdersGridOnFrontend module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderInOrdersGridOnFrontend>
     <assertOrderOnHoldSuccessMessage module="Magento_Sales">
         <severeness>high</severeness>
     </assertOrderOnHoldSuccessMessage>
+    <assertOrderMassOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderMassOnHoldSuccessMessage>
     <assertUnholdButton module="Magento_Sales">
         <severeness>low</severeness>
     </assertUnholdButton>
     <assertOrderButtonsUnavailable module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderButtonsUnavailable>
+    <assertOrderSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderSuccessCreateMessage>
+    <assertNoInvoiceButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoInvoiceButton>
+    <assertInvoiceInInvoicesTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceInInvoicesTab>
+    <assertInvoiceInInvoicesGridOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceInInvoicesGridOnFrontend>
+    <assertInvoicedAmountOnFrontend module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoicedAmountOnFrontend>
+    <assertNoShipButton module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertNoShipButton>
+    <assertShipmentInShipmentsTab module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentInShipmentsTab>
+    <assertInvoiceSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceSuccessCreateMessage>
+    <assertInvoiceWithShipmentSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertInvoiceWithShipmentSuccessMessage>
+    <assertOrderNotInOrdersGrid module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderNotInOrdersGrid>
+    <assertOrderCancelMassActionSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderCancelMassActionSuccessMessage>
+    <assertOrderCancelMassActionFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderCancelMassActionFailMessage>
+    <assertOrderOnHoldSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderOnHoldSuccessMessage>
+    <assertOrderOnHoldFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderOnHoldFailMessage>
+    <assertOrderReleaseSuccessMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderReleaseSuccessMessage>
+    <assertOrderReleaseFailMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderReleaseFailMessage>
+    <assertShipmentSuccessCreateMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertShipmentSuccessCreateMessage>
 </constraint>

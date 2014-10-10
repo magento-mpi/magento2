@@ -14,8 +14,8 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
+ * Class Items
  * Block for items ordered on order page
- *
  */
 class Items extends Block
 {
@@ -49,7 +49,7 @@ class Items extends Block
             $productDisplay = $productName . ' SKU: ' . $product->getVariationSku($checkoutOption);
             $productDisplay .= ' ' . $attributeValue . ' ' . $optionValue;
         } else {
-            $productDisplay = $productName . ' SKU: ' . $product->getProductSku();
+            $productDisplay = $productName . ' SKU: ' . $product->getSku();
         }
         $selector = '//tr[normalize-space(td)="' . $productDisplay .'"]' . $this->priceSelector;
 

@@ -23,6 +23,7 @@ $config = array(
     ''    => array('php' => 'OSL', '_recursive' => false),
     'app' => array('php' => 'OSL', '_recursive' => false),
     'app/code/Magento'      => $magentoOslAfl,
+    'app/code/Magento/Ui'   => array('html' => 'AFL'),
     'app/design'            => $magentoAfl,
     'app/etc'               => array('xml' => 'AFL', 'php' => 'OSL'),
     'app/i18n'              => array('xml' => 'AFL'),

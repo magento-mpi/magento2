@@ -39,10 +39,10 @@
 @font-rem-ratio: unit(@font-size-root * 16/100);
 //base font size value in <b>px</b>:
 @font-size-base: unit((@font-size-root / 100) * 16 * @font-size-base-ratio, px); // Also used in: @loader-text-font-size
-@font-size-xl: ceil(1.5 * @font-size-base);  // 21px
-@font-size-l: ceil(1.25 * @font-size-base);
-@font-size-s: ceil(0.85 * @font-size-base);  // Also used in: Breadcrumbs and in Small button
-@font-size-xs: floor(0.75 * @font-size-base);
+@font-size-xl: ceil(1.5 * @font-size-base);  // 21
+@font-size-l: ceil(1.25 * @font-size-base);  // 18
+@font-size-s: ceil(0.85 * @font-size-base);  // 12 Also used in: Breadcrumbs and in Small button
+@font-size-xs: floor(0.75 * @font-size-base);  // 11
 
 @font-weight-base: 400;
 @font-weight-light: 300;
@@ -136,7 +136,7 @@
 @h3-font-weight: @font-weight-semibold;
 @h3-font-style: @heading-font-style-base;
 @h3-line-height: @heading-line-height-base;
-@h3-margin-top: @indent-base * 0.75;
+@h3-margin-top: @indent-base;
 @h3-margin-bottom: @indent-s-base;
 
 @h4-font-size: @font-size-base; // 14px
@@ -267,7 +267,7 @@
 @layout-width: ''; // for the fixed width layout
 @layout-max-width: 1280px;
 @layout-indent: 20px;
-@layout-width-xs-indent: 10px;
+@layout-width-xs-indent: 15px;
 
 // Classnames defining different layouts
 @layout-class-1column: page-layout-1column;
@@ -312,7 +312,7 @@
 //
 //    Navigation variables
 //--------------------------------------
-@navigation-background: #f0f0f0;;
+@navigation-background: #f0f0f0;
 @navigation-border: '';
 @navigation-level0-font-size: 16;
 @navigation-level0-font-weight: @font-weight-bold;

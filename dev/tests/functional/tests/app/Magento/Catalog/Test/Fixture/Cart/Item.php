@@ -61,6 +61,10 @@ class Item implements FixtureInterface
         $cartItem['options'] = isset($cartItem['options'])
             ? $cartItem['options'] + $checkoutCustomOptions
             : $checkoutCustomOptions;
+        if (isset($checkoutData['options']['qty'])) {
+            $cartItem['qty'] = $checkoutData['options']['qty'];
+        }
+
         $this->data = $cartItem;
     }
 
