@@ -75,8 +75,11 @@ class CartProviderTest extends \PHPUnit_Framework_TestCase
         $this->cartMock->expects($this->once())->method('setSession')
             ->with($this->sessionMock)->will($this->returnValue($this->cartMock));
         $this->cartMock->expects($this->once())->method('setContext')
-            ->with(Cart::CONTEXT_ADMIN_ORDER)->will($this->returnValue($this->cartMock));
-        $this->cartMock->expects($this->once())->method('setCurrentStore')->with($this->soreId);
+            ->with(Cart::CONTEXT_ADMIN_ORDER)->will($this->returnSelf());
+        $this->cartMock->expects($this->once())
+            ->method('setCurrentStore')
+            ->with($this->soreId)
+            ->will($this->returnSelf());
 
         $this->model->get($this->observerMock);
     }
