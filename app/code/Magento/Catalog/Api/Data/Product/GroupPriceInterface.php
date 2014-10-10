@@ -6,10 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data;
+namespace Magento\Catalog\Api\Data\Product;
 
 /**
  * Interface GroupPrice must be implemented Magento\Catalog\Model\Product\Type\Price\Group  model
+ * @see \Magento\Catalog\Service\V1\Data\Product\GroupPrice
  */
 interface GroupPriceInterface
 {
