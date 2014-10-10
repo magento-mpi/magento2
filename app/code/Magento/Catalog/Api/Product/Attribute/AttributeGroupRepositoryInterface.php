@@ -25,12 +25,12 @@ interface AttributeGroupRepositoryInterface
     /**
      * Retrieve list of attribute groups
      *
-     * @param string $attributeSetId
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface::getList
      */
-    public function getList($attributeSetId);
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Remove attribute group
