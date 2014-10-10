@@ -79,6 +79,6 @@ class AssertUnassignOrderStatusNotAssigned extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order status with status code from fixture have empty "State Code and Title" value';
+        return 'Order status with status code from fixture have empty "State Code and Title" value.';
     }
 }

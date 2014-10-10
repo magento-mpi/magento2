@@ -23,9 +23,9 @@ use Mtf\TestCase\Injectable;
  * 2. Order Status assigned to State
  *
  * Steps:
- * 1. Log in as admin
+ * 1. Log in to backend
  * 2. Navigate to the Stores>Settings>Order Status
- * 3. Click "Unassign" for appropriate status4
+ * 3. Click "Unassign" for appropriate status
  * 4. Perform all assertions
  *
  * @group Order_Management_(CS)
@@ -65,7 +65,7 @@ class UnassignCustomOrderStatusTest extends Injectable
         // Steps:
         $orderStatusLabel = $orderStatus->getLabel();
         $this->orderStatusIndex->open();
-        $this->orderStatusIndex->open()->getOrderStatusGrid()->searchAndUnassign(['label' => $orderStatusLabel]);
+        $this->orderStatusIndex->getOrderStatusGrid()->searchAndUnassign(['label' => $orderStatusLabel]);
 
         return ['status' => $orderStatusLabel];
     }

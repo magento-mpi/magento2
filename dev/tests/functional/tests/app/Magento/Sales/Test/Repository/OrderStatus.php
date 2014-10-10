@@ -18,8 +18,8 @@ class OrderStatus extends AbstractRepository
 {
     /**
      * @constructor
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
