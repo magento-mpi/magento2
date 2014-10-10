@@ -167,7 +167,7 @@ class DataBuilder extends EntityAbstract
             $this->_getClassMethods()
         )->setClassDocBlock(
             $this->_getClassDocBlock()
-        )->setExtendedClass('\\Magento\Framework\Service\Data\ExtensibleDataBuilder');
+        )->setExtendedClass('\Magento\Framework\Service\Data\ExtensibleDataBuilder');
 
         return $this->_getGeneratedCode();
     }

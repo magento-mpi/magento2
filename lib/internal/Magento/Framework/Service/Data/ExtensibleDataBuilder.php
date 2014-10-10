@@ -62,7 +62,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     public function setCustomAttributes(array $attributes)
     {
         foreach ($attributes as $attribute) {
-            $this->setCustomAttributes($attribute);
+            $this->setCustomAttribute($attribute);
         }
         return $this;
     }

@@ -8,10 +8,8 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
-
 /**
- * Interface for entities which can be extended with custom attributes.
+ * Base builder for \Magento\Framework\Api\ExtensibleDataInterface types.
  */
 interface ExtensibleDataBuilderInterface
 {
