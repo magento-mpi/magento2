@@ -9,6 +9,7 @@ namespace Magento\Ui\Component\Layout;
 
 use Magento\Ui\Component\AbstractView;
 use Magento\Framework\View\Element\Template;
+use Magento\Ui\DataProvider\Metadata;
 
 /**
  * Class Tabs
@@ -41,17 +42,135 @@ class Tabs extends AbstractView
      *
      * @return void
      */
+//    public function prepare()
+//    {
+//        parent::prepare();
+//        $configData = $this->getDefaultConfiguration();
+//        if ($this->hasData('config')) {
+//            $configData = array_merge($configData, $this->getData('config'));
+//        }
+//
+//        $this->prepareConfiguration($configData);
+//
+//        $this->createDataProviders();
+//    }
+
     public function prepare()
     {
-        parent::prepare();
-        $configData = $this->getDefaultConfiguration();
-        if ($this->hasData('config')) {
-            $configData = array_merge($configData, $this->getData('config'));
+        $this->registerComponents();
+        foreach ($this->getData('dataSources') as $name => $dataSource) {
+            $layoutGroups = [];
+            $layoutFieldsets = [];
+            $layoutAreas = [];
+            $layoutTabs = ['default' => ['label' => 'Tab Group']];
+
+            $id = $this->renderContext->getRequestParam('id');
+            $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
+            $meta = $this->dataManager->getMetadata($dataSource);
+            $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
+
+
+            $preparedMeta = [];
+            foreach ($meta as $key => $value) {
+                if ($key != Metadata::CHILD_DATA_SOURCES) {
+                    $preparedMeta[$dataSource][$key] = $value;
+                    $layoutGroups[$key]['injections'][] = $dataSource . '.' . $key;
+                    $layoutFieldsets[$dataSource]['injections'][] = $this->getData('name') . '_groups.' . $key;
+                }
+            }
+            $layoutFieldsets[$dataSource]['label'] = $dataSource;
+            $layoutAreas[$dataSource]['injections'][] = $this->getData('name') . '_fieldsets.' . $dataSource;
+            $layoutTabs['default']['items'][$dataSource] = ['name' => $dataSource, 'label' => $dataSource, 'active' => true];
+            foreach ($children as $childName) {
+                $childMeta = $this->dataManager->getMetadata($childName);
+                foreach ($childMeta as $key => $value) {
+                    $preparedMeta[$childName][$key] = $value;
+                    $layoutGroups[$key]['injections'][] = $childName . '.' . $key;
+                    $layoutFieldsets[$childName]['injections'][] = $this->getData('name') . '_groups.' . $key;
+                }
+                $layoutFieldsets[$childName]['label'] = $childName;
+                $layoutAreas[$childName]['injections'][] = $this->getData('name') . '_fieldsets.' . $childName;
+                $layoutTabs['default']['items'][$childName] = ['name' => $childName, 'label' => $childName];
+            }
+
+            //Add child blocks content
+            foreach ($this->getData('childBlocks') as $childBlock) {
+                if (!($childBlock instanceof \Magento\Backend\Block\Widget\Tab\TabInterface)) {
+                    throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
+                }
+                $layoutTabs['default']['items'][$childBlock->getNameInLayout()] = [
+                    'name' => $childBlock->getNameInLayout(),
+                    'label' => $childBlock->getTabTitle(),
+                    'ajax' => $this->getUrl(
+                        'mui/form/fieldset',
+                        [
+                            'component' => 'form',
+                            'name' => $this->getData('name'),
+                            'container' => $childBlock->getNameInLayout()
+                        ]
+                    )
+                ];
+            }
+
+            $layoutTabs['default']['items']['test_tab_with_content'] = [
+                'name' => 'test_tab',
+                'label' => 'Test tab with content',
+                'content' => 'Hello World!',
+                'id' => $id
+            ];
+
+            $this->renderContext->getStorage()->addLayoutNode(
+                $this->getData('name') . '_groups',
+                $layoutGroups
+            );
+            $this->renderContext->getStorage()->addLayoutNode(
+                $this->getData('name') . '_fieldsets',
+                $layoutFieldsets
+            );
+            $this->renderContext->getStorage()->addLayoutNode(
+                $this->getData('name') . '_tabs',
+                $layoutTabs
+            );
+            $this->renderContext->getStorage()->addLayoutNode(
+                $this->getData('name') . '_areas',
+                $layoutAreas
+            );
+
+            $preparedData = [];
+            foreach ($data[0] as $key => $value) {
+                if (is_array($value)) {
+                    $preparedData[$key] = $value;
+                } else {
+                    $preparedData[$dataSource][$key] = $value;
+                }
+            }
+            $this->renderContext->getStorage()->addData($this->getData('name'), $preparedData);
+            $this->renderContext->getStorage()->addMeta($this->getData('name'), $preparedMeta);
         }
+    }
 
-        $this->prepareConfiguration($configData);
-
-        $this->createDataProviders();
+    public function registerComponents()
+    {
+        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_tabs', [
+                'name' => $this->getData('name') . '_tabs',
+                'path' => 'Magento_Ui/js/form/components/tab/group',
+                'source' => $this->getData('name')
+            ]);
+        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_fieldsets', [
+                'name' => $this->getData('name') . '_fieldsets',
+                'path' => 'Magento_Ui/js/form/components/fieldset',
+                'source' => $this->getData('name')
+            ]);
+        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_areas', [
+                'name' => $this->getData('name') . '_areas',
+                'path' => 'Magento_Ui/js/form/components/area',
+                'source' => $this->getData('name')
+            ]);
+        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_groups', [
+                'name' => $this->getData('name') . '_groups',
+                'path' => 'Magento_Ui/js/form/components/group',
+                'source' => $this->getData('name')
+            ]);
     }
 
     /**

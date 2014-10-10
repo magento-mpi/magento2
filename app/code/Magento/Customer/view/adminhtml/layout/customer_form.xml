@@ -23,8 +23,8 @@
             </argument>
 
             <argument name="layout" xsi:type="array">
+                <item name="type" xsi:type="string">tabs</item>
                 <item name="configuration" xsi:type="array">
-                    <item name="type" xsi:type="string">fieldset</item>
                     <item name="areas" xsi:type="array">
                         <item name="general" xsi:type="array">
                             <item name="index" xsi:type="string">account_info</item>
