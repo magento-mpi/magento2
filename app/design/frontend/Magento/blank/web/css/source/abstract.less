@@ -83,6 +83,19 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-blocks-2columns-s {
+        width: 48.8%;
+        &:nth-child(odd) {
+            float: left;
+            clear: left;
+        }
+        &:nth-child(even) {
+            float: right;
+        }
+    }
+}
+
 //
 //    Reset image alignment in container
 //--------------------------------------
@@ -216,6 +229,12 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-reset-left-margin-desktop-s {
+        margin-left: 0;
+    }
+}
+
 //
 //    Action with icon remove with text
 //--------------------------------------
@@ -302,6 +321,12 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-margin-for-forms-desktop-s when not (@form-field-type-inline-label-width = false) and not (@form-field-type-inline-label-width = '') {
+        margin-left: @form-field-type-inline-label-width;
+    }
+}
+
 //
 //    Visually hidden / show visually hidden
 //--------------------------------------
@@ -346,6 +371,12 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-add-clearfix-desktop-s {
+        .clearfix();
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-add-clearfix-mobile {
         .clearfix();
@@ -361,6 +392,12 @@
 
 .responsive(@break) when (@break = @screen-m) {
     .abstract-add-box-sizing-desktop {
+        .box-sizing();
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-add-box-sizing-desktop-s {
         .box-sizing();
     }
 }

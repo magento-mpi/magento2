@@ -433,7 +433,7 @@
 .checkout-onepage-success {
     .page-title {
         .print {
-            display: none;
+            &:extend(.abstract-no-display all);
         }
     }
 }
@@ -444,18 +444,19 @@
     }
 }
 
+.checkout-onepage-index {
+    .nav-toggle {
+        &:extend(.abstract-no-display all);
+    }
+    .logo {
+        margin-left: 0;
+    }
+}
+
 //
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .checkout-onepage-index {
-        .nav-toggle {
-            display: none;
-        }
-        .logo {
-            margin-left: 0;
-        }
-    }
     .opc-wrapper {
         .data.table {
             &:extend(.abstract-table-vertical-mobile-s all);
@@ -492,16 +493,16 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive(@break) when (@break = @screen-s) {
     .checkout-onepage-index .column.main {
-        &:extend(.abstract-add-clearfix-desktop all);
+        &:extend(.abstract-add-clearfix-desktop-s all);
     }
 
     .opc-wrapper {
         .layout-column(2, 2, @layout-column-checkout-main-width);
-        &:extend(.abstract-add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop-s all);
         .step-content {
-            &:extend(.form-field-column-2 all);
+            &:extend(.form-field-column-2-s all);
 
             .form {
                 &.shipping.address,
@@ -527,7 +528,7 @@
             }
 
             .payments .field {
-                &:extend(.form-field-revert-column-1 all);
+                &:extend(.form-field-revert-column-1-s all);
             }
             .toolbar {
                 text-align: left;
@@ -537,9 +538,9 @@
         // Login or register
         .login-wrapper {
             display: block;
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop-s all);
             .block {
-                &:extend(.abstract-blocks-2columns-reverse all);
+                &:extend(.abstract-blocks-2columns-reverse-s all);
                 margin-bottom: 0;
             }
             .fieldset {
@@ -602,14 +603,14 @@
                 display: inline-block;
                 margin-left: 40px;
                 .font-size(14);
-                &:extend(.abstract-action-print all);
+                &:extend(.abstract-action-print-s all);
             }
         }
     }
 
     .opc-block-progress-wrapper {
         .layout-column(2, 1, @layout-column-checkout-left-width);
-        &:extend(.abstract-add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop-s all);
         padding-right: @layout-column-main-sidebar-offset;
         margin-top: 0;
     }

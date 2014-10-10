@@ -143,6 +143,32 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-blocks-2columns-s {
+        width: 48%;
+        &:nth-child(1) {
+            float: left;
+            clear: left;
+        }
+        &:nth-child(2) {
+            float: right;
+            & + * {
+                clear: both;
+            }
+        }
+    }
+    .abstract-blocks-2columns-reverse-s {
+        width: 48.8%;
+        &:nth-child(1) {
+            float: right;
+            clear: right;
+        }
+        &:nth-child(2) {
+            float: left;
+        }
+    }
+}
+
 //
 //    Reset image alignment in container
 //--------------------------------------
@@ -240,12 +266,18 @@
 //
 //   Reset left margin
 //--------------------------------------
-.reset-left-margin {
+.abstract-reset-left-margin {
     margin-left: 0;
 }
 
 .responsive(@break) when (@break = @screen-m) {
-    .reset-left-margin-desktop {
+    .abstract-reset-left-margin-desktop {
+        margin-left: 0;
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-reset-left-margin-desktop-s {
         margin-left: 0;
     }
 }
@@ -332,7 +364,7 @@
 //    Margin for forms
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .margin-for-forms-desktop {
+    .abstract-margin-for-forms-desktop {
         margin-left: @form-field-type-inline-label-width;
     }
 }
@@ -381,6 +413,12 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-add-clearfix-desktop-s {
+        .clearfix();
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-add-clearfix-mobile {
         .clearfix();
@@ -401,6 +439,12 @@
 
 .responsive(@break) when (@break = @screen-m) {
     .abstract-add-box-sizing-desktop {
+        .box-sizing();
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-add-box-sizing-desktop-s {
         .box-sizing();
     }
 }
@@ -473,10 +517,37 @@
 }
 
 //
+//    Field 2 column
+//--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .form-field-column-2-s {
+        .fieldset {
+            .field {
+                &:nth-last-child(1),
+                &:nth-last-child(2) {
+                    margin-bottom: 0;
+                }
+                .form-field-column(@_column: true);
+                .field {
+                    width: 100%;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+//
 //    Field 1 column
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .form-field-revert-column-1 {
+        .form-field-column-number(@_column-number: 1);
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .form-field-revert-column-1-s {
         .form-field-column-number(@_column-number: 1);
     }
 }
@@ -787,6 +858,21 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .abstract-action-print {
+        .icon-font(
+            @icon-print,
+            @_icon-font-size: 16px,
+            @_icon-font-line-height: 16px,
+            @_icon-font-margin: 0 4px 0 0,
+            @_icon-font-position: before
+        );
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-action-print-s {
         .icon-font(
             @icon-print,
             @_icon-font-size: 16px,

@@ -143,8 +143,12 @@
 }
 
 [class^="multishipping-"] {
-    .nav-sections {
+    .nav-sections,
+    .nav-toggle {
         &:extend(.abstract-no-display all);
+    }
+    .logo {
+        margin-left: 0;
     }
 }
 
@@ -152,15 +156,6 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    [class^="multishipping-"] {
-        .nav-toggle {
-            &:extend(.abstract-no-display-s all);
-        }
-        .logo {
-            margin-left: 0;
-        }
-    }
-
     .multicheckout {
         .data.table {
             &:extend(.abstract-table-vertical-mobile-s all);
@@ -244,11 +239,11 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive(@break) when (@break = @screen-s) {
     .multicheckout {
         .actions-toolbar {
             .column:not(.sidebar-main) & {
-                &:extend(.abstract-reset-left-margin-desktop all);
+                &:extend(.abstract-reset-left-margin-desktop-s all);
             }
             .secondary {
                 float: none;
@@ -285,7 +280,7 @@
 
         .block-shipping {
             .box {
-                &:extend(.abstract-add-box-sizing-desktop all);
+                &:extend(.abstract-add-box-sizing-desktop-s all);
                 float: left;
                 width: 25%;
             }
@@ -297,14 +292,14 @@
         }
 
         .block-billing {
-            &:extend(.abstract-add-clearfix-mobile-m all);
+            &:extend(.abstract-add-clearfix-desktop-s all);
             .box-billing-address {
-                &:extend(.abstract-add-box-sizing-desktop all);
+                &:extend(.abstract-add-box-sizing-desktop-s all);
                 float: left;
                 width: 25%;
             }
             .box-billing-method {
-                &:extend(.abstract-add-box-sizing-desktop all);
+                &:extend(.abstract-add-box-sizing-desktop-s all);
                 float: left;
                 padding-left: @indent-m-base;
                 width: 50%;
