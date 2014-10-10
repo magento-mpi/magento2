@@ -18,12 +18,12 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /*
      * The test is based on assumption that the classes will be injecting "DataBuilder" as dependency which will
-     * indicate the compiler to identify and code generate based on SampleData implementations' interface
+     * indicate the compiler to identify and code generate based on ExtensibleSample implementations' interface
      */
-    const SOURCE_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\SampleData';
-    const RESULT_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\SampleDataBuilder';
+    const SOURCE_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\ExtensibleSample';
+    const RESULT_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\ExtensibleSampleDataBuilder';
     const GENERATOR_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\DataBuilder';
-    const OUTPUT_FILE_NAME = 'SampleDataBuilder.php';
+    const OUTPUT_FILE_NAME = 'ExtensibleSampleDataBuilder.php';
     /**
      * @var Io | \PHPUnit_Framework_MockObject_MockObject
      */
@@ -46,8 +46,8 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        require_once __DIR__ . '/_files/SampleDataInterface.php';
-        require_once __DIR__ . '/_files/SampleData.php';
+        require_once __DIR__ . '/_files/ExtensibleSampleInterface.php';
+        require_once __DIR__ . '/_files/ExtensibleSample.php';
         $this->ioObjectMock = $this->getMock(
             'Magento\Framework\Code\Generator\Io',
             [],
@@ -90,9 +90,9 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerate()
     {
-        $this->markTestIncomplete('Incomplete feature');
-        $generatedCode = 'Generated code';
-        $sourceFileName = 'SampleData.php';
+        //$this->markTestIncomplete('Incomplete feature');
+        $generatedCode = file_get_contents(__DIR__ . '/_files/ExtensibleSampleDataBuilder.txt');
+        $sourceFileName = 'ExtensibleSample.php';
         $resultFileName = self::OUTPUT_FILE_NAME;
 
         //Mocking _validateData call
@@ -117,35 +117,17 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
             ->with($resultFileName)
             ->will($this->returnValue(false));
 
-        //Mocking _generateCode call
-        /*
-        $this->classGenerator->expects($this->once())
-            ->method('setName')
-            ->with(self::RESULT_CLASS_NAME)
-            ->will($this->returnSelf());
-        $this->classGenerator->expects($this->once())
-            ->method('addProperties')
-            ->will($this->returnSelf());
-        $this->classGenerator->expects($this->once())
-            ->method('addMethods')
-            ->will($this->returnSelf());
-        $this->classGenerator->expects($this->once())
-            ->method('setClassDocBlock')
-            ->will($this->returnSelf());
-        $this->classGenerator->expects($this->once())
-            ->method('generate')
-            ->will($this->returnValue($generatedCode));
-        */
-
         //Mocking generation
         $this->ioObjectMock->expects($this->any())
             ->method('getResultFileName')
             ->with(self::RESULT_CLASS_NAME)
             ->will($this->returnValue($resultFileName));
+
+        //Verify if the generated code is as expected
         $this->ioObjectMock->expects($this->once())
             ->method('writeResultFile')
             ->with($resultFileName, $generatedCode);
 
-        //$this->assertTrue($this->generator->generate());
+        $this->assertTrue($this->generator->generate());
     }
 }

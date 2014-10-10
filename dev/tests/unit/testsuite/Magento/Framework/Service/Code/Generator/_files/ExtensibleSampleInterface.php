@@ -11,9 +11,9 @@ namespace Magento\Framework\Service\Code\Generator;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
- * Interface for SampleData
+ * Interface for ExtensibleSample
  */
-interface SampleDataInterface extends ExtensibleDataInterface
+interface ExtensibleSampleInterface extends ExtensibleDataInterface
 {
     /**
      * @return array

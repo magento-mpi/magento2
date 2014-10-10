@@ -11,10 +11,10 @@ namespace Magento\Framework\Service\Code\Generator;
 use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
- * Class SampleData
+ * Class ExtensibleSample
  */
-class SampleData extends AbstractExtensibleModel implements
-    \Magento\Framework\Service\Code\Generator\SampleDataInterface
+class ExtensibleSample extends AbstractExtensibleModel implements
+    \Magento\Framework\Service\Code\Generator\ExtensibleSampleInterface
 {
     /**
      * {@inheritdoc}
