@@ -30,6 +30,17 @@
     }
 }
 
+.return-status {
+    &:extend(.abstract-status all);
+}
+
+.magento-rma-returns-view {
+    .page-title {
+        .title {
+            margin-right: 25px;
+        }
+    }
+}
 //
 //    Mobile
 //--------------------------------------
@@ -56,5 +67,8 @@
         .fieldset .field {
            width: 45%;
         }
+    }
+    .return-status {
+        &:extend(.abstract-status-desktop all);
     }
 }
