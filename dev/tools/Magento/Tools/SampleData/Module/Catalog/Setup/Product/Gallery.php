@@ -9,7 +9,7 @@ namespace Magento\Tools\SampleData\Module\Catalog\Setup\Product;
 
 use Magento\Framework\App\Filesystem;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use \Magento\Catalog\Model\ProductFactory;
 use \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media as GalleryAttribute;
 
@@ -53,6 +53,11 @@ class Gallery
     ];
 
     /**
+     * @var false|\Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+     */
+    protected $mediaAttribute;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param ProductFactory $productFactory
@@ -62,12 +67,14 @@ class Gallery
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         ProductFactory $productFactory,
-        GalleryAttribute $galleryAttribute
+        GalleryAttribute $galleryAttribute,
+        \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->galleryAttribute = $galleryAttribute;
         $this->productFactory = $productFactory;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->mediaAttribute = $eavConfig->getAttribute('catalog_product', 'media_gallery');
         $this->loadFixtures();
     }
 
@@ -102,7 +109,7 @@ class Gallery
                 $baseImage = $image;
             }
             $id = $this->galleryAttribute->insertGallery(array(
-                'attribute_id' => 88,
+                'attribute_id' => $this->mediaAttribute->getAttributeId(),
                 'entity_id' => $product->getId(),
                 'value' => $image
             ));
@@ -115,24 +122,27 @@ class Gallery
             ));
             $i++;
         }
+
         if (empty($baseImage)) {
             $baseImage = $images[0];
         }
 
-        $imageAttribute = $product->getResource()->getAttribute('image');
-        $smallImageAttribute = $product->getResource()->getAttribute('small_image');
-        $thumbnailAttribute = $product->getResource()->getAttribute('thumbnail');
-        $adapter = $product->getResource()->getWriteConnection();
-        foreach ([$imageAttribute, $smallImageAttribute, $thumbnailAttribute] as $attribute) {
-            $table = $imageAttribute->getBackend()->getTable();
-            /** @var \Magento\Framework\DB\Adapter\AdapterInterface $adapter*/
-            $data = array(
-                'entity_type_id' => $product->getEntityTypeId(),
-                $attribute->getBackend()->getEntityIdField() => $product->getId(),
-                'attribute_id' => $attribute->getId(),
-                'value' => $baseImage
-            );
-            $adapter->insertOnDuplicate($table, $data, array('value'));
+        if ($baseImage) {
+            $imageAttribute = $product->getResource()->getAttribute('image');
+            $smallImageAttribute = $product->getResource()->getAttribute('small_image');
+            $thumbnailAttribute = $product->getResource()->getAttribute('thumbnail');
+            $adapter = $product->getResource()->getWriteConnection();
+            foreach ([$imageAttribute, $smallImageAttribute, $thumbnailAttribute] as $attribute) {
+                $table = $imageAttribute->getBackend()->getTable();
+                /** @var \Magento\Framework\DB\Adapter\AdapterInterface $adapter*/
+                $data = array(
+                    'entity_type_id' => $product->getEntityTypeId(),
+                    $attribute->getBackend()->getEntityIdField() => $product->getId(),
+                    'attribute_id' => $attribute->getId(),
+                    'value' => $baseImage
+                );
+                $adapter->insertOnDuplicate($table, $data, array('value'));
+            }
         }
     }
 
@@ -153,7 +163,7 @@ class Gallery
     {
         $this->images = [];
         foreach ($this->fixtures as $file) {
-            /** @var \Magento\Framework\File\Csv\Reader $csvReader */
+            /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {

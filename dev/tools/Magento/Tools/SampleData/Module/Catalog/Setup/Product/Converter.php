@@ -82,22 +82,52 @@ class Converter
                 continue;
             }
 
+            $convertedField = $this->convertField($data, $field, $value);
+            if ($convertedField) {
+                continue;
+            }
 
             $options = $this->getAttributeOptionValueIdsPair($field);
             if ($options) {
-                $value = $this->getArrayValue($value);
-                $result = [];
-                foreach ($value as $v) {
-                    if (isset($options[$v])) {
-                        $result[] = $options[$v];
-                    }
-                }
-                $value = count($result) == 1 ? current($result) : $result;
+                $value = $this->setOptionsToValues($options, $value);
             }
             $data[$field] = $value;
 
         }
         return $data;
+    }
+
+    /**
+     * Convert field
+     *
+     * @param array $data
+     * @param string $field
+     * @param string $value
+     * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function convertField(&$data, $field, $value)
+    {
+        return false;
+    }
+
+    /**
+     * Assign options data to attribute value
+     *
+     * @param mixed $options
+     * @param array $values
+     * @return array|mixed
+     */
+    protected function setOptionsToValues($options, $values)
+    {
+        $values = $this->getArrayValue($values);
+        $result = [];
+        foreach ($values as $value) {
+            if (isset($options[$value])) {
+                $result[] = $options[$value];
+            }
+        }
+        return count($result) == 1 ? current($result) : $result;
     }
 
     /**
@@ -142,15 +172,26 @@ class Converter
     /**
      * Get attribute options by attribute code
      *
-     * @param str $attributeCode
-     * @return null
+     * @param string $attributeCode
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection|null
      */
     public function getAttributeOptions($attributeCode)
     {
-        if (isset($this->attributeCodeOptionsPair[$attributeCode])) {
-            return $this->attributeCodeOptionsPair[$attributeCode];
+        if (!$this->attributeCodeOptionsPair) {
+            $this->loadAttributeOptions();
         }
+        return isset($this->attributeCodeOptionsPair[$attributeCode])
+            ? $this->attributeCodeOptionsPair[$attributeCode]
+            : null;
+    }
 
+    /**
+     * Loads all attributes with options for current attribute set
+     *
+     * @return $this
+     */
+    protected function loadAttributeOptions()
+    {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
         $collection = $this->attributeCollectionFactory->create();
         $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
@@ -161,8 +202,7 @@ class Converter
                 ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
             $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
         }
-
-        return null;
+        return $this;
     }
 
     /**
@@ -197,12 +237,15 @@ class Converter
     }
 
     /**
-     * @param int $attributeSetId
+     * @param int $value
      * @return $this
      */
-    public function setAttributeSetId($attributeSetId)
+    public function setAttributeSetId($value)
     {
-        $this->attributeSetId = $attributeSetId;
+        if ($this->attributeSetId != $value) {
+            $this->loadAttributeOptions();
+        }
+        $this->attributeSetId = $value;
         return $this;
     }
 }

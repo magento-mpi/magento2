@@ -7,106 +7,52 @@
  */
 namespace Magento\Tools\SampleData\Module\RecurringPayment\Setup;
 
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
- * Class Product
- * Launches installing of virtual products with recurring payment
+ * Setup virtual products with recurring payment
  */
-class Product implements SetupInterface
+class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product implements SetupInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var string
      */
-    protected $productFactory;
-
-    /**
-     * @var int
-     */
-    protected $attributeSetId;
-
-    /**
-     * @var \Magento\Catalog\Model\Config
-     */
-    protected $catalogConfig;
-
-    /**
-     * @var \Magento\Tools\SampleData\Module\RecurringPayment\Setup\Product\Converter
-     */
-    protected $converter;
-
-    /**
-     * @var \Magento\Tools\SampleData\Helper\Fixture
-     */
-    protected $fixtureHelper;
-
-    /**
-     * @var \Magento\Framework\File\Csv\ReaderFactory
-     */
-    protected $csvReaderFactory;
+    protected $productType = \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Tools\SampleData\Module\RecurringPayment\Setup\Product\Converter $converter
+     * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param Gallery $gallery
+     * @param array $fixtures
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Tools\SampleData\Module\RecurringPayment\Setup\Product\Converter $converter,
+        Product\Converter $converter,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        Gallery $gallery,
+        $fixtures = array(
+            'RecurringPayment/products_training_subscription.csv'
+        )
     ) {
-        $this->productFactory = $productFactory;
-        $this->catalogConfig = $catalogConfig;
-        $this->converter = $converter;
-        $this->fixtureHelper = $fixtureHelper;
-        $this->csvReaderFactory = $csvReaderFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function run()
-    {
-        echo "Installing virtual products\n";
-
-        $product = $this->productFactory->create();
-
-        $files = [
-            'RecurringPayment/products_training_subscription.csv',
-        ];
-
-        foreach ($files as $file) {
-            /** @var \Magento\Framework\File\Csv\Reader $csvReader */
-            $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach ($csvReader as $row) {
-
-                $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
-
-                $this->converter->setAttributeSetId($attributeSetId);
-                $data = $this->converter->convertRow($row);
-
-                /** @var $product \Magento\Catalog\Model\Product */
-                $product->unsetData();
-                $product->setData($data);
-                $product
-                    ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL)
-                    ->setAttributeSetId($attributeSetId)
-                    ->setWebsiteIds(array(1))
-                    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-                    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                    ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
-
-                $product->save();
-                echo '.';
-            }
-        }
-        echo "\n";
+        $gallery->setFixtures([
+            'RecurringPayment/images_training_subscription.csv'
+        ]);
+        parent::__construct(
+            $productFactory,
+            $catalogConfig,
+            $converter,
+            $fixtureHelper,
+            $csvReaderFactory,
+            $gallery,
+            $fixtures
+        );
     }
 }

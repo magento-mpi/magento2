@@ -25,7 +25,7 @@
                     <argument name="rowUrl" xsi:type="array">
                         <item name="path" xsi:type="string">*/*/edit</item>
                         <item name="params" xsi:type="array">
-                            <item name="_current" xsi:type="string">1</item>
+                            <item name="_current" xsi:type="string">0</item>
                         </item>
                         <item name="extraParamsTemplate" xsi:type="array">
                             <item name="id" xsi:type="string">getId</item>

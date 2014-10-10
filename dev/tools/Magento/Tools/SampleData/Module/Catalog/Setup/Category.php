@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -63,6 +63,7 @@ class Category implements SetupInterface
     protected $categoryTree;
 
     /**
+     * @param \Magento\Catalog\Service\V1\Category\WriteServiceInterface $writeService
      * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
      * @param \Magento\Catalog\Service\V1\Data\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory
