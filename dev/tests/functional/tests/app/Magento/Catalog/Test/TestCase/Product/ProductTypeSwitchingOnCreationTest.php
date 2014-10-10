@@ -17,7 +17,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * Test Creation for ProductTypeSwitchingOnCreation
  *
  * Test Flow:
- *
  * 1. Open backend
  * 2. Go to Products > Catalog
  * 3. Start create product from preconditions (according dataSet)
