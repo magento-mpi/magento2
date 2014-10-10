@@ -6,13 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Eav;
+namespace Magento\Eav\Api\Data\Entity\Attribute;
 
 /**
  * Created from:
  * @see \Magento\Catalog\Service\V1\Data\Eav\Option
  */
-interface AttributeOptionInterface 
+interface OptionInterface
 {
     /**
      * Get option label
@@ -45,7 +45,7 @@ interface AttributeOptionInterface
     /**
      * Set option label for store scopes
      *
-     * @return \Magento\Catalog\Api\Data\Eav\AttributeOptionLabel[]|null
+     * @return \Magento\Eav\Api\Data\Entity\Attribute\OptionLabel[]|null
      */
     public function getStoreLabels();
 }

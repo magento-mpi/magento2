@@ -1,20 +1,18 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Category;
-
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
+namespace Magento\Catalog\Api\Category\Attribute;
 
 /**
- * Class Category MetadataServiceInterface
- * @deprecated
- * @see \Magento\Catalog\Api\Category\Attribute\MetadataRepositoryInterface
+ * Interface MetadataRepositoryInterface
+ * @see \Magento\Catalog\Service\V1\Category\MetadataServiceInterface
  */
-interface MetadataServiceInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
+interface MetadataRepositoryInterface extends \Magento\Eav\Api\Entity\Attribute\MetadataRepositoryInterface
 {
     /**#@+
      * Predefined constants
@@ -30,12 +28,13 @@ interface MetadataServiceInterface extends \Magento\Framework\Service\Data\Metad
      * Retrieve EAV attribute metadata of category
      *
      * @param int $attributeSetId
-     * @return AttributeMetadata[]
+     * @return \Magento\Catalog\Api\Data\Category\Attribute\MetadataInterface[]
      */
     public function getCategoryAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
 
     /**
-     * {@inheritdoc}
+     * @param string $dataObjectClassName
+     * @return mixed
      */
     public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME);
 }

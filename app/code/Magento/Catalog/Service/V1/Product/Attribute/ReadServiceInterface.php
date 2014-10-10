@@ -30,7 +30,7 @@ interface ReadServiceInterface
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\Attribute\AttributeRepositoryInterface::get
+     * @see \Magento\Catalog\Api\Product\Attribute\MetadataRepositoryInterface::get
      */
     public function info($id);
 
@@ -40,7 +40,7 @@ interface ReadServiceInterface
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResults containing Data\Eav\Attribute objects
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\Attribute\AttributeRepositoryInterface::getList
+     * @see \Magento\Catalog\Api\Product\Attribute\MetadataRepositoryInterface::getList
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

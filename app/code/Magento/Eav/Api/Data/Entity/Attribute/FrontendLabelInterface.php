@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Eav;
+namespace Magento\Eav\Api\Data\Entity\Attribute;
 
-interface AttributeFrontendLabelInterface 
+interface FrontendLabelInterface
 {
     /**
      * Get store id value

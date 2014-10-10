@@ -13,7 +13,7 @@ interface OptionManagementInterface
      * Retrieve list of attribute options
      *
      * @param string $attributeId
-     * @return  \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface[]
+     * @return  \Magento\Eav\Api\Data\Entity\Attribute\OptionInterface[]
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *

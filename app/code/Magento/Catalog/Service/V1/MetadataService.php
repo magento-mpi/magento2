@@ -21,6 +21,8 @@ use Magento\Framework\Service\V1\Data\SortOrder;
  *
  * @package Magento\Catalog\Service\V1
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @deprecated
+ * @see \Magento\Eav\Api\Entity\Attribute\MetadataRepositoryInterface
  */
 class MetadataService implements MetadataServiceInterface
 {

@@ -6,23 +6,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Eav;
+namespace Magento\Eav\Api\Data\Entity\Attribute;
 
-interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\MetadataObjectInterface
+interface MetadataInterface
 {
-    /**
-     * Retrieve attribute id
-     *
-     * @return int
-     */
-    public function getId();
-
     /**
      * Retrieve id of the attribute.
      *
      * @return string|null
      */
     public function getAttributeId();
+
+    /**
+     * Retrieve code of the attribute.
+     *
+     * @return string|null
+     */
+    public function getAttributeCode();
 
     /**
      * Retrieve is system attribute flag
@@ -37,10 +37,11 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return string|null
      */
     public function getFrontendInput();
+
     /**
      * Retrieve validation rules.
      *
-     * @return \Magento\Catalog\Api\Data\Eav\AttributeValidationRuleInterface[]|null
+     * @return \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[]|null
      */
     public function getValidationRules();
 
@@ -50,16 +51,18 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return bool|null
      */
     public function isVisible();
+
     /**
      * Whether attribute is required.
      *
      * @return bool|null
      */
     public function isRequired();
+
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface[]|null
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]|null
      */
     public function getOptions();
 
@@ -69,10 +72,11 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return bool|null
      */
     public function isUserDefined();
+
     /**
      * Get label which supposed to be displayed on frontend.
      *
-     * @return \Magento\Catalog\Api\Data\Eav\AttributeFrontendLabelInterface[]|null
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel[]|null
      */
     public function getFrontendLabel();
 
@@ -89,6 +93,7 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return string|null
      */
     public function getBackendType();
+
     /**
      * Get backend model
      *
@@ -102,12 +107,14 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return string|null
      */
     public function getSourceModel();
+
     /**
      * Get default value for the element.
      *
      * @return string|null
      */
     public function getDefaultValue();
+
     /**
      * Whether this is a unique attribute
      *
@@ -137,14 +144,12 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return string|null
      */
     public function isConfigurable();
-
     /**
      * Whether the attribute can be used in Quick Search
      *
      * @return string|null
      */
     public function isSearchable();
-
     /**
      * Whether the attribute can be used in Advanced Search
      *
@@ -165,14 +170,12 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @return string|null
      */
     public function isUsedForPromoRules();
-
     /**
      * Whether the attribute is visible on the frontend
      *
      * @return string|null
      */
     public function isVisibleOnFront();
-
     /**
      * Whether the attribute can be used in product listing
      *
@@ -215,7 +218,6 @@ interface AttributeMetadataInterface extends \Magento\Framework\Service\Data\Met
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getUsedForSortBy();
-
     /**
      * Whether it used in layered navigation
      *
