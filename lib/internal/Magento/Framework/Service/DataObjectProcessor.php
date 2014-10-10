@@ -9,6 +9,7 @@
 namespace Magento\Framework\Service;
 
 use Zend\Code\Reflection\ClassReflection;
+use Magento\Framework\Service\Data\AttributeValue;
 
 class DataObjectProcessor
 {
@@ -34,8 +35,12 @@ class DataObjectProcessor
                     = $dataObject->{$method->getName()}();
 
             } elseif (substr($method->getName(), 0, 3) === 'get') {
-                $outputData[$this->_fieldNameConverter(substr($method->getName(), 3))]
-                    = $dataObject->{$method->getName()}();
+                $key = $this->_fieldNameConverter(substr($method->getName(), 3));
+                $value = $dataObject->{$method->getName()}();
+                if ($key === 'custom_attributes') {
+                    $value = $this->_customAttributesConverter($value);
+                }
+                $outputData[$key] = $value;
             }
         }
         return $outputData;
@@ -51,5 +56,30 @@ class DataObjectProcessor
     {
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         return $result;
+    }
+
+    protected function _customAttributesConverter($customAttributes)
+    {
+        $result = array();
+        if (is_array($customAttributes)) {
+            foreach ($customAttributes as $customAttribute) {
+                $result[] = $this->_flatArrayConverter($customAttribute);
+            }
+        } else {
+            $result[] = $this->_flatArrayConverter($customAttributes);
+        }
+        return $result;
+    }
+
+    protected function _flatArrayConverter($customAttribute)
+    {
+        $data = array();
+        $data[AttributeValue::ATTRIBUTE_CODE] = $customAttribute->getAttributeCode();
+        $value = $customAttribute->getValue();
+        if (is_object($value)) {
+            $value = $this->buildOutputDataArray($value, get_class($value)); // attribute_value can be any data object
+        }
+        $data[AttributeValue::VALUE] = $value;
+        return $data;
     }
 }
