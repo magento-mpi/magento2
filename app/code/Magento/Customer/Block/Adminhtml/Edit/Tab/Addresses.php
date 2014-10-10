@@ -12,7 +12,6 @@ use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -217,7 +216,6 @@ class Addresses extends GenericMetadata
      */
     public function initForm()
     {
-
         $customerData = $this->_backendSession->getCustomerData();
 
         /** @var \Magento\Framework\Data\Form $form */
@@ -276,6 +274,11 @@ class Addresses extends GenericMetadata
         $country = $form->getElement('country_id');
         if ($country) {
             $country->addClass('countries');
+        }
+
+        $postcode = $form->getElement('postcode');
+        if ($postcode) {
+            $postcode->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
         }
 
         if ($this->isReadonly()) {
