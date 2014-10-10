@@ -24,19 +24,21 @@
  */
 namespace Magento\CatalogRule\Model\Rule;
 
+use Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
+
 class Job extends \Magento\Framework\Object
 {
     /**
-     * @var \Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor
+     * @var RuleProductProcessor
      */
     protected $ruleProcessor;
 
     /**
      * Basic object initialization
      *
-     * @param \Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor $ruleProcessor
+     * @param RuleProductProcessor
      */
-    public function __construct(\Magento\CatalogRule\Model\Indexer\Rule\RuleProcessor $ruleProcessor)
+    public function __construct(RuleProductProcessor $ruleProcessor)
     {
         $this->ruleProcessor = $ruleProcessor;
     }
