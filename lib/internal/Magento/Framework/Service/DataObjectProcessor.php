@@ -13,6 +13,10 @@ use Magento\Framework\Service\Data\AttributeValue;
 
 class DataObjectProcessor
 {
+    const CUSTOM_ATTRIBUTE_CODE = 'custom_attributes';
+    const IS_METHOD_PREFIX = 'is';
+    const GETTER_PREFIX = 'get';
+
     /**
      * Use class reflection on given data interface to build output data array
      *
@@ -30,17 +34,31 @@ class DataObjectProcessor
             if ($method->getNumberOfParameters() > 0) {
                 continue;
             }
-            if (substr($method->getName(), 0, 2) === 'is') {
-                $outputData[$this->_fieldNameConverter(substr($method->getName(), 2))]
-                    = $dataObject->{$method->getName()}();
-
-            } elseif (substr($method->getName(), 0, 3) === 'get') {
-                $key = $this->_fieldNameConverter(substr($method->getName(), 3));
+            if (substr($method->getName(), 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$method->getName()}();
-                if ($key === 'custom_attributes') {
-                    $value = $this->_customAttributesConverter($value);
+                if ($value !== null && $value !== []) {
+                    $outputData[$this->_fieldNameConverter(substr($method->getName(), 2))] = $value;
                 }
-                $outputData[$key] = $value;
+            } elseif (substr($method->getName(), 0, 3) === self::GETTER_PREFIX) {
+                $value = $dataObject->{$method->getName()}();
+                if ($value !== null && $value !== []) {
+                    $key = $this->_fieldNameConverter(substr($method->getName(), 3));
+                    if ($key === self::CUSTOM_ATTRIBUTE_CODE) {
+                        $value = $this->_customAttributesConverter($value);
+                    } elseif ($key !== self::CUSTOM_ATTRIBUTE_CODE && is_array($value)) {
+                        $valueResult = array();
+                        foreach ($value as $singleValue) {
+                            if (is_object($singleValue)) {
+                                $singleValue = $this->buildOutputDataArray($singleValue, get_class($singleValue));
+                            }
+                            $valueResult[] = $singleValue;
+                        }
+                        $value = $valueResult;
+                    } elseif ($key !== self::CUSTOM_ATTRIBUTE_CODE && is_object(($value))) {
+                        $value = $this->buildOutputDataArray($value, get_class($value));
+                    }
+                    $outputData[$key] = $value;
+                }
             }
         }
         return $outputData;
@@ -58,6 +76,12 @@ class DataObjectProcessor
         return $result;
     }
 
+    /**
+     * Converter for array of custom_attributes
+     *
+     * @param mixed $customAttributes
+     * @return array
+     */
     protected function _customAttributesConverter($customAttributes)
     {
         $result = array();
@@ -71,6 +95,12 @@ class DataObjectProcessor
         return $result;
     }
 
+    /**
+     * Helper method for _customAttributesConverter
+     *
+     * @param mixed $customAttribute
+     * @return array
+     */
     protected function _flatArrayConverter($customAttribute)
     {
         $data = array();
