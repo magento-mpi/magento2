@@ -23,4 +23,9 @@
         <area>product</area>
         <class>Magento\Configurable\Test\Page\CatalogProductView</class>
     </catalogProductView>
+    <CustomerIndexEdit>
+        <mca>customer/index/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\ConfigurableProduct\Test\Page\Adminhtml\CustomerIndexEdit</class>
+    </CustomerIndexEdit>
 </page>

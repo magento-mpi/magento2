@@ -91,6 +91,7 @@ class Grid extends GridInterface
         $configureBlock = $this->getConfigureBlock();
         if ($configureBlock->isVisible()) {
             $configureBlock->fillOptions($product);
+            $configureBlock->clickOk();
         }
 
         $this->_rootElement
