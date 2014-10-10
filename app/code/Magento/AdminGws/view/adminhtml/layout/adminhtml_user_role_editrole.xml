@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="adminhtml.user.tab.rolesedit">
         <block class="Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws" name="adminhtml.user.role.edit.gws" as="gws" template="permissions/rolesedit/gws.phtml"/>
     </referenceBlock>

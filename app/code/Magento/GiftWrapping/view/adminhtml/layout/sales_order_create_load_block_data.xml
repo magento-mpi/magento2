@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="gift_options">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info" name="wrapping_order_create_info" template="order/create/info.phtml">
             <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info\Content" name="wrapping.order.create.info.content" template="order/create/info/wrapping.phtml"/>

@@ -48,6 +48,7 @@ return [
                 "name" => "fulltext_search_query2",
                 "filterReference" => [
                     [
+                        'clause' => 'must',
                         "ref" => "promoted"
                     ]
                 ],
