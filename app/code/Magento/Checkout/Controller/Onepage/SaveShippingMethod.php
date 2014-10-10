@@ -29,7 +29,7 @@ class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
                     'checkout_controller_onepage_save_shipping_method',
                     array('request' => $this->getRequest(), 'quote' => $this->getOnepage()->getQuote())
                 );
-                $this->getOnepage()->getQuote()->collectTotals();
+//                $this->getOnepage()->getQuote()->collectTotals();
                 $this->getResponse()->representJson(
                     $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
                 );
@@ -40,7 +40,7 @@ class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
                     'html' => $this->_getPaymentMethodsHtml()
                 );
             }
-            $this->getOnepage()->getQuote()->collectTotals()->save();
+//            $this->getOnepage()->getQuote()->collectTotals()->save();
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

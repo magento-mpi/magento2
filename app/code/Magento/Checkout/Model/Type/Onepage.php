@@ -356,19 +356,12 @@ class Onepage
         if (!empty($customerAddressId)) {
             try {
                 $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
-            } catch (\Exception $e) {
-                /** Address does not exist */
-            }
-            if (isset($customerAddress)) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return array('error' => 1, 'message' => __('The customer address is not valid.'));
                 }
-
                 $address->importCustomerAddressData($customerAddress)->setSaveInAddressBook(0);
-                $addressErrors = $addressForm->validateData($address->getData());
-                if ($addressErrors !== true) {
-                    return array('error' => 1, 'message' => $addressErrors);
-                }
+            } catch (\Exception $e) {
+                /** Address does not exist */
             }
         } else {
             // emulate request object
@@ -377,8 +370,7 @@ class Onepage
             if ($addressErrors !== true) {
                 return array('error' => 1, 'message' => array_values($addressErrors));
             }
-            $addressData = $addressForm->compactData($addressData);
-            $address->addData($addressData);
+            $address->addData($addressForm->compactData($addressData));
             //unset billing address attributes which were not shown in form
             foreach ($addressForm->getAttributes() as $attribute) {
                 if (!isset($data[$attribute->getAttributeCode()])) {
@@ -438,57 +430,26 @@ class Onepage
 
                     // don't reset original shipping data, if it was not changed by customer
                     foreach ($shipping->getData() as $shippingKey => $shippingValue) {
-                        if (!is_null(
-                            $shippingValue
-                        ) && !is_null(
-                            $billing->getData($shippingKey)
-                        ) && !isset(
-                            $data[$shippingKey]
-                        ) && !in_array(
-                            $shippingKey,
-                            $requiredBillingAttributes
-                        )
+                        if (!is_null($shippingValue)
+                            && !is_null($billing->getData($shippingKey))
+                            && !isset($data[$shippingKey])
+                            && !in_array($shippingKey, $requiredBillingAttributes)
                         ) {
                             $billing->unsetData($shippingKey);
                         }
                     }
-                    $shipping->addData(
-                        $billing->getData()
-                    )->setSameAsBilling(
-                        1
-                    )->setSaveInAddressBook(
-                        0
-                    )->setShippingMethod(
-                        $shippingMethod
-                    )->setCollectShippingRates(
-                        true
-                    );
+                    $shipping->addData($billing->getData())->setSameAsBilling(1)->setSaveInAddressBook(0);
+                    $shipping->setShippingMethod($shippingMethod)->setCollectShippingRates(true);
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
+                    $shipping->setCollectShippingRates(true);
                     break;
             }
         }
-
-        $this->getQuote()->collectTotals();
-        $this->getQuote()->save();
-
-        if (!$this->getQuote()->isVirtual() && $this->getCheckout()->getStepData('shipping', 'complete') == true) {
-            //Recollect Shipping rates for shipping methods
-            $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-        }
-
-        $this->getCheckout()->setStepData(
-            'billing',
-            'allow',
-            true
-        )->setStepData(
-            'billing',
-            'complete',
-            true
-        )->setStepData(
-            'shipping',
-            'allow',
-            true
-        );
+        $address->save();
+        $this->getCheckout()
+            ->setStepData('billing', 'allow', true)
+            ->setStepData('billing', 'complete', true)
+            ->setStepData('shipping', 'allow', true);
 
         return array();
     }
@@ -648,8 +609,7 @@ class Onepage
             return array('error' => 1, 'message' => $validateRes);
         }
 
-        $this->getQuote()->collectTotals()->save();
-
+        $address->save();
         $this->getCheckout()->setStepData('shipping', 'complete', true)->setStepData('shipping_method', 'allow', true);
 
         return array();
@@ -666,11 +626,16 @@ class Onepage
         if (empty($shippingMethod)) {
             return array('error' => -1, 'message' => __('Invalid shipping method'));
         }
+        $shippingDescription = '';
         $rate = $this->getQuote()->getShippingAddress()->getShippingRateByCode($shippingMethod);
         if (!$rate) {
             return array('error' => -1, 'message' => __('Invalid shipping method'));
+        } else {
+            $shippingDescription = $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle();
         }
-        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod);
+        $shippingAddress = $this->getQuote()->getShippingAddress();
+        $shippingAddress->setShippingDescription(trim($shippingDescription, ' -'));
+        $shippingAddress->setShippingMethod($shippingMethod)->save();
 
         $this->getCheckout()->setStepData('shipping_method', 'complete', true)->setStepData('payment', 'allow', true);
 
