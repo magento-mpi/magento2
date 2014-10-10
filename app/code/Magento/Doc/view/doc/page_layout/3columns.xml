@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <container name="after.body.start" as="after.body.start" before="-" label="Page Top"/>
+        <container name="page.wrapper" as="page_wrapper" htmlTag="div" htmlClass="page-wrapper">
+            <container name="page.header" as="header" label="Page Header"/>
+            <container name="columns" htmlTag="div" htmlClass="columns">
+                <container name="column.toolbar" as="toolbar" label="Toolbar" htmlTag="div" htmlClass="column-toolbar"/>
+                <container name="column.main" as="content" label="Main Content" htmlTag="div" htmlClass="column-main"/>
+                <container name="column.sidebar" as="sidebar" label="Sidebar" htmlTag="div" htmlClass="column-sidebar"/>
+            </container>
+        </container>
+    </container>
+</layout>

@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Search;
 
+use Magento\Framework\Search\Response\QueryResponse;
+
 /**
  * Search Adapter interface
  */
