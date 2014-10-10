@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Interface for custom attribute value.
  */
-interface AttributeValueInterface
+interface AttributeInterface
 {
     /**
      * Get attribute code
