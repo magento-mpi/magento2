@@ -1,9 +1,9 @@
-product_sku;sample_item_title;sample_item_url;link_item_title;link_item_price;link_item_url;link_item_sample_url
-240-LV04;Beginner's Yoga Sample;http://sample.magento.com;Beginner's Yoga Link;6;http://link.magento.com;http://sample.magento.com
-240-LV05;LifeLong Fitness IV Sample;http://sample.magento.com;LifeLong Fitness IV Link;14;http://link.magento.com;http://sample.magento.com
-240-LV06;Yoga Adventure Sample;http://sample.magento.com;Yoga Adventure Link;22;http://link.magento.com;http://sample.magento.com
-240-LV07;Solo Power Circuit Sample;http://sample.magento.com;Solo Power Circuit Link;14;http://link.magento.com;http://sample.magento.com
-240-LV08;Advanced Pilates & Yoga (Strength) Sample;http://sample.magento.com;Advanced Pilates & Yoga (Strength) Link;18;http://link.magento.com;http://sample.magento.com
-240-LV09;Luma Yoga For Life Sample;http://sample.magento.com;Episode 1;9;http://link1.magento.com;http://sample1.magento.com
-240-LV09;;;Episode 2;9;http://link2.magento.com;http://sample2.magento.com
-240-LV09;;;Episode 3;9;http://link3.magento.com;http://sample3.magento.com
+product_sku,sample_item_title,sample_item_url,link_item_title,link_item_price,link_item_url,link_item_sample_url
+240-LV04,"Beginner's Yoga Sample",http://sample.magento.com,"Beginner's Yoga Link",6,http://link.magento.com,http://sample.magento.com
+240-LV05,"LifeLong Fitness IV Sample",http://sample.magento.com,"LifeLong Fitness IV Link",14,http://link.magento.com,http://sample.magento.com
+240-LV06,"Yoga Adventure Sample",http://sample.magento.com,"Yoga Adventure Link",22,http://link.magento.com,http://sample.magento.com
+240-LV07,"Solo Power Circuit Sample",http://sample.magento.com,"Solo Power Circuit Link",14,http://link.magento.com,http://sample.magento.com
+240-LV08,"Advanced Pilates & Yoga (Strength) Sample",http://sample.magento.com,"Advanced Pilates & Yoga (Strength) Link",18,http://link.magento.com,http://sample.magento.com
+240-LV09,"Luma Yoga For Life Sample",http://sample.magento.com,"Episode 1",9,http://link1.magento.com,http://sample1.magento.com
+240-LV09,,,"Episode 2",9,http://link2.magento.com,http://sample2.magento.com
+240-LV09,,,"Episode 3",9,http://link3.magento.com,http://sample3.magento.com

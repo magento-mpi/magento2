@@ -104,7 +104,7 @@ class Reader implements \Iterator
     protected function readRow()
     {
         $this->load();
-        $this->row = fgetcsv($this->handle, null, ';');
+        $this->row = fgetcsv($this->handle, null, ',');
         $this->rowNumber++;
         return $this->row;
     }
