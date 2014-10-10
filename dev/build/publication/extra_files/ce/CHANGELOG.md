@@ -1,14 +1,87 @@
+0.1.0-alpha99
+=============
+ * Performance Toolkit released (MAGETWO-29121)
+ * GitHub requests:
+   * Main menu event in wrong area. #665 (MAGETWO-28811)
+   * Update di.xml #666 (MAGETWO-28949)
+   * [GITHUB] Magento\Sales\Model\Order::getFullTaxInfo() incorrectly combines percentages #602 (MAGETWO-25911)
+ * Functional tests:
+   * Update api-functional test for Customer and Address metadata service (MAGETWO-27258)
+ * Layout updates:
+   * Layout files are moved to page_layout directory (MAGETWO-28354)
+   * Layout validation files moved to framework (MAGETWO-28354)
+   * Blank Theme layouts & templates are unified (MAGETWO-26840)
+ * Search Library:
+   * Add ability to aggregate queries for MySQL adapter (MAGETWO-26127)
+   * Implement automatic range aggregation for MySQL adapter (MAGETWO-28327)
+ * Search module:
+   * Introduce Search module (MAGETWO-27191)
+   * Move autocomplete to Search module (MAGETWO-28609)
+   * Add base UI to Search module (MAGETWO-28608)
+ * Documentation:
+   * Added basic description of modules in README.md files (MAGETWO-24869)
+ * Modularity:
+   * Create API and script to return module and dependency information (MAGETWO-28550)
+ * Framework Improvements:
+   * Decomposing heavy objects basing on profiling results (MAGETWO-28045)
+   * Refactored getCustomAttributesCodes method in ProductService (MAGETWO-29098)
+   * Refactored Customer Model to use Group Model instead of Group Service (MAGETWO-27340)
+ * Performance improvements:
+   * Remove unnecessary "save order" call, during order submission step (MAGETWO-27601)
+ * Missing installation features of the new setup:
+   * Added missing installation parameters: admin_no_form_key, order_increment_prefix, cleanup_database
+   * Fixed link to license agreement in web installer
+   * Fixed web installation wizard which was stuck at 96%
+ * Fixed bugs:
+   * Created new attribute is always added to 'Product Details' tab (MAGETWO-11394)
+   * Product 'Stock Availability' status couldn't be changed from 'Advanced Inventory' tab (MAGETWO-27998)
+   * Stock Status value is reset from 'In Stock' to 'Out of Stock' if quantity wasn't specified (MAGETWO-26979)
+   * Performance toolkit fails in case of unknown argument (MAGETWO-25165)
+   * URL Rewrite for a Product: 404 error page opens instead of URL Rewrite Information page (MAGETWO-12304)
+   * "Click for price" link is not working if product contains quote mark (MAGETWO-28409)
+   * Compare products link is disappeared after changing page (MAGETWO-26865)
+   * Logo is changed on category page with custom theme (MAGETWO-28791)
+   * Category name xss vulneribility on category view page (MAGETWO-27915)
+   * Success save message is absent for Search term (MAGETWO-26170)
+   * Google Analytics doesn't work (code is not inserted to the pages) (MAGETWO-28879)
+   * Import custom options grid is not displayed on create product page (MAGETWO-28905)
+   * Cannot retrieve product collection from category in "adminhtml" area (MAGETWO-27621)
+   * Product attributes are absent on product form after switching to another product template (MAGETWO-26340)
+   * Error 'URL key for specified store already exists.' appears while saving configurable with variations which have the same name (MAGETWO-29004)
+   * Search doesn't work on Search Terms Report Grid (MAGETWO-27150)
+   * Unnecessary tab "General" shows on the Category page in backend (MAGETWO-28884)
+   * Reset from 'In Stock' to 'Out of Stock' status if quantity wasn't specified for Configurable product while saving to new template (MAGETWO-28347)
+   * Product stock status is always set to 'In Stock' if product quantity is specified (MAGETWO-28450)
+   * 'Manage Stock' is reset to 'Yes' for bundle product \[IE\] (MAGETWO-28914)
+   * No backorders message (MAGETWO-28788)
+   * Price field is always required during update Bundle product using ProductService (MAGETWO-28213)
+   * Missing product name in error message (MAGETWO-28787)
+   * Configurable product does not contain a message to select options while adding product from wishlist to shopping cart (MAGETWO-24577)
+   * "Validate VAT Number" button does not work during order creation in backend (MAGETWO-26820)
+   * Item qty in Wishlist got reset after update without changes (MAGETWO-29103)
+   * Incorrect invoice amount when items with discount is partially invoiced (MAGETWO-25942)
+   * Fixed Products' thumbnails alignment on frontend (MAGETWO-27066)
+   * Fixed inactive Categories to be greyed out in the tree on backend (MAGETWO-28805)
+   * Fixed bug of impossibility to disable debug mode (MAGETWO-22991)
+   * Corrected code example in index.php file (MAGETWO-28407)
+   * Removed language selector in setup UI (MAGETWO-28581)
+   * Fixed broken set up if db_prefix is used (MAGETWO-28895)
+   * Using Symfony's PHPExecutableFinder for executing CLI tools (MAGETWO-28583)
+   * Fixed bug with Import/Export functionality (MAGETWO-22664)
+   * Fixed bug with catalog product/category and category/product indexers invalidation after import (MAGETWO-25136)
+   * Fixed bug with entering invalid date in the Product Views Report (MAGETWO-28049)
+
 0.1.0-alpha98
 =============
-* GitHub requests:
+ * GitHub requests:
    * [#678] (https://github.com/magento/magento2/issues/678) -- Fixed Travis CI builds
-* Functional tests:
+ * Functional tests:
    * Create Sales Order Backend
    * Delete Products from Wishlist
    * Download Products Report
    * Mass Orders Update
    * Sales Tax Report
-* Fixed bugs:
+ * Fixed bugs:
    * Fixed an issue where success message was not displayed after product review submit
    * Fixed an issue where it was impossible to start checkout process using PayPal from the JavaScript pop-up window when the Display Actual Price option was set to On Gesture
    * Fixed an issue where a fatal error was thrown after shipping method selection in PayPal Express Checkout
