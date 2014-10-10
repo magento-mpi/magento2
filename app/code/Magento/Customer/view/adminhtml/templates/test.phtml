@@ -13,23 +13,23 @@
                             "label": "Associate to Website",
                             "caption": "Please select ...",
                             "required": true,
-                            "options": {
-                                "0": "Admin",
-                                "1": "Main Website"
-                            }
+                            "options": [
+                                {"label":"Admin Website","value":"0"},
+                                {"label":"Main Website","value":"1"}
+                            ]
                         },
                         "currencies": {
                             "index": "currencies",
                             "input_type": "multiple_select",
                             "label": "Currencies",
-                            "options": {
-                                "dut": "Dutch money",
-                                "ua": "Ukraine money",
-                                "usa": "USA money",
-                                "yo": "Yo money",
-                                "sup": "Sup money",
-                                "wow": "Wow money"
-                            }
+                            "options": [
+                                {"value":"dut","label": "Dutch money"},
+                                {"value":"ua","label": "Ukraine money"},
+                                {"value":"usa","label": "USA money"},
+                                {"value":"yo","label": "Yo money"},
+                                {"value":"sup","label": "Sup money"},
+                                {"value":"wow","label": "Wow money"}
+                            ]
                         },
                         "gender": {
                             "index": "gender",
@@ -38,20 +38,20 @@
                             "label": "Gender",
                             "no_caption": true,
                             "required": true,
-                            "options": {
-                                "0": "Male",
-                                "1": "Female"
-                            }
+                            "options": [
+                                {"value":"0","label": "Male"},
+                                {"value":"1","label": "Female"}
+                            ]
                         },
                         "general": {
                             "index": "general",
                             "data_type": "text",
                             "input_type": "select",
-                            "options": {
-                                "0": "General",
-                                "1": "Wholesale",
-                                "2": "Retailer"
-                            }
+                            "options": [
+                                {"value":"0","label": "General"},
+                                {"value":"1","label": "Wholesale"},
+                                {"value":"2","label": "Retailer"}
+                            ]
                         },
                         "prefix": {
                             "index": "prefix",
@@ -172,9 +172,17 @@
                     "some_form_config": "blabla"
                 }
             },
-            "customer_form_areas": {
-                "name": "customer_form_areas",
+            "customer_form_areas_X": {
+                "name": "customer_form_areas_X",
                 "path": "Magento_Ui/js/form/components/area",
+                "source": "customer_form_data",
+                "config": {
+                    "some_form_config": "blabla"
+                }
+            },
+            "customer_plain_text": {
+                "name": "customer_plain_text",
+                "path": "Magento_Ui/js/form/components/fieldset",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
@@ -202,7 +210,6 @@
 
         "layout": { 
             "customer_form_tabs": {
-                "items": {
                     "cusomer_info": {
                         "label": "Customer Information",
                         "items": [
@@ -231,12 +238,12 @@
                             }
                         ]
                     }
-                }
             },
-            "customer_form_areas": {
-                "items": {
+            "customer_form_areas_X": {
                     "account_info": {
                         "injections": [
+                            "customer_plain_text.plain_text",
+                            "customer_form_fieldsets.customer_addresses",
                             "customer_form_fieldsets.account_info"
                         ]
                     },
@@ -255,10 +262,8 @@
                             "customer_form_fieldsets.col_options"
                         ]
                     }
-                }
             },
             "customer_form_groups": {
-                "items": {
                     "website": {
                         "injections": [
                             "customer.website"
@@ -344,10 +349,29 @@
                             "customer.image"
                         ]
                     }
-                }
+            },
+            "customer_plain_text": {
+                    "plain_text": {
+                        "label" : "Tab with plain text",
+                        "content": "\u003Cem\u003EOl\u003C\/em\u003E\u003Ch1\u003E\u003C\/h1\u003E\u003Cscript\u003Ealert(\"script tag\")\u003C\/script\u003E\u003Cimg src=\"??\" onerror=\"alert('onerror')\"\u003E",
+                        "injections": [
+                            "customer_form_groups.comments",
+                            "customer_form_groups.created",
+                            "customer_form_groups.image"
+                        ]
+                    },
+                    "plain_template": {
+                        "label" : "Tab with custom template",
+                        "content": "\u003Cem\u003EOl\u003C\/em\u003E\u003Ch1\u003E\u003C\/h1\u003E\u003Cscript\u003Ealert(\"script tag\")\u003C\/script\u003E\u003Cimg src=\"??\" onerror=\"alert('onerror')\"\u003E",
+                        "template":"ui/fake",
+                        "injections": [
+                            "customer_form_groups.comments",
+                            "customer_form_groups.created",
+                            "customer_form_groups.image"
+                        ]
+                    }
             },
             "customer_form_fieldsets": {
-                "items": {
                     "account_info": {
                         "label": "Account Information",
                         "collapsible": true,
@@ -403,7 +427,6 @@
                             "customer_form_groups.currencies"
                         ]
                     }
-                }
             }
         }
     }
@@ -411,8 +434,7 @@
 <script>
     var allowLocalCache = false;
 </script>
-<form action="" method="post">
-    <div data-bind="scope: 'customer_form_areas'" class="entry-edit form-inline">
+
+    <div data-bind="scope: 'customer_form_areas_X'" class="entry-edit form-inline">
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
-</form>

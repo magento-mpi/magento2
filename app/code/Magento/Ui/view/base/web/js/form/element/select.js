@@ -59,10 +59,10 @@ define([
          * @return {Array} - formatted options
          */
         formatOptions: function (options) {
-            return _.map(options, function (label, value) {
+            return _.map(options, function (fullValue, index) {
                 return {
-                    label: label,
-                    value: value
+                    label: fullValue.label,
+                    value: fullValue.name
                 };
             });
         },
