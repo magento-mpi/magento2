@@ -31,4 +31,7 @@
     <type name="Magento\ImportExport\Model\Import">
         <plugin name="reindex_after_import" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\ImportExport"/>
     </type>
+    <type name="Magento\CatalogRule\Model\Rule">
+        <plugin name="reindexPriceOnRuleApply" type="\Magento\CatalogRule\Plugin\Indexer\CatalogRule" />
+    </type>
 </config>

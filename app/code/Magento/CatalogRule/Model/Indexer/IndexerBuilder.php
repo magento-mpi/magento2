@@ -587,15 +587,14 @@ class IndexerBuilder
         );
 
         $tableAlias = 'pp' . $websiteId;
-        $fieldAlias = 'website_' . $websiteId . '_price';
         $select->joinLeft(
             array($tableAlias => $priceTable),
             sprintf($joinCondition, $tableAlias, $storeId),
             array()
         );
         $select->columns([
-                'default_price' => $this->getReadAdapter()->getIfNullSql($tableAlias . '.value', 'pp_default.value'),
-            ]);
+            'default_price' => $this->getReadAdapter()->getIfNullSql($tableAlias . '.value', 'pp_default.value'),
+        ]);
 
         return $read->query($select);
     }

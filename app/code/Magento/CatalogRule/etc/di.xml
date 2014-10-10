@@ -35,7 +35,6 @@
             </argument>
         </arguments>
     </type>
-
     <virtualType name="Magento\Catalog\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
         <arguments>
             <argument name="prices" xsi:type="array">
@@ -43,5 +42,7 @@
             </argument>
         </arguments>
     </virtualType>
-
+    <type name="Magento\CatalogRule\Model\Rule">
+        <plugin name="reindexPriceOnRuleApply" type="\Magento\CatalogRule\Plugin\Indexer\CatalogRule" />
+    </type>
 </config>

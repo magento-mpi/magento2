@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
+namespace Magento\CatalogRule\Plugin\Indexer;
 
 class CatalogRule
 {
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
      */
-    protected $_processor;
+    protected $processor;
 
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
@@ -20,7 +20,7 @@ class CatalogRule
     public function __construct(
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
     ) {
-        $this->_processor = $processor;
+        $this->processor = $processor;
     }
 
     /**
@@ -34,7 +34,7 @@ class CatalogRule
      */
     public function afterApplyAll(\Magento\CatalogRule\Model\Rule $subject)
     {
-        $this->_processor->markIndexerAsInvalid();
+        $this->processor->markIndexerAsInvalid();
     }
 
     /**
@@ -89,6 +89,6 @@ class CatalogRule
     protected function _reindexProduct($product)
     {
         $productId = is_numeric($product) ? $product : $product->getId();
-        $this->_processor->reindexRow($productId);
+        $this->processor->reindexRow($productId);
     }
 }
