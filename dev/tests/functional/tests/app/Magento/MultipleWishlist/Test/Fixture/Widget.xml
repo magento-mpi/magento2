@@ -66,6 +66,6 @@
     </fields>
     <data_set></data_set>
     <data_config></data_config>
-    <repository_class>Magento\MultipleWishlist\Test\Repository\MultipleWishlistWiget</repository_class>
+    <repository_class>Magento\MultipleWishlist\Test\Repository\Widget</repository_class>
     <handler_interface>Magento\Widget\Test\Handler\WidgetWishlistSearch\WidgetWishlistSearchInterface</handler_interface>
 </fixture>

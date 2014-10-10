@@ -118,6 +118,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFirstVisitAt()
     {
+        $this->markTestIncomplete('MAGETWO-29131');
         $time = time();
         $this->dateTime->expects($this->once())->method('now')->will($this->returnValue($time));
         $this->assertEquals($time, $this->visitor->getFirstVisitAt());
@@ -125,6 +126,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLastVisitAt()
     {
+        $this->markTestIncomplete('MAGETWO-29131');
         $time = time();
         $this->dateTime->expects($this->once())->method('now')->will($this->returnValue($time));
         $this->assertEquals($time, $this->visitor->getLastVisitAt());

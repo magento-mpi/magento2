@@ -36,7 +36,8 @@
         </exec>
     </target>
     <target name="_unit_tests_performance_toolkit_framework" depends="_product_location,_composer_install" description="Unit Tests for performance toolkit framework">
-        <exec dir="${product_root_dir}/dev/tools/performance_toolkit/framework/tests/unit" executable="${phpunit}" failonerror="true">
+        <exec dir="${product_root_dir}/dev/tools/performance-toolkit/framework/tests/unit" executable="${phpunit}"
+              failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_performance_toolkit_framework.xml"/>
         </exec>
     </target>
