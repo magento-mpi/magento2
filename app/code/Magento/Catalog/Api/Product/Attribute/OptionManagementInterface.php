@@ -16,17 +16,19 @@ interface OptionManagementInterface
      * Add option to attribute
      *
      * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::addOption
+     *
      * @param string $attributeId
-     * @param \Magento\Catalog\Api\Data\Product\Attribute\OptionInterface $option
+     * @param \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface $option
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
      */
-    public function addOption($attributeId, \Magento\Catalog\Api\Data\Product\Attribute\OptionInterface $option);
+    public function addOption($attributeId, \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface $option);
 
     /**
      * Delete option from attribute
      *
-     * instead of \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::removeOption
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::removeOption
+     *
      * @param string $attributeId
      * @param int $optionId
      * @throws \Magento\Framework\Exception\StateException
@@ -40,7 +42,7 @@ interface OptionManagementInterface
      *
      * instead of \Magento\Catalog\Service\V1\Product\Attribute\Option\ReadService::options
      * @param string $id
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]
+     * @return \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface[]
      */
     public function getList($id);
 }
