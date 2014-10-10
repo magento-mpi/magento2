@@ -8,11 +8,12 @@
 namespace Magento\CatalogSearch\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\CatalogSearch\Helper\Data;
-use Magento\Framework\Model\Context;
-use Magento\Framework\Registry;
-use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Data\Collection\Db;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\Resource\AbstractResource;
+use Magento\Framework\Registry;
+use Magento\Search\Model\Query;
+use Magento\Search\Model\QueryFactory;
 
 /**
  * Catalog advanced search model
@@ -41,9 +42,9 @@ class Fulltext extends \Magento\Framework\Model\AbstractModel
     /**
      * Catalog search data
      *
-     * @var Data
+     * @var QueryFactory
      */
-    protected $_catalogSearchData = null;
+    protected $queryFactory = null;
 
     /**
      * Core store config
@@ -55,7 +56,7 @@ class Fulltext extends \Magento\Framework\Model\AbstractModel
     /**
      * @param Context $context
      * @param Registry $registry
-     * @param Data $catalogSearchData
+     * @param QueryFactory $queryFactory
      * @param ScopeConfigInterface $scopeConfig
      * @param AbstractResource $resource
      * @param Db $resourceCollection
@@ -64,13 +65,13 @@ class Fulltext extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         Context $context,
         Registry $registry,
-        Data $catalogSearchData,
+        QueryFactory $queryFactory,
         ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_catalogSearchData = $catalogSearchData;
+        $this->queryFactory = $queryFactory;
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -103,9 +104,9 @@ class Fulltext extends \Magento\Framework\Model\AbstractModel
     public function prepareResult($query = null)
     {
         if (!$query instanceof Query) {
-            $query = $this->_catalogSearchData->getQuery();
+            $query = $this->queryFactory->get();
         }
-        $queryText = $this->_catalogSearchData->getQueryText();
+        $queryText = $query->getQueryText();
         if ($query->getSynonymFor()) {
             $queryText = $query->getSynonymFor();
         }

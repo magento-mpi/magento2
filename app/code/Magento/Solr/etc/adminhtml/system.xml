@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
+    <system>
+        <section id="catalog">
+            <group id="search">
+                <field id="engine" translate="label" type="select" sortOrder="19" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Search Engine</label>
+                    <backend_model>Magento\Solr\Model\Adminhtml\System\Config\Backend\Engine</backend_model>
+                    <source_model>Magento\Solr\Model\Adminhtml\System\Config\Source\Engine</source_model>
+                </field>
+                <field id="solr_server_hostname" translate="label" type="text" sortOrder="51" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Solr Server Hostname</label>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_port" translate="label" type="text" sortOrder="52" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Solr Server Port</label>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_username" translate="label" type="text" sortOrder="53" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Solr Server Username</label>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_password" translate="label" type="text" sortOrder="54" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Solr Server Password</label>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_timeout" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Solr Server Timeout</label>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_path" translate="label comment" type="text" sortOrder="56" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Solr Server Path</label>
+                    <comment>Without starting and trailing slashes.</comment>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="engine_commit_mode" translate="label comment" type="select" sortOrder="57" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Indexation Mode</label>
+                    <source_model>Magento\Solr\Model\Adminhtml\System\Config\Source\Indexationmode</source_model>
+                    <comment>Note: Partial commit mode affects time of indexation, but allows indexed products to be visible on the frontend before indexation is completed.</comment>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_test_connect_wizard" translate="button_label" sortOrder="58" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label></label>
+                    <button_label>Test Connection</button_label>
+                    <frontend_model>Magento\Solr\Block\Adminhtml\System\Config\Testconnection</frontend_model>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_suggestion_enabled" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Search Suggestions</label>
+                    <comment>When you enable this option your site may slow down.</comment>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="solr_server_suggestion_count" translate="label" type="text" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Search Suggestions Count</label>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                        <field id="solr_server_suggestion_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="solr_server_suggestion_count_results_enabled" translate="label" type="select" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Results Count for Each Suggestion</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <comment>When you enable this option your site may slow down.</comment>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                        <field id="solr_server_suggestion_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="search_recommendations_enabled" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Search Recommendations</label>
+                    <comment>When you enable this option your site may slow down.</comment>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="search_recommendations_count" translate="label" type="text" sortOrder="81" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Search Recommendations Count</label>
+                    <validate>validate-digits</validate>
+                    <depends>
+                        <field id="search_recommendations_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="search_recommendations_count_results_enabled" translate="label" type="select" sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Results Count for Each Recommendation</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="search_recommendations_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="solr_server_use_in_catalog_navigation" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Solr Engine for Catalog Navigation</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="engine">Magento\Solr\Model\Resource\Solr\Engine</field>
+                    </depends>
+                </field>
+                <field id="search_type">
+                    <depends>
+                        <field id="engine">Magento\CatalogSearch\Model\Resource\Fulltext\Engine</field>
+                    </depends>
+                </field>
+                <field id="use_layered_navigation_count">
+                    <depends>
+                        <field id="engine">Magento\CatalogSearch\Model\Resource\Fulltext\Engine</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
