@@ -25,6 +25,9 @@ class StatusGrid extends Grid
         ],
         'status' => [
             'selector' => '#sales_order_status_grid_filter_status'
+        ],
+        'state' => [
+            'selector' => '#sales_order_status_grid_filter_state'
         ]
     ];
 

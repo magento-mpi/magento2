@@ -27,16 +27,16 @@ class AssertOrderStatusInGrid extends AbstractConstraint
     /**
      * Assert order status availability in Order Status grid
      *
-     * @param string $orderStatus
+     * @param string $status
      * @param OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
-    public function processAssert($orderStatus, OrderStatusIndex $orderStatusIndexPage)
+    public function processAssert($status, OrderStatusIndex $orderStatusIndexPage)
     {
         $orderStatusIndexPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible(['label' => $orderStatus]),
-            'Order status \'' . $orderStatus . '\' is absent in Order Status grid.'
+            $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible(['label' => $status]),
+            'Order status \'' . $status . '\' is absent in Order Status grid.'
         );
     }
 

@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Sales\Test\Constraint\AssertOrderStatusSuccessAssignMessage;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Fixture\OrderStatus;
@@ -63,13 +62,6 @@ class AssignCustomOrderStatusTest extends Injectable
     protected $orderIndex;
 
     /**
-     * Customer Account Logout page
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
      * OrderStatus Fixture
      *
      * @var OrderStatus
@@ -106,19 +98,16 @@ class AssignCustomOrderStatusTest extends Injectable
      *
      * @param OrderStatusIndex $orderStatusIndex
      * @param OrderStatusAssign $orderStatusAssign
-     * @param CustomerAccountLogout $customerAccountLogout
      * @param OrderIndex $orderIndex
      * @return void
      */
     public function __inject(
         OrderStatusIndex $orderStatusIndex,
         OrderStatusAssign $orderStatusAssign,
-        CustomerAccountLogout $customerAccountLogout,
         OrderIndex $orderIndex
     ) {
         $this->orderStatusIndex = $orderStatusIndex;
         $this->orderStatusAssign = $orderStatusAssign;
-        $this->customerAccountLogout = $customerAccountLogout;
         $this->orderIndex = $orderIndex;
     }
 
@@ -161,7 +150,7 @@ class AssignCustomOrderStatusTest extends Injectable
         return [
             'orderId' => $order->getId(),
             'customer' => $order->getDataFieldConfig('customer_id')['source']->getCustomer(),
-            'orderStatus' => $orderStatus->getLabel()
+            'status' => $orderStatus->getLabel()
         ];
     }
 
