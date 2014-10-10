@@ -11,210 +11,154 @@
  */
 namespace Magento\Framework\View\Layout\Reader;
 
+/**
+ * Class BlockTest
+ *
+ * @covers Magento\Framework\View\Layout\Reader\Block
+ */
 class BlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Block
+     * @var \Magento\Framework\View\Layout\ScheduledStructure|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $model;
+    protected $scheduledStructure;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\Reader\Context|PHPUnit_Framework_MockObject_MockObject
      */
     protected $context;
 
     /**
+     * @var \Magento\Framework\View\Layout\Reader\Pool|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $readerPool;
+
+    /**
      * @var \Magento\Framework\View\Layout\Element
      */
-    protected $element;
+    protected $currentElement;
 
     /**
-     * @var \Magento\Framework\View\Layout\ScheduledStructure\Helper|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\Element
      */
-    protected $helper;
-
-    /**
-     * @var \Magento\Framework\View\Layout\Argument\Parser|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $parser;
-
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $scopeConfig;
-
-    /**
-     * @var \Magento\Framework\App\ScopeResolverInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $scopeResolver;
-
-    /**
-     * @var \Magento\Framework\View\Layout\Reader\Pool|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $pool;
-
-    /**
-     * @var \Magento\Framework\View\Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $scheduledStructure;
-
-    public function setUp()
-    {
-        $this->helper = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure\Helper')
-            ->setMethods(['scheduleStructure'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->parser = $this->getMockBuilder('Magento\Framework\View\Layout\Argument\Parser')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')->getMock();
-        $this->scopeResolver = $this->getMockForAbstractClass(
-            'Magento\Framework\App\ScopeResolverInterface',
-            [],
-            '',
-            false
-        );
-
-        $this->pool = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Pool')
-        ->setMethods(['readStructure'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->scheduledStructure = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure')
-            ->disableOriginalConstructor()->setMethods(['setElementToRemoveList', '__wakeup', 'getStructureElement'])
-            ->getMock();
-
-        $this->model = new \Magento\Framework\View\Layout\Reader\Block(
-            $this->helper,
-            $this->parser,
-            $this->scopeConfig,
-            $this->scopeResolver,
-            $this->pool
-        );
-    }
-
-    public function testGetSupportedNodes()
-    {
-        $expected = ['block', 'referenceBlock'];
-        $this->assertEquals($expected, $this->model->getSupportedNodes());
-    }
-
-    public function testProcessEmpty()
-    {
-        $xml = '<?xml version="1.0"?>
-<page>
-    <body>
-    </body>
-</page>';
-
-        $this->context = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->element = new \Magento\Framework\View\Layout\Element($xml);
-
-        $this->helper->expects($this->never())->method('scheduleStructure');
-        $this->scheduledStructure->expects($this->never())->method('getStructureElement');
-        $this->scheduledStructure->expects($this->never())->method('setStructureElement');
-
-        $this->context->expects($this->any())->method('getScheduledStructure')->will(
-            $this->returnValue($this->scheduledStructure)
-        );
-        $this->scopeConfig->expects($this->never())->method('isSetFlag');
-        $this->scopeResolver->expects($this->never())->method('getScope');
-        $this->scheduledStructure->expects($this->never())->method('setElementToRemoveList');
-        $this->pool->expects($this->once())->method('readStructure')->with($this->context, $this->element)->will(
-            $this->returnValue($this->pool)
-        );
-        $this->model->process($this->context, $this->element, $this->element);
-    }
-
-    public function testProcessBlock()
-    {
-        $xml = '<?xml version="1.0"?>
-            <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
-                <arguments>
-                    <argument name="file">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
-                </arguments>
-            </block>';
-
-        $this->context = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->element = new \Magento\Framework\View\Layout\Element($xml);
-
-        $this->helper->expects($this->any())->method('scheduleStructure');
-        $this->scheduledStructure->expects($this->never())->method('getStructureElement');
-        $this->scheduledStructure->expects($this->never())->method('setStructureElement');
-
-        $this->context->expects($this->any())->method('getScheduledStructure')->will(
-            $this->returnValue($this->scheduledStructure)
-        );
-        $this->scopeConfig->expects($this->never())->method('isSetFlag');
-        $this->scopeResolver->expects($this->never())->method('getScope');
-        $this->scheduledStructure->expects($this->never())->method('setElementToRemoveList');
-        $this->pool->expects($this->once())->method('readStructure')->with($this->context, $this->element)->will(
-            $this->returnValue($this->pool)
-        );
-        $this->model->process($this->context, $this->element, $this->element);
-    }
+    protected $parentElement;
 
     /**
      * @param string $xml
-     * @dataProvider referenceBlockDataProvider
+     * @return \Magento\Framework\View\Layout\Element
      */
-    public function testProcessReferenceBlock($xml)
+    protected function getElement($xml)
     {
-        $this->context = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->element = new \Magento\Framework\View\Layout\Element($xml);
-
-        $this->helper->expects($this->never())->method('scheduleStructure');
-        $this->scheduledStructure->expects($this->any())->method('getStructureElement');
-        $this->scheduledStructure->expects($this->any())->method('setStructureElement');
-
-        $this->context->expects($this->any())->method('getScheduledStructure')->will(
-            $this->returnValue($this->scheduledStructure)
-        );
-        $this->scopeConfig->expects($this->never())->method('isSetFlag');
-        $this->scopeResolver->expects($this->never())->method('getScope');
-        $this->scheduledStructure->expects($this->never())->method('setElementToRemoveList');
-        $this->pool->expects($this->once())->method('readStructure')->with($this->context, $this->element)->will(
-            $this->returnValue($this->pool)
-        );
-        $this->model->process($this->context, $this->element, $this->element);
+        return new \Magento\Framework\View\Layout\Element($xml);
     }
 
-
-    public function referenceBlockDataProvider()
+    /**
+     * Prepare reader pool
+     *
+     * @param string $xml
+     */
+    protected function prepareReaderPool($xml)
     {
-        return [
+        $this->currentElement = $this->getElement($xml);
+        $this->readerPool->expects($this->once())->method('readStructure')->with($this->context, $this->currentElement);
+    }
+
+    /**
+     * Return testing instance of block
+     *
+     * @param array $arguments
+     * @return \Magento\Framework\View\Layout\Reader\Block
+     */
+    protected function getBlock(array $arguments)
+    {
+        return (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\Framework\View\Layout\Reader\Block', $arguments);
+    }
+
+    /**
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
+     */
+    public function setUp()
+    {
+        $this->scheduledStructure = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure', [], [], '', false);
+        $this->context = $this->getMock('Magento\Framework\View\Layout\Reader\Context', [], [], '', false);
+        $this->readerPool = $this->getMock('Magento\Framework\View\Layout\Reader\Pool', [], [], '', false);
+        $this->parentElement = $this->getElement('<' . \Magento\Framework\View\Layout\Reader\Block::TYPE_BLOCK . '/>');
+    }
+
+    /**
+     * @param string $literal
+     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $setElementToRemoveListCount
+     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $isSetFlagCount
+     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $scheduleStructureCount
+     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $getScopeCount
+     * @covers Magento\Framework\View\Layout\Reader\Block::process()
+     * @dataProvider processDataProvider
+     */
+    public function testProcessBlock(
+        $literal, $setElementToRemoveListCount, $isSetFlagCount, $scheduleStructureCount, $getScopeCount
+    ) {
+        $this->context->expects($this->once())->method('getScheduledStructure')
+            ->will($this->returnValue($this->scheduledStructure));
+        $this->scheduledStructure->expects($setElementToRemoveListCount)->method('setElementToRemoveList')->with($literal);
+        $scope = $this->getMock('Magento\Framework\App\ScopeInterface', [], [], '', false);
+
+        $testValue = 'some_value';
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config', [], [], '', false);
+        $scopeConfig->expects($isSetFlagCount)->method('isSetFlag')
+            ->with($testValue, null, $scope)
+            ->will($this->returnValue(false));
+
+        $helper = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure\Helper', [], [], '', false);
+        $helper->expects($scheduleStructureCount)->method('scheduleStructure')->will($this->returnValue($literal));
+
+        $scopeResolver = $this->getMock('Magento\Framework\App\ScopeResolverInterface', [], [], '', false);
+        $scopeResolver->expects($getScopeCount)->method('getScope')->will($this->returnValue($scope));
+
+        $this->prepareReaderPool('<' . $literal . ' ifconfig="' . $testValue . '"/>');
+
+        /** @var \Magento\Framework\View\Layout\Reader\Block $block */
+        $block = $this->getBlock(
             [
-                '<?xml version="1.0"?>
-        <referenceBlock name="head">
-            <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
-                <arguments>
-                    <argument name="file">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
-                </arguments>
-            </block>
-            <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-fileuploader-bootstrap-js">
-                <arguments>
-                    <argument name="file">jquery/fileUploader/bootstrap.js</argument>
-                </arguments>
-            </block>
-        </referenceBlock>'
-            ],
-            [
-                '<?xml version="1.0"?>
-        <referenceBlock name="head">
-            <action method="addTab">
-                <argument name="name">properties_section</argument>
-                <argument name="block">banner_edit_tab_properties</argument>
-            </action>
-        </referenceBlock>'
+                'helper' => $helper,
+                'scopeConfig' => $scopeConfig,
+                'scopeResolver' => $scopeResolver,
+                'readerPool' => $this->readerPool
             ]
-        ];
+        );
+        $block->process($this->context, $this->currentElement, $this->parentElement);
+    }
+
+    /**
+     * @covers Magento\Framework\View\Layout\Reader\Block::process()
+     */
+    public function testProcessReference()
+    {
+        $testName = 'test_value';
+        $literal = 'referenceBlock';
+        $this->context->expects($this->once())->method('getScheduledStructure')
+            ->will($this->returnValue($this->scheduledStructure));
+        $this->scheduledStructure->expects($this->once())->method('getStructureElement')->with($testName, [])
+            ->will($this->returnValue(null));
+        $this->scheduledStructure->expects($this->once())->method('setStructureElement')
+            ->with($testName, [5 => ['actions' => [], 'arguments'=> []]]);
+
+        $this->prepareReaderPool('<' . $literal . ' name="' . $testName . '"/>');
+
+        /** @var \Magento\Framework\View\Layout\Reader\Block $block */
+        $block = $this->getBlock(['readerPool' => $this->readerPool]);
+        $block->process($this->context, $this->currentElement, $this->parentElement);
+    }
+
+    /**
+     * @return array
+     */
+    public function processDataProvider()
+    {
+        return array(
+            array('block', $this->once(), $this->once(), $this->once(), $this->once()),
+            array('page', $this->never(), $this->never(), $this->never(), $this->never())
+        );
     }
 }
