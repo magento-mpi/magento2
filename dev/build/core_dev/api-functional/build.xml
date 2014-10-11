@@ -39,7 +39,7 @@
         <antcall target="_installation_requirements"/>
     </target>
 
-    <target name="_run_tests" depends="_configure_tests" description="Run Web API functional tests.">
+    <target name="_run_tests" depends="_configure_tests,_composer_install" description="Run Web API functional tests.">
         <exec dir="${product_root_dir}/dev/tests/api-functional" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/test-cases-report.xml"/>
         </exec>
