@@ -199,7 +199,9 @@ class Tabs extends AbstractView
      */
     public function getTabs()
     {
-        $this->setTabs($this->getConfiguredTabs());
+        if(!$this->tabs) {
+            $this->setTabs($this->getConfiguredTabs());
+        }
         return $this->tabs;
     }
 

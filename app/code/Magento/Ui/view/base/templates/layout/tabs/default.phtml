@@ -8,22 +8,25 @@
 /**
  * @var \Magento\Ui\Component\Layout\Tabs $this
  */
-
-$tabs = $this->getTabs();
 ?>
+<?php if(true): ?>
+    <div data-bind="scope: 'customer_form_tabs' " class="ui-tabs">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+<?php else: ?>
 <div id="<?php echo $this->getName(); ?>">
     <div class="tab-switcher" style="float: left; width: 20%;">
         <h3>
             <span>Basic Settings</span>
         </h3>
         <ul>
-            <?php foreach ($tabs as $tab): ?>
+            <?php foreach ($this->getTabs() as $tab): ?>
                 <li><h4><?php echo $tab['label']; ?></h4></li>
             <?php endforeach; ?>
         </ul>
     </div>
     <div class="tabs-content" style="width: 80%; float: right;">
-        <?php foreach ($tabs as $tab): ?>
+        <?php foreach ($this->getTabs() as $tab): ?>
             <div class="fieldset-wrapper <?php echo $tab['index']; ?>">
                 <?php foreach ($tab['elements'] as $element): ?>
                     <p><?php echo $element->toHtml(); ?></p>
@@ -33,3 +36,4 @@ $tabs = $this->getTabs();
     </div>
     <div style="clear: both"></div>
 </div>
+<?php endif; ?>
