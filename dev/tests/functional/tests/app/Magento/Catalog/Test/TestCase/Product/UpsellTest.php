@@ -42,7 +42,7 @@ class UpsellTest extends Functional
         $simple1->switchData('simple');
         $simple1->persist();
         $assignToSimple1 = Factory::getFixtureFactory()->getMagentoCatalogUpsellProducts();
-        $assignToSimple1->switchData('add_upsell_products');
+        $assignToSimple1->switchData('add_up_sell_products');
         $verify = [$assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable')];
         //Data
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
@@ -58,7 +58,7 @@ class UpsellTest extends Functional
         $productGridPage->getProductGrid()->searchAndOpen(
             ['sku' => $assignToSimple1->getProduct('configurable')->getSku()]
         );
-        $assignToSimple1->switchData('add_upsell_product');
+        $assignToSimple1->switchData('add_up_sell_product');
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormPageActions()->save();

@@ -214,7 +214,7 @@ class Observer
      * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function prepareGiftOptpionsItems(\Magento\Framework\Event\Observer $observer)
+    public function prepareGiftOptionsItems(\Magento\Framework\Event\Observer $observer)
     {
         $items = $observer->getEvent()->getItems();
         foreach ($items as $item) {
