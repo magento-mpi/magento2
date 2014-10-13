@@ -26,28 +26,32 @@ class BannerRotator extends WidgetOptionsForm
     protected $bannerRotatorGrid = '#bannerGrid';
 
     /**
-     * Fill specified form data
+     * Filling widget options form
      *
-     * @param array $fields
+     * @param array $widgetOptionsFields
      * @param Element $element
+     * @return void
      */
-    protected function _fill(array $fields, Element $element = null)
+    public function fillForm(array $widgetOptionsFields, Element $element = null)
     {
-        $context = ($element === null) ? $this->_rootElement : $element;
-        foreach ($fields as $name => $field) {
-            if ($name == 'entities') {
-                /** @var Grid $bannerRotatorGrid */
-                $bannerRotatorGrid = $this->blockFactory->create(
-                    'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
-                    [
-                        'element' => $this->_rootElement
-                            ->find($this->bannerRotatorGrid)
-                    ]
-                );
-                $bannerRotatorGrid->searchAndSelect(['banner' => $field['value']['name']]);
-            } else {
-                parent::_fill([$name => $field], $context);
-            }
+        $element = $element === null ? $this->_rootElement : $element;
+        $mapping = $this->dataMapping($widgetOptionsFields);
+        if (isset($mapping['entities'])) {
+            $entities = $mapping['entities'];
+            unset($mapping['entities']);
+        }
+        $this->_fill($mapping, $element);
+
+        if (!empty($entities)) {
+            /** @var Grid $bannerRotatorGrid */
+            $bannerRotatorGrid = $this->blockFactory->create(
+                'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->bannerRotatorGrid)
+                ]
+            );
+            $bannerRotatorGrid->searchAndSelect(['banner' => $entities['value'][0]->getName()]);
         }
     }
 }

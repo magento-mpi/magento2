@@ -87,4 +87,7 @@
     <assertWidgetEventLink module="Magento_CatalogEvent">
         <severeness>low</severeness>
     </assertWidgetEventLink>
+    <assertWidgetEventCarouselOnFrontendInCatalog module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+    </assertWidgetEventCarouselOnFrontendInCatalog>
 </constraint>

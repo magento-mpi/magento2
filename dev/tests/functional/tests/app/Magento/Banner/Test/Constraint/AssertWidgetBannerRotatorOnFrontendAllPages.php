@@ -6,16 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Test\Constraint;
+namespace Magento\Banner\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertWidgetOnFrontendAllPages
+ * Class AssertWidgetBannerRotatorOnFrontendAllPages
+ * Check that created widget displayed on frontent on Home page and on Advanced Search
  */
-class AssertWidgetOnFrontendAllPages extends AbstractConstraint
+class AssertWidgetBannerRotatorOnFrontendAllPages extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -29,22 +31,30 @@ class AssertWidgetOnFrontendAllPages extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget
+     * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
-        Widget $widget
+        Widget $widget,
+        AdminCache $adminCache
     ) {
+        // Flush cache
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushMagentoCache();
+        $adminCache->getMessagesBlock()->waitSuccessMessage();
+
         $cmsIndex->open();
         $widgetCode = $widget->getCode();
+        $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getStoreContents()['value_0'];
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode),
-            'Widget is absent on Home page.'
+            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, $widgetText),
+            'Widget with type ' . $widgetCode . ' is absent on Home page.'
         );
         $cmsIndex->getSearchBlock()->clickAdvancedSearchButton();
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode),
-            'Widget is absent on Home page.'
+            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, $widgetText),
+            'Widget with type ' . $widgetCode . ' is absent on Home page.'
         );
     }
 

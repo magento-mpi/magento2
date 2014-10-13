@@ -10,6 +10,7 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpd
 
 use Mtf\Client\Element;
 use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class LayoutForm
@@ -25,7 +26,14 @@ abstract class LayoutForm extends Form
     protected $chooser = '.widget-option-chooser';
 
     /**
-     * Filling attribute form
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
+
+    /**
+     * Filling layout form
      *
      * @param array $layoutFields
      * @param Element $element
@@ -36,6 +44,7 @@ abstract class LayoutForm extends Form
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($layoutFields);
         $this->_fill($mapping, $element);
+        $this->getTemplateBlock()->waitLoader();
     }
 
     /**
@@ -50,5 +59,18 @@ abstract class LayoutForm extends Form
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($fields);
         return $this->_getData($mapping, $element);
+    }
+
+    /**
+     * Get backend abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    protected function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
+        );
     }
 }

@@ -8,6 +8,7 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
@@ -15,6 +16,7 @@ use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class AssertWidgetOnFrontendInCatalog
+ * Check that created widget displayed on frontent in Catalog
  */
 class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
 {
@@ -26,18 +28,25 @@ class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created widget displayed on frontent on Home page and on Advanced Search
+     * Assert that created widget displayed on frontent in Catalog
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
      * @param Widget $widget
+     * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
-        Widget $widget
+        Widget $widget,
+        AdminCache $adminCache
     ) {
+        // Flush cache
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushMagentoCache();
+        $adminCache->getMessagesBlock()->waitSuccessMessage();
+
         $cmsIndex->open();
         if (isset($widget->getLayout()[0]['entities'])) {
             $categoryName = $widget->getLayout()[0]['entities']['name'];
@@ -52,7 +61,7 @@ class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
         }
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogCategoryView->getViewBlock()->isWidgetVisible($widgetCode, $widgetText),
+            $catalogCategoryView->getWidgetBlock()->isWidgetVisible($widgetCode, $widgetText),
             'Widget is absent on Category page.'
         );
     }

@@ -9,7 +9,6 @@
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Widget\Test\Fixture\Widget;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
@@ -38,6 +37,7 @@ class WidgetOptions extends Tab
     {
         foreach ($fields['widgetOptions']['value'] as $key => $field) {
             $dataBlock = $this->optionNameConvert($field['name']);
+            unset($field['name']);
             $path = '\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
             /** @var WidgetOptionsForm $widgetOptionsForm */
             $widgetOptionsForm = $this->blockFactory->create(
@@ -59,18 +59,10 @@ class WidgetOptions extends Tab
      */
     protected function optionNameConvert($widgetOptionsName)
     {
-        if ($widgetOptionsName == 'bannerRotator'
-            || $widgetOptionsName == 'bannerRotatorShoppingCartRules'
-            || $widgetOptionsName == 'bannerRotatorCatalogRules'
-        ) {
-            return ['module' => 'Banner', 'name' => 'BannerRotator'];
-        } elseif ($widgetOptionsName == 'recentlyComparedProducts' || $widgetOptionsName == 'recentlyViewedProducts') {
+        if ($widgetOptionsName == 'recentlyComparedProducts' || $widgetOptionsName == 'recentlyViewedProducts') {
             return ['module' => 'Widget', 'name' => 'RecentlyComparedProducts'];
-        } elseif ($widgetOptionsName == 'catalogEventCarousel') {
-            return ['module' => 'CatalogEvent', 'name' => ucfirst($widgetOptionsName)];
-        } elseif ($widgetOptionsName == 'hierarchyNodeLink') {
-            return ['module' => 'Cms', 'name' => ucfirst($widgetOptionsName)];
         }
+
         return ['module' => 'Widget', 'name' => ucfirst($widgetOptionsName)];
     }
 }

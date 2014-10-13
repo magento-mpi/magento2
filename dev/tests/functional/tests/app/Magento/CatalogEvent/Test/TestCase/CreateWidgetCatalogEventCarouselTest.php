@@ -9,6 +9,7 @@
 namespace Magento\CatalogEvent\Test\TestCase;
 
 use Magento\Widget\Test\TestCase\CreateWidgetEntityTest;
+use Magento\CatalogEvent\Test\Fixture\Widget;
 
 /**
  * Class CreateWidgetCatalogEventCarouselTest
@@ -16,5 +17,14 @@ use Magento\Widget\Test\TestCase\CreateWidgetEntityTest;
  */
 class CreateWidgetCatalogEventCarouselTest extends CreateWidgetEntityTest
 {
-    //
+    /**
+     * Creation for New Instance of WidgetEntity
+     *
+     * @param Widget $widget
+     * @return void
+     */
+    public function test(Widget $widget)
+    {
+        parent::test($widget);
+    }
 }

@@ -1,0 +1,3 @@
+"widget/data/widgetOptions/preset";"widget/data/code";"widget/data/theme_id";"widget/data/title";"widget/data/store_ids/dataSet";"widget/data/layout/preset";"constraint";"issue"
+"bannerRotatorShoppingCartRules";"Banner Rotator";"Magento Blank";"Title_%isolation%";"All Store Views";"all_pages";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetBannerRotatorOnFrontendAllPages";""
+"bannerRotatorCatalogRules";"Banner Rotator";"Magento Blank";"Title_%isolation%";"All Store Views";"for_virtual_product";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetBannerRotatorOnProductPage";"Bug: MAGETWO-28836"

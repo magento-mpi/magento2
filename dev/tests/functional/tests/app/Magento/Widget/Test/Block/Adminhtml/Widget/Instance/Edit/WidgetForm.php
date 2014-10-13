@@ -27,12 +27,16 @@ class WidgetForm extends FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $tabs = $this->getFieldsByTabs($fixture);
+        $widgetOptionName = $fixture->getWidgetOptions()[0]['name'];
+        if ($this->hasRender($widgetOptionName)) {
+            $this->callRender($widgetOptionName, 'fill', ['fixture' => $fixture, 'element' => $element]);
+        } else {
+            $tabs = $this->getFieldsByTabs($fixture);
+            $this->fillTabs(['settings' => $tabs['settings']]);
+            unset($tabs['settings']);
+            $this->reinitRootElement();
 
-        $this->fillTabs(['settings' => $tabs['settings']]);
-        unset($tabs['settings']);
-        $this->reinitRootElement();
-
-        return $this->fillTabs($tabs, $element);
+            return $this->fillTabs($tabs, $element);
+        }
     }
 }

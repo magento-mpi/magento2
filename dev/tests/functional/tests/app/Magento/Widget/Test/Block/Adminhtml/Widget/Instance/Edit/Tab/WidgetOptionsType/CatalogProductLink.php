@@ -35,32 +35,35 @@ class CatalogProductLink extends WidgetOptionsForm
     // @codingStandardsIgnoreEnd
 
     /**
-     * Fill specified form data
+     * Filling widget options form
      *
-     * @param array $fields
+     * @param array $widgetOptionsFields
      * @param Element $element
+     * @return void
      */
-    protected function _fill(array $fields, Element $element = null)
+    public function fillForm(array $widgetOptionsFields, Element $element = null)
     {
-        $context = ($element === null) ? $this->_rootElement : $element;
-        foreach ($fields as $name => $field) {
-            if ($name == 'entities') {
-                $this->_rootElement->find($this->selectBlock)->click();
+        $element = $element === null ? $this->_rootElement : $element;
+        $mapping = $this->dataMapping($widgetOptionsFields);
+        if (isset($mapping['entities'])) {
+            $entities = $mapping['entities'];
+            unset($mapping['entities']);
+        }
+        $this->_fill($mapping, $element);
+        if (!empty($entities)) {
+            $this->_rootElement->find($this->selectBlock)->click();
 
-                // @codingStandardsIgnoreStart
-                /** @var Grid $catalogProductLinkGrid */
-                $catalogProductLinkGrid = $this->blockFactory->create(
-                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid',
-                    [
-                        'element' => $this->_rootElement
-                            ->find($this->catalogProductLinkGrid, Locator::SELECTOR_XPATH)
-                    ]
-                );
-                // @codingStandardsIgnoreEnd
-                $catalogProductLinkGrid->searchAndSelect(['name' => $field['value']['name']]);
-            } else {
-                parent::_fill([$name => $field], $context);
-            }
+            // @codingStandardsIgnoreStart
+            /** @var Grid $catalogProductLinkGrid */
+            $catalogProductLinkGrid = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->catalogProductLinkGrid, Locator::SELECTOR_XPATH)
+                ]
+            );
+            // @codingStandardsIgnoreEnd
+            $catalogProductLinkGrid->searchAndSelect(['name' => $entities['value']['name']]);
         }
     }
 }

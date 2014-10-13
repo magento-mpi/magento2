@@ -150,22 +150,8 @@ class CreateWidgetEntityTest extends Injectable
      */
     public function tearDown()
     {
-        if ($this->widget !== null) {
-            $filter = ['title' => $this->widget->getTitle()];
-            $this->widgetInstanceIndex->open();
-            $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen($filter);
-            $this->widgetInstanceEdit->getPageActionsBlock()->delete();
-
-            if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'])) {
-                $deleteCatalogRule = $this->objectManager
-                    ->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep');
-                $deleteCatalogRule->run();
-            }
-            if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'])) {
-                $deleteSalesRule = $this->objectManager
-                    ->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep');
-                $deleteSalesRule->run();
-            }
-        }
+        $deleteWidget = $this->objectManager
+            ->create('Magento\Widget\Test\TestStep\DeleteAllWidgetStep');
+        $deleteWidget->run();
     }
 }

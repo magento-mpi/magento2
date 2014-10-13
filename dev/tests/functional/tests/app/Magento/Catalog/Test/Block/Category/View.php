@@ -10,6 +10,7 @@ namespace Magento\Catalog\Test\Block\Category;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class View
@@ -18,20 +19,11 @@ use Mtf\Client\Element\Locator;
 class View extends Block
 {
     /**
-     * Widgets selectors
+     * Recently Viewed Products selectors
      *
-     * @var array
+     * @var string
      */
-    protected $widgetSelectors = [
-        'Banner Rotator' => './/div[contains(@class,"widget banners") and contains(text(),"%s")]',
-        'CMS Page Link' => './/div[contains(@class,"widget widget-cms-link") and contains(text(),"%s")]',
-        'Catalog Category Link' => './/*/a[contains(.,"%s")]',
-        'Catalog Product Link' => './/*/a[contains(.,"%s")]',
-        'Recently Compared Products' => './/div[contains(@class,"block compare") and contains(text(),"%s")]',
-        'Recently Viewed Products' => './/div[contains(@class,"block viewed links") and contains(text(),"%s")]',
-        'Catalog New Products List' => './/div[contains(@class,"widget new") and contains(text(),"%s")]',
-        'CMS Static Block' => './/div[contains(@class,"widget static block") and contains(text(),"%s")]'
-    ];
+    protected $recentlyViewedProducts = './/*[contains(@class,"widget")]//strong[@class="product name"]';
 
     /**
      * Description CSS selector
@@ -61,42 +53,19 @@ class View extends Block
     }
 
     /**
-     * Check is visible widget selector
+     * Check that block Recently Viewed contains product
      *
-     * @param string $widgetType
-     * @param string $widgetText
+     * @param Widget $widget
      * @return bool
-     * @throws \Exception
      */
-    public function isWidgetVisible($widgetType, $widgetText)
+    public function checkProductInRecentlyViewedBlock(Widget $widget)
     {
-        if (isset($this->widgetSelectors[$widgetType])) {
-            return $this->_rootElement->find(
-                sprintf($this->widgetSelectors[$widgetType], $widgetText),
-                Locator::SELECTOR_XPATH
-            )->isVisible();
-        } else {
-            throw new \Exception('Determine how to find the widget on the page.');
+        $products = [];
+        $productNames = $this->_rootElement->find($this->recentlyViewedProducts, Locator::SELECTOR_XPATH)
+            ->getElements();
+        foreach ($productNames as $productName) {
+            $products[] = $productName->getText();
         }
-    }
-
-    /**
-     * Click to widget selector
-     *
-     * @param string $widgetType
-     * @param string $widgetText
-     * @return bool
-     * @throws \Exception
-     */
-    public function clickToWidget($widgetType, $widgetText)
-    {
-        if (isset($this->widgetSelectors[$widgetType])) {
-            $this->_rootElement->find(
-                sprintf($this->widgetSelectors[$widgetType], $widgetText),
-                Locator::SELECTOR_XPATH
-            )->click();
-        } else {
-            throw new \Exception('Determine how to find the widget on the page.');
-        }
+        return in_array($widget->getWidgetOptions()[0]['entities'][0]->getName(), $products);
     }
 }

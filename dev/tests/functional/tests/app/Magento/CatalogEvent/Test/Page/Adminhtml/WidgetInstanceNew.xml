@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/widget_instance/new/">
+    <blocks>
+        <widgetForm>
+            <renders>
+                <catalogEventCarousel>
+                    <class>Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\CatalogEventWidgetForm</class>
+                </catalogEventCarousel>
+            </renders>
+        </widgetForm>
+    </blocks>
+</page>

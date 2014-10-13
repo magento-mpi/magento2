@@ -41,4 +41,13 @@
     <assertWidgetSuccessDeleteMessage module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetSuccessDeleteMessage>
+    <assertProductInRecentlyComparedBlock module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertProductInRecentlyComparedBlock>
+    <assertWidgetCatalogCategoryLinkOnFrontendAllPages module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetCatalogCategoryLinkOnFrontendAllPages>
+    <assertWidgetCmsPageLinkOnFrontendAllPages module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetCmsPageLinkOnFrontendAllPages>
 </constraint>

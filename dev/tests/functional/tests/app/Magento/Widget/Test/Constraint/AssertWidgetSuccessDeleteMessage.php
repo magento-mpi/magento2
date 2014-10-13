@@ -43,8 +43,6 @@ class AssertWidgetSuccessDeleteMessage extends AbstractConstraint
             $actualMessage,
             'Wrong widget success delete message is displayed.'
         );
-
-
     }
 
     /**

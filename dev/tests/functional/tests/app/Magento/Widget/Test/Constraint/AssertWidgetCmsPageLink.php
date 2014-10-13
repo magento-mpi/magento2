@@ -8,13 +8,14 @@
 
 namespace Magento\Widget\Test\Constraint;
 
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class AssertWidgetCmsPageLink
+ * Check that after click on widget link on frontend system redirects you to catalog page
  */
 class AssertWidgetCmsPageLink extends AbstractConstraint
 {
@@ -30,16 +31,23 @@ class AssertWidgetCmsPageLink extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget
+     * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
-        Widget $widget
+        Widget $widget,
+        AdminCache $adminCache
     ) {
+        // Flush cache
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushMagentoCache();
+        $adminCache->getMessagesBlock()->waitSuccessMessage();
+
         $cmsIndex->open();
         $widgetCode = $widget->getCode();
         $widgetText = $widget->getWidgetOptions()[0]['anchor_text'];
-        $title = $widget->getWidgetOptions()[0]['entities']['content_heading'];
+        $title = $widget->getWidgetOptions()[0]['entities'][0]->getContentHeading();
         $cmsIndex->getCmsPageBlock()->clickToWidget($widgetCode, $widgetText);
         $pageTitle = $cmsIndex->getCmsPageBlock()->getPageTitle();
         \PHPUnit_Framework_Assert::assertEquals(
@@ -56,6 +64,6 @@ class AssertWidgetCmsPageLink extends AbstractConstraint
      */
     public function toString()
     {
-        return "Widget link on frontend system redirects to Cms page.";
+        return "After click no widget link on frontend redirecting to Cms page was success.";
     }
 }

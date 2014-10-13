@@ -8,13 +8,12 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
  * Class Grid
  * Chooser block grid
  */
-class Grid extends GridInterface
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * An element locator which allows to select entities in grid

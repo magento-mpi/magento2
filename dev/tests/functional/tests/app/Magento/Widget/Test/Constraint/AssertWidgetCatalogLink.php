@@ -8,6 +8,7 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -15,6 +16,7 @@ use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class AssertWidgetCatalogLink
+ * Check that after click on widget link on frontend system redirects you to catalog page
  */
 class AssertWidgetCatalogLink extends AbstractConstraint
 {
@@ -31,13 +33,20 @@ class AssertWidgetCatalogLink extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $categoryView
      * @param Widget $widget
+     * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $categoryView,
-        Widget $widget
+        Widget $widget,
+        AdminCache $adminCache
     ) {
+        // Flush cache
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushMagentoCache();
+        $adminCache->getMessagesBlock()->waitSuccessMessage();
+
         $cmsIndex->open();
         $widgetCode = $widget->getCode();
         $widgetText = $widget->getWidgetOptions()[0]['entities']['name'];
@@ -57,6 +66,6 @@ class AssertWidgetCatalogLink extends AbstractConstraint
      */
     public function toString()
     {
-        return "Widget link on frontend system redirects to catalog page.";
+        return "After click on widget link on frontend redirecting to catalog page was success.";
     }
 }

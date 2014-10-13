@@ -38,12 +38,7 @@ class Curl extends AbstractCurl implements CatalogEventEntityInterface
             $data['catalogevent']['display_state']['product_page'] = 2;
         }
         $data['catalogevent']['display_state'] = array_values($data['catalogevent']['display_state']);
-//        if (is_array($fixture->getCategoryId())) {
-//            $categoryId = $fixture->getCategoryId()[0];
-//        } else {
-            $categoryId = $fixture->getDataFieldConfig('category_id')['source']->getCategories()[0]->getId();
-//        }
-
+        $categoryId = $fixture->getDataFieldConfig('category_id')['source']->getCategories()[0]->getId();
         $url = $_ENV['app_backend_url'] . 'admin/catalog_event/save/category_id/'
             . $categoryId . '/category/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);

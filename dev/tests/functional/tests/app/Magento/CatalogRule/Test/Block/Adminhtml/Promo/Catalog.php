@@ -26,13 +26,6 @@ class Catalog extends Grid
     protected $editLink = '#promo_catalog_grid_table tbody tr:first-child td';
 
     /**
-     * First row selector
-     *
-     * @var string
-     */
-    protected $firstRowSelector = '//tr[1]/td[@data-column="name"]';
-
-    /**
      * Filters array mapping
      *
      * @var array
@@ -94,25 +87,5 @@ class Catalog extends Grid
     {
         $this->search(array('name' => $filter['name']));
         return parent::isRowVisible($filter, $isSearchable, $isStrict);
-    }
-
-    /**
-     * Check whether first row is visible
-     *
-     * @return bool
-     */
-    public function isFirstRowVisible()
-    {
-        return $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->isVisible();
-    }
-
-    /**
-     * Open first item in grid
-     *
-     * @return void
-     */
-    public function openFirstRow()
-    {
-        $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->click();
     }
 }

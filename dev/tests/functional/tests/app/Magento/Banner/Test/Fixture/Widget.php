@@ -20,4 +20,11 @@ class Widget extends ParentWidget
      * @var string
      */
     protected $repositoryClass = 'Magento\Banner\Test\Repository\Widget';
+
+    protected $widgetOptions = [
+        'attribute_code' => 'widgetOptions',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Banner\Test\Fixture\Widget\WidgetOptions',
+        'group' => 'widget_options',
+    ];
 }

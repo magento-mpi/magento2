@@ -53,7 +53,9 @@ class SalesRules implements FixtureInterface
             foreach ($presets as $preset) {
                 /** @var SalesRuleInjectable $salesRules */
                 $salesRules = $fixtureFactory->createByCode('salesRuleInjectable', ['dataSet' => $preset]);
-                $salesRules->persist();
+                if (!$salesRules->getRuleId()) {
+                    $salesRules->persist();
+                }
 
                 $this->data[] = $salesRules->getId();
                 $this->salesRules[] = $salesRules;

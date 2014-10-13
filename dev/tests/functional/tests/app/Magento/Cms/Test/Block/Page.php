@@ -31,31 +31,16 @@ class Page extends Block
      */
     protected $cmsPageTitle = ".page-title";
 
-    /**
-     * Widgets selectors
-     *
-     * @var array
-     */
-    protected $widgetSelectorsCss = [
-        'Banner Rotator' => '.widget.banners',
-        'CMS Page Link' => '.widget.widget-cms-link',
-        'Catalog Category Link' => '.widget.category.link',
-        'Catalog Product Link' => '.widget.product.link',
-        'Recently Compared Products' => '.block.compare',
-        'Recently Viewed Products' => '.block.viewed.links',
-        'Catalog New Products List' => '.widget.new',
-        'CMS Static Block' => '.widget.static.block'
-    ];
-
     protected $widgetSelectors = [
         'Banner Rotator' => './/*/div[contains(@class,"widget banners") and contains(.,"%s")]',
         'CMS Page Link' => './/*/a[contains(.,"%s")]',
         'Catalog Category Link' => './/*/a[contains(.,"%s")]',
         'Catalog Product Link' => './/*/a[contains(.,"%s")]',
-        'Recently Compared Products' => './/*/div[contains(@class,"block compare") and contains(.,"%s")]',
-        'Recently Viewed Products' => './/*/div[contains(@class,"block viewed links") and contains(.,"%s")]',
+        'Recently Compared Products' => './/*/div[contains(@class,"block widget compared grid") and contains(.,"%s")]',
+        'Recently Viewed Products' => './/*/div[contains(@class,"block widget viewed grid") and contains(.,"%s")]',
         'Catalog New Products List' => './/*/div[contains(@class,"widget new") and contains(.,"%s")]',
-        'CMS Static Block' => './/*/div[contains(@class,"widget static block") and contains(.,"%s")]'
+        'CMS Static Block' => './/*/div[contains(@class,"widget static block") and contains(.,"%s")]',
+        'Catalog Events Carousel' => '(//div[contains(@class,"widget")]//a/span[contains(.,"%s")])[last()]'
     ];
 
     /**
@@ -72,13 +57,17 @@ class Page extends Block
      * Check is visible widget selector
      *
      * @param string $widgetType
+     * @param string $widgetText
      * @return bool
      * @throws \Exception
      */
-    public function isWidgetVisible($widgetType)
+    public function isWidgetVisible($widgetType, $widgetText)
     {
         if (isset($this->widgetSelectors[$widgetType])) {
-            return $this->_rootElement->find($this->widgetSelectorsCss[$widgetType])->isVisible();
+            return $this->_rootElement->find(
+                sprintf($this->widgetSelectors[$widgetType], $widgetText),
+                Locator::SELECTOR_XPATH
+            )->isVisible();
         } else {
             throw new \Exception('Determine how to find the widget on the page.');
         }

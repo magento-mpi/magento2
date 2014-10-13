@@ -35,36 +35,38 @@ class CmsStaticBlock extends WidgetOptionsForm
     // @codingStandardsIgnoreEnd
 
     /**
-     * Fill specified form data
+     * Filling widget options form
      *
-     * @param array $fields
+     * @param array $widgetOptionsFields
      * @param Element $element
+     * @return void
      */
-    protected function _fill(array $fields, Element $element = null)
+    public function fillForm(array $widgetOptionsFields, Element $element = null)
     {
-        $context = ($element === null) ? $this->_rootElement : $element;
-        foreach ($fields as $name => $field) {
-            if ($name == 'entities') {
-                $this->_rootElement->find($this->selectBlock)->click();
-                // @codingStandardsIgnoreStart
-                /** @var Grid $cmsPageLinkGrid */
-                $cmsPageLinkGrid = $this->blockFactory->create(
-                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock\Grid',
-                    [
-                        'element' => $this->_rootElement
-                            ->find($this->cmsStaticLinkGrid, Locator::SELECTOR_XPATH)
-                    ]
-                );
-                // @codingStandardsIgnoreEnd
-                $cmsPageLinkGrid->searchAndSelect(
-                    [
-                        'title' => $fields['entities']['value']['title'],
-                        'identifier' => $fields['entities']['value']['identifier']
-                    ]
-                );
-            } else {
-                parent::_fill([$name => $field], $context);
-            }
+        $element = $element === null ? $this->_rootElement : $element;
+        $mapping = $this->dataMapping($widgetOptionsFields);
+        if (isset($mapping['entities'])) {
+            $entities = $mapping['entities'];
+            unset($mapping['entities']);
         }
+        $this->_fill($mapping, $element);
+
+        if (!empty($entities)) {
+            $this->_rootElement->find($this->selectBlock)->click();
+            /** @var Grid $cmsPageLinkGrid */
+            $cmsPageLinkGrid = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock\Grid',
+                [
+                    'element' => $this->_rootElement->find($this->cmsStaticLinkGrid, Locator::SELECTOR_XPATH)
+                ]
+            );
+            $cmsPageLinkGrid->searchAndSelect(
+                [
+                    'title' => $entities['value']['title'],
+                    'identifier' => $entities['value']['identifier']
+                ]
+            );
+        }
+
     }
 }

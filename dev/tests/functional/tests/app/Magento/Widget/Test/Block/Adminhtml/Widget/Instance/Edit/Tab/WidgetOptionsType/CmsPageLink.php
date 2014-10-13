@@ -28,30 +28,33 @@ class CmsPageLink extends WidgetOptionsForm
     // @codingStandardsIgnoreEnd
 
     /**
-     * Fill specified form data
+     * Filling widget options form
      *
-     * @param array $fields
+     * @param array $widgetOptionsFields
      * @param Element $element
+     * @return void
      */
-    protected function _fill(array $fields, Element $element = null)
+    public function fillForm(array $widgetOptionsFields, Element $element = null)
     {
-        $context = ($element === null) ? $this->_rootElement : $element;
-        foreach ($fields as $name => $field) {
-            if ($name == 'entities') {
-                $this->_rootElement->find($this->selectPage)->click();
+        $element = $element === null ? $this->_rootElement : $element;
+        $mapping = $this->dataMapping($widgetOptionsFields);
+        if (isset($mapping['entities'])) {
+            $entities = $mapping['entities'];
+            unset($mapping['entities']);
+        }
+        $this->_fill($mapping, $element);
+        if (!empty($entities)) {
+            $this->_rootElement->find($this->selectPage)->click();
 
-                /** @var Grid $cmsPageLinkGrid */
-                $cmsPageLinkGrid = $this->blockFactory->create(
-                    'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid',
-                    [
-                        'element' => $this->_rootElement
-                            ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
-                    ]
-                );
-                $cmsPageLinkGrid->searchAndSelect(['title' => $field['value']['title']]);
-            } else {
-                parent::_fill([$name => $field], $context);
-            }
+            /** @var Grid $cmsPageLinkGrid */
+            $cmsPageLinkGrid = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
+                ]
+            );
+            $cmsPageLinkGrid->searchAndSelect(['title' => $entities['value'][0]->getTitle()]);
         }
     }
 }

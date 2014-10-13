@@ -34,8 +34,8 @@ class LayoutUpdates implements FixtureInterface
     /**
      * Constructor
      *
-     * @param array $params [optional]
-     * @param array $data [optional]
+     * @param array $params
+     * @param array $data
      * @param FixtureFactory $fixtureFactory
      */
     public function __construct(array $params, FixtureFactory $fixtureFactory, array $data = [])
@@ -43,13 +43,15 @@ class LayoutUpdates implements FixtureInterface
         $this->params = $params;
         if (isset($data['preset'])) {
             $this->data = $this->getPreset($data['preset']);
-            foreach ($this->data[0] as $key => $value) {
-                if ($key == 'entities') {
-                    $explodeValue = explode('::', $value);
-                    $fixture = $fixtureFactory
-                        ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
-                    $fixture->persist();
-                    $this->data[0]['entities'] = $fixture->getData();
+            foreach ($this->data as $index => $layouts) {
+                foreach ($layouts as $key => $value) {
+                    if ($key == 'entities') {
+                        $explodeValue = explode('::', $value);
+                        $fixture = $fixtureFactory
+                            ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
+                        $fixture->persist();
+                        $this->data[$index]['entities'] = $fixture->getData();
+                    }
                 }
             }
         } else {
@@ -110,7 +112,7 @@ class LayoutUpdates implements FixtureInterface
             'on_category' => [
                 [
                     'page_group' => 'Non-Anchor Categories',
-                    'for' => 'Specific Categories',
+                    'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template'
@@ -119,16 +121,10 @@ class LayoutUpdates implements FixtureInterface
             'for_virtual_product' => [
                 [
                     'page_group' => 'Virtual Product',
-                    'for' => 'Specific Products',
+                    'for' => 'Yes',
                     'entities' => 'catalogProductVirtual::default',
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template'
-                ]
-            ],
-            'for_event_carousel' => [
-                [
-                    'page_group' => 'All Pages',
-                    'block' => 'Main Content Area',
                 ]
             ],
             'for_category_link' => [
@@ -141,7 +137,7 @@ class LayoutUpdates implements FixtureInterface
             'on_product_link' => [
                 [
                     'page_group' => 'Non-Anchor Categories',
-                    'for' => 'Specific Categories',
+                    'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
                     'template' => 'Product Link Block Template'
@@ -165,12 +161,6 @@ class LayoutUpdates implements FixtureInterface
                     'block' => 'Main Content Area',
                     'template' => 'CMS Page Link Block Template',
                     'entities' => 'catalogCategory::default',
-                ]
-            ],
-            'for_cms_hierarchy' => [
-                [
-                    'page_group' => 'All Pages',
-                    'block' => 'Main Content Area',
                 ]
             ],
         ];

@@ -85,7 +85,7 @@ class UpdateCatalogEventEntityTest extends Injectable
             'catalogEventEntity',
             [
                 'dataSet' => 'default_event',
-                'data' => ['category_id' => [$sourceCategories->getIds()[0]]],
+                'data' => ['category_id' => ['category' => $sourceCategories->getCategories()[0]]],
             ]
         );
         $catalogEvent->persist();

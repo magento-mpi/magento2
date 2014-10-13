@@ -36,36 +36,39 @@ class HierarchyNodeLink extends WidgetOptionsForm
     // @codingStandardsIgnoreEnd
 
     /**
-     * Fill specified form data
+     * Filling widget options form
      *
-     * @param array $fields
+     * @param array $widgetOptionsFields
      * @param Element $element
+     * @return void
      */
-    protected function _fill(array $fields, Element $element = null)
+    public function fillForm(array $widgetOptionsFields, Element $element = null)
     {
-        $context = ($element === null) ? $this->_rootElement : $element;
-        foreach ($fields as $name => $field) {
-            if ($name == 'entities') {
-                $this->_rootElement->find($this->selectPage)->click();
-                $this->getTemplateBlock()->waitLoader();
+        $element = $element === null ? $this->_rootElement : $element;
+        $mapping = $this->dataMapping($widgetOptionsFields);
+        if (isset($mapping['entities'])) {
+            $entities = $mapping['entities'];
+            unset($mapping['entities']);
+        }
+        $this->_fill($mapping, $element);
 
-                /** @var Form $hierarchyNodeLinkForm  */
-                $hierarchyNodeLinkForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\HierarchyNodeLinkForm\Form',
-                    [
-                        'element' => $this->_rootElement
-                            ->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH)
-                    ]
-                );
-                $elementNew = $this->_rootElement->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH);
-                $field['value'] = $field['value']['identifier'];
-                $hierarchyFields['entities'] = $field;
-                $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
-                $this->getTemplateBlock()->waitLoader();
+        if (!empty($entities)) {
+            $this->_rootElement->find($this->selectPage)->click();
+            $this->getTemplateBlock()->waitLoader();
 
-            } else {
-                parent::_fill([$name => $field], $context);
-            }
+            /** @var Form $hierarchyNodeLinkForm  */
+            $hierarchyNodeLinkForm = $this->blockFactory->create(
+                __NAMESPACE__ . '\HierarchyNodeLinkForm\Form',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH)
+                ]
+            );
+            $elementNew = $this->_rootElement->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH);
+            $entities['value'] = $entities['value'][0]->getIdentifier();
+            $hierarchyFields['entities'] = $entities;
+            $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
+            $this->getTemplateBlock()->waitLoader();
         }
     }
 

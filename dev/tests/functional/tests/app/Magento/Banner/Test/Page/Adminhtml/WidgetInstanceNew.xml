@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/widget_instance/new/">
+    <blocks>
+        <widgetForm>
+            <renders>
+                <bannerRotator>
+                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\BannerWidgetForm</class>
+                </bannerRotator>
+                <bannerRotatorShoppingCartRules>
+                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\BannerWidgetForm</class>
+                </bannerRotatorShoppingCartRules>
+                <bannerRotatorCatalogRules>
+                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\BannerWidgetForm</class>
+                </bannerRotatorCatalogRules>
+            </renders>
+        </widgetForm>
+    </blocks>
+</page>

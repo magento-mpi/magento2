@@ -17,6 +17,7 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
+ * Curl handler for creating CMS Hierarchy
  */
 class Curl extends AbstractCurl implements CmsHierarchyInterface
 {
@@ -30,13 +31,16 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData();
+        if (isset($data['nodes_data'])) {
+            $data['nodes_data'] = json_encode($data['nodes_data']);
+        }
         $url = $_ENV['app_backend_url'] . 'admin/cms_hierarchy/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Cms Hierarchy creating was not successful! Response: $response");
+            throw new \Exception("Cms Hierarchy creation was not successful! Response: $response");
         }
         preg_match(
             '/.*node_id":"(\d+).*' . $fixture->getIdentifier() . '/',

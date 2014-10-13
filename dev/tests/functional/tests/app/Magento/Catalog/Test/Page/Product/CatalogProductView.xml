@@ -69,5 +69,10 @@
             <locator>.page-title h1.title .base</locator>
             <strategy>css selector</strategy>
         </titleBlock>
+        <widgetBlock>
+            <class>Magento\Catalog\Test\Block\Widget\WidgetBlock</class>
+            <locator>.widget</locator>
+            <strategy>css selector</strategy>
+        </widgetBlock>
     </blocks>
 </page>

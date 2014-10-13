@@ -1,2 +1,2 @@
 "widget/data/widgetOptions/preset";"widget/data/code";"widget/data/theme_id";"widget/data/title";"widget/data/store_ids/dataSet";"widget/data/layout/preset";"constraint";"issue"
-"hierarchyNodeLink";"CMS Hierarchy Node Link";"Magento Blank";"Title_%isolation%";"All Store Views";"for_cms_hierarchy";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetOnFrontendAllPages, assertWidgetCmsPageLink";"Bug: MAGETWO-28452"
+"hierarchyNodeLink";"CMS Hierarchy Node Link";"Magento Blank";"Title_%isolation%";"All Store Views";"for_cms_hierarchy";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetHierarchyNodeLinkOnFrontendAllPages, assertWidgetCmsPageLink";"Bug: MAGETWO-28346"

@@ -8,6 +8,7 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
@@ -15,6 +16,7 @@ use Mtf\Client\Browser;
 
 /**
  * Class AssertWidgetOnProductPage
+ * Check that created widget displayed on frontend on Product page
  */
 class AssertWidgetOnProductPage extends AbstractConstraint
 {
@@ -31,23 +33,27 @@ class AssertWidgetOnProductPage extends AbstractConstraint
      * @param CatalogProductView $productView
      * @param Browser $browser
      * @param Widget $widget
+     * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CatalogProductView $productView,
         Browser $browser,
-        Widget $widget
+        Widget $widget,
+        AdminCache $adminCache
     ) {
+        // Flush cache
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushMagentoCache();
+        $adminCache->getMessagesBlock()->waitSuccessMessage();
+
         $urlKey = $widget->getLayout()[0]['entities']['url_key'];
         $browser->open($_ENV['app_frontend_url'] . $urlKey . '.html');
         $widgetCode = $widget->getCode();
-        if ($widget->getWidgetOptions()[0]['name'] == 'bannerRotatorCatalogRules') {
-            $widgetText = $widget->getWidgetOptions()[0]['entities']['store_contents']['value_0'];
-        } else {
-            $widgetText = $widget->getWidgetOptions()[0]['link_text'];
-        }
+        $widgetText = $widget->getWidgetOptions()[0]['link_text'];
+
         \PHPUnit_Framework_Assert::assertTrue(
-            $productView->getViewBlock()->isWidgetVisible($widgetCode, $widgetText),
+            $productView->getWidgetBlock()->isWidgetVisible($widgetCode, $widgetText),
             'Widget is absent on Product page.'
         );
     }

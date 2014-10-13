@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\TestCase;
 
 use Magento\Widget\Test\TestCase\CreateWidgetEntityTest;
+use Magento\Cms\Test\Fixture\Widget;
 
 /**
  * Class CreateWidgetHierarchyNodeLinkTest
@@ -16,5 +17,14 @@ use Magento\Widget\Test\TestCase\CreateWidgetEntityTest;
  */
 class CreateWidgetHierarchyNodeLinkTest extends CreateWidgetEntityTest
 {
-    //
+    /**
+     * Creation for New Instance of WidgetEntity
+     *
+     * @param Widget $widget
+     * @return void
+     */
+    public function test(Widget $widget)
+    {
+        parent::test($widget);
+    }
 }

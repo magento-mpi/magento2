@@ -57,14 +57,14 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
      *
      * @var string
      */
-    protected $catalog_rules = '';
+    protected $catalogRules = '';
 
     /**
      * Sales rules
      *
      * @var string
      */
-    protected $sales_rules = '';
+    protected $salesRules = '';
 
     /**
      * Post request for creating banner
@@ -78,21 +78,21 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
         $url = $_ENV['app_backend_url'] . $this->url;
         $data = $this->replaceMappingData($fixture->getData());
         if (isset($data['banner_catalog_rules'])) {
-            foreach ($data['banner_catalog_rules'] as $key => $catalog_rule) {
-                $this->catalog_rules = $catalog_rule;
+            foreach ($data['banner_catalog_rules'] as $key => $catalogRule) {
+                $this->catalogRules = $catalogRule;
                 if ($key > 0) {
-                    $this->catalog_rules .= '&';
+                    $this->catalogRules .= '&';
                 }
             }
-            $data['banner_catalog_rules'] = $this->catalog_rules;
+            $data['banner_catalog_rules'] = $this->catalogRules;
         } elseif (isset($data['banner_sales_rules'])) {
-            foreach ($data['banner_sales_rules'] as $key => $sales_rule) {
-                $this->sales_rules = $sales_rule;
+            foreach ($data['banner_sales_rules'] as $key => $salesRule) {
+                $this->salesRules = $salesRule;
                 if ($key > 0) {
-                    $this->sales_rules .= '&';
+                    $this->salesRules .= '&';
                 }
             }
-            $data['banner_sales_rules'] = $this->sales_rules;
+            $data['banner_sales_rules'] = $this->salesRules;
         }
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);

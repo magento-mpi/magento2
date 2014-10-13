@@ -33,11 +33,11 @@ class StoreIds implements FixtureInterface
     protected $data = [];
 
     /**
-     * Return Cms page
+     * Return stores
      *
      * @var Store
      */
-    protected $store = [];
+    protected $stores = [];
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -55,7 +55,7 @@ class StoreIds implements FixtureInterface
                 if (!$store->hasData('store_id')) {
                     $store->persist();
                 }
-                $this->store[] = $store;
+                $this->stores[] = $store;
                 $this->data[] = $store->getName();
             }
         } else {
@@ -103,6 +103,6 @@ class StoreIds implements FixtureInterface
      */
     public function getStore()
     {
-        return $this->store;
+        return $this->stores;
     }
 }

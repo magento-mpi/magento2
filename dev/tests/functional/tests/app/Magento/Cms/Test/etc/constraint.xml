@@ -108,4 +108,7 @@
     <assertCmsPageInGrid module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageInGrid>
+    <assertWidgetHierarchyNodeLinkOnFrontendAllPages module="Magento_Cms">
+        <severeness>low</severeness>
+    </assertWidgetHierarchyNodeLinkOnFrontendAllPages>
 </constraint>

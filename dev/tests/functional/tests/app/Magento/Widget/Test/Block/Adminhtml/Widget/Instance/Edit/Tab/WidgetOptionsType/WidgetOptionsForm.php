@@ -22,7 +22,7 @@ abstract class WidgetOptionsForm extends Form
      *
      * @var string
      */
-    protected $selectPage = '.action-.scalable.btn-chooser';
+    protected $selectPage = '.scalable.btn-chooser';
 
     /**
      * Filling widget options form

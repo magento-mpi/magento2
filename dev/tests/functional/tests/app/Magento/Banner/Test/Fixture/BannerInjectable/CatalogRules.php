@@ -52,7 +52,9 @@ class CatalogRules implements FixtureInterface
             foreach ($presets as $preset) {
                 /** @var CatalogRule $catalogRule */
                 $catalogRule = $fixtureFactory->createByCode('catalogRule', ['dataSet' => $preset]);
-                $catalogRule->persist();
+                if (!$catalogRule->getId()) {
+                    $catalogRule->persist();
+                }
 
                 $this->data[] = $catalogRule->getId();
                 $this->catalogRule[] = $catalogRule;
