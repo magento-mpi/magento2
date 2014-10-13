@@ -11,9 +11,9 @@ use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
 use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Range;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Term;
-use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
 use Magento\Framework\Search\Adapter\Mysql\Filter\Builder\Wildcard;
 use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 use Magento\Framework\Search\Request\Query\Bool;
@@ -88,22 +88,6 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @return Select
-     */
-    private function getSelect()
-    {
-        return $this->getConnection()->select();
-    }
-
-    /**
-     * @return AdapterInterface
-     */
-    private function getConnection()
-    {
-        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
-    }
-
-    /**
      * @param RequestFilterInterface $filter
      * @param bool $isNegation
      * @return string
@@ -128,7 +112,7 @@ class Builder implements BuilderInterface
                 throw new \InvalidArgumentException(sprintf('Unknown filter type \'%s\'', $filter->getType()));
         }
 
-        $currentStoreId  = $this->scopeResolver->getScope()->getId();
+        $currentStoreId = $this->scopeResolver->getScope()->getId();
 
         $attribute = $this->config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $filter->getField());
         $select = $this->getSelect();
@@ -137,42 +121,35 @@ class Builder implements BuilderInterface
             $query = str_replace('price', 'min_price', $query);
             $select->from(['main_table' => $this->resource->getTableName('catalog_product_index_price')], 'entity_id')
                 ->where($query);
-        } else  if ($attribute->isStatic()) {
-            $select->from(['main_table' => $table], 'entity_id')
-                ->where($query);
         } else {
+            if ($attribute->isStatic()) {
+                $select->from(['main_table' => $table], 'entity_id')
+                    ->where($query);
+            } else {
 
-            $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
+                $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
 
-            $select->from(['main_table' => $table], 'entity_id')
-                ->joinLeft(
-                    ['current_store' => $table],
-                    'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = '
-                    . $currentStoreId,
-                    null
-                )
-                ->columns([$filter->getField() => $ifNullCondition])
-                ->where(
-                    'main_table.attribute_id = ?',
-                    $attribute->getAttributeId()
-                )
-                ->where('main_table.store_id = ?', 0)
-                ->having($query);
+                $select->from(['main_table' => $table], 'entity_id')
+                    ->joinLeft(
+                        ['current_store' => $table],
+                        'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = '
+                        . $currentStoreId,
+                        null
+                    )
+                    ->columns([$filter->getField() => $ifNullCondition])
+                    ->where(
+                        'main_table.attribute_id = ?',
+                        $attribute->getAttributeId()
+                    )
+                    ->where('main_table.store_id = ?', 0)
+                    ->having($query);
+            }
         }
 
 
-        return  'product_id '. ( $isNegation ? 'NOT' : '' ) .' IN (
+        return 'product_id ' . ($isNegation ? 'NOT' : '') . ' IN (
                 select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
              as filter)';
-    }
-
-    /**
-     * @param string $conditionType
-     * @return bool
-     */
-    private function isNegation($conditionType)
-    {
-        return Bool::QUERY_CONDITION_NOT === $conditionType;
     }
 
     /**
@@ -200,6 +177,21 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * @param \Magento\Framework\Search\Request\FilterInterface[] $filters
+     * @param string $unionOperator
+     * @param bool $isNegation
+     * @return string
+     */
+    private function buildFilters(array $filters, $unionOperator, $isNegation)
+    {
+        $queries = [];
+        foreach ($filters as $filter) {
+            $queries[] = $this->processFilter($filter, $isNegation);
+        }
+        return $this->conditionManager->combineQueries($queries, $unionOperator);
+    }
+
+    /**
      * @param RequestFilterInterface|\Magento\Framework\Search\Request\Filter\Term $filter
      * @param bool $isNegation
      * @return string
@@ -220,17 +212,27 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \Magento\Framework\Search\Request\FilterInterface[] $filters
-     * @param string $unionOperator
-     * @param bool $isNegation
-     * @return string
+     * @return Select
      */
-    private function buildFilters(array $filters, $unionOperator, $isNegation)
+    private function getSelect()
     {
-        $queries = [];
-        foreach ($filters as $filter) {
-            $queries[] = $this->processFilter($filter, $isNegation);
-        }
-        return $this->conditionManager->combineQueries($queries, $unionOperator);
+        return $this->getConnection()->select();
+    }
+
+    /**
+     * @return AdapterInterface
+     */
+    private function getConnection()
+    {
+        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+    }
+
+    /**
+     * @param string $conditionType
+     * @return bool
+     */
+    private function isNegation($conditionType)
+    {
+        return Bool::QUERY_CONDITION_NOT === $conditionType;
     }
 }
