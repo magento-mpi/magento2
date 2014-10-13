@@ -71,7 +71,7 @@ define([
             var self = this;
 
             _.each(this.disable_rules, function(triggeredValue, path){
-                self.refs.provider.data.on('update:' + path, function(changedValue){
+                self.provider.data.on('update:' + path, function(changedValue){
                     self.disabled(triggeredValue === changedValue);
                 });
             });
@@ -84,7 +84,7 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.refs.provider.data.set(this.name, value);
+            this.provider.data.set(this.name, value);
         },
 
         /**

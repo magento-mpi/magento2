@@ -51,7 +51,7 @@ define([
          */
         store: function (changedValue) {
             var storedValue = changedValue ? changedValue.value : '';
-            this.refs.provider.data.set(this.name, storedValue);
+            this.provider.data.set(this.name, storedValue);
         },
 
         /**

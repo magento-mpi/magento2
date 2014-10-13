@@ -35,7 +35,7 @@ define([
             _.each(changedValue, function(option, index){
                 storedValue.push(option.value);
             });
-            this.refs.provider.data.set(this.name, storedValue);
+            this.provider.data.set(this.name, storedValue);
         },
 
         /**

@@ -54,7 +54,7 @@ define(function (require) {
          * @return {Object} - reference to instance
          */
         initProperties: function () {
-            var provider = this.refs.provider;
+            var provider = this.provider;
 
             this.data = provider.data.get();
             this.meta = provider.meta.get();
@@ -116,9 +116,10 @@ define(function (require) {
             _.extend(config, {
                 name: name,
                 type: type,
-                refs: this.refs,
                 value: utils.nested(this.data, name),
-                validateOnChange: this.validateOnChange
+                validateOnChange: this.validateOnChange,
+                provider: this.provider,
+                globalStorage: this.globalStorage
             });
 
             delete config.input_type;
@@ -162,7 +163,7 @@ define(function (require) {
          * @return {Boolean}
          */
         validate: function () {
-            var provider = this.refs.provider,
+            var provider = this.provider,
                 params   = provider.params,
                 isValid;
 
@@ -187,10 +188,11 @@ define(function (require) {
      */
     return function (config) {
         registry.get([config.source, 'globalStorage'], function (provider, globalStorage) {
-            config.refs = {
+
+            _.extend(config, {
                 provider: provider,
                 globalStorage: globalStorage
-            };
+            });
 
             registry.set(config.name, new Form(config));
         });
