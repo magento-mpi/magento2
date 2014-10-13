@@ -62,7 +62,7 @@ define([
             return _.map(options, function (fullValue, index) {
                 return {
                     label: fullValue.label,
-                    value: fullValue.name
+                    value: fullValue.value
                 };
             });
         },
