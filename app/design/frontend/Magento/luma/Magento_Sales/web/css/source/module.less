@@ -268,26 +268,9 @@
     &:extend(.abstract-status all);
 }
 
-.sales-order-view,
-.sales-guest-view,
-.sales-order-shipment,
-.magento-rma-returns-returns,
-.magento-rma-returns-view {
-    .page.main {
-        .page-title {
-            .title {
-                margin-right: 25px;
-                margin-bottom: 40px;
-            }
-            .order-date {
-                font-size: 16px;
-                margin: -20px 0 18px;
-                .label {
-                    display: none;
-                }
-            }
-        }
-    }
+.account,
+.sales-guest-view {
+    &:extend(.abstract-title-orders all);
 }
 
 .form-orders-search {
@@ -321,8 +304,7 @@
 //
 //    Guest order view page
 //--------------------------------------
-.sales-guest-view,
-.magento-rma-guest-returns {
+.sales-guest-view {
     .column.main {
         .block:not(.widget) {
             &:extend(.abstract-account-blocks all);
@@ -357,24 +339,9 @@
             display: table-cell;
         }
     }
-    .sales-order-view,
-    .sales-guest-view,
-    .sales-order-shipment,
-    .magento-rma-returns-returns,
-    .magento-rma-returns-view {
-        .page.main {
-            .page-title {
-                .title {
-                    display: block;
-                }
-                .order-status {
-                    margin: -20px 0 0;
-                }
-                .order-date {
-                    margin-top: -5px;
-                }
-            }
-        }
+    .account,
+    .sales-guest-view {
+        &:extend(.abstract-title-orders-mobile all);
     }
     .order-details-items {
         .items-qty {
@@ -452,23 +419,13 @@
         }
     }
 
-    .sales-order-view,
-    .sales-guest-view,
-    .sales-order-shipment,
-    .magento-rma-returns-returns,
-    .magento-rma-returns-view {
-        .page.main {
-            .page-title {
-                .order-date {
-                    margin-top: -30px;
-                }
-            }
-        }
+    .account,
+    .sales-guest-view {
+        &:extend(.abstract-title-orders-desktop all);
     }
 
     .account,
-    .sales-guest-view,
-    .magento-rma-guest-returns {
+    .sales-guest-view {
         .column.main .block.block-order-details-view {
             &:extend(.abstract-add-clearfix-desktop all);
             .block-content:not(.widget) .box {

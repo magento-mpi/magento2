@@ -1100,12 +1100,60 @@
     vertical-align: top;
 }
 
-//
-//    Desktop
-//--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .abstract-status-desktop {
         margin-top: 6px;
         padding: 5px 10px;
+    }
+}
+
+//
+//    Page title - orders pages
+//--------------------------------------
+.abstract-title-orders {
+    .page.main {
+        .page-title {
+            .title {
+                margin-right: 25px;
+                margin-bottom: 40px;
+            }
+            .order-date {
+                font-size: 16px;
+                margin: -20px 0 18px;
+                .label {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-title-orders-mobile {
+        .page.main {
+            .page-title {
+                .title {
+                    display: block;
+                }
+                .order-status {
+                    margin: -20px 0 0;
+                }
+                .order-date {
+                    margin-top: -5px;
+                }
+            }
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-title-orders-desktop {
+        .page.main {
+            .page-title {
+                .order-date {
+                    margin-top: -30px;
+                }
+            }
+        }
     }
 }

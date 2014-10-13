@@ -56,6 +56,27 @@
     &:extend(.abstract-status all);
 }
 
+.magento-rma-returns-returns,
+.magento-rma-guest-returns,
+.magento-rma-returns-view {
+    .page-title {
+        .title {
+            margin-right: 25px;
+        }
+    }
+}
+
+//
+//    Guest return view page
+//--------------------------------------
+.magento-rma-guest-returns {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
+        }
+    }
+}
+
 //
 //    Desktop
 //--------------------------------------
@@ -65,6 +86,22 @@
         .additional {
             .field:last-child {
                 margin-top: @form-field-vertical-indent-desktop;
+            }
+        }
+    }
+    //
+    //    Guest return view page
+    //--------------------------------------
+    .magento-rma-guest-returns  {
+        .column.main {
+            .block:not(.widget) {
+                .block-content {
+                    &:extend(.abstract-add-clearfix-desktop all);
+                    .box {
+                        &:extend(.abstract-blocks-2columns all);
+                        margin-bottom: @indent-base;
+                    }
+                }
             }
         }
     }

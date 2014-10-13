@@ -52,6 +52,22 @@
     }
 }
 
+.magento-rma-returns-returns,
+.magento-rma-returns-view {
+    &:extend(.abstract-title-orders all);
+}
+
+//
+//    Guest return view page
+//--------------------------------------
+.magento-rma-guest-returns {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
+        }
+    }
+}
+
 //
 //    Mobile
 //--------------------------------------
@@ -65,6 +81,10 @@
                 margin-top: @form-field-vertical-indent;
             }
         }
+    }
+    .magento-rma-returns-returns,
+    .magento-rma-returns-view {
+        &:extend(.abstract-title-orders-mobile all);
     }
 }
 
@@ -81,5 +101,20 @@
     }
     .return-status {
         &:extend(.abstract-status-desktop all);
+    }
+    .magento-rma-returns-returns,
+    .magento-rma-returns-view {
+        &:extend(.abstract-title-orders-desktop all);
+    }
+    .magento-rma-guest-returns {
+        .column.main .block.block-order-details-view {
+            &:extend(.abstract-add-clearfix-desktop all);
+            .block-content:not(.widget) .box {
+                &:extend(.abstract-add-box-sizing-desktop all);
+                clear: none;
+                float: left;
+                width: 100%/4;
+            }
+        }
     }
 }
