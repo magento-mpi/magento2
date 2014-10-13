@@ -127,3 +127,5 @@ Magento/Ui
 setup
 Magento/Sales/Service/V1
 Magento/Shipping/Controller/Adminhtml/Order/Shipment
+vendor
+setup/vendor
