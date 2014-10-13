@@ -91,8 +91,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      * Obtain specific row in grid
      *
      * @param array $filter
-     * @param bool $isSearchable
-     * @param bool $isStrict
+     * @param bool $isSearchable [optional]
+     * @param bool $isStrict [optional]
      * @return Element
      */
     protected function getRow(array $filter, $isSearchable = true, $isStrict = true)

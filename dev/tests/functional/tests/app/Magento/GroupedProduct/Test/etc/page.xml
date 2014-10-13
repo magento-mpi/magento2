@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_GroupedProduct">
+    <customerIndexEdit>
+        <mca>customer/index/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\GroupedProduct\Test\Page\Adminhtml\CustomerIndexEdit</class>
+    </customerIndexEdit>
+</page>

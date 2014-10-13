@@ -25,7 +25,7 @@ class Configure extends AbstractConfigureBlock
     protected $customOptionsSelector = '#product_composite_configure_fields_options';
 
     /**
-     * Selector for ok button
+     * Selector for "Ok" button
      *
      * @var string
      */
@@ -43,7 +43,7 @@ class Configure extends AbstractConfigureBlock
     }
 
     /**
-     * Click ok button
+     * Click "Ok" button
      *
      * @return void
      */
