@@ -71,6 +71,11 @@ class Action extends AbstractAction
     protected $pageConfig;
 
     /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
+
+    /**
      * @param Context $context
      */
     public function __construct(Context $context)
@@ -85,6 +90,7 @@ class Action extends AbstractAction
         $this->messageManager = $context->getMessageManager();
         $this->resultFactory = $context->getResultFactory();
         $this->pageConfig = $this->_view->getPage()->getConfig();
+        $this->layoutFactory = $context->getLayoutFactory();
     }
 
     /**

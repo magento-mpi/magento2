@@ -8,11 +8,11 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\RequestInterface;
 
-class Forward implements ResultInterface
+class Forward extends AbstractResult
 {
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -101,7 +101,7 @@ class Forward implements ResultInterface
     /**
      * {@inheritdoc}
      */
-    public function renderResult(ResponseInterface $response)
+    protected function render(ResponseInterface $response)
     {
         return $this;
     }

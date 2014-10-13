@@ -10,14 +10,14 @@ namespace Magento\Framework\View\Result;
 
 use Magento\Framework;
 use Magento\Framework\View;
-use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App\ResponseInterface;
 
 /**
  * A generic layout response can be used for rendering any kind of layout
  * So it comprises a response body from the layout elements it has and sets it to the HTTP response
  */
-class Layout implements ResultInterface
+class Layout extends AbstractResult
 {
     /**
      * @var \Magento\Framework\View\LayoutFactory
@@ -160,6 +160,7 @@ class Layout implements ResultInterface
         \Magento\Framework\Profiler::start('LAYOUT');
         \Magento\Framework\Profiler::start('layout_render');
 
+        $this->applyHttpHeaders($response);
         $this->render($response);
 
         $this->eventManager->dispatch('controller_action_layout_render_before');

@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Translate\InlineInterface;
 
@@ -16,7 +16,7 @@ use Magento\Framework\Translate\InlineInterface;
  * A possible implementation of JSON response type (instead of hardcoding json_encode() all over the place)
  * Actual for controller actions that serve ajax requests
  */
-class JSON implements ResultInterface
+class JSON extends AbstractResult
 {
     /**
      * @var \Magento\Framework\Translate\InlineInterface
@@ -54,7 +54,7 @@ class JSON implements ResultInterface
     /**
      * {@inheritdoc}
      */
-    public function renderResult(ResponseInterface $response)
+    protected function render(ResponseInterface $response)
     {
         $response->representJson($this->translateInline->processResponseBody($this->json, true));
         return $this;

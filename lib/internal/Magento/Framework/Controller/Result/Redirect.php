@@ -8,14 +8,14 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App;
 
 /**
  * In many cases controller actions may result in a redirect
  * so this is a result object that implements all necessary properties of a HTTP redirect
  */
-class Redirect implements ResultInterface
+class Redirect extends AbstractResult
 {
     /**
      * @var \Magento\Framework\App\Response\RedirectInterface
@@ -63,7 +63,7 @@ class Redirect implements ResultInterface
     /**
      * {@inheritdoc}
      */
-    public function renderResult(App\ResponseInterface $response)
+    protected function render(App\ResponseInterface $response)
     {
         $this->redirect->redirect($response, $this->url, $this->arguments);
         return $this;

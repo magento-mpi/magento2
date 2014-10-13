@@ -60,6 +60,11 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $resultFactory;
 
     /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
+
+    /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -83,7 +88,8 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Framework\Controller\ResultFactory $resultFactory
+        \Magento\Framework\Controller\ResultFactory $resultFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -95,6 +101,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         $this->_view = $view;
         $this->messageManager = $messageManager;
         $this->resultFactory = $resultFactory;
+        $this->layoutFactory = $layoutFactory;
     }
 
     /**
@@ -175,5 +182,13 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     public function getResultFactory()
     {
         return $this->resultFactory;
+    }
+
+    /**
+     * @return \Magento\Framework\View\LayoutFactory
+     */
+    public function getLayoutFactory()
+    {
+        return $this->layoutFactory;
     }
 }
