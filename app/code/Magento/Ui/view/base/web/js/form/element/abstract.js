@@ -84,8 +84,11 @@ define([
          * Is being called when value is updated
          */
         onUpdate: function(value){
+            var isValid;
+
             if (this.validateOnChange) {
-                this.trigger('validate', this.validate());
+                isValid = this.validate();
+                this.trigger('validate', isValid);
             }
 
             this.trigger('update', this.name, value)
@@ -111,23 +114,24 @@ define([
          */
         validate: function () {
             var value       = this.value(),
-                messages    = [],
-                invalid     = [],
+                errors      = [],
                 rules       = this.validation,
-                isValid;
+                isValid     = true,
+                isAllValid  = true;
 
             _.each(rules, function (params, rule) {
-                if (!validator.validate(rule, value, params)) {
-                    invalid.push(rule);
-                    messages.push(validator.messageFor(rule));
+                isValid = validator.validate(rule, value, params);
+
+                if (!isValid) {
+                    isAllValid = false;
+                    errors.push(validator.messageFor(rule));
                 }
             });
 
-            isValid = !invalid.length;
-            this.errorMessages(messages);
-            this.trigger('validate', isValid);
+            this.errorMessages(errors);
+            this.trigger('validate', isAllValid);
 
-            return isValid;
+            return isAllValid;
         }
     }, EventsBus);
 });
