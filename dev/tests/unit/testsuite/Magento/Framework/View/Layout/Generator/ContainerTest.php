@@ -20,9 +20,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerHelper;
 
     /**
-     * @var Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var Layout\Reader\Context|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $contextMock;
+    protected $readerContextMock;
+
+    /**
+     * @var Layout\Generator\Context|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $generatorContextMock;
 
     /**
      * @var Container|\PHPUnit_Framework_MockObject_MockObject
@@ -49,14 +54,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->structureMock = $this->getMockBuilder('Magento\Framework\View\Layout\Data\Structure')
             ->disableOriginalConstructor()->getMock();
 
-        /** @var Context|\PHPUnit_Framework_MockObject_MockObject $contextMock */
-        $this->contextMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
+        $this->generatorContextMock = $this->getMockBuilder('Magento\Framework\View\Layout\Generator\Context')
             ->disableOriginalConstructor()->getMock();
-        $this->contextMock->expects($this->any())
+        $this->generatorContextMock->expects($this->any())
             ->method('getStructure')
             ->willReturn($this->structureMock);
 
-        $this->contextMock->expects($this->any())
+        $this->readerContextMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
+            ->disableOriginalConstructor()->getMock();
+        $this->readerContextMock->expects($this->any())
             ->method('getScheduledStructure')
             ->willReturn($this->scheduledStructureMock);
 
@@ -80,7 +86,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             ->method('setAttribute')
             ->will($this->returnValueMap($setAttributeData));
 
-        $this->container->process($this->contextMock);
+        $this->container->process($this->readerContextMock, $this->generatorContextMock);
     }
 
     /**
@@ -130,7 +136,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             ->method('setAttribute')
             ->willReturnSelf();
 
-        $this->container->process($this->contextMock);
+        $this->container->process($this->readerContextMock, $this->generatorContextMock);
     }
 
     /**

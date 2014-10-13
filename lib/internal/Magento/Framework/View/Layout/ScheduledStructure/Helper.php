@@ -41,8 +41,6 @@ class Helper
     /**
      * Generate anonymous element name for structure
      *
-     * TODO: Must be restored old logic of generation, see \Magento\Framework\View\Layout::_generateAnonymousName
-     *
      * @param string $class
      * @return string
      */
@@ -51,7 +49,6 @@ class Helper
         $position = strpos($class, '\\Block\\');
         $key = $position !== false ? substr($class, $position + 7) : $class;
         $key = strtolower(trim($key, '_'));
-
         return $key . $this->counter++;
     }
 
@@ -72,13 +69,8 @@ class Helper
         array $data = []
     ) {
         // if it hasn't a name it must be generated
-        if ((string)$currentNode->getAttribute('name')) {
-            $name = (string)$currentNode->getAttribute('name');
-        } else {
-            $name = $this->_generateAnonymousName($parentNode->getElementName() . '_schedule_block');
-            $currentNode->addAttribute('name', $name);
-        }
-        $path = $name;
+        $path = $name = (string)$currentNode->getAttribute('name')
+            ?: $this->_generateAnonymousName($parentNode->getElementName() . '_schedule_block');
 
         // Prepare scheduled element with default parameters [type, alias, parentName, siblingName, isAfter, node]
         $row = [

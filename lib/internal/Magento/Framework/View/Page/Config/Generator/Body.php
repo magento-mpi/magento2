@@ -40,11 +40,11 @@ class Body implements Layout\GeneratorInterface
     /**
      * {@inheritdoc}
      *
-     * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
-     * @param null $layout
+     * @param Layout\Reader\Context $readerContext
+     * @param Layout\Generator\Context $generatorContext
      * @return $this
      */
-    public function process(Layout\Reader\Context $readerContext, $layout = null)
+    public function process(Layout\Reader\Context $readerContext, Layout\Generator\Context $generatorContext)
     {
         $structure = $readerContext->getPageConfigStructure();
         $this->processBodyClasses($structure);

@@ -8,11 +8,14 @@
 namespace Magento\Framework\View\Layout\Generator;
 
 use Magento\Framework\View\Element\UiComponentFactory;
-use \Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\View\Layout;
 
 class UiComponent implements Layout\GeneratorInterface
 {
+    /**
+     * Generator type
+     */
     const TYPE = 'ui_component';
 
     /**
@@ -53,20 +56,26 @@ class UiComponent implements Layout\GeneratorInterface
      * Creates UI Component object based on scheduled data and add it to the layout
      *
      * @param Layout\Reader\Context $readerContext
-     * @param null $layout
+     * @param Context $generatorContext
      * @return $this
      */
-    public function process(Layout\Reader\Context $readerContext, $layout = null)
+    public function process(Layout\Reader\Context $readerContext, Layout\Generator\Context $generatorContext)
     {
+        $scheduledStructure = $readerContext->getScheduledStructure();
+        $scheduledElements = $scheduledStructure->getElements();
+        if (!$scheduledElements) {
+            return $this;
+        }
+        $structure = $generatorContext->getStructure();
+        $layout = $generatorContext->getLayout();
         $this->uiComponentFactory->setLayout($layout);
         /** @var $blocks \Magento\Framework\View\Element\AbstractBlock[] */
         $blocks = [];
-        $scheduledStructure = $readerContext->getScheduledStructure();
         // Instantiate blocks and collect all actions data
-        foreach ($scheduledStructure->getElements() as $elementName => $element) {
+        foreach ($scheduledElements as $elementName => $element) {
             list($type, $data) = $element;
             if ($type === self::TYPE) {
-                $block = $this->generateComponent($readerContext, $elementName, $data);
+                $block = $this->generateComponent($structure, $elementName, $data);
                 $blocks[$elementName] = $block;
                 $layout->setBlock($elementName, $block);
                 $scheduledStructure->unsetElement($elementName);
@@ -81,14 +90,13 @@ class UiComponent implements Layout\GeneratorInterface
     /**
      * Create component object
      *
-     * @param Layout\Reader\Context $readerContext
+     * @param \Magento\Framework\View\Layout\Data\Structure $structure
      * @param string $elementName
      * @param string $data
      * @return \Magento\Framework\View\Element\UiComponentInterface
      */
-    protected function generateComponent(Layout\Reader\Context $readerContext, $elementName, $data)
+    protected function generateComponent(Layout\Data\Structure $structure, $elementName, $data)
     {
-        $structure = $readerContext->getStructure();
         $attributes = $data['attributes'];
         if (!empty($attributes['group'])) {
             $structure->addToParentGroup($elementName, $attributes['group']);

@@ -59,6 +59,8 @@ class Head implements Layout\GeneratorInterface
     protected $pageConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\View\Page\Config $pageConfig
      */
     public function __construct(\Magento\Framework\View\Page\Config $pageConfig)
@@ -77,11 +79,13 @@ class Head implements Layout\GeneratorInterface
     }
 
     /**
-     * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
-     * @param null $layout
-     * @return void
+     * {@inheritdoc}
+     *
+     * @param Layout\Reader\Context $readerContext
+     * @param Layout\Generator\Context $generatorContext
+     * @return $this
      */
-    public function process(Layout\Reader\Context $readerContext, $layout = null)
+    public function process(Layout\Reader\Context $readerContext, Layout\Generator\Context $generatorContext)
     {
         $structure = $readerContext->getPageConfigStructure();
         $structure->processRemoveAssets();
@@ -91,7 +95,7 @@ class Head implements Layout\GeneratorInterface
         $this->processTitle($structure);
         $this->processMetadata($structure);
         $this->processElementAttributes($structure);
-        return;
+        return $this;
     }
 
     /**
@@ -117,6 +121,8 @@ class Head implements Layout\GeneratorInterface
     }
 
     /**
+     * Process asset properties
+     *
      * @param array $data
      * @return array
      */

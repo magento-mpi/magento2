@@ -124,6 +124,11 @@ class Page extends Layout
         return parent::initLayout();
     }
 
+    /**
+     * Add default handle
+     *
+     * @return $this
+     */
     public function addDefaultHandle()
     {
         $this->addHandle('default');
@@ -228,6 +233,8 @@ class Page extends Layout
     }
 
     /**
+     * Render page template
+     *
      * @return string
      * @throws \Exception
      */

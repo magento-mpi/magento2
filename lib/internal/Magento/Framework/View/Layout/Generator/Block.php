@@ -70,20 +70,22 @@ class Block implements Layout\GeneratorInterface
      * Creates block object based on data and add it to the layout
      *
      * @param Layout\Reader\Context $readerContext
-     * @param \Magento\Framework\View\LayoutInterface $layout
-     * @return $this|array
+     * @param Context $generatorContext
+     * @return $this
      */
-    public function process(Layout\Reader\Context $readerContext, $layout = null)
+    public function process(Layout\Reader\Context $readerContext, Layout\Generator\Context $generatorContext)
     {
+        $scheduledStructure = $readerContext->getScheduledStructure();
+        $layout = $generatorContext->getLayout();
+        $structure = $generatorContext->getStructure();
         /** @var $blocks \Magento\Framework\View\Element\AbstractBlock[] */
         $blocks = [];
         $blockActions = [];
-        $scheduledStructure = $readerContext->getScheduledStructure();
         // Instantiate blocks and collect all actions data
         foreach ($scheduledStructure->getElements() as $elementName => $element) {
             list($type, $data) = $element;
             if ($type === self::TYPE) {
-                $block = $this->_generateBlock($readerContext, $elementName, $layout);
+                $block = $this->generateBlock($scheduledStructure, $structure, $elementName);
                 $blocks[$elementName] = $block;
                 $layout->setBlock($elementName, $block);
                 if (!empty($data['actions'])) {
@@ -101,24 +103,25 @@ class Block implements Layout\GeneratorInterface
         foreach ($blockActions as $elementName => $actions) {
             foreach ($actions as $action) {
                 list($methodName, $actionArguments) = $action;
-                $this->_generateAction($blocks[$elementName], $methodName, $actionArguments);
+                $this->generateAction($blocks[$elementName], $methodName, $actionArguments);
             }
         }
-        return $blocks;
+        return $this;
     }
 
     /**
      * Create block and set related data
      *
-     * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
+     * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
+     * @param \Magento\Framework\View\Layout\Data\Structure $structure
      * @param string $elementName
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    public function _generateBlock(Layout\Reader\Context $readerContext, $elementName)
-    {
-        $scheduledStructure = $readerContext->getScheduledStructure();
-        $structure = $readerContext->getStructure();
-
+    protected function generateBlock(
+        Layout\ScheduledStructure $scheduledStructure,
+        Layout\Data\Structure $structure,
+        $elementName
+    ) {
         list(, $data) = $scheduledStructure->getElement($elementName);;
         $attributes = $data['attributes'];
 
@@ -129,7 +132,7 @@ class Block implements Layout\GeneratorInterface
         // create block
         $className = $attributes['class'];
         $block = $this->createBlock($className, $elementName, [
-            'data' => $this->_evaluateArguments($data['arguments'])
+            'data' => $this->evaluateArguments($data['arguments'])
         ]);
         if (!empty($attributes['template'])) {
             $block->setTemplate($attributes['template']);
@@ -151,7 +154,7 @@ class Block implements Layout\GeneratorInterface
      */
     public function createBlock($block, $name, array $arguments = [])
     {
-        $block = $this->_getBlockInstance($block, $arguments);
+        $block = $this->getBlockInstance($block, $arguments);
         $block->setType(get_class($block));
         $block->setNameInLayout($name);
         $block->addData(isset($arguments['data']) ? $arguments['data'] : []);
@@ -166,7 +169,7 @@ class Block implements Layout\GeneratorInterface
      * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    protected function _getBlockInstance($block, array $arguments = [])
+    protected function getBlockInstance($block, array $arguments = [])
     {
         if ($block && is_string($block)) {
             try {
@@ -189,11 +192,11 @@ class Block implements Layout\GeneratorInterface
      * @param array $actionArguments
      * @return void
      */
-    protected function _generateAction($block, $methodName, $actionArguments)
+    protected function generateAction($block, $methodName, $actionArguments)
     {
         $profilerKey = 'BLOCK_ACTION:' . $block->getNameInLayout() . '>' . $methodName;
         \Magento\Framework\Profiler::start($profilerKey);
-        $args = $this->_evaluateArguments($actionArguments);
+        $args = $this->evaluateArguments($actionArguments);
         call_user_func_array(array($block, $methodName), $args);
         \Magento\Framework\Profiler::stop($profilerKey);
     }
@@ -204,7 +207,7 @@ class Block implements Layout\GeneratorInterface
      * @param array $arguments
      * @return array
      */
-    protected function _evaluateArguments(array $arguments)
+    protected function evaluateArguments(array $arguments)
     {
         $result = array();
         foreach ($arguments as $argumentName => $argumentData) {

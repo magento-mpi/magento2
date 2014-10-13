@@ -8,6 +8,7 @@
 namespace Magento\Framework\View\Layout\Reader;
 
 use Magento\Framework\View\Layout;
+use Magento\Framework\View\Page;
 
 class Context
 {
@@ -17,27 +18,21 @@ class Context
     protected $scheduledStructure;
 
     /**
-     * @var \Magento\Framework\Data\Structure
-     */
-    protected $structure;
-
-    /**
      * @var \Magento\Framework\View\Page\Config\Structure
      */
     protected $pageConfigStructure;
 
     /**
+     * Constructor
+     *
      * @param Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Framework\Data\Structure $structure
      * @param \Magento\Framework\View\Page\Config\Structure $pageConfigStructure
      */
     public function __construct(
-        Layout\ScheduledStructure $scheduledStructure = null,
-        \Magento\Framework\Data\Structure $structure = null,
-        \Magento\Framework\View\Page\Config\Structure $pageConfigStructure = null
+        Layout\ScheduledStructure $scheduledStructure,
+        Page\Config\Structure $pageConfigStructure
     ) {
         $this->scheduledStructure = $scheduledStructure;
-        $this->structure = $structure;
         $this->pageConfigStructure = $pageConfigStructure;
     }
 
@@ -47,14 +42,6 @@ class Context
     public function getScheduledStructure()
     {
         return $this->scheduledStructure;
-    }
-
-    /**
-     * @return \Magento\Framework\View\Layout\Data\Structure
-     */
-    public function getStructure()
-    {
-        return $this->structure;
     }
 
     /**

@@ -55,12 +55,12 @@ class Container implements Layout\GeneratorInterface
      * Process container elements
      *
      * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
-     * @param null $layout
-     * @return void
+     * @param Context $generatorContext
+     * @return $this
      */
-    public function process(Layout\Reader\Context $readerContext, $layout = null)
+    public function process(Layout\Reader\Context $readerContext, Layout\Generator\Context $generatorContext)
     {
-        $structure = $readerContext->getStructure();
+        $structure = $generatorContext->getStructure();
         $scheduledStructure = $readerContext->getScheduledStructure();
         foreach ($scheduledStructure->getElements() as $elementName => $element) {
             list($type, $data) = $element;
@@ -69,18 +69,19 @@ class Container implements Layout\GeneratorInterface
                 $scheduledStructure->unsetElement($elementName);
             }
         }
+        return $this;
     }
 
     /**
      * Set container-specific data to structure element
      *
-     * @param \Magento\Framework\Data\Structure $structure
+     * @param \Magento\Framework\View\Layout\Data\Structure $structure
      * @param string $elementName
      * @param array $data
      * @return void
      */
-    protected function generateContainer(
-        \Magento\Framework\Data\Structure $structure,
+    public function generateContainer(
+        Layout\Data\Structure $structure,
         $elementName,
         $data
     ) {

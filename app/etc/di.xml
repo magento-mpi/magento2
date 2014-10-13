@@ -374,7 +374,7 @@
     </virtualType>
     <type name="Magento\Framework\View\Layout">
         <arguments>
-            <argument name="reader" xsi:type="object">commonRenderPool</argument>
+            <argument name="reader" xsi:type="object" shared="false">commonRenderPool</argument>
         </arguments>
     </type>
     <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
@@ -402,6 +402,17 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Framework\View\Layout\GeneratorPool">
+        <arguments>
+            <argument name="generators" xsi:type="array">
+                <item name="block" xsi:type="object">Magento\Framework\View\Layout\Generator\Block</item>
+                <item name="container" xsi:type="object">Magento\Framework\View\Layout\Generator\Container</item>
+                <item name="ui_component" xsi:type="object">Magento\Framework\View\Layout\Generator\UiComponent</item>
+                <item name="head" xsi:type="object">Magento\Framework\View\Page\Config\Generator\Head</item>
+                <item name="body" xsi:type="object">Magento\Framework\View\Page\Config\Generator\Body</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Magento\Framework\View\Result\Page">
         <arguments>
             <argument name="layoutReaderPool" xsi:type="object">pageConfigRenderPool</argument>

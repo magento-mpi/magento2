@@ -10,13 +10,13 @@ namespace Magento\Framework\View\Layout;
 interface GeneratorInterface
 {
     /**
-     * Traverse through all elements of specified XML-node and schedule structural elements of it
+     * Traverse through all elements of specified schedule structural elements of it
      *
      * @param Reader\Context $readerContext
-     * @param null $layout
+     * @param Generator\Context $generatorContext
      * @return $this
      */
-    public function process(Reader\Context $readerContext, $layout = null);
+    public function process(Reader\Context $readerContext, Generator\Context $generatorContext);
 
     /**
      * Return type of generator

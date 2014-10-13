@@ -10,6 +10,9 @@ namespace Magento\Framework\View\Layout;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Page;
 
+/**
+ * Pool of generators for structural elements
+ */
 class GeneratorPool
 {
     /**
@@ -26,28 +29,14 @@ class GeneratorPool
      * Constructor
      *
      * @param ScheduledStructure\Helper $helper
-     * @param Generator\Block $blockGenerator
-     * @param Generator\Container $containerGenerator
-     * @param Generator\UiComponent $uiGenerator
-     * @param \Magento\Framework\View\Page\Config\Generator\Head $headGenerator
-     * @param \Magento\Framework\View\Page\Config\Generator\Body $bodyGenerator
      * @param array $generators
      */
     public function __construct(
         ScheduledStructure\Helper $helper,
-        Generator\Block $blockGenerator,
-        Generator\Container $containerGenerator,
-        Generator\UiComponent $uiGenerator,
-        Page\Config\Generator\Head $headGenerator,
-        Page\Config\Generator\Body $bodyGenerator,
         array $generators = null
     ) {
         $this->helper = $helper;
-        $this->generators[$blockGenerator->getType()] = $blockGenerator;
-        $this->generators[$containerGenerator->getType()] = $containerGenerator;
-        $this->generators[$uiGenerator->getType()] = $uiGenerator;
-        $this->generators[$headGenerator->getType()] = $headGenerator;
-        $this->generators[$bodyGenerator->getType()] = $bodyGenerator;
+        $this->addGenerators($generators);
     }
 
     /**
@@ -66,45 +55,52 @@ class GeneratorPool
     }
 
     /**
-     * Traverse through all elements of specified XML-node and schedule structural elements of it
+     * Traverse through all generators and generate all scheduled elements
      *
      * @param Reader\Context $readerContext
-     * @param \Magento\Framework\View\LayoutInterface $layout
-     * @throws \Magento\Framework\Exception
+     * @param Generator\Context $generatorContext
      * @return $this
      */
-    public function process(Reader\Context $readerContext, LayoutInterface $layout)
+    public function process(Reader\Context $readerContext, Generator\Context $generatorContext)
     {
-        $this->buildStructure($readerContext);
+        $this->buildStructure($readerContext->getScheduledStructure(), $generatorContext->getStructure());
         foreach ($this->generators as $generator) {
-            $generator->process($readerContext, $layout);
+            $generator->process($readerContext, $generatorContext);
         }
         return $this;
     }
 
     /**
+     * Add generators to pool
+     *
+     * @param GeneratorInterface[] $generators
+     */
+    protected function addGenerators(array $generators)
+    {
+        foreach ($generators as $generator) {
+            $this->generators[$generator->getType()] = $generator;
+        }
+    }
+
+    /**
      * Build structure that is based on scheduled structure
      *
-     * @param Reader\Context $readerContext
+     * @param ScheduledStructure $scheduledStructure
+     * @param Data\Structure $structure
      * @return $this
      */
-    protected function buildStructure(Reader\Context $readerContext)
+    protected function buildStructure(ScheduledStructure $scheduledStructure, Data\Structure $structure)
     {
         //Schedule all element into nested structure
-        $scheduledStructure = $readerContext->getScheduledStructure();
         while (false === $scheduledStructure->isStructureEmpty()) {
-            $this->helper->scheduleElement(
-                $scheduledStructure,
-                $readerContext->getStructure(),
-                key($scheduledStructure->getStructure())
-            );
+            $this->helper->scheduleElement($scheduledStructure, $structure, key($scheduledStructure->getStructure()));
         }
         $scheduledStructure->flushPaths();
         foreach ($scheduledStructure->getListToMove() as $elementToMove) {
-            $this->moveElementInStructure($readerContext, $elementToMove);
+            $this->moveElementInStructure($scheduledStructure, $structure, $elementToMove);
         }
         foreach ($scheduledStructure->getListToRemove() as $elementToRemove) {
-            $this->removeElement($readerContext, $elementToRemove);
+            $this->removeElement($scheduledStructure, $structure, $elementToRemove);
         }
         return $this;
     }
@@ -112,20 +108,22 @@ class GeneratorPool
     /**
      * Remove scheduled element
      *
-     * @param Reader\Context $readerContext
+     * @param ScheduledStructure $scheduledStructure
+     * @param Data\Structure $structure
      * @param string $elementName
      * @param bool $isChild
      * @return $this
      */
-    protected function removeElement(Reader\Context $readerContext, $elementName, $isChild = false)
-    {
-        $scheduledStructure = $readerContext->getScheduledStructure();
-        $structure = $readerContext->getStructure();
-
+    protected function removeElement(
+        ScheduledStructure $scheduledStructure,
+        Data\Structure $structure,
+        $elementName,
+        $isChild = false
+    ) {
         $elementsToRemove = array_keys($structure->getChildren($elementName));
         $scheduledStructure->unsetElement($elementName);
         foreach ($elementsToRemove as $element) {
-            $this->removeElement($readerContext, $element, true);
+            $this->removeElement($scheduledStructure, $structure, $element, true);
         }
         if (!$isChild) {
             $structure->unsetElement($elementName);
@@ -137,14 +135,16 @@ class GeneratorPool
     /**
      * Move element in scheduled structure
      *
-     * @param Reader\Context $readerContext
+     * @param ScheduledStructure $scheduledStructure
+     * @param Data\Structure $structure
      * @param string $element
      * @return $this
      */
-    protected function moveElementInStructure(Reader\Context $readerContext, $element)
-    {
-        $scheduledStructure = $readerContext->getScheduledStructure();
-        $structure = $readerContext->getStructure();
+    protected function moveElementInStructure(
+        ScheduledStructure $scheduledStructure,
+        Data\Structure $structure,
+        $element
+    ) {
         list($destination, $siblingName, $isAfter, $alias) = $scheduledStructure->getElementToMove($element);
         $childAlias = $structure->getChildAlias($structure->getParentId($element), $element);
         if (!$alias && false === $structure->getChildId($destination, $childAlias)) {
