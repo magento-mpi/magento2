@@ -91,11 +91,21 @@
 }
 
 .page-title {
+    .order-date {
+        margin: 0 0 20px;
+    }
+}
+
+.sales-order-view,
+.sales-guest-view,
+.sales-order-shipment,
+.magento-rma-returns-returns,
+.magento-rma-guest-returns,
+.magento-rma-returns-view {
+    .page-title {
     .title {
         margin-right: 25px;
     }
-    .order-date {
-        margin: 0 0 20px;
     }
 }
 
@@ -174,7 +184,8 @@
 //
 //    Guest order view page
 //--------------------------------------
-.sales-guest-view {
+.sales-guest-view,
+.magento-rma-guest-returns {
     .column.main {
         .block:not(.widget) {
             &:extend(.abstract-account-blocks all);
@@ -284,7 +295,8 @@
     //
     //    Guest order view page
     //--------------------------------------
-    .sales-guest-view {
+    .sales-guest-view,
+    .magento-rma-guest-returns  {
         .column.main {
             .block:not(.widget) {
                 .block-content {

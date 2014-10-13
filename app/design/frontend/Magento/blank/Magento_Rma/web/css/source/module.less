@@ -8,6 +8,16 @@
 
 .form-create-return {
     &:extend(.abstract-add-fields all);
+    .field {
+        &.id,
+        &.name,
+        &.email,
+        &.address {
+            .control {
+                padding-top: @form-field-type-inline-label-padding-top;
+            }
+        }
+    }
     .additional {
         &:first-child {
             margin-top: 0;
@@ -21,6 +31,24 @@
     }
     .field.comment {
         margin-top: 55px;
+    }
+}
+
+.block-returns-comments {
+    .returns-comments {
+        dt,
+        dd {
+            margin: 0;
+        }
+        dd {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .fieldset {
+        margin-bottom: 20px;
     }
 }
 

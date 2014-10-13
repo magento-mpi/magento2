@@ -34,13 +34,24 @@
     &:extend(.abstract-status all);
 }
 
-.magento-rma-returns-view {
-    .page-title {
-        .title {
-            margin-right: 25px;
+.block-returns-comments {
+    .returns-comments {
+        dt,
+        dd {
+            margin: 0;
+        }
+        dd {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
+    .fieldset {
+        margin-bottom: 20px;
+    }
 }
+
 //
 //    Mobile
 //--------------------------------------
