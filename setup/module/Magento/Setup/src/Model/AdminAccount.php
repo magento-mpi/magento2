@@ -140,13 +140,16 @@ class AdminAccount
      */
     private function validateUserMatches($username, $email)
     {
-        if (strcasecmp($username, $this->data[self::KEY_USERNAME]) != 0) {
+        if ((strcasecmp($email, $this->data[self::KEY_EMAIL]) == 0) &&
+            (strcasecmp($username, $this->data[self::KEY_USERNAME]) != 0)) {
             // email matched but username did not
             throw new \Exception(
                 'An existing user has the given email but different username. ' . self::KEY_USERNAME .
                 ' and '. self::KEY_EMAIL . ' both need to match an existing user or both be new.'
             );
-        } elseif (strcasecmp($email, $this->data[self::KEY_EMAIL]) != 0) {
+        }
+        if ((strcasecmp($username, $this->data[self::KEY_USERNAME]) == 0) &&
+            (strcasecmp($email, $this->data[self::KEY_EMAIL]) != 0)) {
             // username matched but email did not
             throw new \Exception(
                 'An existing user has the given username but different email. ' . self::KEY_USERNAME .
