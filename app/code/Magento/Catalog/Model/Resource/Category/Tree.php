@@ -158,7 +158,7 @@ class Tree extends \Magento\Framework\Data\Tree\Dbp
     }
 
     /**
-     * Enter description here...
+     * Add data to collection
      *
      * @param Collection $collection
      * @param boolean $sorted
