@@ -155,7 +155,10 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $requestData = $item->__toArray();
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
-        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item, '\Magento\TestModule1\Service\V1\Entity\Item');
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput(
+            $item,
+            '\Magento\TestModule1\Service\V1\Entity\Item'
+        );
         //\Magento\TestModule1\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
@@ -183,7 +186,10 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
             ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
             ->setCustomAttribute('custom_attribute_string', 'someStringValue')
             ->create();
-        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item, '\Magento\TestModule1\Service\V1\Entity\Item');
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput(
+            $item,
+            '\Magento\TestModule1\Service\V1\Entity\Item'
+        );
         $this->assertEquals($expectedResponse, $result);
     }
 
@@ -216,7 +222,10 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $requestData = $item->__toArray();
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
-        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item, '\Magento\TestModule1\Service\V1\Entity\Item');
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput(
+            $item,
+            '\Magento\TestModule1\Service\V1\Entity\Item'
+        );
         //\Magento\TestModule1\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
