@@ -15,6 +15,9 @@
 use \Magento\Catalog\Model\Product\ProductList\Toolbar;
 ?>
 <div class="limiter">
+    <label for="limiter" class="label">
+        <span><?php echo __('Show') ?> <?php echo __('per page') ?></span>
+    </label>
     <strong class="limiter-label"><?php echo __('Show') ?></strong>
     <select id="limiter" data-role="limiter" class="limiter-options">
         <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>

@@ -28,6 +28,7 @@
                 <li class="item">
                     <?php if ($this->isItemAvailableForReorder($_item)): ?>
                         <?php $_showAddButtonFlag = true ?>
+                        <label class="label" for="reorder-item-<?php echo $_item->getId() ?>"><span><?php echo __('Add to Cart') ?></span></label>
                         <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" title="<?php echo __('Add to Cart') ?>"
                                class="checkbox" data-validate='{"validate-one-checkbox-required-by-name": true}'/>
                     <?php endif; ?>
