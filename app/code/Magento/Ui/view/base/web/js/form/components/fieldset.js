@@ -15,7 +15,9 @@ define([
     var defaults = {
         collapsible:    false,
         opened:         true,
-        template:       'ui/fieldset/fieldset'
+        template:       'ui/fieldset/fieldset',
+        content:        '',
+        ajax:           false
     };
 
     var Fieldset = Scope.extend({
@@ -28,7 +30,8 @@ define([
 
         initObservable: function(){
             this.observe({
-                'opened': this.opened
+                'opened': this.opened,
+                'content': this.content
             });
 
             return this;

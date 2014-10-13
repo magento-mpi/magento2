@@ -8,8 +8,9 @@ define([
     'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'Magento_Ui/js/lib/events'
-], function (Scope, _, utils, EventsBus) {
+    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/lib/validation/validator'
+], function (Scope, _, utils, EventsBus, validator) {
     'use strict';
 
     var defaults = {
@@ -19,7 +20,10 @@ define([
         module:         'ui',
         type:           'input',
         value:          '',
-        description:    ''
+        description:    '',
+        disabled:       false,
+        validation: {},
+        validateOnChange: true
     };
 
     return Scope.extend({
@@ -30,9 +34,10 @@ define([
          */
         initialize: function (config) {
             _.extend(this, defaults, config);
-        
+
             this.setUniqueId()
-                .initObservable();
+                .initObservable()
+                .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
         },
@@ -43,8 +48,10 @@ define([
          */
         initObservable: function () {
             this.observe({
-                'value': this.initialValue = this.value,
-                'required': this.required
+                'value':         this.initialValue = this.value,
+                'required':      this.required,
+                'disabled':      this.disabled,
+                'errorMessages': []
             });
 
             return this;
@@ -58,6 +65,18 @@ define([
             this.uid = utils.uniqueid();
 
             return this;
+        },
+
+        initDisableStatus: function() {
+            var self = this;
+
+            _.each(this.disable_rules, function(triggeredValue, path){
+                self.refs.provider.data.on('update:' + path, function(changedValue){
+                    self.disabled(triggeredValue === changedValue);
+                });
+            });
+
+            return self;
         },
 
         /**
@@ -79,9 +98,16 @@ define([
         /**
          * Is being called when value is updated
          */
-        onUpdate: function(){
-            this.trigger('update')
-                .store();
+        onUpdate: function(value){
+            var isValid;
+
+            if (this.validateOnChange) {
+                isValid = this.validate();
+                this.trigger('validate', isValid);
+            }
+
+            this.trigger('update', this.name, value)
+                .store(value);
         },
 
         /**
@@ -90,6 +116,37 @@ define([
          */
         hasChanged: function(){
             return this.value() !== this.initialValue;
+        },
+
+        /**
+         * Validates itself by it's validation rules using validator.
+         * If validation of a rule did not pass, writes it's message to
+         *     errorMessages array.
+         * Triggers validate event on the instance passing the result of
+         *     validation to it.
+         *     
+         * @return {Boolean} - true, if element is valid
+         */
+        validate: function () {
+            var value       = this.value(),
+                errors      = [],
+                rules       = this.validation,
+                isValid     = true,
+                isAllValid  = true;
+
+            _.each(rules, function (params, rule) {
+                isValid = validator.validate(rule, value, params);
+
+                if (!isValid) {
+                    isAllValid = false;
+                    errors.push(validator.messageFor(rule));
+                }
+            });
+
+            this.errorMessages(errors);
+            this.trigger('validate', isAllValid);
+
+            return isAllValid;
         }
     }, EventsBus);
 });

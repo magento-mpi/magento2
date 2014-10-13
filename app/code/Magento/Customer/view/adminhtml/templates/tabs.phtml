@@ -1,16 +1,3 @@
 <div data-bind="scope: 'customer_form_tabs' " class="ui-tabs">
-    <!-- ko foreach: elems -->
-        <div>
-            <h3 data-bind="css: { 'ui-accordion-header': collapsible }, click: toggle">
-                <span tabindex="1" data-bind="text: label, keyboard: { 13: toggle }"></span>
-            </h3>
-            <ul class="tabs" data-bind="visible: opened">
-                <!-- ko foreach: elems -->
-                    <li tabindex="2" data-bind="css: { 'ui-state-active': active }, click: setActive, keyboard: { 13: setActive }">
-                        <a class="tab-item-link" href="#" data-bind="text: label, css: { changed: changed }"></a>
-                    </li>
-                <!-- /ko -->
-            </ul>
-        </div>
-    <!-- /ko -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
 </div>

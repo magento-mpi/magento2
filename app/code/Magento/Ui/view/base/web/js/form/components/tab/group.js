@@ -62,6 +62,10 @@ define([
             }
 
             return this;
+        },
+
+        getTemplate: function () {
+            return 'ui/tab';
         }
     });
     
