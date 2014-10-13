@@ -190,9 +190,14 @@ class Weee extends AbstractTotal
             );
 
             if ($this->weeeData->isTaxable($this->_store)) {
-                $itemTaxCalculationId = $item->getTaxCalculationItemId();
-                $weeeItemCode = self::ITEM_CODE_WEEE_PREFIX . $this->getNextIncrement();
-                $weeeItemCode .= '-' . $title;
+                $weeeItemCode = $item->getTaxCalculationItemId();
+
+                if (!$weeeItemCode) {
+                    $weeeItemCode = self::ITEM_CODE_WEEE_PREFIX . $this->getNextIncrement();
+                    $weeeItemCode .= '-' . $title;
+                    $item->setTaxCalculationItemId($weeeItemCode);
+                }
+
                 $associatedTaxables[] = [
                     CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
                     CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_CODE => $weeeItemCode,
