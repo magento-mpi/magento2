@@ -91,7 +91,7 @@ class AdminAccount
      * If the username already exists, it will update the record with information from data[]
      * and set the is_active flag.
      *
-     * @return integer The admin user id
+     * @return int The admin user id
      */
     private function saveAdminUser()
     {
@@ -160,7 +160,7 @@ class AdminAccount
      *
      * Do nothing if a role already exists for this user
      *
-     * @param integer $adminId User id of administrator to set role for
+     * @param int $adminId User id of administrator to set role for
      * @return void
      */
     private function saveAdminUserRole($adminId)
@@ -187,7 +187,7 @@ class AdminAccount
     /**
      * Gets the "Administrators" role id, the special role created by data fixture in Authorization module.
      *
-     * @return integer The id of the Administrators role
+     * @return int The id of the Administrators role
      * @throws \Exception If Administrators role not found or problem connecting with database.
      */
     private function retrieveAdministratorsRoleId()
