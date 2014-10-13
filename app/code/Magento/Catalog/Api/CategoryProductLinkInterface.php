@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Data\Category;
+namespace Magento\Catalog\Api\Data;
 
 /**
  * Implementation
  * @see \Magento\Catalog\Model\Product
  */
-interface ProductLinkInterface
+interface CategoryProductLinkInterface
 {
     /**
      * @return string|null

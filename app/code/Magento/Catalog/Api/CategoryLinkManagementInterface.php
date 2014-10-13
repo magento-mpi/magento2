@@ -21,7 +21,7 @@ interface CategoryLinkManagementInterface
      * Get assigned product links to the category
      *
      * @param int $categoryId
-     * @return Data\Category\ProductLinkInterface[]
+     * @return \Magento\Catalog\Api\Data\CategoryProductLinkInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *
      * @see \Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface::assignedProducts - previous interface
@@ -32,7 +32,7 @@ interface CategoryLinkManagementInterface
      * Assign a product to the required category
      *
      * @param int $categoryId
-     * @param Data\Category\ProductLinkInterface $productLink
+     * @param \Magento\Catalog\Api\Data\CategoryProductLinkInterface $productLink
      * @return bool will returned True if assigned
      *
      * @throws \Magento\Framework\Exception\CouldNotSaveException
@@ -42,7 +42,7 @@ interface CategoryLinkManagementInterface
      * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface::assignProduct - previous interface
      * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface::updateProduct - previous interface
      */
-    public function save($categoryId, Data\Category\ProductLinkInterface $productLink);
+    public function save($categoryId, \Magento\Catalog\Api\Data\CategoryProductLinkInterface $productLink);
 
     /**
      * Remove the product assignment from the category

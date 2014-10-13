@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Data\Category;
  * @deprecated
  * @todo remove this interface
  *
- * Replaced with @see \Magento\Catalog\Api\Data\ProductLinkInterface
+ * Replaced with @see \Magento\Catalog\Api\Data\CategoryProductLinkInterface
  */
 class ProductLink extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
