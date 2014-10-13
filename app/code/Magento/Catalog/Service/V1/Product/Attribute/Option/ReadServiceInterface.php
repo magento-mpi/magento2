@@ -16,7 +16,7 @@ interface ReadServiceInterface
      * Retrieve list of attribute options
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\Attribute\OptionManagementInterface::options
+     * @see \Magento\Catalog\Api\Product\Attribute\OptionManagementInterface::getList
      *
      * @param string $id
      * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]

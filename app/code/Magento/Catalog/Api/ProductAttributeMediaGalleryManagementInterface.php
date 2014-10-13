@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Product\Attribute\Media;
+namespace Magento\Catalog\Api;
 
 use \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryContentInterface as ContentInterface;
 use \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryInterface;
@@ -16,7 +16,7 @@ use \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryInterface;
  * @todo implement this interface as a \Magento\Catalog\Model\Product\Attribute\Media\GalleryManagement.
  * Move logic from service there.
  */
-interface GalleryManagementInterface
+interface ProductAttributeMediaGalleryManagementInterface
 {
     /**
      * Create new gallery entry
@@ -53,7 +53,7 @@ interface GalleryManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function delete($productSku, $entryId);
+    public function remove($productSku, $entryId);
 
     /**
      * Return information about gallery entry

@@ -35,6 +35,7 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
+     * @todo remove this method. use \Magento\Catalog\Api\Product\Attribute\AttributeSetRepositoryInterface::save
      */
     public function update(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet);
 
@@ -42,8 +43,10 @@ interface AttributeSetManagementInterface
      * @param int $attributeSetId
      * @param \Magento\Catalog\Api\Data\AttributeInterface $data
      * @return int
+     * @todo move this method to \Magento\Eav\Api\AttributeManagementInterface::assign
+     * @todo use \Magento\Eav\Api\Data\AttributeSet\AttributeInterface instead of \Magento\Catalog\Api\Data\AttributeInterface
      */
-    public function assignAttribute($attributeSetId, \Magento\Catalog\Api\Data\AttributeInterface $data);
+    public function assignAttribute($entityType, $attributeSetName, $attributeGroup, $attributeCode, $sortOrder);
 
     /**
      * Remove attribute from attribute set
@@ -54,6 +57,7 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
+     * @todo move this method to AttributeManagementInterface::unassign($attributeSetName, $attributeCode)
      */
     public function unAssignAttribute($attributeSetId, $attributeId);
 
@@ -64,13 +68,14 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Catalog\Api\Data\AttributeInterface[]
      */
-    public function getAttributes($attributeSetId);
+    public function getAttributes($entityType, $attributeSetName);
 
     /**
      * Retrieve the list of media attributes (fronted input type is media_image) assigned to the given attribute set.
      *
      * @param int $attributeSetId
      * @return \Magento\Catalog\Api\Data\AttributeInterface[]
+     * @todo move to a separate interface. ProductMediaAttributeManagementInterface::getList($attributeSetName)
      */
     public function getMediaAttributes($attributeSetId);
 }

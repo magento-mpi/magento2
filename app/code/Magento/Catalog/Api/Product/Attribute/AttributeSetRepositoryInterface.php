@@ -11,6 +11,7 @@ namespace Magento\Catalog\Api\Product\Attribute;
 /**
  * Interface AttributeSetRepositoryInterface must be implemented in
  * new model \Magento\Catalog\Model\AttributeSetRepository
+ * @todo Use standard repo interface
  */
 interface AttributeSetRepositoryInterface
 {

@@ -11,6 +11,7 @@ namespace Magento\Catalog\Api\Category;
 
 /**
  * Interface RepositoryInterface must be implemented in new model \Magento\Catalog\Model\CategoryRepository
+ * @todo use standard repo interface
  */
 interface CategoryRepositoryInterface
 {

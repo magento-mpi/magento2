@@ -23,6 +23,7 @@ interface GroupPriceManagementInterface
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @todo  add($productSku, $customerGroupId, $price, $websiteId=null);
      */
     public function add($productSku, \Magento\Catalog\Api\Data\Product\GroupPriceInterface $price);
 
@@ -34,6 +35,7 @@ interface GroupPriceManagementInterface
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @todo remove($productSku, $customerGroupId, $websiteId = null)
      */
     public function remove($productSku, $customerGroupId);
 
@@ -43,6 +45,7 @@ interface GroupPriceManagementInterface
      * @param string $productSku
      * @return \Magento\Catalog\Api\Data\Product\GroupPriceInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @todo getList($productSku, $websiteId = null);
      */
     public function getList($productSku);
 }

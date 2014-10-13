@@ -21,6 +21,7 @@ interface CategoryManagementInterface
      * @return \Magento\Catalog\Api\Data\CategoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Category\ReadServiceInterface::info
+     * @todo move this method to repo
      */
     public function get($categoryId);
 
@@ -31,6 +32,7 @@ interface CategoryManagementInterface
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::create
+     * @todo move this method to repo
      */
     public function save(\Magento\Catalog\Api\Data\CategoryInterface $category);
 
@@ -43,6 +45,7 @@ interface CategoryManagementInterface
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::delete
+     * @todo move this method to repo
      */
     public function delete($categoryId);
 

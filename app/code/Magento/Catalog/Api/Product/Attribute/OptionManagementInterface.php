@@ -9,6 +9,7 @@ namespace Magento\Catalog\Api\Product\Attribute;
 
 /**
  * Interface WriteServiceInterface
+ * @todo move to Eav\Api\AttributeOptionManagementInterface
  */
 interface OptionManagementInterface
 {
@@ -21,8 +22,9 @@ interface OptionManagementInterface
      * @param \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface $option
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
+     * @todo add($entityType, $attributeCode)
      */
-    public function addOption($attributeId, \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface $option);
+    public function add($attributeId, \Magento\Eav\Api\Data\AttributeOptionInterface $option);
 
     /**
      * Delete option from attribute
@@ -34,15 +36,17 @@ interface OptionManagementInterface
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return bool
+     * @todo remove($entityType, $attributeCode, $optionId)
      */
-    public function removeOption($attributeId, $optionId);
+    public function remove($attributeId, $optionId);
 
     /**
      * Retrieve list of attribute options
      *
      * instead of \Magento\Catalog\Service\V1\Product\Attribute\Option\ReadService::options
      * @param string $id
-     * @return \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
+     * @todo getItems($entityType, $attributeCode)
      */
-    public function getList($id);
+    public function getItems($id);
 }

@@ -9,8 +9,8 @@
 namespace Magento\Catalog\Api\Product\Attribute;
 
 /**
- * @todo Create new model \Magento\Catalog\Model\Product\Attribute\AttributeGroupRepository
-X
+ * @todo Create new model \Magento\Eav\Model\Product\Attribute\AttributeGroupRepositoryInterface with generic interface
+ * @todo Create new model \Magento\Eav\Model\Product\Attribute\AttributeGroupManagementInterface. Add method remove, ?? add argument $entityTypeCode to all method signatures
  */
 interface AttributeGroupRepositoryInterface 
 {
@@ -39,4 +39,6 @@ interface AttributeGroupRepositoryInterface
      * @return bool
      */
     public function delete($groupId);
+
+
 }
