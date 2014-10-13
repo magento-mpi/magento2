@@ -14,7 +14,7 @@ use Magento\CatalogRule\Model\Resource\Rule\CollectionFactory as RuleCollectionF
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Model\Product;
 
-class IndexerBuilder
+class IndexBuilder
 {
     const SECONDS_IN_DAY = 86400;
 
@@ -64,7 +64,7 @@ class IndexerBuilder
     protected $productFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Product[]
+     * @var Product[]
      */
     protected $loadedProducts;
 
@@ -196,7 +196,7 @@ class IndexerBuilder
 
     /**
      * @param Rule $rule
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return $this
      * @throws \Exception
      */
@@ -637,7 +637,7 @@ class IndexerBuilder
 
     /**
      * @param int $productId
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     protected function getProduct($productId)
     {
