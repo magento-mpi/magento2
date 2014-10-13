@@ -7,10 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/page.xsd">
-    <body>
-        <attribute name="class" value="account"/>
-    </body>
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="sidebar.main">
         <block class="Magento\Framework\View\Element\Template" name="customer_account_navigation_block" template="Magento_Theme::html/collapsible.phtml">
             <arguments>
@@ -42,4 +39,5 @@
             </block>
         </block>
     </referenceContainer>
+    <move element="page.main.title" destination="content.top" before="-"/>
 </page>

@@ -7,13 +7,19 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="page-product-giftcard"/>
+    </body>
     <move element="product.price.final" destination="product.info.form.options" before="product.info.giftcard"/>
     <referenceBlock name="product.price.final">
         <arguments>
             <argument name="render_form" xsi:type="string">1</argument>
         </arguments>
     </referenceBlock>
+    <referenceContainer name="product.info.type">
+        <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" as="product.info.giftcard" template="product/view/type/default.phtml"/>
+    </referenceContainer>
     <referenceBlock name="product.info.form.options">
         <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="product/view/type/giftcard.phtml" before="-" cacheable="false">
             <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
