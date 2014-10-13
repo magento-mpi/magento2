@@ -1,0 +1,3 @@
+"product";"constraint"
+"catalogProductSimple::default";"assertProductInItemsOrderedGrid"
+"configurableProductInjectable::default";"assertConfigurableProductInItemsOrderedGrid"

@@ -55,7 +55,6 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/VersionsCms
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/WebsiteRestriction
 
-LICENSE_EE.html
 LICENSE_EE.txt
 
 app/design/adminhtml/Magento/backend/Magento_Enterprise/
@@ -107,7 +106,8 @@ dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Layer
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/Flat
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/AddCompareProductsTest
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/AddCompareProductsTest.php
-dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapTest.php
+dev/tests/functional/tests/app/Magento/Msrp/Test/TestCase/ApplyMapConfigurableTest.php
+dev/tests/functional/tests/app/Magento/Msrp/Test/TestCase/ApplyMapTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ClearAllCompareProductsTest
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ClearAllCompareProductsTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteCompareProductsTest
@@ -138,7 +138,6 @@ dev/tests/functional/tests/app/Magento/Cms/Test/Fixture
 dev/tests/functional/tests/app/Magento/Cms/Test/Page/Adminhtml
 dev/tests/functional/tests/app/Magento/Cms/Test/Repository
 dev/tests/functional/tests/app/Magento/Cms/Test/TestCase
-dev/tests/functional/tests/app/Magento/ConfigurableProduct/Test/TestCase/ApplyMapConfigurableTest.php
 dev/tests/functional/tests/app/Magento/Core/Test/Fixture
 dev/tests/functional/tests/app/Magento/Core/Test/Handler
 dev/tests/functional/tests/app/Magento/Core/Test/Repository
@@ -167,6 +166,7 @@ dev/tests/functional/tests/app/Magento/RecurringPayment
 dev/tests/functional/tests/app/Magento/Reward
 dev/tests/functional/tests/app/Magento/Rma
 dev/tests/functional/tests/app/Magento/Sales
+dev/tests/functional/tests/app/Magento/SalesArchive
 dev/tests/functional/tests/app/Magento/SalesRule
 dev/tests/functional/tests/app/Magento/Shipping
 dev/tests/functional/tests/app/Magento/TargetRule
@@ -180,4 +180,5 @@ dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndCETests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndTests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndWithExternalSolutionsCETests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/EndToEndWithExternalSolutionsTests.php
+dev/tests/functional/testsuites/Mtf/TestSuite/GithubPublicationTests.php
 dev/tests/functional/composer.json

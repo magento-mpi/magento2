@@ -7,13 +7,14 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="wishlist_head_components" template="Magento_Wishlist::js/components.phtml"/>
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Wishlist\Block\Customer\Wishlist" name="customer.wishlist" template="view.phtml" cacheable="false">
+            <block class="Magento\Wishlist\Block\Rss\Link" name="wishlist.rss.link" template="rss/wishlist.phtml"/>
             <block class="Magento\Wishlist\Block\Customer\Wishlist\Items" name="customer.wishlist.items" as="items" template="item/list.phtml" cacheable="false">
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Image" name="customer.wishlist.item.image" template="item/column/image.phtml" cacheable="false" />
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Info" name="customer.wishlist.item.name" template="item/column/name.phtml" cacheable="false" />

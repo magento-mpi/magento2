@@ -55,7 +55,7 @@ class AssertGiftCardAccountForm extends AbstractAssertForm
 
         \PHPUnit_Framework_Assert::assertEmpty(
             $dataDiff,
-            'Gift card account form data does not equal to passed from fixture.'
+            "Gift card account form data does not equal to passed from fixture. \n" . $dataDiff
         );
     }
 

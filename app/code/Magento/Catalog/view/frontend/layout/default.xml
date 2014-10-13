@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="top.links">
         <block class="Magento\Catalog\Block\Product\Compare\Link" name="catalog.compare.link" before="-" template="Magento_Catalog::product/compare/link.phtml"/>
     </referenceBlock>
     <referenceContainer name="sidebar.additional">
         <block class="Magento\Catalog\Block\Product\Compare\Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
     </referenceContainer>
-    <referenceBlock name="head">
+    <referenceContainer name="after.body.start">
         <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Catalog::js/components.phtml"/>
-    </referenceBlock>
+    </referenceContainer>
 </page>

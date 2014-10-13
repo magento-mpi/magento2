@@ -50,9 +50,9 @@ class UrlRewrite extends InjectableFixture
         'input' => 'select',
     ];
 
-    protected $options = [
-        'attribute_code' => 'options',
-        'backend_type' => 'varchar',
+    protected $redirect_type = [
+        'attribute_code' => 'redirect_type',
+        'backend_type' => 'int',
         'is_required' => '0',
         'input' => 'select',
     ];
@@ -95,9 +95,9 @@ class UrlRewrite extends InjectableFixture
         return $this->getData('store_id');
     }
 
-    public function getOptions()
+    public function getRedirectType()
     {
-        return $this->getData('options');
+        return $this->getData('redirect_type');
     }
 
     public function getRequestPath()

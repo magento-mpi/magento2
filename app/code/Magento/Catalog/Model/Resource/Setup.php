@@ -19,13 +19,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_categoryFactory;
 
     /**
-     * Indexer model factory
-     *
-     * @var \Magento\Index\Model\IndexerFactory
-     */
-    protected $_indexerFactory;
-
-    /**
      * Attribute resource model factory
      *
      * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
@@ -38,7 +31,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
      * @param Eav\AttributeFactory $eavAttributeResourceFactory
      * @param string $moduleName
      * @param string $connectionName
@@ -49,13 +41,11 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Index\Model\IndexerFactory $indexerFactory,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory,
         $moduleName = 'Magento_Catalog',
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_categoryFactory = $categoryFactory;
-        $this->_indexerFactory = $indexerFactory;
         $this->_eavAttributeResourceFactory = $eavAttributeResourceFactory;
         parent::__construct(
             $context,
@@ -119,16 +109,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'input' => 'select',
                         'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                         'sort_order' => 2,
-                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'url_key' => array(
-                        'type' => 'varchar',
-                        'label' => 'URL Key',
-                        'input' => 'text',
-                        'backend' => 'Magento\Catalog\Model\Category\Attribute\Backend\Urlkey',
-                        'required' => false,
-                        'sort_order' => 3,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group' => 'General Information'
                     ),
@@ -243,14 +223,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type' => 'text',
                         'required' => false,
                         'sort_order' => 16,
-                        'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'url_path' => array(
-                        'type' => 'varchar',
-                        'required' => false,
-                        'sort_order' => 17,
-                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible' => false,
                         'group' => 'General Information'
                     ),
@@ -525,7 +497,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'label' => 'Meta Title',
                         'input' => 'text',
                         'required' => false,
-                        'sort_order' => 1,
+                        'sort_order' => 20,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group' => 'Meta Information'
                     ),
@@ -534,7 +506,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'label' => 'Meta Keywords',
                         'input' => 'textarea',
                         'required' => false,
-                        'sort_order' => 2,
+                        'sort_order' => 30,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group' => 'Meta Information'
                     ),
@@ -545,7 +517,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'note' => 'Maximum 255 chars',
                         'class' => 'validate-length maximum-length-255',
-                        'sort_order' => 3,
+                        'sort_order' => 40,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group' => 'Meta Information'
                     ),
@@ -662,23 +634,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'searchable' => true,
                         'used_in_product_listing' => true
-                    ),
-                    'url_key' => array(
-                        'type' => 'varchar',
-                        'label' => 'URL Key',
-                        'input' => 'text',
-                        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Urlkey',
-                        'required' => false,
-                        'sort_order' => 10,
-                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'used_in_product_listing' => true
-                    ),
-                    'url_path' => array(
-                        'type' => 'varchar',
-                        'required' => false,
-                        'sort_order' => 11,
-                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'visible' => false
                     ),
                     'minimal_price' => array(
                         'type' => 'decimal',

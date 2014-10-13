@@ -15,19 +15,43 @@
     <collection>Magento\Catalog\Model\Resource\Product\Collection</collection>
     <identifier>sku</identifier>
     <fields>
+        <name>
+            <attribute_code>name</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input>text</input>
+            <group>product-details</group>
+        </name>
         <allow_message>
             <attribute_code>allow_message</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </allow_message>
+        <url_key>
+            <attribute_code>url_key</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <default_value />
+            <input>text</input>
+            <group>search-engine-optimization</group>
+        </url_key>
+        <sku>
+            <attribute_code>sku</attribute_code>
+            <backend_type>static</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input>text</input>
+            <group>product-details</group>
+        </sku>
         <allow_open_amount>
             <attribute_code>allow_open_amount</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>select</input>
             <group>product-details</group>
         </allow_open_amount>
@@ -35,7 +59,7 @@
             <attribute_code>email_template</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </email_template>
@@ -43,7 +67,7 @@
             <attribute_code>giftcard_amounts</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>price</input>
             <group>product-details</group>
         </giftcard_amounts>
@@ -51,7 +75,7 @@
             <attribute_code>giftcard_type</attribute_code>
             <backend_type>int</backend_type>
             <is_required>1</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>select</input>
             <group>product-details</group>
         </giftcard_type>
@@ -59,21 +83,21 @@
             <attribute_code>gift_wrapping_available</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>select</input>
         </gift_wrapping_available>
         <gift_wrapping_price>
             <attribute_code>gift_wrapping_price</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>price</input>
         </gift_wrapping_price>
         <is_redeemable>
             <attribute_code>is_redeemable</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </is_redeemable>
@@ -81,7 +105,7 @@
             <attribute_code>lifetime</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </lifetime>
@@ -89,14 +113,14 @@
             <attribute_code>open_amount_max</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>price</input>
         </open_amount_max>
         <open_amount_min>
             <attribute_code>open_amount_min</attribute_code>
             <backend_type>decimal</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>price</input>
             <group>product-details</group>
         </open_amount_min>
@@ -104,35 +128,35 @@
             <attribute_code>related_tgtr_position_behavior</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
         </related_tgtr_position_behavior>
         <related_tgtr_position_limit>
             <attribute_code>related_tgtr_position_limit</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
         </related_tgtr_position_limit>
         <upsell_tgtr_position_behavior>
             <attribute_code>upsell_tgtr_position_behavior</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
         </upsell_tgtr_position_behavior>
         <upsell_tgtr_position_limit>
             <attribute_code>upsell_tgtr_position_limit</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
         </upsell_tgtr_position_limit>
         <use_config_allow_message>
             <attribute_code>use_config_allow_message</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </use_config_allow_message>
@@ -140,7 +164,7 @@
             <attribute_code>use_config_email_template</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </use_config_email_template>
@@ -148,7 +172,7 @@
             <attribute_code>use_config_is_redeemable</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </use_config_is_redeemable>
@@ -156,7 +180,7 @@
             <attribute_code>use_config_lifetime</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value></default_value>
+            <default_value />
             <input>text</input>
             <group>giftcard</group>
         </use_config_lifetime>
@@ -166,6 +190,77 @@
             <group />
             <source>Magento\GiftCard\Test\Fixture\GiftCardProduct\CheckoutData</source>
         </checkout_data>
+        <quantity_and_stock_status>
+            <attribute_code>quantity_and_stock_status</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>0</is_required>
+            <default_value>In Stock</default_value>
+            <input>select</input>
+            <group>product-details</group>
+        </quantity_and_stock_status>
+        <visibility>
+            <attribute_code>visibility</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>0</is_required>
+            <default_value>Catalog, Search</default_value>
+            <input>select</input>
+            <group>autosettings</group>
+        </visibility>
+        <special_price>
+            <attribute_code>special_price</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required>0</is_required>
+            <default_value />
+            <input>price</input>
+            <group>advanced-pricing</group>
+        </special_price>
+        <description>
+            <attribute_code>description</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required>0</is_required>
+            <default_value />
+            <input>textarea</input>
+            <group>product-details</group>
+        </description>
+        <short_description>
+            <attribute_code>short_description</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required>0</is_required>
+            <default_value />
+            <input>textarea</input>
+            <group>autosettings</group>
+        </short_description>
+        <category_ids>
+            <attribute_code>category_ids</attribute_code>
+            <backend_type>static</backend_type>
+            <is_required>0</is_required>
+            <default_value />
+            <input>text</input>
+            <group>product-details</group>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds</source>
+        </category_ids>
+        <custom_options>
+            <attribute_code>custom_options</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>product_info_tabs_customer_options</group>
+            <is_required>0</is_required>
+            <group>customer-options</group>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
+        </custom_options>
+        <status>
+            <attribute_code>status</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>0</is_required>
+            <default_value>Product online</default_value>
+            <input>checkbox</input>
+            <group>product-details</group>
+        </status>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+            <default_value>Main Website</default_value>
+            <group>websites</group>
+        </website_ids>
     </fields>
     <data_set>
         <sku></sku>

@@ -66,7 +66,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $priceForChoice = '.price-wrapper .price';
+    protected $priceForChoice = '.price-wrapper';
 
     /**
      * Checkbox selector item links

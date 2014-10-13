@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="menu">
         <action method="setActive">
             <argument name="itemId" xsi:type="string">Magento_Catalog::catalog_products</argument>
@@ -27,5 +27,10 @@
     </referenceContainer>
     <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Adminhtml\Product" name="products_list"/>
+    </referenceContainer>
+    <referenceContainer name="product.grid">
+        <block class="Magento\Framework\View\Element\Text\ListText" name="grid.bottom.links">
+            <block class="Magento\Catalog\Block\Adminhtml\Rss\Grid\Link" name="grid.rss.link"/>
+        </block>
     </referenceContainer>
 </page>

@@ -49,7 +49,7 @@ class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
         $checkoutCart->getGiftCardAccountBlock()->addGiftCard($code);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $checkoutCart->getMessagesBlock()->assertSuccessMessage(),
+            $checkoutCart->getMessagesBlock()->waitSuccessMessage(),
             'Gift card is not usable on frontend.'
         );
 

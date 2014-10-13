@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="notifications">
         <block class="Magento\AdminNotification\Block\System\Messages" name="system_messages" as="system_messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
         <block class="Magento\AdminNotification\Block\System\Messages\UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
@@ -16,11 +16,7 @@
     <referenceContainer name="header">
         <block class="Magento\AdminNotification\Block\ToolbarEntry" before="user" template="toolbar_entry.phtml" />
     </referenceContainer>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-core-prototype-magento-css">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+    <head>
+        <css src="Magento_Core::prototype/magento.css"/>
+    </head>
 </page>

@@ -248,7 +248,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -257,7 +257,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'textarea',
     ];
 
@@ -266,7 +266,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
+        'group' => 'search-engine-optimization',
         'input' => 'text',
     ];
 
@@ -291,14 +291,6 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => 'Use config',
-        'input' => 'select',
-    ];
-
-    protected $msrp_enabled = [
-        'attribute_code' => 'msrp_enabled',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => 'In Cart',
         'input' => 'select',
     ];
 
@@ -488,7 +480,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'autosettings',
+        'group' => 'search-engine-optimization',
     ];
 
     protected $url_path = [
@@ -713,11 +705,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getMsrpDisplayActualPriceType()
     {
         return $this->getData('msrp_display_actual_price_type');
-    }
-
-    public function getMsrpEnabled()
-    {
-        return $this->getData('msrp_enabled');
     }
 
     public function getName()

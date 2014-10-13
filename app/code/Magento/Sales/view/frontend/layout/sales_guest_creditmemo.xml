@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="sales_order_creditmemo_renderers" />
     <update handle="sales_order_item_price" />
     <referenceContainer name="content">
@@ -27,6 +27,9 @@
                 <block class="Magento\Sales\Block\Order\Comments" name="creditmemo_comments" template="order/comments.phtml"/>
             </block>
         </block>
+    </referenceContainer>
+    <referenceContainer name="sales.order.info.buttons">
+        <block class="Magento\Sales\Block\Order\Info\Buttons\Rss" as="buttons.rss" name="sales.order.info.buttons.rss" cacheable="false"/>
     </referenceContainer>
     <update handle="sales_order_guest_info_links"/>
 </page>

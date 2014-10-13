@@ -28,6 +28,11 @@ class ReadServiceTest extends WebapiAbstract
     private $searchBuilder;
 
     /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
+    /**
      * @var FilterBuilder
      */
     private $filterBuilder;
@@ -35,12 +40,26 @@ class ReadServiceTest extends WebapiAbstract
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->searchBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
-        );
         $this->filterBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
         );
+        $this->sortOrderBuilder = $this->objectManager->create(
+            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+        );
+        $this->searchBuilder = $this->objectManager->create(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+        );
+    }
+
+    protected function tearDown()
+    {
+        try {
+            $cart = $this->getCart('test01');
+            $cart->delete();
+        } catch (\InvalidArgumentException $e) {
+            // Do nothing if cart fixture was not used
+        }
+        parent::tearDown();
     }
 
     /**
@@ -186,9 +205,6 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetCartList()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-28264'
-        );
         $cart = $this->getCart('test01');
 
         $serviceInfo = array(
@@ -227,13 +243,9 @@ class ReadServiceTest extends WebapiAbstract
         $this->searchBuilder->addFilter(array($grandTotalFilter, $subtotalFilter));
         $this->searchBuilder->addFilter(array($minCreatedAtFilter));
         $this->searchBuilder->addFilter(array($maxCreatedAtFilter));
-        $this->searchBuilder->setSortOrders([
-                [
-                    \Magento\Framework\Service\V1\Data\SortOrder::FIELD => 'subtotal',
-                    \Magento\Framework\Service\V1\Data\SortOrder::DIRECTION => SearchCriteria::SORT_ASC
-                ]
-            ]
-        );
+        /** @var SortOrder $sortOrder */
+        $sortOrder = $this->sortOrderBuilder->setField('subtotal')->setDirection(SearchCriteria::SORT_ASC)->create();
+        $this->searchBuilder->setSortOrders([$sortOrder]);
         $searchCriteria = $this->searchBuilder->create()->__toArray();
 
         $requestData = array('searchCriteria' => $searchCriteria);

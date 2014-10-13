@@ -37,6 +37,7 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
      * @param string $status
+     * @param string $orderId
      * @return void
      */
     public function processAssert(
@@ -45,11 +46,11 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
-        $status
+        $status,
+        $orderId = ''
     ) {
-        $data = $order->getData();
         $filter = [
-            'id' => $data['id'],
+            'id' => $order->hasData('id') ? $order->getId() : $orderId,
             'status' => $status,
         ];
         $customerAccountLogin->open()->getLoginBlock()->login($customer);

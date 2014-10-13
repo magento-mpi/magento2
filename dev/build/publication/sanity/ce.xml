@@ -88,61 +88,6 @@
             <path>dev/build/publication/extra_files/ce/CHANGELOG.md</path>
         </item>
         <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Enterprise</word>
-            <word>Invitation</word>
-            <word>WebsiteRestriction</word>
-            <path>dev/tests/functional-old/framework/Mage/Selenium/AbstractHelper.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/framework/Unit/testsuite/Mage/Selenium/Helper/ConfigTest.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>GiftRegistry</word>
-            <word>Invitation</word>
-            <path>dev/tests/functional-old/testsuite/Core/Mage/Grid/Reports/GridTest.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Enterprise</word>
-            <word>Invitation</word>
-            <word>WebsiteRestriction</word>
-            <path>dev/tests/functional-old/framework/Mage/Selenium/TestCase.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/config/config.yml.dist</path>
-        </item>
-        <item>
-            <!-- License replacement tool does not process *.bat files currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/runtests.bat</path>
-        </item>
-        <item>
-            <!-- License replacement tool does not process *.sh files currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/runtests.sh</path>
-        </item>
-        <item>
             <word>Magento/Rma</word>
             <word>Magento\Rma</word>
             <word>Magento_Rma</word>
@@ -280,16 +225,6 @@
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>Reward</word>
             <path>dev/tests/unit/testsuite/Magento/Customer/Model/ImportExport/Import/_files/customer_composite_prepare_row_for_db.csv</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>Reward</word>
-            <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/CustomActionsTest.php</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>Reward</word>
-            <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
