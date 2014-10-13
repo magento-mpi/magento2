@@ -200,5 +200,4 @@ class TreeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($model, $model->addCollectionData(null, false, array(), false, true));
     }
-
 }
