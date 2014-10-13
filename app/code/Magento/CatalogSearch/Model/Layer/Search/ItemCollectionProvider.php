@@ -8,7 +8,7 @@
  */
 namespace Magento\CatalogSearch\Model\Layer\Search;
 
-use Magento\Catalog\Model\Layer\Search\ItemCollectionProviderInterface;
+use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
 use Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory;
 
 class ItemCollectionProvider implements ItemCollectionProviderInterface

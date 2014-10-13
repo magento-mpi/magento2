@@ -92,7 +92,18 @@
         </arguments>
     </type>
     <preference for="Magento\Search\Model\SearchCollectionInterface" type="Magento\CatalogSearch\Model\Resource\Search\Collection" />
-    <preference for="Magento\Catalog\Model\Layer\Search\CollectionFilterInterface" type="Magento\CatalogSearch\Model\Layer\Search\CollectionFilter" />
-    <preference for="Magento\Catalog\Model\Layer\Search\StateKeyInterface" type="Magento\CatalogSearch\Model\Layer\Search\StateKey" />
-    <preference for="Magento\Catalog\Model\Layer\Search\ItemCollectionProviderInterface" type="Magento\CatalogSearch\Model\Layer\Search\ItemCollectionProvider" />
+    <!--<preference for="Magento\Catalog\Model\Layer\Search\CollectionFilterInterface" type="Magento\CatalogSearch\Model\Layer\Search\CollectionFilter" />-->
+    <!--<preference for="Magento\Catalog\Model\Layer\Search\StateKeyInterface" type="Magento\CatalogSearch\Model\Layer\Search\StateKey" />-->
+    <!--<preference for="Magento\Catalog\Model\Layer\Search\ItemCollectionProviderInterface" type="Magento\CatalogSearch\Model\Layer\Search\ItemCollectionProvider" />-->
+    <!--\Magento\Catalog\Model\Layer\Search\Context-->
+    <type name="Magento\Catalog\Model\Layer\Search\Context">
+        <arguments>
+            <argument name="collectionProvider" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\ItemCollectionProvider</argument>
+            <argument name="stateKey" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\StateKey</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Search\CollectionFilter">
+        <plugin name="catalogsearchLayerSearchCollectionFilter" type="Magento\CatalogSearch\Model\Layer\Search\Plugin\CollectionFilter" />
+    </type>
+
 </config>

@@ -7,8 +7,42 @@
  */
 namespace Magento\Catalog\Model\Layer\Search;
 
+use Magento\Catalog\Model\Config;
+use Magento\Catalog\Model\Layer\CollectionFilterInterface;
+use Magento\Catalog\Model\Product\Visibility;
+use Magento\Framework\StoreManagerInterface;
+
 class CollectionFilter implements CollectionFilterInterface
 {
+    /**
+     * @var Config
+     */
+    protected $catalogConfig;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var Visibility
+     */
+    protected $productVisibility;
+
+    /**
+     * @param Config $catalogConfig
+     * @param StoreManagerInterface $storeManager
+     * @param Visibility $productVisibility
+     */
+    public function __construct(
+        Config $catalogConfig,
+        StoreManagerInterface $storeManager,
+        Visibility $productVisibility
+    ) {
+        $this->catalogConfig = $catalogConfig;
+        $this->storeManager = $storeManager;
+        $this->productVisibility = $productVisibility;
+    }
     /**
      * Filter product collection
      *
@@ -20,5 +54,14 @@ class CollectionFilter implements CollectionFilterInterface
         $collection,
         \Magento\Catalog\Model\Category $category
     ) {
+        $collection
+            ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
+            ->setStore($this->storeManager->getStore())
+            ->addMinimalPrice()
+            ->addFinalPrice()
+            ->addTaxPercents()
+            ->addStoreFilter()
+            ->addUrlRewrite()
+            ->setVisibility($this->productVisibility->getVisibleInSearchIds());
     }
 }

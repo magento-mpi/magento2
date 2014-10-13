@@ -8,6 +8,10 @@
  */
 namespace Magento\Catalog\Model\Layer\Search;
 
+use Magento\Catalog\Model\Layer\CollectionFilterInterface;
+use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
+use Magento\Catalog\Model\Layer\StateKeyInterface;
+
 class Context extends \Magento\Catalog\Model\Layer\Context
 {
     /**
