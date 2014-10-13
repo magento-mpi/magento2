@@ -6,14 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Product\Attribute;
+namespace Magento\Catalog\Api;
 
 /**
- * Interface AttributeSetRepositoryInterface must be implemented in
+ * Interface ProductAttributeSetRepositoryInterface must be implemented in
  * new model \Magento\Catalog\Model\AttributeSetRepository
- * @todo Use standard repo interface
  */
-interface AttributeSetRepositoryInterface
+interface ProductAttributeSetRepositoryInterface
 {
     /**
      * Save attribute set data
@@ -23,15 +22,18 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
      */
     public function save(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData);
 
     /**
      * Retrieve list of Attribute Sets
      *
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Api\Data\AttributeSetInterface[]
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getList
      */
-    public function getList();
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Retrieve attribute set information based on given ID
@@ -39,6 +41,7 @@ interface AttributeSetRepositoryInterface
      * @param int $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Catalog\Api\Data\AttributeSetInterface
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getInfo
      */
     public function get($attributeSetId);
 
@@ -49,6 +52,7 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\InputException
      * @return bool
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::remove
      */
     public function delete($attributeSetId);
 }
