@@ -78,6 +78,26 @@ select:focus ~ .tooltip .tooltip-content {
 }
 
 //
+//    Sidebar forms
+//--------------------------------------
+.sidebar {
+    .fieldset {
+        margin: 0;
+        > .field:not(.choice) > {
+            margin: 0 0 @form-field-vertical-indent;
+            .label {
+                padding: 0 0 5px;
+                text-align: left;
+                width: 100%
+            }
+            .control {
+                width: 100%;
+            }
+        }
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
