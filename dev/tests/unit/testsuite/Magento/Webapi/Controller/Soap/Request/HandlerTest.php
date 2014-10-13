@@ -36,6 +36,12 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_serializerMock;
 
+    /** @var \Magento\Framework\Service\DataObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_dataObjectProcessorMock;
+
+    /** @var \Zend\Code\Reflection\ClassReflection|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_classReflectorMock;
+
     /** @var array */
     protected $_arguments;
 
@@ -55,6 +61,20 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
+        $this->_dataObjectProcessorMock = $this->getMock(
+            'Magento\Framework\Service\DataObjectProcessor',
+            [],
+            [],
+            '',
+            false);
+        $this->_classReflectorMock = $this->getMock(
+            'Zend\Code\Reflection\ClassReflection',
+            ['getMethod'],
+            [],
+            '',
+            false);
+
+
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
             $this->_requestMock,
@@ -62,7 +82,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_apiConfigMock,
             $this->_authorizationMock,
             $this->_dataObjectConverter,
-            $this->_serializerMock
+            $this->_serializerMock,
+            $this->_dataObjectProcessorMock,
+            $this->_classReflectorMock
         );
         parent::setUp();
     }
@@ -106,6 +128,30 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock->expects($this->once())->method('get')->with($className)
             ->will($this->returnValue($serviceMock));
         $this->_serializerMock->expects($this->once())->method('getInputData')->will($this->returnArgument(2));
+
+        $methodReflectorMock = $this->getMock(
+            'Zend\Code\Reflection\MethodReflection',
+            ['getDocBlock'],
+            [],
+            '',
+            false);
+        $docBlockMock = $this->getMock(
+            'Zend\Code\Reflection\DocBlockReflection',
+            ['getTag'],
+            [],
+            '',
+            false);
+        $tagMock = $this->getMock(
+            'Zend\Code\Generator\DocBlock\Tag',
+            ['getType'],
+            [],
+            '',
+            false);
+        $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($this->_classReflectorMock));
+        $this->_classReflectorMock->expects($this->once())->method('getMethod')->with($methodName)->will($this->returnValue($methodReflectorMock));
+        $methodReflectorMock->expects($this->once())->method('getDocBlock')->will($this->returnValue($docBlockMock));
+        $docBlockMock->expects($this->once())->method('getTag')->with('return')->will($this->returnValue($tagMock));
+        $tagMock->expects($this->once())->method('getType')->will($this->returnValue('string'));
 
         /** Execute SUT. */
         $this->assertEquals(

@@ -119,7 +119,7 @@ class Handler
         $service = $this->_objectManager->get($serviceClass);
         /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
         /** @var ClassReflection $serviceClassReflector */
-        $serviceClassReflector = new ClassReflection($serviceClass);
+        $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClass]);
         $serviceMethodReturnType = $serviceClassReflector->getMethod($serviceMethod)
             ->getDocBlock()
             ->getTag('return')
