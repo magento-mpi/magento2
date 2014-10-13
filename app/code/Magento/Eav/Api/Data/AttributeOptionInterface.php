@@ -6,13 +6,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Eav\Api\Data\Entity\Attribute;
+namespace Magento\Eav\Api\Data;
 
 /**
  * Created from:
  * @see \Magento\Catalog\Service\V1\Data\Eav\Option
+ * @codeCoverageIgnore
  */
-interface OptionInterface
+interface AttributeOptionInterface
 {
     /**
      * Get option label
