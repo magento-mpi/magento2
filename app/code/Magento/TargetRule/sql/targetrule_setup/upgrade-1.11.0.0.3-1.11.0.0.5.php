@@ -25,7 +25,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index_crosssell',
         'entity_id',
-        $installer->getTable('catalog_product_entity'),
+        'catalog_product_entity',
         'entity_id'
     )
 );
@@ -34,7 +34,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index_crosssell',
         'store_id',
-        $installer->getTable('store'),
+        'store',
         'store_id'
     )
 );
@@ -53,7 +53,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index_related',
         'entity_id',
-        $installer->getTable('catalog_product_entity'),
+        'catalog_product_entity',
         'entity_id'
     )
 );
@@ -62,7 +62,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index_related',
         'store_id',
-        $installer->getTable('store'),
+        'store',
         'store_id'
     )
 );
@@ -81,7 +81,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index_upsell',
         'entity_id',
-        $installer->getTable('catalog_product_entity'),
+        'catalog_product_entity',
         'entity_id'
     )
 );
@@ -90,7 +90,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index_upsell',
         'store_id',
-        $installer->getTable('store'),
+        'store',
         'store_id'
     )
 );
@@ -109,7 +109,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index',
         'entity_id',
-        $installer->getTable('catalog_product_entity'),
+        'catalog_product_entity',
         'entity_id'
     )
 );
@@ -118,7 +118,7 @@ $installer->getConnection()->dropForeignKey(
     $installer->getFkName(
         'magento_targetrule_index',
         'store_id',
-        $installer->getTable('store'),
+        'store',
         'store_id'
     )
 );
