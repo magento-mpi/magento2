@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\Search\Adapter\Mysql\Field\ResolverInterface" type="Magento\CatalogSearch\Model\Field\Resolver" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface" type="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider"/>
     <type name="Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderContainer">
         <arguments>
