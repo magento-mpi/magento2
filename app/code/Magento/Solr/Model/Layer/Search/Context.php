@@ -8,15 +8,15 @@
  */
 namespace Magento\Solr\Model\Layer\Search;
 
+use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
-use Magento\Catalog\Model\Layer\Search\ItemCollectionProvider as CatalogCollectionProvider;
-use Magento\Catalog\Model\Layer\Search\CollectionFilter;
-use Magento\CatalogSearch\Model\Layer\Search\StateKey;
+use Magento\Catalog\Model\Layer\StateKeyInterface;
+use Magento\Solr\Helper\Data;
 
 class Context extends \Magento\Catalog\Model\Layer\Search\Context
 {
     /**
-     * @var \Magento\Solr\Helper\Data
+     * @var Data
      */
     protected $helper;
 
@@ -26,18 +26,18 @@ class Context extends \Magento\Catalog\Model\Layer\Search\Context
     protected $searchProvider;
 
     /**
-     * @param CatalogCollectionProvider $collectionProvider
-     * @param StateKey $stateKey
-     * @param CollectionFilter $collectionFilter
+     * @param ItemCollectionProviderInterface $collectionProvider
+     * @param StateKeyInterface $stateKey
+     * @param CollectionFilterInterface $collectionFilter
      * @param ItemCollectionProvider $searchProvider
-     * @param \Magento\Solr\Helper\Data $helper
+     * @param Data $helper
      */
     public function __construct(
-        CatalogCollectionProvider $collectionProvider,
-        StateKey $stateKey,
-        CollectionFilter $collectionFilter,
+        ItemCollectionProviderInterface $collectionProvider,
+        StateKeyInterface $stateKey,
+        CollectionFilterInterface $collectionFilter,
         ItemCollectionProvider $searchProvider,
-        \Magento\Solr\Helper\Data $helper
+        Data $helper
     ) {
         $this->helper = $helper;
         $this->searchProvider = $searchProvider;
