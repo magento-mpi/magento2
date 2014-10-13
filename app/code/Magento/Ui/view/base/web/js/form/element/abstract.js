@@ -21,6 +21,7 @@ define([
         type:           'input',
         value:          '',
         description:    '',
+        disabled:       false,
         validation: {},
         validateOnChange: true
     };
@@ -33,9 +34,10 @@ define([
          */
         initialize: function (config) {
             _.extend(this, defaults, config);
-        
+
             this.setUniqueId()
-                .initObservable();
+                .initObservable()
+                .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
         },
@@ -46,8 +48,9 @@ define([
          */
         initObservable: function () {
             this.observe({
-                'value': this.initialValue = this.value,
-                'required': this.required,
+                'value':         this.initialValue = this.value,
+                'required':      this.required,
+                'disabled':      this.disabled,
                 'errorMessages': []
             });
 
@@ -62,6 +65,18 @@ define([
             this.uid = utils.uniqueid();
 
             return this;
+        },
+
+        initDisableStatus: function() {
+            var self = this;
+
+            _.each(this.disable_rules, function(triggeredValue, path){
+                self.refs.provider.data.on('update:' + path, function(changedValue){
+                    self.disabled(triggeredValue === changedValue);
+                });
+            });
+
+            return self;
         },
 
         /**

@@ -7,9 +7,9 @@
  */
 -->
 <!-- ko ifnot: no_caption -->
-<select class="select" data-bind="attr: { id: uid }, options: options, value: value, optionsText: 'label', optionsCaption: caption" />
+<select class="select" data-bind="attr: { id: uid, disabled: disabled }, options: options, value: value, optionsText: 'label', optionsCaption: caption" />
 <!-- /ko -->
 
 <!-- ko if: no_caption -->
-<select class="select" data-bind="attr: { id: uid }, options: options, value: value, optionsText: 'label'" />
+<select class="select" data-bind="attr: { id: uid, disabled: disabled }, options: options, value: value, optionsText: 'label'" />
 <!-- /ko -->
