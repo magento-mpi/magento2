@@ -15,41 +15,6 @@ namespace Magento\Catalog\Api;
 interface CategoryManagementInterface
 {
     /**
-     * Get info about category by category id
-     *
-     * @param int $categoryId
-     * @return \Magento\Catalog\Api\Data\CategoryInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @see \Magento\Catalog\Service\V1\Category\ReadServiceInterface::info
-     * @todo move this method to repo
-     */
-    public function get($categoryId);
-
-    /**
-     * Create category service
-     *
-     * @param \Magento\Catalog\Api\Data\CategoryInterface $category
-     * @return int
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::create
-     * @todo move this method to repo
-     */
-    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category);
-
-    /**
-     * Delete category
-     *
-     * @param int $categoryId category which will deleted
-     * @return bool Will returned True if deleted
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\StateException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @see \Magento\Catalog\Service\V1\Category\WriteServiceInterface::delete
-     * @todo move this method to repo
-     */
-    public function delete($categoryId);
-
-    /**
      * Update category
      *
      * @param int $categoryId category to be updated
@@ -65,7 +30,7 @@ interface CategoryManagementInterface
      * Retrieve list of categories
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @return \Magento\Catalog\Api\Data\Category\TreeInterface containing Tree objects
+     * @return \Magento\Catalog\Api\Data\CategoryTreeInterface containing Tree objects
      * @see \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface::tree
      */
     public function getTree();

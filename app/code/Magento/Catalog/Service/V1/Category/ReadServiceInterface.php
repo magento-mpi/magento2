@@ -18,7 +18,7 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::get
+     * @see \Magento\Catalog\Api\CategoryRepositoryInterface::get
      */
     public function info($categoryId);
 }

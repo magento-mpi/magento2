@@ -19,7 +19,7 @@ interface WriteServiceInterface
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::save
+     * @see \Magento\Catalog\Api\CategoryRepositoryInterface::save
      */
     public function create(\Magento\Catalog\Service\V1\Data\Category $category);
 
@@ -32,7 +32,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryManagementInterface::delete
+     * @see \Magento\Catalog\Api\CategoryRepositoryInterface::delete
      */
     public function delete($categoryId);
 
