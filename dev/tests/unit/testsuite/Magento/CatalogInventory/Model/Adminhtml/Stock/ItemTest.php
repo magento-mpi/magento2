@@ -56,4 +56,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $result = $this->_model->checkQuoteItemQty(1, 1);
         $this->assertEquals('We don\'t have as many "qwerty" as you requested.', $result->getMessage());
     }
+
+    public function testHasAdminArea()
+    {
+        $this->assertTrue($this->_model->hasAdminArea());
+    }
 }

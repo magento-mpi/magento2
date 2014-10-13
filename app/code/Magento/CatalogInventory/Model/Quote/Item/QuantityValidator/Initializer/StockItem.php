@@ -7,14 +7,15 @@
  */
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer;
 
-use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\QuoteItemQtyList;
-
+/**
+ * Class StockItem
+ */
 class StockItem
 {
     /**
-     * @var QuoteItemQtyList
+     * @var QtyProcessor
      */
-    protected $quoteItemQtyList;
+    protected $qtyProcessor;
 
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -23,13 +24,13 @@ class StockItem
 
     /**
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
-     * @param QuoteItemQtyList $quoteItemQtyList
+     * @param QtyProcessor $qtyProcessor
      */
     public function __construct(
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig,
-        QuoteItemQtyList $quoteItemQtyList
+        QtyProcessor $qtyProcessor
     ) {
-        $this->quoteItemQtyList = $quoteItemQtyList;
+        $this->qtyProcessor = $qtyProcessor;
         $this->typeConfig = $typeConfig;
     }
 
@@ -48,26 +49,9 @@ class StockItem
         \Magento\Sales\Model\Quote\Item $quoteItem,
         $qty
     ) {
-        /**
-         * When we work with subitem
-         */
-        if ($quoteItem->getParentItem()) {
-            $rowQty = $quoteItem->getParentItem()->getQty() * $qty;
-            /**
-             * we are using 0 because original qty was processed
-             */
-            $qtyForCheck = $this->quoteItemQtyList
-                ->getQty($quoteItem->getProduct()->getId(), $quoteItem->getId(), $quoteItem->getQuoteId(), 0);
-        } else {
-            $increaseQty = $quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty;
-            $rowQty = $qty;
-            $qtyForCheck = $this->quoteItemQtyList->getQty(
-                $quoteItem->getProduct()->getId(),
-                $quoteItem->getId(),
-                $quoteItem->getQuoteId(),
-                $increaseQty
-            );
-        }
+        $this->qtyProcessor->setItem($quoteItem);
+        $rowQty = $this->qtyProcessor->getRowQty($qty);
+        $qtyForCheck = $this->qtyProcessor->getQtyForCheck($qty);
 
         $productTypeCustomOption = $quoteItem->getProduct()->getCustomOption('product_type');
         if (!is_null($productTypeCustomOption)) {
@@ -78,6 +62,7 @@ class StockItem
             }
         }
 
+        $stockItem->setProduct($quoteItem->getProduct());
         $result = $stockItem->checkQuoteItemQty($rowQty, $qtyForCheck, $qty);
 
         if ($stockItem->hasIsChildItem()) {
