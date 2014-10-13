@@ -15,6 +15,7 @@
                 <item name="fullPageCache" xsi:type="string">full_page</item>
             </argument>
         </arguments>
+        <plugin name="reindexPriceOnRuleApply" type="Magento\CatalogRule\Plugin\Indexer\CatalogRule" />
     </type>
     <type name="Magento\Catalog\Model\Product">
         <plugin name="apply_catalog_rules_after_product_save" type="Magento\CatalogRule\Plugin\Indexer\Product\Save\ApplyRules"/>
@@ -26,12 +27,9 @@
         <plugin name="reindex_after_delete_website" type="Magento\CatalogRule\Plugin\Indexer\Website"/>
     </type>
     <type name="Magento\Customer\Service\V1\CustomerGroupServiceInterface">
-        <plugin name="reindex_after_delete_customer_group" type="Magento\CatalogRule\Model\Indexer\CustomerGroup"/>
+        <plugin name="reindex_after_delete_customer_group" type="Magento\CatalogRule\Plugin\Indexer\CustomerGroup"/>
     </type>
     <type name="Magento\ImportExport\Model\Import">
-        <plugin name="reindex_after_import" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\ImportExport"/>
-    </type>
-    <type name="Magento\CatalogRule\Model\Rule">
-        <plugin name="reindexPriceOnRuleApply" type="\Magento\CatalogRule\Plugin\Indexer\CatalogRule" />
+        <plugin name="reindex_after_import" type="Magento\CatalogRule\Plugin\Indexer\ImportExport"/>
     </type>
 </config>
