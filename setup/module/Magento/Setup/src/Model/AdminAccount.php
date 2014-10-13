@@ -98,19 +98,18 @@ class AdminAccount
         $adminData = [
             'firstname' => $this->data[self::KEY_FIRST_NAME],
             'lastname'  => $this->data[self::KEY_LAST_NAME],
-            'username'  => $this->data[self::KEY_USERNAME],
             'password'  => $this->generatePassword(),
-            'email'     => $this->data[self::KEY_EMAIL],
             'is_active' => 1,
         ];
         $resultSet = $this->setup->getConnection()->query(
-            'SELECT user_id FROM ' . $this->setup->getTable('admin_user') . ' ' .
-            'WHERE username = :username',
-            ['username' => $this->data[self::KEY_USERNAME]]
+            'SELECT user_id, username, email FROM ' . $this->setup->getTable('admin_user') . ' ' .
+            'WHERE username = :username OR email = :email',
+            ['username' => $this->data[self::KEY_USERNAME], 'email' => $this->data[self::KEY_EMAIL]]
         );
 
         if ($resultSet->count() > 0) {
             // User exists, update
+            $this->validateUserMatches($resultSet->current()->username, $resultSet->current()->email);
             $adminId = $resultSet->current()->user_id;
             $adminData['modified'] = date('Y-m-d H:i:s');
             $this->setup->getConnection()->update(
@@ -120,6 +119,8 @@ class AdminAccount
             );
         } else {
             // User does not exist, create it
+            $adminData['username'] = $this->data[self::KEY_USERNAME];
+            $adminData['email'] = $this->data[self::KEY_EMAIL];
             $adminData['extra'] = serialize(null);
             $this->setup->getConnection()->insert(
                 $this->setup->getTable('admin_user'),
@@ -128,6 +129,30 @@ class AdminAccount
             $adminId = $this->setup->getConnection()->getDriver()->getLastGeneratedValue();
         }
         return $adminId;
+    }
+
+    /**
+     * Validates that the username and email both match the user.
+     *
+     * @param $username Existing user's username
+     * @param $email Existing user's email
+     * @throws \Exception If the username and email do not both match data provided to install
+     */
+    private function validateUserMatches($username, $email)
+    {
+        if (strcasecmp($username, $this->data[self::KEY_USERNAME]) != 0) {
+            // email matched but username did not
+            throw new \Exception(
+                'An existing user has the given email but different username. ' . self::KEY_USERNAME .
+                ' and '. self::KEY_EMAIL . ' both need to match an existing user or both be new.'
+            );
+        } elseif (strcasecmp($email, $this->data[self::KEY_EMAIL]) != 0) {
+            // username matched but email did not
+            throw new \Exception(
+                'An existing user has the given username but different email. ' . self::KEY_USERNAME .
+                ' and '. self::KEY_EMAIL . ' both need to match an existing user or both be new.'
+            );
+        }
     }
 
     /**
