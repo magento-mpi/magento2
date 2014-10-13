@@ -12,24 +12,27 @@
             <strong><?php echo __('Search Results') ?></strong>
         </div>
         <?php echo $this->getChildHtml('pager') ?>
-        <table class="wishlist data table" id="wishlist-search-results">
-            <thead>
-            <tr>
-                <th class="col name"><?php echo __('Name') ?></th>
-                <th class="col list"><?php echo __('Wish List Name') ?></th>
-                <th class="col actions"><?php echo __('Actions') ?></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach($this->getSearchResults() as $item): ?>
+        <div class="table-wrapper">
+            <table class="wishlist data table" id="wishlist-search-results">
+                <caption class="table-caption"><?php echo __('Search Results') ?></caption>
+                <thead>
                 <tr>
-                    <td class="col name"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
-                    <td class="col list"><?php echo $this->escapeHtml($item->getName()) ?></td>
-                    <td class="col actions"><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>" class="action view"><?php echo __('View') ?></a></td>
+                    <th class="col name" scope="col"><?php echo __('Name') ?></th>
+                    <th class="col list" scope="col"><?php echo __('Wish List Name') ?></th>
+                    <th class="col actions" scope="col"><?php echo __('Actions') ?></th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <?php foreach($this->getSearchResults() as $item): ?>
+                    <tr>
+                        <td class="col name"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
+                        <td class="col list"><?php echo $this->escapeHtml($item->getName()) ?></td>
+                        <td class="col actions"><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>" class="action view"><?php echo __('View') ?></a></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
         <?php echo $this->getChildHtml('pager') ?>
     </div>
 <?php else: ?>

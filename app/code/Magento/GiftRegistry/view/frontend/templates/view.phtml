@@ -10,16 +10,19 @@
     <?php $entity = $this->getEntity() ?>
     <?php if ($entity): ?>
 
-    <table class="data table giftregistry shared">
-        <tbody>
+    <div class="table-wrapper">
+        <table class="data table giftregistry shared">
+            <caption class="table-caption"><?php echo __('Gift Registry'); ?></caption>
+            <tbody>
             <?php foreach ($this->getAttributesToDisplay() as $attributeInfo): ?>
-            <tr>
-                <th class="col title"><?php echo $attributeInfo['title'] ?></th>
-                <td class="col value"><?php echo $attributeInfo['value'] ?></td>
-            </tr>
+                <tr>
+                    <th class="col title" scope="col"><?php echo $attributeInfo['title'] ?></th>
+                    <td class="col value" scope="col"><?php echo $attributeInfo['value'] ?></td>
+                </tr>
             <?php endforeach; ?>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
     <?php echo $this->getChildHtml('giftregistry_items') ?>
     <?php endif; ?>

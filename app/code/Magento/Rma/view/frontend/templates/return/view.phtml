@@ -68,7 +68,7 @@
                       data-mage-init='{"rmaTrackInfo":{"addLabelUrl": "<?php echo $this->getAddLabelUrl() ?>"}, "validation":{}}'>
                     <div class="table-wrapper">
                         <table class="data table" id="track-info-table">
-                            <caption><?php echo __('Shipping and Tracking Information') ?></caption>
+                            <caption class="table-caption"><?php echo __('Shipping and Tracking Information') ?></caption>
                             <thead>
                                 <tr>
                                     <th scope="col" class="col carrier"><?php echo __('Carrier') ?></th>
@@ -113,7 +113,7 @@
         <div class="block-content">
             <div class="table-wrapper table-returns">
                 <table class="data table table-returns" id="my-returns-items-table">
-                    <caption><?php echo __('Items Return Requested For') ?></caption>
+                    <caption class="table-caption"><?php echo __('Items Return Requested For') ?></caption>
                     <thead>
                         <tr>
                             <th scope="col" class="col id"><?php echo __('Product Name') ?></th>
@@ -164,6 +164,7 @@
                             <tr id="shf_<?php echo $key ?>" class="hidden">
                                 <td colspan="7">
                                     <table class="data table">
+                                        <caption class="table-caption"><?php echo __('Questions and Answers'); ?></caption>
                                         <thead>
                                             <tr>
                                                 <th class="col questions"><?php echo __('Questions') ?></th>
