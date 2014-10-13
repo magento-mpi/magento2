@@ -39,7 +39,7 @@ class Weee extends AbstractTotal
      *
      * @var int
      */
-    protected static $counter = 0;
+    protected $counter = 0;
 
     /**
      * Array to keep track of weee taxable item code to quote item
@@ -190,13 +190,9 @@ class Weee extends AbstractTotal
             );
 
             if ($this->weeeData->isTaxable($this->_store)) {
-                $weeeItemCode = $item->getTaxCalculationItemId();
 
-                if (!$weeeItemCode) {
-                    $weeeItemCode = self::ITEM_CODE_WEEE_PREFIX . $this->getNextIncrement();
-                    $weeeItemCode .= '-' . $title;
-                    $item->setTaxCalculationItemId($weeeItemCode);
-                }
+                $weeeItemCode = self::ITEM_CODE_WEEE_PREFIX . $this->getNextIncrement();
+                $weeeItemCode .= '-' . $title;
 
                 $associatedTaxables[] = [
                     CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
@@ -268,7 +264,7 @@ class Weee extends AbstractTotal
      */
     protected function getNextIncrement()
     {
-        return ++self::$counter;
+        return ++$this->counter;
     }
 
     /**

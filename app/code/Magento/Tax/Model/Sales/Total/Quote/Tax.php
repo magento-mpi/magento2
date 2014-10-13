@@ -29,7 +29,7 @@ class Tax extends CommonTaxCollector
      *
      * @var int
      */
-    protected static $counter = 0;
+    protected $counter = 0;
 
     /**
      * Tax module helper
