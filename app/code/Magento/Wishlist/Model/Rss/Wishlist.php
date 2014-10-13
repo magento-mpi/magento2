@@ -157,7 +157,7 @@ class Wishlist implements DataProviderInterface
                 $description .= '</td></tr></table>';
 
                 $data['entries'][] = (array(
-                    'title' => $this->outputHelper->productAttribute($product, $product->getName(), 'name'),
+                    'title' => $product->getName(),
                     'link' => $productUrl,
                     'description' => $description
                 ));

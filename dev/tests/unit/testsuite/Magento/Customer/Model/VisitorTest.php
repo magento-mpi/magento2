@@ -59,7 +59,8 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
                 'getIdFieldName',
                 'save',
                 'addCommitCallback',
-                'commit'
+                'commit',
+                'clean'
             ])->disableOriginalConstructor()->getMock();
         $this->resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('visitor_id'));
         $this->resource->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
@@ -162,5 +163,11 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
         ]);
         $this->visitor->bindQuoteDestroy($observer);
         $this->assertTrue($this->visitor->getDoQuoteDestroy());
+    }
+
+    public function testClean()
+    {
+        $this->resource->expects($this->once())->method('clean')->with($this->visitor)->will($this->returnSelf());
+        $this->visitor->clean();
     }
 }
