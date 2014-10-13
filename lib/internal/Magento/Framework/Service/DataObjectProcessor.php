@@ -34,28 +34,32 @@ class DataObjectProcessor
             if ($method->getNumberOfParameters() > 0) {
                 continue;
             }
-            if (substr($method->getName(), 0, 2) === self::IS_METHOD_PREFIX) {
-                $value = $dataObject->{$method->getName()}();
-                if ($value !== null && $value !== []) {
-                    $outputData[$this->_fieldNameConverter(substr($method->getName(), 2))] = $value;
+            $methodName = $method->getName();
+            if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
+                $value = $dataObject->{$methodName}();
+                if ($value !== null) {
+                    $outputData[$this->_fieldNameConverter(substr($methodName, 2))] = $value;
                 }
-            } elseif (substr($method->getName(), 0, 3) === self::GETTER_PREFIX) {
-                $value = $dataObject->{$method->getName()}();
-                if ($value !== null && $value !== []) {
-                    $key = $this->_fieldNameConverter(substr($method->getName(), 3));
+            } elseif (substr($methodName, 0, 3) === self::GETTER_PREFIX) {
+                $value = $dataObject->{$methodName}();
+                if ($value !== null) {
+                    $key = $this->_fieldNameConverter(substr($methodName, 3));
                     if ($key === self::CUSTOM_ATTRIBUTE_CODE) {
                         $value = $this->_customAttributesConverter($value);
-                    } elseif ($key !== self::CUSTOM_ATTRIBUTE_CODE && is_array($value)) {
+                    } elseif (is_object(($value))) {
+                        $value = $this->buildOutputDataArray($value, $this->_dataObjectTypeHelper($class, $methodName));
+                    } elseif (is_array($value)) {
                         $valueResult = array();
                         foreach ($value as $singleValue) {
                             if (is_object($singleValue)) {
-                                $singleValue = $this->buildOutputDataArray($singleValue, get_class($singleValue));
+                                $singleValue = $this->buildOutputDataArray(
+                                    $singleValue,
+                                    $this->_dataObjectTypeHelper($class, $methodName)
+                                );
                             }
                             $valueResult[] = $singleValue;
                         }
                         $value = $valueResult;
-                    } elseif ($key !== self::CUSTOM_ATTRIBUTE_CODE && is_object(($value))) {
-                        $value = $this->buildOutputDataArray($value, get_class($value));
                     }
                     $outputData[$key] = $value;
                 }
@@ -74,6 +78,22 @@ class DataObjectProcessor
     {
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         return $result;
+    }
+
+    /**
+     * Helper to get data object type by reading the DocBlock of given method
+     *
+     * @param ClassReflection $class
+     * @param string $methodName
+     * @return string
+     */
+    protected function _dataObjectTypeHelper($class, $methodName)
+    {
+        $dataObjectType = $class->getMethod($methodName)->getDocBlock()->getTag('return')->getType();
+        if (strpos($dataObjectType, '|null') !== false) {
+            $dataObjectType = str_replace('|null', '', $dataObjectType);
+        }
+        return $dataObjectType;
     }
 
     /**
