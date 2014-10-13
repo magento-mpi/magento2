@@ -87,6 +87,9 @@ class ProductLink implements SetupInterface
                     /** @var \Magento\Catalog\Model\Product $product */
                     $product = $this->productFactory->create();
                     $productId1 = $product->getIdBySku($row['sku1']);
+                    if (!$productId1) {
+                        continue;
+                    }
                     $product->setId($productId1);
                     $links = [$linkType => []];
                     foreach (explode("\n", $row['sku2']) as $productSku2) {
