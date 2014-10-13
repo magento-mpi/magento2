@@ -55,6 +55,21 @@ class Price extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price
                     'grand_invoice_total' => 110
                 ]
             ],
+            'full_refund' => [
+                [
+                    'grand_creditmemo_total' => 565,
+                ]
+            ],
+            'full_refund_with_zero_shipping_refund' => [
+                [
+                    'grand_creditmemo_total' => 555,
+                ]
+            ],
+            'partial_refund' => [
+                [
+                    'grand_creditmemo_total' => 110
+                ]
+            ],
         ];
         if (!isset($presets[$this->currentPreset])) {
             return null;
