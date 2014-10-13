@@ -9,7 +9,7 @@
 namespace Magento\Framework\Api;
 
 /**
- * Base builder for \Magento\Framework\Api\ExtensibleDataInterface types.
+ * Base builder interface for \Magento\Framework\Api\ExtensibleDataInterface types.
  */
 interface ExtensibleDataBuilderInterface
 {

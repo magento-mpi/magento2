@@ -13,7 +13,7 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 
 /**
- * Interface for entities which can be extended with custom attributes.
+ * Implementation for \Magento\Framework\Api\ExtensibleDataBuilderInterface.
  */
 class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
 {
@@ -32,7 +32,6 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     protected $objectManager;
 
-
     /**
      * Initialize the builder
      *
@@ -43,7 +42,6 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     {
         $this->objectManager = $objectManager;
         $this->modelClassInterface = $modelClassInterface;
-
     }
 
     /**
