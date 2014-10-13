@@ -7,31 +7,30 @@
 define([
     'underscore',
     'Magento_Ui/js/initializer/collection',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/events'
-], function(_, Collection, Scope, EventsBus) {
+    '../component'
+], function(_, Collection, Component, EventsBus) {
     'use strict';
 
     var defaults = {
         collapsible:    false,
         opened:         true,
-        template:       'ui/fieldset/fieldset',
-        content:        '',
-        ajax:           false
+        template:       'ui/fieldset/fieldset'
     };
 
-    var Fieldset = Scope.extend({
-        initialize: function(config) {
-            _.extend(this, defaults, config);
+    var __super__ = Component.prototype;
 
-            this.initObservable()
-                .initListeners();
+    var Fieldset = Component.extend({
+        initialize: function() {
+            _.extend(this, defaults);
+
+            __super__.initialize.apply(this, arguments);
         },
 
         initObservable: function(){
+            __super__.initObservable.apply(this, arguments);
+
             this.observe({
-                'opened': this.opened,
-                'content': this.content
+                'opened': this.opened
             });
 
             return this;
@@ -52,13 +51,11 @@ define([
 
             if(this.collapsible){
                 opened(!opened());
+
+                this.trigger('active', opened());
             }
 
             return this;
-        },
-
-        getTemplate: function(){
-            return this.template;
         },
 
         onElementUpdate: function(){
@@ -70,7 +67,7 @@ define([
 
             this.trigger(changed ? 'change' : 'restore');
         }
-    }, EventsBus);
+    });
 
     return Collection(Fieldset);
 });
