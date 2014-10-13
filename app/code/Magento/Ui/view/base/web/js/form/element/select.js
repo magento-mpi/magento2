@@ -50,7 +50,8 @@ define([
          * @param  {*} changedValue - current value of form element
          */
         store: function (changedValue) {
-            this.refs.provider.data.set(this.name, changedValue.value);
+            var storedValue = changedValue ? changedValue.value : '';
+            this.refs.provider.data.set(this.name, storedValue);
         },
 
         /**
