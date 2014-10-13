@@ -43,6 +43,7 @@ class CollectionFilter implements CollectionFilterInterface
         $this->storeManager = $storeManager;
         $this->productVisibility = $productVisibility;
     }
+
     /**
      * Filter product collection
      *

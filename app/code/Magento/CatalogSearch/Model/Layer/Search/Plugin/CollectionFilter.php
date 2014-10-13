@@ -14,7 +14,6 @@ use Magento\Search\Model\QueryFactory;
 
 class CollectionFilter
 {
-
     /**
      * @var \Magento\Search\Model\QueryFactory
      */
@@ -29,9 +28,11 @@ class CollectionFilter
     }
 
     /**
-     * @param $subject
-     * @param callable $proceed
-     * @param $collection
+     * Add search filter criteria to search collection
+     *
+     * @param \Magento\Catalog\Model\Layer\Search\CollectionFilter $subject
+     * @param \Closure $proceed
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $collection
      * @param Category $category
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -42,8 +43,6 @@ class CollectionFilter
         Category $category
     ) {
         $proceed($collection, $category);
-        if ($collection instanceof FulltextCollection) {
-            $collection->addSearchFilter($this->queryFactory->get()->getQueryText());
-        }
+        $collection->addSearchFilter($this->queryFactory->get()->getQueryText());
     }
 }
