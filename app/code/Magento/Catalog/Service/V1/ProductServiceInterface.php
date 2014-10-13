@@ -21,7 +21,7 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @return \Magento\Catalog\Service\V1\Data\Product $product
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductManagementInterface::get
+     * @see \Magento\Catalog\Api\ProductRepositoryInterface::get
      */
     public function get($id);
 
@@ -33,7 +33,7 @@ interface ProductServiceInterface
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductManagementInterface::delete
+     * @see \Magento\Catalog\Api\ProductRepositoryInterface::delete
      */
     public function delete($id);
 
@@ -46,7 +46,7 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return string id
      * @deprecated
-     * @see \Magento\Catalog\WebApi\ProductInterface::create
+     * @see \Magento\Catalog\Api\ProductRepositoryInterface::save
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product);
 
@@ -60,7 +60,7 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return string id
      * @deprecated
-     * @see \Magento\Catalog\WebApi\ProductInterface::update
+     * @see \Magento\Catalog\Api\ProductManagementInterface::update
      */
     public function update($id, \Magento\Catalog\Service\V1\Data\Product $product);
 
@@ -70,7 +70,7 @@ interface ProductServiceInterface
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults containing Data\Product objects
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductManagementInterface::search
+     * @see \\Magento\Catalog\Api\ProductRepositoryInterface::getList
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

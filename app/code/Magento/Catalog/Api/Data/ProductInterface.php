@@ -11,6 +11,7 @@ namespace Magento\Catalog\Api\Data;
 
 /**
  * ProductInterface will be implemented by \Magento\Catalog\Model\Product
+ * @see \Magento\Catalog\Service\V1\Data\Product
  */
 interface ProductInterface
 {

@@ -9,6 +9,9 @@
 
 namespace Magento\Catalog\Api;
 
+/**
+ * @todo create new repository class
+ */
 interface ProductRepositoryInterface
 {
     /**
@@ -28,6 +31,7 @@ interface ProductRepositoryInterface
      * @param int $categoryId
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see \Magento\Catalog\Service\V1\ProductServiceInterface::get
      */
     public function get($productId);
 
@@ -39,6 +43,7 @@ interface ProductRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @see  \Magento\Catalog\Service\V1\ProductServiceInterface::delete
      */
     public function delete($productId);
 
@@ -46,7 +51,8 @@ interface ProductRepositoryInterface
      * Get product list
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults containing Data\ProductInterface objects
+     * @return \Magento\Catalog\Api\Data\ProductInterface[]
+     * @see \Magento\Catalog\Service\V1\ProductServiceInterface::search
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }
