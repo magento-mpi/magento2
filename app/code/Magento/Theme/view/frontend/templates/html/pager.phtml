@@ -115,7 +115,7 @@
         <?php if($this->isShowPerPage()): ?>
             <div class="limiter">
                 <label for="limiter">
-                    <strong class="limiter-label"><?php echo __('Show') ?></strong>
+                    <span class="limiter-label"><?php echo __('Show') ?></span>
                 </label>
                 <select id="limiter" data-mage-redirect="{'event':'change'}" class="limiter-options">
                     <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>
