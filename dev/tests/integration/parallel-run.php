@@ -41,7 +41,12 @@ ini_set('display_errors', 1);
 chdir(__DIR__);
 
 $maxInstances = isset($cliOptions['max-instances']) ? (int)$cliOptions['max-instances'] : 1;
-$maxExecutionTime = isset($cliOptions['max-execution-time']) ? (int)$cliOptions['max-execution-time'] : DEFAULT_PROCESS_DURATION;
+if (isset($cliOptions['max-execution-time'])) {
+    $maxExecutionTime = (int)$cliOptions['max-execution-time'];
+} else {
+    $maxExecutionTime = DEFAULT_PROCESS_DURATION;
+}
+
 if (isset($cliOptions['log-junit'])) {
     $junitLog = fopen($cliOptions['log-junit'], 'w');
     if (!$junitLog) {
