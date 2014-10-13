@@ -172,17 +172,9 @@
                     "some_form_config": "blabla"
                 }
             },
-            "customer_form_areas_X": {
-                "name": "customer_form_areas_X",
+            "customer_form_areas": {
+                "name": "customer_form_areas",
                 "path": "Magento_Ui/js/form/components/area",
-                "source": "customer_form_data",
-                "config": {
-                    "some_form_config": "blabla"
-                }
-            },
-            "customer_plain_text": {
-                "name": "customer_plain_text",
-                "path": "Magento_Ui/js/form/components/fieldset",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
@@ -239,27 +231,15 @@
                         ]
                     }
             },
-            "customer_form_areas_X": {
+            "customer_form_areas": {
                     "account_info": {
                         "injections": [
-                            "customer_plain_text.plain_text",
-                            "customer_form_fieldsets.customer_addresses",
                             "customer_form_fieldsets.account_info"
                         ]
                     },
                     "customer_addresses": {
                         "injections": [
                             "customer_form_fieldsets.customer_addresses"
-                        ]
-                    },
-                    "prod_details": {
-                        "injections": [
-                            "customer_form_fieldsets.prod_details"
-                        ]
-                    },
-                    "col_options": {
-                        "injections": [
-                            "customer_form_fieldsets.col_options"
                         ]
                     }
             },
@@ -350,27 +330,6 @@
                         ]
                     }
             },
-            "customer_plain_text": {
-                    "plain_text": {
-                        "label" : "Tab with plain text",
-                        "content": "\u003Cem\u003EOl\u003C\/em\u003E\u003Ch1\u003E\u003C\/h1\u003E\u003Cscript\u003Ealert(\"script tag\")\u003C\/script\u003E\u003Cimg src=\"??\" onerror=\"alert('onerror')\"\u003E",
-                        "injections": [
-                            "customer_form_groups.comments",
-                            "customer_form_groups.created",
-                            "customer_form_groups.image"
-                        ]
-                    },
-                    "plain_template": {
-                        "label" : "Tab with custom template",
-                        "content": "\u003Cem\u003EOl\u003C\/em\u003E\u003Ch1\u003E\u003C\/h1\u003E\u003Cscript\u003Ealert(\"script tag\")\u003C\/script\u003E\u003Cimg src=\"??\" onerror=\"alert('onerror')\"\u003E",
-                        "template":"ui/fake",
-                        "injections": [
-                            "customer_form_groups.comments",
-                            "customer_form_groups.created",
-                            "customer_form_groups.image"
-                        ]
-                    }
-            },
             "customer_form_fieldsets": {
                     "account_info": {
                         "label": "Account Information",
@@ -435,6 +394,6 @@
     var allowLocalCache = false;
 </script>
 
-    <div data-bind="scope: 'customer_form_areas_X'" class="entry-edit form-inline">
+    <div data-bind="scope: 'customer_form_areas'" class="entry-edit form-inline">
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>

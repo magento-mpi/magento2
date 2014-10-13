@@ -38,8 +38,6 @@ define([
                 registry.get(deps, callback);
             }, this);
 
-            console.log('this.layout ',this.layout);
-
             return this;
         },
 
