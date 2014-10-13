@@ -12,11 +12,12 @@ require __DIR__ . '/../../app/autoload.php';
 
 define(
     'USAGE',
-    "Usage: php -f modules_test.php -- [--list-modules]
+    "Usage: php -f modules_test.php -- [--list-modules] [--list-file]
     additional parameters:
     --help              print usage message
     --list-modules      list of modules to enable in this format:
                         Module_ModuleName1,Module_ModuleName2,etc.
+    --list-file         relative path of file containing list of modules to enable
     \n"
 );
 
@@ -25,6 +26,7 @@ $opt = getopt(
     [
         'help',
         'list-modules:',
+        'list-file:',
     ]
 );
 
@@ -39,21 +41,40 @@ $modulesInstalled = array();
 $modulesRemove = array();
 
 try {
-    // list-modules argument
-    if ($opt['list-modules'] == false) {
-        throw new Exception("Parameter --list-modules required and cannot be empty.");
+    $magentoDirectory = __DIR__ . '/../../app/code/Magento/';
+
+    // list-modules and list-file arguments
+    if ($opt['list-modules'] == false && $opt['list-file'] == false) {
+        throw new Exception("One of parameters --list-modules or --list-file required and cannot be empty.");
     }
 
     // Get modules to enable
-    $tok = strtok($opt['list-modules'], ",");
+    if ($opt['list-modules']) {
+        $tok = strtok($opt['list-modules'], ",");
 
-    while ($tok !== false) {
-        array_push($tempList, $tok);
-        $tok = strtok(",");
+        while ($tok !== false) {
+            array_push($tempList, $tok);
+            $tok = strtok(",");
+        }
     }
 
-    $prefix = "Module_";
+    if ($opt['list-file']) {
+        $profileDir = __DIR__ . "/" . $opt['list-file'];
+        $handle = @fopen($profileDir, "r");
+        if ($handle) {
+            while (($buffer = fgets($handle, 4096)) !== false) {
+                array_push($tempList, $buffer);
+            }
+            if (!feof($handle)) {
+                throw new Exception("Problem reading test profile file.");
+            }
+            fclose($handle);
+        }
+    }
+
+    $prefix = "Magento_";
     foreach ($tempList as $module) {
+        $module = trim($module);
         if (substr($module, 0, strlen($prefix)) == $prefix) {
             $module = substr($module, strlen($prefix));
             array_push($modulesEnable, $module);
@@ -62,7 +83,6 @@ try {
 
     // Get modules currently installed
     $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
-    $magentoDirectory = __DIR__ . '/../../app/code/Magento/';
     $command = 'ls ' . $magentoDirectory;
     $tempList = $shell->execute($command);
     if (!$tempList) {
