@@ -7,8 +7,8 @@
  */
 -->
 <div>
-    <h3 data-bind="css: { 'ui-accordion-header': collapsible }, click: toggle">
-        <span tabindex="1" data-bind="text: label, keyboard: { 13: toggle }"></span>
+    <h3 data-bind="css: { 'ui-accordion-header': collapsible, 'ui-accordion-header-active': opened() && collapsible }, click: toggle, keyboard: { 13: toggle }" tabindex="1">
+        <span data-bind="text: label"></span>
     </h3>
     <ul class="tabs" data-bind="visible: opened">
         <!-- ko foreach: elems -->

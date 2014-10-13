@@ -27,6 +27,18 @@ define([
         },
 
         /**
+         * Stores element's value to registry by element's path value
+         * @param  {*} changedValue - current value of form element
+         */
+        store: function (changedValue) {
+            var storedValue = [];
+            _.each(changedValue, function(option, index){
+                storedValue.push(option.value);
+            });
+            this.refs.provider.data.set(this.name, storedValue);
+        },
+
+        /**
          * Formats initial multiselect initial value (array of primitives) to
          *     array of objects based on options
          *     

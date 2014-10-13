@@ -46,15 +46,23 @@ define([
         },
 
         /**
+         * Stores element's value to registry by element's path value
+         * @param  {*} changedValue - current value of form element
+         */
+        store: function (changedValue) {
+            this.refs.provider.data.set(this.name, changedValue.value);
+        },
+
+        /**
          * Formats options to array of {value: '...', label: '...'} objects.
          * @param  {Object} options
          * @return {Array} - formatted options
          */
         formatOptions: function (options) {
-            return _.map(options, function (label, value) {
+            return _.map(options, function (fullValue, index) {
                 return {
-                    label: label,
-                    value: value
+                    label: fullValue.label,
+                    value: fullValue.name
                 };
             });
         },

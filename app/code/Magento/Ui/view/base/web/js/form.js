@@ -15,8 +15,8 @@ define(function (require) {
         _           = require('underscore');
 
     var defaults = {
-        elements: [],
-        validateOnSubmit: false
+        elements: {},
+        validateOnChange: true
     };
 
     /**
@@ -43,21 +43,23 @@ define(function (require) {
         initialize: function (config) {
             _.extend(this, defaults, config);
 
-            this.initElements()
-                .initValidation();
+            this.initProperties()
+                .createElements(this.meta);
         },
 
         /**
-         * Initializes data and meta properties and invokes createElements
-         *     method with single parameter this.meta.
+         * Initializes instance's properties, also initializes 'invalid'
+         *     array in params storage.
+         *     
+         * @return {Object} - reference to instance
          */
-        initElements: function () {
+        initProperties: function () {
             var provider = this.refs.provider;
 
             this.data = provider.data.get();
             this.meta = provider.meta.get();
 
-            this.createElements(this.meta);
+            provider.params.set('invalid', []);
 
             return this;
         },
@@ -115,7 +117,8 @@ define(function (require) {
                 name: name,
                 type: type,
                 refs: this.refs,
-                value: utils.nested(this.data, name)
+                value: utils.nested(this.data, name),
+                validateOnChange: this.validateOnChange
             });
 
             delete config.input_type;
@@ -130,32 +133,48 @@ define(function (require) {
          * @param  {Object} element
          */
         registerElement: function (name, element) {
-            this.elements.push(name);
+            this.elements[name] = element;
             registry.set(name, element);
         },
 
         /**
-         * If validateOnSubmit option is set to false, attaches 'validate' method
-         *     as a listener to update event of all elements 
+         * Handler for submit action. Validates form and then, if form is valid,
+         *     invokes 'submit' method.
          */
-        initValidation: function () {
-            var provider = this.refs.provider.data,
-                elements = this.elements,
-                validate = this.validate.bind(this);
+        onSubmit: function () {
+            var isValid = this.validate();
 
-            if (!this.validateOnSubmit) {
-                elements.forEach(function (name) {
-                    provider.on('update:' + name, validate);
-                });
+            if (isValid) {
+                this.submit();
             }
         },
 
         /**
-         * Sets 'validated' property of params storage to false,
-         *     so that all form groups invoke their validate methods.
+         * Submits form
+         */
+        submit: function () {
+            console.log('submitting form lalala')
+        },
+
+        /**
+         * Validates each element and returns true, if all elements are valid.
+         * 
+         * @return {Boolean}
          */
         validate: function () {
-            this.refs.provider.params.set('validated', false);
+            var provider = this.refs.provider,
+                params   = provider.params,
+                isValid;
+
+            params.set('invalid', [])
+
+            _.each(this.elements, function (element) {
+                element.validate();
+            });
+
+            isValid = !params.get('invalid').length;
+
+            return isValid;
         }
     });
     

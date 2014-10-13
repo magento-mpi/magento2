@@ -31,8 +31,8 @@ define([
             var deps,
                 callback;
                 
-            _.each(this.layout.items, function(item, name){
-                callback    = this.initItem.bind(this, item, name),
+            _.each(this.layout, function(item, name){
+                callback    = this.initItem.bind(this, item, name);
                 deps        = item.injections;
 
                 registry.get(deps, callback);

@@ -22,7 +22,8 @@ define([
         value:          '',
         description:    '',
         disabled:       false,
-        validation: {}
+        validation: {},
+        validateOnChange: true
     };
 
     return Scope.extend({
@@ -39,7 +40,6 @@ define([
                 .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
-
         },
 
         /**
@@ -99,6 +99,10 @@ define([
          * Is being called when value is updated
          */
         onUpdate: function(value){
+            if (this.validateOnChange) {
+                this.trigger('validate', this.validate());
+            }
+
             this.trigger('update', this.name, value)
                 .store(value);
         },
@@ -111,29 +115,34 @@ define([
             return this.value() !== this.initialValue;
         },
 
-        isValid: function () {
-            return this.validate();
-        },
-
+        /**
+         * Validates itself by it's validation rules using validator.
+         * If validation of a rule did not pass, writes it's message to
+         *     errorMessages array.
+         * Triggers validate event on the instance passing the result of
+         *     validation to it.
+         *     
+         * @return {Boolean} - true, if element is valid
+         */
         validate: function () {
-            var value    = this.value(),
-                messages = [],
-                failed   = [],
-                rules    = this.validation,
+            var value       = this.value(),
+                messages    = [],
+                invalid     = [],
+                rules       = this.validation,
                 isValid;
 
             _.each(rules, function (params, rule) {
-                isValid = validator.validate(rule, value, params);
-
-                if (!isValid) {
-                    failed.push(rule);
+                if (!validator.validate(rule, value, params)) {
+                    invalid.push(rule);
                     messages.push(validator.messageFor(rule));
                 }
             });
 
+            isValid = !invalid.length;
             this.errorMessages(messages);
+            this.trigger('validate', isValid);
 
-            return !failed.length;
+            return isValid;
         }
     }, EventsBus);
 });
