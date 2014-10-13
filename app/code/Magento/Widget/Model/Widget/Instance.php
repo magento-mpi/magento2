@@ -114,7 +114,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Widget\Model\Widget $widgetModel
      * @param \Magento\Widget\Model\NamespaceResolver $namespaceResolver
      * @param \Magento\Framework\Math\Random $mathRandom
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param string[] $relatedCacheTypes
@@ -131,7 +131,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Widget\Model\NamespaceResolver $namespaceResolver,
         \Magento\Framework\Math\Random $mathRandom,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),

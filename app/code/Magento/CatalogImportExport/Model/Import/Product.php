@@ -498,7 +498,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\CatalogImportExport\Model\Import\UploaderFactory $uploaderFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -529,7 +529,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\CatalogImportExport\Model\Import\UploaderFactory $uploaderFactory,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,

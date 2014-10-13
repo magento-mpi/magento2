@@ -40,7 +40,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->objectManager->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array(
                 'directoryList' => $this->objectManager->create(
                     'Magento\Framework\Filesystem\DirectoryList',

@@ -17,17 +17,17 @@ class CleanMergedJsCss
     protected $database;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $database
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $database,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->database = $database;
         $this->filesystem = $filesystem;

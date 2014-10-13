@@ -47,7 +47,7 @@ class CopyService
     protected $_customizationPath;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Design\Theme\FileFactory $fileFactory
      * @param \Magento\Core\Model\Layout\Link $link
      * @param \Magento\Core\Model\Layout\UpdateFactory $updateFactory
@@ -55,7 +55,7 @@ class CopyService
      * @param \Magento\Framework\View\Design\Theme\Customization\Path $customization
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\Design\Theme\FileFactory $fileFactory,
         \Magento\Core\Model\Layout\Link $link,
         \Magento\Core\Model\Layout\UpdateFactory $updateFactory,

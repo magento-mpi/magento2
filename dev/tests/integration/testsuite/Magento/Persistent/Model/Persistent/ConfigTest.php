@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             )
         );
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('directoryList' => $directoryList)
         );
 

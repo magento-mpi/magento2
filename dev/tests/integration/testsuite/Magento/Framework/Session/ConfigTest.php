@@ -52,9 +52,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultConfiguration()
     {
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         );
         $this->assertEquals(
             $filesystem->getDirectoryRead(DirectoryList::SESSION)->getAbsolutePath(),

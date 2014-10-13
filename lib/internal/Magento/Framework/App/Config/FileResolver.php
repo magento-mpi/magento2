@@ -29,12 +29,12 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 
     /**
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Framework\Module\Dir\Reader $moduleReader,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
     ) {
         $this->iteratorFactory = $iteratorFactory;

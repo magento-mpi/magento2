@@ -49,14 +49,14 @@ class Aggregated implements CollectorInterface
     protected $fileFactory;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\File\Factory $fileFactory
      * @param CollectorInterface $baseFiles
      * @param CollectorInterface $themeFiles
      * @param CollectorInterface $themeModularFiles
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\File\Factory $fileFactory,
         CollectorInterface $baseFiles,
         CollectorInterface $themeFiles,

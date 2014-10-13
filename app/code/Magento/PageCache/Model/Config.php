@@ -7,7 +7,7 @@
  */
 namespace Magento\PageCache\Model;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -71,7 +71,7 @@ class Config
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState
     ) {

@@ -19,7 +19,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
     /** @var string */
@@ -32,7 +32,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->mediaDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\WriteInterface')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $this->filesystemMock->expects($this->once())->method('getDirectoryWrite')

@@ -9,7 +9,7 @@
  */
 namespace Magento\Theme\Model\Uploader;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 class Service
 {
@@ -57,13 +57,13 @@ class Service
     /**
      * Constructor
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\File\Size $fileSize
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\File\Size $fileSize,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         array $uploadLimits = array()

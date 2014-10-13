@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Less\File\Collector;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -22,7 +22,7 @@ class LibraryTest extends \PHPUnit_Framework_TestCase
     protected $fileListFactoryMock;
 
     /**
-     * @var \Magento\Framework\App\Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $fileSystemMock;
 
@@ -64,7 +64,7 @@ class LibraryTest extends \PHPUnit_Framework_TestCase
         $this->fileListFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($this->fileListMock));
 
-        $this->fileSystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
+        $this->fileSystemMock = $this->getMockBuilder('Magento\Framework\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->libraryDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\ReadInterface')

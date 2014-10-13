@@ -43,11 +43,11 @@ abstract class AbstractShell
     /**
      * Initializes application and parses input parameters
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param string $entryPoint
      * @throws \Exception
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, $entryPoint)
+    public function __construct(\Magento\Framework\Filesystem $filesystem, $entryPoint)
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
             throw new \Exception('This script cannot be run from Browser. This is the shell script.');

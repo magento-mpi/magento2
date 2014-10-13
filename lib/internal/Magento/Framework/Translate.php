@@ -120,7 +120,7 @@ class Translate implements \Magento\Framework\TranslateInterface
      * @param \Magento\Framework\Translate\ResourceInterface $translate
      * @param \Magento\Framework\Locale\ResolverInterface $locale
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\File\Csv $csvParser
      * @param \Magento\Framework\App\Language\Dictionary $packDictionary
@@ -137,7 +137,7 @@ class Translate implements \Magento\Framework\TranslateInterface
         \Magento\Framework\Translate\ResourceInterface $translate,
         \Magento\Framework\Locale\ResolverInterface $locale,
         \Magento\Framework\App\State $appState,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\File\Csv $csvParser,
         \Magento\Framework\App\Language\Dictionary $packDictionary

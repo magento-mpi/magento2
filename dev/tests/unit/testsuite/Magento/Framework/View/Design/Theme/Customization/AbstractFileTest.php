@@ -51,7 +51,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
 
         $this->_modelBuilder = $this->getMockBuilder(
             'Magento\Framework\View\Design\Theme\Customization\AbstractFile'

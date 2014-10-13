@@ -51,7 +51,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
@@ -69,7 +69,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,

@@ -46,7 +46,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         $this->writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
+        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->filesystemMock->expects($this->any())

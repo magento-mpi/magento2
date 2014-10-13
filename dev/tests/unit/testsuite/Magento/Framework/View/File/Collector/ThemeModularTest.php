@@ -39,7 +39,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
             false
         );
         $filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('getDirectoryRead', '__wakeup'),
             array(),
             '',

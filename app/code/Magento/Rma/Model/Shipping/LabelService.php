@@ -8,7 +8,7 @@
 
 namespace Magento\Rma\Model\Shipping;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 class LabelService
 {
@@ -30,7 +30,7 @@ class LabelService
     /**
      * Application filesystem
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -38,13 +38,13 @@ class LabelService
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param \Magento\Rma\Model\ShippingFactory $shippingFactory
      * @param \Magento\Rma\Model\Resource\ShippingFactory $shippingResourceFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Rma\Helper\Data $rmaHelper,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
         \Magento\Rma\Model\Resource\ShippingFactory $shippingResourceFactory,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->rmaHelper = $rmaHelper;
         $this->shippingFactory = $shippingFactory;

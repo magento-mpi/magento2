@@ -107,7 +107,7 @@ class Minified implements MergeableInterface
      *
      * @param LocalInterface $asset
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\UrlInterface $baseUrl
      * @param \Magento\Framework\Code\Minifier\AdapterInterface $adapter
      * @param string $strategy
@@ -115,7 +115,7 @@ class Minified implements MergeableInterface
     public function __construct(
         LocalInterface $asset,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\UrlInterface $baseUrl,
         \Magento\Framework\Code\Minifier\AdapterInterface $adapter,
         $strategy = self::FILE_EXISTS

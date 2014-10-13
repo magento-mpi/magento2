@@ -11,7 +11,7 @@ namespace Magento\Framework\View\Asset;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Asset\File;
 use \Magento\Framework\UrlInterface;
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 /**
  * A repository service for view assets

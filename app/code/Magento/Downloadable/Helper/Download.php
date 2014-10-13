@@ -7,7 +7,7 @@
  */
 namespace Magento\Downloadable\Helper;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\Exception as CoreException;
 
@@ -102,7 +102,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -123,7 +123,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      */
     public function __construct(
@@ -132,7 +132,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Session\SessionManagerInterface $session
     ) {
         $this->_coreData = $coreData;

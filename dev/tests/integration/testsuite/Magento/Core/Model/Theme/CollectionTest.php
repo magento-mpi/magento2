@@ -34,7 +34,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             )
         );
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('directoryList' => $directoryList)
         );
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

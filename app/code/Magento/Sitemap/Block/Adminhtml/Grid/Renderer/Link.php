@@ -17,7 +17,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Link extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Framework\App\Filesystem $filesystem
+     * @var \Magento\Framework\Filesystem $filesystem
      */
     protected $_filesystem;
 
@@ -29,13 +29,13 @@ class Link extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Sitemap\Model\SitemapFactory $sitemapFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Sitemap\Model\SitemapFactory $sitemapFactory,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_sitemapFactory = $sitemapFactory;

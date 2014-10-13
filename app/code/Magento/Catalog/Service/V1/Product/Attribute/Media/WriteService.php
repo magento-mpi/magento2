@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
 use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry;
 use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContent;
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use \Magento\Catalog\Service\V1\Product\ProductLoader;
 use \Magento\Catalog\Model\Product\Media\Config as MediaConfig;
 use \Magento\Catalog\Model\Product;

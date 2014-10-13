@@ -22,17 +22,17 @@ class Publisher
     protected $appState;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
     /**
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\App\State $appState,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->appState = $appState;
         $this->filesystem = $filesystem;

@@ -83,7 +83,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $session->setUser($user);
 
         $directory = $objectManager->create(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::ROOT
         );
@@ -156,7 +156,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::ROOT
         );

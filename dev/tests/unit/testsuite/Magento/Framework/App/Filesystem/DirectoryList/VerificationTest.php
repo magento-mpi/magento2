@@ -150,7 +150,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     protected function getFilesystemMock(array $dirsToVerify)
     {
         $filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('getDirectoryWrite', '__wakeup'),
             array(),
             '',

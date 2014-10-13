@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\Exception;
 use Magento\Framework\View\Design\ThemeInterface;

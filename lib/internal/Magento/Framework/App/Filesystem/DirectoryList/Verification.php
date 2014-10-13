@@ -12,7 +12,7 @@ namespace Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
 use Magento\Framework\App\InitException;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 
 class Verification
@@ -40,7 +40,7 @@ class Verification
     );
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 

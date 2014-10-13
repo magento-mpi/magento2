@@ -24,7 +24,7 @@ class Source
     const TMP_MATERIALIZATION_DIR = 'view_preprocessed';
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     private $filesystem;
 
@@ -60,14 +60,14 @@ class Source
 
     /**
      * @param PreProcessor\Cache $cache
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param PreProcessor\Pool $preProcessorPool
      * @param \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback
      * @param \Magento\Framework\View\Design\Theme\ListInterface $themeList
      */
     public function __construct(
         PreProcessor\Cache $cache,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         PreProcessor\Pool $preProcessorPool,
         \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback,
         \Magento\Framework\View\Design\Theme\ListInterface $themeList

@@ -8,7 +8,7 @@
 namespace Magento\TestFramework;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -211,8 +211,8 @@ class Application
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem\DirectoryList\Verification');
         /** @var \Magento\TestFramework\App\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\TestFramework\App\Filesystem');
-        $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem');
-        $objectManager->addSharedInstance($filesystem, 'Magento\Framework\App\Filesystem');
+        $objectManager->removeSharedInstance('Magento\Framework\Filesystem');
+        $objectManager->addSharedInstance($filesystem, 'Magento\Framework\Filesystem');
 
         Helper\Bootstrap::setObjectManager($objectManager);
 

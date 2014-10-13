@@ -54,7 +54,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function ($file) {
                 return "content of '$file'";
             }));
-        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with(DirectoryList::VAR_DIR)

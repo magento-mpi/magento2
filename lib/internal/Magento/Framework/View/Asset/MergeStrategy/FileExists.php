@@ -20,17 +20,17 @@ class FileExists implements \Magento\Framework\View\Asset\MergeStrategyInterface
     protected $strategy;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
     /**
      * @param \Magento\Framework\View\Asset\MergeStrategyInterface $strategy
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\View\Asset\MergeStrategyInterface $strategy,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->strategy = $strategy;
         $this->filesystem = $filesystem;

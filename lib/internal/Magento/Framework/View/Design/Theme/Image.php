@@ -87,7 +87,7 @@ class Image
     /**
      * Initialize dependencies
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Image\Factory $imageFactory
      * @param Image\Uploader $uploader
      * @param Image\PathInterface $themeImagePath
@@ -96,7 +96,7 @@ class Image
      * @param ThemeInterface $theme
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Image\Factory $imageFactory,
         Image\Uploader $uploader,
         Image\PathInterface $themeImagePath,

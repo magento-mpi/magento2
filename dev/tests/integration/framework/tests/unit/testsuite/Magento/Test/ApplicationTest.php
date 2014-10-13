@@ -24,7 +24,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $appMode = \Magento\Framework\App\State::MODE_DEVELOPER;
         $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(BP);
         $driverPool = new \Magento\Framework\Filesystem\DriverPool;
-        $filesystem = new \Magento\Framework\App\Filesystem(
+        $filesystem = new \Magento\Framework\Filesystem(
             $directoryList,
             new \Magento\Framework\Filesystem\Directory\ReadFactory($driverPool),
             new \Magento\Framework\Filesystem\Directory\WriteFactory($driverPool),

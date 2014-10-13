@@ -120,7 +120,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_sendingException = null;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -161,7 +161,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -177,7 +177,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

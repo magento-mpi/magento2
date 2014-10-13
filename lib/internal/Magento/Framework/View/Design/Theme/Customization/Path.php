@@ -33,7 +33,7 @@ class Path
     /**
      * File system
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -54,11 +54,11 @@ class Path
     /**
      * Constructor
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param string $filename
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         $filename = \Magento\Framework\View\ConfigInterface::CONFIG_FILE_NAME
     ) {
         $this->filesystem = $filesystem;

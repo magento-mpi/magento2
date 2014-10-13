@@ -25,7 +25,7 @@ class Key extends \Magento\Backend\App\Action
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $configDirectory */
         $configDirectory = $this->_objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::CONFIG
         );

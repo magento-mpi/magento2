@@ -20,7 +20,7 @@ class Media extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_date;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -29,12 +29,12 @@ class Media extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         parent::__construct($context);
         $this->_date = $date;

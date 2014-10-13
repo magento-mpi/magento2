@@ -15,7 +15,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -49,7 +49,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->method('getAbsolutePath')
             ->will($this->returnValue('themedir'));
 
-        $this->_filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')
             ->will($this->returnValueMap([

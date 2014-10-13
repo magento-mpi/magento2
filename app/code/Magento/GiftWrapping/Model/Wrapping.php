@@ -72,7 +72,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\GiftWrapping\Model\Wrapping\Validator $validator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -84,7 +84,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\GiftWrapping\Model\Wrapping\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

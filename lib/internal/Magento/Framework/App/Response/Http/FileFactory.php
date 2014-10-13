@@ -18,17 +18,17 @@ class FileFactory
     protected $_response;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param \Magento\Framework\App\ResponseInterface $response
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\App\ResponseInterface $response,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_response = $response;
         $this->_filesystem = $filesystem;

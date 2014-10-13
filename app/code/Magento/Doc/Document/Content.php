@@ -8,7 +8,7 @@
 namespace Magento\Doc\Document;
 
 use Magento\Doc\Document\Content\Reader;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

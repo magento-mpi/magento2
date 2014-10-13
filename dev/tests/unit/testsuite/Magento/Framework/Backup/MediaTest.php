@@ -16,7 +16,7 @@ require_once __DIR__ . '/_files/io.php';
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemMock;
 
@@ -61,7 +61,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->_backupDbMock->expects($this->any())->method('create')->will($this->returnValue(true));
 
-        $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $dirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->_filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')

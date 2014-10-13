@@ -203,7 +203,7 @@ class ObjectManagerFactory
         $configData = null;
         try {
             $fileResolver = new \Magento\Framework\App\Arguments\FileResolver\Primary(
-                new \Magento\Framework\App\Filesystem(
+                new \Magento\Framework\Filesystem(
                     $directoryList,
                     new \Magento\Framework\Filesystem\Directory\ReadFactory($driverPool),
                     new \Magento\Framework\Filesystem\Directory\WriteFactory($driverPool)

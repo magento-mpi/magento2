@@ -31,11 +31,11 @@ class Primary implements \Magento\Framework\Config\FileResolverInterface
     protected $iteratorFactory;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
     ) {
         $this->configDirectory = $filesystem->getDirectoryRead(DirectoryList::CONFIG);

@@ -98,7 +98,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -767,7 +767,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     }
 
     /**
-     * @return \Magento\Framework\App\Filesystem
+     * @return \Magento\Framework\Filesystem
      */
     public function getFilesystem()
     {

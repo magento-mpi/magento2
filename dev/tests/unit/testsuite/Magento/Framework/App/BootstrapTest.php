@@ -56,14 +56,14 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = $this->getMockForAbstractClass('\Magento\Framework\ObjectManager');
         $this->dirs = $this->getMock('\Magento\Framework\App\Filesystem\DirectoryList', ['getPath'], [], '', false);
         $this->maintenanceMode = $this->getMock('\Magento\Framework\App\MaintenanceMode', ['isOn'], [], '', false);
-        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
 
         $this->logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
 
         $mapObjectManager = [
             ['Magento\Framework\App\Filesystem\DirectoryList', $this->dirs],
             ['Magento\Framework\App\MaintenanceMode', $this->maintenanceMode],
-            ['Magento\Framework\App\Filesystem', $filesystem],
+            ['Magento\Framework\Filesystem', $filesystem],
             ['Magento\Framework\Logger', $this->logger]
         ];
 

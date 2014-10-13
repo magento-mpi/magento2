@@ -67,7 +67,7 @@ class Application
     protected function _updateFilesystemPermissions()
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
-        $varDirectory = $this->getObjectManager()->get('Magento\Framework\App\Filesystem')
+        $varDirectory = $this->getObjectManager()->get('Magento\Framework\Filesystem')
             ->getDirectoryWrite(DirectoryList::VAR_DIR);
         $varDirectory->changePermissions('', 0777);
     }

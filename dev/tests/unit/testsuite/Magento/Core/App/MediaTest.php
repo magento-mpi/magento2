@@ -57,7 +57,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_responseMock;
 
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystemMock;
 
@@ -83,7 +83,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $this->directoryReadMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
             array(),

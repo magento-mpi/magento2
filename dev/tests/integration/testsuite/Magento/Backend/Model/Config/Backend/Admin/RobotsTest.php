@@ -36,7 +36,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
         $this->model->setPath('design/search_engine_robots/custom_instructions');
         $this->model->afterLoad();
         $this->rootDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryRead(
             DirectoryList::ROOT
         );

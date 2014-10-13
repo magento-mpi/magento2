@@ -129,9 +129,9 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      */
     protected function getPath($code)
     {
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         );
         return $filesystem->getDirectoryRead($code)->getAbsolutePath();
     }

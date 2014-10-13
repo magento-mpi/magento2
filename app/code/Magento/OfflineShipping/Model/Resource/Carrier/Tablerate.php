@@ -13,7 +13,7 @@
  */
 namespace Magento\OfflineShipping\Model\Resource\Carrier;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 class Tablerate extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
@@ -114,7 +114,7 @@ class Tablerate extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Filesystem instance
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -126,7 +126,7 @@ class Tablerate extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\OfflineShipping\Model\Carrier\Tablerate $carrierTablerate
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
@@ -136,7 +136,7 @@ class Tablerate extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\OfflineShipping\Model\Carrier\Tablerate $carrierTablerate,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $coreConfig;

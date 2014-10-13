@@ -17,9 +17,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $objectManager->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array(
                 'directoryList' => $objectManager->create(
                     'Magento\Framework\App\Filesystem\DirectoryList',

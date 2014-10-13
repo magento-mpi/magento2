@@ -9,12 +9,12 @@
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config\Testconnection;
 
 use \Magento\Backend\App\Action;
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 class Ping extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 

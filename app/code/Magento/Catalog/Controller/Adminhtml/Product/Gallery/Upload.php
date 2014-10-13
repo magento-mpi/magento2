@@ -35,7 +35,7 @@ class Upload extends \Magento\Backend\App\Action
             $uploader->setFilesDispersion(true);
             /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
             $mediaDirectory = $this->_objectManager->get(
-                'Magento\Framework\App\Filesystem'
+                'Magento\Framework\Filesystem'
             )->getDirectoryRead(
                 DirectoryList::MEDIA
             );

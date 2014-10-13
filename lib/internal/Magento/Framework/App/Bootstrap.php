@@ -322,8 +322,8 @@ class Bootstrap
             $this->objectManager = $this->factory->create($this->rootDir, $this->server);
             $this->dirList = $this->objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
-            /** @var $fileSystem \Magento\Framework\App\Filesystem */
-            $fileSystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
+            /** @var $fileSystem \Magento\Framework\Filesystem */
+            $fileSystem = $this->objectManager->get('Magento\Framework\Filesystem');
             $this->configDir = $fileSystem->getDirectoryRead(DirectoryList::CONFIG);
         }
     }

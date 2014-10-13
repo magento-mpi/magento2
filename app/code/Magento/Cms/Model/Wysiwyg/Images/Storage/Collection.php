@@ -15,15 +15,15 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Collection extends \Magento\Framework\Data\Collection\Filesystem
 {
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Framework\App\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Framework\Filesystem $filesystem)
     {
         $this->_filesystem = $filesystem;
         parent::__construct($entityFactory);

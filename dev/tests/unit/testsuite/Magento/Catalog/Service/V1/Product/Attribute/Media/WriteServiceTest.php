@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
@@ -57,7 +57,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->filesystemMock = $this->getMock(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array(),
             array(),
             '',
