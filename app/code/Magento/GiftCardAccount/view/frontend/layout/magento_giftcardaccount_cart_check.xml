@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd" label="Gift Card Balance Check Form" design_abstraction="custom">
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd" label="Gift Card Balance Check Form" design_abstraction="custom">
     <referenceContainer name="content">
         <block class="Magento\GiftCardAccount\Block\Check" template="check.phtml" name="check.result" as="check_result"/>
     </referenceContainer>

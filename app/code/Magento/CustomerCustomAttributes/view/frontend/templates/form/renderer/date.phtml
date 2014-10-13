@@ -10,37 +10,15 @@
 /** @var $this \Magento\CustomAttributeManagement\Block\Form\Renderer\Date */
 ?>
 <?php
-$fieldCssClass = 'field dob  field-' . $this->getHtmlId();
+$fieldCssClass = 'field date field-' . $this->getHtmlId();
 $fieldCssClass .= $this->isRequired() ? ' required' : '';
-$this->setDateInput('d',
-    '<div class="field dob-day day">
-         <label class="label" for="' . $this->getHtmlId('day') . '"><span>' . __('Day (DD)') . '</span></label>
-         <div class="control"><input type="text" id="' . $this->getHtmlId('day') . '" value="' . $this->getDay() . '" title="' . __('Day') . '" class="validate-custom"></div>
-     </div>'
-);
-
-$this->setDateInput('m',
-    '<div class="field dob-month month">
-         <label class="label" for="' . $this->getHtmlId('month') . '"><span>' . __('Month (MM)')  . '</span></label>
-         <div class="control"><input type="text" id="' . $this->getHtmlId('month') . '" value="' . $this->getMonth()  . '" title="' . __('Month')  . '" class="validate-custom"></div>
-     </div>'
-);
-
-$this->setDateInput('y',
-    '<div class="field dob-year year">
-         <label class="label" for="' . $this->getHtmlId('year') . '"><span>' . __('Year (YYYY)')  . '</span></label>
-         <div class="control"><input type="text" id="' . $this->getHtmlId('year') . '" value="' . $this->getYear()  . '" title="' . __('Year')  . '" class="validate-custom"></div>
-     </div>'
-);
 ?>
 <div class="<?php echo $fieldCssClass; ?>">
-    <label class="label" for="<?php echo $this->getHtmlId('month')?>"><span><?php echo $this->getLabel() ?></span></label>
+    <label class="label" for="<?php echo $this->getHtmlId()?>"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control customer-dob">
-        <div class="fields group group-3"><?php echo $this->getSortedDateInputs() ?></div>
-        <input type="hidden" id="<?php echo $this->getHtmlId('full')?>" name="<?php echo $this->getFieldName()?>" data-validate="{'validate-dob': ['.dob-day', '.dob-month', '.dob-year', <?php echo $this->isRequired() ? 'true' : 'false' ?>]<?php if ($this->getMinDateRange() && $this->getMaxDateRange()):?>, 'validate-date-between': ['<?php echo $this->getMinDateRange()?>', '<?php echo $this->getMaxDateRange()?>']<?php endif;?>}"/>
+        <?php echo $this->getFieldHtml(); ?>
         <?php if ($_message = $this->getAdditionalDescription()) : ?>
         <div class="note"><?php echo $_message; ?></div>
         <?php endif; ?>
     </div>
 </div>
-
