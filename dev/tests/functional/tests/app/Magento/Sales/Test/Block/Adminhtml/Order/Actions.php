@@ -67,6 +67,13 @@ class Actions extends Block
     protected $invoice = '#order_invoice';
 
     /**
+     * 'Reorder' button
+     *
+     * @var string
+     */
+    protected $reorder = '#order_reorder';
+
+    /**
      * 'Ship' button
      *
      * @var string
@@ -126,6 +133,16 @@ class Actions extends Block
     public function invoice()
     {
         $this->_rootElement->find($this->invoice)->click();
+    }
+
+    /**
+     * Reorder order
+     *
+     * @return void
+     */
+    public function reorder()
+    {
+        $this->_rootElement->find($this->reorder)->click();
     }
 
     /**

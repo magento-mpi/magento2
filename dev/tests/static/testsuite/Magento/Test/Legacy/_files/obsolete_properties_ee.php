@@ -10,7 +10,7 @@
 return array(
     array('_eventData', 'Magento\Logging\Block\Adminhtml\Container'),
     array('_customerSegments', 'Magento\CustomerSegment\Model\Customer'),
-    array('_limit', 'Magento\Search\Model\Resource\Index'),
+    array('_limit', 'Magento\Solr\Model\Resource\Index'),
     array('_amountCache', 'Magento\GiftCard\Block\Catalog\Product\Price'),
     array('_minMaxCache', 'Magento\GiftCard\Block\Catalog\Product\Price'),
     array('_skipFields', 'Magento\Logging\Model\Processor'),
@@ -53,10 +53,10 @@ return array(
     ['_inlineTranslation', 'Magento\Rma\Model\Rma'],
     [
         '_searchedEntityIds',
-        'Magento\Search\Model\Resource\Collection',
-        'Magento\Search\Model\Resource\Collection::foundEntityIds'
+        'Magento\Solr\Model\Resource\Collection',
+        'Magento\Solr\Model\Resource\Collection::foundEntityIds'
     ],
-    ['indexerFactory', 'Magento\Search\Model\Observer'],
-    ['_coreRegistry', 'Magento\Search\Model\Observer'],
-    ['_engineProvider', 'Magento\Search\Model\Observer'],
+    ['indexerFactory', 'Magento\Solr\Model\Observer'],
+    ['_coreRegistry', 'Magento\Solr\Model\Observer'],
+    ['_engineProvider', 'Magento\Solr\Model\Observer'],
 );

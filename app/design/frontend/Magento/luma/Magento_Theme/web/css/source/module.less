@@ -82,7 +82,7 @@ body {
     &.content {
         padding-top: 10px;
         position: relative;
-        &:extend(.add-clearfix all);
+        &:extend(.abstract-add-clearfix all);
     }
 }
 
@@ -112,7 +112,7 @@ body {
 }
 
 .action.skip {
-    .visually-hidden();
+    &:extend(.abstract-visually-hidden all);
 }
 
 //
@@ -242,7 +242,7 @@ body {
             font-weight: @font-weight-base;
         }
         .label {
-            .visually-hidden();
+            &:extend(.abstract-visually-hidden all);
         }
     }
 }
@@ -326,7 +326,7 @@ body {
         .header.panel {
             padding-top: 10px;
             padding-bottom: 10px;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
         }
         .switcher {
             float: right;
@@ -429,7 +429,7 @@ body {
         }
         &.content {
             padding: 30px 20px 0;
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
         }
     }
 
@@ -486,7 +486,7 @@ body {
 }
 
 .no-display {
-    display: none;
+    &:extend(.abstract-no-display all);
 }
 
 // Calendar

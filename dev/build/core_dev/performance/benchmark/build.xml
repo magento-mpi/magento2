@@ -107,6 +107,10 @@
 
         <mkdir dir="${sql_dump_file_path}"/>
 
+        <antcall target="_composer_install">
+            <param name="product_root_dir" value="${env.magento_dir}"/>
+        </antcall>
+
         <ac:if>
             <or>
                 <not>
