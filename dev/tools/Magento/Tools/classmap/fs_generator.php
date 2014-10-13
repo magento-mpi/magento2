@@ -21,7 +21,7 @@ if (!$path) {
 }
 
 
-$basePath = realpath(__DIR__ . '/../../../') . '/';
+$basePath = realpath(__DIR__ . '/../../../../../') . DIRECTORY_SEPARATOR;
 $directory = new RecursiveDirectoryIterator($path);
 $iterator = new RecursiveIteratorIterator($directory);
 $regex = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
@@ -39,6 +39,7 @@ foreach ($regex as $file) {
 
     $count = count($tokens);
     $i = 0;
+    $namespace = '';
     while ($i < $count) {
         $token = $tokens[$i];
 
@@ -50,27 +51,48 @@ foreach ($regex as $file) {
         list($id, $content, $line) = $token;
 
         switch ($id) {
+            case T_NAMESPACE:
+                $namespace = '';
+                do {
+                    ++$i;
+                    if (isset($tokens[$i])) {
+                        $token = $tokens[$i];
+                        if (is_string($token)) {
+                            continue;
+                        }
+                        list($type, $content, $line) = $token;
+                        switch ($type) {
+                            case T_STRING:
+                            case T_NS_SEPARATOR:
+                                $namespace .= $content;
+                                break;
+                        }
+                    }
+                } while ($token !== ';' && $i < $count);
+                break;
             case T_CLASS:
             case T_INTERFACE:
                 $class = '';
                 do {
                     ++$i;
-                    $token = $tokens[$i];
-                    if (is_string($token)) {
-                        continue;
-                    }
-                    list($type, $content, $line) = $token;
-                    switch ($type) {
-                        case T_STRING:
-                            $class = $content;
-                            break;
+                    if (isset($tokens[$i])) {
+                        $token = $tokens[$i];
+                        if (is_string($token)) {
+                            continue;
+                        }
+                        list($type, $content, $line) = $token;
+                        switch ($type) {
+                            case T_STRING:
+                                $class = $content;
+                                break;
+                        }
                     }
                 } while (empty($class) && $i < $count);
 
                 // If a classname was found, set it in the object, and
                 // return boolean true (found)
                 if (!empty($class)) {
-                    $map[$class] = $filePath;
+                    $map[(empty($namespace) ? '' : ($namespace . '\\')) . $class] = $filePath;
                 }
                 break;
             default:
