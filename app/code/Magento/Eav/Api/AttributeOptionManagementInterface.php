@@ -5,48 +5,50 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Product\Attribute;
+namespace Magento\Eav\Api;
 
 /**
  * Interface WriteServiceInterface
- * @todo move to Eav\Api\AttributeOptionManagementInterface
+ * instead of
+ * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\ReadServiceInterface
+ * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface
  */
-interface OptionManagementInterface
+interface AttributeOptionManagementInterface
 {
     /**
      * Add option to attribute
      *
      * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::addOption
      *
-     * @param string $attributeId
-     * @param \Magento\Catalog\Api\Data\Eav\AttributeOptionInterface $option
+     * @param string $attributeCode
+     * @param int $entityType
+     * @param \Magento\Eav\Api\Data\AttributeOptionInterface $option
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
-     * @todo add($entityType, $attributeCode)
      */
-    public function add($attributeId, \Magento\Eav\Api\Data\AttributeOptionInterface $option);
+    public function add($attributeCode, $entityType, $option);
 
     /**
      * Delete option from attribute
      *
      * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::removeOption
      *
+     * @param int $entityType
      * @param string $attributeId
      * @param int $optionId
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return bool
-     * @todo remove($entityType, $attributeCode, $optionId)
      */
-    public function remove($attributeId, $optionId);
+    public function remove($entityType, $attributeId, $optionId);
 
     /**
      * Retrieve list of attribute options
      *
-     * instead of \Magento\Catalog\Service\V1\Product\Attribute\Option\ReadService::options
-     * @param string $id
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\ReadService::options
+     * @param int $entityType
+     * @param string $attributeCode
      * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
-     * @todo getItems($entityType, $attributeCode)
      */
-    public function getItems($id);
+    public function getItems($entityType, $attributeCode);
 }

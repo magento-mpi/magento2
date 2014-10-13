@@ -12,6 +12,8 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 /**
  * Class Option
  *
+ * @deprecated
+ * @see \Magento\Eav\Api\Data\AttributeOptionInterface
  * @codeCoverageIgnore
  */
 class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
