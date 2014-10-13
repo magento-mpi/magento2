@@ -6,35 +6,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Product\Attribute;
+namespace Magento\Eav\Api;
 
-/**
- * Created from:
- * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface
- */
 interface AttributeGroupManagementInterface 
 {
     /**
      * Create attribute group
      *
+     * @param string $entityType
      * @param string $attributeSetId
-     * @param \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface $groupData
+     * @param \Magento\Eav\Api\Data\AttributeGroupInterface $groupData
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::create
      */
     public function create(
+        $entityType,
         $attributeSetId,
-        \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface $groupData
+        \Magento\Eav\Api\Data\AttributeGroupInterface $groupData
     );
 
     /**
      * Update attribute group
      *
+     * @param string $entityType
      * @param string $attributeSetId
      * @param string $groupId
-     * @param \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface $groupData
+     * @param \Magento\Eav\Api\Data\AttributeGroupInterface $groupData
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
@@ -42,18 +41,20 @@ interface AttributeGroupManagementInterface
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::update
      */
     public function update(
+        $entityType,
         $attributeSetId,
         $groupId,
-        \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface $groupData
+        \Magento\Eav\Api\Data\AttributeGroupInterface $groupData
     );
 
     /**
      * Remove attribute group
      *
+     * @param string $entityType
      * @param string $attributeSetId
      * @param string $groupId
      * @return bool
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::delete
      */
-    public function delete($attributeSetId, $groupId);
+    public function remove($entityType, $attributeSetId, $groupId);
 }

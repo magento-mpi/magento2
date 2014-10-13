@@ -17,7 +17,7 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\Attribute\AttributeGroupRepositoryInterface::getList
+     * @see \Magento\Eav\Api\AttributeGroupRepositoryInterface::getList
      */
     public function getList($attributeSetId);
 }

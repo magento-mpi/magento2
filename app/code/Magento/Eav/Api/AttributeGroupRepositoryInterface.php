@@ -6,31 +6,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Product\Attribute;
+namespace Magento\Eav\Api;
 
-/**
- * @todo Create new model \Magento\Eav\Model\Product\Attribute\AttributeGroupRepositoryInterface with generic interface
- * @todo Create new model \Magento\Eav\Model\Product\Attribute\AttributeGroupManagementInterface. Add method remove, ?? add argument $entityTypeCode to all method signatures
- */
 interface AttributeGroupRepositoryInterface 
 {
     /**
      * Save attribute group
      *
-     * @param \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface $group
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface
+     * @param \Magento\Eav\Api\Data\AttributeGroupInterface $group
+     * @return \Magento\Eav\Api\Data\AttributeGroupInterface
      */
-    public function save(\Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface $group);
+    public function save(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
 
     /**
      * Retrieve list of attribute groups
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeGroupInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeGroupInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface::getList
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+
+    /**
+     * Retrieve attribute group
+     *
+     * @param int $groupId
+     * @return \Magento\Eav\Api\Data\AttributeGroupInterface
+     */
+    public function get($groupId);
 
     /**
      * Remove attribute group
@@ -39,6 +43,4 @@ interface AttributeGroupRepositoryInterface
      * @return bool
      */
     public function delete($groupId);
-
-
 }

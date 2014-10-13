@@ -45,4 +45,3 @@ interface AttributeManagementInterface
      */
     public function getAttributes($entityType, $attributeSetName);
 }
- 

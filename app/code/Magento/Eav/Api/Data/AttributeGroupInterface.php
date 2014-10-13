@@ -6,12 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product\Attribute;
+namespace Magento\Eav\Api\Data;
 
 /**
- * Interface AttributeGroupInterface must be implemented in \Magento\Catalog\Model\Product\Attribute\Group
+ * Interface AttributeGroupInterface must be implemented in \Magento\Eav\Model\Entity\Attribute\Group
  */
-interface AttributeGroupInterface 
+interface AttributeGroupInterface
 {
     /**
      * Retrieve id
