@@ -20,7 +20,7 @@
     <type name="Magento\Catalog\Model\Product">
         <plugin name="apply_catalog_rules_after_product_save" type="Magento\CatalogRule\Plugin\Indexer\Product\Save\ApplyRules"/>
     </type>
-    <type name="Magento\Catalog\Model\Resource\Category">
+    <type name="Magento\Catalog\Model\Category">
         <plugin name="apply_after_products_assign" type="Magento\CatalogRule\Plugin\Indexer\Category"/>
     </type>
     <type name="Magento\Store\Model\Website">
