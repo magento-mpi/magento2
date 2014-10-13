@@ -47,6 +47,13 @@ class Links extends Form
     protected $title = "//*[@id='downloadable_links_title']";
 
     /**
+     * Add new link row button block
+     *
+     * @var string
+     */
+    protected $addLinkButtonBlock = '#dd-links .col-actions-add:last-child';
+
+    /**
      * Get Downloadable link item block
      *
      * @param int $index
@@ -80,10 +87,12 @@ class Links extends Form
         );
         $this->_fill($mapping);
         foreach ($fields['downloadable']['link'] as $index => $link) {
-            if (!$element->find(sprintf($this->rowBlock, $index + 1), Locator::SELECTOR_XPATH)->isVisible()) {
+            $rowBlock = $this->getRowBlock($index, $element);
+            if (!$rowBlock->isVisible()) {
+                $element->find($this->addLinkButtonBlock)->click();
                 $element->find($this->addNewLinkRow, Locator::SELECTOR_XPATH)->click();
             }
-            $this->getRowBlock($index, $element)->fillLinkRow($link);
+            $rowBlock->fillLinkRow($link);
         }
     }
 
