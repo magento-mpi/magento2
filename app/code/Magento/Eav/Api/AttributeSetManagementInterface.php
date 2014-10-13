@@ -6,23 +6,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Eav\Api;
 
 /**
  * Interface AttributeSetManagement must be implemented
- * in new model \Magento\Catalog\Model\AttributeSetManagement
+ * in new model \Magento\Eav\Model\AttributeSetManagement
  */
-interface ProductAttributeSetManagementInterface
+interface AttributeSetManagementInterface
 {
     /**
      * Create attribute set from data
      *
-     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet
+     * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
      * @param int $skeletonId
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
      */
-    public function create(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
+    public function create(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
 }

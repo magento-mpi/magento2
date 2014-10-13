@@ -12,7 +12,7 @@ interface ReadServiceInterface
     /**
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeSet[]
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductAttributeSetRepositoryInterface::getList
+     * @see \Magento\Eav\Api\AttributeSetRepositoryInterface::getList
      */
     public function getList();
 
@@ -23,7 +23,7 @@ interface ReadServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeSet
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductAttributeSetRepositoryInterface::get
+     * @see \Magento\Eav\Api\AttributeSetRepositoryInterface::get
      */
     public function getInfo($attributeSetId);
 

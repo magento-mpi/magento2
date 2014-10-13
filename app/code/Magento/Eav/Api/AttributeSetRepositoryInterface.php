@@ -6,31 +6,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api;
+namespace Magento\Eav\Api;
 
 /**
- * Interface ProductAttributeSetRepositoryInterface must be implemented in
- * new model \Magento\Catalog\Model\AttributeSetRepository
+ * Interface AttributeSetRepositoryInterface must be implemented in
+ * new model \Magento\Eav\Model\AttributeSetRepository
  */
-interface ProductAttributeSetRepositoryInterface
+interface AttributeSetRepositoryInterface
 {
     /**
      * Save attribute set data
      *
-     * @param \Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData
+     * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSetData
      * @return int attribute set ID
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
      */
-    public function save(\Magento\Catalog\Api\Data\AttributeSetInterface $attributeSetData);
+    public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSetData);
 
     /**
      * Retrieve list of Attribute Sets
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Catalog\Api\Data\AttributeSetInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeSetInterface[]
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getList
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
@@ -40,7 +40,7 @@ interface ProductAttributeSetRepositoryInterface
      *
      * @param int $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
-     * @return \Magento\Catalog\Api\Data\AttributeSetInterface
+     * @return \Magento\Eav\Api\Data\AttributeSetInterface
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getInfo
      */
     public function get($attributeSetId);
