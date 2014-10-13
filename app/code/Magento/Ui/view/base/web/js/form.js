@@ -59,8 +59,6 @@ define(function (require) {
             this.data = provider.data.get();
             this.meta = provider.meta.get();
 
-            provider.params.set('invalid', []);
-
             return this;
         },
 
@@ -143,10 +141,11 @@ define(function (require) {
          *     invokes 'submit' method.
          */
         onSubmit: function () {
-            var isValid = this.validate();
+            var isValid     = this.validate()
+                showErrors  = true;
 
             if (isValid) {
-                this.submit();
+                this.submit(showErrors);
             }
         },
 
@@ -157,25 +156,19 @@ define(function (require) {
             console.log('submitting form lalala')
         },
 
+        isElementValid: function (element) {
+            return element.validate();
+        },
+
         /**
          * Validates each element and returns true, if all elements are valid.
          * 
          * @return {Boolean}
          */
         validate: function () {
-            var provider = this.provider,
-                params   = provider.params,
-                isValid;
+            var isElementValid = this.isElementValid.bind(this);
 
-            params.set('invalid', [])
-
-            _.each(this.elements, function (element) {
-                element.validate();
-            });
-
-            isValid = !params.get('invalid').length;
-
-            return isValid;
+            return _.every(this.elements, isElementValid);
         }
     });
     

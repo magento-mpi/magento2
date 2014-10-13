@@ -14,16 +14,17 @@ define([
     'use strict';
 
     var defaults = {
-        tooltip:        null,
-        label:          '',
-        required:       false,
-        module:         'ui',
-        type:           'input',
-        value:          '',
-        description:    '',
-        disabled:       false,
-        validation: {},
-        validateOnChange: true
+        tooltip:            null,
+        required:           false,
+        disabled:           false,
+        module:             'ui',
+        type:               'input',
+        value:              '',
+        description:        '',
+        label:              '',
+        validateOnChange:   true,
+        validation:         {},
+        error:              ''
     };
 
     return Scope.extend({
@@ -49,9 +50,9 @@ define([
         initObservable: function () {
             this.observe({
                 'value':         this.initialValue = this.value,
-                'required':      this.required,
+                'required':      this.validation['required-entry'] || this.required,
                 'disabled':      this.disabled,
-                'errorMessages': []
+                'error':         this.error
             });
 
             return this;
@@ -98,15 +99,10 @@ define([
         /**
          * Is being called when value is updated
          */
-        onUpdate: function(value){
-            var isValid;
+        onUpdate: function (value) {
+            var shouldValidate = this.validateOnChange;
 
-            if (this.validateOnChange) {
-                isValid = this.validate();
-                this.trigger('validate', isValid);
-            }
-
-            this.trigger('update', this.name, value)
+            this.trigger('update', shouldValidate, this, value)
                 .store(value);
         },
 
@@ -119,32 +115,28 @@ define([
         },
 
         /**
-         * Validates itself by it's validation rules using validator.
+         * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
-         *     errorMessages array.
-         * Triggers validate event on the instance passing the result of
-         *     validation to it.
+         *     errors array.
          *     
          * @return {Boolean} - true, if element is valid
          */
-        validate: function () {
+        validate: function (showErrors) {
             var value       = this.value(),
-                errors      = [],
                 rules       = this.validation,
                 isValid     = true,
-                isAllValid  = true;
+                isAllValid  = true,
+                validate    = validator.validate.bind(validator);
 
-            _.each(rules, function (params, rule) {
-                isValid = validator.validate(rule, value, params);
+            isAllValid = _.every(rules, function (params, rule) {
+                isValid = validate(rule, value, params);
 
                 if (!isValid) {
-                    isAllValid = false;
-                    errors.push(validator.messageFor(rule));
+                    this.error(validator.messageFor(rule));
                 }
-            });
 
-            this.errorMessages(errors);
-            this.trigger('validate', isAllValid);
+                return isValid;
+            }, this);
 
             return isAllValid;
         }
