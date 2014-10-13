@@ -83,4 +83,36 @@
             <argument name="sessionName" xsi:type="const">Magento\Backend\Model\Session\AdminConfig::SESSION_NAME_ADMIN</argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Controller\ResultFactory">
+        <arguments>
+            <argument name="typeMap" xsi:type="array">
+                <item name="page" xsi:type="array">
+                    <item name="type" xsi:type="const">Magento\Framework\Controller\ResultFactory::TYPE_PAGE</item>
+                    <item name="class" xsi:type="string">Magento\Backend\Model\View\Result\Page</item>
+                </item>
+                <item name="forward" xsi:type="array">
+                    <item name="type" xsi:type="const">Magento\Framework\Controller\ResultFactory::TYPE_FORWARD</item>
+                    <item name="class" xsi:type="string">Magento\Backend\Model\View\Result\Forward</item>
+                </item>
+                <item name="redirect" xsi:type="array">
+                    <item name="type" xsi:type="const">Magento\Framework\Controller\ResultFactory::TYPE_REDIRECT</item>
+                    <item name="class" xsi:type="string">Magento\Backend\Model\View\Result\Redirect</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Layout\BuilderFactory">
+        <arguments>
+            <argument name="typeMap" xsi:type="array">
+                <item name="page" xsi:type="array">
+                    <item name="type" xsi:type="const">Magento\Framework\View\Layout\BuilderFactory::TYPE_PAGE</item>
+                    <item name="class" xsi:type="string">Magento\Backend\Model\View\Page\Builder</item>
+                </item>
+                <item name="layout" xsi:type="array">
+                    <item name="type" xsi:type="const">Magento\Framework\View\Layout\BuilderFactory::TYPE_LAYOUT</item>
+                    <item name="class" xsi:type="string">Magento\Backend\Model\View\Layout\Builder</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -3,11 +3,11 @@
  * ACL block filter
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Backend\Model\Layout\Filter;
+namespace Magento\Backend\Model\View\Layout\Filter;
 
 class Acl
 {

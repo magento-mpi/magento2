@@ -117,6 +117,8 @@ class Builder implements BuilderInterface
      */
     protected function generateLayoutBlocks()
     {
+        $this->beforeGenerateBlock();
+
         Profiler::start('LAYOUT');
         /* dispatch event for adding xml layout elements */
         $this->eventManager->dispatch(
@@ -134,6 +136,25 @@ class Builder implements BuilderInterface
             array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
         );
         Profiler::stop('LAYOUT');
+
+        $this->afterGenerateBlock();
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function beforeGenerateBlock()
+    {
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function afterGenerateBlock()
+    {
         return $this;
     }
 }
