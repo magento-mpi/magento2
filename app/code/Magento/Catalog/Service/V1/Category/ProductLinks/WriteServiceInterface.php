@@ -53,7 +53,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\StateException
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\CategoryLinkManagement::remove
+     * @see \Magento\Catalog\Api\CategoryLinkManagementInterface::remove
      */
     public function removeProduct($categoryId, $productSku);
 }
