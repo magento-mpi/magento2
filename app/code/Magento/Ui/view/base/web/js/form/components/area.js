@@ -7,24 +7,29 @@
 define([
     'underscore',
     'Magento_Ui/js/initializer/collection',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, Collection, Scope) {
+    '../component'
+], function(_, Collection, Component) {
     'use strict';
 
     var defaults = {
+        template: 'ui/area',
         visible: false
     };
 
-    var Area = Scope.extend({
-        initialize: function(config) {
-            _.extend(this, defaults, config);
+    var __super__ = Component.prototype;
+
+    var Area = Component.extend({
+        initialize: function() {
+            _.extend(this, defaults);
             
-            this.initObservable()
-                .initListeners()
-                .pullParams();
+            __super__.initialize.apply(this, arguments);
+
+            this.pullParams();
         },
 
         initObservable: function() {
+            __super__.initObservable.apply(this, arguments);
+
             this.observe({
                 'visible': this.visible
             });
@@ -53,10 +58,12 @@ define([
 
         pullParams: function() {
             var params  = this.provider.params,
-                area    = params.get('activeArea');
+                area    = params.get('activeArea'),
+                visible = area === this.name;
 
-            this.visible(area === this.name);
-
+            this.trigger('active', visible)
+                .visible(visible);
+                
             return this;
         },
 
@@ -69,10 +76,6 @@ define([
                 _.without(areas, this.name);
 
             params.set('changedAreas', areas);
-        },
-
-        getTemplate: function () {
-            return 'ui/area';
         }
     });
 

@@ -14,13 +14,3 @@
     </div>
 </div>
 <!-- /ko -->
-
-<!-- ko if: content -->
-<div data-bind="html: content"></div>
-<!-- /ko -->
-
-<!-- ko if: ajax && !content() && !elems() -->
-<div data-role="spinner" class="grid-loading-mask" style="display: none;">
-    <div class="grid-loader"></div>
-</div>
-<!-- /ko -->
