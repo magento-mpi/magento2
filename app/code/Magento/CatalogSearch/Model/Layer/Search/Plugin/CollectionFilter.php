@@ -34,6 +34,7 @@ class CollectionFilter
      * @param \Closure $proceed
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $collection
      * @param Category $category
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundFilter(
