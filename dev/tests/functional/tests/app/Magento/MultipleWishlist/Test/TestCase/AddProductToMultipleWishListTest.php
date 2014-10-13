@@ -11,10 +11,6 @@ namespace Magento\MultipleWishlist\Test\TestCase;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\InjectableFixture;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
@@ -41,27 +37,6 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
  */
 class AddProductToMultipleWishListTest extends Injectable
 {
-    /**
-     * Cms index page
-     *
-     * @var CmsIndex
-     */
-    protected $cmsIndex;
-
-    /**
-     * Customer Account Login Page
-     *
-     * @var CustomerAccountLogin
-     */
-    protected $customerAccountLogin;
-
-    /**
-     * Customer account logout page
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
     /**
      * Catalog Product View Page
      *
@@ -100,26 +75,17 @@ class AddProductToMultipleWishListTest extends Injectable
     /**
      * Injection data
      *
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CatalogProductView $catalogProductView
-     * @param CustomerAccountLogout $customerAccountLogout
      * @param Browser $browser
      * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
-        CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CatalogProductView $catalogProductView,
-        CustomerAccountLogout $customerAccountLogout,
         Browser $browser,
         FixtureFactory $fixtureFactory
     ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogin;
         $this->catalogProductView = $catalogProductView;
-        $this->customerAccountLogout = $customerAccountLogout;
         $this->browser = $browser;
         $this->fixtureFactory = $fixtureFactory;
     }
@@ -127,34 +93,37 @@ class AddProductToMultipleWishListTest extends Injectable
     /**
      * Add Product to Multiple Wish list
      *
+     * @param MultipleWishlist $multipleWishlist
      * @param string $products
      * @param string $duplicate
      * @return array
      */
-    public function test($products, $duplicate)
+    public function test(MultipleWishlist $multipleWishlist, $products, $duplicate)
     {
         $this->markTestIncomplete('Bug: MAGETWO-27949');
 
         // Preconditions
-        $multipleWishlist = $this->fixtureFactory->createByCode('multipleWishlist', ['dataSet' => 'wishlist_public']);
         $multipleWishlist->persist();
         $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();
-
-        list($fixture, $dataSet) = explode('::', $products);
-        $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-        $product->persist();
+        $createProductsStep = $this->objectManager->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $products]
+        );
+        $products = $createProductsStep->run()['products'];
 
         // Steps
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log In");
-        $this->customerAccountLogin->getLoginBlock()->login($customer);
-        $this->addToMultipleWishlist($product, $duplicate, $multipleWishlist);
+        $loginCustomer = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $loginCustomer->run();
+        $this->addToMultipleWishlist($products, $duplicate, $multipleWishlist);
         if ($duplicate == 'yes') {
-            $this->addToMultipleWishlist($product, $duplicate, $multipleWishlist);
+            $this->addToMultipleWishlist($products, $duplicate, $multipleWishlist);
         }
 
         return [
-            'product' => $product,
+            'product' => $products[0],
             'multipleWishlist' => $multipleWishlist,
             'customer' => $customer,
         ];
@@ -163,29 +132,25 @@ class AddProductToMultipleWishListTest extends Injectable
     /**
      * Add product to multiple wishlist
      *
-     * @param InjectableFixture $product
+     * @param array $products
      * @param string $duplicate
      * @param MultipleWishlist $multipleWishlist
      * @return void
      */
-    protected function addToMultipleWishlist($product, $duplicate, $multipleWishlist)
+    protected function addToMultipleWishlist(array $products, $duplicate, MultipleWishlist $multipleWishlist)
     {
-        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->fillOptions($product);
-        if ($duplicate == 'yes') {
-            $qty = $product->getCheckoutData()['options']['qty'] / 2;
-            $this->catalogProductView->getViewBlock()->setQty($qty);
-        }
-        $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist->getName());
-    }
+        foreach ($products as $product) {
+            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+            $this->catalogProductView->getViewBlock()->fillOptions($product);
 
-    /**
-     * Logout customer from frontend account
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->customerAccountLogout->open();
+            $checkoutData = $product->getCheckoutData();
+            if (isset($checkoutData['options']['qty'])) {
+                $qty = $duplicate === 'yes'
+                    ? $checkoutData['options']['qty'] / 2
+                    : $checkoutData['options']['qty'] ;
+                $this->catalogProductView->getViewBlock()->setQty($qty);
+            }
+            $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
+        }
     }
 }

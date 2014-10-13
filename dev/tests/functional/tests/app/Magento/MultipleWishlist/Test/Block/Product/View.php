@@ -9,6 +9,7 @@
 namespace Magento\MultipleWishlist\Test\Block\Product;
 
 use Mtf\Client\Element\Locator;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class View
@@ -33,12 +34,15 @@ class View extends \Magento\Catalog\Test\Block\Product\View
     /**
      * Select which Wishlist you want to add product to
      *
-     * @param string $wishlistName
+     * @param MultipleWishlist $multipleWishlist
      * @return void
      */
-    public function addToMultipleWishlist($wishlistName)
+    public function addToMultipleWishlist(MultipleWishlist $multipleWishlist)
     {
         $this->_rootElement->find($this->addToMultipleWishlist)->click();
-        $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find(
+            sprintf($this->wishlistItem, $multipleWishlist->getName()),
+            Locator::SELECTOR_XPATH
+        )->click();
     }
 }

@@ -89,7 +89,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
             : [];
         $checkoutOptionsData = $this->prepareCheckoutData($attributesData, $configurableCheckoutData);
         $this->getCustomOptionsBlock()->fillCustomOptions($checkoutOptionsData);
-        $this->setQty($checkoutData['options']['qty']);
+
         parent::fillOptions($product);
     }
 
