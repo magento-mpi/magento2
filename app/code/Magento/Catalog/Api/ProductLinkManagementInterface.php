@@ -13,8 +13,7 @@ namespace Magento\Catalog\Api;
  * @see \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface
  * @see \Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface
  *
- * @todo Create new model that implements this interface
- * \Magento\Catalog\Model\ProductLinkManagement
+ * @todo Create new model that implements this interface \Magento\Catalog\Model\ProductLinkManagement
  */
 interface ProductLinkManagementInterface
 {
@@ -25,6 +24,7 @@ interface ProductLinkManagementInterface
      * @param string $linkType
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return Data\ProductLinkInterface[]
+     * @see \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface::getLinkedProducts - previous implementation
      */
     public function getList($productSku, $linkType);
 
@@ -37,6 +37,7 @@ interface ProductLinkManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     * @see \Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface::assign - previous implementation
      */
     public function assign($productSku, $linkType, array $items);
 
@@ -49,8 +50,9 @@ interface ProductLinkManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     * @see \Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface::update - prevuois implementation
      */
-    public function update($productSku, $linkType, Data\ProductLinkInterface $linkedProduct);
+    public function update($productSku, $linkType, \Magento\Catalog\Api\Data\ProductLinkInterface $linkedProduct);
 
     /**
      * Remove the product link from a specific product
@@ -61,6 +63,8 @@ interface ProductLinkManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     *
+     * @see \Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface::remove - prevuois implementation
      */
     public function remove($productSku, $linkType, $linkedProductSku);
 }

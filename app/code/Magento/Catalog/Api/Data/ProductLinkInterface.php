@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * Created from \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink
+ * Created from @see \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink
  */
 interface ProductLinkInterface
 {

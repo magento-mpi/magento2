@@ -12,6 +12,8 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
  * ProductLink Service Data Object
  *
  * @codeCoverageIgnore
+ * @deprecated
+ * @see \Magento\Catalog\Api\Data\ProductLinkInterface
  */
 class ProductLink extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

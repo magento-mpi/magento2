@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 /**
+ * @todo remove this interface
  * @deprecated
  */
 interface ReadServiceInterface
@@ -18,7 +19,7 @@ interface ReadServiceInterface
      *
      * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkType[]
      * @deprecated
-     * @see \Magento\Catalog\Api\Data\ProductLink\TypeListInterface::getItems
+     * @see \Magento\Catalog\Api\Product\Link\ProductLinkTypeListInterface::getItems
      */
     public function getProductLinkTypes();
 
@@ -43,7 +44,7 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkAttribute[]
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\Data\ProductLink\TypeListInterface::getItemAttributes
+     * @see \Magento\Catalog\Api\Product\Link\ProductLinkTypeListInterface::getItemAttributes
      */
     public function getLinkAttributes($type);
 }
