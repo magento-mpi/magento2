@@ -54,12 +54,10 @@ define(function (require) {
          * @return {Object} - reference to instance
          */
         initProperties: function () {
-            var provider = this.refs.provider;
+            var provider = this.provider;
 
             this.data = provider.data.get();
             this.meta = provider.meta.get();
-
-            provider.params.set('invalid', []);
 
             return this;
         },
@@ -116,9 +114,10 @@ define(function (require) {
             _.extend(config, {
                 name: name,
                 type: type,
-                refs: this.refs,
                 value: utils.nested(this.data, name),
-                validateOnChange: this.validateOnChange
+                validateOnChange: this.validateOnChange,
+                provider: this.provider,
+                globalStorage: this.globalStorage
             });
 
             delete config.input_type;
@@ -142,10 +141,11 @@ define(function (require) {
          *     invokes 'submit' method.
          */
         onSubmit: function () {
-            var isValid = this.validate();
+            var isValid     = this.validate()
+                showErrors  = true;
 
             if (isValid) {
-                this.submit();
+                this.submit(showErrors);
             }
         },
 
@@ -156,25 +156,19 @@ define(function (require) {
             console.log('submitting form lalala')
         },
 
+        isElementValid: function (element) {
+            return element.validate();
+        },
+
         /**
          * Validates each element and returns true, if all elements are valid.
          * 
          * @return {Boolean}
          */
         validate: function () {
-            var provider = this.refs.provider,
-                params   = provider.params,
-                isValid;
+            var isElementValid = this.isElementValid.bind(this);
 
-            params.set('invalid', [])
-
-            _.each(this.elements, function (element) {
-                element.validate();
-            });
-
-            isValid = !params.get('invalid').length;
-
-            return isValid;
+            return _.every(this.elements, isElementValid);
         }
     });
     
@@ -187,10 +181,11 @@ define(function (require) {
      */
     return function (config) {
         registry.get([config.source, 'globalStorage'], function (provider, globalStorage) {
-            config.refs = {
+
+            _.extend(config, {
                 provider: provider,
                 globalStorage: globalStorage
-            };
+            });
 
             registry.set(config.name, new Form(config));
         });

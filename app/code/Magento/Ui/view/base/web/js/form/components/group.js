@@ -17,8 +17,7 @@ define([
         label:      '',
         required:   false,
         template:   'ui/group/group',
-        breakLine:  false,
-        invalid: []
+        breakLine:  false
     };
 
     /**
@@ -91,7 +90,7 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            this.observe('invalid', this.invalid || []);
+            this.observe('invalids', []);
 
             return this;
         },
@@ -111,29 +110,13 @@ define([
             });
         },
 
-        /**
-         * Reacts on element's being validated.
-         * If isValid is falsy, updates provider's params storage's invalid
-         *     property. Also, updates instance's invalid observable array.
-         * 
-         * @param  {Object}  element - element, that has been validated
-         * @param  {Boolean} isValid - result of element's validation
-         */
-        validate: function (element, isValid) {
-            var params = this.provider.params,
-                invalid,
-                localInvalid;
+        onUpdate: function (element, value, isValid) {
 
-            if (!isValid) {
-                invalid         = params.get('invalid');
-                localInvalid    = this.invalid();
-
-                invalid.push(element.name);
-                localInvalid.push(element);
-
-                params.set('invalid', _.uniq(invalid));
-                this.invalid(_.uniq(localInvalid));
+            if (!isValid && this.invalids.hasNo(element)) {
+                this.invalids.push(element);
             }
+
+            this.trigger('update', element, value);
         },
 
         /**
@@ -142,13 +125,11 @@ define([
          * @return {Object} - reference to instance
          */
         initListeners: function(){
-            var update      = this.trigger.bind(this, 'update'),
-                validate    = this.validate;
+            var update = this.onUpdate.bind(this);
 
             this.elems.forEach(function(element){
-                element.on('update',   update);
-                element.on('validate', validate.bind(this, element));
-            }, this);
+                element.on('update', update);
+            });
 
             return this;
         },

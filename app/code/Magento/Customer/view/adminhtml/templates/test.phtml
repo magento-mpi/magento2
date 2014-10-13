@@ -11,7 +11,6 @@
                             "input_type": "select",
                             "label": "Associate to Website",
                             "caption": "Please select ...",
-                            "required": true,
                             "options": [
                                 {"label":"Admin Website","value":"0"},
                                 {"label":"Main Website","value":"1"}
@@ -36,7 +35,6 @@
                             "input_type": "select",
                             "label": "Gender",
                             "no_caption": true,
-                            "required": true,
                             "options": [
                                 {"value":"0","label": "Male"},
                                 {"value":"1","label": "Female"}
@@ -59,7 +57,7 @@
                             "label": "Prefix",
                             "validation": {
                                 "required-entry": true,
-                                "no-whitespace": true
+                                "letters-only": true
                             }
                         },
                         "firstname": {
@@ -67,20 +65,24 @@
                             "data_type": "text",
                             "input_type": "input",
                             "label": "First Name",
-                            "required": true
+                            "validation": {
+                                "required-entry": true
+                            }
                         },
                         "middle_name": {
                             "index": "middle_name",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "Middle Name/Initial"
+                            "label": "Middle Name/Initial",
+                            "validation": {
+                                "required-entry": true
+                            }
                         },
                         "lastname": {
                             "index": "lastname",
                             "data_type": "text",
                             "input_type": "input",
-                            "label": "Last Name",
-                            "required": true
+                            "label": "Last Name"
                         },
                         "suffix": {
                             "index": "suffix",
@@ -92,13 +94,16 @@
                             "index": "email",
                             "data_type": "text",
                             "input_type": "email",
-                            "label": "Email Address",
-                            "required": true
+                            "label": "Email Address"
                         },
                         "taxvat": {
                             "index": "taxvat",
                             "data_type": "text",
                             "input_type": "input",
+                            "disable_rules": {
+                                "customer.prefix": "xx",
+                                "customer.general": "2"
+                            },
                             "label": "Tax/VAT Number"
                         },
                         "price": {
@@ -107,6 +112,11 @@
                             "data_type": "price",
                             "input_type": "price",
                             "currency_sign": "$",
+                            "disabled": "true",
+                            "disable_rules": {
+                                "customer.prefix": "xx",
+                                "customer.general": "2"
+                            },
                             "label": "Price / currency fireld"
                         },
                         "send_email": {

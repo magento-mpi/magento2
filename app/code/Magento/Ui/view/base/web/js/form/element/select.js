@@ -50,7 +50,8 @@ define([
          * @param  {*} changedValue - current value of form element
          */
         store: function (changedValue) {
-            this.refs.provider.data.set(this.name, changedValue.value);
+            var storedValue = changedValue ? changedValue.value : '';
+            this.provider.data.set(this.name, storedValue);
         },
 
         /**
@@ -62,7 +63,7 @@ define([
             return _.map(options, function (fullValue, index) {
                 return {
                     label: fullValue.label,
-                    value: fullValue.name
+                    value: fullValue.value
                 };
             });
         },

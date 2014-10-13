@@ -11,24 +11,22 @@
         <span data-bind="text: label"></span>
     </label>
     <div class="control">
-        <!-- ko foreach: elems -->
+        <!-- ko foreach: { data: elems, as: 'element' } -->
 
             <!-- ko if: $parent.breakLine -->
                 <div class="nested">
-                    <!-- ko template: getTemplate() --><!-- /ko -->
+                    <!-- ko template: element.getTemplate() --><!-- /ko -->
                 </div>
             <!-- /ko -->
             
             <!-- ko ifnot: $parent.breakLine -->
-                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- ko template: element.getTemplate() --><!-- /ko -->
             <!-- /ko -->
 
         <!-- /ko -->
 
-        <!-- ko foreach: { data: invalid, as: 'element' } -->
-            <!-- ko foreach: { data: element.errorMessages, as: 'message' } -->
-            <label class="mage-error" data-bind="attr: { for: $parent.uid }, text: message"></label>
-            <!-- /ko -->
+        <!-- ko foreach: { data: element.invalids, as: 'element' } -->
+        <label class="mage-error" data-bind="attr: { for: element.uid }, text: element.error"></label>
         <!-- /ko -->
-    </div>
+    </div>  
 </div>

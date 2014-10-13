@@ -14,15 +14,17 @@ define([
     'use strict';
 
     var defaults = {
-        tooltip:        null,
-        label:          '',
-        required:       false,
-        module:         'ui',
-        type:           'input',
-        value:          '',
-        description:    '',
-        validation: {},
-        validateOnChange: true
+        tooltip:            null,
+        required:           false,
+        disabled:           false,
+        module:             'ui',
+        type:               'input',
+        value:              '',
+        description:        '',
+        label:              '',
+        validateOnChange:   true,
+        validation:         {},
+        error:              ''
     };
 
     return Scope.extend({
@@ -33,9 +35,10 @@ define([
          */
         initialize: function (config) {
             _.extend(this, defaults, config);
-        
+
             this.setUniqueId()
-                .initObservable();
+                .initObservable()
+                .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
         },
@@ -46,9 +49,10 @@ define([
          */
         initObservable: function () {
             this.observe({
-                'value': this.initialValue = this.value,
-                'required': this.required,
-                'errorMessages': []
+                'value':         this.initialValue = this.value,
+                'required':      this.validation['required-entry'] || this.required,
+                'disabled':      this.disabled,
+                'error':         this.error
             });
 
             return this;
@@ -64,12 +68,24 @@ define([
             return this;
         },
 
+        initDisableStatus: function() {
+            var self = this;
+
+            _.each(this.disable_rules, function(triggeredValue, path){
+                self.provider.data.on('update:' + path, function(changedValue){
+                    self.disabled(triggeredValue === changedValue);
+                });
+            });
+
+            return self;
+        },
+
         /**
          * Stores element's value to registry by element's path value
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.refs.provider.data.set(this.name, value);
+            this.provider.data.set(this.name, value);
         },
 
         /**
@@ -83,12 +99,15 @@ define([
         /**
          * Is being called when value is updated
          */
-        onUpdate: function(value){
-            if (this.validateOnChange) {
-                this.trigger('validate', this.validate());
+        onUpdate: function (value) {
+            var shouldValidate  = this.validateOnChange,
+                isValid         = true;
+
+            if (shouldValidate) {
+                isValid = this.validate();
             }
 
-            this.trigger('update', this.name, value)
+            this.trigger('update', this, value, isValid)
                 .store(value);
         },
 
@@ -101,33 +120,34 @@ define([
         },
 
         /**
-         * Validates itself by it's validation rules using validator.
+         * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
-         *     errorMessages array.
-         * Triggers validate event on the instance passing the result of
-         *     validation to it.
+         *     errors array.
          *     
          * @return {Boolean} - true, if element is valid
          */
-        validate: function () {
+        validate: function (showErrors) {
             var value       = this.value(),
-                messages    = [],
-                invalid     = [],
                 rules       = this.validation,
-                isValid;
+                isValid     = true,
+                isAllValid  = true,
+                validate    = validator.validate.bind(validator);
 
-            _.each(rules, function (params, rule) {
-                if (!validator.validate(rule, value, params)) {
-                    invalid.push(rule);
-                    messages.push(validator.messageFor(rule));
+            isAllValid = _.every(rules, function (params, rule) {
+                isValid = validate(rule, value, params);
+                
+                if (!isValid) {
+                    this.error(validator.messageFor(rule));
                 }
-            });
 
-            isValid = !invalid.length;
-            this.errorMessages(messages);
-            this.trigger('validate', isValid);
+                return isValid;
+            }, this);
 
-            return isValid;
+            if (isAllValid) {
+                this.error('');
+            }
+
+            return isAllValid;
         }
     }, EventsBus);
 });

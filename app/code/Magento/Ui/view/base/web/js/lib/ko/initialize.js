@@ -14,7 +14,8 @@ define([
     './bind/stop_propagation',
     './bind/outer_click',
     './bind/class',
-    './bind/keyboard'
+    './bind/keyboard',
+    './utils'
 ], function(ko, templateEngine) {
     'use strict';
 
