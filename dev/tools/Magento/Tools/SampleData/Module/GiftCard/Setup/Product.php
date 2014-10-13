@@ -7,45 +7,20 @@
  */
 namespace Magento\Tools\SampleData\Module\GiftCard\Setup;
 
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
- * Class Product
+ * Setup Gift Card
  */
-class Product implements SetupInterface
+class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product implements SetupInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var string
      */
-    protected $productFactory;
-
-    /**
-     * @var \Magento\Catalog\Model\Config
-     */
-    protected $catalogConfig;
-
-    /**
-     * @var Product\Converter
-     */
-    protected $converter;
-
-    /**
-     * @var FixtureHelper
-     */
-    protected $fixtureHelper;
-
-    /**
-     * @var CsvReaderFactory
-     */
-    protected $csvReaderFactory;
-
-    /**
-     * @var Product\Gallery
-     */
-    protected $gallery;
+    protected $productType = \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -53,6 +28,8 @@ class Product implements SetupInterface
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param Gallery $gallery
+     * @param array $fixtures
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -60,54 +37,22 @@ class Product implements SetupInterface
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
-        Gallery $gallery
+        Gallery $gallery,
+        $fixtures = array(
+            'GiftCard/products_giftcard.csv'
+        )
     ) {
-        $this->productFactory = $productFactory;
-        $this->catalogConfig = $catalogConfig;
-        $this->converter = $converter;
-        $this->fixtureHelper = $fixtureHelper;
-        $this->csvReaderFactory = $csvReaderFactory;
-        $this->gallery = $gallery;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function run()
-    {
-        echo 'Installing giftcard products' . PHP_EOL;
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productFactory->create();
-        $this->gallery->setFixtures([
+        $gallery->setFixtures([
             'GiftCard/images_giftcard.csv'
         ]);
-        $files = [
-            'GiftCard/products_giftcard.csv',
-        ];
-        foreach ($files as $file) {
-            /** @var \Magento\Framework\File\Csv\Reader $csvReader */
-            $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach ($csvReader as $row) {
-                if (empty($row)) {
-                    continue;
-                }
-                $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
-                $data = $this->converter->convertRow($row);
-                $product->unsetData();
-                $product->setData($data);
-                $product
-                    ->setTypeId(\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD)
-                    ->setAttributeSetId($attributeSetId)
-                    ->setWebsiteIds(array(1))
-                    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-                    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                    ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 1, 'qty' => 100));
-                $product->save();
-                $this->gallery->install($product);
-                echo '.';
-            }
-        }
-        echo "\n";
+        parent::__construct(
+            $productFactory,
+            $catalogConfig,
+            $converter,
+            $fixtureHelper,
+            $csvReaderFactory,
+            $gallery,
+            $fixtures
+        );
     }
 }

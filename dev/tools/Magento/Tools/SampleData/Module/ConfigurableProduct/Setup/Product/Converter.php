@@ -7,47 +7,12 @@
  */
 namespace Magento\Tools\SampleData\Module\ConfigurableProduct\Setup\Product;
 
-class Converter
+class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
 {
-    /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
-     */
-    protected $categoryReadService;
-
-    /**
-     * @var \Magento\Eav\Model\Config
-     */
-    protected $eavConfig;
-
-    /**
-     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
-     */
-    protected $attributeCollectionFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
-     */
-    protected $attrOptionCollectionFactory;
-
     /**
      * @var \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix
      */
     protected $variationMatrix;
-
-    /**
-     * @var array
-     */
-    protected $attributeCodeOptionsPair;
-
-    /*
-     * @var array
-     */
-    protected $attributeCodeOptionValueIdsPair;
-
-    /**
-     * @var int
-     */
-    protected $attributeSetId;
 
     /**
      * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
@@ -63,11 +28,13 @@ class Converter
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix
     ) {
-        $this->categoryReadService = $categoryReadService;
-        $this->eavConfig = $eavConfig;
-        $this->attributeCollectionFactory = $attributeCollectionFactory;
-        $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
         $this->variationMatrix = $variationMatrix;
+        parent::__construct(
+            $categoryReadService,
+            $eavConfig,
+            $attributeCollectionFactory,
+            $attrOptionCollectionFactory
+        );
     }
 
     /**
@@ -77,35 +44,10 @@ class Converter
      */
     public function convertRow($row)
     {
-        $data = [];
-        $configurableAttributes = [];
-        foreach ($row as $field => $value) {
-            if ('category' == $field) {
-                $data['category_ids'] = $this->getCategoryIds($this->getArrayValue($value));
-                continue;
-            }
-            if (in_array($field, array('color', 'size_general', 'size_pants'))) {
-                if ($value) {
-                    $configurableAttributes[$field] = $this->getArrayValue($value);
-                }
-                continue;
-            }
+        $data = parent::convertRow($row);
 
-            $options = $this->getAttributeOptionValueIdsPair($field);
-            if ($options) {
-                $value = $this->getArrayValue($value);
-                $result = [];
-                foreach ($value as $v) {
-                    if (isset($options[$v])) {
-                        $result[] = $options[$v];
-                    }
-                }
-                $value = (count($result) == 1) ? current($result) : $result;
-            }
-            $data[$field] = $value;
-        }
-        if ($configurableAttributes) {
-            $data['configurable_attributes_data'] = $this->convertAttributesData($configurableAttributes);
+        if (!empty($data['configurable_attributes_data'])) {
+            $data['configurable_attributes_data'] = $this->convertAttributesData($data['configurable_attributes_data']);
             $data['variations_matrix'] = $this->getVariationsMatrix($data);
             $data['new_variations_attribute_set_id'] = $this->getAttributeSetId();
         }
@@ -113,38 +55,17 @@ class Converter
     }
 
     /**
-     * @param mixed $value
-     * @return array
+     * @inheritdoc
      */
-    protected function getArrayValue($value)
+    protected function convertField(&$data, $field, $value)
     {
-        if (is_array($value)) {
-            return $value;
-        }
-        if (false !== strpos($value, "\n")) {
-            $value = array_filter(explode("\n", $value));
-        }
-        return !is_array($value) ? [$value] : $value;
-    }
-
-    /**
-     * @param array $categories
-     * @return array
-     */
-    protected function getCategoryIds($categories)
-    {
-        $ids = [];
-        $tree = $this->categoryReadService->tree();
-        foreach ($categories as $name) {
-            foreach ($tree->getChildren() as $child) {
-                if ($child->getName() == $name) {
-                    $tree = $child;
-                    $ids[] = $child->getId();
-                    break;
-                }
+        if (in_array($field, array('color', 'size_general', 'size_pants'))) {
+            if (!empty($value)) {
+                $data['configurable_attributes_data'][$field] = $this->getArrayValue($value);
             }
+            return true;
         }
-        return $ids;
+        return false;
     }
 
     /**
@@ -224,79 +145,5 @@ class Converter
             ];
         }
         return $result;
-    }
-
-    /**
-     * @param string $attributeCode
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection|null
-     */
-    public function getAttributeOptions($attributeCode)
-    {
-        if (!$this->attributeCodeOptionsPair) {
-            $this->loadAttributeOptions();
-        }
-        return isset($this->attributeCodeOptionsPair[$attributeCode])
-            ? $this->attributeCodeOptionsPair[$attributeCode]
-            : null;
-    }
-
-    /**
-     * Loads all attributes with options for current attribute set
-     *
-     * @return $this
-     */
-    protected function loadAttributeOptions()
-    {
-        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
-        $collection = $this->attributeCollectionFactory->create();
-        $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
-        $collection->setAttributeSetFilter($this->getAttributeSetId());
-        $collection->setFrontendInputTypeFilter(array('in' => array('select', 'multiselect')));
-        foreach ($collection as $item) {
-            $options = $this->attrOptionCollectionFactory->create()
-                ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
-            $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
-        }
-        return $this;
-    }
-
-    /**
-     * @param string $attributeCode
-     * @return mixed
-     */
-    protected function getAttributeOptionValueIdsPair($attributeCode)
-    {
-        if (!isset($this->attributeCodeOptionValueIdsPair[$attributeCode])) {
-            $options = $this->getAttributeOptions($attributeCode);
-            $opt = [];
-            if ($options) {
-                foreach ($options as $option) {
-                    $opt[$option->getValue()] = $option->getId();
-                }
-            }
-            $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
-        }
-        return $this->attributeCodeOptionValueIdsPair[$attributeCode];
-    }
-
-    /**
-     * @return int
-     */
-    protected function getAttributeSetId()
-    {
-        return $this->attributeSetId;
-    }
-
-    /**
-     * @param int $value
-     * @return $this
-     */
-    public function setAttributeSetId($value)
-    {
-        if ($this->attributeSetId != $value) {
-            $this->loadAttributeOptions();
-        }
-        $this->attributeSetId = $value;
-        return $this;
     }
 }

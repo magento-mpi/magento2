@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -81,7 +81,7 @@ class ProductLink implements SetupInterface
                 if (!$fileName) {
                     continue;
                 }
-                /** @var \Magento\Framework\File\Csv\Reader $csvReader */
+                /** @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReader */
                 $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
                 foreach ($csvReader as $row) {
                     /** @var \Magento\Catalog\Model\Product $product */
