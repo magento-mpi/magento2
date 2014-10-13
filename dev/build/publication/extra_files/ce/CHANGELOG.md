@@ -2,9 +2,9 @@
 =============
  * Released Performance Toolkit
  * GitHub requests:
-   * [#665](https://github.com/magento/magento2/issues/665) Main menu event in wrong area
-   * [#666](https://github.com/magento/magento2/issues/666) Update di.xml
-   * [#602](https://github.com/magento/magento2/issues/602) Magento\Sales\Model\Order::getFullTaxInfo() incorrectly combines percentages
+   * [#665](https://github.com/magento/magento2/issues/665) -- Main menu event in wrong area
+   * [#666](https://github.com/magento/magento2/pull/666) -- Update di.xml
+   * [#602](https://github.com/magento/magento2/issues/602) -- Magento\Sales\Model\Order::getFullTaxInfo() incorrectly combines percentages
  * Functional tests:
    * Updated API-functional test for Customer and Address metadata service
  * Layout updates:
@@ -52,7 +52,7 @@
    * Fixed an issue where search in the Search Terms Report grid did not work
    * Fixed an issue where the unnecessary tab "General" was displayed on the Category page in the Admin panel
    * Fixed an issue where the Stock Status value changed from In Stock to Out of Stock if quantity was not specified for a configurable product when saving to a new template
-   * Fixed an issue where oroduct Stock Status was always set to 'In Stock' if product quantity was specified
+   * Fixed an issue where product Stock Status was always set to 'In Stock' if product quantity was specified
    * Fixed an IE specific issue where for bundle products the Manage Stock option was reset to Yes
    * Fixed an issue where backorder messages were not displayed
    * Fixed an issue where the Price field was always required during Bundle product update using ProductService
@@ -63,10 +63,10 @@
    * Fixed an issue where invoice amount was incorrect when items with discount were partially invoiced
    * Fixed product thumbnails alignment in the storefront
    * Fixed an issue where inactive Categories were not greyed out in the tree in the Admin panel
-   * Fixed an issue where it was impossible to dasable debug mode
+   * Fixed an issue where it was impossible to disable debug mode
    * Fixed the code sample in the index.php file
    * Removed language selector in the setup UI
-   * Fixed an issue where set up was broken if db_prefix was used
+   * Fixed an issue where setup was broken if db_prefix was used
    * Implemented usage of Symfony's PHPExecutableFinder for executing CLI tools
    * Fixed an issue with the Import/Export functionality
    * Fixed an issue with catalog product/category and category/product indexers invalidation after import
