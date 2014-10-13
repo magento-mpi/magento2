@@ -61,6 +61,9 @@
     </target>
 
     <target name="js-test-php" depends="_server_info,jstestdriver-path-substitution">
+        <antcall target="_composer_install">
+            <param name="product_root_dir" value="${basedir}"/>
+        </antcall>
         <exec dir="${basedir}/dev/tests/js" executable="php" failonerror="true">
             <arg line="run_js_tests.php"/>
         </exec>
@@ -157,6 +160,9 @@
             <replacefilter token="{{secure_url}}" value="${env.https_host}${env.build_scope_name}/${timestamp}-${env.build_number}"/>
         </replace>
 
+        <antcall target="_composer_install">
+            <param name="product_root_dir" value="${dir.build_directory}"/>
+        </antcall>
         <exec executable="php" failonerror="true">
             <arg line="-f ${dir.build_directory}/dev/build/publication/install.php --
                 --build_properties_file ${dir.build_directory}/${env.install_properties_file}
