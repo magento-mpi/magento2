@@ -134,7 +134,7 @@ class Builder implements BuilderInterface
         $select = $this->getSelect();
         $table = $attribute->getBackendTable();
         if ($filter->getField() == 'price') {
-            $select->from(['main_table' => $this->resource->getTable('catalog_product_index_price')], 'entity_id')
+            $select->from(['main_table' => $this->resource->getTableName('catalog_product_index_price')], 'entity_id')
                 ->where($query);
         } else  if ($attribute->isStatic()) {
             $select->from(['main_table' => $table], 'entity_id')
@@ -163,7 +163,6 @@ class Builder implements BuilderInterface
         return  'product_id '. ( $isNegation ? 'NOT' : '' ) .' IN (
                 select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
              as filter)';
-       ;
     }
 
     /**

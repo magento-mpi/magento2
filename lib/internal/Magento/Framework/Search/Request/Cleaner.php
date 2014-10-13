@@ -129,7 +129,7 @@ class Cleaner
                     }
                 }
                 $filterKeys = array_keys($this->requestData['filters'][$filterName]);
-                if (count(array_diff($keys, $filterKeys)) == 0) {
+                if (count(array_diff($keys, $filterKeys)) == count($keys)) {
                     unset($this->requestData['filters'][$filterName]);
                 }
                 break;
