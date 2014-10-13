@@ -23,16 +23,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $installDir = '/install/dir';
         $appMode = \Magento\Framework\App\State::MODE_DEVELOPER;
         $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(BP);
+        $driverPool = new \Magento\Framework\Filesystem\DriverPool;
         $filesystem = new \Magento\Framework\App\Filesystem(
             $directoryList,
-            new \Magento\Framework\Filesystem\Directory\ReadFactory(),
-            new \Magento\Framework\Filesystem\Directory\WriteFactory(),
-            new \Magento\Framework\Filesystem\File\ReadFactory(
-                new \Magento\Framework\Filesystem\DriverFactory($directoryList)
-            ),
-            new \Magento\Framework\Filesystem\File\WriteFactory(
-                new \Magento\Framework\Filesystem\DriverFactory($directoryList)
-            )
+            new \Magento\Framework\Filesystem\Directory\ReadFactory($driverPool),
+            new \Magento\Framework\Filesystem\Directory\WriteFactory($driverPool),
+            new \Magento\Framework\Filesystem\File\ReadFactory($driverPool),
+            new \Magento\Framework\Filesystem\File\WriteFactory($driverPool)
         );
 
         $object = new \Magento\TestFramework\Application(
