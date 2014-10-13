@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\Catalog;
 
 use Magento\Tools\SampleData\SetupInterface;
+use Magento\Tools\SampleData\Helper\PostInstaller;
 
 /**
  * Class Setup
@@ -44,6 +45,11 @@ class Setup implements SetupInterface
     protected $productLinkSetup;
 
     /**
+     * @var PostInstaller
+     */
+    protected $postInstaller;
+
+    /**
      * @param Setup\Category $categorySetup
      * @param Setup\Attribute $attributeSetup
      * @param Setup\Product $productSetup
@@ -52,12 +58,14 @@ class Setup implements SetupInterface
         Setup\Category $categorySetup,
         Setup\Attribute $attributeSetup,
         Setup\Product $productSetup,
-        Setup\ProductLink $productLinkSetup
+        Setup\ProductLink $productLinkSetup,
+        PostInstaller $postInstaller
     ) {
         $this->categorySetup = $categorySetup;
         $this->attributeSetup = $attributeSetup;
         $this->productSetup = $productSetup;
         $this->productLinkSetup = $productLinkSetup;
+        $this->postInstaller = $postInstaller;
     }
 
     /**
@@ -68,6 +76,6 @@ class Setup implements SetupInterface
         $this->attributeSetup->run();
         $this->categorySetup->run();
         $this->productSetup->run();
-        $this->productLinkSetup->run();
+        $this->postInstaller->addSetupResource($this->productLinkSetup);
     }
 }
