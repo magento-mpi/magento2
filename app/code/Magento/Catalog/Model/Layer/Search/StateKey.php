@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\Layer\Search;
 
+use Magento\Catalog\Model\Layer\StateKeyInterface;
+
 class StateKey implements StateKeyInterface
 {
     /**
@@ -17,6 +19,6 @@ class StateKey implements StateKeyInterface
      */
     public function toString($category)
     {
-        return 'CATEGORY_' . $category->getId();
+        return 'CATEGORY_LAYER_SEARCH_' . $category->getId();
     }
 }

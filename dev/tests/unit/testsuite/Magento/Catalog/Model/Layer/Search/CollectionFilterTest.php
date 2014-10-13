@@ -52,8 +52,8 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\CatalogSearch\Model\Layer\Search\CollectionFilter::filter
-     * @covers \Magento\CatalogSearch\Model\Layer\Search\CollectionFilter::__construct
+     * @covers \Magento\Catalog\Model\Layer\Search\CollectionFilter::filter
+     * @covers \Magento\Catalog\Model\Layer\Search\CollectionFilter::__construct
      */
     public function testFilter()
     {
