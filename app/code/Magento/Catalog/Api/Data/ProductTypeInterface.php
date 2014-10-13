@@ -9,19 +9,11 @@
  */
 namespace Magento\Catalog\Api\Data;
 
-interface ProductTypeInterface
+/**
+ * @todo This interface can be removed if Framework supports nested array output
+ * @see \Magento\Catalog\Service\V1\Data\ProductType - previous imeplementation
+ */
+interface ProductTypeInterface extends \Magento\Framework\Object\KeyValueObjectInterface
 {
-    /**
-     * Retrieve product type name
-     *
-     * @return string
-     */
-    public function getName();
 
-    /**
-     * Retrieve product type label
-     *
-     * @return string
-     */
-    public function getLabel();
 }
