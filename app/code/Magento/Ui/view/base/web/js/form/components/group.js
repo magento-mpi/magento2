@@ -17,8 +17,7 @@ define([
         label:      '',
         required:   false,
         template:   'ui/group/group',
-        breakLine:  false,
-        invalid: []
+        breakLine:  false
     };
 
     /**
@@ -91,7 +90,7 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            this.observe('invalid', _.isArray(this.invalid) ? this.invalid : []);
+            this.observe('invalids', []);
 
             return this;
         },
@@ -111,15 +110,10 @@ define([
             });
         },
 
-        onUpdate: function (shouldValidate, element, value) {
-            var isValid = true;
+        onUpdate: function (element, value, isValid) {
 
-            if (shouldValidate) {
-                isValid = element.validate();
-            }
-
-            if (!isValid && this.invalid.hasNo(element)) {
-                this.invalid.push(element);
+            if (!isValid && this.invalids.hasNo(element)) {
+                this.invalids.push(element);
             }
 
             this.trigger('update', element, value);

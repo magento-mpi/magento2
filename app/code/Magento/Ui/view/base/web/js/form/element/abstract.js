@@ -100,9 +100,14 @@ define([
          * Is being called when value is updated
          */
         onUpdate: function (value) {
-            var shouldValidate = this.validateOnChange;
+            var shouldValidate  = this.validateOnChange,
+                isValid         = true;
 
-            this.trigger('update', shouldValidate, this, value)
+            if (shouldValidate) {
+                isValid = this.validate();
+            }
+
+            this.trigger('update', this, value, isValid)
                 .store(value);
         },
 
@@ -130,13 +135,17 @@ define([
 
             isAllValid = _.every(rules, function (params, rule) {
                 isValid = validate(rule, value, params);
-
+                
                 if (!isValid) {
                     this.error(validator.messageFor(rule));
                 }
 
                 return isValid;
             }, this);
+
+            if (isAllValid) {
+                this.error('');
+            }
 
             return isAllValid;
         }
