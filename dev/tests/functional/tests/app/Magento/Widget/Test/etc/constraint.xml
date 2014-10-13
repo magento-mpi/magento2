@@ -20,9 +20,6 @@
     <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetAbsentOnFrontendHome>
-    <assertWidgetOnFrontendAllPages module="Magento_Widget">
-        <severeness>low</severeness>
-    </assertWidgetOnFrontendAllPages>
     <assertWidgetOnProductPage module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetOnProductPage>
@@ -50,4 +47,7 @@
     <assertWidgetCmsPageLinkOnFrontendAllPages module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetCmsPageLinkOnFrontendAllPages>
+    <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetAbsentOnFrontendHome>
 </constraint>

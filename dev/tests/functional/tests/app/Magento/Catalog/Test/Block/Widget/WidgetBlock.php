@@ -31,7 +31,8 @@ class WidgetBlock extends Block
         'Recently Compared Products' => './/div[contains(@class,"block compare") and contains(text(),"%s")]',
         'Recently Viewed Products' => './/div[contains(@class,"block viewed links") and contains(text(),"%s")]',
         'Catalog New Products List' => './/div[contains(@class,"widget new") and contains(text(),"%s")]',
-        'CMS Static Block' => './/div[contains(@class,"widget static block") and contains(text(),"%s")]'
+        'CMS Static Block' => './/div[contains(@class,"widget static block") and contains(text(),"%s")]',
+        'Catalog Events Carousel' => '(//div[contains(@class,"widget")]//a/span[contains(.,"%s")])[last()]'
     ];
 
     /**
