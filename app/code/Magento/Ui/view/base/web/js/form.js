@@ -141,11 +141,10 @@ define(function (require) {
          *     invokes 'submit' method.
          */
         onSubmit: function () {
-            var isValid     = this.validate()
-                showErrors  = true;
+            var isValid = this.validate();
 
             if (isValid) {
-                this.submit(showErrors);
+                this.submit();
             }
         },
 
@@ -157,7 +156,7 @@ define(function (require) {
         },
 
         isElementValid: function (element) {
-            return element.validate();
+            return element.validate(true);
         },
 
         /**
