@@ -51,11 +51,6 @@ class FrontendAuthenticationTest extends \PHPUnit_Framework_TestCase
     protected $responseInterface;
 
     /**
-     * @var \Magento\Catalog\Helper\Product\ProductList|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $catalogProductHelper;
-
-    /**
      * @var \Magento\Framework\App\Action\Action|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $subject;

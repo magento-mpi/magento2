@@ -10,7 +10,7 @@ namespace Magento\Rss\App\Action\Plugin;
 /**
  * Class FrontendAuthentication
  */
-class FrontendAuthentication extends \Magento\Catalog\Model\App\Action\ContextPlugin
+class FrontendAuthentication
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -28,21 +28,6 @@ class FrontendAuthentication extends \Magento\Catalog\Model\App\Action\ContextPl
     protected $httpAuthentication;
 
     /**
-     * @var \Magento\Catalog\Model\Product\ProductList\Toolbar
-     */
-    protected $toolbarModel;
-
-    /**
-     * @var \Magento\Framework\App\Http\Context
-     */
-    protected $httpContext;
-
-    /**
-     * @var \Magento\Catalog\Helper\Product\ProductList
-     */
-    protected $productListHelper;
-
-    /**
      * @var \Magento\Framework\Logger
      */
     protected $logger;
@@ -56,9 +41,6 @@ class FrontendAuthentication extends \Magento\Catalog\Model\App\Action\ContextPl
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\HTTP\Authentication $httpAuthentication
-     * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
-     * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Helper\Product\ProductList $productListHelper
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\App\ResponseInterface $response
      */
@@ -67,17 +49,13 @@ class FrontendAuthentication extends \Magento\Catalog\Model\App\Action\ContextPl
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\HTTP\Authentication $httpAuthentication,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\ResponseInterface $response,
-        \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
-        \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Helper\Product\ProductList $productListHelper
+        \Magento\Framework\App\ResponseInterface $response
     ) {
         $this->customerSession = $customerSession;
         $this->customerAccountService = $customerAccountService;
         $this->httpAuthentication = $httpAuthentication;
         $this->logger = $logger;
         $this->response = $response;
-        parent::__construct($toolbarModel, $httpContext, $productListHelper);
     }
 
     /**
@@ -89,8 +67,7 @@ class FrontendAuthentication extends \Magento\Catalog\Model\App\Action\ContextPl
         \Magento\Framework\App\Action\Action $subject,
         \Closure $proceed,
         \Magento\Framework\App\RequestInterface $request
-    )
-    {
+    ) {
         // Try to login using HTTP-authentication
         if (!$this->customerSession->isLoggedIn()) {
             list($login, $password) = $this->httpAuthentication->getCredentials();
@@ -108,6 +85,6 @@ class FrontendAuthentication extends \Magento\Catalog\Model\App\Action\ContextPl
             $this->httpAuthentication->setAuthenticationFailed('RSS Feeds');
             return $this->response;
         }
-        return parent::aroundDispatch($subject, $proceed, $request);
+        return $proceed($request);
     }
 }
