@@ -5,19 +5,19 @@
    * [#665](https://github.com/magento/magento2/issues/665) -- Main menu event in wrong area
    * [#666](https://github.com/magento/magento2/pull/666) -- Update di.xml
    * [#602](https://github.com/magento/magento2/issues/602) -- Magento\Sales\Model\Order::getFullTaxInfo() incorrectly combines percentages
-   * [#673](https://github.com/magento/magento2/issues/673) - Specifically this comment: https://github.com/magento/magento2/issues/673#issuecomment-57761940 - Fixed fatal error during installation. (MAGETWO-29134)
+   * [#673](https://github.com/magento/magento2/issues/673) -- Fixed fatal error during installation
  * Functional tests:
    * Updated API-functional test for Customer and Address metadata service
-   * Add Cross Sell (MTA-478)
-   * Add Product To Wishlist (MTA-123)
-   * Add UpSell (MTA-434)
-   * Checkout with Gift Messages (MTA-391)
-   * Create Order From Customer Page (MTA-357)
-   * Create Shipment for offline payment methods (MTA-8)
-   * Delete Product from Mini Shopping Cart (MTA-499)
-   * Reorder Order (MTA-405)
-   * Sales Order Report (MTA-278)
-   * Updating URL Rewrites from Category Page (MTA-424)
+   * Add cross sell
+   * Add a product to wishlist
+   * Add up sell
+   * Checkout with gift messages
+   * Create an order from a customer
+   * Create a shipment for offline payment methods
+   * Delete a product from mini shopping cart
+   * Reorder
+   * Sales order report
+   * Updating URL rewrites from a category page
  * Layout updates:
    * Moved layout files to the page_layout directory
    * Moved layout validation files to framework
@@ -38,7 +38,7 @@
    * Decomposed heavy objects basing on profiling results
    * Refactored the getCustomAttributesCodes method in ProductService
    * Refactored Customer Model to use Group Model instead of Group Service
-   * Updated travis configuration to run "composer install" (MAGETWO-26228)
+   * Updated Travis configuration to run "composer install"
  * Performance improvements:
    * Removed unnecessary "save order" call during order submission step
  * Fixed missing installation features of the new setup:
@@ -83,9 +83,9 @@
    * Fixed an issue with the Import/Export functionality
    * Fixed an issue with catalog product/category and category/product indexers invalidation after import
    * Fixed an issue with entering invalid date in the Product Views Report
-   * Fixed: 'Order isn't opened for customer with deleted customer group' (MAGETWO-22742)
-   * Fixed: 'Create duplicate customer after create order from backend' (MAGETWO-28680)
-   * Login into admin page does not take multiple tries. (MAGETWO-28584)
+   * Fixed an issue where it was impossible to view orders for customers from a deleted customer group
+   * Fixed an issue where a duplicate customer record was created after adding an order from the Admin panel
+   * Fixed an issue where it was impossible to log in to the Admin panel from the first attempt
 
 0.1.0-alpha98
 =============
