@@ -13,7 +13,7 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject;
 /**
  * @codeCoverageIgnore
  * @deprecated
- * @see \Magento\Catalog\Api\Data\Product\TierPriceInterface
+ * @see \Magento\Catalog\Api\Data\ProductTierPriceInterface
  */
 class TierPrice extends AbstractExtensibleObject
 {

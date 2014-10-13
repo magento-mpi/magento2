@@ -7,13 +7,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Data\Product;
+namespace Magento\Catalog\Api\Data;
 
 /**
- * Interface TierPrice must be implemented Magento\Catalog\Model\Product\Type\Price\Tier  model
+ * Interface TierPrice must be implemented @see \Magento\Catalog\Pricing\Price\TierPrice  model
  * @see \Magento\Catalog\Service\V1\Data\Product\TierPrice
+ * @todo remove this interface if framework support return array
  */
-interface TierPriceInterface
+interface ProductTierPriceInterface
 {
     /**
      * Retrieve tier qty
