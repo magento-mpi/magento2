@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <giftMessage module="Magento_GiftMessage">
+        <type>flat</type>
+        <entity_type>gift_message</entity_type>
+        <collection>Magento\GiftMessage\Model\Resource\Message\Collection</collection>
+        <identifier>gift_message_id</identifier>
+    </giftMessage>
+</fixture>

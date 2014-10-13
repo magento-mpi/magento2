@@ -110,7 +110,29 @@ div.mage-error[generated] {
 }
 
 input:focus ~ .tooltip .tooltip-content,
-select:focus ~ .tooltip .tooltip-content { display: block; }
+select:focus ~ .tooltip .tooltip-content {
+    display: block;
+}
+
+//
+//    Sidebar forms
+//--------------------------------------
+.sidebar {
+    .fieldset {
+        margin: 0;
+        > .field:not(.choice) > {
+            margin: 0 0 @form-field-vertical-indent;
+            .label {
+                padding: 0 0 5px;
+                text-align: left;
+                width: 100%
+            }
+            .control {
+                width: 100%;
+            }
+        }
+    }
+}
 
 //
 //    Desktop

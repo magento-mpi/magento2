@@ -126,7 +126,7 @@
 //    Blocks & Widgets
 //--------------------------------------
 .block {
-    &:extend(.margin-for-blocks-and-widgets all);
+    &:extend(.abstract-margin-for-blocks-and-widgets all);
     &:last-child {
         margin-bottom: 0;
     }
@@ -153,12 +153,6 @@
     .css(margin-top, @indent-s-base);
     .captcha-img {
         vertical-align: middle;
-    }
-}
-
-.widget {
-    img {
-        max-width: 100%;
     }
 }
 
@@ -281,10 +275,6 @@
         address {
             &:extend(.abstract-account-block-font-size all);
         }
-    }
-
-    .widget {
-        clear: both;
     }
 
     .page.main .block {

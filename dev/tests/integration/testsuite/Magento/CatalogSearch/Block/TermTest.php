@@ -10,7 +10,7 @@ namespace Magento\CatalogSearch\Block;
 class TermTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\CatalogSearch\Block\Term
+     * @var \Magento\Search\Block\Term
      */
     protected $_block;
 
@@ -19,7 +19,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
-            'Magento\CatalogSearch\Block\Term'
+            'Magento\Search\Block\Term'
         );
     }
 

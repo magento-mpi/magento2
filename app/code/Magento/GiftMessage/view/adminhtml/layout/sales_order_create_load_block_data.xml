@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="order_item_extra_info">
         <block class="Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Giftoptions" name="gift_options_link" template="sales/order/create/giftoptions.phtml">
             <block class="Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Items" name="gift_options_item_data" template="sales/order/create/items.phtml"/>

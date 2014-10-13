@@ -220,7 +220,7 @@
 @table-td-bg: @table-bg;
 @table-body-th-bg: @table-bg;
 
-@table-cell-padding-horizontal: 10px;
+@table-cell-padding-horizontal: @indent-s-base;
 @table-cell-padding-vertical: 11px;
 
 @table-border-color: @border-color-base;
@@ -298,6 +298,7 @@
 //
 //    Responsive
 //--------------------------------------
+
 // Settings variables (TO DO: should be global)
 @use-flex: true; // Use flexbox [true|false]
 @responsive: true; // Theme is responsive [true|false]
@@ -335,7 +336,7 @@
 @submenu-border: '';
 @submenu-padding: 0 0 0 20px;
 @submenu-font-size: '';
-@submenu-font-weight:  @font-weight-base;
+@submenu-font-weight: @font-weight-base;
 @submenu-item-padding: 8px 0;
 
 @submenu-item-background: '';
@@ -348,7 +349,7 @@
 @submenu-item-color-active: @navigation-level0-item-color-active;
 @submenu-item-text-decoration-active: '';
 
-//  Desktop navigation
+// Desktop navigation
 @navigation-desktop-background: @navigation-background;
 @navigation-desktop-border: '';
 @navigation-desktop-font-size: '';
@@ -662,6 +663,7 @@
 @icon-star-empty: '\e625';
 @icon-download: '\e626';
 @icon-private: '\e629';
+
 //
 //    Messages variables
 //--------------------------------------
@@ -1017,13 +1019,13 @@
 @form-fieldset-legend-font-weight: @font-weight-light;
 @form-fieldset-legend-font-style: false;
 @form-fieldset-legend-line-height: 1.2;
-@form-fieldset-legend-margin: 0 0 20px 0;
+@form-fieldset-legend-margin: 0 0 20px;
 @form-fieldset-legend-padding: 0 0 10px;
 @form-fieldset-legend-width: 100%;
 
 // Field
 @form-field-type: block; //inline
-@form-field-type-revert: false; // block, false
+@form-field-type-revert: false; // inline, block, false
 @form-field-border: false;
 @form-field-column: false;
 @form-field-column-padding: 0 12px 0 0;
@@ -1297,7 +1299,7 @@
 //
 //    Actions-toolbar variables
 //--------------------------------------
-@actions-toolbar-actions-position: left; // left, right, center
+@actions-toolbar-actions-position: left; // left, right, center, justify
 // Also used in: @popup-actions-toolbar-actions-position
 @actions-toolbar-actions-reverse: false; // true
 // Also used in: @popup-actions-toolbar-actions-position-reverse
@@ -1408,7 +1410,7 @@
 @popup-content-margin: false;
 @popup-footer-margin: false;
 
-@popup-title-headings: true; //false
+@popup-title-headings: true; // false
 @popup-title-headings-level: h2; // h1, h2, h3, h4, h5, h6
 
 @popup-action-toolbar: false; // true
