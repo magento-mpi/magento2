@@ -87,11 +87,8 @@
 }
 
 .order-status {
-    display: inline-block;
-    margin-bottom: 20px;
-    text-transform: uppercase;
+    &:extend(.abstract-status all);
 }
-
 
 .page-title {
     .title {
@@ -101,7 +98,6 @@
         margin: 0 0 20px;
     }
 }
-
 
 .form.orders.search {
     .field {

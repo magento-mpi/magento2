@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="checkout.cart.form.before">
         <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml" cacheable="false">
             <arguments>
