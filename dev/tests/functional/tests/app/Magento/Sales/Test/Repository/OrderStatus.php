@@ -28,7 +28,7 @@ class OrderStatus extends AbstractRepository
         $this->_data['orderStatus_assign_to_pending'] = [
             'status' => 'order_status%isolation%',
             'label' => 'orderLabel%isolation%',
-            'state' => 'Pending',
+            'state' => 'new', // Internal Magento value of pending order state
             'is_default' => 'Yes',
             'visible_on_front' => 'Yes'
         ];

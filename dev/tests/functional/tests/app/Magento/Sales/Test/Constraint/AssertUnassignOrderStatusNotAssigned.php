@@ -26,17 +26,6 @@ class AssertUnassignOrderStatusNotAssigned extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Mapping values for data
-     *
-     * @var array
-     */
-    protected $mappingData = [
-        'state' => [
-            'Pending' => 'new'
-        ]
-    ];
-
-    /**
      * Assert that order status with status code from fixture have empty "State Code and Title" value
      *
      * @param OrderStatus $orderStatus
@@ -45,31 +34,13 @@ class AssertUnassignOrderStatusNotAssigned extends AbstractConstraint
      */
     public function processAssert(OrderStatus $orderStatus, OrderStatusIndex $orderStatusIndex)
     {
-        $data = $this->replaceMappingData($orderStatus->getData());
-        $statusLabel = $data['label'];
+        $statusLabel = $orderStatus->getLabel();
         \PHPUnit_Framework_Assert::assertFalse(
             $orderStatusIndex->open()->getOrderStatusGrid()->isRowVisible(
-                ['label' => $statusLabel, 'state' => $data['state']]
+                ['label' => $statusLabel, 'state' => $orderStatus->getState() . "[$statusLabel]"]
             ),
             "Order status $statusLabel is assigned to state."
         );
-    }
-
-    /**
-     * Replace mapping data in fixture data
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function replaceMappingData(array $data)
-    {
-        $suffix = "[{$data['label']}]";
-        foreach ($data as $key => $value) {
-            $data[$key] = isset($this->mappingData[$key][$value]) ? $this->mappingData[$key][$value] : $value;
-            $data[$key] .= $suffix;
-        }
-
-        return $data;
     }
 
     /**
