@@ -21,7 +21,7 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionType[]
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\CustomOption\OptionTypeListInterface::getItems
+     * @see \Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface::getItems
      */
     public function getTypes();
 
@@ -33,7 +33,7 @@ interface ReadServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\CustomOptionManagementInterface::getList
+     * @see \Magento\Catalog\Api\ProductCustomOptionManagementInterface::getList
      */
     public function getList($productSku);
 
@@ -46,7 +46,7 @@ interface ReadServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\CustomOptionManagementInterface::get
+     * @see \Magento\Catalog\Api\ProductCustomOptionManagementInterface::get
      */
     public function get($productSku, $optionId);
 }

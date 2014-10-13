@@ -22,8 +22,9 @@ interface WriteServiceInterface
      * @param int $optionId
      * @throws \Magento\Framework\Exception\NoSuchEntityException|\Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\CustomOptionManagementInterface::remove
+     * @see \Magento\Catalog\Api\ProductCustomOptionManagementInterface::remove
      */
     public function remove($productSku, $optionId);
 
@@ -35,8 +36,9 @@ interface WriteServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\CustomOptionManagementInterface::add
+     * @see \Magento\Catalog\Api\ProductCustomOptionManagementInterface::add
      */
     public function add($productSku, \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option);
 
@@ -48,8 +50,9 @@ interface WriteServiceInterface
      * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     *
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\CustomOptionManagementInterface::update
+     * @see \Magento\Catalog\Api\ProductCustomOptionManagementInterface::update
      */
     public function update(
         $productSku,

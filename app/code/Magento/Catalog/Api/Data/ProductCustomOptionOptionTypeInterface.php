@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Data\Product\CustomOption;
+namespace Magento\Catalog\Api\Data;
 
 /**
  * Created from:
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option
+ * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionType - previous implementation
  *
  * @todo Create new model \Magento\Catalog\Model\Product\CustomOption\OptionType implements \Magento\Catalog\Api\Data\Product\CustomOption\OptionTypeInterface
  */
-interface OptionTypeInterface
+interface ProductCustomOptionOptionTypeInterface
 {
     /**
      * Get option type label

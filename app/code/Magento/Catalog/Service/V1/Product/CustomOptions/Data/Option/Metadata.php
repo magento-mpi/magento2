@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
 /**
  * @deprecated
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataInterface
+ * @see \Magento\Catalog\Api\Data\ProductCustomOptionMetadataInterface
  */
 class Metadata extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

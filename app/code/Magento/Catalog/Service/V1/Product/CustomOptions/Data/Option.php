@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 /**
  * @deprecate
  * @todo remove this interface
- * @see \Magento\Catalog\Api\Data\Product\CustomOptions\OptionInterface
+ * @see \Magento\Catalog\Api\Data\ProductCustomOptionsOptionInterface
  */
 class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

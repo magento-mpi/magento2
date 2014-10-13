@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Data\Product\CustomOption;
+namespace Magento\Catalog\Api\Data;
 
 /**
  * Created from:
  * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata
  * @todo Create \Magento\Catalog\Model\Product\CustomOption\Metadata and extend abstract framework implementation
  */
-interface MetadataInterface
+interface ProductCustomOptionAttributeInterface
 {
     /**
      * Get price

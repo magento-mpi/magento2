@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Data\Product\CustomOption;
+namespace Magento\Catalog\Api\Data;
 
 /**
  * Created from:
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option
+ * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option - previous implementation
  * @todo Use implementation \Magento\Catalog\Model\Product\Option implements \Magento\Catalog\Api\Data\Product\CustomOption\OptionInterface
  */
-interface OptionInterface
+interface ProductCustomOptionOptionInterface
 {
     /**
      * Get option id
@@ -53,7 +53,7 @@ interface OptionInterface
     /**
      * Get option metadata
      *
-     * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataInterface[]
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionAttributeInterface[]
      */
     public function getMetadata();
 }

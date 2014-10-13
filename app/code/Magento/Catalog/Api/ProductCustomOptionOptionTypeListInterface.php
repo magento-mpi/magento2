@@ -6,17 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Product\CustomOption;
+namespace Magento\Catalog\Api;
 
 /**
  * @todo Implementation \Magento\Catalog\Model\ProductOptions\Config
  */
-interface OptionTypeListInterface
+interface ProductCustomOptionOptionTypeListInterface
 {
     /**
      * Get custom option types
      *
-     * @return \Magento\Catalog\Api\Data\Product\CustomOption\OptionTypeInterface[]
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface[]
+     *
      * @see \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface::getTypes - previous implementation
      */
     public function getItems();
