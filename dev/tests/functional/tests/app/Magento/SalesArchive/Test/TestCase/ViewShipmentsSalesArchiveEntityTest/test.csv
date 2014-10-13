@@ -1,2 +1,0 @@
-"description";"configArchive";"steps";"order/dataSet";"constraint";"issue"
-"View Shipments Sales Archive";"salesarchive_all_statuses";"invoice";"default";"assertArchiveShipmentInGrid, AssertArchiveShipmentItems";"Bug: MAGETWO-28867"

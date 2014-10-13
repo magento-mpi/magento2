@@ -12,12 +12,13 @@ use Magento\Sales\Test\Page\Adminhtml\SalesCreditMemoView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Shipping\Test\Constraint\AbstractAssertItems;
 
 /**
  * Class AssertArchiveCreditMemoItems
  * Check that returned product represented on Credit memo page
  */
-class AssertArchiveCreditMemoItems extends AbstractAssertArchiveItems
+class AssertArchiveCreditMemoItems extends AbstractAssertItems
 {
     /**
      * Constraint severeness

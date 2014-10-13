@@ -14,5 +14,10 @@
             <locator>#ship_items_container</locator>
             <strategy>css selector</strategy>
         </shipItemsBlock>
+        <createBlock>
+            <class>Magento\Shipping\Test\Block\Adminhtml\Create</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </createBlock>
     </blocks>
 </page>
