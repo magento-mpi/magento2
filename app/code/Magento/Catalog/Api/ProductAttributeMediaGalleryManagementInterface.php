@@ -29,6 +29,7 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface::create
      */
     public function create($productSku, GalleryEntryInterface $entry, ContentInterface $entryContent, $storeId = 0);
 
@@ -41,6 +42,7 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface::update
      */
     public function update($productSku, GalleryEntryInterface $entry, $storeId = 0);
 
@@ -52,6 +54,7 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface::delete
      */
     public function remove($productSku, $entryId);
 
@@ -62,6 +65,7 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @param int $imageId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryInterface
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface::info
      */
     public function get($productSku, $imageId);
 
@@ -70,6 +74,7 @@ interface ProductAttributeMediaGalleryManagementInterface
      *
      * @param string $productSku
      * @return \Magento\Catalog\Api\Data\Product\Attribute\Media\GalleryEntryInterface[]
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface::getList
      */
     public function getList($productSku);
 }
