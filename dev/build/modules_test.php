@@ -44,12 +44,12 @@ try {
     $magentoDirectory = __DIR__ . '/../../app/code/Magento/';
 
     // list-modules and list-file arguments
-    if ($opt['list-modules'] == false && $opt['list-file'] == false) {
+    if ((isset($opt['list-modules']) == false) && (isset($opt['list-file']) == false)) {
         throw new Exception("One of parameters --list-modules or --list-file required and cannot be empty.");
     }
 
     // Get modules to enable
-    if ($opt['list-modules']) {
+    if (isset($opt['list-modules'])) {
         $tok = strtok($opt['list-modules'], ",");
 
         while ($tok !== false) {
@@ -58,7 +58,7 @@ try {
         }
     }
 
-    if ($opt['list-file']) {
+    if (isset($opt['list-file'])) {
         $profileDir = __DIR__ . "/" . $opt['list-file'];
         $handle = @fopen($profileDir, "r");
         if ($handle) {
