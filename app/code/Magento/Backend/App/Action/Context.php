@@ -89,6 +89,7 @@ class Context extends \Magento\Framework\App\Action\Context
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Controller\ResultFactory $resultFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Backend\Model\Session $session,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
@@ -109,7 +110,8 @@ class Context extends \Magento\Framework\App\Action\Context
             $actionFlag,
             $view,
             $messageManager,
-            $resultFactory
+            $resultFactory,
+            $layoutFactory
         );
 
         $this->_session = $session;

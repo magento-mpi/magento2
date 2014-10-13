@@ -18,6 +18,25 @@ use Magento\Framework\App\ResponseInterface;
 interface ResultInterface
 {
     /**
+     * @param int $httpCode
+     * @return $this
+     */
+    public function setHttpResponseCode($httpCode);
+
+    /**
+     * Set a header
+     *
+     * If $replace is true, replaces any headers already defined with that
+     * $name.
+     *
+     * @param string $name
+     * @param string $value
+     * @param boolean $replace
+     * @return $this
+     */
+    public function setHeader($name, $value, $replace = false);
+
+    /**
      * Render result and set to response
      *
      * @param ResponseInterface $response
