@@ -134,6 +134,7 @@ class Builder implements BuilderInterface
         $select = $this->getSelect();
         $table = $attribute->getBackendTable();
         if ($filter->getField() == 'price') {
+            $query = str_replace('price', 'min_price', $query);
             $select->from(['main_table' => $this->resource->getTableName('catalog_product_index_price')], 'entity_id')
                 ->where($query);
         } else  if ($attribute->isStatic()) {
