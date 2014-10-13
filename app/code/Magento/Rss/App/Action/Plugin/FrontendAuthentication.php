@@ -60,8 +60,12 @@ class FrontendAuthentication
 
     /**
      * Replace standard admin login form with HTTP Basic authentication
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param \Magento\Framework\App\Action\Action $subject
+     * @param callable $proceed
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function aroundDispatch(
         \Magento\Framework\App\Action\Action $subject,
