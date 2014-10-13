@@ -154,7 +154,15 @@ class Weee extends AbstractTotal
         $associatedTaxables = $item->getAssociatedTaxables();
         if (!$associatedTaxables) {
             $associatedTaxables = [];
+        }else{
+            // remove existing wee associated taxables
+            foreach ($associatedTaxables as $iTaxable => $taxable) {
+                if ($taxable[CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE] == self::ITEM_TYPE) {
+                    unset($associatedTaxables[$iTaxable]);
+                }
+            }
         }
+
         foreach ($attributes as $key => $attribute) {
             $title          = $attribute->getName();
 
