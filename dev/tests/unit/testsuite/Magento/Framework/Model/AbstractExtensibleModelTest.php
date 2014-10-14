@@ -168,7 +168,7 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
                 ->setAttributeCode($attributeCode)
                 ->setValue($attributeValue)
                 ->create();
-            $model->setCustomAttribute($attributeCode, $addedAttributes[$attributeCode]);
+            $model->setCustomAttribute($addedAttributes[$attributeCode]);
             $model->getCustomAttribute(
                 $attributeCode,
                 $addedAttributes[$attributeCode],
