@@ -54,8 +54,8 @@ class OfflineRefundTest extends RefundTest
         }
 
         // Step 3/4: Submit Credit Memo
-        $creditMemoCreateBlock = Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getCreateBlock();
-        $creditMemoCreateBlock->refundOffline();
+        $creditMemoFormBlock = Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getFormBlock();
+        $creditMemoFormBlock->submit();
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();
