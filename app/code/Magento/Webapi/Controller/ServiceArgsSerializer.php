@@ -179,7 +179,7 @@ class ServiceArgsSerializer
             // By convention, need to lookup the concrete class preference for the data interface type and
             // gets its builder.
             $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
-            return $this->_objectManager->create($paramInstanceClassName . "Builder");
+            return $this->_objectManager->create($paramInstanceClassName . "DataBuilder");
         }
         // By convention, for complex parameters that don't inherit from the data interface,
         // create the name of the builder type by appending Builder to the end
