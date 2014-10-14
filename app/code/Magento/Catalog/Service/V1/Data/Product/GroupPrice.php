@@ -13,7 +13,7 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject;
 /**
  * @codeCoverageIgnore
  * @deprecated
- * @see \Magento\Catalog\Service\V1\Data\Product\GroupPrice
+ * @see \Magento\Catalog\Api\Data\ProductGroupPriceInterface
  */
 class GroupPrice extends AbstractExtensibleObject
 {

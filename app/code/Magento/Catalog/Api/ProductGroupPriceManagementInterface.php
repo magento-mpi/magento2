@@ -7,25 +7,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Api\Product;
+namespace Magento\Catalog\Api;
 
 /**
  * Interface GroupPriceManagementInterface must be implemented by new GroupPrice management model
  * @see \Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface
  */
-interface GroupPriceManagementInterface
+interface ProductGroupPriceManagementInterface
 {
     /**
      * Set group price for product
      *
      * @param string $productSku
-     * @param \Magento\Catalog\Api\Data\Product\GroupPriceInterface $price
+     * @param \Magento\Catalog\Api\Data\ProductGroupPriceInterface $price
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @todo  add($productSku, $customerGroupId, $price, $websiteId=null);
+     * @see \Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface::set
      */
-    public function add($productSku, \Magento\Catalog\Api\Data\Product\GroupPriceInterface $price);
+    public function add($productSku, $customerGroupId, $price, $websiteId = null);
 
     /**
      * Remove group price from product
@@ -35,17 +35,17 @@ interface GroupPriceManagementInterface
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @todo remove($productSku, $customerGroupId, $websiteId = null)
+     * @see \Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface::delete
      */
-    public function remove($productSku, $customerGroupId);
+    public function remove($productSku, $customerGroupId, $websiteId = null);
 
     /**
      * Retrieve list of product prices
      *
      * @param string $productSku
-     * @return \Magento\Catalog\Api\Data\Product\GroupPriceInterface[]
+     * @return \Magento\Catalog\Api\Data\ProductGroupPriceInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @todo getList($productSku, $websiteId = null);
+     * @see \Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface::getList
      */
-    public function getList($productSku);
+    public function getList($productSku, $websiteId = null);
 }

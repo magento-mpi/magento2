@@ -6,13 +6,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product;
+namespace Magento\Catalog\Api\Data;
 
 /**
- * Interface GroupPrice must be implemented Magento\Catalog\Model\Product\Type\Price\Group  model
+ * Interface GroupPrice must be implemented  @see \Magento\Catalog\Pricing\Price\GroupPrice  model
  * @see \Magento\Catalog\Service\V1\Data\Product\GroupPrice
+ * @todo remove this interface if framework support return array
  */
-interface GroupPriceInterface
+interface ProductGroupPriceInterface
 {
     /**
      * Retrieve customer group id
