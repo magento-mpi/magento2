@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Field;
+namespace Magento\CatalogSearch\Model\Adapter\Mysql\Field;
 
 use Magento\Framework\Search\Adapter\Mysql\Field\ResolverInterface;
 

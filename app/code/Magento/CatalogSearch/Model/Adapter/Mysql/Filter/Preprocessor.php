@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Filter;
+namespace Magento\CatalogSearch\Model\Adapter\Mysql\Filter;
 
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
