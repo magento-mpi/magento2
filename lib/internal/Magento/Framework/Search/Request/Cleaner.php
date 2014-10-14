@@ -125,7 +125,6 @@ class Cleaner
                 foreach ($keys as $key) {
                     if (isset($filter[$key]) && preg_match('/\$(.+)\$/si', $filter[$key], $matches)) {
                         unset($this->requestData['filters'][$filterName][$key]);
-                        break;
                     }
                 }
                 $filterKeys = array_keys($this->requestData['filters'][$filterName]);
