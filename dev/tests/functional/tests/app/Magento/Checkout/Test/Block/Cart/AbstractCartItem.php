@@ -52,13 +52,6 @@ class AbstractCartItem extends Block
     protected $optionsBlock = './/dl[@class="cart-item-options"]';
 
     /**
-     * 'Move to Wishlist' button
-     *
-     * @var string
-     */
-    protected $wishlistButton = '.actions .towishlist';
-
-    /**
      * Escape currency in price
      *
      * @param string $price
@@ -68,15 +61,5 @@ class AbstractCartItem extends Block
     {
         preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
         return (isset($matches[1])) ? $matches[1] : null;
-    }
-
-    /**
-     * Click on move to wishlist button
-     *
-     * @return void
-     */
-    public function moveToWishlist()
-    {
-        $this->_rootElement->find($this->wishlistButton)->click();
     }
 }

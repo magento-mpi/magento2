@@ -38,6 +38,13 @@ class CartItem extends AbstractCartItem
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
+     * 'Move to Wishlist' button
+     *
+     * @var string
+     */
+    protected $wishlistButton = '.actions .towishlist';
+
+    /**
      * Get product name
      *
      * @return string
@@ -187,5 +194,15 @@ class CartItem extends AbstractCartItem
     protected function escapeCurrencyForOption($label)
     {
         return preg_replace('/^(\d+) x (\w+) \W([\d\.,]+)$/', '$1 x $2 $3', $label);
+    }
+
+    /**
+     * Click on move to wishlist button
+     *
+     * @return void
+     */
+    public function moveToWishlist()
+    {
+        $this->_rootElement->find($this->wishlistButton)->click();
     }
 }

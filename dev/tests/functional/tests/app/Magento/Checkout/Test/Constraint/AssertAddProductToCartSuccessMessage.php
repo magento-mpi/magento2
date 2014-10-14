@@ -18,7 +18,11 @@ use Mtf\Fixture\InjectableFixture;
  */
 class AssertAddProductToCartSuccessMessage extends AbstractConstraint
 {
+    /**
+     * Success add message
+     */
     const SUCCESS_MESSAGE = 'You added %s to your shopping cart.';
+
     /**
      * Constraint severeness
      *
