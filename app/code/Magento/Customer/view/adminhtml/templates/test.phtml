@@ -153,8 +153,8 @@
                             "input_type": "media",
                             "label": "Image"
                         },
-                        "subscribe_newsletter": {
-                            "index": "subscribe_newsletter",
+                        "subscribe": {
+                            "index": "subscribe",
                             "data_type": "boolean",
                             "input_type": "checkbox",
                             "label": "Subscribed to Newsletter"
@@ -179,32 +179,32 @@
         },
 
         "components": {
-            "customer_form_tabs": {
-                "name": "customer_form_tabs",
+            "tabs": {
+                "name": "tabs",
                 "path": "Magento_Ui/js/form/components/tab/group",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
                 }
             },
-            "customer_form_areas": {
-                "name": "customer_form_areas",
+            "areas": {
+                "name": "areas",
                 "path": "Magento_Ui/js/form/components/area",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
                 }
             },
-            "customer_form_fieldsets": {
-                "name": "customer_form_fieldsets",
+            "fieldsets": {
+                "name": "fieldsets",
                 "path": "Magento_Ui/js/form/components/fieldset",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
                 }
             },
-            "customer_form_groups":{
-                "name": "customer_form_groups",
+            "groups":{
+                "name": "groups",
                 "path": "Magento_Ui/js/form/components/group",
                 "source": "customer_form_data"
             },
@@ -213,129 +213,93 @@
                 "path": "Magento_Ui/js/form",
                 "source": "customer_form_data"
             },
-            "customer_html_content": {
-                "name": "customer_html_content",
+            "html_content": {
+                "name": "html_content",
                 "path": "Magento_Ui/js/form/components/html",
                 "source": "customer_form_data"
             }
         },
 
         "layout": { 
-            "customer_form_tabs": {
+            "tabs": {
                 "cusomer_info": {
                     "label": "Customer Information",
-                    "items": [
-                        {
-                            "name": "customer_view",
-                            "active": true,
-                            "label": "Customer View"
-                        },
-                        {
-                            "name": "account_info",
-                            "label": "Account Information"
-                        },
-                        {
-                            "name": "customer_addresses",
-                            "label": "Addresses"
-                        },
-                        {
-                            "name": "billing_agreements",
-                            "label": "Billing Agreements"
-                        },
-                        {
-                            "name": "recurring_billing",
-                            "label": "Recurring Billing Payments (beta)"
-                        },
-                        {
-                            "name": "orders",
-                            "label": "Orders"
-                        },
-                        {
-                            "name": "shopping_cart",
-                            "label": "Shopping Cart"
-                        },
-                        {
-                            "name": "newsletter_info",
-                            "label": "Newsletter"
-                        },
-                        {
-                            "name": "reviews",
-                            "label": "Product Reviews"
-                        }
-                    ]
+                    "items": [{
+                        "name": "customer_view",
+                        "active": true,
+                        "label": "Customer View"
+                    }, {
+                        "name": "account_info",
+                        "label": "Account Information"
+                    }, {
+                        "name": "customer_addresses",
+                        "label": "Addresses"
+                    }, {
+                        "name": "billing_agreements",
+                        "label": "Billing Agreements"
+                    }, {
+                        "name": "recurring_billing",
+                        "label": "Recurring Billing Payments (beta)"
+                    }, {
+                        "name": "orders",
+                        "label": "Orders"
+                    }, {
+                        "name": "shopping_cart",
+                        "label": "Shopping Cart"
+                    }, {
+                        "name": "newsletter_info",
+                        "label": "Newsletter"
+                    }, {
+                        "name": "reviews",
+                        "label": "Product Reviews"
+                    }]
                 },
                 "col_group": {
                     "label": "Collapsible group",
                     "collapsible": true,
-                    "items": [
-                        {
-                            "name": "prod_details",
-                            "label": "Advanced Pricing"
-                        },
-                        {
-                            "name": "col_options",
-                            "label": "Custom Options"
-                        }
-                    ]
+                    "items": [{
+                        "name": "prod_details",
+                        "label": "Advanced Pricing"
+                    }, {
+                        "name": "col_options",
+                        "label": "Custom Options"
+                    }]
                 }
             },
-            "customer_form_areas": {
-                "customer_view": {
-                    "injections": [
-                        "customer_form_fieldsets.personal_info",
-                        "customer_form_fieldsets.sales_statistics",
-                        "customer_form_fieldsets.recent_orders",
-                        "customer_form_fieldsets.shopping_cart",
-                        "customer_form_fieldsets.viewWishlist"
-                    ]
-                },
-                "account_info": {
-                    "injections": [
-                        "customer_form_fieldsets.account_info"
-                    ]
-                },
-                "customer_addresses": {
-                    "injections": [
-                        "customer_form_fieldsets.customer_addresses"
-                    ]
-                },
-                "orders": {
-                    "injections": [
-                        "customer_html_content.orders"
-                    ]
-                },
-                "billing_agreements": {
-                    "injections": [
-                        "customer_html_content.billing_agreements"
-                    ]
-                },
-                "recurring_billing": {
-                    "injections": [
-                        "customer_html_content.recurring_billing"
-                    ]
-                },
-                "shopping_cart": {
-                    "injections": [
-                        "customer_html_content.carts"
-                    ]
-                },
-                "reviews": {
-                    "injections": [
-                        "customer_html_content.reviews"
-                    ]
-                },
-                "newsletter_info": {
-                    "injections": [
-                        "customer_form_fieldsets.newsletter_info"
-                    ]
-                }
+            "areas": {
+                "orders":               "html_content.orders",
+                "billing_agreements":   "html_content.billing_agreements",
+                "recurring_billing":    "html_content.recurring_billing",
+                "shopping_cart":        "html_content.carts",
+                "reviews":              "html_content.reviews",
+                "account_info":         "fieldsets.account_info",
+                "customer_addresses":   "fieldsets.customer_addresses",
+                "newsletter_info":      "fieldsets.newsletter_info",
+                "customer_view": [
+                    "fieldsets.personal_info",
+                    "fieldsets.sales_statistics",
+                    "fieldsets.recent_orders",
+                    "fieldsets.shopping_cart",
+                    "fieldsets.viewWishlist"
+                ]
             },
-            "customer_form_groups": {
-                "website": {
-                    "injections": [
-                        "customer.website"
-                    ]
-                },
+            "groups": {
+                "website":      "customer.website",
+                "prefix":       "customer.prefix",
+                "firstname":    "customer.firstname",
+                "middle_name":  "customer.middle_name",
+                "lastname":     "customer.lastname",
+                "suffix":       "customer.suffix",
+                "email":        "customer.email",
+                "taxvat":       "customer.taxvat",
+                "gender":       "customer.gender",
+                "price":        "customer.price",
+                "send_email":   "customer.send_email",
+                "currencies":   "customer.currencies",
+                "comments":     "customer.comments",
+                "created":      "customer.created",
+                "image":        "customer.image",
+                "subscribe":    "customer.subscribe",
                 "group": {
                     "breakLine": true,
                     "label": "General",
@@ -343,96 +307,19 @@
                         "customer.general",
                         "customer.disable_auto"
                     ]
-                },
-                "prefix": {
-                    "injections": [
-                        "customer.prefix"
-                    ]
-                },
-                "firstname": {
-                    "injections": [
-                        "customer.firstname"
-                    ]
-                },
-                "middle_name": {
-                    "injections": [
-                        "customer.middle_name"
-                    ]
-                },
-                "lastname": {
-                    "injections": [
-                        "customer.lastname"
-                    ]
-                },
-                "suffix": {
-                    "injections": [
-                        "customer.suffix"
-                    ]
-                },
-                "email": {
-                    "type": "email",
-                    "injections": [
-                        "customer.email"
-                    ]
-                },
-                "taxvat": {
-                    "injections": [
-                        "customer.taxvat"
-                    ]
-                },
-                "gender": {
-                    "injections": [
-                        "customer.gender"
-                    ]
-                },
-                "price": {
-                    "type": "price",
-                    "injections": [
-                        "customer.price"
-                    ]
-                },
-                "send_email": {
-                    "injections": [
-                        "customer.send_email"
-                    ]
-                },
-                "currencies": {
-                    "injections": [
-                        "customer.currencies"
-                    ]
-                },
-                "comments": {
-                    "injections": [
-                        "customer.comments"
-                    ]
-                },
-                "created": {
-                    "injections": [
-                        "customer.created"
-                    ]
-                },
-                "image": {
-                    "injections": [
-                        "customer.image"
-                    ]
-                },
-                "subscribe_newsletter": {
-                    "injections": [
-                        "customer.subscribe_newsletter"
-                    ]
                 }
             },
-            "customer_form_fieldsets": {
+            "fieldsets": {
                 "personal_info": {
                     "label": "Personal Information",
                     "injections": [
-                        "customer_html_content.personal_info"
+                        "html_content.personal_info"
                     ]
                 },
                 "sales_statistics": {
                     "label": "Sales Statistics",
                     "injections": [
-                        "customer_html_content.sales_statistics"
+                        "html_content.sales_statistics"
                     ]
                 },
                 "recent_orders": {
@@ -440,7 +327,7 @@
                     "collapsible": true,
                     "opened": false,
                     "injections": [
-                        "customer_html_content.recent_orders"
+                        "html_content.recent_orders"
                     ]
                 },
                 "shopping_cart": {
@@ -448,7 +335,7 @@
                     "collapsible": true,
                     "opened": false,
                     "injections": [
-                        "customer_html_content.shopping_cart"
+                        "html_content.shopping_cart"
                     ]
                 },
                 "viewWishlist": {
@@ -456,52 +343,52 @@
                     "collapsible": true,
                     "opened": false,
                     "injections": [
-                        "customer_html_content.viewWishlist"
+                        "html_content.viewWishlist"
                     ]
                 },
                 "account_info": {
                     "label": "Account Information",
                     "collapsible": true,
                     "injections": [
-                        "customer_form_groups.website",
-                        "customer_form_groups.group",
-                        "customer_form_groups.prefix",
-                        "customer_form_groups.price",
-                        "customer_form_groups.firstname",
-                        "customer_form_groups.middle_name",
-                        "customer_form_groups.lastname",
-                        "customer_form_groups.suffix",
-                        "customer_form_groups.email",
-                        "customer_form_groups.taxvat",
-                        "customer_form_groups.gender",
-                        "customer_form_groups.send_email",
-                        "customer_form_groups.currencies",
-                        "customer_form_groups.comments",
-                        "customer_form_groups.created",
-                        "customer_form_groups.image"
+                        "groups.website",
+                        "groups.group",
+                        "groups.prefix",
+                        "groups.price",
+                        "groups.firstname",
+                        "groups.middle_name",
+                        "groups.lastname",
+                        "groups.suffix",
+                        "groups.email",
+                        "groups.taxvat",
+                        "groups.gender",
+                        "groups.send_email",
+                        "groups.currencies",
+                        "groups.comments",
+                        "groups.created",
+                        "groups.image"
                     ]
                 },
                 "customer_addresses": {
                     "label": "Customer Addresses",
                     "injections": [
-                        "customer_form_groups.firstname",
-                        "customer_form_groups.middle_name",
-                        "customer_form_groups.lastname",
-                        "customer_form_groups.suffix",
-                        "customer_form_groups.email",
-                        "customer_form_groups.taxvat",
-                        "customer_form_groups.gender"
+                        "groups.firstname",
+                        "groups.middle_name",
+                        "groups.lastname",
+                        "groups.suffix",
+                        "groups.email",
+                        "groups.taxvat",
+                        "groups.gender"
                     ]
                 },
                 "newsletter_info": {
                     "label": "Newsletter Information",
                     "injections": [
-                        "customer_form_groups.subscribe_newsletter",
-                        "customer_html_content.newsletter_grid"
+                        "groups.subscribe",
+                        "html_content.newsletter_grid"
                     ]
                 }
             },
-            "customer_html_content": {
+            "html_content": {
                 "personal_info": {
                     "content": "<div class='customer-information'><table class='data-table'><tbody><tr><th>Last Logged In:</th><td>Oct 10, 2014 7:29:43 AM (Offline)</td></tr><tr><th>Confirmed email:</th><td>Confirmed</td></tr><tr><th>Account Created on:</th><td>Oct 10, 2014 7:29:40 AM</td></tr><tr><th>Account Created in:</th><td>Default Store View</td></tr><tr><th>Customer Group:</th><td>General</td></tr></tbody></table><address><strong>Default Billing Address</strong><br/> The customer does not have default billing address. </address></div>"
 
@@ -547,6 +434,6 @@
     var allowLocalCache = false;
 </script>
 
-<div data-bind="scope: 'customer_form_areas'" class="entry-edit form-inline">
+<div data-bind="scope: 'areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
