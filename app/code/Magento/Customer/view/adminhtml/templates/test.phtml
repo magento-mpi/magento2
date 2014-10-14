@@ -269,6 +269,12 @@
                         "html_content.reviews"
                     ]
                 },
+                "wishlist": {
+                    "label": "Wishlist",
+                    "injections": [
+                        "html_content.wishlist"
+                    ]
+                },
                 "account_info": {
                     "label": "Account Information",
                     "injections": [
@@ -428,15 +434,18 @@
                     "source": "<?php echo $this->getUrl('*') ?>index/viewWishlist/id/1/"
                 },
                 "orders": {
+                    "showSpinner": false,
                     "source": "<?php echo $this->getUrl('*') ?>index/orders/id/1/"
                 },
                 "carts": {
+                    "showSpinner": false,
                     "source": "<?php echo $this->getUrl('*') ?>index/carts/id/1/"
                 },
                 "wishlist": {
                     "source": "<?php echo $this->getUrl('*') ?>index/wishlist/id/1/"
                 },
                 "reviews": {
+                    "showSpinner": false,
                     "source": "<?php echo $this->getUrl('*') ?>index/productReviews/id/1/"
                 },
                 "newsletter_grid": {

@@ -6,9 +6,10 @@
  */
 define([
     'ko',
+    'underscore',
     '../class',
     './initialize'
-], function(ko, Class) {
+], function(ko, _, Class) {
     'use strict';
 
     /**
@@ -34,14 +35,26 @@ define([
          * @param  {*} value
          */
         observe: function(path, value) {
-            var key;
+            var type = typeof path;
 
-            if (typeof path === 'string') {
-                observe(this, path, value);
-            } else {
-                for (key in path) {
-                    observe(this, key, path[key]);
+            if(arguments.length === 1){
+                if(type === 'string'){
+                    path = path.split(' ');
                 }
+
+                if(Array.isArray(path)){
+                    path.forEach(function(key){
+                        observe(this, key, this[key]);
+                    }, this);
+                }
+                else if(type==='object'){
+                    _.each(path, function(value, key){
+                        observe(this, key, value);
+                    }, this);
+                }
+            }
+            else if(type === 'string') {
+                observe(this, path, value);
             }
         },
 

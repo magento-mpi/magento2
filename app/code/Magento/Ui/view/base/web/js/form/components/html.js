@@ -13,9 +13,10 @@ define([
     'use strict';
 
     var defaults = {
-        content: '',
-        source: '',
-        template: 'ui/content/content'
+        content:        '',
+        showSpinner:    true,
+        loading:        false,
+        template:       'ui/content/content'
     };
 
     var __super__ = Component.prototype;
@@ -32,10 +33,11 @@ define([
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
 
-            this.observe({
-                content:        this.content,
-                showSpinner:    false
-            });
+            this.observe('content loading');
+
+            this.loading.subscribe(function(value){
+                this.trigger(value ? 'loading' : 'loaded');
+            }, this);
 
             this.containers.subscribe(this.onContainersUpdate.bind(this));
 
@@ -53,8 +55,8 @@ define([
         },
 
         onContainersUpdate: function(container){
-            var containers = this.containers(),
-                change = this.onContainerChange.bind(this);
+            var containers  = this.containers(),
+                change      = this.onContainerChange.bind(this);
 
             containers.forEach(function(elem){
                 elem.on('active', change);
@@ -72,12 +74,11 @@ define([
         },
 
         shouldLoad: function(){
-            return this.source && !this.hasData() && !this.showSpinner();
+            return this.source && !this.hasData() && !this.loading();
         },
 
         loadData: function(){
-            this.trigger('loading')
-                .showSpinner(true);
+            this.loading(true);
 
             $.ajax(this.ajaxConfig);
 
@@ -86,8 +87,7 @@ define([
 
         onDataLoaded: function(data){
             this.updateContent(data)
-                .trigger('loaded')
-                .showSpinner(false); 
+                .loading(false); 
         },
 
         updateContent: function(content){

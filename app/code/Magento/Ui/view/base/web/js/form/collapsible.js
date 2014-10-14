@@ -27,9 +27,7 @@ define([
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
 
-            this.observe({
-                'opened': this.opened
-            });
+            this.observe('opened');
 
             return this;
         },

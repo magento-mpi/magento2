@@ -32,11 +32,7 @@ define([
         initObservable: function() {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe({
-                active:   this.active,
-                changed:  this.changed,
-                loading:  this.loading
-            });
+            this.observe('active changed loading');
 
             return this;
         },
