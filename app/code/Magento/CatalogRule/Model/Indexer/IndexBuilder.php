@@ -164,7 +164,7 @@ class IndexBuilder
      */
     protected function doReindexFull()
     {
-        foreach ($this->getActiveRules() as $rule) {
+        foreach ($this->getAllRules() as $rule) {
             $this->updateRuleProductData($rule);
         }
         $this->applyAllRules();
@@ -319,6 +319,10 @@ class IndexBuilder
             );
         } else {
             $write->delete($this->getTable('catalogrule_product'), $write->quoteInto('rule_id=?', $ruleId));
+        }
+
+        if (!$rule->getIsActive()) {
+            return $this;
         }
 
         $websiteIds = $rule->getWebsiteIds();
@@ -633,6 +637,16 @@ class IndexBuilder
     {
         return $this->ruleCollectionFactory->create()
             ->addFieldToFilter('is_active', 1);
+    }
+
+    /**
+     * Get active rules
+     *
+     * @return array
+     */
+    protected function getAllRules()
+    {
+        return $this->ruleCollectionFactory->create();
     }
 
     /**
