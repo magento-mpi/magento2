@@ -47,8 +47,8 @@ define([
 
             handlers = {
                 update:     this.onChildrenUpdate.bind(this),
-                loading:    this.onContentLoading.bind(this, false),
-                loaded:     this.onContentLoading.bind(this, true)
+                loading:    this.onContentLoading.bind(this, true),
+                loaded:     this.onContentLoading.bind(this, false)
             };
 
             params.on('update:activeArea', this.updateState.bind(this));
@@ -83,7 +83,13 @@ define([
             this.pushParams();
         },
 
-        onChildrenUpdate: function(changed){
+        onChildrenUpdate: function(changed, element, settings){
+            var params  = this.provider.params;
+
+            if (settings.makeVisible) {
+                this.setActive();
+            }
+
             this.changed(changed);
         },
 
