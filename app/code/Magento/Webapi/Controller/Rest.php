@@ -16,9 +16,11 @@ use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
 use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Controller\Rest\Router\Route;
+use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\PathProcessor;
 use Zend\Code\Reflection\ClassReflection;
+use Zend\Code\Reflection\MethodReflection;
 
 /**
  * Front controller for WebAPI REST area.
@@ -85,6 +87,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      */
     protected $dataObjectConverter;
 
+    /** @var TypeProcessor */
+    protected $typeProcessor;
+
     /**
      * Initialize dependencies
      *
@@ -101,6 +106,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param PartialResponseProcessor $partialResponseProcessor
      * @param UserContextInterface $userContext
      * @param SimpleDataObjectConverter $dataObjectConverter
+     * @param TypeProcessor $typeProcessor
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -118,7 +124,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
         UserContextInterface $userContext,
-        SimpleDataObjectConverter $dataObjectConverter
+        SimpleDataObjectConverter $dataObjectConverter,
+        TypeProcessor $typeProcessor
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -133,6 +140,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->partialResponseProcessor = $partialResponseProcessor;
         $this->userContext = $userContext;
         $this->dataObjectConverter = $dataObjectConverter;
+        $this->typeProcessor = $typeProcessor;
     }
 
     /**
@@ -163,10 +171,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
             /** @var ClassReflection $serviceClassReflector */
             $serviceClassReflector = new ClassReflection($serviceClassName);
-            $serviceMethodReturnType = $serviceClassReflector->getMethod($serviceMethodName)
-                ->getDocBlock()
-                ->getTag('return')
-                ->getType();
+            /** @var MethodReflection $methodReflection */
+            $methodReflection = $serviceClassReflector->getMethod($serviceMethodName);
+            $serviceMethodReturnType = $this->typeProcessor->getGetterReturnType($methodReflection)['type'];
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceMethodReturnType);

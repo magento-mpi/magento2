@@ -9,14 +9,16 @@ namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Service\DataObjectProcessor;
-use Magento\Framework\Service\Data\AbstractSimpleObject;
 use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
+use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Zend\Code\Reflection\ClassReflection;
+use Zend\Code\Reflection\MethodReflection;
 
 /**
  * Handler of requests to SOAP server.
@@ -50,6 +52,9 @@ class Handler
     /** @var DataObjectProcessor */
     protected $_dataObjectProcessor;
 
+    /** @var TypeProcessor */
+    protected $_typeProcessor;
+
     /**
      * Initialize dependencies.
      *
@@ -60,6 +65,7 @@ class Handler
      * @param SimpleDataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      * @param DataObjectProcessor $dataObjectProcessor
+     * @param TypeProcessor $typeProcessor
      */
     public function __construct(
         SoapRequest $request,
@@ -68,7 +74,8 @@ class Handler
         AuthorizationInterface $authorization,
         SimpleDataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer,
-        DataObjectProcessor $dataObjectProcessor
+        DataObjectProcessor $dataObjectProcessor,
+        TypeProcessor $typeProcessor
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
@@ -77,6 +84,7 @@ class Handler
         $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
         $this->_dataObjectProcessor = $dataObjectProcessor;
+        $this->_typeProcessor = $typeProcessor;
     }
 
     /**
@@ -120,12 +128,11 @@ class Handler
         /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
         /** @var ClassReflection $serviceClassReflector */
         $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClass]);
-        $serviceMethodReturnType = $serviceClassReflector->getMethod($serviceMethod)
-            ->getDocBlock()
-            ->getTag('return')
-            ->getType();
+        /** @var MethodReflection $methodReflection */
+        $methodReflection = $serviceClassReflector->getMethod($serviceMethod);
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
         $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
+        $serviceMethodReturnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
         return $this->_prepareResponseData($outputData, $serviceMethodReturnType);
     }
 
@@ -156,20 +163,14 @@ class Handler
     protected function _prepareResponseData($data, $dataType)
     {
         $result = null;
-        if ($data instanceof AbstractSimpleObject) {
+        if ($data instanceof AbstractExtensibleObject) {
             $result = $this->_dataObjectConverter
-                ->convertKeysToCamelCase(
-                    $this->_dataObjectProcessor
-                        ->buildOutputDataArray($data, $dataType)
-                );
+                ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                if ($value instanceof AbstractSimpleObject) {
+                if ($value instanceof AbstractExtensibleObject) {
                     $result[] = $this->_dataObjectConverter
-                        ->convertKeysToCamelCase(
-                            $this->_dataObjectProcessor
-                                ->buildOutputDataArray($value, $dataType)
-                        );
+                        ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($value, $dataType));
                 } else {
                     $result[$key] = $value;
                 }
