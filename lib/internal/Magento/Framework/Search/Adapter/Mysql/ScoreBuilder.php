@@ -60,7 +60,7 @@ class ScoreBuilder
      */
     public function endQuery($boost)
     {
-        $this->scoreCondition .= " +0) * {$boost}";
+        $this->scoreCondition .= ") * {$boost}";
     }
 
     /**
