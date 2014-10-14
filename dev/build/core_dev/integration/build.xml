@@ -12,7 +12,7 @@
 <project name="Core Development Integration Tests" basedir="../../../../" default="integration_tests_ee_mysql">
     <import file="../util.xml"/>
 
-    <target name="_integration_tests_configuration" depends="_product_location" description="Generation of configuration for integration tests">
+    <target name="_integration_tests_configuration" depends="_product_location,_composer_install" description="Generation of configuration for integration tests">
         <condition property="db_vendor_name" value="mysql">
             <not><isset property="db_vendor_name"/></not>
         </condition>
@@ -146,7 +146,7 @@
                 var parallel_run_exec = project.createTask('exec');
                 parallel_run_exec.setExecutable('php');
                 parallel_run_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
-                parallel_run_exec.setFailonerror(false);
+                parallel_run_exec.setFailonerror(true);
                 var arg = parallel_run_exec.createArg();
                 var command = '-f parallel-run.php testsuite/Magento/ -- --log-junit '
                         + baseDir + '/integration_tests_magento.xml --max-instances ' + maxInstances;
@@ -156,6 +156,7 @@
                 var phpunit_exec = project.createTask('exec');
                 phpunit_exec.setExecutable('phpunit');
                 phpunit_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
+                phpunit_exec.setFailonerror(true);
                 var arg = phpunit_exec.createArg();
                 var command = '-c phpunit-0.xml --stderr --log-junit ' + baseDir + '/integration_tests_magento.xml';
                 arg.setLine(command);
