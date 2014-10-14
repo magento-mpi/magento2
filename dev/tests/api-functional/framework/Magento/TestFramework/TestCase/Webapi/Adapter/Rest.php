@@ -36,8 +36,8 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient */
     protected $curlClient;
 
-    /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\DocumentationGeneration */
-    protected $documentationGeneration;
+    /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\DocumentationGenerator */
+    protected $documentationGenerator;
 
     /** @var string */
     protected $defaultStoreCode;
@@ -51,8 +51,8 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $objectManager = Bootstrap::getObjectManager();
         $this->_config = $objectManager->get('Magento\Webapi\Model\Config');
         $this->curlClient = $objectManager->get('Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient');
-        $this->documentationGeneration = $objectManager->get(
-            'Magento\TestFramework\TestCase\Webapi\Adapter\Rest\DocumentationGeneration'
+        $this->documentationGenerator = $objectManager->get(
+            'Magento\TestFramework\TestCase\Webapi\Adapter\Rest\DocumentationGenerator'
         );
         $this->defaultStoreCode = Bootstrap::getObjectManager()
             ->get('Magento\Framework\StoreManagerInterface')
@@ -105,7 +105,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
         }
         if (defined('GENERATE_REST_DOCUMENTATION') && GENERATE_REST_DOCUMENTATION) {
-            $this->documentationGeneration->generateDocumentation($httpMethod, $resourcePath, $arguments, $response);
+            $this->documentationGenerator->generateDocumentation($httpMethod, $resourcePath, $arguments, $response);
         }
         return $response;
     }
