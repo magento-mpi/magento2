@@ -1014,5 +1014,49 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['display_out_of_stock'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/options/show_out_of_stock',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['backorders_allow_qty_below'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/item_options/backorders',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['no_display_out_of_stock'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/options/show_out_of_stock',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['backorders_no_backorders'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/item_options/backorders',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
     }
 }
