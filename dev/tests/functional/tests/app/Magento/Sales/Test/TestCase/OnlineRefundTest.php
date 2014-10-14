@@ -48,8 +48,7 @@ class OnlineRefundTest extends RefundTest
         $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
 
         // Step 4: Submit Credit Memo
-        $creditMemoCreateBlock = Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getFormBlock();
-        $creditMemoCreateBlock->submit();
+        Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getActionsBlock()->refund();
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();

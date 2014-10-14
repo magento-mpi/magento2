@@ -50,10 +50,12 @@ class Form extends \Mtf\Block\Form
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         $this->waitLoadForm();
-        parent::fill($fixture, $element);
+        return parent::fill($fixture, $element);
     }
 
     /**
+     * Wait while form is loading
+     *
      * @return void
      */
     protected function waitLoadForm()
