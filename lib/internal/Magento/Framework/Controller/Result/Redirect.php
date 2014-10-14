@@ -10,7 +10,6 @@ namespace Magento\Framework\Controller\Result;
 
 use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App;
-use Magento\Backend\Model\UrlInterface;
 
 /**
  * In many cases controller actions may result in a redirect
@@ -24,7 +23,7 @@ class Redirect extends AbstractResult
     protected $redirect;
 
     /**
-     * @var \Magento\Backend\Model\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
 
@@ -37,11 +36,11 @@ class Redirect extends AbstractResult
      * Constructor
      *
      * @param App\Response\RedirectInterface $redirect
-     * @param \Magento\Backend\Model\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      */
     public function __construct(
         App\Response\RedirectInterface $redirect,
-        UrlInterface $urlBuilder
+        \Magento\Framework\UrlInterface $urlBuilder
     ) {
         $this->redirect = $redirect;
         $this->urlBuilder = $urlBuilder;

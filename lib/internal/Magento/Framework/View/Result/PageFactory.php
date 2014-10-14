@@ -23,11 +23,18 @@ class PageFactory
     private $objectManager;
 
     /**
-     * @param ObjectManager $objectManager
+     * @var string
      */
-    public function __construct(ObjectManager $objectManager)
+    protected $instanceName;
+
+    /**
+     * @param ObjectManager $objectManager
+     * @param string $instanceName
+     */
+    public function __construct(ObjectManager $objectManager, $instanceName = 'Magento\Framework\View\Result\Page')
     {
         $this->objectManager = $objectManager;
+        $this->instanceName = $instanceName;
     }
 
     /**
@@ -36,10 +43,17 @@ class PageFactory
      * TODO: As argument has to be controller action interface, temporary solution until controller output models
      * TODO: are not implemented
      *
+     * @param bool $isView
      * @return \Magento\Framework\View\Result\Page
      */
-    public function create()
+    public function create($isView = false)
     {
-        return $this->objectManager->create('\Magento\Framework\View\Result\Page');
+        /** @var \Magento\Framework\View\Result\Page $page */
+        $page = $this->objectManager->create($this->instanceName);
+        // TODO Temporary solution for compatibility with View object. Will be deleted in MAGETWO-28359
+        if (!$isView) {
+            $page->addDefaultHandle();
+        }
+        return $page;
     }
 }

@@ -29,13 +29,13 @@ class Redirect extends \Magento\Framework\Controller\Result\Redirect
      * Constructor
      *
      * @param App\Response\RedirectInterface $redirect
-     * @param UrlInterface $urlBuilder
+     * @param \Magento\Backend\Model\UrlInterface $urlBuilder
      * @param Session $session
      * @param ActionFlag $actionFlag
      */
     public function __construct(
         App\Response\RedirectInterface $redirect,
-        UrlInterface $urlBuilder,
+        \Magento\Backend\Model\UrlInterface $urlBuilder,
         Session $session,
         ActionFlag $actionFlag
     ) {

@@ -7,6 +7,7 @@
  */
 namespace Magento\Backend\Model\View\Result;
 
+use Magento\Framework\App\RequestInterface;
 use Magento\Backend\Model\Session;
 use Magento\Framework\App\ActionFlag;
 use Magento\Backend\App\AbstractAction;
@@ -24,13 +25,15 @@ class Forward extends \Magento\Framework\Controller\Result\Forward
     protected $actionFlag;
 
     /**
+     * @param RequestInterface $request
      * @param Session $session
      * @param ActionFlag $actionFlag
      */
-    public function __construct(Session $session, ActionFlag $actionFlag)
+    public function __construct(RequestInterface $request, Session $session, ActionFlag $actionFlag)
     {
         $this->session = $session;
         $this->actionFlag = $actionFlag;
+        parent::__construct($request);
     }
 
     /**

@@ -73,7 +73,7 @@ class View implements ViewInterface
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
         $this->_actionFlag = $actionFlag;
-        $this->page = $pageFactory->create();
+        $this->page = $pageFactory->create(true);
     }
 
     /**

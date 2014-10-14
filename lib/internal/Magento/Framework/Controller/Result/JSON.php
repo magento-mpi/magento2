@@ -56,7 +56,8 @@ class JSON extends AbstractResult
      */
     protected function render(ResponseInterface $response)
     {
-        $response->representJson($this->translateInline->processResponseBody($this->json, true));
+        $this->translateInline->processResponseBody($this->json, true);
+        $response->representJson($this->json);
         return $this;
     }
 }
