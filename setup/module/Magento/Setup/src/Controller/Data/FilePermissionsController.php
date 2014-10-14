@@ -7,12 +7,24 @@
  */
 namespace Magento\Setup\Controller\Data;
 
+use Magento\Config\Config;
+use Magento\Config\ConfigFactory;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Magento\Setup\Model\FilePermissions;
 
 class FilePermissionsController extends AbstractActionController
 {
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
     /**
      * @var JsonModel
      */
@@ -26,13 +38,17 @@ class FilePermissionsController extends AbstractActionController
     /**
      * @param JsonModel $jsonModel
      * @param FilePermissions $permissions
+     * @param ConfigFactory $configFactory     *
      */
     public function __construct(
         JsonModel $jsonModel,
-        FilePermissions $permissions
+        FilePermissions $permissions,
+        ConfigFactory $configFactory
     ) {
         $this->jsonModel = $jsonModel;
         $this->permissions = $permissions;
+        $this->configFactory = $configFactory;
+        $this->config = $this->configFactory->create();
     }
 
     /**
@@ -45,11 +61,21 @@ class FilePermissionsController extends AbstractActionController
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
 
+        $magentoBasePath= str_replace('\\', '/', $this->config->getMagentoBasePath()) . '/';
+        $relativeRequiredPaths = [];
+        foreach ($this->permissions->getRequired() as $path) {
+            $relativeRequiredPaths[] = str_replace($magentoBasePath, '', $path);
+        }
+        $relativeCurrentPaths = [];
+        foreach ($this->permissions->getCurrent() as $path) {
+            $relativeCurrentPaths[] = str_replace($magentoBasePath, '', $path);
+        }
+
         $data = [
             'responseType' => $responseType,
             'data' => [
-                'required' => $this->permissions->getRequired(),
-                'current' => $this->permissions->getCurrent(),
+                'required' => $relativeRequiredPaths,
+                'current' => $relativeCurrentPaths,
             ],
         ];
 

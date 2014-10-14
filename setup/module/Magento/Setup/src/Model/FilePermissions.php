@@ -10,7 +10,7 @@ namespace Magento\Setup\Model;
 
 use Magento\Config\Config;
 use Magento\Config\ConfigFactory;
-use Magento\Filesystem\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FilePermissions
 {
@@ -25,9 +25,16 @@ class FilePermissions
     protected $config;
 
     /**
-     * @var Filesystem
+     * List of directories that require write permissions
+     *
+     * @var array
      */
-    protected $filesystem;
+    protected $permissions = array(
+        DirectoryList::CONFIG,
+        DirectoryList::VAR_DIR,
+        DirectoryList::MEDIA,
+        DirectoryList::STATIC_VIEW,
+    );
 
     /**
      * List of required directories
@@ -44,15 +51,11 @@ class FilePermissions
     protected $current = [];
 
     /**
-     * @param Filesystem $filesystem
      * @param ConfigFactory $configFactory
      */
     public function __construct(
-        Filesystem $filesystem,
         ConfigFactory $configFactory
     ) {
-        $this->filesystem = $filesystem;
-
         $this->configFactory = $configFactory;
         $this->config = $this->configFactory->create();
     }
@@ -65,10 +68,9 @@ class FilePermissions
     public function getRequired()
     {
         if (!$this->required) {
-            foreach ($this->config->getMagentoFilePermissions() as $code => $config) {
-                if (isset($config['path'])) {
-                    $this->required[$code] = $config['path'];
-                }
+            $directoryList = new DirectoryList($this->config->getMagentoBasePath());
+            foreach ($this->permissions as $code) {
+                $this->required[$code] = $directoryList->getpath($code);
             }
         }
         return array_values($this->required);
@@ -83,7 +85,7 @@ class FilePermissions
     {
         if (!$this->current) {
             foreach ($this->required as $code => $path) {
-                if (!$this->validate($code)) {
+                if (!$this->validate($path)) {
                     continue;
                 }
                 $this->current[$code] = $path;
@@ -95,22 +97,12 @@ class FilePermissions
     /**
      * Validate directory permissions by given directory code
      *
-     * @param string $code
+     * @param string $path
      * @return bool
      */
-    protected function validate($code)
+    protected function validate($path)
     {
-        $directory = $this->filesystem->getDirectoryWrite($code);
-        if (!$directory->isExist()) {
-            return false;
-        }
-        if (!$directory->isDirectory()) {
-            return false;
-        }
-        if (!$directory->isReadable()) {
-            return false;
-        }
-        if (!$directory->isWritable()) {
+        if (!file_exists($path) || !is_dir($path) || !is_readable($path) || !is_writable($path)) {
             return false;
         }
         return true;
