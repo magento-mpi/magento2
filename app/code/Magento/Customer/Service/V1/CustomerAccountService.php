@@ -364,15 +364,20 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function createCustomer(
         Data\CustomerDetails $customerDetails,
         $password = null,
+        $confirmation = null,
         $redirectUrl = ''
     ) {
-        if ($password) {
-            $this->checkPasswordStrength($password);
-        } else {
+        if ($password == CustomerAccountServiceInterface::GENERATE_PASSWORD) {
             $password = $this->mathRandom->getRandomString(self::MIN_PASSWORD_LENGTH);
+        } else {
+            $this->checkPasswordStrength($password);
+            $this->checkPasswordConfirmation($password, $confirmation);
         }
-        $hash = $this->getPasswordHash($password);
-        return $this->createCustomerWithPasswordHash($customerDetails, $hash, $redirectUrl);
+        return $this->createCustomerWithPasswordHash(
+            $customerDetails,
+            $this->getPasswordHash($password),
+            $redirectUrl
+        );
     }
 
     /**
@@ -642,12 +647,26 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $length = $this->stringHelper->strlen($password);
         if ($length < self::MIN_PASSWORD_LENGTH) {
             throw new InputException(
-                'The password must have at least %min_length characters.',
-                ['min_length' => self::MIN_PASSWORD_LENGTH]
+                'The password must have at least %1 characters.',
+                [self::MIN_PASSWORD_LENGTH]
             );
         }
         if ($this->stringHelper->strlen(trim($password)) != $length) {
             throw new InputException('The password can not begin or end with a space.');
+        }
+    }
+
+    /**
+     * Make sure that password and password confirmation matched
+     *
+     * @param $password
+     * @param $confirmation
+     * @throws InputException
+     */
+    protected function checkPasswordConfirmation($password, $confirmation)
+    {
+        if (empty($confirmation) || $password != $confirmation) {
+            throw new InputException('Please make sure your passwords match.');
         }
     }
 

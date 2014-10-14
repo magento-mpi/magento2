@@ -13,6 +13,7 @@ use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface as AddressMetadata;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 class Save extends \Magento\Customer\Controller\Adminhtml\Index
 {
@@ -145,7 +146,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 if ($isExistingCustomer) {
                     $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
                 } else {
-                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
+                    $customer = $this->_customerAccountService
+                        ->createCustomer($customerDetails, CustomerAccountServiceInterface::GENERATE_PASSWORD);
                     $customerId = $customer->getId();
                 }
 

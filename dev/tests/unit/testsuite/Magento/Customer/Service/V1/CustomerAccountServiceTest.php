@@ -1258,13 +1258,14 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCustomer()
     {
+        $password = 'password';
+        $confirmation = 'password';
         $customerData = array(
             'customer_id' => self::ID,
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1318,17 +1319,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $this->assertSame($customerEntity, $customerService->createCustomer($customerDetails));
+        $this->assertSame(
+            $customerEntity,
+            $customerService->createCustomer($customerDetails, $password, $confirmation)
+        );
     }
 
     public function testCreateNewCustomer()
     {
+        $password = 'password';
+        $confirmation = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1381,7 +1386,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $this->assertSame($customerEntity, $customerService->createCustomer($customerDetails));
+        $this->assertSame(
+            $customerEntity,
+            $customerService->createCustomer($customerDetails, $password, $confirmation)
+        );
     }
 
     /**
@@ -1390,12 +1398,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateCustomerWithException()
     {
+        $password = 'password';
+        $confirmation = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1446,17 +1455,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception('exception message')));
 
         $customerService = $this->_createService();
-        $customerService->createCustomer($customerDetails);
+        $customerService->createCustomer($customerDetails, $password, $confirmation);
     }
 
     public function testCreateCustomerWithInputException()
     {
+        $password = 'password';
+        $confirmation = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1494,7 +1504,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->createCustomer($customerDetails);
+            $customerService->createCustomer($customerDetails, $password, $confirmation);
         } catch (InputException $inputException) {
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
@@ -1838,6 +1848,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateAccountMailException()
     {
+        $password = 'password';
+        $confirmation = 'password';
+
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
@@ -1854,8 +1867,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->any())
             ->method('getEmail')
             ->will($this->returnValue('somebody@example.com'));
-
-
 
         $this->_customerModelMock->expects($this->any())
             ->method('getId')
@@ -1899,13 +1910,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockCustomer));
 
         $service = $this->_createService();
-        $service->createCustomer($mockCustomerDetail, 'abc123');
+        $service->createCustomer($mockCustomerDetail, $password, $confirmation);
         // If we get no mail exception, the test in considered a success
     }
 
     public function testGetCustomerByEmail()
     {
-
         $this->_converter = $this->getMockBuilder('Magento\Customer\Model\Converter')
             ->disableOriginalConstructor()->getMock();
 
