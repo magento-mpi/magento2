@@ -195,7 +195,6 @@
                     <?php foreach($_comments as $_comment): ?>
                         <?php if ($_comment->getIsVisibleOnFront()): ?>
                             <dt class="returns-comment-date">
-                                <?php echo $this->formatDate($_comment->getCreatedAt()) ?> <?php echo $this->formatTime($_comment->getCreatedAt()) ?>
                                 <strong class="returns-comment-autor">
                                     <?php if ($_comment->getIsAdmin()): ?>
                                         <?php echo __('Customer Service')?>
@@ -203,6 +202,7 @@
                                         <?php echo $this->escapeHtml($this->getCustomerName())?>
                                     <?php endif; ?>
                                 </strong>
+                                <?php echo $this->formatDate($_comment->getCreatedAt()) ?> <?php echo $this->formatTime($_comment->getCreatedAt()) ?>
                             </dt>
                             <dd class="returns-comment-text">
                                 <?php echo nl2br($this->escapeHtml($_comment->getComment())); ?>
