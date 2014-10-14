@@ -110,7 +110,7 @@ class GeneratorPoolTest extends \PHPUnit_Framework_TestCase
 
         $this->helperMock->expects($this->atLeastOnce())->method('scheduleElement')
             ->with($this->scheduledStructure, $this->structureMock, $this->anything())
-            ->willReturnCallback(function ($scheduledStructure, $structure, $elementName) use($schedule) {
+            ->willReturnCallback(function ($scheduledStructure, $structure, $elementName) use ($schedule) {
                 /** @var $scheduledStructure ScheduledStructure */
                 /** @var $structure Data\Structure */
                 $this->assertContains($elementName, $schedule['structure']);
