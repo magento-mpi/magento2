@@ -10,7 +10,7 @@
 <page mca="sales/order/invoice" module="Magento_Sales">
     <blocks>
         <invoiceBlock>
-            <class>Magento\Sales\Test\Block\Order\Invoice</class>
+            <class>Magento\Sales\Test\Block\Order\View</class>
             <locator>.order-details-items</locator>
             <strategy>css selector</strategy>
         </invoiceBlock>

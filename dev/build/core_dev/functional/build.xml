@@ -108,9 +108,12 @@
             <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
         </replace>
 
-        <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install --prefer-source --no-interaction"/>
-        </exec>
+        <antcall target="_composer_install">
+            <param name="product_root_dir" value="${basedir}"/>
+        </antcall>
+        <antcall target="_composer_install_dir">
+            <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
+        </antcall>
 
         <script language="javascript"><![CDATA[
             var antcall = project.createTask('antcall');
