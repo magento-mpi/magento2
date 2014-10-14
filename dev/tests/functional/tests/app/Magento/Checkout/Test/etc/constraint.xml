@@ -41,4 +41,7 @@
     <assertProductPresentInMiniShoppingCart module="Magento_Checkout">
         <severeness>low</severeness>
     </assertProductPresentInMiniShoppingCart>
+    <assertAddProductToCartSuccessMessage module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertAddProductToCartSuccessMessage>
 </constraint>

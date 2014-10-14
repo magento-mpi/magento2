@@ -40,7 +40,7 @@ class AssertAddProductToWishlistSuccessMessage extends AbstractConstraint
     public function processAssert(WishlistIndex $wishlistIndex, $product)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::SUCCESS_MESSAGE, $product->getName()),
+            sprintf(static::SUCCESS_MESSAGE, $product->getName()),
             $wishlistIndex->getMessagesBlock()->getSuccessMessages(),
             "Expected success message doesn't match actual."
         );
