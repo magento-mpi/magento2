@@ -32,7 +32,8 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('checkout/onepage/index');
         $html = $this->getResponse()->getBody();
         $this->assertContains('<li id="opc-payment"', $html);
-        $this->assertSelectCount('[id="checkout-payment-method-load"]', 1, $html);
+        $this->assertSelectEquals('[id="checkout-shipping-method-load"]', '', 1, $html);
+        $this->assertSelectEquals('[id="checkout-payment-method-load"]', '', 1, $html);
         $this->assertSelectCount('form[id="co-billing-form"][action=""]', 1, $html);
         $this->assertSelectCount('form[id="co-payment-form"] input[name="form_key"]', 1, $html);
     }
