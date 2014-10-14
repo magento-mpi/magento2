@@ -2046,7 +2046,6 @@ return array(
         'Magento\Framework\Data\Argument\Interpreter\Composite'
     ),
     array('Magento\Framework\Phrase\Renderer\Factory'),
-    array('Magento\Framework\View\LayoutFactory', 'Magento\DesignEditor\Model\AreaEmulator'),
     array('Magento\Catalog\Model\Category\Indexer\Product'),
     array('Magento\Catalog\Model\Resource\Category\Indexer\Product'),
     array('Magento\Catalog\Model\Index'),

@@ -80,10 +80,10 @@ class Page extends Layout
         View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
+        View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Page\ConfigFactory $pageConfigFactory,
         View\Page\Config\Renderer $pageConfigRenderer,
         View\Page\Layout\Reader $pageLayoutReader,
-        View\Layout\BuilderFactory $layoutBuilderFactory,
         $template
     ) {
         $this->pageConfig = $pageConfigFactory->create();
