@@ -1754,7 +1754,6 @@ return array(
     array('Magento\Adminhtml\Block\Report\Shopcart\Product', 'Magento\Reports\Block\Adminhtml\Shopcart\Product'),
     array('Magento\Adminhtml\Block\Report\Wishlist\Grid', 'Magento\Reports\Block\Adminhtml\Wishlist\Grid'),
     array('Magento\Adminhtml\Block\Report\Wishlist', 'Magento\Reports\Block\Adminhtml\Wishlist'),
-    array('Magento\Framework\App\Dir\Verification', 'Magento\Framework\App\Filesystem\DirectoryList\Verification'),
     array('Magento\Backend\Helper\Addresses'),
     array('Magento\Core\Model\Cookie', 'Magento\Framework\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Framework\Logger'),

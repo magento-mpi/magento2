@@ -27,11 +27,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_dirVerificationMock;
-
-    /**
      * @var callable
      */
     protected $_closure;
@@ -75,13 +70,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync = $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
-        $this->_dirVerificationMock = $this->getMock(
-            'Magento\Framework\App\Filesystem\DirectoryList\Verification',
-            array(),
-            array(),
-            '',
-            false
-        );
 
         $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $this->directoryReadMock = $this->getMock(
@@ -105,7 +93,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
-            array('Magento\Framework\App\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
             array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
             array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync)
         );

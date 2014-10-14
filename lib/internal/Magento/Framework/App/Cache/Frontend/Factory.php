@@ -117,9 +117,6 @@ class Factory
             }
         }
 
-        $this->_backendOptions['cache_dir'] = $this->_filesystem->getDirectoryWrite(DirectoryList::CACHE)
-            ->getAbsolutePath();
-
         $idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
         if (!$idPrefix && isset($options['prefix'])) {
             $idPrefix = $options['prefix'];
@@ -280,6 +277,9 @@ class Factory
         }
         if (!$backendType) {
             $backendType = $this->_defaultBackend;
+            $cacheDir = $this->_filesystem->getDirectoryWrite(DirectoryList::CACHE);
+            $this->_backendOptions['cache_dir'] = $cacheDir->getAbsolutePath();
+            $cacheDir->create();
         }
         foreach ($this->_backendOptions as $option => $value) {
             if (!array_key_exists($option, $options)) {

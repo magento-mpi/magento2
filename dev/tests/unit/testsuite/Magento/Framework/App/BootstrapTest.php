@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\App;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class BootstrapTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -89,6 +91,34 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testCreateObjectManagerFactory()
+    {
+        $result = Bootstrap::createObjectManagerFactory('test', []);
+        $this->assertInstanceOf('Magento\Framework\App\ObjectManagerFactory', $result);
+    }
+
+    public function testCreateFilesystemDirectoryList()
+    {
+        $result = Bootstrap::createFilesystemDirectoryList(
+            'test',
+            [Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [DirectoryList::APP => ['path' => '/custom/path']]]
+        );
+        /** @var \Magento\Framework\App\Filesystem\DirectoryList $result */
+        $this->assertInstanceOf('Magento\Framework\App\Filesystem\DirectoryList', $result);
+        $this->assertEquals('/custom/path', $result->getPath(DirectoryList::APP));
+    }
+
+    public function testCreateFilesystemDriverPool()
+    {
+        $driverClass = get_class($this->getMockForAbstractClass('Magento\Framework\Filesystem\DriverInterface'));
+        $result = Bootstrap::createFilesystemDriverPool(
+            [Bootstrap::INIT_PARAM_FILESYSTEM_DRIVERS => ['custom' => $driverClass]]
+        );
+        /** @var \Magento\Framework\Filesystem\DriverPool $result */
+        $this->assertInstanceOf('Magento\Framework\Filesystem\DriverPool', $result);
+        $this->assertInstanceof($driverClass, $result->getDriver('custom'));
+    }
+
     public function testGetParams()
     {
         $testParams = ['testValue1', 'testValue2'];
@@ -118,12 +148,6 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         $bootstrap = self::createBootstrap();
         $this->assertSame($this->objectManager, $bootstrap->getObjectManager());
-    }
-
-    public function testGetDirList()
-    {
-        $bootstrap = self::createBootstrap();
-        $this->assertSame($this->dirs, $bootstrap->getDirList());
     }
 
     public function testIsDeveloperMode()

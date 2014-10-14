@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\View\Utility;
 
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class LayoutTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +21,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::INIT_PARAM_PATHS => array(
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
                     DirectoryList::APP => array('path' => BP . '/dev/tests/integration')
                 )
             )

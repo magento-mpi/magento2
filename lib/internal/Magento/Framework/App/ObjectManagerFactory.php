@@ -34,6 +34,20 @@ class ObjectManagerFactory
     protected $_configClassName = 'Magento\Framework\Interception\ObjectManager\Config';
 
     /**
+     * Filesystem directory list
+     *
+     * @var DirectoryList
+     */
+    protected $directoryList;
+
+    /**
+     * Filesystem driver pool
+     *
+     * @var DriverPool
+     */
+    protected $driverPool;
+
+    /**
      * Factory
      *
      * @var \Magento\Framework\ObjectManager\Factory
@@ -41,33 +55,38 @@ class ObjectManagerFactory
     protected $factory;
 
     /**
+     * Constructor
+     *
+     * @param DirectoryList $directoryList
+     * @param DriverPool $driverPool
+     */
+    public function __construct(DirectoryList $directoryList, DriverPool $driverPool)
+    {
+        $this->directoryList = $directoryList;
+        $this->driverPool = $driverPool;
+    }
+
+    /**
      * Create ObjectManager
      *
-     * @param string $rootDir
      * @param array $arguments
      * @param bool $useCompiled
      * @return \Magento\Framework\ObjectManager
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function create($rootDir, array $arguments, $useCompiled = true)
+    public function create(array $arguments, $useCompiled = true)
     {
-        $directories = isset(
-            $arguments[DirectoryList::INIT_PARAM_PATHS]
-        ) ? $arguments[DirectoryList::INIT_PARAM_PATHS] : array();
-        $directoryList = new DirectoryList($rootDir, $directories);
-
         (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($directoryList->getPath(DirectoryList::GENERATION))
+            array($this->directoryList->getPath(DirectoryList::GENERATION))
         );
 
-        $appArguments = $this->createAppArguments($directoryList, $arguments);
+        $appArguments = $this->createAppArguments($this->directoryList, $arguments);
 
-        $driverPool = new DriverPool;
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
-            $driverPool->getDriver(DriverPool::FILE),
-            $directoryList->getPath(DirectoryList::DI),
-            $directoryList->getPath(DirectoryList::GENERATION),
+            $this->driverPool->getDriver(DriverPool::FILE),
+            $this->directoryList->getPath(DirectoryList::DI),
+            $this->directoryList->getPath(DirectoryList::GENERATION),
             $appArguments->get('definition.format', 'serialized')
         );
 
@@ -82,7 +101,7 @@ class ObjectManagerFactory
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
 
         $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
-        $configData = $this->_loadPrimaryConfig($directoryList, $driverPool, $argumentMapper, $appMode);
+        $configData = $this->_loadPrimaryConfig($this->directoryList, $this->driverPool, $argumentMapper, $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
@@ -105,9 +124,9 @@ class ObjectManagerFactory
 
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
-            'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,
-            'Magento\Framework\Filesystem\DriverPool' => $driverPool,
-            'Magento\Framework\Filesystem\DirectoryList' => $directoryList,
+            'Magento\Framework\App\Filesystem\DirectoryList' => $this->directoryList,
+            'Magento\Framework\Filesystem\DirectoryList' => $this->directoryList,
+            'Magento\Framework\Filesystem\DriverPool' => $this->driverPool,
             'Magento\Framework\ObjectManager\Relations' => $relations,
             'Magento\Framework\Interception\Definition' => $definitionFactory->createPluginDefinition(),
             'Magento\Framework\ObjectManager\Config' => $diConfig,
@@ -123,10 +142,6 @@ class ObjectManagerFactory
 
         $this->factory->setObjectManager($objectManager);
         ObjectManager::setInstance($objectManager);
-
-        /** @var \Magento\Framework\App\Filesystem\DirectoryList\Verification $verification */
-        $verification = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Verification');
-        $verification->createAndVerifyDirectories();
 
         $diConfig->setCache($objectManager->get('Magento\Framework\App\ObjectManager\ConfigCache'));
         $objectManager->configure(

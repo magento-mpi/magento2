@@ -7,6 +7,7 @@
  */
 namespace Magento\Store\Model;
 
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class StoreTest extends \PHPUnit_Framework_TestCase
@@ -201,7 +202,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::INIT_PARAM_PATHS => array(
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
                     DirectoryList::PUB => array('uri' => '')
                 )
             )

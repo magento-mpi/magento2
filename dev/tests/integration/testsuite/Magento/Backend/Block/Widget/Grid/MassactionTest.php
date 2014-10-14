@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Block\Widget\Grid;
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Store\Model\StoreManager;
 /**
@@ -52,7 +53,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             StoreManager::PARAM_RUN_CODE => 'admin',
             StoreManager::PARAM_RUN_TYPE => 'store',
-            DirectoryList::INIT_PARAM_PATHS => array(
+            Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
                 DirectoryList::THEMES => array('path' => __DIR__ . '/../../_files/design')
             ),
         ));

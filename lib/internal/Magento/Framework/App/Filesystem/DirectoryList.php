@@ -13,11 +13,6 @@ namespace Magento\Framework\App\Filesystem;
 class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
 {
     /**
-     * Custom application dirs
-     */
-    const INIT_PARAM_PATHS = 'MAGE_DIRS';
-
-    /**
      * Code base root
      */
     const ROOT = 'base';

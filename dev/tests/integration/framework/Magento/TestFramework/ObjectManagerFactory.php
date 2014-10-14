@@ -69,24 +69,18 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      * Restore locator instance
      *
      * @param ObjectManager $objectManager
-     * @param string $rootDir
+     * @param DirectoryList $directoryList
      * @param array $arguments
      * @return ObjectManager
      */
-    public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
+    public function restore(ObjectManager $objectManager, $directoryList, array $arguments)
     {
-        $directories = isset($arguments[DirectoryList::INIT_PARAM_PATHS])
-            ? $arguments[DirectoryList::INIT_PARAM_PATHS]
-            : array();
-        $directoryList = new DirectoryList($rootDir, $directories);
-
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
-
+        $this->directoryList = $directoryList;
         $objectManager->configure($this->_primaryConfigData);
-        $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
-        $objectManager->addSharedInstance($directoryList, 'Magento\Framework\Filesystem\DirectoryList');
-
-        $appArguments = parent::createAppArguments($directoryList, $arguments);
+        $objectManager->addSharedInstance($this->directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
+        $objectManager->addSharedInstance($this->directoryList, 'Magento\Framework\Filesystem\DirectoryList');
+        $appArguments = parent::createAppArguments($this->directoryList, $arguments);
         $this->appArgumentsProxy->setSubject($appArguments);
         $this->factory->setArguments($appArguments->get());
         $objectManager->addSharedInstance($appArguments, 'Magento\Framework\App\Arguments');

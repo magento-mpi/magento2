@@ -8,11 +8,12 @@
  * @license    {license_link}
  */
 
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 require __DIR__ . '/../app/bootstrap.php';
 $params = $_SERVER;
-$params[DirectoryList::INIT_PARAM_PATHS] = [
+$params[Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS] = [
     DirectoryList::PUB => ['uri' => ''],
     DirectoryList::MEDIA => ['uri' => 'media'],
     DirectoryList::STATIC_VIEW => ['uri' => 'static'],

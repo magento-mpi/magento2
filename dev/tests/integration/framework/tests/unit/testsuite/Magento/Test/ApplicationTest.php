@@ -7,7 +7,7 @@
  */
 namespace Magento\Test;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\State;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +48,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
         $this->assertArrayHasKey(
-            DirectoryList::INIT_PARAM_PATHS,
+            Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS,
             $initParams,
             'Directories are not configured'
         );
