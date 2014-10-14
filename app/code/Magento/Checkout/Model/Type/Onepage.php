@@ -353,7 +353,7 @@ class Onepage
             array()
         );
 
-        if (!empty($customerAddressId)) {
+        if ($customerAddressId && !empty($customerAddressId)) {
             try {
                 $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
@@ -417,7 +417,7 @@ class Onepage
             switch ($usingCase) {
                 case 0:
                     $shipping = $this->getQuote()->getShippingAddress();
-                    $shipping->setSameAsBilling(0);
+                    $shipping->setSameAsBilling(0)->save();
                     break;
                 case 1:
                     $billing = clone $address;
@@ -430,29 +430,51 @@ class Onepage
 
                     // don't reset original shipping data, if it was not changed by customer
                     foreach ($shipping->getData() as $shippingKey => $shippingValue) {
-                        if (!is_null($shippingValue)
-                            && !is_null($billing->getData($shippingKey))
-                            && !isset($data[$shippingKey])
-                            && !in_array($shippingKey, $requiredBillingAttributes)
+                        if (!is_null(
+                                $shippingValue
+                            ) && !is_null(
+                                $billing->getData($shippingKey)
+                            ) && !isset(
+                            $data[$shippingKey]
+                            ) && !in_array(
+                                $shippingKey,
+                                $requiredBillingAttributes
+                            )
                         ) {
                             $billing->unsetData($shippingKey);
                         }
                     }
-                    $shipping->addData($billing->getData())
-                        ->setSameAsBilling(1)
-                        ->setSaveInAddressBook(0)
-                        ->setShippingMethod($shippingMethod)
-                        ->setCollectShippingRates(true);
+                    $shipping->addData(
+                        $billing->getData()
+                    )->setSameAsBilling(
+                        1
+                    )->setSaveInAddressBook(
+                        0
+                    )->setShippingMethod(
+                        $shippingMethod
+                    )->setCollectShippingRates(
+                        true
+                    )->save();
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
-                    $shipping->setCollectShippingRates(true);
                     break;
             }
         }
+
         $address->save();
-        $this->getCheckout()
-            ->setStepData('billing', 'allow', true)
-            ->setStepData('billing', 'complete', true)
-            ->setStepData('shipping', 'allow', true);
+
+        $this->getCheckout()->setStepData(
+            'billing',
+            'allow',
+            true
+        )->setStepData(
+            'billing',
+            'complete',
+            true
+        )->setStepData(
+            'shipping',
+            'allow',
+            true
+        );
 
         return array();
     }
@@ -611,7 +633,6 @@ class Onepage
         if (($validateRes = $address->validate()) !== true) {
             return array('error' => 1, 'message' => $validateRes);
         }
-
         $address->save();
         $this->getCheckout()->setStepData('shipping', 'complete', true)->setStepData('shipping_method', 'allow', true);
 
