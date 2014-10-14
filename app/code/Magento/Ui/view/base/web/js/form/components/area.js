@@ -67,7 +67,7 @@ define([
             return this;
         },
 
-        update: function(changed){
+        update: function(changed, element, settings){
             var params  = this.provider.params,
                 areas   = params.get('changedAreas') || [];
 
@@ -76,6 +76,10 @@ define([
                 _.without(areas, this.name);
 
             params.set('changedAreas', areas);
+
+            if (settings.makeVisible) {
+                params.set('activeArea', this.name);
+            }
         }
     });
 

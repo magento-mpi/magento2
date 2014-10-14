@@ -14,11 +14,6 @@ define(function (require) {
         utils       = require('mage/utils'),
         _           = require('underscore');
 
-    var defaults = {
-        elements: {},
-        validateOnChange: true
-    };
-
     /**
      * Defines if an object is meta descriptor by checking if one has
      *     "meta_ref" or "input_type" properties defined
@@ -41,7 +36,7 @@ define(function (require) {
          * @param  {Object} config
          */
         initialize: function (config) {
-            _.extend(this, defaults, config);
+            _.extend(this, config);
 
             this.initProperties()
                 .createElements(this.meta);
@@ -56,8 +51,11 @@ define(function (require) {
         initProperties: function () {
             var provider = this.provider;
 
-            this.data = provider.data.get();
-            this.meta = provider.meta.get();
+            _.extend(this, {
+                data:       provider.data.get(),
+                meta:       provider.meta.get(),
+                elements:   {}
+            })
 
             return this;
         },
@@ -115,7 +113,6 @@ define(function (require) {
                 name: name,
                 type: type,
                 value: utils.nested(this.data, name),
-                validateOnChange: this.validateOnChange,
                 provider: this.provider,
                 globalStorage: this.globalStorage
             });

@@ -110,13 +110,15 @@ define([
             });
         },
 
-        onUpdate: function (element, value, isValid) {
+        onUpdate: function (element, settings) {
+            var isValid = settings.isValid;
 
             if (!isValid && this.invalids.hasNo(element)) {
                 this.invalids.push(element);
             }
 
-            this.trigger('update', element, value);
+            settings.element = element;
+            this.trigger('update', this, settings);
         },
 
         /**

@@ -58,14 +58,14 @@ define([
             return this;
         },
 
-        onElementUpdate: function(){
+        onElementUpdate: function(element, settings){
             var changed;
 
             this.elems.some(function(elem){
                 return (changed = elem.hasChanged());
             });
 
-            this.trigger(changed ? 'change' : 'restore');
+            this.trigger(changed ? 'change' : 'restore', this, settings);
         }
     });
 
