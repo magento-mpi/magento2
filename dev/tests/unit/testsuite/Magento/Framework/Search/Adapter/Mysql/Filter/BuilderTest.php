@@ -9,8 +9,9 @@
 namespace Magento\Framework\Search\Adapter\Mysql\Filter;
 
 use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
+use Magento\Framework\Search\Request\FilterInterface;
+use Magento\Framework\Search\Request\Query\Bool as RequestBoolQuery;
 use Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Framework\Search\Request\Query\Bool as RequestBoolQuery;
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,7 +72,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->method('buildFilter')
             ->will(
                 $this->returnCallback(
-                    function (\Magento\Framework\Search\Request\FilterInterface $filter, $isNegation) use (
+                    function (FilterInterface $filter, $isNegation) use (
                         $conditionManager
                     ) {
                         /**
@@ -109,7 +110,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->method('buildFilter')
             ->will(
                 $this->returnCallback(
-                    function (\Magento\Framework\Search\Request\FilterInterface $filter, $isNegation) use (
+                    function (FilterInterface $filter, $isNegation) use (
                         $conditionManager
                     ) {
                         /**
@@ -136,7 +137,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Framework\Search\Request\FilterInterface|\PHPUnit_Framework_MockObject_MockObject $filter
+     * @param FilterInterface|\PHPUnit_Framework_MockObject_MockObject $filter
      * @param string $conditionType
      * @param string $expectedResult
      * @dataProvider buildFilterDataProvider
@@ -179,6 +180,27 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $field
+     * @param $value
+     * @return \Magento\Framework\Search\Request\Filter\Bool|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function createTermFilter($field, $value)
+    {
+        $filter = $this->getMockBuilder('Magento\Framework\Search\Request\Filter\Term')
+            ->setMethods(['getField', 'getValue'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $filter->expects($this->exactly(1))
+            ->method('getField')
+            ->will($this->returnValue($field));
+        $filter->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue($value));
+        return $filter;
+    }
+
+    /**
      * Data provider for BuildFilter
      *
      * @return array
@@ -198,6 +220,31 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ]
 
         ];
+    }
+
+    /**
+     * @param $field
+     * @param $from
+     * @param $to
+     * @return \Magento\Framework\Search\Request\Filter\Bool|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function createRangeFilter($field, $from, $to)
+    {
+        $filter = $this->getMockBuilder('Magento\Framework\Search\Request\Filter\Range')
+            ->setMethods(['getField', 'getFrom', 'getTo'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $filter->expects($this->exactly(2))
+            ->method('getField')
+            ->will($this->returnValue($field));
+        $filter->expects($this->atLeastOnce())
+            ->method('getFrom')
+            ->will($this->returnValue($from));
+        $filter->expects($this->atLeastOnce())
+            ->method('getTo')
+            ->will($this->returnValue($to));
+        return $filter;
     }
 
     /**
@@ -310,68 +357,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown filter type 'unknownType'
-     */
-    public function testUnknownFilterType()
-    {
-        /** @var \Magento\Framework\Search\Request\FilterInterface|\PHPUnit_Framework_MockObject_MockObject $filter */
-        $filter = $this->getMockBuilder('Magento\Framework\Search\Request\FilterInterface')
-            ->setMethods(['getType'])
-            ->getMockForAbstractClass();
-        $filter->expects($this->exactly(2))
-            ->method('getType')
-            ->will($this->returnValue('unknownType'));
-        $this->builder->build($filter, RequestBoolQuery::QUERY_CONDITION_MUST);
-    }
-
-    /**
-     * @param $field
-     * @param $value
-     * @return \Magento\Framework\Search\Request\Filter\Bool|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createTermFilter($field, $value)
-    {
-        $filter = $this->getMockBuilder('Magento\Framework\Search\Request\Filter\Term')
-            ->setMethods(['getField', 'getValue'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $filter->expects($this->exactly(1))
-            ->method('getField')
-            ->will($this->returnValue($field));
-        $filter->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue($value));
-        return $filter;
-    }
-
-    /**
-     * @param $field
-     * @param $from
-     * @param $to
-     * @return \Magento\Framework\Search\Request\Filter\Bool|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createRangeFilter($field, $from, $to)
-    {
-        $filter = $this->getMockBuilder('Magento\Framework\Search\Request\Filter\Range')
-            ->setMethods(['getField', 'getFrom', 'getTo'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $filter->expects($this->exactly(2))
-            ->method('getField')
-            ->will($this->returnValue($field));
-        $filter->expects($this->atLeastOnce())
-            ->method('getFrom')
-            ->will($this->returnValue($from));
-        $filter->expects($this->atLeastOnce())
-            ->method('getTo')
-            ->will($this->returnValue($to));
-        return $filter;
-    }
-
-    /**
      * @param array $must
      * @param array $should
      * @param array $mustNot
@@ -394,5 +379,21 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->method('getMustNot')
             ->will($this->returnValue($mustNot));
         return $filter;
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unknown filter type 'unknownType'
+     */
+    public function testUnknownFilterType()
+    {
+        /** @var FilterInterface|\PHPUnit_Framework_MockObject_MockObject $filter */
+        $filter = $this->getMockBuilder('Magento\Framework\Search\Request\FilterInterface')
+            ->setMethods(['getType'])
+            ->getMockForAbstractClass();
+        $filter->expects($this->exactly(2))
+            ->method('getType')
+            ->will($this->returnValue('unknownType'));
+        $this->builder->build($filter, RequestBoolQuery::QUERY_CONDITION_MUST);
     }
 }
