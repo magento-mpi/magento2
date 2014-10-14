@@ -17,6 +17,7 @@ interface AttributeSetManagementInterface
     /**
      * Create attribute set from data
      *
+     * @param string $entityType
      * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
      * @param int $skeletonId
      * @return int
@@ -24,5 +25,9 @@ interface AttributeSetManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
      */
-    public function create(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet, $skeletonId);
+    public function create(
+        $entityType,
+        \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet,
+        $skeletonId
+    );
 }
