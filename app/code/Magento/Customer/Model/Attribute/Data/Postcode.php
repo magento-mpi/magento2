@@ -41,8 +41,10 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\String $stringHelper,
-        \Magento\Directory\Helper\Data $directoryData
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
     ) {
+        $this->_attribute = $attribute;
         $this->_directoryData = $directoryData;
         parent::__construct($localeDate, $logger, $localeResolver, $stringHelper);
     }
@@ -53,11 +55,26 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
      */
     public function validateValue($value)
     {
-        $countryId = $this->getExtractedData('country_id');
-        $optionalZip = $this->_directoryData->getCountriesWithOptionalZip();
-        if (!in_array($countryId, $optionalZip)) {
-            return parent::validateValue($value);
+        if (empty($value)) {
+            $errors = [];
+            $attribute = $this->getAttribute();
+            $label = __($attribute->getStoreLabel());
+            $countryId = $this->getExtractedData('country_id');
+            $optionalZip = $this->_directoryData->getCountriesWithOptionalZip();
+            if (!in_array($countryId, $optionalZip)) {
+                $errors[] = __('"%1" is a required value.', $label);
+                return $errors;
+            }
         }
         return true;
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function compactValue($value)
+    {
+        return $value;
     }
 }

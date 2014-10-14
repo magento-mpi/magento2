@@ -67,10 +67,6 @@ class ElementFactory
             'isAjax' => $isAjax,
             'attribute' => $attribute
         );
-        /** TODO fix when Validation is implemented MAGETWO-17341 */
-        if ($dataModelClass == 'Magento\Customer\Model\Attribute\Data\Postcode') {
-            $dataModelClass = 'Magento\Customer\Model\Metadata\Form\Text';
-        }
         if (!empty($dataModelClass)) {
             $dataModel = $this->_objectManager->create($dataModelClass, $params);
         } else {
