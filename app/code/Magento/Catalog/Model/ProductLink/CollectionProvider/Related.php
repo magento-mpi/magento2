@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider;
+namespace Magento\Catalog\Model\ProductLink\CollectionProvider;
 
-class Related implements \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProviderInterface
+class Related implements \Magento\Catalog\Model\ProductLink\CollectionProviderInterface
 {
     /**
      * {@inheritdoc}

@@ -380,12 +380,12 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider">
+    <type name="Magento\Catalog\Model\ProductLink\CollectionProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="crosssell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Crosssell</item>
-                <item name="upsell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Upsell</item>
-                <item name="related" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Related</item>
+                <item name="crosssell" xsi:type="object">Magento\Catalog\Model\ProductLink\CollectionProvider\Crosssell</item>
+                <item name="upsell" xsi:type="object">Magento\Catalog\Model\ProductLink\CollectionProvider\Upsell</item>
+                <item name="related" xsi:type="object">Magento\Catalog\Model\ProductLink\CollectionProvider\Related</item>
             </argument>
         </arguments>
     </type>
@@ -490,4 +490,10 @@
             </argument>
         </arguments>
     </type>
+
+    <preference for="Magento\Catalog\Api\ProductLinkTypeListInterface" type="Magento\Catalog\Model\Product\LinkTypeProvider" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkAttributeInterface" type="\Magento\Catalog\Model\ProductLink\Attribute" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkTypeInterface" type="Magento\Catalog\Model\ProductLink\Type" />
+    <preference for="Magento\Catalog\Api\ProductLinkManagementInterface" type="Magento\Catalog\Model\ProductLink\Management" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="\Magento\Catalog\Model\Product\Link" />
 </config>

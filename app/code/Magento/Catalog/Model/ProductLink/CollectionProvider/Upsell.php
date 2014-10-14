@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider;
+namespace Magento\Catalog\Model\ProductLink\CollectionProvider;
 
-class Upsell implements \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProviderInterface
+class Upsell implements \Magento\Catalog\Model\ProductLink\CollectionProviderInterface
 {
     /**
      * {@inheritdoc}

@@ -75,7 +75,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider">
+    <type name="Magento\Catalog\Model\ProductLink\CollectionProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
                 <item name="associated" xsi:type="object">Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Grouped</item>

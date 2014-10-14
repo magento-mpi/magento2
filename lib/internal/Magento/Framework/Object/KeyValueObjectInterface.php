@@ -10,6 +10,9 @@ namespace Magento\Framework\Object;
 
 interface KeyValueObjectInterface
 {
+    const KEY = 'key';
+    const VALUE = 'value';
+
     /**
      * Get object key
      *

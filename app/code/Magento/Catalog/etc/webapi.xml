@@ -11,7 +11,6 @@
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/products" method="POST">
         <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="create"/>
-        <service class="\Magento\Catalog\WebApi\ProductInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
@@ -173,19 +172,19 @@
         </resources>
     </route>
     <route url="/V1/products/links/types" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" method="getProductLinkTypes"/>
+        <service class="Magento\Catalog\Api\ProductLinkTypeListInterface" method="getItems"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/:productSku/links/:type" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" method="getLinkedProducts"/>
+        <service class="Magento\Catalog\Api\ProductLinkManagementInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/links/:type/attributes" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" method="getLinkAttributes"/>
+        <service class="Magento\Catalog\Api\ProductLinkTypeListInterface" method="getItemAttributes"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

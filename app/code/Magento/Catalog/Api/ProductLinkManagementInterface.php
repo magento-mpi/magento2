@@ -8,25 +8,16 @@
 
 namespace Magento\Catalog\Api;
 
-/**
- * Created from
- * @see \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface
- * @see \Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface
- *
- * @todo Create new model that implements this interface \Magento\Catalog\Model\ProductLinkManagement
- */
 interface ProductLinkManagementInterface
 {
     /**
      * Provide the list of links for a specific product
      *
      * @param string $productSku
-     * @param string $linkType
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @param string $type
      * @return Data\ProductLinkInterface[]
-     * @see \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface::getLinkedProducts - previous implementation
      */
-    public function getList($productSku, $linkType);
+    public function getList($productSku, $type);
 
     /**
      * Assign a product link to another product

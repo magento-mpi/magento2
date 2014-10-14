@@ -24,7 +24,7 @@ use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCol
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\Framework\Model\AbstractModel
+class Link extends \Magento\Framework\Model\AbstractModel implements \Magento\Catalog\Api\Data\ProductLinkInterface
 {
     const LINK_TYPE_RELATED = 1;
 
@@ -181,5 +181,35 @@ class Link extends \Magento\Framework\Model\AbstractModel
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_CROSSSELL);
         }
         return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->getData('type');
+    }
+
+    /**
+     * Get product sku
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->getData('sku');
+    }
+
+    /**
+     * Get product position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->getData('position');
     }
 }
