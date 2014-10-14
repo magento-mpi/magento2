@@ -13,19 +13,19 @@ class ChangeLocale extends \Magento\Backend\Controller\Adminhtml\Index
     /**
      * @var \Magento\Backend\Model\View\Result\RedirectFactory
      */
-    protected $redirectFactory;
+    protected $resultRedirectFactory;
 
     /**
      * Constructor
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Backend\Model\View\Result\RedirectFactory $redirectFactory
+     * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Backend\Model\View\Result\RedirectFactory $redirectFactory
+        \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
     ) {
-        $this->redirectFactory = $redirectFactory;
+        $this->resultRedirectFactory = $resultRedirectFactory;
         parent::__construct($context);
     }
 
@@ -36,7 +36,7 @@ class ChangeLocale extends \Magento\Backend\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $redirectResult = $this->redirectFactory->create();
+        $redirectResult = $this->resultRedirectFactory->create();
         $redirectResult->setRefererUrl();
         return $redirectResult;
     }

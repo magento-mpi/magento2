@@ -13,7 +13,7 @@ class Validate extends \Magento\Backend\Controller\Adminhtml\System\Variable
     /**
      * Validate Action
      *
-     * @return void
+     * @return \Magento\Framework\Controller\Result\JSON
      */
     public function execute()
     {
@@ -23,10 +23,13 @@ class Validate extends \Magento\Backend\Controller\Adminhtml\System\Variable
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->messageManager->addError($result);
-            $this->_view->getLayout()->initMessages();
+            $layout = $this->layoutFactory->create();
+            $layout->initMessages();
             $response->setError(true);
-            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($layout->getMessagesBlock()->getGroupedHtml());
         }
-        $this->getResponse()->representJson($response->toJson());
+        /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
+        $resultJson = $this->resultJsonFactory->create();
+        return $resultJson->setJsonData($response->toArray());
     }
 }

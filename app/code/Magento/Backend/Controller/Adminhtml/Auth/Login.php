@@ -11,29 +11,29 @@ namespace Magento\Backend\Controller\Adminhtml\Auth;
 class Login extends \Magento\Backend\Controller\Adminhtml\Auth
 {
     /**
-     * @var \Magento\Backend\Model\View\Result\PageFactory
+     * @var \Magento\Framework\View\Result\PageFactory
      */
-    protected $pageFactory;
+    protected $resultPageFactory;
 
     /**
      * @var \Magento\Backend\Model\View\Result\RedirectFactory
      */
-    protected $redirectFactory;
+    protected $resultRedirectFactory;
 
     /**
      * Constructor
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Backend\Model\View\Result\PageFactory $pageFactory
-     * @param \Magento\Backend\Model\View\Result\RedirectFactory $redirectFactory
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Backend\Model\View\Result\PageFactory $pageFactory,
-        \Magento\Backend\Model\View\Result\RedirectFactory $redirectFactory
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
     ) {
-        $this->pageFactory = $pageFactory;
-        $this->redirectFactory = $redirectFactory;
+        $this->resultPageFactory = $resultPageFactory;
+        $this->resultRedirectFactory = $resultRedirectFactory;
         parent::__construct($context);
     }
 
@@ -48,11 +48,11 @@ class Login extends \Magento\Backend\Controller\Adminhtml\Auth
             if ($this->_auth->getAuthStorage()->isFirstPageAfterLogin()) {
                 $this->_auth->getAuthStorage()->setIsFirstPageAfterLogin(true);
             }
-            $redirectResult = $this->redirectFactory->create();
-            $redirectResult->setUrl($this->_backendUrl->getStartupPageUrl());
-            return $redirectResult;
+            /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setPath($this->_backendUrl->getStartupPageUrl());
+            return $resultRedirect;
         }
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
+        return $this->resultPageFactory->create();
     }
 }
