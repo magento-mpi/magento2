@@ -417,7 +417,8 @@ class Onepage
             switch ($usingCase) {
                 case 0:
                     $shipping = $this->getQuote()->getShippingAddress();
-                    $shipping->setSameAsBilling(0)->save();
+                    $shipping->setSameAsBilling(0);
+                    $shipping->save();
                     break;
                 case 1:
                     $billing = clone $address;

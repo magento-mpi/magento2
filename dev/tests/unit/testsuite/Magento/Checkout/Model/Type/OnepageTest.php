@@ -360,7 +360,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
         $shippingAddressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            ['setSameAsBilling', '__wakeup', 'unserialize'],
+            ['setSameAsBilling', 'save', '__wakeup', 'unserialize'],
             [],
             '',
             false
