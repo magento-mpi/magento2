@@ -17,7 +17,7 @@
 <div class="block block-return-details">
     <div class="block-content">
         <div class="box box-returns-requested">
-            <div class="box-title"><strong><?php echo __('Request Information') ?></strong></div>
+            <strong class="box-title"><span><?php echo __('Request Information') ?></span></strong>
             <div class="box-content">
                 <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br>
                 <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="box box-treturns-shipping">
-            <div class="box-title"><strong><?php echo __('Shipping Address') ?></strong></div>
+            <strong class="box-title"><span><?php echo __('Shipping Address') ?></span></strong>
             <div class="box-content">
                 <address>
                     <?php echo $this->getAddress() ?>
