@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="3columns" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <!-- Temporary solution -->
+<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="default_head_blocks"/>
     <body>
-        <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Theme::js/require_js.phtml"/>
+        <!-- Temporary solution -->
+        <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Theme::js/require_js.phtml" />
         <referenceContainer name="after.body.start">
             <block class="Magento\Translation\Block\Js" name="translate" template="Magento_Translation::translate.phtml"/>
             <block class="Magento\Framework\View\Element\Js\Cookie" name="js_cookies" template="Magento_Theme::js/cookie.phtml"/>
@@ -35,11 +35,7 @@
                 <block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="switch/languages.phtml"/>
             </container>
             <container name="header-wrapper" label="Page Header" as="header-wrapper" htmlTag="div" htmlClass="header content">
-                <block class="Magento\Theme\Block\Html\Header" name="logo">
-                    <arguments>
-                        <argument name="show_part" xsi:type="string">logo</argument>
-                    </arguments>
-                </block>
+                <block class="Magento\Theme\Block\Html\Header\Logo" name="logo" />
                 <block class="Magento\Framework\View\Element\Html\Links" name="top.links">
                     <arguments>
                         <argument name="css_class" xsi:type="string">header links</argument>
@@ -69,17 +65,15 @@
             <container name="page.bottom" label="Before Page Footer" htmlTag="div" htmlClass="content"/>
         </referenceContainer>
         <referenceContainer name="footer-container">
-            <container name="footer.wrapper" as="footer-wrapper" label="Page Footer Wrapper" htmlTag="div" htmlClass="page-footer">
-                <container name="footer" as="footer" label="Page Footer" htmlTag="div" htmlClass="footer content">
-                    <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
-                    <block class="Magento\Framework\View\Element\Html\Links" name="footer_links">
-                        <arguments>
-                            <argument name="css_class" xsi:type="string">footer links</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
-                    <block class="Magento\Framework\View\Element\Template" name="report.bugs" template="Magento_Theme::html/bugreport.phtml"/>
-                </container>
+            <container name="footer" as="footer" label="Page Footer" htmlTag="div" htmlClass="footer content">
+                <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
+                <block class="Magento\Framework\View\Element\Html\Links" name="footer_links">
+                    <arguments>
+                        <argument name="css_class" xsi:type="string">footer links</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
+                <block class="Magento\Framework\View\Element\Template" name="report.bugs" template="Magento_Theme::html/bugreport.phtml" />
             </container>
         </referenceContainer>
         <referenceContainer name="content">

@@ -9,6 +9,7 @@
 namespace Magento\Setup\Controller\Install;
 
 use Magento\Setup\Module\Setup\Config;
+use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\WebLogger;
 use Zend\Json\Json;
@@ -44,20 +45,28 @@ class StartController extends AbstractActionController
     private $installer;
 
     /**
+     * @var DeploymentConfigFactory
+     */
+    private $deploymentConfigFactory;
+
+    /**
      * Default Constructor
      *
      * @param JsonModel $view
      * @param WebLogger $logger
      * @param InstallerFactory $installerFactory
+     * @param DeploymentConfigFactory $deploymentConfigFactory
      */
     public function __construct(
         JsonModel $view,
         WebLogger $logger,
-        InstallerFactory $installerFactory
+        InstallerFactory $installerFactory,
+        DeploymentConfigFactory $deploymentConfigFactory
     ) {
         $this->json = $view;
         $this->log = $logger;
         $this->installer = $installerFactory->create($logger);
+        $this->deploymentConfigFactory = $deploymentConfigFactory;
     }
 
     /**
@@ -74,7 +83,9 @@ class StartController extends AbstractActionController
                 $this->importUserConfigForm(),
                 $this->importAdminUserForm()
             );
-            $config = $this->installer->install($data);
+            $this->installer->install($data);
+            $config = $this->deploymentConfigFactory->create();
+            $config->loadFromFile();
             $this->json->setVariable('key', $config->get(Config::KEY_ENCRYPTION_KEY));
             $this->json->setVariable('success', true);
         } catch(\Exception $e) {

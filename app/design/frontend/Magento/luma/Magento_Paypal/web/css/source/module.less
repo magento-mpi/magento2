@@ -107,7 +107,7 @@
         .table-caption(@_table-caption-hide: true);
     }
 
-    .review-item-options {
+    .item-options {
         dt {
             display: inline-block;
             &:after {
@@ -148,7 +148,7 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .paypal-review .table-paypal-review-items {
-        &:extend(.table-vertical-mobile all);
+        &:extend(.abstract-table-vertical-mobile all);
         td {
             &:first-child {
                 padding-top: 15px;
@@ -166,7 +166,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .paypal-review {
         .block-content {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .box-order-shipping-address,
             .box-order-shipping-method,
             .box-order-shipping-method + .box-order-billing-address {

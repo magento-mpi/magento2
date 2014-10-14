@@ -13,7 +13,7 @@
     <body>
         <referenceBlock name="page.main.title">
             <action method="setPageTitle">
-                <argument translate="true" name="title" xsi:type="string">Shipping Information</argument>
+                <argument translate="true" name="title" xsi:type="string">Select Shipping Method</argument>
             </action>
         </referenceBlock>
         <referenceContainer name="content">

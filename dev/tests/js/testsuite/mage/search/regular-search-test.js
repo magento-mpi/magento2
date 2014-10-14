@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-//Code to be tested for /app/code/Magento/CatalogSearch/view/frontend/form-mini.js (_onSubmit)
+//Code to be tested for /app/code/Magento/Search/view/frontend/form-mini.js (_onSubmit)
 function regularSearch() {
     if (this.document.getElementById('search').value === this.document.getElementById('search').placeholder || this.document.getElementById('search').value === '') {
         this.document.getElementById('search').placeholder = 'Please specify at least one search term';

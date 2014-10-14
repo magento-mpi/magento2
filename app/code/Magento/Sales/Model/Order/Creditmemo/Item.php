@@ -266,7 +266,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $rowTotalInclTax = $orderItem->getRowTotalInclTax();
         $baseRowTotalInclTax = $orderItem->getBaseRowTotalInclTax();
 
-        if (!$this->isLast() && $orderItemQtyInvoiced > 0) {
+        if (!$this->isLast() && $orderItemQtyInvoiced > 0 && $this->getQty() > 0) {
             $availableQty = $orderItemQtyInvoiced - $orderItem->getQtyRefunded();
             $rowTotal = $creditmemo->roundPrice($rowTotal / $availableQty * $this->getQty());
             $baseRowTotal = $creditmemo->roundPrice($baseRowTotal / $availableQty * $this->getQty(), 'base');
@@ -294,9 +294,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     public function isLast()
     {
         $orderItem = $this->getOrderItem();
-        if ((string)(double)$this->getQty() == (string)(double)$orderItem->getQtyToRefund() &&
-            !$orderItem->getQtyToInvoice()
-        ) {
+        if ((string)(double)$this->getQty() == (string)(double)$orderItem->getQtyToRefund()) {
             return true;
         }
         return false;
