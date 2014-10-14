@@ -78,6 +78,10 @@ define([
 
         updateContent: function(content){
             this.content(content);
+        },
+
+        hasChanged: function () {
+            return false;
         }
     });
 
