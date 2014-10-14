@@ -127,3 +127,4 @@ Magento/UrlRedirect/Model
 setup
 Magento/Sales/Service/V1
 Magento/Shipping/Controller/Adminhtml/Order/Shipment
+Magento/CatalogSearch/Model/Resource/Fulltext
