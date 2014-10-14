@@ -101,5 +101,4 @@
     <type name="Magento\Catalog\Model\Layer\Search\CollectionFilter">
         <plugin name="catalogsearchLayerSearchCollectionFilter" type="Magento\CatalogSearch\Model\Layer\Search\Plugin\CollectionFilter" />
     </type>
-
 </config>
