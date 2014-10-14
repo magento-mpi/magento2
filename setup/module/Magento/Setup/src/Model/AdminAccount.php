@@ -134,8 +134,9 @@ class AdminAccount
     /**
      * Validates that the username and email both match the user.
      *
-     * @param $username Existing user's username
-     * @param $email Existing user's email
+     * @param string $username Existing user's username
+     * @param string $email Existing user's email
+     * @return void
      * @throws \Exception If the username and email do not both match data provided to install
      */
     private function validateUserMatches($username, $email)
