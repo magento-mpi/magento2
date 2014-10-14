@@ -43,6 +43,11 @@ class Product extends AbstractResource
     protected $_categoryCollectionFactory;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
@@ -70,10 +75,12 @@ class Product extends AbstractResource
         \Magento\Catalog\Model\Factory $modelFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         Category $catalogCategory,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         $data = array()
     ) {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
         $this->_catalogCategory = $catalogCategory;
+        $this->eventManager = $eventManager;
         parent::__construct(
             $resource,
             $eavConfig,
@@ -228,6 +235,19 @@ class Product extends AbstractResource
     {
         $this->_saveWebsiteIds($product)->_saveCategories($product);
         return parent::_afterSave($product);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($object)
+    {
+        $result = parent::delete($object);
+        $this->eventManager->dispatch(
+            'catalog_product_delete_after_done',
+            array('product' => $this)
+        );
+        return $result;
     }
 
     /**

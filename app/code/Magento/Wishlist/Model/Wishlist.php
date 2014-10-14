@@ -651,17 +651,6 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
     }
 
     /**
-     * Save wishlist.
-     *
-     * @return $this
-     */
-    public function save()
-    {
-        $this->_hasDataChanges = true;
-        return parent::save();
-    }
-
-    /**
      * Return unique ID(s) for each object in system
      *
      * @return array

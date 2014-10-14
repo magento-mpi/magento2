@@ -1544,21 +1544,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     }
 
     /**
-     * Delete product
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function delete()
-    {
-        parent::delete();
-        $this->_eventManager->dispatch(
-            $this->_eventPrefix . '_delete_after_done',
-            array($this->_eventObject => $this)
-        );
-        return $this;
-    }
-
-    /**
      * Returns request path
      *
      * @return string

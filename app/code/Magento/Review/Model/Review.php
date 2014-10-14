@@ -325,16 +325,6 @@ class Review extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Validate user before delete
-     *
-     * @return $this
-     */
-    protected function _beforeDelete()
-    {
-        return parent::_beforeDelete();
-    }
-
-    /**
      * Check if current review approved or not
      *
      * @return bool

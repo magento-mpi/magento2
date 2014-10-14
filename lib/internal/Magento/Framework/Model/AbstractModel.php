@@ -362,6 +362,23 @@ abstract class AbstractModel extends \Magento\Framework\Object
     }
 
     /**
+     * @return bool
+     */
+    public function isSaveAllowed()
+    {
+        return (bool) $this->_dataSaveAllowed;
+    }
+
+    /**
+     * @param bool $flag
+     * @return void
+     */
+    public function setHasDataChanges($flag)
+    {
+        $this->_hasDataChanges = $flag;
+    }
+
+    /**
      * Save object data
      *
      * @return $this
@@ -369,30 +386,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     public function save()
     {
-        /**
-         * Direct deleted items to delete method
-         */
-        if ($this->isDeleted()) {
-            return $this->delete();
-        }
-        if (!$this->_hasModelChanged()) {
-            return $this;
-        }
-        $this->_getResource()->beginTransaction();
-        try {
-            $this->_validateBeforeSave();
-            $this->_beforeSave();
-            if ($this->_dataSaveAllowed) {
-                $this->_getResource()->save($this);
-                $this->_afterSave();
-            }
-            $this->_getResource()->addCommitCallback(array($this, 'afterCommitCallback'))->commit();
-            $this->_hasDataChanges = false;
-        } catch (\Exception $e) {
-            $this->_getResource()->rollBack();
-            $this->_hasDataChanges = true;
-            throw $e;
-        }
+        $this->_getResource()->save($this);
         return $this;
     }
 
@@ -573,19 +567,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     public function delete()
     {
-        $this->_getResource()->beginTransaction();
-        try {
-            $this->_beforeDelete();
-            $this->_getResource()->delete($this);
-            $this->isDeleted(true);
-            $this->_afterDelete();
-
-            $this->_getResource()->commit();
-            $this->_afterDeleteCommit();
-        } catch (\Exception $e) {
-            $this->_getResource()->rollBack();
-            throw $e;
-        }
+        $this->_getResource()->delete($this);
         return $this;
     }
 

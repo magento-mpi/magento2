@@ -2282,16 +2282,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Save quote with prevention checking
+     * Check if model can be saved
      *
-     * @return $this
+     * @return bool
      */
-    public function save()
+    public function isPreventSaving()
     {
-        if ($this->_preventSaving) {
-            return $this;
-        }
-        return parent::save();
+        return $this->_preventSaving;
     }
 
     /**

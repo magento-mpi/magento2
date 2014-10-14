@@ -129,18 +129,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Delete customer address
-     *
-     * @return $this
-     */
-    public function delete()
-    {
-        parent::delete();
-        $this->setData(array());
-        return $this;
-    }
-
-    /**
      * Retrieve address entity attributes
      *
      * @return Attribute[]

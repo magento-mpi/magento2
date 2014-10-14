@@ -23,4 +23,20 @@ class Item extends \Magento\Sales\Model\Resource\AbstractResource
     {
         $this->_init('sales_flat_quote_item', 'item_id');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $hasDataChanges = $object->hasDataChanges();
+        $object->setIsOptionsSaved(false);
+
+        $result = parent::save($object);
+
+        if ($hasDataChanges && !$object->isOptionsSaved()) {
+            $object->saveItemOptions();
+        }
+        return $result;
+    }
 }

@@ -711,7 +711,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return $this
      */
-    protected function _saveItemOptions()
+    public function saveItemOptions()
     {
         foreach ($this->_options as $index => $option) {
             if ($option->isDeleted()) {
@@ -730,21 +730,24 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     }
 
     /**
-     * Save model plus its options
-     * Ensures saving options in case when resource model was not changed
+     * Mar option save requirement
      *
-     * @return $this
+     * @param bool $flag
+     * @return void
      */
-    public function save()
+    public function setIsOptionsSaved($flag)
     {
-        $hasDataChanges = $this->hasDataChanges();
-        $this->_flagOptionsSaved = false;
+        $this->_flagOptionsSaved = $flag;
+    }
 
-        parent::save();
-
-        if ($hasDataChanges && !$this->_flagOptionsSaved) {
-            $this->_saveItemOptions();
-        }
+    /**
+     * Were options saved
+     *
+     * @return bool
+     */
+    public function isOptionsSaved()
+    {
+        return $this->_flagOptionsSaved;
     }
 
     /**
@@ -754,7 +757,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      */
     protected function _afterSave()
     {
-        $this->_saveItemOptions();
+        $this->saveItemOptions();
         return parent::_afterSave();
     }
 
