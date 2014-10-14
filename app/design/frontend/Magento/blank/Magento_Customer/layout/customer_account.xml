@@ -9,7 +9,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
-        <attribute name="class" value="account"/>
         <referenceContainer name="sidebar.main">
             <block class="Magento\Framework\View\Element\Template" name="customer_account_navigation_block" template="Magento_Theme::html/collapsible.phtml">
                 <arguments>
@@ -41,5 +40,6 @@
                 </block>
             </block>
         </referenceContainer>
+        <move element="page.main.title" destination="content.top" before="-"/>
     </body>
 </page>

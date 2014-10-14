@@ -18,11 +18,25 @@ use Mtf\Block\Form;
 class Methods extends Form
 {
     /**
-     * Payment method selector
+     * Payment method input selector
      *
      * @var string
      */
-    protected $paymentMethod = '[for=p_method_%s]';
+    protected $paymentMethodInput = '#p_method_%s';
+
+    /**
+     * Labels for payment methods
+     *
+     * @var string
+     */
+    protected $paymentMethodLabels = '[for^=p_method_]';
+
+    /**
+     * Label for payment methods
+     *
+     * @var string
+     */
+    protected $paymentMethodLabel = '[for=p_method_%s]';
 
     /**
      * Continue checkout button
@@ -49,11 +63,21 @@ class Methods extends Form
      * Select payment method
      *
      * @param array $payment
+     * @throws \Exception
      * @return void
      */
     public function selectPaymentMethod(array $payment)
     {
-        $this->_rootElement->find(sprintf($this->paymentMethod, $payment['method']))->click();
+        $paymentSelector = $this->_rootElement->find(sprintf($this->paymentMethodInput, $payment['method']));
+        if ($paymentSelector->isVisible()) {
+            $paymentSelector->click();
+        } else {
+            $paymentCount = count($this->_rootElement->find($this->paymentMethodLabels)->getElements());
+            $paymentSelector = $this->_rootElement->find(sprintf($this->paymentMethodLabel, $payment['method']));
+            if ($paymentCount !== 1 && !$paymentSelector->isVisible()) {
+                throw new \Exception('Such payment method is absent.');
+            }
+        }
         if ($payment['method'] == "purchaseorder") {
             $this->_rootElement->find($this->purchaseOrderNumber)->setValue($payment['po_number']);
         }
