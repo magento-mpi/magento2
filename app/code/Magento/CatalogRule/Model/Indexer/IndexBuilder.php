@@ -258,7 +258,7 @@ class IndexBuilder
                 }
             }
 
-            if (!$rows) {
+            if (!empty($rows)) {
                 $write->insertMultiple($this->resource->getTableName('catalogrule_product'), $rows);
             }
         } catch (\Exception $e) {
