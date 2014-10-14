@@ -438,8 +438,11 @@ class Onepage
                             $billing->unsetData($shippingKey);
                         }
                     }
-                    $shipping->addData($billing->getData())->setSameAsBilling(1)->setSaveInAddressBook(0);
-                    $shipping->setShippingMethod($shippingMethod)->setCollectShippingRates(true);
+                    $shipping->addData($billing->getData())
+                        ->setSameAsBilling(1)
+                        ->setSaveInAddressBook(0)
+                        ->setShippingMethod($shippingMethod)
+                        ->setCollectShippingRates(true);
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
                     $shipping->setCollectShippingRates(true);
                     break;
