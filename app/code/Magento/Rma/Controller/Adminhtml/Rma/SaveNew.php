@@ -11,31 +11,6 @@ namespace Magento\Rma\Controller\Adminhtml\Rma;
 class SaveNew extends \Magento\Rma\Controller\Adminhtml\Rma
 {
     /**
-     * Prepare RMA instance data from save request
-     *
-     * @param array $saveRequest
-     * @return array
-     */
-    protected function _prepareNewRmaInstanceData(array $saveRequest)
-    {
-        $order = $this->_coreRegistry->registry('current_order');
-        /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
-        $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
-        $rmaData = array(
-            'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
-            'date_requested' => $dateModel->gmtDate(),
-            'order_id' => $order->getId(),
-            'order_increment_id' => $order->getIncrementId(),
-            'store_id' => $order->getStoreId(),
-            'customer_id' => $order->getCustomerId(),
-            'order_date' => $order->getCreatedAt(),
-            'customer_name' => $order->getCustomerName(),
-            'customer_custom_email' => !empty($saveRequest['contact_email']) ? $saveRequest['contact_email'] : ''
-        );
-        return $rmaData;
-    }
-
-    /**
      * Process additional RMA information (like comment, customer notification etc)
      *
      * @param array $saveRequest
@@ -76,8 +51,13 @@ class SaveNew extends \Magento\Rma\Controller\Adminhtml\Rma
         try {
             /** @var $model \Magento\Rma\Model\Rma */
             $model = $this->_initModel();
-            $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
-            $model->setData($this->_prepareNewRmaInstanceData($saveRequest));
+            $saveRequest = $this->rmaDataMapper->filterRmaSaveRequest($this->getRequest()->getPost());
+            $model->setData(
+                $this->rmaDataMapper->prepareNewRmaInstanceData(
+                    $saveRequest,
+                    $this->_coreRegistry->registry('current_order')
+                )
+            );
             if (!$model->saveRma($saveRequest)) {
                 throw new \Magento\Framework\Model\Exception(__('We failed to save this RMA.'));
             }

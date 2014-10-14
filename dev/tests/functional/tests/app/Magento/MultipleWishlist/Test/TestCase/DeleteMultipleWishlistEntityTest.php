@@ -41,6 +41,7 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      */
     public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer, $isCreateMultipleWishlist)
     {
+        $this->markTestIncomplete('MAGETWO-28924');
         // Steps
         if ($isCreateMultipleWishlist == 'No') {
             return;

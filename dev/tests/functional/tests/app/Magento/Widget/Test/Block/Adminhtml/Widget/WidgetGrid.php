@@ -22,7 +22,7 @@ class WidgetGrid extends AbstractGrid
      *
      * @var string
      */
-    protected $editLink = '//tr[td[contains(@class,"col-title")]]';
+    protected $editLink = 'tbody tr td.col-title';
 
     /**
      * Filters array mapping

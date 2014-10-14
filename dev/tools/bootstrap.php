@@ -6,6 +6,7 @@
  * @license   {license_link}
  */
 require_once __DIR__ . '/../../app/autoload.php';
+defined('BP') || define('BP', __DIR__ . '/../..');
 (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
     array(
         BP . '/app/code',

@@ -1,0 +1,19 @@
+name,path,active,is_anchor,include_in_menu,position
+Men,,1,1,1,2
+Tops,Men,1,1,1,
+Bottoms,Men,1,1,1,
+Jackets,Men/Tops,1,1,1,
+"Hoodies & Sweatshirts",Men/Tops,1,1,1,
+Tees,Men/Tops,1,1,1,
+Tanks,Men/Tops,1,1,1,
+Pants,Men/Bottoms,1,1,1,
+Shorts,Men/Bottoms,1,1,1,
+Women,,1,1,1,1
+Tops,Women,1,1,1,
+Bottoms,Women,1,1,1,
+Jackets,Women/Tops,1,1,1,
+"Hoodies & Sweatshirts",Women/Tops,1,1,1,
+Tees,Women/Tops,1,1,1,
+"Bras & Tanks",Women/Tops,1,1,1,
+Pants,Women/Bottoms,1,1,1,
+Shorts,Women/Bottoms,1,1,1,

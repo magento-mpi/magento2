@@ -1,0 +1,28 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<div class="page-main-actions">
+    <div class="page-actions-placeholder"></div>
+    <div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+        <div class="page-actions-inner" data-title="Pages">
+            <div class="page-actions-buttons">
+                <!-- ko foreach: actions -->
+                <button data-bind="
+                            attr: {title: $t(label)},
+                            css: {primary: type === 'primary'},
+                            click: $parent.redirectTo(url)"
+                        type="button"
+                        class="action- scalable add"
+                        data-ui-id="cms-page-add-button">
+                    <span data-bind="text: $t(label)"></span>
+                </button>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>

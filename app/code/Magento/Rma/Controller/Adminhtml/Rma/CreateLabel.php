@@ -20,9 +20,9 @@ class CreateLabel extends \Magento\Rma\Controller\Adminhtml\Rma
     {
         $response = new \Magento\Framework\Object();
         try {
-            $shipment = $this->_initShipment();
-            if ($this->_createShippingLabel($shipment)) {
-                $shipment->save();
+            $rmaModel = $this->_initModel();
+            if ($this->labelService->createShippingLabel($rmaModel, $this->getRequest()->getPost())) {
+                $rmaModel->save();
                 $this->messageManager->addSuccess(__('You created a shipping label.'));
                 $response->setOk(true);
             }
