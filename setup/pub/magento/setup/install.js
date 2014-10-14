@@ -17,26 +17,26 @@ angular.module('install', ['ngStorage'])
         };
 
         $scope.checkProgress = function () {
-            $scope.displayProgress();
-            progress.get(function (response) {
-                var log = '';
-                response.data.console.forEach(function (message) {
-                    log = log + message + '<br>';
-                });
-                $scope.log = $sce.trustAsHtml(log);
+            if ($scope.isInProgress) {
+                $scope.displayProgress();
+                progress.get(function (response) {
+                    var log = '';
+                    response.data.console.forEach(function (message) {
+                        log = log + message + '<br>';
+                    });
+                    $scope.log = $sce.trustAsHtml(log);
 
-                if (response.data.success) {
-                    $scope.progress = response.data.progress;
-                    $scope.progressText = response.data.progress + '%';
-                } else {
-                    $scope.displayFailure();
-                }
-                if ($scope.isInProgress) {
+                    if (response.data.success) {
+                        $scope.progress = response.data.progress;
+                        $scope.progressText = response.data.progress + '%';
+                    } else {
+                        $scope.displayFailure();
+                    }
                     $timeout(function() {
                         $scope.checkProgress();
                     }, 1500);
-                }
-            });
+                });
+            }
         };
 
         $scope.start = function () {
