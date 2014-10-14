@@ -29,11 +29,13 @@ define([
 
         initItems: function(){
             var deps,
-                callback;
+                callback,
+                config;
                 
             _.each(this.layout, function(item, name){
-                callback    = this.initItem.bind(this, item, name);
-                deps        = item.injections;
+                config      = this.parseConfig(item);
+                callback    = this.initItem.bind(this, config, name);
+                deps        = config.injections;
 
                 registry.get(deps, callback);
             }, this);
@@ -60,6 +62,20 @@ define([
             this.elems.push(item);
 
             registry.set(fullName, item);
+        },
+
+        parseConfig: function(item){
+            var config = {};
+
+            if (typeof item === 'string') {
+                config.injections = item.split(' ');
+            } else if (Array.isArray(item)) {
+                config.injections = item;
+            } else {
+                _.extend(config, item);
+            }
+
+            return config;
         },
 
         getTemplate: function () {

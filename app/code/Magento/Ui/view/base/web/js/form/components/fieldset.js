@@ -49,11 +49,9 @@ define([
         toggle: function() {
             var opened = this.opened;
 
-            if(this.collapsible){
-                opened(!opened());
+            opened(!opened());
 
-                this.trigger('active', opened());
-            }
+            this.trigger('active', opened());
 
             return this;
         },
@@ -66,7 +64,13 @@ define([
             });
 
             this.trigger(changed ? 'change' : 'restore', this, settings);
-        }
+        },
+
+        onClick: function(){
+            if(this.collapsible){
+                this.toggle();
+            }
+        },
     });
 
     return Collection(Fieldset);
