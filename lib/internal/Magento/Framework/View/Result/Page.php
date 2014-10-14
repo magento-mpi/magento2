@@ -74,7 +74,6 @@ class Page extends Layout
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
-     * @param array $data
      */
     public function __construct(
         View\Element\Template\Context $context,
@@ -85,8 +84,7 @@ class Page extends Layout
         View\Page\Config\Renderer $pageConfigRenderer,
         View\Page\Layout\Reader $pageLayoutReader,
         View\Layout\BuilderFactory $layoutBuilderFactory,
-        $template,
-        array $data = array()
+        $template
     ) {
         $this->pageConfig = $pageConfigFactory->create();
         $this->pageLayoutReader = $pageLayoutReader;
@@ -94,7 +92,11 @@ class Page extends Layout
         $this->pageConfigRenderer = $pageConfigRenderer;
         $this->template = $template;
         parent::__construct(
-            $context, $layoutFactory, $layoutReaderPool, $translateInline, $layoutBuilderFactory, $data
+            $context,
+            $layoutFactory,
+            $layoutReaderPool,
+            $translateInline,
+            $layoutBuilderFactory
         );
     }
 
