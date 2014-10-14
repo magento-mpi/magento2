@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product\Attribute\Media;
+namespace Magento\Catalog\Api\Data;
 
 /**
  * @todo implement this interface as \Magento\Catalog\Model\Product\Attribute\Media\GalleryEntry.
  * Move logic from service there.
  */
-interface GalleryEntryInterface
+interface ProductAttributeMediaGalleryEntryInterface
 {
     /**
      * Retrieve gallery entry ID

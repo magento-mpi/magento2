@@ -6,14 +6,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Product\Attribute;
+namespace Magento\Catalog\Api;
 
 interface AttributeListInterface 
 {
     /**
      * Retrieve list of product attribute types
      *
-     * @return \Magento\Catalog\Api\Data\Product\Attribute\AttributeTypeInterface[]
+     * @return \Magento\Catalog\Api\Data\AttributeTypeInterface[]
      */
     public function getItems();
 }

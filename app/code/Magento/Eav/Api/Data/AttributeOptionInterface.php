@@ -46,7 +46,7 @@ interface AttributeOptionInterface
     /**
      * Set option label for store scopes
      *
-     * @return \Magento\Eav\Api\Data\Entity\Attribute\OptionLabel[]|null
+     * @return \Magento\Eav\Api\Data\AttributeOptionLabelInterface[]|null
      */
     public function getStoreLabels();
 }

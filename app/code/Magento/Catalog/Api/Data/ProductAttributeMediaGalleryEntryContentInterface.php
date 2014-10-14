@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Api\Data\Product\Attribute\Media;
+namespace Magento\Catalog\Api\Data;
 
 /**
  * @todo implement this interface as \Magento\Catalog\Model\Product\Attribute\Media\GalleryEntryContent.
  * Move logic from service there. Move corresponding helper classes too.
  */
-interface GalleryEntryContentInterface
+interface ProductAttributeMediaGalleryEntryContentInterface
 {
     /**
      * Retrieve media data (base64 encoded content)
