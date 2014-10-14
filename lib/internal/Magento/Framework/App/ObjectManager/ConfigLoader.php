@@ -44,6 +44,11 @@ class ConfigLoader
         $this->_readerFactory = $readerFactory;
     }
 
+    /**
+     * Get reader instance
+     *
+     * @return \Magento\Framework\ObjectManager\Config\Reader\Dom
+     */
     protected function _getReader()
     {
         if (empty($this->_reader)) {

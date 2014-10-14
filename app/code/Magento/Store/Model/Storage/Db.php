@@ -133,7 +133,7 @@ class Db implements \Magento\Framework\StoreManagerInterface
      * @param \Magento\Store\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param State $appState
-     * @param $isSingleStoreAllowed
+     * @param bool $isSingleStoreAllowed
      * @param null $currentStore
      */
     public function __construct(

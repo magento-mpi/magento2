@@ -270,6 +270,7 @@ class Tree extends \Magento\Framework\Data\Tree\Dbp
      * Return disable category ids
      *
      * @param Collection $collection
+     * @param array $allIds
      * @return array
      */
     protected function _getDisabledIds($collection, $allIds)

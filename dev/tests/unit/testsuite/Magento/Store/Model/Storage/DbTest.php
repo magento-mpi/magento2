@@ -73,29 +73,21 @@ class DbTest extends \PHPUnit_Framework_TestCase
      */
     protected $_groupCollectionFactoryMock;
 
-    /**
-     *     public function __construct(
-    StoreFactory $storeFactory,
-    WebsiteFactory $websiteFactory,
-    \Magento\Store\Model\GroupFactory $groupFactory,
-    \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-    \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
-    \Magento\Store\Model\Resource\Group\CollectionFactory $groupCollectionFactory,
-    \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
-    State $appState,
-    $isSingleStoreAllowed,
-    $currentStore = null
-    ) {
-     */
     protected function setUp()
     {
         $this->_storeFactoryMock = $this->getClassMock('Magento\Store\Model\StoreFactory', array('create'));
         $this->_websiteFactoryMock = $this->getClassMock('Magento\Store\Model\WebsiteFactory', array('create'));
         $this->_groupFactoryMock = $this->getClassMock('Magento\Store\Model\GroupFactory', array('create'));
         $this->_scopeConfig = $this->getClassMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_websiteCollectionFactoryMock = $this->getClassMock('Magento\Store\Model\Resource\Website\CollectionFactory', array('create'));
-        $this->_groupCollectionFactoryMock = $this->getClassMock('Magento\Store\Model\Resource\Group\CollectionFactory', array('create'));
-        $this->_storeCollectionFactoryMock = $this->getClassMock('Magento\Store\Model\Resource\Store\CollectionFactory', array('create'));
+        $this->_websiteCollectionFactoryMock = $this->getClassMock(
+            'Magento\Store\Model\Resource\Website\CollectionFactory', array('create')
+        );
+        $this->_groupCollectionFactoryMock = $this->getClassMock(
+            'Magento\Store\Model\Resource\Group\CollectionFactory', array('create')
+        );
+        $this->_storeCollectionFactoryMock = $this->getClassMock(
+            'Magento\Store\Model\Resource\Store\CollectionFactory', array('create')
+        );
         $this->_appStateMock = $this->getClassMock('Magento\Framework\App\State');
         $this->_groupMock = $this->getClassMock('Magento\Store\Model\Group');
         $this->_websiteMock = $this->getClassMock('Magento\Store\Model\Website');

@@ -81,7 +81,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storage;
 
@@ -113,7 +113,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
      */
     protected function _getStorage()
     {
-        if (!$this->_storage instanceof \Magento\Store\Model\StoreManagerInterface) {
+        if (!$this->_storage instanceof \Magento\Framework\StoreManagerInterface) {
             $arguments = array(
                 'isSingleStoreAllowed' => $this->_isSingleStoreAllowed,
                 'currentStore' => $this->_currentStore,
