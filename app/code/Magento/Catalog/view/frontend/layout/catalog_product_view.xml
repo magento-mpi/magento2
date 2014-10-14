@@ -27,9 +27,6 @@
                 <argument name="add_attribute" xsi:type="string">itemscope itemtype="http://schema.org/Product"</argument>
             </arguments>
         </referenceBlock>
-        <head>
-            <css src="mage/gallery.css"/>
-        </head>
         <referenceContainer name="content">
             <container name="product.info.media" label="invisible" htmlTag="div" htmlClass="product media" before="-">
                 <block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.image" template="product/view/base-image.phtml">

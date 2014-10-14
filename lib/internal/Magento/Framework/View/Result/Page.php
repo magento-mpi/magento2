@@ -102,6 +102,8 @@ class Page extends Layout
 
     /**
      * Create layout builder
+     *
+     * @return void
      */
     protected function initLayoutBuilder()
     {

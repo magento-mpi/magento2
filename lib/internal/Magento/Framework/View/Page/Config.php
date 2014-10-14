@@ -149,6 +149,7 @@ class Config
 
     /**
      * Build page config from page configurations
+     * @return void
      */
     protected function build()
     {
@@ -161,6 +162,7 @@ class Config
      * TODO Will be eliminated in MAGETWO-28359
      *
      * @deprecated
+     * @return void
      */
     public function publicBuild()
     {

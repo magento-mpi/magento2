@@ -47,6 +47,7 @@ class Pool
      * Register supported nodes and readers
      *
      * @param array $readers
+     * @return void
      */
     protected function prepareReader($readers)
     {

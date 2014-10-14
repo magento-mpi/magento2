@@ -85,7 +85,7 @@ class Container implements Layout\GeneratorInterface
         $elementName,
         $data
     ) {
-        $options = isset($data['attributes']) ? $data['attributes'] : [];
+        $options = $data['attributes'];
         $structure->setAttribute(
             $elementName,
             Layout\Element::CONTAINER_OPT_LABEL,
@@ -103,6 +103,7 @@ class Container implements Layout\GeneratorInterface
 
     /**
      * @param array $options
+     * @return void
      * @throws \Magento\Framework\Exception
      */
     protected function validateOptions($options)

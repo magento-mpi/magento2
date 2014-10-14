@@ -55,6 +55,7 @@ class BuilderFactory
      * Add or override builder types
      *
      * @param array $typeMap
+     * @return void
      */
     protected function mergeTypes(array $typeMap)
     {

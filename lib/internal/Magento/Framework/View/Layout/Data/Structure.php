@@ -72,11 +72,6 @@ class Structure extends DataStructure
             $this->_nameIncrement[$key] = 0;
         }
 
-        if ($this->_nameIncrement[$key] == 0 && !$this->hasElement($key)) {
-            $this->_nameIncrement[$key]++;
-            return $key;
-        }
-
         do {
             $name = $key . '_' . $this->_nameIncrement[$key]++;
         } while ($this->hasElement($name));
