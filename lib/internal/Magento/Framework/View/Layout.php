@@ -194,6 +194,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
     /**
      * Build layout blocks from generic layouts and/or page configurations
+     * @return void
      */
     protected function build()
     {
@@ -206,6 +207,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * TODO Will be eliminated in MAGETWO-28359
      *
      * @deprecated
+     * @return void
      */
     public function publicBuild()
     {

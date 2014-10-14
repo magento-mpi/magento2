@@ -61,6 +61,7 @@ class Builder extends View\Layout\Builder
 
     /**
      * Read page layout and write structure to ReadContext
+     * @return void
      */
     protected function readPageLayout()
     {
