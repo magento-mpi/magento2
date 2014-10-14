@@ -22,18 +22,27 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     private $builder;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|PreprocessorInterface
+     */
+    private $preprocessor;
+
+    /**
+     * @var ConditionManager|\PHPUnit_Framework_MockObject_MockObject $conditionManager
+     */
+    private $conditionManager;
+
+    /**
      * Set up
      */
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
 
-        /** @var ConditionManager|\PHPUnit_Framework_MockObject_MockObject $conditionManager */
-        $conditionManager = $this->getMockBuilder('\Magento\Framework\Search\Adapter\Mysql\ConditionManager')
+        $this->conditionManager = $this->getMockBuilder('Magento\Framework\Search\Adapter\Mysql\ConditionManager')
             ->disableOriginalConstructor()
             ->setMethods(['generateCondition', 'combineQueries', 'wrapBrackets'])
             ->getMock();
-        $conditionManager->expects($this->any())
+        $this->conditionManager->expects($this->any())
             ->method('generateCondition')
             ->will(
                 $this->returnCallback(
@@ -42,7 +51,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
-        $conditionManager->expects($this->any())
+        $this->conditionManager->expects($this->any())
             ->method('combineQueries')
             ->will(
                 $this->returnCallback(
@@ -54,7 +63,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
-        $conditionManager->expects($this->any())
+        $this->conditionManager->expects($this->any())
             ->method('wrapBrackets')
             ->will(
                 $this->returnCallback(
@@ -72,16 +81,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->method('buildFilter')
             ->will(
                 $this->returnCallback(
-                    function (FilterInterface $filter, $isNegation) use (
-                        $conditionManager
-                    ) {
+                    function (FilterInterface $filter, $isNegation) {
                         /**
                          * @var \Magento\Framework\Search\Request\Filter\Range $filter
                          * @var \Magento\Framework\DB\Adapter\AdapterInterface $adapter
                          */
                         $fromCondition = '';
                         if (!is_null($filter->getFrom())) {
-                            $fromCondition = $conditionManager->generateCondition(
+                            $fromCondition = $this->conditionManager->generateCondition(
                                 $filter->getField(),
                                 ($isNegation ? '<' : '>='),
                                 $filter->getFrom()
@@ -89,7 +96,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                         }
                         $toCondition = '';
                         if (!is_null($filter->getTo())) {
-                            $toCondition = $conditionManager->generateCondition(
+                            $toCondition = $this->conditionManager->generateCondition(
                                 $filter->getField(),
                                 ($isNegation ? '>=' : '<'),
                                 $filter->getTo()
@@ -97,7 +104,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                         }
                         $unionOperator = $isNegation ? \Zend_Db_Select::SQL_OR : \Zend_Db_Select::SQL_AND;
 
-                        return $conditionManager->combineQueries([$fromCondition, $toCondition], $unionOperator);
+                        return $this->conditionManager->combineQueries([$fromCondition, $toCondition], $unionOperator);
                     }
                 )
             );
@@ -110,14 +117,12 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->method('buildFilter')
             ->will(
                 $this->returnCallback(
-                    function (FilterInterface $filter, $isNegation) use (
-                        $conditionManager
-                    ) {
+                    function (FilterInterface $filter, $isNegation) {
                         /**
                          * @var \Magento\Framework\Search\Request\Filter\Term $filter
                          * @var \Magento\Framework\DB\Adapter\AdapterInterface $adapter
                          */
-                        return $conditionManager->generateCondition(
+                        return $this->conditionManager->generateCondition(
                             $filter->getField(),
                             ($isNegation ? '!=' : '='),
                             $filter->getValue()
@@ -126,12 +131,25 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
+        $this->preprocessor = $this->getMockBuilder(
+            'Magento\Framework\Search\Adapter\Mysql\Filter\PreprocessorInterface'
+        )
+            ->setMethods(['process'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->preprocessor->expects($this->any())->method('process')->willReturnCallback(
+            function ($filter, $isNegation, $queryString) {
+                return $this->conditionManager->wrapBrackets($queryString);
+            }
+        );
+
         $this->builder = $objectManager->getObject(
             'Magento\Framework\Search\Adapter\Mysql\Filter\Builder',
             [
                 'range' => $rangeBuilder,
                 'term' => $termBuilder,
-                'conditionManager' => $conditionManager,
+                'conditionManager' => $this->conditionManager,
+                'preprocessor' => $this->preprocessor
             ]
         );
     }
