@@ -80,9 +80,7 @@ class ConfigureCustomerWishlistOnBackendTest extends AbstractWishlistOnFrontend
             ['product_name' => $product->getName()],
             'Configure'
         );
-        $configureBlock = $customerIndexEdit->getConfigureProductBlock();
-        $configureBlock->fillOptions($product);
-        $configureBlock->clickOk();
+        $customerIndexEdit->getConfigureProductBlock()->configProduct($product);
 
         return['product' => $product];
     }

@@ -38,8 +38,8 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                             'value' => 'option_key_1',
                         ]
                     ],
-                    'qty' => 3
                 ],
+                'qty' => 3,
                 'cartItem' => [
                     'price' => 172,
                     'qty' => 3,

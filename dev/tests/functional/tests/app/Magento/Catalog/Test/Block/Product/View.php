@@ -164,8 +164,8 @@ class View extends AbstractConfigureBlock
         }
 
         $this->fillOptions($product);
-        if (isset($checkoutData['options']['qty'])) {
-            $this->_rootElement->find($this->qty)->setValue($checkoutData['options']['qty']);
+        if (isset($checkoutData['qty'])) {
+            $this->setQty($checkoutData['qty']);
         }
         $this->clickAddToCart();
     }

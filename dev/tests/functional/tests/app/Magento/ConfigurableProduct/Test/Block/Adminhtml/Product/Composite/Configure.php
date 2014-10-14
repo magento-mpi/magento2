@@ -40,10 +40,6 @@ class Configure extends \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\
     {
         $productOptions = [];
         $checkoutData = $fields['checkout_data']['options'];
-        if (isset($checkoutData['qty'])) {
-            $productOptions['qty'] = $checkoutData['qty'];
-            $productOptions = parent::dataMapping($productOptions);
-        }
 
         if (!empty($checkoutData['configurable_options'])) {
             $configurableAttributesData = $fields['configurable_attributes_data']['attributes_data'];

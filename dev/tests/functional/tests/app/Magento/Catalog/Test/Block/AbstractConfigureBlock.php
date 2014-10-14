@@ -69,10 +69,6 @@ abstract class AbstractConfigureBlock extends Form
         /** @var CatalogProductSimple $product */
         if ($this->hasRender($typeId)) {
             $this->callRender($typeId, 'fillOptions', ['product' => $product]);
-        } else {
-            if (isset($checkoutData['options']['qty'])) {
-                $this->setQty($checkoutData['options']['qty']);
-            }
         }
     }
 

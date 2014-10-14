@@ -41,10 +41,6 @@ class Configure extends \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\
         $productOptions = [];
         $checkoutData = $fields['checkout_data']['options'];
         $productLinks = $fields['downloadable_links']['downloadable']['link'];
-        if (isset($checkoutData['qty'])) {
-            $productOptions['qty'] = $checkoutData['qty'];
-            $productOptions = parent::dataMapping($productOptions);
-        }
 
         if (!empty($checkoutData['links'])) {
             $linkMapping = parent::dataMapping(['link' => '']);
