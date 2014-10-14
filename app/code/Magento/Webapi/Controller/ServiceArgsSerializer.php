@@ -175,7 +175,7 @@ class ServiceArgsSerializer
      */
     protected function getBuilder($className, $class)
     {
-        if ($class->isSubclassOf('\Magento\Framework\Api\ExtensibleDataInterface')) {
+        if ($class->isSubclassOf('\Magento\Framework\Model\AbstractExtensibleModel')) {
             // By convention, need to lookup the concrete class preference for the data interface type and
             // gets its builder.
             $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
