@@ -24,7 +24,12 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provider
      */
     public function testProcess(
-        $testGroup, $testTemplate, $testTtl, $addToParentGroupCount, $setTemplateCount, $setTtlCount
+        $testGroup,
+        $testTemplate,
+        $testTtl,
+        $addToParentGroupCount,
+        $setTemplateCount,
+        $setTtlCount
     ) {
         $elementName = 'test_block';
         $methodName = 'setTest';
@@ -71,14 +76,18 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         );
         $scheduleStructure->expects($this->once())->method('unsetElement')->with($elementName);
 
-        /** @var \Magento\Framework\View\Layout\Reader\Context|\PHPUnit_Framework_MockObject_MockObject $readerContext */
+        /**
+         * @var \Magento\Framework\View\Layout\Reader\Context|\PHPUnit_Framework_MockObject_MockObject $readerContext
+         */
         $readerContext = $this->getMock('Magento\Framework\View\Layout\Reader\Context', [], [], '', false);
         $readerContext->expects($this->once())->method('getScheduledStructure')
             ->will($this->returnValue($scheduleStructure));
 
         $layout = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
 
-        /** @var \Magento\Framework\View\Element\AbstractBlock|\PHPUnit_Framework_MockObject_MockObject $blockInstance */
+        /**
+         * @var \Magento\Framework\View\Element\AbstractBlock|\PHPUnit_Framework_MockObject_MockObject $blockInstance
+         */
         // explicitly set mocked methods for successful expectation of magic methods
         $blockInstance = $this->getMock(
             'Magento\Framework\View\Element\AbstractBlock',
@@ -100,14 +109,22 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $structure = $this->getMock('Magento\Framework\View\Layout\Data\Structure', [], [], '', false);
         $structure->expects($addToParentGroupCount)->method('addToParentGroup')->with($elementName, $testGroup);
 
-        /** @var \Magento\Framework\View\Layout\Generator\Context|\PHPUnit_Framework_MockObject_MockObject $generatorContext */
+        /**
+         * @var \PHPUnit_Framework_MockObject_MockObject $generatorContext
+         */
         $generatorContext = $this->getMock('Magento\Framework\View\Layout\Generator\Context', [], [], '', false);
         $generatorContext->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
         $generatorContext->expects($this->once())->method('getStructure')->will($this->returnValue($structure));
 
-        /** @var \Magento\Framework\Data\Argument\InterpreterInterface|\PHPUnit_Framework_MockObject_MockObject $argumentInterpreter */
+        /**
+         * @var \PHPUnit_Framework_MockObject_MockObject $argumentInterpreter
+         */
         $argumentInterpreter = $this->getMock(
-            'Magento\Framework\Data\Argument\InterpreterInterface', [], [], '', false
+            'Magento\Framework\Data\Argument\InterpreterInterface',
+            [],
+            [],
+            '',
+            false
         );
         $argumentInterpreter->expects($this->exactly(2))->method('evaluate')->with($argumentData);
 

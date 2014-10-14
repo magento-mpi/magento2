@@ -75,6 +75,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Controller\ResultFactory $resultFactory
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */

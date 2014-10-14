@@ -85,7 +85,7 @@ class Container implements Layout\GeneratorInterface
         $elementName,
         $data
     ) {
-        $options = $data['attributes'];
+        $options = isset($data['attributes']) ? $data['attributes'] : [];
         $structure->setAttribute(
             $elementName,
             Layout\Element::CONTAINER_OPT_LABEL,

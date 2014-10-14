@@ -132,7 +132,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->pageConfig->expects($this->any())->method('addBodyClass')->will($this->returnSelf());
 
         $this->page = $this->getMockBuilder('Magento\Framework\View\Page')
-            ->setMethods(['getConfig', 'initLayout', 'addPageLayoutHandles', 'getLayout'])->disableOriginalConstructor()->getMock();
+            ->setMethods(['getConfig', 'initLayout', 'addPageLayoutHandles', 'getLayout'])
+            ->disableOriginalConstructor()->getMock();
         $this->page->expects($this->any())->method('getConfig')->will($this->returnValue($this->pageConfig));
         $this->page->expects($this->any())->method('addPageLayoutHandles')->will($this->returnSelf());
         $this->page->expects($this->any())->method('getLayout')->will($this->returnValue($this->layout));

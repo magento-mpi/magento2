@@ -94,7 +94,7 @@ class Block implements Layout\GeneratorInterface
             }
         }
         // Set layout instance to all generated block (trigger _prepareLayout method)
-        foreach ($blocks as  $elementName => $block) {
+        foreach ($blocks as $elementName => $block) {
             $block->setLayout($layout);
             $this->eventManager->dispatch('core_layout_block_create_after', ['block' => $block]);
             $scheduledStructure->unsetElement($elementName);
@@ -122,7 +122,7 @@ class Block implements Layout\GeneratorInterface
         Layout\Data\Structure $structure,
         $elementName
     ) {
-        list(, $data) = $scheduledStructure->getElement($elementName);;
+        list(, $data) = $scheduledStructure->getElement($elementName);
         $attributes = $data['attributes'];
 
         if (!empty($attributes['group'])) {
