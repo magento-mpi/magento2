@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\File\Csv;
+namespace Magento\Tools\SampleData\Helper\Csv;
 
 /**
  * Class Reader
@@ -18,7 +18,7 @@ class Reader implements \Iterator
     protected $handle;
 
     /**
-     * @var str
+     * @var string
      */
     protected $fileName;
 
@@ -48,7 +48,7 @@ class Reader implements \Iterator
     protected $rowNumber;
 
     /**
-     * @param str $fileName
+     * @param string $fileName
      * @param string $mode
      */
     public function __construct($fileName, $mode = 'r')
@@ -104,7 +104,7 @@ class Reader implements \Iterator
     protected function readRow()
     {
         $this->load();
-        $this->row = fgetcsv($this->handle, null, ';');
+        $this->row = fgetcsv($this->handle, null, ',');
         $this->rowNumber++;
         return $this->row;
     }

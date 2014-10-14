@@ -7,44 +7,25 @@
  */
 namespace Magento\Tools\SampleData\Module\Downloadable\Setup;
 
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
+use Magento\Tools\SampleData\SetupInterface;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
- * Class Product
+ * Setup downloadable product
  */
-class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
+class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product implements SetupInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var string
      */
-    protected $productFactory;
+    protected $productType = \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE;
 
     /**
-     * @var \Magento\Catalog\Model\Config
+     * @var array
      */
-    protected $catalogConfig;
-
-    /**
-     * @var Product\Converter
-     */
-    protected $converter;
-
-    /**
-     * @var \Magento\Tools\SampleData\Helper\Fixture
-     */
-    protected $fixtureHelper;
-
-    /**
-     * @var \Magento\Framework\File\Csv\ReaderFactory
-     */
-    protected $csvReaderFactory;
-
-    /**
-     * @var Gallery
-     */
-    protected $gallery;
+    protected $downloadableData = array();
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -52,6 +33,8 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param Gallery $gallery
+     * @param array $fixtures
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -59,14 +42,20 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
         Product\Converter $converter,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
-        Gallery $gallery
+        Gallery $gallery,
+        $fixtures = array(
+            'Downloadable/products_training_video_download.csv'
+        )
     ) {
-        $this->productFactory = $productFactory;
-        $this->catalogConfig = $catalogConfig;
-        $this->converter = $converter;
-        $this->fixtureHelper = $fixtureHelper;
-        $this->csvReaderFactory = $csvReaderFactory;
-        $this->gallery = $gallery;
+        parent::__construct(
+            $productFactory,
+            $catalogConfig,
+            $converter,
+            $fixtureHelper,
+            $csvReaderFactory,
+            $gallery,
+            $fixtures
+        );
     }
 
     /**
@@ -74,15 +63,9 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
      */
     public function run()
     {
-        echo "Installing downloadable products\n";
-
-        $product = $this->productFactory->create();
         $this->gallery->setFixtures([
                 'Downloadable/images_products_training_video.csv'
         ]);
-        $files = [
-            'Downloadable/products_training_video_download.csv',
-        ];
         $downloadableFiles = [
             'Downloadable/downloadable_data_training_video_download.csv',
         ];
@@ -92,46 +75,27 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup
                 ->create(array('fileName' => $downloadableFileName, 'mode' => 'r'));
             foreach ($csvDownloadableReader as $downloadableRow) {
                 $sku = $downloadableRow['product_sku'];
-                if (!isset($downloadableData[$sku])) {
-                    $downloadableData[$sku] = array();
+                if (!isset($this->downloadableData[$sku])) {
+                    $this->downloadableData[$sku] = array();
                 }
-                $downloadableData[$sku] = $this->converter->getDownloadableData(
+                $this->downloadableData[$sku] = $this->converter->getDownloadableData(
                     $downloadableRow,
-                    $downloadableData[$sku]
+                    $this->downloadableData[$sku]
                 );
             }
         }
 
-        foreach ($files as $file) {
-            /** @var \Magento\Framework\File\Csv\Reader $csvReader */
-            $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
-            foreach ($csvReader as $row) {
+        parent::run();
+    }
 
-                $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
-
-                $this->converter->setAttributeSetId($attributeSetId);
-                $data = $this->converter->convertRow($row);
-                /** @var $product \Magento\Catalog\Model\Product */
-                $product->unsetData();
-                $product->setData($data);
-                $product
-                    ->setTypeId(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
-                    ->setAttributeSetId($attributeSetId)
-                    ->setWebsiteIds(array(1))
-                    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-                    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                    ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0))
-                    ->setStoreId(0);
-
-                if (isset($downloadableData[$data['sku']])) {
-                    $product->setDownloadableData($downloadableData[$data['sku']]);
-                }
-                $product->save();
-                $this->gallery->install($product);
-                echo '.';
-            }
+    /**
+     * @inheritdoc
+     */
+    protected function prepareProduct($product, $data)
+    {
+        if (isset($this->downloadableData[$data['sku']])) {
+            $product->setDownloadableData($this->downloadableData[$data['sku']]);
         }
-        echo "\n";
+        return $this;
     }
 }

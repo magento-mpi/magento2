@@ -1,2 +1,2 @@
-name;path;active;is_anchor;include_in_menu;position
-Gift Cards;;1;0;1;5
+name,path,active,is_anchor,include_in_menu,position
+"Gift Cards",,1,0,1,5

@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
-use Magento\Framework\File\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -17,6 +17,11 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
  */
 class Product implements SetupInterface
 {
+    /**
+     * @var string
+     */
+    protected $productType = \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE;
+
     /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
@@ -43,12 +48,12 @@ class Product implements SetupInterface
     protected $fixtureHelper;
 
     /**
-     * @var \Magento\Framework\File\Csv\ReaderFactory
+     * @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory
      */
     protected $csvReaderFactory;
 
     /**
-     * @var \Magento\Framework\File\Csv\ReaderFactory
+     * @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory
      */
     protected $fixtures;
 
@@ -63,6 +68,7 @@ class Product implements SetupInterface
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param Product\Gallery $gallery
      * @param array $fixtures
      */
     public function __construct(
@@ -72,7 +78,7 @@ class Product implements SetupInterface
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Product\Gallery $gallery,
-        array $fixtures = array(
+        $fixtures = array(
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
             'Catalog/SimpleProduct/products_gear_watches.csv',
@@ -92,12 +98,12 @@ class Product implements SetupInterface
      */
     public function run()
     {
-        echo "Installing simple products\n";
+        echo "Installing {$this->productType} products\n";
 
         $product = $this->productFactory->create();
 
         foreach ($this->fixtures as $file) {
-            /** @var \Magento\Framework\File\Csv\Reader $csvReader */
+            /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
@@ -111,15 +117,18 @@ class Product implements SetupInterface
                 $product->unsetData();
                 $product->setData($data);
                 $product
-                    ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
+                    ->setTypeId($this->productType)
                     ->setAttributeSetId($attributeSetId)
                     ->setWebsiteIds(array(1))
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                    ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0));
+                    ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0))
+                    ->setStoreId(0);
 
                 if (empty($data['visibility'])) {
                     $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
                 }
+
+                $this->prepareProduct($product, $data);
 
                 $product->save();
                 $this->gallery->install($product);
@@ -127,6 +136,17 @@ class Product implements SetupInterface
             }
         }
         echo "\n";
+    }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $product
+     * @param array $data
+     * @return $this
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    protected function prepareProduct($product, $data)
+    {
+        return $this;
     }
 
     /**
