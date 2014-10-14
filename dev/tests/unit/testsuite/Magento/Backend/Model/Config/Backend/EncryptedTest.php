@@ -119,7 +119,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setValue($value);
         $this->_model->setPath('some/path');
-        $this->_model->save();
+        $this->_model->beforeSave();
         $this->assertEquals($this->_model->getValue(), 'encrypted');
     }
 

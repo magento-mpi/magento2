@@ -285,10 +285,10 @@ class Review extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->getResource()->afterDeleteCommit($this);
-        return parent::_afterDeleteCommit();
+        return parent::afterDeleteCommit();
     }
 
     /**

@@ -240,9 +240,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->setUpdatedAt($this->_date->gmtDate());
         return $this;
     }
@@ -252,9 +252,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if (null !== $this->_itemCollection) {
             $this->getItemCollection()->save();

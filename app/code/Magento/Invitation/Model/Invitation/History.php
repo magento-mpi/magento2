@@ -75,9 +75,9 @@ class History extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->setInvitationDate($this->dateTime->formatDate(time()));
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

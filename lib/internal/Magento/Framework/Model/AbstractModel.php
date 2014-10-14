@@ -427,7 +427,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getId()) {
             $this->isObjectNew(true);
@@ -443,7 +443,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _validateBeforeSave()
+    public function validateBeforeSave()
     {
         $validator = $this->_getValidatorBeforeSave();
         if ($validator && !$validator->isValid($this)) {
@@ -550,7 +550,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->cleanModelCache();
         $this->_eventManager->dispatch('model_save_after', array('object' => $this));
@@ -577,7 +577,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      * @return $this
      * @throws Exception
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         if (!$this->_actionValidator->isAllowed($this)) {
             throw new Exception(__('Delete operation is forbidden for current area'));
@@ -594,7 +594,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_eventManager->dispatch('model_delete_after', array('object' => $this));
         $this->_eventManager->dispatch('clean_cache_by_tags', array('object' => $this));
@@ -607,7 +607,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      *
      * @return $this
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->_eventManager->dispatch('model_delete_commit_after', array('object' => $this));
         $this->_eventManager->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());

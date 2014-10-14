@@ -291,10 +291,10 @@ class Item extends AbstractModel implements ItemInterface
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->saveItemOptions();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -320,9 +320,9 @@ class Item extends AbstractModel implements ItemInterface
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         // validate required item data
         $this->validate();

@@ -58,7 +58,7 @@ class Minsaleqty extends \Magento\Framework\App\Config\Value
      *
      * @return void
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $value = $this->getValue();
         $value = $this->_catalogInventoryMinsaleqty->makeStorableArrayFieldValue($value);

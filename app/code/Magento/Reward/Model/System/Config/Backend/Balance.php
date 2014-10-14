@@ -23,9 +23,9 @@ class Balance extends \Magento\Framework\App\Config\Value
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         if (!$this->isValueChanged()) {
             return $this;
         }

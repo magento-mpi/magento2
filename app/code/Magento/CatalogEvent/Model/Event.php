@@ -341,9 +341,9 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
      * @return $this
      * @throws Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $dateChanged = false;
         $fieldTitles = array('date_start' => __('Start Date'), 'date_end' => __('End Date'));
         foreach (array('date_start', 'date_end') as $dateType) {

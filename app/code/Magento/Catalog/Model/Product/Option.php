@@ -398,7 +398,7 @@ class Option extends AbstractModel
      * @return AbstractModel
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->getValueInstance()->unsetValues();
         if (is_array($this->getData('values'))) {
@@ -411,7 +411,7 @@ class Option extends AbstractModel
             throw new Exception(__('Select type options required values rows.'));
         }
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

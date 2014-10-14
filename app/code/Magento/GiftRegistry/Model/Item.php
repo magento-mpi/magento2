@@ -315,10 +315,10 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->saveItemOptions();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

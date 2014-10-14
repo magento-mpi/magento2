@@ -281,9 +281,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         if (!$this->getOrderId() && $this->getOrder()) {
             $this->setOrderId($this->getOrder()->getId());
         }

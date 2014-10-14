@@ -65,11 +65,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 'getEntityTypeId',
                 'getIsDefaultBilling',
                 'getIsDefaultShipping',
+                'hasDataChanges'
             ],
             [],
             '',
             false
         );
+        $address->expects($this->once())->method('hasDataChanges')->willReturn(true);
         $address->expects($this->any())->method('getEntityTypeId')->willReturn('3');
         $address->expects($this->any())->method('getId')->willReturn($addressId);
         $address->expects($this->any())->method('getIsDefaultShipping')->willReturn($isDefaultShipping);

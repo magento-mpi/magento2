@@ -131,7 +131,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Eav\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         try {
             $this->attrLockValidator->validate($this);
@@ -140,7 +140,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         }
 
         $this->setData('modulePrefix', self::MODULE_NAME);
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -148,12 +148,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         /**
          * Fix saving attribute in admin
          */
         $this->_eavConfig->clear();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 }

@@ -71,10 +71,10 @@ abstract class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_eavConfig->clear();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

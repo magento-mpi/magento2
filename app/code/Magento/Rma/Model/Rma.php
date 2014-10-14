@@ -296,9 +296,9 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getIncrementId()) {
             $incrementId = $this->_eavConfig->getEntityType('rma_item')->fetchNewIncrementId($this->getStoreId());
@@ -315,9 +315,9 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         /** @var $gridModel \Magento\Rma\Model\Grid */
         $gridModel = $this->_rmaGridFactory->create();

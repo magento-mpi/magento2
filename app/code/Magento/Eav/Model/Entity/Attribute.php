@@ -199,7 +199,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      * @return $this
      * @throws Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code']) && $this->reservedAttributeList->isReservedAttribute($this)) {
@@ -278,7 +278,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
             }
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -286,10 +286,10 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_getResource()->saveInSetIncluding($this);
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

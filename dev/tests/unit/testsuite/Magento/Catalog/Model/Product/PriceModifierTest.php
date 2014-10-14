@@ -29,7 +29,7 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock =
             $this->getMock('Magento\Catalog\Model\Product',
-                array('getData', 'setData', '__wakeup'), array(), '', false);
+                array('getData', 'setData', '__wakeup', 'save'), array(), '', false);
         $this->priceModifier = new \Magento\Catalog\Model\Product\PriceModifier();
         $this->prices = array(
             0 => array(

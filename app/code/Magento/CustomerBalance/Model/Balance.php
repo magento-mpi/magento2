@@ -157,7 +157,7 @@ class Balance extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->_ensureCustomer();
 
@@ -185,7 +185,7 @@ class Balance extends \Magento\Framework\Model\AbstractModel
             throw new \Magento\Framework\Model\Exception(__('The Store ID must be set to send email notifications.'));
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -193,9 +193,9 @@ class Balance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         // save history action
         if (abs($this->getAmountDelta())) {

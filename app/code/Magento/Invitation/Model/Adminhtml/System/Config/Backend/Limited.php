@@ -46,9 +46,9 @@ class Limited extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if ((int)$this->getValue() <= 0) {
             $parameter = __('Max Invitations Allowed to be Sent at One Time');

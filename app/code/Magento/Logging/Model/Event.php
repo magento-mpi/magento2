@@ -61,7 +61,7 @@ class Event extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
@@ -81,7 +81,7 @@ class Event extends \Magento\Framework\Model\AbstractModel
             $info['additional'] = $this->getAdditionalInfo();
         }
         $this->setInfo(serialize($info));
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

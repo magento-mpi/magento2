@@ -507,7 +507,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
             '_getDocumentRoot'
         );
         if ($mockBeforeSave) {
-            $methods[] = '_beforeSave';
+            $methods[] = 'beforeSave';
         }
 
         $this->_sitemapCategoryMock->expects(

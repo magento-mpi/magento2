@@ -240,9 +240,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->setIsVirtual($this->getProduct()->getIsVirtual());
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
@@ -755,10 +755,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return \Magento\Sales\Model\Quote\Item
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->saveItemOptions();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

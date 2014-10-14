@@ -377,15 +377,15 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
         if ($object->isDeleted()) {
             return $this->delete($object);
         }
-        if (!$object->_hasModelChanged()) {
+        if (!$object->hasDataChanges()) {
             return $this;
         }
 
         $this->beginTransaction();
 
         try {
-            $object->_validateBeforeSave();
-            $object->_beforeSave();
+            $object->validateBeforeSave();
+            $object->beforeSave();
             if ($object->isSaveAllowed()) {
                 $this->_serializeFields($object);
                 $this->_beforeSave($object);
@@ -436,7 +436,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
                 $this->unserializeFields($object);
                 $this->_afterSave($object);
 
-                $object->_afterSave();
+                $object->afterSave();
             }
             $this->addCommitCallback(array($object, 'afterCommitCallback'))->commit();
             $object->setHasDataChanges(false);
@@ -458,7 +458,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     {
         $this->beginTransaction();
         try {
-            $object->_beforeDelete();
+            $object->beforeDelete();
             $this->_beforeDelete($object);
             $this->_getWriteAdapter()->delete(
                 $this->getMainTable(),
@@ -467,9 +467,9 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
             $this->_afterDelete($object);
 
             $object->isDeleted(true);
-            $object->_afterDelete();
+            $object->afterDelete();
             $this->commit();
-            $object->_afterDeleteCommit();
+            $object->afterDeleteCommit();
         } catch (\Exception $e) {
             $this->rollBack();
             throw $e;

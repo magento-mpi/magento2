@@ -43,7 +43,7 @@ class Usesecretkey extends \Magento\Framework\App\Config\Value
     /**
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_backendUrl->renewSecretUrls();
         return $this;

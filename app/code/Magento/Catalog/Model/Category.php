@@ -819,12 +819,12 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         if ($this->getResource()->isForbiddenToDelete($this->getId())) {
             throw new \Magento\Framework\Model\Exception("Can't delete root category.");
         }
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -1006,9 +1006,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      *
      * @return \Magento\Catalog\Model\Category
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        $result = parent::_afterSave();
+        $result = parent::afterSave();
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
     }
@@ -1033,10 +1033,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->reindex();
-        return parent::_afterDeleteCommit();
+        return parent::afterDeleteCommit();
     }
 
     /**

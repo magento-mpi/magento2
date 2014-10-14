@@ -259,7 +259,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $fileInfo = $this->getFileInfo();
         if (is_array($fileInfo) && $fileInfo) {
@@ -271,7 +271,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
             $this->setEntityAttributes(serialize($attrsInfo));
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -279,14 +279,14 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->getStatus() == 1) {
             $this->_addCronTask();
         } else {
             $this->_dropCronTask();
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -294,10 +294,10 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_dropCronTask();
-        return parent::_afterDelete();
+        return parent::afterDelete();
     }
 
     /**

@@ -626,7 +626,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return void
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->cleanCache();
         $this->setTypeHasOptions(false);
@@ -683,7 +683,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
             $this->setOrigData('website_ids', $websiteIds);
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -706,7 +706,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
@@ -725,7 +725,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
             $this->getOptionInstance()->setProduct($this)->saveOptions();
         }
 
-        $result = parent::_afterSave();
+        $result = parent::afterSave();
 
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         $this->reloadPriceInfo();
@@ -798,10 +798,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $this->cleanCache();
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -809,11 +809,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return void
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->reindex();
         $this->_productPriceIndexerProcessor->reindexRow($this->getId());
-        parent::_afterDeleteCommit();
+        parent::afterDeleteCommit();
     }
 
     /**

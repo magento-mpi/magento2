@@ -216,12 +216,12 @@ class Transaction extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getId()) {
             $this->setCreatedAt($this->_dateFactory->create()->gmtDate());
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

@@ -94,7 +94,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $date = $this->_dateFactory->create()->gmtDate();
         if ($this->isObjectNew() && !$this->getCreatedAt()) {
@@ -102,7 +102,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         } else {
             $this->setUpdatedAt($date);
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -110,12 +110,12 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if (!empty($this->_relatedOrders)) {
             $this->_saveOrderRelations();
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

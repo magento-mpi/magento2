@@ -48,7 +48,7 @@ class Flag extends Model\AbstractModel
      * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (is_null($this->_flagCode)) {
             throw new \Magento\Framework\Model\Exception(__('Please define flag code.'));
@@ -57,7 +57,7 @@ class Flag extends Model\AbstractModel
         $this->setFlagCode($this->_flagCode);
         $this->setLastUpdate(date('Y-m-d H:i:s'));
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

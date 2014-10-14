@@ -312,10 +312,10 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Magento\Catalog\Model\AbstractModel
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->unlockAttributes();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

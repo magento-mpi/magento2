@@ -175,7 +175,7 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
@@ -183,10 +183,10 @@ class Payment extends \Magento\Payment\Model\Info
         try {
             $method = $this->getMethodInstance();
         } catch (\Magento\Framework\Model\Exception $e) {
-            return parent::_beforeSave();
+            return parent::beforeSave();
         }
         $method->prepareSave();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

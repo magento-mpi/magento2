@@ -125,7 +125,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      *
      * @return \Magento\CustomerSegment\Model\Segment
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getData('processing_frequency')) {
             $this->setData('processing_frequency', '1');
@@ -145,7 +145,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         $this->setConditionSql($this->getConditions()->getConditionsSql($customer, $website));
         $this->setMatchedEvents(array_unique($events));
 
-        parent::_beforeSave();
+        parent::beforeSave();
         return $this;
     }
 

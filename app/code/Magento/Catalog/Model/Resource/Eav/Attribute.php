@@ -180,7 +180,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->setData('modulePrefix', self::MODULE_NAME);
         if (isset($this->_origData['is_global'])) {
@@ -205,7 +205,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
                 $this->setIsHtmlAllowedOnFront(1);
             }
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -213,7 +213,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         /**
          * Fix saving attribute in admin
@@ -229,7 +229,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $this->_indexerEavProcessor->markIndexerAsInvalid();
         }
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -266,10 +266,10 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $this->attrLockValidator->validate($this);
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -277,9 +277,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return $this
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
-        parent::_afterDeleteCommit();
+        parent::afterDeleteCommit();
 
         if ($this->_isOriginalEnabledInFlat()) {
             $this->_productFlatIndexerProcessor->markIndexerAsInvalid();

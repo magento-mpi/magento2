@@ -1153,8 +1153,8 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
         }
         $this->beginTransaction();
         try {
-            $object->_validateBeforeSave();
-            $object->_beforeSave();
+            $object->validateBeforeSave();
+            $object->beforeSave();
             if ($object->isSaveAllowed()) {
 
                 if (!$this->isPartialSave()) {
@@ -1172,7 +1172,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
                 $this->_afterSave($object);
 
 
-                $object->_afterSave();
+                $object->afterSave();
             }
             $this->addCommitCallback(array($object, 'afterCommitCallback'))->commit();
             $object->setHasDataChanges(false);
