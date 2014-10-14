@@ -25,10 +25,10 @@ class OrderStatus extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['orderStatus_assign_to_pending'] = [
+        $this->_data['assign_to_pending'] = [
             'status' => 'order_status%isolation%',
             'label' => 'orderLabel%isolation%',
-            'state' => 'new', // Internal Magento value of pending order state
+            'state' => 'Pending',
             'is_default' => 'Yes',
             'visible_on_front' => 'Yes'
         ];

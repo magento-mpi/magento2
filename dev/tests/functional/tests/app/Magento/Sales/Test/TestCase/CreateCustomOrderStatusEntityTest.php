@@ -67,7 +67,5 @@ class CreateCustomOrderStatusEntityTest extends Injectable
         $this->orderStatusIndexPage->getGridPageActions()->addNew();
         $this->orderStatusNewPage->getOrderStatusForm()->fill($orderStatus);
         $this->orderStatusNewPage->getFormPageActions()->save();
-
-        return ['status' => $orderStatus->getLabel()];
     }
 }

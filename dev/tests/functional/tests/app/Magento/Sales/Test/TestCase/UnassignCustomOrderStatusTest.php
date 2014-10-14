@@ -55,7 +55,7 @@ class UnassignCustomOrderStatusTest extends Injectable
      * Run Unassign Custom OrderStatus test
      *
      * @param OrderStatus $orderStatus
-     * @return array
+     * @return void
      */
     public function test(OrderStatus $orderStatus)
     {
@@ -66,7 +66,5 @@ class UnassignCustomOrderStatusTest extends Injectable
         $orderStatusLabel = $orderStatus->getLabel();
         $this->orderStatusIndex->open();
         $this->orderStatusIndex->getOrderStatusGrid()->searchAndUnassign(['label' => $orderStatusLabel]);
-
-        return ['status' => $orderStatusLabel];
     }
 }

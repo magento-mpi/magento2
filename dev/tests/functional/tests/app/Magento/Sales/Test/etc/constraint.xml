@@ -144,7 +144,4 @@
     <assertUnassignOrderStatusNotAssigned module="Magento_Sales">
         <severeness>low</severeness>
     </assertUnassignOrderStatusNotAssigned>
-    <assertOrderStateHasDefaultOrderStatus module="Magento_Sales">
-        <severeness>low</severeness>
-    </assertOrderStateHasDefaultOrderStatus>
 </constraint>

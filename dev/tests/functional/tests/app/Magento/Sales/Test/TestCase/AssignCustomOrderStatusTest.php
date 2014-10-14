@@ -114,24 +114,24 @@ class AssignCustomOrderStatusTest extends Injectable
     /**
      * Run Assign Custom OrderStatus test
      *
-     * @param OrderStatus $initialOrderStatus
+     * @param OrderStatus $orderStatus
      * @param OrderInjectable $order
      * @param array $orderStatusState
      * @param AssertOrderStatusSuccessAssignMessage $assertion
      * @return array
      */
     public function test(
-        OrderStatus $initialOrderStatus,
+        OrderStatus $orderStatus,
         OrderInjectable $order,
         array $orderStatusState,
         AssertOrderStatusSuccessAssignMessage $assertion
     ) {
         // Preconditions:
-        $initialOrderStatus->persist();
+        $orderStatus->persist();
         /** @var OrderStatus $orderStatus */
         $orderStatus = $this->fixtureFactory->createByCode(
             'orderStatus',
-            ['data' => array_merge($initialOrderStatus->getData(), $orderStatusState)]
+            ['data' => array_merge($orderStatus->getData(), $orderStatusState)]
         );
 
         // Steps:

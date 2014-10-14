@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Constraint;
 
+use Magento\Sales\Test\Fixture\OrderStatus;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -25,19 +26,52 @@ class AssertOrderStatusInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
+     * Order status state data mapping
+     *
+     * @var array
+     */
+    protected $stateMapping = ["Pending" => "new"];
+
+    /**
      * Assert order status availability in Order Status grid
      *
-     * @param string $status
+     * @param OrderStatus $orderStatus
      * @param OrderStatusIndex $orderStatusIndexPage
+     * @param string $defaultState
      * @return void
      */
-    public function processAssert($status, OrderStatusIndex $orderStatusIndexPage)
-    {
+    public function processAssert(
+        OrderStatus $orderStatus,
+        OrderStatusIndex $orderStatusIndexPage,
+        $defaultState = null
+    ) {
         $orderStatusIndexPage->open();
+        $orderStatusLabel = $orderStatus->getLabel();
+        $filter = ['label' => $orderStatusLabel];
+        if ($defaultState !== null) {
+            $state = $this->prepareState($orderStatus->getState());
+            $filter = ['label' => $defaultState, 'state' => $state];
+        }
+
         \PHPUnit_Framework_Assert::assertTrue(
-            $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible(['label' => $status]),
-            'Order status \'' . $status . '\' is absent in Order Status grid.'
+            $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible($filter, true, false),
+            'Order status \'' . $orderStatusLabel . '\' is absent in Order Status grid.'
         );
+    }
+
+    /**
+     * Prepare state value for assert
+     *
+     * @param string $state
+     * @return string
+     */
+    protected function prepareState($state)
+    {
+        if (isset($this->stateMapping[$state])) {
+            return $this->stateMapping[$state];
+        } else {
+            return $state;
+        }
     }
 
     /**

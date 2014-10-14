@@ -37,7 +37,7 @@ class AssertUnassignOrderStatusNotAssigned extends AbstractConstraint
         $statusLabel = $orderStatus->getLabel();
         \PHPUnit_Framework_Assert::assertFalse(
             $orderStatusIndex->open()->getOrderStatusGrid()->isRowVisible(
-                ['label' => $statusLabel, 'state' => $orderStatus->getState() . "[$statusLabel]"]
+                ['label' => $statusLabel, 'state' => $orderStatus->getState()]
             ),
             "Order status $statusLabel is assigned to state."
         );
