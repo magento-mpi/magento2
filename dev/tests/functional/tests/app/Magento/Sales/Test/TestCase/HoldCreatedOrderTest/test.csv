@@ -1,2 +1,2 @@
-"description";"order/dataSet";"order/data/entity_id/products";"orderButtonsUnavailable";"orderStatus";"constraint"
+"description";"order/dataSet";"order/data/entity_id/products";"orderButtonsUnavailable";"status";"constraint"
 "hold order and check status on the front in my account";"default";"catalogProductSimple::default,catalogProductSimple::default";"Invoice,Cancel,Reorder,Ship,Edit";"On Hold";"assertOrderOnHoldSuccessMessage, assertOrderButtonsUnavailable, assertUnholdButton, assertOrderInOrdersGridOnFrontend"
