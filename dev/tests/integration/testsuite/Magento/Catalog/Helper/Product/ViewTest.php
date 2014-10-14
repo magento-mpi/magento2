@@ -23,12 +23,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $_controller;
 
     /**
-     * @var \Magento\Framework\View\LayoutInterface
+     * @var \Magento\Framework\View\Result\Page
      */
-    protected $_layout;
+    protected $page;
 
     /**
-     * @var \Magento\TestFramework\Helper\Bootstrap
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -53,10 +53,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Controller\Product',
             array('context' => $context)
         );
-
-        $this->_layout = $this->objectManager->get(
-            'Magento\Framework\View\LayoutInterface'
-        );
+        $resultPageFactory = $this->objectManager->get('Magento\Framework\View\Result\PageFactory');
+        $this->page = $resultPageFactory->create();
     }
 
     /**
@@ -85,7 +83,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $objectManager = $this->objectManager;
         $objectManager->get('Magento\Framework\Registry')->register('product', $product);
 
-        $this->_helper->initProductLayout($product, $this->_controller);
+        $this->_helper->initProductLayout($this->page, $product);
 
         /** @var \Magento\Framework\View\Page\Config $pageConfig */
         $pageConfig = $this->objectManager->get('Magento\Framework\View\Page\Config');
@@ -94,7 +92,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             \Magento\Framework\View\Page\Config::BODY_ATTRIBUTE_CLASS
         );
         $this->assertContains("product-{$uniqid}", $bodyClass);
-        $handles = $this->_layout->getUpdate()->getHandles();
+        $handles = $this->page->getLayout()->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
     }
 
@@ -105,7 +103,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareAndRender()
     {
-        $this->_helper->prepareAndRender(10, $this->_controller);
+        $this->_helper->prepareAndRender($this->page, 10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
         $this->assertEquals(
             10,
@@ -123,7 +121,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = $this->objectManager;
         $controller = $objectManager->create('Magento\Catalog\Controller\Product');
-        $this->_helper->prepareAndRender(10, $controller);
+        $this->_helper->prepareAndRender($this->page, 10, $controller);
     }
 
     /**
@@ -132,6 +130,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareAndRenderWrongProduct()
     {
-        $this->_helper->prepareAndRender(999, $this->_controller);
+        $this->_helper->prepareAndRender($this->page, 999, $this->_controller);
     }
 }

@@ -58,6 +58,17 @@ class Redirect extends AbstractResult
     }
 
     /**
+     * Set referer url or base if referer is not exist
+     *
+     * @return $this
+     */
+    public function setRefererOrBaseUrl()
+    {
+        $this->url = $this->redirect->getRedirectUrl();
+        return $this;
+    }
+
+    /**
      * @param string $url
      * @return $this
      */

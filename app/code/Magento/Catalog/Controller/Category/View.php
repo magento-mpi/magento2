@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Controller\Category;
 
-use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\View\Result\PageFactory;
 
 class View extends \Magento\Framework\App\Action\Action
 {
@@ -45,10 +45,19 @@ class View extends \Magento\Framework\App\Action\Action
      */
     protected $_storeManager;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
+    /**
+     * @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator
+     */
     protected $categoryUrlPathGenerator;
 
     /**
+     * @var \Magento\Framework\View\Result\PageFactory
+     */
+    protected $resultPageFactory;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
@@ -56,6 +65,7 @@ class View extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -64,7 +74,8 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
+        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
+        PageFactory $resultPageFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
@@ -72,6 +83,7 @@ class View extends \Magento\Framework\App\Action\Action
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
+        $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
 
@@ -134,9 +146,7 @@ class View extends \Magento\Framework\App\Action\Action
 
             $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
-            /** @var \Magento\Framework\View\Result\Page $page */
-            $page = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-
+            $page = $this->resultPageFactory->create();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
                 $page->getConfig()->setPageLayout($settings->getPageLayout());
