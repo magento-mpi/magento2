@@ -11,13 +11,14 @@ namespace Magento\Catalog\Controller\Adminhtml\Search;
 class Index extends \Magento\Catalog\Controller\Adminhtml\Search
 {
     /**
-     * @return void
+     * @return \Magento\Backend\Model\View\Result\Page
      */
     public function execute()
     {
         $this->_title->add(__('Search Terms'));
 
-        $this->_initAction()->_addBreadcrumb(__('Catalog'), __('Catalog'));
-        $this->_view->renderLayout();
+        $resultPage = $this->createPage();
+        $resultPage->addBreadcrumb(__('Catalog'), __('Catalog'));
+        return $resultPage;
     }
 }

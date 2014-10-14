@@ -19,16 +19,20 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Search
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
-    {
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Framework\Registry $coreRegistry
+    ) {
+        parent::__construct($context, $resultPageFactory);
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
     }
 
     /**
-     * @return void
+     * @return \Magento\Backend\Model\View\Result\Page
      */
     public function execute()
     {
@@ -54,19 +58,15 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Search
 
         $this->_coreRegistry->register('current_catalog_search', $model);
 
-        $this->_initAction();
+        $resultPage = $this->createPage();
 
         $this->_title->add($id ? $model->getQueryText() : __('New Search'));
 
-        $this->_view->getLayout()->getBlock(
-            'adminhtml.catalog.search.edit'
-        )->setData(
-            'action',
-            $this->getUrl('catalog/search/save')
-        );
+        $resultPage->getLayout()->getBlock('adminhtml.catalog.search.edit')
+            ->setData('action', $this->getUrl('catalog/search/save'));
 
-        $this->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
+        $resultPage->addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
 
-        $this->_view->renderLayout();
+        return $resultPage;
     }
 }

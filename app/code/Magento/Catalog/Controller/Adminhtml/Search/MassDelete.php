@@ -11,7 +11,26 @@ namespace Magento\Catalog\Controller\Adminhtml\Search;
 class MassDelete extends \Magento\Catalog\Controller\Adminhtml\Search
 {
     /**
-     * @return void
+     * @var \Magento\Backend\Model\View\Result\RedirectFactory
+     */
+    protected $resultRedirectFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
+    ) {
+        parent::__construct($context, $resultPageFactory);
+        $this->resultRedirectFactory = $resultRedirectFactory;
+    }
+
+    /**
+     * @return \Magento\Backend\Model\View\Result\Redirect
      */
     public function execute()
     {
@@ -29,6 +48,8 @@ class MassDelete extends \Magento\Catalog\Controller\Adminhtml\Search
                 $this->messageManager->addError($e->getMessage());
             }
         }
-        $this->_redirect('catalog/*/index');
+        /** @var \Magento\Backend\Model\View\Result\Redirect $redirectResult */
+        $redirectResult = $this->resultRedirectFactory->create();
+        return $redirectResult->setPath('catalog/*/index');
     }
 }
