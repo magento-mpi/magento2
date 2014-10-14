@@ -26,26 +26,22 @@ class Redirect extends \Magento\Framework\Controller\Result\Redirect
     protected $actionFlag;
 
     /**
-     * @var \Magento\Backend\Model\UrlInterface
-     */
-    protected $backendUrl;
-
-    /**
+     * Constructor
+     *
      * @param App\Response\RedirectInterface $redirect
-     * @param UrlInterface $backendUrl
+     * @param UrlInterface $urlBuilder
      * @param Session $session
      * @param ActionFlag $actionFlag
      */
     public function __construct(
         App\Response\RedirectInterface $redirect,
-        UrlInterface $backendUrl,
+        UrlInterface $urlBuilder,
         Session $session,
         ActionFlag $actionFlag
     ) {
-        parent::__construct($redirect);
-        $this->backendUrl = $backendUrl;
         $this->session = $session;
         $this->actionFlag = $actionFlag;
+        parent::__construct($redirect, $urlBuilder);
     }
 
     /**
@@ -54,7 +50,6 @@ class Redirect extends \Magento\Framework\Controller\Result\Redirect
     protected function render(App\ResponseInterface $response)
     {
         $this->session->setIsUrlNotice($this->actionFlag->get('', AbstractAction::FLAG_IS_URLS_CHECKED));
-        $response->setRedirect($this->backendUrl->getUrl($this->url, $this->arguments));
-        return $this;
+        return parent::render($response);
     }
 }

@@ -8,17 +8,43 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Store;
 
+use Magento\Backend\App\Action;
+
 class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
 {
     /**
-     * @return void
+     * @var \Magento\Backend\Model\View\Result\RedirectFactory
+     */
+    protected $redirectFactory;
+
+    /**
+     * Constructor
+     *
+     * @param Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
+     * @param \Magento\Backend\Model\View\Result\RedirectFactory $redirectFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Filter\FilterManager $filterManager,
+        \Magento\Backend\Model\View\Result\RedirectFactory $redirectFactory
+    ) {
+        $this->redirectFactory = $redirectFactory;
+        parent::__construct($context, $coreRegistry, $filterManager);
+    }
+
+    /**
+     * @return \Magento\Backend\Model\View\Result\Redirect
      */
     public function execute()
     {
+        $redirectResult = $this->redirectFactory->create();
         if ($this->getRequest()->isPost() && ($postData = $this->getRequest()->getPost())) {
             if (empty($postData['store_type']) || empty($postData['store_action'])) {
-                $this->_redirect('adminhtml/*/');
-                return;
+                $redirectResult->setPath('adminhtml/*/');
+                return $redirectResult;
             }
 
             try {
@@ -83,11 +109,11 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
                         $this->messageManager->addSuccess(__('The store view has been saved'));
                         break;
                     default:
-                        $this->_redirect('adminhtml/*/');
-                        return;
+                        $redirectResult->setPath('adminhtml/*/');
+                        return $redirectResult;
                 }
-                $this->_redirect('adminhtml/*/');
-                return;
+                $redirectResult->setPath('adminhtml/*/');
+                return $redirectResult;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPostData($postData);
@@ -98,9 +124,11 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
                 );
                 $this->_getSession()->setPostData($postData);
             }
-            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
-            return;
+            $this->getResponse()->setRedirect();
+            $redirectResult->setUrl($this->_redirect->getRedirectUrl($this->getUrl('*')));
+            return $redirectResult;
         }
-        $this->_redirect('adminhtml/*/');
+        $redirectResult->setPath('adminhtml/*/');
+        return $redirectResult;
     }
 }

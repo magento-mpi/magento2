@@ -10,6 +10,7 @@ namespace Magento\Framework\Controller\Result;
 
 use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App;
+use Magento\Backend\Model\UrlInterface;
 
 /**
  * In many cases controller actions may result in a redirect
@@ -23,21 +24,38 @@ class Redirect extends AbstractResult
     protected $redirect;
 
     /**
+     * @var \Magento\Backend\Model\UrlInterface
+     */
+    protected $urlBuilder;
+
+    /**
      * @var string
      */
-    protected $url = '';
+    protected $url;
 
     /**
-     * @var array
-     */
-    protected $arguments = [];
-
-    /**
+     * Constructor
+     *
      * @param App\Response\RedirectInterface $redirect
+     * @param \Magento\Backend\Model\UrlInterface $urlBuilder
      */
-    public function __construct(App\Response\RedirectInterface $redirect)
-    {
+    public function __construct(
+        App\Response\RedirectInterface $redirect,
+        UrlInterface $urlBuilder
+    ) {
         $this->redirect = $redirect;
+        $this->urlBuilder = $urlBuilder;
+    }
+
+    /**
+     * Set url from referer
+     *
+     * @return $this
+     */
+    public function setRefererUrl()
+    {
+        $this->url = $this->redirect->getRefererUrl();
+        return $this;
     }
 
     /**
@@ -51,12 +69,15 @@ class Redirect extends AbstractResult
     }
 
     /**
-     * @param array $arguments
+     * Set url by path
+     *
+     * @param string $path
+     * @param array $params
      * @return $this
      */
-    public function setArguments(array $arguments)
+    public function setPath($path, array $params = [])
     {
-        $this->arguments = $arguments;
+        $this->url = $this->urlBuilder->getUrl($path, $this->redirect->updatePathParams($params));
         return $this;
     }
 
@@ -65,7 +86,7 @@ class Redirect extends AbstractResult
      */
     protected function render(App\ResponseInterface $response)
     {
-        $this->redirect->redirect($response, $this->url, $this->arguments);
+        $response->setRedirect($this->url);
         return $this;
     }
 }
