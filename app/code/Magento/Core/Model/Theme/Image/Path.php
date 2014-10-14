@@ -41,12 +41,12 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
     /**
      * Initialize dependencies
      * 
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {

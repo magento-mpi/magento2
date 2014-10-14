@@ -29,15 +29,15 @@ class Logger
     protected $_loggers = array();
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param string $defaultFile
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, $defaultFile = '')
+    public function __construct(\Magento\Framework\Filesystem $filesystem, $defaultFile = '')
     {
         $this->_filesystem = $filesystem;
         $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)->addStreamLog(self::LOGGER_EXCEPTION, $defaultFile);

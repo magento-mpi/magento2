@@ -216,7 +216,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Filesystem facade
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -265,7 +265,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
@@ -294,7 +294,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         Resource\Product $resource,
         Resource\Product\Collection $resourceCollection,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,

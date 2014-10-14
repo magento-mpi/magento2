@@ -18,7 +18,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
     private $config;
 
     /**
-     * @var \Magento\Framework\App\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     private $fileSystem;
 
@@ -45,7 +45,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = $this->getMock('\Magento\Framework\RequireJs\Config', array(), array(), '', false);
-        $this->fileSystem = $this->getMock('\Magento\Framework\App\FileSystem', array(), array(), '', false);
+        $this->fileSystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $this->appState = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->object = new FileManager($this->config, $this->fileSystem, $this->appState, $assetRepo);

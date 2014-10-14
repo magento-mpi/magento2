@@ -41,7 +41,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $directory->expects($this->once())->method('getRelativePath')->will($this->returnArgument(0));
         $directory->expects($this->once())->method('openFile')->with('cacheFile')->will($this->returnValue($file));
         $filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('getDirectoryWrite'),
             array(),
             '',

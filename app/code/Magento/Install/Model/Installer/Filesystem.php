@@ -24,7 +24,7 @@ class Filesystem
     /**#@- */
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -48,12 +48,12 @@ class Filesystem
     protected $messageManager;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Install\Model\Config $installConfig
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Install\Model\Config $installConfig,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {

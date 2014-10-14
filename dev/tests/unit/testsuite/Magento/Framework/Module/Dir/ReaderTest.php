@@ -12,7 +12,7 @@
  */
 namespace Magento\Framework\Module\Dir;
 
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\Config\FileIteratorFactory;
 
@@ -74,7 +74,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
         $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $this->_filesystemMock = $this->getMock(
-            '\Magento\Framework\App\Filesystem',
+            '\Magento\Framework\Filesystem',
             array(),
             array(),
             '',

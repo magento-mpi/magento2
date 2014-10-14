@@ -38,7 +38,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
     protected $_stream = null;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -76,7 +76,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
@@ -84,7 +84,7 @@ class Backup extends \Magento\Framework\Object implements \Magento\Framework\Bac
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         $data = array()
     ) {
         $this->_encryptor = $encryptor;

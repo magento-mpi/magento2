@@ -16,7 +16,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class SourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     private $filesystem;
 
@@ -241,7 +241,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
 
     protected function initFilesystem()
     {
-        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $this->rootDirRead = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->staticDirRead = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->varDir = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');

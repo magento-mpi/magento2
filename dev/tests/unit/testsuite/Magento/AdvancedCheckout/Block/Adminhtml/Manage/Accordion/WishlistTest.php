@@ -37,7 +37,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $writeInterface = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface');
-        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with($this->equalTo(DirectoryList::VAR_DIR))

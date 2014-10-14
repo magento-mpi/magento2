@@ -26,7 +26,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Filesystem facade
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -41,12 +41,12 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Construct
      *
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
     ) {
         $this->_filesystem = $filesystem;

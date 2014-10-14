@@ -41,9 +41,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         }
         $cacheState->persist();
 
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->_objectManager->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array(
                 'directoryList' => $this->_objectManager->create(
                     'Magento\Framework\App\Filesystem\DirectoryList',

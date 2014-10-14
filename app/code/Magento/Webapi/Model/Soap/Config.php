@@ -67,14 +67,14 @@ class Config
      * Initialize dependencies.
      *
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Webapi\Model\Config $config
      * @param \Magento\Webapi\Model\Config\ClassReflector $classReflector
      * @param \Magento\Webapi\Helper\Data $helper
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Webapi\Model\Config $config,
         \Magento\Webapi\Model\Config\ClassReflector $classReflector,
         \Magento\Webapi\Helper\Data $helper

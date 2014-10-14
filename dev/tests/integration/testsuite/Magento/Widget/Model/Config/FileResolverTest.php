@@ -22,7 +22,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\TestFramework\App\Filesystem $filesystem */
-        $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
+        $filesystem = $objectManager->get('Magento\Framework\Filesystem');
         $filesystem->overridePath(DirectoryList::MODULES, __DIR__ . '/_files/code');
         $filesystem->overridePath(DirectoryList::THEMES, __DIR__ . '/_files/design');
         $filesystem->overridePath(DirectoryList::CONFIG, __DIR__ . '/_files');

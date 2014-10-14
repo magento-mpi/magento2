@@ -75,13 +75,13 @@ config;
     /**
      * @param \Magento\Framework\RequireJs\Config\File\Collector\Aggregated $fileSource
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Framework\App\Filesystem $appFilesystem
+     * @param \Magento\Framework\Filesystem $appFilesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
         \Magento\Framework\RequireJs\Config\File\Collector\Aggregated $fileSource,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Framework\App\Filesystem $appFilesystem,
+        \Magento\Framework\Filesystem $appFilesystem,
         \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
         $this->fileSource = $fileSource;

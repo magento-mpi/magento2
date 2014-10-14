@@ -30,8 +30,8 @@ class DeleteFiles extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
-                /** @var \Magento\Framework\App\Filesystem $filesystem */
-                $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
+                /** @var \Magento\Framework\Filesystem $filesystem */
+                $filesystem = $this->_objectManager->get('Magento\Framework\Filesystem');
                 $dir = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
                 $filePath = $path . '/' . $file;
                 if ($dir->isFile($dir->getRelativePath($filePath))) {

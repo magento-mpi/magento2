@@ -15,7 +15,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function testGetFiles()
     {
         $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
-        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', ['getDirectoryRead'], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', ['getDirectoryRead'], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::MODULES)

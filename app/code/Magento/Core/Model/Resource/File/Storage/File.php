@@ -15,7 +15,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class File
 {
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -25,10 +25,10 @@ class File
     protected $_logger;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Logger $log
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, \Magento\Framework\Logger $log)
+    public function __construct(\Magento\Framework\Filesystem $filesystem, \Magento\Framework\Logger $log)
     {
         $this->_logger = $log;
         $this->_filesystem = $filesystem;

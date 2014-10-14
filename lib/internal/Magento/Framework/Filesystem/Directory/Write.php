@@ -16,7 +16,7 @@ class Write extends Read implements WriteInterface
      *
      * @var int
      */
-    protected $permissions = 0755;
+    protected $permissions = 0777;
 
     /**
      * Constructor

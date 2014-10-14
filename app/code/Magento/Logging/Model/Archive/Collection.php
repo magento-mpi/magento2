@@ -33,13 +33,13 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logging\Model\Archive $archive
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();

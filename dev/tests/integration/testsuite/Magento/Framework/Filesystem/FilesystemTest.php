@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Filesystem;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList as AppDirectoryList;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -27,7 +27,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystem = Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $this->filesystem = Bootstrap::getObjectManager()->create('Magento\Framework\Filesystem');
     }
 
     /**

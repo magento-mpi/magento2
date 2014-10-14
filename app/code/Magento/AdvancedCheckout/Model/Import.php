@@ -62,13 +62,13 @@ class Import extends \Magento\Framework\Object
     /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;

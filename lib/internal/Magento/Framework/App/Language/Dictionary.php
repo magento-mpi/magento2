@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\App\Language;
 
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**

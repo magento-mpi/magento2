@@ -37,12 +37,12 @@ class Config
 
     /**
      * @param \Magento\Core\Model\File\Storage $storage
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param string $cacheFile
      */
     public function __construct(
         \Magento\Core\Model\File\Storage $storage,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         $cacheFile
     ) {
         $this->config = $storage->getScriptConfig();

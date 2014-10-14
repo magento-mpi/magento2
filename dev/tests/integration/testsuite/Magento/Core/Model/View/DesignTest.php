@@ -7,6 +7,7 @@
  */
 namespace Magento\Core\Model\View;
 
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -69,7 +70,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::INIT_PARAM_PATHS => array(
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
                     DirectoryList::THEMES => array(
                         'path' => realpath(__DIR__ . '/../_files/design')
                     )

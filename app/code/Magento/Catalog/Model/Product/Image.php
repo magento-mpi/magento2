@@ -168,7 +168,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Image\Factory $imageFactory
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
@@ -183,7 +183,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Image\Factory $imageFactory,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\FileSystem $viewFileSystem,

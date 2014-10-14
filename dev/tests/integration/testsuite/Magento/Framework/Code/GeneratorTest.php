@@ -49,7 +49,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_includePath = get_include_path();
 
         $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::VAR_DIR
         );

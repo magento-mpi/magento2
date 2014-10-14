@@ -54,7 +54,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $logDir = self::$logDir;
-        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
         $this->filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')

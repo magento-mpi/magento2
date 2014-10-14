@@ -97,7 +97,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'request' => $this->_requestMock,
                 'response' => $this->_responseMock,
                 'configLoader' => $configLoaderMock,
-                'filesystem' => $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false),
+                'filesystem' => $this->getMock('Magento\Framework\Filesystem', [], [], '', false),
             ]
         );
     }

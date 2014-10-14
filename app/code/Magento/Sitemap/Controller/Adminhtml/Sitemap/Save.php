@@ -53,7 +53,7 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
 
             /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
             $directory = $this->_objectManager->get(
-                'Magento\Framework\App\Filesystem'
+                'Magento\Framework\Filesystem'
             )->getDirectoryWrite(
                 DirectoryList::ROOT
             );

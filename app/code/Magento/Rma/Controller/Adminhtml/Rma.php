@@ -23,7 +23,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Application filesystem
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -62,7 +62,7 @@ class Rma extends \Magento\Backend\App\Action
      * @param Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Rma\Model\Shipping\LabelService $labelService
      * @param RmaModel\RmaDataMapper $rmaDataMapper
@@ -71,7 +71,7 @@ class Rma extends \Magento\Backend\App\Action
         Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Shipping\Helper\Carrier $carrierHelper,
         \Magento\Rma\Model\Shipping\LabelService $labelService,
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper

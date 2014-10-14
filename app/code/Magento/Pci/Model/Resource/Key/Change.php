@@ -40,13 +40,13 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Model\Config\Structure $structure,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {

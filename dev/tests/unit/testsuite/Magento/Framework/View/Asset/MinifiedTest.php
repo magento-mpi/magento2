@@ -37,7 +37,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_baseUrl;
 
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -60,7 +60,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             '\Magento\Framework\Filesystem\Directory\WriteInterface'
         );
         $this->_rootDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
-        $this->_filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')
             ->will($this->returnValueMap([

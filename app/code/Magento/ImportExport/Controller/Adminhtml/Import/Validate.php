@@ -79,7 +79,7 @@ class Validate extends \Magento\ImportExport\Controller\Adminhtml\Import
                 $source = \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
                     $import->uploadSource(),
                     $this->_objectManager->create(
-                        'Magento\Framework\App\Filesystem'
+                        'Magento\Framework\Filesystem'
                     )->getDirectoryWrite(
                         DirectoryList::ROOT
                     )

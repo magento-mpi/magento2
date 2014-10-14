@@ -143,8 +143,8 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->create('Magento\Framework\App\Filesystem');
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->create('Magento\Framework\Filesystem');
         $rootDirectory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
 
         // set fixture CSV file

@@ -20,7 +20,7 @@ class FileTest extends AbstractFormTestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\File\Validator\NotProtectedExtension */
     protected $fileValidatorMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Filesystem */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Filesystem */
     protected $fileSystemMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\RequestInterface */
@@ -36,7 +36,7 @@ class FileTest extends AbstractFormTestCase
             'Magento\Core\Model\File\Validator\NotProtectedExtension'
         )->disableOriginalConstructor()->getMock();
         $this->fileSystemMock = $this->getMockBuilder(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->disableOriginalConstructor()->getMock();
         $this->requestMock = $this->getMockBuilder(
             'Magento\Framework\App\RequestInterface'

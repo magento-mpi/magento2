@@ -44,7 +44,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \Magento\Framework\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystem;
 

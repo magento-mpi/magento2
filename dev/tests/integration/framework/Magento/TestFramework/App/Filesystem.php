@@ -10,7 +10,7 @@ namespace Magento\TestFramework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
-class Filesystem extends \Magento\Framework\App\Filesystem
+class Filesystem extends \Magento\Framework\Filesystem
 {
     /**
      * Overridden paths

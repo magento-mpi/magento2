@@ -7,7 +7,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 /**
  * @magentoAppArea adminhtml
@@ -38,7 +38,7 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
     private function createUploadFixture($name)
     {
         /** @var \Magento\TestFramework\App\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
+        $filesystem = $this->_objectManager->get('Magento\Framework\Filesystem');
         $tmpDir = $filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
         $subDir = str_replace('\\', '_', __CLASS__);
         $tmpDir->create($subDir);

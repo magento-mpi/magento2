@@ -7,7 +7,7 @@
  */
 namespace Magento\Test;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\State;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +24,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $appMode = \Magento\Framework\App\State::MODE_DEVELOPER;
         $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(BP);
         $driverPool = new \Magento\Framework\Filesystem\DriverPool;
-        $filesystem = new \Magento\Framework\App\Filesystem(
+        $filesystem = new \Magento\Framework\Filesystem(
             $directoryList,
             new \Magento\Framework\Filesystem\Directory\ReadFactory($driverPool),
             new \Magento\Framework\Filesystem\Directory\WriteFactory($driverPool),
@@ -48,7 +48,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
         $this->assertArrayHasKey(
-            DirectoryList::INIT_PARAM_PATHS,
+            Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS,
             $initParams,
             'Directories are not configured'
         );

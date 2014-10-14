@@ -41,7 +41,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
         $this->mergerMock = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\MergeStrategyInterface');
         $this->sourceDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->targetDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
-        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::ROOT)

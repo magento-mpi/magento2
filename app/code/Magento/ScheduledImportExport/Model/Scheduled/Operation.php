@@ -8,7 +8,7 @@
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\ScheduledImportExport\Model\Scheduled\Operation\Data;
 
 /**
@@ -107,7 +107,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     /**
      * Filesystem instance
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -124,7 +124,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -141,7 +141,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,

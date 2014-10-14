@@ -67,7 +67,7 @@ class Application
     protected function _updateFilesystemPermissions()
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
-        $varDirectory = $this->getObjectManager()->get('Magento\Framework\App\Filesystem')
+        $varDirectory = $this->getObjectManager()->get('Magento\Framework\Filesystem')
             ->getDirectoryWrite(DirectoryList::VAR_DIR);
         $varDirectory->changePermissions('', 0777);
     }
@@ -155,8 +155,8 @@ class Application
     public function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
-            $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
+            $objectManagerFactory = \Magento\Framework\App\Bootstrap::createObjectManagerFactory(BP, $_SERVER);
+            $this->_objectManager = $objectManagerFactory->create($_SERVER);
             $this->_objectManager->get('Magento\Framework\App\State')->setAreaCode(self::AREA_CODE);
         }
         return $this->_objectManager;

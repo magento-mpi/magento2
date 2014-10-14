@@ -60,13 +60,13 @@ abstract class AbstractModel extends \Magento\Framework\Object
 
     /**
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Logger\AdapterFactory $adapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Logger\AdapterFactory $adapterFactory,
         array $data = array()
     ) {

@@ -53,7 +53,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param \Magento\Framework\Image\AdapterFactory $imageFactory
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $validator
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param string $filePath
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
         \Magento\Core\Helper\File\Storage $coreFileStorage,
         \Magento\Framework\Image\AdapterFactory $imageFactory,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $validator,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         $filePath = null
     ) {
         if (!is_null($filePath)) {

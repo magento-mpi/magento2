@@ -42,7 +42,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $this->mediaDirectory = $this->getMock(
             'Magento\Framework\Filesystem\Directory\ReadInterface', array(), array(), '', false
         );

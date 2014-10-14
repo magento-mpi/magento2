@@ -70,7 +70,7 @@ class Config
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Persistent\Model\Factory $persistentFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\Config\DomFactory $domFactory,
@@ -78,7 +78,7 @@ class Config
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\State $appState,
         \Magento\Persistent\Model\Factory $persistentFactory,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_domFactory = $domFactory;
         $this->_moduleReader = $moduleReader;

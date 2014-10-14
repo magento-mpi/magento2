@@ -68,7 +68,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
      * Constructor
      *
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
@@ -76,7 +76,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
      */
     public function __construct(
         \Magento\Framework\Module\Dir\Reader $moduleReader,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,

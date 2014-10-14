@@ -30,7 +30,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->dir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
-        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::LOCALE)

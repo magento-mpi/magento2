@@ -9,7 +9,7 @@ namespace Magento\Downloadable\Service\V1\Data;
 
 use \Magento\Core\Model\File\Uploader;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use \Magento\Core\Model\File\Validator\NotProtectedExtension;
 use \Magento\Core\Helper\File\Storage;
 use \Magento\Core\Helper\File\Storage\Database;

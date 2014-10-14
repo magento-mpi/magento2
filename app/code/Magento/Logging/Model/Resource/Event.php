@@ -35,13 +35,13 @@ class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Class constructor
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime
     ) {

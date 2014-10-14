@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -43,7 +43,7 @@ class MaintenanceMode
     /**
      * Constructor
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
     {

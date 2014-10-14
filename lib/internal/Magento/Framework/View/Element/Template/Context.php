@@ -150,7 +150,7 @@ class Context extends \Magento\Framework\View\Element\Context
     /**
      * Get filesystem instance
      *
-     * @return \Magento\Framework\App\Filesystem
+     * @return \Magento\Framework\Filesystem
      */
     public function getFilesystem()
     {

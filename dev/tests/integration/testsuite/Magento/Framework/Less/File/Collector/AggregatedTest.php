@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Less\File\Collector;
 
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class AggregatedTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +26,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                DirectoryList::INIT_PARAM_PATHS => array(
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
                     DirectoryList::LIB_WEB => array(
                         'path' => dirname(dirname(__DIR__)) . '/_files/lib/web'
                     ),
@@ -40,7 +41,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->objectManager->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array(
                 'directoryList' => $this->objectManager->create(
                     'Magento\Framework\Filesystem\DirectoryList',

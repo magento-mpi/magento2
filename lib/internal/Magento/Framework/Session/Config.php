@@ -135,7 +135,9 @@ class Config implements ConfigInterface
         $this->setSaveHandler($saveMethod === 'db' ? 'user' : $saveMethod);
 
         if (!$savePath) {
-            $savePath = $filesystem->getDirectoryWrite(DirectoryList::SESSION)->getAbsolutePath();
+            $sessionDir = $filesystem->getDirectoryWrite(DirectoryList::SESSION);
+            $savePath = $sessionDir->getAbsolutePath();
+            $sessionDir->create();
         }
         $this->setSavePath($savePath);
 

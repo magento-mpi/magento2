@@ -19,7 +19,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     private $appState;
 
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     private $filesystem;
 
@@ -46,7 +46,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $this->object = new Publisher($this->appState, $this->filesystem);
 
         $this->rootDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');

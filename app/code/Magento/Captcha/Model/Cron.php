@@ -47,14 +47,14 @@ class Cron
      * @param Resource\LogFactory $resLogFactory
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Captcha\Helper\Adminhtml\Data $adminHelper
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Store\Model\StoreManager $storeManager
      */
     public function __construct(
         Resource\LogFactory $resLogFactory,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Captcha\Helper\Adminhtml\Data $adminHelper,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Store\Model\StoreManager $storeManager
     ) {
         $this->_resLogFactory = $resLogFactory;

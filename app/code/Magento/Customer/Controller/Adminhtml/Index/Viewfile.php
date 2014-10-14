@@ -42,8 +42,8 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
             throw new NotFoundException();
         }
 
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Framework\Filesystem');
         $directory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $fileName = 'customer' . '/' . ltrim($file, '/');
         $path = $directory->getAbsolutePath($fileName);

@@ -67,7 +67,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Magento filesystem
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -88,13 +88,13 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Model\Session $session,
         \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory
     ) {

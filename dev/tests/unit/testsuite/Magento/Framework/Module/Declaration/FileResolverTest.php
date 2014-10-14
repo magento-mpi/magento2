@@ -62,7 +62,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected function getFileResolver($baseDir)
     {
         $driverPool = new \Magento\Framework\Filesystem\DriverPool;
-        $filesystem = new \Magento\Framework\App\Filesystem(
+        $filesystem = new \Magento\Framework\Filesystem(
             new \Magento\Framework\App\Filesystem\DirectoryList($baseDir),
             new \Magento\Framework\Filesystem\Directory\ReadFactory($driverPool),
             new \Magento\Framework\Filesystem\Directory\WriteFactory($driverPool)

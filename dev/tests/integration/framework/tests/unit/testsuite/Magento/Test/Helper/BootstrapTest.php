@@ -11,6 +11,7 @@
  */
 namespace Magento\Test\Helper;
 
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class BootstrapTest extends \PHPUnit_Framework_TestCase
@@ -36,7 +37,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_fixtureInitParams = array(
-        DirectoryList::INIT_PARAM_PATHS => array(
+        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
             DirectoryList::CONFIG => array('path' => __DIR__),
             DirectoryList::VAR_DIR => array('path' => __DIR__)
         )

@@ -13,7 +13,7 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 class Import extends \Magento\ImportExport\Model\Import implements
     \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface

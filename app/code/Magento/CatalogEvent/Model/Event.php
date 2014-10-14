@@ -7,12 +7,11 @@
  */
 namespace Magento\CatalogEvent\Model;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\Exception;
-use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Registry;

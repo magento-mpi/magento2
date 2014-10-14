@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
     array(
-        DirectoryList::INIT_PARAM_PATHS => array(
+        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
             DirectoryList::THEMES => array('path' => __DIR__ . '/design')
         )
     )

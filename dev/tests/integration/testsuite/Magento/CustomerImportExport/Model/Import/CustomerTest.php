@@ -62,7 +62,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Framework\App\Filesystem');
+            ->create('Magento\Framework\Filesystem');
         $this->directoryWrite = $filesystem
             ->getDirectoryWrite(DirectoryList::ROOT);
     }

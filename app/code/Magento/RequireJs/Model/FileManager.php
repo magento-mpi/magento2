@@ -20,7 +20,7 @@ class FileManager
     private $config;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     private $filesystem;
 
@@ -36,13 +36,13 @@ class FileManager
 
     /**
      * @param \Magento\Framework\RequireJs\Config $config
-     * @param \Magento\Framework\App\Filesystem $appFilesystem
+     * @param \Magento\Framework\Filesystem $appFilesystem
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
         \Magento\Framework\RequireJs\Config $config,
-        \Magento\Framework\App\Filesystem $appFilesystem,
+        \Magento\Framework\Filesystem $appFilesystem,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\View\Asset\Repository $assetRepo
     ) {

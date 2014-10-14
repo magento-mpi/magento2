@@ -39,7 +39,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::MEDIA
         );
@@ -140,7 +140,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::MEDIA
         );

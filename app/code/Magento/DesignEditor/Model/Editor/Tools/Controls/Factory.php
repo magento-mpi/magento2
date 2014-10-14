@@ -49,7 +49,7 @@ class Factory
     protected $fileIteratorFactory;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -57,13 +57,13 @@ class Factory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->assetRepo = $assetRepo;

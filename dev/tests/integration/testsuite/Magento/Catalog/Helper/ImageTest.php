@@ -32,7 +32,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::MEDIA
         );
@@ -82,7 +82,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
             DirectoryList::MEDIA
         );

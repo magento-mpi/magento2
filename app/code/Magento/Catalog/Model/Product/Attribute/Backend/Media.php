@@ -77,7 +77,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $resourceProductAttribute
      */
     public function __construct(
@@ -87,7 +87,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $resourceProductAttribute
     ) {
         $this->_productFactory = $productFactory;

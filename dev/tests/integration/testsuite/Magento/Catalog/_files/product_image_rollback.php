@@ -14,7 +14,7 @@ $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
 
 /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
 $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\App\Filesystem'
+    'Magento\Framework\Filesystem'
 )->getDirectoryWrite(
     DirectoryList::MEDIA
 );

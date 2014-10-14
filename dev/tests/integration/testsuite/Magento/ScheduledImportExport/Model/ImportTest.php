@@ -43,7 +43,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             )
         );
         $filesystem = $objectManager->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('directoryList' => $directoryList)
         );
         $operation = $objectManager->create(

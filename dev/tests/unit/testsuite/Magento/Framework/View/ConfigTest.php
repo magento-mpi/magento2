@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Module\Dir\Reader|\PHPUnit_Framework_MockObject_MockObject */
     protected $readerMock;
 
-    /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
     /** @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject */
@@ -40,7 +40,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->readerMock = $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false);
-        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->directoryReadMock = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->filesystemMock->expects($this->once())
             ->method('getDirectoryRead')

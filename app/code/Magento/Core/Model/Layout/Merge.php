@@ -116,7 +116,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -141,7 +141,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Core\Model\Layout\Update\Validator $validator
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param \Magento\Framework\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
@@ -154,7 +154,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Core\Model\Layout\Update\Validator $validator,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\View\Design\ThemeInterface $theme = null
     ) {

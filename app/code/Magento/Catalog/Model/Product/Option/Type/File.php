@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Model\Product\Option\Type;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Model\Exception;
 
 /**
@@ -30,7 +30,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_formattedOptionValue = null;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -103,7 +103,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\File\Size $fileSize
      * @param array $data
      */
@@ -114,7 +114,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder,
         \Magento\Framework\Escaper $escaper,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\File\Size $fileSize,
         array $data = array()
     ) {

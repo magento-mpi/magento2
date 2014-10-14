@@ -36,7 +36,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             array('getAbsolutePath', 'search'), array(), '', false
         );
         $filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem', array('getDirectoryRead'), array(), '', false
+            'Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false
         );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')

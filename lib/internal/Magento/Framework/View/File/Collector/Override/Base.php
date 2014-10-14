@@ -11,7 +11,7 @@ namespace Magento\Framework\View\File\Collector\Override;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\View\File\Factory;
 
