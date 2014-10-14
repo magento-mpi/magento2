@@ -431,11 +431,32 @@ class View extends Block
     }
 
     /**
+     * Add product to Wishlist
+     *
+     * @param FixtureInterface $product
+     * @return void
+     */
+    public function addToWishlist(FixtureInterface $product)
+    {
+        $checkoutData = null;
+        if ($product instanceof InjectableFixture) {
+            /** @var CatalogProductSimple $product */
+            $checkoutData = $product->getCheckoutData();
+        }
+
+        $this->fillOptions($product);
+        if (isset($checkoutData['options']['qty'])) {
+            $this->setQty($checkoutData['options']['qty']);
+        }
+        $this->clickAddToWishlist();
+    }
+
+    /**
      * Click "Add to Wishlist" button
      *
      * @return void
      */
-    public function addToWishlist()
+    public function clickAddToWishlist()
     {
         $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
     }

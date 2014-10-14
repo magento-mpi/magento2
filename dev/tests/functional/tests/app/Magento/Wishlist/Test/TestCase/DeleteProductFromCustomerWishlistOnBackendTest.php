@@ -143,7 +143,7 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $product->persist();
         $this->loginCustomer($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->addToWishlist();
+        $this->catalogProductView->getViewBlock()->clickAddToWishlist();
 
         //Steps
         $this->customerIndex->open();

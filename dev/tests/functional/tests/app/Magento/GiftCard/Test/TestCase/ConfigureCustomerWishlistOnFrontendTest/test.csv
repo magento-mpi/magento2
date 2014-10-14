@@ -1,0 +1,2 @@
+"products";"constraint";"issue"
+"giftCardProduct::default";"assertProductIsPresentInWishlist, assertProductDetailsInWishlist";"MAGETWO-29180"
