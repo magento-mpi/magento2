@@ -244,12 +244,8 @@
             "Magento\\Tools\\Layout\\" : ["dev/tools/Magento/Tools/Layout/"],
             "Magento\\Tools\\Migration\\" : ["dev/tools/Magento/Tools/Migration/"],
             "Magento\\Tools\\View\\" : ["dev/tools/Magento/Tools/View/"],
-            "Magento\\TestFramework\\" : [
-                "dev/tests/api-functional/framework/Magento/TestFramework/",
-                "dev/tests/integration/framework/Magento/TestFramework/",
-                "dev/tests/performance/framework/Magento/TestFramework/",
-                "dev/tests/static/framework/Magento/TestFramework/",
-                "dev/tests/unit/framework/Magento/TestFramework/"
+            "Magento\\TestFramework\\Inspection\\" : [
+                "dev/tests/static/framework/Magento/TestFramework/Inspection"
             ],
             "Magento\\ToolkitFramework\\" : ["dev/tools/performance_toolkit/framework/Magento/ToolkitFramework/"]
         }
