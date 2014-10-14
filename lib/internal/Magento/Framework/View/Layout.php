@@ -648,6 +648,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      */
     public function createBlock($type, $name = '', array $arguments = array())
     {
+        $this->build();
         $name = $this->structure->createStructuralElement($name, Element::TYPE_BLOCK, $type);
         $block = $this->_createBlock($type, $name, $arguments);
         $block->setLayout($this);
