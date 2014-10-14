@@ -57,8 +57,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
+     * @param \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter
      * @param \Zend_Db_Adapter_Abstract $connection
-     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -114,16 +115,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * Retrieve query model object
-     *
-     * @return \Magento\Search\Model\Query
-     */
-    protected function _getQuery()
-    {
-        return $this->queryFactory->get();
-    }
-
-    /**
      * Add search query filter
      *
      * @param string $query
@@ -144,9 +135,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         }
         $this->addIdFilter($ids);
 
-        $this->getSelect()->columns([
-            'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
-         ]);
+        $this->getSelect()->columns(
+            [
+                'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
+            ]
+        );
 
         return $this;
     }
@@ -176,5 +169,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setGeneralDefaultQuery()
     {
         return $this;
+    }
+
+    /**
+     * Retrieve query model object
+     *
+     * @return \Magento\Search\Model\Query
+     */
+    protected function _getQuery()
+    {
+        return $this->queryFactory->get();
     }
 }
