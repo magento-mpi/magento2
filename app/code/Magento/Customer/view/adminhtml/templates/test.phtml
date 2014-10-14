@@ -181,7 +181,7 @@
         "components": {
             "tabs": {
                 "name": "tabs",
-                "path": "Magento_Ui/js/form/components/tab/group",
+                "path": "Magento_Ui/js/form/components/tabs",
                 "source": "customer_form_data",
                 "config": {
                     "some_form_config": "blabla"
@@ -225,64 +225,79 @@
             "tabs": {
                 "cusomer_info": {
                     "label": "Customer Information",
-                    "items": [{
-                        "name": "customer_view",
-                        "active": true,
-                        "label": "Customer View"
-                    }, {
-                        "name": "account_info",
-                        "label": "Account Information"
-                    }, {
-                        "name": "customer_addresses",
-                        "label": "Addresses"
-                    }, {
-                        "name": "billing_agreements",
-                        "label": "Billing Agreements"
-                    }, {
-                        "name": "recurring_billing",
-                        "label": "Recurring Billing Payments (beta)"
-                    }, {
-                        "name": "orders",
-                        "label": "Orders"
-                    }, {
-                        "name": "shopping_cart",
-                        "label": "Shopping Cart"
-                    }, {
-                        "name": "newsletter_info",
-                        "label": "Newsletter"
-                    }, {
-                        "name": "reviews",
-                        "label": "Product Reviews"
-                    }]
-                },
-                "col_group": {
-                    "label": "Collapsible group",
-                    "collapsible": true,
-                    "items": [{
-                        "name": "prod_details",
-                        "label": "Advanced Pricing"
-                    }, {
-                        "name": "col_options",
-                        "label": "Custom Options"
-                    }]
+                    "injections": [
+                        "areas.customer_view",
+                        "areas.account_info",
+                        "areas.customer_addresses", 
+                        "areas.billing_agreements",
+                        "areas.recurring_billing",
+                        "areas.orders",
+                        "areas.shopping_cart",
+                        "areas.newsletter_info",
+                        "areas.reviews"
+                    ]
                 }
             },
             "areas": {
-                "orders":               "html_content.orders",
-                "billing_agreements":   "html_content.billing_agreements",
-                "recurring_billing":    "html_content.recurring_billing",
-                "shopping_cart":        "html_content.carts",
-                "reviews":              "html_content.reviews",
-                "account_info":         "fieldsets.account_info",
-                "customer_addresses":   "fieldsets.customer_addresses",
-                "newsletter_info":      "fieldsets.newsletter_info",
-                "customer_view": [
-                    "fieldsets.personal_info",
-                    "fieldsets.sales_statistics",
-                    "fieldsets.recent_orders",
-                    "fieldsets.shopping_cart",
-                    "fieldsets.viewWishlist"
-                ]
+                "orders": {
+                    "label": "Orders",
+                    "injections": [
+                        "html_content.orders"
+                    ]
+                },
+                "billing_agreements": {
+                    "label": "Billing Agreements",
+                    "injections": [
+                        "html_content.billing_agreements"
+                    ]
+                },
+                "recurring_billing": {
+                    "label": "Recurring Billing Payments (beta)",
+                    "injections": [
+                        "html_content.recurring_billing"
+                    ]
+                },
+                "shopping_cart": {
+                    "label": "Shopping Cart",
+                    "injections": [
+                        "html_content.carts"
+                    ]
+                },
+                "reviews": {
+                    "label": "Product Reviews",
+                    "injections": [
+                        "html_content.reviews"
+                    ]
+                },
+                "account_info": {
+                    "label": "Account Information",
+                    "injections": [
+                        "fieldsets.account_info"
+                    ]
+                },
+                "customer_addresses": {
+                    "label": "Addresses",
+                    "injections": [
+                        "fieldsets.customer_addresses"
+                    ]
+                },
+                "newsletter_info": {
+                    "label": "Newsletter",
+                    "injections": [
+                        "fieldsets.newsletter_info"
+                    ]
+                },
+                "customer_view": {
+                    "active": true,
+                    "label": "Customer View",
+                    "injections": [
+                        "fieldsets.personal_info",
+                        "fieldsets.sales_statistics",
+                        "fieldsets.recent_orders",
+                        "fieldsets.shopping_cart",
+                        "fieldsets.viewWishlist"
+                    ]
+                }
             },
             "groups": {
                 "website":      "customer.website",

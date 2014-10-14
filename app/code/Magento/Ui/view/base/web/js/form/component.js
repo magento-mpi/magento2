@@ -48,6 +48,10 @@ define([
 
         getTemplate: function(){
             return this.template;
+        },
+
+        hasChanged: function(){
+            return false;
         }
     }, EventsBus);
 });

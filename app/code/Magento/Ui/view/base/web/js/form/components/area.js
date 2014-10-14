@@ -12,8 +12,10 @@ define([
     'use strict';
 
     var defaults = {
-        template: 'ui/area',
-        visible: false
+        template:   'ui/area',
+        active:     false,
+        changed:    false,
+        loading:    false
     };
 
     var __super__ = Component.prototype;
@@ -24,14 +26,16 @@ define([
             
             __super__.initialize.apply(this, arguments);
 
-            this.pullParams();
+            this.pushParams();
         },
 
         initObservable: function() {
             __super__.initObservable.apply(this, arguments);
 
             this.observe({
-                'visible': this.visible
+                active:   this.active,
+                changed:  this.changed,
+                loading:  this.loading
             });
 
             return this;
@@ -39,15 +43,15 @@ define([
 
         initListeners: function() {
             var params  = this.provider.params,
-                update  = this.update,
                 handlers;
 
             handlers = {
-                'change':   update.bind(this, true),
-                'restore':  update.bind(this, false)
+                update:     this.onChildrenUpdate.bind(this),
+                loading:    this.onContentLoading.bind(this, false),
+                loaded:     this.onContentLoading.bind(this, true)
             };
 
-            params.on('update:activeArea', this.pullParams.bind(this));
+            params.on('update:activeArea', this.updateState.bind(this));
 
             this.elems.forEach(function(elem){
                 elem.on(handlers);
@@ -56,26 +60,35 @@ define([
             return this;
         },
 
-        pullParams: function() {
-            var params  = this.provider.params,
-                area    = params.get('activeArea'),
-                visible = area === this.name;
+        pushParams: function() {
+            var params = this.provider.params;
 
-            this.trigger('active', visible)
-                .visible(visible);
+            if(this.active()){
+                params.set('activeArea', this.name);
+            }
+        },
+
+        updateState: function(area) {
+            var active = area === this.name;
+
+            this.trigger('active', active)
+                .active(active);
                 
             return this;
         },
+        
+        setActive: function(){
+            this.active(true);
 
-        update: function(changed){
-            var params  = this.provider.params,
-                areas   = params.get('changedAreas') || [];
+            this.pushParams();
+        },
 
-            areas = changed ?
-                _.union(areas, [this.name]) :
-                _.without(areas, this.name);
+        onChildrenUpdate: function(changed){
+            this.changed(changed);
+        },
 
-            params.set('changedAreas', areas);
+        onContentLoading: function(finished){
+            this.loading(finished);
         }
     });
 

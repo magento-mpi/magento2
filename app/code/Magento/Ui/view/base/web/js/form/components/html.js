@@ -25,6 +25,8 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
+
+            this.initAjaxConfig();
         },
 
         initObservable: function(){
@@ -40,6 +42,16 @@ define([
             return this;
         },
 
+        initAjaxConfig: function(){
+            this.ajaxConfig = {
+                url:        this.source,
+                data:       { FORM_KEY: FORM_KEY },
+                success:    this.onDataLoaded.bind(this)
+            };
+
+            return this;
+        },
+
         onContainersUpdate: function(container){
             var containers = this.containers(),
                 change = this.onContainerChange.bind(this);
@@ -50,7 +62,7 @@ define([
         },
 
         onContainerChange: function(active){
-            if(active && !this.hasData()){
+            if(active && this.shouldLoad()){
                 this.loadData();
             }
         },
@@ -59,29 +71,29 @@ define([
             return this.content();
         },
 
-        loadData: function(){
-            this.showSpinner(true);
+        shouldLoad: function(){
+            return this.source && !this.hasData() && !this.showSpinner();
+        },
 
-            $.ajax({
-                url: this.source,
-                data: {
-                    FORM_KEY: FORM_KEY
-                },
-                success: function(response){
-                    this.showSpinner(false);
-                    this.updateContent(response);
-                }.bind(this)
-            });
+        loadData: function(){
+            this.trigger('loading')
+                .showSpinner(true);
+
+            $.ajax(this.ajaxConfig);
 
             return this;
         },
 
-        updateContent: function(content){
-            this.content(content);
+        onDataLoaded: function(data){
+            this.updateContent(data)
+                .trigger('loaded')
+                .showSpinner(false); 
         },
 
-        hasChanged: function () {
-            return false;
+        updateContent: function(content){
+            this.content(content);
+
+            return this;
         }
     });
 

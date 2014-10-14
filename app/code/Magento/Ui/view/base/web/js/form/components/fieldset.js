@@ -69,7 +69,7 @@ define([
                 return (changed = elem.hasChanged());
             });
 
-            this.trigger(changed ? 'change' : 'restore');
+            this.trigger('update', changed);
         }
     });
 
