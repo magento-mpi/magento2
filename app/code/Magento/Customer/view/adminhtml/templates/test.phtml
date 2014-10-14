@@ -211,7 +211,8 @@
             "customer_form_form": {
                 "name": "customer_form_form",
                 "path": "Magento_Ui/js/form",
-                "source": "customer_form_data"
+                "source": "customer_form_data",
+                "validateOnChange": false
             },
             "html_content": {
                 "name": "html_content",
@@ -434,6 +435,9 @@
     var allowLocalCache = false;
 </script>
 
+<div data-bind="scope: 'customer_form_form'">
+    <button data-bind="click: onSubmit">Submit</button>
+</div>
 <div data-bind="scope: 'areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>

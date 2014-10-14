@@ -23,7 +23,6 @@ define([
         description:        '',
         label:              '',
         validateOnChange:   true,
-        validation:         {},
         error:              ''
     };
 
@@ -48,9 +47,11 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
+            var rules = this.validation = this.validation || {};
+
             this.observe({
                 'value':         this.initialValue = this.value,
-                'required':      this.validation['required-entry'] || this.required,
+                'required':      rules['required-entry'],
                 'disabled':      this.disabled,
                 'error':         this.error
             });
@@ -135,7 +136,7 @@ define([
 
             isAllValid = _.every(rules, function (params, rule) {
                 isValid = validate(rule, value, params);
-                
+
                 if (!isValid) {
                     this.error(validator.messageFor(rule));
                 }
@@ -145,6 +146,8 @@ define([
 
             if (isAllValid) {
                 this.error('');
+            } else if (showErrors) {
+                this.trigger('update', this, value, false);
             }
 
             return isAllValid;
