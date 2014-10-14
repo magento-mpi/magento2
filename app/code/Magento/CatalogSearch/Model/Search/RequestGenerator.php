@@ -31,7 +31,7 @@ class RequestGenerator
     public function generate()
     {
         $requests = [];
-//        $requests['quick_search_container'] = $this->generateQuickSearchRequest();
+        $requests['quick_search_container'] = $this->generateQuickSearchRequest();
         $requests['advanced_search_container'] = $this->generateAdvancedSearchRequest();
         return $requests;
     }
