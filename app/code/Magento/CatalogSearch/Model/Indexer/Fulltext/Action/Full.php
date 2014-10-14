@@ -359,7 +359,7 @@ class Full
         }
 
         // Reset only product-specific queries and results.
-        $this->fulltextResource->resetSearchResults($storeId, $productIds);
+        $this->fulltextResource->resetSearchResults();
     }
 
     /**

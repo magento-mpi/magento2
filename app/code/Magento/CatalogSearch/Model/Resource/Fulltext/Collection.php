@@ -112,28 +112,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * Add search query filter
-     *
-     * @param string $query
-     * @return $this
-     */
-    public function addSearchFilter($query)
-    {
-        $this->_catalogSearchFulltext->prepareResult();
-
-        $this->getSelect()->joinInner(
-            array('search_result' => $this->getTable('catalogsearch_result')),
-            $this->getConnection()->quoteInto(
-                'search_result.product_id=e.entity_id AND search_result.query_id=?',
-                $this->_getQuery()->getId()
-            ),
-            array('relevance' => 'relevance')
-        );
-
-        return $this;
-    }
-
-    /**
      * Set Order field
      *
      * @param string $attribute
