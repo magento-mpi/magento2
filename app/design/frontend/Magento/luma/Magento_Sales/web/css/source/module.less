@@ -268,19 +268,9 @@
     &:extend(.abstract-status all);
 }
 
-.sales-order-view {
-    .page-title {
-        .title {
-            margin-right: 25px;
-        }
-        .order-date {
-            font-size: 16px;
-            margin: -20px 0 18px;
-            .label {
-                display: none;
-            }
-        }
-    }
+.account,
+.sales-guest-view {
+    &:extend(.abstract-title-orders all);
 }
 
 .form-orders-search {
@@ -349,18 +339,9 @@
             display: table-cell;
         }
     }
-    .sales-order-view {
-        .page-title {
-            .title {
-                display: block;
-            }
-            .order-status {
-                margin: -20px 0 0;
-            }
-            .order-date {
-                margin-top: -5px;
-            }
-        }
+    .account,
+    .sales-guest-view {
+        &:extend(.abstract-title-orders-mobile all);
     }
     .order-details-items {
         .items-qty {
@@ -438,12 +419,9 @@
         }
     }
 
-    .sales-order-view {
-        .page-title {
-            .order-date {
-                margin-top: -30px;
-            }
-        }
+    .account,
+    .sales-guest-view {
+        &:extend(.abstract-title-orders-desktop all);
     }
 
     .account,

@@ -22,8 +22,11 @@
                 <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br>
                 <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br>
                 <?php echo __('Date Requested') ?>: <?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_rma->getDateRequested()) ?><br>
-                <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?><br>
-                <?php echo __('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
+                <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>
+                <?php if ($_rma->getCustomerCustomEmail()): ?>
+                    <br>
+                    <?php echo __('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>
+                <?php endif ?>
             </div>
         </div>
         <div class="box box-treturns-shipping">
@@ -37,7 +40,7 @@
     </div>
 </div>
 
-<div class="returns details items">
+<div class="returns-details-items">
     <span id="rma-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Please wait, loading...') ?>">
         <span><?php echo __('Please wait, loading...') ?></span>
     </span>
@@ -184,28 +187,8 @@
     </div>
 
     <div class="block block-returns-comments">
-        <div class="block-title"><strong><?php echo __('Leave Comment') ?></strong></div>
+        <div class="block-title"><strong><?php echo __('Comments') ?></strong></div>
         <div class="block-content">
-            <form method="post"
-                  id="rma_comment"
-                  action="<?php echo $this->getSubmitUrl() ?>"
-                  class="form form-returns-comments"
-                  data-mage-init='{"validation":{}}'>
-                <fieldset class="fieldset">
-                    <div class="field comment">
-                        <label class="label"><span><?php echo __('Comment Text') ?></span></label>
-                        <div class="control">
-                            <textarea id="rma_comment_text" cols="5" rows="3" name="comment" data-validate="{required:true}"></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-                <div class="actions-toolbar">
-                    <div class="primary">
-                        <button type="submit" class="action submit primary" id="submit.save"><span><?php echo __('Submit Comment')?></span></button>
-                    </div>
-                </div>
-            </form>
-
             <dl class="returns-comments">
                 <?php $_comments = $this->getComments(); ?>
                 <?php if (!empty($_comments)): ?>
@@ -228,6 +211,25 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </dl>
+            <form method="post"
+                  id="rma_comment"
+                  action="<?php echo $this->getSubmitUrl() ?>"
+                  class="form form-returns-comments"
+                  data-mage-init='{"validation":{}}'>
+                <fieldset class="fieldset">
+                    <div class="field comment">
+                        <label class="label"><span><?php echo __('Leave Comment') ?></span></label>
+                        <div class="control">
+                            <textarea id="rma_comment_text" cols="5" rows="3" name="comment" data-validate="{required:true}"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit" class="action submit primary" id="submit.save"><span><?php echo __('Submit Comment')?></span></button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
