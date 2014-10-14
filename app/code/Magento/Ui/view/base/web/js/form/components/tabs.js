@@ -7,44 +7,17 @@
 define([
     'underscore',
     'Magento_Ui/js/initializer/collection',
-    'Magento_Ui/js/form/component',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, Collection, Component, registry) {
+    'Magento_Ui/js/form/collapsible'
+], function(_, Collection, Collapsible) {
     'use strict';
 
-    var defaults = {
-        collapsible:    false,
-        opened:         true,
-        template:       'ui/tab'
-    };
+    var __super__ = Collapsible.prototype;
 
-    var __super__ = Component.prototype;
-
-    var TabsGroup = Component.extend({
+    var TabsGroup = Collapsible.extend({
         initialize: function() {
-            _.extend(this, defaults);
+            this.template = 'ui/tab';
 
             __super__.initialize.apply(this, arguments);
-        },
-
-        initObservable: function(){
-            __super__.initObservable.apply(this, arguments);
-
-            this.observe({
-                opened: this.opened
-            });
-
-            return this;
-        },
-
-        toggle: function() {
-            var opened = this.opened;
-
-            if (this.collapsible) {
-                opened(!opened());
-            }
-
-            return this;
         }
     });
     
