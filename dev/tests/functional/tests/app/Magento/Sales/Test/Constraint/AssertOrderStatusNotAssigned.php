@@ -13,10 +13,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertUnassignOrderStatusNotAssigned
+ * Class AssertOrderStatusNotAssigned
  * Assert that order status with status code from fixture have empty "State Code and Title" value
  */
-class AssertUnassignOrderStatusNotAssigned extends AbstractConstraint
+class AssertOrderStatusNotAssigned extends AbstractConstraint
 {
     /**
      * Constraint severeness

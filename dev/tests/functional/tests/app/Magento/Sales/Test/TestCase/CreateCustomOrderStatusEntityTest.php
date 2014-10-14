@@ -58,7 +58,7 @@ class CreateCustomOrderStatusEntityTest extends Injectable
      * Run Create Order Status test
      *
      * @param OrderStatus $orderStatus
-     * @return array
+     * @return void
      */
     public function testCreateOrderStatus(OrderStatus $orderStatus)
     {

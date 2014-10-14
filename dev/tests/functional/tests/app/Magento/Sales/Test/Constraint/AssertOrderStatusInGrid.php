@@ -37,7 +37,7 @@ class AssertOrderStatusInGrid extends AbstractConstraint
      *
      * @param OrderStatus $orderStatus
      * @param OrderStatusIndex $orderStatusIndexPage
-     * @param string $defaultState
+     * @param string|null $defaultState
      * @return void
      */
     public function processAssert(
