@@ -114,8 +114,10 @@
 //--------------------------------------
 .block {
     &:extend(.abstract-margin-for-blocks-and-widgets all);
-    &:last-child {
-        margin-bottom: 0;
+    .column.main & {
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
     .title {
         strong {

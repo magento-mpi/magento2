@@ -35,5 +35,13 @@
                 </options>
             </parameter>
         </parameters>
+        <containers>
+            <container name="sidebar.main">
+                <template name="default" value="default_template" />
+            </container>
+            <container name="sidebar.additional">
+                <template name="default" value="default_template" />
+            </container>
+        </containers>
     </widget>
 </widgets>
