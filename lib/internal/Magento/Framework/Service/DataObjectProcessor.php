@@ -13,27 +13,33 @@ use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Config as ModelConfig;
+use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 
 class DataObjectProcessor
 {
+    const CUSTOM_ATTRIBUTE_CODE = 'custom_attributes';
+    const IS_METHOD_PREFIX = 'is';
+    const GETTER_PREFIX = 'get';
+    
     /**
      * @var ModelConfig
      */
     protected $config;
 
+    /** @var TypeProcessor */
+    protected $typeProcessor;
+
     /**
      * Initialize DataObjectProcessor dependencies
      *
      * @param ModelConfig $config
+     * @param TypeProcessor $typeProcessor
      */
-    public function __construct(ModelConfig $config)
+    public function __construct(ModelConfig $config, TypeProcessor $typeProcessor)
     {
         $this->config = $config;
+        $this->typeProcessor = $typeProcessor;
     }
-
-    const CUSTOM_ATTRIBUTE_CODE = 'custom_attributes';
-    const IS_METHOD_PREFIX = 'is';
-    const GETTER_PREFIX = 'get';
 
     /**
      * Use class reflection on given data interface to build output data array
@@ -106,11 +112,14 @@ class DataObjectProcessor
      * @param string $methodName
      * @return string
      */
-    protected function getMethodReturnType($class, $methodName)
+    public function getMethodReturnType($class, $methodName)
     {
-        $dataObjectType = $class->getMethod($methodName)->getDocBlock()->getTag('return')->getType();
+        $dataObjectType = $this->typeProcessor->getGetterReturnType($class->getMethod($methodName))['type'];
         if (strpos($dataObjectType, '|null') !== false) {
             $dataObjectType = str_replace('|null', '', $dataObjectType);
+        }
+        if (strpos($dataObjectType, '[]') !== false) {
+            $dataObjectType = str_replace('[]', '', $dataObjectType);
         }
         return $dataObjectType;
     }
@@ -118,7 +127,7 @@ class DataObjectProcessor
     /**
      * Convert array of custom_attributes to use flat array structure
      *
-     * @param \Magento\Framework\Service\Data\AttributeValue[] $customAttributes
+     * @param \Magento\Framework\Api\AttributeInterface[] $customAttributes
      * @return array
      */
     protected function convertCustomAttributes($customAttributes)
@@ -135,7 +144,7 @@ class DataObjectProcessor
     /**
      * Convert custom_attribute object to use flat array structure
      *
-     * @param \Magento\Framework\Service\Data\AttributeValue $customAttribute
+     * @param \Magento\Framework\Api\AttributeInterface $customAttribute
      * @return array
      */
     protected function convertCustomAttribute($customAttribute)
