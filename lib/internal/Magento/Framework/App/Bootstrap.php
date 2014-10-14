@@ -63,7 +63,6 @@ class Bootstrap
      */
     const INIT_PARAM_FILESYSTEM_DRIVERS = 'MAGE_FILESYSTEM_DRIVERS';
 
-
     /**
      * The initialization parameters (normally come from the $_SERVER)
      *
