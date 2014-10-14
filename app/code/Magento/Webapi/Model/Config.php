@@ -9,6 +9,7 @@ namespace Magento\Webapi\Model;
 
 use Magento\Webapi\Model\Cache\Type;
 use Magento\Webapi\Model\Config\Reader;
+use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Web API Config Model.
@@ -18,6 +19,7 @@ use Magento\Webapi\Model\Config\Reader;
 class Config
 {
     const CACHE_ID = 'webapi';
+    const DATA_INTERFACE_METHODS = 'dataInterfaceMethods';
 
     /**
      * Pattern for Web API interface name.
@@ -47,6 +49,11 @@ class Config
     protected $_services;
 
     /**
+     * @var array
+     */
+    protected $dataInterfaceMethodsMap = [];
+
+    /**
      * @param Type $configCacheType
      * @param Reader $configReader
      */
@@ -64,36 +71,60 @@ class Config
     public function getServices()
     {
         if (null === $this->_services) {
-            $services = $this->_loadFromCache();
+            $services = $this->_loadFromCache(self::CACHE_ID);
             if ($services && is_string($services)) {
                 $this->_services = unserialize($services);
             } else {
                 $this->_services = $this->_configReader->read();
-                $this->_saveToCache(serialize($this->_services));
+                $this->_saveToCache(serialize($this->_services), self::CACHE_ID);
             }
         }
         return $this->_services;
     }
 
     /**
-     * Load services from cache
+     * Return Data Interface methods loaded from cache
      *
-     * @return string|bool
+     * @param string $dataInterface Data Interface name
+     * @return array
      */
-    protected function _loadFromCache()
+    public function getDataInterfaceMethods($dataInterface)
     {
-        return $this->_configCacheType->load(self::CACHE_ID);
+        $key = self::DATA_INTERFACE_METHODS . "-" . md5($dataInterface);
+        if (!isset($this->dataInterfaceMethodsMap[$key])) {
+            $methods = $this->_loadFromCache($key);
+            if ($methods && is_string($methods)) {
+                $this->dataInterfaceMethodsMap[$key] = unserialize($methods);
+            } else {
+                $class = new ClassReflection($dataInterface);
+                $this->dataInterfaceMethodsMap[$key] = $class->getMethods();
+                $this->_saveToCache(serialize($this->dataInterfaceMethodsMap[$key]), $key);
+            }
+        }
+        return $this->dataInterfaceMethodsMap[$key];
     }
 
     /**
-     * Save services into the cache
+     * Load from cache
+     *
+     * @param string $cacheId cache to look up from
+     * @return string|bool
+     */
+    protected function _loadFromCache($cacheId)
+    {
+        return $this->_configCacheType->load($cacheId);
+    }
+
+    /**
+     * Save into the cache
      *
      * @param string $data serialized version of the webapi registry
+     * @param string $cacheId save cache with this id
      * @return $this
      */
-    protected function _saveToCache($data)
+    protected function _saveToCache($data, $cacheId)
     {
-        $this->_configCacheType->save($data, self::CACHE_ID, array(\Magento\Webapi\Model\Cache\Type::CACHE_TAG));
+        $this->_configCacheType->save($data, $cacheId, array(\Magento\Webapi\Model\Cache\Type::CACHE_TAG));
         return $this;
     }
 }

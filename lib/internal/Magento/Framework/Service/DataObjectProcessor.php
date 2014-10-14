@@ -10,9 +10,26 @@ namespace Magento\Framework\Service;
 
 use Zend\Code\Reflection\ClassReflection;
 use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\ObjectManager;
+use Magento\Webapi\Model\Config as ModelConfig;
 
 class DataObjectProcessor
 {
+    /**
+     * @var ModelConfig
+     */
+    protected $config;
+
+    /**
+     * Initialize DataObjectProcessor dependencies
+     *
+     * @param ModelConfig $config
+     */
+    public function __construct(ModelConfig $config)
+    {
+        $this->config = $config;
+    }
+
     const CUSTOM_ATTRIBUTE_CODE = 'custom_attributes';
     const IS_METHOD_PREFIX = 'is';
     const GETTER_PREFIX = 'get';
@@ -26,9 +43,7 @@ class DataObjectProcessor
      */
     public function buildOutputDataArray($dataObject, $dataObjectType)
     {
-        $class = new ClassReflection($dataObjectType);
-        $methods = $class->getMethods();
-
+        $methods = $this->config->getDataInterfaceMethods($dataObjectType);
         $outputData = [];
         foreach ($methods as $method) {
             if ($method->getNumberOfParameters() > 0) {
