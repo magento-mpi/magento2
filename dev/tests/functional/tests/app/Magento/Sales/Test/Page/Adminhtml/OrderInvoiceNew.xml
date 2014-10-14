@@ -9,11 +9,11 @@
 -->
 <page mca="sales/order_invoice/new" module="Magento_Sales">
     <blocks>
-        <createBlock>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create</class>
-            <locator>[id="page:main-container"]</locator>
+        <formBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form</class>
+            <locator>#edit_form</locator>
             <strategy>css selector</strategy>
-        </createBlock>
+        </formBlock>
         <totalsBlock>
             <class>Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Totals</class>
             <locator>#invoice_totals</locator>

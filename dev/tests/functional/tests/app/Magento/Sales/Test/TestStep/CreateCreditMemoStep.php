@@ -49,22 +49,32 @@ class CreateCreditMemoStep implements TestStepInterface
     protected $order;
 
     /**
+     * Credit memo data
+     *
+     * @var array|null
+     */
+    protected $data;
+
+    /**
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderInjectable $order
      * @param OrderCreditMemoNew $orderCreditMemoNew
+     * @param array|null $data [optional]
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
         OrderInjectable $order,
-        OrderCreditMemoNew $orderCreditMemoNew
+        OrderCreditMemoNew $orderCreditMemoNew,
+        $data = null
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->order = $order;
         $this->orderCreditMemoNew = $orderCreditMemoNew;
+        $this->data = $data;
     }
 
     /**
@@ -77,7 +87,11 @@ class CreateCreditMemoStep implements TestStepInterface
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getCreateBlock()->refundOffline();
+        if (!empty($this->data)) {
+            $this->orderCreditMemoNew->getFormBlock()->fillData($this->data, $this->order->getEntityId()['products']);
+            $this->orderCreditMemoNew->getFormBlock()->updateQty();
+        }
+        $this->orderCreditMemoNew->getFormBlock()->submit();
 
         return ['creditMemoIds' => $this->getCreditMemoIds()];
     }
