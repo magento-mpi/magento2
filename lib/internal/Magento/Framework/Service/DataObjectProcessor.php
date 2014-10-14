@@ -17,7 +17,6 @@ use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 
 class DataObjectProcessor
 {
-    const CUSTOM_ATTRIBUTE_CODE = 'custom_attributes';
     const IS_METHOD_PREFIX = 'is';
     const GETTER_PREFIX = 'get';
     
