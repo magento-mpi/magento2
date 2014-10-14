@@ -24,11 +24,19 @@
         </block>
     </referenceBlock>
 
+    <referenceContainer name="main.content">
+			<block class="Magento\Framework\View\Element\Template" name="skip_to_content.target" before="-" template="Magento_Theme::html/skiptarget.phtml">
+				<arguments>
+					<argument name="target_id" xsi:type="string">contentarea</argument>
+				</arguments>
+			</block>
+    </referenceContainer>
+
     <referenceContainer name="header.container">
         <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
             <block class="Magento\Framework\View\Element\Template" name="skip_to_content" template="Magento_Theme::html/skip.phtml">
                 <arguments>
-                    <argument name="target" xsi:type="string">maincontent</argument>
+                    <argument name="target" xsi:type="string">contentarea</argument>
                     <argument name="label" translate="true" xsi:type="string">Skip to content</argument>
                 </arguments>
             </block>
