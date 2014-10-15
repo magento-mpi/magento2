@@ -455,7 +455,9 @@ class Onepage
                         $shippingMethod
                     )->setCollectShippingRates(
                         true
-                    )->save();
+                    );
+                    $this->getQuote()->collectTotals();
+                    $shipping->save();
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
                     break;
             }
@@ -651,15 +653,14 @@ class Onepage
         if (empty($shippingMethod)) {
             return array('error' => -1, 'message' => __('Invalid shipping method'));
         }
-        $shippingDescription = '';
-        $rate = $this->getQuote()->getShippingAddress()->getShippingRateByCode($shippingMethod);
+        $shippingAddress = $this->getQuote()->getShippingAddress();
+        $rate = $shippingAddress->getShippingRateByCode($shippingMethod);
         if (!$rate) {
             return array('error' => -1, 'message' => __('Invalid shipping method'));
         } else {
             $shippingDescription = $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle();
+            $shippingAddress->setShippingDescription(trim($shippingDescription, ' -'));
         }
-        $shippingAddress = $this->getQuote()->getShippingAddress();
-        $shippingAddress->setShippingDescription(trim($shippingDescription, ' -'));
         $shippingAddress->setShippingMethod($shippingMethod)->save();
 
         $this->getCheckout()->setStepData('shipping_method', 'complete', true)->setStepData('payment', 'allow', true);
