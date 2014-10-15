@@ -6,6 +6,7 @@
  * @license   {license_link}
  */
 
+
 return [
     'di' => [
         'allowed_controllers' => [
@@ -40,7 +41,13 @@ return [
             'Magento\Setup\Controller\Data\LanguagesController',
         ],
         'instance' => [
+            'Magento\Framework\App\Filesystem\DirectoryList' => [
+                'parameters' => [
+                    'root' => realpath(__DIR__ . '/../../../../../'),
+                ],
+            ],
             'preference' => [
+                'Magento\Framework\Filesystem\DirectoryList' => 'Magento\Framework\App\Filesystem\DirectoryList',
                 'Zend\EventManager\EventManagerInterface' => 'EventManager',
                 'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
                 'Magento\Setup\Module\Dependency\ManagerInterface' => 'Magento\Setup\Module\Dependency\Manager',

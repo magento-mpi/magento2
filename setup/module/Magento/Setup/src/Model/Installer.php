@@ -240,7 +240,7 @@ class Installer
         $results = $this->filePermissions->checkPermission();
         if ($results) {
             $errorMsg = 'Missing writing permissions to the following directories: ';
-            $magentoBasePath= str_replace('\\', '/', $this->systemConfig->getMagentoBasePath()) . '/';
+            $magentoBasePath = str_replace('\\', '/', $this->systemConfig->getMagentoBasePath()) . '/';
             foreach ($results as $result) {
                 $errorMsg .= '\'' . str_replace($magentoBasePath, '', $result) . '\' ';
             }

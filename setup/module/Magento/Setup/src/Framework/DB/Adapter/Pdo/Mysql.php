@@ -7,7 +7,7 @@
  */
 namespace Magento\Setup\Framework\DB\Adapter\Pdo;
 
-use Magento\Filesystem\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Setup\Framework\DB\Adapter\AdapterInterface;
 use Magento\Setup\Framework\DB\Ddl\Table;
 use \Magento\Framework\DB\ExpressionConverter;

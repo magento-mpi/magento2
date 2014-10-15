@@ -8,21 +8,21 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Config\Config;
-use Magento\Config\ConfigFactory;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+
 
 class FilePermissions
 {
     /**
-     * @var ConfigFactory
+     * @var Filesystem
      */
-    protected $configFactory;
+    protected $filesystem;
 
     /**
-     * @var Config
+     * @var DirectoryList
      */
-    protected $config;
+    protected $directoryList;
 
     /**
      * List of directories that require write permissions
@@ -51,13 +51,15 @@ class FilePermissions
     protected $current = [];
 
     /**
-     * @param ConfigFactory $configFactory
+     * @param DirectoryList  $directoryList
+     * @param Filesystem $filesystem
      */
     public function __construct(
-        ConfigFactory $configFactory
+        DirectoryList  $directoryList,
+        Filesystem $filesystem
     ) {
-        $this->configFactory = $configFactory;
-        $this->config = $this->configFactory->create();
+        $this->directoryList = $directoryList;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -68,9 +70,8 @@ class FilePermissions
     public function getRequired()
     {
         if (!$this->required) {
-            $directoryList = new DirectoryList($this->config->getMagentoBasePath());
             foreach ($this->permissions as $code) {
-                $this->required[$code] = $directoryList->getpath($code);
+                $this->required[$code] = $this->directoryList->getpath($code);
             }
         }
         return array_values($this->required);
@@ -96,15 +97,17 @@ class FilePermissions
 
     /**
      * Validate directory permissions by given directory code
-     *
+     *     *
      * @param string $path
      * @return bool
      */
     protected function validate($path)
     {
+
         if (!file_exists($path) || !is_dir($path) || !is_readable($path) || !is_writable($path)) {
             return false;
         }
+
         return true;
     }
 
