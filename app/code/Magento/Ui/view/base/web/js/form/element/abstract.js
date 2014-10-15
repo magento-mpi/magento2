@@ -23,7 +23,8 @@ define([
         description:        '',
         label:              '',
         validateOnChange:   true,
-        error:              ''
+        error:              '',
+        template:           ''
     };
 
     return Scope.extend({
@@ -94,7 +95,7 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.module + '/form/element/' + this.type;
+            return this.template ? this.template : this.module + '/form/element/' + this.type;
         },
 
         /**

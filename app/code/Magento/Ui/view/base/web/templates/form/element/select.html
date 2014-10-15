@@ -6,10 +6,11 @@
  * @license     {license_link}
  */
 -->
-<!-- ko ifnot: no_caption -->
-<select class="select" data-bind="attr: { id: uid, disabled: disabled }, options: options, value: value, optionsText: 'label', optionsCaption: caption" />
-<!-- /ko -->
-
-<!-- ko if: no_caption -->
-<select class="select" data-bind="attr: { id: uid, disabled: disabled }, options: options, value: value, optionsText: 'label'" />
-<!-- /ko -->
+<select class="select"
+        data-bind="attr: { id: uid, size: size, disabled: disabled, multiple: multiple },
+                   css: {'multiselect': multiple},
+                   optgroup: options,
+                   selectedOptions: value,
+                   optionsCaption: caption,
+                   optionsValue: 'value',
+                   optionsText: 'label'" />

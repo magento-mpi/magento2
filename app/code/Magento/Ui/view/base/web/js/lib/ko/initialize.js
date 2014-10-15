@@ -15,6 +15,7 @@ define([
     './bind/outer_click',
     './bind/class',
     './bind/keyboard',
+    './bind/optgroup',
     './utils'
 ], function(ko, templateEngine) {
     'use strict';

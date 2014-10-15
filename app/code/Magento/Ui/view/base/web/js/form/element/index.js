@@ -21,7 +21,7 @@ define([
         date:               Abstract,
         media:              Abstract,
         select:             Select,
-        multiple_select:    MultipleSelect,
+        multiple_select:    Select,
         textarea:           Textarea
     }
 });
