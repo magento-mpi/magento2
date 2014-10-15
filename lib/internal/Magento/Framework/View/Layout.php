@@ -874,12 +874,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         }
         if (!isset($this->sharedBlocks[$type])) {
             $block = $this->createBlock($type);
-            if ($block) {
-                if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
-                    $block->setLayout($this);
-                }
-                $this->sharedBlocks[$type] = $block;
-            }
+            $this->sharedBlocks[$type] = $block;
         }
         return $this->sharedBlocks[$type];
     }
