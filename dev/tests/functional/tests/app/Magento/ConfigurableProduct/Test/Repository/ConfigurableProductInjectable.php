@@ -116,22 +116,22 @@ class ConfigurableProductInjectable extends AbstractRepository
             'checkout_data' => ['preset' => 'default']
         ];
 
-        $this->_data['required_configurable'] = [
+        $this->_data['with_one_option'] = [
             'name' => 'Test configurable product %isolation%',
             'sku' => 'sku_test_configurable_product_%isolation%',
-            'price' => ['value' => 15.00],
+            'price' => ['value' => 10.00],
             'weight' => 30.0000,
             'status' => 'Product online',
             'visibility' => 'Catalog, Search',
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'url_key' => 'configurable-product-%isolation%',
-            'configurable_attributes_data' => ['preset' => 'default'],
+            'configurable_attributes_data' => ['preset' => 'with_one_option'],
             'quantity_and_stock_status' => [
                 'is_in_stock' => 'In Stock',
             ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'default']
+            'checkout_data' => ['preset' => 'with_one_option']
         ];
     }
 }

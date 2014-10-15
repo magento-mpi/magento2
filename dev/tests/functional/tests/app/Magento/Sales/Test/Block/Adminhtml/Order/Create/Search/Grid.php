@@ -22,7 +22,9 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     protected $selectItem = 'tbody tr .col-in_products';
 
     /**
-     * {@inheritdoc}
+     * Filters array mapping
+     *
+     * @var array
      */
     protected $filters = [
         'sku' => [

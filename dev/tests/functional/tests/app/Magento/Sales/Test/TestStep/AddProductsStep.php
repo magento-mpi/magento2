@@ -13,7 +13,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
  * Class AddProductsStep
- * Add Product Step
+ * Add Products Step
  */
 class AddProductsStep implements TestStepInterface
 {
@@ -25,7 +25,7 @@ class AddProductsStep implements TestStepInterface
     protected $orderCreateIndex;
 
     /**
-     * Catalog Product Simple
+     * Array products
      *
      * @var array
      */

@@ -74,7 +74,7 @@ class Order extends DataFixture
     {
         $this->_data = [
             'totals' => [
-                'grand_total' => '248.41'
+                'grand_total' => '32.73'
             ],
             'store_view' => 'Default Store View',
             'website_id' => '0'
@@ -102,7 +102,7 @@ class Order extends DataFixture
 
         $configurable = Factory::getObjectManager()->create(
             'Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable',
-            ['dataSet' => 'required_configurable']
+            ['dataSet' => 'with_one_option']
         );
         $configurable->persist();
 
