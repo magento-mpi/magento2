@@ -42,6 +42,32 @@
         </condition>
     </target>
 
+    <target name="_run_composer_install" if="env.COMPOSER_HOME">
+        <mkdir dir="${env.COMPOSER_HOME}"/>
+        <echo message="Run 'composer install' for directory '${target_composer_dir}'"/>
+        <exec executable="/usr/local/bin/composer" dir="${target_composer_dir}" failonerror="true">
+            <env key="COMPOSER_PROCESS_TIMEOUT" value="600"/>
+            <arg line="install --no-interaction"/>
+        </exec>
+    </target>
+
+    <target name="_report_no_composer_home" unless="env.COMPOSER_HOME">
+        <echo message="COMPOSER_HOME variable or directory does not exist. Do not run 'composer install'"/>
+    </target>
+
+    <target name="_composer_install_dir" depends="_run_composer_install,_report_no_composer_home" description="Run composer install in specified directory">
+        <fail unless="target_composer_dir" message="Property 'target_composer_dir' must be defined"/>
+    </target>
+
+    <target name="_composer_install" depends="_product_location" description="Run composer install in application directories that require Composer">
+        <antcall target="_composer_install_dir">
+            <param name="target_composer_dir" value="${product_root_dir}"/>
+        </antcall>
+        <antcall target="_composer_install_dir">
+            <param name="target_composer_dir" value="${product_root_dir}/setup"/>
+        </antcall>
+    </target>
+
     <target name="_product_edition_files" depends="_product_location" description="Removal of files, which do not belong to a product edition">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
@@ -123,32 +149,6 @@
             <dirset dir="${product_root_dir}/pub/static"/>
             <dirset dir="${product_root_dir}/var"/>
         </chmod>
-    </target>
-
-    <target name="_run_composer_install" if="env.COMPOSER_HOME">
-        <mkdir dir="${env.COMPOSER_HOME}"/>
-        <echo message="Run 'composer install' for directory '${target_composer_dir}'"/>
-        <exec executable="/usr/local/bin/composer" dir="${target_composer_dir}" failonerror="true">
-            <env key="COMPOSER_PROCESS_TIMEOUT" value="600"/>
-            <arg line="install --no-interaction"/>
-        </exec>
-    </target>
-
-    <target name="_report_no_composer_home" unless="env.COMPOSER_HOME">
-        <echo message="COMPOSER_HOME variable or directory does not exist. Do not run 'composer install'"/>
-    </target>
-
-    <target name="_composer_install_dir" depends="_run_composer_install,_report_no_composer_home" description="Run composer install in specified directory">
-        <fail unless="target_composer_dir" message="Property 'target_composer_dir' must be defined"/>
-    </target>
-
-    <target name="_composer_install" depends="_product_location" description="Run composer install in application directories that require Composer">
-        <antcall target="_composer_install_dir">
-            <param name="target_composer_dir" value="${product_root_dir}"/>
-        </antcall>
-        <antcall target="_composer_install_dir">
-            <param name="target_composer_dir" value="${product_root_dir}/setup"/>
-        </antcall>
     </target>
 
     <target name="_code_coverage_configuration" depends="_product_location" description="Code Coverage configuration">
