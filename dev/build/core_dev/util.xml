@@ -68,7 +68,7 @@
         </antcall>
     </target>
 
-    <target name="_product_edition_files" depends="_product_location" description="Removal of files, which do not belong to a product edition">
+    <target name="_product_edition_files" depends="_product_location, _composer_install" description="Removal of files, which do not belong to a product edition">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/edition.php --
