@@ -120,8 +120,8 @@ class Http implements \Magento\Framework\AppInterface
      */
     public function catchException(Bootstrap $bootstrap, \Exception $exception)
     {
-        $result = $this->handleDeveloperMode($bootstrap, $exception)
-            || $this->handleBootstrapErrors($bootstrap)
+        $result = $this->handleBootstrapErrors($bootstrap)
+            || $this->handleDeveloperMode($bootstrap, $exception)
             || $this->handleSessionException($bootstrap, $exception)
             || $this->handleInitException($exception)
             || $this->handleGenericReport($bootstrap, $exception);
