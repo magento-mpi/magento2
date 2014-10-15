@@ -1,7 +1,6 @@
 <?php
 /**
  * test Magento\Customer\Model\Metadata\Form\Postcode
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,31 +10,31 @@ namespace Magento\Customer\Model\Metadata\Form;
 
 class PostcodeTest extends AbstractFormTestCase
 {
-    /** @var \Magento\Framework\Stdlib\String */
-    /** @var  \Magento\Directory\Helper\Data */
+    /**
+     * @var \Magento\Framework\Stdlib\String
+     */
     protected $stringHelper;
-    protected $_directoryData;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $directoryDataMock;
 
     protected function setUp()
     {
         parent::setUp();
         $this->stringHelper = new \Magento\Framework\Stdlib\String();
-
-        $this->_directoryData = $this->getMockBuilder(
-            '\Magento\Directory\Helper\Data'
-        )->disableOriginalConstructor()->setMethods(
-            array('getCountriesWithOptionalZip')
-        )->getMock();
-
-        $this->_directoryData->expects(
+        $this->directoryDataMock = $this->getMock('\Magento\Directory\Helper\Data', ['getCountriesWithOptionalZip'], [], '', false);
+        $this->directoryDataMock->expects(
             $this->any()
-        )->method(
-            'getCountriesWithOptionalZip'
-        )->will(
-            $this->returnValue(['KN', 'IE'])
+        )->method('getCountriesWithOptionalZip')->will(
+            $this->returnValue(['HK', 'IE', 'MO', 'PA', 'GB'])
         );
-
-        $this->attributeMetadataMock->expects($this->any())->method('isRequired')->will($this->returnValue(true));
+        $this->attributeMetadataMock->expects(
+            $this->any()
+        )->method('isRequired')->will(
+            $this->returnValue(true)
+        );
     }
 
     /**
@@ -44,7 +43,7 @@ class PostcodeTest extends AbstractFormTestCase
      * @param string|int|bool|null $value The value undergoing testing by a given test
      * @return Text
      */
-    protected function getClass($value)
+    protected function getPostcodeInstance($value)
     {
         return new Postcode(
             $this->localeMock,
@@ -55,53 +54,33 @@ class PostcodeTest extends AbstractFormTestCase
             0,
             false,
             $this->stringHelper,
-            $this->_directoryData
+            $this->directoryDataMock
         );
     }
 
     /**
      * @param string|int $value
-     * @param bool $expected text output
+     * @param bool $expectedResult text output
      * @dataProvider validateValueRequiredDataProvider
      */
-    public function testValidateValueRequired($value, $expected)
+    public function testValidateValueRequired($value, $extractedData, $expectedResult)
     {
-        $sut = $this->getClass($value);
-        $sut->setExtractedData(['country_id' => 'UK']);
-        $actual = $sut->validateValue($value);
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function validateValueRequiredDataProvider()
-    {
-        return [
-            [123321, true],
-            ['WA11 0JD', true],
-            ['01001', true],
-            ['', [0 => '"" is a required value.']]
-        ];
+        $model = $this->getPostcodeInstance($value);
+        $model->setExtractedData(['country_id' => $extractedData]);
+        $actualResult = $model->validateValue($value);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     /**
-     * @param string|int $value
-     * @param bool $expected
-     * @dataProvider validateValueNotrequiredDataProvider
+     * @return array
      */
-    public function testValidateValueNotRequired($value, $expected)
-    {
-        $sut = $this->getClass($value);
-        $sut->setExtractedData(['country_id' => 'KN']);
-        $actual = $sut->validateValue($value);
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function validateValueNotRequiredDataProvider()
+    public function validateValueRequiredDataProvider()
     {
         return [
-            ['', true],
-            [123, true],
-            ['WA11 0JD', true],
-            ['01001', true]
+            ['WA11 0JD', 'GB', true],
+            ['', 'GB', true],
+            ['01001', 'UA', true],
+            ['', 'UA', [0 => '"" is a required value.']]
         ];
     }
 }
