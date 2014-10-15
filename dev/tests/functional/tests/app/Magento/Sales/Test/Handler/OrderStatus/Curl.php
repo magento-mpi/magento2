@@ -32,6 +32,17 @@ class Curl extends AbstractCurl implements OrderStatusInterface
     ];
 
     /**
+     * Mapping values for data
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'state' => [
+            'Pending' => 'new'
+        ]
+    ];
+
+    /**
      * Post request for creating OrderStatus
      *
      * @param FixtureInterface $fixture
@@ -49,6 +60,21 @@ class Curl extends AbstractCurl implements OrderStatusInterface
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("OrderStatus entity creating by curl handler was not successful! Response: $response");
+        }
+
+        if (isset($data['state'])) {
+            $url = $_ENV['app_backend_url'] . 'sales/order_status/assignPost/';
+            $data = $this->replaceMappingData($data);
+            $curl = new BackendDecorator(new CurlTransport(), new Config());
+            $curl->write(CurlInterface::POST, $url, '1.1', [], $data);
+            $response = $curl->read();
+            $curl->close();
+
+            if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+                throw new \Exception(
+                    "Assigning OrderStatus entity by curl handler was not successful! Response: $response"
+                );
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts;
  * Preconditions:
  * 1. Create simple Product
  * 2. Create Configurable Product
-
+ *
  * Steps:
  * 1. Open Backend
  * 2. Go to Products> Catalog
