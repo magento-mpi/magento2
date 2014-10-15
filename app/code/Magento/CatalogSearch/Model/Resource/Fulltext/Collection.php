@@ -36,6 +36,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     private $searchAdapter;
 
+    /** @var  string */
+    private $queryText;
+
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Framework\Logger $logger
@@ -131,8 +134,17 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addSearchFilter($query)
     {
+        $this->queryText = trim($this->queryText .' ' . $query);
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _renderFiltersBefore()
+    {
         $this->requestBuilder->bindDimension('scope', $this->getStoreId());
-        $this->requestBuilder->bind('search_term', $query);
+        $this->requestBuilder->bind('search_term', $this->queryText);
         $this->requestBuilder->setRequestName('quick_search_container');
         $queryRequest = $this->requestBuilder->create();
 
@@ -146,9 +158,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
         $this->getSelect()->columns([
             'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
-         ]);
-
-        return $this;
+        ]);
     }
 
     /**

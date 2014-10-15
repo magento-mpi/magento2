@@ -89,7 +89,7 @@ class Preprocessor implements PreprocessorInterface
                         'main_table.attribute_id = ?',
                         $attribute->getAttributeId()
                     )
-                    ->where('main_table.store_id = ?', 0)
+                    ->where('main_table.store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
                     ->having($query);
             }
         }

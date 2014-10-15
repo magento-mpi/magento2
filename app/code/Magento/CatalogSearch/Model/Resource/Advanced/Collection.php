@@ -17,11 +17,10 @@ use Magento\Catalog\Model\Product;
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
-     * Date
-     *
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     * List Of filters
+     * @var array
      */
-    protected $_date;
+    private $filters = [];
 
     /**
      * @var \Magento\Framework\Search\Request\Builder
@@ -75,12 +74,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
         \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter,
         $connection = null
     ) {
-        $this->_date = $date;
         $this->requestBuilder = $requestBuilder;
         $this->searchAdapter = $searchAdapter;
         parent::__construct(
@@ -116,9 +113,20 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addFieldsToFilter($fields)
     {
         if ($fields) {
+            $this->filters = array_merge($this->filters, $fields);
+        }
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _renderFiltersBefore()
+    {
+        if ($this->filters) {
             $this->requestBuilder->bindDimension('scope', $this->getStoreId());
             $this->requestBuilder->setRequestName('advanced_search_container');
-            foreach ($fields as $attributes) {
+            foreach ($this->filters as $attributes) {
                 foreach ($attributes as $attributeCode => $attributeValue) {
                     if (is_numeric($attributeCode)) {
                         $attributeCode = $this->_eavConfig->getAttribute(Product::ENTITY, $attributeCode)
@@ -149,7 +157,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
             $this->addFieldToFilter('entity_id', array('in' => $ids));
         }
-
-        return $this;
+        return parent::_renderFiltersBefore();
     }
 }
