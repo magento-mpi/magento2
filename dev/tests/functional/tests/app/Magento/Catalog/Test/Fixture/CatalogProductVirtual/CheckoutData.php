@@ -32,12 +32,22 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 ]
             ],
             '50_dollar_product' => [
+                'options' => [
+                    'qty' => 1
+                ],
                 'cartItem' => [
                     'price' => 50,
                     'qty' => 1,
                     'subtotal' => 50
                 ]
             ],
+            'order_custom_price' => [
+                'checkout_data' => [
+                    'qty' => 3,
+                    'use_custom_price' => "Yes",
+                    'custom_price' => 100,
+                ],
+            ]
         ];
         return isset($presets[$name]) ? $presets[$name] : null;
     }

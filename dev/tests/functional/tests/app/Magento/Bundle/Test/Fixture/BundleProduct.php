@@ -57,9 +57,6 @@ class BundleProduct extends InjectableFixture
         $dataSet = '',
         $persist = false
     ) {
-        if (!isset($data['url_key']) && isset($data['name'])) {
-            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
-        }
         parent::__construct(
             $configuration,
             $repositoryFactory,
@@ -70,6 +67,9 @@ class BundleProduct extends InjectableFixture
             $dataSet,
             $persist
         );
+        if (!isset($this->data['url_key']) && isset($this->data['name'])) {
+            $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
+        }
     }
 
     protected $dataConfig = [
@@ -276,14 +276,6 @@ class BundleProduct extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '4',
-        'input' => 'select',
-    ];
-
-    protected $msrp_enabled = [
-        'attribute_code' => 'msrp_enabled',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => '2',
         'input' => 'select',
     ];
 
@@ -569,7 +561,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'autosettings'
+        'group' => 'search-engine-optimization'
     ];
 
     protected $url_path = [
@@ -756,11 +748,6 @@ class BundleProduct extends InjectableFixture
     public function getMsrpDisplayActualPriceType()
     {
         return $this->getData('msrp_display_actual_price_type');
-    }
-
-    public function getMsrpEnabled()
-    {
-        return $this->getData('msrp_enabled');
     }
 
     public function getName()

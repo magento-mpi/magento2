@@ -12,7 +12,7 @@ use Mtf\Block\Block;
 
 /**
  * Class Info
- * Order by SKU form
+ * SKU failed information Block
  */
 class Info extends Block
 {
@@ -29,6 +29,20 @@ class Info extends Block
      * @var string
      */
     protected $optionsLink = 'a.configure-popup';
+
+    /**
+     * Tier price message selector
+     *
+     * @var string
+     */
+    protected $tierPriceMessage = '.prices-tier .item';
+
+    /**
+     * MSRP notice selector
+     *
+     * @var string
+     */
+    protected $msrp = '.pricing.msrp';
 
     /**
      * Get error message
@@ -58,5 +72,31 @@ class Info extends Block
     public function clickOptionsLink()
     {
         $this->_rootElement->find($this->optionsLink)->click();
+    }
+
+    /**
+     *  Get tier price messages
+     *
+     * @return array
+     */
+    public function getTierPriceMessages()
+    {
+        $messages = [];
+        $elements = $this->_rootElement->find($this->tierPriceMessage)->getElements();
+        foreach ($elements as $key => $element) {
+            $messages[$key] = $element->getText();
+        }
+
+        return $messages;
+    }
+
+    /**
+     * Check that MSRP notice displayed
+     *
+     * @return bool
+     */
+    public function isMsrpNoticeDisplayed()
+    {
+        return $this->_rootElement->find($this->msrp)->isVisible();
     }
 }

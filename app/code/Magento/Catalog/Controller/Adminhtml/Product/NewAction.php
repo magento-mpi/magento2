@@ -60,6 +60,7 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
 
         if ($this->getRequest()->getParam('popup')) {
             $this->_view->loadLayout(array(
+                'default',
                 'popup',
                 strtolower($this->_request->getFullActionName()),
                 'catalog_product_' . $product->getTypeId()
@@ -74,8 +75,6 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
             );
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
-
-        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $block = $this->_view->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {

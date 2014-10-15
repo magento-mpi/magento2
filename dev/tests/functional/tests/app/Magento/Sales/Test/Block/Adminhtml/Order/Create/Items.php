@@ -22,7 +22,7 @@ class Items extends Block
      *
      * @var string
      */
-    protected $addProducts = '//button[span[.="Add Products"]]';
+    protected $addProducts = "//button[span='Add Products']";
 
     /**
      * Item product

@@ -14,8 +14,6 @@ use Magento\Checkout\Test\Block\Cart;
 use Magento\Catalog\Test\Block\Product;
 use Magento\Checkout\Test\Block\Onepage;
 use Magento\Catalog\Test\Fixture\Product as FixtureProduct;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
-use Magento\Bundle\Test\Fixture\Bundle;
 use Magento\Checkout\Test\Fixture\CheckMoneyOrder;
 
 /**
@@ -62,7 +60,7 @@ class CheckMoneyOrderTest extends Functional
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
             $cartPage = Factory::getPageFactory()->getCheckoutCartIndex();
-            $cartPage->getMessagesBlock()->assertSuccessMessage();
+            $cartPage->getMessagesBlock()->waitSuccessMessage();
             $this->checkProductPrice($fixture, $product, $cartPage->getCartBlock());
         }
     }

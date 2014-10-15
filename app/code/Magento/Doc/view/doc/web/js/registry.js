@@ -4,7 +4,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define(function(){
+define(function () {
+    'use strict';
     var initialized = {};
 
     /**
@@ -12,15 +13,15 @@ define(function(){
      * @returns {String}
      * @private
      */
-    function uniqueid(){
-        var idstr = String.fromCharCode( ( Math.random() * 25 + 65 )|0 ),
+    function uniqueid() {
+        var idstr = String.fromCharCode(( Math.random() * 25 + 65 ) | 0),
             ascicode;
 
-        while( idstr.length < 5 ){
-            ascicode = Math.floor( (Math.random()*42)+48 );
+        while (idstr.length < 5) {
+            ascicode = Math.floor((Math.random() * 42) + 48);
 
-            if (ascicode < 58 || ascicode > 64){
-                idstr += String.fromCharCode( ascicode );
+            if (ascicode < 58 || ascicode > 64) {
+                idstr += String.fromCharCode(ascicode);
             }
         }
 
@@ -33,19 +34,19 @@ define(function(){
          * @param {HTMLElement} el - Element whose component should be added.
          * @param {String} component - Components' name.
          */
-        add: function( el, component ){
+        add: function (el, component) {
             var uid = el.uid,
                 components;
 
-            if( !uid ){
+            if (!uid) {
                 el.uid = uid = uniqueid();
                 initialized[uid] = [];
             }
 
             components = initialized[uid];
 
-            if( !~components.indexOf( component ) ){
-                components.push( component );
+            if (!~components.indexOf(component)) {
+                components.push(component);
             }
         },
 
@@ -55,13 +56,13 @@ define(function(){
          * @param {HTMLElement} el - Element whose component should be removed.
          * @param {String} component - Components' name.
          */
-        remove: function( el, component ){
+        remove: function (el, component) {
             var components;
 
-            if( this.has(el, component) ){
+            if (this.has(el, component)) {
                 components = initialized[el.uid];
 
-                components.splice( components.indexOf(component), 1 );
+                components.splice(components.indexOf(component), 1);
             }
         },
 
@@ -72,10 +73,10 @@ define(function(){
          * @param {String} component - Components' name.
          * @returns {Boolean}
          */
-        has: function( el, component ){
+        has: function (el, component) {
             var components = initialized[el.uid];
-            
-            return components && ~components.indexOf(component);       
+
+            return components && ~components.indexOf(component);
         }
     }
 });

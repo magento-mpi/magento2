@@ -63,9 +63,39 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\OrderTotalReport</class>
     </customerTotalsReport>
+    <abandonedCarts>
+        <mca>reports/report_shopcart/abandoned</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\AbandonedCarts</class>
+    </abandonedCarts>
     <customerOrdersReport>
         <mca>reports/report_customer/orders</mca>
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport</class>
     </customerOrdersReport>
+    <salesTaxReport>
+        <mca>reports/report_sales/tax</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SalesTaxReport</class>
+    </salesTaxReport>
+    <downloadsReport>
+        <mca>reports/report_product/downloads</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\DownloadsReport</class>
+    </downloadsReport>
+    <salesReport>
+        <mca>reports/report_sales/sales</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SalesReport</class>
+    </salesReport>
+    <salesInvoiceReport>
+        <mca>reports/report_sales/invoiced</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SalesInvoiceReport</class>
+    </salesInvoiceReport>
+    <refundsReport>
+        <mca>reports/report_sales/refunded</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\RefundsReport</class>
+    </refundsReport>
 </page>

@@ -8,34 +8,46 @@
  */
 -->
 <constraint>
-<assertProductsAddBySkuSuccessMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertProductsAddBySkuSuccessMessage>
-<assertProductRequiredAttentionFailMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertProductRequiredAttentionFailMessage>
-<assertProductIsOutOfStockFailMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertProductIsOutOfStockFailMessage>
-<assertQtyIsNotEnoughFailMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertQtyIsNotEnoughFailMessage>
-<assertSkuNotFoundFailMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertSkuNotFoundFailMessage>
-<assertMinRequestedQtyFailMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertMinRequestedQtyFailMessage>
-<assertMaxRequestedQtyFailMessage module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertMaxRequestedQtyFailMessage>
-<assertSpecifyProductOptionsLink module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertSpecifyProductOptionsLink>
-<assertProductConfiguringFromRequiringAttention module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertProductConfiguringFromRequiringAttention>
-<assertProductIsNotEditable module="Magento_AdvancedCheckout">
-    <severeness>low</severeness>
-</assertProductIsNotEditable>
+    <assertProductsAddBySkuSuccessMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductsAddBySkuSuccessMessage>
+    <assertProductRequiredAttentionFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductRequiredAttentionFailMessage>
+    <assertProductIsOutOfStockFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductIsOutOfStockFailMessage>
+    <assertQtyIsNotEnoughFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertQtyIsNotEnoughFailMessage>
+    <assertSkuNotFoundFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertSkuNotFoundFailMessage>
+    <assertMinRequestedQtyFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertMinRequestedQtyFailMessage>
+    <assertMaxRequestedQtyFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertMaxRequestedQtyFailMessage>
+    <assertSpecifyProductOptionsLink module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertSpecifyProductOptionsLink>
+    <assertProductConfiguringFromRequiringAttention module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductConfiguringFromRequiringAttention>
+    <assertProductIsNotEditable module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductIsNotEditable>
+    <assertQtyIncrementsFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertQtyIncrementsFailMessage>
+    <assertProductTierPriceMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductTierPriceMessage>
+    <assertProductWithPaymentAgreementsOrderFailMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductWithPaymentAgreementsOrderFailMessage>
+    <assertMsrpNotice module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertMsrpNotice>
 </constraint>

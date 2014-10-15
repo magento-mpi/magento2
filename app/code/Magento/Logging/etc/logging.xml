@@ -132,21 +132,21 @@
                        action_alias="delete" />
             </events>
         </group>
-        <group name="core_urlrewrites">
-            <label translate="true">URL Redirects</label>
+        <group name="urlrewrites">
+            <label translate="true">URL Rewrites</label>
             <expected_models>
                 <expected_model class="Magento\UrlRewrite\Model\UrlRewrite" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
-                <event controller_action="adminhtml_urlrewrite_save" action_alias="save" />
-                <event controller_action="adminhtml_urlrewrite_delete" action_alias="delete" />
+                <event controller_action="adminhtml_url_rewrite_edit" action_alias="view" />
+                <event controller_action="adminhtml_url_rewrite_save" action_alias="save" />
+                <event controller_action="adminhtml_url_rewrite_delete" action_alias="delete" />
             </events>
         </group>
         <group name="catalogsearch">
             <label translate="true">Catalog Search</label>
             <expected_models>
-                <expected_model class="Magento\CatalogSearch\Model\Query" />
+                <expected_model class="Magento\Search\Model\Query" />
             </expected_models>
             <events>
                 <event controller_action="catalog_search_edit" action_alias="view" />
@@ -1109,24 +1109,6 @@
                 </event>
                 <event controller_action="adminhtml_widget_instance_delete"
                        action_alias="delete" />
-            </events>
-        </group>
-        <group name="index_management">
-            <label translate="true">Index Management</label>
-            <expected_models>
-                <expected_model class="Magento\Index\Model\Process" />
-            </expected_models>
-            <events>
-                <event controller_action="adminhtml_process_edit" action_alias="view" />
-                <event controller_action="adminhtml_process_save" action_alias="save" />
-                <event controller_action="adminhtml_process_massReindex"
-                       action_alias="massUpdate"
-                       post_dispatch="postDispatchReindexProcess" />
-                <event controller_action="adminhtml_process_massChangeMode"
-                       action_alias="massUpdate" />
-                <event controller_action="adminhtml_process_reindexProcess"
-                       action_alias="reindex_process"
-                       post_dispatch="postDispatchReindexProcess" />
             </events>
         </group>
         <group name="cache_management">

@@ -96,7 +96,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
                     continue;
                 }
                 $localeCode = $this->_scopeConfig->getValue(
-                    'general/locale/code',
+                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 );
@@ -128,7 +128,7 @@ class Switcher extends \Magento\Framework\View\Element\Template
 
             $groups = array();
             $localeCode = $this->_scopeConfig->getValue(
-                'general/locale/code',
+                \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             foreach ($rawGroups as $group) {
@@ -219,6 +219,9 @@ class Switcher extends \Magento\Framework\View\Element\Template
      */
     public function getTargetStorePostData(\Magento\Store\Model\Store $store)
     {
-        return $this->_postDataHelper->getPostData($this->getHomeUrl(), array('___store' => $store->getCode()));
+        return $this->_postDataHelper->getPostData(
+            $this->getHomeUrl(),
+            ['___store' => $store->getCode(), '___from_store' => $this->getStoreCode()]
+        );
     }
 }

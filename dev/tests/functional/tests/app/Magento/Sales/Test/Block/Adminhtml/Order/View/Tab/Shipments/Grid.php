@@ -22,6 +22,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     protected $editLink = '[data-column="real_shipment_id"]';
 
     /**
+     * Locator for shipment ids
+     *
+     * @var string
+     */
+    protected $shipmentId = 'td[data-column="real_shipment_id"]';
+
+    /**
      * Filters array mapping
      *
      * @var array
@@ -37,4 +44,20 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => '[name="total_qty[to]"]',
         ],
     ];
+
+    /**
+     * Get shipment ids
+     *
+     * @return array
+     */
+    public function getIds()
+    {
+        $result = [];
+        $shipmentIds = $this->_rootElement->find($this->shipmentId)->getElements();
+        foreach ($shipmentIds as $shipmentId) {
+            $result[] = trim($shipmentId->getText());
+        }
+
+        return $result;
+    }
 }

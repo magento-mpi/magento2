@@ -11,7 +11,22 @@
     <assertWishlistShareMessage module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertWishlistShareMessage>
-    <assertProductIsAbsentInWishlist module="Magento_Wishlist">
+    <assertProductsIsAbsentInWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
-    </assertProductIsAbsentInWishlist>
+    </assertProductsIsAbsentInWishlist>
+    <assertWishlistIsEmpty module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertWishlistIsEmpty>
+    <assertAddProductToWishlistSuccessMessage module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertAddProductToWishlistSuccessMessage>
+    <assertProductIsPresentInWishlist module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertProductIsPresentInWishlist>
+    <assertProductIsPresentInCustomerBackendWishlist module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertProductIsPresentInCustomerBackendWishlist>
+    <assertBundleProductDetailsInWishlist module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertBundleProductDetailsInWishlist>
 </constraint>

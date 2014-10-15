@@ -80,7 +80,7 @@ return array(
     'magento_sales_invoice_grid_archive' => 'Magento_SalesArchive',
     'magento_sales_order_grid_archive' => 'Magento_SalesArchive',
     'magento_sales_shipment_grid_archive' => 'Magento_SalesArchive',
-    'catalogsearch_recommendations' => 'Magento_Search',
+    'catalogsearch_recommendations' => 'Magento_Solr',
     'magento_targetrule_customersegment' => 'Magento_TargetRule',
     'magento_targetrule_index' => 'Magento_TargetRule',
     'magento_targetrule_index_crosssell' => 'Magento_TargetRule',

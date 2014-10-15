@@ -20,7 +20,7 @@
         </replace>
     </target>
 
-    <target name="_static_tests_no_js" depends="_product_location" description="All static tests without JS static test">
+    <target name="_static_tests_no_js" depends="_product_location,_composer_install" description="All static tests without JS static test">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.php.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <copy file="${basedir}/dev/build/core_dev/static/pdepend.xml"
@@ -34,7 +34,7 @@
         <delete dir="${product_root_dir}/var/pdepend"/>
     </target>
 
-    <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
+    <target name="_code_legacy_tests" depends="_product_location,_composer_install" description="Code Legacy Tests">
         <condition property="env.bamboo_file_formats" value="php,phtml">
             <not><isset property="env.bamboo_file_formats"/></not>
         </condition>
@@ -95,7 +95,7 @@
         </exec>
     </target>
 
-    <target name="_code_integrity_tests" depends="_product_location" description="Code Integrity Tests">
+    <target name="_code_integrity_tests" depends="_product_location,_composer_install" description="Code Integrity Tests">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.integrity.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
@@ -103,7 +103,7 @@
         </exec>
     </target>
 
-    <target name="_sanity_check" depends="_product_location" description="Static sanity check">
+    <target name="_sanity_check" depends="_product_location,_composer_install" description="Static sanity check">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
@@ -150,7 +150,7 @@
         </antcall>
     </target>
 
-    <target name="static_tests_js" depends="_server_info,_product_location" description="JS static tests">
+    <target name="static_tests_js" depends="_server_info,_product_location,_composer_install" description="JS static tests">
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.js.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <antcall target="_jshint_path_substitution">

@@ -92,7 +92,7 @@ class OrderPayment extends DataObject
     /**
      * Returns additional_information
      *
-     * @return string
+     * @return string[]
      */
     public function getAdditionalInformation()
     {

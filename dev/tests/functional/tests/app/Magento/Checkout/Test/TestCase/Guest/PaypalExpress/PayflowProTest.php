@@ -41,7 +41,7 @@ class PayflowProTest extends Functional
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         }
 
         //Proceed to PayPal
@@ -82,7 +82,7 @@ class PayflowProTest extends Functional
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
-        $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+        $expectedAuthorizedAmount = 'Authorized amount of $' . $fixture->getGrandTotal();
 
         $actualAuthorizedAmount = Factory::getPageFactory()->getSalesOrderView()
             ->getOrderHistoryBlock()->getCommentsHistory();

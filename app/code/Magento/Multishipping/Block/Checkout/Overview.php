@@ -33,19 +33,27 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     protected $_taxHelper;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_taxHelper = $taxHelper;
         $this->_multishipping = $multishipping;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -57,10 +65,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        $headBlock = $this->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Review Order - %1', $headBlock->getDefaultTitle()));
-        }
+        $this->pageConfig->setTitle(__('Review Order - %1', $this->pageConfig->getDefaultTitle()));
         return parent::_prepareLayout();
     }
 
@@ -161,10 +166,17 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * @param float $price
      * @return mixed
+     *
+     * @codeCoverageIgnore
      */
     public function formatPrice($price)
     {
-        return $this->pirceCurrency->format($price, true, PriceCurrencyInterface::DEFAULT_PRECISION, $this->getQuote()->getStore());
+        return $this->priceCurrency->format(
+            $price,
+            true,
+            PriceCurrencyInterface::DEFAULT_PRECISION,
+            $this->getQuote()->getStore()
+        );
     }
 
     /**
@@ -317,7 +329,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     public function renderTotals($totals, $colspan = null)
     {
         if ($colspan === null) {
-            $colspan = $this->_taxHelper->displayCartBothPrices() ? 5 : 3;
+            $colspan = 3;
         }
         $totals = $this->getChildBlock(
             'totals'

@@ -50,6 +50,7 @@ class OrderCreateTest extends WebapiAbstract
         $orderItemBuilder->setSku('sku#1');
         $orderPaymentBuilder->setCcLast4('4444');
         $orderPaymentBuilder->setMethod('checkmo');
+        $orderPaymentBuilder->setAdditionalInformation([]);
         $orderBuilder->setCustomerEmail($email);
         $orderBuilder->setBaseGrandTotal(100);
         $orderBuilder->setGrandTotal(100);

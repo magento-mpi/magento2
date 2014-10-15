@@ -65,26 +65,6 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Unset tested model
-     */
-    protected function tearDown()
-    {
-        unset($this->_model);
-    }
-
-    /**
-     * Test for method 'getDateModel'
-     */
-    public function testGetDateModel()
-    {
-        $this->assertInstanceOf(
-            'Magento\Framework\Stdlib\DateTime\DateTime',
-            $this->_model->getDateModel(),
-            'Date model getter retrieve instance with wrong type'
-        );
-    }
-
-    /**
      * Test for method 'initialize'
      */
     public function testInitialize()

@@ -47,8 +47,8 @@ return array(
     array('Magento\Reminder\Block\Adminhtml\Reminder\Grid'),
     array('Magento\Reward\Block\Adminhtml\Reward\Rate\Grid'),
     array('Magento\Reward\Block\Customer\Account', 'Magento\Reward\Block\Customer\AccountLink'),
-    array('Magento\Search\Model\Indexer\Price'),
-    array('Magento\Search\Model\Resource\Suggestions'),
+    array('Magento\Solr\Model\Indexer\Price'),
+    array('Magento\Solr\Model\Resource\Suggestions'),
     array('Magento\TargetRule\Block\Adminhtml\Targetrule\Grid'),
     array('Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Grid'),
     array('Magento\CustomerSegment\Model\Resource\Helper\Mssql'),
@@ -59,7 +59,7 @@ return array(
     array('Magento\Logging\Model\Resource\Helper\Oracle'),
     array('Magento\Reminder\Model\Resource\Helper\Oracle'),
     array('Magento\SalesArchive\Model\Resource\Helper\Oracle'),
-    array('Magento\Search\Model\ObjectManager\Configurator'),
+    array('Magento\Solr\Model\ObjectManager\Configurator'),
     array('Varien_Db_Statement_Pdo_Mssql'),
     array('Varien_Db_Adapter_Pdo_Mssql'),
     array('Mage_Backup_Model_Resource_Helper_Mssql'),
@@ -103,8 +103,8 @@ return array(
     array('Magento\FullPageCache\Model\Http\Handler'),
     array('Magento\CustomerSegment\Model\Resource\Helper\Mysql4', 'Magento\CustomerSegment\Model\Resource\Helper'),
     array('Magento\SalesArchive\Model\Resource\Helper\Mysql4', 'Magento\SalesArchive\Model\Resource\Helper'),
-    array('Magento\Search\Model\Client\Solr\Factory'),
-    array('Magento\Search\Model\Client\SolrClient\Factory'),
+    array('Magento\Solr\Model\Client\Solr\Factory'),
+    array('Magento\Solr\Model\Client\SolrClient\Factory'),
     array('Magento\License', 'Magento_License'),
     array(
         'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface',
@@ -140,5 +140,6 @@ return array(
     ['Magento\CustomerCustomAttributes\Block\Account\RegisterLink'],
     ['Magento\Invitation\Model\Observer','Magento\Invitation\Model\Logging'],
     ['Magento\Reward\Model\Observer'],
-    ['Magento\WebsiteRestriction\Model\Observer']
+    ['Magento\WebsiteRestriction\Model\Observer'],
+    ['Magento\MultipleWishlist\Block\Rss'],
 );

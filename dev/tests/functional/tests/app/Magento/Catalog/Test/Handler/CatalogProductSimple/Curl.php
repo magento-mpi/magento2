@@ -83,6 +83,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'is_require' => [
             'Yes' => 1,
             'No' => 0
+        ],
+        'is_recurring' => [
+            'Yes' => 1,
+            'No' => 0
         ]
     ];
 
@@ -129,7 +133,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->prepareData($fixture, $prefix);
 
-        return ['id' => $this->createProduct($data, $config)];
+        return $this->createProduct($data, $config);
     }
 
     /**
@@ -326,7 +330,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      *
      * @param array $data
      * @param array $config
-     * @return int|null
+     * @return array
      * @throws \Exception
      */
     protected function createProduct(array $data, array $config)
@@ -343,7 +347,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         }
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
 
-        return isset($matches[1]) ? $matches[1] : null;
+        return ['id' => isset($matches[1]) ? $matches[1] : null];
     }
 
     /**

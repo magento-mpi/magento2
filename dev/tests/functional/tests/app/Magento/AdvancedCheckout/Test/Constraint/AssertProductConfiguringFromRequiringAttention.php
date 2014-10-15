@@ -35,13 +35,16 @@ class AssertProductConfiguringFromRequiringAttention extends AbstractConstraint
      *
      * @param CheckoutCart $checkoutCart
      * @param CatalogProductView $catalogProductView
-     * @param array $products
+     * @param array $requiredAttentionProducts
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, CatalogProductView $catalogProductView, array $products)
-    {
-        foreach ($products as $product) {
-            $checkoutCart->getCartBlock()->clickSpecifyProductOptionsLink($product);
+    public function processAssert(
+        CheckoutCart $checkoutCart,
+        CatalogProductView $catalogProductView,
+        array $requiredAttentionProducts
+    ) {
+        foreach ($requiredAttentionProducts as $product) {
+            $checkoutCart->open()->getAdvancedCheckoutCart()->clickSpecifyProductOptionsLink($product);
             $catalogProductView->getViewBlock()->addToCart($product);
             \PHPUnit_Framework_Assert::assertEquals(
                 sprintf(self::SUCCESS_MESSAGE, $product->getName()),

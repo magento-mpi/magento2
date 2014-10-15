@@ -47,7 +47,7 @@ abstract class AbstractAssertCustomerOrderReportResult extends AbstractConstrain
                 break;
         }
 
-        return $filter = [
+        return [
             'date' => date($format),
             'customer' => $customer->getFirstname() . ' ' . $customer->getLastname(),
             'orders' => $columns['orders'],

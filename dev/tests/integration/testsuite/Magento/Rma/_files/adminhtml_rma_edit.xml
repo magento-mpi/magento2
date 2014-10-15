@@ -7,9 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
-    <block class="Magento\Backend\Block\Page\Head" name="head" as="head" template="page/head.phtml">
-    </block>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit" name="magento_rma_edit" />
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/details.phtml" />
@@ -43,4 +41,4 @@
         <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/mask.phtml" />
         <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Js" template="edit/js.phtml" name="magento_rma_js_create" />
     </container>
-</layout>
+</page>

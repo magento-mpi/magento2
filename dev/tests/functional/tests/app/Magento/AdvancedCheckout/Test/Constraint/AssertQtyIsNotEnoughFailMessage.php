@@ -38,13 +38,13 @@ class AssertQtyIsNotEnoughFailMessage extends AbstractConstraint
      * Assert that requested quantity is not available error message is displayed after adding products by sku to cart
      *
      * @param CheckoutCart $checkoutCart
-     * @param array $products
+     * @param array $requiredAttentionProducts
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, $products)
+    public function processAssert(CheckoutCart $checkoutCart, $requiredAttentionProducts)
     {
-        foreach ($products as $product) {
-            $currentMessage = $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product);
+        foreach ($requiredAttentionProducts as $product) {
+            $currentMessage = $checkoutCart->getAdvancedCheckoutCart()->getFailedItemErrorMessage($product);
             \PHPUnit_Framework_Assert::assertContains(
                 self::ERROR_QUANTITY_MESSAGE,
                 $currentMessage,

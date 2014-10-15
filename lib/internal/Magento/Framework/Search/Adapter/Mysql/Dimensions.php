@@ -13,29 +13,28 @@ use Magento\Framework\Search\Request\Dimension;
 
 class Dimensions
 {
-    const DEFAULT_DIMENSION_NAME = 'scope';
-
     const STORE_FIELD_NAME = 'store_id';
 
-    /**
-     * @var \Magento\Framework\App\Resource
-     */
-    private $resource;
     /**
      * @var ScopeResolverInterface
      */
     private $scopeResolver;
 
     /**
-     * @param \Magento\Framework\App\Resource $resource
+     * @var ConditionManager
+     */
+    private $conditionManager;
+
+    /**
      * @param ScopeResolverInterface $scopeResolver
+     * @param ConditionManager $conditionManager
      */
     public function __construct(
-        \Magento\Framework\App\Resource $resource,
-        ScopeResolverInterface $scopeResolver
+        ScopeResolverInterface $scopeResolver,
+        ConditionManager $conditionManager
     ) {
-        $this->resource = $resource;
         $this->scopeResolver = $scopeResolver;
+        $this->conditionManager = $conditionManager;
     }
 
     /**
@@ -44,31 +43,23 @@ class Dimensions
      */
     public function build(Dimension $dimension)
     {
-        /** @var AdapterInterface $adapter */
-        $adapter = $this->resource->getConnection(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE);
-
-        return $this->generateExpression($dimension, $adapter);
+        return $this->generateExpression($dimension);
     }
 
     /**
      * @param Dimension $dimension
-     * @param AdapterInterface $adapter
      * @return string
      */
-    private function generateExpression(Dimension $dimension, AdapterInterface $adapter)
+    private function generateExpression(Dimension $dimension)
     {
-        $identifier = $dimension->getName();
+        $field = $dimension->getName();
         $value = $dimension->getValue();
 
-        if (self::DEFAULT_DIMENSION_NAME === $identifier) {
-            $identifier = self::STORE_FIELD_NAME;
+        if (Dimension::SCOPE === $field) {
+            $field = self::STORE_FIELD_NAME;
             $value = $this->scopeResolver->getScope($value)->getId();
         }
 
-        return sprintf(
-            '%s = %s',
-            $adapter->quoteIdentifier($identifier),
-            $adapter->quote($value)
-        );
+        return $this->conditionManager->generateCondition($field, '=', $value);
     }
 }

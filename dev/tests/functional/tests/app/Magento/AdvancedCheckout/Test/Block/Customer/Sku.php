@@ -9,10 +9,11 @@
 namespace Magento\AdvancedCheckout\Test\Block\Customer;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Sku
- * Order by SKU form
+ * Customer Order By SKU form
  */
 class Sku extends Form
 {
@@ -22,6 +23,20 @@ class Sku extends Form
      * @var string
      */
     protected $addToCart = '.action.tocart';
+
+    /**
+     * Add new row button selector
+     *
+     * @var string
+     */
+    protected $addRow = '[id^="add_new_item_button"]';
+
+    /**
+     * Row selector
+     *
+     * @var string
+     */
+    protected $row = '//*[contains(@class,"fields additional") and .//*[contains(@id,"id-items[%d_")]]';
 
     /**
      * Click Add to Cart button
@@ -41,7 +56,15 @@ class Sku extends Form
      */
     public function fillForm(array $orderOptions)
     {
-        $mapping = $this->dataMapping($orderOptions);
-        $this->_fill($mapping);
+        foreach ($orderOptions as $key => $value) {
+            if ($value['sku'] !== '-') {
+                if ($key !== 0) {
+                    $this->_rootElement->find($this->addRow)->click();
+                }
+                $element = $this->_rootElement->find(sprintf($this->row, $key), Locator::SELECTOR_XPATH);
+                $mapping = $this->dataMapping($value);
+                $this->_fill($mapping, $element);
+            }
+        }
     }
 }

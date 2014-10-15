@@ -33,15 +33,15 @@ class AssertProductIsOutOfStockFailMessage extends AbstractConstraint
      * Assert that out of stock error message is displayed after adding products to cart
      *
      * @param CheckoutCart $checkoutCart
-     * @param array $products
+     * @param array $requiredAttentionProducts
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, array $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $requiredAttentionProducts)
     {
-        foreach ($products as $product) {
+        foreach ($requiredAttentionProducts as $product) {
             \PHPUnit_Framework_Assert::assertContains(
                 self::ERROR_MESSAGE,
-                $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product),
+                $checkoutCart->getAdvancedCheckoutCart()->getFailedItemErrorMessage($product),
                 'Wrong error message is displayed.'
             );
         }

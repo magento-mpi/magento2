@@ -61,13 +61,6 @@ class Cart extends Block
     protected $cartEmpty = '.cart-empty';
 
     /**
-     * Failed item block selector
-     *
-     * @var string
-     */
-    protected $failedItem = '//*[@id="failed-products-table"]//tr[contains(@class,"info") and //div[contains(.,"%s")]]';
-
-    /**
      * Selector for not editable cart item block
      *
      * @var string
@@ -189,34 +182,6 @@ class Cart extends Block
     }
 
     /**
-     * Get failed item block
-     *
-     * @param FixtureInterface $product
-     * @return Info
-     */
-    protected function getFailedItemBlock(FixtureInterface $product)
-    {
-        $failedItemBlockSelector = sprintf($this->failedItem, $product->getSku());
-        return $this->blockFactory->create(
-            'Magento\AdvancedCheckout\Test\Block\Sku\Products\Info',
-            ['element' => $this->_rootElement->find($failedItemBlockSelector, Locator::SELECTOR_XPATH)]
-        );
-    }
-
-    /**
-     * Get failed item error message
-     *
-     * @param FixtureInterface $product
-     * @return string
-     */
-    public function getFailedItemErrorMessage(FixtureInterface $product)
-    {
-        $failedItemBlock = $this->getFailedItemBlock($product);
-
-        return $failedItemBlock->getErrorMessage();
-    }
-
-    /**
      * Get not editable cart item block
      *
      * @param FixtureInterface $product
@@ -228,34 +193,10 @@ class Cart extends Block
             sprintf($this->notEditableCartItem, $product->getName()),
             Locator::SELECTOR_XPATH
         );
+
         return $this->blockFactory->create(
             'Magento\Checkout\Test\Block\Cart\CartItem',
             ['element' => $cartItem]
         );
-    }
-
-    /**
-     * Check that "Specify the product's options" link is visible
-     *
-     * @param FixtureInterface $product
-     * @return bool
-     */
-    public function specifyProductOptionsLinkIsVisible(FixtureInterface $product)
-    {
-        $failedItemBlock = $this->getFailedItemBlock($product);
-
-        return $failedItemBlock->linkIsVisible();
-    }
-
-    /**
-     * Click "Specify the product's options" link
-     *
-     * @param FixtureInterface $product
-     * @return void
-     */
-    public function clickSpecifyProductOptionsLink(FixtureInterface $product)
-    {
-        $failedItemBlock = $this->getFailedItemBlock($product);
-        $failedItemBlock->clickOptionsLink();
     }
 }

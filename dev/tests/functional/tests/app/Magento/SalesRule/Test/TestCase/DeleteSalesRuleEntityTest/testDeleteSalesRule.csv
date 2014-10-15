@@ -1,4 +1,4 @@
 "salesRule/dataSet";"constraint"
-"active_sales_rule_with_coupon";"assertCartPriceRuleSuccessDeleteMessage, assertCartPriceRuleIsNotPresentedInGrid"
+"active_sales_rule_with_percent_price_discount_coupon";"assertCartPriceRuleSuccessDeleteMessage, assertCartPriceRuleIsNotPresentedInGrid"
 "active_sales_rule_with_complex_conditions";"assertCartPriceRuleSuccessDeleteMessage, assertCartPriceRuleIsNotPresentedInGrid"
 "inactive_sales_rule";"assertCartPriceRuleSuccessDeleteMessage, assertCartPriceRuleIsNotPresentedInGrid"

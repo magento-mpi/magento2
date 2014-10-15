@@ -178,10 +178,28 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         if ($attributesData == null) {
             return $result;
         }
-        foreach ($checkoutData['configurable_options'] as $option) {
+        foreach ($checkoutData['options']['configurable_options'] as $option) {
             $attributeId = $attributesData[$option['title']]['attribute_id'];
             $optionId = $attributesData[$option['title']]['options'][$option['value']]['id'];
             $result['super_attribute'][$attributeId] = $optionId;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepare data for downloadable product
+     *
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function prepareDownloadableData(FixtureInterface $product)
+    {
+        $result = [];
+        $checkoutData = $product->getCheckoutData();
+        $result['qty'] = $checkoutData['options']['qty'];
+        foreach ($checkoutData['options']['links'] as $link) {
+            $result['links'][] = $link['id'];
         }
 
         return $result;

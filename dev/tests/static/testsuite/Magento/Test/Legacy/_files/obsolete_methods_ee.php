@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 return array(
-    array('_filterIndexData', 'Magento\Search\Model\Adapter\AbstractAdapter'),
-    array('getSearchTextFields', 'Magento\Search\Model\Adapter\AbstractAdapter'),
+    array('_filterIndexData', 'Magento\Solr\Model\Adapter\AbstractAdapter'),
+    array('getSearchTextFields', 'Magento\Solr\Model\Adapter\AbstractAdapter'),
     array('addAppliedRuleFilter', 'Magento\Banner\Model\Resource\Catalogrule\Collection'),
     array('addBannersFilter', 'Magento\Banner\Model\Resource\Catalogrule\Collection'),
     array('addBannersFilter', 'Magento\Banner\Model\Resource\Salesrule\Collection'),
-    array('addCategoryFilter', 'Magento\Search\Model\Catalog\Layer\Filter\Category'),
+    array('addCategoryFilter', 'Magento\Solr\Model\Catalog\Layer\Filter\Category'),
     array('addCustomerSegmentFilter', 'Magento\Banner\Model\Resource\Catalogrule\Collection'),
     array('addCustomerSegmentFilter', 'Magento\Banner\Model\Resource\Salesrule\Collection'),
     array('addDashboardLink', 'Magento\Rma\Block\Link'),
@@ -40,11 +40,11 @@ return array(
     array('updateStatus', 'Magento\CatalogEvent\Model\Event'),
     array('getStateText', 'Magento\GiftCardAccount\Model\Giftcardaccount'),
     array('getStoreContent', 'Magento\Banner\Model\Banner'),
-    array('_searchSuggestions', 'Magento\Search\Model\Adapter\HttpStream'),
-    array('_searchSuggestions', 'Magento\Search\Model\Adapter\PhpExtension'),
-    array('updateCategoryIndexData', 'Magento\Search\Model\Resource\Index'),
-    array('updatePriceIndexData', 'Magento\Search\Model\Resource\Index'),
-    array('_changeIndexesStatus', 'Magento\Search\Model\Indexer\Indexer'),
+    array('_searchSuggestions', 'Magento\Solr\Model\Adapter\HttpStream'),
+    array('_searchSuggestions', 'Magento\Solr\Model\Adapter\PhpExtension'),
+    array('updateCategoryIndexData', 'Magento\Solr\Model\Resource\Index'),
+    array('updatePriceIndexData', 'Magento\Solr\Model\Resource\Index'),
+    array('_changeIndexesStatus', 'Magento\Solr\Model\Indexer\Indexer'),
     array('cmsPageBlockLoadAfter', 'Magento\AdminGws\Model\Models'),
     array('applyEventStatus', 'Magento\CatalogEvent\Model\Observer'),
     array('checkQuoteItem', 'Magento\CatalogPermissions\Model\Observer'),
@@ -56,7 +56,7 @@ return array(
     array('invoiceSaveAfter', 'Magento\Reward\Model\Observer'),
     array('_calcMinMax', 'Magento\GiftCard\Block\Catalog\Product\Price'),
     array('_getAmounts', 'Magento\GiftCard\Block\Catalog\Product\Price'),
-    array('searchSuggestions', 'Magento\Search\Model\Client\Solr'),
+    array('searchSuggestions', 'Magento\Solr\Model\Client\Solr'),
     array('_registerProductsView', 'Magento\FullPageCache\Model\Container\Viewedproducts'),
     array('_getForeignKeyName', 'Magento\Framework\DB\Adapter\Oracle'),
     array('getCacheInstance', 'Magento\FullPageCache\Model\Cache'),
@@ -135,8 +135,8 @@ return array(
         'Magento\SalesArchive\Model\Archive',
         'Magento_SalesArchive_Model_ArchivalList::getEntityByObject'
     ),
-    array('applyIndexChanges', 'Magento\Search\Model\Observer'),
-    array('holdCommit', 'Magento\Search\Model\Observer'),
+    array('applyIndexChanges', 'Magento\Solr\Model\Observer'),
+    array('holdCommit', 'Magento\Solr\Model\Observer'),
     array('getDefaultMenuLayoutCode', 'Magento\VersionsCms\Model\Hierarchy\Config'),
     array('coreBlockAbstractToHtmlBefore', 'Magento\PricePermissions\Model\Observer', 'viewBlockAbstractToHtmlBefore'),
     array(
@@ -233,19 +233,26 @@ return array(
     ['_sendRmaEmailWithItems', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::_sendRmaEmailWithItems'],
     [
         'beforeRebuildIndex',
-        'Magento\Search\Model\Plugin\FulltextIndexRebuild',
-        'Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull'
+        'Magento\Solr\Model\Plugin\FulltextIndexRebuild',
+        'Magento\Solr\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull'
     ],
     [
         'afterRebuildIndex',
-        'Magento\Search\Model\Plugin\FulltextIndexRebuild',
-        'Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull'
+        'Magento\Solr\Model\Plugin\FulltextIndexRebuild',
+        'Magento\Solr\Model\Plugin\FulltextIndexRebuild::afterExecuteFull'
     ],
     [
         'reindexAll',
         'Magento\ScheduledImportExport\Model\Import',
         'Magento\ImportExport\Model\Import::invalidateIndex'
     ],
+    ['_beforeLoad', 'Magento\Solr\Model\Resource\Collection'],
+    ['_afterLoad', 'Magento\Solr\Model\Resource\Collection'],
+    ['setEngine', 'Magento\Solr\Model\Resource\Collection'],
+    ['customerGroupSaveAfter', 'Magento\Solr\Model\Observer'],
+    ['saveStoreIdsBeforeScopeDelete', 'Magento\Solr\Model\Observer'],
+    ['clearIndexForStores', 'Magento\Solr\Model\Observer'],
+    ['runFulltextReindexAfterPriceReindex', 'Magento\Solr\Model\Observer'],
     ['_beforeLoad', 'Magento\Search\Model\Resource\Collection'],
     ['_afterLoad', 'Magento\Search\Model\Resource\Collection'],
     ['setEngine', 'Magento\Search\Model\Resource\Collection'],
@@ -253,5 +260,18 @@ return array(
     ['saveStoreIdsBeforeScopeDelete', 'Magento\Search\Model\Observer'],
     ['clearIndexForStores', 'Magento\Search\Model\Observer'],
     ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Export'],
+    ['getDateModel', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'],
     ['modifyExpiredQuotesCleanup', 'Magento\PersistentHistory\Model\Observer'],
+    ['loadPrices', 'Magento\Solr\Model\Layer\Category\Filter\Price', 'Magento\Solr\Model\Price\Interval::load'],
+    [
+        'loadPreviousPrices',
+        'Magento\Solr\Model\Layer\Category\Filter\Price',
+        'Magento\Solr\Model\Price\Interval::loadPrevious'
+    ],
+    [
+        'loadNextPrices',
+        'Magento\Solr\Model\Layer\Category\Filter\Price',
+        'Magento\Solr\Model\Price\Interval::loadNext'
+    ],
 );

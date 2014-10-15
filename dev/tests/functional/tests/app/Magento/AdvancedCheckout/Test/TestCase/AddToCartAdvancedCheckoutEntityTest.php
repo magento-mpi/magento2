@@ -135,20 +135,16 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * Adding to cart AdvancedCheckoutEntity(from MyAccount)
      *
      * @param CustomerInjectable $customer
-     * @param string $product
+     * @param string $products
      * @param array $orderOptions
+     * @param array $cartBlock
      * @return array
      */
-    public function test(CustomerInjectable $customer, $product, array $orderOptions)
+    public function test(CustomerInjectable $customer, $products, array $orderOptions, array $cartBlock)
     {
         // Preconditions
-        list($fixture, $dataSet) = explode('::', $product);
-        $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-        $product->persist();
-        $productSku = $product->getSku();
-        $orderOptions['sku'] = ($orderOptions['sku'] === '%ConfSku%-%simpleSku%')
-            ? $productSku . '-' . $product->getConfigurableAttributesData()['matrix']['attribute_0:option_0']['sku']
-            : $productSku;
+        $products = $this->createProducts($products);
+        $orderOptions = $this->prepareOrderOptions($products, $orderOptions);
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Log In");
@@ -158,7 +154,86 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
         $this->customerOrderSku->getCustomerSkuBlock()->fillForm($orderOptions);
         $this->customerOrderSku->getCustomerSkuBlock()->addToCart();
 
-        return ['products' => [$product]];
+        $filteredProducts = $this->filterProduct($products, $cartBlock);
+
+        return [
+            'products' => isset($filteredProducts['cart']) ? $filteredProducts['cart'] : [],
+            'requiredAttentionProducts' => isset($filteredProducts['required_attention'])
+                ? $filteredProducts['required_attention']
+                : []
+        ];
+    }
+
+    /**
+     * Filter products
+     *
+     * @param array $products
+     * @param array $cartBlock
+     * @return array
+     */
+    protected function  filterProduct(array $products, array $cartBlock)
+    {
+        $filteredProducts = [];
+        foreach ($cartBlock as $key => $value) {
+            if ($value !== '-') {
+                $filteredProducts[$value][$key] = $products[$key];
+            }
+        }
+
+        return $filteredProducts;
+    }
+
+    /**
+     * Create products
+     *
+     * @param string $products
+     * @return array
+     */
+    protected function createProducts($products)
+    {
+        $products = explode(',', $products);
+        foreach ($products as $key => $product) {
+            list($fixture, $dataSet) = explode('::', trim($product));
+            $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $product->persist();
+            $products[$key] = $product;
+        }
+        return $products;
+    }
+
+    /**
+     * Prepare order options
+     *
+     * @param array $products
+     * @param array $orderOptions
+     * @return array
+     */
+    protected function prepareOrderOptions(array $products, array $orderOptions)
+    {
+        foreach ($products as $key => $product) {
+            $productSku = $product->getSku();
+            switch ($orderOptions[$key]['sku']) {
+                case "confCompoundSku":
+                    $orderOptions[$key]['sku'] = $productSku . '-'
+                        . $product->getConfigurableAttributesData()['matrix']['attribute_key_0:option_key_0']['sku'];
+                    break;
+                case "bundleCompoundSku":
+                    $orderOptions[$key]['sku'] = $productSku . '-'
+                        . $product->getBundleSelections()['products'][0][0]->getSku();
+                    break;
+                case "simpleWithOptionCompoundSku":
+                    $orderOptions[$key]['sku'] = $productSku . '-'
+                        . $product->getCustomOptions()[0]['options'][0]['sku'];
+                    break;
+                case "nonexistentSku":
+                    $orderOptions[$key]['sku'] = 'nonexistentSku';
+                    break;
+                default:
+                    $orderOptions[$key]['sku'] = $productSku;
+            }
+        }
+
+        return $orderOptions;
     }
 
     /**

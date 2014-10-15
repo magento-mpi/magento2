@@ -33,15 +33,16 @@ class AssertSkuNotFoundFailMessage extends AbstractConstraint
      * Assert that sku not found error message is displayed after adding products by sku to shopping cart
      *
      * @param CheckoutCart $checkoutCart
-     * @param array $products
+     * @param array $requiredAttentionProducts
      * @return void
      */
-    public function processAssert(CheckoutCart $checkoutCart, array $products)
+    public function processAssert(CheckoutCart $checkoutCart, array $requiredAttentionProducts)
     {
-        foreach ($products as $product) {
+        foreach ($requiredAttentionProducts as $product) {
             \PHPUnit_Framework_Assert::assertEquals(
                 self::ERROR_MESSAGE,
-                $checkoutCart->getCartBlock()->getFailedItemErrorMessage($product)
+                $checkoutCart->getAdvancedCheckoutCart()->getFailedItemErrorMessage($product),
+                'Wrong error message is displayed.'
             );
         }
     }
