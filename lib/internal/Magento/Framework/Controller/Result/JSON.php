@@ -42,7 +42,6 @@ class JSON extends AbstractResult
      * @param mixed $jsonData
      * @param boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
      * @param array $options Additional options used during encoding
-     * @return string
      * @return $this
      */
     public function setJsonData($jsonData, $cycleCheck = false, $options = array())

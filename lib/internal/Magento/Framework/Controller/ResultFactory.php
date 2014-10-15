@@ -63,6 +63,7 @@ class ResultFactory
      * Add or override result types
      *
      * @param array $typeMap
+     * @return void
      */
     protected function mergeTypes(array $typeMap)
     {

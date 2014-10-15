@@ -136,13 +136,15 @@ class SaveBillingTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->once())
             ->method('getView')
             ->will($this->returnValue($this->view));
+        $context->expects($this->once())
+            ->method('getLayoutFactory')
+            ->will($this->returnValue($this->layoutFactory));
 
         $this->controller = $objectManager->getObject(
             'Magento\Checkout\Controller\Onepage\SaveBilling',
             [
                 'context' => $context,
                 'scopeConfig' => $this->scopeConfig,
-                'layoutFactory' => $this->layoutFactory
             ]
         );
     }
