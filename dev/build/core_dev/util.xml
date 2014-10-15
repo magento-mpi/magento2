@@ -157,6 +157,8 @@
             <replacefilter token="{{coverage_dir}}" value="${product_root_dir}"/>
             <replacefilter token="--coverage_html_placeholder" value="-- --&gt;"/>
             <replacefilter token="coverage_html_placeholder--" value="&lt;!-- --"/>
+            <replacefilter token="--coverage_cov_placeholder" value="-- --&gt;"/>
+            <replacefilter token="coverage_cov_placeholder--" value="&lt;!-- --"/>
         </replace>
     </target>
 

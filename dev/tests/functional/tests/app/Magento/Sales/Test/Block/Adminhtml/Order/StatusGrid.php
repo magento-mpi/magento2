@@ -8,13 +8,11 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Magento\Backend\Test\Block\Widget\Grid;
-
 /**
  * Class StatusGrid
  * Backend sales order's status management grid
  */
-class StatusGrid extends Grid
+class StatusGrid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Filters array mapping
@@ -25,6 +23,9 @@ class StatusGrid extends Grid
         ],
         'status' => [
             'selector' => '#sales_order_status_grid_filter_status'
+        ],
+        'state' => [
+            'selector' => '#sales_order_status_grid_filter_state'
         ]
     ];
 

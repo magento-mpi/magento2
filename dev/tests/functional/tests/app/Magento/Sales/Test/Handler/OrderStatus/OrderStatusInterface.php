@@ -15,5 +15,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface OrderStatusInterface extends HandlerInterface
 {
-   //
+    //
 }
