@@ -1,0 +1,2 @@
+The PageCache module is the built-in caching application for Full Page Cache. It manages requested pages and returns cached pages.
+It is the default caching application and is ready to use, not needing any external tools.
