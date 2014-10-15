@@ -48,14 +48,15 @@ define([
                 component   = this.component,
                 injections  = Array.prototype.slice.call(arguments, 2),
                 config,
-                item;
+                item,
+                itemConfig = this.item_config;
 
             config = _.extend({
                 provider:   this.provider,
                 fullName:   fullName,
                 name:       name,
                 elems:      injections
-            }, data);
+            }, data, itemConfig);
 
             item = new component(config);
 

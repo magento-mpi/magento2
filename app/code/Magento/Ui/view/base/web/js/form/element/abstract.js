@@ -108,6 +108,8 @@ define([
                 isValid:        isValid,
                 makeVisible:    false
             });
+
+            this.store(value);
         },
 
         /**

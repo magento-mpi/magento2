@@ -158,6 +158,32 @@
                             "data_type": "boolean",
                             "input_type": "checkbox",
                             "label": "Subscribed to Newsletter"
+                        },
+                        "addresses": {
+                            "prefix": {
+                                "index": "prefix",
+                                "data_type": "text",
+                                "input_type": "input",
+                                "label": "Prefix",
+                                "validation": {
+                                    "letters-only": true
+                                }
+                            },
+                            "firstname": {
+                                "index": "firstname",
+                                "data_type": "text",
+                                "input_type": "input",
+                                "label": "First Name",
+                                "validation": {
+                                    "required-entry": true
+                                }
+                            },
+                            "lastname": {
+                                "index": "lastname",
+                                "data_type": "text",
+                                "input_type": "input",
+                                "label": "Last Name"
+                            }
                         }
                     }
                 },
@@ -172,7 +198,17 @@
                         "disable_auto": false,
                         "general": 0,
                         "comments": "Some commentary",
-                        "created": 1412244384313
+                        "created": 1412244384313,
+                        "addresses": {
+                            "0": {
+                                "prefix": "Bla",
+                                "firstname": "Yo"
+                            },
+                            "0": {
+                                "prefix": "Bla another",
+                                "lastname": "Yo"
+                            }
+                        }
                     }
                 }
             }
@@ -218,6 +254,16 @@
                 "name": "html_content",
                 "path": "Magento_Ui/js/form/components/html",
                 "source": "customer_form_data"
+            },
+            "customer_addresses": {
+                "name": "customer_addresses",
+                "path": "Magento_Ui/js/form/components/collection",
+                "source": "customer_form_data",
+                "config": {
+                    "item_config": {
+                        "data_namespace": "customer.addresses"    
+                    }
+                }
             }
         },
 
@@ -281,12 +327,6 @@
                         "fieldsets.account_info"
                     ]
                 },
-                "customer_addresses": {
-                    "label": "Addresses",
-                    "injections": [
-                        "fieldsets.customer_addresses"
-                    ]
-                },
                 "newsletter_info": {
                     "label": "Newsletter",
                     "injections": [
@@ -302,6 +342,12 @@
                         "fieldsets.recent_orders",
                         "fieldsets.shopping_cart",
                         "fieldsets.viewWishlist"
+                    ]
+                },
+                "customer_addresses": {
+                    "label": "Addresses",
+                    "injections": [
+                        "fieldsets.customer_addresses"
                     ]
                 }
             },
@@ -332,6 +378,12 @@
                 }
             },
             "fieldsets": {
+                "customer_addresses": {
+                    "label": "Customer Addresses",
+                    "injections": [
+                        "customer_addresses.item"
+                    ]
+                },
                 "personal_info": {
                     "label": "Personal Information",
                     "injections": [
@@ -390,18 +442,6 @@
                         "groups.image"
                     ]
                 },
-                "customer_addresses": {
-                    "label": "Customer Addresses",
-                    "injections": [
-                        "groups.firstname",
-                        "groups.middle_name",
-                        "groups.lastname",
-                        "groups.suffix",
-                        "groups.email",
-                        "groups.taxvat",
-                        "groups.gender"
-                    ]
-                },
                 "newsletter_info": {
                     "label": "Newsletter Information",
                     "injections": [
@@ -409,6 +449,13 @@
                         "html_content.newsletter_grid"
                     ]
                 }
+            },
+            "customer_addresses": {
+                "item": [
+                    "customer.addresses.prefix",
+                    "customer.addresses.firstname",
+                    "customer.addresses.lastname"
+                ]
             },
             "html_content": {
                 "personal_info": {

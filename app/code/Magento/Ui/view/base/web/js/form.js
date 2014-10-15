@@ -14,20 +14,6 @@ define(function (require) {
         utils       = require('mage/utils'),
         _           = require('underscore');
 
-    /**
-     * Defines if an object is meta descriptor by checking if one has
-     *     "meta_ref" or "input_type" properties defined
-     *     
-     * @param  {Object}  obj
-     * @return {Boolean} - true, if object is meta descriptor
-     */
-    function isMetaDescriptor(obj) {
-        var isMetaReference = obj.meta_ref,
-            hasInputType    = obj.input_type;
-
-        return isMetaReference || hasInputType;
-    };
-
     var Form = Scope.extend({
 
         /**
@@ -71,8 +57,7 @@ define(function (require) {
          * @param  {String} basePath - path to obj (e.g. "customer.website")
          */
         createElements: function (obj, basePath) {
-            var reference,
-                path = '';
+            var path = '';
 
             _.each(obj, function (element, name) {
                 element     = obj[name];
@@ -82,7 +67,7 @@ define(function (require) {
                     return;
                 }
 
-                isMetaDescriptor(element) 
+                ('input_type' in element)
                     ? this.createElement(element, path)
                     : this.createElements(element, path);
 
@@ -99,15 +84,9 @@ define(function (require) {
          * @param  {Object} name - name for instance
          */
         createElement: function (config, name) {
-            var metaReference   = config.meta_ref,
-                type            = config.input_type,
+            var type            = config.input_type,
                 constr          = elements[type],
                 element;
-
-            if (metaReference) {
-                _.extend(config, this.meta[metaReference]);
-                delete config.meta_ref;
-            }
 
             _.extend(config, {
                 name: name,
