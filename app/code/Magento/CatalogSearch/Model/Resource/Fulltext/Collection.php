@@ -32,9 +32,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\Search\AdapterInterface
+     * @var \Magento\Search\Model\SearchEngine
      */
-    private $searchAdapter;
+    private $searchEngine;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -58,7 +58,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
-     * @param \Magento\Search\Model\AdapterFactory $searchAdapterFactory
+     * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -84,7 +84,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
-        \Magento\Search\Model\AdapterFactory $searchAdapterFactory,
+        \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -111,7 +111,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $connection
         );
         $this->requestBuilder = $requestBuilder;
-        $this->searchAdapter = $searchAdapterFactory->create();
+        $this->searchEngine = $searchEngine;
     }
 
     /**
@@ -127,7 +127,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $this->requestBuilder->setRequestName('quick_search_container');
         $queryRequest = $this->requestBuilder->create();
 
-        $queryResponse = $this->searchAdapter->query($queryRequest);
+        $queryResponse = $this->searchEngine->search($queryRequest);
         $ids = [];
         /** @var \Magento\Framework\Search\Document $document */
         foreach ($queryResponse as $document) {

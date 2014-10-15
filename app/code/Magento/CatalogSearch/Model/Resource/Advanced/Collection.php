@@ -29,9 +29,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\Search\AdapterInterface
+     * @var \Magento\Search\Model\SearchEngine
      */
-    private $searchAdapter;
+    private $searchEngine;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -54,7 +54,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
-     * @param \Magento\Search\Model\AdapterFactory $searchAdapterFactory
+     * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -79,12 +79,12 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
-        \Magento\Search\Model\AdapterFactory $searchAdapterFactory,
+        \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
     ) {
         $this->_date = $date;
         $this->requestBuilder = $requestBuilder;
-        $this->searchAdapter = $searchAdapterFactory->create();
+        $this->searchEngine = $searchEngine;
         parent::__construct(
             $entityFactory,
             $logger,
@@ -142,7 +142,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             }
             $queryRequest = $this->requestBuilder->create();
 
-            $queryResponse = $this->searchAdapter->query($queryRequest);
+            $queryResponse = $this->searchEngine->search($queryRequest);
             $ids = [];
             /** @var \Magento\Framework\Search\Document $document */
             foreach ($queryResponse as $document) {
