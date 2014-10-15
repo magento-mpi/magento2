@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <name />
+        <is_active>
+            <input>select</input>
+        </is_active>
+        <is_html>
+            <input>select</input>
+        </is_html>
+        <store_ids>
+            <selector>#store_id</selector>
+            <input>multiselectgrouplist</input>
+        </store_ids>
+        <checkbox_text />
+        <content />
+        <content_height />
+
+    </fields>
+</mapping>

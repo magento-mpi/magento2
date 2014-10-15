@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertTermsAndConditionsSuccessSaveMessage module="Magento_CheckoutAgreements">
+        <severeness>low</severeness>
+    </assertTermsAndConditionsSuccessSaveMessage>
+    <assertTermsOnCheckout module="Magento_CheckoutAgreements">
+        <severeness>low</severeness>
+    </assertTermsOnCheckout>
+    <assertTermsAbsentOnCheckout module="Magento_CheckoutAgreements">
+        <severeness>low</severeness>
+    </assertTermsAbsentOnCheckout>
+    <assertTermsInGrid module="Magento_CheckoutAgreements">
+        <severeness>low</severeness>
+    </assertTermsInGrid>
+</constraint>
