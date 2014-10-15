@@ -1,2 +1,2 @@
-The Math module provides mathematical functionality to the Magento application.
+The Math module provides mathematical functionality to the Magento application as well as Setup application.
 It includes price rounding, finding floating point remainder of a division, random number and string generation, and unique hash generation.
