@@ -60,12 +60,7 @@ class Preprocessor implements PreprocessorInterface
      */
     public function process(FilterInterface $filter, $isNegation, $query)
     {
-        if (method_exists($filter, 'getField')) {
-            $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
-        } else {
-            $resultQuery = $this->conditionManager->wrapBrackets($query);
-        }
-        return $resultQuery;
+        return $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
     }
 
     /**

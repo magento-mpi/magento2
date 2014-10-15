@@ -102,7 +102,7 @@ class Mapper
             BoolQuery::QUERY_CONDITION_MUST
         );
         $select = $this->processDimensions($request, $select);
-        $tableName = $this->resource->getTableName('catalogsearch_fulltext'); // todo: add index resolver
+        $tableName = $this->resource->getTableName($request->getIndex());
         $select->from($tableName, ['entity_id' =>'product_id'])
             ->columns($scoreBuilder->build())
             ->order($scoreBuilder->getScoreAlias() . ' ' . Select::SQL_DESC);
@@ -219,9 +219,9 @@ class Mapper
      */
     private function processFilterQuery(ScoreBuilder $scoreBuilder, FilterQuery $query, Select $select, $conditionType)
     {
+        $scoreBuilder->startQuery();
         switch ($query->getReferenceType()) {
             case FilterQuery::REFERENCE_QUERY:
-                $scoreBuilder->startQuery();
                 $select = $this->processQuery($scoreBuilder, $query->getReference(), $select, $conditionType);
                 $scoreBuilder->endQuery($query->getBoost());
                 break;
@@ -230,6 +230,7 @@ class Mapper
                 $select->where($filterCondition);
                 break;
         }
+        $scoreBuilder->endQuery($query->getBoost());
         return $select;
     }
 
