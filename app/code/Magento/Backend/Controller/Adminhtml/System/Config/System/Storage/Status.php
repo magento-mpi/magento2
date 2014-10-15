@@ -114,6 +114,6 @@ class Status extends \Magento\Backend\Controller\Adminhtml\System\Config\System\
         $result['state'] = $state;
         /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
         $resultJson = $this->resultJsonFactory->create();
-        return $resultJson->setJsonData($result);
+        return $resultJson->setData($result);
     }
 }

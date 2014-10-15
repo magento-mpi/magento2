@@ -25,6 +25,6 @@ class WysiwygPlugin extends \Magento\Backend\Controller\Adminhtml\System\Variabl
         );
         /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
         $resultJson = $this->resultJsonFactory->create();
-        return $resultJson->setJsonData([$storeContactVariabls, $customVariables]);
+        return $resultJson->setData([$storeContactVariabls, $customVariables]);
     }
 }

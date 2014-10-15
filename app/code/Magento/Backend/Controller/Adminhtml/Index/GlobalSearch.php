@@ -92,6 +92,6 @@ class GlobalSearch extends \Magento\Backend\Controller\Adminhtml\Index
 
         /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
         $resultJson = $this->resultJsonFactory->create();
-        return $resultJson->setJsonData($items);
+        return $resultJson->setData($items);
     }
 }

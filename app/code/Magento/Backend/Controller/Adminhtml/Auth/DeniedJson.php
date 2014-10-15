@@ -50,6 +50,6 @@ class DeniedJson extends \Magento\Backend\Controller\Adminhtml\Auth
     {
         /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
         $resultJson = $this->resultJsonFactory->create();
-        return $resultJson->setJsonData($this->_getDeniedJson());
+        return $resultJson->setData($this->_getDeniedJson());
     }
 }

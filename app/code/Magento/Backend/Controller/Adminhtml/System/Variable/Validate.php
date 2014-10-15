@@ -30,6 +30,6 @@ class Validate extends \Magento\Backend\Controller\Adminhtml\System\Variable
         }
         /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
         $resultJson = $this->resultJsonFactory->create();
-        return $resultJson->setJsonData($response->toArray());
+        return $resultJson->setData($response->toArray());
     }
 }

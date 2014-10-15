@@ -39,15 +39,25 @@ class JSON extends AbstractResult
     /**
      * Set json data
      *
-     * @param mixed $jsonData
+     * @param mixed $data
      * @param boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
      * @param array $options Additional options used during encoding
      * @return string
      * @return $this
      */
-    public function setJsonData($jsonData, $cycleCheck = false, $options = array())
+    public function setData($data, $cycleCheck = false, $options = array())
     {
-        $this->json = \Zend_Json::encode($jsonData, $cycleCheck, $options);
+        $this->json = \Zend_Json::encode($data, $cycleCheck, $options);
+        return $this;
+    }
+
+    /**
+     * @param string $jsonData
+     * @return $this
+     */
+    public function setJsonData($jsonData)
+    {
+        $this->json = (string)$jsonData;
         return $this;
     }
 

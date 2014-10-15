@@ -56,6 +56,6 @@ class Translate extends \Magento\Backend\App\Action
         }
 
         $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
-        return $resultJson->setJsonData($response);
+        return $resultJson->setData($response);
     }
 }
