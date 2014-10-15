@@ -143,16 +143,8 @@ class ServiceArgsSerializer
         $className = is_string($class) ? $class : $class->getName();
         $data = is_array($data) ? $data : [];
         $class = new ClassReflection($className);
-        if ($class->isSubclassOf('\Magento\Framework\Api\ExtensibleDataInterface')) {
-            // By convention, need to lookup the concrete class preference for the data interface type and
-            // gets its builder.
-            $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
-            $builder = $this->_objectManager->create($paramInstanceClassName . "DataBuilder");
-        } else {
-            // By convention, for complex parameters that don't inherit from the data interface,
-            // create the name of the builder type by appending Builder to the end
-            $builder = $this->_objectManager->create($className . "Builder");
-        }
+
+        $builder = $this->getBuilder($className);
 
         foreach ($data as $propertyName => $value) {
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
@@ -172,6 +164,25 @@ class ServiceArgsSerializer
             }
         }
         return $builder->create();
+    }
+
+    /**
+     * Returns a builder for a given classname.
+     *
+     * @param string $className
+     * @return object a builder instance
+     */
+    protected function getBuilder($className)
+    {
+        $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
+        if (is_subclass_of($paramInstanceClassName, '\Magento\Framework\Model\AbstractExtensibleModel')) {
+            // By convention, need to lookup the concrete class preference for the data interface type and
+            // gets its builder.
+            return $this->_objectManager->create($paramInstanceClassName . "DataBuilder");
+        }
+        // By convention, for complex parameters that don't inherit from the data interface,
+        // create the name of the builder type by appending Builder to the end
+        return $this->_objectManager->create($className . "Builder");
     }
 
     /**

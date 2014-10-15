@@ -60,7 +60,7 @@ class DataBuilder extends EntityAbstract
     }
 
     /**
-     * Returns list of methods for class generator
+     * Return a list of methods for class generator
      *
      * @return array
      */
@@ -69,11 +69,11 @@ class DataBuilder extends EntityAbstract
         $methods = [];
         $className = $this->_getSourceClassName();
         $reflectionClass = new \ReflectionClass($className);
-        $lowerClassName = strtolower($className);
+        $lowerCaseClassName = strtolower($className);
         $publicMethods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
             //since methods are sorted - lowest inheritance first, no need to loop through everything
-            if ($lowerClassName !== strtolower($method->class)) {
+            if ($lowerCaseClassName !== strtolower($method->class)) {
                 break;
             }
             if (!($method->isConstructor() ||

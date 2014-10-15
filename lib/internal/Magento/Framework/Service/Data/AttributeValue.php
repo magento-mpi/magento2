@@ -23,7 +23,9 @@ class AttributeValue extends AbstractSimpleObject implements AttributeInterface
     /**#@-*/
 
     /**
-     * {@inheritdoc}
+     * Get attribute code
+     *
+     * @return string
      */
     public function getAttributeCode()
     {
@@ -31,7 +33,9 @@ class AttributeValue extends AbstractSimpleObject implements AttributeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get attribute value
+     *
+     * @return mixed
      */
     public function getValue()
     {
