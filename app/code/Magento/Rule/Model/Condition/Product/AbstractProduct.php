@@ -591,7 +591,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     }
 
     /**
-     * Get field by attribute
+     * Get mapped sql field
      *
      * @return string
      */
@@ -599,8 +599,10 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     {
         if ($this->isEavAttribute()) {
             $mappedSqlField = $this->getEavAttributeTableAlias() . '.value';
+        } elseif ($this->getAttribute() == 'category_ids') {
+            $mappedSqlField = 'e.entity_id';
         } else {
-            $mappedSqlField = ($this->getAttribute() == 'category_ids') ? 'e.entity_id' : parent::getMappedSqlField();
+            $mappedSqlField = parent::getMappedSqlField();
         }
         return $mappedSqlField;
     }
