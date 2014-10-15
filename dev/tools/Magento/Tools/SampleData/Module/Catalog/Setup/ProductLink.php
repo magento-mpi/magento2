@@ -37,29 +37,29 @@ class ProductLink implements SetupInterface
     protected $linksInitializer;
 
     /**
-     * @var \Magento\Framework\Module\ModuleListInterface
+     * @var \Magento\Tools\SampleData\Helper\PostInstaller
      */
-    protected $moduleList;
+    protected $postInstaller;
 
     /**
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linksInitializer
-     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList,
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
         FixtureHelper $fixtureHelper,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linksInitializer,
-        \Magento\Framework\Module\ModuleListInterface $moduleList
+        \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller
     ) {
         $this->csvReaderFactory = $csvReaderFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->productFactory = $productFactory;
         $this->linksInitializer = $linksInitializer;
-        $this->moduleList = $moduleList;
+        $this->postInstaller = $postInstaller;
     }
 
     /**
@@ -74,7 +74,7 @@ class ProductLink implements SetupInterface
             'crosssell'
         ];
 
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->postInstaller->getInstalledModuleList() as $moduleName) {
             foreach ($entityFileAssociation as $linkType) {
                 $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/Links/' . $linkType . '.csv';
                 $fileName = $this->fixtureHelper->getPath($fileName);
@@ -86,16 +86,16 @@ class ProductLink implements SetupInterface
                 foreach ($csvReader as $row) {
                     /** @var \Magento\Catalog\Model\Product $product */
                     $product = $this->productFactory->create();
-                    $productId1 = $product->getIdBySku($row['sku1']);
-                    $product->setId($productId1);
+                    $productId = $product->getIdBySku($row['sku']);
+                    $product->setId($productId);
                     $links = [$linkType => []];
-                    foreach (explode("\n", $row['sku2']) as $productSku2) {
-                        $productId2 = $product->getIdBySku($productSku2);
-                        if ($productId2) {
-                            $links[$linkType][$productId2] = [];
+                    foreach (explode("\n", $row['linked_sku']) as $linkedProductSku) {
+                        $linkedProductId = $product->getIdBySku($linkedProductSku);
+                        if ($linkedProductId) {
+                            $links[$linkType][$linkedProductId] = [];
                         }
                     }
-                    $product = $this->linksInitializer->initializeLinks($product, $links);
+                    $this->linksInitializer->initializeLinks($product, $links);
                     $product->getLinkInstance()->saveProductRelations($product);
                     echo '.';
                 }
