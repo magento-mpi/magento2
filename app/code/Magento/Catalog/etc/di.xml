@@ -389,7 +389,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool">
+    <type name="Magento\Catalog\Model\ProductLink\Converter\ConverterPool">
         <arguments>
             <argument name="converters" xsi:type="array">
                 <item name="default" xsi:type="object">\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\DefaultConverter</item>

@@ -2818,28 +2818,4 @@ return array(
     ['Magento\Rss\Controller\Catalog'],
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
-    [
-        'Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface',
-        'Magento\Catalog\Api\ProductLinkTypeListInterface|Magento\Catalog\Api\ProductLinkManagementInterface'
-    ],
-    [
-        '\Magento\Catalog\Service\V1\Product\Link\Data\LinkType',
-        '\Magento\Catalog\Api\Data\ProductLinkTypeInterface'
-    ],
-    [
-        'Magento\Catalog\Service\V1\Product\Link\Data\LinkAttribute',
-        'Magento\Catalog\Api\Data\ProductLinkAttributeInterface'
-    ],
-    [
-        'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider',
-        'Magento\Catalog\Model\ProductLink\CollectionProvider'
-    ],
-    [
-        'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProviderInterface',
-        'Magento\Catalog\Model\CollectionProviderInterface',
-    ],
-    [
-        'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink',
-        'Magento\Catalog\Api\Data\ProductLinkInterface'
-    ],
 );

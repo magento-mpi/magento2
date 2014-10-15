@@ -6,11 +6,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity;
+namespace Magento\Catalog\Model\ProductLink\Converter;
 
-/**
- * @codeCoverageIgnore
- */
 class ConverterPool
 {
     /**

@@ -14,21 +14,38 @@ namespace Magento\Catalog\Api\Data;
 interface ProductLinkInterface
 {
     /**
-     * Get type
+     * Get product SKU
+     *
+     * @identifier
+     * @return string
+     */
+    public function getProductSku();
+
+    /**
+     * Get link type
+     *
+     * @identifier
+     * @return string
+     */
+    public function getLinkType();
+
+    /**
+     * Get linked product sku
+     *
+     * @identifier
+     * @return string
+     */
+    public function getLinkedProductSku();
+
+    /**
+     * Get linked product type (simple, virtual, etc)
      *
      * @return string
      */
-    public function getType();
+    public function getLinkedProductType();
 
     /**
-     * Get product sku
-     *
-     * @return string
-     */
-    public function getSku();
-
-    /**
-     * Get product position
+     * Get linked item position
      *
      * @return int
      */

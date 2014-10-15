@@ -159,8 +159,12 @@ class WriteService implements WriteServiceInterface
         //Remove product from the linked product list
         unset($links[$linkedProduct->getId()]);
 
-        $this->saveLinks($product, [$type => $links]);
-
+        $this->linkInitializer->initializeLinks($product, $links);
+        try {
+            $product->save();
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException('Invalid data provided for linked products');
+        }
         return true;
     }
 }

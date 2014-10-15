@@ -99,7 +99,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool">
+    <type name="Magento\Catalog\Model\ProductLink\Converter\ConverterPool">
         <arguments>
             <argument name="converters" xsi:type="array">
                 <item name="associated" xsi:type="object">\Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\ProductEntity\Converter</item>
