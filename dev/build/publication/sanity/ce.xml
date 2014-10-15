@@ -123,6 +123,9 @@
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files</path>
         </item>
         <item>
+            <path>dev/tests/static/testsuite/Magento/Test/Integrity/Di/_files</path>
+        </item>
+        <item>
             <path>dev/tools/Magento/Tools/license_placeholder</path>
         </item>
         <item>
