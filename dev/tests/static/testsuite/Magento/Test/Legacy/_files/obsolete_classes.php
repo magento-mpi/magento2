@@ -2817,4 +2817,10 @@ return array(
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
     ['Magento\Framework\App\Filesystem', 'Magento\Framework\Filesystem'],
+    ['Magento\TestFramework\App\Filesystem\DirectoryList'],
+    ['Magento\Framework\App\Filesystem\DirectoryList\Configuration'],
+    ['Magento\Framework\App\Filesystem\DirectoryList\Verification'],
+    ['Magento\Framework\Filesystem\DriverFactory', 'Magento\Framework\Filesystem\DriverPool'],
+    ['Magento\Framework\Filesystem\WrapperFactory'],
+    ['Magento\Framework\Filesystem\WrapperInterface'],
 );

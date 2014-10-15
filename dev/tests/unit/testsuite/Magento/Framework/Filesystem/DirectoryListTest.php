@@ -7,75 +7,105 @@
  */
 namespace Magento\Framework\Filesystem;
 
-use Magento\Framework\App\Filesystem\DirectoryList as DirList;
-use Magento\Framework\Filesystem;
-
 class DirectoryListTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Test for creating DirectoryList with invalid URI
-     *
-     * @param string $code
-     * @param string $value
-     * @expectedException \InvalidArgumentException
-     * @dataProvider invalidUriDataProvider
-     */
-    public function testInvalidUri($code, $value)
+    public function testGetDefaultConfig()
     {
-        new DirectoryList(__DIR__, array($code => array('uri' => $value)));
+        $this->assertArrayHasKey(DirectoryList::SYS_TMP, DirectoryList::getDefaultConfig());
+    }
+
+    public function testGetters()
+    {
+        $customDirs = [
+            'foo' => [DirectoryList::PATH => '/foo/dir'],
+            DirectoryList::SYS_TMP => [DirectoryList::PATH => '/bar/dir', DirectoryList::URL_PATH => 'bar']
+        ];
+        $object = new DirectoryList('/root/dir', $customDirs);
+        $this->assertEquals('/bar/dir', $object->getPath(DirectoryList::SYS_TMP));
+        $this->assertEquals('bar', $object->getUrlPath(DirectoryList::SYS_TMP));
+        $this->assertEquals('/root/dir', $object->getRoot());
     }
 
     /**
-     * Data provider for testInvalidUri
-     *
+     * @param string $method
+     * @expectedException \Magento\Framework\Filesystem\FilesystemException
+     * @expectedExceptionMessage Unknown directory type: 'foo'
+     * @dataProvider assertCodeDataProvider
+     */
+    public function testAssertCode($method)
+    {
+        $object = new DirectoryList('/root/dir');
+        $object->$method('foo');
+    }
+
+    /**
      * @return array
      */
-    public function invalidUriDataProvider()
+    public function assertCodeDataProvider()
     {
-        return array(
-            array(DirList::MEDIA, '/'),
-            array(DirList::MEDIA, '//'),
-            array(DirList::MEDIA, '/value'),
-            array(DirList::MEDIA, 'value/'),
-            array(DirList::MEDIA, '/value/'),
-            array(DirList::MEDIA, 'one\\two'),
-            array(DirList::MEDIA, '../dir'),
-            array(DirList::MEDIA, './dir'),
-            array(DirList::MEDIA, 'one/../two')
-        );
+        return [['getPath', 'getUrlPath']];
     }
 
-    public function testGetUrlPath()
+    /**
+     * @param array $config
+     * @param string|bool $expected
+     * @dataProvider getUrlPathDataProvider
+     */
+    public function testGetUrlPath($config, $expected)
     {
-        $dir = new DirectoryList(
-            __DIR__,
-            array(
-                DirList::PUB => array('uri' => ''),
-                DirList::MEDIA => array('uri' => 'test'),
-                'custom' => array('uri' => 'test2')
-            )
-        );
-
-        $this->assertEquals('test2', $dir->getUrlPath('custom'));
-        $this->assertEquals('', $dir->getUrlPath(DirList::PUB));
-        $this->assertEquals('test', $dir->getUrlPath(DirList::MEDIA));
+        $object = new DirectoryList('/root/dir', $config);
+        $this->assertEquals($expected, $object->getUrlPath(DirectoryList::SYS_TMP));
     }
 
-    public function testGetPath()
+    /**
+     * @return array
+     */
+    public function getUrlPathDataProvider()
     {
-        $newRoot = __DIR__ . '/root';
-        $newMedia = __DIR__ . '/media';
-        $dir = new DirectoryList(
-            __DIR__,
-            array(
-                DirList::ROOT => array('path' => $newRoot),
-                DirList::MEDIA => array('path' => $newMedia),
-                'custom' => array('path' => 'test2')
-            )
-        );
+        return [
+            [[], false],
+            [[DirectoryList::SYS_TMP => [DirectoryList::URL_PATH => 'url/path']], 'url/path'],
+        ];
+    }
 
-        $this->assertEquals('test2', $dir->getPath('custom'));
-        $this->assertEquals(str_replace('\\', '/', $newRoot), $dir->getPath(DirList::ROOT));
-        $this->assertEquals(str_replace('\\', '/', $newMedia), $dir->getPath(DirList::MEDIA));
+    public function testFilterPath()
+    {
+        $object = new DirectoryList('/root/dir', [DirectoryList::SYS_TMP => [DirectoryList::PATH => 'C:\Windows\Tmp']]);
+        $this->assertEquals('C:/Windows/Tmp', $object->getPath(DirectoryList::SYS_TMP));
+    }
+
+    public function testPrependRoot()
+    {
+        $object = new DirectoryList('/root/dir', [DirectoryList::SYS_TMP => [DirectoryList::PATH => 'tmp']]);
+        $this->assertEquals('/root/dir/tmp', $object->getPath(DirectoryList::SYS_TMP));
+    }
+
+    /**
+     * @param string $value
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage URL path must be relative directory path in lowercase with '/' directory separator:
+     * @dataProvider assertUrlPathDataProvider
+     */
+    public function testAssertUrlPath($value)
+    {
+        new DirectoryList('/root/dir', [DirectoryList::SYS_TMP => [DirectoryList::URL_PATH => $value]]);
+    }
+
+    /**
+     * @return array
+     */
+    public function assertUrlPathDataProvider()
+    {
+        return [
+            ['/'],
+            ['//'],
+            ['/value'],
+            ['value/'],
+            ['/value/'],
+            ['one\\two'],
+            ['../dir'],
+            ['./dir'],
+            ['one/../two']
+        ];
     }
 }

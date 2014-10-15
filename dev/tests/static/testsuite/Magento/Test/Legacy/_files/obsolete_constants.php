@@ -575,7 +575,7 @@ return array(
     ),
     array('SYS_TMP_DIR',
         '\Magento\Framework\App\Filesystem',
-        '\Magento\Framework\App\Filesystem\DirectoryList::SYS_TMP'
+        '\Magento\Framework\Filesystem\DirectoryList::SYS_TMP'
     ),
     array('LAYOUT_NAVIGATION_CLASS_NAME', 'Magento\DesignEditor\Model\State'),
     array(
@@ -648,11 +648,20 @@ return array(
     array(
         'PARAM_APP_DIRS',
         'Magento\Framework\App\Filesystem',
-        '\Magento\Framework\App\Filesystem\DirectoryList::INIT_PARAM_PATHS'
+        '\Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS'
     ),
     array(
         'CACHE_VIEW_REL_DIR',
         'Magento\Framework\App\Filesystem',
         '\Magento\Framework\View\Asset\Minified::CACHE_VIEW_REL'
     ),
+    ['WRAPPER_CONTENT_ZLIB', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::ZLIB'],
+    ['WRAPPER_CONTENT_PHAR', 'Magento\Framework\Filesystem'],
+    ['WRAPPER_CONTENT_RAR', 'Magento\Framework\Filesystem'],
+    ['WRAPPER_CONTENT_OGG', 'Magento\Framework\Filesystem'],
+    ['FTP', 'Magento\Framework\Filesystem'],
+    ['FTPS', 'Magento\Framework\Filesystem'],
+    ['SSH2', 'Magento\Framework\Filesystem'],
+    ['HTTP', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::HTTP'],
+    ['HTTPS', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::HTTPS'],
 );

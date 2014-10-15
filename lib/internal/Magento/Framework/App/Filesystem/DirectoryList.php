@@ -8,7 +8,7 @@
 namespace Magento\Framework\App\Filesystem;
 
 /**
- * Class DirectoryList
+ * A Magento application specific list of directories
  */
 class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
 {
@@ -107,57 +107,40 @@ class DirectoryList extends \Magento\Framework\Filesystem\DirectoryList
      */
     const UPLOAD = 'upload';
 
+    /**
+     * {@inheritdoc}
+     */
+    public static function getDefaultConfig()
+    {
+        $result = [
+            self::ROOT => [parent::PATH => ''],
+            self::APP => [parent::PATH => 'app'],
+            self::MODULES => [parent::PATH => 'app/code'],
+            self::CONFIG => [parent::PATH => 'app/etc'],
+            self::LIB_INTERNAL => [parent::PATH => 'lib/internal'],
+            self::VAR_DIR => [parent::PATH => 'var'],
+            self::CACHE => [parent::PATH => 'var/cache'],
+            self::LOG => [parent::PATH => 'var/log'],
+            self::DI => [parent::PATH => 'var/di'],
+            self::GENERATION => [parent::PATH => 'var/generation'],
+            self::LOCALE => [parent::PATH => 'app/i18n'],
+            self::SESSION => [parent::PATH => 'var/session'],
+            self::MEDIA => [parent::PATH => 'pub/media', parent::URL_PATH => 'pub/media'],
+            self::STATIC_VIEW => [parent::PATH => 'pub/static', parent::URL_PATH => 'pub/static'],
+            self::PUB => [parent::PATH => 'pub', parent::URL_PATH => 'pub'],
+            self::LIB_WEB => [parent::PATH => 'lib/web'],
+            self::TMP => [parent::PATH => 'var/tmp'],
+            self::THEMES => [parent::PATH => 'app/design'],
+            self::UPLOAD => [parent::PATH => 'pub/media/upload', parent::URL_PATH => 'pub/media/upload'],
+        ];
+        return parent::getDefaultConfig() + $result;
+    }
 
     /**
-     * Directories configurations
-     *
-     * @var array
+     * {@inheritdoc}
      */
-    protected $directories = array(
-        self::ROOT => array('path' => ''),
-        self::APP => array('path' => 'app'),
-        self::MODULES => array('path' => 'app/code'),
-        self::CONFIG => array('path' => 'app/etc'),
-        self::LIB_INTERNAL => array('path' => 'lib/internal'),
-        self::VAR_DIR => array(
-            'path' => 'var',
-        ),
-        self::CACHE => array(
-            'path' => 'var/cache',
-        ),
-        self::LOG => array(
-            'path' => 'var/log',
-        ),
-        self::DI => array('path' => 'var/di'),
-        self::GENERATION => array('path' => 'var/generation'),
-        self::LOCALE => array('path' => 'app/i18n'),
-        self::SESSION => array(
-            'path' => 'var/session',
-        ),
-        self::MEDIA => array(
-            'path' => 'pub/media',
-            'uri' => 'pub/media',
-        ),
-        self::STATIC_VIEW => array(
-            'path' => 'pub/static',
-            'uri' => 'pub/static',
-        ),
-        self::PUB => array(
-            'path' => 'pub',
-            'uri' => 'pub',
-        ),
-        self::LIB_WEB => array(
-            'path' => 'lib/web',
-        ),
-        self::TMP => array(
-            'path' => 'var/tmp',
-        ),
-        self::THEMES => array(
-            'path' => 'app/design',
-        ),
-        self::UPLOAD => array(
-            'path' => 'pub/media/upload',
-            'uri' => 'pub/media/upload',
-        ),
-    );
+    public function __construct($root, array $config = array())
+    {
+        parent::__construct($root, [self::ROOT => $root] + $config);
+    }
 }

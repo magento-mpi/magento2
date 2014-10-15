@@ -28,10 +28,10 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             array(
                 Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
                     DirectoryList::LIB_WEB => array(
-                        'path' => dirname(dirname(__DIR__)) . '/_files/lib/web'
+                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/lib/web'
                     ),
                     DirectoryList::THEMES => array(
-                        'path' => dirname(dirname(__DIR__)) . '/_files/design'
+                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design'
                     )
                 )
             )
@@ -44,15 +44,15 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Filesystem',
             array(
                 'directoryList' => $this->objectManager->create(
-                    'Magento\Framework\Filesystem\DirectoryList',
+                    'Magento\Framework\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
-                        'directories' => array(
+                        'config' => array(
                             DirectoryList::MODULES => array(
-                                'path' => dirname(dirname(__DIR__)) . '/_files/code'
+                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/code'
                             ),
                             DirectoryList::THEMES => array(
-                                'path' => dirname(dirname(__DIR__)) . '/_files/design'
+                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design'
                             ),
                         )
                     )

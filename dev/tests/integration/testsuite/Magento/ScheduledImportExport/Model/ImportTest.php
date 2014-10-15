@@ -36,8 +36,8 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $directoryList = $objectManager->create(
             'Magento\Framework\App\Filesystem\DirectoryList',
             array(
-                'directories' => array(
-                    DirectoryList::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                'config' => array(
+                    DirectoryList::VAR_DIR => array(DirectoryList::PATH => __DIR__ . '/../_files/')
                 ),
                 'root' => BP
             )

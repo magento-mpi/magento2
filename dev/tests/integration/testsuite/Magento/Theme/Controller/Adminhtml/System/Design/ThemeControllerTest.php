@@ -8,6 +8,7 @@
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
 use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\DirectoryList;
 
 /**
  * @magentoAppArea adminhtml
@@ -39,7 +40,7 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
     {
         /** @var \Magento\TestFramework\App\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Framework\Filesystem');
-        $tmpDir = $filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
+        $tmpDir = $filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
         $subDir = str_replace('\\', '_', __CLASS__);
         $tmpDir->create($subDir);
         $target = $tmpDir->getAbsolutePath("{$subDir}/{$name}");
