@@ -34,7 +34,6 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
     public function chooseFulltext($table, $alias, $select)
     {
         $field = new \Zend_Db_Expr('MATCH (' . $alias . '.data_index) AGAINST (:query IN BOOLEAN MODE)');
-        $select->columns(array('relevance' => $field));
         return $field;
     }
 
