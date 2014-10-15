@@ -81,6 +81,7 @@ class Reader
     /**
      * @param \Magento\Framework\View\Layout\Reader\Context $readerContext
      * @param string $pageLayout
+     * @return void
      */
     public function read(\Magento\Framework\View\Layout\Reader\Context $readerContext, $pageLayout)
     {

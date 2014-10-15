@@ -84,6 +84,8 @@ class Layout extends AbstractResult
 
     /**
      * Create layout builder
+     *
+     * @return void
      */
     protected function initLayoutBuilder()
     {

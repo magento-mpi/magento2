@@ -74,6 +74,7 @@ class GeneratorPool
      * Add generators to pool
      *
      * @param GeneratorInterface[] $generators
+     * @return void
      */
     protected function addGenerators(array $generators)
     {

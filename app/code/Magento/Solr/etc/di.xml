@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="solr" xsi:type="string">Magento_Solr</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Solr\Helper\ClientInterface" type="Magento\Solr\Helper\Data" />
+    <type name="Magento\CatalogSearch\Model\Indexer\Fulltext">
+        <plugin name="fulltextIndexRebuild" type="Magento\Solr\Model\Plugin\FulltextIndexRebuild" />
+    </type>
+    <type name="Magento\Solr\Block\Suggestions">
+        <arguments>
+            <argument name="recommendations" xsi:type="object">Magento\Solr\Model\Suggestions\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Solr\Model\Layer\Category\Filter\Price">
+        <arguments>
+            <argument name="resourceEngine" xsi:type="object">Magento\Solr\Model\Resource\Solr\Engine\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Solr\Model\Observer">
+        <arguments>
+            <argument name="searchData" xsi:type="object">Magento\Solr\Helper\Data\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Solr\Model\Resource\Solr\Engine">
+        <arguments>
+            <argument name="searchResourceIndex" xsi:type="object">Magento\Solr\Model\Resource\Index\Proxy</argument>
+            <argument name="catalogProductVisibility" xsi:type="object">Magento\Catalog\Model\Product\Visibility\Proxy</argument>
+            <argument name="searchResource" xsi:type="object">Magento\Solr\Model\Resource\Advanced\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Solr\Model\Adapter\AbstractAdapter">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+            <argument name="resourceIndex" xsi:type="object">Magento\Solr\Model\Resource\Index\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Category">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Solr\Model\Layer\Category\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Search">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Solr\Model\Layer\Search\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogSearch\Model\Layer\Advanced">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>
+        </arguments>
+    </type>
+    <virtualType name="categoryFilterList" type="Magento\Solr\Model\Layer\Category\FilterList"/>
+    <virtualType name="categorySearchList" type="Magento\Solr\Model\Layer\Search\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Solr\Model\Layer\Search\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
+        <plugin name="search" type="Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Customer\Model\Resource\Group">
+        <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Solr\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
+    </type>
+    <type name="Magento\Framework\Search\Dynamic\IntervalFactory">
+        <arguments>
+            <argument name="intervals" xsi:type="array">
+                <item name="Magento\Solr\Model\Resource\Solr\Engine" xsi:type="string">Magento\Solr\Model\Price\Interval</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Search\Block\Recommendations">
+        <arguments>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Solr\Model\DataProvider\Recommendations</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Search\Block\Suggestions">
+        <arguments>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Solr\Model\DataProvider\Suggestions</argument>
+        </arguments>
+    </type>
+</config>

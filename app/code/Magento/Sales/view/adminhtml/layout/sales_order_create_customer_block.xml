@@ -83,6 +83,13 @@
                         </arguments>
                     </block>
                 </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="website_name">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Website</argument>
+                        <argument name="index" xsi:type="string">website_name</argument>
+                        <argument name="align" xsi:type="string">center</argument>
+                    </arguments>
+                </block>
             </block>
         </referenceBlock>
     </body>

@@ -170,7 +170,7 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
     public function __construct(\Magento\Framework\View\Element\Context $context, array $data = array())
     {
         $this->_request = $context->getRequest();
-        //$this->_layout = $context->getLayout();
+        $this->_layout = $context->getLayout();
         $this->_eventManager = $context->getEventManager();
         $this->_urlBuilder = $context->getUrlBuilder();
         $this->_translator = $context->getTranslator();

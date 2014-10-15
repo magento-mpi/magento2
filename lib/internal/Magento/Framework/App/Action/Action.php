@@ -62,10 +62,14 @@ class Action extends AbstractAction
     protected $messageManager;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
+     * @var \Magento\Framework\Controller\ResultFactory
      */
-    protected $pageConfig;
+    protected $resultFactory;
 
+    /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
 
     /**
      * @param Context $context
@@ -80,7 +84,8 @@ class Action extends AbstractAction
         $this->_redirect = $context->getRedirect();
         $this->_view = $context->getView();
         $this->messageManager = $context->getMessageManager();
-        $this->pageConfig = $this->_view->getPage()->getConfig();
+        $this->resultFactory = $context->getResultFactory();
+        $this->layoutFactory = $context->getLayoutFactory();
     }
 
     /**

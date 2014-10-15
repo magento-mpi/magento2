@@ -194,6 +194,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
 
     /**
      * Build layout blocks from generic layouts and/or page configurations
+     * @return void
      */
     protected function build()
     {
@@ -206,6 +207,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * TODO Will be eliminated in MAGETWO-28359
      *
      * @deprecated
+     * @return void
      */
     public function publicBuild()
     {
@@ -710,7 +712,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         $this->build();
         $name = $this->structure->createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
-        $options[Layout\Element::CONTAINER_OPT_LABEL] = $label;
+        $options['attributes'][Layout\Element::CONTAINER_OPT_LABEL] = $label;
         /** @var \Magento\Framework\View\Layout\Generator\Container $containerGenerator */
         $containerGenerator = $this->generatorPool->getGenerator(Layout\Generator\Container::TYPE);
         $containerGenerator->generateContainer($this->structure, $name, $options);

@@ -9,7 +9,9 @@
 namespace Magento\Shipping\Test\Block\Adminhtml\Create;
 
 use Mtf\Block\Block;
+use Magento\Shipping\Test\Block\Adminhtml\Create\Items\Product;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items
@@ -25,11 +27,18 @@ class Items extends Block
     protected $submitShipment = '[data-ui-id="order-items-submit-button"]';
 
     /**
-     * Product qty selector
+     * Shipment comment css selector
      *
      * @var string
      */
-    protected $productQty = '//tr[//*[contains(.,"%s")]]//input[contains(@class,"qty-item")]';
+    protected $comment = '[name="shipment[comment_text]"]';
+
+    /**
+     * Item product
+     *
+     * @var string
+     */
+    protected $productItems = '//tr[contains(.,"%s")]';
 
     /**
      * Click 'Submit Shipment' button
@@ -42,17 +51,28 @@ class Items extends Block
     }
 
     /**
-     * Set product qty
+     * Set shipment comment
      *
-     * @param array $products
-     * @param array $qty
+     * @param string $text
      * @return void
      */
-    public function setProductQty(array $products, array $qty)
+    public function setComment($text)
     {
-        foreach ($products as $key => $product) {
-            $productQtySelector = sprintf($this->productQty, $product->getName());
-            $this->_rootElement->find($productQtySelector, Locator::SELECTOR_XPATH)->setValue($qty[$key]);
-        }
+        $this->_rootElement->find($this->comment)->setValue($text);
+    }
+
+    /**
+     * Get item product block
+     *
+     * @param FixtureInterface $product
+     * @return Product
+     */
+    public function getItemProductBlock(FixtureInterface $product)
+    {
+        $selector = sprintf($this->productItems, $product->getSku());
+        return $this->blockFactory->create(
+            'Magento\Shipping\Test\Block\Adminhtml\Create\Items\Product',
+            ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]
+        );
     }
 }

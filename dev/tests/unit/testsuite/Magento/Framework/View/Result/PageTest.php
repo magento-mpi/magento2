@@ -76,11 +76,17 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $pageConfigFactory = $this->getMockBuilder('Magento\Framework\View\Page\ConfigFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $pageConfigFactory->expects($this->once())
+            ->method('create')
+            ->willReturn($this->pageConfig);
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->context = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template\Context', [
             'layout' => $this->layout,
             'request' => $this->request,
-            'pageConfig' => $this->pageConfig
         ]);
 
 
@@ -96,7 +102,8 @@ class PageTest extends \PHPUnit_Framework_TestCase
             [
                 'context' => $this->context,
                 'translateInline' => $this->translateInline,
-                'pageConfigRenderer' => $this->pageConfigRenderer
+                'pageConfigRenderer' => $this->pageConfigRenderer,
+                'pageConfigFactory' => $pageConfigFactory,
             ]
         );
     }
@@ -190,7 +197,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->with($expected)
             ->willReturnSelf();
 
-        $this->assertEquals($this->layoutMerge, $this->page->addPageLayoutHandles($parameters, $defaultHandle));
+        $this->page->addPageLayoutHandles($parameters, $defaultHandle);
     }
 
     public function testAddPageLayoutHandlesWithDefaultHandle()
@@ -213,7 +220,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->with($expected)
             ->willReturnSelf();
 
-        $this->assertEquals($this->layoutMerge, $this->page->addPageLayoutHandles($parameters, $defaultHandle));
+        $this->page->addPageLayoutHandles($parameters, $defaultHandle);
     }
 
     public function testRenderResult()
@@ -235,6 +242,10 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->method('getFullActionName')
             ->with('-')
             ->willReturn($fullActionName);
+
+        $this->pageConfig->expects($this->any())
+            ->method('publicBuild')
+            ->willReturnSelf();
 
         $this->pageConfig->expects($this->any())
             ->method('getPageLayout')

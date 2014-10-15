@@ -103,6 +103,7 @@ class Container implements Layout\GeneratorInterface
 
     /**
      * @param array $options
+     * @return void
      * @throws \Magento\Framework\Exception
      */
     protected function validateOptions($options)

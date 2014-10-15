@@ -114,7 +114,7 @@ class Helper
     protected function unionElementData($currentElement, $existingElement)
     {
         foreach ($existingElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA] as $name => $value) {
-            if(empty($currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name])) {
+            if (empty($currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name])) {
                 $currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name] = $value;
             } else {
                 $currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name] += $value;

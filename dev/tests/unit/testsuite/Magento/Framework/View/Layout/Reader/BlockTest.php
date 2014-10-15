@@ -81,7 +81,13 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->scheduledStructure = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure', [], [], '', false);
+        $this->scheduledStructure = $this->getMock(
+            'Magento\Framework\View\Layout\ScheduledStructure',
+            [],
+            [],
+            '',
+            false
+        );
         $this->context = $this->getMock('Magento\Framework\View\Layout\Reader\Context', [], [], '', false);
         $this->readerPool = $this->getMock('Magento\Framework\View\Layout\Reader\Pool', [], [], '', false);
         $this->parentElement = $this->getElement('<' . \Magento\Framework\View\Layout\Reader\Block::TYPE_BLOCK . '/>');
@@ -97,11 +103,16 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      * @dataProvider processDataProvider
      */
     public function testProcessBlock(
-        $literal, $setElementToRemoveListCount, $isSetFlagCount, $scheduleStructureCount, $getScopeCount
+        $literal,
+        $setElementToRemoveListCount,
+        $isSetFlagCount,
+        $scheduleStructureCount,
+        $getScopeCount
     ) {
         $this->context->expects($this->once())->method('getScheduledStructure')
             ->will($this->returnValue($this->scheduledStructure));
-        $this->scheduledStructure->expects($setElementToRemoveListCount)->method('setElementToRemoveList')->with($literal);
+        $this->scheduledStructure->expects($setElementToRemoveListCount)
+            ->method('setElementToRemoveList')->with($literal);
         $scope = $this->getMock('Magento\Framework\App\ScopeInterface', [], [], '', false);
 
         $testValue = 'some_value';

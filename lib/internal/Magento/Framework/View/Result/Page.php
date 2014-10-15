@@ -74,19 +74,17 @@ class Page extends Layout
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
-     * @param array $data
      */
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
+        View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Page\ConfigFactory $pageConfigFactory,
         View\Page\Config\Renderer $pageConfigRenderer,
         View\Page\Layout\Reader $pageLayoutReader,
-        View\Layout\BuilderFactory $layoutBuilderFactory,
-        $template,
-        array $data = array()
+        $template
     ) {
         $this->pageConfig = $pageConfigFactory->create();
         $this->pageLayoutReader = $pageLayoutReader;
@@ -94,12 +92,18 @@ class Page extends Layout
         $this->pageConfigRenderer = $pageConfigRenderer;
         $this->template = $template;
         parent::__construct(
-            $context, $layoutFactory, $layoutReaderPool, $translateInline, $layoutBuilderFactory, $data
+            $context,
+            $layoutFactory,
+            $layoutReaderPool,
+            $translateInline,
+            $layoutBuilderFactory
         );
     }
 
     /**
      * Create layout builder
+     *
+     * @return void
      */
     protected function initLayoutBuilder()
     {
