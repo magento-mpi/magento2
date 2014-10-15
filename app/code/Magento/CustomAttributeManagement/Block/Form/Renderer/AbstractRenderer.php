@@ -152,7 +152,7 @@ abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
                     $class = 'validate-url';
                     break;
                 case 'date':
-                    // @todo DATE FORMAT
+                    $class = 'product-custom-option datetime-picker input-text validate-date';
                     break;
             }
         }

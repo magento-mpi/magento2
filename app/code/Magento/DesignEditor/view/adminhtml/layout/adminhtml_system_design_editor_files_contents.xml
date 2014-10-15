@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_generic.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/layout_generic.xsd">
     <container name="root">
         <block class="Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content\Files" name="editor_files.files" template="Magento_DesignEditor::editor/tools/files/content/files.phtml"/>
     </container>

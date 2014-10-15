@@ -55,7 +55,7 @@ class Widget extends Template
     /**
      * Process template placeholders and apply dictionary
      *
-     * @param $content
+     * @param string $content
      * @return mixed|string
      */
     protected function preProcess($content)

@@ -100,7 +100,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
-        $messagesBlock->assertSuccessMessage();
+        $messagesBlock->waitSuccessMessage();
 
         // Verify Notice Message
         $messagesBlock->assertNoticeMessage();
@@ -111,7 +111,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $catalogRuleGrid->applyRules();
 
         // Verify Success Message
-        $catalogRulePage->getMessagesBlock()->assertSuccessMessage();
+        $catalogRulePage->getMessagesBlock()->waitSuccessMessage();
 
         $this->verifyGuestPrice($simpleProductFixture);
         $this->verifyCustomerPrice($simpleProductFixture, $customerFixture);
@@ -151,7 +151,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $this->assertContains(
@@ -210,7 +210,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCartIndex()->getMessagesBlock()->waitSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),

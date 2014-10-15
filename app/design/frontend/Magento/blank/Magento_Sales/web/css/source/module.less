@@ -31,17 +31,8 @@
             display: inline-block;
         }
     }
-    .col {
-        &.price,
-        &.subtotal {
-            &:extend(.abstract-incl-excl-tax all);
-        }
-    }
-    .cart-tax-total {
-        &:extend(.abstract-tax-total all);
-    }
     .items-qty {
-        &:extend(.reset-list all);
+        &:extend(.abstract-reset-list all);
         .item {
             white-space: nowrap;
         }
@@ -57,11 +48,10 @@
         );
         .account & {
             tfoot {
-                tr:first-child td {
-                    border-top: @table-border-width @table-border-style @table-border-color;
-                }
+                &:extend(.abstract-account-summary all);
             }
         }
+
         .item.options {
             dt {
                 margin: 0;
@@ -80,6 +70,33 @@
                     margin: 0;
                 }
             }
+        }
+    }
+}
+
+.order-actions-toolbar {
+    margin-bottom: 25px;
+    .action {
+        margin-right: 30px;
+        &.print {
+            margin: 0;
+        }
+    }
+}
+
+.order-status {
+    display: inline-block;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.sales-order-view {
+    .page-title {
+        .title {
+            margin-right: 25px;
+        }
+        .order-date {
+            margin: 0 0 20px;
         }
     }
 }
@@ -157,9 +174,20 @@
 }
 
 //
+//    Guest order view page
+//--------------------------------------
+.sales-guest-view {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
+        }
+    }
+}
+
+//
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-smaller(@break) when (@break = @screen-m) {
     .account {
         .order-details-items {
             .table-order-items {
@@ -182,8 +210,8 @@
                 .col {
                     &.price,
                     &.subtotal {
-                        .tax,
-                        .incl.tax + .excl.tax,
+                        .price-including-tax,
+                        .price-excluding-tax,
                         .weee {
                             display: inline-block;
                         }
@@ -233,7 +261,7 @@
             }
         }
         .toolbar {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .pages {
                 float: right;
             }
@@ -248,25 +276,38 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .account {
-        .page-title {
-            .order-actions-toolbar {
-                margin: -20px 0 0;
+    .table-order-items {
+        .col {
+            &.subtotal {
                 text-align: right;
-                .action {
-                    margin: 0 0 0 20px;
-                }
             }
         }
-        .table-order-items {
-            .col {
-                &.subtotal {
-                    text-align: right;
+        .mark,
+        .amount {
+            text-align: right;
+        }
+    }
+
+    .order-actions-toolbar {
+        .action.print {
+            display: block;
+            float: right;
+        }
+    }
+
+    //
+    //    Guest order view page
+    //--------------------------------------
+    .sales-guest-view {
+        .column.main {
+            .block:not(.widget) {
+                .block-content {
+                    &:extend(.abstract-add-clearfix-desktop all);
+                    .box {
+                        &:extend(.abstract-blocks-2columns all);
+                        margin-bottom: @indent-base;
+                    }
                 }
-            }
-            .mark,
-            .amount {
-                text-align: right;
             }
         }
     }

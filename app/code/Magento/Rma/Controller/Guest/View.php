@@ -26,9 +26,7 @@ class View extends \Magento\Rma\Controller\Guest
 
         $this->_view->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
-        $this->_view->getLayout()->getBlock(
-            'head'
-        )->setTitle(
+        $this->_view->getPage()->getConfig()->setTitle(
             __('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId())
         );
         $this->_view->renderLayout();

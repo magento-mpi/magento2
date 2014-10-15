@@ -66,6 +66,7 @@
     <preference for="Magento\Framework\App\DesignInterface" type="Magento\Core\Model\Design" />
     <preference for="Magento\Framework\Pricing\Amount\AmountInterface" type="Magento\Framework\Pricing\Amount\Base" />
     <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
+    <preference for="Magento\Framework\View\Page\FaviconInterface" type="Magento\Theme\Model\Favicon\Favicon" />
     <type name="Magento\Framework\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
@@ -109,6 +110,7 @@
     <type name="Magento\Core\Model\Layout\Merge">
         <arguments>
             <argument name="fileSource" xsi:type="object">Magento\Framework\View\Layout\File\Collector\Aggregated\Proxy</argument>
+            <argument name="pageLayoutFileSource" xsi:type="object">pageLayoutFileCollectorAggregated</argument>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Layout</argument>
         </arguments>
     </type>
@@ -190,6 +192,79 @@
             <argument name="overrideThemeFiles" xsi:type="object">layoutFileSourceOverrideThemeSorted</argument>
         </arguments>
     </type>
+
+    <virtualType name="pageLayoutFileSourceBase" type="Magento\Framework\View\File\Collector\Base">
+        <arguments>
+            <argument name="subDir" xsi:type="string">page_layout</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceBase</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceBaseSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceBaseFiltered</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="pageLayoutFileSourceTheme" type="Magento\Framework\View\File\Collector\ThemeModular">
+        <arguments>
+            <argument name="subDir" xsi:type="string">page_layout</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceThemeFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceTheme</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceThemeSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceThemeFiltered</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="pageLayoutFileSourceOverrideBase" type="Magento\Framework\View\File\Collector\Override\Base">
+        <arguments>
+            <argument name="subDir" xsi:type="string">page_layout/override/base</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceOverrideBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceOverrideBase</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceOverrideBaseSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceOverrideBaseFiltered</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="pageLayoutFileSourceOverrideTheme" type="Magento\Framework\View\File\Collector\Override\ThemeModular">
+        <arguments>
+            <argument name="subDir" xsi:type="string">page_layout/override/theme</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceOverrideThemeFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceOverrideTheme</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="pageLayoutFileSourceOverrideThemeSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
+        <arguments>
+            <argument name="subject" xsi:type="object">pageLayoutFileSourceOverrideThemeFiltered</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="pageLayoutFileCollectorAggregated" type="Magento\Framework\View\Layout\File\Collector\Aggregated">
+        <arguments>
+            <argument name="baseFiles" xsi:type="object">pageLayoutFileSourceBaseSorted</argument>
+            <argument name="themeFiles" xsi:type="object">pageLayoutFileSourceThemeSorted</argument>
+            <argument name="overrideBaseFiles" xsi:type="object">pageLayoutFileSourceOverrideBaseSorted</argument>
+            <argument name="overrideThemeFiles" xsi:type="object">pageLayoutFileSourceOverrideThemeSorted</argument>
+        </arguments>
+    </virtualType>
 
     <virtualType name="pageFileSourceBase" type="Magento\Framework\View\File\Collector\Base"/>
     <virtualType name="pageFileSourceBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
@@ -508,7 +583,7 @@
     </type>
     <type name="Magento\Framework\Stdlib\DateTime\Timezone">
         <arguments>
-            <argument name="defaultTimezonePath" xsi:type="string">general/locale/timezone</argument>
+            <argument name="defaultTimezonePath" xsi:type="const">Magento\Core\Helper\Data::XML_PATH_DEFAULT_TIMEZONE</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
@@ -520,7 +595,7 @@
     <type name="Magento\Framework\Locale\Resolver">
         <plugin name="initLocale" type="Magento\Framework\Translate\Locale\Resolver\Plugin" sortOrder="10"/>
         <arguments>
-            <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>
+            <argument name="defaultLocalePath" xsi:type="const">Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>

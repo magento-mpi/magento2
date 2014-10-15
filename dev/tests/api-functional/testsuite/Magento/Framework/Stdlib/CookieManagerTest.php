@@ -86,6 +86,7 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testPublicCookieAll()
     {
+        $this->markTestIncomplete('MAGETWO-29179');
         $url = $this->cookieTesterUrl . '/SetPublicCookie';
         $cookieParams =
             [
@@ -120,6 +121,7 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testDeleteCookie()
     {
+        $this->markTestIncomplete('MAGETWO-29179');
         $url = $this->cookieTesterUrl . '/DeleteCookie';
         $cookieParams =
             [

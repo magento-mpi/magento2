@@ -31,7 +31,7 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
      *
      * @var array
      */
-    protected $fields = ['name', 'price', 'qty'];
+    protected $fields = ['name' => '', 'price' => '', 'checkout_data' => ['qty' => '']];
 
     /**
      * Check configured products
@@ -76,12 +76,13 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
         $fixtureData = [];
         $pageData = [];
         foreach ($data['products'] as $product) {
+            $checkoutData = $product->getCheckoutData();
             $fixtureData[] = [
                 'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
-                'qty' => $this->productsIsConfigured ? $product->getCheckoutData()['qty'] : 1,
+                'checkout_data' => ['qty' => $this->productsIsConfigured ? $checkoutData['options']['qty'] : 1],
             ];
-            $pageData[] = $itemsBlock->getItemProductByName($product->getName())->getData($this->fields);
+            $pageData[] = $itemsBlock->getItemProductByName($product->getName())->getCheckoutData($this->fields);
         }
 
         return ['fixtureData' => $fixtureData, 'pageData' => $pageData];
