@@ -10,8 +10,8 @@ namespace Magento\Setup\Module\Setup;
 
 use Magento\Framework\Filesystem\Directory\Write;
 use Magento\Framework\Filesystem;
-use Magento\Framework\Filesystem\FilesystemException;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Setup\Model\FileSystemFactory;
 
 /**
  * Deployment configuration model
@@ -77,15 +77,15 @@ class Config
     /**
      * Default Constructor
      *
-     * @param Filesystem $filesystem
+     * @param FileSystemFactory $fileSystemFactory
      * @param string[] $data
      */
     public function __construct(
-        Filesystem $filesystem,
+        FileSystemFactory $fileSystemFactory,
         $data = []
     ) {
-        $this->filesystem = $filesystem;
-        $this->configDirectory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG);
+        $this->filesystem = $fileSystemFactory->create();
+        $this->configDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
 
         if ($data) {
             $this->update($data);
@@ -146,9 +146,8 @@ class Config
     /**
      * Exports data to a deployment configuration file
      *
-     * @param string $magentoBasePath
      * @return void
-     * @throws \Exception || \FilesystemException
+     * @throws \Exception
      */
     public function saveToFile()
     {
@@ -161,14 +160,7 @@ class Config
             throw new \Exception("Some of the keys have not been replaced in the template: {$matches[1]}");
         }
 
-        $configFilePath = $this->configDirectory->getAbsolutePath(self::DEPLOYMENT_CONFIG_FILE);
-        $result = file_put_contents($configFilePath, $contents, LOCK_EX);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The specified "%s" file could not be written', $configFilePath)
-            );
-        }
-
+        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE,$contents);
         $this->configDirectory->changePermissions(self::DEPLOYMENT_CONFIG_FILE, 0777);
     }
 

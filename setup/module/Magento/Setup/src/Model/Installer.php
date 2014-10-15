@@ -237,12 +237,11 @@ class Installer
      */
     public function checkFilePermissions()
     {
-        $results = $this->filePermissions->checkPermission();
+        $results = $this->filePermissions->getDirsWithNoPermission();
         if ($results) {
             $errorMsg = 'Missing writing permissions to the following directories: ';
-            $magentoBasePath = str_replace('\\', '/', $this->systemConfig->getMagentoBasePath()) . '/';
             foreach ($results as $result) {
-                $errorMsg .= '\'' . str_replace($magentoBasePath, '', $result) . '\' ';
+                $errorMsg .= '\'' . $result . '\' ';
             }
             throw new \Exception($errorMsg);
         }

@@ -8,17 +8,10 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
-
 
 class FilePermissions
 {
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
     /**
      * @var DirectoryList
      */
@@ -29,7 +22,7 @@ class FilePermissions
      *
      * @var array
      */
-    protected $permissions = array(
+    protected $writableDirectories = array(
         DirectoryList::CONFIG,
         DirectoryList::VAR_DIR,
         DirectoryList::MEDIA,
@@ -51,15 +44,12 @@ class FilePermissions
     protected $current = [];
 
     /**
-     * @param DirectoryList  $directoryList
-     * @param Filesystem $filesystem
+     * @param DirectoryListFactory  $directoryListFactory
      */
     public function __construct(
-        DirectoryList  $directoryList,
-        Filesystem $filesystem
+        DirectoryListFactory  $directoryListFactory
     ) {
-        $this->directoryList = $directoryList;
-        $this->filesystem = $filesystem;
+        $this->directoryList = $directoryListFactory->create();
     }
 
     /**
@@ -70,8 +60,8 @@ class FilePermissions
     public function getRequired()
     {
         if (!$this->required) {
-            foreach ($this->permissions as $code) {
-                $this->required[$code] = $this->directoryList->getpath($code);
+            foreach ($this->writableDirectories as $code) {
+                $this->required[$code] = $this->directoryList->getPath($code);
             }
         }
         return array_values($this->required);
@@ -97,17 +87,15 @@ class FilePermissions
 
     /**
      * Validate directory permissions by given directory code
-     *     *
+     *
      * @param string $path
      * @return bool
      */
     protected function validate($path)
     {
-
         if (!file_exists($path) || !is_dir($path) || !is_readable($path) || !is_writable($path)) {
             return false;
         }
-
         return true;
     }
 
@@ -116,7 +104,7 @@ class FilePermissions
      *
      * @return array
      */
-    public function checkPermission()
+    public function getDirsWithNoPermission()
     {
         $required = $this->getRequired();
         $current = $this->getCurrent();

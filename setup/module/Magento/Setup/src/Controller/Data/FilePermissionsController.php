@@ -16,16 +16,6 @@ use Magento\Setup\Model\FilePermissions;
 class FilePermissionsController extends AbstractActionController
 {
     /**
-     * @var ConfigFactory
-     */
-    protected $configFactory;
-
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
      * @var JsonModel
      */
     protected $jsonModel;
@@ -38,17 +28,13 @@ class FilePermissionsController extends AbstractActionController
     /**
      * @param JsonModel $jsonModel
      * @param FilePermissions $permissions
-     * @param ConfigFactory $configFactory     *
      */
     public function __construct(
         JsonModel $jsonModel,
-        FilePermissions $permissions,
-        ConfigFactory $configFactory
+        FilePermissions $permissions
     ) {
         $this->jsonModel = $jsonModel;
         $this->permissions = $permissions;
-        $this->configFactory = $configFactory;
-        $this->config = $this->configFactory->create();
     }
 
     /**
@@ -57,25 +43,15 @@ class FilePermissionsController extends AbstractActionController
     public function indexAction()
     {
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
-        if ($this->permissions->checkPermission()) {
+        if ($this->permissions->getDirsWithNoPermission()) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
-        }
-
-        $magentoBasePath= str_replace('\\', '/', $this->config->getMagentoBasePath()) . '/';
-        $relativeRequiredPaths = [];
-        foreach ($this->permissions->getRequired() as $path) {
-            $relativeRequiredPaths[] = str_replace($magentoBasePath, '', $path);
-        }
-        $relativeCurrentPaths = [];
-        foreach ($this->permissions->getCurrent() as $path) {
-            $relativeCurrentPaths[] = str_replace($magentoBasePath, '', $path);
         }
 
         $data = [
             'responseType' => $responseType,
             'data' => [
-                'required' => $relativeRequiredPaths,
-                'current' => $relativeCurrentPaths,
+                'required' => $this->permissions->getRequired(),
+                'current' => $this->permissions->getCurrent(),
             ],
         ];
 

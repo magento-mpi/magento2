@@ -23,6 +23,7 @@ use Zend\Db\Adapter\Profiler;
 use Zend\Db\ResultSet;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Sql;
+use Magento\Setup\Model\FileSystemFactory;
 
 class Mysql extends Adapter implements AdapterInterface
 {
@@ -167,16 +168,18 @@ class Mysql extends Adapter implements AdapterInterface
      * @param Platform\PlatformInterface $platform
      * @param ResultSet\ResultSetInterface $queryResultPrototype
      * @param Profiler\ProfilerInterface $profiler
-     * @param Filesystem $filesystem
+     * @param FileSystemFactory $fileSystemFactory
      */
     public function __construct(
         $driver,
         Platform\PlatformInterface $platform = null,
         ResultSet\ResultSetInterface $queryResultPrototype = null,
         Profiler\ProfilerInterface $profiler = null,
-        Filesystem $filesystem = null
+        FileSystemFactory $fileSystemFactory = null
     ) {
-        $this->_filesystem = $filesystem;
+        if ($fileSystemFactory !== null) {
+            $this->_filesystem = $fileSystemFactory->create();
+        }
         parent::__construct($driver, $platform, $queryResultPrototype, $profiler);
     }
 
