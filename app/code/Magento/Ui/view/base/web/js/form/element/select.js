@@ -13,36 +13,36 @@ define([
 
     var defaults = {
         caption: i18n('Select...'),
-        no_caption: false
+        multiple: false,
+        disabled: false,
+        size: 10,
+        template: 'ui/form/element/select'
     };
 
     return AbstractElement.extend({
 
         /**
-         * Extends instance with defaults, extends config with formatted values 
+         * Extends instance with defaults, extends config with formatted values
          *     and options, and invokes initialize method of AbstractElement class.
-         * @param {Object} config - form element configuration
          */
-        initialize: function (config) {
+        initialize: function () {
+            AbstractElement.prototype.initialize.apply(this, arguments);
+
             _.extend(this, defaults);
 
-            this.extendConfig(config);
-
-            AbstractElement.prototype.initialize.apply(this, arguments);
+            this.extendConfig();
         },
 
-        /**
-         * Rewrites value and options properties of config by formatted ones.
-         * @param  {Object} config [description]
-         */
-        extendConfig: function (config) {
-            var options = this.formatOptions(config.options),
-                value   = this.formatValue(config.value, options);
+        extendConfig: function(){
+            if (this.type === 'multiple_select') {
+                this.multiple = true;
+                this.caption  = false;
+            } else {
+                this.size = false;
+            }
+            this.initialValue = JSON.stringify(this.value());
 
-            _.extend(config, {
-                options: options,
-                value: value
-            });
+            return this;
         },
 
         /**
@@ -50,40 +50,22 @@ define([
          * @param  {*} changedValue - current value of form element
          */
         store: function (changedValue) {
-            var storedValue = changedValue ? changedValue.value : '';
+            var storedValue;
+            if (this.type === 'multiple_select') {
+                storedValue = !Array.isArray(changedValue) ? [changedValue] : changedValue;
+            } else {
+                storedValue = Array.isArray(changedValue) ? changedValue[0] : changedValue;
+            }
+
             this.provider.data.set(this.name, storedValue);
         },
 
         /**
-         * Formats options to array of {value: '...', label: '...'} objects.
-         * @param  {Object} options
-         * @return {Array} - formatted options
+         * Defines if value has changed
+         * @return {Boolean}
          */
-        formatOptions: function (options) {
-            return _.map(options, function (fullValue, index) {
-                return {
-                    label: fullValue.label,
-                    value: fullValue.value
-                };
-            });
-        },
-
-        /**
-         * Formats initial value of select by looking up for corresponding
-         *     value to options.
-         * @param  {Number} value
-         * @param  {Array} options
-         * @return {Object} - { value: '...', label: '...' }
-         */
-        formatValue: function (value, options) {
-            var formattedValue = value + '',
-                indexedOptions = _.indexBy(options, 'value');
-
-            if (formattedValue) {
-                formattedValue = indexedOptions[value];
-            }
-
-            return formattedValue;
+        hasChanged: function () {
+            return JSON.stringify(this.value()) !== this.initialValue;
         }
     });
 });

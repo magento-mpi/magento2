@@ -41,6 +41,7 @@ define([
 
         initItem: function(data, name){            
             var fullName    = this.name + '.' + name,
+                injections  = Array.prototype.slice.call(arguments, 2) || [],
                 component   = this.component,
                 config,
                 item,

@@ -21,9 +21,21 @@
                             "input_type": "multiple_select",
                             "label": "Currencies",
                             "options": [
-                                {"value":"dut","label": "Dutch money"},
+                                {"value":[
+                                    {"value":"dut","label": "Dutch money"},
+                                    {"value":"ua-1","label": "Ukraine money"},
+                                    {"value":"usa-2","label": "USA money"}
+                                ],"label": "Dutch money"},
                                 {"value":"ua","label": "Ukraine money"},
-                                {"value":"usa","label": "USA money"},
+                                {"value":[
+                                    {"value":"yo-2","label": "Yo money"},
+                                    {"value":"sup-2","label": "Sup money"},
+                                    {"value":[
+                                        {"value":"yo-3","label": "Yo money"},
+                                        {"value":"sup-3","label": "Sup money"},
+                                        {"value":"wow-3","label": "Wow money"}
+                                    ],"label": "Wow money"}
+                                ],"label": "USA money"},
                                 {"value":"yo","label": "Yo money"},
                                 {"value":"sup","label": "Sup money"},
                                 {"value":"wow","label": "Wow money"}
@@ -113,7 +125,6 @@
                         },
                         "some": {
                             "index": "some",
-                            "label": "It's some label",
                             "data_type": "text",
                             "input_type": "input",
                             "notice": "Notice for Some other",
@@ -139,7 +150,7 @@
                             "label": "Welcome Email",
                             "description": "Send Welcome Email"
                         },
-                        "disable_auto":{
+                        "disable_auto": {
                             "index": "disable_auto",
                             "data_type": "boolean",
                             "input_type": "checkbox",

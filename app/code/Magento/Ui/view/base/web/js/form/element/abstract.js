@@ -27,7 +27,8 @@ define([
         error:              '',
         addbefore:          '',
         addafter:           '',
-        notice:             null
+        notice:             null,
+        template:           ''
     };
 
     return Scope.extend({
@@ -111,7 +112,7 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.module + '/form/element/' + this.type;
+            return this.template ? this.template : this.module + '/form/element/' + this.type;
         },
 
         /**

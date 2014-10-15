@@ -7,10 +7,9 @@
 define([
     './abstract',
     './select',
-    './multiple_select',
     './textarea',
     './boolean'
-], function (Abstract, Select, MultipleSelect, Textarea, Bool) {
+], function (Abstract, Select, Textarea, Bool) {
     'use strict';
 
     return {
@@ -21,7 +20,7 @@ define([
         date:               Abstract,
         media:              Abstract,
         select:             Select,
-        multiple_select:    MultipleSelect,
+        multiple_select:    Select,
         textarea:           Textarea
     }
 });
