@@ -105,7 +105,7 @@ class Preprocessor implements PreprocessorInterface
             }
         }
 
-        return 'product_id ' . ($isNegation ? 'NOT' : '') . ' IN (
+        return 'product_id ' . ' IN (
                 select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
              as filter)';
     }
