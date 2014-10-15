@@ -23,7 +23,7 @@ define([
     var Area = Component.extend({
         initialize: function() {
             _.extend(this, defaults);
-            
+
             __super__.initialize.apply(this, arguments);
 
             this.pushParams();
@@ -38,19 +38,20 @@ define([
         },
 
         initListeners: function() {
-            var params  = this.provider.params,
-                handlers;
-
-            handlers = {
-                update:     this.onChildrenUpdate.bind(this),
-                loading:    this.onContentLoading.bind(this, true),
-                loaded:     this.onContentLoading.bind(this, false)
-            };
+            var params  = this.provider.params;
 
             params.on('update:activeArea', this.updateState.bind(this));
 
-            this.elems.forEach(function(elem){
-                elem.on(handlers);
+            return this;
+        },
+
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
+
+            elem.on({
+                update:     this.onChildrenUpdate.bind(this),
+                loading:    this.onContentLoading.bind(this, true),
+                loaded:     this.onContentLoading.bind(this, false)
             });
 
             return this;
