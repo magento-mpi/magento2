@@ -187,10 +187,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
 
-        $basePath = str_replace('/', '\\', $basePath);
-        $libPath = $basePath . '\\lib\\internal';
-        $appPath = $basePath . '\\app\\code';
-        $generationPathPath = str_replace('/', '\\', $this->_generationDir);
+        $libPath = 'lib\\internal';
+        $appPath = 'app\\code';
+        $generationPathPath = str_replace('/', '\\', str_replace($basePath . '/', '', $this->_generationDir));
 
         $files = \Magento\TestFramework\Utility\Files::init()->getClassFiles(
             true,
@@ -208,14 +207,18 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $replacements = array('', '', '');
 
         /** Convert file names into class name format */
+        $blackList = file(__DIR__ . '/_files/blacklist.txt', FILE_IGNORE_NEW_LINES);
         $classes = array();
         foreach ($files as $file) {
-            $file = str_replace('/', '\\', $file);
-            $filePath = preg_replace($patterns, $replacements, $file);
-            $className = substr($filePath, 0, -4);
-            if (class_exists($className)) {
-                $file = str_replace('\\', DIRECTORY_SEPARATOR, $file);
-                $classes[$file] = $className;
+            $file = str_replace($basePath . '/', '', $file);
+            if (!in_array($file, $blackList)) {
+                $file = str_replace('/', '\\', $file);
+                $filePath = preg_replace($patterns, $replacements, $file);
+                $className = substr($filePath, 0, -4);
+                if (class_exists($className)) {
+                    $file = str_replace('\\', DIRECTORY_SEPARATOR, $file);
+                    $classes[$file] = $className;
+                }
             }
         }
 
