@@ -470,6 +470,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $elementType
+     * @param string $attribute
+     * @param string $value
+     *
+     * @dataProvider elementAttributeDataProvider
+     */
+    public function testElementAttributes($elementType, $attribute, $value)
+    {
+        $this->model->setElementAttribute($elementType, $attribute, $value);
+        $this->assertEquals([$attribute => $value], $this->model->getElementAttributes($elementType));
+    }
+
+    /**
      * @param string $handle
      *
      * @dataProvider pageLayoutDataProvider
