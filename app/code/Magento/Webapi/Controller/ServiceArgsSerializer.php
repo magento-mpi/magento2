@@ -144,7 +144,7 @@ class ServiceArgsSerializer
         $data = is_array($data) ? $data : [];
         $class = new ClassReflection($className);
 
-        $builder = $this->getBuilder($className, $class);
+        $builder = $this->getBuilder($className);
 
         foreach ($data as $propertyName => $value) {
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
@@ -167,18 +167,17 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Returns a builder for a given classname and class.
+     * Returns a builder for a given classname.
      *
      * @param string $className
-     * @param ClassReflection $class
      * @return object a builder instance
      */
-    protected function getBuilder($className, $class)
+    protected function getBuilder($className)
     {
-        if ($class->isSubclassOf('\Magento\Framework\Model\AbstractExtensibleModel')) {
+        $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
+        if (is_subclass_of($paramInstanceClassName, '\Magento\Framework\Model\AbstractExtensibleModel')) {
             // By convention, need to lookup the concrete class preference for the data interface type and
             // gets its builder.
-            $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
             return $this->_objectManager->create($paramInstanceClassName . "DataBuilder");
         }
         // By convention, for complex parameters that don't inherit from the data interface,
