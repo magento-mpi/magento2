@@ -11,7 +11,6 @@ namespace Magento\TestFramework\TestCase\Webapi\Adapter\Rest;
 /**
  * Generator for documentation
  *
- * @package Magento\TestFramework\TestCase\Webapi\Adapter\Rest
  */
 class DocumentationGenerator
 {
@@ -25,24 +24,20 @@ class DocumentationGenerator
      */
     public function generateDocumentation($httpMethod, $resourcePath, $arguments, $response)
     {
-        $arguments = json_encode($arguments, JSON_PRETTY_PRINT);
-        $response = json_encode($response, JSON_PRETTY_PRINT);
-        $filePath = $this->fileNameGeneration($resourcePath);
-        $content = $this->htmlPreparation($httpMethod, $resourcePath, $arguments, $response);
+        $content = $this->generateHtmlContent($httpMethod, $resourcePath, $arguments, $response);
+        $filePath = $this->generateFileName($resourcePath);
+        if (!is_writable(dirname($filePath))) {
+            throw new \RuntimeException('Directory for documentation generation is not writable.');
+        }
         if (file_exists($filePath)) {
             $fileContent = file_get_contents($filePath);
-            $endHtml = $this->endHtmlGeneration();
+            $endHtml = $this->generateHtmlFooter();
             $fileContent = str_replace($endHtml, '', $fileContent);
             $content = "{$fileContent}\n{$content}";
             unlink($filePath);
             file_put_contents($filePath, $content, FILE_APPEND);
         } else {
-            if ($resourcePath && $arguments && $response) {
-                if (!is_writable(dirname($filePath))) {
-                    throw new \RuntimeException('Directory for documentation generation is not writable.');
-                }
-                file_put_contents($filePath, $content, FILE_APPEND);
-            }
+            file_put_contents($filePath, $content, FILE_APPEND);
         }
     }
 
@@ -54,28 +49,15 @@ class DocumentationGenerator
      * @param $response
      * @return string
      */
-    protected function htmlPreparation($httpMethod, $resourcePath, $arguments, $response)
+    protected function generateHtmlContent($httpMethod, $resourcePath, $arguments, $response)
     {
-        $requestParameters = $this->retrieveParametersAsHtml($arguments);
-        $responseParameters = $this->retrieveParametersAsHtml($response);
-        $resourcePath = urldecode($resourcePath);
-        $resource = str_replace('/', '-', preg_replace('#/\w*/V\d+/(.*)#', '${1}', $resourcePath));
-        $lowerCaseResource = strtolower($resource);
-        $lowerCaseMethod = strtolower($httpMethod);
-        $beginningHtml = <<<HTML
-<div class="col-xs-9" role="main">
-    <div class="bs-docs-section">
-HTML;
-        $headingHtml = <<<HTML
-        <h2 class="api2" id="$lowerCaseResource">$resource</h2>
-        <h3 class="api3" id="$lowerCaseMethod-$lowerCaseResource">$httpMethod $resourcePath</h3>
-        <h4 class="api4">Request</h4>
-HTML;
-        $responseHtml = <<<HTML
-        <h4 class="api4" id=”$lowerCaseResource-response>Response</h4>
-HTML;
-        $requestParametersHtml = <<<HTML
-        <h3 class="api3" id="$lowerCaseResource-parameters">Request and response parameters</h3>
+        if (empty($arguments)){
+            $arguments = 'This call does not accept a request body.';
+            $requestParametersHtml = '';
+        } else {
+            $requestParameters = $this->retrieveParametersAsHtml($arguments);
+            $arguments = json_encode($arguments, JSON_PRETTY_PRINT);
+            $requestParametersHtml = <<<HTML
             <table class="docutils field-list" frame="void" rules="none"  width="400">
                 <colgroup>
                     <col width="35%" class="field-name">
@@ -93,7 +75,15 @@ HTML;
                 </tbody>
             </table>
 HTML;
-        $responseParametersHtml = <<<HTML
+        }
+
+        if (empty($response)){
+            $response = 'This call does not accept a response body.';
+            $responseParametersHtml = '';
+        } else {
+            $responseParameters = $this->retrieveParametersAsHtml($response);
+            $response = json_encode($response, JSON_PRETTY_PRINT);
+            $responseParametersHtml = <<<HTML
             <table class="docutils field-list" frame="void" rules="none"  width="400">
                 <colgroup>
                     <col width="35%" class="field-name">
@@ -111,9 +101,29 @@ HTML;
                 </tbody>
             </table>
 HTML;
-        $endHtml = $this->endHtmlGeneration();
-        $content = "{$beginningHtml}\n{$headingHtml}\n<pre>\n{$arguments}\n</pre>\n{$responseHtml}\n" .
-                   "<pre>\n{$response}\n</pre>\n{$requestParametersHtml}\n{$responseParametersHtml}\n{$endHtml}";
+        }
+        $resourcePath = urldecode($resourcePath);
+        $resource = str_replace('/', '-', preg_replace('#/\w*/V\d+/(.*)#', '${1}', $resourcePath));
+        $lowerCaseResource = strtolower($resource);
+        $lowerCaseMethod = strtolower($httpMethod);
+        $beginningHtml = <<<HTML
+<div class="col-xs-9" role="main">
+    <div class="bs-docs-section">
+HTML;
+        $headingHtml = <<<HTML
+        <h2 class="api2" id="$lowerCaseResource">$resource</h2>
+        <h3 class="api3" id="$lowerCaseMethod-$lowerCaseResource">$httpMethod $resourcePath</h3>
+        <h4 class="api4">Request</h4>
+HTML;
+        $responseHtml = <<<HTML
+        <h4 class="api4" id=”$lowerCaseResource-response>Response</h4>
+HTML;
+        $requestResponseParametersHtml = <<<HTML
+        <h3 class="api3" id="$lowerCaseResource-parameters">Request and response parameters</h3>
+HTML;
+        $endHtml = $this->generateHtmlFooter();
+        $content = "{$beginningHtml}\n{$headingHtml}\n<pre>\n{$arguments}\n</pre>\n{$responseHtml}\n<pre>\n{$response}"
+        . "\n</pre>\n{$requestResponseParametersHtml}\n{$requestParametersHtml}\n{$responseParametersHtml}\n{$endHtml}";
         return $content;
     }
 
@@ -122,7 +132,8 @@ HTML;
      *
      * @return string
      */
-    protected function endHtmlGeneration(){
+    protected function generateHtmlFooter()
+    {
         $endHtml = <<<HTML
         <h3 class="api3" id="products-responses">Response codes</h3>
         <table class="docutils field-list" frame="void" rules="none" width="400">
@@ -170,7 +181,7 @@ HTML;
      * @return string
      * @throws \RuntimeException
      */
-    protected function fileNameGeneration($resourcePath)
+    protected function generateFileName()
     {
         $varDir = realpath(__DIR__ . '/../../../../../..') . '/var';
         $documentationDir = $varDir . '/log/rest-documentation/';
@@ -207,14 +218,14 @@ HTML;
     protected function retrieveParametersAsHtml($parameters)
     {
         $parametersAsHtml = '';
-        if (is_array($parameters)) {
+        if (is_array($parameters) && (!empty($parameters))) {
             foreach (array_keys($parameters) as $parameter) {
                 $parametersAsHtml = $parametersAsHtml . '<li><strong>' . $parameter .
-                '</strong> (<em>Type should be changed manually!</em>) TBD.</li>' . "\n";
+                    '</strong> (<em>Type should be changed manually!</em>) TBD.</li>' . "\n";
             }
         } else {
             $parametersAsHtml = '<li><strong>' . 'scalar_value' .
-            '</strong> (<em>Type should be changed manually!</em>) TBD.</li>';
+                '</strong> (<em>Type should be changed manually!</em>) TBD.</li>';
         }
         return $parametersAsHtml;
     }
