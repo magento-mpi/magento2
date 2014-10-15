@@ -49,13 +49,6 @@ class Filesystem
     protected $remoteResourceInstances = array();
 
     /**
-     * Path to system temporary directory
-     *
-     * @var string
-     */
-    private $sysTmpPath = null;
-
-    /**
      * @param Filesystem\DirectoryList $directoryList
      * @param Filesystem\Directory\ReadFactory $readFactory
      * @param Filesystem\Directory\WriteFactory $writeFactory
