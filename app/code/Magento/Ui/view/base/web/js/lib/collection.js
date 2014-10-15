@@ -28,14 +28,12 @@ define([
         },
 
         initItems: function(){
-            var deps,
-                callback;
+            var config;
                 
             _.each(this.layout, function(item, name){
-                callback    = this.initItem.bind(this, item, name);
-                deps        = item.injections;
-
-                registry.get(deps, callback);
+                config = this.parseConfig(item);
+                
+                this.initItem(config, name);
             }, this);
 
             return this;
@@ -44,22 +42,38 @@ define([
         initItem: function(data, name){            
             var fullName    = this.name + '.' + name,
                 component   = this.component,
-                injections  = Array.prototype.slice.call(arguments, 2),
                 config,
-                item;
+                item,
+                itemConfig = this.item_config;
 
             config = _.extend({
                 provider:   this.provider,
                 fullName:   fullName,
                 name:       name,
                 elems:      injections
-            }, data);
+            }, data, itemConfig);
 
             item = new component(config);
 
             this.elems.push(item);
 
             registry.set(fullName, item);
+        },
+
+        parseConfig: function(item){
+            var config = {};
+
+            if (typeof item === 'string') {
+                config.injections = item.split(' ');
+            } else if (Array.isArray(item)) {
+                config.injections = item;
+            } else {
+                _.extend(config, item);
+            }
+
+            config.injections = config.injections || [];
+
+            return config;
         },
 
         getTemplate: function () {

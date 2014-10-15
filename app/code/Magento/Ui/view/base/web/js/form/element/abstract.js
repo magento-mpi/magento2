@@ -19,11 +19,15 @@ define([
         disabled:           false,
         module:             'ui',
         type:               'input',
+        placeholder:        null,
+        noticeid:           null,
         value:              '',
         description:        '',
         label:              '',
-        validateOnChange:   true,
         error:              '',
+        addbefore:          '',
+        addafter:           '',
+        notice:             null,
         template:           ''
     };
 
@@ -54,7 +58,8 @@ define([
                 'value':         this.initialValue = this.value,
                 'required':      rules['required-entry'],
                 'disabled':      this.disabled,
-                'error':         this.error
+                'error':         this.error,
+                'focused':       false
             });
 
             return this;
@@ -66,6 +71,18 @@ define([
          */
         setUniqueId: function () {
             this.uid = utils.uniqueid();
+
+            return this;
+        },
+
+        /**
+         * Sets notice id for element
+         * @return {Object} - reference to instance
+         */
+        setNoticeId: function () {
+            if (this.notice) {
+                this.noticeid = 'notice-' + this.uid;
+            }
 
             return this;
         },
@@ -102,15 +119,15 @@ define([
          * Is being called when value is updated
          */
         onUpdate: function (value) {
-            var shouldValidate  = this.validateOnChange,
-                isValid         = true;
+            var isValid = this.validate();
 
-            if (shouldValidate) {
-                isValid = this.validate();
-            }
+            this.trigger('update', this, {
+                value:          value,
+                isValid:        isValid,
+                makeVisible:    false
+            });
 
-            this.trigger('update', this, value, isValid)
-                .store(value);
+            this.store(value);
         },
 
         /**
@@ -132,11 +149,10 @@ define([
             var value       = this.value(),
                 rules       = this.validation,
                 isValid     = true,
-                isAllValid  = true,
-                validate    = validator.validate.bind(validator);
+                isAllValid  = true;
 
             isAllValid = _.every(rules, function (params, rule) {
-                isValid = validate(rule, value, params);
+                isValid = validator.validate(rule, value, params);
 
                 if (!isValid) {
                     this.error(validator.messageFor(rule));
@@ -148,7 +164,13 @@ define([
             if (isAllValid) {
                 this.error('');
             } else if (showErrors) {
-                this.trigger('update', this, value, false);
+                this.trigger('update', this, {
+                    value:          value,
+                    isValid:        isAllValid,
+                    makeVisible:    true
+                });
+
+                this.focused(true);
             }
 
             return isAllValid;

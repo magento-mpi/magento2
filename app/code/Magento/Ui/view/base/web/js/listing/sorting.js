@@ -45,10 +45,7 @@ define([
          * @returns {Sorting} Chainable.
          */
         initObservable: function(){
-            this.observe({
-                field:      this.field,
-                direction:  this.direction
-            });
+            this.observe('field direction');
 
             return this;
         },

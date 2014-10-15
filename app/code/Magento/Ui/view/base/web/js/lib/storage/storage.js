@@ -28,7 +28,7 @@ define([
          * @return {*} this.data[path] or simply this.data
          */
         get: function(path) {
-            return !path ? this.data : this.data[path];
+            return utils.nested(this.data, path);
         },
 
         /**

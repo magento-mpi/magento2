@@ -7,65 +7,35 @@
 define([
     'underscore',
     'Magento_Ui/js/initializer/collection',
-    '../component'
-], function(_, Collection, Component, EventsBus) {
+    '../collapsible'
+], function(_, Collection, Collapsible) {
     'use strict';
 
-    var defaults = {
-        collapsible:    false,
-        opened:         true,
-        template:       'ui/fieldset/fieldset'
-    };
+    var __super__ = Collapsible.prototype;
 
-    var __super__ = Component.prototype;
-
-    var Fieldset = Component.extend({
+    var Fieldset = Collapsible.extend({
         initialize: function() {
-            _.extend(this, defaults);
+            this.template = 'ui/fieldset/fieldset';
 
             __super__.initialize.apply(this, arguments);
         },
 
-        initObservable: function(){
-            __super__.initObservable.apply(this, arguments);
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
 
-            this.observe({
-                'opened': this.opened
-            });
+            elem.on('update', this.onElementUpdate.bind(this));
 
             return this;
         },
 
-        initListeners: function(){
-            var update = this.onElementUpdate.bind(this);
-
-            this.elems.forEach(function(elem){
-                elem.on('update', update);
-            });
-
-            return this;
-        },
-
-        toggle: function() {
-            var opened = this.opened;
-
-            if(this.collapsible){
-                opened(!opened());
-
-                this.trigger('active', opened());
-            }
-
-            return this;
-        },
-
-        onElementUpdate: function(){
+        onElementUpdate: function(element, settings){
             var changed;
 
-            this.elems.some(function(elem){
+            this.elems().some(function(elem){
                 return (changed = elem.hasChanged());
             });
 
-            this.trigger(changed ? 'change' : 'restore');
+            this.trigger('update', changed, this, settings);
         }
     });
 

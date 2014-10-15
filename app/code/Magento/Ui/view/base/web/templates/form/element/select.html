@@ -7,8 +7,9 @@
  */
 -->
 <select class="select"
-        data-bind="attr: { id: uid, size: size, disabled: disabled, multiple: multiple },
+        data-bind="attr: { id: uid, size: size, disabled: disabled, multiple: multiple, 'aria-describedby': noticeid, },
                    css: {'multiselect': multiple},
+                   hasFocus: focused,
                    optgroup: options,
                    selectedOptions: value,
                    optionsCaption: caption,

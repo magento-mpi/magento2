@@ -13,9 +13,10 @@ define([
     'use strict';
 
     var defaults = {
-        content: '',
-        source: '',
-        template: 'ui/content/content'
+        content:        '',
+        showSpinner:    true,
+        loading:        false,
+        template:       'ui/content/content'
     };
 
     var __super__ = Component.prototype;
@@ -25,24 +26,37 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
+
+            this.initAjaxConfig();
         },
 
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
 
-            this.observe({
-                content:        this.content,
-                showSpinner:    false
-            });
+            this.observe('content loading');
+
+            this.loading.subscribe(function(value){
+                this.trigger(value ? 'loading' : 'loaded');
+            }, this);
 
             this.containers.subscribe(this.onContainersUpdate.bind(this));
 
             return this;
         },
 
+        initAjaxConfig: function(){
+            this.ajaxConfig = {
+                url:        this.source,
+                data:       { FORM_KEY: FORM_KEY },
+                success:    this.onDataLoaded.bind(this)
+            };
+
+            return this;
+        },
+
         onContainersUpdate: function(container){
-            var containers = this.containers(),
-                change = this.onContainerChange.bind(this);
+            var containers  = this.containers(),
+                change      = this.onContainerChange.bind(this);
 
             containers.forEach(function(elem){
                 elem.on('active', change);
@@ -50,7 +64,7 @@ define([
         },
 
         onContainerChange: function(active){
-            if(active && !this.hasData()){
+            if(active && this.shouldLoad()){
                 this.loadData();
             }
         },
@@ -59,29 +73,27 @@ define([
             return this.content();
         },
 
-        loadData: function(){
-            this.showSpinner(true);
+        shouldLoad: function(){
+            return this.source && !this.hasData() && !this.loading();
+        },
 
-            $.ajax({
-                url: this.source,
-                data: {
-                    FORM_KEY: FORM_KEY
-                },
-                success: function(response){
-                    this.showSpinner(false);
-                    this.updateContent(response);
-                }.bind(this)
-            });
+        loadData: function(){
+            this.loading(true);
+
+            $.ajax(this.ajaxConfig);
 
             return this;
         },
 
-        updateContent: function(content){
-            this.content(content);
+        onDataLoaded: function(data){
+            this.updateContent(data)
+                .loading(false); 
         },
 
-        hasChanged: function () {
-            return false;
+        updateContent: function(content){
+            this.content(content);
+
+            return this;
         }
     });
 

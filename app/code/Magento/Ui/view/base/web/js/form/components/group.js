@@ -7,10 +7,9 @@
 define([
     'underscore',
     'Magento_Ui/js/initializer/collection',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/events',
+    '../component',
     'mage/utils'
-], function(_, Collection, Scope, EventsBus, utils) {
+], function(_, Collection, Component, utils) {
     'use strict';
 
     var defaults = {
@@ -19,6 +18,8 @@ define([
         template:   'ui/group/group',
         breakLine:  false
     };
+
+    var __super__ = Component.prototype;
 
     /**
      * Either takes label property of 'obj' or if undefined loops over 
@@ -69,7 +70,7 @@ define([
         return uid;
     }
 
-    var FormGroup = Scope.extend({
+    var FormGroup = Component.extend({
 
         /**
          * Extends this with defaults and config.
@@ -77,12 +78,10 @@ define([
          * 
          * @param  {Object} config
          */
-        initialize: function(config) {
-            _.extend(this, defaults, config);
-
-            this.initObservable()
-                .initListeners()
-                .extractData();
+        initialize: function() {
+            _.extend(this, defaults);
+            
+            __super__.initialize.apply(this, arguments);
         },
 
         /**
@@ -90,7 +89,19 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
+            __super__.initObservable.apply(this, arguments);
+
             this.observe('invalids', []);
+
+            return this;
+        },
+
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
+
+            elem.on('update', this.onUpdate.bind(this));
+
+            this.extractData();
 
             return this;
         },
@@ -101,7 +112,7 @@ define([
          * @return {Object} - reference to instance
          */
         extractData: function(){
-            var elems = this.elems;
+            var elems = this.elems();
 
             return _.extend(this, {
                 label:      getLabel(elems, this),
@@ -110,37 +121,15 @@ define([
             });
         },
 
-        onUpdate: function (element, value, isValid) {
+        onUpdate: function (element, settings) {
+            var isValid = settings.isValid;
 
             if (!isValid && this.invalids.hasNo(element)) {
                 this.invalids.push(element);
             }
 
-            this.trigger('update', element, value);
-        },
-
-        /**
-         * Initializes instance's listeners.
-         * 
-         * @return {Object} - reference to instance
-         */
-        initListeners: function(){
-            var update = this.onUpdate.bind(this);
-
-            this.elems.forEach(function(element){
-                element.on('update', update);
-            });
-
-            return this;
-        },
-
-        /**
-         * Returns path(alias) to instance's template.
-         * 
-         * @return {String}
-         */
-        getTemplate: function(){
-            return this.template;
+            settings.element = element;
+            this.trigger('update', this, settings);
         },
 
         /**
@@ -149,11 +138,11 @@ define([
          * @return {Boolean}
          */
         hasChanged: function(){
-            return this.elems.some(function(elem){
+            return this.elems().some(function(elem){
                 return elem.hasChanged();
             });
         }
-    }, EventsBus);
+    });
 
     return Collection(FormGroup);
 });

@@ -6,4 +6,14 @@
  * @license     {license_link}
  */
 -->
-<input class="input-text" type="email" data-bind="value: value, attr: { id: uid, disabled: disabled }">
+<input class="control-text"
+              type="email"
+              data-bind="
+                        hasFocus: focused,
+                        value: value,
+                        attr: {
+                            placeholder: placeholder,
+                            'aria-describedby': noticeid,
+                            id: uid,
+                            disabled: disabled
+                        }" />
