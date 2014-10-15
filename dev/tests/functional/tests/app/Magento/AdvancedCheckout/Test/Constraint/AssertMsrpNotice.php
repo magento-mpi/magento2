@@ -36,7 +36,7 @@ class AssertMsrpNotice extends AbstractConstraint
         foreach ($requiredAttentionProducts as $product) {
             \PHPUnit_Framework_Assert::assertTrue(
                 $checkoutCart->getAdvancedCheckoutCart()->isMsrpNoticeDisplayed($product),
-                'Notice that product with enabled MAP is absent .'
+                'Notice that product with enabled MAP is absent.'
             );
         }
     }

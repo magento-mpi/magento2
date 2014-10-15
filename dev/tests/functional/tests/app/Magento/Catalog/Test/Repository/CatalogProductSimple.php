@@ -486,5 +486,23 @@ class CatalogProductSimple extends AbstractRepository
                 'period_frequency' => 1
             ]
         ];
+
+        $this->_data['with_msrp'] = [
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Simple Product with msrp %isolation%',
+            'sku' => 'sku_simple_product_with_msrp_%isolation%',
+            'weight' => 1,
+            'quantity_and_stock_status' => [
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'price' => ['value' => 560.00, 'preset' => '-'],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
+            'website_ids' => ['Main Website'],
+            'visibility' => 'Catalog, Search',
+            'checkout_data' => ['preset' => 'order_default'],
+            'msrp' => 500.00,
+            'msrp_display_actual_price_type' => 'Before Order Confirmation'
+        ];
     }
 }

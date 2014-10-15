@@ -20,7 +20,7 @@ class AssertQtyIncrementsFailMessage extends AbstractConstraint
     /**
      * Qty increments error message
      */
-    const QTY_INCREMENTS_ERROR_MESSAGE = 'You can buy this product only in increments of %d.';
+    const QTY_INCREMENTS_ERROR_MESSAGE = 'You can buy this product only in quantities of %d at a time.';
 
     /**
      * Constraint severeness

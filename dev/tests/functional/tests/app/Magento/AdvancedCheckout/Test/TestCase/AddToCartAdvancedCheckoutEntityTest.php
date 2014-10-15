@@ -89,6 +89,13 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     protected $checkoutCart;
 
     /**
+     * Configuration data set name
+     *
+     * @var string
+     */
+    protected $configuration;
+
+    /**
      * Create customer
      *
      * @param CustomerInjectable $customer
@@ -138,11 +145,16 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * @param string $products
      * @param array $orderOptions
      * @param array $cartBlock
+     * @param string $config
      * @return array
      */
-    public function test(CustomerInjectable $customer, $products, array $orderOptions, array $cartBlock)
+    public function test(CustomerInjectable $customer, $products, array $orderOptions, array $cartBlock, $config)
     {
         // Preconditions
+        $this->configuration = $config;
+        if ($this->configuration !== '-') {
+            $this->setupConfiguration();
+        }
         $products = $this->createProducts($products);
         $orderOptions = $this->prepareOrderOptions($products, $orderOptions);
         // Steps
@@ -154,7 +166,7 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
         $this->customerOrderSku->getCustomerSkuBlock()->fillForm($orderOptions);
         $this->customerOrderSku->getCustomerSkuBlock()->addToCart();
 
-        $filteredProducts = $this->filterProduct($products, $cartBlock);
+        $filteredProducts = $this->filterProducts($products, $cartBlock);
 
         return [
             'products' => isset($filteredProducts['cart']) ? $filteredProducts['cart'] : [],
@@ -171,7 +183,7 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * @param array $cartBlock
      * @return array
      */
-    protected function  filterProduct(array $products, array $cartBlock)
+    protected function filterProducts(array $products, array $cartBlock)
     {
         $filteredProducts = [];
         foreach ($cartBlock as $key => $value) {
@@ -237,6 +249,23 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     }
 
     /**
+     * Setup configuration
+     *
+     * @param bool $rollback
+     * @return void
+     */
+    protected function setupConfiguration($rollback = false)
+    {
+        $prefix = ($rollback == false) ? '' : '_rollback';
+        $dataSets = explode(',', $this->configuration);
+        foreach ($dataSets as $dataSet) {
+            $dataSet = trim($dataSet) . $prefix;
+            $configuration = $this->fixtureFactory->createByCode('configData', ['dataSet' => $dataSet]);
+            $configuration->persist();
+        }
+    }
+
+    /**
      * Clear shopping cart and log out after test
      *
      * @return void
@@ -245,5 +274,8 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     {
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
         $this->customerAccountLogout->open();
+        if ($this->configuration !== '-') {
+            $this->setupConfiguration(true);
+        }
     }
 }

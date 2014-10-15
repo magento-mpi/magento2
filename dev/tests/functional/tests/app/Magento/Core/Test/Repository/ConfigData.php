@@ -1014,5 +1014,40 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        // MSRP
+        $this->_data['msrp'] = [
+            'section' => [
+                [
+                    'path' => 'sales/msrp/enabled',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/msrp/display_price_type',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 3,
+                ],
+            ]
+        ];
+
+        $this->_data['msrp_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'sales/msrp/enabled',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'sales/msrp/display_price_type',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
     }
 }
