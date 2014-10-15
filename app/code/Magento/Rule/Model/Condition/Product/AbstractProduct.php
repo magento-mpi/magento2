@@ -597,8 +597,11 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      */
     public function getMappedSqlField()
     {
-
-        return ($this->getAttribute() == 'category_ids') ? 'e.entity_id' : parent::getMappedSqlField();
+        $mappedSqlField = $this->getCustomMappedSqlField();
+        if (!$mappedSqlField) {
+            $mappedSqlField = ($this->getAttribute() == 'category_ids') ? 'e.entity_id' : parent::getMappedSqlField();
+        }
+        return $mappedSqlField;
     }
 
     /**
@@ -685,5 +688,36 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         }
 
         return $operator;
+    }
+
+    /**
+     * Get tables to join
+     *
+     * @return array
+     */
+    public function getTablesToJoin()
+    {
+        if (!in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']) ) {
+            $attribute = $this->getAttributeObject();
+            $attributeId = $attribute->getId();
+            $attributeCode = $attribute->getAttributeCode();
+            $attributeTableAlias = 'at_' . $attributeCode;
+            $field = $attributeTableAlias . '.value';
+
+            $this->setCustomMappedSqlField($field);
+
+            return [
+                $attributeTableAlias => [
+                    'name' => $attribute->getBackend()->getTable(),
+                    'condition' => sprintf(
+                        '%1$s.entity_id = e.entity_id AND %1$s.attribute_id = \'%s\'',
+                        $attributeTableAlias,
+                        $attributeId
+                    ),
+                    'columns' => [$attributeCode => 'value'],
+                ],
+            ];
+        }
+        return [];
     }
 }
