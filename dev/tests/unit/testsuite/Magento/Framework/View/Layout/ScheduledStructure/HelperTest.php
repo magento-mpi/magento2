@@ -24,7 +24,10 @@ class HelperTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerScheduleStructure
      */
     public function testScheduleStructure(
-        $currentNodeName, $actualNodeName, $unsetPathElementCount, $unsetStructureElementCount
+        $currentNodeName,
+        $actualNodeName,
+        $unsetPathElementCount,
+        $unsetStructureElementCount
     ) {
         $parentNodeName = 'parent_node';
         $currentNodeAs = 'currentNode';
@@ -60,9 +63,10 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $scheduledStructure->expects($this->once())->method('getStructureElement')
             ->with($actualNodeName)
             ->will(
-                $this->returnValue([Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA => $data]
-            )
-        );
+                    $this->returnValue(
+                        [Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA => $data]
+                    )
+            );
 
         $currentNode = new Layout\Element(
             '<' . $block . ' name="' . $currentNodeName . '" as="' . $currentNodeAs . '" after="' . $after . '"/>'
@@ -74,6 +78,67 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             ->getObject('Magento\Framework\View\Layout\ScheduledStructure\Helper');
         $result = $helper->scheduleStructure($scheduledStructure, $currentNode, $parentNode, $data);
         $this->assertEquals($actualNodeName, $result);
+    }
+
+    public function testScheduleNonExistentElement()
+    {
+        $key = 'key';
+
+        /** @var Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
+        $scheduledStructure = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure', [], [], '', false);
+        $scheduledStructure->expects($this->once())->method('getStructureElement')->with($key)
+            ->will($this->returnValue([]));
+        $scheduledStructure->expects($this->once())->method('unsetPathElement')->with($key);
+        $scheduledStructure->expects($this->once())->method('unsetStructureElement')->with($key);
+
+        /** @var Layout\Data\Structure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
+        $dataStructure = $this->getMock('Magento\Framework\View\Layout\Data\Structure', [], [], '', false);
+
+        /** @var Layout\ScheduledStructure\Helper $helper */
+        $helper = (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\Framework\View\Layout\ScheduledStructure\Helper');
+        $helper->scheduleElement($scheduledStructure, $dataStructure, $key);
+    }
+
+    public function testScheduleElement()
+    {
+        $key = 'key';
+        $parentName = 'parent';
+        $siblingName = 'sibling';
+        $alias = 'alias';
+        $block = 'block';
+        $data = ['data'];
+
+        /** @var Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
+        $scheduledStructure = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure', [], [], '', false);
+        $scheduledStructure->expects($this->at(0))->method('getStructureElement')->with($key)->will(
+            $this->returnValue(
+                [
+                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_TYPE => $block,
+                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_ALIAS => $alias,
+                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME => $parentName,
+                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME => $siblingName,
+                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_IS_AFTER => true,
+                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA => $data,
+                ]
+            )
+        );
+        $scheduledStructure->expects($this->at(2))->method('getStructureElement')->with($parentName)
+            ->will($this->returnValue([]));
+        $scheduledStructure->expects($this->exactly(2))->method('hasStructureElement')->will($this->returnValue(true));
+        $scheduledStructure->expects($this->once())->method('setElement')->with($key, [$block, $data]);
+
+        /** @var Layout\Data\Structure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
+        $dataStructure = $this->getMock('Magento\Framework\View\Layout\Data\Structure', [], [], '', false);
+        $dataStructure->expects($this->once())->method('createElement')->with($key, ['type' => $block]);
+        $dataStructure->expects($this->once())->method('hasElement')->with($parentName)->will($this->returnValue(true));
+        $dataStructure->expects($this->once())->method('setAsChild')->with($key, $parentName, $alias)
+            ->will($this->returnValue(true));
+
+        /** @var Layout\ScheduledStructure\Helper $helper */
+        $helper = (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\Framework\View\Layout\ScheduledStructure\Helper');
+        $helper->scheduleElement($scheduledStructure, $dataStructure, $key);
     }
 
     /**
