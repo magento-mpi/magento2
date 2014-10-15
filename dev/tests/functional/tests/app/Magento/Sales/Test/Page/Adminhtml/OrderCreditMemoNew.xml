@@ -9,10 +9,15 @@
 -->
 <page mca="sales/order_creditmemo/new" module="Magento_Sales">
     <blocks>
-        <createBlock>
-            <class>Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create</class>
-            <locator>[id="page:main-container"]</locator>
+        <actionsBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Actions</class>
+            <locator>.order-totals-bottom .actions</locator>
             <strategy>css selector</strategy>
-        </createBlock>
+        </actionsBlock>
+        <formBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </formBlock>
     </blocks>
 </page>
