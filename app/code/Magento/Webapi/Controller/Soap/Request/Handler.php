@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Service\DataObjectProcessor;
 use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
@@ -154,12 +154,12 @@ class Handler
     protected function _prepareResponseData($data, $dataType)
     {
         $result = null;
-        if ($data instanceof AbstractExtensibleObject) {
+        if ($data instanceof ExtensibleDataInterface) {
             $result = $this->_dataObjectConverter
                 ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                if ($value instanceof AbstractExtensibleObject) {
+                if ($value instanceof ExtensibleDataInterface) {
                     $result[] = $this->_dataObjectConverter
                         ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($value, $dataType));
                 } else {
