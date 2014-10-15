@@ -165,11 +165,7 @@
             }
         }
         .toolbar {
-            .toolbar-amount,
-            .limiter,
-            .pages {
-                margin-bottom: 25px;
-            }
+            &:extend(.abstract-pager-toolbar-mobile all);
         }
     }
     .control.captcha-image {
@@ -256,26 +252,7 @@
             margin-bottom: 0;
         }
         .toolbar {
-            position: relative;
-            margin-bottom: @indent-base;
-            &:extend(.abstract-add-clearfix-desktop all);
-            .limiter {
-                float: right;
-                position: relative;
-                z-index: 1;
-            }
-            .toolbar-amount {
-                float: left;
-                line-height: normal;
-                padding: 7px 0 0;
-                position: relative;
-                z-index: 1;
-            }
-            .pages {
-                position: absolute;
-                z-index: 0;
-                width: 100%;
-            }
+            &:extend(.abstract-pager-toolbar all);
         }
     }
 

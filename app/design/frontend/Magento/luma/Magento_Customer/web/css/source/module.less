@@ -107,7 +107,7 @@
         }
     }
     .data.table {
-        .table-striped(@_stripped-highlight: even);
+        &:extend(.abstract-table-striped all);
         .col.actions {
             .action {
                 &:extend(.abstract-account-actions all);
@@ -231,32 +231,17 @@
                 @_border-width: 1px
             );
             margin-bottom: 0;
-        }
-
-        .data.table {
-            .col.total {
-                text-align: right;
-            }
-            .col.actions {
-                white-space: nowrap;
+            .col {
+                &.total {
+                    text-align: right;
+                }
+                &.actions {
+                    white-space: nowrap;
+                }
             }
         }
         .toolbar {
-            position: relative;
-            .toolbar-amount,
-            .limiter {
-                position: relative;
-                z-index: 1;
-            }
-            .toolbar-amount {
-                padding: 7px 0 0;
-                line-height: normal;
-            }
-            .pages {
-                position: absolute;
-                z-index: 0;
-                width: 100%;
-            }
+            &:extend(.abstract-pager-toolbar all);
         }
     }
 

@@ -120,14 +120,21 @@
 }
 
 //
+//    Abstract block title
+//--------------------------------------
+.abstract-block-title {
+    > strong {
+        .heading(h3);
+    }
+    margin-bottom: 15px;
+}
+
+//
 //    Account blocks
 //--------------------------------------
 .abstract-account-blocks {
     .block-title {
-        > strong {
-            .heading(h3);
-        }
-        margin-bottom: 15px;
+        &:extend(.abstract-block-title all);
         > .action {
             margin-left: 15px;
         }
@@ -753,4 +760,58 @@
 .abstract-status {
     display: inline-block;
     margin-bottom: @indent-base;
+}
+
+//
+//    Pager toolbar for non-catalog pages mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar-mobile {
+        .toolbar-amount,
+        .limiter,
+        .pages {
+            margin-bottom: 25px;
+        }
+    }
+}
+
+//
+//    Pager toolbar for non-catalog pages mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-pager-toolbar-mobile-s {
+        .toolbar-amount,
+        .limiter,
+        .pages {
+            margin-bottom: 25px;
+        }
+    }
+}
+
+//
+//    Pager toolbar for non-catalog pages desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar {
+        margin-bottom: @indent-base;
+        position: relative;
+        &:extend(.abstract-add-clearfix-desktop all);
+        .limiter {
+            float: right;
+            position: relative;
+            z-index: 1;
+        }
+        .toolbar-amount {
+            float: left;
+            line-height: normal;
+            padding: 7px 0 0;
+            position: relative;
+            z-index: 1;
+        }
+        .pages {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+        }
+    }
 }

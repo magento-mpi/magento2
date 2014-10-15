@@ -7,11 +7,11 @@
  */
 ?>
 <?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
-    <div class="block widget giftregistry">
-        <div class="title">
+    <div class="widget block block-giftregistry">
+        <div class="block-title">
             <strong><?php echo __('Gift Registry Search') ?></strong>
         </div>
-        <div class="content">
+        <div class="block-content">
             <fieldset class="fieldset">
                 <?php  if ($this->useSearchFormSelect()) : ?>
                     <div class="field searchby required">
@@ -23,7 +23,7 @@
                 <?php endif; ?>
 
                 <?php if ($this->useNameForm()) : ?>
-                    <form id="gr-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?> data-hasrequired="* <?php echo __('Please enter at least two letters.') ?>">
+                    <form id="gr-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form form-giftregistry-search-widget" <?php if ($this->useSearchFormSelect()) : ?>style="display: none;"<?php endif;?> data-hasrequired="* <?php echo __('Please enter at least two letters.') ?>">
                         <fieldset class="fieldset">
                             <div class="field name required">
                                 <?php echo $this->getBlockHtml('formkey')?>
@@ -53,7 +53,7 @@
                 <?php endif; ?>
 
                 <?php if ($this->useEmailForm()) : ?>
-                    <form id="gr-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
+                    <form id="gr-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form form-giftregistry-search-widget-email" <?php if ($this->useSearchFormSelect()) : ?>style="display: none;"<?php endif;?>>
                         <fieldset class="fieldset">
                             <div class="field email required">
                                 <?php echo $this->getBlockHtml('formkey')?>
@@ -73,7 +73,7 @@
                 <?php endif; ?>
 
                 <?php if ($this->useIdForm()) : ?>
-                    <form id="gr-quick-search-widget-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
+                    <form id="gr-quick-search-widget-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form form-giftregistry-search-widget-id" <?php if ($this->useSearchFormSelect()) : ?>style="display: none;"<?php endif;?>>
                         <fieldset class="fieldset">
                             <div class="field id required">
                                 <?php echo $this->getBlockHtml('formkey')?>

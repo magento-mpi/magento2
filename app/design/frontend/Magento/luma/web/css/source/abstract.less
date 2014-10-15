@@ -778,7 +778,6 @@
     }
 }
 
-
 //
 //    Account pages: title
 //--------------------------------------
@@ -1154,6 +1153,36 @@
                     margin-top: -30px;
                 }
             }
+        }
+    }
+}
+
+//
+//    Table striped
+//--------------------------------------
+.abstract-table-striped {
+    .table-striped(@_stripped-highlight: even);
+}
+
+//
+//    Pager toolbar for non-catalog pages desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar {
+        position: relative;
+        .toolbar-amount,
+        .limiter {
+            position: relative;
+            z-index: 1;
+        }
+        .toolbar-amount {
+            padding: 7px 0 0;
+            line-height: normal;
+        }
+        .pages {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
         }
     }
 }
