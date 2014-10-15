@@ -11,6 +11,11 @@ namespace Magento\Customer\Model\Metadata\Form;
 
 class Postcode extends Text
 {
+    /**
+     * Directory data
+     *
+     * @var \Magento\Directory\Helper\Data
+     */
     protected $_directoryData = null;
 
     /**
@@ -35,8 +40,8 @@ class Postcode extends Text
         \Magento\Framework\Stdlib\String $stringHelper,
         \Magento\Directory\Helper\Data $directoryData
     ) {
-        $this->_directoryData = $directoryData;
         parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax, $stringHelper);
+        $this->_directoryData = $directoryData;
     }
 
     /**
