@@ -99,11 +99,11 @@ abstract class AbstractConfigureBlock extends Form
                 $result[] = [
                     'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attribute]['type'])),
                     'title' => isset($options[$attribute]['title'])
-                            ? $options[$attribute]['title']
-                            : $attribute,
+                        ? $options[$attribute]['title']
+                        : $attribute,
                     'value' => isset($options[$attribute]['options'][$option]['title'])
-                            ? $options[$attribute]['options'][$option]['title']
-                            : $option
+                        ? $options[$attribute]['options'][$option]['title']
+                        : $option
                 ];
             }
         }

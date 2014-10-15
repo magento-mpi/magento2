@@ -12,9 +12,4 @@
         <mca>downloadable/customer/products</mca>
         <class>Magento\Downloadable\Test\Page\DownloadableCustomerProducts</class>
     </downloadableCustomerProducts>
-    <customerIndexEdit>
-        <mca>customer/index/edit</mca>
-        <area>adminhtml</area>
-        <class>Magento\Downloadable\Test\Page\Adminhtml\CustomerIndexEdit</class>
-    </customerIndexEdit>
 </page>

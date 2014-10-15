@@ -32,18 +32,17 @@ class Configure extends \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\
      */
     public function fillOptions(FixtureInterface $product)
     {
-        $data = $this->dataMapping($product->getData());
+        $data = $this->prepareData($product->getData());
         $this->_fill($data);
     }
 
     /**
-     * Fixture mapping
+     * Prepare data
      *
-     * @param array|null $fields
-     * @param string|null $parent
+     * @param array $fields
      * @return array
      */
-    protected function dataMapping(array $fields = null, $parent = null)
+    protected function prepareData(array $fields)
     {
         $productOptions = [];
         $checkoutData = $fields['checkout_data']['options'];
@@ -51,7 +50,7 @@ class Configure extends \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\
         if (!empty($checkoutData['bundle_options'])) {
             foreach ($checkoutData['bundle_options'] as $key => $option) {
                 $type = strtolower(preg_replace('/[^a-zA-Z]/', '', $option['type']));
-                $optionMapping = parent::dataMapping([$type => '']);
+                $optionMapping = $this->dataMapping([$type => '']);
 
                 $optionMapping[$type]['selector'] = str_replace(
                     '%selector%',

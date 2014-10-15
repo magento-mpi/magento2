@@ -49,6 +49,16 @@ class AddProductsStep implements TestStepInterface
      */
     public function run()
     {
-        $this->orderCreateIndex->getCreateBlock()->addProducts($this->products);
+        $createBlock = $this->orderCreateIndex->getCreateBlock();
+        $createBlock->getItemsBlock()->clickAddProducts();
+        foreach ($this->products as $product) {
+            $createBlock->getGridBlock()->searchAndSelect(['sku' => $product->getSku()]);
+            $createBlock->getTemplateBlock()->waitLoader();
+            if ($this->orderCreateIndex->getConfigureProductBlock()->isVisible()) {
+                $this->orderCreateIndex->getConfigureProductBlock()->configProduct($product);
+            }
+        }
+        $createBlock->addSelectedProductsToOrder();
+        $createBlock->getTemplateBlock()->waitLoader();
     }
 }

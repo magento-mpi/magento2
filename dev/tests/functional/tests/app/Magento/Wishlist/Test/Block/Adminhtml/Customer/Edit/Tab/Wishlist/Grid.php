@@ -74,7 +74,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     }
 
     /**
-     * Search item and delete it
+     * Search item product and action it
      *
      * @param array $filter
      * @param string $action

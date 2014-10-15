@@ -25,25 +25,24 @@ class Configure extends \Magento\Catalog\Test\Block\Adminhtml\Product\Composite\
      */
     public function fillOptions(FixtureInterface $product)
     {
-        $data = $this->dataMapping($product->getData());
+        $data = $this->prepareData($product->getData());
         $this->_fill($data);
     }
 
     /**
-     * Fixture mapping
+     * Prepare data
      *
-     * @param array|null $fields
-     * @param string|null $parent
+     * @param array $fields
      * @return array
      */
-    protected function dataMapping(array $fields = null, $parent = null)
+    protected function prepareData(array $fields)
     {
         $productOptions = [];
         $checkoutData = $fields['checkout_data']['options'];
 
         if (!empty($checkoutData['configurable_options'])) {
             $configurableAttributesData = $fields['configurable_attributes_data']['attributes_data'];
-            $attributeMapping = parent::dataMapping(['attribute' => '']);
+            $attributeMapping = $this->dataMapping(['attribute' => '']);
             $selector = $attributeMapping['attribute']['selector'];
             foreach ($checkoutData['configurable_options'] as $key => $optionData) {
                 $attribute = $configurableAttributesData[$optionData['title']];

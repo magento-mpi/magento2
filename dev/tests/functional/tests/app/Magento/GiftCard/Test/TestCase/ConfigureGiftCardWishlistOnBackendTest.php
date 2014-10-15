@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnBackendTest as ConfigureWishlistOnBackendTest;
+use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnBackendTest;
 
 /**
  * Test Creation for ConfigureCustomerWishlistOnBackend
@@ -33,7 +33,7 @@ use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnBackendTest as Con
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29257
  */
-class ConfigureCustomerWishlistOnBackendTest extends ConfigureWishlistOnBackendTest
+class ConfigureGiftCardWishlistOnBackendTest extends ConfigureCustomerWishlistOnBackendTest
 {
     //
 }

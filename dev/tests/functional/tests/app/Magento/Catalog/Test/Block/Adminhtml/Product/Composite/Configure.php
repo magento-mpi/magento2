@@ -9,8 +9,10 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Composite;
 
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
+use Magento\Backend\Test\Block\Template;
 use Magento\Catalog\Test\Block\AbstractConfigureBlock;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
@@ -71,7 +73,7 @@ class Configure extends AbstractConfigureBlock
      *
      * @return void
      */
-    protected function clickOk()
+    public function clickOk()
     {
         $this->_rootElement->find($this->okButton)->click();
     }

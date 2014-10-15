@@ -22,7 +22,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * 2. Create products
  * 3. Add products to the customer's wishlist (unconfigured)
  *
- * Steps;
+ * Steps:
  * 1. Go to Backend
  * 2. Go to Customers > All Customers
  * 3. Open the customer
