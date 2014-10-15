@@ -118,11 +118,13 @@
     }
 
     .step-content {
-      .fieldset > .field.street {
-        .nested > .label {
-          &:extend(.abstract-visually-hidden all);
+        .field.street {
+            .field.additional {
+                .label {
+                    &:extend(.abstract-visually-hidden all);
+                }
+            }
         }
-      }
     }
 
     // Customer login

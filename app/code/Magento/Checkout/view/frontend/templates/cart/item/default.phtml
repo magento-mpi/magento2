@@ -85,11 +85,13 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
 
     <?php endif; ?>
     <td class="col qty" data-th="<?php echo $this->escapeHtml(__('Qty')); ?>">
-        <label class="label" for="cart-<?php echo $_item->getId() ?>-qty">
-            <span><?php echo __('Qty') ?></span>
-        </label>
-        <div class="control qty">
-            <input id="cart-<?php echo $_item->getId() ?>-qty" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" type="number" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}"/>
+        <div class="field qty">
+            <label class="label" for="cart-<?php echo $_item->getId() ?>-qty">
+                <span><?php echo __('Qty') ?></span>
+            </label>
+            <div class="control qty">
+                <input id="cart-<?php echo $_item->getId() ?>-qty" name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" type="number" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}"/>
+            </div>
         </div>
         <?php $cols++; ?>
     </td>
