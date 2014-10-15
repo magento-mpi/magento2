@@ -46,6 +46,7 @@ class Action extends AbstractAction
     protected $_redirect;
 
     /**
+     * @deprecated
      * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
