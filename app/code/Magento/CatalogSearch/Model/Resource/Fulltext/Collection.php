@@ -32,7 +32,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Adapter
+     * @var \Magento\Framework\Search\AdapterInterface
      */
     private $searchAdapter;
 
@@ -58,7 +58,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
-     * @param \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter
+     * @param \Magento\Search\Model\AdapterFactory $searchAdapterFactory
      * @param \Zend_Db_Adapter_Abstract $connection
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -84,7 +84,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
-        \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter,
+        \Magento\Search\Model\AdapterFactory $searchAdapterFactory,
         $connection = null
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -111,7 +111,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $connection
         );
         $this->requestBuilder = $requestBuilder;
-        $this->searchAdapter = $searchAdapter;
+        $this->searchAdapter = $searchAdapterFactory->create();
     }
 
     /**

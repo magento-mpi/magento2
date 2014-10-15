@@ -57,7 +57,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Search\Model\AdapterFactory $searchAdapterFactory
      * @param \Zend_Db_Adapter_Abstract $connection
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @internal param \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
