@@ -8,6 +8,9 @@
  */
 namespace Magento\Customer\Api\Data;
 
+/**
+ * Customer address interface.
+ */
 interface Address
 {
     /**
@@ -25,26 +28,11 @@ interface Address
     public function getRegion();
 
     /**
-     * Get region
-     *
-     * @return \Magento\Customer\Api\Data\Region|null
-     */
-    public function setRegion(\Magento\Customer\Api\Data\Region $region);
-
-    /**
      * Get country id
      *
      * @return string|null
      */
     public function getCountryId();
-
-    /**
-     * Set country id
-     *
-     * @param $code
-     * @return mixed
-     */
-    public function setCountryId($code);
 
     /**
      * Get street

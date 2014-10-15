@@ -6,14 +6,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Api;
 
+/**
+ * Customer CRUD interface.
+ */
 interface CustomerRepository
 {
     /**
-     * Create Customer Account
+     * Create customer.
      *
-     * @param \Magento\Customer\Api\Data\Customer
+     * @param \Magento\Customer\Api\Data\Customer $customer
      * @return \Magento\Customer\Api\Data\Customer
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
@@ -21,35 +25,37 @@ interface CustomerRepository
     public function persist(\Magento\Customer\Api\Data\Customer $customer);
 
     /**
+     * Update customer.
+     *
      * @param \Magento\Customer\Api\Data\Customer $customer
      * @return \Magento\Customer\Api\Data\Customer
      */
     public function update(\Magento\Customer\Api\Data\Customer $customer);
 
     /**
-     * Retrieve Customer
+     * Retrieve customer.
      *
-     * @param string $email
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @param int $customerId
      * @return \Magento\Customer\Api\Data\Customer
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
      */
-    public function get($email);
+    public function get($customerId);
 
     /**
-     * Retrieve customers which match a specified criteria
+     * Retrieve customers which match a specified criteria.
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return mixed
+     * @return \Magento\Customer\Api\Data\Customer[]
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
-     * Delete Customer
+     * Delete customer.
      *
-     * @param string $email
-     * @throws \Magento\Customer\Exception If something goes wrong during delete
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @param int $customerId
      * @return bool True if the customer was deleted
+     * @throws \Magento\Framework\Exception\LocalizedException If something goes wrong during delete
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      */
-    public function remove($email);
+    public function delete($customerId);
 }

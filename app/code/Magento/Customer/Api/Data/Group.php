@@ -6,8 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Api\Data;
 
+/**
+ * Customer group interface.
+ */
 interface Group
 {
     /**
@@ -18,14 +22,6 @@ interface Group
     public function getId();
 
     /**
-     * Set id
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function setId($value);
-
-    /**
      * Get code
      *
      * @return string
@@ -33,26 +29,9 @@ interface Group
     public function getCode();
 
     /**
-     * Set string code
-     *
-     * @param $value
-     * @return $this
-     */
-    public function setCode($value);
-
-    /**
      * Get tax class id
      *
      * @return int
      */
     public function getTaxClassId();
-
-    /**
-     * Set tax class id
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function setTaxClassId($value);
-
 }

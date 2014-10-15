@@ -8,32 +8,41 @@
  */
 namespace Magento\Customer\Api;
 
+/**
+ * Customer address CRUD interface.
+ */
 interface AddressRepository
 {
     /**
-     * @param int $addressId
+     * Save customer address.
+     *
+     * @param \Magento\Customer\Api\Data\Address $address
      * @param int $customerId
      * @return \Magento\Customer\Api\Data\Address
      */
-    public function get($addressId, $customerId);
+    public function persist(\Magento\Customer\Api\Data\Address $address, $customerId);
 
     /**
-     * @param int $customerId
+     * Retrieve customer address.
+     *
+     * @param int $addressId
+     * @return \Magento\Customer\Api\Data\Address
+     */
+    public function get($addressId);
+
+    /**
+     * Retrieve customers addresses matching the specified criteria.
+     *
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Customer\Api\Data\Address[]
      */
-    public function getList($customerId);
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
+     * Delete customer address.
+     *
      * @param int $addressId
-     * @param int $customerId
      * @return int
      */
-    public function delete($addressId, $customerId);
-
-    /**
-     * @param \Magento\Customer\Api\Data\Address $address
-     * @param int $customerId
-     * @return int
-     */
-    public function persist(\Magento\Customer\Api\Data\Address $address, $customerId);
+    public function delete($addressId);
 }

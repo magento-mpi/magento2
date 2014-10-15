@@ -8,23 +8,26 @@
  */
 namespace Magento\Customer\Api;
 
+/**
+ * Interface for managing customer groups.
+ */
 interface GroupManagement
 {
     /**
-     * Check if the group can be deleted
+     * Check if customer group can be deleted.
      *
      * @param int $groupId
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If group is not found
      * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If group is not found
      */
-    public function getIsReadonly($groupId);
+    public function isReadonly($groupId);
 
     /**
-     * Get default group
+     * Get default customer group.
      *
      * @param int $storeId
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If default group for $storeId is not found
      * @return \Magento\Customer\Api\Data\Group
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getDefaultGroup($storeId = null);
 }
