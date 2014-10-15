@@ -597,8 +597,9 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      */
     public function getMappedSqlField()
     {
-        $mappedSqlField = $this->getCustomMappedSqlField();
-        if (!$mappedSqlField) {
+        if ($this->isEavAttribute()) {
+            $mappedSqlField = $this->getEavAttributeTableAlias() . '.value';
+        } else {
             $mappedSqlField = ($this->getAttribute() == 'category_ids') ? 'e.entity_id' : parent::getMappedSqlField();
         }
         return $mappedSqlField;
@@ -697,14 +698,9 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      */
     public function getTablesToJoin()
     {
-        if (!in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']) ) {
+        if ($this->isEavAttribute()) {
             $attribute = $this->getAttributeObject();
-            $attributeId = $attribute->getId();
-            $attributeCode = $attribute->getAttributeCode();
-            $attributeTableAlias = 'at_' . $attributeCode;
-            $field = $attributeTableAlias . '.value';
-
-            $this->setCustomMappedSqlField($field);
+            $attributeTableAlias = $this->getEavAttributeTableAlias();
 
             return [
                 $attributeTableAlias => [
@@ -712,12 +708,34 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                     'condition' => sprintf(
                         '%1$s.entity_id = e.entity_id AND %1$s.attribute_id = \'%s\'',
                         $attributeTableAlias,
-                        $attributeId
+                        $attribute->getId()
                     ),
-                    'columns' => [$attributeCode => 'value'],
+                    'columns' => [$attribute->getAttributeCode() => 'value'],
                 ],
             ];
         }
         return [];
+    }
+
+    /**
+     * Check is eav attribute
+     *
+     * @return bool
+     */
+    protected function isEavAttribute()
+    {
+        return !in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']);
+    }
+
+    /**
+     * Get eav attribute alias
+     *
+     * @return string
+     */
+    protected function getEavAttributeTableAlias()
+    {
+        $attribute = $this->getAttributeObject();
+
+        return 'eav_' . $attribute->getAttributeCode();
     }
 }
