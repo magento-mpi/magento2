@@ -29,7 +29,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Adapter
+     * @var \Magento\Framework\Search\AdapterInterface
      */
     private $searchAdapter;
 
@@ -54,9 +54,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
-     * @param \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter
+     * @param \Magento\Search\Model\AdapterFactory $searchAdapterFactory
      * @param \Zend_Db_Adapter_Abstract $connection
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @internal param \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -79,12 +80,12 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
-        \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter,
+        \Magento\Search\Model\AdapterFactory $searchAdapterFactory,
         $connection = null
     ) {
         $this->_date = $date;
         $this->requestBuilder = $requestBuilder;
-        $this->searchAdapter = $searchAdapter;
+        $this->searchAdapter = $searchAdapterFactory->create();
         parent::__construct(
             $entityFactory,
             $logger,
