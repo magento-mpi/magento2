@@ -17,19 +17,6 @@ class IncludePath
     const NS_SEPARATOR = '\\';
 
     /**
-     * @var \Magento\Framework\Autoload\ClassMap\Dynamic
-     */
-    protected $_dynamicClassMap;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->_dynamicClassMap = \Magento\Framework\Autoload\ClassMap\Dynamic::getInstance();
-    }
-
-    /**
      * Find a file in include path
      *
      * @param string $class
@@ -37,13 +24,8 @@ class IncludePath
      */
     public function getFile($class)
     {
-        $path = $this->_dynamicClassMap->getClassPath($class);
-        if (is_null($path)) {
-            $relativePath = $this->getFilePath($class);
-            $path = stream_resolve_include_path($relativePath);
-            $this->_dynamicClassMap->addClassToMap($class, $path);
-        }
-        return $path;
+        $relativePath = $this->getFilePath($class);
+        return stream_resolve_include_path($relativePath);
     }
 
     /**
@@ -55,7 +37,7 @@ class IncludePath
      */
     public function getFilePath($class)
     {
-        return ltrim(str_replace(array('_', self::NS_SEPARATOR), '/', $class), '/') . '.php';
+        return ltrim(str_replace(array('_',self::NS_SEPARATOR), '/', $class), '/') . '.php';
     }
 
     /**
