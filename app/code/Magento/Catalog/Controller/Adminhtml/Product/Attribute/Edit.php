@@ -80,17 +80,17 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
 
         $this->_coreRegistry->register('entity_attribute', $model);
 
-        $page = $this->createActionPage();
+        $resultPage = $this->createActionPage();
 
         $this->_title->add($id ? $model->getName() : __('New Product Attribute'));
 
         $item = $id ? __('Edit Product Attribute') : __('New Product Attribute');
 
-        $this->_addBreadcrumb($item, $item);
+        $resultPage->addBreadcrumb($item, $item);
 
-        $page->getLayout()
+        $resultPage->getLayout()
             ->getBlock('attribute_edit_js')
             ->setIsPopup((bool)$this->getRequest()->getParam('popup'));
-        return $page;
+        return $resultPage;
     }
 }

@@ -15,10 +15,6 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
      */
     protected $resultJsonFactory;
 
-    /**
-     * @var \Magento\Framework\View\Result\LayoutFactory
-     */
-    protected $resultLayoutFactory;
 
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -30,19 +26,16 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
      * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory
-     * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory,
-        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
+        \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory
     ) {
         parent::__construct($context, $resultRedirectFactory);
         $this->resultPageFactory = $resultPageFactory;
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
     /**
@@ -78,6 +71,9 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
             $category->addData($data['general']);
         }
 
+        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        $resultPage = $this->resultPageFactory->create();
+
         /**
          * Build response for ajax request
          */
@@ -103,12 +99,11 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
                 }
             }
 
-            $resultLayout = $this->resultLayoutFactory->create();
             $eventResponse = new \Magento\Framework\Object([
-                'content' => $resultLayout->getLayout()->getBlock('category.edit')->getFormHtml()
-                    . $resultLayout->getLayout()->getBlock('category.tree')
+                'content' => $resultPage->getLayout()->getBlock('category.edit')->getFormHtml()
+                    . $resultPage->getLayout()->getBlock('category.tree')
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
-                'messages' => $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml()
+                'messages' => $resultPage->getLayout()->getMessagesBlock()->getGroupedHtml()
             ]);
             $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
@@ -121,8 +116,6 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
             return $resultJson;
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
-        $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog_categories');
         $resultPage->addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 

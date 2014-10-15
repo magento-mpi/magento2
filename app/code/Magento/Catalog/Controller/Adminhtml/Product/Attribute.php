@@ -75,11 +75,12 @@ class Attribute extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return \Magento\Framework\View\Result\Page
+     * @return \Magento\Backend\Model\View\Result\Page
      */
     protected function createActionPage()
     {
         $this->_title->add(__('Product Attributes'));
+        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         if ($this->getRequest()->getParam('popup')) {
             if ($this->getRequest()->getParam('product_tab') == 'variations') {
@@ -90,14 +91,9 @@ class Attribute extends \Magento\Backend\App\Action
             $pageConfig = $resultPage->getConfig();
             $pageConfig->addBodyClass('attribute-popup');
         } else {
-            $this->_addBreadcrumb(
-                __('Catalog'),
-                __('Catalog')
-            )->_addBreadcrumb(
-                __('Manage Product Attributes'),
-                __('Manage Product Attributes')
-            );
-            $this->_setActiveMenu('Magento_Catalog::catalog_attributes_attributes');
+            $resultPage->addBreadcrumb(__('Catalog'), __('Catalog'))
+                ->addBreadcrumb(__('Manage Product Attributes'), __('Manage Product Attributes'))
+                ->setActiveMenu('Magento_Catalog::catalog_attributes_attributes');
         }
         return $resultPage;
     }

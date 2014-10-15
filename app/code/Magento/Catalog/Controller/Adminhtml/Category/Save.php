@@ -21,20 +21,28 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
     protected $resultJsonFactory;
 
     /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
      * @param \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory,
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
-        \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory
+        \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory
     ) {
         parent::__construct($context, $resultRedirectFactory);
         $this->resultRawFactory = $resultRawFactory;
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->layoutFactory = $layoutFactory;
     }
 
     /**
@@ -161,7 +169,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
             // to obtain truncated category name
 
             /** @var $block \Magento\Framework\View\Element\Messages */
-            $block = $this->_objectManager->get('Magento\Framework\View\Element\Messages');
+            $block = $this->layoutFactory->create()->getMessagesBlock();
             $block->setMessages($this->messageManager->getMessages(true));
 
             /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
