@@ -62,6 +62,9 @@ class Giftwrapping extends AbstractTotal
      */
     protected $_giftWrappingData = null;
 
+    /**
+     * @var int
+     */
     protected $counter = 0;
 
     /**

@@ -254,5 +254,4 @@ abstract class AbstractTotal
     {
         return $config;
     }
-
 }
