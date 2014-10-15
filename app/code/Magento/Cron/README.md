@@ -1,0 +1,2 @@
+Cron is a module that allow scheduling of jobs.  Modules can add cron jobs by including crontab.xml in their etc directory.
+This module also allows administrators to tune cron options in the administrator console.
