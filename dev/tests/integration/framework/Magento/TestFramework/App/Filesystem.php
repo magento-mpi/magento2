@@ -8,8 +8,6 @@
 
 namespace Magento\TestFramework\App;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
-
 class Filesystem extends \Magento\Framework\Filesystem
 {
     /**
@@ -25,14 +23,6 @@ class Filesystem extends \Magento\Framework\Filesystem
     protected function getDirPath($code)
     {
         return $this->getOverriddenPath($code, parent::getDirPath($code));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getSysTmpPath()
-    {
-        return $this->getOverriddenPath(self::SYS_TMP, parent::getSysTmpPath());
     }
 
     /**

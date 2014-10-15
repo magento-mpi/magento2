@@ -70,7 +70,7 @@ class FileContentUploader extends Uploader implements FileContentUploaderInterfa
         $this->_coreFileStorage = $coreFileStorage;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->systemTmpDirectory = $filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
+        $this->systemTmpDirectory = $filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
         $this->linkConfig = $linkConfig;
         $this->sampleConfig = $sampleConfig;
     }

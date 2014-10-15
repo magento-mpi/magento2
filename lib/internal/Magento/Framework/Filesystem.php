@@ -14,11 +14,6 @@ use Magento\Framework\Filesystem\File\ReadInterface;
 class Filesystem
 {
     /**
-     * System base temporary directory
-     */
-    const SYS_TMP = 'sys_tmp';
-
-    /**
      * @var \Magento\Framework\Filesystem\DirectoryList
      */
     protected $directoryList;
@@ -52,13 +47,6 @@ class Filesystem
      * @var \Magento\Framework\Filesystem\File\ReadInterface[]
      */
     protected $remoteResourceInstances = array();
-
-    /**
-     * Path to system temporary directory
-     *
-     * @var string
-     */
-    private $sysTmpPath = null;
 
     /**
      * @param Filesystem\DirectoryList $directoryList
@@ -115,9 +103,6 @@ class Filesystem
      */
     protected function getDirPath($code)
     {
-        if (self::SYS_TMP == $code) {
-            return $this->getSysTmpPath();
-        }
         return $this->directoryList->getPath($code);
     }
 
@@ -156,18 +141,5 @@ class Filesystem
     public function getUri($code)
     {
         return $this->directoryList->getUrlPath($code);
-    }
-
-    /**
-     * Gets system temporary directory path
-     *
-     * @return string
-     */
-    protected function getSysTmpPath()
-    {
-        if (null === $this->sysTmpPath) {
-            $this->sysTmpPath = sys_get_temp_dir();
-        }
-        return $this->sysTmpPath;
     }
 }

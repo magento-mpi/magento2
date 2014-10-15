@@ -14,6 +14,7 @@
 namespace Magento\ScheduledImportExport\Model;
 
 use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\DirectoryList;
 
 class Import extends \Magento\ImportExport\Model\Import implements
     \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
@@ -32,7 +33,7 @@ class Import extends \Magento\ImportExport\Model\Import implements
             $result = $this->validateSource(
                 \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
                     $sourceFile,
-                    $this->_filesystem->getDirectoryWrite(Filesystem::SYS_TMP)
+                    $this->_filesystem->getDirectoryWrite(DirectoryList::SYS_TMP)
                 )
             );
         }

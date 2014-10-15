@@ -582,7 +582,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     protected function readData($source, $destination)
     {
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(Filesystem::SYS_TMP);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
 
         $this->validateAdapterType();
         $fileInfo = $this->getFileInfo();

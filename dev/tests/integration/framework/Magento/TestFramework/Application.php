@@ -127,17 +127,17 @@ class Application
 
         $generationDir = "{$installDir}/generation";
         $customDirs = array(
-            DirectoryList::CONFIG => array('path' => $this->_installEtcDir),
-            DirectoryList::VAR_DIR => array('path' => $installDir),
-            DirectoryList::MEDIA => array('path' => "{$installDir}/media"),
-            DirectoryList::STATIC_VIEW => array('path' => "{$installDir}/pub_static"),
-            DirectoryList::GENERATION => array('path' => $generationDir),
-            DirectoryList::CACHE => array('path' => $installDir . '/cache'),
-            DirectoryList::LOG => array('path' => $installDir . '/log'),
-            DirectoryList::THEMES => array('path' => BP . '/app/design'),
-            DirectoryList::SESSION => array('path' => $installDir . '/session'),
-            DirectoryList::TMP => array('path' => $installDir . '/tmp'),
-            DirectoryList::UPLOAD => array('path' => $installDir . '/upload'),
+            DirectoryList::CONFIG => array(DirectoryList::PATH => $this->_installEtcDir),
+            DirectoryList::VAR_DIR => array(DirectoryList::PATH => $installDir),
+            DirectoryList::MEDIA => array(DirectoryList::PATH => "{$installDir}/media"),
+            DirectoryList::STATIC_VIEW => array(DirectoryList::PATH => "{$installDir}/pub_static"),
+            DirectoryList::GENERATION => array(DirectoryList::PATH => $generationDir),
+            DirectoryList::CACHE => array(DirectoryList::PATH => $installDir . '/cache'),
+            DirectoryList::LOG => array(DirectoryList::PATH => $installDir . '/log'),
+            DirectoryList::THEMES => array(DirectoryList::PATH => BP . '/app/design'),
+            DirectoryList::SESSION => array(DirectoryList::PATH => $installDir . '/session'),
+            DirectoryList::TMP => array(DirectoryList::PATH => $installDir . '/tmp'),
+            DirectoryList::UPLOAD => array(DirectoryList::PATH => $installDir . '/upload'),
         );
         $this->_initParams = array(
             \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => $customDirs,
