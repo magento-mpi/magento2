@@ -820,7 +820,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
             $this->_customerAccountService
-                ->createCustomer($customerDetails, CustomerAccountServiceInterface::GENERATE_PASSWORD);
+                ->createCustomer($customerDetails, null, null, '', true);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $ie->getMessage());

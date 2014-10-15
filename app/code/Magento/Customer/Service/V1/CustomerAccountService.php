@@ -365,9 +365,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Data\CustomerDetails $customerDetails,
         $password = null,
         $confirmation = null,
-        $redirectUrl = ''
+        $redirectUrl = '',
+        $generatePassword = false
     ) {
-        if ($password == CustomerAccountServiceInterface::GENERATE_PASSWORD) {
+        if ($generatePassword) {
             $password = $this->mathRandom->getRandomString(self::MIN_PASSWORD_LENGTH);
         } else {
             $this->checkPasswordStrength($password);

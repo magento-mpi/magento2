@@ -38,8 +38,6 @@ interface CustomerAccountServiceInterface
 
     const MIN_PASSWORD_LENGTH = 6;
 
-    const GENERATE_PASSWORD = 'generate_password';
-
     /**
      * Create Customer Account
      *
@@ -56,7 +54,8 @@ interface CustomerAccountServiceInterface
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
         $confirmation = null,
-        $redirectUrl = ''
+        $redirectUrl = '',
+        $generatePassword = false
     );
 
     /**
