@@ -1,50 +1,42 @@
 <?php
 /**
+ * Form Element Postcode Data Model
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Model\Attribute\Data;
+namespace Magento\Customer\Model\Metadata\Form;
 
-/**
- * Customer Address Postal/Zip Code Attribute Data Model
- * This Data Model Has to Be Set Up in additional EAV attribute table
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
+class Postcode extends Text
 {
-    /**
-     * Validate postal/zip code
-     * Return true and skip validation if country zip code is optional
-     *
-     * @param array|string $value
-     * @return boolean|array
-     */
-    /**
-     * Directory data
-     *
-     * @var \Magento\Directory\Helper\Data
-     */
     protected $_directoryData = null;
 
     /**
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param string $value
+     * @param string $entityTypeCode
+     * @param bool $isAjax
      * @param \Magento\Framework\Stdlib\String $stringHelper
      * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Logger $logger,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        $value,
+        $entityTypeCode,
+        $isAjax,
         \Magento\Framework\Stdlib\String $stringHelper,
         \Magento\Directory\Helper\Data $directoryData
     ) {
         $this->_directoryData = $directoryData;
-        parent::__construct($localeDate, $logger, $localeResolver, $stringHelper);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax, $stringHelper);
     }
 
     /**
