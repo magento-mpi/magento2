@@ -11,7 +11,6 @@ namespace Magento\Shipping\Test\TestCase;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test Creation for CreateShipment for offline payment methods
@@ -56,10 +55,10 @@ class CreateShipmentEntityTest extends Injectable
      *
      * @param ObjectManager $objectManager
      * @param OrderInjectable $order
-     * @param array $shipment
+     * @param array $data
      * @return array
      */
-    public function test(ObjectManager $objectManager, OrderInjectable $order, array $shipment)
+    public function test(ObjectManager $objectManager, OrderInjectable $order, array $data)
     {
         // Preconditions
         $order->persist();
@@ -67,9 +66,9 @@ class CreateShipmentEntityTest extends Injectable
         // Steps
         $createShipping = $objectManager->create(
             'Magento\Sales\Test\TestStep\CreateShipmentStep',
-            ['order' => $order, 'data' => $shipment]
+            ['order' => $order, 'data' => $data]
         );
 
-        return ['ids' => $createShipping->run(), 'shipment' => $shipment];
+        return ['ids' => $createShipping->run()];
     }
 }

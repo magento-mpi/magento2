@@ -12,7 +12,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
-use Magento\Shipping\Test\Constraint\AbstractAssertItems;
+use Magento\Sales\Test\Constraint\AbstractAssertItems;
 
 /**
  * Class AssertArchiveInvoiceItems
