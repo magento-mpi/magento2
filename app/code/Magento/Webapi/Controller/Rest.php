@@ -173,7 +173,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             /** @var ClassReflection $serviceClassReflector */
             $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClassName]);
             $serviceMethodReturnType =
-                $this->dataObjectProcessor->getMethodReturnType($serviceClassReflector, $serviceMethodName);
+                $this->dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethodName));
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceMethodReturnType);

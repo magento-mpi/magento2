@@ -121,7 +121,7 @@ class Handler
         /** @var ClassReflection $serviceClassReflector */
         $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClass]);
         $serviceMethodReturnType =
-            $this->_dataObjectProcessor->getMethodReturnType($serviceClassReflector, $serviceMethod);
+            $this->_dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethod));
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
         $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
         return $this->_prepareResponseData($outputData, $serviceMethodReturnType);
