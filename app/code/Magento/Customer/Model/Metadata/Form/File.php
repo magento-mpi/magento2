@@ -9,6 +9,7 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Framework\File\UploaderFactory;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Service\ArrayObjectSearch;
@@ -40,6 +41,11 @@ class File extends AbstractData
     protected $_fileSystem;
 
     /**
+     * @var UploaderFactory
+     */
+    private $uploaderFactory;
+
+    /**
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
@@ -50,6 +56,7 @@ class File extends AbstractData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
      * @param Filesystem $fileSystem
+     * @param UploaderFactory $uploaderFactory
      */
     public function __construct(
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -61,12 +68,14 @@ class File extends AbstractData
         $isAjax,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
-        Filesystem $fileSystem
+        Filesystem $fileSystem,
+        UploaderFactory $uploaderFactory
     ) {
         parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
         $this->_fileSystem = $fileSystem;
+        $this->uploaderFactory = $uploaderFactory;
     }
 
     /**
@@ -257,13 +266,12 @@ class File extends AbstractData
 
         if (!empty($value['tmp_name'])) {
             try {
-                $uploader = new \Magento\Framework\File\Uploader($value);
+                $uploader = $this->uploaderFactory->create(['fileId' => $value]);
                 $uploader->setFilesDispersion(true);
                 $uploader->setFilenamesCaseSensitivity(false);
                 $uploader->setAllowRenameFiles(true);
-                $uploader->save($mediaDir->getAbsolutePath($this->_entityTypeCode, $value['name']));
-                $fileName = $uploader->getUploadedFileName();
-                $result = $fileName;
+                $uploader->save($mediaDir->getAbsolutePath($this->_entityTypeCode), $value['name']);
+                $result = $uploader->getUploadedFileName();
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }

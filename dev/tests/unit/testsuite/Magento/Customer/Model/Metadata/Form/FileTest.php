@@ -26,23 +26,35 @@ class FileTest extends AbstractFormTestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\RequestInterface */
     protected $requestMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\File\UploaderFactory
+     */
+    private $uploaderFactoryMock;
+
     protected function setUp()
     {
         parent::setUp();
-        $this->coreDataMock = $this->getMockBuilder(
-            'Magento\Core\Helper\Data'
-        )->disableOriginalConstructor()->getMock();
-        $this->fileValidatorMock = $this->getMockBuilder(
-            'Magento\Core\Model\File\Validator\NotProtectedExtension'
-        )->disableOriginalConstructor()->getMock();
-        $this->fileSystemMock = $this->getMockBuilder(
-            'Magento\Framework\Filesystem'
-        )->disableOriginalConstructor()->getMock();
-        $this->requestMock = $this->getMockBuilder(
-            'Magento\Framework\App\RequestInterface'
-        )->disableOriginalConstructor()->setMethods(
-            ['getParam', 'getParams', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getCookie']
-        )->getMock();
+        $this->coreDataMock = $this->getMockBuilder('Magento\Core\Helper\Data')
+            ->disableOriginalConstructor()->getMock();
+        $this->fileValidatorMock = $this->getMockBuilder('Magento\Core\Model\File\Validator\NotProtectedExtension')
+            ->disableOriginalConstructor()->getMock();
+        $this->fileSystemMock = $this->getMockBuilder('Magento\Framework\Filesystem')
+            ->disableOriginalConstructor()->getMock();
+        $this->requestMock = $this->getMockBuilder('Magento\Framework\App\RequestInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                [
+                    'getParam',
+                    'getParams',
+                    'getModuleName',
+                    'setModuleName',
+                    'getActionName',
+                    'setActionName',
+                    'getCookie'
+                ]
+            )
+            ->getMock();
+        $this->uploaderFactoryMock = $this->getMock('Magento\Framework\File\UploaderFactory', [], [], '', false);
     }
 
     /**
@@ -274,6 +286,44 @@ class FileTest extends AbstractFormTestCase
         $this->assertSame('', $fileForm->compactValue(['delete' => true]));
     }
 
+    public function testCompactValueTmpFile()
+    {
+        $value = ['tmp_name' => 'tmp.file', 'name' => 'new.file'];
+        $expected = 'saved.file';
+
+        $fileForm = $this->getClass(null, false);
+        $mediaDirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
+        $this->fileSystemMock->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)
+            ->will($this->returnValue($mediaDirMock));
+        $mediaDirMock->expects($this->any())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0));
+        $uploaderMock = $this->getMock('\Magento\Framework\File\Uploader', [], [], '', false);
+        $this->uploaderFactoryMock->expects($this->once())
+            ->method('create')
+            ->with(['fileId' => $value])
+            ->will($this->returnValue($uploaderMock));
+        $uploaderMock->expects($this->once())
+            ->method('setFilesDispersion')
+            ->with(true);
+        $uploaderMock->expects($this->once())
+            ->method('setFilenamesCaseSensitivity')
+            ->with(false);
+        $uploaderMock->expects($this->once())
+            ->method('setAllowRenameFiles')
+            ->with(true);
+        $uploaderMock->expects($this->once())
+            ->method('save')
+            ->with(self::ENTITY_TYPE, 'new.file');
+        $uploaderMock->expects($this->once())
+            ->method('getUploadedFileName')
+            ->will($this->returnValue($expected));
+
+        $this->assertSame($expected, $fileForm->compactValue($value));
+    }
+
     public function testRestoreValue()
     {
         $value = 'value';
@@ -342,7 +392,8 @@ class FileTest extends AbstractFormTestCase
                 $isAjax,
                 $this->coreDataMock,
                 $this->fileValidatorMock,
-                $this->fileSystemMock
+                $this->fileSystemMock,
+                $this->uploaderFactoryMock
             )
         );
         return $fileForm;

@@ -169,8 +169,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return array(
             '.git',
             '.svn',
-            $this->_filesystem->getDirectoryRead(MaintenanceMode::FLAG_DIR)->getAbsolutePath()
-                . '/' . MaintenanceMode::FLAG_FILENAME,
+            $this->_filesystem->getDirectoryRead(MaintenanceMode::FLAG_DIR)
+                ->getAbsolutePath(MaintenanceMode::FLAG_FILENAME),
             $this->_filesystem->getDirectoryRead(DirectoryList::SESSION)->getAbsolutePath(),
             $this->_filesystem->getDirectoryRead(DirectoryList::CACHE)->getAbsolutePath(),
             $this->_filesystem->getDirectoryRead(DirectoryList::LOG)->getAbsolutePath(),
@@ -190,8 +190,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return array(
             '.svn',
             '.git',
-            $this->_filesystem->getDirectoryRead(MaintenanceMode::FLAG_DIR)->getAbsolutePath()
-                . '/' . MaintenanceMode::FLAG_FILENAME,
+            $this->_filesystem->getDirectoryRead(MaintenanceMode::FLAG_DIR)
+                ->getAbsolutePath(MaintenanceMode::FLAG_FILENAME),
             $this->_filesystem->getDirectoryRead(DirectoryList::SESSION)->getAbsolutePath(),
             $this->_filesystem->getDirectoryRead(DirectoryList::LOG)->getAbsolutePath(),
             $this->_filesystem->getDirectoryRead(DirectoryList::VAR_DIR)->getAbsolutePath('locks'),
