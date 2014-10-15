@@ -700,11 +700,13 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      */
     public function getTablesToJoin()
     {
+        $tablesToJoin = parent::getTablesToJoin();
+
         if ($this->isEavAttribute()) {
             $attribute = $this->getAttributeObject();
             $attributeTableAlias = $this->getEavAttributeTableAlias();
 
-            return [
+            $tablesToJoin = \array_merge($tablesToJoin, [
                 $attributeTableAlias => [
                     'name' => $attribute->getBackend()->getTable(),
                     'condition' => sprintf(
@@ -714,9 +716,9 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                     ),
                     'columns' => [$attribute->getAttributeCode() => 'value'],
                 ],
-            ];
+            ]);
         }
-        return [];
+        return $tablesToJoin;
     }
 
     /**
