@@ -13,22 +13,17 @@ echo
 PHP_EOL,
 'Usage:', PHP_EOL,
 '   php -f ', str_replace(dirname(__FILE__), __FILE__, ''),
-' -- -t target_file.ser -i app/code;lib/internal -p ";"', PHP_EOL,
+' -- -t classmap.ser -i app/code;lib/internal -p ";"', PHP_EOL,
 PHP_EOL,
 'Parameters:', PHP_EOL,
-'   -t   - Target file [required]', PHP_EOL,
+'   -t   - Target file [optional, default - "{magento_root}/var/classmap.ser"]', PHP_EOL,
 '   -i   - Include path [optional, default - "{magento_root}/app/code;{magento_root}/lib/internal"]', PHP_EOL,
 '   -p   - Paths separator for include path [optional, default - ";"]', PHP_EOL;
 
 $args = getopt('t:i::p::');
-
-if (!isset($args['t'])) {
-    echo 'ERROR: Target file is not specified!';
-    exit(1);
-}
-
 $includePath = isset($args['i']) ? $args['i'] : "{$basePath}app/code;{$basePath}lib/internal";
 $pathSeparator = isset($args['p']) ? $args['p'] : ';';
+$targetFile = isset($args['i']) ? $args['i'] : "{$basePath}var/classmap.ser";
 $map = array();
 
 foreach (array_reverse(explode($pathSeparator, $includePath)) as $path) {
@@ -112,6 +107,6 @@ foreach (array_reverse(explode($pathSeparator, $includePath)) as $path) {
     }
 }
 
-file_put_contents($args['t'], serialize($map));
+file_put_contents($targetFile, serialize($map));
 
 echo 'Done!';
