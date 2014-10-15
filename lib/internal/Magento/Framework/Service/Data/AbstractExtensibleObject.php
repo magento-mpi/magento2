@@ -24,7 +24,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Api\AttributeInterface|null null if the attribute has not been set
+     * @return \Magento\Framework\Service\Data\AttributeValue|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -37,7 +37,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Api\AttributeInterface[]
+     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {
