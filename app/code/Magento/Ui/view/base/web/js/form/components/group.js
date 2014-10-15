@@ -82,8 +82,6 @@ define([
             _.extend(this, defaults);
             
             __super__.initialize.apply(this, arguments);
-
-            this.extractData();
         },
 
         /**
@@ -98,17 +96,12 @@ define([
             return this;
         },
 
-        /**
-         * Initializes instance's listeners.
-         * 
-         * @return {Object} - reference to instance
-         */
-        initListeners: function(){
-            var update = this.onUpdate.bind(this);
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
 
-            this.elems.forEach(function(element){
-                element.on('update', update);
-            });
+            elem.on('update', this.onUpdate.bind(this));
+
+            this.extractData();
 
             return this;
         },
@@ -119,7 +112,7 @@ define([
          * @return {Object} - reference to instance
          */
         extractData: function(){
-            var elems = this.elems;
+            var elems = this.elems();
 
             return _.extend(this, {
                 label:      getLabel(elems, this),
@@ -145,7 +138,7 @@ define([
          * @return {Boolean}
          */
         hasChanged: function(){
-            return this.elems.some(function(elem){
+            return this.elems().some(function(elem){
                 return elem.hasChanged();
             });
         }

@@ -20,12 +20,10 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
-        initListeners: function(){
-            var update = this.onElementUpdate.bind(this);
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
 
-            this.elems.forEach(function(elem){
-                elem.on('update', update);
-            });
+            elem.on('update', this.onElementUpdate.bind(this));
 
             return this;
         },
@@ -33,7 +31,7 @@ define([
         onElementUpdate: function(element, settings){
             var changed;
 
-            this.elems.some(function(elem){
+            this.elems().some(function(elem){
                 return (changed = elem.hasChanged());
             });
 

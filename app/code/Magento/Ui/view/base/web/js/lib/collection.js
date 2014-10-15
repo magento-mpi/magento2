@@ -28,16 +28,12 @@ define([
         },
 
         initItems: function(){
-            var deps,
-                callback,
-                config;
+            var config;
                 
             _.each(this.layout, function(item, name){
-                config      = this.parseConfig(item);
-                callback    = this.initItem.bind(this, config, name);
-                deps        = config.injections;
-
-                registry.get(deps, callback);
+                config = this.parseConfig(item);
+                
+                this.initItem(config, name);
             }, this);
 
             return this;
@@ -46,7 +42,6 @@ define([
         initItem: function(data, name){            
             var fullName    = this.name + '.' + name,
                 component   = this.component,
-                injections  = Array.prototype.slice.call(arguments, 2),
                 config,
                 item,
                 itemConfig = this.item_config;
@@ -75,6 +70,8 @@ define([
             } else {
                 _.extend(config, item);
             }
+
+            config.injections = config.injections || [];
 
             return config;
         },

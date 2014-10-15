@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 -->
-<div>
-    <h3 data-bind="css: { 'ui-accordion-header': collapsible, 'ui-accordion-header-active': opened() && collapsible }, click: onClick, keyboard: { 13: onClick }" tabindex="1">
-        <span data-bind="text: label"></span>
-    </h3>
-    <ul class="tabs" data-bind="visible: opened">
+<div class="block tab-nav">
+    <div class="block-title" data-bind="css: { 'ui-accordion-header': collapsible, 'ui-accordion-header-active': opened() && collapsible }, click: toggle, click: onClick, keyboard: { 13: onClick }">
+        <strong tabindex="1" data-bind="text: label, keyboard: { 13: toggle }"></strong>
+    </div>
+    <ul class="tab-nav-items items" data-bind="visible: opened">
         <!-- ko foreach: elems -->
-            <li tabindex="2" data-bind="css: { 'ui-state-active': active, 'ui-tabs-loading': loading }, click: setActive, keyboard: { 13: setActive }">
-                <a class="tab-item-link" href="#" data-bind="css: { changed: changed }">
+            <li class="tab-nav-item" tabindex="2" data-bind="css: { 'ui-state-active': active, 'ui-tabs-loading': loading }, click: setActive, keyboard: { 13: setActive }">
+                <a class="tab-nav-item-link" href="#" data-bind="text: label, css: { changed: changed }">
                     <span>
                         <!-- ko text: label --><!-- /ko -->
                         <span class="loader" title="Loading..."></span>

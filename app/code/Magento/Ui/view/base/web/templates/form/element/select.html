@@ -7,9 +7,9 @@
  */
 -->
 <!-- ko ifnot: no_caption -->
-<select class="select" data-bind="attr: { id: uid, disabled: disabled }, options: options, value: value, optionsText: 'label', optionsCaption: caption, hasFocus: focused" />
+<select class="control-select" data-bind="attr: { id: uid, 'aria-describedby': noticeid, disabled: disabled }, options: options, value: value, optionsText: 'label', optionsCaption: caption, hasFocus: focused" />
 <!-- /ko -->
 
 <!-- ko if: no_caption -->
-<select class="select" data-bind="attr: { id: uid, disabled: disabled }, options: options, value: value, optionsText: 'label', hasFocus: focused" />
+<select class="control-select" data-bind="attr: { id: uid, 'aria-describedby': noticeid, disabled: disabled }, options: options, value: value, optionsText: 'label', hasFocus: focused" />
 <!-- /ko -->

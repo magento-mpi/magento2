@@ -6,10 +6,15 @@
  * @license     {license_link}
  */
 -->
-<select class="select multiselect" multiple="multiple" data-bind="
-    attr: { id: uid, size: size, disabled: disabled },
+<select class="control-select" multiple="multiple" data-bind="
     options: options,
     selectedOptions: value,
     optionsText: 'label',
-    hasFocus: focused
-"/>
+    hasFocus: focused,
+    attr: {
+        size: size,
+        'aria-describedby': noticeid,
+        placeholder: placeholder,
+        id: uid,
+        disabled: disabled
+    }" />

@@ -19,10 +19,15 @@ define([
         disabled:           false,
         module:             'ui',
         type:               'input',
+        placeholder:        null,
+        noticeid:           null,
         value:              '',
         description:        '',
         label:              '',
-        error:              ''
+        error:              '',
+        addbefore:          '',
+        addafter:           '',
+        notice:             null
     };
 
     return Scope.extend({
@@ -65,6 +70,18 @@ define([
          */
         setUniqueId: function () {
             this.uid = utils.uniqueid();
+
+            return this;
+        },
+
+        /**
+         * Sets notice id for element
+         * @return {Object} - reference to instance
+         */
+        setNoticeId: function () {
+            if (this.notice) {
+                this.noticeid = 'notice-' + this.uid;
+            }
 
             return this;
         },
