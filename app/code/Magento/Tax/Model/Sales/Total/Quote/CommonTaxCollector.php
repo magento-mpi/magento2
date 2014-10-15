@@ -784,7 +784,7 @@ class CommonTaxCollector extends AbstractTotal
     }
 
     /**
-     * Increment and return static counter. This function is intended to be used to generate temporary
+     * Increment and return counter. This function is intended to be used to generate temporary
      * id for an item.
      *
      * @return int

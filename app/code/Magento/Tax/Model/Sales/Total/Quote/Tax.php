@@ -25,7 +25,7 @@ use Magento\Tax\Service\V1\Data\TaxDetails;
 class Tax extends CommonTaxCollector
 {
     /**
-     * Static counter
+     * Counter
      *
      * @var int
      */

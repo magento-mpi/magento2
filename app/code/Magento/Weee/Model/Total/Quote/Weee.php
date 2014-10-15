@@ -35,7 +35,7 @@ class Weee extends AbstractTotal
     protected $_store;
 
     /**
-     * Static counter
+     * Counter
      *
      * @var int
      */
@@ -154,8 +154,8 @@ class Weee extends AbstractTotal
         $associatedTaxables = $item->getAssociatedTaxables();
         if (!$associatedTaxables) {
             $associatedTaxables = [];
-        }else{
-            // remove existing wee associated taxables
+        } else{
+            // remove existing weee associated taxables
             foreach ($associatedTaxables as $iTaxable => $taxable) {
                 if ($taxable[CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TYPE] == self::ITEM_TYPE) {
                     unset($associatedTaxables[$iTaxable]);
@@ -265,7 +265,7 @@ class Weee extends AbstractTotal
     }
 
     /**
-     * Increment and return static counter. This function is intended to be used to generate temporary
+     * Increment and return counter. This function is intended to be used to generate temporary
      * id for an item.
      *
      * @return int
