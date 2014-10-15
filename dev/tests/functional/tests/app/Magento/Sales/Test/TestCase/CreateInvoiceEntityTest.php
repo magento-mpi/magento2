@@ -10,7 +10,6 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 
@@ -54,58 +53,55 @@ class CreateInvoiceEntityTest extends Injectable
     /**
      * Set up configuration
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(ObjectManager $objectManager)
     {
-        $configPayment = $fixtureFactory->createByCode('configData', ['dataSet' => 'checkmo']);
-        $configPayment->persist();
+        $this->objectManager = $objectManager;
 
-        $configShipping = $fixtureFactory->createByCode('configData', ['dataSet' => 'flatrate']);
-        $configShipping->persist();
+        $setupConfigurationStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'checkmo, flatrate']
+        );
+        $setupConfigurationStep->run();
     }
 
     /**
      * Injection data
      *
      * @param CustomerAccountLogout $customerAccountLogout
-     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __inject(
-        CustomerAccountLogout $customerAccountLogout,
-        ObjectManager $objectManager
-    ) {
+    public function __inject(CustomerAccountLogout $customerAccountLogout)
+    {
         $this->customerAccountLogout = $customerAccountLogout;
-        $this->objectManager = $objectManager;
     }
 
     /**
      * Create invoice
      *
      * @param OrderInjectable $order
-     * @param array $invoice
+     * @param array $data
      * @return array
      */
-    public function test(OrderInjectable $order, array $invoice)
+    public function test(OrderInjectable $order, array $data)
     {
         // Preconditions
         $order->persist();
 
         // Steps
         $createInvoice = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateInvoice',
-            ['order' => $order, 'data' => $invoice]
+            'Magento\Sales\Test\TestStep\CreateInvoiceStep',
+            ['order' => $order, 'data' => $data]
         );
-        $data = $createInvoice->run();
+        $result = $createInvoice->run();
 
         return [
             'ids' => [
-                'invoiceIds' => $data['invoiceIds'],
-                'shipmentIds' => isset($data['shipmentIds']) ? $data['shipmentIds'] : null,
-            ],
-            'successMessage' => $data['successMessage'],
+                'invoiceIds' => $result['invoiceIds'],
+                'shipmentIds' => isset($result['shipmentIds']) ? $result['shipmentIds'] : null,
+            ]
         ];
     }
 

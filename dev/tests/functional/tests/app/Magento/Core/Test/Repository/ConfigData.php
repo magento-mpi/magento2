@@ -490,7 +490,7 @@ class ConfigData extends AbstractRepository
                     'path' => 'carriers/ups/allowed_methods',
                     'scope' => 'carriers',
                     'scope_id' => 1,
-                    'value' => ['11','12','14','54','59','65','01','02','03','07','08'],
+                    'value' => ['11', '12', '14', '54', '59', '65', '01', '02', '03', '07', '08'],
                 ],
                 [
                     'path' => 'carriers/ups/sallowspecific',
@@ -963,7 +963,6 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-
         $this->_data['salesarchive_complete'] = [
             'section' => [
                 [
@@ -977,6 +976,41 @@ class ConfigData extends AbstractRepository
                     'scope' => 'sales',
                     'scope_id' => 1,
                     'value' => ['complete'],
+                ],
+            ]
+        ];
+
+        $this->_data['salesarchive_all_statuses'] = [
+            'section' => [
+                [
+                    'path' => 'sales/magento_salesarchive/active',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/magento_salesarchive/order_statuses',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => ['pending', 'processed_ogone', 'processing', 'complete', 'closed', 'canceled', 'holded'],
+                ],
+            ]
+        ];
+
+        // Gift Messages
+        $this->_data['enableGiftMessages'] = [
+            'section' => [
+                [
+                    'path' => 'sales/gift_options/allow_order',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/gift_options/allow_items',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
                 ],
             ]
         ];

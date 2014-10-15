@@ -59,4 +59,28 @@
     <assertCustomerOrderCountReportResult module="Magento_Reports">
         <severeness>low</severeness>
     </assertCustomerOrderCountReportResult>
+    <assertTaxReportInGrid module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertTaxReportInGrid>
+    <assertTaxReportNotInGrid module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertTaxReportNotInGrid>
+    <assertDownloadsReportResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertDownloadsReportResult>
+    <assertSalesReportIntervalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertSalesReportIntervalResult>
+    <assertSalesReportTotalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertSalesReportTotalResult>
+    <assertInvoiceReportIntervalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertInvoiceReportIntervalResult>
+    <assertInvoiceReportTotalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertInvoiceReportTotalResult>
+    <assertRefundReportIntervalResult module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertRefundReportIntervalResult>
 </constraint>

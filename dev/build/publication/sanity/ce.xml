@@ -69,9 +69,9 @@
         <word>Magento_Rma</word>
         <word>SalesArchive</word>
         <word>ScheduledImportExport</word>
-        <word>Magento/Search</word>
-        <word>Magento\Search</word>
-        <word>Magento_Search</word>
+        <word>Magento/Solr</word>
+        <word>Magento\Solr</word>
+        <word>Magento_Solr</word>
         <word>TargetRule</word>
         <word>VersionsCms</word>
         <word>WebsiteRestriction</word>
@@ -81,6 +81,12 @@
         <word>Magento_GoogleCheckout</word>
     </words>
     <whitelist>
+        <item>
+            <path>vendor</path>
+        </item>
+        <item>
+            <path>setup/vendor</path>
+        </item>
         <item>
             <path>CHANGELOG.md</path>
         </item>
@@ -167,9 +173,9 @@
             <word>Magento_Rma</word>
             <word>SalesArchive</word>
             <word>ScheduledImportExport</word>
-            <word>Magento/Search</word>
-            <word>Magento\Search</word>
-            <word>Magento_Search</word>
+            <word>Magento/Solr</word>
+            <word>Magento\Solr</word>
+            <word>Magento_Solr</word>
             <word>TargetRule</word>
             <word>VersionsCms</word>
             <word>WebsiteRestriction</word>
@@ -272,7 +278,7 @@
             <word>Magento\Logging</word>
             <word>Pbridge</word>
             <word>PbridgePaypal</word>
-            <word>Magento\Search</word>
+            <word>Magento\Solr</word>
             <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LayoutFilesTest.php</path>
         </item>
         <item>
@@ -317,13 +323,13 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
             <path>dev/tests/functional/tests/app/Magento/Catalog/Test/Page/Category/CatalogCategoryView.php</path>
-            <word>Magento\Search</word>
+            <word>Magento\Solr</word>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
-            <path>dev/tests/functional/tests/app/Magento/Search/Test/Block/Catalog/Layer/View.php</path>
-            <word>Magento\Search</word>
-            <word>Magento/Search</word>
+            <path>dev/tests/functional/tests/app/Magento/Solr/Test/Block/Catalog/Layer/View.php</path>
+            <word>Magento\Solr</word>
+            <word>Magento/Solr</word>
         </item>
         <item>
             <!-- Skip all words in CE check as currently this testsuites are used only for EE -->

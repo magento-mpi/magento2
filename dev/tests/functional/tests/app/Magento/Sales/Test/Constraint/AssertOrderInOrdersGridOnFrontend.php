@@ -11,13 +11,13 @@ namespace Magento\Sales\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertOrderInOrdersGridOnFrontend
- * Assert that order is present in Orders on frontend
+ * Assert that order is present in Orders grid on frontend
  */
 class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
 {
@@ -29,30 +29,37 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that order with fixture data is present in MyAccount -> Orders on frontend
+     * Assert that order is present in Orders grid on frontend
      *
      * @param OrderInjectable $order
      * @param CustomerInjectable $customer
-     * @param CustomerAccountLogin $customerAccountLogin
+     * @param ObjectManager $objectManager
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
-     * @param string $status
+     * @param string $orderStatus
+     * @param string $orderId
+     * @param string|null $statusToCheck
      * @return void
      */
     public function processAssert(
         OrderInjectable $order,
         CustomerInjectable $customer,
-        CustomerAccountLogin $customerAccountLogin,
+        ObjectManager $objectManager,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
-        $status
+        $orderStatus,
+        $orderId = '',
+        $statusToCheck = null
     ) {
-        $data = $order->getData();
         $filter = [
-            'id' => $data['id'],
-            'status' => $status,
+            'id' => $order->hasData('id') ? $order->getId() : $orderId,
+            'status' => $statusToCheck === null ? $orderStatus : $statusToCheck
         ];
-        $customerAccountLogin->open()->getLoginBlock()->login($customer);
+        $customerLogin = $objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $customerLogin->run();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Orders');
         $errorMessage = implode(', ', $filter);
         \PHPUnit_Framework_Assert::assertTrue(

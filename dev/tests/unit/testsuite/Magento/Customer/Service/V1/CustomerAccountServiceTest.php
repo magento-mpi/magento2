@@ -891,7 +891,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->resetPassword(self::ID, $resetToken, $password);
+        $this->assertTrue($customerService->resetPassword(self::ID, $resetToken, $password));
     }
 
     public function testResetPasswordShortPassword()

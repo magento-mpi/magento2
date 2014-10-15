@@ -14,5 +14,10 @@
             <locator>#sales_order_grid_archive</locator>
             <strategy>css selector</strategy>
         </salesOrderGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
     </blocks>
 </page>
