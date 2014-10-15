@@ -1037,7 +1037,7 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['no_display_out_of_stock'] = [
+        $this->_data['display_out_of_stock_rollback'] = [
             'section' => [
                 [
                     'path' => 'cataloginventory/options/show_out_of_stock',
@@ -1048,7 +1048,7 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['backorders_no_backorders'] = [
+        $this->_data['backorders_allow_qty_below_rollback'] = [
             'section' => [
                 [
                     'path' => 'cataloginventory/item_options/backorders',

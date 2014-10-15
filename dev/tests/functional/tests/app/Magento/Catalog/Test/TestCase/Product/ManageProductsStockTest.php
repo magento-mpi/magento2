@@ -11,9 +11,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
-use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Test Creation for ManageProductsStock
@@ -37,27 +35,30 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class ManageProductsStockTest extends Injectable
 {
     /**
-     * Browser object
+     * Fixture factory
      *
-     * @var Browser
+     * @var FixtureFactory
      */
-    protected $browser;
+    protected $fixtureFactory;
 
     /**
-     * Catalog product view page
+     * Object manager
      *
-     * @var CatalogProductView
+     * @var ObjectManager
      */
-    protected $catalogProductView;
+    protected $objectManager;
 
     /**
      * Setup configuration
      *
      * @param ObjectManager $objectManager
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
-    public function __prepare(ObjectManager $objectManager)
+    public function __prepare(ObjectManager $objectManager, FixtureFactory $fixtureFactory)
     {
+        $this->objectManager = $objectManager;
+        $this->fixtureFactory = $fixtureFactory;
         $setupConfigurationStep = $objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => "display_out_of_stock,backorders_allow_qty_below"]
@@ -66,36 +67,25 @@ class ManageProductsStockTest extends Injectable
     }
 
     /**
-     * Injection data
-     *
-     * @param Browser $browser
-     * @param CatalogProductView $catalogProductView
-     * @return void
-     */
-    public function __inject(Browser $browser, CatalogProductView $catalogProductView)
-    {
-        $this->browser = $browser;
-        $this->catalogProductView = $catalogProductView;
-    }
-
-    /**
      * Manage products stock
      *
      * @param CatalogProductSimple $product
-     * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function test(CatalogProductSimple $product, FixtureFactory $fixtureFactory)
+    public function test(CatalogProductSimple $product)
     {
         // Preconditions
         $product->persist();
 
         // Steps
-        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->addToCart($product);
+        $addProductsToTheCartStep = $this->objectManager->create(
+            'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
+            ['products' => [$product]]
+        );
+        $addProductsToTheCartStep->run();
 
         $cart['data']['items'] = ['products' => [$product]];
-        return ['cart' => $fixtureFactory->createByCode('cart', $cart)];
+        return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
     }
 
     /**
@@ -107,7 +97,7 @@ class ManageProductsStockTest extends Injectable
     {
         $setupConfigurationStep = ObjectManager::getInstance()->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => "no_display_out_of_stock,backorders_no_backorders"]
+            ['configData' => "display_out_of_stock,backorders_allow_qty_below", 'rollback' => true]
         );
         $setupConfigurationStep->run();
     }
