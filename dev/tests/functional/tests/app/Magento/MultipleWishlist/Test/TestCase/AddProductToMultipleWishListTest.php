@@ -8,9 +8,10 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
@@ -52,13 +53,6 @@ class AddProductToMultipleWishListTest extends Injectable
     protected $browser;
 
     /**
-     * Fixture Factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Enable Multiple wishlist in configuration
      *
      * @return void
@@ -77,17 +71,14 @@ class AddProductToMultipleWishListTest extends Injectable
      *
      * @param CatalogProductView $catalogProductView
      * @param Browser $browser
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         CatalogProductView $catalogProductView,
-        Browser $browser,
-        FixtureFactory $fixtureFactory
+        Browser $browser
     ) {
         $this->catalogProductView = $catalogProductView;
         $this->browser = $browser;
-        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
@@ -109,7 +100,7 @@ class AddProductToMultipleWishListTest extends Injectable
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $products]
         );
-        $products = $createProductsStep->run()['products'];
+        $product = $createProductsStep->run()['products'][0];
 
         // Steps
         $loginCustomer = $this->objectManager->create(
@@ -117,13 +108,13 @@ class AddProductToMultipleWishListTest extends Injectable
             ['customer' => $customer]
         );
         $loginCustomer->run();
-        $this->addToMultipleWishlist($products, $duplicate, $multipleWishlist);
+        $this->addToMultipleWishlist($product, $duplicate, $multipleWishlist);
         if ($duplicate == 'yes') {
-            $this->addToMultipleWishlist($products, $duplicate, $multipleWishlist);
+            $this->addToMultipleWishlist($product, $duplicate, $multipleWishlist);
         }
 
         return [
-            'product' => $products[0],
+            'product' => $product,
             'multipleWishlist' => $multipleWishlist,
             'customer' => $customer,
         ];
@@ -132,25 +123,36 @@ class AddProductToMultipleWishListTest extends Injectable
     /**
      * Add product to multiple wishlist
      *
-     * @param array $products
+     * @param InjectableFixture $product
      * @param string $duplicate
      * @param MultipleWishlist $multipleWishlist
      * @return void
      */
-    protected function addToMultipleWishlist(array $products, $duplicate, MultipleWishlist $multipleWishlist)
+    protected function addToMultipleWishlist(InjectableFixture $product, $duplicate, MultipleWishlist $multipleWishlist)
     {
-        foreach ($products as $product) {
-            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->fillOptions($product);
-
-            $checkoutData = $product->getCheckoutData();
-            if (isset($checkoutData['options']['qty'])) {
-                $qty = $duplicate === 'yes'
-                    ? $checkoutData['options']['qty'] / 2
-                    : $checkoutData['options']['qty'] ;
-                $this->catalogProductView->getViewBlock()->setQty($qty);
-            }
-            $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->catalogProductView->getViewBlock()->fillOptions($product);
+        $checkoutData = $product->getCheckoutData();
+        if (isset($checkoutData['options']['qty'])) {
+            $qty = $duplicate === 'yes'
+                ? $checkoutData['options']['qty'] / 2
+                : $checkoutData['options']['qty'];
+            $this->catalogProductView->getViewBlock()->setQty($qty);
         }
+        $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
+    }
+
+    /**
+     * Disable multiple wish list in config
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        $setupConfig = ObjectManager::getInstance()->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'disabled_multiple_wishlist_default']
+        );
+        $setupConfig->run();
     }
 }

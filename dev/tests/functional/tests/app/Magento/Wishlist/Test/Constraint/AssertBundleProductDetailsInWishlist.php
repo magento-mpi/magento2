@@ -14,7 +14,6 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class AssertBundleProductDetailsInWishlist
@@ -37,7 +36,6 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
      * @param WishlistIndex $wishlistIndex
      * @param InjectableFixture $product
      * @param FixtureFactory $fixtureFactory
-     * @param MultipleWishlist|null $multipleWishlist [optional]
      * @return void
      */
     public function processAssert(
@@ -45,26 +43,15 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
         CustomerAccountIndex $customerAccountIndex,
         WishlistIndex $wishlistIndex,
         InjectableFixture $product,
-        FixtureFactory $fixtureFactory,
-        MultipleWishlist $multipleWishlist = null
+        FixtureFactory $fixtureFactory
     ) {
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        if ($multipleWishlist !== null) {
-            $wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
-        }
-        $productBlock = $wishlistIndex->getItemsBlock()->getItemProduct($product);
-        $actualOptions = $this->prepareOptions($productBlock->getOptions());
-        $cartFixture = $fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => [$product]]]]);
-        $bundleOptions = $cartFixture->getItems()[0]->getData()['options'];
-        $expectedOptions = [];
-        foreach ($bundleOptions as $option) {
-            $expectedOptions[] = $option['value'];
-        }
+        $options = $this->getOptions($product, $wishlistIndex, $fixtureFactory);
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $expectedOptions,
-            $actualOptions,
+            $options['expectedOptions'],
+            $options['actualOptions'],
             "Expected bundle options are not equals to actual"
         );
     }
@@ -77,6 +64,31 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
     public function toString()
     {
         return "Expected bundle options are equal to actual";
+    }
+
+    /**
+     * Get expected and actual options
+     *
+     * @param InjectableFixture $product
+     * @param WishlistIndex $wishlistIndex
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function getOptions(
+        InjectableFixture $product,
+        WishlistIndex $wishlistIndex,
+        FixtureFactory $fixtureFactory
+    ) {
+        $productBlock = $wishlistIndex->getItemsBlock()->getItemProduct($product);
+        $actualOptions = $this->prepareOptions($productBlock->getOptions());
+        $cartFixture = $fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => [$product]]]]);
+        $bundleOptions = $cartFixture->getItems()[0]->getData()['options'];
+        $expectedOptions = [];
+        foreach ($bundleOptions as $option) {
+            $expectedOptions[] = $option['value'];
+        }
+
+        return ['expectedOptions' => $expectedOptions, 'actualOptions' => $actualOptions];
     }
 
     /**
