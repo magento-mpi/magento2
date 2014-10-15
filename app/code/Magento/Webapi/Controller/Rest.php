@@ -18,8 +18,8 @@ use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Controller\Rest\Router\Route;
 use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\PathProcessor;
+use Magento\Webapi\Model\DataObjectProcessor;
 use Zend\Code\Reflection\ClassReflection;
-use Magento\Framework\Service\DataObjectProcessor;
 
 /**
  * Front controller for WebAPI REST area.

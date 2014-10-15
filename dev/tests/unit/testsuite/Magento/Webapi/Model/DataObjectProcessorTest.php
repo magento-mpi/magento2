@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service;
+namespace Magento\Webapi\Model;
 
 class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,15 +18,15 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->dataObjectProcessor = $objectManager->getObject('Magento\Framework\Service\DataObjectProcessor');
+        $this->dataObjectProcessor = $objectManager->getObject('Magento\Webapi\Model\DataObjectProcessor');
         parent::setUp();
     }
 
     public function testDataObjectProcessor()
     {
         $objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var \Magento\Framework\Service\Files\TestDataObject $testDataObject */
-        $testDataObject = $objectManager->getObject('Magento\Framework\Service\Files\TestDataObject');
+        /** @var \Magento\Webapi\Model\Files\TestDataObject $testDataObject */
+        $testDataObject = $objectManager->getObject('Magento\Webapi\Model\Files\TestDataObject');
 
         $expectedOutputDataArray = [
             'id' => '1',
@@ -35,7 +35,7 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
             'required_billing' => 'false'
         ];
 
-        $testDataObjectType = 'Magento\Framework\Service\Files\TestDataInterface';
+        $testDataObjectType = 'Magento\Webapi\Model\Files\TestDataInterface';
         $outputData = $this->dataObjectProcessor->buildOutputDataArray($testDataObject, $testDataObjectType);
         $this->assertEquals($expectedOutputDataArray, $outputData);
     }

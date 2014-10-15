@@ -10,7 +10,7 @@ namespace Magento\Webapi\Controller\Soap\Request;
 use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\DataObjectProcessor;
+use Magento\Webapi\Model\DataObjectProcessor;
 use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;

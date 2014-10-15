@@ -6,15 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service;
+namespace Magento\Webapi\Model;
 
 use Zend\Code\Reflection\ClassReflection;
+use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Config as ModelConfig;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 
+/**
+ * Data object processor for de-serialization using class reflection
+ */
 class DataObjectProcessor
 {
     const IS_METHOD_PREFIX = 'is';
@@ -46,11 +50,14 @@ class DataObjectProcessor
      * @param mixed $dataObject
      * @param string $dataObjectType
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function buildOutputDataArray($dataObject, $dataObjectType)
     {
         $methods = $this->config->getDataInterfaceMethods($dataObjectType);
         $outputData = [];
+
+        /** @var MethodReflection $method */
         foreach ($methods as $method) {
             if ($method->getNumberOfParameters() > 0) {
                 continue;
@@ -68,14 +75,14 @@ class DataObjectProcessor
                     if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
                         $value = $this->convertCustomAttributes($value);
                     } else if (is_object($value)) {
-                        $value = $this->buildOutputDataArray($value, $this->getMethodReturnType($class, $methodName));
+                        $value = $this->buildOutputDataArray($value, $this->getMethodReturnType($method));
                     } else if (is_array($value)) {
                         $valueResult = array();
                         foreach ($value as $singleValue) {
                             if (is_object($singleValue)) {
                                 $singleValue = $this->buildOutputDataArray(
                                     $singleValue,
-                                    $this->getMethodReturnType($class, $methodName)
+                                    $this->getMethodReturnType($method)
                                 );
                             }
                             $valueResult[] = $singleValue;
@@ -107,20 +114,12 @@ class DataObjectProcessor
     /**
      * Get return type by reading the DocBlock of the given method
      *
-     * @param ClassReflection $class
-     * @param string $methodName
+     * @param MethodReflection $methodReflection
      * @return string
      */
-    public function getMethodReturnType($class, $methodName)
+    public function getMethodReturnType($methodReflection)
     {
-        $dataObjectType = $this->typeProcessor->getGetterReturnType($class->getMethod($methodName))['type'];
-        if (strpos($dataObjectType, '|null') !== false) {
-            $dataObjectType = str_replace('|null', '', $dataObjectType);
-        }
-        if (strpos($dataObjectType, '[]') !== false) {
-            $dataObjectType = str_replace('[]', '', $dataObjectType);
-        }
-        return $dataObjectType;
+        return str_replace('[]', '', $this->typeProcessor->getGetterReturnType($methodReflection)['type']);
     }
 
     /**
@@ -132,10 +131,8 @@ class DataObjectProcessor
     protected function convertCustomAttributes($customAttributes)
     {
         $result = array();
-        if (is_array($customAttributes)) {
-            foreach ($customAttributes as $customAttribute) {
-                $result[] = $this->convertCustomAttribute($customAttribute);
-            }
+        foreach ((array)$customAttributes as $customAttribute) {
+            $result[] = $this->convertCustomAttribute($customAttribute);
         }
         return $result;
     }

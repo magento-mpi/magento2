@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Files;
+namespace Magento\Webapi\Model\Files;
 
 interface TestDataInterface
 {

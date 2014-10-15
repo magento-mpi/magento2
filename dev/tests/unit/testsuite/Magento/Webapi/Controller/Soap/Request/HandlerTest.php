@@ -59,7 +59,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         $this->_dataObjectProcessorMock = $this->getMock(
-            'Magento\Framework\Service\DataObjectProcessor',
+            'Magento\Webapi\Model\DataObjectProcessor',
             [],
             [],
             '',
