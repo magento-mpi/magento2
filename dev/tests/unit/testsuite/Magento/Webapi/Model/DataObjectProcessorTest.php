@@ -8,6 +8,8 @@
 
 namespace Magento\Webapi\Model;
 
+use Magento\Webapi\Model\Config as ModelConfig;
+
 class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -15,10 +17,29 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
      */
     protected $dataObjectProcessor;
 
+    /**
+     * @var ModelConfig
+     */
+    protected $config;
+
     protected function setup()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->dataObjectProcessor = $objectManager->getObject('Magento\Webapi\Model\DataObjectProcessor');
+        /** @var \Zend\Code\Reflection\ClassReflection $classRefection */
+        $classRefection = new \Zend\Code\Reflection\ClassReflection('Magento\Webapi\Model\Files\TestDataInterface');
+        $methodReflections = $classRefection->getMethods();
+
+        $this->config = $this->getMockBuilder('Magento\Webapi\Model\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['getDataInterfaceMethods'])
+            ->getMock();
+        $this->config->expects($this->once())
+            ->method('getDataInterfaceMethods')
+            ->will($this->returnValue($methodReflections));
+        $this->dataObjectProcessor = $objectManager->getObject(
+            'Magento\Webapi\Model\DataObjectProcessor',
+            ['config' => $this->config]
+        );
         parent::setUp();
     }
 
