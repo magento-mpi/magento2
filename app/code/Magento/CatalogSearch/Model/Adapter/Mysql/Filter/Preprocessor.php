@@ -60,6 +60,22 @@ class Preprocessor implements PreprocessorInterface
      */
     public function process(FilterInterface $filter, $isNegation, $query)
     {
+        if (method_exists($filter, 'getField')) {
+            $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
+        } else {
+            $resultQuery = $this->conditionManager->wrapBrackets($query);
+        }
+        return $resultQuery;
+    }
+
+    /**
+     * @param FilterInterface $filter
+     * @param bool $isNegation
+     * @param string $query
+     * @return string
+     */
+    private function processQueryWithField(FilterInterface $filter, $isNegation, $query)
+    {
         $currentStoreId = $this->scopeResolver->getScope()->getId();
 
         $attribute = $this->config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $filter->getField());
