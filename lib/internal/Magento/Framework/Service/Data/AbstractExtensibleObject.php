@@ -21,7 +21,10 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
     /**
-     * {@inheritdoc}
+     * Get an attribute value.
+     *
+     * @param string $attributeCode
+     * @return \Magento\Framework\Api\AttributeInterface|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -32,7 +35,9 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve custom attributes values.
+     *
+     * @return \Magento\Framework\Api\AttributeInterface[]
      */
     public function getCustomAttributes()
     {
