@@ -1,6 +1,5 @@
 <?php
 /**
- * test Magento\Customer\Model\Metadata\Form\Postcode
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -24,7 +23,7 @@ class PostcodeTest extends AbstractFormTestCase
     {
         parent::setUp();
         $this->stringHelper = new \Magento\Framework\Stdlib\String();
-        $this->directoryDataMock = $this->getMock('\Magento\Directory\Helper\Data', ['getCountriesWithOptionalZip'], [], '', false);
+        $this->directoryDataMock = $this->getMock('\Magento\Directory\Helper\Data', [], [], '', false);
         $this->directoryDataMock->expects(
             $this->any()
         )->method('getCountriesWithOptionalZip')->will(
@@ -40,8 +39,8 @@ class PostcodeTest extends AbstractFormTestCase
     /**
      * Create an instance of the class that is being tested
      *
-     * @param string|int|bool|null $value The value undergoing testing by a given test
-     * @return Text
+     * @param string $value The value undergoing testing by a given test
+     * @return Postcode
      */
     protected function getPostcodeInstance($value)
     {
@@ -59,14 +58,15 @@ class PostcodeTest extends AbstractFormTestCase
     }
 
     /**
-     * @param string|int $value
-     * @param bool $expectedResult text output
-     * @dataProvider validateValueRequiredDataProvider
+     * @param string $value
+     * @param string $countryId
+     * @param bool|array $expectedResult
+     * @dataProvider validateValueDataProvider
      */
-    public function testValidateValueRequired($value, $extractedData, $expectedResult)
+    public function testValidateValue($value, $countryId, $expectedResult)
     {
         $model = $this->getPostcodeInstance($value);
-        $model->setExtractedData(['country_id' => $extractedData]);
+        $model->setExtractedData(['country_id' => $countryId]);
         $actualResult = $model->validateValue($value);
         $this->assertEquals($expectedResult, $actualResult);
     }
@@ -74,7 +74,7 @@ class PostcodeTest extends AbstractFormTestCase
     /**
      * @return array
      */
-    public function validateValueRequiredDataProvider()
+    public function validateValueDataProvider()
     {
         return [
             ['WA11 0JD', 'GB', true],
