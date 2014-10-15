@@ -26,8 +26,6 @@ class Block implements Layout\ReaderInterface
     const TYPE_ACTION = 'action';
     /**#@-*/
 
-    const STRUCTURE_INDEX_DATA = Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA;
-
     /**
      * @var array
      */
@@ -136,44 +134,54 @@ class Block implements Layout\ReaderInterface
         Layout\Element $currentElement,
         Layout\Element $parentElement
     ) {
-        $referenceName = $this->helper->scheduleStructure($scheduledStructure, $currentElement, $parentElement, [
-            'attributes' => $this->getAttributes($currentElement),
-            'actions'    => $this->getActions($currentElement),
-            'arguments'  => $this->getArguments($currentElement)
-        ]);
+        $elementName = $this->helper->scheduleStructure($scheduledStructure, $currentElement, $parentElement);
+        $data = $scheduledStructure->getStructureElementData($elementName, []);
+        $data['attributes'] = $this->getAttributes($currentElement);
+        $this->updateScheduledData($currentElement, $data);
+        $scheduledStructure->setStructureElementData($elementName, $data);
+
         $configPath = (string)$currentElement->getAttribute('ifconfig');
         if (!empty($configPath)
             && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
         ) {
-            $scheduledStructure->setElementToRemoveList($referenceName);
+            $scheduledStructure->setElementToRemoveList($elementName);
         }
     }
 
     /**
-     * Schedule reference data for block
+     * Schedule reference data
      *
      * @param Layout\ScheduledStructure $scheduledStructure
-     * @param Layout\Element $blockElement
-     * @return void
+     * @param Layout\Element $currentElement
      */
     protected function scheduleReference(
         Layout\ScheduledStructure $scheduledStructure,
-        Layout\Element $blockElement
+        Layout\Element $currentElement
     ) {
-        $referenceName = $blockElement->getAttribute('name');
-        $element = $scheduledStructure->getStructureElement($referenceName, array());
+        $elementName = $currentElement->getAttribute('name');
+        $data = $scheduledStructure->getStructureElementData($elementName, []);
+        $this->updateScheduledData($currentElement, $data);
+        $scheduledStructure->setStructureElementData($elementName, $data);
+    }
 
-        $actions = $this->getActions($blockElement);
-        $arguments = $this->getArguments($blockElement);
-        $data = &$element[self::STRUCTURE_INDEX_DATA];
+    /**
+     * Update data for scheduled element
+     *
+     * @param Layout\Element $currentElement
+     * @param array $data
+     * @return array
+     */
+    protected function updateScheduledData($currentElement, array &$data)
+    {
+        $actions = $this->getActions($currentElement);
+        $arguments = $this->getArguments($currentElement);
         $data['actions'] = isset($data['actions'])
             ? array_merge($data['actions'], $actions)
             : $actions;
         $data['arguments'] = isset($data['arguments'])
             ? array_replace_recursive($data['arguments'], $arguments)
             : $arguments;
-
-        $scheduledStructure->setStructureElement($referenceName, $element);
+        return $data;
     }
 
     /**
@@ -257,7 +265,7 @@ class Block implements Layout\ReaderInterface
     protected function _parseArguments(Layout\Element $node)
     {
         $nodeDom = dom_import_simplexml($node);
-        $result = array();
+        $result = [];
         foreach ($nodeDom->childNodes as $argumentNode) {
             if ($argumentNode instanceof \DOMElement && $argumentNode->nodeName == 'argument') {
                 $argumentName = $argumentNode->getAttribute('name');

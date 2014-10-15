@@ -19,10 +19,14 @@ class Helper
     const SCHEDULED_STRUCTURE_INDEX_PARENT_NAME = 2;
     const SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME = 3;
     const SCHEDULED_STRUCTURE_INDEX_IS_AFTER = 4;
-    const SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA = 5;
     /**#@-*/
 
-    protected $counter = 1;
+    /**
+     * Anonymous block counter
+     *
+     * @var int
+     */
+    protected $counter = 0;
 
     /**
      * @var \Magento\Framework\Logger
@@ -58,28 +62,25 @@ class Helper
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\View\Layout\Element $currentNode
      * @param \Magento\Framework\View\Layout\Element $parentNode
-     * @param array $data
      * @return string
      * @see scheduleElement() where the scheduledStructure is used
      */
     public function scheduleStructure(
         Layout\ScheduledStructure $scheduledStructure,
         Layout\Element $currentNode,
-        Layout\Element $parentNode,
-        array $data = []
+        Layout\Element $parentNode
     ) {
         // if it hasn't a name it must be generated
         $path = $name = (string)$currentNode->getAttribute('name')
             ?: $this->_generateAnonymousName($parentNode->getElementName() . '_schedule_block');
 
-        // Prepare scheduled element with default parameters [type, alias, parentName, siblingName, isAfter, node]
+        // Prepare scheduled element with default parameters [type, alias, parentName, siblingName, isAfter]
         $row = [
             self::SCHEDULED_STRUCTURE_INDEX_TYPE           => $currentNode->getName(),
             self::SCHEDULED_STRUCTURE_INDEX_ALIAS          => '',
             self::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME    => '',
             self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME   => null,
             self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER       => true,
-            self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA    => $data
         ];
 
         $parentName = $parentNode->getElementName();
@@ -99,30 +100,9 @@ class Helper
 
         $this->_overrideElementWorkaround($scheduledStructure, $name, $path);
         $scheduledStructure->setPathElement($name, $path);
-        if ($scheduledStructure->hasStructureElement($name)) {
-            $row = $this->unionElementData($row, $scheduledStructure->getStructureElement($name));
-        }
         $scheduledStructure->setStructureElement($name, $row);
         return $name;
     }
-
-    /**
-     * @param array $currentElement
-     * @param array $existingElement
-     * @return array
-     */
-    protected function unionElementData($currentElement, $existingElement)
-    {
-        foreach ($existingElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA] as $name => $value) {
-            if (empty($currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name])) {
-                $currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name] = $value;
-            } else {
-                $currentElement[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA][$name] += $value;
-            }
-        }
-        return $currentElement;
-    }
-
 
     /**
      * Destroy previous element with same name and all its children, if new element overrides it
@@ -186,6 +166,7 @@ class Helper
         $key
     ) {
         $row = $scheduledStructure->getStructureElement($key);
+        $data = $scheduledStructure->getStructureElementData($key);
         // if we have reference container to not existed element
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_TYPE])) {
             $this->logger->log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
@@ -193,7 +174,7 @@ class Helper
             $scheduledStructure->unsetStructureElement($key);
             return;
         }
-        list($type, $alias, $parentName, $siblingName, $isAfter, $data) = $row;
+        list($type, $alias, $parentName, $siblingName, $isAfter) = $row;
         $name = $this->_createStructuralElement($structure, $key, $type, $parentName . $alias);
         if ($parentName) {
             // recursively populate parent first

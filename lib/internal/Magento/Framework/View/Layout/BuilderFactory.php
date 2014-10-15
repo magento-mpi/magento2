@@ -67,8 +67,11 @@ class BuilderFactory
     }
 
     /**
+     * Create builder instance
+     *
      * @param string $type
      * @param array $arguments
+     * @throws \InvalidArgumentException
      * @return BuilderInterface
      */
     public function create($type, array $arguments)
