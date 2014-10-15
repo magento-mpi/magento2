@@ -53,6 +53,8 @@ class Setup implements SetupInterface
      * @param Setup\Category $categorySetup
      * @param Setup\Attribute $attributeSetup
      * @param Setup\Product $productSetup
+     * @param Setup\ProductLink $productLinkSetup
+     * @param PostInstaller $postInstaller
      */
     public function __construct(
         Setup\Category $categorySetup,

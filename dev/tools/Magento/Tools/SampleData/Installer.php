@@ -103,6 +103,7 @@ class Installer implements \Magento\Framework\AppInterface
             if (isset($this->resources[$moduleName])) {
                 $resourceType = $this->resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();
+                $this->postInstaller->addModule($moduleName);
             }
         }
         $this->postInstaller->run();
