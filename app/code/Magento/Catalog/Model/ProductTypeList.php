@@ -24,7 +24,7 @@ class ProductTypeList implements ProductTypeListInterface
     /**
      * Product type factory
      *
-     * @var ProductTypeFactory
+     * @var \Magento\Catalog\Api\Data\ProductTypeInterfaceFactory
      */
     private $productTypeFactory;
 
@@ -37,11 +37,11 @@ class ProductTypeList implements ProductTypeListInterface
 
     /**
      * @param ConfigInterface $productTypeConfig
-     * @param ProductTypeFactory $productTypeFactory
+     * @param \Magento\Catalog\Api\Data\ProductTypeInterfaceFactory $productTypeFactory
      */
     public function __construct(
         ConfigInterface $productTypeConfig,
-        ProductTypeFactory $productTypeFactory
+        \Magento\Catalog\Api\Data\ProductTypeInterfaceFactory $productTypeFactory
     ) {
         $this->productTypeConfig = $productTypeConfig;
         $this->productTypeFactory = $productTypeFactory;

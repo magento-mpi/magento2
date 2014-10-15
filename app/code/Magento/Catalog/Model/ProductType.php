@@ -41,7 +41,7 @@ class ProductType implements ProductTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getKey()
     {
         return $this->name;
     }
@@ -49,7 +49,7 @@ class ProductType implements ProductTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function getLabel()
+    public function getValue()
     {
         return $this->label;
     }
