@@ -9,10 +9,8 @@ namespace Magento\Search\Model\Resource;
 
 /**
  * Search Mysql resource helper model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Helper extends \Magento\Eav\Model\Resource\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * @param \Magento\Framework\App\Resource $resource
