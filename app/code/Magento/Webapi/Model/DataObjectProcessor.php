@@ -10,6 +10,7 @@ namespace Magento\Webapi\Model;
 
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
@@ -66,12 +67,12 @@ class DataObjectProcessor
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 if ($value !== null) {
-                    $outputData[$this->camelCaseToSnakeCase(substr($methodName, 2))] = $value;
+                    $outputData[SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2))] = $value;
                 }
             } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 if ($value !== null) {
-                    $key = $this->camelCaseToSnakeCase(substr($methodName, 3));
+                    $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
                     if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
                         $value = $this->convertCustomAttributes($value);
                     } else if (is_object($value)) {
@@ -94,21 +95,6 @@ class DataObjectProcessor
             }
         }
         return $outputData;
-    }
-
-    /**
-     * Convert a CamelCase string read from method into field key in snake_case
-     *
-     * e.g. DefaultShipping => default_shipping
-     *      Postcode => postcode
-     *
-     * @param string $name
-     * @return string
-     */
-    protected function camelCaseToSnakeCase($name)
-    {
-        $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
-        return $result;
     }
 
     /**

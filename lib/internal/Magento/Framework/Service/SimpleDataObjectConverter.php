@@ -143,6 +143,20 @@ class SimpleDataObjectConverter
     }
 
     /**
+     * Convert a CamelCase string read from method into field key in snake_case
+     *
+     * e.g. DefaultShipping => default_shipping
+     *      Postcode => postcode
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function camelCaseToSnakeCase($name)
+    {
+        return strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+    }
+
+    /**
      * Converts the incoming data into scalar or an array of scalars format.
      *
      * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
