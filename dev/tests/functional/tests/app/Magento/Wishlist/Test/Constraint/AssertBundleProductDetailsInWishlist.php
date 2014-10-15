@@ -47,18 +47,11 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
     ) {
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $productBlock = $wishlistIndex->getItemsBlock()->getItemProduct($product);
-        $actualOptions = $this->prepareOptions($productBlock->getOptions());
-        $cartFixture = $fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => [$product]]]]);
-        $bundleOptions = $cartFixture->getItems()[0]->getData()['options'];
-        $expectedOptions = [];
-        foreach ($bundleOptions as $option) {
-            $expectedOptions[] = $option['value'];
-        }
+        $options = $this->getOptions($product, $wishlistIndex, $fixtureFactory);
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $expectedOptions,
-            $actualOptions,
+            $options['expectedOptions'],
+            $options['actualOptions'],
             "Expected bundle options are not equals to actual"
         );
     }
@@ -71,6 +64,31 @@ class AssertBundleProductDetailsInWishlist extends AbstractConstraint
     public function toString()
     {
         return "Expected bundle options are equal to actual";
+    }
+
+    /**
+     * Get expected and actual options
+     *
+     * @param InjectableFixture $product
+     * @param WishlistIndex $wishlistIndex
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function getOptions(
+        InjectableFixture $product,
+        WishlistIndex $wishlistIndex,
+        FixtureFactory $fixtureFactory
+    ) {
+        $productBlock = $wishlistIndex->getItemsBlock()->getItemProduct($product);
+        $actualOptions = $this->prepareOptions($productBlock->getOptions());
+        $cartFixture = $fixtureFactory->createByCode('cart', ['data' => ['items' => ['products' => [$product]]]]);
+        $bundleOptions = $cartFixture->getItems()[0]->getData()['options'];
+        $expectedOptions = [];
+        foreach ($bundleOptions as $option) {
+            $expectedOptions[] = $option['value'];
+        }
+
+        return ['expectedOptions' => $expectedOptions, 'actualOptions' => $actualOptions];
     }
 
     /**
