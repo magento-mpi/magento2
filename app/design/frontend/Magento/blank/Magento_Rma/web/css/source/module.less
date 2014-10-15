@@ -81,6 +81,19 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .form-create-return {
+        .fieldset {
+            > .actions-toolbar {
+                &:extend(.abstract-add-clearfix-mobile-m all);
+            }
+        }
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {

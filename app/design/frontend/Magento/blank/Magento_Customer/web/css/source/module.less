@@ -66,7 +66,6 @@
     .page-title {
         .title {
             display: inline-block;
-            margin-top: 0;
         }
     }
     .messages {
@@ -144,7 +143,26 @@
 }
 
 //
-//    Mobile
+//    Mobile @screen-s
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .account {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile-s all);
+            td {
+                &:first-child {
+                    padding-top: 15px;
+                }
+                &:last-child {
+                    padding-bottom: 15px;
+                }
+            }
+        }
+    }
+}
+
+//
+//    Mobile @screen-m
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
@@ -155,7 +173,6 @@
             margin-top: -21px;
         }
         .data.table {
-            &:extend(.abstract-table-vertical-mobile all);
             .col.actions {
                 padding-top: 9px;
                 padding-bottom: 15px;

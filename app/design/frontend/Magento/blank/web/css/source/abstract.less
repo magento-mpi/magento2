@@ -254,7 +254,7 @@
     position: absolute;
     top: 31px; // 6px
     left: 10px;
-    margin-left: 50%; // margin-left: @form-field-type-inline-label-width + 50%;
+    margin-left: 70%; // margin-left: @form-field-type-inline-label-width + 50%;
 }
 
 //
@@ -273,9 +273,9 @@
 .abstract-add-fields {
     .fieldset {
         margin-bottom: 50px;
-        .field {
-             .control {
-                width: 50% !important;
+        > .field:not(.choice) {
+            > .control {
+                width: 70%;
             }
         }
         .additional {
@@ -310,6 +310,11 @@
 .responsive(@break) when (@break = @screen-m) {
     .abstract-add-fields-desktop {
         .fieldset {
+            > .field:not(.choice) {
+                > .control {
+                    width: 50%;
+                }
+            }
             .additional {
                 .action.remove {
                     &:extend(.abstract-action-remove-desktop all);
@@ -386,6 +391,12 @@
 
 .responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-add-clearfix-mobile {
+        .clearfix();
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-add-clearfix-mobile-m {
         .clearfix();
     }
 }

@@ -45,10 +45,6 @@
         }
         .action {
             display: inline-block;
-            margin: 12px 0 0 30px;
-            &.track {
-                float: right;
-            }
         }
     }
     .table-wrapper {
@@ -329,7 +325,6 @@
             tbody tr {
                 display: block;
             }
-            &:extend(.abstract-table-vertical-mobile-s all);
             .product-item-name {
                 display: inline-block;
                 margin: 0;
@@ -344,6 +339,14 @@
         &:extend(.abstract-title-orders-mobile all);
     }
     .order-details-items {
+        .order-title {
+            strong {
+                display: block;
+            }
+        }
+        .action {
+            .css(margin-top, @indent-s-base);
+        }
         .items-qty {
             display: inline-block;
             vertical-align: top;
@@ -382,6 +385,21 @@
                 }
                 &:last-child {
                     padding-bottom: 20px;
+                }
+            }
+        }
+    }
+}
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .order-details-items {
+        .order-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
                 }
             }
         }
@@ -453,13 +471,6 @@
     .order-details-items {
         margin-top: -1px;
         padding: 25px;
-        .order-title {
-            .action {
-                &.track {
-                    float: right;
-                }
-            }
-        }
         .col {
             &.name {
                 padding-left: 0;
