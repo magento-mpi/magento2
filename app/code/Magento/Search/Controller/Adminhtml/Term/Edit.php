@@ -60,8 +60,6 @@ class Edit extends \Magento\Search\Controller\Adminhtml\Term
 
         $this->_title->add($id ? $model->getQueryText() : __('New Search'));
 
-        $this->_view->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
-
         $this->_view->getLayout()->getBlock(
             'adminhtml.search.term.edit'
         )->setData(

@@ -27,15 +27,15 @@ class SaveTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
                     ]
                 )
             );
-        $this->initRequestData($commentText, $visibleOnFront);
+        $expectedPost = $this->initRequestData($commentText, $visibleOnFront);
 
-        $this->rmaCollectionMock->expects($this->once())
-            ->method('addAttributeToFilter')
-            ->with('rma_entity_id', $rmaId)
-            ->will($this->returnValue([$this->rmaItemMock]));
-        $this->rmaItemMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($rmaId));
+        $this->rmaDataMapperMock->expects($this->once())->method('filterRmaSaveRequest')
+            ->with($expectedPost)
+            ->will($this->returnValue($expectedPost));
+        $this->rmaDataMapperMock->expects($this->once())->method('combineItemStatuses')
+            ->with($expectedPost['items'], $rmaId)
+            ->will($this->returnValue([]));
+
         $this->rmaModelMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($rmaId));

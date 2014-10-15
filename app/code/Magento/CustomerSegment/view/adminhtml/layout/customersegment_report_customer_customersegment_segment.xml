@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="content">
         <block class="Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment" name="adminhtml.customersegment.report.grid.container">
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.customersegment.report.grid" as="grid">

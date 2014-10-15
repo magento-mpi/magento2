@@ -239,34 +239,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         if (!$this->getFrameParam('use_theme')) {
             return '';
         }
-        $shouldMergeCss = $this->_scopeConfig->isSetFlag('dev/css/merge_css_files', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        if (!is_object($this->getLayout()->getBlock('head'))) {
-            return $this->_pbridgeSession->getCssUrl();
-        }
-        $items = $this->getLayout()->getBlock('head')->getData('items');
-        $lines = array();
-        foreach ($items as $item) {
-            if (!is_null($item['cond']) && !$this->getData($item['cond']) || !isset($item['name'])) {
-                continue;
-            }
-            if (!empty($item['if'])) {
-                continue;
-            }
-            if (strstr($item['params'], "all")) {
-                if ($item['type'] == 'skin_css' || $item['type'] == 'js_css') {
-                    $lines[$item['type']][$item['params']][$item['name']] = $item['name'];
-                }
-            }
-        }
-        if (!empty($lines)) {
-            $url = $this->_prepareCssElements(
-                empty($lines['js_css']) ? array() : $lines['js_css'],
-                empty($lines['skin_css']) ? array() : $lines['skin_css'],
-                $shouldMergeCss ? array($this->_design, 'getMergedCssUrl') : null
-            );
-        }
-        $this->_pbridgeSession->setCssUrl($url);
-        return $url;
+        return '';
     }
 
     /**

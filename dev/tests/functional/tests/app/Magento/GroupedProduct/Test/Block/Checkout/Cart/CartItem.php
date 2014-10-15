@@ -105,4 +105,18 @@ class CartItem extends AbstractCartItem
 
         return $result;
     }
+
+    /**
+     * Remove associated products items from cart
+     *
+     * @return void
+     */
+    public function removeItem()
+    {
+        foreach ($this->config['associated_cart_items'] as $cartItem) {
+            /** @var CheckoutCartItem $cartItem */
+            $cartItem->reinitRootElement();
+            $cartItem->removeItem();
+        }
+    }
 }

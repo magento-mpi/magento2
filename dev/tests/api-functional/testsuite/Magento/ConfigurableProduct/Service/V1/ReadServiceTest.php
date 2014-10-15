@@ -22,9 +22,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testGetVariation()
     {
-        $this->markTestSkipped(
-            'The test is skipped to be fixed on https://jira.corp.x.com/browse/MAGETWO-27788'
-        );
+        $this->markTestSkipped('The test is skipped to be fixed in MAGETWO-28538');
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,

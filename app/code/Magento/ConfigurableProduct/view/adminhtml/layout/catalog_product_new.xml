@@ -7,19 +7,15 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="js">
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/attribute-selector/js.phtml"/>
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/affected-attribute-set-selector/js.phtml"/>
         <block class="Magento\Framework\View\Element\Template" template="Magento_ConfigurableProduct::product/configurable/stock/disabler.phtml"/>
     </referenceContainer>
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-configurableproduct-product-product-css">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_ConfigurableProduct::product/product.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+    <head>
+        <css src="Magento_ConfigurableProduct::product/product.css"/>
+    </head>
     <referenceContainer name="content">
         <block class="Magento\Framework\View\Element\Template" name="affected-attribute-set-form" template="Magento_ConfigurableProduct::product/configurable/affected-attribute-set-selector/form.phtml"/>
     </referenceContainer>

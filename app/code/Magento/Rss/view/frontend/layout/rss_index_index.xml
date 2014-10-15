@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<page layout="2columns-right" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page layout="2columns-right" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
             <argument name="title" translate="true" xsi:type="string">RSS Feeds</argument>
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Rss\Block\ListBlock" name="rss.list" template="list.phtml"/>
+        <block class="Magento\Rss\Block\Feeds" name="rss.feeds"/>
     </referenceContainer>
 </page>

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 ?>
-<div class="checkout multishipping payment giftcardaccount">
+<div class="checkout-payment-giftcardaccount">
     <p class="note">
         <?php $_url = $this->getUrl('checkout/cart'); ?>
         <?php echo __('To add or remove gift cards, <a href="%1">click here</a>.', $_url); ?><br />
@@ -21,7 +21,7 @@
 require(['jquery', "mage/mage"], function(jQuery){
 
                 jQuery('#multishipping-billing-form').mage('paymentMethod', {});
-            
+
 });
 </script>
             <input id="hidden-free" type="hidden" name="payment[method]" value="free">

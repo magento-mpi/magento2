@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\UrlRewrite\Model\StorageInterface" type="Magento\UrlRewrite\Model\Storage\DbStorage"/>
+    <preference for="Magento\UrlRewrite\Model\UrlFinderInterface" type="Magento\UrlRewrite\Model\Storage\DbStorage"/>
+    <preference for="Magento\UrlRewrite\Model\UrlPersistInterface" type="Magento\UrlRewrite\Model\Storage\DbStorage"/>
+</config>

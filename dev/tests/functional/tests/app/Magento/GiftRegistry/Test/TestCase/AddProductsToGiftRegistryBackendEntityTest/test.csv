@@ -1,4 +1,4 @@
 "description";"giftRegistryOrigin/dataSet";"product";"qty";"constraint"
-"add new products to gift registry";"birthday";"catalogProductSimple::default";"2";"assertGiftRegistrySuccessAddedItemsMessage, assertGiftRegistryManageItemsTab"
+"add new products to gift registry";"birthday";"catalogProductSimple::100_dollar_product";"2";"assertGiftRegistrySuccessAddedItemsMessage, assertGiftRegistryManageItemsTab"
 "add new products to gift registry";"wedding";"catalogProductSimple::default";"1";"assertGiftRegistrySuccessAddedItemsMessage, assertGiftRegistryManageItemsTab"
 "add new products to gift registry";"baby_registry";"configurableProductInjectable::default";"1";"assertGiftRegistrySuccessAddedItemsMessage, assertGiftRegistryManageItemsTab"

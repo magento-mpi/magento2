@@ -26,6 +26,11 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
     protected function getPreset($name)
     {
         $presets = [
+            'order_default' => [
+                'options' => [
+                    'qty' => 1
+                ]
+            ],
             '50_dollar_product' => [
                 'cartItem' => [
                     'price' => 50,
@@ -33,6 +38,13 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                     'subtotal' => 50
                 ]
             ],
+            'order_custom_price' => [
+                'checkout_data' => [
+                    'qty' => 3,
+                    'use_custom_price' => "Yes",
+                    'custom_price' => 100,
+                ],
+            ]
         ];
         return isset($presets[$name]) ? $presets[$name] : null;
     }
