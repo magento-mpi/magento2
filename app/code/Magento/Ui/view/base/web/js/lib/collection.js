@@ -49,8 +49,7 @@ define([
             config = _.extend({
                 provider:   this.provider,
                 fullName:   fullName,
-                name:       name,
-                elems:      injections
+                name:       name
             }, data, itemConfig);
 
             item = new component(config);

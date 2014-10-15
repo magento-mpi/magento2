@@ -5,23 +5,24 @@ define([
 ], function(_, Collection, registry){
     'use strict';
 
-    function init(constr, data, name){
-        var provider = registry.get(data.source),
-            storage  = registry.get('globalStorage'),
-            layout   = storage.get().layout[name],
-            config;
+    function init(Item, params, data, name){
+        var provider    = registry.get(data.source),
+            storage     = registry.get('globalStorage'),
+            layout      = storage.get().layout[name],
+            config,
+            Constr  = (params && params.use) ? params.use : Collection;
 
         config = _.extend({
             name:       name,
-            component:  constr,
+            component:  Item,
             layout:     layout,
             provider:   provider
         }, data.config);
 
-        registry.set(name, new Collection(config));
+        registry.set(name, new Constr(config));
     }
 
-    function load(constr, data, name){
+    function load(constr, params, data, name){
         var source  = data.source,
             args    = Array.prototype.slice.call(arguments),
             callback;
@@ -33,7 +34,7 @@ define([
         registry.get(source, callback);
     }
 
-    return function(constr){
-        return load.bind(null, constr);
+    return function(constr, params){
+        return load.bind(null, constr, params);
     };
 });
