@@ -90,7 +90,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'period'    => null,
-                'date_from' => date('Y-m-d',strtotime('-1 year', time())),
+                'date_from' => date('Y-m-d', strtotime('-1 year', time())),
                 'date_to'   => date('Y-m-d', time()),
                 'expected_period' => date('Y-m-d', time())
             ]
