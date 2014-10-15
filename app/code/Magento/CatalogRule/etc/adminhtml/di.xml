@@ -32,4 +32,7 @@
     <type name="Magento\ImportExport\Model\Import">
         <plugin name="reindex_after_import" type="Magento\CatalogRule\Plugin\Indexer\ImportExport"/>
     </type>
+    <type name="Magento\Catalog\Model\Resource\Eav\Attribute">
+        <plugin name="change_product_attribute" type="Magento\CatalogRule\Plugin\Indexer\Product\Attribute"/>
+    </type>
 </config>

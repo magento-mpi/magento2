@@ -14,9 +14,7 @@ namespace Magento\CatalogRule\Model;
 use Magento\Backend\Model\Session as BackendModelSession;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
-use Magento\CatalogRule\Model\Rule\Condition\Combine;
 use Magento\CatalogRule\Model\Rule;
-use Magento\CatalogRule\Model\Resource\Rule\Collection;
 use Magento\CatalogRule\Model\Rule\Product\Price;
 use Magento\Framework\Registry;
 use Magento\Framework\StoreManagerInterface;
@@ -24,8 +22,6 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\Framework\Message\ManagerInterface;
-use Magento\Rule\Model\Condition\Product\AbstractProduct;
 use Magento\Framework\Stdlib\DateTime;
 
 class Observer
@@ -56,21 +52,6 @@ class Observer
     protected $_productPrice;
 
     /**
-     * @var BackendModelSession
-     */
-    protected $_backendSession;
-
-    /**
-     * @var \Magento\CatalogRule\Model\RuleFactory
-     */
-    protected $_ruleFactory;
-
-    /**
-     * @var \Magento\CatalogRule\Model\FlagFactory
-     */
-    protected $_flagFactory;
-
-    /**
      * @var \Magento\CatalogRule\Model\Resource\Rule\CollectionFactory
      */
     protected $_ruleCollectionFactory;
@@ -96,24 +77,15 @@ class Observer
     protected $_resourceRule;
 
     /**
-     * @var \Magento\Framework\Message\ManagerInterface
-     */
-    protected $messageManager;
-
-    /**
      * @param Resource\RuleFactory $resourceRuleFactory
      * @param Resource\Rule $resourceRule
      * @param Resource\Rule\CollectionFactory $ruleCollectionFactory
-     * @param Rule\Product\Price $productPrice
-     * @param RuleFactory $ruleFactory
-     * @param FlagFactory $flagFactory
+     * @param Price $productPrice
      * @param StoreManagerInterface $storeManager
      * @param TimezoneInterface $localeDate
      * @param CustomerModelSession $customerSession
-     * @param BackendModelSession $backendSession
      * @param Registry $coreRegistry
      * @param DateTime $dateTime
-     * @param ManagerInterface $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -122,89 +94,22 @@ class Observer
         Resource\Rule $resourceRule,
         Resource\Rule\CollectionFactory $ruleCollectionFactory,
         Rule\Product\Price $productPrice,
-        RuleFactory $ruleFactory,
-        FlagFactory $flagFactory,
         StoreManagerInterface $storeManager,
         TimezoneInterface $localeDate,
         CustomerModelSession $customerSession,
-        BackendModelSession $backendSession,
         Registry $coreRegistry,
-        DateTime $dateTime,
-        ManagerInterface $messageManager,
-        \Magento\CatalogRule\Model\Indexer\Product\ProductRuleProcessor $productProcessor,
-        \Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor $ruleProcessor
+        DateTime $dateTime
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
         $this->_ruleCollectionFactory = $ruleCollectionFactory;
         $this->_productPrice = $productPrice;
-        $this->_ruleFactory = $ruleFactory;
-        $this->_flagFactory = $flagFactory;
         $this->_storeManager = $storeManager;
         $this->_localeDate = $localeDate;
         $this->_customerSession = $customerSession;
-        $this->_backendSession = $backendSession;
         $this->_coreRegistry = $coreRegistry;
         $this->dateTime = $dateTime;
-        $this->messageManager = $messageManager;
-        $this->productProcessor = $productProcessor;
-        $this->ruleProcessor = $ruleProcessor;
     }
-
-    /**
-     * Apply all catalog price rules for specific product
-     *
-     * @param EventObserver $observer
-     * @return $this|void
-     */
-    public function applyAllRulesOnProduct($observer)
-    {
-        $product = $observer->getEvent()->getProduct();
-        if ($product->getIsMassupdate() || $this->productProcessor->getIndexer()->isScheduled()) {
-            return $this;
-        }
-        $this->productProcessor->reindexRow($product->getId());
-
-        return $this;
-    }
-
-    /**
-     * Apply all price rules for current date.
-     * Handle cataolg_product_import_after event
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function applyAllRules($observer)
-    {
-        if ($this->ruleProcessor->getIndexer()->isScheduled()) {
-            return $this;
-        }
-        $this->_resourceRule->applyAllRulesForDateRange($this->dateTime->formatDate(mktime(0, 0, 0)));
-        $this->_flagFactory->create()->loadSelf()->setState(0)->save();
-
-        return $this;
-    }
-
-    /**
-     * Apply all catalog price rules
-     *
-     * Fire the same name process as catalog rule model
-     * Event name "apply_catalog_price_rules"
-     *
-     * @param  EventObserver $observer
-     * @return $this
-     */
-    public function processApplyAll(EventObserver $observer)
-    {
-        if ($this->ruleProcessor->getIndexer()->isScheduled()) {
-            return $this;
-        }
-        $this->_ruleFactory->create()->applyAll();
-        $this->_flagFactory->create()->loadSelf()->setState(0)->save();
-        return $this;
-    }
-
     /**
      * Apply catalog price rules to product on frontend
      *
@@ -291,22 +196,6 @@ class Observer
     }
 
     /**
-     * Daily update catalog price rule by cron
-     * Update include interval 3 days - current day - 1 days before + 1 days after
-     * This method is called from cron process, cron is working in UTC time and
-     * we should generate data for interval -1 day ... +1 day
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function dailyCatalogUpdate($observer)
-    {
-        $this->_resourceRule->applyAllRulesForDateRange();
-
-        return $this;
-    }
-
-    /**
      * Clean out calculated catalog rule prices for products
      *
      * @return void
@@ -342,98 +231,6 @@ class Observer
             $updateFields,
             $websiteDate
         );
-
-        return $this;
-    }
-
-    /**
-     * Check rules that contains affected attribute
-     * If rules were found they will be set to inactive and notice will be add to admin session
-     *
-     * @param string $attributeCode
-     * @return $this
-     */
-    protected function _checkCatalogRulesAvailability($attributeCode)
-    {
-        /* @var $collection Collection */
-        $collection = $this->_ruleCollectionFactory->create()->addAttributeInConditionFilter($attributeCode);
-
-        $disabledRulesCount = 0;
-        foreach ($collection as $rule) {
-            /* @var $rule Rule */
-            $rule->setIsActive(0);
-            /* @var $rule->getConditions() Combine */
-            $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
-            $rule->save();
-
-            $disabledRulesCount++;
-        }
-
-        if ($disabledRulesCount) {
-            $this->_ruleFactory->create()->applyAll();
-            $this->messageManager->addWarning(
-                __(
-                    '%1 Catalog Price Rules based on "%2" attribute have been disabled.',
-                    $disabledRulesCount,
-                    $attributeCode
-                )
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove catalog attribute condition by attribute code from rule conditions
-     *
-     * @param Combine $combine
-     * @param string $attributeCode
-     * @return void
-     */
-    protected function _removeAttributeFromConditions($combine, $attributeCode)
-    {
-        $conditions = $combine->getConditions();
-        foreach ($conditions as $conditionId => $condition) {
-            if ($condition instanceof Combine) {
-                $this->_removeAttributeFromConditions($condition, $attributeCode);
-            }
-            if ($condition instanceof AbstractProduct) {
-                if ($condition->getAttribute() == $attributeCode) {
-                    unset($conditions[$conditionId]);
-                }
-            }
-        }
-        $combine->setConditions($conditions);
-    }
-
-    /**
-     * After save attribute if it is not used for promo rules already check rules for containing this attribute
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function catalogAttributeSaveAfter(EventObserver $observer)
-    {
-        $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
-            $this->_checkCatalogRulesAvailability($attribute->getAttributeCode());
-        }
-
-        return $this;
-    }
-
-    /**
-     * After delete attribute check rules that contains deleted attribute
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function catalogAttributeDeleteAfter(EventObserver $observer)
-    {
-        $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute->getIsUsedForPromoRules()) {
-            $this->_checkCatalogRulesAvailability($attribute->getAttributeCode());
-        }
 
         return $this;
     }

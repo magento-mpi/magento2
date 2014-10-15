@@ -45,4 +45,7 @@
     <type name="Magento\CatalogRule\Model\Rule">
         <plugin name="reindexPriceOnRuleApply" type="\Magento\CatalogRule\Plugin\Indexer\CatalogRule" />
     </type>
+    <type name="Magento\CatalogRule\Model\Indexer\IndexBuilder">
+        <plugin name="invalidate_price_indexer" type="Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer"/>
+    </type>
 </config>
