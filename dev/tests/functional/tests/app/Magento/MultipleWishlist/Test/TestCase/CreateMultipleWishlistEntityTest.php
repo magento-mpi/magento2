@@ -85,7 +85,6 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         WidgetInstanceEdit $widgetInstanceEdit,
         Browser $browser
     ) {
-        $this->markTestIncomplete('MAGETWO-28924');
         //Steps
         self::$widgetInstanceEdit = $widgetInstanceEdit;
         self::$browser = $browser;

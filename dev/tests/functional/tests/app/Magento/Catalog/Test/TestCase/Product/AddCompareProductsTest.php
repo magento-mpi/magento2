@@ -55,8 +55,6 @@ class AddCompareProductsTest extends AbstractCompareProductsTest
         AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage,
         CatalogProductCompare $catalogProductCompare
     ) {
-        $this->markTestIncomplete('MAGETWO-26865');
-
         //Steps
         $this->catalogProductCompare = $catalogProductCompare;
         $this->cmsIndex->open();

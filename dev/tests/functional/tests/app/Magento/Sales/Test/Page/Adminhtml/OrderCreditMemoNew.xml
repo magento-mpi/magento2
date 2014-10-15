@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_creditmemo/new" module="Magento_Sales">
+    <blocks>
+        <createBlock>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Create</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </createBlock>
+    </blocks>
+</page>
