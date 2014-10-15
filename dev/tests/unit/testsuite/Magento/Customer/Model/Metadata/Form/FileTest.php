@@ -29,7 +29,7 @@ class FileTest extends AbstractFormTestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\File\UploaderFactory
      */
-    private $uploaderFactoryMock;
+    protected $uploaderFactoryMock;
 
     protected function setUp()
     {
