@@ -17,6 +17,11 @@ class PostInstaller
     protected $setupList;
 
     /**
+     * @var array
+     */
+    protected $installedModules;
+
+    /**
      * @param SetupInterface $setupResource
      * @param int $sortOrder
      * @return $this
@@ -28,6 +33,24 @@ class PostInstaller
         }
         $this->setupList[$sortOrder][] = $setupResource;
         return $this;
+    }
+
+    /**
+     * @param string $moduleName
+     * @return $this
+     */
+    public function addModule($moduleName)
+    {
+        $this->installedModules[] = $moduleName;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInstalledModuleList()
+    {
+        return $this->installedModules;
     }
 
     /**
