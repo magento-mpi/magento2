@@ -1,3 +1,3 @@
-Magento_GiftWrapping module  provides functionality that allows customer to add gift wrapping to the items purchased
+Magento\GiftWrapping module  provides functionality that allows customer to add gift wrapping to the items purchased
 from the store as gifts and charge it individually. The proposed idea is to extend the existing functionality of
 gift messages by combining gift messages with gift wrapping functionality

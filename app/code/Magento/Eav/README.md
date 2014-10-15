@@ -1,2 +1,2 @@
-EAV stands for Entity-Attribute-Value. Magento_Eav module provides the way to store any catalog entity to relational
-database.
+Magento\EAV stands for Entity-Attribute-Value. Magento_Eav module provides the way to store any catalog entity to
+relational database.
