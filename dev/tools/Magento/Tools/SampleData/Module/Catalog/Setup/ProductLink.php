@@ -46,7 +46,7 @@ class ProductLink implements SetupInterface
      * @param FixtureHelper $fixtureHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linksInitializer
-     * @param \Magento\Framework\Module\ModuleListInterface $moduleList,
+     * @param \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
