@@ -33,8 +33,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $currentNodeAs = 'currentNode';
         $after = 'after';
         $block = 'block';
-        $testName = 'test_name';
-        $data = [$testName => 1];
         $testPath = 'test_path';
         $potentialChild = 'potential_child';
 
@@ -43,14 +41,14 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $scheduledStructure->expects($this->once())->method('hasPath')
             ->with($parentNodeName)
             ->will($this->returnValue(true));
-        $scheduledStructure->expects($this->exactly(2))->method('hasStructureElement')
+        $scheduledStructure->expects($this->any())->method('hasStructureElement')
             ->with($actualNodeName)
             ->will($this->returnValue(true));
         $scheduledStructure->expects($this->once())->method('setPathElement')
             ->with($actualNodeName, $testPath . '/' . $actualNodeName)
             ->will($this->returnValue(true));
         $scheduledStructure->expects($this->once())->method('setStructureElement')
-            ->with($actualNodeName, [$block, $currentNodeAs, $parentNodeName, $after, true, [$testName => 2]]);
+            ->with($actualNodeName, [$block, $currentNodeAs, $parentNodeName, $after, true]);
         $scheduledStructure->expects($this->once())->method('getPath')
             ->with($parentNodeName)
             ->will($this->returnValue('test_path'));
@@ -60,13 +58,6 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             ->with($potentialChild);
         $scheduledStructure->expects($unsetStructureElementCount)->method('unsetStructureElement')
             ->with($potentialChild);
-        $scheduledStructure->expects($this->once())->method('getStructureElement')
-            ->with($actualNodeName)
-            ->will(
-                    $this->returnValue(
-                        [Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA => $data]
-                    )
-            );
 
         $currentNode = new Layout\Element(
             '<' . $block . ' name="' . $currentNodeName . '" as="' . $currentNodeAs . '" after="' . $after . '"/>'
@@ -76,8 +67,19 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         /** @var Layout\ScheduledStructure\Helper $helper */
         $helper = (new \Magento\TestFramework\Helper\ObjectManager($this))
             ->getObject('Magento\Framework\View\Layout\ScheduledStructure\Helper');
-        $result = $helper->scheduleStructure($scheduledStructure, $currentNode, $parentNode, $data);
+        $result = $helper->scheduleStructure($scheduledStructure, $currentNode, $parentNode);
         $this->assertEquals($actualNodeName, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerScheduleStructure()
+    {
+        return array(
+            array('current_node', 'current_node', $this->once(), $this->once()),
+            array('', 'parent_node_schedule_block0', $this->never(), $this->never())
+        );
     }
 
     public function testScheduleNonExistentElement()
@@ -87,7 +89,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         /** @var Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
         $scheduledStructure = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure', [], [], '', false);
         $scheduledStructure->expects($this->once())->method('getStructureElement')->with($key)
-            ->will($this->returnValue([]));
+            ->willReturn([]);
         $scheduledStructure->expects($this->once())->method('unsetPathElement')->with($key);
         $scheduledStructure->expects($this->once())->method('unsetStructureElement')->with($key);
 
@@ -111,21 +113,31 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         /** @var Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
         $scheduledStructure = $this->getMock('Magento\Framework\View\Layout\ScheduledStructure', [], [], '', false);
-        $scheduledStructure->expects($this->at(0))->method('getStructureElement')->with($key)->will(
-            $this->returnValue(
+        $scheduledStructure->expects($this->any())->method('getStructureElement')->will(
+            $this->returnValueMap(
                 [
-                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_TYPE => $block,
-                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_ALIAS => $alias,
-                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME => $parentName,
-                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME => $siblingName,
-                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_IS_AFTER => true,
-                    Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_LAYOUT_DATA => $data,
+                    [
+                        $key,
+                        null,
+                        [
+                            Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_TYPE => $block,
+                            Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_ALIAS => $alias,
+                            Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME => $parentName,
+                            Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME => $siblingName,
+                            Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_IS_AFTER => true,
+                        ]
+                    ],
+                    [$parentName, null, []]
                 ]
             )
         );
-        $scheduledStructure->expects($this->at(2))->method('getStructureElement')->with($parentName)
-            ->will($this->returnValue([]));
-        $scheduledStructure->expects($this->exactly(2))->method('hasStructureElement')->will($this->returnValue(true));
+        $scheduledStructure->expects($this->any())->method('getStructureElementData')->will(
+            $this->returnValueMap([
+                [$key, null, $data],
+                [$parentName, null, $data]
+            ])
+        );
+        $scheduledStructure->expects($this->any())->method('hasStructureElement')->will($this->returnValue(true));
         $scheduledStructure->expects($this->once())->method('setElement')->with($key, [$block, $data]);
 
         /** @var Layout\Data\Structure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructure */
@@ -139,16 +151,5 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $helper = (new \Magento\TestFramework\Helper\ObjectManager($this))
             ->getObject('Magento\Framework\View\Layout\ScheduledStructure\Helper');
         $helper->scheduleElement($scheduledStructure, $dataStructure, $key);
-    }
-
-    /**
-     * @return array
-     */
-    public function providerScheduleStructure()
-    {
-        return array(
-            array('current_node', 'current_node', $this->once(), $this->once()),
-            array('', 'parent_node_schedule_block1', $this->never(), $this->never())
-        );
     }
 }
