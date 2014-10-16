@@ -13,6 +13,7 @@ return [
         'Magento_RecurringPayment' => 'Magento\Tools\SampleData\Module\RecurringPayment\Setup',
         'Magento_Downloadable' => 'Magento\Tools\SampleData\Module\Downloadable\Setup',
         'Magento_GroupedProduct' => 'Magento\Tools\SampleData\Module\GroupedProduct\Setup',
-        'Magento_Bundle' => 'Magento\Tools\SampleData\Module\Bundle\Setup'
+        'Magento_Bundle' => 'Magento\Tools\SampleData\Module\Bundle\Setup',
+        'Magento_Review' => 'Magento\Tools\SampleData\Module\Review\Setup'
     ],
 ];
