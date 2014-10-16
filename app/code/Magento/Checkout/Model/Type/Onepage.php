@@ -30,6 +30,8 @@ class Onepage
     const METHOD_GUEST    = 'guest';
     const METHOD_REGISTER = 'register';
     const METHOD_CUSTOMER = 'customer';
+    const USE_FOR_SHIPPING = 1;
+    const NOT_USE_FOR_SHIPPING = 0;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -353,7 +355,7 @@ class Onepage
             array()
         );
 
-        if ($customerAddressId && !empty($customerAddressId)) {
+        if ($customerAddressId) {
             try {
                 $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
@@ -361,7 +363,7 @@ class Onepage
                 }
                 $address->importCustomerAddressData($customerAddress)->setSaveInAddressBook(0);
             } catch (\Exception $e) {
-                /** Address does not exist */
+                return array('error' => 1, 'message' => __('Address does not exist.'));
             }
         } else {
             // emulate request object
@@ -415,12 +417,12 @@ class Onepage
             $usingCase = isset($data['use_for_shipping']) ? (int)$data['use_for_shipping'] : 0;
 
             switch ($usingCase) {
-                case 0:
+                case self::NOT_USE_FOR_SHIPPING:
                     $shipping = $this->getQuote()->getShippingAddress();
                     $shipping->setSameAsBilling(0);
                     $shipping->save();
                     break;
-                case 1:
+                case self::USE_FOR_SHIPPING:
                     $billing = clone $address;
                     $billing->unsAddressId()->unsAddressType();
                     $shipping = $this->getQuote()->getShippingAddress();
@@ -455,8 +457,8 @@ class Onepage
                         $shippingMethod
                     )->setCollectShippingRates(
                         true
-                    )->collectTotals()
-                    ->save();
+                    )->collectTotals();
+                    $shipping->save();
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
                     break;
             }
