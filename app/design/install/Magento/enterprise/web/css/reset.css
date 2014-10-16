@@ -14,7 +14,6 @@ body { background:#fff; padding-bottom:20px; font:12px/1.35 Arial, Helvetica, sa
 
 a { color:#1e7ec8; text-decoration:underline; }
 a:hover { color:#1e7ec8; text-decoration:underline; }
-:focus { outline: 0; }
 
 img { border:0; }
 
