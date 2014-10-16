@@ -1,4 +1,6 @@
-Magento\GiftRegistry module provides the functionality that provide the ability to purchase items from web store basing
-on the list of gifts that the customer desires to receive. Admin user will have privileges to set up and create custom
-gift registry types (Wedding, Birthday, Baby Registry are available out-of-the-box) and attributes (date, location, role
-etc.) as well as perform basic operations (view and share) on customer gift registries.
+Magento\GiftRegistry module that allows to create sets of gifts. It resembles wishlist, but there are differences.
+You can describe Gift Registry as a wishlist of products you would like to share with other people so they could
+purchase anything from the list. Customer can even set some shipping address to a gift registry, thus anyone who follows
+this list with a purchase would automatically have that shipping address set by default during checkout. Customer can
+manage his gift registries in his profile. The gift registry can be shared or stay private. Every gift registry has
+system attributes and can have custom attributes.
