@@ -19,10 +19,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * 1. Create customer
  * 2. Create composite products
  * 3. Log in to frontend
- * 4. Add products to the customer's wishlist (unconfigured)
+ * 4. Add products to the customer's wish list (unconfigured)
  *
  * Steps:
- * 1. Open Wishlist
+ * 1. Open Wish list
  * 2. Click 'Configure' for the product
  * 3. Fill data
  * 4. Click 'Ok'
@@ -50,21 +50,20 @@ class ConfigureCustomerWishlistOnFrontendTest extends AbstractWishlistOnFrontend
      * Configure customer wish list on frontend
      *
      * @param CustomerInjectable $customer
-     * @param string $products
+     * @param string $product
      * @return array
      */
-    public function test(CustomerInjectable $customer, $products)
+    public function test(CustomerInjectable $customer, $product)
     {
         // Preconditions
-        $product = $this->createProducts($products)[0];
+        $product = $this->createProducts($product)[0];
         $this->loginCustomer($customer);
         $this->addToWishlist([$product]);
 
         // Steps
         $this->cmsIndex->getLinksBlock()->openLink('My Wish List');
         $this->wishlistIndex->getItemsBlock()->getItemProduct($product)->clickEdit();
-        $viewBlock = $this->catalogProductView->getViewBlock();
-        $viewBlock->addToWishlist($product);
+        $this->catalogProductView->getViewBlock()->addToWishlist($product);
 
         return ['product' => $product];
     }

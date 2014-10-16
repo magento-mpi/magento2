@@ -50,7 +50,7 @@ class AssertProductDetailsInWishlist extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             $expectedOptions,
             $actualOptions,
-            "Expected product options are not equals to actual."
+            "Expected product options are not equal to actual."
         );
     }
 

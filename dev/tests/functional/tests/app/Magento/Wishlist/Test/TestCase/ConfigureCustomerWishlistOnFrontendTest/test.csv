@@ -1,4 +1,4 @@
-"products";"constraint"
+"product";"constraint"
 "catalogProductSimple::with_two_custom_option";"assertProductIsPresentInWishlist, assertProductDetailsInWishlist"
 "configurableProductInjectable::default";"assertProductIsPresentInWishlist, assertProductDetailsInWishlist"
 "bundleProduct::bundle_dynamic_product";"assertProductIsPresentInWishlist, assertProductDetailsInWishlist"

@@ -8,10 +8,10 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnFrontendTest as ConfigureWishlistOnFrontendTest;
+use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnFrontendTest;
 
 /**
- * Test Creation for ConfigureCustomerWishlist on frontend
+ * Test Creation for ConfigureGiftCardWishlist on frontend
  *
  * Test Flow:
  *
@@ -19,10 +19,10 @@ use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnFrontendTest as Co
  * 1. Create customer
  * 2. Create gift card product
  * 3. Log in to frontend
- * 4. Add gift card product to the customer's wishlist (unconfigured)
+ * 4. Add gift card product to the customer's wish list (unconfigured)
  *
  * Steps:
- * 1. Open Wishlist
+ * 1. Open Wish list
  * 2. Click 'Configure' for the gift card product
  * 3. Fill data
  * 4. Click 'Ok'
@@ -31,7 +31,7 @@ use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnFrontendTest as Co
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29507
  */
-class ConfigureCustomerWishlistOnFrontendTest extends ConfigureWishlistOnFrontendTest
+class ConfigureGiftCardWishlistOnFrontendTest extends ConfigureCustomerWishlistOnFrontendTest
 {
     //
 }

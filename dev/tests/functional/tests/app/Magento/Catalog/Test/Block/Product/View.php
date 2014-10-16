@@ -359,15 +359,11 @@ class View extends AbstractConfigureBlock
      */
     public function addToWishlist(FixtureInterface $product)
     {
-        $checkoutData = null;
-        if ($product instanceof InjectableFixture) {
-            /** @var CatalogProductSimple $product */
-            $checkoutData = $product->getCheckoutData();
-        }
-
+        /** @var CatalogProductSimple $product */
+        $checkoutData = $product->getCheckoutData();
         $this->fillOptions($product);
-        if (isset($checkoutData['options']['qty'])) {
-            $this->setQty($checkoutData['options']['qty']);
+        if (isset($checkoutData['qty'])) {
+            $this->setQty($checkoutData['qty']);
         }
         $this->clickAddToWishlist();
     }
@@ -379,7 +375,7 @@ class View extends AbstractConfigureBlock
      */
     public function clickAddToWishlist()
     {
-        $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->addToWishlist)->click();
     }
 
     /**
