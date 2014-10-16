@@ -52,6 +52,7 @@ angular.module('install', ['ngStorage'])
                 $scope.isInProgress = false;
                 if (response.success) {
                     $localStorage.config.encrypt.key = response.key;
+                    $localStorage.messages = response.messages;
                     $scope.nextState();
                 } else {
                     $scope.displayFailure();
