@@ -69,6 +69,8 @@ class Proxy implements \Magento\Framework\App\Route\ConfigInterface
 
     /**
      * Retrieve ObjectManager from global scope
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -77,6 +79,8 @@ class Proxy implements \Magento\Framework\App\Route\ConfigInterface
 
     /**
      * Clone proxied instance
+     *
+     * @return void
      */
     public function __clone()
     {
