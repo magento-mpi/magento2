@@ -9,10 +9,12 @@
 
 namespace Magento\Customer\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Customer group interface.
  */
-interface Group
+interface Group extends ExtensibleDataInterface
 {
     /**
      * Get id

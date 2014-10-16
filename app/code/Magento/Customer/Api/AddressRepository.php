@@ -17,16 +17,17 @@ interface AddressRepository
      * Save customer address.
      *
      * @param \Magento\Customer\Api\Data\Address $address
-     * @param int $customerId
      * @return \Magento\Customer\Api\Data\Address
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function persist(\Magento\Customer\Api\Data\Address $address, $customerId);
+    public function save(\Magento\Customer\Api\Data\Address $address);
 
     /**
      * Retrieve customer address.
      *
      * @param int $addressId
      * @return \Magento\Customer\Api\Data\Address
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($addressId);
 
@@ -35,6 +36,7 @@ interface AddressRepository
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Customer\Api\Data\Address[]
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
@@ -43,6 +45,7 @@ interface AddressRepository
      *
      * @param int $addressId
      * @return int
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete($addressId);
 }

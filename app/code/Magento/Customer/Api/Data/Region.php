@@ -8,10 +8,12 @@
  */
 namespace Magento\Customer\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Customer address region interface.
  */
-interface Region
+interface Region extends ExtensibleDataInterface
 {
     /**
      * Get region code

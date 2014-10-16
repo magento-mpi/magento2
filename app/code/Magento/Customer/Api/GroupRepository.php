@@ -23,9 +23,9 @@ interface GroupRepository
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a group ID is sent but the group does not exist
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException
      *      If saving customer group with customer group code that is used by an existing customer group
-     * @throws \Magento\Framework\Exception\LocalizedException If something goes wrong during save
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function persist(\Magento\Customer\Api\Data\Group $group);
+    public function save(\Magento\Customer\Api\Data\Group $group);
 
     /**
      * Get customer group by group ID.
@@ -33,6 +33,7 @@ interface GroupRepository
      * @param int $groupId
      * @return \Magento\Customer\Api\Data\Group
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $groupId is not found
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($groupId);
 
@@ -44,6 +45,7 @@ interface GroupRepository
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Customer\Api\Data\Group[]
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
@@ -54,7 +56,7 @@ interface GroupRepository
      * @return bool True if the group was successfully deleted
      * @throws \Magento\Framework\Exception\NoSuchEntityException If the specified customer group does not exist.
      * @throws \Magento\Framework\Exception\StateException Thrown if customer group cannot be deleted
-     * @throws \Magento\Framework\Exception\LocalizedException If something went wrong during deletion.
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete($groupId);
 }

@@ -33,8 +33,18 @@ interface AccountManagement
      * @param string $password
      * @param string $redirectUrl
      * @return \Magento\Customer\Api\Data\Customer
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function createAccount(\Magento\Customer\Api\Data\Customer $customer, $password, $redirectUrl = '' );
+
+    /**
+     * Validate customer data.
+     *
+     * @param \Magento\Customer\Api\Data\Customer $customer
+     * @return \Magento\Customer\Api\Data\ValidationResults
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function validate(\Magento\Customer\Api\Data\Customer $customer);
 
     /**
      * Check if customer can be deleted.
@@ -42,6 +52,7 @@ interface AccountManagement
      * @param int $customerId
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException If group is not found
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function isReadonly($customerId);
 
@@ -51,6 +62,7 @@ interface AccountManagement
      * @param string $email
      * @param string $confirmationKey
      * @return \Magento\Customer\Api\Data\Customer
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function activate($email, $confirmationKey);
 
@@ -60,6 +72,7 @@ interface AccountManagement
      * @param string $email
      * @param string $password
      * @return \Magento\Customer\Api\Data\Customer
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function authenticate($email, $password);
 
@@ -69,6 +82,7 @@ interface AccountManagement
      * @param string $email
      * @param string $currentPassword
      * @param string $newPassword
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function changePassword($email, $currentPassword, $newPassword);
 
@@ -78,6 +92,7 @@ interface AccountManagement
      * @param string $email
      * @param string $template
      * @param string $websiteId
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function initiatePasswordReset($email, $template, $websiteId = null);
 
@@ -87,6 +102,7 @@ interface AccountManagement
      * @param string $email
      * @param string $resetToken
      * @param string $newPassword
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function resetPassword($email, $resetToken, $newPassword);
 
@@ -94,6 +110,7 @@ interface AccountManagement
      * Gets the account confirmation status.
      *
      * @param string $email
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getConfirmationStatus($email);
 
@@ -103,6 +120,7 @@ interface AccountManagement
      * @param string $email
      * @param string $websiteId
      * @param string $redirectUrl
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function resendConfirmation($email, $websiteId, $redirectUrl = '');
 
@@ -112,6 +130,7 @@ interface AccountManagement
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
      * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function isEmailAvailable($customerEmail, $websiteId = null);
 }

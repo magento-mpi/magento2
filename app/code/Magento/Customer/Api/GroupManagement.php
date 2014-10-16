@@ -19,6 +19,7 @@ interface GroupManagement
      * @param int $groupId
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException If group is not found
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function isReadonly($groupId);
 
@@ -28,6 +29,7 @@ interface GroupManagement
      * @param int $storeId
      * @return \Magento\Customer\Api\Data\Group
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getDefaultGroup($storeId = null);
 }
