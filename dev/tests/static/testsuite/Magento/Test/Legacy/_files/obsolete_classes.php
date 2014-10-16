@@ -770,7 +770,7 @@ return array(
     array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
-    array('Mage_Core_Model_Config_Options', 'Magento\Framework\App\Filesystem'),
+    array('Mage_Core_Model_Config_Options', 'Magento\Framework\Filesystem'),
     array('Magento\Framework\App\Dir', 'Magento\Framework\Filesystem'),
     array('Magento\Framework\Filesystem\Adapter\Local', 'Magento\Framework\Filesystem\Driver\File'),
     array('Magento\Framework\Filesystem\Adapter\Zlib', 'Magento\Framework\Filesystem\Driver\Zlib'),
