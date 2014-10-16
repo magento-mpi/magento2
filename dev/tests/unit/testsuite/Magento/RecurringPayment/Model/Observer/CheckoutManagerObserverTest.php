@@ -220,7 +220,7 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
         $this->_quoteSales->expects($this->once())
             ->method('getPayment')
             ->will($this->returnValue($this->_quotePayment));
-        $this->_event->expects($this->atLeastOnce())
+        $this->_event->expects($this->exactly(2))
             ->method('getQuote')
             ->will($this->returnValue($this->_quoteSales));
     }
