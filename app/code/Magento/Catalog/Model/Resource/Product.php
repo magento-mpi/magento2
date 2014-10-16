@@ -48,8 +48,6 @@ class Product extends AbstractResource
     protected $eventManager;
 
     /**
-     * Construct
-     *
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
@@ -58,8 +56,9 @@ class Product extends AbstractResource
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Factory $modelFactory
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param Category\CollectionFactory $categoryCollectionFactory
      * @param Category $catalogCategory
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
