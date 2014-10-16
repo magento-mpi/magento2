@@ -40,6 +40,7 @@ class PriceIndexer
      * @param \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject
      * @param callable $proceed
      * @param array $productIds
+     * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -56,6 +57,7 @@ class PriceIndexer
      * @param \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject
      * @param callable $proceed
      * @param int $productId
+     * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
