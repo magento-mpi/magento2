@@ -65,7 +65,7 @@ class Container implements Layout\GeneratorInterface
         foreach ($scheduledStructure->getElements() as $elementName => $element) {
             list($type, $data) = $element;
             if ($type === self::TYPE) {
-                $this->generateContainer($structure, $elementName, $data);
+                $this->generateContainer($structure, $elementName, $data['attributes']);
                 $scheduledStructure->unsetElement($elementName);
             }
         }
@@ -77,15 +77,14 @@ class Container implements Layout\GeneratorInterface
      *
      * @param \Magento\Framework\View\Layout\Data\Structure $structure
      * @param string $elementName
-     * @param array $data
+     * @param array $options
      * @return void
      */
     public function generateContainer(
         Layout\Data\Structure $structure,
         $elementName,
-        $data
+        $options
     ) {
-        $options = $data['attributes'];
         $structure->setAttribute(
             $elementName,
             Layout\Element::CONTAINER_OPT_LABEL,

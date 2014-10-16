@@ -83,14 +83,6 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Framework\View\Element\Text', $layout->getBlock('block_second'));
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception
-     */
-    public function testGetBlockUnscheduledException()
-    {
-        $this->_getLayoutModel('get_block_exception.xml');
-    }
-
     public function testLayoutArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments.xml');
@@ -170,8 +162,8 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     public function testActionAnonymousParentBlock()
     {
         $layout = $this->_getLayoutModel('action_for_anonymous_parent_block.xml');
-        $this->assertEquals('schedule_block1', $layout->getParentName('test.block.insert'));
-        $this->assertEquals('schedule_block2', $layout->getParentName('test.block.append'));
+        $this->assertEquals('schedule_block0', $layout->getParentName('test.block.insert'));
+        $this->assertEquals('schedule_block1', $layout->getParentName('test.block.append'));
     }
 
     /**
