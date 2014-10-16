@@ -60,6 +60,13 @@ interface AttributeInterface
     public function getFrontendLabel();
 
     /**
+     * Return frontend label for each store
+     *
+     * @return array
+     */
+    public function getStoresFrontendLabel();
+
+    /**
      * Get the note attribute for the element.
      *
      * @return string|null
@@ -120,5 +127,5 @@ interface AttributeInterface
      *
      * @return \Magento\Eav\Api\Data\AttributeValidationRuleInterface[]|null
      */
-    public function getValidationRules();
+    public function getValidateRules();
 }

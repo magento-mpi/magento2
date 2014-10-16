@@ -10,7 +10,6 @@
  * EAV attribute resource model (Using Forms)
  *
  * @method \Magento\Eav\Model\Attribute\Data\AbstractData|null getDataModel() Get data model linked to attribute or null.
- * @method string|null getFrontendInput() Get attribute type for user interface form or null
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
@@ -19,6 +18,7 @@ namespace Magento\Eav\Model;
 use Magento\Store\Model\Website;
 
 abstract class Attribute extends \Magento\Eav\Model\Entity\Attribute
+    implements \Magento\Eav\Api\Data\AttributeInterface
 {
     /**
      * Name of the module
@@ -179,5 +179,132 @@ abstract class Attribute extends \Magento\Eav\Model\Entity\Attribute
     public function getMultilineCount()
     {
         return $this->_getScopeValue('multiline_count');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeId()
+    {
+        return $this->getData('attribute_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isUnique()
+    {
+        return $this->getData('is_unique');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScope()
+    {
+        return $this->isScopeGlobal() ? 'global' : ($this->isScopeWebsite() ? 'website' : 'store');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrontendClass()
+    {
+        return $this->getData('frontend_class');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeCode()
+    {
+        return $this->getData('attribute_code');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrontendInput()
+    {
+        return $this->getData('frontend_input');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRequired()
+    {
+        return $this->getData('is_required');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions()
+    {
+        return $this->usesSource() ? $this->getSource()->getAllOptions() : array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isUserDefined()
+    {
+        return $this->getData('is_user_defined');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrontendLabel()
+    {
+        return $this->getData('frontend_label');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStoresFrontendLabel()
+    {
+        $data = [];
+        $data[0] = $this->getFrontendLabel();
+        if (is_array($this->getStoreLabels())) {
+            foreach ($this->getStoreLabels() as $storeId => $label) {
+                $data[$storeId] = $label;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNote()
+    {
+        return $this->getData('note');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBackendType()
+    {
+        return $this->getData('backend_type');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBackendModel()
+    {
+        return $this->getData('backend_model');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceModel()
+    {
+        return $this->getData('source_model');
     }
 }

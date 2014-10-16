@@ -13,24 +13,21 @@ interface AttributeRepositoryInterface
     /**
      * Retrieve all attributes for entity type
      *
-     * @param string $entityTypeCode
-     * @param int $attributeSetId
-     * @param int $storeId
+     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Eav\Api\Data\AttributeInterface[]
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAllAttributeMetadata
      */
-    public function getList($entityTypeCode, $attributeSetId = 0, $storeId = null);
+    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria);
 
 
     /**
      * Retrieve specific attribute
      *
-     * @param string $entityTypeCode
-     * @param string $attributeCode
+     * @param \Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier
      * @return \Magento\Eav\Api\Data\AttributeInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
-    public function get($entityTypeCode, $attributeCode);
+    public function get(\Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier);
 
     /**
      * Create attribute data
@@ -40,15 +37,13 @@ interface AttributeRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function save(\Magento\Eav\Api\Data\AttributeInterface $attributeMetadata);
+    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute);
 
     /**
      * Delete Attribute
      *
-     * @param  string $attributeId
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @throws \Exception If something goes wrong during delete
+     * @param Data\AttributeInterface $attribute
      * @return bool True if the entity was deleted (always true)
      */
-    public function delete($attributeId);
+    public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute);
 }
