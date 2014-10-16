@@ -56,7 +56,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
      *
      * @var bool
      */
-    protected $filterByBasePrice = true;
+    protected $filterByBasePrice = false;
 
     /**
      * @param Product $saleableItem
@@ -200,7 +200,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
     public function getSavePercent(AmountInterface $amount)
     {
         return ceil(
-            100 - ((100 / $this->priceInfo->getPrice(BasePrice::PRICE_CODE)->getAmount()->getBaseAmount())
+            100 - ((100 / $this->priceInfo->getPrice(RegularPrice::PRICE_CODE)->getAmount()->getBaseAmount())
                 * $amount->getBaseAmount())
         );
     }
