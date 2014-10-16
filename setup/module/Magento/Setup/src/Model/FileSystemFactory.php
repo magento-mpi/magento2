@@ -9,11 +9,10 @@
 namespace Magento\Setup\Model;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Config\Config;
 use Magento\Framework\Filesystem;
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem\File\ReadFactory;
 
-class FileSystemFactory
+class FilesystemFactory
 {
     /**
      * Zend Framework's service locator
@@ -23,35 +22,29 @@ class FileSystemFactory
     protected $serviceLocator;
 
     /**
-     * @var DirectoryList
-     */
-    protected $directoryList;
-
-    /**
      * Constructor
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param DirectoryListFactory  $directoryListFactory
      */
     public function __construct(
-        ServiceLocatorInterface $serviceLocator,
-        DirectoryListFactory  $directoryListFactory
+        ServiceLocatorInterface $serviceLocator
     ) {
         $this->serviceLocator = $serviceLocator;
-        $this->directoryList = $directoryListFactory->create();
     }
 
     /**
-     * Factory method for FileSystem object
+     * Factory method for Filesystem object
      *
-     * @return FileSystem
+     * @param ReadFactory $fileReadFactory
+     * @return Filesystem
      */
-    public function create()
+    public function create(ReadFactory $fileReadFactory = null)
     {
-        return new FileSystem(
-            $this->directoryList,
+        return new Filesystem(
+            $this->serviceLocator->get('Magento\Setup\Model\DirectoryListFactory')->create(),
             $this->serviceLocator->get('Magento\Framework\Filesystem\Directory\ReadFactory'),
-            $this->serviceLocator->get('Magento\Framework\Filesystem\Directory\WriteFactory')
+            $this->serviceLocator->get('Magento\Framework\Filesystem\Directory\WriteFactory'),
+            $fileReadFactory
         );
     }
 }

@@ -32,7 +32,7 @@ class ConfigFactory
     public function create(array $data = [])
     {
         return new Config(
-            $this->serviceLocator->get('Magento\Setup\Model\FileSystemFactory'),
+            $this->serviceLocator->get('Magento\Setup\Model\FilesystemFactory'),
             $data
         );
     }

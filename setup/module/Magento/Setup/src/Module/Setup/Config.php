@@ -11,7 +11,7 @@ namespace Magento\Setup\Module\Setup;
 use Magento\Framework\Filesystem\Directory\Write;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Setup\Model\FileSystemFactory;
+use Magento\Setup\Model\FilesystemFactory;
 
 /**
  * Deployment configuration model
@@ -77,11 +77,11 @@ class Config
     /**
      * Default Constructor
      *
-     * @param FileSystemFactory $fileSystemFactory
+     * @param FilesystemFactory $fileSystemFactory
      * @param string[] $data
      */
     public function __construct(
-        FileSystemFactory $fileSystemFactory,
+        FilesystemFactory $fileSystemFactory,
         $data = []
     ) {
         $this->filesystem = $fileSystemFactory->create();
@@ -160,7 +160,7 @@ class Config
             throw new \Exception("Some of the keys have not been replaced in the template: {$matches[1]}");
         }
 
-        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE,$contents);
+        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE, $contents);
         $this->configDirectory->changePermissions(self::DEPLOYMENT_CONFIG_FILE, 0777);
     }
 

@@ -7,8 +7,6 @@
  */
 namespace Magento\Setup\Controller\Data;
 
-use Magento\Config\Config;
-use Magento\Config\ConfigFactory;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Magento\Setup\Model\FilePermissions;
@@ -43,7 +41,7 @@ class FilePermissionsController extends AbstractActionController
     public function indexAction()
     {
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
-        if ($this->permissions->getDirsWithNoPermission()) {
+        if ($this->permissions->getNonWritableDirs()) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
 

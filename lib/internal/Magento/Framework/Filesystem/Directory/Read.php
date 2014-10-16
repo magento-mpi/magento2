@@ -170,11 +170,11 @@ class Read implements ReadInterface
     /**
      * Check permissions for reading file or directory
      *
-     * @param string $path
+     * @param string $path [optional]
      * @return bool
      * @throws \Magento\Framework\Filesystem\FilesystemException
      */
-    public function isReadable($path)
+    public function isReadable($path = null)
     {
         return $this->driver->isReadable($this->driver->getAbsolutePath($this->path, $path));
     }
@@ -233,10 +233,10 @@ class Read implements ReadInterface
     /**
      * Check whether given path is directory
      *
-     * @param string $path
+     * @param string $path [optional]
      * @return bool
      */
-    public function isDirectory($path)
+    public function isDirectory($path = null)
     {
         return $this->driver->isDirectory($this->driver->getAbsolutePath($this->path, $path));
     }

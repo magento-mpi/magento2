@@ -9,9 +9,16 @@
 namespace Magento\Setup\Model;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class FilePermissions
 {
+
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
     /**
      * @var DirectoryList
      */
@@ -44,11 +51,14 @@ class FilePermissions
     protected $current = [];
 
     /**
+     * @param FilesystemFactory  $filesystemFactory
      * @param DirectoryListFactory  $directoryListFactory
      */
     public function __construct(
+        FilesystemFactory  $filesystemFactory,
         DirectoryListFactory  $directoryListFactory
     ) {
+        $this->filesystem = $filesystemFactory->create();
         $this->directoryList = $directoryListFactory->create();
     }
 
@@ -76,7 +86,7 @@ class FilePermissions
     {
         if (!$this->current) {
             foreach ($this->required as $code => $path) {
-                if (!$this->validate($path)) {
+                if (!$this->validate($code)) {
                     continue;
                 }
                 $this->current[$code] = $path;
@@ -88,12 +98,14 @@ class FilePermissions
     /**
      * Validate directory permissions by given directory code
      *
-     * @param string $path
+     * @param string $code
      * @return bool
      */
-    protected function validate($path)
+    protected function validate($code)
     {
-        if (!file_exists($path) || !is_dir($path) || !is_readable($path) || !is_writable($path)) {
+        $directory = $this->filesystem->getDirectoryWrite($code);
+        if (!$directory->isExist() || !$directory->isDirectory() || !$directory->isReadable()
+            || !$directory->isWritable()) {
             return false;
         }
         return true;
@@ -104,7 +116,7 @@ class FilePermissions
      *
      * @return array
      */
-    public function getDirsWithNoPermission()
+    public function getNonWritableDirs()
     {
         $required = $this->getRequired();
         $current = $this->getCurrent();

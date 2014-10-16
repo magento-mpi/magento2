@@ -44,12 +44,14 @@ class DirectoryListFactory
     /**
      * Factory method for DirectoryList object
      *
+     * @param array $config
      * @return DirectoryList
      */
-    public function create()
+    public function create(array $config = array())
     {
         return new DirectoryList(
-            $this->config->getMagentoBasePath()
+            $this->config->getMagentoBasePath(),
+            $config
         );
     }
 }

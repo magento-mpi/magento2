@@ -237,7 +237,7 @@ class Installer
      */
     public function checkFilePermissions()
     {
-        $results = $this->filePermissions->getDirsWithNoPermission();
+        $results = $this->filePermissions->getNonWritableDirs();
         if ($results) {
             $errorMsg = 'Missing writing permissions to the following directories: ';
             foreach ($results as $result) {
