@@ -61,10 +61,16 @@
 
 .block-giftregistry-results {
     .block-title {
-        &:extend(.abstract-block-title  all);
+        &:extend(.abstract-block-title all);
     }
     .toolbar-giftregistry-results {
-      text-align: center;
+        text-align: center;
+    }
+}
+
+.block-giftregistry-shared-items {
+    .block-title {
+        &:extend(.abstract-block-title all);
     }
 }
 
@@ -95,6 +101,11 @@
             .col.actions:before {
                 &:extend(.abstract-no-display-s all);
             }
+        }
+    }
+    .block-giftregistry-shared-items {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile-s all);
         }
     }
 
