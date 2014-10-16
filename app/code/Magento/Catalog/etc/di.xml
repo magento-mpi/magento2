@@ -56,6 +56,8 @@
     <preference for="Magento\Catalog\Api\CategoryManagementInterface" type="Magento\Catalog\Model\CategoryManagement" />
     <preference for="Magento\Catalog\Api\CategoryRepositoryInterface" type="Magento\Catalog\Model\CategoryRepository" />
     <preference for="Magento\Catalog\Api\Data\CategoryTreeInterface" type="Magento\Catalog\Model\Category" />
+    <preference for="\Magento\Catalog\Api\ProductTypeListInterface" type="\Magento\Catalog\Model\ProductTypeList" />
+    <preference for="\Magento\Catalog\Api\Data\ProductTypeInterface" type="\Magento\Catalog\Model\ProductType" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>

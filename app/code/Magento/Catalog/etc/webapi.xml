@@ -94,7 +94,7 @@
         </resources>
     </route>
     <route url="/V1/products/types" method="GET">
-        <service class="Magento\Catalog\Service\V1\ProductTypeServiceInterface" method="getProductTypes"/>
+        <service class="Magento\Catalog\Api\ProductTypeListInterface" method="getProductTypes"/>
         <resources>
             <resource ref="Magento_Catalog::products"/>
         </resources>
