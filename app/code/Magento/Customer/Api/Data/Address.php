@@ -6,12 +6,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Api\Data;
+
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Customer address interface.
  */
-interface Address
+interface Address extends ExtensibleDataInterface
 {
     /**
      * Get id

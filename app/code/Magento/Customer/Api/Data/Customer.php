@@ -9,10 +9,12 @@
 
 namespace Magento\Customer\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Customer interface.
  */
-interface Customer
+interface Customer extends ExtensibleDataInterface
 {
     /**
      * Get customer id

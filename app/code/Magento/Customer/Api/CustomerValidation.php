@@ -18,7 +18,7 @@ interface CustomerValidation
      * Validate customer data.
      *
      * @param \Magento\Customer\Api\Data\Customer $customer
-     * @return \Magento\Customer\Service\V1\Data\CustomerValidationResults
+     * @return \Magento\Customer\Api\Data\ValidationResults
      */
     public function validate(\Magento\Customer\Api\Data\Customer $customer);
 }
