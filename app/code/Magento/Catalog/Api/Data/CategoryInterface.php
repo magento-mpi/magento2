@@ -13,7 +13,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * Created from @see \Magento\Catalog\Service\V1\Data\Category
  */
-interface CategoryInterface
+interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
 {
     /**
      * Category id

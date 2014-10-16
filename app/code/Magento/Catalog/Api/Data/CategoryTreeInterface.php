@@ -12,7 +12,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * @see \Magento\Catalog\Service\V1\Data\Eav\Category\Tree
  */
-interface CategoryTreeInterface
+interface CategoryTreeInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
 {
     public function getId();
     /**
