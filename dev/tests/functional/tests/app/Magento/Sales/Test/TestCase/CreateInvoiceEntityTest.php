@@ -10,7 +10,6 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 
@@ -83,10 +82,10 @@ class CreateInvoiceEntityTest extends Injectable
      * Create invoice
      *
      * @param OrderInjectable $order
-     * @param array $invoice
+     * @param array $data
      * @return array
      */
-    public function test(OrderInjectable $order, array $invoice)
+    public function test(OrderInjectable $order, array $data)
     {
         // Preconditions
         $order->persist();
@@ -94,16 +93,15 @@ class CreateInvoiceEntityTest extends Injectable
         // Steps
         $createInvoice = $this->objectManager->create(
             'Magento\Sales\Test\TestStep\CreateInvoiceStep',
-            ['order' => $order, 'data' => $invoice]
+            ['order' => $order, 'data' => $data]
         );
-        $data = $createInvoice->run();
+        $result = $createInvoice->run();
 
         return [
             'ids' => [
-                'invoiceIds' => $data['invoiceIds'],
-                'shipmentIds' => isset($data['shipmentIds']) ? $data['shipmentIds'] : null,
-            ],
-            'successMessage' => $data['successMessage'],
+                'invoiceIds' => $result['invoiceIds'],
+                'shipmentIds' => isset($result['shipmentIds']) ? $result['shipmentIds'] : null,
+            ]
         ];
     }
 

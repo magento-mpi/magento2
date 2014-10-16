@@ -131,4 +131,10 @@
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>
     </assertCmsPageVersionErrorSaveMessage>
+    <assertCmsPageRevisionAsVersionSuccessSaveMessage module="Magento_VersionsCms">
+        <severeness>low</severeness>
+        <require>
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageRevisionAsVersionSuccessSaveMessage>
 </constraint>

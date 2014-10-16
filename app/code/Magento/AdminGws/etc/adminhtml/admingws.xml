@@ -21,7 +21,7 @@
         <callback class="Magento\Catalog\Model\Resource\Product\Collection" method="limitProducts" />
         <callback class="Magento\Customer\Model\Resource\Customer\Collection" method="limitCustomers" />
         <callback class="Magento\Review\Model\Resource\Review\Collection" method="limitReviews" />
-        <callback class="Magento\CatalogSearch\Model\Resource\Query\Collection" method="addStoreFilter" />
+        <callback class="Magento\Search\Model\Resource\Query\Collection" method="addStoreFilter" />
         <callback class="Magento\Invitation\Model\Resource\Invitation\Collection" method="addStoreFilter" />
         <callback class="Magento\Log\Model\Resource\Visitor\Online\Collection" method="limitOnlineCustomers" />
         <callback class="Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection" method="limitGiftCardAccounts" />
