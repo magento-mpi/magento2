@@ -175,8 +175,8 @@ class Installer
      */
     public function install($request)
     {
-        $script[] = ['Enabling Maintenance Mode:', 'setMaintenanceMode', [1]];
         $script[] = ['File permissions check...', 'checkFilePermissions', []];
+        $script[] = ['Enabling Maintenance Mode:', 'setMaintenanceMode', [1]];
         $script[] = ['Installing deployment configuration...', 'installDeploymentConfig', [$request]];
         if (!empty($request[self::CLEANUP_DB])) {
             $script[] = ['Cleaning up database...', 'cleanupDb', [$request]];
