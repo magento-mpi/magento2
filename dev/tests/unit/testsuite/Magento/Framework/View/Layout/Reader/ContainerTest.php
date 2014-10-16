@@ -9,7 +9,7 @@
 namespace Magento\Framework\View\Layout\Reader;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
-use Magento\Framework\View\Layout\ScheduledStructure as ScheduledStructure;
+use Magento\Framework\View\Layout\ScheduledStructure;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {

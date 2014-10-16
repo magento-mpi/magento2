@@ -101,7 +101,7 @@ class UiComponent implements Layout\GeneratorInterface
         if (!empty($attributes['group'])) {
             $structure->addToParentGroup($elementName, $attributes['group']);
         }
-        $arguments = empty($data['arguments']) ? [] : $this->_evaluateArguments($data['arguments']);
+        $arguments = empty($data['arguments']) ? [] : $this->evaluateArguments($data['arguments']);
         $componentName = isset($attributes['component']) ? $attributes['component'] : '';
         $uiComponent = $this->uiComponentFactory->createUiComponent($componentName, $elementName, $arguments);
         return $uiComponent;
@@ -113,7 +113,7 @@ class UiComponent implements Layout\GeneratorInterface
      * @param array $arguments
      * @return array
      */
-    protected function _evaluateArguments(array $arguments)
+    protected function evaluateArguments(array $arguments)
     {
         $result = array();
         foreach ($arguments as $argumentName => $argumentData) {
