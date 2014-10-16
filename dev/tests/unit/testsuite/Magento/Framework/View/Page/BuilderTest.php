@@ -1,11 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: vpaladiychuk
- * Date: 15.10.2014
- * Time: 19:07
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Framework\View\Page;
 
 use Magento\Framework;
