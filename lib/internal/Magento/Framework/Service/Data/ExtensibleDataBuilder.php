@@ -71,10 +71,9 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function create()
     {
-        //TODO: Once the AbstractModel is refactored to not contain resource model dependencies, this can be removed
         return $this->objectManager->create(
             $this->modelClassInterface,
-            ['data' => $this->data, 'resource' => null, 'resourceCollection' => null]
+            ['data' => $this->data]
         );
     }
 }

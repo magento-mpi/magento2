@@ -14,10 +14,12 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  * Abstract model with custom attributes support.
  *
  * This class defines basic data structure of how custom attributes are stored in an ExtensibleModel.
- * Implementations may choose to process custom attributes as their persistence imp
+ * Implementations may choose to process custom attributes as their persistence requires them to.
  */
 abstract class AbstractExtensibleModel extends AbstractModel implements \Magento\Framework\Api\ExtensibleDataInterface
 {
+    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
+
     /**
      * @var MetadataServiceInterface
      */
@@ -28,26 +30,24 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
      */
     protected $customAttributesCodes = null;
 
-    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
-
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param array $data
      * @param MetadataServiceInterface $metadataService
+     * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array(),
-        MetadataServiceInterface $metadataService
+        MetadataServiceInterface $metadataService,
+        array $data = array()
     ) {
         $this->metadataService = $metadataService;
-        $data = $this->verifyCustomAttributes($data);
+        $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -57,7 +57,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
      * @param array $data
      * @return array processed data
      */
-    protected function verifyCustomAttributes($data)
+    protected function filterCustomAttributes($data)
     {
         if (empty($data[self::CUSTOM_ATTRIBUTES_KEY])) {
             return $data;
@@ -153,7 +153,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
 
     /**
      * TODO : Remove when merging with branch supporting alternate methods to convert to array
-     * Return Data Object data in array format.
+     * Return Data Model in array format.
      *
      * @return array
      */

@@ -10,6 +10,7 @@ namespace Magento\TestModuleMSC\Service\V1;
 use Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObjectDataBuilder;
 use Magento\TestModuleMSC\Service\V1\Entity\Item;
 use Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 
 class AllSoapAndRest implements \Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface
 {
@@ -24,15 +25,23 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Service\V1\AllSoapAndRest
     protected $customAttributeDataObjectDataBuilder;
 
     /**
+     * @var AttributeValueBuilder
+     */
+    protected $valueBuilder;
+
+    /**
      * @param ItemDataBuilder $itemDataBuilder
      * @param CustomAttributeDataObjectDataBuilder $customAttributeNestedDataObjectBuilder
+     * @param AttributeValueBuilder $valueBuilder
      */
     public function __construct(
         ItemDataBuilder $itemDataBuilder,
-        CustomAttributeDataObjectDataBuilder $customAttributeNestedDataObjectBuilder
+        CustomAttributeDataObjectDataBuilder $customAttributeNestedDataObjectBuilder,
+        AttributeValueBuilder $valueBuilder
     ) {
         $this->itemDataBuilder = $itemDataBuilder;
         $this->customAttributeDataObjectDataBuilder = $customAttributeNestedDataObjectBuilder;
+        $this->valueBuilder = $valueBuilder;
     }
 
     /**
@@ -94,16 +103,31 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Service\V1\AllSoapAndRest
      */
     public function getPreconfiguredItem()
     {
+        $customAttributeIntAttributeValue = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_int')
+            ->setValue(1)
+            ->create();
+
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute('custom_attribute_int', 1)
+            ->setCustomAttribute($customAttributeIntAttributeValue)
+            ->create();
+
+        $customAttributeDataObjectAttributeValue = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_data_object')
+            ->setValue($customAttributeDataObject)
+            ->create();
+
+        $customAttributeStringAttributeValue = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_string')
+            ->setValue('someStringValue')
             ->create();
 
         $item = $this->itemDataBuilder
             ->setItemId(1)
             ->setName('testProductAnyType')
-            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
-            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
+            ->setCustomAttribute($customAttributeDataObjectAttributeValue)
+            ->setCustomAttribute($customAttributeStringAttributeValue)
             ->create();
 
         return $item;

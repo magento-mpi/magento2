@@ -182,9 +182,14 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
         $result = $this->_webApiCall($serviceInfo, []);
 
+        $customAttributeIntAttributeValue = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_int')
+            ->setValue(1)
+            ->create();
+
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute('custom_attribute_int', 1)
+            ->setCustomAttribute($customAttributeIntAttributeValue)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
