@@ -150,10 +150,10 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $literal = 'referenceBlock';
         $this->context->expects($this->once())->method('getScheduledStructure')
             ->will($this->returnValue($this->scheduledStructure));
-        $this->scheduledStructure->expects($this->once())->method('getStructureElement')->with($testName, [])
-            ->will($this->returnValue(null));
-        $this->scheduledStructure->expects($this->once())->method('setStructureElement')
-            ->with($testName, [5 => ['actions' => [], 'arguments'=> []]]);
+        $this->scheduledStructure->expects($this->once())->method('getStructureElementData')->with($testName, [])
+            ->will($this->returnValue([]));
+        $this->scheduledStructure->expects($this->once())->method('setStructureElementData')
+            ->with($testName, ['actions' => [], 'arguments'=> []]);
 
         $this->prepareReaderPool('<' . $literal . ' name="' . $testName . '"/>');
 
