@@ -49,8 +49,9 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
     {
+        // Store as an associative array for easier lookup and processing
         $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]
-            = $attribute->getValue();
+            = $attribute;
         return $this;
     }
 
@@ -70,6 +71,10 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function create()
     {
-        return $this->objectManager->create($this->modelClassInterface, ['data' => $this->data]);
+        //TODO: Once the AbstractModel is refactored to not contain resource model dependencies, this can be removed
+        return $this->objectManager->create(
+            $this->modelClassInterface,
+            ['data' => $this->data, 'resource' => null, 'resourceCollection' => null]
+        );
     }
 }

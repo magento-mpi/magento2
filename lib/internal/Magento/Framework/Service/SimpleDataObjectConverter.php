@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Service;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Service\Data\AbstractSimpleObject;
@@ -146,13 +147,13 @@ class SimpleDataObjectConverter
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if ($datum instanceof AbstractSimpleObject) {
+                if ($datum instanceof ExtensibleDataInterface) {
                     $datum = $this->processDataObject($datum->__toArray());
                 }
                 $result[] = $datum;
             }
             return $result;
-        } else if ($data instanceof AbstractSimpleObject) {
+        } else if ($data instanceof ExtensibleDataInterface) {
             return $this->processDataObject($data->__toArray());
         } else if (is_null($data)) {
             return [];

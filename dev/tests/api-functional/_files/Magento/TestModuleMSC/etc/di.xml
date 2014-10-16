@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\TestModuleMSC\Service\Config\TestModuleMSCMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+        <arguments>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\TestModuleMSC\Service\V1\Entity\Eav\AttributeMetadataBuilder</argument>
+            <argument name="dataObjectClassName" xsi:type="string">Magento\TestModuleMSC\Service\V1\Entity\Item</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\TestModuleMSC\Service\V1\Entity\Item">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\TestModuleMSC\Service\Config\TestModuleMSCMetadataConfig</argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface" type="Magento\TestModuleMSC\Service\V1\AllSoapAndRest" />
+
+    <preference for="Magento\TestModuleMSC\Service\V1\Entity\ItemInterface" type="Magento\TestModuleMSC\Service\V1\Entity\Item" />
+    <preference for="Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObjectInterface" type="Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObject" />
+    <preference for="Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeNestedDataObjectInterface" type="Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeNestedDataObject" />
+</config>

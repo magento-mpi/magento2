@@ -127,7 +127,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
     protected $_actionValidator;
 
     /**
-     * @param Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
