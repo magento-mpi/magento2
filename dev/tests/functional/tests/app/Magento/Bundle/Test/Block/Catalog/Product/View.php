@@ -35,6 +35,13 @@ class View extends \Magento\Catalog\Test\Block\Product\View
     protected $bundleBlock = '//*[@id="product-options-wrapper"]//fieldset[contains(@class,"bundle")]';
 
     /**
+     * Selector for visible bundle options block
+     *
+     * @var string
+     */
+    protected $visibleOptions = '//*[@class="product-add-form"][contains(@style,"block")]';
+
+    /**
      * Get bundle options block
      *
      * @return Bundle
@@ -94,7 +101,16 @@ class View extends \Magento\Catalog\Test\Block\Product\View
             /** @var \Magento\Bundle\Test\Fixture\BundleFixed $product */
             $bundleCheckoutData = $product->getSelectionData();
         }
-        $this->_rootElement->find($this->customizeButton)->click();
+        if (!$this->getBundleBlock()->isVisible()) {
+            $this->_rootElement->find($this->customizeButton)->click();
+        }
+        $element = $this->_rootElement;
+        $this->_rootElement->waitUntil(
+            function () use ($element) {
+                $bundleOptionsBlock = $element->find($this->visibleOptions, Locator::SELECTOR_XPATH);
+                return $bundleOptionsBlock->isVisible() ? true : null;
+            }
+        );
         $this->getBundleBlock()->fillBundleOptions($bundleCheckoutData);
 
         parent::fillOptions($product);

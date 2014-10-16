@@ -159,6 +159,16 @@ class State
     }
 
     /**
+     * Get install date
+     *
+     * @return int
+     */
+    public function getInstallDate()
+    {
+        return $this->_installDate;
+    }
+
+    /**
      * Set area code
      *
      * @param string $code

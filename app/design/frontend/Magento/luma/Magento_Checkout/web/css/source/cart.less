@@ -29,14 +29,17 @@
         .form.cart {
             margin-bottom: 20px;
             .actions.main {
-                text-align: center;
+                .continue,
+                .clear {
+                    display: none;
+                }
             }
         }
     }
 
     //  Summary block
     &-summary {
-        &:extend(.add-box-sizing all);
+        &:extend(.abstract-add-box-sizing all);
         background: @sidebar-background;
         margin-bottom: 25px;
         padding: 1px 0 25px;
@@ -92,6 +95,12 @@
             }
         }
 
+        .page.main & {
+            .block {
+                margin-bottom: 0;
+            }
+        }
+
         .checkout-methods-items {
             &:extend(.reset-list all);
             margin: 20px 0 0;
@@ -108,13 +117,14 @@
                 }
             }
         }
-        
+
         .message {
             padding-left: 20px;
             > *:first-child:before {
                 display: none;
             }
         }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
     }
 
     //  Totals block
@@ -229,7 +239,6 @@
             }
         }
         .col {
-            &.qty,
             &.price,
             &.subtotal,
             &.msrp {
@@ -238,7 +247,8 @@
                 &:extend(.abstract-incl-excl-tax all);
             }
             &.qty {
-                padding-top: 20px;
+                padding: 20px 11px 10px;
+                text-align: center;
                 .input-text {
                     margin-top: -5px;
                     width: 45px;
@@ -290,6 +300,7 @@
             }
             &.delete {
                 float: right;
+                &:extend(.abstract-action-button-as-link all);
             }
         }
         .product {
@@ -309,14 +320,20 @@
             }
         }
         //  Product options
-        .cart-item-options {
+        .item-options {
             margin: 20px 0 0;
-            &:extend(.product-options-list all);
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-product-options-list all);
+            &:extend(.abstract-add-clearfix all);
         }
 
         .cart-tax-total {
             &:extend(.abstract-tax-total all);
+            &-expanded {
+                &:extend(.abstract-tax-total-expanded all);
+            }
+        }
+        .product-image-wrapper {
+            &:extend(.abstract-reset-image-wrapper all);
         }
     }
 
@@ -370,6 +387,10 @@
         padding-left: @layout-width-xs-indent;
         padding-right: @layout-width-xs-indent;
     }
+
+    .cart-tax-info + .cart-tax-total {
+        display: block;
+    }
 }
 
 //
@@ -377,6 +398,15 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .cart {
+        // Cart container
+        &-container {
+            .form.cart {
+                .actions.main {
+                    text-align: center;
+                }
+            }
+        }
+
         &-discount {
             border-bottom: @border-width-base solid @border-color-base;
         }
@@ -453,10 +483,10 @@
     .cart {
         // Cart container
         &-container {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .form.cart {
                 .layout-column(2, 1, @layout-column-checkout-main-width);
-                &:extend(.add-box-sizing-desktop all);
+                &:extend(.abstract-add-box-sizing-desktop all);
                 padding-right: 4%;
                 position: relative;
                 .actions.main {
@@ -551,11 +581,11 @@
         //  Discount
         &-discount {
             border: 0;
-            &:extend(.add-box-sizing-desktop all);
+            &:extend(.abstract-add-box-sizing-desktop all);
             padding-right: 4%;
             .layout-column(2, 1, @layout-column-checkout-main-width);
             .block {
-                &:extend(.blocks-2columns all);
+                &:extend(.abstract-blocks-2columns all);
                 width: 48%;
                 > .title {
                     border: 0;
@@ -592,7 +622,7 @@
     .block.crosssell {
         padding: 0;
         .layout-column(2, 1, @layout-column-checkout-main-width);
-        &:extend(.add-box-sizing-desktop all);
+        &:extend(.abstract-add-box-sizing-desktop all);
         padding-right: 4%;
         .products-grid .product-item {
             width: 100%/4;

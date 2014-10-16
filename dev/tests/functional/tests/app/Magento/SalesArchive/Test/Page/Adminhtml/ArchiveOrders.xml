@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/archive/orders" module="Magento_SalesArchive">
+    <blocks>
+        <salesOrderGrid>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Grid</class>
+            <locator>#sales_order_grid_archive</locator>
+            <strategy>css selector</strategy>
+        </salesOrderGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
+</page>

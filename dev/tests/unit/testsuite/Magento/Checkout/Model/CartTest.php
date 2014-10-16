@@ -37,6 +37,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     protected $scopeConfigMock;
 
+    /**
+     * @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $quoteMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventManagerMock;
+
     protected function setUp()
     {
         $this->checkoutSessionMock = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
@@ -49,6 +59,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
+        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->cart = $this->objectManagerHelper->getObject(
@@ -58,6 +70,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
                 'checkoutSession' => $this->checkoutSessionMock,
                 'stockItemService' => $this->stockItemMock,
                 'customerSession' => $this->customerSessionMock,
+                'eventManager' => $this->eventManagerMock
             ]
         );
     }
@@ -65,9 +78,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testSuggestItemsQty()
     {
         $data = [[], ['qty' => -2], ['qty' => 3], ['qty' => 3.5], ['qty' => 5], ['qty' => 4]];
-
-        $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
-        $quote->expects($this->any())
+        $this->quoteMock->expects($this->any())
             ->method('getItemById')
             ->will($this->returnValueMap([
                 [2, $this->prepareQuoteItemMock(2)],
@@ -82,7 +93,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $this->checkoutSessionMock->expects($this->once())
             ->method('getQuote')
-            ->will($this->returnValue($quote));
+            ->will($this->returnValue($this->quoteMock));
 
         $this->assertSame(
             [
@@ -95,6 +106,27 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ],
             $this->cart->suggestItemsQty($data)
         );
+    }
+
+    public function testUpdateItems()
+    {
+        $data = [['qty' => 5.5, 'before_suggest_qty' => 5.5]];
+        $infoDataObject = $this->objectManagerHelper->getObject('Magento\Framework\Object', ['data' => $data]);
+
+        $this->checkoutSessionMock->expects($this->once())
+            ->method('getQuote')
+            ->will($this->returnValue($this->quoteMock));
+        $this->eventManagerMock->expects($this->at(0))->method('dispatch')->with(
+            'checkout_cart_update_items_before',
+            ['cart' => $this->cart, 'info' => $infoDataObject]
+        );
+        $this->eventManagerMock->expects($this->at(1))->method('dispatch')->with(
+            'checkout_cart_update_items_after',
+            ['cart' => $this->cart, 'info' => $infoDataObject]
+        );
+
+        $result = $this->cart->updateItems($data);
+        $this->assertSame($this->cart, $result);
     }
 
     /**

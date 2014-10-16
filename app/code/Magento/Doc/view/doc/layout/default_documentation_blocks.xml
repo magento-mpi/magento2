@@ -8,7 +8,7 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+        xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Document\Content" name="document_content" template="Magento_Doc::html/widget/document/content.phtml" />
     </referenceContainer>

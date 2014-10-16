@@ -16,9 +16,9 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\MultipleWishlist\Test\Page\CatalogCategoryView;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Abstract Class AbstractAssertMultipleWishlistState
@@ -72,7 +72,7 @@ abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
      * @param SearchResult $searchResult
      * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
-     * @param MultipleWishlistIndex $multipleWishlistIndex
+     * @param WishlistIndex $wishlistIndex
      * @param CustomerAccountLogin $customerAccountLogin
      * @return void
      *
@@ -87,7 +87,7 @@ abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
         SearchResult $searchResult,
         CustomerAccountLogout $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
-        MultipleWishlistIndex $multipleWishlistIndex,
+        WishlistIndex $wishlistIndex,
         CustomerAccountLogin $customerAccountLogin
     ) {
         $this->cmsIndex = $cmsIndex;
@@ -95,9 +95,9 @@ abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
         $this->loginCustomer($customer);
         $cmsIndex->open()->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $multipleWishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
+        $wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
         \PHPUnit_Framework_Assert::assertTrue(
-            $multipleWishlistIndex->getManagementBlock()->isNoticeTypeVisible($this->noticeType),
+            $wishlistIndex->getManagementBlock()->isNoticeTypeVisible($this->noticeType),
             'Notice type is not correct.'
         );
 

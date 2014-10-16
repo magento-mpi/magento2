@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+    Ext.BLANK_IMAGE_URL = BLANK_IMG;
+    Ext.UpdateManager.defaults.loadScripts = false;
+    Ext.UpdateManager.defaults.disableCaching = true;
+</script>
+
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('tiny_mce/tiny_mce_src.js') ?>"></script>
+
+<script type="text/javascript">
+    Fieldset.addToPrefix(<?php echo $this->helper('Magento\Backend\Helper\Data')->getCurrentUserId() ?>);
+</script>

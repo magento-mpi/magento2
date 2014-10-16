@@ -7,6 +7,8 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
+use Magento\TestFramework\Bootstrap;
+
 /**
  * @magentoAppArea adminhtml
  */
@@ -46,6 +48,9 @@ class AccountTest extends \Magento\Backend\Utility\Controller
         )->setParam(
             'password_confirmation',
             $passwordConfirmation
+        )->setParam(
+            \Magento\Backend\Block\System\Account\Edit\Form::IDENTITY_VERIFICATION_PASSWORD_FIELD,
+            Bootstrap::ADMIN_PASSWORD
         );
         $this->dispatch('backend/admin/system_account/save');
 

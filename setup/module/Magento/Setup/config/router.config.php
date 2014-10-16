@@ -6,6 +6,8 @@
  * @license   {license_link}
  */
 
+use Magento\Setup\Controller\ConsoleController;
+
 return [
     'route_manager' => [
         'invokables' => [
@@ -17,7 +19,7 @@ return [
             'setup' => [
                 'type' => 'setup',
                 'options' => [
-                    'regex'    => '\b(?<lang>[\w]+).*\/(?<controller>[\w-\/]+)$',
+                    'regex'    => '\b.*\/(?<controller>[\w-\/]+)$',
                     'defaults' => [
                         '__NAMESPACE__' => 'Magento\Setup\Controller',
                         'action' => 'index',
@@ -40,4 +42,5 @@ return [
             ],
         ],
     ],
+    'console' => ['router' => ['routes' => ConsoleController::getRouterConfig()]],
 ];

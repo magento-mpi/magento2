@@ -50,7 +50,7 @@ class RelatedGrid extends \Magento\Backend\App\Action
     {
         $id = $this->getRequest()->getParam('id');
         /** @var \Magento\Search\Model\Query $model */
-        $model = $this->_queryFactory->create();
+        $model = $this->_queryFactory->get();
         $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         if ($id) {

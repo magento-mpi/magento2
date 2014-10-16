@@ -23,6 +23,12 @@
     </words>
     <whitelist>
         <item>
+            <path>vendor</path>
+        </item>
+        <item>
+            <path>setup/vendor</path>
+        </item>
+        <item>
             <word>CHANGELOG</word>
             <path>CHANGELOG.md</path>
         </item>
@@ -40,24 +46,6 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <path>dev/tools/Magento/Tools/Migration/Acl/Generator.php</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tests/functional-old/config/config.yml.dist</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tests/functional-old/runtests.bat</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tests/functional-old/runtests.sh</path>
         </item>
         <item>
             <word>{copyright}</word>

@@ -30,7 +30,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
      *
      * @var string
      */
-    protected $blockDownloadableSamples = '.downloadable.samples';
+    protected $blockDownloadableSamples = '.items.samples';
 
     /**
      * Get downloadable link block
@@ -106,7 +106,7 @@ class View extends \Magento\Catalog\Test\Block\Product\View
             $downloadableOptions['downloadable_links'] = [
                 'title' => $this->getDownloadableLinksBlock()->getTitle(),
                 'downloadable' => [
-                    'link' => $this->getDownloadableLinksBlock()->getLinks()
+                    'link' => $this->getDownloadableLinksBlock()->getLinks(),
                 ]
             ];
         }
