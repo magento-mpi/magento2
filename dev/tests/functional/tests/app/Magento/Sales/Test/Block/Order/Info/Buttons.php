@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Test\Block\Order\Info;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -24,7 +23,7 @@ class Buttons extends Block
      *
      * @var string
      */
-    protected $linkSelector = '//div[@class="order toolbar"]//span[contains(text(), "%s")]';
+    protected $linkSelector = '//div[contains(@class, "order-actions-toolbar")]//span[contains(text(), "%s")]';
 
     /**
      * Click link on this page.

@@ -12,7 +12,7 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\SalesOrderCreditMemoNew;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew;
 
 /**
  * Class CreateCreditMemoStep
@@ -37,7 +37,7 @@ class CreateCreditMemoStep implements TestStepInterface
     /**
      * OrderCreditMemoNew Page
      *
-     * @var SalesOrderCreditMemoNew
+     * @var OrderCreditMemoNew
      */
     protected $orderCreditMemoNew;
 
@@ -49,22 +49,32 @@ class CreateCreditMemoStep implements TestStepInterface
     protected $order;
 
     /**
+     * Credit memo data
+     *
+     * @var array|null
+     */
+    protected $data;
+
+    /**
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderInjectable $order
-     * @param SalesOrderCreditMemoNew $orderCreditMemoNew
+     * @param OrderCreditMemoNew $orderCreditMemoNew
+     * @param array|null $data [optional]
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
         OrderInjectable $order,
-        SalesOrderCreditMemoNew $orderCreditMemoNew
+        OrderCreditMemoNew $orderCreditMemoNew,
+        $data = null
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->order = $order;
         $this->orderCreditMemoNew = $orderCreditMemoNew;
+        $this->data = $data;
     }
 
     /**
@@ -77,7 +87,11 @@ class CreateCreditMemoStep implements TestStepInterface
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->orderCreditMemo();
-        $this->orderCreditMemoNew->getActionsBlock()->refundOffline();
+        if (!empty($this->data)) {
+            $this->orderCreditMemoNew->getFormBlock()->fillData($this->data, $this->order->getEntityId()['products']);
+            $this->orderCreditMemoNew->getFormBlock()->updateQty();
+        }
+        $this->orderCreditMemoNew->getFormBlock()->submit();
 
         return ['creditMemoIds' => $this->getCreditMemoIds()];
     }

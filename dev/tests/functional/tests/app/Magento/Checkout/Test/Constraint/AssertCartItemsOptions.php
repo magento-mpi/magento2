@@ -94,7 +94,7 @@ class AssertCartItemsOptions extends AbstractAssertForm
             }
 
             $formValue = isset($formData[$key]) ? $formData[$key] : null;
-            if (!is_array($formValue)) {
+            if ($formValue && !is_array($formValue)) {
                 $formValue = trim($formValue, '. ');
             }
 

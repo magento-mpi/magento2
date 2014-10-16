@@ -31,9 +31,18 @@ interface RequestInterface
     public function getIndex();
 
     /**
+     * Get all dimensions
+     *
      * @return Dimension[]
      */
     public function getDimensions();
+
+    /**
+     * Get scope dimension
+     *
+     * @return Dimension
+     */
+    public function getScopeDimension();
 
     /**
      * Get Aggregation Buckets
