@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Framework\View\Page;
 
 use Magento\Framework;
