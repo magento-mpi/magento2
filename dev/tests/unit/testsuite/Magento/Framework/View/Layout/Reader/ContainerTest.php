@@ -56,7 +56,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      * @param string $containerName
      * @param \Magento\Framework\View\Layout\Element $elementParent
      * @param array $structureElement
-     * @param int $helperCalls
      * @param array $expectedData
      *
      * @dataProvider processDataProvider
@@ -66,7 +65,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $containerName,
         $elementParent,
         $structureElement,
-        $helperCalls,
         $expectedData
     ) {
 
@@ -74,11 +72,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $scheduledStructureMock = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure')
             ->disableOriginalConstructor()->getMock();
         $scheduledStructureMock->expects($this->once())
-            ->method('getStructureElement')
-            ->with($containerName, [])
+            ->method('getStructureElementData')
+            ->with($containerName)
             ->willReturn($structureElement);
         $scheduledStructureMock->expects($this->once())
-            ->method('setStructureElement')
+            ->method('setStructureElementData')
             ->with($containerName, $expectedData)
             ->willReturnSelf();
 
@@ -89,7 +87,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             ->method('getScheduledStructure')
             ->willReturn($scheduledStructureMock);
 
-        $this->helperMock->expects($this->exactly($helperCalls))
+        $this->helperMock
             ->method('scheduleStructure')
             ->with($scheduledStructureMock, $elementCurrent, $elementParent);
 
@@ -114,22 +112,17 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 'containerName' => 'container',
                 'elementParent' => new \Magento\Framework\View\Layout\Element('<parent_element/>'),
                 'structureElement' => [
-                    Container::STRUCTURE_INDEX_DATA => [
-                        'attributes' => [
-                            'id' => 'id_value',
-                            'tag' => 'tag_value',
-                            'unchanged' => 'unchanged_value',
-                        ]
+                    'attributes' => [
+                        'id' => 'id_value',
+                        'tag' => 'tag_value',
+                        'unchanged' => 'unchanged_value',
                     ]
                 ],
-                'helperCalls' => 1,
                 'expectedData' => [
-                    Container::STRUCTURE_INDEX_DATA => [
-                        'attributes' => [
-                            'id' => 'id_add',
-                            'tag' => 'body',
-                            'unchanged' => 'unchanged_value',
-                        ]
+                    'attributes' => [
+                        'id' => 'id_add',
+                        'tag' => 'body',
+                        'unchanged' => 'unchanged_value',
                     ]
                 ]
             ],
@@ -140,15 +133,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 'containerName' => 'reference',
                 'elementParent' => new \Magento\Framework\View\Layout\Element('<parent_element/>'),
                 'structureElement' => [],
-                'helperCalls' => 0,
                 'expectedData' => [
-                    Container::STRUCTURE_INDEX_DATA => [
-                        'attributes' => [
-                            Container::CONTAINER_OPT_HTML_TAG   => 'span',
-                            Container::CONTAINER_OPT_HTML_ID    => 'id_add',
-                            Container::CONTAINER_OPT_HTML_CLASS => 'new',
-                            Container::CONTAINER_OPT_LABEL      => 'Add',
-                        ]
+                    'attributes' => [
+                        Container::CONTAINER_OPT_HTML_TAG   => 'span',
+                        Container::CONTAINER_OPT_HTML_ID    => 'id_add',
+                        Container::CONTAINER_OPT_HTML_CLASS => 'new',
+                        Container::CONTAINER_OPT_LABEL      => 'Add',
                     ]
                 ]
             ]
