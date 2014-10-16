@@ -41,7 +41,12 @@ $modulesInstalled = array();
 $modulesRemove = array();
 
 try {
-    $magentoDirectory = __DIR__ . '/../../app/code/Magento/';
+    $magentoDirectory = __DIR__ ;
+    $parts = explode('/', $magentoDirectory);
+    array_pop($parts);
+    array_pop($parts);
+    $magentoDirectory = implode('/', $parts);
+    $magentoDirectory = $magentoDirectory . '/app/code/Magento/';
 
     // list-modules and list-file arguments
     if ((isset($opt['list-modules']) == false) && (isset($opt['list-file']) == false)) {
@@ -59,7 +64,7 @@ try {
     }
 
     if (isset($opt['list-file'])) {
-        $profileDir = __DIR__ . "/" . $opt['list-file'];
+        $profileDir = $opt['list-file'];
         $handle = @fopen($profileDir, "r");
         if ($handle) {
             while (($buffer = fgets($handle, 4096)) !== false) {
@@ -82,17 +87,9 @@ try {
     }
 
     // Get modules currently installed
-    $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
-    $command = 'ls ' . $magentoDirectory;
-    $tempList = $shell->execute($command);
-    if (!$tempList) {
+    $modulesInstalled = array_diff(scandir($magentoDirectory), array('..', '.'));
+    if (!$modulesInstalled) {
         throw new Exception("Problem finding Magento module directory.");
-    }
-    $tok = strtok($tempList, " \n");
-
-    while ($tok !== false) {
-        array_push($modulesInstalled, $tok);
-        $tok = strtok(" \n");
     }
 
     // Get modules to remove
@@ -101,13 +98,10 @@ try {
     // Removing un-needed modules
     foreach ($modulesRemove as $module) {
         $directory = $magentoDirectory . $module;
-        if (!file_exists($directory)) {
-            throw new Exception("The file or directory '{$directory} is marked for deletion, but it doesn't exist.");
-        }
-        $command = 'rm -rf ' . $directory;
-        $result = $shell->execute($command);
-        if ($result) {
-            throw new Exception("Problem removing Magento module directory.");
+        $result = deleteDirectory($directory);
+        if (!$result) {
+            throw new Exception("The file or directory '{$directory} is marked for deletion, but it doesn't exist or
+                could not be deleted.");
         }
     }
 
@@ -121,4 +115,26 @@ try {
     echo "\nError: " . $message . "\n\n";
 
     exit(1);
+}
+
+function deleteDirectory($dir)
+{
+    if (!file_exists($dir)) {
+        return true;
+    }
+    if (!is_dir($dir) || is_link($dir)) {
+        return unlink($dir);
+    }
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..')
+            continue;
+        if (!deleteDirectory($dir . "/" . $item)) {
+            chmod($dir . "/" . $item, 0777);
+            if (!deleteDirectory($dir . "/" . $item))
+                return false;
+        };
+    }
+
+    return rmdir($dir);
 }
