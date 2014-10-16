@@ -16,8 +16,8 @@
             <tbody>
             <?php foreach ($this->getAttributesToDisplay() as $attributeInfo): ?>
                 <tr>
-                    <th class="col title" scope="col"><?php echo $attributeInfo['title'] ?></th>
-                    <td class="col value" scope="col"><?php echo $attributeInfo['value'] ?></td>
+                    <th class="col title" scope="row"><?php echo $attributeInfo['title'] ?></th>
+                    <td class="col value"><?php echo $attributeInfo['value'] ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
