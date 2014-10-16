@@ -26,10 +26,10 @@
     <assertProductIsPresentInCustomerBackendWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertProductIsPresentInCustomerBackendWishlist>
-    <assertBundleProductDetailsInWishlist module="Magento_Wishlist">
+    <assertProductDetailsInWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
-    </assertBundleProductDetailsInWishlist>
-    <assertMoveProductToWishlistSuccessMessage module="Magento_Wishlist">
+    </assertProductDetailsInWishlist>
+    <assertProductInCustomerWishlistOnBackendGrid module="Magento_Wishlist">
         <severeness>low</severeness>
-    </assertMoveProductToWishlistSuccessMessage>
+    </assertProductInCustomerWishlistOnBackendGrid>
 </constraint>

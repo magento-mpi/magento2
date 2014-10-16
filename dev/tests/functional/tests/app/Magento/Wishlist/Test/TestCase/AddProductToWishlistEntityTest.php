@@ -155,8 +155,7 @@ class AddProductToWishlistEntityTest extends Injectable
     {
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $viewBlock = $this->catalogProductView->getViewBlock();
-        $viewBlock->fillOptions($product);
-        $viewBlock->addToWishlist();
+        $viewBlock->addToWishlist($product);
     }
 
     /**

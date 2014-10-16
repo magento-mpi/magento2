@@ -143,7 +143,7 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $product->persist();
         $this->loginCustomer($customer);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->addToWishlist();
+        $this->catalogProductView->getViewBlock()->clickAddToWishlist();
 
         //Steps
         $this->customerIndex->open();
@@ -151,7 +151,7 @@ class DeleteProductFromCustomerWishlistOnBackendTest extends Injectable
         $customerForm = $this->customerIndexEdit->getCustomerForm();
         $customerForm->openTab('wishlist');
         $filter = ['product_name' => $product->getName()];
-        $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndDelete($filter);
+        $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndAction($filter, 'Delete');
 
         return ['products' => [$product]];
     }
