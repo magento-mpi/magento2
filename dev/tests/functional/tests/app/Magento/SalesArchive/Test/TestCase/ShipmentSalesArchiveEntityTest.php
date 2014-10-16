@@ -29,7 +29,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 6. Move orders to Archive
  *
  * Steps:
- * 1. Go to Admin > Sales > Archive >Orders
+ * 1. Go to Admin > Sales > Archive > Orders
  * 2. Select orders and do Shipment
  * 3. Fill data from dataSet
  * 4. Click 'Submit' button
@@ -108,10 +108,10 @@ class ShipmentSalesArchiveEntityTest extends Injectable
      *
      * @param OrderInjectable $order
      * @param string $invoice
-     * @param array $qty
+     * @param array $data
      * @return array
      */
-    public function test(OrderInjectable $order, $invoice, array $qty)
+    public function test(OrderInjectable $order, $invoice, array $data)
     {
         $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
         // Preconditions
@@ -126,8 +126,8 @@ class ShipmentSalesArchiveEntityTest extends Injectable
         $this->archiveOrders->open();
         $this->archiveOrders->getSalesOrderGrid()->searchAndOpen(['id' => $order->getId()]);
         $this->orderView->getPageActions()->ship();
-        $this->orderShipmentNew->getShipItemsBlock()->setProductQty($order->getEntityId()['products'], $qty);
-        $this->orderShipmentNew->getShipItemsBlock()->submit();
+        $this->orderShipmentNew->getFormBlock()->fillData($data, $order->getEntityId()['products']);
+        $this->orderShipmentNew->getFormBlock()->submit();
 
         $this->orderView->getOrderForm()->openTab('shipments');
 

@@ -726,6 +726,27 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     }
 
     /**
+     * Update failed item quantities and add to cart
+     *
+     * @param array $failedItems
+     * @param array $cartItems
+     * @return void
+     */
+    public function updateFailedItems($failedItems, $cartItems)
+    {
+        foreach ($failedItems as $failedItem) {
+            $qty = '';
+            if (array_key_exists('sku', $failedItem)) {
+                $sku = $failedItem['sku'];
+                if (isset($cartItems[$sku]) && isset($cartItems[$sku]['qty'])) {
+                    $qty = $cartItems[$sku]['qty'];
+                }
+                $this->prepareAddProductBySku($sku, $qty);
+            }
+        }
+    }
+
+    /**
      * Add single item to stack and return extended pushed item. For return format see _addAffectedItem()
      *
      * @param string $sku

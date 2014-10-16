@@ -19,10 +19,8 @@ class AddFailedItems extends \Magento\AdvancedCheckout\Controller\Cart
     {
         $failedItemsCart = $this->_getFailedItemsCart()->removeAllAffectedItems();
         $failedItems = $this->getRequest()->getParam('failed', array());
-        foreach ($failedItems as $data) {
-            $data += array('sku' => '', 'qty' => '');
-            $failedItemsCart->prepareAddProductBySku($data['sku'], $data['qty']);
-        }
+        $cartItems = $this->getRequest()->getParam('cart', array());
+        $failedItemsCart->updateFailedItems($failedItems, $cartItems);
         $failedItemsCart->saveAffectedProducts();
         $this->_redirect('checkout/cart');
     }

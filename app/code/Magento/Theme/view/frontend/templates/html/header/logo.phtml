@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $this
+ */
+?>
+<?php $storeName = $this->getThemeName() ? $this->getThemeName() : $this->getLogoAlt();?>
+<span data-action="toggle-nav" class="action nav-toggle"><span><?php echo __('Toggle Nav') ?></span></span>
+<?php if ($this->isHomePage()):?>
+    <strong class="logo">
+        <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+    </strong>
+<?php else:?>
+    <a class="logo" href="<?php echo $this->getUrl(''); ?>" title="<?php echo $storeName ?>">
+        <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $storeName ?>" />
+    </a>
+<?php endif?>
