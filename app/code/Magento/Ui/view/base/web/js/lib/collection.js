@@ -44,14 +44,13 @@ define([
                 injections  = Array.prototype.slice.call(arguments, 2) || [],
                 component   = this.component,
                 config,
-                item,
-                itemConfig = this.item_config;
+                item;
 
             config = _.extend({
                 provider:   this.provider,
                 fullName:   fullName,
                 name:       name
-            }, data, itemConfig);
+            }, data);
 
             item = new component(config);
 

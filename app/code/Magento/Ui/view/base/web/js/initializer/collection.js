@@ -9,8 +9,7 @@ define([
         var provider    = registry.get(data.source),
             storage     = registry.get('globalStorage'),
             layout      = storage.get().layout[name],
-            config,
-            Constr  = (params && params.use) ? params.use : Collection;
+            config;
 
         config = _.extend({
             name:       name,
@@ -19,7 +18,7 @@ define([
             provider:   provider
         }, data.config);
 
-        registry.set(name, new Constr(config));
+        registry.set(name, new Collection(config));
     }
 
     function load(constr, params, data, name){
