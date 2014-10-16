@@ -996,5 +996,23 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        // Gift Messages
+        $this->_data['enableGiftMessages'] = [
+            'section' => [
+                [
+                    'path' => 'sales/gift_options/allow_order',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/gift_options/allow_items',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
     }
 }

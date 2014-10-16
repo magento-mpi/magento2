@@ -47,15 +47,16 @@ class AssertInvoiceInInvoicesTab extends AbstractConstraint
         $orderView->getOrderForm()->openTab('invoices');
         /** @var Grid $grid */
         $grid = $orderView->getOrderForm()->getTabElement('invoices')->getGridBlock();
-        foreach ($ids['invoiceIds'] as $invoiceId) {
-            $amount = $order->getPrice()['grand_invoice_total'];
+        $amount = $order->getPrice();
+        foreach ($ids['invoiceIds'] as $key => $invoiceId) {
             $filter = [
                 'id' => $invoiceId,
-                'amount_from' => $amount,
-                'amount_to' => $amount
+                'amount_from' => $amount[$key]['grand_invoice_total'],
+                'amount_to' => $amount[$key]['grand_invoice_total']
             ];
             $grid->search($filter);
-            $filter['amount_from'] = $filter['amount_to'] = number_format($amount, 2);
+            $filter['amount_from'] = number_format($amount[$key]['grand_invoice_total'], 2);
+            $filter['amount_to'] = number_format($amount[$key]['grand_invoice_total'], 2);
             \PHPUnit_Framework_Assert::assertTrue(
                 $grid->isRowVisible($filter, false, false),
                 'Invoice is absent on invoices tab.'

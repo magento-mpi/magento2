@@ -9,8 +9,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/App/etc/routes.xsd">
     <router id="admin">
-        <route id="catalog">
-            <module name="Magento_Search" before="Magento_Catalog" />
+        <route id="search" frontName="search">
+            <module name="Magento_Search" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>
