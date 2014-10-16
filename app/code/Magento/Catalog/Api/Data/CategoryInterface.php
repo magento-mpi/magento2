@@ -11,7 +11,6 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * Implement in the @see \Magento\Catalog\Model\Category
  * Created from @see \Magento\Catalog\Service\V1\Data\Category
  */
 interface CategoryInterface

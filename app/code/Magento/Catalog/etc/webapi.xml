@@ -298,13 +298,13 @@
         </resources>
     </route>
     <route url="/V1/categories/:categoryId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Category\WriteServiceInterface" method="delete" />
+        <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="delete" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\ReadServiceInterface" method="info" />
+        <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="get" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
@@ -340,31 +340,25 @@
         </resources>
     </route>
     <route url="/V1/categories" method="POST">
-        <service class="Magento\Catalog\Service\V1\Category\WriteServiceInterface" method="create" />
-        <resources>
-            <resource ref="Magento_Catalog::categories" />
-        </resources>
-    </route>
-    <route url="/V1/categories/:categoryId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\ReadServiceInterface" method="info" />
+        <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface" method="tree" />
+        <service class="Magento\Catalog\Api\CategoryManagementInterface" method="getTree" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Category\WriteServiceInterface" method="update" />
+        <service class="Magento\Catalog\Model\CategoryRepository" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/move" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Category\WriteServiceInterface" method="move" />
+        <service class="Magento\Catalog\Api\CategoryManagementInterface" method="move" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>

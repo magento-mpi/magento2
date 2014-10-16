@@ -10,7 +10,6 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * @todo create new model Catalog/Model/Category/Tree
  * @see \Magento\Catalog\Service\V1\Data\Eav\Category\Tree
  */
 interface CategoryTreeInterface
@@ -61,7 +60,7 @@ interface CategoryTreeInterface
     /**
      * Get category level
      *
-     * @return \Magento\Catalog\Api\Data\Category\TreeInterface[]
+     * @return \Magento\Catalog\Api\Data\CategoryTreeInterface[]
      */
     public function getChildren();
 }

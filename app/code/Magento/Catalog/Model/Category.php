@@ -28,7 +28,8 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Category extends \Magento\Catalog\Model\AbstractModel
-    implements \Magento\Framework\Object\IdentityInterface
+    implements \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryInterface,
+    \Magento\Catalog\Api\Data\CategoryTreeInterface
 {
     /**
      * Entity code.
@@ -1101,6 +1102,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function isActive()
     {
-
+        $this->getData('is_active');
     }
 }
