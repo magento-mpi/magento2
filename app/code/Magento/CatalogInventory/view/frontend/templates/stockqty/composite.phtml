@@ -35,8 +35,8 @@
                     <?php $childProductStockQty = $this->getProductStockQty($childProduct); ?>
                     <?php if ($childProductStockQty > 0) : ?>
                         <tr>
-                            <td class="col item"><?php echo $childProduct->getName() ?></td>
-                            <td class="col qty"><?php echo $childProductStockQty ?></td>
+                            <td data-th="<?php echo $this->escapeHtml(__('Product Name')); ?>" class="col item"><?php echo $childProduct->getName() ?></td>
+                            <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>" class="col qty"><?php echo $childProductStockQty ?></td>
                         </tr>
                     <?php endif ?>
                 <?php endforeach ?>

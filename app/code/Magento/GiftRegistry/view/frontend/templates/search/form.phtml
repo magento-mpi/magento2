@@ -109,12 +109,12 @@ require(['jquery', "mage/mage"], function($){
                 <tbody>
                 <?php foreach($this->getSearchResults() as $item): ?>
                     <tr>
-                        <td class="col name"><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
-                        <td class="col location"><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
-                        <td class="col event"><?php echo $this->escapeHtml($item->getTitle()) ?></td>
-                        <td class="col type"><?php echo $this->escapeHtml($item->getType()) ?></td>
-                        <td class="col date"><?php echo $this->getFormattedDate($item) ?></td>
-                        <td class="col actions"><a href="<?php echo $this->getRegistryLink($item) ?>" class="action view"><span><?php echo __('View') ?></span></a></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Name')); ?>" class="col name"><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Location')); ?>" class="col location"><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Event')); ?>" class="col event"><?php echo $this->escapeHtml($item->getTitle()) ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Type')); ?>" class="col type"><?php echo $this->escapeHtml($item->getType()) ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Event Date')); ?>" class="col date"><?php echo $this->getFormattedDate($item) ?></td>
+                        <td data-th="" class="col actions"><a href="<?php echo $this->getRegistryLink($item) ?>" class="action view"><span><?php echo __('View') ?></span></a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

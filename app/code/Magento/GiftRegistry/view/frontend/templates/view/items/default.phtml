@@ -8,8 +8,8 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td class="col photo"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
-    <td class="col product">
+    <td data-th="" class="col photo"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td data-th="<?php echo $this->escapeHtml(__('Product Name')); ?>" class="col product">
         <strong class="product name">
         <?php if ($this->hasProductUrl()):?>
             <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
@@ -43,21 +43,21 @@
         <?php endforeach; ?>
         <?php endif; ?>
     </td>
-    <td class="col registered">
+    <td data-th="<?php echo $this->escapeHtml(__('Requested')); ?>" class="col registered">
         <?php echo $_item->getQty()*1 ?>
     </td>
-    <td class="col fulfilled">
+    <td data-th="<?php echo $this->escapeHtml(__('Fulfilled')); ?>" class="col fulfilled">
         <?php echo $_item->getQtyFulfilled()*1 ?>
     </td>
-    <td class="col remaining">
+    <td data-th="<?php echo $this->escapeHtml(__('Remaining')); ?>" class="col remaining">
         <?php echo ($_item->getRemainingQty())*1 ?>
     </td>
-    <td class="col price">
+    <td data-th="<?php echo $this->escapeHtml(__('Unit Price')); ?>" class="col price">
         <span class="cart-price">
             <?php echo $this->getProductPriceHtml($_item->getProduct());?>
         </span>
     </td>
-    <td class="col qty">
+    <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>" class="col qty">
         <?php if ($_item->getRemainingQty() < 1):?>
             <?php echo __('Fulfilled')?>
         <?php else:?>

@@ -25,9 +25,9 @@
                 <tbody>
                 <?php foreach($this->getSearchResults() as $item): ?>
                     <tr>
-                        <td class="col name"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
-                        <td class="col list"><?php echo $this->escapeHtml($item->getName()) ?></td>
-                        <td class="col actions"><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>" class="action view"><?php echo __('View') ?></a></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Name')); ?>" class="col name"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Wish List Name')); ?>" class="col list"><?php echo $this->escapeHtml($item->getName()) ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Actions')); ?>" class="col actions"><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>" class="action view"><?php echo __('View') ?></a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
