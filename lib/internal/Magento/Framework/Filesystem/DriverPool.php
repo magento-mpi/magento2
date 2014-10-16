@@ -44,16 +44,26 @@ class DriverPool
     /**
      * Obtain extra types in constructor
      *
-     * @param string[] $extraTypes
+     * @param array $extraTypes
      * @throws \InvalidArgumentException
      */
     public function __construct($extraTypes = [])
     {
-        foreach ($extraTypes as $code => $type) {
+        foreach ($extraTypes as $code => $typeOrObject) {
+            if (is_object($typeOrObject)) {
+                $type = get_class($typeOrObject);
+                $object = $typeOrObject;
+            } else {
+                $type = $typeOrObject;
+                $object = false;
+            }
             if (!is_subclass_of($type, '\Magento\Framework\Filesystem\DriverInterface')) {
                 throw new \InvalidArgumentException("The specified type '{$type}' does not implement DriverInterface.");
             }
             $this->types[$code] = $type;
+            if ($object) {
+                $this->pool[$code] = $typeOrObject;
+            }
         }
     }
 
