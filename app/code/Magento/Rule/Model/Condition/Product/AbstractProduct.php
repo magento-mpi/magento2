@@ -706,7 +706,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
             $attribute = $this->getAttributeObject();
             $attributeTableAlias = $this->getEavAttributeTableAlias();
 
-            $tablesToJoin = \array_merge($tablesToJoin, [
+            $tablesToJoin = array_merge($tablesToJoin, [
                 $attributeTableAlias => [
                     'name' => $attribute->getBackend()->getTable(),
                     'condition' => sprintf(
