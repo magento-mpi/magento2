@@ -58,9 +58,7 @@ class TermBucket implements BucketInterface
     }
 
     /**
-     * Get Field
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getField()
     {
@@ -68,9 +66,7 @@ class TermBucket implements BucketInterface
     }
 
     /**
-     * Get Metrics
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getMetrics()
     {
