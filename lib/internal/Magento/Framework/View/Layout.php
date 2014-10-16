@@ -873,8 +873,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             throw new \Magento\Framework\Exception('Invalid block type');
         }
         if (!isset($this->sharedBlocks[$type])) {
-            $block = $this->createBlock($type);
-            $this->sharedBlocks[$type] = $block;
+            $this->sharedBlocks[$type] = $this->createBlock($type);
         }
         return $this->sharedBlocks[$type];
     }
