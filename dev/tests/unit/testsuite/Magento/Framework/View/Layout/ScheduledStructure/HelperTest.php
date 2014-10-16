@@ -59,10 +59,10 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $scheduledStructure->expects($unsetStructureElementCount)->method('unsetStructureElement')
             ->with($potentialChild);
 
-        $currentNode = new Layout\Element(
+        $currentNode = new \Magento\Framework\View\Layout\Element(
             '<' . $block . ' name="' . $currentNodeName . '" as="' . $currentNodeAs . '" after="' . $after . '"/>'
         );
-        $parentNode = new Layout\Element('<' . $block . ' name="' . $parentNodeName . '"/>');
+        $parentNode = new \Magento\Framework\View\Layout\Element('<' . $block . ' name="' . $parentNodeName . '"/>');
 
         /** @var Layout\ScheduledStructure\Helper $helper */
         $helper = (new \Magento\TestFramework\Helper\ObjectManager($this))

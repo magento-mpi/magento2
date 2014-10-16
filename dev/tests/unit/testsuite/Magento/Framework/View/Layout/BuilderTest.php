@@ -66,7 +66,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $arguments
-     * @return Framework\View\Layout\Builder
+     * @return \Magento\Framework\View\Layout\Builder
      */
     protected function getBuilder($arguments)
     {

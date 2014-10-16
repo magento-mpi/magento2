@@ -37,7 +37,7 @@ class Context
     }
 
     /**
-     * @return Layout\ScheduledStructure
+     * @return \Magento\Framework\View\Layout\ScheduledStructure
      */
     public function getScheduledStructure()
     {

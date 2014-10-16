@@ -37,7 +37,7 @@ class Context
     }
 
     /**
-     * @return Layout\Data\Structure
+     * @return \Magento\Framework\View\Layout\Data\Structure
      */
     public function getStructure()
     {

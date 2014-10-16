@@ -20,7 +20,7 @@ class BuilderTest extends \Magento\Framework\View\Layout\BuilderTest
 
     /**
      * @param array $arguments
-     * @return Framework\View\Page\Builder
+     * @return \Magento\Framework\View\Page\Builder
      */
     protected function getBuilder($arguments)
     {

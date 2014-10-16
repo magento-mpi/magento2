@@ -30,7 +30,7 @@ class CustomersMost extends \Magento\Backend\Controller\Adminhtml\Dashboard
     /**
      * Gets the list of most active customers
      *
-     * @return \Magento\Backend\Model\View\Result\Pageoid
+     * @return \Magento\Backend\Model\View\Result\Page
      */
     public function execute()
     {

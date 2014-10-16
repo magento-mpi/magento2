@@ -20,12 +20,12 @@ class View extends \Magento\Catalog\Controller\Product
     protected $viewHelper;
 
     /**
-     * @var Result\Redirect
+     * @var \Magento\Framework\Controller\Result\Redirect
      */
     protected $resultRedirectFactory;
 
     /**
-     * @var Result\ForwardFactory
+     * @var \Magento\Framework\Controller\Result\ForwardFactory
      */
     protected $resultForwardFactory;
 
@@ -39,15 +39,15 @@ class View extends \Magento\Catalog\Controller\Product
      *
      * @param Context $context
      * @param \Magento\Catalog\Helper\Product\View $viewHelper
-     * @param Result\RedirectFactory $resultRedirectFactory
-     * @param Result\ForwardFactory $resultForwardFactory
+     * @param \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory
+     * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
      * @param PageFactory $resultPageFactory
      */
     public function __construct(
         Context $context,
         \Magento\Catalog\Helper\Product\View $viewHelper,
-        Result\RedirectFactory $resultRedirectFactory,
-        Result\ForwardFactory $resultForwardFactory,
+        \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory,
+        \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory,
         PageFactory $resultPageFactory
     ) {
         $this->viewHelper = $viewHelper;
@@ -60,7 +60,7 @@ class View extends \Magento\Catalog\Controller\Product
     /**
      * Redirect if product failed to load
      *
-     * @return Result\Redirect|Result\Forward
+     * @return \Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\Result\Forward
      */
     protected function noProductRedirect()
     {
@@ -77,7 +77,7 @@ class View extends \Magento\Catalog\Controller\Product
     /**
      * Product view action
      *
-     * @return Result\Forward|Result\Redirect
+     * @return \Magento\Framework\Controller\Result\Forward|\Magento\Framework\Controller\Result\Redirect
      */
     public function execute()
     {
