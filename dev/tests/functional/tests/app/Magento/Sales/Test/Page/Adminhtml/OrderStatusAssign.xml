@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_status/assign" module="Magento_Sales">
+    <blocks>
+        <pageActionsBlock>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActionsBlock>
+        <assignForm>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Status\Assign\AssignForm</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </assignForm>
+    </blocks>
+</page>

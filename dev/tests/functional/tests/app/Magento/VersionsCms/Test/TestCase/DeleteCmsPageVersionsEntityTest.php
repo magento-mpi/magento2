@@ -87,6 +87,7 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Version $version, array $results, $initialVersionToDelete)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-28876");
         // Precondition
         $cms->persist();
         $filter = ['title' => $cms->getTitle()];

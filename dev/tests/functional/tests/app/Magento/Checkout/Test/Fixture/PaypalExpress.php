@@ -100,12 +100,12 @@ class PaypalExpress extends Checkout
         //Checkout data
         $this->billingAddress = $objectManager->create(
             '\Magento\Customer\Test\Fixture\AddressInjectable',
-            ['dataSet' => 'customer_US']
+            ['dataSet' => 'address_US_pay_pal']
         );
 
         $this->shippingAddresses = $objectManager->create(
             '\Magento\Customer\Test\Fixture\AddressInjectable',
-            ['dataSet' => 'customer_US']
+            ['dataSet' => 'address_US_pay_pal']
         );
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();

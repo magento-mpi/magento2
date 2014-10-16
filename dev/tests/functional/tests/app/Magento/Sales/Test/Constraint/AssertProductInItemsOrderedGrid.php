@@ -76,10 +76,11 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
         $fixtureData = [];
         $pageData = [];
         foreach ($data['products'] as $product) {
+            $checkoutData = $product->getCheckoutData();
             $fixtureData[] = [
                 'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
-                'checkout_data' => ['qty' => $this->productsIsConfigured ? $product->getCheckoutData()['qty'] : 1],
+                'checkout_data' => ['qty' => $this->productsIsConfigured ? $checkoutData['options']['qty'] : 1],
             ];
             $pageData[] = $itemsBlock->getItemProductByName($product->getName())->getCheckoutData($this->fields);
         }

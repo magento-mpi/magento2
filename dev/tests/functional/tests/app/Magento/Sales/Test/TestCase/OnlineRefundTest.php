@@ -28,7 +28,6 @@ class OnlineRefundTest extends RefundTest
      */
     public function testRefund(OrderCheckout $fixture)
     {
-        $this->markTestIncomplete('MAGETWO-28230');
         // Setup preconditions
         parent::setupPreconditions($fixture);
 
@@ -49,8 +48,7 @@ class OnlineRefundTest extends RefundTest
         $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
 
         // Step 4: Submit Credit Memo
-        $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
-        $creditMemoPage->getActionsBlock()->refund();
+        Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getActionsBlock()->refund();
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();
