@@ -31,6 +31,11 @@ class Attribute
      */
     protected $messageManager;
 
+    /**
+     * @param RuleCollectionFactory $ruleCollectionFactory
+     * @param RuleProductProcessor $ruleProductProcessor
+     * @param ManagerInterface $messageManager
+     */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
         RuleProductProcessor $ruleProductProcessor,
