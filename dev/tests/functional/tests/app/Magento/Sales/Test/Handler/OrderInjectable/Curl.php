@@ -171,7 +171,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['options']['qty'];
+        $result['qty'] = $checkoutData['qty'];
         $attributesData = $product->hasData('configurable_attributes_data')
             ? $product->getDataFieldConfig('configurable_attributes_data')['source']->getAttributesData()
             : null;
@@ -197,7 +197,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['options']['qty'];
+        $result['qty'] = $checkoutData['qty'];
         foreach ($checkoutData['options']['links'] as $link) {
             $result['links'][] = $link['id'];
         }
@@ -213,7 +213,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
      */
     protected function prepareSimpleData(FixtureInterface $product)
     {
-        return ['qty' => $product->getCheckoutData()['options']['qty']];
+        return ['qty' => $product->getCheckoutData()['qty']];
     }
 
     /**
@@ -274,7 +274,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         $result = [];
         foreach ($data['products'] as $value) {
             $result[$value->getId()] = [
-                'qty' => ['qty' => $value->getCheckoutData()['options']['qty']],
+                'qty' => ['qty' => $value->getCheckoutData()['qty']],
             ];
         }
 

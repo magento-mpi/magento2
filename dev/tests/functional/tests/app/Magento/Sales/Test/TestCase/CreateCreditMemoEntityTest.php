@@ -125,7 +125,7 @@ class CreateCreditMemoEntityTest extends Injectable
         }
         $product = $order->getEntityId()['products'][$index];
         $productData = $product->getData();
-        $checkoutDataQty = $productData['checkout_data']['options']['qty'];
+        $checkoutDataQty = $productData['checkout_data']['qty'];
         $productData['quantity_and_stock_status']['qty'] -= ($checkoutDataQty - $data['items_data'][$index]['qty']);
         $productData = array_diff_key($productData, array_flip($this->skipFields));
 

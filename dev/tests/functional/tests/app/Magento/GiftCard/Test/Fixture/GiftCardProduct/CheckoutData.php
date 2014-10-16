@@ -36,8 +36,8 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         'giftcard_recipient_email' => 'Recipient_name_%isolation%@example.com',
                         'giftcard_message' => 'Message text %isolation%',
                     ],
-                    'qty' => '1',
                 ],
+                'qty' => '1',
                 'cartItem' => [
                     'price' => 150,
                     'qty' => 1,
