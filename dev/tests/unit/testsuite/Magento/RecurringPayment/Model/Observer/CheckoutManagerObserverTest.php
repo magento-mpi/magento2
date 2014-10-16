@@ -92,34 +92,14 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $specification = $this->getMock(
-            'Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification',
-            ['isSatisfiedBy'],
-            [],
-            '',
-            false
-        );
-        $specification->expects($this->any())
-            ->method('isSatisfiedBy')
-            ->with('paypal_express')
-            ->will($this->returnValue(true));
         $this->_testModel = $helper->getObject(
             'Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver',
             array(
                 'checkoutSession' => $this->_checkoutSession,
-                'quoteImporter' => $this->_quote,
-                'specification' => $specification
+                'quoteImporter' => $this->_quote
             )
         );
 
-        $quotePayment = $this->getMock('Magento\Sales\Model\Quote\Payment', ['getCode'], [], '', false);
-        $quotePayment->expects($this->any())
-            ->method('getCode')
-            ->will($this->returnValue('paypal_express'));
-        $quote = $this->getMock('Magento\Sales\Model\Quote', ['getPayment'], [], '', false);
-        $quote->expects($this->any())
-            ->method('getPayment')
-            ->will($this->returnValue($quotePayment));
         $this->_event = $this->getMock(
             'Magento\Framework\Event',
             array('getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'),
@@ -127,9 +107,6 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_event->expects($this->any())
-            ->method('getQuote')
-            ->will($this->returnValue($quote));
 
         $this->_observer->expects($this->any())->method('getEvent')->will($this->returnValue($this->_event));
         $this->_payment = $this->getMock(

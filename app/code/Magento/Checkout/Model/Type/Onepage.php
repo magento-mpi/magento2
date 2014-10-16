@@ -455,9 +455,8 @@ class Onepage
                         $shippingMethod
                     )->setCollectShippingRates(
                         true
-                    );
-                    $this->getQuote()->collectTotals();
-                    $shipping->save();
+                    )->collectTotals()
+                    ->save();
                     $this->getCheckout()->setStepData('shipping', 'complete', true);
                     break;
             }
@@ -636,7 +635,9 @@ class Onepage
         if (($validateRes = $address->validate()) !== true) {
             return array('error' => 1, 'message' => $validateRes);
         }
-        $address->save();
+
+        $this->getQuote()->collectTotals()->save();
+
         $this->getCheckout()->setStepData('shipping', 'complete', true)->setStepData('shipping_method', 'allow', true);
 
         return array();

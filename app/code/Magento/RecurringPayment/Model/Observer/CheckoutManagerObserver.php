@@ -24,22 +24,16 @@ class CheckoutManagerObserver
      */
     protected $_recurringPayments = null;
 
-    /** @var  \Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification */
-    protected $specification;
-
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\RecurringPayment\Model\QuoteImporter $quoteImporter
-     * @param \Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification $specification
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\RecurringPayment\Model\QuoteImporter $quoteImporter,
-        \Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification $specification
+        \Magento\RecurringPayment\Model\QuoteImporter $quoteImporter
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_quoteImporter = $quoteImporter;
-        $this->specification = $specification;
     }
 
     /**
@@ -51,15 +45,12 @@ class CheckoutManagerObserver
      */
     public function submitRecurringPayments($observer)
     {
-        $paymentMethod = $observer->getEvent()->getQuote()->getPayment();
-        if ($this->specification->isSatisfiedBy($paymentMethod->getCode())) {
-            $this->_recurringPayments = $this->_quoteImporter->import($observer->getEvent()->getQuote());
-            foreach ($this->_recurringPayments as $payment) {
-                if (!$payment->isValid()) {
-                    throw new \Magento\Framework\Model\Exception($payment->getValidationErrors());
-                }
-                $payment->submit();
+        $this->_recurringPayments = $this->_quoteImporter->import($observer->getEvent()->getQuote());
+        foreach ($this->_recurringPayments as $payment) {
+            if (!$payment->isValid()) {
+                throw new \Magento\Framework\Model\Exception($payment->getValidationErrors());
             }
+            $payment->submit();
         }
     }
 
