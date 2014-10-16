@@ -35,4 +35,36 @@ class PriceIndexer
     {
         $this->priceProcessor->markIndexerAsInvalid();
     }
+
+    /**
+     * @param \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject
+     * @param callable $proceed
+     * @param array $productIds
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function aroundReindexByIds(
+        \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject,
+        \Closure $proceed,
+        array $productIds
+    ) {
+        $proceed($productIds);
+        $this->priceProcessor->reindexList($productIds);
+    }
+
+    /**
+     * @param \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject
+     * @param callable $proceed
+     * @param int $productId
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function aroundReindexById(
+        \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject,
+        \Closure $proceed,
+        $productId
+    ) {
+        $proceed($productId);
+        $this->priceProcessor->reindexRow($productId);
+    }
 }

@@ -149,6 +149,7 @@ class IndexBuilder
     /**
      * Full reindex
      *
+     * @throws CatalogRuleException
      * @return void
      */
     public function reindexFull()
