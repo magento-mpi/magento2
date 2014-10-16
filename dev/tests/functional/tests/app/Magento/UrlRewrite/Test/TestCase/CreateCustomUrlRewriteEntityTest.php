@@ -68,13 +68,14 @@ class CreateCustomUrlRewriteEntityTest extends Injectable
      * Create custom URL Rewrite
      *
      * @param UrlRewrite $urlRewrite
+     * @param UrlRewrite $entityType
      * @return void
      */
-    public function test(UrlRewrite $urlRewrite)
+    public function test(UrlRewrite $urlRewrite, UrlRewrite $entityType)
     {
         $this->urlRewriteIndex->open();
         $this->urlRewriteIndex->getPageActionsBlock()->addNew();
-        $this->urlRewriteEdit->getUrlRewriteTypeSelectorBlock()->selectType('Custom');
+        $this->urlRewriteEdit->getChangeUrlRewriteType()->fill($entityType);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
     }

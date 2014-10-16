@@ -9,7 +9,6 @@
 namespace Magento\Cms\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
@@ -69,21 +68,22 @@ class CreateCmsPageRewriteEntityTest extends Injectable
     /**
      * Create CMS page rewrites
      *
-     * @param CmsPage $cmsPage
+     * @param UrlRewrite $entityType
      * @param UrlRewrite $urlRewrite
-     * @return void
+     * @return array
      */
-    public function test(CmsPage $cmsPage, UrlRewrite $urlRewrite)
+    public function test(UrlRewrite $entityType, UrlRewrite $urlRewrite)
     {
-        //Preconditions
-        $cmsPage->persist();
         //Steps
         $this->urlRewriteIndex->open();
         $this->urlRewriteIndex->getPageActionsBlock()->addNew();
-        $this->urlRewriteEdit->getUrlRewriteTypeSelectorBlock()->selectType('For CMS page');
+        $this->urlRewriteEdit->getChangeUrlRewriteType()->fill($entityType);
+        $cmsPage = $urlRewrite->getDataFieldConfig('target_path')['source']->getEntity();
         $filter = ['title' => $cmsPage->getTitle()];
         $this->urlRewriteEdit->getCmsGridBlock()->searchAndOpen($filter);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
+
+        return ['cmsPage' => $cmsPage];
     }
 }

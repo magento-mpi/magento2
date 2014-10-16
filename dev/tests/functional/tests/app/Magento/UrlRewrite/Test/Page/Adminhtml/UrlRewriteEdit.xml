@@ -44,5 +44,10 @@
             <locator>#cmsPageGrid</locator>
             <strategy>css selector</strategy>
         </cmsGridBlock>
+        <changeUrlRewriteType>
+            <class>Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit\UrlRewriteForm</class>
+            <locator>.form-inline</locator>
+            <strategy>css selector</strategy>
+        </changeUrlRewriteType>
     </blocks>
 </page>

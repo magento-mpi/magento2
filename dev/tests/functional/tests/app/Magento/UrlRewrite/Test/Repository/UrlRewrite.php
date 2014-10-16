@@ -26,7 +26,7 @@ class UrlRewrite extends AbstractRepository
     {
         $this->_data['default'] = [
             'request_path' => 'test-test-test%isolation%.html',
-            'target_path' => 'http://www.ebayinc.com/',
+            'target_path' => ['http://www.ebayinc.com/'],
             'redirect_type' => 'Temporary (302)',
             'store_id' => 'Main Website/Main Website Store/Default Store View',
         ];
@@ -40,7 +40,7 @@ class UrlRewrite extends AbstractRepository
         $this->_data['custom_rewrite_wishlist'] = [
             'store_id' => 'Main Website/Main Website Store/Default Store View',
             'request_path' => 'wishlist/%isolation%',
-            'target_path' => 'http://google.com',
+            'target_path' => ['http://google.com'],
             'redirect_type' => 'Temporary (302)',
             'description' => 'test description',
         ];

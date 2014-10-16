@@ -12,10 +12,10 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class IdPath
- * Prepare ID Path
+ * Class TargetPath
+ * Prepare Target Path
  */
-class IdPath implements FixtureInterface
+class TargetPath implements FixtureInterface
 {
     /**
      * Resource data
