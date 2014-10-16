@@ -10,10 +10,14 @@ namespace Magento\MultipleWishlist\Test\TestCase;
 
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 
 /**
- * Test Creation for AddProductToMultipleWishList
+ * Test Creation for MoveProductFromCustomerActivityToOrder
  *
  * Test Flow:
  *
@@ -24,16 +28,40 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
  * 4. Create Wishlist
  *
  * Steps:
- * 1. Login to frontend as a customer
+ * 1. Login to frontend as a Customer.
  * 2. Navigate to created product
  * 3. Select created wishlist and add product to it
- * 4. Perform appropriate assertions.
+ * 4. Go to Customers account on backend
+ * 5. Choose your wishlist in dropdown
+ * 6. Check "->" and click button Update Changes.
+ * 7. Perform appropriate assertions.
  *
  * @group Multiple_Wishlists_(CS)
- * @ZephyrId MAGETWO-29044
+ * @ZephyrId MAGETWO-29530
  */
-class AddProductToMultipleWishListTest extends Injectable
+class MoveProductFromCustomerActivityToOrderTest extends Injectable
 {
+    /**
+     * CustomerIndex page
+     *
+     * @var CustomerIndex
+     */
+    protected $customerIndex;
+
+    /**
+     * CustomerIndexEdit page
+     *
+     * @var CustomerIndexEdit
+     */
+    protected $customerIndexEdit;
+
+    /**
+     * OrderCreateIndex page
+     *
+     * @var OrderCreateIndex
+     */
+    protected $orderCreateIndex;
+
     /**
      * Enable Multiple wishlist in configuration
      *
@@ -49,17 +77,34 @@ class AddProductToMultipleWishListTest extends Injectable
     }
 
     /**
-     * Add Product to Multiple Wish list
+     * Injection data
+     *
+     * @param CustomerIndex $customerIndex
+     * @param CustomerIndexEdit $customerIndexEdit
+     * @param OrderCreateIndex $orderCreateIndex
+     * @return void
+     */
+    public function __inject(
+        CustomerIndex $customerIndex,
+        CustomerIndexEdit $customerIndexEdit,
+        OrderCreateIndex $orderCreateIndex
+    ) {
+        $this->customerIndex = $customerIndex;
+        $this->customerIndexEdit = $customerIndexEdit;
+        $this->orderCreateIndex = $orderCreateIndex;
+    }
+
+    /**
+     * Move product from customer activity to order on backend
      *
      * @param MultipleWishlist $multipleWishlist
      * @param string $products
      * @param string $duplicate
+     * @param string $qtyToMove
      * @return array
      */
-    public function test(MultipleWishlist $multipleWishlist, $products, $duplicate)
+    public function test(MultipleWishlist $multipleWishlist, $products, $duplicate, $qtyToMove)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-27949');
-
         // Preconditions
         $multipleWishlist->persist();
         $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();
@@ -75,6 +120,7 @@ class AddProductToMultipleWishListTest extends Injectable
             ['customer' => $customer]
         );
         $loginCustomer->run();
+
         $addProductToMultiplewishlist = $this->objectManager->create(
             'Magento\MultipleWishlist\Test\TestStep\AddProductToMultipleWishlistStep',
             ['product' => $product, 'duplicate' => $duplicate, 'multipleWishlist' => $multipleWishlist]
@@ -87,12 +133,19 @@ class AddProductToMultipleWishListTest extends Injectable
             );
             $addProductToMultiplewishlist->run();
         }
+        $this->customerIndex->open();
+        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
+        $this->customerIndexEdit->getPageActionsBlock()->createOrder();
+        $this->orderCreateIndex->getWishlistBlock()->selectWishlist($multipleWishlist->getName());
+        $wishlistItemsBlock = $this->orderCreateIndex->getWishlistBlock()->getWishlistItemsBlock();
+        $wishlistItemsBlock->selectItemToAddToOrder($product, $qtyToMove);
+        if (!$product instanceof GroupedProductInjectable) {
+            $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
+        } else {
+            $this->orderCreateIndex->getConfigureProductBlock()->clickOk();
+        }
 
-        return [
-            'product' => $product,
-            'multipleWishlist' => $multipleWishlist,
-            'customer' => $customer,
-        ];
+        return ['entityData' => ['products' => [$product]]];
     }
 
     /**
