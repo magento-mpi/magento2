@@ -13,29 +13,26 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
- * Test Creation for ConfigureCustomerWishlistOnBackend
+ * Test Creation for ViewCustomerWishlistOnBackend
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Create customer
- * 2. Create products
- * 3. Add products to the customer's wishlist (unconfigured)
+ * 2. Create products from dataSet
+ * 3. Add products to the customer's wish list (composite products should be configured)
  *
  * Steps:
- * 1. Go to Backend
+ * 1. Log in to backend
  * 2. Go to Customers > All Customers
- * 3. Open the customer
- * 4. Open wishlist tab
- * 5. Click 'Configure' for the product
- * 6. Fill in data
- * 7. Click Ok
- * 8. Perform assertions
+ * 3. Search and open customer
+ * 4. Open wish list tab
+ * 5. Perform assertions
  *
  * @group Wishlist_(CS)
- * @ZephyrId MAGETWO-29257
+ * @ZephyrId MAGETWO-29616
  */
-class ConfigureCustomerWishlistOnBackendTest extends AbstractWishlist
+class ViewCustomerWishlistOnBackendTest extends AbstractWishlist
 {
     /**
      * Prepare data
@@ -70,17 +67,13 @@ class ConfigureCustomerWishlistOnBackendTest extends AbstractWishlist
         // Preconditions
         $product = $this->createProducts($product)[0];
         $this->loginCustomer($customer);
-        $this->addToWishlist([$product]);
+        $this->addToWishlist([$product], true);
+
         // Steps
         $customerIndex->open();
         $customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $customerForm = $customerIndexEdit->getCustomerForm();
         $customerForm->openTab('wishlist');
-        $customerForm->getTabElement('wishlist')->getSearchGridBlock()->searchAndAction(
-            ['product_name' => $product->getName()],
-            'Configure'
-        );
-        $customerIndexEdit->getConfigureProductBlock()->configProduct($product);
 
         return['product' => $product];
     }

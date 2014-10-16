@@ -53,7 +53,8 @@ class AssertProductInCustomerWishlistOnBackendGrid extends AbstractConstraint
      */
     protected function prepareFilter(FixtureInterface $product)
     {
-        $qty = $product->getCheckoutData()['qty'];
+        $checkoutData = $product->getCheckoutData();
+        $qty = isset($checkoutData['qty']) ? $checkoutData['qty'] : 1;
         $options = $this->prepareOptions($product);
 
         return ['product_name' => $product->getName(), 'qty_from' => $qty, 'qty_to' => $qty, 'options' => $options];

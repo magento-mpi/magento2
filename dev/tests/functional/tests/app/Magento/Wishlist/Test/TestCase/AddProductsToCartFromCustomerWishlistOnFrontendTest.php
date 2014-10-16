@@ -31,7 +31,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-25268
  */
-class AddProductsToCartFromCustomerWishlistOnFrontendTest extends AbstractWishlistOnFrontend
+class AddProductsToCartFromCustomerWishlistOnFrontendTest extends AbstractWishlist
 {
     /**
      * Run suggest searching result test

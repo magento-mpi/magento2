@@ -18,10 +18,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AbstractWishlistOnFrontend
+ * Class AbstractWishlist
  * Abstract class for wish list on frontend tests
  */
-abstract class AbstractWishlistOnFrontend extends Injectable
+abstract class AbstractWishlist extends Injectable
 {
     /**
      * Object Manager
@@ -127,13 +127,19 @@ abstract class AbstractWishlistOnFrontend extends Injectable
      * Add products to wish list
      *
      * @param array $products
+     * @param bool $configure [optional]
      * @return void
      */
-    protected function addToWishlist(array $products)
+    protected function addToWishlist(array $products, $configure = false)
     {
         foreach ($products as $product) {
             $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getViewBlock()->clickAddToWishlist();
+            if ($configure) {
+                $this->catalogProductView->getViewBlock()->addToWishlist($product);
+            } else {
+                $this->catalogProductView->getViewBlock()->clickAddToWishlist();
+            }
+
         }
     }
 }
