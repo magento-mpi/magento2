@@ -70,7 +70,7 @@ class Page extends Layout
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Page\ConfigFactory $pageConfigFactory
-     * @param View\Page\Config\Renderer $pageConfigRenderer
+     * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
@@ -82,14 +82,14 @@ class Page extends Layout
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Page\ConfigFactory $pageConfigFactory,
-        View\Page\Config\Renderer $pageConfigRenderer,
+        View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template
     ) {
         $this->pageConfig = $pageConfigFactory->create();
         $this->pageLayoutReader = $pageLayoutReader;
         $this->viewFileSystem = $context->getViewFileSystem();
-        $this->pageConfigRenderer = $pageConfigRenderer;
+        $this->pageConfigRenderer = $pageConfigRendererFactory->create(['pageConfig' => $this->pageConfig]);
         $this->template = $template;
         parent::__construct(
             $context,
@@ -202,7 +202,7 @@ class Page extends Layout
     protected function addDefaultBodyClasses()
     {
         $this->pageConfig->addBodyClass($this->request->getFullActionName('-'));
-        $pageLayout = $this->pageConfig->getPageLayout();
+        $pageLayout = $this->getPageLayout();
         if ($pageLayout) {
             $this->pageConfig->addBodyClass('page-layout-' . $pageLayout);
         }

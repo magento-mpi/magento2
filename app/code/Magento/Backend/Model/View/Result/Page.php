@@ -24,7 +24,7 @@ class Page extends View\Result\Page
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Translate\InlineInterface $translateInline
      * @param View\Page\ConfigFactory $pageConfigFactory
-     * @param View\Page\Config\Renderer $pageConfigRenderer
+     * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
@@ -36,10 +36,10 @@ class Page extends View\Result\Page
         View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
         Translate\InlineInterface $translateInline,
-        View\Page\ConfigFactory $pageConfigFactory,
-        View\Page\Config\Renderer $pageConfigRenderer,
-        View\Page\Layout\Reader $pageLayoutReader,
         View\Layout\BuilderFactory $layoutBuilderFactory,
+        View\Page\ConfigFactory $pageConfigFactory,
+        View\Page\Config\RendererFactory $pageConfigRendererFactory,
+        View\Page\Layout\Reader $pageLayoutReader,
         $template,
         App\Action\Title $title,
         array $data = array()
@@ -50,10 +50,10 @@ class Page extends View\Result\Page
             $layoutFactory,
             $layoutReaderPool,
             $translateInline,
-            $pageConfigFactory,
-            $pageConfigRenderer,
-            $pageLayoutReader,
             $layoutBuilderFactory,
+            $pageConfigFactory,
+            $pageConfigRendererFactory,
+            $pageLayoutReader,
             $template,
             $data
         );
