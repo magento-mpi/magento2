@@ -14,7 +14,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
 
 /**
  * Class AssertUrlRewriteCategoryNotInGrid
- * Assert that url rewrite category not in grid
+ * Assert that url rewrite category is absent in grid
  */
 class AssertUrlRewriteCategoryNotInGrid extends AbstractConstraint
 {
@@ -49,6 +49,6 @@ class AssertUrlRewriteCategoryNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'URL Rewrite is not present in grid.';
+        return 'URL Rewrite is absent in grid.';
     }
 }
