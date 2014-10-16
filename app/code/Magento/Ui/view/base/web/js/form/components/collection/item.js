@@ -30,7 +30,9 @@ define([
 
         initObservable: function () {
             this.observe('active')
-                .observe('values');
+                .observe('isListening', this.active())
+                .observe('values')
+                .observe('listened', []);
 
             this.values.observe('value');
 
@@ -38,32 +40,38 @@ define([
         },
 
         initListeners: function () {
-            this.active.subscribe(this.adjustListeners.bind(this));
+            _.bindAll(this, 'listenToElement', 'isListening');
+
+            this.elements.subscribe(this.listenToElement);
+            this.active.subscribe(this.isListening);
         },
 
-        adjustListeners: function (isActive) {
-            isActive ? this.listen() : this.unbind();
-        },
-
-        listen: function () {
-            var handlers = {
-                'update': this.updateValue.bind(this)
-            };
+        listenToElement: function () {
+            var listened    = this.listened,
+                update      = this.updateValue.bind(this),
+                alreadyListened;
 
             this.elements.each(function (element) {
-                element.on(handlers);
-            });
-        },
+                alreadyListened = listened.contains(element);
 
-        unbind: function () {
-            this.elements.each(function (element) {
-                element.off('update');
+                if (!alreadyListened) {
+                    element.on('update', update);
+                    listened.push(element);
+                }
             });
         },
 
         updateValue: function (element, settings) {
-            var values          = this.values.indexBy('name'),
-                valueStorage    = values[element.index];
+            var isListening = this.isListening(),
+                values,
+                valueStorage;
+
+            if (!isListening) {
+                return;
+            }
+
+            values          = this.values.indexBy('name');
+            valueStorage    = values[element.index];
 
             if (!valueStorage) {
                 this.values.push({
@@ -78,7 +86,7 @@ define([
         apply: function () {
             var values = this.values.indexBy('name'),
                 value;
-                
+
             this.elements.each(function (element) {
                 value = values[element.index];
                 value = value && value.value();
