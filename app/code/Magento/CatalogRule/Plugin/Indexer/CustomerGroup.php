@@ -7,7 +7,8 @@
  */
 namespace Magento\CatalogRule\Plugin\Indexer;
 
-use \Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
+use Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
+use Magento\Customer\Model\Group;
 
 class CustomerGroup
 {
@@ -25,15 +26,15 @@ class CustomerGroup
     }
 
     /**
-     * @param \Magento\Customer\Model\Group $group
-     * @param \Magento\Customer\Model\Group $result
-     * @return \Magento\Customer\Model\Group
+     * @param Group $subject
+     * @param Group $result
+     * @return Group
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDelete(
-        \Magento\Customer\Model\Group $group,
-        \Magento\Customer\Model\Group $result
+        Group $subject,
+        Group $result
     ) {
         $this->ruleProductProcessor->markIndexerAsInvalid();
         return $result;

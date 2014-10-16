@@ -38,7 +38,7 @@ class Category
     ) {
         /** @var \Magento\Catalog\Model\Category $result */
         $productIds = $result->getAffectedProductIds();
-        if ($productIds && !$this->productRuleProcessor->getIndexer()->isScheduled()) {
+        if ($productIds) {
             $this->productRuleProcessor->reindexList($productIds);
         }
         return $result;
@@ -46,16 +46,16 @@ class Category
 
     /**
      * @param \Magento\Catalog\Model\Category $subject
-     * @param \Magento\Catalog\Model\Category $category
+     * @param \Magento\Catalog\Model\Category $result
      * @return \Magento\Catalog\Model\Category
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDelete(
         \Magento\Catalog\Model\Category $subject,
-        \Magento\Catalog\Model\Category $category
+        \Magento\Catalog\Model\Category $result
     ) {
         $this->productRuleProcessor->markIndexerAsInvalid();
-        return $category;
+        return $result;
     }
 }

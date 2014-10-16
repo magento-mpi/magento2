@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogRule\Plugin\Indexer\Product;
 
-
 class PriceIndexer
 {
     /**

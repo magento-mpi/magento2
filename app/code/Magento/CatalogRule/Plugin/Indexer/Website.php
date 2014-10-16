@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogRule\Plugin\Indexer;
 
-use \Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
+use Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
 
 class Website
 {
@@ -25,13 +25,16 @@ class Website
     }
 
     /**
-     * @param \Magento\Store\Model\Website $website
-     * @return \Magento\Store\Model\Website $result
+     * Invalidate catalog price rule indexer
+     *
+     * @param \Magento\Store\Model\Website $subject
+     * @param \Magento\Store\Model\Website $result
+     * @return \Magento\Store\Model\Website
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDelete(
-        \Magento\Store\Model\Website $website,
+        \Magento\Store\Model\Website $subject,
         \Magento\Store\Model\Website $result
     ) {
         $this->ruleProductProcessor->markIndexerAsInvalid();

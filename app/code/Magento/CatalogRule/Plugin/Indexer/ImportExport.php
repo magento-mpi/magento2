@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogRule\Plugin\Indexer;
 
-use \Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
-use \Magento\ImportExport\Model\Import;
+use Magento\CatalogRule\Model\Indexer\Rule\RuleProductProcessor;
+use Magento\ImportExport\Model\Import;
 
 class ImportExport
 {
@@ -28,13 +28,13 @@ class ImportExport
     /**
      * Invalidate catalog price rule indexer
      *
-     * @param Import $import
+     * @param Import $subject
      * @param bool $result
      * @return bool
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterImportSource(Import $import, $result)
+    public function afterImportSource(Import $subject, $result)
     {
         $this->ruleProductProcessor->markIndexerAsInvalid();
         return $result;
