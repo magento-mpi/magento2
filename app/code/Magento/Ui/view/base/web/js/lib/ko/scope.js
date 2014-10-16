@@ -56,6 +56,8 @@ define([
             else if(type === 'string') {
                 observe(this, path, value);
             }
+
+            return this;
         },
 
         /**

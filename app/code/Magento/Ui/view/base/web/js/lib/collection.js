@@ -40,9 +40,10 @@ define([
         },
 
         initItem: function(data, name){            
-            var fullName    = this.name + '.' + name,
-                injections  = Array.prototype.slice.call(arguments, 2) || [],
-                component   = this.component,
+            var fullName            = this.name + '.' + name,
+                injections          = Array.prototype.slice.call(arguments, 2) || [],
+                component           = this.component,
+                componentSettings   = this.item_settings,
                 config,
                 item;
 
@@ -50,7 +51,7 @@ define([
                 provider:   this.provider,
                 fullName:   fullName,
                 name:       name
-            }, data);
+            }, data, componentSettings);
 
             item = new component(config);
 

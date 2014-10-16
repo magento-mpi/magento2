@@ -6,4 +6,11 @@
  * @license     {license_link}
  */
 -->
-<div>Yo</div>
+
+<!-- ko foreach: { data: items, as: 'item' } -->
+    <!-- ko template: item.getTemplate() --><!-- /ko -->    
+<!-- /ko -->
+
+<!-- ko foreach: { data: elems, as: 'element' } -->
+    <!-- ko template: element.getTemplate() --><!-- /ko -->    
+<!-- /ko -->

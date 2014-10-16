@@ -5,7 +5,7 @@ define([
 ], function(_, Collection, registry){
     'use strict';
 
-    function init(Item, params, data, name){
+    function init(constr, params, data, name){
         var provider    = registry.get(data.source),
             storage     = registry.get('globalStorage'),
             layout      = storage.get().layout[name],
@@ -13,7 +13,7 @@ define([
 
         config = _.extend({
             name:       name,
-            component:  Item,
+            component:  constr,
             layout:     layout,
             provider:   provider
         }, data.config);
