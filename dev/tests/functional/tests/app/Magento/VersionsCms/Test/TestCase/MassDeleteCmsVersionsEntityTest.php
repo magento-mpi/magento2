@@ -88,8 +88,7 @@ class MassDeleteCmsVersionsEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Version $version, array $results, $initialVersionToDelete)
     {
-        $this->markTestIncomplete('MAGETWO-26802');
-
+        $this->markTestIncomplete("Bug: MAGETWO-28876");
         // Precondition
         $cms->persist();
         $filter = ['title' => $cms->getTitle()];
@@ -102,6 +101,7 @@ class MassDeleteCmsVersionsEntityTest extends Injectable
         $this->cmsVersionEdit->getFormPageActions()->saveAsNewVersion();
 
         // Steps
+        $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getPageForm()->openTab('versions');

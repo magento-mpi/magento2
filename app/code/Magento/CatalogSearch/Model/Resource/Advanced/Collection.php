@@ -28,9 +28,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Adapter
+     * @var \Magento\Search\Model\SearchEngine
      */
-    private $searchAdapter;
+    private $searchEngine;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -52,6 +52,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
+     * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -75,11 +77,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
-        \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter,
+        \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
     ) {
         $this->requestBuilder = $requestBuilder;
-        $this->searchAdapter = $searchAdapter;
+        $this->searchEngine = $searchEngine;
         parent::__construct(
             $entityFactory,
             $logger,
@@ -148,7 +150,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             }
             $queryRequest = $this->requestBuilder->create();
 
-            $queryResponse = $this->searchAdapter->query($queryRequest);
+            $queryResponse = $this->searchEngine->search($queryRequest);
             $ids = [];
             /** @var \Magento\Framework\Search\Document $document */
             foreach ($queryResponse as $document) {

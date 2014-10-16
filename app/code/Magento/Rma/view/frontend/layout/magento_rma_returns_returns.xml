@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
     <referenceContainer name="page.main.title">
         <block class="Magento\Sales\Block\Order\Info" name="order.status" template="order/order_status.phtml" />
@@ -15,7 +15,6 @@
         <container name="order.actions.container" htmlTag="div" htmlClass="actions-toolbar order-actions-toolbar">
             <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons" cacheable="false"/>
             <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
-            <block class="Magento\Sales\Block\Order\Info" name="order.rss" template="order/order_rss.phtml" />
         </container>
     </referenceContainer>
     <referenceContainer name="content">

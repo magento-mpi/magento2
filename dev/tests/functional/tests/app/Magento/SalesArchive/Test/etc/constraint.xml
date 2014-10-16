@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertArchiveOrderSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderSuccessMessage>
+    <assertArchiveOrderInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderInGrid>
+    <assertArchiveOrderWarningMessage module="Magento_SalesArchive">
+        <severeness>high</severeness>
+    </assertArchiveOrderWarningMessage>
+    <assertArchiveOrderNotInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderNotInGrid>
+    <assertArchiveInvoiceInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveInvoiceInGrid>
+    <assertArchiveShipmentInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveShipmentInGrid>
+    <assertArchiveCreditMemoInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveCreditMemoInGrid>
+    <assertArchiveOrderStatusInGrid module="Magento_SalesArchive">
+        <severeness>high</severeness>
+    </assertArchiveOrderStatusInGrid>
+    <assertArchiveOrderAvailableButtons module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderAvailableButtons>
+    <assertArchiveCreditMemoItems module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveCreditMemoItems>
+    <assertArchiveInvoiceItems module="Magento_SalesArchive">
+        <severeness>medium</severeness>
+    </assertArchiveInvoiceItems>
+    <assertArchiveShipmentItems module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveShipmentItems>
+    <assertArchiveOrdersInGrid module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrdersInGrid>
+    <assertArchiveOrderCancelMassActionSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderCancelMassActionSuccessMessage>
+    <assertArchiveOrderCancelMassActionErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderCancelMassActionErrorMessage>
+    <assertArchiveOrderOnHoldSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderOnHoldSuccessMessage>
+    <assertArchiveOrderOnHoldErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderOnHoldErrorMessage>
+    <assertArchiveOrderReleaseSuccessMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderReleaseSuccessMessage>
+    <assertArchiveOrderReleaseErrorMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderReleaseErrorMessage>
+    <assertArchiveOrderSuccessRemoveMessage module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrderSuccessRemoveMessage>
+    <assertArchiveOrdersCancelMassActionsMessages module="Magento_SalesArchive">
+        <severeness>low</severeness>
+    </assertArchiveOrdersCancelMassActionsMessages>
+</constraint>

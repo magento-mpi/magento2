@@ -53,6 +53,7 @@ class CustomerPlugin
      *
      * @param CustomerAccountServiceInterface $subject
      * @param callable $updateCustomer
+     * @param string $customerId
      * @param CustomerDetails $customerDetails
      * @return bool
      *
@@ -61,9 +62,10 @@ class CustomerPlugin
     public function aroundUpdateCustomer(
         CustomerAccountServiceInterface $subject,
         callable $updateCustomer,
+        $customerId,
         CustomerDetails $customerDetails
     ) {
-        $result = $updateCustomer($customerDetails);
+        $result = $updateCustomer($customerId, $customerDetails);
 
         $this->subscriberFactory->create()->updateSubscription($customerDetails->getCustomer()->getId());
 

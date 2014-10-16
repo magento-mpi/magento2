@@ -401,7 +401,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown filter type 'unknownType'
      */
     public function testUnknownFilterType()
     {
@@ -409,7 +408,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $filter = $this->getMockBuilder('Magento\Framework\Search\Request\FilterInterface')
             ->setMethods(['getType'])
             ->getMockForAbstractClass();
-        $filter->expects($this->exactly(2))
+        $filter->expects($this->any())
             ->method('getType')
             ->will($this->returnValue('unknownType'));
         $this->builder->build($filter, RequestBoolQuery::QUERY_CONDITION_MUST);

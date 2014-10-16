@@ -12,7 +12,7 @@
 .cart {
     //  Summary block
     &-summary {
-        &:extend(.add-box-sizing all);
+        &:extend(.abstract-add-box-sizing all);
         background: @sidebar-background;
         margin-bottom: 25px;
         padding: 1px 15px 25px;
@@ -74,6 +74,15 @@
                     }
                 }
             }
+            .fieldset {
+                .methods {
+                    .field {
+                        > .label {
+                            display: inline;
+                        }
+                    }
+                }
+            }
         }
         .actions-toolbar {
             > .primary {
@@ -82,6 +91,7 @@
                 }
             }
         }
+        &:extend(.abstract-adjustment-incl-excl-tax all);
     }
 
     //  Totals block
@@ -171,7 +181,6 @@
             &.subtotal,
             &.msrp {
                 padding-top: 20px;
-                &:extend(.abstract-incl-excl-tax all);
             }
             &.qty {
                 .input-text {
@@ -208,7 +217,7 @@
                 margin-bottom: 10px;
                 &:first-child {
                     margin-left: 0;
-                }  
+                }
             }
         }
         .action {
@@ -240,16 +249,17 @@
                 text-overflow: ellipsis;
             }
         }
+
         // Product options
-        .cart-item-options {
+        .item-options {
             font-size: @font-size-s;
             margin-top: @indent-s-base;
             margin-bottom: @indent-s-base;
-            &:extend(.product-options-list all);
-            &:extend(.add-clearfix all);
+            &:extend(.abstract-product-options-list all);
+            &:extend(.abstract-add-clearfix all);
         }
-        .cart-tax-total {
-            &:extend(.abstract-tax-total all);
+        .product-image-wrapper {
+            &:extend(.abstract-reset-image-wrapper all);
         }
     }
     &-container {
@@ -294,11 +304,11 @@
             }
         }
         .checkout-methods-items {
-            &:extend(.reset-list all);
+            &:extend(.abstract-reset-list all);
             text-align: center;
             margin-top: @indent-s-base;
             .action.primary {
-                .button-l();
+                &:extend(.abstract-button-l all);
                 margin-bottom: 20px;
                 width: 100%;
             }
@@ -364,7 +374,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .cart {
         &-container {
-            &:extend(.add-clearfix-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
             .form.cart {
                 float: left;
                 width: 73%;
@@ -395,7 +405,7 @@
             width: 23%;
             .actions-toolbar {
                 .column.main & {
-                    &:extend(.reset-left-margin-desktop all);
+                    &:extend(.abstract-reset-left-margin-desktop all);
                     > .secondary {
                         float: none;
                     }

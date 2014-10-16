@@ -1,57 +1,63 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Setup\Controller\Data;
 
+use Magento\Setup\Model\InstallerFactory;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Stdlib\ResponseInterface as Response;
 use Zend\View\Model\JsonModel;
 use Zend\Json\Json;
-use Magento\Setup\Model\DatabaseCheck;
+use Magento\Setup\Model\WebLogger;
 
 class DatabaseController extends AbstractActionController
 {
     /**
+     * JSON response object
+     *
      * @var JsonModel
      */
-    protected $jsonModel;
+    private $jsonResponse;
 
     /**
-     * @param JsonModel $jsonModel
+     * Installer service factory
+     *
+     * @var \Magento\Setup\Model\InstallerFactory
      */
-    public function __construct(JsonModel $jsonModel)
-    {
-        $this->jsonModel = $jsonModel;
+    private $installerFactory;
 
+    /**
+     * Constructor
+     *
+     * @param JsonModel $response
+     * @param InstallerFactory $installerFactory
+     */
+    public function __construct(JsonModel $response, InstallerFactory $installerFactory)
+    {
+        $this->jsonResponse = $response;
+        $this->installerFactory = $installerFactory;
     }
 
     /**
+     * Result of checking DB credentials
+     *
      * @return JsonModel
      */
     public function indexAction()
     {
         $params = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         try {
-            $db = new DatabaseCheck($this->prepareDbConfig($params));
-            return $this->jsonModel->setVariables(['success' => $db->checkConnection()]);
+            $installer = $this->installerFactory->create(new WebLogger);
+            $password = isset($params['password']) ? $params['password'] : '';
+            $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $password);
+            return $this->jsonResponse->setVariables(['success' => true]);
         } catch (\Exception $e) {
-            return $this->jsonModel->setVariables(['success' => false]);
+            return $this->jsonResponse->setVariables(['success' => false]);
         }
     }
 
-    protected function prepareDbConfig(array $data = array())
-    {
-        return array(
-            'driver'         => "Pdo",
-            'dsn'            => "mysql:dbname=" . $data['name']. ";host=" .$data['host'],
-            'username'       => $data['user'],
-            'password'       => isset($data['password']) ? $data['password'] : null,
-            'driver_options' => array(
-                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
-            ),
-        );
-    }
 }

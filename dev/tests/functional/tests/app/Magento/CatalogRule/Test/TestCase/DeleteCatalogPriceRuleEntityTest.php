@@ -27,7 +27,7 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
  * 5. Perform all assertions
  *
  * @group Catalog_Price_Rules_(MX)
- * @ZephyrId MAGETWO-20431
+ * @ZephyrId MAGETWO-25211
  */
 class DeleteCatalogPriceRuleEntityTest extends Injectable
 {

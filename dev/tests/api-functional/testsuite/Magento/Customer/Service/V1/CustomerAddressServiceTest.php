@@ -74,7 +74,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureAddressId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/address/{$fixtureAddressId}",
+                'resourcePath' => "/V1/customers/addresses/{$fixtureAddressId}",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -101,7 +101,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/$fixtureCustomerId/address",
+                'resourcePath' => "/V1/customers/$fixtureCustomerId/addresses",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -128,7 +128,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/$fixtureCustomerId/address/DefaultBilling",
+                'resourcePath' => "/V1/customers/$fixtureCustomerId/billingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -155,7 +155,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/$fixtureCustomerId/address/DefaultShipping",
+                'resourcePath' => "/V1/customers/$fixtureCustomerId/shippingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -182,7 +182,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $fixtureAddressId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/address/{$fixtureAddressId}",
+                'resourcePath' => "/V1/addresses/{$fixtureAddressId}",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -207,8 +207,8 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $customerFixtureId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/customer/{$customerFixtureId}/address",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'resourcePath' => "/V1/customers/{$customerFixtureId}/addresses",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
@@ -243,6 +243,54 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             $secondAddressData,
             $secondAddressStoredData,
             "Second address was stored incorrectly."
+        );
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testGetSavedAddress()
+    {
+        $customerFixtureId = 1;
+
+        // Save address data
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customers/{$customerFixtureId}/addresses",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SOAP_SERVICE_NAME,
+                'serviceVersion' => self::SOAP_SERVICE_VERSION,
+                'operation' => self::SOAP_SERVICE_NAME . 'SaveAddresses'
+            ]
+        ];
+
+        $addressData = $this->getSecondFixtureAddressData();
+        // Use an array of simple PHP types (string) as 'street'
+        $addressData['street'] = ['White str, 48', 'Dummy Data'];
+
+        $requestData = ['customerId' => $customerFixtureId,'addresses' => [$addressData]];
+        $this->_webApiCall($serviceInfo, $requestData);
+
+        // Retrieve saved address data
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/customers/$customerFixtureId/addresses",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SOAP_SERVICE_NAME,
+                'serviceVersion' => self::SOAP_SERVICE_VERSION,
+                'operation' => self::SOAP_SERVICE_NAME . 'GetAddresses'
+            ]
+        ];
+        $requestData = ['customerId' => $customerFixtureId];
+        $addressDataResult = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(
+            [$addressData],
+            $addressDataResult,
+            "The address retrieved does not match the saved address."
         );
     }
 

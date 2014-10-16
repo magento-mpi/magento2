@@ -27,7 +27,7 @@
     }
 
     text-align: center;
-    &:extend(.add-clearfix all);
+    &:extend(.abstract-add-clearfix all);
     &-amount {
         display: block;
         float: left;
@@ -128,8 +128,9 @@
         }
 
         &-label {
-            .visually-hidden;
+            &:extend(.abstract-visually-hidden-desktop-s all);
         }
+
         &-mode {
             float: left;
             border: 1px solid @border-color-base;

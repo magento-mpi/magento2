@@ -20,7 +20,6 @@ use Magento\Framework\Math\Random;
  *
  * @method string getPriceElementIdPrefix()
  * @method string getIdSuffix()
- * @method string getDisplayMsrpHelpMessage()
  */
 class PriceBox extends PriceBoxRender
 {

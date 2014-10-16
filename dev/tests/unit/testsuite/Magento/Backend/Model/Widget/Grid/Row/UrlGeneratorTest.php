@@ -11,7 +11,6 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetUrl()
     {
-        $this->markTestIncomplete('Bug with phpunit 3.7: PHPUnit_Framework_Exception: Class "%s" already exists');
         $itemId = 3;
         $urlPath = 'mng/item/edit';
 
@@ -22,7 +21,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
             'Magento\Backend\Model\Url',
             array(),
             array(),
-            'Magento\Backend\Model\UrlProxy',
+            '',
             false
         );
         $urlModelMock->expects(

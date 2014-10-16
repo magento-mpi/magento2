@@ -10,7 +10,7 @@ namespace Magento\Catalog\Controller;
 /**
  * Test class for \Magento\Catalog\Controller\Category.
  *
- * @magentoDataFixture Magento/Catalog/_files/categories.php
+ * @magentoAppArea frontend
  */
 class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 {
@@ -29,7 +29,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
                 '$categoryId' => 5,
                 array('catalog_category_view_type_default', 'catalog_category_view_type_default_without_children'),
                 array(
-                    '%acategorypath-category-1-category-1-1-category-1-1-1-html%a',
+                    '%acategorypath-category-1-category-1-1-category-1-1-1%a',
                     '%acategory-category-1-1-1%a',
                     '%a<title>Category 1.1.1 - Category 1.1 - Category 1</title>%a',
                     '%a<h1%S>%SCategory 1.1.1%S</h1>%a',
@@ -41,7 +41,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
                 '$categoryId' => 4,
                 array('catalog_category_view_type_layered'),
                 array(
-                    '%acategorypath-category-1-category-1-1-html%a',
+                    '%acategorypath-category-1-category-1-1%a',
                     '%acategory-category-1-1%a',
                     '%a<title>Category 1.1 - Category 1</title>%a',
                     '%a<h1%S>%SCategory 1.1%S</h1>%a',
@@ -56,6 +56,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 
     /**
      * @dataProvider getViewActionDataProvider
+     * @magentoDataFixture Magento/CatalogUrlRewrite/_files/categories_with_products.php
      */
     public function testViewAction($categoryId, array $expectedHandles, array $expectedContent)
     {

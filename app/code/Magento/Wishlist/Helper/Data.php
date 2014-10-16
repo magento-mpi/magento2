@@ -197,12 +197,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->_wishlist = $this->_coreRegistry->registry('shared_wishlist');
             } else {
                 $this->_wishlist = $this->wishlistProvider->getWishlist();
-                if (!$this->_wishlist) {
-                    $this->_wishlist = $this->_wishlistFactory->create();
-                    if ($this->getCustomer()) {
-                        $this->_wishlist->loadByCustomerId($this->getCustomer()->getId());
-                    }
-                }
             }
         }
         return $this->_wishlist;
@@ -372,7 +366,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $url = $this->_getUrl('wishlist/index/updateItemOptions');
         if ($itemId) {
-            $params = array('id' => $itemId, 'product' => $productId);
+            $params = array('id' => $itemId, 'product' => $productId, 'qty' => $item->getQty());
             return $this->_postDataHelper->getPostData($url, $params);
         }
 

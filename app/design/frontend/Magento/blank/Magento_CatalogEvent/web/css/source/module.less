@@ -54,7 +54,7 @@
     }
 
     .content {
-        &:extend(.add-box-sizing all);
+        &:extend(.abstract-add-box-sizing all);
         position: relative;
         ._block-event-pointer();
         .subtitle {
@@ -150,9 +150,8 @@
                     }
                 }
                 .action.show {
-                    &:extend(.add-box-sizing all);
+                    &:extend(.abstract-add-box-sizing all);
                     display: block;
-                    //height: 156px;
                     padding: 0;
                     .category.name {
                         display: inline-block;

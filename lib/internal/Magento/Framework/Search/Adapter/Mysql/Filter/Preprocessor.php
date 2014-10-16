@@ -30,6 +30,6 @@ class Preprocessor implements PreprocessorInterface
      */
     public function process(FilterInterface $filter, $isNegation, $query)
     {
-        return $this->conditionManager->wrapBrackets($query);
+        return $query;
     }
 }

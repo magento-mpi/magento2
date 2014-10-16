@@ -10,6 +10,7 @@ namespace Magento\User\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Mtf\ObjectManager;
 
 /**
  * Class UserWithRestrictedRole
@@ -22,7 +23,6 @@ class UserWithRestrictedRoleTest extends Functional
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-27660');
         Factory::getApp()->magentoBackendLoginUser();
     }
 
@@ -70,6 +70,7 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
+        $this->fillCurrentPassword();
         $editForm->openTab('user-role');
         $rolesGrid = $editUser->getRolesGrid();
         $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);
@@ -117,7 +118,7 @@ class UserWithRestrictedRoleTest extends Functional
 
         $storeFixture = $objectManager->create(
             '\Magento\Store\Test\Fixture\Store',
-            ['dataSet' => 'default', 'data' => ['group_id' => $storeGroupFixture->getGroupId()]]
+            ['dataSet' => 'custom', 'data' => ['group_id' => ['dataSet' => 'default']]]
         );
         $storeFixture->persist();
 
@@ -129,7 +130,7 @@ class UserWithRestrictedRoleTest extends Functional
         //Create new Acl Role - Role Resources: Sales
         $roleFixture = Factory::getFixtureFactory()->getMagentoUserRole();
         $roleFixture->switchData('custom_permissions_store_scope');
-        $roleFixture->setScopeItems(array($storeGroupFixture->getGroupId()));
+        $roleFixture->setScopeItems([$storeGroupFixture->getGroupId()]);
 
         $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
         $roleFixture->setResource($resourceFixture->get('Magento_Sales::sales_order'));
@@ -148,6 +149,7 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
+        $this->fillCurrentPassword();
         $editForm->openTab('user-role');
         $rolesGrid = $editUser->getRolesGrid();
         $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);
@@ -189,5 +191,23 @@ class UserWithRestrictedRoleTest extends Functional
             'Access denied',
             $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock()
         );
+    }
+
+    /**
+     * Fill current password
+     *
+     * @return void
+     */
+    protected function fillCurrentPassword()
+    {
+        /** @var \Mtf\System\Config $systemConfig */
+        $systemConfig = ObjectManager::getInstance()->create('Mtf\System\Config');
+        $superAdminPassword = $systemConfig->getConfigParam('application/backend_user_credentials/password');
+        /** @var \Magento\User\Test\Fixture\User $userFixtureCurrentPasswordOnly */
+        $userFixtureCurrentPasswordOnly = Factory::getObjectManager()->create(
+            'Magento\User\Test\Fixture\User',
+            ['data' => ['current_password' => $superAdminPassword]]
+        );
+        Factory::getPageFactory()->getAdminUserEdit()->getUserForm()->fill($userFixtureCurrentPasswordOnly);
     }
 }

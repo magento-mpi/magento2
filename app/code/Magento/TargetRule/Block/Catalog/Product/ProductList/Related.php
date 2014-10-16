@@ -16,13 +16,6 @@ namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
 {
     /**
-     * Default MAP renderer type
-     *
-     * @var string
-     */
-    protected $_mapRenderer = 'msrp_noform';
-
-    /**
      * @var \Magento\Checkout\Model\Cart
      */
     protected $_cart;

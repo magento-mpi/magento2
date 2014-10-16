@@ -403,20 +403,20 @@ AdminRma.prototype = {
         var url = this.getLoadAttributesLink(this.newRmaItemId);
         var hasUserAttributes = false;
 
-//        if (this.bundleArray[idElement.value] !== undefined) {
-//            var obj = this.bundleArray[idElement.value];
-//            for(var key in obj) {
-//                this.addOrderItemToGrid(obj[key], className);
-//            }
-//        } else {
-//            var orderItem = this.getOrderItem(idElement);
-//            this.addOrderItemToGrid(orderItem, className);
-//        }
+        //if (this.bundleArray[idElement.value] !== undefined) {
+        //    var obj = this.bundleArray[idElement.value];
+        //    for(var key in obj) {
+        //        this.addOrderItemToGrid(obj[key], className);
+        //    }
+        //} else {
+        //    var orderItem = this.getOrderItem(idElement);
+        //    this.addOrderItemToGrid(orderItem, className);
+        //}
 
         new Ajax.Request(url, {
             onSuccess: function(transport) {
                 var response = transport.responseText;
-                if (response.length !== 0) {
+               if (response.length !== 0) {
                     hasUserAttributes = true;
                 }
                 if (self.bundleArray[idElement.value] !== undefined) {

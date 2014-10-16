@@ -32,9 +32,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Adapter
+     * @var \Magento\Search\Model\SearchEngine
      */
-    private $searchAdapter;
+    private $searchEngine;
 
     /** @var  string */
     private $queryText;
@@ -60,8 +60,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
+     * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
-     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -86,7 +87,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
-        \Magento\Framework\Search\Adapter\Mysql\Adapter $searchAdapter,
+        \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -113,17 +114,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $connection
         );
         $this->requestBuilder = $requestBuilder;
-        $this->searchAdapter = $searchAdapter;
-    }
-
-    /**
-     * Retrieve query model object
-     *
-     * @return \Magento\Search\Model\Query
-     */
-    protected function _getQuery()
-    {
-        return $this->queryFactory->get();
+        $this->searchEngine = $searchEngine;
     }
 
     /**
@@ -148,7 +139,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $this->requestBuilder->setRequestName('quick_search_container');
         $queryRequest = $this->requestBuilder->create();
 
-        $queryResponse = $this->searchAdapter->query($queryRequest);
+        $queryResponse = $this->searchEngine->search($queryRequest);
         $ids = [];
         /** @var \Magento\Framework\Search\Document $document */
         foreach ($queryResponse as $document) {
@@ -156,9 +147,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         }
         $this->addIdFilter($ids);
 
-        $this->getSelect()->columns([
-            'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
-        ]);
+        $this->getSelect()->columns(
+            [
+                'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
+            ]
+        );
+
+        return parent::_renderFiltersBefore();
     }
 
     /**
@@ -186,5 +181,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setGeneralDefaultQuery()
     {
         return $this;
+    }
+
+    /**
+     * Retrieve query model object
+     *
+     * @return \Magento\Search\Model\Query
+     */
+    protected function _getQuery()
+    {
+        return $this->queryFactory->get();
     }
 }

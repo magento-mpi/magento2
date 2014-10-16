@@ -909,7 +909,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 
                         // remember default title for later comparisons
                         $defaultTitles[$option['option_id']] = $option['title'];
-                    } elseif ($option['title'] != $customOptions[0]['_custom_option_title']) {
+                    } else {
                         $row['_custom_option_title'] = $option['title'];
                     }
                     $values = $option->getValues();
@@ -924,7 +924,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                             $row['_custom_option_row_sort'] = $firstValue['sort_order'];
 
                             $defaultValueTitles[$firstValue['option_type_id']] = $firstValue['title'];
-                        } elseif ($firstValue['title'] != $customOptions[0]['_custom_option_row_title']) {
+                        } else {
                             $row['_custom_option_row_title'] = $firstValue['title'];
                         }
                     }
@@ -943,7 +943,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                             $row['_custom_option_row_price'] = $value['price'] . $valuePriceType;
                             $row['_custom_option_row_sku'] = $value['sku'];
                             $row['_custom_option_row_sort'] = $value['sort_order'];
-                        } elseif ($value['title'] != $customOptions[0]['_custom_option_row_title']) {
+                        } else {
                             $row['_custom_option_row_title'] = $value['title'];
                         }
                         if ($row) {

@@ -9,38 +9,37 @@
 namespace Magento\Sales\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
  * Class AssertOrderOnHoldSuccessMessage
- * Assert that after putting order on hold success message appears
+ * Assert on hold success message is displayed on order view page
  */
 class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
 {
     /**
-     * Message displayed after put order on hold
+     * Text value to be checked
      */
-    const SUCCESS_MESSAGE = 'You put the order on hold.';
+    const SUCCESS_ON_HOLD_MESSAGE = 'You put the order on hold.';
 
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
-     * Assert that after putting order on hold success message appears
+     * Assert on hold success message is displayed on order index page
      *
-     * @param OrderView $orderView
+     * @param OrderIndex $orderIndex
      * @return void
      */
-    public function processAssert(OrderView $orderView)
+    public function processAssert(OrderIndex $orderIndex)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
-            $orderView->getMessagesBlock()->getSuccessMessages(),
-            'Wrong success message is displayed.'
+            self::SUCCESS_ON_HOLD_MESSAGE,
+            $orderIndex->getMessagesBlock()->getSuccessMessages()
         );
     }
 
@@ -51,6 +50,6 @@ class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order success put on hold message is present.';
+        return 'On hold success message is displayed on order view page.';
     }
 }

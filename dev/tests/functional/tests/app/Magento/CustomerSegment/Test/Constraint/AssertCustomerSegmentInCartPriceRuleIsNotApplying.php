@@ -40,7 +40,7 @@ class AssertCustomerSegmentInCartPriceRuleIsNotApplying extends AbstractAssertCu
         \PHPUnit_Framework_Assert::assertEquals(
             $subTotal,
             $grandTotal,
-            'Catalog Price Rule is not applied on product in shopping cart. Price is not equals.'
+            'Catalog Price Rule is applied on product in shopping cart. Price is not equals.'
         );
     }
 
@@ -51,6 +51,6 @@ class AssertCustomerSegmentInCartPriceRuleIsNotApplying extends AbstractAssertCu
      */
     public function toString()
     {
-        return 'Catalog Price Rule is applied on product in shopping cart.';
+        return 'Catalog Price Rule is not applied on product in shopping cart.';
     }
 }

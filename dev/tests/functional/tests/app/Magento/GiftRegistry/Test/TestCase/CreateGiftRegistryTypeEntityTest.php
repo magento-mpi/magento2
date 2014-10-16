@@ -8,7 +8,7 @@
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
-use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
@@ -47,11 +47,11 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
     protected $giftRegistryNew;
 
     /**
-     * CmsIndex page
+     * CustomerAccountLogout page
      *
-     * @var CmsIndex
+     * @var CustomerAccountLogout
      */
-    protected $cmsIndex;
+    protected $customerAccountLogout;
 
     /**
      * Preparing customer for constraints
@@ -70,14 +70,17 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryNew $giftRegistryNew
-     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
-    public function __inject(GiftRegistryIndex $giftRegistryIndex, GiftRegistryNew $giftRegistryNew, CmsIndex $cmsIndex)
-    {
+    public function __inject(
+        GiftRegistryIndex $giftRegistryIndex,
+        GiftRegistryNew $giftRegistryNew,
+        CustomerAccountLogout $customerAccountLogout
+    ) {
         $this->giftRegistryIndex = $giftRegistryIndex;
         $this->giftRegistryNew = $giftRegistryNew;
-        $this->cmsIndex = $cmsIndex;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -88,6 +91,9 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
      */
     public function test(GiftRegistryType $giftRegistryType)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-28824');
+
+        // Steps
         $this->giftRegistryIndex->open();
         $this->giftRegistryIndex->getPageActions()->addNew();
         $this->giftRegistryNew->getGiftRegistryForm()->fill($giftRegistryType);
@@ -101,7 +107,6 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink('Log Out');
+        $this->customerAccountLogout->open();
     }
 }

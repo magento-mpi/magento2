@@ -173,10 +173,9 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
     protected function search($text)
     {
         $this->resourceFulltext->resetSearchResults();
-        $query = $this->queryFactory->create();
-        $query->setQueryText($text)->prepare();
+        $query = $this->queryFactory->get();
+        $query->unsetData()->setQueryText($text)->prepare();
         $this->resourceFulltext->prepareResult($this->fulltext, $text, $query);
-        $query->getResultCollection();
         $products = [];
         foreach ($query->getResultCollection() as $product) {
             $products[] = $product;
