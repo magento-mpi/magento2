@@ -26,18 +26,20 @@ class DocumentationGenerator
     {
         $content = $this->generateHtmlContent($httpMethod, $resourcePath, $arguments, $response);
         $filePath = $this->generateFileName($resourcePath);
-        if (!is_writable(dirname($filePath))) {
-            throw new \RuntimeException('Directory for documentation generation is not writable.');
+        if (!is_writable(dirname($filePath)) && !is_null($filePath)) {
+            throw new \RuntimeException('Cannot write to documentation directory.');
         }
-        if (file_exists($filePath)) {
-            $fileContent = file_get_contents($filePath);
-            $endHtml = $this->generateHtmlFooter();
-            $fileContent = str_replace($endHtml, '', $fileContent);
-            $content = "{$fileContent}\n{$content}";
-            unlink($filePath);
-            file_put_contents($filePath, $content, FILE_APPEND);
-        } else {
-            file_put_contents($filePath, $content, FILE_APPEND);
+        if (!is_null($filePath)){
+            if (file_exists($filePath)) {
+                $fileContent = file_get_contents($filePath);
+                $endHtml = $this->generateHtmlFooter();
+                $fileContent = str_replace($endHtml, '', $fileContent);
+                $content = "{$fileContent}\n{$content}";
+                unlink($filePath);
+                file_put_contents($filePath, $content, FILE_APPEND);
+            } else {
+                file_put_contents($filePath, $content, FILE_APPEND);
+            }
         }
     }
 
@@ -76,32 +78,38 @@ class DocumentationGenerator
             </table>
 HTML;
         }
-
-        if (empty($response)){
-            $response = 'This call does not accept a response body.';
-            $responseParametersHtml = '';
-        } else {
-            $responseParameters = $this->retrieveParametersAsHtml($response);
-            $response = json_encode($response, JSON_PRETTY_PRINT);
-            $responseParametersHtml = <<<HTML
-            <table class="docutils field-list" frame="void" rules="none"  width="400">
-                <colgroup>
-                    <col width="35%" class="field-name">
-                    <col  width="65%" class="field-body">
-                </colgroup>
-                <tbody valign="top">
-                <tr class="field-odd field">
-                    <th class="field-name">Response attributes:</th>
-                    <td class="field-body">
-                        <ul class="first last simple">
-                            {$responseParameters}
-                        </ul>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-HTML;
+        if (is_array($response)){
+            $responseArrayKeys  = array_keys($response);
+            $responseParameters = "Parameters should be specified manually.";
+            foreach ($responseArrayKeys as $key){
+                if (!is_int($key)){
+                    $responseParameters = '';
+                    break;
+                }
+            }
         }
+        if (empty($responseParameters)){
+            $responseParameters = $this->retrieveParametersAsHtml($response);
+        }
+        $response = json_encode($response, JSON_PRETTY_PRINT);
+        $responseParametersHtml = <<<HTML
+        <table class="docutils field-list" frame="void" rules="none"  width="400">
+            <colgroup>
+                <col width="35%" class="field-name">
+                <col  width="65%" class="field-body">
+            </colgroup>
+            <tbody valign="top">
+            <tr class="field-odd field">
+                <th class="field-name">Response attributes:</th>
+                <td class="field-body">
+                    <ul class="first last simple">
+                        {$responseParameters}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+HTML;
         $resourcePath = urldecode($resourcePath);
         $resource = str_replace('/', '-', preg_replace('#/\w*/V\d+/(.*)#', '${1}', $resourcePath));
         $lowerCaseResource = strtolower($resource);
@@ -123,7 +131,8 @@ HTML;
 HTML;
         $endHtml = $this->generateHtmlFooter();
         $content = "{$beginningHtml}\n{$headingHtml}\n<pre>\n{$arguments}\n</pre>\n{$responseHtml}\n<pre>\n{$response}"
-        . "\n</pre>\n{$requestResponseParametersHtml}\n{$requestParametersHtml}\n{$responseParametersHtml}\n{$endHtml}";
+            . "\n</pre>\n{$requestResponseParametersHtml}\n{$requestParametersHtml}\n{$responseParametersHtml}"
+            . "\n{$endHtml}";
         return $content;
     }
 
@@ -146,7 +155,7 @@ HTML;
                 <th class="field-name">Normal response codes:</th>
                 <td class="field-body">
                     <ul class="first last simple">
-                        <li><strong>SUCCESS_CODE</strong>SUCCESS_DESCRIPTION</li>
+                        <li><strong>SUCCESS_CODE</strong> - SUCCESS_DESCRIPTION</li>
                     </ul>
                 </td>
             </tr>
@@ -162,7 +171,7 @@ HTML;
                 <th class="field-name">Error response codes:</th>
                 <td class="field-body">
                     <ul class="first last simple">
-                        <li><strong>ERROR_CODE</strong>ERROR_DESCRIPTION</li>
+                        <li><strong>ERROR_CODE</strong> - ERROR_DESCRIPTION</li>
                     </ul>
                 </td>
             </tr>
@@ -178,7 +187,7 @@ HTML;
      * Generate a name of file
      *
      * @param $resourcePath
-     * @return string
+     * @return string|null
      * @throws \RuntimeException
      */
     protected function generateFileName()
@@ -187,6 +196,7 @@ HTML;
         $documentationDir = $varDir . '/log/rest-documentation/';
         $debugBackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $pathToFile = $documentationDir;
+        $fileName = null;
         foreach ($debugBackTrace as $traceItem) {
             /** Test invocation trace item is the only item which has 3 elements, other trace items have 5 elements */
             if (count($traceItem) == 3) {
@@ -197,16 +207,16 @@ HTML;
                 break;
             }
         }
-        if (!isset($fileName)) {
-            $fileName = 'unclassified';
-        }
         if (!file_exists($pathToFile)) {
             if (!mkdir($pathToFile, 0755, true)) {
                 throw new \RuntimeException('Unable to create missing directory for REST documentation generation');
             }
         }
-        $filePath = $pathToFile . $fileName . '.html';
-        return $filePath;
+        if (!is_null($fileName)){
+            $filePath = $pathToFile . $fileName . '.html';
+            return $filePath;
+        }
+        return null;
     }
 
     /**
@@ -218,14 +228,14 @@ HTML;
     protected function retrieveParametersAsHtml($parameters)
     {
         $parametersAsHtml = '';
-        if (is_array($parameters) && (!empty($parameters))) {
+        if (is_array($parameters)) {
             foreach (array_keys($parameters) as $parameter) {
                 $parametersAsHtml = $parametersAsHtml . '<li><strong>' . $parameter .
-                    '</strong> (<em>Type should be changed manually!</em>) TBD.</li>' . "\n";
+                    '</strong> (<em>Change type manually!</em>) TBD.</li>' . "\n";
             }
         } else {
             $parametersAsHtml = '<li><strong>' . 'scalar_value' .
-                '</strong> (<em>Type should be changed manually!</em>) TBD.</li>';
+                '</strong> (<em>Change type manually!</em>) TBD.</li>';
         }
         return $parametersAsHtml;
     }
