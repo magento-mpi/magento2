@@ -54,6 +54,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     protected $pageConfigRenderer;
 
+    /**
+     * @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $viewFileSystem;
+
     protected function setUp()
     {
         $this->layout = $this->getMockBuilder('Magento\Framework\View\Layout')
@@ -83,10 +88,15 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->willReturn($this->pageConfig);
 
+        $this->viewFileSystem = $this->getMockBuilder('Magento\Framework\View\FileSystem')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->context = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template\Context', [
             'layout' => $this->layout,
             'request' => $this->request,
+            'viewFileSystem' => $this->viewFileSystem
         ]);
 
 
@@ -96,13 +106,22 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $pageConfigRendererFactory = $this->getMockBuilder('Magento\Framework\View\Page\Config\RendererFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $pageConfigRendererFactory->expects($this->once())
+            ->method('create')
+            ->with(['pageConfig' => $this->pageConfig])
+            ->willReturn($this->pageConfigRenderer);
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->page = $objectManagerHelper->getObject(
             'Magento\Framework\View\Result\Page',
             [
                 'context' => $this->context,
                 'translateInline' => $this->translateInline,
-                'pageConfigRenderer' => $this->pageConfigRenderer,
+                'pageConfigRendererFactory' => $pageConfigRendererFactory,
                 'pageConfigFactory' => $pageConfigFactory,
             ]
         );
@@ -221,69 +240,5 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->willReturnSelf();
 
         $this->page->addPageLayoutHandles($parameters, $defaultHandle);
-    }
-
-    public function testRenderResult()
-    {
-        $pageLayout  = 'page_layout';
-        $fullActionName = 'full_action_aame';
-        $requireJs = 'require_js';
-        $layoutOutput = 'layout_output';
-        $headContent =  'head_content';
-        $attributesHtml =  'attributes_html';
-        $attributesHead =  'attributes_head';
-        $attributesBody =  'attributes_body';
-
-        $response = $this->getMock('Magento\Framework\App\ResponseInterface', ['sendResponse', 'appendBody']);
-        $response->expects($this->once())
-            ->method('appendBody');
-
-        $this->request->expects($this->atLeastOnce())
-            ->method('getFullActionName')
-            ->with('-')
-            ->willReturn($fullActionName);
-
-        $this->pageConfig->expects($this->any())
-            ->method('publicBuild')
-            ->willReturnSelf();
-
-        $this->pageConfig->expects($this->any())
-            ->method('getPageLayout')
-            ->willReturn($pageLayout);
-        $this->pageConfig->expects($this->any())
-            ->method('addBodyClass')
-            ->withConsecutive([$fullActionName], ['page-layout-' . $pageLayout]);
-
-        $requireJsBlock = $this->getMock('Magento\Framework\View\Element\BlockInterface');
-        $requireJsBlock->expects($this->once())
-            ->method('toHtml')
-            ->willReturn($requireJs);
-
-        $this->layout->expects($this->any())
-            ->method('getBlock')
-            ->with('require.js')
-            ->willReturn($requireJsBlock);
-
-        $this->layout->expects($this->once())
-            ->method('getOutput')
-            ->willReturn($layoutOutput);
-
-        $this->translateInline->expects($this->once())
-            ->method('processResponseBody')
-            ->with($layoutOutput);
-
-        $this->pageConfigRenderer->expects($this->any())
-            ->method('renderElementAttributes')
-            ->willReturnMap([
-                [PageConfig::ELEMENT_TYPE_HTML, $attributesHtml],
-                [PageConfig::ELEMENT_TYPE_HEAD, $attributesHead],
-                [PageConfig::ELEMENT_TYPE_BODY, $attributesBody]
-            ]);
-
-        $this->pageConfigRenderer->expects($this->any())
-            ->method('renderHeadContent')
-            ->willReturn($headContent);
-
-        $this->page->renderResult($response);
     }
 }

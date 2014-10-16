@@ -34,15 +34,15 @@ class PageFactoryTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManagerMock
             ]
         );
-        $this->page = $this->objectManagerHelper->getObject(
-            'Magento\Framework\View\Result\Page'
-        );
+        $this->page = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testCreate()
     {
-        $this->objectManagerMock->expects($this->once())->method('create')->with('\Magento\Framework\View\Result\Page')
+        $this->objectManagerMock->expects($this->once())->method('create')->with('Magento\Framework\View\Result\Page')
             ->will($this->returnValue($this->page));
-        $this->assertInstanceOf('Magento\Framework\View\Result\Page', $this->pageFactory->create());
+        $this->assertSame($this->page, $this->pageFactory->create());
     }
 }

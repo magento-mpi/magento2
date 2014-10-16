@@ -71,9 +71,17 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('publicBuild')
             ->willReturnSelf();
 
+        $pageConfigRendererFactory = $this->getMockBuilder('Magento\Framework\View\Page\Config\RendererFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+
         $this->resultPage = $this->getMockBuilder('Magento\Framework\View\Result\Page')
             ->setConstructorArgs(
-                $helper->getConstructArguments('Magento\Framework\View\Result\Page', ['request' => $this->_requestMock])
+                $helper->getConstructArguments('Magento\Framework\View\Result\Page', [
+                'request' => $this->_requestMock,
+                'pageConfigRendererFactory' => $pageConfigRendererFactory
+                ])
             )
             ->setMethods(['getLayout', 'renderResult', 'getConfig'])
             ->getMock();

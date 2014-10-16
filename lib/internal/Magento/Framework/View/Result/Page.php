@@ -43,6 +43,11 @@ class Page extends Layout
     protected $pageConfigRenderer;
 
     /**
+     * @var \Magento\Framework\View\Page\Config\RendererFactory
+     */
+    protected $pageConfigRendererFactory;
+
+    /**
      * @var \Magento\Framework\View\Page\Layout\Reader
      */
     protected $pageLayoutReader;
@@ -89,7 +94,7 @@ class Page extends Layout
         $this->pageConfig = $pageConfigFactory->create();
         $this->pageLayoutReader = $pageLayoutReader;
         $this->viewFileSystem = $context->getViewFileSystem();
-        $this->pageConfigRenderer = $pageConfigRendererFactory->create(['pageConfig' => $this->pageConfig]);
+        $this->pageConfigRendererFactory = $pageConfigRendererFactory;
         $this->template = $template;
         parent::__construct(
             $context,
@@ -98,6 +103,15 @@ class Page extends Layout
             $translateInline,
             $layoutBuilderFactory
         );
+        $this->initPageConfigReader();
+    }
+
+    /**
+     * Initialize page config reader
+     */
+    protected function initPageConfigReader()
+    {
+        $this->pageConfigRenderer = $this->pageConfigRendererFactory->create(['pageConfig' => $this->pageConfig]);
     }
 
     /**
