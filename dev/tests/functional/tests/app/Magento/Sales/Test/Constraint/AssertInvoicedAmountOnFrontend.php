@@ -46,10 +46,10 @@ class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
         $this->loginCustomerAndOpenOrderPage($order->getDataFieldConfig('customer_id')['source']->getCustomer());
         $orderHistory->getOrderHistoryBlock()->openOrderById($order->getId());
         $orderView->getOrderViewBlock()->openLinkByName('Invoices');
-        foreach ($ids['invoiceIds'] as $invoiceId) {
+        foreach ($ids['invoiceIds'] as $key => $invoiceId) {
             \PHPUnit_Framework_Assert::assertEquals(
-                number_format($order->getPrice()['grand_invoice_total'], 2),
-                $invoiceView->getInvoiceBlock()->getItemInvoiceBlock($invoiceId)->getGrandTotal()
+                number_format($order->getPrice()[$key]['grand_invoice_total'], 2),
+                $invoiceView->getInvoiceBlock()->getItemBlock($invoiceId)->getGrandTotal()
             );
         }
     }

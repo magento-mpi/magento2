@@ -10,6 +10,7 @@
  * @license {license_link}
  */
 define('INTEGRATION_TESTSUITE_NAME', 'Magento Integration Tests');
+define('DEFAULT_PROCESS_DURATION', 1200);
 
 $currentOptionName = false;
 $cliOptions = array();
@@ -40,7 +41,12 @@ ini_set('display_errors', 1);
 chdir(__DIR__);
 
 $maxInstances = isset($cliOptions['max-instances']) ? (int)$cliOptions['max-instances'] : 1;
-$maxExecutionTime = isset($cliOptions['max-execution-time']) ? (int)$cliOptions['max-execution-time'] : PHP_INT_MAX;
+if (isset($cliOptions['max-execution-time'])) {
+    $maxExecutionTime = (int)$cliOptions['max-execution-time'];
+} else {
+    $maxExecutionTime = DEFAULT_PROCESS_DURATION;
+}
+
 if (isset($cliOptions['log-junit'])) {
     $junitLog = fopen($cliOptions['log-junit'], 'w');
     if (!$junitLog) {
