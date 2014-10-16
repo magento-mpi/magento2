@@ -32,5 +32,5 @@ use Magento\MultipleWishlist\Test\TestCase\AddProductToMultipleWishListTest;
  */
 class AddGiftCardProductToMultipleWishListTest extends AddProductToMultipleWishListTest
 {
-   //
+    //
 }

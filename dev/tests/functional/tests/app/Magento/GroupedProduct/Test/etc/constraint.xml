@@ -23,4 +23,7 @@
     <assertGroupedPriceOnGroupedProductPage module="Magento_GroupedProduct">
         <severeness>low</severeness>
     </assertGroupedPriceOnGroupedProductPage>
+    <assertGroupedProductInCustomerWishlistOnBackendGrid module="Magento_GroupedProduct">
+        <severeness>low</severeness>
+    </assertGroupedProductInCustomerWishlistOnBackendGrid>
 </constraint>

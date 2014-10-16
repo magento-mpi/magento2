@@ -29,4 +29,7 @@
     <assertBundleProductDetailsInWishlist module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertBundleProductDetailsInWishlist>
+    <assertProductInCustomerWishlistOnBackendGrid module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertProductInCustomerWishlistOnBackendGrid>
 </constraint>

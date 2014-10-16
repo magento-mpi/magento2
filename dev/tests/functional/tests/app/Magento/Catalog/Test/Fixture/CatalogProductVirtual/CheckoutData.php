@@ -27,9 +27,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
     {
         $presets = [
             'order_default' => [
-                'options' => [
-                    'qty' => 1
-                ]
+                'qty' => 1
             ],
             '50_dollar_product' => [
                 'options' => [
@@ -42,8 +40,8 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 ]
             ],
             'order_custom_price' => [
+                'qty' => 3,
                 'checkout_data' => [
-                    'qty' => 3,
                     'use_custom_price' => "Yes",
                     'custom_price' => 100,
                 ],
