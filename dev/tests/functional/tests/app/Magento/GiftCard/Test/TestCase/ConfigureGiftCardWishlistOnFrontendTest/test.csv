@@ -1,2 +1,2 @@
-"products";"constraint";"issue"
+"product";"constraint";"issue"
 "giftCardProduct::default";"assertProductIsPresentInWishlist, assertProductDetailsInWishlist";"MAGETWO-29180"
