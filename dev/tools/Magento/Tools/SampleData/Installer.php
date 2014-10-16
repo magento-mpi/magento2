@@ -56,12 +56,18 @@ class Installer implements \Magento\Framework\AppInterface
     protected $response;
 
     /**
+     * @var Helper\PostInstaller
+     */
+    protected $postInstaller;
+
+    /**
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
      * @param ObjectManager $objectManager
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
+     * @param Helper\PostInstaller $postInstaller
      * @param array $resources
      */
     public function __construct(
@@ -71,6 +77,7 @@ class Installer implements \Magento\Framework\AppInterface
         ObjectManager $objectManager,
         ConfigLoader $configLoader,
         Console\Response $response,
+        Helper\PostInstaller $postInstaller,
         array $resources = []
     ) {
         $this->appState = $appState;
@@ -80,6 +87,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
         $this->response = $response;
+        $this->postInstaller = $postInstaller;
     }
 
     /**
@@ -95,8 +103,10 @@ class Installer implements \Magento\Framework\AppInterface
             if (isset($this->resources[$moduleName])) {
                 $resourceType = $this->resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();
+                $this->postInstaller->addModule($moduleName);
             }
         }
+        $this->postInstaller->run();
 
         $this->response->setCode(0);
         return $this->response;
