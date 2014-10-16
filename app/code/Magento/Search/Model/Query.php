@@ -147,29 +147,6 @@ class Query extends AbstractModel implements QueryInterface
     }
 
     /**
-     * Retrieve collection of search results
-     *
-     * @deplecated
-     * @return AbstractCollection
-     */
-    public function getResultCollection()
-    {
-        $collection = $this->getData('result_collection');
-        if (is_null($collection)) {
-            $collection = $this->getSearchCollection();
-
-            $text = $this->getSynonymFor();
-            if (!$text) {
-                $text = $this->getQueryText();
-            }
-
-            $collection->addSearchFilter($text)->addStoreFilter()->addMinimalPrice()->addTaxPercents();
-            $this->setData('result_collection', $collection);
-        }
-        return $collection;
-    }
-
-    /**
      * Retrieve collection of suggest queries
      *
      * @return QueryCollection

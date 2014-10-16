@@ -176,7 +176,7 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
         $query = $this->queryFactory->get();
         $query->unsetData()->setQueryText($text)->prepare();
         $products = [];
-        foreach ($query->getResultCollection() as $product) {
+        foreach ($this->engine->getResultCollection() as $product) {
             $products[] = $product;
         }
         return $products;

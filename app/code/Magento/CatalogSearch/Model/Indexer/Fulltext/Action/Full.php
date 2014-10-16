@@ -358,7 +358,6 @@ class Full
             $this->saveProductIndexes($storeId, $productIndexes);
         }
 
-        // Reset only product-specific queries and results.
         $this->fulltextResource->resetSearchResults();
     }
 
