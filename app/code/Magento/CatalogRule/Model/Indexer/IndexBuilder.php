@@ -148,6 +148,8 @@ class IndexBuilder
 
     /**
      * Full reindex
+     *
+     * @return void
      */
     public function reindexFull()
     {
@@ -161,6 +163,8 @@ class IndexBuilder
 
     /**
      * Full reindex Template method
+     *
+     * @return void
      */
     protected function doReindexFull()
     {
@@ -385,6 +389,10 @@ class IndexBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws \Exception
+     */
     protected function applyAllRules()
     {
         $write = $this->getWriteAdapter();
@@ -489,26 +497,25 @@ class IndexBuilder
         $query = $select->insertFromSelect($this->getTable('catalogrule_group_website'));
         $write->query($query);
 
-//        $productCondition = $this->conditionFactory->create()->setTable(
-//            $this->getTable('catalogrule_affected_product')
-//        )->setPkFieldName(
-//            'product_id'
-//        );
-//        $this->_eventManager->dispatch(
-//            'catalogrule_after_apply',
-//            array('product' => $product, 'product_condition' => $productCondition)
-//        );
-//        $write->delete($this->getTable('catalogrule_affected_product'));
-
         return $this;
     }
 
+    /**
+     * Clean rule price index
+     *
+     * @return $this
+     */
     protected function deleteOldData()
     {
         $this->getWriteAdapter()->delete($this->getTable('catalogrule_product_price'));
         return $this;
     }
 
+    /**
+     * @param array $ruleData
+     * @param null $productData
+     * @return float
+     */
     protected function calcRuleProductPrice($ruleData, $productData = null)
     {
         if ($productData !== null && isset($productData['rule_price'])) {
@@ -537,6 +544,11 @@ class IndexBuilder
         return $this->priceCurrency->round($productPrice);
     }
 
+    /**
+     * @param int $websiteId
+     * @return \Zend\Db\Adapter\Driver\StatementInterface|\Zend_Db_Statement_Interface
+     * @throws \Magento\Eav\Exception
+     */
     protected function getRuleProductsStmt($websiteId)
     {
         $read = $this->getReadAdapter();
@@ -603,6 +615,11 @@ class IndexBuilder
         return $read->query($select);
     }
 
+    /**
+     * @param array $arrData
+     * @return $this
+     * @throws \Exception
+     */
     protected function saveRuleProductPrices($arrData)
     {
         if (empty($arrData)) {
@@ -663,6 +680,7 @@ class IndexBuilder
 
     /**
      * @param \Exception $e
+     * @return void
      */
     protected function logException($e)
     {

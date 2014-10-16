@@ -183,6 +183,29 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     }
 
     /**
+     * @param \Magento\Framework\Model\AbstractModel $rule
+     * @return $this
+     */
+    protected function _afterDelete(\Magento\Framework\Model\AbstractModel $rule)
+    {
+        $write = $this->_getWriteAdapter();
+        $write->delete(
+            $this->getTable('catalogrule_product'),
+            array('rule_id=?' => $rule->getId())
+        );
+        $write->delete(
+            $this->getTable('catalogrule_customer_group'),
+            array('rule_id=?' => $rule->getId())
+        );
+        $write->delete(
+            $this->getTable('catalogrule_group_website'),
+            array('rule_id=?' => $rule->getId())
+        );
+        return parent::_afterDelete($rule);
+    }
+
+
+    /**
      * Update products which are matched for rule
      *
      * @param ModelRule $rule

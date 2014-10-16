@@ -51,8 +51,8 @@ class Job extends \Magento\Framework\Object
     public function applyAll()
     {
         try {
-            $this->ruleProcessor->reindexAll();
-            $this->setSuccess(__('The rules have been applied.'));
+            $this->ruleProcessor->markIndexerAsInvalid();
+            $this->setSuccess(__('The rules will be applied at soon.'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->setError($e->getMessage());
         }

@@ -24,6 +24,11 @@ class PriceIndexer
         $this->priceProcessor = $priceProcessor;
     }
 
+    /**
+     * Invalidate price indexer
+     *
+     * @return void
+     */
     public function afterReindexFull()
     {
         $this->priceProcessor->markIndexerAsInvalid();
