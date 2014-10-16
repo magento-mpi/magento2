@@ -41,12 +41,12 @@ $modulesInstalled = array();
 $modulesRemove = array();
 
 try {
-    $magentoDirectory = __DIR__ ;
-    $parts = explode('/', $magentoDirectory);
+    $magentoCodeDirectory = __DIR__ ;
+    $parts = explode('/', $magentoCodeDirectory);
     array_pop($parts);
     array_pop($parts);
-    $magentoDirectory = implode('/', $parts);
-    $magentoDirectory = $magentoDirectory . '/app/code/Magento/';
+    $magentoCodeDirectory = implode('/', $parts);
+    $magentoCodeDirectory = $magentoCodeDirectory . '/app/code/Magento/';
 
     // list-modules and list-file arguments
     if ((isset($opt['list-modules']) == false) && (isset($opt['list-file']) == false)) {
@@ -87,7 +87,7 @@ try {
     }
 
     // Get modules currently installed
-    $modulesInstalled = array_diff(scandir($magentoDirectory), array('..', '.'));
+    $modulesInstalled = array_diff(scandir($magentoCodeDirectory), array('..', '.'));
     if (!$modulesInstalled) {
         throw new Exception("Problem finding Magento module directory.");
     }
@@ -97,10 +97,10 @@ try {
 
     // Removing un-needed modules
     foreach ($modulesRemove as $module) {
-        $directory = $magentoDirectory . $module;
+        $directory = $magentoCodeDirectory . $module;
         $result = deleteDirectory($directory);
         if (!$result) {
-            throw new Exception("The file or directory '{$directory} is marked for deletion, but it doesn't exist or
+            throw new Exception("The file or directory '{$directory}' is marked for deletion, but it doesn't exist or
                 could not be deleted.");
         }
     }
