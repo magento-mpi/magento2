@@ -712,7 +712,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         $this->build();
         $name = $this->structure->createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
-        $options['attributes'][Layout\Element::CONTAINER_OPT_LABEL] = $label;
+        $options[Layout\Element::CONTAINER_OPT_LABEL] = $label;
         /** @var \Magento\Framework\View\Layout\Generator\Container $containerGenerator */
         $containerGenerator = $this->generatorPool->getGenerator(Layout\Generator\Container::TYPE);
         $containerGenerator->generateContainer($this->structure, $name, $options);

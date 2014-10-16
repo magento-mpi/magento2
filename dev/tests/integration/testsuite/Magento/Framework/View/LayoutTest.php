@@ -22,11 +22,16 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected $_layout;
 
+    /**
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
+
     protected function setUp()
     {
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\View\Layout'
-        );
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->layoutFactory = $objectManager->get('Magento\Framework\View\LayoutFactory');
+        $this->_layout = $this->layoutFactory->create();
     }
 
     public function testConstructorStructure()
