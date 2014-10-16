@@ -114,7 +114,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             \Magento\Persistent\Model\Session::COOKIE_NAME,
             $cookieMetadataMock
         );
-        $this->session->delete();
+        $this->session->afterDeleteCommit();
     }
 
     public function testSetPersistentCookie()

@@ -538,9 +538,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($date));
 
         $this->resource->expects($this->once())
-            ->method('addCommitCallback')
-            ->will($this->returnSelf());
-        $this->resource->expects($this->once())
             ->method('save')
             ->with($this->history);
 

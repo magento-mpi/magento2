@@ -107,7 +107,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             [
                 '__wakeup', 'getId', 'getStore', 'getGroup', 'getName', 'setStoreName', 'setTotalItemCount', 'setData',
                 'getCustomerId', 'getCustomer', 'setCustomerId', 'getItemsCollection', 'getPaymentsCollection',
-                'getStatusHistoryCollection', 'getRelatedObjects', 'save'
+                'getStatusHistoryCollection', 'getRelatedObjects', 'save', 'hasDataChanges', 'validateBeforeSave',
+                'beforeSave', 'afterSave', 'afterCommitCallback'
             ],
             [],
             '',
@@ -194,6 +195,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->orderMock->expects($this->once())
             ->method('getRelatedObjects')
             ->willReturn([]);
+        $this->orderMock->expects($this->once())->method('hasDataChanges')->will($this->returnValue(true));
         $this->resource->save($this->orderMock);
     }
 }
