@@ -14,7 +14,8 @@ use Magento\Eav\Exception;
  *
  * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements \Magento\Framework\Object\IdentityInterface
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+    implements \Magento\Framework\Object\IdentityInterface, \Magento\Eav\Api\Data\AttributeInterface
 {
     /**
      * Attribute code max length
@@ -449,5 +450,146 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     public function getIdentities()
     {
         return array(self::CACHE_TAG . '_' . $this->getId());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeId()
+    {
+        return $this->getData('attribute_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isUnique()
+    {
+        return $this->getData('is_unique');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScope()
+    {
+        return $this->isScopeGlobal() ? 'global' : ($this->isScopeWebsite() ? 'website' : 'store');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrontendClass()
+    {
+        return $this->getData('frontend_class');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeCode()
+    {
+        return $this->getData('attribute_code');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrontendInput()
+    {
+        return $this->getData('frontend_input');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRequired()
+    {
+        return $this->getData('is_required');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptions()
+    {
+        return $this->usesSource() ? $this->getSource()->getAllOptions() : array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isUserDefined()
+    {
+        return $this->getData('is_user_defined');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFrontendLabel()
+    {
+        return $this->getData('frontend_label');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStoresFrontendLabel()
+    {
+        $data = [];
+        $data[0] = $this->getFrontendLabel();
+        if (is_array($this->getStoreLabels())) {
+            foreach ($this->getStoreLabels() as $storeId => $label) {
+                $data[$storeId] = $label;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNote()
+    {
+        return $this->getData('note');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBackendType()
+    {
+        return $this->getData('backend_type');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBackendModel()
+    {
+        return $this->getData('backend_model');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceModel()
+    {
+        return $this->getData('source_model');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getValidationRules()
+    {
+        $rules = $this->getData('validate_rules');
+        if (is_array($rules)) {
+            return $rules;
+        } else if (!empty($rules)) {
+            return unserialize($rules);
+        }
+        return array();
     }
 }

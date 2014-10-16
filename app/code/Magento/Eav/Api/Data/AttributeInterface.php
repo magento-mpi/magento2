@@ -127,5 +127,5 @@ interface AttributeInterface
      *
      * @return \Magento\Eav\Api\Data\AttributeValidationRuleInterface[]|null
      */
-    public function getValidateRules();
+    public function getValidationRules();
 }
