@@ -16,6 +16,8 @@ use Magento\Framework;
  */
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
+    const CLASS_NAME = 'Magento\Framework\View\Layout\Builder';
+
     /**
      * @covers \Magento\Framework\View\Layout\Builder::build()
      */
@@ -34,7 +36,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         /** @var Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject */
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            ['setBuilder', 'getUpdate', 'generateXml', 'generateElements'],
+            $this->getLayoutMockMethods(),
             [],
             '',
             false
@@ -47,20 +49,27 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $prefix = 'controller_action_layout_';
         /** @var Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject $eventManager */
         $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
-        $eventManager->expects($this->at(0))->method('dispatch')->with($prefix. 'load_before', $data);
+        $eventManager->expects($this->at(0))->method('dispatch')->with($prefix . 'load_before', $data);
         $eventManager->expects($this->at(1))->method('dispatch')->with($prefix . 'generate_blocks_before', $data);
         $eventManager->expects($this->at(2))->method('dispatch')->with($prefix . 'generate_blocks_after', $data);
-
-        /** @var Framework\View\Layout\Builder $builder */
-        $builder = (new \Magento\TestFramework\Helper\ObjectManager($this))
-            ->getObject(
-                'Magento\Framework\View\Layout\Builder',
-                [
-                    'eventManager' => $eventManager,
-                    'request' => $request,
-                    'layout' => $layout
-                ]
-            );
+        $builder = $this->getBuilder(['eventManager' => $eventManager, 'request' => $request, 'layout' => $layout]);
         $builder->build();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getLayoutMockMethods()
+    {
+        return ['setBuilder', 'getUpdate', 'generateXml', 'generateElements'];
+    }
+
+    /**
+     * @param array $arguments
+     * @return Framework\View\Layout\Builder
+     */
+    protected function getBuilder($arguments)
+    {
+        return (new \Magento\TestFramework\Helper\ObjectManager($this))->getObject(static::CLASS_NAME, $arguments);
     }
 } 
