@@ -30,6 +30,7 @@ abstract class AbstractIndexer implements IndexerActionInterface, MviewActionInt
      * Execute materialization on ids entities
      *
      * @param int[] $ids
+     * @return void
      */
     public function execute($ids)
     {
@@ -38,6 +39,8 @@ abstract class AbstractIndexer implements IndexerActionInterface, MviewActionInt
 
     /**
      * Execute full indexation
+     *
+     * @return void
      */
     public function executeFull()
     {
@@ -49,6 +52,7 @@ abstract class AbstractIndexer implements IndexerActionInterface, MviewActionInt
      *
      * @param int[] $ids
      * @throws CatalogRuleException
+     * @return void
      */
     public function executeList(array $ids)
     {
@@ -62,6 +66,7 @@ abstract class AbstractIndexer implements IndexerActionInterface, MviewActionInt
      * Execute partial indexation by ID list. Template method
      *
      * @param int[] $ids
+     * @return void
      */
     abstract protected function doExecuteList($ids);
 
@@ -70,6 +75,7 @@ abstract class AbstractIndexer implements IndexerActionInterface, MviewActionInt
      *
      * @param int $id
      * @throws CatalogRuleException
+     * @return void
      */
     public function executeRow($id)
     {
@@ -84,6 +90,7 @@ abstract class AbstractIndexer implements IndexerActionInterface, MviewActionInt
      *
      * @param int $id
      * @throws \Magento\CatalogRule\CatalogRuleException
+     * @return void
      */
     abstract protected function doExecuteRow($id);
 }
