@@ -22,9 +22,10 @@ use Magento\Checkout\Test\Constraint\AssertOrderSuccessPlacedMessage;
 
 /**
  * Class AssertTermsOnCheckout
- * Check that checkbox is present on the last checkout step - Order Review and check order successfully placed message.
- * Check that Place order without click on checkbox Terms and Conditions on order review step was not order
- * successfully placed.
+ * Check that checkbox is present on the last checkout step - Order Review. Check that after Place order without click
+ * on checkbox Terms and Conditions was not order successfully placed. Check that after click on checkbox Terms and
+ * Conditions order successfully placed message.
+ *
  */
 class AssertTermsOnCheckout extends AbstractConstraint
 {
@@ -46,29 +47,33 @@ class AssertTermsOnCheckout extends AbstractConstraint
      *
      * @param FixtureFactory $fixtureFactory
      * @param ObjectManager $objectManager
-     * @param string $products
+     * @param string $product
      * @param Browser $browser
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
      * @param CheckoutOnepageSuccess $checkoutOnepageSuccess
      * @param AssertOrderSuccessPlacedMessage $assertOrderSuccessPlacedMessage
+     * @param array $shipping
+     * @param array $payment
      * @return void
      */
     public function processAssert(
         FixtureFactory $fixtureFactory,
         ObjectManager $objectManager,
-        $products,
+        $product,
         Browser $browser,
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
         CheckoutOnepageSuccess $checkoutOnepageSuccess,
-        AssertOrderSuccessPlacedMessage $assertOrderSuccessPlacedMessage
+        AssertOrderSuccessPlacedMessage $assertOrderSuccessPlacedMessage,
+        $shipping,
+        $payment
     ) {
         $products = $objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
-            ['products' => $products]
+            ['products' => $product]
         );
         $product = $products->run();
 
@@ -81,18 +86,20 @@ class AssertTermsOnCheckout extends AbstractConstraint
         $checkoutOnepage->getLoginBlock()->clickContinue();
         $checkoutOnepage->getBillingBlock()->fill($billingAddress);
         $checkoutOnepage->getBillingBlock()->clickContinue();
+        $checkoutOnepage->getShippingMethodBlock()->selectShippingMethod($shipping);
         $checkoutOnepage->getShippingMethodBlock()->clickContinue();
+        $checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
-        $checkoutOnepage->getRewardReviewBlock()->placeOrder();
+        $checkoutOnepage->getReviewBlock()->placeOrder();
 
         \PHPUnit_Framework_Assert::assertEquals(
             self::NOTIFICATION_MESSAGE,
-            $checkoutOnepage->getRewardReviewBlock()->getNotificationMassage(),
-            'Wrong notification message is displayed.'
+            $checkoutOnepage->getAgreementReview()->getNotificationMassage(),
+            'Order was not successfully placed and wrong notification message is displayed.'
         );
 
-        $checkoutOnepage->getRewardReviewBlock()->setAgreement('Yes');
-        $checkoutOnepage->getRewardReviewBlock()->placeOrder();
+        $checkoutOnepage->getAgreementReview()->setAgreement('Yes');
+        $checkoutOnepage->getReviewBlock()->placeOrder();
         $assertOrderSuccessPlacedMessage->processAssert($checkoutOnepageSuccess);
     }
 
@@ -103,6 +110,6 @@ class AssertTermsOnCheckout extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order successfully placed message.';
+        return 'Order was placed with checkout agreement successfully.';
     }
 }

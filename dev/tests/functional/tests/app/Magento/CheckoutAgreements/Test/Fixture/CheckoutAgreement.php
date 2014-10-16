@@ -26,6 +26,12 @@ class CheckoutAgreement extends InjectableFixture
     protected $handlerInterface = 'Magento\CheckoutAgreements\Test\Handler\Term\TermInterface';
 
     protected $defaultDataSet = [
+        'name' => 'DefaultName%isolation%',
+        'is_active' => 'Enabled',
+        'is_html' => 'Text',
+        'store_ids' => 'Main Website/Main Website Store/Default Store View',
+        'checkbox_text' => 'test_checkbox%isolation%',
+        'content' => 'TestMessage%isolation%',
     ];
 
     protected $agreement_id = [

@@ -8,9 +8,9 @@
  */
 -->
 <constraint>
-    <assertTermsAndConditionsSuccessSaveMessage module="Magento_CheckoutAgreements">
+    <assertTermsSuccessSaveMessage module="Magento_CheckoutAgreements">
         <severeness>low</severeness>
-    </assertTermsAndConditionsSuccessSaveMessage>
+    </assertTermsSuccessSaveMessage>
     <assertTermsOnCheckout module="Magento_CheckoutAgreements">
         <severeness>low</severeness>
     </assertTermsOnCheckout>

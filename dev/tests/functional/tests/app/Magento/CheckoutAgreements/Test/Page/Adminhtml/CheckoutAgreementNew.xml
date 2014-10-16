@@ -14,10 +14,10 @@
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </pageActionsBlock>
-        <AgreementsForm>
+        <agreementsForm>
             <class>Magento\CheckoutAgreements\Test\Block\Adminhtml\Block\Agreement\Edit\AgreementsForm</class>
             <locator>#edit_form</locator>
             <strategy>css selector</strategy>
-        </AgreementsForm>
+        </agreementsForm>
     </blocks>
 </page>

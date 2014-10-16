@@ -8,11 +8,10 @@
 
 namespace Magento\CheckoutAgreements\Test\TestCase;
 
-use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
-use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
-use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
 use Mtf\TestCase\Injectable;
-use Mtf\ObjectManager;
+use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
+use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
+use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
  * Test creation for CreateTermEntity
@@ -29,28 +28,33 @@ use Mtf\ObjectManager;
  * 4. Save
  * 5. Perform all assertions
  *
- * @group Terms and Conditions (CS)
+ * @group Terms_and_Conditions_(CS)
  * @ZephyrId MAGETWO-29586
  */
 class CreateTermEntityTest extends Injectable
 {
     /**
-     * Set up configuration and delete all terms on backend
+     * Delete all terms on backend
      *
-     * @param ObjectManager $objectManager
      * @return void
      */
-    public function __inject(ObjectManager $objectManager)
+    public function __prepare()
     {
-        $setConfigStep = $objectManager->create(
+        $this->objectManager->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep')->run();
+    }
+
+    /**
+     * Set up configuration
+     *
+     * @return void
+     */
+    public function __inject()
+    {
+        $setConfigStep = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition']
         );
         $setConfigStep->run();
-
-        $deleteTerms = $this->objectManager
-            ->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep');
-        $deleteTerms->run();
     }
 
     /**
@@ -58,23 +62,23 @@ class CreateTermEntityTest extends Injectable
      *
      * @param CheckoutAgreementNew $agreementNew
      * @param CheckoutAgreementIndex $agreementIndex
-     * @param CheckoutAgreement $conditions
+     * @param CheckoutAgreement $agreement
      * @return void
      */
     public function test(
         CheckoutAgreementNew $agreementNew,
         CheckoutAgreementIndex $agreementIndex,
-        CheckoutAgreement $conditions
+        CheckoutAgreement $agreement
     ) {
         // Steps
         $agreementIndex->open();
         $agreementIndex->getPageActionsBlock()->addNew();
-        $agreementNew->getAgreementsForm()->fill($conditions);
+        $agreementNew->getAgreementsForm()->fill($agreement);
         $agreementNew->getPageActionsBlock()->save();
     }
 
     /**
-     * Disable enabled config after test
+     * Disable enabled config after test and delete all terms on backend
      *
      * @return void
      */
@@ -85,5 +89,7 @@ class CreateTermEntityTest extends Injectable
             ['configData' => 'checkout_term_condition', 'rollback' => true]
         );
         $setConfigStep->run();
+
+        $this->objectManager->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep')->run();
     }
 }

@@ -37,27 +37,31 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
      *
      * @param FixtureFactory $fixtureFactory
      * @param ObjectManager $objectManager
-     * @param string $products
+     * @param string $product
      * @param Browser $browser
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
-     * @param CheckoutAgreement $conditions
+     * @param CheckoutAgreement $agreement
+     * @param array $shipping
+     * @param array $payment
      * @return void
      */
     public function processAssert(
         FixtureFactory $fixtureFactory,
         ObjectManager $objectManager,
-        $products,
+        $product,
         Browser $browser,
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
-        CheckoutAgreement $conditions
+        CheckoutAgreement $agreement,
+        $shipping,
+        $payment
     ) {
         $products = $objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
-            ['products' => $products]
+            ['products' => $product]
         );
         $product = $products->run();
 
@@ -70,12 +74,14 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
         $checkoutOnepage->getLoginBlock()->clickContinue();
         $checkoutOnepage->getBillingBlock()->fill($billingAddress);
         $checkoutOnepage->getBillingBlock()->clickContinue();
+        $checkoutOnepage->getShippingMethodBlock()->selectShippingMethod($shipping);
         $checkoutOnepage->getShippingMethodBlock()->clickContinue();
+        $checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
 
         \PHPUnit_Framework_Assert::assertFalse(
-            $checkoutOnepage->getRewardReviewBlock()->checkAgreement(),
-            'Checkout Agreement \'' . $conditions->getName() . '\' is not present in the Place order tab.'
+            $checkoutOnepage->getAgreementReview()->checkAgreement($agreement),
+            'Checkout Agreement \'' . $agreement->getName() . '\' is not present in the Place order step.'
         );
     }
 
@@ -86,6 +92,6 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Checkout Agreement is absent in the Place order tab.';
+        return 'Checkout Agreement is absent in the Place order step.';
     }
 }
