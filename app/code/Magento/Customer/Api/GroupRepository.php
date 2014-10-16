@@ -44,7 +44,7 @@ interface GroupRepository
      * be filtered by tax class.
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Customer\Api\Data\Group[]
+     * @return \Magento\Customer\Api\Data\GroupSearchResults
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);

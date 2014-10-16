@@ -35,7 +35,7 @@ interface AddressRepository
      * Retrieve customers addresses matching the specified criteria.
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Customer\Api\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressSearchResults
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);

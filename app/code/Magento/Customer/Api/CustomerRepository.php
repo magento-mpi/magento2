@@ -39,7 +39,7 @@ interface CustomerRepository
      * Retrieve customers which match a specified criteria.
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Customer\Api\Data\Customer[]
+     * @return \Magento\Customer\Api\Data\CustomerSearchResults
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
