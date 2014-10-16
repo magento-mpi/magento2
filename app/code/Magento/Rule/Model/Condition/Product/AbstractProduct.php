@@ -597,7 +597,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      */
     public function getMappedSqlField()
     {
-        if ($this->isEavAttribute()) {
+        if (!$this->isAttributeSetOrCategory()) {
             $mappedSqlField = $this->getEavAttributeTableAlias() . '.value';
         } elseif ($this->getAttribute() == 'category_ids') {
             $mappedSqlField = 'e.entity_id';
@@ -702,7 +702,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     {
         $tablesToJoin = parent::getTablesToJoin();
 
-        if ($this->isEavAttribute()) {
+        if (!$this->isAttributeSetOrCategory()) {
             $attribute = $this->getAttributeObject();
             $attributeTableAlias = $this->getEavAttributeTableAlias();
 
@@ -722,13 +722,13 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     }
 
     /**
-     * Check is eav attribute
+     * Check is attribute set or category
      *
      * @return bool
      */
-    protected function isEavAttribute()
+    protected function isAttributeSetOrCategory()
     {
-        return !in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']);
+        return in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']);
     }
 
     /**
