@@ -44,17 +44,17 @@ class AssertArchiveShipmentItems extends AssertShipmentItems
      * @param SalesShipmentView $salesShipmentView
      * @param OrderInjectable $order
      * @param array $ids
-     * @param array|null $shipment [optional]
+     * @param array|null $data [optional]
      * @return void
      */
     public function processAssert(
         SalesShipmentView $salesShipmentView,
         OrderInjectable $order,
         array $ids,
-        array $shipment = null
+        array $data = null
     ) {
         $this->shipmentPage->open();
-        $this->assert($order, $ids, $salesShipmentView, $shipment);
+        $this->assert($order, $ids, $salesShipmentView, $data);
     }
 
     /**
