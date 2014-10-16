@@ -43,7 +43,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->_routerListMock = $this->getMock(
             'Magento\Framework\App\Route\ConfigInterface\Proxy',
-            array('getRouteFrontName', 'getRouteByFrontName'),
+            array('getRouteFrontName', 'getRouteByFrontName', '__wakeup'),
             array(),
             '',
             false
