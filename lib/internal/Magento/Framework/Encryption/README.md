@@ -1,4 +1,1 @@
-The Encryption library provides following functionalities with cryptographic algorithms:
- * Hashing passwords
- * Encrypting/decrypting data
- * URLs encoding
+The Encryption library provides functionalities such as hashing passwords, encrypting/decrypting data, URLs encoding, using cryptographic algorithms.
