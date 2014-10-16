@@ -148,10 +148,7 @@ class FilePermissions
     protected function isWritable($code)
     {
         $directory = $this->filesystem->getDirectoryWrite($code);
-        if (!$this->isReadableDirectory($directory) || !$directory->isWritable()) {
-            return false;
-        }
-        return true;
+        return $this->isReadableDirectory($directory) && $directory->isWritable();
     }
 
     /**
@@ -163,16 +160,13 @@ class FilePermissions
     protected function isNonWritable($code)
     {
         $directory = $this->filesystem->getDirectoryWrite($code);
-        if (!$this->isReadableDirectory($directory) || $directory->isWritable()) {
-            return false;
-        }
-        return true;
+        return $this->isReadableDirectory($directory) && !$directory->isWritable();
     }
 
     /**
      * Checks if directory exists and is readable
      *
-     * @param $directory
+     * @param \Magento\Framework\Filesystem\Directory\WriteInterface $directory
      * @return bool
      */
     protected function isReadableDirectory($directory)
