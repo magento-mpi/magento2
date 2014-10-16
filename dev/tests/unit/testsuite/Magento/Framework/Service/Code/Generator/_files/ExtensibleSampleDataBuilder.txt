@@ -11,6 +11,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Service\Data\Extens
     public function setItems($items)
     {
         $this->data['items'] = $items;
+        return $this;
     }
 
     /**
@@ -19,6 +20,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Service\Data\Extens
     public function setName($name)
     {
         $this->data['name'] = $name;
+        return $this;
     }
 
     /**
@@ -27,6 +29,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Service\Data\Extens
     public function setCount($count)
     {
         $this->data['count'] = $count;
+        return $this;
     }
 
     /**
@@ -35,6 +38,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Service\Data\Extens
     public function setCreatedAt($createdAt)
     {
         $this->data['created_at'] = $createdAt;
+        return $this;
     }
 
     /**
