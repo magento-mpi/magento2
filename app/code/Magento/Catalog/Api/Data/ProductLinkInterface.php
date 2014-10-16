@@ -8,10 +8,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-/**
- * Created from @see \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink
- */
-interface ProductLinkInterface
+interface ProductLinkInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
 {
     /**
      * Get product SKU
