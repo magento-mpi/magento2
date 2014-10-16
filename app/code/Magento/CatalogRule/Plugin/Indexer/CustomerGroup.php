@@ -25,6 +25,7 @@ class CustomerGroup
     }
 
     /**
+     * @param \Magento\Customer\Model\Group $group
      * @param \Magento\Customer\Model\Group $result
      * @return \Magento\Customer\Model\Group
      *

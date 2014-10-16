@@ -26,7 +26,7 @@ class Website
 
     /**
      * @param \Magento\Store\Model\Website $website
-     * @return \Magento\Store\Model\Website
+     * @return \Magento\Store\Model\Website $result
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

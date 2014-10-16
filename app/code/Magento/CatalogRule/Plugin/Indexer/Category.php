@@ -26,13 +26,14 @@ class Category
     }
 
     /**
-     * @param \Magento\Catalog\Model\Category $category
+     * @param \Magento\Catalog\Model\Category $subject
+     * @param \Magento\Catalog\Model\Category $result
      * @return \Magento\Catalog\Model\Category
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSave(
-        \Magento\Catalog\Model\Category $category,
+        \Magento\Catalog\Model\Category $subject,
         \Magento\Catalog\Model\Category $result
     ) {
         /** @var \Magento\Catalog\Model\Category $result */
@@ -44,13 +45,16 @@ class Category
     }
 
     /**
+     * @param \Magento\Catalog\Model\Category $subject
      * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Category
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDelete(\Magento\Catalog\Model\Category $category)
-    {
+    public function afterDelete(
+        \Magento\Catalog\Model\Category $subject,
+        \Magento\Catalog\Model\Category $category
+    ) {
         $this->productRuleProcessor->markIndexerAsInvalid();
         return $category;
     }

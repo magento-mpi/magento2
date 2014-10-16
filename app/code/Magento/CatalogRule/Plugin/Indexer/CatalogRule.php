@@ -24,20 +24,6 @@ class CatalogRule
     }
 
     /**
-     * Invalidate price indexer
-     *
-     * @param \Magento\CatalogRule\Model\Rule $subject
-     *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function afterApplyAll(\Magento\CatalogRule\Model\Rule $subject)
-    {
-        $this->processor->markIndexerAsInvalid();
-    }
-
-    /**
      * Reindex price for affected product
      *
      * @param \Magento\CatalogRule\Model\Rule $subject

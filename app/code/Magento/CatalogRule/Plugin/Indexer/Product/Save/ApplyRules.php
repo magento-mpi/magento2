@@ -28,11 +28,16 @@ class ApplyRules
     /**
      * Apply catalog rules after product save
      *
+     * @param Product $subject
      * @param Product $product
      * @return Product
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterSave(Product $product)
-    {
+    public function afterSave(
+        Product $subject,
+        Product $product
+    ) {
         if (!$product->getIsMassupdate()) {
             $this->productRuleProcessor->reindexRow($product->getId());
         }

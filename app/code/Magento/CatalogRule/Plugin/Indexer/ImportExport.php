@@ -28,6 +28,7 @@ class ImportExport
     /**
      * Invalidate catalog price rule indexer
      *
+     * @param Import $import
      * @param bool $result
      * @return bool
      *

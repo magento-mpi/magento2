@@ -27,11 +27,12 @@ class PriceIndexer
     /**
      * Invalidate price indexer
      *
+     * @param \Magento\CatalogRule\Model\Indexer\IndexBuilder $subject
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterReindexFull(\Magento\CatalogRule\Model\Indexer\IndexBuilder $indexBuilder)
+    public function afterReindexFull(\Magento\CatalogRule\Model\Indexer\IndexBuilder $subject)
     {
         $this->priceProcessor->markIndexerAsInvalid();
     }
