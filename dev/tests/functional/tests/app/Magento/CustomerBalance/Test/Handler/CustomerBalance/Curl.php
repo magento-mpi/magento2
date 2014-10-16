@@ -34,7 +34,6 @@ class Curl extends AbstractCurl implements CustomerBalanceInterface
         $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'customer/index/save/active_tab/customerbalance/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
@@ -58,15 +57,11 @@ class Curl extends AbstractCurl implements CustomerBalanceInterface
         $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
         /** @var \Magento\Store\Test\Fixture\Website $website */
         $website = $fixture->getDataFieldConfig('website_id')['source']->getWebsite();
-        /** @var \Magento\Customer\Test\Fixture\CustomerGroupInjectable $customerGroup */
         /** @var \Magento\Customer\Test\Fixture\CustomerInjectable $customer */
-        $customerGroup = $customer->getDataFieldConfig('group_id')['source']->getCustomerGroup();
-        /** @var CustomerInjectable $customer */
-        $data = $customer->getData();
         $data['customer_id'] = $customer->getId();
-        $data['group_id'] = $customerGroup->getCustomerGroupId();
         $data['customerbalance']['amount_delta'] = $fixture->getBalanceDelta();
         $data['customerbalance']['website_id'] = $website->getWebsiteId();
+        $data['customerbalance']['comment'] = $fixture->getAdditionalInfo();
 
         return $data;
     }

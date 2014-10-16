@@ -37,6 +37,18 @@ class OrderInjectable extends AbstractRepository
             'entity_id' => ['products' => 'catalogProductSimple::default']
         ];
 
+        $this->_data['two_simple_product'] = [
+            'customer_id' => ['dataSet' => 'default'],
+            'base_currency_code' => false,
+            'store_id' => ['dataSet' => 'default_store_view'],
+            'order_currency_code' => 'USD',
+            'shipping_method' => 'flatrate_flatrate',
+            'payment_auth_expiration' => ['method' => 'checkmo'],
+            'payment_authorization_amount' => ['method' => 'free'],
+            'billing_address_id' => ['dataSet' => 'US_address'],
+            'entity_id' => ['products' => 'catalogProductSimple::default,catalogProductSimple::default']
+        ];
+
         $this->_data['virtual_product'] = [
             'customer_id' => ['dataSet' => 'default'],
             'base_currency_code' => false,
