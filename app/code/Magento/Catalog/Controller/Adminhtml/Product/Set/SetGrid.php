@@ -17,14 +17,15 @@ class SetGrid extends \Magento\Catalog\Controller\Adminhtml\Product\Set
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Catalog\Controller\Adminhtml\Product\Builder $productBuilder
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Catalog\Controller\Adminhtml\Product\Builder $productBuilder,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
     ) {
-        parent::__construct($context, $productBuilder);
+        parent::__construct($context, $coreRegistry);
         $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
