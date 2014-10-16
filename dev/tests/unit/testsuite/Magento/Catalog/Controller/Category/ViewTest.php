@@ -140,7 +140,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->view = $this->getMock('Magento\Framework\App\ViewInterface');
         $this->view->expects($this->any())->method('getLayout')->will($this->returnValue($this->layout));
-        $this->view->expects($this->any())->method('getPage')->will($this->returnValue($this->page));
 
         $this->resultFactory = $this->getMock('Magento\Framework\Controller\ResultFactory', [], [], '', false);
         $this->resultFactory->expects($this->any())->method('create')->will($this->returnValue($this->page));
@@ -165,11 +164,20 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->catalogDesign = $this->getMock('Magento\Catalog\Model\Design', [], [], '', false);
         $this->layoutHelper = $this->getMock('Magento\Theme\Helper\Layout', [], [], '', false);
 
+        $resultPageFactory = $this->getMockBuilder('Magento\Framework\View\Result\PageFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $resultPageFactory->expects($this->atLeastOnce())
+            ->method('create')
+            ->willReturn($this->page);
+
         $this->action = (new ObjectManager($this))->getObject('Magento\Catalog\Controller\Category\View', [
             'context' => $this->context,
             'catalogDesign' => $this->catalogDesign,
             'categoryFactory' => $this->categoryFactory,
             'storeManager' => $this->storeManager,
+            'resultPageFactory' => $resultPageFactory
         ]);
     }
 
