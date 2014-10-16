@@ -29,7 +29,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     /**
      *  Test simple request data
      */
-    public function atestGetServiceCall()
+    public function testGetServiceCall()
     {
         $itemId = 1;
         $name = 'Test';
@@ -47,7 +47,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     /**
      *  Test multiple params with Data Object
      */
-    public function atestUpdateServiceCall()
+    public function testUpdateServiceCall()
     {
         $itemId = 1;
         $name = 'Test';
@@ -65,7 +65,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     /**
      *  Test nested Data Object
      */
-    public function atestNestedDataObjectCall()
+    public function testNestedDataObjectCall()
     {
         $itemId = 1;
         $name = 'Test';
@@ -80,7 +80,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
 
-    public function atestScalarResponse()
+    public function testScalarResponse()
     {
         $id = 2;
         $serviceInfo = array(
