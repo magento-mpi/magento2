@@ -102,7 +102,6 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Store
                 );
                 $this->_getSession()->setPostData($postData);
             }
-            $this->getResponse()->setRedirect();
             $redirectResult->setUrl($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return $redirectResult;
         }
