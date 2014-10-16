@@ -115,7 +115,7 @@ class Container implements Layout\GeneratorInterface
         ) {
             throw new \Magento\Framework\Exception(
                 sprintf(
-                    'Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
+                    'Html tag "%s" is forbidden for usage in containers. Consider to use one of the allowed: %s.',
                     $options[Layout\Element::CONTAINER_OPT_HTML_TAG],
                     implode(', ', $this->allowedTags)
                 )
