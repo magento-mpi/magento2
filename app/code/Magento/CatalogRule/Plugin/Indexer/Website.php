@@ -27,10 +27,14 @@ class Website
     /**
      * @param \Magento\Store\Model\Website $website
      * @return \Magento\Store\Model\Website
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDelete(\Magento\Store\Model\Website $website)
-    {
+    public function afterDelete(
+        \Magento\Store\Model\Website $website,
+        \Magento\Store\Model\Website $result
+    ) {
         $this->ruleProductProcessor->markIndexerAsInvalid();
-        return $website;
+        return $result;
     }
 }

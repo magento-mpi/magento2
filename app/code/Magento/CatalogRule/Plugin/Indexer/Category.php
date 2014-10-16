@@ -28,21 +28,26 @@ class Category
     /**
      * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Category
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSave(
-        \Magento\Catalog\Model\Category $category
+        \Magento\Catalog\Model\Category $category,
+        \Magento\Catalog\Model\Category $result
     ) {
-        /** @var \Magento\Catalog\Model\Category $category */
-        $productIds = $category->getAffectedProductIds();
+        /** @var \Magento\Catalog\Model\Category $result */
+        $productIds = $result->getAffectedProductIds();
         if ($productIds && !$this->productRuleProcessor->getIndexer()->isScheduled()) {
             $this->productRuleProcessor->reindexList($productIds);
         }
-        return $category;
+        return $result;
     }
 
     /**
      * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Category
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDelete(\Magento\Catalog\Model\Category $category)
     {

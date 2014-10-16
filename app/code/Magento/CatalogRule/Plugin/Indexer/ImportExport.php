@@ -28,13 +28,12 @@ class ImportExport
     /**
      * Invalidate catalog price rule indexer
      *
-     * @param Import $subject
      * @param bool $result
      * @return bool
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterImportSource(Import $subject, $result)
+    public function afterImportSource(Import $import, $result)
     {
         $this->ruleProductProcessor->markIndexerAsInvalid();
         return $result;

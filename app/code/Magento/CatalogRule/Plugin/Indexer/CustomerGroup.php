@@ -25,11 +25,15 @@ class CustomerGroup
     }
 
     /**
-     * @param bool $result
-     * @return bool
+     * @param \Magento\Customer\Model\Group $result
+     * @return \Magento\Customer\Model\Group
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteGroup($result)
-    {
+    public function afterDelete(
+        \Magento\Customer\Model\Group $group,
+        \Magento\Customer\Model\Group $result
+    ) {
         $this->ruleProductProcessor->markIndexerAsInvalid();
         return $result;
     }

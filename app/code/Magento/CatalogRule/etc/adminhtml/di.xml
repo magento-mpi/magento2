@@ -26,7 +26,7 @@
     <type name="Magento\Store\Model\Website">
         <plugin name="reindex_after_delete_website" type="Magento\CatalogRule\Plugin\Indexer\Website"/>
     </type>
-    <type name="Magento\Customer\Service\V1\CustomerGroupServiceInterface">
+    <type name="Magento\Customer\Model\Group">
         <plugin name="reindex_after_delete_customer_group" type="Magento\CatalogRule\Plugin\Indexer\CustomerGroup"/>
     </type>
     <type name="Magento\ImportExport\Model\Import">
