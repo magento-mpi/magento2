@@ -37,6 +37,16 @@
     thead {
         display: table-header-group;
     }
+    .table-wrapper table {
+        width: 100%;
+        td {
+            width: auto;
+        }
+        table-layout: fixed;
+        & > tfoot > tr:first-child {
+            border-top: 1px solid #999;
+        }
+    }
     .box,
     tr,
     img {
