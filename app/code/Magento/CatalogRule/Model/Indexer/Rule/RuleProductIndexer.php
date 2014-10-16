@@ -1,75 +1,33 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogRule\Model\Indexer\Rule;
 
-use Magento\CatalogRule\CatalogRuleException;
-use Magento\CatalogRule\Model\Indexer\IndexBuilder;
-use Magento\Framework\Mview\ActionInterface as MviewActionInterface;
-use Magento\Indexer\Model\ActionInterface as IndexerActionInterface;
+use Magento\CatalogRule\Model\Indexer\AbstractIndexer;
 
-class RuleProductIndexer implements IndexerActionInterface, MviewActionInterface
+class RuleProductIndexer extends AbstractIndexer
 {
     /**
-     * @var IndexBuilder
-     */
-    protected $indexBuilder;
-
-    /**
-     * @param IndexBuilder $indexBuilder
-     */
-    public function __construct(IndexBuilder $indexBuilder)
-    {
-        $this->indexBuilder = $indexBuilder;
-    }
-
-    /**
-     * Execute materialization on ids entities
+     * {@inheritdoc}
      *
-     * @param int[] $ids
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function execute($ids)
-    {
-        $this->executeList($ids);
-    }
-
-    /**
-     * Execute full indexation
-     */
-    public function executeFull()
+    protected function doExecuteList($ids)
     {
         $this->indexBuilder->reindexFull();
     }
 
     /**
-     * Execute partial indexation by ID list
+     * {@inheritdoc}
      *
-     * @param int[] $ids
-     * @throws \Magento\CatalogRule\CatalogRuleException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function executeList($ids)
+    protected function doExecuteRow($id)
     {
-        if (!$ids) {
-            throw new CatalogRuleException(__('Could not rebuild index for empty products array'));
-        }
-        $this->indexBuilder->reindexFull();
-    }
-
-    /**
-     * Execute partial indexation by ID
-     *
-     * @param int $id
-     * @throws \Magento\CatalogRule\CatalogRuleException
-     */
-    public function executeRow($id)
-    {
-        if (!$id) {
-            throw new CatalogRuleException(__('Could not rebuild index for undefined product'));
-        }
         $this->indexBuilder->reindexFull();
     }
 }

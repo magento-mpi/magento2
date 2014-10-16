@@ -108,7 +108,7 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
      *
      * @return void
      */
-    public function executeList($productIds)
+    public function executeList(array $productIds)
     {
         $this->_productRuleIndexerRows->execute($productIds);
     }

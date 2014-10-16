@@ -92,7 +92,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Framew
      *
      * @return void
      */
-    public function executeList($ruleIds)
+    public function executeList(array $ruleIds)
     {
         $this->_ruleProductIndexerRows->execute($ruleIds);
     }

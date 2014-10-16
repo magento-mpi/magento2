@@ -75,7 +75,7 @@ class Fulltext implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      * @param int[] $ids
      * @return void
      */
-    public function executeList($ids)
+    public function executeList(array $ids)
     {
         $this->execute($ids);
     }
