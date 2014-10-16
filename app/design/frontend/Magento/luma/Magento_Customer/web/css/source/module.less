@@ -154,6 +154,17 @@
     }
 }
 
+.account {
+    .data.table-return-items {
+        .qty {
+            .input-text {
+                width: auto;
+                max-width: 80px;
+            }
+        }
+    }
+}
+
 //
 //    Desktop
 //--------------------------------------
@@ -297,6 +308,17 @@
                 }
                 &:last-child {
                     padding-bottom: 15px;
+                }
+            }
+        }
+        .data.table-return-items {
+            td {
+                &:first-child {
+                    float: left;
+                }
+                &.product {
+                    overflow: hidden;
+                    margin-top: 9px;
                 }
             }
         }
