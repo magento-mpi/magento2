@@ -25,53 +25,32 @@ class FilePermissions
     protected $directoryList;
 
     /**
-     * List of directory codes that require write permissions for installation
-     *
-     * @var array
-     */
-    protected $installationWritableDirectories = array(
-        DirectoryList::CONFIG,
-        DirectoryList::VAR_DIR,
-        DirectoryList::MEDIA,
-        DirectoryList::STATIC_VIEW,
-    );
-
-    /**
-     * List of directory codes that require non-writable permissions for application
-     *
-     * @var array
-     */
-    protected $applicationNonWritableDirectories = array(
-        DirectoryList::CONFIG,
-    );
-
-    /**
      * List of required writable directories for installation
      *
      * @var array
      */
-    protected $installationRequired = [];
+    protected $installationWritableDirectories = [];
 
     /**
-     * List of required non-writable directories for application
+     * List of recommended non-writable directories for application
      *
      * @var array
      */
-    protected $applicationRequired = [];
+    protected $applicationNonWritableDirectories = [];
 
     /**
      * List of current writable directories for installation
      *
      * @var array
      */
-    protected $installationCurrent = [];
+    protected $installationCurrentWritableDirectories = [];
 
     /**
      * List of current non-writable directories for application
      *
      * @var array
      */
-    protected $applicationCurrent = [];
+    protected $applicationCurrentNonWritableDirectories = [];
 
     /**
      * @param FilesystemFactory  $filesystemFactory
@@ -90,29 +69,38 @@ class FilePermissions
      *
      * @return array
      */
-    public function getInstallationRequired()
+    public function getInstallationWritableDirectories()
     {
-        if (!$this->installationRequired) {
-            foreach ($this->installationWritableDirectories as $code) {
-                $this->installationRequired[$code] = $this->directoryList->getPath($code);
+        if (!$this->installationWritableDirectories) {
+            $data = array(
+                DirectoryList::CONFIG,
+                DirectoryList::VAR_DIR,
+                DirectoryList::MEDIA,
+                DirectoryList::STATIC_VIEW
+            );
+            foreach ($data as $code) {
+                $this->installationWritableDirectories[$code] = $this->directoryList->getPath($code);
             }
         }
-        return array_values($this->installationRequired);
+        return array_values($this->installationWritableDirectories);
     }
 
     /**
-     * Retrieve list of required non-writable directories for application
+     * Retrieve list of recommended non-writable directories for application
      *
      * @return array
      */
-    public function getApplicationRequired()
+    public function getApplicationNonWritableDirectories()
     {
-        if (!$this->applicationRequired) {
-            foreach ($this->applicationNonWritableDirectories as $code) {
-                $this->applicationRequired[$code] = $this->directoryList->getPath($code);
+        if (!$this->applicationNonWritableDirectories) {
+            $data = array(
+                DirectoryList::CONFIG
+            );
+            foreach ($data as $code) {
+                $this->applicationNonWritableDirectories[$code] = $this->directoryList->getPath($code);
             }
         }
-        return array_values($this->applicationRequired);
+        return array_values($this->applicationNonWritableDirectories);
     }
 
     /**
@@ -121,17 +109,16 @@ class FilePermissions
      * @param bool
      * @return array
      */
-    public function getInstallationCurrent()
+    public function getInstallationCurrentWritableDirectories()
     {
-        if (!$this->installationCurrent) {
-            foreach ($this->installationRequired as $code => $path) {
-                if (!$this->validate($code, true)) {
-                    continue;
+        if (!$this->installationCurrentWritableDirectories) {
+            foreach ($this->installationWritableDirectories as $code => $path) {
+                if ($this->isWritable($code)) {
+                    $this->installationCurrentWritableDirectories[] = $path;
                 }
-                $this->installationCurrent[$code] = $path;
             }
         }
-        return array_values($this->installationCurrent);
+        return $this->installationCurrentWritableDirectories;
     }
 
     /**
@@ -140,41 +127,59 @@ class FilePermissions
      * @param bool
      * @return array
      */
-    public function getApplicationCurrent()
+    public function getApplicationCurrentNonWritableDirectories()
     {
-        if (!$this->applicationCurrent) {
-            foreach ($this->applicationRequired as $code => $path) {
-                if (!$this->validate($code, false)) {
-                    continue;
+        if (!$this->applicationCurrentNonWritableDirectories) {
+            foreach ($this->applicationNonWritableDirectories as $code => $path) {
+                if ($this->isNonWritable($code)) {
+                    $this->applicationCurrentNonWritableDirectories[] = $path;
                 }
-                $this->applicationCurrent[$code] = $path;
             }
         }
-        return array_values($this->applicationCurrent);
+        return $this->applicationCurrentNonWritableDirectories;
     }
 
     /**
-     * Validate directory is writable/non-writable by given directory code
+     * Checks if directory is writable by given directory code
      *
      * @param string $code
-     * @param bool $writable Flag indicating to check for writable/non-writable
      * @return bool
      */
-    protected function validate($code, $writable = true)
+    protected function isWritable($code)
     {
         $directory = $this->filesystem->getDirectoryWrite($code);
-        if ($writable) {
-            if (!$directory->isExist() || !$directory->isDirectory() || !$directory->isReadable()
-                || !$directory->isWritable()) {
-                return false;
-            }
-        } else {
-            if (!$directory->isExist() || !$directory->isDirectory() || !$directory->isReadable()
-                || $directory->isWritable()) {
-                return false;
-            }
+        if (!$this->isReadableDirectory($directory) || !$directory->isWritable()) {
+            return false;
         }
+        return true;
+    }
 
+    /**
+     * Checks if directory is non-writable by given directory code
+     *
+     * @param string $code
+     * @return bool
+     */
+    protected function isNonWritable($code)
+    {
+        $directory = $this->filesystem->getDirectoryWrite($code);
+        if (!$this->isReadableDirectory($directory) || $directory->isWritable()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if directory exists and is readable
+     *
+     * @param $directory
+     * @return bool
+     */
+    protected function isReadableDirectory($directory)
+    {
+        if (!$directory->isExist() || !$directory->isDirectory() || !$directory->isReadable()) {
+            return false;
+        }
         return true;
     }
 
@@ -183,10 +188,10 @@ class FilePermissions
      *
      * @return array
      */
-    public function verifyInstallation()
+    public function getMissingWritableDirectoriesForInstallation()
     {
-        $required = $this->getInstallationRequired();
-        $current = $this->getInstallationCurrent();
+        $required = $this->getInstallationWritableDirectories();
+        $current = $this->getInstallationCurrentWritableDirectories();
         return array_diff($required, $current);
     }
 
@@ -195,10 +200,10 @@ class FilePermissions
      *
      * @return array
      */
-    public function verifyApplication()
+    public function getUnnecessaryWritableDirectoriesForApplication()
     {
-        $required = $this->getApplicationRequired();
-        $current = $this->getApplicationCurrent();
+        $required = $this->getApplicationNonWritableDirectories();
+        $current = $this->getApplicationCurrentNonWritableDirectories();
         return array_diff($required, $current);
     }
 }

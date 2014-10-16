@@ -245,7 +245,7 @@ class Installer
      */
     public function checkInstallationFilePermissions()
     {
-        $results = $this->filePermissions->verifyInstallation();
+        $results = $this->filePermissions->getMissingWritableDirectoriesForInstallation();
         if ($results) {
             $errorMsg = 'Missing writing permissions to the following directories: ';
             foreach ($results as $result) {
@@ -262,7 +262,7 @@ class Installer
      */
     public function checkApplicationFilePermissions()
     {
-        $results = $this->filePermissions->verifyApplication();
+        $results = $this->filePermissions->getUnnecessaryWritableDirectoriesForApplication();
         if ($results) {
             $errorMsg = 'Unnecessary writing permissions to the following directories: ';
             foreach ($results as $result) {
@@ -277,14 +277,10 @@ class Installer
      * Installs deployment configuration
      *
      * @param \ArrayObject|array $data
-     * @param bool $checkPermission
      * @return Config
      */
-    public function installDeploymentConfig($data, $checkPermission = false)
+    public function installDeploymentConfig($data)
     {
-        if ($checkPermission) {
-            $this->checkInstallationFilePermissions();
-        }
         $data[Config::KEY_DATE] = date('r');
         if (empty($data[config::KEY_ENCRYPTION_KEY])) {
             $data[config::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
@@ -322,15 +318,11 @@ class Installer
     /**
      * Installs data fixtures
      *
-     * @param bool $checkPermission
      * @return void
      * @throws \Exception
      */
-    public function installDataFixtures($checkPermission = false)
+    public function installDataFixtures()
     {
-        if ($checkPermission) {
-            $this->checkInstallationFilePermissions();
-        }
         $this->exec('-f %s', [$this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php']);
     }
 

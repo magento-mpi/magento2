@@ -288,9 +288,10 @@ class ConsoleController extends AbstractActionController
      */
     public function installDeploymentConfigAction()
     {
+        $this->installer->checkInstallationFilePermissions();
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $this->installer->installDeploymentConfig($request->getParams(), true);
+        $this->installer->installDeploymentConfig($request->getParams());
     }
 
     /**
@@ -312,7 +313,8 @@ class ConsoleController extends AbstractActionController
      */
     public function installDataAction()
     {
-        $this->installer->installDataFixtures(true);
+        $this->installer->checkInstallationFilePermissions();
+        $this->installer->installDataFixtures();
     }
 
     /**
