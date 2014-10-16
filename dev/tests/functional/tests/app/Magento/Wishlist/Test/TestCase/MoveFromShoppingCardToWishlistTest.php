@@ -8,7 +8,7 @@
 
 namespace Magento\Wishlist\Test\TestCase;
 
-use Magento\Checkout\Test\Constraint\AssertAddProductToCartSuccessMessage;
+use Magento\Checkout\Test\Constraint\AssertAddedProductToCartSuccessMessage;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\TestCase\Injectable;
 use Mtf\Client\Driver\Selenium\Browser;
@@ -101,13 +101,13 @@ class MoveFromShoppingCardToWishlistTest extends Injectable
      *
      * @param CustomerInjectable $customer
      * @param string $product
-     * @param AssertAddProductToCartSuccessMessage $assertAddProductToCartSuccessMessage
+     * @param AssertAddedProductToCartSuccessMessage $assertAddedProductToCartSuccessMessage
      * @return array
      */
     public function test(
         CustomerInjectable $customer,
         $product,
-        AssertAddProductToCartSuccessMessage $assertAddProductToCartSuccessMessage
+        AssertAddedProductToCartSuccessMessage $assertAddedProductToCartSuccessMessage
     ) {
         // Preconditions:
         $product = $this->createProduct($product);
@@ -116,7 +116,7 @@ class MoveFromShoppingCardToWishlistTest extends Injectable
         // Steps:
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->addToCart($product);
-        $assertAddProductToCartSuccessMessage->processAssert($this->checkoutCart, $product);
+        $assertAddedProductToCartSuccessMessage->processAssert($this->checkoutCart, $product);
         $this->checkoutCart->getCartBlock()->getCartItem($product)->moveToWishlist();
 
         return ['product' => $product];
