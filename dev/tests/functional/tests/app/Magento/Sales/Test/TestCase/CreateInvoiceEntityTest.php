@@ -102,8 +102,7 @@ class CreateInvoiceEntityTest extends Injectable
             'ids' => [
                 'invoiceIds' => $data['invoiceIds'],
                 'shipmentIds' => isset($data['shipmentIds']) ? $data['shipmentIds'] : null,
-            ],
-            'successMessage' => $data['successMessage'],
+            ]
         ];
     }
 

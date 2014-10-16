@@ -35,11 +35,7 @@
             <block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="switch/languages.phtml"/>
         </container>
         <container name="header-wrapper" label="Page Header" as="header-wrapper" htmlTag="div" htmlClass="header content">
-            <block class="Magento\Theme\Block\Html\Header" name="logo">
-                <arguments>
-                    <argument name="show_part" xsi:type="string">logo</argument>
-                </arguments>
-            </block>
+            <block class="Magento\Theme\Block\Html\Header\Logo" name="logo" />
             <block class="Magento\Framework\View\Element\Html\Links" name="top.links">
                 <arguments>
                     <argument name="css_class" xsi:type="string">header links</argument>
