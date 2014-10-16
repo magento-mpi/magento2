@@ -25,11 +25,11 @@ class FilePermissions
     protected $directoryList;
 
     /**
-     * List of directories that require write permissions
+     * List of directory codes that require write permissions in pre-install
      *
      * @var array
      */
-    protected $writableDirectories = array(
+    protected $preInstallWritableDirectories = array(
         DirectoryList::CONFIG,
         DirectoryList::VAR_DIR,
         DirectoryList::MEDIA,
@@ -37,18 +37,41 @@ class FilePermissions
     );
 
     /**
-     * List of directories that require non-writable permissions after installation
-     */
-    protected $nonWritableDirectories = array(
-        DirectoryList::CONFIG
-    );
-
-    /**
-     * List of required directories
+     * List of directory codes that require non-writable permissions in post-install
      *
      * @var array
      */
-    protected $required = [];
+    protected $postInstallNonWritableDirectories = array(
+        DirectoryList::CONFIG,
+    );
+
+    /**
+     * List of required writable directories in pre-install
+     *
+     * @var array
+     */
+    protected $preInstallRequired = [];
+
+    /**
+     * List of required non-writable directories in post-install
+     *
+     * @var
+     */
+    protected $postInstallRequired = [];
+
+    /**
+     * List of current writable directories in pre-install
+     *
+     * @var array
+     */
+    protected $preInstallCurrent = [];
+
+    /**
+     * List of current non-writable directories in post-install
+     *
+     * @var array
+     */
+    protected $postInstallCurrent = [];
 
     /**
      * @param FilesystemFactory  $filesystemFactory
@@ -63,44 +86,78 @@ class FilePermissions
     }
 
     /**
-     * Retrieve list of required directories
+     * Retrieve list of required writable directories in pre-install
      *
-     * @param bool
      * @return array
      */
-    public function getRequired($writableDirectories = true)
+    public function getPreInstallRequired()
     {
-        $directories = $writableDirectories ? $this->writableDirectories : $this->nonWritableDirectories;
-        $this->required = array();
-        foreach ($directories as $code) {
-            $this->required[$code] = $this->directoryList->getPath($code);
-        }
-        return array_values($this->required);
-    }
-
-    /**
-     * Retrieve list of currently existed directories
-     *
-     * @param bool
-     * @return array
-     */
-    public function getCurrent($writableDirectories = true)
-    {
-        $current = array();
-        foreach ($this->required as $code => $path) {
-            if (!$this->validate($code, $writableDirectories)) {
-                continue;
+        if (!$this->preInstallRequired) {
+            foreach ($this->preInstallWritableDirectories as $code) {
+                $this->preInstallRequired[$code] = $this->directoryList->getPath($code);
             }
-            $current[$code] = $path;
         }
-        return array_values($current);
+        return array_values($this->preInstallRequired);
     }
 
     /**
-     * Validate directory permissions by given directory code
+     * Retrieve list of required non-writable directories in post-install
+     *
+     * @return array
+     */
+    public function getPostInstallRequired()
+    {
+        if (!$this->postInstallRequired) {
+            foreach ($this->postInstallNonWritableDirectories as $code) {
+                $this->postInstallRequired[$code] = $this->directoryList->getPath($code);
+            }
+        }
+        return array_values($this->postInstallRequired);
+    }
+
+    /**
+     * Retrieve list of currently writable directories in pre-install
+     *
+     * @param bool
+     * @return array
+     */
+    public function getPreInstallCurrent()
+    {
+        if (!$this->preInstallCurrent) {
+            foreach ($this->preInstallRequired as $code => $path) {
+                if (!$this->validate($code, true)) {
+                    continue;
+                }
+                $this->preInstallCurrent[$code] = $path;
+            }
+        }
+        return array_values($this->preInstallCurrent);
+    }
+
+    /**
+     * Retrieve list of currently non-writable directories in post-install
+     *
+     * @param bool
+     * @return array
+     */
+    public function getPostInstallCurrent()
+    {
+        if (!$this->postInstallCurrent) {
+            foreach ($this->postInstallRequired as $code => $path) {
+                if (!$this->validate($code, false)) {
+                    continue;
+                }
+                $this->postInstallCurrent[$code] = $path;
+            }
+        }
+        return array_values($this->postInstallCurrent);
+    }
+
+    /**
+     * Validate directory is writable/non-writable by given directory code
      *
      * @param string $code
-     * @param bool $writable
+     * @param bool $writable Flag indicating to check for writable/non-writable
      * @return bool
      */
     protected function validate($code, $writable = true)
@@ -117,30 +174,31 @@ class FilePermissions
                 return false;
             }
         }
+
         return true;
     }
 
     /**
-     * Checks if has file permission or not
+     * Checks writable directories in pre-install
      *
      * @return array
      */
-    public function getNonWritableDirs()
+    public function verifyPreInstall()
     {
-        $required = $this->getRequired(true);
-        $current = $this->getCurrent(true);
+        $required = $this->getPreInstallRequired();
+        $current = $this->getPreInstallCurrent();
         return array_diff($required, $current);
     }
 
     /**
-     * Checks for directories that are writable
+     * Checks non-writable directories in post-install
      *
      * @return array
      */
-    public function getWritableDirs()
+    public function verifyPostInstall()
     {
-        $required = $this->getRequired(false);
-        $current = $this->getCurrent(false);
+        $required = $this->getPostInstallRequired();
+        $current = $this->getPostInstallCurrent();
         return array_diff($required, $current);
     }
 }

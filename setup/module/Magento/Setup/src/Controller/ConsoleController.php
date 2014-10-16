@@ -62,7 +62,7 @@ class ConsoleController extends AbstractActionController
         self::CMD_INSTALL_DATA => 'installData',
         self::CMD_INSTALL_USER_CONFIG => 'installUserConfig',
         self::CMD_INSTALL_ADMIN_USER => 'installAdminUser',
-        self::CMD_UPDATE => 'updateAction',
+        self::CMD_UPDATE => 'update',
     ];
 
     /**
@@ -290,7 +290,7 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $this->installer->installDeploymentConfig($request->getParams());
+        $this->installer->installDeploymentConfig($request->getParams(), true);
     }
 
     /**
@@ -312,7 +312,7 @@ class ConsoleController extends AbstractActionController
      */
     public function installDataAction()
     {
-        $this->installer->installDataFixtures();
+        $this->installer->installDataFixtures(true);
     }
 
     /**
@@ -323,6 +323,7 @@ class ConsoleController extends AbstractActionController
      */
     public function updateAction()
     {
+        $this->installer->checkPreInstallFilePermissions();
         $this->installer->installSchema();
         $this->installer->installDataFixtures();
     }

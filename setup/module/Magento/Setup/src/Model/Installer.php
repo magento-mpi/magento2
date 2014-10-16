@@ -183,7 +183,7 @@ class Installer
     public function install($request)
     {
         $script[] = ['Enabling Maintenance Mode:', 'setMaintenanceMode', [1]];
-        $script[] = ['File permissions check...', 'checkFilePermissions', [true]];
+        $script[] = ['File permissions check...', 'checkPreInstallFilePermissions', []];
         $script[] = ['Installing deployment configuration...', 'installDeploymentConfig', [$request]];
         if (!empty($request[self::CLEANUP_DB])) {
             $script[] = ['Cleaning up database...', 'cleanupDb', [$request]];
@@ -201,7 +201,7 @@ class Installer
         $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
         $script[] = ['Enabling caches:', 'enableCaches', []];
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
-        $script[] = ['Post installation file permissions check...', 'checkFilePermissions', [false]];
+        $script[] = ['Post installation file permissions check...', 'checkPostInstallFilePermissions', []];
 
         $total = count($script) + count($this->moduleList->getModules());
         $this->progress = new Installer\Progress($total, 0);
@@ -238,30 +238,38 @@ class Installer
     }
 
     /**
-     * Check permissions of directories that are expected to be writable
+     * Check permissions of directories that are expected to be writable in pre-install
      *
-     * @param bool
      * @return void
      * @throws \Exception
      */
-    public function checkFilePermissions($writable = true)
+    public function checkPreInstallFilePermissions()
     {
-        $results = $writable ?
-            $this->filePermissions->getNonWritableDirs() : $this->filePermissions->getWritableDirs();
+        $results = $this->filePermissions->verifyPreInstall();
         if ($results) {
-            $errorMsg = $writable ?
-                'Missing writing permissions to the following directories: ' :
-                'Unnecessary writing permissions to the following directories: ';
+            $errorMsg = 'Missing writing permissions to the following directories: ';
             foreach ($results as $result) {
                 $errorMsg .= '\'' . $result . '\' ';
             }
-            if ($writable) {
-                throw new \Exception($errorMsg);
-            } else {
-                // only need to log for post installation check
-                $this->log->log($errorMsg);
-                $this->messages[] = $errorMsg;
+            throw new \Exception($errorMsg);
+        }
+    }
+
+    /**
+     * Check permissions of directories that are expected to be non-writable in post-install
+     *
+     * @return void
+     */
+    public function checkPostInstallFilePermissions()
+    {
+        $results = $this->filePermissions->verifyPostInstall();
+        if ($results) {
+            $errorMsg = 'Unnecessary writing permissions to the following directories: ';
+            foreach ($results as $result) {
+                $errorMsg .= '\'' . $result . '\' ';
             }
+            $this->log->log($errorMsg);
+            $this->messages[] = $errorMsg;
         }
     }
 
@@ -269,10 +277,14 @@ class Installer
      * Installs deployment configuration
      *
      * @param \ArrayObject|array $data
+     * @param bool $checkPermission
      * @return Config
      */
-    public function installDeploymentConfig($data)
+    public function installDeploymentConfig($data, $checkPermission = false)
     {
+        if ($checkPermission) {
+            $this->checkPreInstallFilePermissions();
+        }
         $data[Config::KEY_DATE] = date('r');
         if (empty($data[config::KEY_ENCRYPTION_KEY])) {
             $data[config::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
@@ -310,11 +322,15 @@ class Installer
     /**
      * Installs data fixtures
      *
+     * @param bool $checkPermission
      * @return void
      * @throws \Exception
      */
-    public function installDataFixtures()
+    public function installDataFixtures($checkPermission = false)
     {
+        if ($checkPermission) {
+            $this->checkPreInstallFilePermissions();
+        }
         $this->exec('-f %s', [$this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php']);
     }
 
