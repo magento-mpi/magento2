@@ -41,8 +41,7 @@ class Page extends View\Result\Page
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
-        App\Action\Title $title,
-        array $data = array()
+        App\Action\Title $title
     )
     {
         parent::__construct(
@@ -54,8 +53,7 @@ class Page extends View\Result\Page
             $pageConfigFactory,
             $pageConfigRendererFactory,
             $pageLayoutReader,
-            $template,
-            $data
+            $template
         );
         $this->title = $title;
     }
