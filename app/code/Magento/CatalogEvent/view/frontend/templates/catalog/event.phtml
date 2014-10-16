@@ -14,11 +14,13 @@
 ?>
 <?php $_event = $this->getEvent(); ?>
 <?php if ($this->canDisplay()): ?>
-<div class="block category event <?php echo $_event->getStatus()?>">
-    <div class="content">
-        <strong class="subtitle">
-            <span><?php echo $this->getStatusText($_event); ?></span>
+<div class="block block-category-event <?php echo $_event->getStatus()?>">
+    <div class="block-title">
+        <strong>
+            <?php echo $this->getStatusText($_event); ?>
         </strong>
+    </div>
+    <div class="block-content">
         <?php switch ($_event->getStatus()):
             case 'upcoming': ?>
             <div class="dates">
@@ -55,14 +57,14 @@
         <?php break;
             case 'closed': ?>
             <div class="dates">
-            <div class="start">
-                <span class="date"><?php echo $this->getEventDate('start', $_event); ?></span>
-                <span class="time"><?php echo $this->getEventTime('start', $_event, 'hh a zzz'); ?></span>
-            </div>
-            <div class="end">
-                <span class="date"><?php echo $this->getEventDate('end', $_event); ?></span>
-                <span class="time"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
-            </div>
+                <div class="start">
+                    <span class="date"><?php echo $this->getEventDate('start', $_event); ?></span>
+                    <span class="time"><?php echo $this->getEventTime('start', $_event, 'hh a zzz'); ?></span>
+                </div>
+                <div class="end">
+                    <span class="date"><?php echo $this->getEventDate('end', $_event); ?></span>
+                    <span class="time"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
+                </div>
             </div>
         <?php break; ?>
     <?php endswitch; ?>
