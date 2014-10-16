@@ -35,6 +35,7 @@ return array(
     'dev/tools/Magento/Tools/I18n/Zend',
     'dev/tools/PHP-Parser',
     'dev/tools/performance-toolkit/README.txt',
+    'dev/build/publication/extra_files/ce/CONTRIBUTOR_LICENSE_AGREEMENT.html',
     'lib/internal/Apache',
     'lib/internal/PEAR',
     'lib/internal/phpseclib',
