@@ -1,0 +1,1 @@
+The Filesystem library provides access to configurations of directories and files in the filesystem of an operating system as well as performing operations (read, write etc.) on those. 
