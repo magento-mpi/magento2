@@ -119,11 +119,4 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      * @return bool|null
      */
     public function isVisible();
-
-    /**
-     * Retrieve is system attribute flag
-     *
-     * @return bool|null
-     */
-    public function isSystem();
 }

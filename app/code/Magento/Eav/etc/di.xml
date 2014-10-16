@@ -11,6 +11,7 @@
     <preference for="Magento\Eav\Model\Entity\Setup\PropertyMapperInterface" type="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite" />
     <preference for="Magento\Eav\Api\Data\AttributeInterface" type="Magento\Eav\Model\Entity\Attribute" />
     <preference for="Magento\Eav\Api\AttributeRepositoryInterface" type="Magento\Eav\Model\AttributeRepository" />
+    <preference for="Magento\Eav\Api\Data\AttributeIdentifierInterface" type="Magento\Eav\Model\Entity\Attribute\Identifier" />
     <type name="Magento\Eav\Model\Entity\Attribute\Config">
         <arguments>
             <argument name="reader" xsi:type="object">Magento\Eav\Model\Entity\Attribute\Config\Reader\Proxy</argument>

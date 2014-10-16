@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Api;
 
-interface AttributeListInterface 
+interface AttributeTypesListInterface
 {
     /**
      * Retrieve list of product attribute types

@@ -37,8 +37,10 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $searchResultsBuilder;
 
     /**
-     * @param Config $eavConfig
-     * @param Resource\Entity\Attribute $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute $eavResource
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
@@ -55,7 +57,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute)
+    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute, array $arguments = [])
     {
         $this->eavResource->save($attribute);
         return true;
@@ -64,8 +66,10 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
-    {
+    public function getList(
+        \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria,
+        array $arguments = []
+    ) {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
@@ -133,7 +137,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function get(\Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier)
+    public function get($identifier, array $arguments = [])
     {
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         $attribute = $this->eavConfig->getAttribute($identifier->getEntityTypeCode(), $identifier->getAttributeCode());
@@ -148,9 +152,9 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute)
+    public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute, array $arguments = [])
     {
-        $this->eavResource->save($attribute);
+        $this->eavResource->delete($attribute);
         return true;
     }
 

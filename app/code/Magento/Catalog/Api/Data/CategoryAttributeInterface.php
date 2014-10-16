@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Api\Data;
 
-interface ProductAttributeInterface extends \Magento\Catalog\Api\Data\EavAttributeInterface
+interface CategoryAttributeInterface extends \Magento\Catalog\Api\Data\EavAttributeInterface
 {
 
 }

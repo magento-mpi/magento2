@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Api\Data;
 
-interface CategoryAttributeInterface extends \Magento\Catalog\Api\Data\EavAttributeInterface
+interface ProductAttributeInterface extends \Magento\Catalog\Api\Data\EavAttributeInterface
 {
-
+    const ENTITY_TYPE_CODE = 'catalog_product';
 }

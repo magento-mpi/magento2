@@ -34,15 +34,11 @@ use Magento\Catalog\Model\Attribute\LockValidatorInterface;
  * @method \Magento\Catalog\Model\Entity\Attribute setIsUsedForPriceRules(int $value)
  * @method int getIsFilterableInSearch()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsFilterableInSearch(int $value)
- * @method int getUsedInProductListing()
  * @method \Magento\Catalog\Model\Entity\Attribute setUsedInProductListing(int $value)
- * @method int getUsedForSortBy()
  * @method \Magento\Catalog\Model\Entity\Attribute setUsedForSortBy(int $value)
- * @method string getApplyTo()
  * @method \Magento\Catalog\Model\Entity\Attribute setApplyTo(string $value)
  * @method int getIsVisibleInAdvancedSearch()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsVisibleInAdvancedSearch(int $value)
- * @method int getPosition()
  * @method \Magento\Catalog\Model\Entity\Attribute setPosition(int $value)
  * @method int getIsWysiwygEnabled()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsWysiwygEnabled(int $value)
@@ -50,6 +46,7 @@ use Magento\Catalog\Model\Attribute\LockValidatorInterface;
  * @method \Magento\Catalog\Model\Entity\Attribute setIsUsedForPromoRules(int $value)
  */
 class Attribute extends \Magento\Eav\Model\Entity\Attribute
+    implements \Magento\Catalog\Api\Data\ProductAttributeInterface
 {
     /**
      * Event Prefix
@@ -155,5 +152,125 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
          */
         $this->_eavConfig->clear();
         return parent::_afterSave();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isWysiwygEnabled()
+    {
+        return $this->getData('is_wysiwyg_enabled');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isHtmlAllowedOnFront()
+    {
+        return $this->getData('is_html_allowed_on_front');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUsedForSortBy()
+    {
+        return $this->getData('used_for_sort_by');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isFilterable()
+    {
+        return $this->getData('is_filterable');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isFilterableInSearch()
+    {
+        return $this->getData('is_filterable_in_search');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPosition()
+    {
+        return $this->getData('position');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getApplyTo()
+    {
+        return $this->getData('apply_to');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isConfigurable()
+    {
+        return $this->getData('is_configurable');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSearchable()
+    {
+        return $this->getData('is_searchable');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVisibleInAdvancedSearch()
+    {
+        return $this->getData('is_visible_in_advanced_search');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isComparable()
+    {
+        return $this->getData('is_comparable');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isUsedForPromoRules()
+    {
+        return $this->getData('is_used_for_promo_rules');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVisibleOnFront()
+    {
+        return $this->getData('is_visible_on_front');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUsedInProductListing()
+    {
+        return $this->getData('used_in_product_listing');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVisible()
+    {
+        return $this->getData('is_visible');
     }
 }
