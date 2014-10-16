@@ -89,14 +89,6 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetPathException()
-    {
-        $path = [];
-        $params = '';
-        $this->setExpectedException('PHPUnit_Framework_Error');
-            $this->redirect->setPath($path, $params);
-    }
-
     public function testRender()
     {
         $this->response->expects($this->once())->method('setRedirect');
