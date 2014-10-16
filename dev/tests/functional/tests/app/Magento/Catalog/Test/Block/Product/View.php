@@ -352,13 +352,30 @@ class View extends AbstractConfigureBlock
     }
 
     /**
+     * Add product to Wishlist
+     *
+     * @param FixtureInterface $product
+     * @return void
+     */
+    public function addToWishlist(FixtureInterface $product)
+    {
+        /** @var CatalogProductSimple $product */
+        $checkoutData = $product->getCheckoutData();
+        $this->fillOptions($product);
+        if (isset($checkoutData['qty'])) {
+            $this->setQty($checkoutData['qty']);
+        }
+        $this->clickAddToWishlist();
+    }
+
+    /**
      * Click "Add to Wishlist" button
      *
      * @return void
      */
-    public function addToWishlist()
+    public function clickAddToWishlist()
     {
-        $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->addToWishlist)->click();
     }
 
     /**
