@@ -323,7 +323,7 @@ class ConsoleController extends AbstractActionController
      */
     public function updateAction()
     {
-        $this->installer->checkPreInstallFilePermissions();
+        $this->installer->checkInstallationFilePermissions();
         $this->installer->installSchema();
         $this->installer->installDataFixtures();
     }

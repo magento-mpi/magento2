@@ -25,11 +25,11 @@ class FilePermissions
     protected $directoryList;
 
     /**
-     * List of directory codes that require write permissions in pre-install
+     * List of directory codes that require write permissions for installation
      *
      * @var array
      */
-    protected $preInstallWritableDirectories = array(
+    protected $installationWritableDirectories = array(
         DirectoryList::CONFIG,
         DirectoryList::VAR_DIR,
         DirectoryList::MEDIA,
@@ -37,41 +37,41 @@ class FilePermissions
     );
 
     /**
-     * List of directory codes that require non-writable permissions in post-install
+     * List of directory codes that require non-writable permissions for application
      *
      * @var array
      */
-    protected $postInstallNonWritableDirectories = array(
+    protected $applicationNonWritableDirectories = array(
         DirectoryList::CONFIG,
     );
 
     /**
-     * List of required writable directories in pre-install
+     * List of required writable directories for installation
      *
      * @var array
      */
-    protected $preInstallRequired = [];
+    protected $installationRequired = [];
 
     /**
-     * List of required non-writable directories in post-install
+     * List of required non-writable directories for application
      *
      * @var
      */
-    protected $postInstallRequired = [];
+    protected $applicationRequired = [];
 
     /**
-     * List of current writable directories in pre-install
+     * List of current writable directories for installation
      *
      * @var array
      */
-    protected $preInstallCurrent = [];
+    protected $installationCurrent = [];
 
     /**
-     * List of current non-writable directories in post-install
+     * List of current non-writable directories for application
      *
      * @var array
      */
-    protected $postInstallCurrent = [];
+    protected $applicationCurrent = [];
 
     /**
      * @param FilesystemFactory  $filesystemFactory
@@ -86,71 +86,71 @@ class FilePermissions
     }
 
     /**
-     * Retrieve list of required writable directories in pre-install
+     * Retrieve list of required writable directories for installation
      *
      * @return array
      */
-    public function getPreInstallRequired()
+    public function getInstallationRequired()
     {
-        if (!$this->preInstallRequired) {
-            foreach ($this->preInstallWritableDirectories as $code) {
-                $this->preInstallRequired[$code] = $this->directoryList->getPath($code);
+        if (!$this->installationRequired) {
+            foreach ($this->installationWritableDirectories as $code) {
+                $this->installationRequired[$code] = $this->directoryList->getPath($code);
             }
         }
-        return array_values($this->preInstallRequired);
+        return array_values($this->installationRequired);
     }
 
     /**
-     * Retrieve list of required non-writable directories in post-install
+     * Retrieve list of required non-writable directories for application
      *
      * @return array
      */
-    public function getPostInstallRequired()
+    public function getApplicationRequired()
     {
-        if (!$this->postInstallRequired) {
-            foreach ($this->postInstallNonWritableDirectories as $code) {
-                $this->postInstallRequired[$code] = $this->directoryList->getPath($code);
+        if (!$this->applicationRequired) {
+            foreach ($this->applicationNonWritableDirectories as $code) {
+                $this->applicationRequired[$code] = $this->directoryList->getPath($code);
             }
         }
-        return array_values($this->postInstallRequired);
+        return array_values($this->applicationRequired);
     }
 
     /**
-     * Retrieve list of currently writable directories in pre-install
+     * Retrieve list of currently writable directories for installation
      *
      * @param bool
      * @return array
      */
-    public function getPreInstallCurrent()
+    public function getInstallationCurrent()
     {
-        if (!$this->preInstallCurrent) {
-            foreach ($this->preInstallRequired as $code => $path) {
+        if (!$this->installationCurrent) {
+            foreach ($this->installationRequired as $code => $path) {
                 if (!$this->validate($code, true)) {
                     continue;
                 }
-                $this->preInstallCurrent[$code] = $path;
+                $this->installationCurrent[$code] = $path;
             }
         }
-        return array_values($this->preInstallCurrent);
+        return array_values($this->installationCurrent);
     }
 
     /**
-     * Retrieve list of currently non-writable directories in post-install
+     * Retrieve list of currently non-writable directories for application
      *
      * @param bool
      * @return array
      */
-    public function getPostInstallCurrent()
+    public function getApplicationCurrent()
     {
-        if (!$this->postInstallCurrent) {
-            foreach ($this->postInstallRequired as $code => $path) {
+        if (!$this->applicationCurrent) {
+            foreach ($this->applicationRequired as $code => $path) {
                 if (!$this->validate($code, false)) {
                     continue;
                 }
-                $this->postInstallCurrent[$code] = $path;
+                $this->applicationCurrent[$code] = $path;
             }
         }
-        return array_values($this->postInstallCurrent);
+        return array_values($this->applicationCurrent);
     }
 
     /**
@@ -179,26 +179,26 @@ class FilePermissions
     }
 
     /**
-     * Checks writable directories in pre-install
+     * Checks writable directories for installation
      *
      * @return array
      */
-    public function verifyPreInstall()
+    public function verifyInstallation()
     {
-        $required = $this->getPreInstallRequired();
-        $current = $this->getPreInstallCurrent();
+        $required = $this->getInstallationRequired();
+        $current = $this->getInstallationCurrent();
         return array_diff($required, $current);
     }
 
     /**
-     * Checks non-writable directories in post-install
+     * Checks non-writable directories for application
      *
      * @return array
      */
-    public function verifyPostInstall()
+    public function verifyApplication()
     {
-        $required = $this->getPostInstallRequired();
-        $current = $this->getPostInstallCurrent();
+        $required = $this->getApplicationRequired();
+        $current = $this->getApplicationCurrent();
         return array_diff($required, $current);
     }
 }

@@ -182,7 +182,7 @@ class Installer
      */
     public function install($request)
     {
-        $script[] = ['File permissions check...', 'checkPreInstallFilePermissions', []];
+        $script[] = ['File permissions check...', 'checkInstallationFilePermissions', []];
         $script[] = ['Enabling Maintenance Mode:', 'setMaintenanceMode', [1]];
         $script[] = ['Installing deployment configuration...', 'installDeploymentConfig', [$request]];
         if (!empty($request[self::CLEANUP_DB])) {
@@ -201,7 +201,7 @@ class Installer
         $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
         $script[] = ['Enabling caches:', 'enableCaches', []];
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
-        $script[] = ['Post installation file permissions check...', 'checkPostInstallFilePermissions', []];
+        $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
 
         $total = count($script) + count($this->moduleList->getModules());
         $this->progress = new Installer\Progress($total, 0);
@@ -238,14 +238,14 @@ class Installer
     }
 
     /**
-     * Check permissions of directories that are expected to be writable in pre-install
+     * Check permissions of directories that are expected to be writable for installation
      *
      * @return void
      * @throws \Exception
      */
-    public function checkPreInstallFilePermissions()
+    public function checkInstallationFilePermissions()
     {
-        $results = $this->filePermissions->verifyPreInstall();
+        $results = $this->filePermissions->verifyInstallation();
         if ($results) {
             $errorMsg = 'Missing writing permissions to the following directories: ';
             foreach ($results as $result) {
@@ -256,13 +256,13 @@ class Installer
     }
 
     /**
-     * Check permissions of directories that are expected to be non-writable in post-install
+     * Check permissions of directories that are expected to be non-writable for application
      *
      * @return void
      */
-    public function checkPostInstallFilePermissions()
+    public function checkApplicationFilePermissions()
     {
-        $results = $this->filePermissions->verifyPostInstall();
+        $results = $this->filePermissions->verifyApplication();
         if ($results) {
             $errorMsg = 'Unnecessary writing permissions to the following directories: ';
             foreach ($results as $result) {
@@ -283,7 +283,7 @@ class Installer
     public function installDeploymentConfig($data, $checkPermission = false)
     {
         if ($checkPermission) {
-            $this->checkPreInstallFilePermissions();
+            $this->checkInstallationFilePermissions();
         }
         $data[Config::KEY_DATE] = date('r');
         if (empty($data[config::KEY_ENCRYPTION_KEY])) {
@@ -329,7 +329,7 @@ class Installer
     public function installDataFixtures($checkPermission = false)
     {
         if ($checkPermission) {
-            $this->checkPreInstallFilePermissions();
+            $this->checkInstallationFilePermissions();
         }
         $this->exec('-f %s', [$this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php']);
     }
