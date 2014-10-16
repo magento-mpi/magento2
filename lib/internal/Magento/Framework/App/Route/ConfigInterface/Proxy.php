@@ -1,4 +1,12 @@
 <?php
+/**
+ * Routes configuration model proxy
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Framework\App\Route\ConfigInterface;
 
 /**

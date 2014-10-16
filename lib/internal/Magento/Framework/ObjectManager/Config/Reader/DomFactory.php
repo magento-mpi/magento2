@@ -1,4 +1,12 @@
 <?php
+/**
+ * Config reader factory
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Framework\ObjectManager\Config\Reader;
 
 /**
