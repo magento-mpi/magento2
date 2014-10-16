@@ -120,7 +120,7 @@ class DataBuilder extends EntityAbstract
             ],
             'body' => "\$this->" . self::DATA_PROPERTY_NAME . "['"
                 . strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName))
-                . "'] = \$" . lcfirst($propertyName) . ";",
+                . "'] = \$" . lcfirst($propertyName) . ";" . PHP_EOL . "return \$this;",
             'docblock' => array('shortDescription' => '@param ' . $returnType . " \$" . lcfirst($propertyName))
         ];
 
