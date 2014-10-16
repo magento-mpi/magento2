@@ -55,7 +55,7 @@ class FilePermissions
     /**
      * List of required non-writable directories for application
      *
-     * @var
+     * @var array
      */
     protected $applicationRequired = [];
 
