@@ -15,8 +15,8 @@
             <strategy>css selector</strategy>
         </pageActionsBlock>
         <AgreementsForm>
-            <class>Magento\CheckoutAgreements\Test\Block\Adminhtml\Block\Edit\AgreementsForm</class>
-            <locator>[id="page:main-container"]</locator>
+            <class>Magento\CheckoutAgreements\Test\Block\Adminhtml\Block\Agreement\Edit\AgreementsForm</class>
+            <locator>#edit_form</locator>
             <strategy>css selector</strategy>
         </AgreementsForm>
     </blocks>

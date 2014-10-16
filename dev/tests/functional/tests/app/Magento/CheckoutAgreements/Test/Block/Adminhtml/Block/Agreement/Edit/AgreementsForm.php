@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CheckoutAgreements\Test\Block\Adminhtml\Block\Edit;
+namespace Magento\CheckoutAgreements\Test\Block\Adminhtml\Block\Agreement\Edit;
 
 use Mtf\Block\Form;
 

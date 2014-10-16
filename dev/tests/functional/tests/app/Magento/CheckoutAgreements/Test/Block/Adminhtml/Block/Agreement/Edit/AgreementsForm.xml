@@ -17,7 +17,7 @@
             <input>select</input>
         </is_html>
         <store_ids>
-            <selector>#store_id</selector>
+            <selector>[name="stores[]"]</selector>
             <input>multiselectgrouplist</input>
         </store_ids>
         <checkbox_text />

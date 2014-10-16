@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class AgreementGrid
  * Backend Agreement grid
- *
  */
 class AgreementGrid extends Grid
 {

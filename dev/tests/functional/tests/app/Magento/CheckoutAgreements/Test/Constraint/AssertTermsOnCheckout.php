@@ -28,6 +28,9 @@ use Magento\Checkout\Test\Constraint\AssertOrderSuccessPlacedMessage;
  */
 class AssertTermsOnCheckout extends AbstractConstraint
 {
+    /**
+     * Notification message
+     */
     const NOTIFICATION_MESSAGE = 'This is a required field.';
 
     /**

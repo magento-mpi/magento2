@@ -49,7 +49,7 @@ class DeleteAllTermsEntityStep implements TestStepInterface
     /**
      * Delete terms on backend
      *
-     * @return array
+     * @return void
      */
     public function run()
     {
