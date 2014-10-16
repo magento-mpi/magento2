@@ -36,7 +36,7 @@ class Job extends \Magento\Framework\Object
     /**
      * Basic object initialization
      *
-     * @param RuleProductProcessor
+     * @param RuleProductProcessor $ruleProcessor
      */
     public function __construct(RuleProductProcessor $ruleProcessor)
     {

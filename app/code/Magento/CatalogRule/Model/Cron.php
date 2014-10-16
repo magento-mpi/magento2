@@ -29,10 +29,10 @@ class Cron
      * This method is called from cron process, cron is working in UTC time and
      * we should generate data for interval -1 day ... +1 day
      *
-     * return void
+     * @return void
      */
     public function dailyCatalogUpdate()
     {
         $this->ruleProductProcessor->markIndexerAsInvalid();
     }
-} 
+}
