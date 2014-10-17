@@ -23,6 +23,13 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 class ConfigurableOptions extends CustomOptions
 {
     /**
+     * Option selector
+     *
+     * @var string
+     */
+    protected $optionSelector = '//*[./label[contains(.,"%s")]]//select';
+
+    /**
      * Get configurable product options
      *
      * @param FixtureInterface|null $product [optional]
@@ -69,6 +76,8 @@ class ConfigurableOptions extends CustomOptions
                 : 'No';
 
             $result[$title] = $optionData;
+            $this->_rootElement->find(sprintf($this->optionSelector, $title), Locator::SELECTOR_XPATH, 'select')
+                ->setValue($optionData['options'][0]['title']);
         }
 
         return $result;

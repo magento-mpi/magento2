@@ -42,7 +42,6 @@ class ClearAllCompareProductsTest extends AbstractCompareProductsTest
      */
     public function test($products, ConfigData $config, CustomerAccountIndex $customerAccountIndex)
     {
-        $this->markTestIncomplete('MAGETWO-26865');
         // Preconditions
         $config->persist();
         $products = $this->createProducts($products);

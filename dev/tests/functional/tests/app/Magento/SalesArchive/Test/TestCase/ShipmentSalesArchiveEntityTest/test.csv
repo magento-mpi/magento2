@@ -1,4 +1,4 @@
-"description";"order/dataSet";"order/data/entity_id/products";"invoice";"qty/0";"orderStatus";"constraint"
+"description";"order/dataSet";"order/data/entity_id/products";"invoice";"data/items_data/0/qty";"orderStatus";"constraint"
 "Open Archive Order and Ship it";"default";"catalogProductSimple::100_dollar_product";"0";"2";"Processing";"assertShipmentSuccessCreateMessage, assertArchiveOrderInGrid, assertArchiveShipmentItems, assertArchiveShipmentInGrid"
 "Open Invoiced Archive Order Ship it";"default";"catalogProductSimple::100_dollar_product";"1";"2";"Complete";"assertShipmentSuccessCreateMessage, assertNoShipButton, assertArchiveOrderInGrid, assertArchiveShipmentItems, assertArchiveShipmentInGrid"
 "Open Archive Order and Ship partially";"default";"catalogProductSimple::100_dollar_product";"0";"1";"Processing";"assertShipmentSuccessCreateMessage, assertArchiveOrderInGrid, assertArchiveShipmentItems, assertArchiveShipmentInGrid"
