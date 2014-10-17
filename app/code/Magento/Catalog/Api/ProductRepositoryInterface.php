@@ -39,7 +39,7 @@ interface ProductRepositoryInterface
     /**
      * Delete product
      *
-     * @param int $productId product which will deleted
+     * @param \Magento\Catalog\Api\Data\ProductInterface $product
      * @param array $arguments
      * @return bool Will returned True if deleted
      * @throws \Magento\Framework\Exception\InputException
@@ -47,7 +47,7 @@ interface ProductRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see  \Magento\Catalog\Service\V1\ProductServiceInterface::delete
      */
-    public function delete($productId, array $arguments = []);
+    public function delete($product, array $arguments = []);
 
     /**
      * Get product list
