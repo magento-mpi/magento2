@@ -24,7 +24,6 @@ class Index extends \Magento\Catalog\Controller\Adminhtml\Category
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory,
         \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
-
     ) {
         parent::__construct($context, $resultRedirectFactory);
         $this->resultForwardFactory = $resultForwardFactory;

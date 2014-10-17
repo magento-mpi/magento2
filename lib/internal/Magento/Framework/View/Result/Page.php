@@ -74,7 +74,7 @@ class Page extends Layout
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
-     * @param View\Page\ConfigFactory $pageConfigFactory
+     * @param View\Page\Config $pageConfig
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
@@ -86,12 +86,12 @@ class Page extends Layout
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
-        View\Page\ConfigFactory $pageConfigFactory,
+        View\Page\Config $pageConfig,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template
     ) {
-        $this->pageConfig = $pageConfigFactory->create();
+        $this->pageConfig = $pageConfig;
         $this->pageLayoutReader = $pageLayoutReader;
         $this->viewFileSystem = $context->getViewFileSystem();
         $this->pageConfigRendererFactory = $pageConfigRendererFactory;
@@ -108,6 +108,8 @@ class Page extends Layout
 
     /**
      * Initialize page config reader
+     *
+     * @return void
      */
     protected function initPageConfigReader()
     {

@@ -29,6 +29,7 @@ class ProcessLayoutRenderElement
      * Replace the output of the block, containing ttl attribute, with ESI tag
      *
      * @param \Magento\Framework\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Layout $layout
      * @return string
      */
     protected function _wrapEsi(

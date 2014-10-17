@@ -31,7 +31,7 @@ class DeleteWebsitePost extends \Magento\Backend\Controller\Adminhtml\System\Sto
             return $redirectResult->setPath('adminhtml/*/editWebsite', ['website_id' => $model->getId()]);
         }
 
-        if(!$this->_backupDatabase()) {
+        if (!$this->_backupDatabase()) {
             return $redirectResult->setPath('*/*/editWebsite', ['website_id' => $itemId]);
         }
 

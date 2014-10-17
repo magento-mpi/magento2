@@ -32,6 +32,8 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
      * @param Action\Context $context
      * @param Builder $productBuilder
      * @param Initialization\StockDataFilter $stockFilter
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
