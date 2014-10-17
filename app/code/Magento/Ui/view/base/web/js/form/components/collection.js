@@ -99,11 +99,11 @@ define([
             this.apply();
         },
 
-        apply: function () {
+        apply: function (element) {
             var active = this.active(),
                 items  = this.items.indexBy('index');
 
-            items[active].apply();
+            items[active].apply(element);
         },
 
         initObservable: function () {

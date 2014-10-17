@@ -30,7 +30,6 @@ define([
 
         initObservable: function () {
             this.observe('active')
-                .observe('isListening', this.active())
                 .observe('values')
                 .observe('listened', []);
 
@@ -40,13 +39,10 @@ define([
         },
 
         initListeners: function () {
-            _.bindAll(this, 'listenToElement', 'isListening');
-
-            this.elements.subscribe(this.listenToElement);
-            this.active.subscribe(this.isListening);
+            this.elements.subscribe(this.initElementListeners, this);
         },
 
-        listenToElement: function () {
+        initElementListeners: function () {
             var listened    = this.listened,
                 update      = this.updateValue.bind(this),
                 alreadyListened;
@@ -62,11 +58,11 @@ define([
         },
 
         updateValue: function (element, settings) {
-            var isListening = this.isListening(),
+            var shouldUpdate = this.active(),
                 values,
                 valueStorage;
 
-            if (!isListening) {
+            if (!shouldUpdate) {
                 return;
             }
 
@@ -83,17 +79,26 @@ define([
             }
         },
 
-        apply: function () {
+        apply: function (element) {
             var values = this.values.indexBy('name'),
                 value;
 
-            this.elements.each(function (element) {
-                value = values[element.index];
-                value = value && value.value();
+            if (element) {
+                this._apply(element);
+            } else {
+                this.elements.each(this._apply, this);
+            }
+        },
 
-                element.name = this.getElementName(element);
-                element.set(value);
-            }, this);
+        _apply: function (element) {
+            var values = this.values.indexBy('name'),
+                value;
+
+            value = values[element.index];
+            value = value && value.value();
+
+            element.name = this.getElementName(element);
+            element.set(value);
         },
 
         getElementName: function (element) {
