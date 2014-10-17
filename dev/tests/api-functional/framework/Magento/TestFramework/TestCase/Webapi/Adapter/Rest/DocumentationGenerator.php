@@ -35,7 +35,7 @@ class DocumentationGenerator
             $fileContent = file_get_contents($filePath);
             $endHtml = $this->generateHtmlFooter();
             $fileContent = str_replace($endHtml, '', $fileContent);
-            $content = "{$fileContent}\n{$content}";
+            $content = "{$fileContent}{$content}";
             unlink($filePath);
             file_put_contents($filePath, $content, FILE_APPEND);
         } else {
@@ -131,9 +131,8 @@ HTML;
         <h3 class="api3" id="$lowerCaseResource-parameters">Request and response parameters</h3>
 HTML;
         $endHtml = $this->generateHtmlFooter();
-        $content = "{$beginningHtml}\n{$headingHtml}\n<pre>\n{$arguments}\n</pre>\n{$responseHtml}\n<pre>\n{$response}"
-            . "\n</pre>\n{$requestResponseParametersHtml}\n{$requestParametersHtml}\n{$responseParametersHtml}"
-            . "\n{$endHtml}";
+        $content = "{$beginningHtml}{$headingHtml}<pre>{$arguments}</pre>{$responseHtml}<pre>{$response}"
+            . "</pre>{$requestResponseParametersHtml}{$requestParametersHtml}{$responseParametersHtml}{$endHtml}";
         return $content;
     }
 
@@ -192,7 +191,7 @@ HTML;
      */
     protected function generateFileName()
     {
-        $varDir = realpath(__DIR__ . '/../../../../../..') . '/var';
+        $varDir = realpath(__DIR__ . '/../../../../../../..') . '/var';
         $documentationDir = $varDir . '/log/rest-documentation/';
         $debugBackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $pathToFile = $documentationDir;
@@ -231,7 +230,7 @@ HTML;
         if (is_array($parameters)) {
             foreach (array_keys($parameters) as $parameter) {
                 $parametersAsHtml = $parametersAsHtml . '<li><strong>' . $parameter .
-                    '</strong> (<em>Change type manually!</em>) TBD.</li>' . "\n";
+                    '</strong> (<em>Change type manually!</em>) TBD.</li>';
             }
         } else {
             $parametersAsHtml = '<li><strong>' . 'scalar_value' .
