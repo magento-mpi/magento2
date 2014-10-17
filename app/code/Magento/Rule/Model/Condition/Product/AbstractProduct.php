@@ -314,12 +314,12 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     public function collectValidatedAttributes($productCollection)
     {
         $attribute = $this->getAttribute();
+        $productCollection->addAttributeToSelect($attribute, 'left');
         if ('category_ids' != $attribute) {
             if ($this->getAttributeObject()->isScopeGlobal()) {
                 $attributes = $this->getRule()->getCollectedAttributes();
                 $attributes[$attribute] = true;
                 $this->getRule()->setCollectedAttributes($attributes);
-                $productCollection->addAttributeToSelect($attribute, 'left');
             } else {
                 $this->_entityAttributeValues = $productCollection->getAllAttributeValues($attribute);
             }
@@ -691,35 +691,6 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         }
 
         return $operator;
-    }
-
-    /**
-     * Get tables to join
-     *
-     * @return array
-     */
-    public function getTablesToJoin()
-    {
-        $tablesToJoin = parent::getTablesToJoin();
-
-        if (!$this->isAttributeSetOrCategory()) {
-            $attributeObject = $this->getAttributeObject();
-            $attributeTableAlias = $this->getEavAttributeTableAlias();
-
-            $tablesToJoin = array_merge($tablesToJoin, [
-                $attributeTableAlias => [
-                    'name' => $attributeObject->getBackend()->getTable(),
-                    'condition' => sprintf(
-                        '%1$s.entity_id = e.entity_id AND %1$s.attribute_id = \'%s\'',
-                        $attributeTableAlias,
-                        $attributeObject->getId()
-                    ),
-                    'columns' => [$attributeObject->getAttributeCode() => 'value'],
-                    'attribute_to_remove' => $this->getAttribute(),
-                ],
-            ]);
-        }
-        return $tablesToJoin;
     }
 
     /**
