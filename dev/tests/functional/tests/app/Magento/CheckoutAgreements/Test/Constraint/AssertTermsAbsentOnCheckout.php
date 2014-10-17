@@ -81,7 +81,7 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
 
         \PHPUnit_Framework_Assert::assertFalse(
             $checkoutOnepage->getAgreementReview()->checkAgreement($agreement),
-            'Checkout Agreement \'' . $agreement->getName() . '\' is not present in the Place order step.'
+            'Checkout Agreement \'' . $agreement->getName() . '\' is present in the Place order step.'
         );
     }
 

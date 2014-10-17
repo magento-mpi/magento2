@@ -22,10 +22,7 @@ use Magento\Checkout\Test\Constraint\AssertOrderSuccessPlacedMessage;
 
 /**
  * Class AssertTermsOnCheckout
- * Check that checkbox is present on the last checkout step - Order Review. Check that after Place order without click
- * on checkbox Terms and Conditions was not order successfully placed. Check that after click on checkbox Terms and
- * Conditions order successfully placed message.
- *
+ * Check that Terms and Conditions is present on the last checkout step - Order Review.
  */
 class AssertTermsOnCheckout extends AbstractConstraint
 {
@@ -42,8 +39,10 @@ class AssertTermsOnCheckout extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert checkbox is present on the last checkout step - Order Review.
-     * Click on checkbox and place order. Assert order successfully placed message.
+     * Check that checkbox is present on the last checkout step - Order Review.
+     * Check that after Place order without click on checkbox "Terms and Conditions" order was not successfully placed.
+     * Check that after clicking on "Terms and Conditions" checkbox and "Place Order" button success place order message
+     * appears.
      *
      * @param FixtureFactory $fixtureFactory
      * @param ObjectManager $objectManager
@@ -90,16 +89,16 @@ class AssertTermsOnCheckout extends AbstractConstraint
         $checkoutOnepage->getShippingMethodBlock()->clickContinue();
         $checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
-        $checkoutOnepage->getReviewBlock()->placeOrder();
+        $checkoutOnepage->getAgreementReview()->placeOrder();
 
         \PHPUnit_Framework_Assert::assertEquals(
             self::NOTIFICATION_MESSAGE,
             $checkoutOnepage->getAgreementReview()->getNotificationMassage(),
-            'Order was not successfully placed and wrong notification message is displayed.'
+            'Order can be placed.'
         );
 
         $checkoutOnepage->getAgreementReview()->setAgreement('Yes');
-        $checkoutOnepage->getReviewBlock()->placeOrder();
+        $checkoutOnepage->getAgreementReview()->placeOrder();
         $assertOrderSuccessPlacedMessage->processAssert($checkoutOnepageSuccess);
     }
 

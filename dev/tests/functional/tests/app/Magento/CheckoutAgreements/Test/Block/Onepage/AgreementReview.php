@@ -9,14 +9,14 @@
 namespace Magento\CheckoutAgreements\Test\Block\Onepage;
 
 use Mtf\Client\Element\Locator;
-use Mtf\Block\Block;
-use Mtf\Fixture\InjectableFixture;
+use Magento\Checkout\Test\Block\Onepage\Review;
+use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
 
 /**
  * Class AgreementReview
  * One page checkout order review block
  */
-class AgreementReview extends Block
+class AgreementReview extends Review
 {
     /**
      * Notification agreements locator
@@ -63,10 +63,10 @@ class AgreementReview extends Block
     /**
      * Check agreement
      *
-     * @param InjectableFixture $agreement
+     * @param CheckoutAgreement $agreement
      * @return bool
      */
-    public function checkAgreement(InjectableFixture $agreement)
+    public function checkAgreement(CheckoutAgreement $agreement)
     {
         return $this->_rootElement
             ->find(sprintf($this->agreement, $agreement->getCheckboxText()), Locator::SELECTOR_XPATH)->isVisible();
