@@ -60,6 +60,6 @@ class AssertProductConfiguringFromRequiringAttention extends AbstractConstraint
      */
     public function toString()
     {
-        return "Product can be configured and added to cart after added this product to cart by sku.";
+        return "Product can be configured from requiring attention block.";
     }
 }

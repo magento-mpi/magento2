@@ -43,7 +43,7 @@ class AdvancedCheckoutCart extends Cart
     }
 
     /**
-     * Get failed item error message
+     * Get error message in failed item block
      *
      * @param FixtureInterface $product
      * @return string
@@ -81,10 +81,10 @@ class AdvancedCheckoutCart extends Cart
     }
 
     /**
-     * Get failed item error message
+     * Get tier price messages in failed item block
      *
      * @param FixtureInterface $product
-     * @return string
+     * @return array
      */
     public function getTierPriceMessages(FixtureInterface $product)
     {

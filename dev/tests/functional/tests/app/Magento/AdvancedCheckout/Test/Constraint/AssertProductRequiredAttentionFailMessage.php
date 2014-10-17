@@ -53,6 +53,6 @@ class AssertProductRequiredAttentionFailMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Adding products by sku to shopping cart success message is present.';
+        return 'Product requires attention error message is present.';
     }
 }

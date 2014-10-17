@@ -8,14 +8,20 @@
 
 namespace Magento\AdvancedCheckout\Test\Constraint;
 
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Class AssertMaxRequestedQtyFailMessage
  * Assert that after adding products by sku to cart, requested quantity is more than allowed error message appears
  */
-class AssertMaxRequestedQtyFailMessage extends AbstractAssertErrorQuantityMessage
+class AssertMaxRequestedQtyFailMessage extends AbstractConstraint
 {
+    /**
+     * Error requested quantity message
+     */
+    const ERROR_QUANTITY_MESSAGE = 'The product cannot be added to cart in requested quantity.';
+
     /**
      * Error maximum quantity allowed message
      */

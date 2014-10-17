@@ -14,7 +14,6 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Block\Onepage\Link;
 use Mtf\Fixture\FixtureInterface;
-use Magento\AdvancedCheckout\Test\Block\Sku\Products\Info;
 use Magento\Checkout\Test\Block\Cart\CartItem;
 
 /**
@@ -61,17 +60,10 @@ class Cart extends Block
     protected $cartEmpty = '.cart-empty';
 
     /**
-     * Selector for not editable cart item block
-     *
-     * @var string
-     */
-    protected $notEditableCartItem = './/tr[contains(@class,"item-info") and contains(.,"%s")]';
-
-    /**
      * Get cart item block
      *
      * @param FixtureInterface $product
-     * @return \Magento\Checkout\Test\Block\Cart\CartItem
+     * @return CartItem
      */
     public function getCartItem(FixtureInterface $product)
     {
@@ -179,24 +171,5 @@ class Cart extends Block
     public function cartIsEmpty()
     {
         return $this->_rootElement->find($this->cartEmpty, Locator::SELECTOR_CSS)->isVisible();
-    }
-
-    /**
-     * Get not editable cart item block
-     *
-     * @param FixtureInterface $product
-     * @return CartItem
-     */
-    public function getNotEditableCartItem(FixtureInterface $product)
-    {
-        $cartItem = $this->_rootElement->find(
-            sprintf($this->notEditableCartItem, $product->getName()),
-            Locator::SELECTOR_XPATH
-        );
-
-        return $this->blockFactory->create(
-            'Magento\Checkout\Test\Block\Cart\CartItem',
-            ['element' => $cartItem]
-        );
     }
 }

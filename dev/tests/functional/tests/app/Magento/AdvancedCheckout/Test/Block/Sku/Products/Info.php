@@ -75,7 +75,7 @@ class Info extends Block
     }
 
     /**
-     *  Get tier price messages
+     * Get tier price messages
      *
      * @return array
      */

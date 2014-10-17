@@ -144,11 +144,11 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * @param CustomerInjectable $customer
      * @param string $products
      * @param array $orderOptions
-     * @param array $cartBlock
+     * @param string $cartBlock
      * @param string $config
      * @return array
      */
-    public function test(CustomerInjectable $customer, $products, array $orderOptions, array $cartBlock, $config)
+    public function test(CustomerInjectable $customer, $products, array $orderOptions, $cartBlock, $config)
     {
         // Preconditions
         $this->configuration = $config;
@@ -159,8 +159,7 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
         $orderOptions = $this->prepareOrderOptions($products, $orderOptions);
         // Steps
         $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log In");
-        $this->customerAccountLogin->getLoginBlock()->login($customer);
+        $this->loginCustomer($customer);
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Order by SKU");
         $this->customerOrderSku->getCustomerSkuBlock()->fillForm($orderOptions);
@@ -180,16 +179,15 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * Filter products
      *
      * @param array $products
-     * @param array $cartBlock
+     * @param string $cartBlock
      * @return array
      */
-    protected function filterProducts(array $products, array $cartBlock)
+    protected function filterProducts(array $products, $cartBlock)
     {
         $filteredProducts = [];
+        $cartBlock = explode(',', $cartBlock);
         foreach ($cartBlock as $key => $value) {
-            if ($value !== '-') {
-                $filteredProducts[$value][$key] = $products[$key];
-            }
+            $filteredProducts[trim($value)][$key] = $products[$key];
         }
 
         return $filteredProducts;
@@ -203,14 +201,12 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      */
     protected function createProducts($products)
     {
-        $products = explode(',', $products);
-        foreach ($products as $key => $product) {
-            list($fixture, $dataSet) = explode('::', trim($product));
-            $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            $product->persist();
-            $products[$key] = $product;
-        }
-        return $products;
+        $createProductsStep = $this->objectManager->create(
+            'Magento\Catalog\Test\TestStep\CreateProductsStep',
+            ['products' => $products]
+        );
+
+        return $createProductsStep->run()['products'];
     }
 
     /**
@@ -222,23 +218,23 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      */
     protected function prepareOrderOptions(array $products, array $orderOptions)
     {
+        foreach ($orderOptions as $key => $value) {
+            $options = explode(',', $value);
+            foreach ($options as $item => $option) {
+                $orderOptions[$item][$key] = trim($option);
+            }
+            unset($orderOptions[$key]);
+        }
+
         foreach ($products as $key => $product) {
             $productSku = $product->getSku();
             switch ($orderOptions[$key]['sku']) {
-                case "confCompoundSku":
-                    $orderOptions[$key]['sku'] = $productSku . '-'
-                        . $product->getConfigurableAttributesData()['matrix']['attribute_key_0:option_key_0']['sku'];
-                    break;
-                case "bundleCompoundSku":
-                    $orderOptions[$key]['sku'] = $productSku . '-'
-                        . $product->getBundleSelections()['products'][0][0]->getSku();
-                    break;
                 case "simpleWithOptionCompoundSku":
                     $orderOptions[$key]['sku'] = $productSku . '-'
                         . $product->getCustomOptions()[0]['options'][0]['sku'];
                     break;
-                case "nonexistentSku":
-                    $orderOptions[$key]['sku'] = 'nonexistentSku';
+                case "nonExistentSku":
+                    $orderOptions[$key]['sku'] = 'nonExistentSku';
                     break;
                 default:
                     $orderOptions[$key]['sku'] = $productSku;
@@ -256,24 +252,36 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      */
     protected function setupConfiguration($rollback = false)
     {
-        $prefix = ($rollback == false) ? '' : '_rollback';
-        $dataSets = explode(',', $this->configuration);
-        foreach ($dataSets as $dataSet) {
-            $dataSet = trim($dataSet) . $prefix;
-            $configuration = $this->fixtureFactory->createByCode('configData', ['dataSet' => $dataSet]);
-            $configuration->persist();
-        }
+        $setConfigStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => $this->configuration, 'rollback' => $rollback]
+        );
+        $setConfigStep->run();
     }
 
     /**
-     * Clear shopping cart and log out after test
+     * Login customer
+     *
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    protected function loginCustomer(CustomerInjectable $customer)
+    {
+        $loginCustomerOnFrontendStep = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $loginCustomerOnFrontendStep->run();
+    }
+
+    /**
+     * Clear shopping cart and set configuration after test
      *
      * @return void
      */
     public function tearDown()
     {
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
-        $this->customerAccountLogout->open();
         if ($this->configuration !== '-') {
             $this->setupConfiguration(true);
         }

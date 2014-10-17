@@ -12,4 +12,8 @@
         <mca>customer_order/sku</mca>
         <class>Magento\AdvancedCheckout\Test\Page\CustomerOrderSku</class>
     </customerOrderSku>
+    <checkoutCart>
+        <mca>checkout/cart/index</mca>
+        <class>Magento\AdvancedCheckout\Test\Page\CheckoutCart</class>
+    </checkoutCart>
 </page>

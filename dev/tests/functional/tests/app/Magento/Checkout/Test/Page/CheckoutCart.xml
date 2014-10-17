@@ -49,10 +49,5 @@
             <locator>ul.checkout-methods-items button.primary.checkout</locator>
             <strategy>css selector</strategy>
         </proceedToCheckoutBlock>
-        <advancedCheckoutCart>
-            <class>Magento\AdvancedCheckout\Test\Block\AdvancedCheckoutCart</class>
-            <locator>#failed-products-table</locator>
-            <strategy>css selector</strategy>
-        </advancedCheckoutCart>
     </blocks>
 </page>

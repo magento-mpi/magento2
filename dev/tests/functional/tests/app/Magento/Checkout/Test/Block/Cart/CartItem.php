@@ -212,4 +212,14 @@ class CartItem extends AbstractCartItem
     {
         return preg_replace('/^(\d+) x (\w+) \W([\d\.,]+)$/', '$1 x $2 $3', $label);
     }
+
+    /**
+     * Check that edit button visible
+     *
+     * @return bool
+     */
+    public function isEditButtonVisible()
+    {
+        return $this->_rootElement->find($this->edit)->isVisible();
+    }
 }

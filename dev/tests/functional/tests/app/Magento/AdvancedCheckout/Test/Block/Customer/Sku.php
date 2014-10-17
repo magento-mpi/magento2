@@ -57,14 +57,12 @@ class Sku extends Form
     public function fillForm(array $orderOptions)
     {
         foreach ($orderOptions as $key => $value) {
-            if ($value['sku'] !== '-') {
-                if ($key !== 0) {
-                    $this->_rootElement->find($this->addRow)->click();
-                }
-                $element = $this->_rootElement->find(sprintf($this->row, $key), Locator::SELECTOR_XPATH);
-                $mapping = $this->dataMapping($value);
-                $this->_fill($mapping, $element);
+            if ($key !== 0) {
+                $this->_rootElement->find($this->addRow)->click();
             }
+            $element = $this->_rootElement->find(sprintf($this->row, $key), Locator::SELECTOR_XPATH);
+            $mapping = $this->dataMapping($value);
+            $this->_fill($mapping, $element);
         }
     }
 }

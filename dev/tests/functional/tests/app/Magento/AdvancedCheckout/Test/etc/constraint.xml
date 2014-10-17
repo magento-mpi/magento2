@@ -35,9 +35,6 @@
     <assertProductConfiguringFromRequiringAttention module="Magento_AdvancedCheckout">
         <severeness>low</severeness>
     </assertProductConfiguringFromRequiringAttention>
-    <assertProductIsNotEditable module="Magento_AdvancedCheckout">
-        <severeness>low</severeness>
-    </assertProductIsNotEditable>
     <assertQtyIncrementsFailMessage module="Magento_AdvancedCheckout">
         <severeness>low</severeness>
     </assertQtyIncrementsFailMessage>

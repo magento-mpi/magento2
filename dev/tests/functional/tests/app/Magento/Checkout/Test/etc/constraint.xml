@@ -44,7 +44,10 @@
     <assertProductPresentInMiniShoppingCart module="Magento_Checkout">
         <severeness>low</severeness>
     </assertProductPresentInMiniShoppingCart>
-    <assertProductIsPresentInShoppingCart module="Magento_Checkout">
+    <assertProductPresentInShoppingCart module="Magento_Checkout">
         <severeness>low</severeness>
-    </assertProductIsPresentInShoppingCart>
+    </assertProductPresentInShoppingCart>
+    <assertProductIsNotEditable module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductIsNotEditable>
 </constraint>

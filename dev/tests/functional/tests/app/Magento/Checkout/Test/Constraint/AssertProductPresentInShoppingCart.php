@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
- * Class AssertProductIsPresentInShoppingCart
- * Assert that products name in shopping cart are equal to expected
+ * Class AssertProductPresentInShoppingCart
+ * Assert that products are present in shopping cart
  */
-class AssertProductIsPresentInShoppingCart extends AbstractConstraint
+class AssertProductPresentInShoppingCart extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -25,7 +25,7 @@ class AssertProductIsPresentInShoppingCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert products name in shopping cart are equal to expected
+     * Assert that products are present in shopping cart
      *
      * @param CheckoutCart $checkoutCart
      * @param array $products
@@ -35,13 +35,9 @@ class AssertProductIsPresentInShoppingCart extends AbstractConstraint
     {
         $checkoutCart->open();
         foreach ($products as $product) {
-            $cartProductName = $checkoutCart->getCartBlock()->getCartItem($product)->getName();
-            $productName = $product->getName();
-            \PHPUnit_Framework_Assert::assertEquals(
-                $cartProductName,
-                $productName,
-                'Shopping cart product name: \'' . $cartProductName
-                . '\' not equals with name from data set: \'' . $productName . '\''
+            \PHPUnit_Framework_Assert::assertTrue(
+                $checkoutCart->getCartBlock()->getCartItem($product)->isVisible(),
+                'Product ' . $product->getName() . ' is absent in shopping cart.'
             );
         }
     }
@@ -53,6 +49,6 @@ class AssertProductIsPresentInShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Products name in the shopping cart equals to expected name from data set.';
+        return 'All expected products are present in shopping cart.';
     }
 }

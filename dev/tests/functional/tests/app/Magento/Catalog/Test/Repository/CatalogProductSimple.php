@@ -419,7 +419,7 @@ class CatalogProductSimple extends AbstractRepository
             ],
         ];
 
-        $this->_data['with_custom_option'] = [
+        $this->_data['with_one_custom_option'] = [
             'type_id' => 'simple',
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product %isolation%',
@@ -446,7 +446,7 @@ class CatalogProductSimple extends AbstractRepository
             'visibility' => 'Catalog, Search',
             'checkout_data' => ['preset' => 'order_default'],
             'stock_data' => [
-                'enable_qty_increments' => '1',
+                'enable_qty_increments' => 'Yes',
                 'qty_increments' => '2',
             ],
         ];

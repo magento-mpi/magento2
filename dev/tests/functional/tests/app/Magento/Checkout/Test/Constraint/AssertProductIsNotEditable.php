@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\AdvancedCheckout\Test\Constraint;
+namespace Magento\Checkout\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
@@ -34,8 +34,8 @@ class AssertProductIsNotEditable extends AbstractConstraint
     public function processAssert(CheckoutCart $checkoutCart, array $products)
     {
         foreach ($products as $product) {
-            \PHPUnit_Framework_Assert::assertTrue(
-                $checkoutCart->getCartBlock()->getNotEditableCartItem($product)->isVisible(),
+            \PHPUnit_Framework_Assert::assertFalse(
+                $checkoutCart->getCartBlock()->getCartItem($product)->isEditButtonVisible(),
                 'Added product is editable.'
             );
         }

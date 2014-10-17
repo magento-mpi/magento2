@@ -94,6 +94,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'In Cart' => 2,
             'Before Order Confirmation' => 3
         ],
+        'enable_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
     ];
 
     /**
