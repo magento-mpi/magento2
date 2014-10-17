@@ -1,0 +1,2 @@
+"description";"product";"qty";"qtyToAction";"constraint"
+"copy one gift card product";"giftCardProduct::default";"1";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist"

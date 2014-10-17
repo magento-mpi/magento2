@@ -1,0 +1,6 @@
+"description";"product";"qty";"qtyToAction";"constraint";"issue"
+"move one product from two existed";"catalogProductSimple::default";"2";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist";"Bug: MAGETWO-28741"
+"move one product - zero left";"downloadableProductInjectable::default";"-";"-";"assertProductAbsentInDefaultWishlist, assertProductInCustomWishlist";""
+"move one product - zero left";"groupedProductInjectable::default";"-";"-";"assertProductAbsentInDefaultWishlist, assertProductInCustomWishlist";""
+"move one product - zero left";"configurableProductInjectable::default";"1";"1";"assertProductAbsentInDefaultWishlist, assertProductInCustomWishlist";""
+"move one product from two existed";"bundleProduct::bundle_fixed_product";"2";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist";"Bug: MAGETWO-28741"

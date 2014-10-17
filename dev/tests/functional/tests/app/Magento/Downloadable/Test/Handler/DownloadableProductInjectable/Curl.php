@@ -119,7 +119,8 @@ class Curl extends ProductCurl implements DownloadableProductInjectableInterface
                 $data['product']['checkout_data']['options']['links'][$key]['id'] = $linkId[1];
             }
         }
+        $checkoutData = isset($data['product']['checkout_data']) ? $data['product']['checkout_data'] : [];
 
-        return ['id' => $matches[1], 'checkout_data' => $data['product']['checkout_data']];
+        return ['id' => $matches[1], 'checkout_data' => $checkoutData];
     }
 }
