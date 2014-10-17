@@ -9,8 +9,6 @@ namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
 /**
  * Fulltext Collection
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
@@ -27,6 +25,16 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @var \Magento\CatalogSearch\Model\Fulltext
      */
     protected $_catalogSearchFulltext;
+
+    /**
+     * @var \Magento\Framework\Search\Request\Builder
+     */
+    private $requestBuilder;
+
+    /**
+     * @var \Magento\Search\Model\SearchEngine
+     */
+    private $searchEngine;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -49,8 +57,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
+     * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
-     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -74,6 +83,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\Framework\Search\Request\Builder $requestBuilder,
+        \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -99,16 +110,38 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $dateTime,
             $connection
         );
+        $this->requestBuilder = $requestBuilder;
+        $this->searchEngine = $searchEngine;
     }
 
     /**
-     * Retrieve query model object
+     * Add search query filter
      *
-     * @return \Magento\Search\Model\Query
+     * @param string $query
+     * @return $this
      */
-    protected function _getQuery()
+    public function addSearchFilter($query)
     {
-        return $this->queryFactory->get();
+        $this->requestBuilder->bindDimension('scope', $this->getStoreId());
+        $this->requestBuilder->bind('search_term', $query);
+        $this->requestBuilder->setRequestName('quick_search_container');
+        $queryRequest = $this->requestBuilder->create();
+
+        $queryResponse = $this->searchEngine->search($queryRequest);
+        $ids = [];
+        /** @var \Magento\Framework\Search\Document $document */
+        foreach ($queryResponse as $document) {
+            $ids[] = $document->getId();
+        }
+        $this->addIdFilter($ids);
+
+        $this->getSelect()->columns(
+            [
+                'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
+            ]
+        );
+
+        return $this;
     }
 
     /**
@@ -136,5 +169,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setGeneralDefaultQuery()
     {
         return $this;
+    }
+
+    /**
+     * Retrieve query model object
+     *
+     * @return \Magento\Search\Model\Query
+     */
+    protected function _getQuery()
+    {
+        return $this->queryFactory->get();
     }
 }
