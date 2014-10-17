@@ -47,10 +47,11 @@ class DataObjectConverter
     {
         if (is_array($data)) {
             $result = [];
+            $arrayElementType = substr($dataType, 0, -2);
             foreach ($data as $datum) {
                 if (is_object($datum)) {
                     $datum = $this->processDataObject(
-                        $this->dataObjectProcessor->buildOutputDataArray($datum, $dataType)
+                        $this->dataObjectProcessor->buildOutputDataArray($datum, $arrayElementType)
                     );
                 }
                 $result[] = $datum;

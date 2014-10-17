@@ -82,6 +82,9 @@ class DataObjectProcessor
                 $methodName !== 'getCustomAttribute') {
                 $value = $dataObject->{$methodName}();
                 if ($value !== null) {
+                    if ($methodName === 'getCustomAttributes' && $value === []) {
+                        continue;
+                    }
                     $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
                     if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
                         $value = $this->convertCustomAttributes($value);
@@ -89,9 +92,10 @@ class DataObjectProcessor
                         $value = $this->buildOutputDataArray($value, $returnType);
                     } else if (is_array($value)) {
                         $valueResult = array();
+                        $arrayElementType = substr($returnType, 0, -2);
                         foreach ($value as $singleValue) {
                             if (is_object($singleValue)) {
-                                $singleValue = $this->buildOutputDataArray($singleValue, $returnType);
+                                $singleValue = $this->buildOutputDataArray($singleValue, $arrayElementType);
                             }
                             $valueResult[] = $singleValue;
                         }
