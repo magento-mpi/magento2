@@ -25,11 +25,11 @@
     </referenceBlock>
 
     <referenceContainer name="main.content">
-			<block class="Magento\Framework\View\Element\Template" name="skip_to_content.target" before="-" template="Magento_Theme::html/skiptarget.phtml">
-				<arguments>
-					<argument name="target_id" xsi:type="string">contentarea</argument>
-				</arguments>
-			</block>
+        <block class="Magento\Framework\View\Element\Template" name="skip_to_content.target" before="-" template="Magento_Theme::html/skiptarget.phtml">
+            <arguments>
+                <argument name="target_id" xsi:type="string">contentarea</argument>
+            </arguments>
+        </block>
     </referenceContainer>
 
     <referenceContainer name="header.container">
