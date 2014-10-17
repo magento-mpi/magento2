@@ -1,14 +1,14 @@
 0.1.0-alpha100
 =============
  * Added the following functional tests:
-   * Add related products (MTA-506)
-   * Assign custom order status (MTA-314)
-   * Change customer password (MTA-466)
-   * Create credit memo for offline payment methods (MTA-9)
-   * Product type switching on creation (MTA-394)
-   * Sales invoice report (MTA-410)
-   * Sales refunds report (MTA-412)
-   * Update newsletter template (MTA-166)
+   * Add related products
+   * Assign custom order status
+   * Change customer password
+   * Create credit memo for offline payment methods
+   * Product type switching on creation
+   * Sales invoice report
+   * Sales refund report
+   * Update newsletter template
 
 0.1.0-alpha99
 =============
