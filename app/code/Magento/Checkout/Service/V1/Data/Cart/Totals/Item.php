@@ -14,9 +14,6 @@ namespace Magento\Checkout\Service\V1\Data\Cart\Totals;
  */
 class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
 {
-    /**#@+
-     * ITEM DATA
-     */
     /**
      * Price.
      */
@@ -31,11 +28,6 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
      * Quantity.
      */
     const QTY = 'qty';
-    /**#@-*/
-
-    /**#@+
-     * ROW TOTALS
-     */
 
     /**
      * Row total.
@@ -51,11 +43,6 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
      * Row total with discount.
      */
     const ROW_TOTAL_WITH_DISCOUNT = 'row_total_with_discount';
-    /**#@-*/
-
-    /**#@+
-     * DISCOUNT
-     */
 
     /**
      * Discount amount.
@@ -71,11 +58,6 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
      * Discount percent.
      */
     const DISCOUNT_PERCENT = 'discount_percent';
-    /**#@-*/
-
-    /**#@+
-     * TAX
-     */
 
     /**
      * Tax amount.
@@ -111,7 +93,6 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
      * Base row total including tax.
      */
     const BASE_ROW_TOTAL_INCL_TAX = 'base_row_total_incl_tax';
-    /**#@-*/
 
     /**
      * Returns the item price in quote currency.

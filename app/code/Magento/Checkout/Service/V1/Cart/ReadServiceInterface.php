@@ -9,7 +9,9 @@ namespace Magento\Checkout\Service\V1\Cart;
 
 use \Magento\Framework\Service\V1\Data\SearchCriteria;
 
-/** Cart read service interface. */
+/** 
+ * Cart read service interface. 
+ */
 interface ReadServiceInterface
 {
     /**

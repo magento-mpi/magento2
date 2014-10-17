@@ -12,7 +12,9 @@ use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\QuoteRepository;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 
-/** Cart totals service object. */
+/** 
+ * Cart totals service object. 
+ */
 class TotalsService implements TotalsServiceInterface
 {
     /**

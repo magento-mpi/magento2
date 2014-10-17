@@ -7,7 +7,9 @@
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-/** Totals service interface. */
+/** 
+ * Totals service interface. 
+ */
 interface TotalsServiceInterface
 {
     /**

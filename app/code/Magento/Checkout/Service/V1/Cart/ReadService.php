@@ -16,7 +16,9 @@ use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use \Magento\Checkout\Service\V1\Data;
 
-/** Cart read service object. */
+/** 
+ * Cart read service object. 
+ */
 class ReadService implements ReadServiceInterface
 {
     /**
