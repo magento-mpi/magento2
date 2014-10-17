@@ -8,46 +8,90 @@
 
 namespace Magento\Framework\Model;
 
+use Magento\Framework\Service\Data\MetadataServiceInterface;
+
 /**
  * Abstract model with custom attributes support.
+ *
+ * This class defines basic data structure of how custom attributes are stored in an ExtensibleModel.
+ * Implementations may choose to process custom attributes as their persistence requires them to.
  */
 abstract class AbstractExtensibleModel extends AbstractModel implements \Magento\Framework\Api\ExtensibleDataInterface
 {
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
     /**
-     * {@inheritdoc}
+     * @var MetadataServiceInterface
+     */
+    protected $metadataService;
+
+    /**
+     * @var string[]
+     */
+    protected $customAttributesCodes = null;
+
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param MetadataServiceInterface $metadataService
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
+        MetadataServiceInterface $metadataService,
+        array $data = array()
+    ) {
+        $this->metadataService = $metadataService;
+        $data = $this->filterCustomAttributes($data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * Verify custom attributes set on $data and unset if not a valid custom attribute
+     *
+     * @param array $data
+     * @return array processed data
+     */
+    protected function filterCustomAttributes($data)
+    {
+        if (empty($data[self::CUSTOM_ATTRIBUTES_KEY])) {
+            return $data;
+        }
+        $customAttributesCodes = $this->getCustomAttributesCodes();
+        $data[self::CUSTOM_ATTRIBUTES_KEY] =
+            array_intersect_key($data[self::CUSTOM_ATTRIBUTES_KEY], $customAttributesCodes);
+        return $data;
+    }
+
+    /**
+     * Retrieve custom attributes values.
+     *
+     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY]) ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY] : [];
+        // Returning as a sequential array (instead of stored associative array) to be compatible with the interface
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            ? array_values($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            : [];
     }
 
     /**
-     * {@inheritdoc}
+     * Get an attribute value.
+     *
+     * @param string $attributeCode
+     * @return \Magento\Framework\Service\Data\AttributeValue|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
-        $customAttributes = $this->getCustomAttributes();
-        return isset($customAttributes[$attributeCode]) ? $customAttributes[$attributeCode] : null;
-    }
-
-    /**
-     * Set custom attribute value.
-     *
-     * @param \Magento\Framework\Api\AttributeInterface $attribute
-     * @return $this
-     */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
-    {
-        $attributeCode = $attribute->getAttributeCode();
-        if (!isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
-            || ($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode] != $attribute)
-        ) {
-            $this->_hasDataChanges = true;
-        }
-        $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
-        return $this;
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
+            ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode]
+            : null;
     }
 
     /**
@@ -79,6 +123,56 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
             if ($data === null) {
                 /** Try to find necessary data in custom attributes */
                 $data = parent::getData(self::CUSTOM_ATTRIBUTES_KEY . "/{$key}", $index);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Fetch all custom attributes for the given extensible model
+     *
+     * @return string[]
+     */
+    protected function getCustomAttributesCodes()
+    {
+        if (!is_null($this->customAttributesCodes)) {
+            return $this->customAttributesCodes;
+        }
+        $attributeCodes = [];
+        $customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata(get_class($this));
+        if (is_array($customAttributesMetadata)) {
+            /** @var $attribute \Magento\Framework\Service\Data\MetadataObjectInterface */
+            foreach ($customAttributesMetadata as $attribute) {
+                // Create a map for easier processing
+                $attributeCodes[$attribute->getAttributeCode()] = $attribute->getAttributeCode();
+            }
+        }
+        $this->customAttributesCodes = $attributeCodes;
+        return $attributeCodes;
+    }
+
+    /**
+     * TODO : Remove when merging with branch supporting alternate methods to convert to array
+     * Return Data Model in array format.
+     *
+     * @return array
+     */
+    public function __toArray()
+    {
+        $data = $this->_data;
+        $hasToArray = function ($model) {
+            return is_object($model) && method_exists($model, '__toArray') && is_callable([$model, '__toArray']);
+        };
+        foreach ($data as $key => $value) {
+            if ($hasToArray($value)) {
+                $data[$key] = $value->__toArray();
+            } elseif (is_array($value)) {
+                foreach ($value as $nestedKey => $nestedValue) {
+                    if ($hasToArray($nestedValue)) {
+                        $value[$nestedKey] = $nestedValue->__toArray();
+                    }
+                }
+                $data[$key] = $value;
             }
         }
         return $data;
