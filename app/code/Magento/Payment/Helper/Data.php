@@ -199,7 +199,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getInfoBlockHtml(Info $info, $storeId)
     {
-        $initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId);
+        $this->_appEmulation->startEnvironmentEmulation($storeId);
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
@@ -208,11 +208,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (\Exception $exception) {
-            $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+            $this->_appEmulation->stopEnvironmentEmulation();
             throw $exception;
         }
 
-        $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+        $this->_appEmulation->stopEnvironmentEmulation();
 
         return $paymentBlockHtml;
     }
