@@ -30,9 +30,7 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 'qty' => 1
             ],
             '50_dollar_product' => [
-                'options' => [
-                    'qty' => 1
-                ],
+                'qty' => 1,
                 'cartItem' => [
                     'price' => 50,
                     'qty' => 1,
