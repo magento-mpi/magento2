@@ -23,7 +23,7 @@ class Full
      *
      * @var string
      */
-    protected $separator = '|';
+    protected $separator = ' | ';
 
     /**
      * Array of \Magento\Framework\Stdlib\DateTime\DateInterface objects per store
