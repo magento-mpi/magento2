@@ -189,16 +189,21 @@ class CreatePost extends \Magento\Customer\Controller\Account
         $this->_getSession()->regenerateId();
 
         try {
-            $customer = $this->customerExtractor->extract('customer_account_create', $this->_request);
             $address = $this->extractAddress();
             $addresses = is_null($address) ? array() : array($address);
-            $password = $this->getRequest()->getParam('password');
-            $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
+
+            $customer = $this->customerExtractor->extract('customer_account_create', $this->_request);
             $customerDetails = $this->customerDetailsBuilder
                 ->setCustomer($customer)
                 ->setAddresses($addresses)
                 ->create();
-            $customer = $this->customerAccountService->createCustomer($customerDetails, $password, $redirectUrl);
+
+            $password = $this->getRequest()->getParam('password');
+            $confirmation = $this->getRequest()->getParam('confirmation');
+            $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
+
+            $customer = $this->customerAccountService
+                ->createCustomer($customerDetails, $password, $confirmation, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->subscriberFactory->create()->subscribeCustomerById($customer->getId());
