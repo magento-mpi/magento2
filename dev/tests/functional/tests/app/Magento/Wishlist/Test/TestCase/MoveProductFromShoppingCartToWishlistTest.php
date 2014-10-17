@@ -18,7 +18,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Test Creation for Move from ShoppingCard to Wishlist
+ * Test Creation for Move Product from ShoppingCart to Wishlist
  *
  * Test Flow:
  *
@@ -34,7 +34,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * @group Shopping_Cart_(CS)
  * @ZephyrId MAGETWO-29545
  */
-class MoveFromShoppingCardToWishlistTest extends Injectable
+class MoveProductFromShoppingCartToWishlistTest extends Injectable
 {
     /**
      * Catalog product view page

@@ -79,7 +79,7 @@ class UpdateProductUrlRewriteEntityTest extends Injectable
             'urlRewrite',
             [
                 'dataSet' => 'default',
-                'data' => ['target_path' => [$urlRewrite->getTargetPath()]]
+                'data' => ['target_path' => $urlRewrite->getTargetPath()]
             ]
         );
         $productRedirect->persist();

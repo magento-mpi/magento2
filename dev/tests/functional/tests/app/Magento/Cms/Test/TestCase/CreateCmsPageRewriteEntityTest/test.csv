@@ -1,4 +1,4 @@
-"entityType/data/entity_type";"urlRewrite/data/target_path/entity";"urlRewrite/data/store_id";"urlRewrite/data/request_path";"urlRewrite/data/redirect_type";"urlRewrite/data/description";"isRequired";"constraint"
+"urlRewrite/data/entity_type";"urlRewrite/data/target_path/entity";"urlRewrite/data/store_id";"urlRewrite/data/request_path";"urlRewrite/data/redirect_type";"urlRewrite/data/description";"isRequired";"constraint"
 "For CMS page";"cms/page/view/page_id/%cmsPage::default%";"-";"request_path%isolation%";"No";"test_description_default";"Yes";"assertUrlRewriteSaveMessage, assertUrlRewriteCmsPageRedirect"
 "For CMS page";"cms/page/view/page_id/%cmsPage::default%";"-";"request_path%isolation%.html";"Temporary (302)";"test description_302";"Yes";"assertUrlRewriteSaveMessage, assertUrlRewriteCmsPageRedirect"
 "For CMS page";"cms/page/view/page_id/%cmsPage::default%";"-";"request_path%isolation%.htm";"Permanent (301)";"test description_301";"Yes";"assertUrlRewriteSaveMessage, assertUrlRewriteCmsPageRedirect"

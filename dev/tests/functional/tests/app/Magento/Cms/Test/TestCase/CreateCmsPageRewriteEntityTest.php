@@ -68,16 +68,15 @@ class CreateCmsPageRewriteEntityTest extends Injectable
     /**
      * Create CMS page rewrites
      *
-     * @param UrlRewrite $entityType
      * @param UrlRewrite $urlRewrite
      * @return array
      */
-    public function test(UrlRewrite $entityType, UrlRewrite $urlRewrite)
+    public function test(UrlRewrite $urlRewrite)
     {
         //Steps
         $this->urlRewriteIndex->open();
         $this->urlRewriteIndex->getPageActionsBlock()->addNew();
-        $this->urlRewriteEdit->getChangeUrlRewriteType()->fill($entityType);
+        $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $cmsPage = $urlRewrite->getDataFieldConfig('target_path')['source']->getEntity();
         $filter = ['title' => $cmsPage->getTitle()];
         $this->urlRewriteEdit->getCmsGridBlock()->searchAndOpen($filter);

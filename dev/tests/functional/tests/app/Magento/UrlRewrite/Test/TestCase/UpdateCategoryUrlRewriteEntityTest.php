@@ -73,7 +73,7 @@ class UpdateCategoryUrlRewriteEntityTest extends Injectable
             'urlRewrite',
             [
                 'dataSet' => 'default',
-                'data' => ['target_path' => [$category->getUrlKey() . '.html']]
+                'data' => ['target_path' => $category->getUrlKey() . '.html']
             ]
         );
         $categoryRedirect->persist();

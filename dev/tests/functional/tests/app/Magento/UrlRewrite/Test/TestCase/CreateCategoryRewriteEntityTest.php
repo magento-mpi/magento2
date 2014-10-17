@@ -77,16 +77,15 @@ class CreateCategoryRewriteEntityTest extends Injectable
      * Test check create category rewrites
      *
      * @param UrlRewrite $urlRewrite
-     * @param UrlRewrite $entityType
      * @param CatalogCategory $category
      * @return void
      */
-    public function test(UrlRewrite $urlRewrite, UrlRewrite $entityType, CatalogCategory $category)
+    public function test(UrlRewrite $urlRewrite, CatalogCategory $category)
     {
         //Steps
         $this->urlRewriteIndex->open();
         $this->urlRewriteIndex->getPageActionsBlock()->addNew();
-        $this->urlRewriteEdit->getChangeUrlRewriteType()->fill($entityType);
+        $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getTreeBlock()->selectCategory($category);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
