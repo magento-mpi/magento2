@@ -27,12 +27,14 @@ class View extends \Magento\MultipleWishlist\Controller\Search
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
-        if (!$wishlist->getId() ||
-            !$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId()
+        if (
+            !$wishlist->getId()
+            || !$wishlist->getVisibility()
+            && $wishlist->getCustomerId() != $this->_customerSession->getCustomerId()
         ) {
             throw new NotFoundException();
         }
-        $this->_coreRegistry->register('wishlist', $wishlist);
+        $this->_coreRegistry->register('shared_wishlist', $wishlist);
         $this->_view->loadLayout();
         $block = $this->_view->getLayout()->getBlock('customer.wishlist.info');
         if ($block) {
