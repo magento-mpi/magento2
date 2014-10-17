@@ -24,7 +24,7 @@ class DataObjectProcessor
 {
     const IS_METHOD_PREFIX = 'is';
     const GETTER_PREFIX = 'get';
-    const DATA_INTERFACE_METHODS_CACHE_PREFIX = 'dataInterfaceMethods';
+    const SERVICE_INTERFACE_METHODS_CACHE_PREFIX = 'serviceInterfaceMethodsMap';
 
     /**
      * @var WebapiCache
@@ -40,6 +40,11 @@ class DataObjectProcessor
      * @var array
      */
     protected $dataInterfaceMethodsMap = [];
+
+    /**
+     * @var array
+     */
+    protected $serviceInterfaceMethodsMap = [];
 
     /**
      * Initialize dependencies.
@@ -63,15 +68,11 @@ class DataObjectProcessor
      */
     public function buildOutputDataArray($dataObject, $dataObjectType)
     {
-        $methods = $this->getDataInterfaceMethods($dataObjectType);
+        $methods = $this->getMethodsMap($dataObjectType);
         $outputData = [];
 
         /** @var MethodReflection $method */
-        foreach ($methods as $method) {
-            if ($method->getNumberOfParameters() > 0) {
-                continue;
-            }
-            $methodName = $method->getName();
+        foreach ($methods as $methodName => $returnType) {
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 if ($value !== null) {
@@ -84,15 +85,12 @@ class DataObjectProcessor
                     if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
                         $value = $this->convertCustomAttributes($value);
                     } else if (is_object($value)) {
-                        $value = $this->buildOutputDataArray($value, $this->getMethodReturnType($method));
+                        $value = $this->buildOutputDataArray($value, $returnType);
                     } else if (is_array($value)) {
                         $valueResult = array();
                         foreach ($value as $singleValue) {
                             if (is_object($singleValue)) {
-                                $singleValue = $this->buildOutputDataArray(
-                                    $singleValue,
-                                    $this->getMethodReturnType($method)
-                                );
+                                $singleValue = $this->buildOutputDataArray($singleValue, $returnType);
                             }
                             $valueResult[] = $singleValue;
                         }
@@ -106,14 +104,15 @@ class DataObjectProcessor
     }
 
     /**
-     * Get return type by reading the DocBlock of the given method
+     * Get return type by interface name and method
      *
-     * @param MethodReflection $methodReflection
+     * @param string $interfaceName
+     * @param string $methodName
      * @return string
      */
-    public function getMethodReturnType($methodReflection)
+    public function getMethodReturnType($interfaceName, $methodName)
     {
-        return str_replace('[]', '', $this->typeProcessor->getGetterReturnType($methodReflection)['type']);
+        return $this->getMethodsMap($interfaceName)[$methodName];
     }
 
     /**
@@ -150,24 +149,36 @@ class DataObjectProcessor
     }
 
     /**
-     * Return data interface methods loaded from cache
+     * Return service interface or Data interface methods loaded from cache
      *
-     * @param string $dataInterfaceName
+     * @param string $interfaceName
      * @return array
+     * <pre>
+     * Service methods' reflection data stored in cache as 'methodName' => 'returnType'
+     * ex.
+     * [
+     *  'create' => '\Magento\Customer\Api\Data\Customer',
+     *  'validatePassword' => 'boolean'
+     * ]
+     * </pre>
      */
-    protected function getDataInterfaceMethods($dataInterfaceName)
+    public function getMethodsMap($interfaceName)
     {
-        $key = self::DATA_INTERFACE_METHODS_CACHE_PREFIX . "-" . md5($dataInterfaceName);
-        if (!isset($this->dataInterfaceMethodsMap[$key])) {
-            $methods = $this->cache->load($key);
-            if ($methods) {
-                $this->dataInterfaceMethodsMap[$key] = unserialize($methods);
+        $key = self::SERVICE_INTERFACE_METHODS_CACHE_PREFIX . "-" . md5($interfaceName);
+        if (!isset($this->serviceInterfaceMethodsMap[$key])) {
+            $methodMap = $this->cache->load($key);
+            if ($methodMap) {
+                $this->serviceInterfaceMethodsMap[$key] = unserialize($methodMap);
             } else {
-                $class = new ClassReflection($dataInterfaceName);
-                $this->dataInterfaceMethodsMap[$key] = $class->getMethods();
-                $this->cache->save(serialize($this->dataInterfaceMethodsMap[$key]), $key);
+                $methodMap = [];
+                $class = new ClassReflection($interfaceName);
+                foreach ($class->getMethods() as $method) {
+                    $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method);
+                }
+                $this->serviceInterfaceMethodsMap[$key] = $methodMap;
+                $this->cache->save(serialize($this->serviceInterfaceMethodsMap[$key]), $key);
             }
         }
-        return $this->dataInterfaceMethodsMap[$key];
+        return $this->serviceInterfaceMethodsMap[$key];
     }
 }

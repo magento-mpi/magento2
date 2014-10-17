@@ -169,14 +169,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
-            /** @var ClassReflection $serviceClassReflector */
-            $serviceClassReflector = $this->_objectManager->create(
-                'Zend\Code\Reflection\ClassReflection',
-                [$serviceClassName]
-            );
             $serviceMethodReturnType =
-                $this->dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethodName));
+                $this->dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceMethodReturnType);

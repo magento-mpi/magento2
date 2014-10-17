@@ -117,11 +117,8 @@ class Handler
             );
         }
         $service = $this->_objectManager->get($serviceClass);
-        /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
-        /** @var ClassReflection $serviceClassReflector */
-        $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClass]);
         $serviceMethodReturnType =
-            $this->_dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethod));
+            $this->_dataObjectProcessor->getMethodReturnType($serviceClass, $serviceMethod);
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
         $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
         return $this->_prepareResponseData($outputData, $serviceMethodReturnType);
