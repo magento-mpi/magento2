@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
 use \Magento\Sales\Model\QuoteRepository;
@@ -15,7 +16,7 @@ use \Magento\Framework\Exception\StateException;
 use \Magento\Framework\Exception\InputException;
 
 /**
- * Shipping method read service object.
+ * Shipping method read service.
  */
 class ReadService implements ReadServiceInterface
 {
@@ -60,8 +61,8 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritDoc}
      *
-     * @param int $cartId The shopping cart ID.
-     * @return ShippingMethod|null Shipping method. Otherwise, null.
+     * @param int $cartId The cart ID.
+     * @return ShippingMethod|null Shipping method.
      * @throws \Magento\Framework\Exception\StateException The shipping address is not set.
      */
     public function getMethod($cartId)
@@ -97,11 +98,11 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * Divides names in a specified line at a specified delimiter character.
+     * Divides names at specified delimiter character on a specified line.
      *
      * @param string $delimiter The delimiter character.
      * @param string $line The line.
-     * @return array An array of names.
+     * @return array Array of names.
      * @throws \Magento\Framework\Exception\InputException The specified line does not contain the specified delimiter character.
      */
     protected function divideNames($delimiter, $line)
@@ -115,8 +116,8 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritDoc}
      *
-     * @param int $cartId The shopping cart ID.
-     * @return array|\Magento\Checkout\Service\V1\Data\Cart\ShippingMethod[] An array of shipping methods.
+     * @param int $cartId The cart ID.
+     * @return array|\Magento\Checkout\Service\V1\Data\Cart\ShippingMethod[] Array of shipping methods.
      * @throws \Magento\Framework\Exception\StateException The shipping address is not set.
      */
     public function getList($cartId)
