@@ -66,7 +66,7 @@ define([
                 return;
             }
 
-            values          = this.values.indexBy('name');
+            values          = this.getIndexedValues();
             valueStorage    = values[element.index];
 
             if (!valueStorage) {
@@ -79,8 +79,12 @@ define([
             }
         },
 
+        getIndexedValues: function () {
+            return this.values.indexBy('name');
+        },
+
         apply: function (element) {
-            var values = this.values.indexBy('name'),
+            var values = this.getIndexedValues(),
                 value;
 
             if (element) {
@@ -91,7 +95,7 @@ define([
         },
 
         _apply: function (element) {
-            var values = this.values.indexBy('name'),
+            var values = this.getIndexedValues(),
                 value;
 
             value = values[element.index];
