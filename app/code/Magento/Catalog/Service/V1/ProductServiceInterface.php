@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1;
 /**
  * Class ProductServiceInterface
  * @package Magento\Catalog\Service\V1
+ * @deprecated
  * @todo remove this interface
  */
 interface ProductServiceInterface
@@ -70,7 +71,7 @@ interface ProductServiceInterface
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults containing Data\Product objects
      * @deprecated
-     * @see \\Magento\Catalog\Api\ProductRepositoryInterface::getList
+     * @see \Magento\Catalog\Api\ProductRepositoryInterface::getList
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

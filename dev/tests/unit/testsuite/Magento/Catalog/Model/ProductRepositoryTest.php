@@ -8,6 +8,8 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\TestFramework\Helper\ObjectManager;
+
 class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -31,7 +33,13 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $productFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->productMock));
-        $this->model = new ProductRepository($productFactoryMock);
+        $objectManager = new ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            'Magento\Catalog\Model\ProductRepository',
+            [
+                'productFactory' => $productFactoryMock,
+            ]
+        );
     }
 
     /**
@@ -59,6 +67,6 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('setData')->with('_edit_mode', true);
         $this->productMock->expects($this->once())->method('load')->with('test_id');
-        $this->assertSame($this->productMock, $this->model->get('test_sku', true));
+        $this->assertSame($this->productMock, $this->model->get('test_sku', ['edit_mode' => true]));
     }
 } 

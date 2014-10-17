@@ -11,7 +11,8 @@
     <preference for="Magento\Catalog\Service\V1\MetadataServiceInterface" type="Magento\Catalog\Service\V1\MetadataService" />
     <preference for="Magento\Catalog\Service\V1\Product\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Product\MetadataService" />
     <preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />
-    <preference for="Magento\Catalog\Service\V1\ProductServiceInterface" type="Magento\Catalog\Service\V1\ProductService" />
+    <preference for="Magento\Catalog\Api\Data\ProductInterface" type="Magento\Catalog\Model\Product" />
+    <preference for="Magento\Catalog\Api\ProductRepositoryInterface" type="Magento\Catalog\Model\ProductRepository" />
     <preference for="Magento\Catalog\Service\V1\Category\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\WriteService" />

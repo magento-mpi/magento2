@@ -9,7 +9,7 @@ namespace Magento\Catalog\Model;
 
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
-
+use Magento\Catalog\Api\Data\ProductInterface;
 /**
  * Catalog product model
  *
@@ -28,7 +28,8 @@ use Magento\Framework\Object\IdentityInterface;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityInterface, SaleableInterface
+class Product extends \Magento\Catalog\Model\AbstractModel
+    implements IdentityInterface, SaleableInterface, ProductInterface
 {
     /**
      * Entity code.
@@ -417,6 +418,47 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         } else {
             return $this->getData('price');
         }
+    }
+
+    /**
+     * Get visibility status
+     * @see \Magento\Catalog\Model\Product\Visibility
+     *
+     * @return int
+     */
+    public function getVisibility()
+    {
+        return $this->_getData('visibility');
+    }
+
+    /**
+     * Get product attribute set id
+     *
+     * @return int
+     */
+    public function getAttributeSetId()
+    {
+        return $this->_getData('attribute_set_id');
+    }
+
+    /**
+     * Get product creation date
+     *
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->_getData('created_at');
+    }
+
+    /**
+     * Get previous product update date
+     *
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->_getData('updated_at');
     }
 
     /**
