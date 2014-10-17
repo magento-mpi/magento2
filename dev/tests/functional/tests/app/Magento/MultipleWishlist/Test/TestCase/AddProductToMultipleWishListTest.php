@@ -133,10 +133,10 @@ class AddProductToMultipleWishListTest extends Injectable
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->fillOptions($product);
         $checkoutData = $product->getCheckoutData();
-        if (isset($checkoutData['options']['qty'])) {
+        if (isset($checkoutData['qty'])) {
             $qty = $duplicate === 'yes'
-                ? $checkoutData['options']['qty'] / 2
-                : $checkoutData['options']['qty'];
+                ? $checkoutData['qty'] / 2
+                : $checkoutData['qty'];
             $this->catalogProductView->getViewBlock()->setQty($qty);
         }
         $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
