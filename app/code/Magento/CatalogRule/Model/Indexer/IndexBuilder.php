@@ -301,7 +301,7 @@ class IndexBuilder
     }
 
     /**
-     * @param string $tableName
+     * @param $tableName
      * @return string
      */
     protected function getTable($tableName)

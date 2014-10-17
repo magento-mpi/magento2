@@ -694,6 +694,35 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     }
 
     /**
+     * Get tables to join
+     *
+     * @return array
+     */
+    public function getTablesToJoin()
+    {
+        $tablesToJoin = parent::getTablesToJoin();
+
+        if (!$this->isAttributeSetOrCategory()) {
+            $attributeObject = $this->getAttributeObject();
+            $attributeTableAlias = $this->getEavAttributeTableAlias();
+
+            $tablesToJoin = array_merge($tablesToJoin, [
+                $attributeTableAlias => [
+                    'name' => $attributeObject->getBackend()->getTable(),
+                    'condition' => sprintf(
+                        '%1$s.entity_id = e.entity_id AND %1$s.attribute_id = \'%s\'',
+                        $attributeTableAlias,
+                        $attributeObject->getId()
+                    ),
+                    'columns' => [$attributeObject->getAttributeCode() => 'value'],
+                    'attribute_to_remove' => $this->getAttribute(),
+                ],
+            ]);
+        }
+        return $tablesToJoin;
+    }
+
+    /**
      * Check is attribute set or category
      *
      * @return bool

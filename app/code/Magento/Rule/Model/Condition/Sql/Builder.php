@@ -100,6 +100,9 @@ class Builder
         Combine $combine
     ) {
         foreach ($this->_getCombineTablesToJoin($combine) as $alias => $joinTable) {
+            if (isset($joinTable['attribute_to_remove'])) {
+                $collection->removeAttributeToSelect($joinTable['attribute_to_remove']);
+            }
             /** @var $condition AbstractCondition */
             $collection->getSelect()->joinLeft(
                 [$alias => $collection->getResource()->getTable($joinTable['name'])],
