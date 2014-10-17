@@ -184,26 +184,6 @@ class Link extends \Magento\Framework\Model\AbstractModel implements \Magento\Ca
     }
 
     /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->getData('type');
-    }
-
-    /**
-     * Get product sku
-     *
-     * @return string
-     */
-    public function getSku()
-    {
-        return $this->getData('sku');
-    }
-
-    /**
      * Get product position
      *
      * @return int
@@ -211,5 +191,74 @@ class Link extends \Magento\Framework\Model\AbstractModel implements \Magento\Ca
     public function getPosition()
     {
         return $this->getData('position');
+    }
+
+    /**
+     * Get an attribute value.
+     *
+     * @param string $attributeCode
+     * @return \Magento\Framework\Service\Data\AttributeValue|null The value. Null if the attribute has not been set
+     */
+    public function getCustomAttribute($attributeCode)
+    {
+
+    }
+
+    /**
+     * Retrieve custom attributes values as an associative array.
+     *
+     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
+     */
+    public function getCustomAttributes()
+    {
+
+    }
+
+    /**
+     * Get product SKU
+     *
+     * @identifier
+     * @return string
+     */
+    public function getProductSku()
+    {
+
+    }
+
+    /**
+     * Get link type
+     *
+     * @identifier
+     * @return string
+     */
+    public function getLinkType()
+    {
+
+    }
+
+    /**
+     * Get linked product sku
+     *
+     * @identifier
+     * @return string
+     */
+    public function getLinkedProductSku()
+    {
+
+    }
+
+    /**
+     * Get linked product type (simple, virtual, etc)
+     *
+     * @return string
+     */
+    public function getLinkedProductType()
+    {
+
+    }
+
+    public function __toArray()
+    {
+
     }
 }
