@@ -75,7 +75,7 @@ define([
                 showAjaxLoader: '_ajaxSend',
                 hideAjaxLoader: '_ajaxComplete',
                 gotoSection: function(e, section) {
-                    this._ajaxUpdateProgress(section);
+                    //this._ajaxUpdateProgress(section);
                     self.element.find('.section').filter('.' + self.sectionActiveClass).children(self.contentSelector).trigger("processStop");
                     var toActivate = this.steps.index($('#' + self.options.sectionSelectorPrefix + section));
                     this._activateSection(toActivate);
@@ -87,7 +87,7 @@ define([
                 'click [data-goto-section]' : function(e) {
                     var gotoSection = $(e.target).data('goto-section');
                     self.element.find('.section').filter('.' + self.sectionActiveClass).children(self.contentSelector).trigger("processStop");
-                    this._ajaxUpdateProgress(gotoSection);
+                    //this._ajaxUpdateProgress(gotoSection);
                     var toActivate = this.steps.index($('#' + self.options.sectionSelectorPrefix + gotoSection));
                     this._activateSection(toActivate);
                     return false;
@@ -244,6 +244,9 @@ define([
                             }
                             $(this.options.updateSelectorPrefix + response.update_section.name + this.options.updateSelectorSuffix)
                                 .html($(response.update_section.html)).trigger('contentUpdated');
+                        }
+                        if (response.update_progress) {
+                            $(this.options.checkoutProgressContainer).html($(response.update_progress.html)).trigger('progressUpdated');
                         }
                         if (response.duplicateBillingInfo) {
                             $(this.options.shipping.copyBillingSelector).prop('checked', true).trigger('click');
