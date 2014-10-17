@@ -9,11 +9,7 @@
 namespace Magento\MultipleWishlist\Test\TestCase;
 
 use Mtf\ObjectManager;
-use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
@@ -39,20 +35,6 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 class AddProductToMultipleWishListTest extends Injectable
 {
     /**
-     * Catalog Product View Page
-     *
-     * @var CatalogProductView
-     */
-    protected $catalogProductView;
-
-    /**
-     * Browser object
-     *
-     * @var Browser
-     */
-    protected $browser;
-
-    /**
      * Enable Multiple wishlist in configuration
      *
      * @return void
@@ -64,21 +46,6 @@ class AddProductToMultipleWishListTest extends Injectable
             ['configData' => 'multiple_wishlist_default']
         );
         $setupConfig->run();
-    }
-
-    /**
-     * Injection data
-     *
-     * @param CatalogProductView $catalogProductView
-     * @param Browser $browser
-     * @return void
-     */
-    public function __inject(
-        CatalogProductView $catalogProductView,
-        Browser $browser
-    ) {
-        $this->catalogProductView = $catalogProductView;
-        $this->browser = $browser;
     }
 
     /**
@@ -108,9 +75,17 @@ class AddProductToMultipleWishListTest extends Injectable
             ['customer' => $customer]
         );
         $loginCustomer->run();
-        $this->addToMultipleWishlist($product, $duplicate, $multipleWishlist);
+        $addProductToMultiplewishlist = $this->objectManager->create(
+            'Magento\MultipleWishlist\Test\TestStep\AddProductToMultipleWishlistStep',
+            ['product' => $product, 'duplicate' => $duplicate, 'multipleWishlist' => $multipleWishlist]
+        );
+        $addProductToMultiplewishlist->run();
         if ($duplicate == 'yes') {
-            $this->addToMultipleWishlist($product, $duplicate, $multipleWishlist);
+            $addProductToMultiplewishlist = $this->objectManager->create(
+                'Magento\MultipleWishlist\Test\TestStep\AddProductToMultipleWishlistStep',
+                ['product' => $product, 'duplicate' => $duplicate, 'multipleWishlist' => $multipleWishlist]
+            );
+            $addProductToMultiplewishlist->run();
         }
 
         return [
@@ -118,28 +93,6 @@ class AddProductToMultipleWishListTest extends Injectable
             'multipleWishlist' => $multipleWishlist,
             'customer' => $customer,
         ];
-    }
-
-    /**
-     * Add product to multiple wishlist
-     *
-     * @param InjectableFixture $product
-     * @param string $duplicate
-     * @param MultipleWishlist $multipleWishlist
-     * @return void
-     */
-    protected function addToMultipleWishlist(InjectableFixture $product, $duplicate, MultipleWishlist $multipleWishlist)
-    {
-        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $this->catalogProductView->getViewBlock()->fillOptions($product);
-        $checkoutData = $product->getCheckoutData();
-        if (isset($checkoutData['qty'])) {
-            $qty = $duplicate === 'yes'
-                ? $checkoutData['qty'] / 2
-                : $checkoutData['qty'];
-            $this->catalogProductView->getViewBlock()->setQty($qty);
-        }
-        $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
     }
 
     /**

@@ -60,7 +60,7 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             $data['fixtureData'],
             $data['pageData'],
-            'Wrong duplicate message is displayed.'
+            'Product data on order create page not equals to passed from fixture.'
         );
     }
 
@@ -74,16 +74,17 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     protected function prepareData(array $data, Items $itemsBlock)
     {
         $fixtureData = [];
-        $pageData = [];
         foreach ($data['products'] as $product) {
             $checkoutData = $product->getCheckoutData();
             $fixtureData[] = [
                 'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
-                'checkout_data' => ['qty' => $this->productsIsConfigured ? $checkoutData['qty'] : 1],
+                'checkout_data' => [
+                    'qty' => $this->productsIsConfigured && isset($checkoutData['qty']) ? $checkoutData['qty'] : 1
+                ],
             ];
-            $pageData[] = $itemsBlock->getItemProductByName($product->getName())->getCheckoutData($this->fields);
         }
+        $pageData = $itemsBlock->getProductsDataByFields($this->fields);
 
         return ['fixtureData' => $fixtureData, 'pageData' => $pageData];
     }
@@ -96,7 +97,9 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
      */
     protected function getProductPrice(FixtureInterface $product)
     {
-        return $product->getPrice();
+        return isset ($product->getCheckoutData()['cartItem']['price'])
+        ? $product->getCheckoutData()['cartItem']['price']
+        : $product->getPrice();
     }
 
     /**

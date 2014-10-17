@@ -8,10 +8,10 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\Wishlist\Test\TestCase\MoveFromShoppingCardToWishlistTest;
+use Magento\Wishlist\Test\TestCase\MoveProductFromShoppingCartToWishlistTest;
 
 /**
- * Test Creation for Move GiftCard Product from ShoppingCard to Wishlist
+ * Test Creation for Move GiftCard Product from ShoppingCart to Wishlist
  *
  * Test Flow:
  *
@@ -27,7 +27,7 @@ use Magento\Wishlist\Test\TestCase\MoveFromShoppingCardToWishlistTest;
  * @group Shopping_Cart_(CS)
  * @ZephyrId MAGETWO-29545
  */
-class MoveGiftCardProductFromShoppingCardToWishlistTest extends MoveFromShoppingCardToWishlistTest
+class MoveGiftCardProductFromShoppingCartToWishlistTest extends MoveProductFromShoppingCartToWishlistTest
 {
     //
 }
