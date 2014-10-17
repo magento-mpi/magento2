@@ -100,6 +100,7 @@ Magento_Search
 Magento_Sendfriend
 Magento_Shipping
 Magento_Sitemap
+Magento_Solr
 Magento_Store
 Magento_TargetRule
 Magento_Tax
