@@ -8,7 +8,6 @@
 
 namespace Magento\Webapi\Model;
 
-use Magento\Webapi\Model\Cache;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Service\SimpleDataObjectConverter;
@@ -16,6 +15,7 @@ use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
+use Magento\Webapi\Model\Cache\Type as WebapiCache;
 
 /**
  * Data object processor for de-serialization using class reflection
@@ -27,7 +27,7 @@ class DataObjectProcessor
     const DATA_INTERFACE_METHODS_CACHE_PREFIX = 'dataInterfaceMethods';
 
     /**
-     * @var Cache
+     * @var WebapiCache
      */
     protected $cache;
 
@@ -44,10 +44,10 @@ class DataObjectProcessor
     /**
      * Initialize dependencies.
      *
-     * @param Cache $cache
+     * @param WebapiCache $cache
      * @param TypeProcessor $typeProcessor
      */
-    public function __construct(Cache $cache, TypeProcessor $typeProcessor)
+    public function __construct(WebapiCache $cache, TypeProcessor $typeProcessor)
     {
         $this->cache = $cache;
         $this->typeProcessor = $typeProcessor;
@@ -159,13 +159,13 @@ class DataObjectProcessor
     {
         $key = self::DATA_INTERFACE_METHODS_CACHE_PREFIX . "-" . md5($dataInterfaceName);
         if (!isset($this->dataInterfaceMethodsMap[$key])) {
-            $methods = $this->cache->loadFromCache($key);
+            $methods = $this->cache->load($key);
             if ($methods) {
                 $this->dataInterfaceMethodsMap[$key] = unserialize($methods);
             } else {
                 $class = new ClassReflection($dataInterfaceName);
                 $this->dataInterfaceMethodsMap[$key] = $class->getMethods();
-                $this->cache->saveToCache(serialize($this->dataInterfaceMethodsMap[$key]), $key);
+                $this->cache->save(serialize($this->dataInterfaceMethodsMap[$key]), $key);
             }
         }
         return $this->dataInterfaceMethodsMap[$key];

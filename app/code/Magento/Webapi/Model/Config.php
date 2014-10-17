@@ -8,9 +8,9 @@
 
 namespace Magento\Webapi\Model;
 
-use Magento\Webapi\Model\Cache;
 use Magento\Webapi\Model\Config\Reader;
 use Zend\Code\Reflection\ClassReflection;
+use Magento\Webapi\Model\Cache\Type as WebapiCache;
 
 /**
  * Web API Config Model.
@@ -27,7 +27,7 @@ class Config
     const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Service\\\\(V\d+)+(\\\\.+)Interface$/';
 
     /**
-     * @var Cache
+     * @var WebapiCache
      */
     protected $cache;
 
@@ -44,10 +44,10 @@ class Config
     /**
      * Initialize dependencies.
      *
-     * @param Cache $cache
+     * @param WebapiCache $cache
      * @param Reader $configReader
      */
-    public function __construct(Cache $cache, Reader $configReader)
+    public function __construct(WebapiCache $cache, Reader $configReader)
     {
         $this->cache = $cache;
         $this->configReader = $configReader;
@@ -61,12 +61,12 @@ class Config
     public function getServices()
     {
         if (null === $this->services) {
-            $services = $this->cache->loadFromCache(self::CACHE_ID);
+            $services = $this->cache->load(self::CACHE_ID);
             if ($services && is_string($services)) {
                 $this->services = unserialize($services);
             } else {
                 $this->services = $this->configReader->read();
-                $this->cache->saveToCache(serialize($this->services), self::CACHE_ID);
+                $this->cache->save(serialize($this->services), self::CACHE_ID);
             }
         }
         return $this->services;
