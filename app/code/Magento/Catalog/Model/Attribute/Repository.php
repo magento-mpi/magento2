@@ -205,8 +205,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $attributeData->isUserDefined(1);
         }
 
-        $updatedAttribute = $this->attributeBuilder->create();
-        $this->attributeResource->save($updatedAttribute);
+        $this->attributeResource->save($attributeData->create());
         return true;
     }
 
