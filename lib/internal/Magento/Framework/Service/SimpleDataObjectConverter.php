@@ -9,10 +9,23 @@ namespace Magento\Framework\Service;
 
 use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Service\Data\AbstractSimpleObject;
+use Magento\Webapi\Model\DataObjectProcessor;
 
 class SimpleDataObjectConverter
 {
+    /**
+     * @var DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
+     * @param DataObjectProcessor $dataObjectProcessor
+     */
+    public function __construct(DataObjectProcessor $dataObjectProcessor)
+    {
+        $this->dataObjectProcessor = $dataObjectProcessor;
+    }
+
     /**
      * Convert nested array into flat array.
      *
@@ -130,6 +143,20 @@ class SimpleDataObjectConverter
     }
 
     /**
+     * Convert a CamelCase string read from method into field key in snake_case
+     *
+     * e.g. DefaultShipping => default_shipping
+     *      Postcode => postcode
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function camelCaseToSnakeCase($name)
+    {
+        return strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+    }
+
+    /**
      * Converts the incoming data into scalar or an array of scalars format.
      *
      * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
@@ -139,21 +166,26 @@ class SimpleDataObjectConverter
      * contents and convert each piece individually.
      *
      * @param mixed $data
+     * @param string $dataType
      * @return array|int|string|bool|float Scalar or array of scalars
      */
-    public function processServiceOutput($data)
+    public function processServiceOutput($data, $dataType)
     {
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if ($datum instanceof AbstractSimpleObject) {
-                    $datum = $this->processDataObject($datum->__toArray());
+                if (is_object($datum)) {
+                    $datum = $this->processDataObject(
+                        $this->dataObjectProcessor->buildOutputDataArray($datum, $dataType)
+                    );
                 }
                 $result[] = $datum;
             }
             return $result;
-        } else if ($data instanceof AbstractSimpleObject) {
-            return $this->processDataObject($data->__toArray());
+        } else if (is_object($data)) {
+            return $this->processDataObject(
+                $this->dataObjectProcessor->buildOutputDataArray($data, $dataType)
+            );
         } else if (is_null($data)) {
             return [];
         } else {
