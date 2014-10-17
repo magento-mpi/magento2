@@ -53,7 +53,7 @@ class Plugin
     {
         if (!is_null($localeCode)) {
             $this->_translate->setLocale($localeCode)
-                ->loadData(null);
+                ->loadData();
         }
     }
 }
