@@ -28,7 +28,7 @@ class AgreementGrid extends Grid
      *
      * @var string
      */
-    protected $firstRowSelector = '//tr[1]/td[contains(@class, "col-name")]';
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-name")]][1]';
 
     /**
      * Filters array mapping

@@ -32,7 +32,7 @@ class CheckoutAgreement extends InjectableFixture
         'name' => 'DefaultName%isolation%',
         'is_active' => 'Enabled',
         'is_html' => 'Text',
-        'stores' => ['Main Website/Main Website Store/Default Store View'],
+        'stores' => ['dataSet' => 'default_store_view'],
         'checkbox_text' => 'test_checkbox%isolation%',
         'content' => 'TestMessage%isolation%',
     ];
@@ -96,6 +96,7 @@ class CheckoutAgreement extends InjectableFixture
     protected $stores = [
         'attribute_code' => 'store_ids',
         'backend_type' => 'virtual',
+        'source' => 'Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement\Stores',
     ];
 
     public function getAgreementId()

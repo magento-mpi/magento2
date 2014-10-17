@@ -38,15 +38,6 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
     ];
 
     /**
-     * Mapping stores value
-     *
-     * @var array
-     */
-    protected $mappingStores = [
-        'Main Website/Main Website Store/Default Store View' => 1
-    ];
-
-    /**
      * Url for save checkout agreement
      *
      * @var string
@@ -63,7 +54,7 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . $this->url;
-        $data = $this->prepareData($this->replaceMappingData($fixture->getData()));
+        $data = $this->prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.1', [], $data);
         $response = $curl->read();
@@ -80,18 +71,19 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
     /**
      * Prepare data
      *
-     * @param array $data
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function prepareData(array $data)
+    protected function prepareData($fixture)
     {
-        if (isset($data['stores'])) {
-            foreach ($data['stores'] as $key => $store) {
-                if (isset($this->mappingStores[$store])) {
-                    $data['stores'][$key] = $this->mappingStores[$store];
-                }
-            }
+        $data = [];
+        /** @var \Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement $fixture */
+        $stores = $fixture->getDataFieldConfig('stores')['source']->getStores();
+        foreach ($stores as $store) {
+            /** @var \Magento\Store\Test\Fixture\Store $store */
+            $data['stores'][] = $store->getStoreId();
         }
+        $data = $this->replaceMappingData(array_merge($fixture->getData(), $data));
 
         return $data;
     }

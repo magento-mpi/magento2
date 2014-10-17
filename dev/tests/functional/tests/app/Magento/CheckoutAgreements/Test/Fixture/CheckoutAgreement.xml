@@ -68,6 +68,7 @@
             <is_required>1</is_required>
             <default_value>0</default_value>
             <input>multiselectgrouplist</input>
+            <spurce>Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement\Stores</spurce>
         </stores>
     </fields>
     <repository_class>Magento\CheckoutAgreements\Test\Repository\Term</repository_class>
