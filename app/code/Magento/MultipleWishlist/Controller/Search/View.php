@@ -27,8 +27,7 @@ class View extends \Magento\MultipleWishlist\Controller\Search
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
-        if (
-            !$wishlist->getId()
+        if (!$wishlist->getId()
             || !$wishlist->getVisibility()
             && $wishlist->getCustomerId() != $this->_customerSession->getCustomerId()
         ) {
