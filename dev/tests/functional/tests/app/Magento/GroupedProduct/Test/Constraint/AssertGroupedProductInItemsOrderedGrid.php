@@ -57,7 +57,7 @@ class AssertGroupedProductInItemsOrderedGrid extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             $data['fixtureData'],
             $data['pageData'],
-            'Wrong duplicate message is displayed.'
+            'Grouped product data on order create page not equals to passed from fixture.'
         );
     }
 
@@ -71,19 +71,18 @@ class AssertGroupedProductInItemsOrderedGrid extends AbstractConstraint
     protected function prepareData(array $data, Items $itemsBlock)
     {
         $fixtureData = [];
-        $pageData = [];
         foreach ($data['products'] as $product) {
             $products = $product->getAssociated()['products'];
             foreach ($products as $key => $value) {
                 $fixtureData[$key]['name'] = $value->getName();
                 $fixtureData[$key]['price'] = $value->getPrice();
-                $pageData[$key] = $itemsBlock->getItemProductByName($value->getName())->getCheckoutData($this->fields);
             }
             $options = $product->getCheckoutData()['options'];
             foreach ($options as $key => $option) {
                 $fixtureData[$key]['checkout_data']['qty'] = $option['qty'];
             }
         }
+        $pageData = $itemsBlock->getProductsDataByFields($this->fields);
 
         return ['fixtureData' => $fixtureData, 'pageData' => $pageData];
     }

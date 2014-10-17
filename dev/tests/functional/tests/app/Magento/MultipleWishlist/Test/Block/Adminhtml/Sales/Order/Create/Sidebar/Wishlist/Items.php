@@ -19,13 +19,6 @@ use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar;
  */
 class Items extends Sidebar
 {
-    /**
-     * Locator for wish list item name
-     *
-     * @var string
-     */
-    protected $itemName = '//tr/td[contains(.,"%s")]';
-
     // @codingStandardsIgnoreStart
     /**
      * Locator for 'Add To Order' checkbox
@@ -43,13 +36,6 @@ class Items extends Sidebar
     protected $addToOrderGrouped = '//tr[td[contains(.,"%s")]]//td/a/img';
 
     /**
-     * Locator for submit button
-     *
-     * @var string
-     */
-    protected $submit = '//ancestor::body//button[@data-ui-id="order-content-submit-order-top-button-button"]';
-
-    /**
      * Select item to add to order
      *
      * @param InjectableFixture $product
@@ -58,12 +44,6 @@ class Items extends Sidebar
      */
     public function selectItemToAddToOrder(InjectableFixture $product, $qty)
     {
-        $target = $this->_rootElement->find($this->submit, Locator::SELECTOR_XPATH);
-        $this->_rootElement->find(
-            sprintf($this->itemName, $product->getName()),
-            Locator::SELECTOR_XPATH
-        )->dragAndDrop($target);
-
         if ($product instanceof GroupedProductInjectable) {
             $this->_rootElement->find(
                 sprintf($this->addToOrderGrouped, $product->getName()),

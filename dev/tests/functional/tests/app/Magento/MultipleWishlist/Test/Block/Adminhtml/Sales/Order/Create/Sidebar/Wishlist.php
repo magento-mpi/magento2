@@ -13,7 +13,7 @@ use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar;
 
 /**
  * Class Wishlist
- * Wish list block on backend
+ * Wish list block in Customer's Activities sidebar in create order on backend
  */
 class Wishlist extends Sidebar
 {
@@ -45,7 +45,7 @@ class Wishlist extends Sidebar
     /**
      * Get last ordered items block
      *
-     * @return \Mtf\Block\BlockInterface
+     * @return \Magento\MultipleWishlist\Test\Block\Adminhtml\Sales\Order\Create\Sidebar\Wishlist\Items
      */
     public function getWishlistItemsBlock()
     {

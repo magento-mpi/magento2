@@ -49,6 +49,8 @@ class AddProductToMultipleWishlistStep implements TestStepInterface
     protected $multipleWishlist;
 
     /**
+     * Variable that determines whether to add product to wish list for the second time or not
+     *
      * @var string
      */
     protected $duplicate;
@@ -76,11 +78,24 @@ class AddProductToMultipleWishlistStep implements TestStepInterface
     }
 
     /**
-     * Add product to multiple wishlist
+     * Add product to multiple wish list
      *
      * @return void
      */
     public function run()
+    {
+        $this->addToMultipleWishlist();
+        if ($this->duplicate == 'yes') {
+            $this->addToMultipleWishlist();
+        }
+    }
+
+    /**
+     * Add product to multiple wish list
+     *
+     * @return void
+     */
+    protected function addToMultipleWishlist()
     {
         $this->browser->open($_ENV['app_frontend_url'] . $this->product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->fillOptions($this->product);

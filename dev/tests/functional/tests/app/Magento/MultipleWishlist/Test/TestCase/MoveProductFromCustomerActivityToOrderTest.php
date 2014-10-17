@@ -126,18 +126,12 @@ class MoveProductFromCustomerActivityToOrderTest extends Injectable
             ['product' => $product, 'duplicate' => $duplicate, 'multipleWishlist' => $multipleWishlist]
         );
         $addProductToMultiplewishlist->run();
-        if ($duplicate == 'yes') {
-            $addProductToMultiplewishlist = $this->objectManager->create(
-                'Magento\MultipleWishlist\Test\TestStep\AddProductToMultipleWishlistStep',
-                ['product' => $product, 'duplicate' => $duplicate, 'multipleWishlist' => $multipleWishlist]
-            );
-            $addProductToMultiplewishlist->run();
-        }
+
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $this->customerIndexEdit->getPageActionsBlock()->createOrder();
-        $this->orderCreateIndex->getWishlistBlock()->selectWishlist($multipleWishlist->getName());
-        $wishlistItemsBlock = $this->orderCreateIndex->getWishlistBlock()->getWishlistItemsBlock();
+        $this->orderCreateIndex->getMultipleWishlistBlock()->selectWishlist($multipleWishlist->getName());
+        $wishlistItemsBlock = $this->orderCreateIndex->getMultipleWishlistBlock()->getWishlistItemsBlock();
         $wishlistItemsBlock->selectItemToAddToOrder($product, $qtyToMove);
         if (!$product instanceof GroupedProductInjectable) {
             $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
