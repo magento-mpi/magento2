@@ -89,9 +89,10 @@ class DataObjectProcessor
                         $value = $this->buildOutputDataArray($value, $returnType);
                     } else if (is_array($value)) {
                         $valueResult = array();
+                        $arrayElementType = substr($returnType, 0, -2);
                         foreach ($value as $singleValue) {
                             if (is_object($singleValue)) {
-                                $singleValue = $this->buildOutputDataArray($singleValue, $returnType);
+                                $singleValue = $this->buildOutputDataArray($singleValue, $arrayElementType);
                             }
                             $valueResult[] = $singleValue;
                         }
