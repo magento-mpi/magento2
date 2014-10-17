@@ -195,7 +195,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $firstRowSelector = '//tr[1]/td[1]';
+    protected $firstRowSelector = '';
 
     /**
      * Get backend abstract block
