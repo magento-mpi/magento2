@@ -33,34 +33,39 @@ class Review implements SetupInterface
     protected $csvReaderFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $productFactory;
-
-    /**
      * @var \Magento\Review\Model\RatingFactory
      */
     protected $ratingFactory;
 
     /**
+     * @var array
+     */
+    protected $productIds;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
+     */
+    protected $productCollection;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      */
     public function __construct(
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Review\Model\RatingFactory $ratingFactory
+        \Magento\Review\Model\RatingFactory $ratingFactory,
+        \Magento\Catalog\Model\Resource\Product\Collection $productCollection
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
-        $this->productFactory = $productFactory;
         $this->ratingFactory = $ratingFactory;
+        $this->productCollection = $productCollection->addAttributeToSelect('sku');
     }
 
     /**
@@ -71,14 +76,13 @@ class Review implements SetupInterface
         echo 'Installing product reviews' . PHP_EOL;
 
         $review = $this->reviewFactory->create();
-        $productModel = $this->productFactory->create();
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
         foreach ($csvReader as $row) {
-            $product = $productModel->loadByAttribute('sku', $row['sku']);
-            if (!$product) {
+            $productId = $this->getProductIdBySku($row['sku']);
+            if (!$productId) {
                 continue;
             }
             /** @var $review \Magento\Review\Model\Review */
@@ -86,7 +90,7 @@ class Review implements SetupInterface
             $review->setEntityId(
                 $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
             )->setEntityPkValue(
-                $product->getId()
+                $productId
             )->setNickname(
                 $row['reviewer']
             )->setTitle(
@@ -110,10 +114,29 @@ class Review implements SetupInterface
                 $review->getId()
             )->addOptionVote(
                 $row['rating'],
-                $product->getId()
+                $productId
             );
             echo '.';
         }
         echo PHP_EOL;
+    }
+
+    /**
+     * Retrieve product ID by sku
+     *
+     * @param string $sku
+     * @return int|null
+     */
+    protected function getProductIdBySku($sku)
+    {
+        if (empty($this->productIds)) {
+            foreach ($this->productCollection as $product) {
+                $this->productIds[$product->getSku()] = $product->getId();
+            }
+        }
+        if (isset($this->productIds[$sku])) {
+            return $this->productIds[$sku];
+        }
+        return null;
     }
 }
