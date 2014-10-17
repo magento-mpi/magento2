@@ -29,7 +29,7 @@ class DeleteGroupPost extends \Magento\Backend\Controller\Adminhtml\System\Store
             return $redirectResult->setPath('adminhtml/*/editGroup', ['group_id' => $model->getId()]);
         }
 
-        if(!$this->_backupDatabase()) {
+        if (!$this->_backupDatabase()) {
             return $redirectResult->setPath('*/*/editGroup', ['group_id' => $itemId]);
         }
 

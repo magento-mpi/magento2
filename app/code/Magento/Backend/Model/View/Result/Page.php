@@ -29,7 +29,6 @@ class Page extends View\Result\Page
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
      * @param App\Action\Title $title
-     * @param array $data
      */
     public function __construct(
         View\Element\Template\Context $context,
@@ -42,8 +41,7 @@ class Page extends View\Result\Page
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
         App\Action\Title $title
-    )
-    {
+    ) {
         parent::__construct(
             $context,
             $layoutFactory,

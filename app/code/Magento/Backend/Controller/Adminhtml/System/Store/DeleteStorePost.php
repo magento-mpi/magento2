@@ -30,7 +30,7 @@ class DeleteStorePost extends \Magento\Backend\Controller\Adminhtml\System\Store
             return $redirectResult->setPath('adminhtml/*/editStore', ['store_id' => $model->getId()]);
         }
 
-        if(!$this->_backupDatabase()) {
+        if (!$this->_backupDatabase()) {
             return $redirectResult->setPath('*/*/editStore', ['store_id' => $itemId]);
         }
 
