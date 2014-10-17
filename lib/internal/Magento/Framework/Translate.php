@@ -181,9 +181,7 @@ class Translate implements \Magento\Framework\TranslateInterface
         $this->_loadPackTranslation();
         $this->_loadDbTranslation();
 
-        if (!$forceReload) {
-            $this->_saveCache();
-        }
+        $this->_saveCache();
 
         return $this;
     }
