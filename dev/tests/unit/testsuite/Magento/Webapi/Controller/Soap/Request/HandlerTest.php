@@ -39,6 +39,16 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Service\DataObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_dataObjectProcessorMock;
 
+    /**
+     * @var \Zend\Code\Reflection\ClassReflection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $classReflectionMock;
+
+    /**
+     * @var \Zend\Code\Reflection\MethodReflection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $methodReflectionMock;
+
     /** @var array */
     protected $_arguments;
 
@@ -60,10 +70,16 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         $this->_dataObjectProcessorMock = $this->getMock(
             'Magento\Webapi\Model\DataObjectProcessor',
-            [],
+            ['getMethodReturnType'],
             [],
             '',
             false);
+//        $this->dataObjectProcessorMock = $this->getMockBuilder('Magento\Webapi\Model\DataObjectProcessor')
+//            ->disableOriginalConstructor()->setMethods(['getMethodReturnType'])->getMockForAbstractClass();
+        $this->classReflectionMock = $this->getMockBuilder('Zend\Code\Reflection\ClassReflection')
+            ->disableOriginalConstructor()->setMethods(['getMethod'])->getMockForAbstractClass();
+        $this->methodReflectionMock = $this->getMockBuilder('Zend\Code\Reflection\MethodReflection')
+            ->disableOriginalConstructor()->setMethods(['getMethod'])->getMockForAbstractClass();
 
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
@@ -118,8 +134,13 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($serviceMock));
         $this->_serializerMock->expects($this->once())->method('getInputData')->will($this->returnArgument(2));
 
-        $this->_dataObjectProcessorMock->expects($this->once())
-            ->method('getMethodReturnType')
+        $this->_objectManagerMock->expects($this->any())->method('create')
+            ->will($this->returnValue($this->classReflectionMock));
+        $this->classReflectionMock->expects($this->any())->method('getMethod')
+            ->with($methodName)
+            ->will($this->returnValue($this->methodReflectionMock));
+        $this->_dataObjectProcessorMock->expects($this->any())->method('getMethodReturnType')
+            ->with($this->methodReflectionMock)
             ->will($this->returnValue('string'));
 
         /** Execute SUT. */
