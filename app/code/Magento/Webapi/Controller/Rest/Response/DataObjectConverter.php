@@ -12,6 +12,9 @@ use Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Service\ExtensibleDataObjectConverter;
 use Magento\Webapi\Model\DataObjectProcessor;
 
+/**
+ * Data object converter for REST
+ */
 class DataObjectConverter
 {
     /**
