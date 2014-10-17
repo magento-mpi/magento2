@@ -64,12 +64,18 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $productHelper;
 
     /**
+     * @var \Magento\Framework\Filter\FilterManager
+     */
+    protected $filterManager;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Attribute $attributeResource
      * @param \Magento\Catalog\Model\Entity\AttributeBuilder $attributeBuilder
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder
      * @param \Magento\Framework\Data\Search\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Data\Search\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Eav\Model\AttributeRepository $eavAttributeRepository
      * @param \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -82,6 +88,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder,
         \Magento\Framework\Data\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Data\Search\FilterBuilder $filterBuilder,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Eav\Model\AttributeRepository $eavAttributeRepository,
         \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -93,6 +100,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
+        $this->filterManager = $filterManager;
         $this->eavAttributeRepository = $eavAttributeRepository;
         $this->attributeIdentifierFactory = $attributeIdentifierFactory;
         $this->eavConfig = $eavConfig;
@@ -202,7 +210,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $attributeData->setEntityTypeId($this->eavConfig
                 ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)->getId()
             );
-            $attributeData->isUserDefined(1);
+            $attributeData->setIsUserDefined(1);
         }
 
         $this->attributeResource->save($attributeData->create());
@@ -226,7 +234,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     protected function generateCode($label)
     {
-        $code = substr(preg_replace('/[^a-z_0-9]/', '_', $this->filter->translitUrl($label)), 0, 30);
+        $code = substr(preg_replace('/[^a-z_0-9]/', '_', $this->filterManager->translitUrl($label)), 0, 30);
         $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,29}[a-z0-9]$/'));
         if (!$validatorAttrCode->isValid($code)) {
             $code = 'attr_' . ($code ?: substr(md5(time()), 0, 8));
