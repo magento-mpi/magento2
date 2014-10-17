@@ -110,14 +110,19 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Asserts mock objects with methods that are expected to be called when http->launch() is invoked.
+     */
     private function setUpLaunch()
     {
-        $this->requestMock->expects($this->once())->method('getFrontName')->will($this->returnValue('frontName'));
+        $frontName = 'frontName';
+        $areaCode = 'areaCode';
+        $this->requestMock->expects($this->once())->method('getFrontName')->will($this->returnValue($frontName));
         $this->areaListMock->expects($this->once())
             ->method('getCodeByFrontName')
-            ->with('frontName')->will($this->returnValue('areaCode'));
+            ->with($frontName)->will($this->returnValue($areaCode));
         $this->configLoaderMock->expects($this->once())
-            ->method('load')->with('areaCode')->will($this->returnValue([]));
+            ->method('load')->with($areaCode)->will($this->returnValue([]));
         $this->objectManagerMock->expects($this->once())->method('configure')->with([]);
         $this->objectManagerMock->expects($this->once())
             ->method('get')
