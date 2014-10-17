@@ -1,1 +1,1 @@
-The module is used for input data validation in the presentation layer (HTTP controllers, API resource controllers, EAV-forms, etc.) and service layer. The validation.xml schema is described in the /lib/Magento/Framework/Validator/validation.xsd file. Validation configuration consists of rules and groups that can be defined in the validation.xml file in the module /etc/ directory. 
+This library extends Zend Framework's validator library and is used for validating input data in forms. An XML-configuration file allows constraints to be set in a declarative way.
