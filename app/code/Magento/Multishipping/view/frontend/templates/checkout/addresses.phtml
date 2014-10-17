@@ -40,7 +40,7 @@
                                 <label for="ship-<?php echo $_index ?>-<?php echo $_item->getQuoteItemId() ?>-qty" class="label">
                                     <span><?php echo __('Qty') ?></span>
                                 </label>
-                                <div class="control qty">
+                                <div class="control">
                                     <input type="number" id="ship-<?php echo $_index ?>-<?php echo $_item->getQuoteItemId() ?>-qty" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty" data-validate="{number: true}"/>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                     <label for="ship_<?php echo $_index ?>_<?php echo $_item->getQuoteItemId() ?>_address" class="label">
                                         <span><?php echo __('Send To') ?></span>
                                     </label>
-                                    <div class="control address">
+                                    <div class="control">
                                         <?php echo $this->getAddressesHtmlSelect($_item, $_index); ?>
                                     </div>
                                 </div>
