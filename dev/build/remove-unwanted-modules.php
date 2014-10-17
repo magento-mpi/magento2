@@ -8,13 +8,13 @@
 
 define(
     'USAGE',
-    "Usage: php -f remove-unwanted-modules.php -- --list-file module_list_file\n"
+    "Usage: php -f remove-unwanted-modules.php -- --included-module-list-file module_list_file\n"
 );
 
 $opt = getopt(
     '',
     [
-        'list-file:',
+        'included-module-list-file:',
     ]
 );
 
@@ -32,7 +32,7 @@ try {
     $magentoBaseDirectory = dirname(dirname(__DIR__));
     $magentoCodeDirectory = $magentoBaseDirectory . '/app/code/Magento';
 
-    $moduleListFile = $opt['list-file'];
+    $moduleListFile = $opt['included-module-list-file'];
     if (!is_file($moduleListFile)) {
         throw new Exception("The specified module list file does not exist: " . $moduleListFile);
     }

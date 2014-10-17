@@ -31,7 +31,7 @@
             if="env.bamboo_build_module_list_file"
             description="Remove modules according to test profile">
         <exec executable="php" dir="${basedir}/dev/build" failonerror="true">
-            <arg line="remove-unwanted-modules.php --list-file ${env.bamboo_build_module_list_file}"/>
+            <arg line="remove-unwanted-modules.php --included-module-list-file ${env.bamboo_build_module_list_file}"/>
         </exec>
     </target>
 
