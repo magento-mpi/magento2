@@ -18,24 +18,24 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * Test Flow:
  *
  * Preconditions:
- * 1. Create customer
- * 2. Create products from dataSet
- * 3. Add products to the customer's wish list (composite products should be configured)
+ * 1. Create customer.
+ * 2. Create products from dataSet.
+ * 3. Add products to the customer's wish list (composite products should be configured).
  *
  * Steps:
- * 1. Log in to backend
- * 2. Go to Customers > All Customers
- * 3. Search and open customer
- * 4. Open wish list tab
- * 5. Perform assertions
+ * 1. Log in to backend.
+ * 2. Go to Customers > All Customers.
+ * 3. Search and open customer.
+ * 4. Open wish list tab.
+ * 5. Perform assertions.
  *
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29616
  */
-class ViewCustomerWishlistOnBackendTest extends AbstractWishlist
+class ViewCustomerWishlistOnBackendTest extends AbstractWishlistTest
 {
     /**
-     * Prepare data
+     * Prepare customer for test.
      *
      * @param CustomerInjectable $customer
      * @return array
@@ -48,7 +48,7 @@ class ViewCustomerWishlistOnBackendTest extends AbstractWishlist
     }
 
     /**
-     * Configure customer wish list on backend
+     * Configure customer wish list on backend.
      *
      * @param CustomerInjectable $customer
      * @param string $product

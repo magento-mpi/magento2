@@ -9,7 +9,6 @@
 namespace Magento\Wishlist\Test\TestCase;
 
 use Mtf\ObjectManager;
-use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -18,10 +17,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AbstractWishlist
- * Abstract class for wish list on frontend tests
+ * Class AbstractWishlistTest
+ * Abstract class for wish list tests
  */
-abstract class AbstractWishlist extends Injectable
+abstract class AbstractWishlistTest extends Injectable
 {
     /**
      * Object Manager
@@ -52,13 +51,6 @@ abstract class AbstractWishlist extends Injectable
     protected $fixtureFactory;
 
     /**
-     * Browser
-     *
-     * @var Browser
-     */
-    protected $browser;
-
-    /**
      * Wishlist index page
      *
      * @var WishlistIndex
@@ -66,12 +58,11 @@ abstract class AbstractWishlist extends Injectable
     protected $wishlistIndex;
 
     /**
-     * Injection data
+     * Injection data.
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogProductView $catalogProductView
      * @param FixtureFactory $fixtureFactory
-     * @param Browser $browser
      * @param WishlistIndex $wishlistIndex
      * @param ObjectManager $objectManager
      * @return void
@@ -80,20 +71,18 @@ abstract class AbstractWishlist extends Injectable
         CmsIndex $cmsIndex,
         CatalogProductView $catalogProductView,
         FixtureFactory $fixtureFactory,
-        Browser $browser,
         WishlistIndex $wishlistIndex,
         ObjectManager $objectManager
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
         $this->fixtureFactory = $fixtureFactory;
-        $this->browser = $browser;
         $this->wishlistIndex = $wishlistIndex;
         $this->objectManager = $objectManager;
     }
 
     /**
-     * Login customer
+     * Login customer.
      *
      * @param CustomerInjectable $customer
      * @return void
@@ -108,7 +97,7 @@ abstract class AbstractWishlist extends Injectable
     }
 
     /**
-     * Create products
+     * Create products.
      *
      * @param string $products
      * @return array
@@ -124,7 +113,7 @@ abstract class AbstractWishlist extends Injectable
     }
 
     /**
-     * Add products to wish list
+     * Add products to wish list.
      *
      * @param array $products
      * @param bool $configure [optional]
@@ -132,14 +121,11 @@ abstract class AbstractWishlist extends Injectable
      */
     protected function addToWishlist(array $products, $configure = false)
     {
-        foreach ($products as $product) {
-            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            if ($configure) {
-                $this->catalogProductView->getViewBlock()->addToWishlist($product);
-            } else {
-                $this->catalogProductView->getViewBlock()->clickAddToWishlist();
-            }
+        $addProductsToWishlistStep = $this->objectManager->create(
+            'Magento\Wishlist\Test\TestStep\AddProductsToWishlistStep',
+            ['products' => $products, 'configure' => $configure]
+        );
 
-        }
+        $addProductsToWishlistStep->run();
     }
 }

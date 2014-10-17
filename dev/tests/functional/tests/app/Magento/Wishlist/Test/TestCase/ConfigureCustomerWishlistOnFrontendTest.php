@@ -31,7 +31,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29507
  */
-class ConfigureCustomerWishlistOnFrontendTest extends AbstractWishlistOnFrontend
+class ConfigureCustomerWishlistOnFrontendTest extends AbstractWishlistTest
 {
     /**
      * Prepare data
