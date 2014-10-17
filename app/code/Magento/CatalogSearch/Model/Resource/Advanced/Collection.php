@@ -150,6 +150,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             }
 
             $this->addFieldToFilter('entity_id', array('in' => $ids));
+//            $orderByIds = $this->getConnection()->quoteInto('FIELD(entity_id, ?)', $ids);
+//            $this->setOrder($orderByIds, Select::SQL_ASC);
         }
 
         return $this;

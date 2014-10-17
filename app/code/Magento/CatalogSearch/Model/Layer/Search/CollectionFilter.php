@@ -11,6 +11,7 @@ namespace Magento\CatalogSearch\Model\Layer\Search;
 use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\Product\Visibility;
+use Magento\Framework\DB\Select;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Search\Model\QueryFactory;
 
@@ -73,6 +74,7 @@ class CollectionFilter implements CollectionFilterInterface
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility($this->productVisibility->getVisibleInSearchIds());
+            ->setVisibility($this->productVisibility->getVisibleInSearchIds())
+            ->setOrder('relevance', Select::SQL_ASC);
     }
 }

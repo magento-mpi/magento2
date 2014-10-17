@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
+use Magento\Framework\DB\Select;
+
 /**
  * Fulltext Collection
  */
@@ -125,6 +127,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $this->requestBuilder->bindDimension('scope', $this->getStoreId());
         $this->requestBuilder->bind('search_term', $query);
         $this->requestBuilder->setRequestName('quick_search_container');
+        $this->requestBuilder->setFrom($this->getLastPageNumber() * $this->getPageSize());
+        $this->requestBuilder->setSize($this->getPageSize());
         $queryRequest = $this->requestBuilder->create();
 
         $queryResponse = $this->searchEngine->search($queryRequest);
@@ -151,7 +155,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param string $dir
      * @return $this
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = Select::SQL_DESC)
     {
         if ($attribute == 'relevance') {
             $this->getSelect()->order("relevance {$dir}");
