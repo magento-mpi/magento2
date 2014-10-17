@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="OnePageCheckoutTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>addProductsToTheCart</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderBackendTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>openSalesOrders</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CheckoutWithGiftMessagesTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>addProductsToTheCart</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderFromCustomerPageTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>addProducts</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>

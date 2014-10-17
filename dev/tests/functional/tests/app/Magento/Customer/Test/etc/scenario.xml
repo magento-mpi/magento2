@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="OnePageCheckoutTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <next>selectCheckoutMethod</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderBackendTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <arguments>
+                            <items name="customer">
+                                <item name="dataSet">johndoe_with_addresses</item>
+                            </items>
+                        </arguments>
+                        <next>openSalesOrders</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CheckoutWithGiftMessagesTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <next>addProductsToTheCart</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderFromCustomerPageTest" module="Magento_Customer">
+        <methods>
+            <method name="test">
+                <steps>
+                    <first>createCustomer</first>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <next>openCustomerOnBackend</next>
+                    </step>
+                    <step name="openCustomerOnBackend" module="Magento_Customer">
+                        <next>createOrderFromCustomerAccount</next>
+                    </step>
+                    <step name="createOrderFromCustomerAccount" module="Magento_Customer">
+                        <next>createProducts</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>
