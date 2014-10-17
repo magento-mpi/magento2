@@ -29,11 +29,10 @@ define([
 
         initItems: function () {
             var data = this.provider.data.get(this.data_namespace),
-                items,
                 config,
                 values;
 
-            items = _.map(data, function (value, index) {
+            _.map(data, function (value, index) {
                 values = _.map(value, function (value, name) {
                     return {
                         value:  value,
@@ -60,7 +59,7 @@ define([
 
             settings = {
                 index:      count,
-                elements:   this.elems,
+                groups:     this.elems,
                 value:      [],
                 namespace:  this.data_namespace
             };
@@ -99,11 +98,11 @@ define([
             this.apply();
         },
 
-        apply: function (element) {
+        apply: function (group) {
             var active = this.active(),
                 items  = this.items.indexBy('index');
 
-            items[active].apply(element);
+            items[active] && items[active].apply(group);
         },
 
         initObservable: function () {

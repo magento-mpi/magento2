@@ -209,6 +209,15 @@
                                 "data_type": "text",
                                 "input_type": "input",
                                 "label": "Last Name"
+                            },
+                            "middle_name": {
+                                "index": "middle_name",
+                                "data_type": "text",
+                                "input_type": "input",
+                                "label": "Middle Name",
+                                "validation": {
+                                    "required-entry": true
+                                }
                             }
                         }
                     }
@@ -228,6 +237,7 @@
                         "addresses": {
                             "0": {
                                 "prefix": "Bla",
+                                "middle_name": "Some middle_name",
                                 "firstname": "Yo"
                             },
                             "1": {
@@ -403,7 +413,16 @@
                         "customer.general",
                         "customer.disable_auto"
                     ]
-                }
+                },
+                "customer_addresses_general": {
+                    "label": "General info",
+                    "injections": [
+                        "customer.addresses.prefix",
+                        "customer.addresses.firstname"
+                    ]
+                },
+                "customer_addresses_middle_name": "customer.addresses.middle_name",
+                "customer_addresses_lastname": "customer.addresses.lastname"
             },
             "fieldsets": {
                 "customer_addresses": {
@@ -480,9 +499,9 @@
             },
             "customer_addresses": {
                 "item": [
-                    "customer.addresses.prefix",
-                    "customer.addresses.firstname",
-                    "customer.addresses.lastname"
+                    "groups.customer_addresses_general",
+                    "groups.customer_addresses_middle_name",
+                    "groups.customer_addresses_lastname"
                 ]
             },
             "html_content": {

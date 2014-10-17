@@ -39,7 +39,7 @@ define([
         },
 
         initListeners: function () {
-            this.elements.subscribe(this.initElementListeners, this);
+            this.groups.subscribe(this.initElementListeners, this);
         },
 
         initElementListeners: function () {
@@ -47,20 +47,21 @@ define([
                 update      = this.updateValue.bind(this),
                 alreadyListened;
 
-            this.elements.each(function (element) {
-                alreadyListened = listened.contains(element);
+            this.groups.each(function (group) {
+                alreadyListened = listened.contains(group);
 
                 if (!alreadyListened) {
-                    element.on('update', update);
-                    listened.push(element);
+                    group.on('update', update);
+                    listened.push(group);
                 }
             });
         },
 
-        updateValue: function (element, settings) {
+        updateValue: function (group, settings) {
             var shouldUpdate = this.active(),
                 values,
-                valueStorage;
+                valueStorage,
+                element;
 
             if (!shouldUpdate) {
                 return;
@@ -68,6 +69,7 @@ define([
 
             values          = this.getIndexedValues();
             valueStorage    = values[element.index];
+            element         = settings.element;
 
             if (!valueStorage) {
                 this.values.push({
@@ -83,18 +85,22 @@ define([
             return this.values.indexBy('name');
         },
 
-        apply: function (element) {
+        apply: function (group) {
             var values = this.getIndexedValues(),
                 value;
 
-            if (element) {
-                this._apply(element);
+            if (group) {
+                this._apply(group);
             } else {
-                this.elements.each(this._apply, this);
+                this.groups.each(this._apply, this);
             }
         },
 
-        _apply: function (element) {
+        _apply: function (group) {
+            group.elems.each(this.__apply, this);
+        },
+
+        __apply: function (element) {
             var values = this.getIndexedValues(),
                 value;
 
