@@ -7,7 +7,9 @@
  */
 namespace Magento\Checkout\Service\V1\Item;
 
-/** Read service object. */
+/** 
+ * Read service object. 
+ */
 class ReadService implements ReadServiceInterface
 {
     /**
