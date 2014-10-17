@@ -70,11 +70,11 @@ class AssertTermsOnCheckout extends AbstractConstraint
         $shipping,
         $payment
     ) {
-        $products = $objectManager->create(
+        $createProductsStep = $objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $product]
         );
-        $product = $products->run();
+        $product = $createProductsStep->run();
 
         $billingAddress = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => 'default']);
 
@@ -94,7 +94,7 @@ class AssertTermsOnCheckout extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             self::NOTIFICATION_MESSAGE,
             $checkoutOnepage->getAgreementReview()->getNotificationMassage(),
-            'Notification message of Terms and Conditions is absent.'
+            'Notification required message of Terms and Conditions is absent.'
         );
 
         $checkoutOnepage->getAgreementReview()->setAgreement('Yes');
