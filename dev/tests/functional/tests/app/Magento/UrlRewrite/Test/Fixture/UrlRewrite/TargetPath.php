@@ -12,10 +12,10 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class IdPath
- * Prepare ID Path
+ * Class TargetPath
+ * Prepare Target Path
  */
-class IdPath implements FixtureInterface
+class TargetPath implements FixtureInterface
 {
     /**
      * Resource data
@@ -41,13 +41,13 @@ class IdPath implements FixtureInterface
     /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array $data [optional]
+     * @param string $data [optional]
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, $data = '')
     {
         $this->params = $params;
         if (!isset($data['entity']) || $data['entity'] === '-') {
-            $this->data = array_shift($data);
+            $this->data = $data;
             return;
         }
         preg_match('`%(.*?)%`', $data['entity'], $dataSet);
