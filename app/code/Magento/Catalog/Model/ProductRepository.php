@@ -58,6 +58,11 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $resourceModel;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\ProductFactory
+     */
+    protected $resourceModelFactory;
+
+    /**
      * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
      */
     protected $attributeRepository;
@@ -69,7 +74,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
         \Magento\Framework\Data\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
-        \Magento\Catalog\Model\Resource\Product $resourceModel,
+        \Magento\Catalog\Model\Resource\ProductFactory $resourceModelFactory,
         \Magento\Framework\Data\Search\FilterBuilder $filterBuilder
     ) {
         $this->productFactory = $productFactory;
@@ -77,7 +82,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $this->initializationHelper = $initializationHelper;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->resourceModel = $resourceModel;
+        $this->resourceModelFactory = $resourceModelFactory;
         $this->attributeRepository = $attributeRepository;
         $this->filterBuilder = $filterBuilder;
     }
@@ -109,6 +114,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      */
     public function save(\Magento\Catalog\Api\Data\ProductInterface $product, array $arguments = [])
     {
+        $this->resourceModel = $this->resourceModelFactory->create();
         try {
             $this->initializationHelper->initialize($product);
             $this->resourceModel->validate($product);
@@ -133,9 +139,10 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      */
     public function delete($productSku, array $arguments = [])
     {
+        $this->resourceModel = $this->resourceModelFactory->create();
         $product = $this->get($productSku);
         try {
-            $product->delete();
+            $this->resourceModel->delete($product);
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\StateException('Unable to remove product ' . $productSku);
         }
