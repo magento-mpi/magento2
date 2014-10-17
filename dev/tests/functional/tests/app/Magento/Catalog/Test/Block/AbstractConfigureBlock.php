@@ -45,6 +45,8 @@ abstract class AbstractConfigureBlock extends Form
      *
      * @param FixtureInterface $product
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function fillOptions(FixtureInterface $product)
     {
