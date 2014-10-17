@@ -31,8 +31,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
-    )
-    {
+    ) {
         parent::__construct($context, $attributeHelper);
         $this->resultPageFactory = $resultPageFactory;
         $this->resultRedirectFactory = $resultRedirectFactory;

@@ -21,7 +21,7 @@ class AlertsPriceGrid extends \Magento\Catalog\Controller\Adminhtml\Product
     protected $resultLayoutFactory;
 
     /**
-     * Constructor
+     * Constructor alert price grid
      *
      * @param Action\Context $context
      * @param Builder $productBuilder
@@ -32,8 +32,8 @@ class AlertsPriceGrid extends \Magento\Catalog\Controller\Adminhtml\Product
         Product\Builder $productBuilder,
         LayoutFactory $resultLayoutFactory
     ) {
-        $this->resultLayoutFactory = $resultLayoutFactory;
         parent::__construct($context, $productBuilder);
+        $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
     /**

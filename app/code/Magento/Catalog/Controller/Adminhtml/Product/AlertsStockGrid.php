@@ -21,7 +21,7 @@ class AlertsStockGrid extends \Magento\Catalog\Controller\Adminhtml\Product
     protected $resultLayoutFactory;
 
     /**
-     * Constructor
+     * Constructor alert stock grid
      *
      * @param Action\Context $context
      * @param Builder $productBuilder

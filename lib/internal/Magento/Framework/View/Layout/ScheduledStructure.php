@@ -247,7 +247,7 @@ class ScheduledStructure
     /**
      * Add element to scheduled structure elements list
      *
-     * @param  string $elementName
+     * @param string $elementName
      * @param array $data
      * @return void
      */
@@ -271,7 +271,7 @@ class ScheduledStructure
     /**
      * Get scheduled data for element
      *
-     * @param $elementName
+     * @param string $elementName
      * @param null $default
      * @return null
      */
@@ -285,6 +285,7 @@ class ScheduledStructure
      *
      * @param string $elementName
      * @param array $data
+     * @return void
      */
     public function setStructureElementData($elementName, array $data)
     {

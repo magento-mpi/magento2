@@ -153,6 +153,7 @@ class Block implements Layout\ReaderInterface
      *
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $currentElement
+     * @return void
      */
     protected function scheduleReference(
         Layout\ScheduledStructure $scheduledStructure,

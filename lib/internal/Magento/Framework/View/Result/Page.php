@@ -108,6 +108,8 @@ class Page extends Layout
 
     /**
      * Initialize page config reader
+     *
+     * @return void
      */
     protected function initPageConfigReader()
     {
