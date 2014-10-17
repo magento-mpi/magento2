@@ -45,8 +45,8 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
-    <route url="/V1/products/attributes/:id" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" method="info"/>
+    <route url="/V1/products/attributes/:attributeCode" method="GET">
+        <service class="Magento\Catalog\Api\ProductAttributeRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>

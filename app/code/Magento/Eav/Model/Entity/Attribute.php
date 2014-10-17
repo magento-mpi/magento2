@@ -535,7 +535,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * {@inheritdoc}
      */
-    public function getStoresFrontendLabel()
+    public function getStoreFrontendLabels()
     {
         $data = [];
         $data[0] = $this->getFrontendLabel();

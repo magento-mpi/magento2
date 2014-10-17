@@ -64,7 +64,7 @@ interface AttributeInterface
      *
      * @return array
      */
-    public function getStoresFrontendLabel();
+    public function getStoreFrontendLabels();
 
     /**
      * Get the note attribute for the element.

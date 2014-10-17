@@ -137,7 +137,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function get($identifier, array $arguments = [])
+    public function get(\Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier, array $arguments = [])
     {
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         $attribute = $this->eavConfig->getAttribute($identifier->getEntityTypeCode(), $identifier->getAttributeCode());

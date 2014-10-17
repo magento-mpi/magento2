@@ -31,7 +31,7 @@ interface ProductAttributeRepositoryInterface
      *
      * @param string $identifier
      * @param array $arguments
-     * @return \Magento\Eav\Api\Data\AttributeInterface
+     * @return \Magento\Catalog\Api\Data\ProductAttributeInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
     public function get($identifier, array $arguments = []);
