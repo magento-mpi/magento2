@@ -1,5 +1,4 @@
-Archive library provides functionalities for archiving files in following formats:
-* zip
+Archive library provides functionalities for archiving files including following formats:
 * tar
 * gz
 * bzip2
