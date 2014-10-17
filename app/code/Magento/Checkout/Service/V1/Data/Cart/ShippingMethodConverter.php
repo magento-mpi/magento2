@@ -38,8 +38,8 @@ class ShippingMethodConverter
     /**
      * Converts a specified rate model to a shipping method data object.
      *
-     * @param $rateModel The rate model.
-     * @param $quoteCurrencyCode The quote currency code.
+     * @param string $quoteCurrencyCode The quote currency code.
+     * @param \Magento\Sales\Model\Quote\Address\Rate $rateModel The rate model.
      * @return mixed Shipping method data object.
      */
     public function modelToDataObject($rateModel, $quoteCurrencyCode)
