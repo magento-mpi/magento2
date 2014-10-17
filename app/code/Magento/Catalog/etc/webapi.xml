@@ -310,31 +310,25 @@
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface" method="assignedProducts" />
+        <service class="\Magento\Catalog\Api\CategoryLinkManagementInterface" method="getAssignedProducts" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products" method="POST">
-        <service class="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" method="assignProduct" />
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" method="updateProduct" />
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products/:productSku" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" method="removeProduct" />
-        <resources>
-            <resource ref="Magento_Catalog::categories" />
-        </resources>
-    </route>
-    <route url="/V1/categories/:categoryId/products" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" method="updateProduct" />
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="delete" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>

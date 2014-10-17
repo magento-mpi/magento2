@@ -505,4 +505,6 @@
     <preference for="Magento\Catalog\Api\Data\ProductLinkTypeInterface" type="Magento\Catalog\Model\ProductLink\Type" />
     <preference for="Magento\Catalog\Api\ProductLinkManagementInterface" type="Magento\Catalog\Model\ProductLink\Management" />
     <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="\Magento\Catalog\Model\Product\Link" />
+    <preference for="\Magento\Catalog\Api\CategoryLinkManagementInterface" type="\Magento\Catalog\Model\CategoryLinkManagement" />
+    <preference for="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" type="\Magento\Catalog\Model\CategoryLinkRepository" />
 </config>
