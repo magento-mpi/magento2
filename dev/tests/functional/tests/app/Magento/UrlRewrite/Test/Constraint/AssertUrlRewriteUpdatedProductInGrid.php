@@ -14,7 +14,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
 
 /**
  * Class AssertUrlRewriteUpdatedProductInGrid
- * Assert that url product in grid.
+ * Assert that product url in url rewrite grid..
  */
 class AssertUrlRewriteUpdatedProductInGrid extends AbstractConstraint
 {
@@ -67,6 +67,6 @@ class AssertUrlRewriteUpdatedProductInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'URL Rewrite is present in grid.';
+        return 'URL Rewrite for product was changed after assign category.';
     }
 }
