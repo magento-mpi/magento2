@@ -660,8 +660,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Make sure that password and password confirmation matched
      *
-     * @param $password
-     * @param $confirmation
+     * @param string $password
+     * @param string $confirmation
+     * @return void
      * @throws InputException
      */
     protected function checkPasswordConfirmation($password, $confirmation)
