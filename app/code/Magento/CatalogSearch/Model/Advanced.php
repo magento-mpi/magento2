@@ -171,6 +171,19 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
                 continue;
             }
             $value = $values[$attribute->getAttributeCode()];
+            $this->_addSearchCriteria($attribute, $value);
+
+            if ($attribute->getAttributeCode() == 'price') {
+                $rate = 1;
+                $store = $this->_storeManager->getStore();
+                $curency = $store->getCurrentCurrencyCode();
+                if ($curency != $store->getBaseCurrencyCode()) {
+                    $rate = $store->getBaseCurrency()->getRate($curency);
+                }
+
+                $value['from'] = isset($value['from']) ? (float)$value['from'] / $rate : '';
+                $value['to'] = isset($value['to']) ? (float)$value['to'] / $rate : '';
+            }
             $condition = $this->_getResource()->prepareCondition(
                 $attribute,
                 $value,
@@ -180,7 +193,6 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
                 continue;
             }
 
-            $this->_addSearchCriteria($attribute, $value);
 
             $table = $attribute->getBackend()->getTable();
             if ($attribute->getBackendType() == 'static') {
@@ -265,6 +277,8 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
 
     /**
      * Add data about search criteria to object state
+     *
+     * @todo: Move this code to block
      *
      * @param   EntityAttribute $attribute
      * @param   mixed $value
