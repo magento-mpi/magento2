@@ -9,12 +9,10 @@
 namespace Magento\AdvancedCheckout\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
@@ -54,25 +52,11 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
-     * Customer account logout page
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
      * Customer account index page
      *
      * @var CustomerAccountIndex
      */
     protected $customerAccountIndex;
-
-    /**
-     * Fixture Factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
 
     /**
      * Customer order by SKU page
@@ -113,9 +97,7 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
-     * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
-     * @param FixtureFactory $fixtureFactory
      * @param CustomerOrderSku $customerOrderSku
      * @param CheckoutCart $checkoutCart
      * @return void
@@ -123,17 +105,13 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
-        CustomerAccountLogout $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
-        FixtureFactory $fixtureFactory,
         CustomerOrderSku $customerOrderSku,
         CheckoutCart $checkoutCart
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
-        $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountIndex = $customerAccountIndex;
-        $this->fixtureFactory = $fixtureFactory;
         $this->customerOrderSku = $customerOrderSku;
         $this->checkoutCart = $checkoutCart;
     }
@@ -152,9 +130,7 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     {
         // Preconditions
         $this->configuration = $config;
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration();
-        }
+        $this->setupConfiguration();
         $products = $this->createProducts($products);
         $orderOptions = $this->prepareOrderOptions($products, $orderOptions);
         // Steps
@@ -282,8 +258,6 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
     public function tearDown()
     {
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration(true);
-        }
+        $this->setupConfiguration(true);
     }
 }
