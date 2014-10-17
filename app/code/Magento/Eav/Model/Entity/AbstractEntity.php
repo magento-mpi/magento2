@@ -1696,7 +1696,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
                 throw $e;
             }
 
-            $this->afterDelete($object);
+            $this->_afterDelete($object);
 
             if ($object instanceof \Magento\Framework\Object) {
                 $object->isDeleted(true);

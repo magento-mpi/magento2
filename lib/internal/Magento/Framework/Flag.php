@@ -55,7 +55,9 @@ class Flag extends Model\AbstractModel
         }
 
         $this->setFlagCode($this->_flagCode);
-        $this->setLastUpdate(date('Y-m-d H:i:s'));
+        if (!$this->hasKeepUpdateDate()) {
+            $this->setLastUpdate(date('Y-m-d H:i:s'));
+        }
 
         return parent::beforeSave();
     }

@@ -244,7 +244,7 @@ class Product extends AbstractResource
         $result = parent::delete($object);
         $this->eventManager->dispatch(
             'catalog_product_delete_after_done',
-            array('product' => $this)
+            array('product' => $object)
         );
         return $result;
     }
