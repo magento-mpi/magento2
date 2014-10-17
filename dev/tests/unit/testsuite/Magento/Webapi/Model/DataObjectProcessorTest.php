@@ -33,7 +33,7 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getDataInterfaceMethods'])
             ->getMock();
-        $this->config->expects($this->once())
+        $this->config->expects($this->any())
             ->method('getDataInterfaceMethods')
             ->will($this->returnValue($methodReflections));
         $this->dataObjectProcessor = $objectManager->getObject(
