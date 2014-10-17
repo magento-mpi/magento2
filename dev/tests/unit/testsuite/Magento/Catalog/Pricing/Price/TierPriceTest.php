@@ -255,7 +255,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->priceInfo->expects($this->atLeastOnce())
             ->method('getPrice')
-            ->will($this->returnValue($price));
+            ->will($this->returnValue($price))
+            ->with(RegularPrice::PRICE_CODE);
 
         $amount = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
         $amount->expects($this->atLeastOnce())

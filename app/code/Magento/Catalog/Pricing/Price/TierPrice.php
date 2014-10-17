@@ -52,13 +52,6 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
     protected $priceList;
 
     /**
-     * Should filter by base price or not
-     *
-     * @var bool
-     */
-    protected $filterByBasePrice = false;
-
-    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
@@ -160,11 +153,6 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
         foreach ($priceList as $priceKey => $price) {
             /* filter price by customer group */
             if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
-                unset($priceList[$priceKey]);
-                continue;
-            }
-            /* select a lower price between Tier price and base price */
-            if ($this->filterByBasePrice && $price['price'] > $this->getBasePrice()) {
                 unset($priceList[$priceKey]);
                 continue;
             }
