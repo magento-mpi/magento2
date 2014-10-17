@@ -50,8 +50,7 @@ class Stores implements FixtureInterface
     {
         $this->params = $params;
         if (isset($data['dataSet'])) {
-            $dataSet = is_array($data['dataSet']) ? $data['dataSet'] : [$data['dataSet']];
-            foreach ($dataSet as $store) {
+            foreach ($data['dataSet'] as $store) {
                 $store = $fixtureFactory->createByCode('store', ['dataSet' => $store]);
                 /** @var Store $store */
                 if (!$store->getStoreId()) {

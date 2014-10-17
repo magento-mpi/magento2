@@ -90,10 +90,9 @@ class UpdateTermEntityTest extends Injectable
      */
     public static function tearDownAfterClass()
     {
-        $setupConfigurationStep = ObjectManager::getInstance()->create(
+        ObjectManager::getInstance()->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition', 'rollback' => true]
-        );
-        $setupConfigurationStep->run();
+        )->run();
     }
 }
