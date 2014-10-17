@@ -174,12 +174,11 @@ class DataObjectProcessor
                 $methodMap = [];
                 $class = new ClassReflection($interfaceName);
                 foreach ($class->getMethods() as $method) {
-                    $isGetter = (substr($method->getName(), 0, 3) == 'get');
                     $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
                         || $method->isStatic() || $method->isDestructor());
                     $isExcludedFromGeneration = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
                     $isSuitableClass = $method->class !== 'Magento\Framework\Api\ExtensibleDataInterface';
-                    if ($isGetter && $isSuitableMethodType && !$isExcludedFromGeneration && $isSuitableClass)
+                    if ($isSuitableMethodType && !$isExcludedFromGeneration && $isSuitableClass)
                         $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method)['type'];
                 }
                 $this->serviceInterfaceMethodsMap[$key] = $methodMap;
