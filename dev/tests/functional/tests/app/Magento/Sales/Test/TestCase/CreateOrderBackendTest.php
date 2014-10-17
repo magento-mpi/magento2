@@ -9,7 +9,6 @@
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\TestCase\Scenario;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
  * Test Creation for CreateOrderBackendTest
@@ -39,24 +38,6 @@ use Magento\Customer\Test\Page\CustomerAccountLogout;
 class CreateOrderBackendTest extends Scenario
 {
     /**
-     * Customer logout page
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
-     * Preparing configuration for test
-     *
-     * @param CustomerAccountLogout $customerAccountLogout
-     * @return void
-     */
-    public function __prepare(CustomerAccountLogout $customerAccountLogout)
-    {
-        $this->customerAccountLogout = $customerAccountLogout;
-    }
-
-    /**
      * Runs sales order on backend
      *
      * @return void
@@ -78,6 +59,5 @@ class CreateOrderBackendTest extends Scenario
             ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
         );
         $setConfigStep->run();
-        $this->customerAccountLogout->open();
     }
 }
