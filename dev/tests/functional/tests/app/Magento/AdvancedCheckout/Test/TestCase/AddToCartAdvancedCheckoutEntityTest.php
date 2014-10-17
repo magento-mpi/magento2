@@ -12,7 +12,6 @@ use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
@@ -43,13 +42,6 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * @var CmsIndex
      */
     protected $cmsIndex;
-
-    /**
-     * Customer account login page
-     *
-     * @var CustomerAccountLogin
-     */
-    protected $customerAccountLogin;
 
     /**
      * Customer account index page
@@ -96,7 +88,6 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      * Injection data
      *
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param CustomerOrderSku $customerOrderSku
      * @param CheckoutCart $checkoutCart
@@ -104,13 +95,11 @@ class AddToCartAdvancedCheckoutEntityTest extends Injectable
      */
     public function __inject(
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         CustomerOrderSku $customerOrderSku,
         CheckoutCart $checkoutCart
     ) {
         $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogin;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->customerOrderSku = $customerOrderSku;
         $this->checkoutCart = $checkoutCart;
