@@ -15,7 +15,7 @@
     <target name="run-ee" depends="_server_info" description="Run functional tests on EE">
         <antcall>
             <target name="_enterprise_edition"/>
-            <target name="remove-modules"/>
+            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
     </target>
