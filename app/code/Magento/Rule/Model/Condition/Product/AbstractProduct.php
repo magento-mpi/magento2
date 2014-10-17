@@ -314,8 +314,8 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     public function collectValidatedAttributes($productCollection)
     {
         $attribute = $this->getAttribute();
-        $productCollection->addAttributeToSelect($attribute, 'left');
         if ('category_ids' != $attribute) {
+            $productCollection->addAttributeToSelect($attribute, 'left');
             if ($this->getAttributeObject()->isScopeGlobal()) {
                 $attributes = $this->getRule()->getCollectedAttributes();
                 $attributes[$attribute] = true;
