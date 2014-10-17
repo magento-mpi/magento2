@@ -84,7 +84,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
         $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $this->accountService->createCustomer($customerDetailsBuilder->create(), null, null, '', true);
+        $this->accountService->createCustomer($customerDetailsBuilder->create());
 
         $this->verifySubscriptionNotExist('customer@example.com');
     }
