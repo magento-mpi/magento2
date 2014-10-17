@@ -34,6 +34,8 @@ class CommonTaxCollector extends AbstractTotal
     const ITEM_TYPE_PRODUCT = 'product';
     /**#@-*/
 
+    protected $counter = 0;
+
     /**
      * Constant for shipping item code
      */
@@ -779,5 +781,16 @@ class CommonTaxCollector extends AbstractTotal
     protected function saveAppliedTaxes()
     {
         return false;
+    }
+
+    /**
+     * Increment and return counter. This function is intended to be used to generate temporary
+     * id for an item.
+     *
+     * @return int
+     */
+    protected function getNextIncrement()
+    {
+        return ++$this->counter;
     }
 }
