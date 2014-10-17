@@ -45,6 +45,20 @@ class CartItem extends AbstractCartItem
     protected $wishlistButton = '.actions .towishlist';
 
     /**
+     * Quantity input selector
+     *
+     * @var string
+     */
+    protected $name = '.product-item-name a';
+
+    /**
+     * Cart item sub-total xpath selector
+     *
+     * @var string
+     */
+    protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
+
+    /**
      * Get product name
      *
      * @return string
@@ -53,7 +67,7 @@ class CartItem extends AbstractCartItem
     {
         $this->_rootElement->find($this->productName)->getText();
     }
-
+    
     /**
      * Get product price
      *
@@ -166,6 +180,16 @@ class CartItem extends AbstractCartItem
     }
 
     /**
+     * Get product name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_rootElement->find($this->name, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
      * Edit product item in cart
      *
      * @return void
@@ -204,5 +228,15 @@ class CartItem extends AbstractCartItem
     public function moveToWishlist()
     {
         $this->_rootElement->find($this->wishlistButton)->click();
+    }
+
+    /**
+     * Check that edit button visible
+     *
+     * @return bool
+     */
+    public function isEditButtonVisible()
+    {
+        return $this->_rootElement->find($this->edit)->isVisible();
     }
 }

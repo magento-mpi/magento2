@@ -464,6 +464,11 @@
             <group>related-products</group>
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts</source>
         </related_products>
+        <recurring_payment>
+            <attribute_code>recurring_payment</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>advanced-pricing</group>
+        </recurring_payment>
     </fields>
     <data_set>
         <sku></sku>
