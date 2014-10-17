@@ -126,7 +126,7 @@
 
 .block-giftregistry-shared-items {
     .block-title {
-        &:extend(.abstract-account-title  all);
+        &:extend(.abstract-account-title all);
     }
     
     .data.table {
@@ -264,12 +264,10 @@
             }
         }
     }
+
     .block-giftregistry-results {
         .data.table {
-            .table-bordered(
-                @_type: light,
-                @_border-width: 1px
-            );
+            &:extend(.abstract-table-bordered-desktop all);
         }
     }
 

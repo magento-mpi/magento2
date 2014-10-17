@@ -231,10 +231,7 @@
             }
         }
         .data.table {
-            .table-bordered(
-                @_type: light,
-                @_border-width: 1px
-            );
+            &:extend(.abstract-table-bordered-desktop all);
             margin-bottom: 0;
             .col {
                 &.total {
