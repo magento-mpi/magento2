@@ -7,7 +7,9 @@
  */
 namespace Magento\Checkout\Service\V1\Item;
 
-/** Write service interface. */
+/** 
+ * Write service interface. 
+ */
 interface WriteServiceInterface
 {
     /**
