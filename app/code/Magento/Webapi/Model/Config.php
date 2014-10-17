@@ -5,9 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model;
 
-use Magento\Webapi\Model\Cache\Type;
+use Magento\Webapi\Model\Cache;
 use Magento\Webapi\Model\Config\Reader;
 use Zend\Code\Reflection\ClassReflection;
 
@@ -26,9 +27,9 @@ class Config
     const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Service\\\\(V\d+)+(\\\\.+)Interface$/';
 
     /**
-     * @var Processor
+     * @var Cache
      */
-    protected $cacheProcessor;
+    protected $cache;
 
     /**
      * @var Reader
@@ -41,12 +42,14 @@ class Config
     protected $services;
 
     /**
-     * @param Processor $cacheProcessor
+     * Initialize dependencies.
+     *
+     * @param Cache $cache
      * @param Reader $configReader
      */
-    public function __construct(Processor $cacheProcessor, Reader $configReader)
+    public function __construct(Cache $cache, Reader $configReader)
     {
-        $this->cacheProcessor = $cacheProcessor;
+        $this->cache = $cache;
         $this->configReader = $configReader;
     }
 
@@ -58,12 +61,12 @@ class Config
     public function getServices()
     {
         if (null === $this->services) {
-            $services = $this->cacheProcessor->loadFromCache(self::CACHE_ID);
+            $services = $this->cache->loadFromCache(self::CACHE_ID);
             if ($services && is_string($services)) {
                 $this->services = unserialize($services);
             } else {
                 $this->services = $this->configReader->read();
-                $this->cacheProcessor->saveToCache(serialize($this->services), self::CACHE_ID);
+                $this->cache->saveToCache(serialize($this->services), self::CACHE_ID);
             }
         }
         return $this->services;

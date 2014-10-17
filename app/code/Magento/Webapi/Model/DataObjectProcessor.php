@@ -8,6 +8,7 @@
 
 namespace Magento\Webapi\Model;
 
+use Magento\Webapi\Model\Cache;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Service\SimpleDataObjectConverter;
@@ -26,9 +27,9 @@ class DataObjectProcessor
     const DATA_INTERFACE_METHODS_CACHE_PREFIX = 'dataInterfaceMethods';
 
     /**
-     * @var Processor
+     * @var Cache
      */
-    protected $cacheProcessor;
+    protected $cache;
 
     /**
      * @var TypeProcessor
@@ -41,14 +42,14 @@ class DataObjectProcessor
     protected $dataInterfaceMethodsMap = [];
 
     /**
-     * Initialize DataObjectProcessor dependencies
+     * Initialize dependencies.
      *
-     * @param Processor $cacheProcessor
+     * @param Cache $cache
      * @param TypeProcessor $typeProcessor
      */
-    public function __construct(Processor $cacheProcessor, TypeProcessor $typeProcessor)
+    public function __construct(Cache $cache, TypeProcessor $typeProcessor)
     {
-        $this->cacheProcessor = $cacheProcessor;
+        $this->cache = $cache;
         $this->typeProcessor = $typeProcessor;
     }
 
@@ -142,29 +143,29 @@ class DataObjectProcessor
         $data[AttributeValue::ATTRIBUTE_CODE] = $customAttribute->getAttributeCode();
         $value = $customAttribute->getValue();
         if (is_object($value)) {
-            $value = $this->buildOutputDataArray($value, get_class($value)); // attribute_value can be any data object
+            $value = $this->buildOutputDataArray($value, get_class($value));
         }
         $data[AttributeValue::VALUE] = $value;
         return $data;
     }
 
     /**
-     * Return Data Interface methods loaded from cache
+     * Return data interface methods loaded from cache
      *
-     * @param string $dataInterface Data Interface name
+     * @param string $dataInterfaceName
      * @return array
      */
-    protected function getDataInterfaceMethods($dataInterface)
+    protected function getDataInterfaceMethods($dataInterfaceName)
     {
-        $key = self::DATA_INTERFACE_METHODS_CACHE_PREFIX . "-" . md5($dataInterface);
+        $key = self::DATA_INTERFACE_METHODS_CACHE_PREFIX . "-" . md5($dataInterfaceName);
         if (!isset($this->dataInterfaceMethodsMap[$key])) {
-            $methods = $this->cacheProcessor->loadFromCache($key);
-            if ($methods && is_string($methods)) {
+            $methods = $this->cache->loadFromCache($key);
+            if ($methods) {
                 $this->dataInterfaceMethodsMap[$key] = unserialize($methods);
             } else {
-                $class = new ClassReflection($dataInterface);
+                $class = new ClassReflection($dataInterfaceName);
                 $this->dataInterfaceMethodsMap[$key] = $class->getMethods();
-                $this->cacheProcessor->saveToCache(serialize($this->dataInterfaceMethodsMap[$key]), $key);
+                $this->cache->saveToCache(serialize($this->dataInterfaceMethodsMap[$key]), $key);
             }
         }
         return $this->dataInterfaceMethodsMap[$key];
