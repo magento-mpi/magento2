@@ -60,12 +60,7 @@ class Preprocessor implements PreprocessorInterface
      */
     public function process(FilterInterface $filter, $isNegation, $query)
     {
-        if (method_exists($filter, 'getField')) {
-            $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
-        } else {
-            $resultQuery = $this->conditionManager->wrapBrackets($query);
-        }
-        return $resultQuery;
+        return $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
     }
 
     /**
@@ -110,7 +105,7 @@ class Preprocessor implements PreprocessorInterface
             }
         }
 
-        return 'product_id ' . ($isNegation ? 'NOT' : '') . ' IN (
+        return 'product_id ' . ' IN (
                 select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
              as filter)';
     }
