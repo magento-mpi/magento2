@@ -1104,4 +1104,19 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     {
         $this->getData('is_active');
     }
+
+    public function getCustomAttribute($attribute)
+    {
+
+    }
+
+    public function getCustomAttributes()
+    {
+
+    }
+
+    public function __toArray()
+    {
+
+    }
 }
