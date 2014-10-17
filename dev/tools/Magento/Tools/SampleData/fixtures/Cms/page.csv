@@ -1,5 +1,5 @@
 title,page_layout,meta_keywords,meta_description,identifier,content_heading,content,creation_time,update_time,is_active,sort_order,layout_update_xml,custom_theme,custom_root_template,custom_layout_update_xml,custom_theme_from,custom_theme_to
-About us,1column,,,about-us,About us,"<div class=""about-info cms-content"">
+"About us",1column,,,about-us,"About us","<div class=""about-info cms-content"">
       <p class=""cms-content-important"">With more than 230 stores spanning 43 states and growing, Luma is a nationally recognized active wear manufacturer and retailer. We’re passionate about active lifestyles – and it goes way beyond apparel.</p>
 
       <p>At Luma, wellness is a way of life. We don’t believe age, gender or past actions define you, only your ambition and desire for wholeness... today.</p>
@@ -7,50 +7,14 @@ About us,1column,,,about-us,About us,"<div class=""about-info cms-content"">
       <p>We differentiate ourselves through a combination of unique designs and styles merged with unequaled standards of quality and authenticity. Our founders have deep roots in yoga and health communities and our selections serve amateur practitioners and professional athletes alike.</p>
 
       <ul style=""list-style: none; margin-top: 20px; padding: 0;"">
-          <li><a href=""/contact-us"">Contact Luma</a></li>
+          <li><a href=""/contact"">Contact Luma</a></li>
           <li><a href=""/customer-service"">Customer Service</a></li>
           <li><a href=""/privacy-policy"">Luma Privacy Policy</a></li>
           <li><a href=""/"">Shop Luma</a></li>
       </ul>
   </div>
 ",,,1,,,,,,,
-Contact us,1column,,,contact-us,Contact us,"<div class=""contact-info cms-content"">
-    <p class=""cms-content-important"">We love hearing from you, our Luma customers. Please contact us about anything at all. Your latest passion, unique health experience or request for a specific product. We’ll do everything we can to make your Luma experience unforgettable every time. Reach us however you like</p>
-    <div class=""block block-contact-info"">
-        <div class=""block-title"">
-            <strong>Contact Us Info</strong>
-        </div>
-        <div class=""block-content"">
-            <div class=""box box-phone"">
-                <strong class=""box-title"">
-                    <span>Phone</span>
-                </strong>
-                <div class=""box-content"">
-                    <span class=""contact-info-number"">1-800-403-8838</span>
-                    <p>Call the Luma Helpline for concerns, product questions, or anything else. We’re here for you 24 hours a day - 365 days a year.</p>
-                </div>
-            </div>
-            <div class=""box box-design-inquiries"">
-                <strong class=""box-title"">
-                    <span>Apparel Design Inquiries</span>
-                </strong>
-                <div class=""box-content"">
-                    <p>Are you an independent clothing designer? Feature your products on the Luma website! Please direct all inquiries via email to: <a href=""mailto:cs@luma.com"">cs@luma.com</a></p>
-                </div>
-            </div>
-            <div class=""box box-press-inquiries"">
-                <strong class=""box-title"">
-                    <span>Press Inquiries</span>
-                </strong>
-                <div class=""box-content"">
-                    <p>Please direct all media inquiries via email to: <a href=""mailto:pr@luma.com"">pr@luma.com</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-",,,1,,,,,,,
-Privacy Policy,1column,,,privacy-policy,Privacy Policy,"<div class=""privacy-policy cms-content"">
+"Privacy Policy",1column,,,privacy-policy,"Privacy Policy","<div class=""privacy-policy cms-content"">
     <div class=""block block-collapsible-nav"">
         <div class=""title block-collapsible-nav-title"" data-mage-init=""{&quot;toggleAdvanced&quot;: {&quot;toggleContainers&quot;: &quot;#privacy-policy-nav-content&quot;, &quot;selectorsToggleClass&quot;: &quot;active&quot;}}"">Privacy Menu</div>
         <div class=""block-collapsible-content content"" id=""privacy-policy-nav-content"">
@@ -163,7 +127,7 @@ Privacy Policy,1column,,,privacy-policy,Privacy Policy,"<div class=""privacy-pol
     </div>
 </div>
 ",,,1,,,,,,,
-Customer Service,1column,,,customer-service,Customer Service,"<div class=""customer-service cms-content"">
+"Customer Service",1column,,,customer-service,"Customer Service","<div class=""customer-service cms-content"">
   <div class=""cms-content-important"">
       <h2>Luma Delivery and Returns</h2>
       <p>We hope you love shopping with Luma. Here are our delivery and returns policies to help make sure we meet your expectations. <a href=""/contact"">Contact Us.</a></p>
@@ -231,5 +195,59 @@ Customer Service,1column,,,customer-service,Customer Service,"<div class=""custo
   <p>On the back of the packing slip enclosed with your Luma order, please note the reason(s) for return and whether you wish to  exchange the item(s) or receive a credit/refund (depending on the original form of  payment).</p>
   <p>Enclose the return section of the packing slip with your item(s). Please use one  of the return labels provided on the front of your packing slip to ensure proper  return address and credit information. Restricted items must be returned using  ground transportation.</p>
   <p>Please allow 10 to 14 days for Luma to process your return.</p>
+</div>
+",,,1,,,,,,,
+"Home Page",1column,,,home,"Home Page","<div class=""blocks-promo"">
+    <a href=""#"" class=""block-promo home-main"">
+        <img src=""{{media url=""wysiwyg/home/home-main.jpg""}}"" alt="""" />
+        <span class=""content bg-white"">
+            <span class=""info"">New Luma Yoga Collection</span>
+            <strong class=""title"">Get fit and look fab in new seasonal styles</strong>
+            <span class=""action more button"">Shop New Yoga</span>
+        </span>
+    </a>
+
+    <div class=""block-promo-wrapper block-promo-hp"">
+        <a href=""#"" class=""block-promo home-pants"">
+            <img src=""{{media url=""wysiwyg/home/home-pants.jpg""}}"" alt="""" />
+            <span class=""content"">
+                <strong class=""title"">20% OFF</strong>
+                <span class=""info"">Luma pants when you shop today*</span>
+                <span class=""action more icon"">Shop Pants</span>
+            </span>
+        </a>
+        <a href=""#"" class=""block-promo home-t-shirts"">
+            <span class=""image""><img src=""{{media url=""wysiwyg/home/home-t-shirts.png""}}"" alt="""" /></span>
+            <span class=""content"">
+                <strong class=""title"">Even more ways to mix and match</strong>
+                <span class=""info"">Buy 3 Luma tees get a 4th free</span>
+                <span class=""action more icon"">Shop Tees</span>
+            </span>
+        </a>
+        <a href=""#"" class=""block-promo home-erin"">
+            <img src=""{{media url=""wysiwyg/home/home-erin.jpg""}}"" alt="""" />
+            <span class=""content"">
+                <strong class=""title"">Take it from Erin</strong>
+                <span class=""info"">Luma founder Erin Renny shares her favorites!</span>
+                <span class=""action more icon"">Shop Erin Recommends</span>
+            </span>
+        </a>
+        <a href=""#"" class=""block-promo home-performance"">
+            <img src=""{{media url=""wysiwyg/home/home-performance.jpg""}}"" alt="""" />
+            <span class=""content bg-white"">
+                <strong class=""title"">Science meets performance</strong>
+                <span class=""info"">Wicking to raingear, Luma covers&nbsp;you</span>
+                <span class=""action more icon"">Shop Performance</span>
+            </span>
+        </a>
+        <a href=""#"" class=""block-promo home-eco"">
+            <img src=""{{media url=""wysiwyg/home/home-eco.jpg""}}"" alt="""" />
+            <span class=""content bg-white"">
+                <strong class=""title"">Twice around, twice as nice</strong>
+                <span class=""info"">Find conscientious, comfy clothing in our <nobr>eco-friendly</nobr> collection</span>
+                <span class=""action more icon"">Shop Eco-Friendly</span>
+            </span>
+        </a>
+    </div>
 </div>
 ",,,1,,,,,,,
