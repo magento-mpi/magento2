@@ -42,9 +42,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomerCreated()
     {
-        $password = 'password';
-        $confirmation = 'password';
-
         $objectManager = Bootstrap::getObjectManager();
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
@@ -62,7 +59,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetailsBuilder->setCustomer($customerBuilder->create());
         $createdCustomer = $this->accountService
-            ->createCustomer($customerDetailsBuilder->create(), $password, $confirmation);
+            ->createCustomer($customerDetailsBuilder->create(), 'password');
 
         $subscriber->loadByEmail('customer_two@example.com');
         $this->assertTrue($subscriber->isSubscribed());

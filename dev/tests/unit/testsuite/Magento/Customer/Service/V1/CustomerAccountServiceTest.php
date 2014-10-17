@@ -1259,7 +1259,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateCustomer()
     {
         $password = 'password';
-        $confirmation = 'password';
         $customerData = array(
             'customer_id' => self::ID,
             'email' => self::EMAIL,
@@ -1321,14 +1320,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $customerEntity,
-            $customerService->createCustomer($customerDetails, $password, $confirmation)
+            $customerService->createCustomer($customerDetails, $password)
         );
     }
 
     public function testCreateNewCustomer()
     {
         $password = 'password';
-        $confirmation = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
@@ -1388,7 +1386,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             $customerEntity,
-            $customerService->createCustomer($customerDetails, $password, $confirmation)
+            $customerService->createCustomer($customerDetails, $password)
         );
     }
 
@@ -1399,7 +1397,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateCustomerWithException()
     {
         $password = 'password';
-        $confirmation = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
@@ -1455,13 +1452,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception('exception message')));
 
         $customerService = $this->_createService();
-        $customerService->createCustomer($customerDetails, $password, $confirmation);
+        $customerService->createCustomer($customerDetails, $password);
     }
 
     public function testCreateCustomerWithInputException()
     {
         $password = 'password';
-        $confirmation = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
@@ -1504,7 +1500,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->createCustomer($customerDetails, $password, $confirmation);
+            $customerService->createCustomer($customerDetails, $password);
         } catch (InputException $inputException) {
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
@@ -1849,7 +1845,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateAccountMailException()
     {
         $password = 'password';
-        $confirmation = 'password';
 
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -1910,7 +1905,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockCustomer));
 
         $service = $this->_createService();
-        $service->createCustomer($mockCustomerDetail, $password, $confirmation);
+        $service->createCustomer($mockCustomerDetail, $password);
         // If we get no mail exception, the test in considered a success
     }
 

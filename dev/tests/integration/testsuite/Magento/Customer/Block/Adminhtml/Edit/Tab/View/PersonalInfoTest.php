@@ -179,7 +179,6 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     public function testIsConfirmedStatusConfirmationIsNotRequired()
     {
         $password = 'password';
-        $confirmation = 'password';
         /** @var Customer $customer */
         $customer = $this->_customerBuilder->setConfirmation(
             true
@@ -194,7 +193,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
         $customerDetailsBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetails = $customerDetailsBuilder->setCustomer($customer)->create();
-        $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, $confirmation);
+        $customer = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }

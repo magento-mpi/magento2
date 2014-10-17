@@ -202,8 +202,10 @@ class CreatePost extends \Magento\Customer\Controller\Account
             $confirmation = $this->getRequest()->getParam('confirmation');
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
 
+            $this->checkPasswordConfirmation($password, $confirmation);
+
             $customer = $this->customerAccountService
-                ->createCustomer($customerDetails, $password, $confirmation, $redirectUrl);
+                ->createCustomer($customerDetails, $password, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->subscriberFactory->create()->subscribeCustomerById($customer->getId());
@@ -255,6 +257,28 @@ class CreatePost extends \Magento\Customer\Controller\Account
         $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
         $defaultUrl = $this->urlModel->getUrl('*/*/create', array('_secure' => true));
         $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
+    }
+
+    /**
+     * Make sure that password and password confirmation matched
+     *
+     * @param string $password
+     * @param string $confirmation
+     * @return void
+     * @throws InputException
+     */
+    protected function checkPasswordConfirmation($password, $confirmation)
+    {
+        $password = trim($password);
+        if (empty($password)) {
+            throw new InputException(
+                'The password must have at least %1 characters.',
+                [CustomerAccountServiceInterface::MIN_PASSWORD_LENGTH]
+            );
+        }
+        if (empty($confirmation) || $password != $confirmation) {
+            throw new InputException('Please make sure your passwords match.');
+        }
     }
 
     /**

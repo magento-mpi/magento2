@@ -100,9 +100,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testSubmitOrderExistingCustomer()
     {
-        $password = 'password';
-        $confirmation = 'password';
-
         $this->_prepareQuote(false);
 
         $customerDetails = $this->_customerDetailsBuilder->setCustomer(
@@ -110,7 +107,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         )->setAddresses(
             $this->getSampleAddressEntity()
         )->create();
-        $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password, $confirmation);
+        $customerData = $this->_customerAccountService->createCustomer($customerDetails, 'password');
 
         $existingCustomerId = $customerData->getId();
         $customerData = $this->_customerBuilder->mergeDataObjectWithArray(

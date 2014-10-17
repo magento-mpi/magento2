@@ -364,15 +364,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function createCustomer(
         Data\CustomerDetails $customerDetails,
         $password = null,
-        $confirmation = null,
-        $redirectUrl = '',
-        $generatePassword = false
+        $redirectUrl = ''
     ) {
-        if ($generatePassword) {
+        if (empty($password)) {
             $password = $this->mathRandom->getRandomString(self::MIN_PASSWORD_LENGTH);
         } else {
             $this->checkPasswordStrength($password);
-            $this->checkPasswordConfirmation($password, $confirmation);
         }
         return $this->createCustomerWithPasswordHash(
             $customerDetails,
@@ -654,21 +651,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         if ($this->stringHelper->strlen(trim($password)) != $length) {
             throw new InputException('The password can not begin or end with a space.');
-        }
-    }
-
-    /**
-     * Make sure that password and password confirmation matched
-     *
-     * @param string $password
-     * @param string $confirmation
-     * @return void
-     * @throws InputException
-     */
-    protected function checkPasswordConfirmation($password, $confirmation)
-    {
-        if (empty($confirmation) || $password != $confirmation) {
-            throw new InputException('Please make sure your passwords match.');
         }
     }
 

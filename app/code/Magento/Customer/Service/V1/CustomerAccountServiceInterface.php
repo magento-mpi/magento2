@@ -43,10 +43,8 @@ interface CustomerAccountServiceInterface
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
      * @param string $password If null then a random password will be assigned. Disregard if $hash is not empty.
-     * @param string $confirmation
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
-     * @param bool $generatePassword True to auto generate new password. By default False.
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
@@ -54,9 +52,7 @@ interface CustomerAccountServiceInterface
     public function createCustomer(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
-        $confirmation = null,
-        $redirectUrl = '',
-        $generatePassword = false
+        $redirectUrl = ''
     );
 
     /**

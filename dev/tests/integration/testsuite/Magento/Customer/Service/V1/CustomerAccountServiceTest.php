@@ -819,8 +819,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
-            $this->_customerAccountService
-                ->createCustomer($customerDetails, null, null, '', true);
+            $this->_customerAccountService->createCustomer($customerDetails);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $ie->getMessage());
@@ -846,7 +845,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $firstName = 'Firstsave';
         $lastName = 'Lastsave';
         $password = 'aPassword';
-        $confirmation = 'aPassword';
         $customerData = array_merge(
             $existingCustomer->__toArray(),
             [
@@ -861,8 +859,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerEntity = $this->_customerBuilder->create();
 
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
-        $customerAfter = $this->_customerAccountService
-            ->createCustomer($customerDetails, $password, $confirmation);
+        $customerAfter = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertGreaterThan(0, $customerAfter->getId());
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
@@ -914,7 +911,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
         $password = 'aPassword';
-        $confirmation = 'aPassword';
 
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\CustomerFactory')->create();
@@ -938,7 +934,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
-        $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password, $confirmation);
+        $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->_customerAccountService->getCustomer($customerData->getId());
         $dataInService = \Magento\Framework\Service\SimpleDataObjectConverter::toFlatArray($savedCustomer);
@@ -982,7 +978,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
         $password = 'aPassword';
-        $confirmation = 'aPassword';
 
         $this->_customerBuilder
             ->setStoreId($storeId)
@@ -992,7 +987,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
-        $savedCustomer = $this->_customerAccountService->createCustomer($customerDetails, $password, $confirmation);
+        $savedCustomer = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
@@ -1054,7 +1049,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $firstName = 'Firstsave';
         $lastname = 'Lastsave';
         $password = 'aPassword';
-        $confirmation = 'aPassword';
 
         $existingCustId = 1;
         $existingCustomer = $this->_customerAccountService->getCustomer($existingCustId);
@@ -1072,7 +1066,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
 
-        $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, $confirmation);
+        $customer = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotEmpty($customer->getId());
         $this->assertEquals($email, $customer->getEmail());
         $this->assertEquals($firstName, $customer->getFirstname());
@@ -1096,7 +1090,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
         $password = 'aPassword';
-        $confirmation = 'aPassword';
 
         $this->_customerBuilder
             ->setStoreId($storeId)
@@ -1107,7 +1100,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
 
-        $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, $confirmation);
+        $customer = $this->_customerAccountService->createCustomer($customerDetails, $password);
 
         $this->_customerBuilder->populate($customer);
         $this->_customerBuilder->setFirstname('Tested');
