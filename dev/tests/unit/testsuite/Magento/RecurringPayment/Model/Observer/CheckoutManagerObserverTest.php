@@ -125,7 +125,13 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
                 'specification' => $this->_specification
             )
         );
-        $this->_quotePayment = $this->getMock('Magento\Sales\Model\Quote\Payment', ['getCode', '__wakeup'], [], '', false);
+        $this->_quotePayment = $this->getMock(
+            'Magento\Sales\Model\Quote\Payment',
+            ['getCode', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->_quoteSales = $this->getMock(
             'Magento\Sales\Model\Quote',
             ['getPayment', 'getTotalsCollectedFlag', '__sleep', '__wakeup', 'getAllVisibleItems'],
