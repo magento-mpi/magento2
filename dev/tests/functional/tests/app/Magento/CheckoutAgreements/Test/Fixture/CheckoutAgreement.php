@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CheckoutAgreement
+ * Checkout agreement fixture.
  */
 class CheckoutAgreement extends InjectableFixture
 {
@@ -31,7 +32,7 @@ class CheckoutAgreement extends InjectableFixture
         'name' => 'DefaultName%isolation%',
         'is_active' => 'Enabled',
         'is_html' => 'Text',
-        'store_ids' => 'Main Website/Main Website Store/Default Store View',
+        'stores' => ['Main Website/Main Website Store/Default Store View'],
         'checkbox_text' => 'test_checkbox%isolation%',
         'content' => 'TestMessage%isolation%',
     ];
@@ -92,7 +93,7 @@ class CheckoutAgreement extends InjectableFixture
         'input' => '',
     ];
 
-    protected $store_ids = [
+    protected $stores = [
         'attribute_code' => 'store_ids',
         'backend_type' => 'virtual',
     ];
@@ -132,8 +133,8 @@ class CheckoutAgreement extends InjectableFixture
         return $this->getData('is_html');
     }
 
-    public function getStoreIds()
+    public function getStores()
     {
-        return $this->getData('store_ids');
+        return $this->getData('stores');
     }
 }

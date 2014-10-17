@@ -51,11 +51,10 @@ class UpdateTermEntityTest extends Injectable
      */
     public function __inject()
     {
-        $setConfigStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition']
-        );
-        $setConfigStep->run();
+        )->run();
     }
 
     /**
@@ -75,6 +74,7 @@ class UpdateTermEntityTest extends Injectable
     ) {
         // Precondition
         $agreementOrigin->persist();
+
         // Steps
         $agreementIndex->open();
         $agreementIndex->getAgreementGridBlock()->searchAndOpen(['name' => $agreementOrigin->getName()]);

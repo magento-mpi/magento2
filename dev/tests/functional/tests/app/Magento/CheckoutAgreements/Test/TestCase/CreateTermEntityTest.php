@@ -50,11 +50,10 @@ class CreateTermEntityTest extends Injectable
      */
     public function __inject()
     {
-        $setConfigStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition']
-        );
-        $setConfigStep->run();
+        )->run();
     }
 
     /**

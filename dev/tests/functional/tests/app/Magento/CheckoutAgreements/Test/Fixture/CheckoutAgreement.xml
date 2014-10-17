@@ -62,13 +62,13 @@
             <default_value>0</default_value>
             <input></input>
         </is_html>
-        <store_ids>
+        <stores>
             <attribute_code>store_ids</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>1</is_required>
             <default_value>0</default_value>
             <input>multiselectgrouplist</input>
-        </store_ids>
+        </stores>
     </fields>
     <repository_class>Magento\CheckoutAgreements\Test\Repository\Term</repository_class>
     <handler_interface>Magento\CheckoutAgreements\Test\Handler\Term\TermInterface</handler_interface>

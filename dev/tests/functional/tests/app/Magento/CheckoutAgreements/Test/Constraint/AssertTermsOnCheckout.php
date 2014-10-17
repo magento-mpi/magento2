@@ -70,11 +70,11 @@ class AssertTermsOnCheckout extends AbstractConstraint
         $shipping,
         $payment
     ) {
-        $products = $objectManager->create(
+        $createProductsStep = $objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $product]
         );
-        $product = $products->run();
+        $product = $createProductsStep->run();
 
         $billingAddress = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => 'default']);
 

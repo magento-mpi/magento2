@@ -9,7 +9,6 @@
 namespace Magento\CheckoutAgreements\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class AgreementGrid

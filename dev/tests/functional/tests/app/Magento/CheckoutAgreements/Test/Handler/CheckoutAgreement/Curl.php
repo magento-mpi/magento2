@@ -17,6 +17,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Class Curl
+ * Curl handler for creating Checkout Agreement
  */
 class Curl extends AbstractCurl implements CheckoutAgreementInterface
 {
@@ -34,9 +35,15 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
             'HTML' => 1,
             'Text' => 0
         ],
-        'store_ids' => [
-            'Main Website/Main Website Store/Default Store View' => 1,
-        ],
+    ];
+
+    /**
+     * Mapping stores value
+     *
+     * @var array
+     */
+    protected $mappingStores = [
+        'Main Website/Main Website Store/Default Store View' => 1
     ];
 
     /**
@@ -49,7 +56,7 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
     /**
      * Post request for creating new checkout agreement
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $fixture
      * @return array
      * @throws \Exception
      */
@@ -64,7 +71,7 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Checkout agreement creating by curl handler was not successful! Response: $response");
         }
-        preg_match("~id\/(\d*?)\/~", $response, $matches);
+        preg_match('~id\/(\d*?)\/~', $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
 
         return ['agreement_id' => $id];
@@ -78,8 +85,13 @@ class Curl extends AbstractCurl implements CheckoutAgreementInterface
      */
     protected function prepareData(array $data)
     {
-        $data['stores'] = [$data['store_ids']];
-        unset($data['store_ids']);
+        if (isset($data['stores'])) {
+            foreach ($data['stores'] as $key => $store) {
+                if (isset($this->mappingStores[$store])) {
+                    $data['stores'][$key] = $this->mappingStores[$store];
+                }
+            }
+        }
 
         return $data;
     }
