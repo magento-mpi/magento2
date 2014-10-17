@@ -78,7 +78,8 @@ class DataObjectProcessor
                 if ($value !== null) {
                     $outputData[SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2))] = $value;
                 }
-            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX) {
+            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX &&
+                $methodName !== 'getCustomAttribute') {
                 $value = $dataObject->{$methodName}();
                 if ($value !== null) {
                     $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
@@ -173,7 +174,13 @@ class DataObjectProcessor
                 $methodMap = [];
                 $class = new ClassReflection($interfaceName);
                 foreach ($class->getMethods() as $method) {
-                    $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method);
+                    $isGetter = (substr($method->getName(), 0, 3) == 'get');
+                    $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
+                        || $method->isStatic() || $method->isDestructor());
+                    $isExcludedFromGeneration = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
+                    $isSuitableClass = $method->class !== 'Magento\Framework\Api\ExtensibleDataInterface';
+                    if ($isGetter && $isSuitableMethodType && !$isExcludedFromGeneration && $isSuitableClass)
+                        $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method)['type'];
                 }
                 $this->serviceInterfaceMethodsMap[$key] = $methodMap;
                 $this->cache->save(serialize($this->serviceInterfaceMethodsMap[$key]), $key);
