@@ -13,7 +13,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
- * Test Creation for ConfigureCustomerWishlistOnBackend
+ * Test Creation for ConfigureProductInCustomerWishlistOnBackend
  *
  * Test Flow:
  *
@@ -35,7 +35,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29257
  */
-class ConfigureCustomerWishlistOnBackendTest extends AbstractWishlistTest
+class ConfigureProductInCustomerWishlistOnBackendTest extends AbstractWishlistTest
 {
     /**
      * Prepare data

@@ -10,7 +10,6 @@ namespace Magento\Wishlist\Test\TestCase;
 
 use Magento\Checkout\Test\Constraint\AssertAddedProductToCartSuccessMessage;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Mtf\Client\Driver\Selenium\Browser;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureInterface;
 
@@ -34,22 +33,13 @@ use Mtf\Fixture\FixtureInterface;
 class MoveProductFromShoppingCartToWishlistTest extends AbstractWishlistTest
 {
     /**
-     * Browser object
-     *
-     * @var Browser
-     */
-    protected $browser;
-
-    /**
      * Prepare data for test
      *
      * @param CustomerInjectable $customer
-     * @param Browser $browser
      * @return array
      */
-    public function __prepare(CustomerInjectable $customer, Browser $browser)
+    public function __prepare(CustomerInjectable $customer)
     {
-        $this->browser = $browser;
         $customer->persist();
 
         return ['customer' => $customer];

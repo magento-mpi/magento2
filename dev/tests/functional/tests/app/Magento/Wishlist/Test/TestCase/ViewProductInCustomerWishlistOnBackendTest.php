@@ -13,7 +13,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
- * Test Creation for ViewCustomerWishlistOnBackend
+ * Test Creation for ViewProductInCustomerWishlistOnBackend
  *
  * Test Flow:
  *
@@ -32,7 +32,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29616
  */
-class ViewCustomerWishlistOnBackendTest extends AbstractWishlistTest
+class ViewProductInCustomerWishlistOnBackendTest extends AbstractWishlistTest
 {
     /**
      * Prepare customer for test.
@@ -72,8 +72,7 @@ class ViewCustomerWishlistOnBackendTest extends AbstractWishlistTest
         // Steps
         $customerIndex->open();
         $customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
-        $customerForm = $customerIndexEdit->getCustomerForm();
-        $customerForm->openTab('wishlist');
+        $customerIndexEdit->getCustomerForm()->openTab('wishlist');
 
         return['product' => $product];
     }

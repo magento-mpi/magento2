@@ -11,7 +11,7 @@ namespace Magento\Wishlist\Test\TestCase;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Test Creation for ConfigureCustomerWishlist on frontend
+ * Test Creation for ConfigureProductInCustomerWishlist on frontend
  *
  * Test Flow:
  *
@@ -31,7 +31,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29507
  */
-class ConfigureCustomerWishlistOnFrontendTest extends AbstractWishlistTest
+class ConfigureProductInCustomerWishlistOnFrontendTest extends AbstractWishlistTest
 {
     /**
      * Prepare data
