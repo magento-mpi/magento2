@@ -21,17 +21,17 @@ class QtyProcessor
     protected $quoteItemQtyList;
 
     /**
+     * @var Item
+     */
+    protected $item;
+
+    /**
      * @param QuoteItemQtyList $quoteItemQtyList
      */
     public function __construct(QuoteItemQtyList $quoteItemQtyList)
     {
         $this->quoteItemQtyList = $quoteItemQtyList;
     }
-
-    /**
-     * @var Item
-     */
-    protected $item;
 
     /**
      * @param Item $quoteItem

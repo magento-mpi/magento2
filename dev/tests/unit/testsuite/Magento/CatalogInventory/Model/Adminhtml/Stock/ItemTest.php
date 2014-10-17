@@ -44,6 +44,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testIsQtyCheckApplicable()
     {
+        $this->_model->setData('backorders', \Magento\CatalogInventory\Model\Stock::BACKORDERS_YES_NONOTIFY);
         $this->assertTrue($this->_model->checkQty(1.0));
     }
 
