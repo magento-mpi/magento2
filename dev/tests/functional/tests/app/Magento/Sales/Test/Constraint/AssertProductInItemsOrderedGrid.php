@@ -74,19 +74,17 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     protected function prepareData(array $data, Items $itemsBlock)
     {
         $fixtureData = [];
-        $pageData = [];
         foreach ($data['products'] as $product) {
             $checkoutData = $product->getCheckoutData();
             $fixtureData[] = [
                 'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
                 'checkout_data' => [
-                    'qty' => $this->productsIsConfigured && isset($checkoutData['qty'])
-                            ? $checkoutData['qty'] : 1
+                    'qty' => $this->productsIsConfigured && isset($checkoutData['qty']) ? $checkoutData['qty'] : 1
                 ],
             ];
-            $pageData = $itemsBlock->getProductsDataByFields($this->fields);
         }
+        $pageData = $itemsBlock->getProductsDataByFields($this->fields);
 
         return ['fixtureData' => $fixtureData, 'pageData' => $pageData];
     }
