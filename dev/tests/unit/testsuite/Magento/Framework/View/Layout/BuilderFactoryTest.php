@@ -8,10 +8,9 @@
 
 namespace Magento\Framework\View\Layout;
 
-
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
-class BuildFactoryTest extends \PHPUnit_Framework_TestCase
+class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ObjectManagerHelper
