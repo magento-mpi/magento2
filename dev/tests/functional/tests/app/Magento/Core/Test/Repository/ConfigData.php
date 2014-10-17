@@ -1058,5 +1058,27 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['checkout_term_condition'] = [
+            'section' => [
+                [
+                    'path' => 'checkout/options/enable_agreements',
+                    'scope' => 'checkout',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['checkout_term_condition_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'checkout/options/enable_agreements',
+                    'scope' => 'checkout',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
     }
 }
