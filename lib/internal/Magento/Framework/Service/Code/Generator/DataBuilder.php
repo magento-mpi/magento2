@@ -76,20 +76,8 @@ class DataBuilder extends EntityAbstract
             if ($lowerCaseClassName !== strtolower($method->class)) {
                 break;
             }
-            if (!($method->isConstructor() ||
-                    $method->isFinal() ||
-                    $method->isStatic() ||
-                    $method->isDestructor()) &&
-                !in_array(
-                    $method->getName(),
-                    array('__sleep', '__wakeup', '__clone')
-                ) &&
-                $method->class !== 'Magento\Framework\Api\ExtensibleDataInterface'
-            ) {
-                if (substr($method->getName(), 0, 3) == 'get') {
-                    $methods[] = $this->_getMethodInfo($reflectionClass, $method);
-                }
-
+            if ($this->canUseMethodForGeneration($method)) {
+                $methods[] = $this->_getMethodInfo($method);
             }
         }
         $methods[] = $this->_getDefaultConstructorDefinition();
@@ -97,13 +85,28 @@ class DataBuilder extends EntityAbstract
     }
 
     /**
+     * Check if the specified method should be used during generation builder generation.
+     *
+     * @param \ReflectionMethod $method
+     * @return bool
+     */
+    protected function canUseMethodForGeneration($method)
+    {
+        $isGetter = (substr($method->getName(), 0, 3) == 'get');
+        $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
+            || $method->isStatic() || $method->isDestructor());
+        $isExcludedFromGeneration = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
+        $isSuitableClass = $method->class !== 'Magento\Framework\Api\ExtensibleDataInterface';
+        return $isGetter && $isSuitableMethodType && !$isExcludedFromGeneration && $isSuitableClass;
+    }
+
+    /**
      * Retrieve method info
      *
-     * @param \ReflectionClass $class
      * @param \ReflectionMethod $method
      * @return array
      */
-    protected function _getMethodInfo(\ReflectionClass $class, \ReflectionMethod $method)
+    protected function _getMethodInfo(\ReflectionMethod $method)
     {
         $propertyName = substr($method->getName(), 3);
 

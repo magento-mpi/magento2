@@ -171,7 +171,10 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $service = $this->_objectManager->get($serviceClassName);
             /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
             /** @var ClassReflection $serviceClassReflector */
-            $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClassName]);
+            $serviceClassReflector = $this->_objectManager->create(
+                'Zend\Code\Reflection\ClassReflection',
+                [$serviceClassName]
+            );
             $serviceMethodReturnType =
                 $this->dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethodName));
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
