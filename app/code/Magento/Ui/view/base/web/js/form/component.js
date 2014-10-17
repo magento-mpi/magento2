@@ -6,52 +6,38 @@
  */
 define([
     'underscore',
+    'mage/utils',
     'Magento_Ui/js/lib/ko/scope',
     'Magento_Ui/js/lib/events',
     'Magento_Ui/js/lib/registry/registry'
-], function(_, Scope, EventsBus, registry) {
+], function(_, utils, Scope, EventsBus, registry) {
     'use strict';
-
-    function reserve(container, items, position){
-        if(typeof position === 'undefined'){
-            position = -1;
-        }
-
-        if(position < 0){
-            position = container.length + position + 1;
-        }
-
-        container.splice(position, 0, new Array(items));
-        container = _.flatten(container);
-
-        return position;
-    }
-
-    function loadEach(shift, elems, callback, ctx){
-        var resolved;
-
+    
+    function loadEach(elems, callback){
         elems.forEach(function(elem, index){
-            resolved = callback.bind(ctx, shift + index);
 
-            registry.get(elem, resolved);
+            registry.get(elem, function(elem){
+            
+                callback(index, elem);
+            });
         });
     }
 
     return Scope.extend({
-        initialize: function(config) {
+        initialize: function(config, name){
             _.extend(this, config);
 
-            this._elems = [];
+            this._elems     = [];
+            this.name       = name;
+            this.provider   = registry.get(this.provider);
 
-            this.initObservable()
-                .inject()
-                .initListeners();
+            this.initObservable();
         },
 
         initObservable: function(){
             this.observe({
-                containers: [],
-                elems: []
+                'containers': [],
+                'elems':      []
             });
 
             return this;
@@ -67,32 +53,29 @@ define([
             return this;
         },
 
-        initListeners: function(){
-            return this;
-        },
+        insert: function(elems, offset){
+            var size = elems.length,
+                callback;
 
-        inject: function(elems, position){
-            elems = elems || this.injections;
+            offset      = utils.reserve(this._elems, size, offset);
+            callback    = this.insertAt.bind(this, offset);
 
-            position = reserve(this._elems, elems.length, position);
-
-            loadEach(position, elems, this.insertAt, this);
+            loadEach(elems, callback);
 
             return this;
         },
 
-        insertAt: function(index, elem){
+        insertAt: function(offset, index, elem){
             var _elems = this._elems;
 
-            _elems[index] = elem;
-
+            _elems[index + offset] = elem;
+                
             this.elems(_.compact(_elems));
-
             this.initElement(elem);
         },
 
         getTemplate: function(){
-            return this.template;
+            return this.template || 'ui/collection';
         },
 
         hasChanged: function(){

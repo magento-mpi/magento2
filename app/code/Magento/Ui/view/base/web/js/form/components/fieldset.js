@@ -6,14 +6,13 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/initializer/collection',
     '../collapsible'
-], function(_, Collection, Collapsible) {
+], function(_, Collapsible) {
     'use strict';
 
     var __super__ = Collapsible.prototype;
 
-    var Fieldset = Collapsible.extend({
+    return Collapsible.extend({
         initialize: function() {
             this.template = 'ui/fieldset/fieldset';
 
@@ -38,6 +37,4 @@ define([
             this.trigger('update', changed, this, settings);
         }
     });
-
-    return Collection(Fieldset);
 });

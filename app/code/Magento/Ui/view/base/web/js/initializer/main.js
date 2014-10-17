@@ -6,8 +6,10 @@
  */
 define([
     'underscore',
+    'Magento_Ui/js/types/types',
+    'Magento_Ui/js/layout/layout',
     'Magento_Ui/js/lib/registry/registry'
-], function (_, registry) {
+], function (_, Types, Layout, registry) {
     'use strict';
 
     function load(config, name){
@@ -42,10 +44,11 @@ define([
         },
 
         load: function(){
-            var data = this.data;
+            _.each(this.data.providers, load);
+            _.each(this.data.components, load);
 
-            _.each(data.providers,   load);
-            _.each(data.components,  load);
+            this.types  = new Types(this.data.types);
+            this.layout = new Layout(this.data.layout);
 
             return this; 
         }
