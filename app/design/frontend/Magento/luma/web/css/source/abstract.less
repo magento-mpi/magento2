@@ -1184,6 +1184,18 @@
 }
 
 //
+//    Table bordered desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-table-bordered-desktop {
+        .table-bordered(
+            @_type: light,
+            @_border-width: 1px
+        );
+    }
+}
+
+//
 //    Pager toolbar for non-catalog pages desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {

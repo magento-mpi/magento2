@@ -216,6 +216,19 @@
     }
 }
 
+.form-wishlist-search {
+    margin-bottom: @indent-l-base*2;
+}
+
+.block-wishlist-search-results {
+    .block-title {
+        &:extend(.abstract-account-title all);
+    }
+    .data.table {
+        &:extend(.abstract-table-striped all);
+    }
+}
+
 //
 //    Mobile
 //--------------------------------------
@@ -327,6 +340,12 @@
             display: none;
         }
     }
+
+    .block-wishlist-search-results {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile all);
+        }
+    }
 }
 
 //
@@ -430,6 +449,7 @@
             }
         }
     }
+
     .products-grid.wishlist {
         .product {
             &-item {
@@ -441,5 +461,15 @@
                 }
             }
         }
+    }
+
+    .block-wishlist-search-results {
+        .data.table {
+            &:extend(.abstract-table-bordered-desktop all);
+        }
+    }
+
+    .toolbar-wishlist-results {
+        &:extend(.abstract-pager-toolbar all);
     }
 }
