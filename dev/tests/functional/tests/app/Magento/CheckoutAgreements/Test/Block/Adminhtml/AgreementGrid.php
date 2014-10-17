@@ -18,6 +18,13 @@ use Mtf\Client\Element\Locator;
 class AgreementGrid extends Grid
 {
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-name]';
+
+    /**
      * First row selector
      *
      * @var string

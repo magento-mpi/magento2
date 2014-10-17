@@ -14,24 +14,25 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
- * Test creation for CreateTermEntity
+ * Test creation for UpdateTermEntityTest
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Enable "Terms and Conditions": Stores > Configuration > Sales > Checkout > Checkout Options
+ * 2. Create term according to dataSet
  *
  * Steps:
  * 1. Open Backend Stores > Terms and Conditions
- * 2. Create new "Terms and Conditions"
+ * 2. Open created Term from preconditions
  * 3. Fill data from dataSet
  * 4. Save
  * 5. Perform all assertions
  *
  * @group Terms_and_Conditions_(CS)
- * @ZephyrId MAGETWO-29586
+ * @ZephyrId MAGETWO-29635
  */
-class CreateTermEntityTest extends Injectable
+class UpdateTermEntityTest extends Injectable
 {
     /**
      * Delete all terms on backend
@@ -58,21 +59,25 @@ class CreateTermEntityTest extends Injectable
     }
 
     /**
-     * Create Term Entity test
+     * Update Term Entity test
      *
      * @param CheckoutAgreementNew $agreementNew
      * @param CheckoutAgreementIndex $agreementIndex
      * @param CheckoutAgreement $agreement
+     * @param CheckoutAgreement $agreementOrigin
      * @return void
      */
     public function test(
         CheckoutAgreementNew $agreementNew,
         CheckoutAgreementIndex $agreementIndex,
-        CheckoutAgreement $agreement
+        CheckoutAgreement $agreement,
+        CheckoutAgreement $agreementOrigin
     ) {
+        // Precondition
+        $agreementOrigin->persist();
         // Steps
         $agreementIndex->open();
-        $agreementIndex->getPageActionsBlock()->addNew();
+        $agreementIndex->getAgreementGridBlock()->searchAndOpen(['name' => $agreementOrigin->getName()]);
         $agreementNew->getAgreementsForm()->fill($agreement);
         $agreementNew->getPageActionsBlock()->save();
     }

@@ -18,12 +18,14 @@ class CheckoutAgreement extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\CheckoutAgreements\Test\Repository\Term';
+    protected $repositoryClass = 'Magento\CheckoutAgreements\Test\Repository\CheckoutAgreement';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\CheckoutAgreements\Test\Handler\Term\TermInterface';
+    // @codingStandardsIgnoreStart
+    protected $handlerInterface = 'Magento\CheckoutAgreements\Test\Handler\CheckoutAgreement\CheckoutAgreementInterface';
+    // @codingStandardsIgnoreEnd
 
     protected $defaultDataSet = [
         'name' => 'DefaultName%isolation%',
