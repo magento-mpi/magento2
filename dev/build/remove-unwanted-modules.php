@@ -56,14 +56,15 @@ try {
         $directory = $magentoCodeDirectory . DIRECTORY_SEPARATOR . $module;
         $result = deleteDirectory($directory);
         if (!$result) {
-            throw new Exception("The file or directory '{$directory}' is marked for deletion, but it doesn't exist or
-                could not be deleted.");
+            throw new Exception(
+                "The file or directory '{$directory}' could not be deleted."
+            );
         }
         echo "Removed module " . $module . "\n";
     }
 
-	// update module.xml file to move the modules
-	$moduleFile = $magentoBaseDirectory . '/app/etc/enterprise/module.xml';
+    // update module.xml file to move the modules
+    $moduleFile = $magentoBaseDirectory . '/app/etc/enterprise/module.xml';
     if (is_file($moduleFile) && !empty($modulesToRemove)) {
         $modules = '(' . implode($modulesToRemove, '|') . ')';
         $pattern = "/^.*" . $modules . ".*$/m";
@@ -111,4 +112,3 @@ function deleteDirectory($dir)
 
     return rmdir($dir);
 }
-
