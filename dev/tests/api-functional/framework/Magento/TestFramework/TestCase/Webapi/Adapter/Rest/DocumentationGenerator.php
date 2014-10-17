@@ -26,34 +26,35 @@ class DocumentationGenerator
     {
         $content = $this->generateHtmlContent($httpMethod, $resourcePath, $arguments, $response);
         $filePath = $this->generateFileName($resourcePath);
-        if (!is_writable(dirname($filePath)) && !is_null($filePath)) {
-            throw new \RuntimeException('Cannot write to documentation directory.');
+        if (is_null($filePath)) {
+            return;
         }
-        if (!is_null($filePath)){
-            if (file_exists($filePath)) {
-                $fileContent = file_get_contents($filePath);
-                $endHtml = $this->generateHtmlFooter();
-                $fileContent = str_replace($endHtml, '', $fileContent);
-                $content = "{$fileContent}\n{$content}";
-                unlink($filePath);
-                file_put_contents($filePath, $content, FILE_APPEND);
-            } else {
-                file_put_contents($filePath, $content, FILE_APPEND);
-            }
+        if (!is_writable(dirname($filePath))) {
+            throw new \RuntimeException('Cannot write to documentation directory.');
+        } else if (file_exists($filePath)) {
+            $fileContent = file_get_contents($filePath);
+            $endHtml = $this->generateHtmlFooter();
+            $fileContent = str_replace($endHtml, '', $fileContent);
+            $content = "{$fileContent}\n{$content}";
+            unlink($filePath);
+            file_put_contents($filePath, $content, FILE_APPEND);
+        } else {
+            file_put_contents($filePath, $content, FILE_APPEND);
         }
     }
 
     /**
-     * Prepare html for generated document
+     * Prepare HTML for the generated documentation.
      *
-     * @param $resourcePath
-     * @param $arguments
-     * @param $response
+     * @param string $httpMethod
+     * @param string $resourcePath
+     * @param array $arguments
+     * @param array $response
      * @return string
      */
     protected function generateHtmlContent($httpMethod, $resourcePath, $arguments, $response)
     {
-        if (empty($arguments)){
+        if (empty($arguments)) {
             $arguments = 'This call does not accept a request body.';
             $requestParametersHtml = '';
         } else {
@@ -78,17 +79,17 @@ class DocumentationGenerator
             </table>
 HTML;
         }
-        if (is_array($response)){
-            $responseArrayKeys  = array_keys($response);
+        if (is_array($response)) {
+            $responseArrayKeys = array_keys($response);
             $responseParameters = "Parameters should be specified manually.";
-            foreach ($responseArrayKeys as $key){
-                if (!is_int($key)){
+            foreach ($responseArrayKeys as $key) {
+                if (!is_int($key)) {
                     $responseParameters = '';
                     break;
                 }
             }
         }
-        if (empty($responseParameters)){
+        if (empty($responseParameters)) {
             $responseParameters = $this->retrieveParametersAsHtml($response);
         }
         $response = json_encode($response, JSON_PRETTY_PRINT);
@@ -186,7 +187,6 @@ HTML;
     /**
      * Generate a name of file
      *
-     * @param $resourcePath
      * @return string|null
      * @throws \RuntimeException
      */
@@ -212,7 +212,7 @@ HTML;
                 throw new \RuntimeException('Unable to create missing directory for REST documentation generation');
             }
         }
-        if (!is_null($fileName)){
+        if (!is_null($fileName)) {
             $filePath = $pathToFile . $fileName . '.html';
             return $filePath;
         }
