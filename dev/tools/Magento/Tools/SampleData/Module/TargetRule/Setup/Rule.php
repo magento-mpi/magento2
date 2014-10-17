@@ -145,23 +145,21 @@ class Rule implements SetupInterface
                 }
                 $targetCategory['value_type'] = TargetRuleActionAttributes::VALUE_TYPE_CONSTANT;
 
-                $combineConditionSample = [
+                $combineCondition = [
                     'aggregator' => 'all',
                     'value' => '1',
                     'new_child' => ''
                 ];
                 $ruleConditions = [
                     'conditions' => [
-                        1 => $combineConditionSample,
+                        1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Rule\Condition\Combine'],
                         '1--1' => $sourceCategory
                     ],
                     'actions' => [
-                        1 => $combineConditionSample,
+                        1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Actions\Condition\Combine'],
                         '1--1' => $targetCategory
                     ]
                 ];
-                $ruleConditions['conditions'][1]['type'] = 'Magento\TargetRule\Model\Rule\Condition\Combine';
-                $ruleConditions['actions'][1]['type'] = 'Magento\TargetRule\Model\Actions\Condition\Combine';
                 if (!empty($row['conditions'])) {
                     $index = 2;
                     foreach (array_filter(explode("\n", $row['conditions'])) as $condition) {
