@@ -80,4 +80,9 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\SalesInvoiceView</class>
     </salesInvoiceView>
+    <orderCreateIndex>
+        <mca>sales/order_create/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex</class>
+    </orderCreateIndex>
 </page>

@@ -14,4 +14,7 @@
     <assertGiftMessageInFrontendOrder module="Magento_GiftMessage">
         <severeness>high</severeness>
     </assertGiftMessageInFrontendOrder>
+    <assertBackendOrdersGiftMessage module="Magento_GiftMessage">
+        <severeness>high</severeness>
+    </assertBackendOrdersGiftMessage>
 </constraint>

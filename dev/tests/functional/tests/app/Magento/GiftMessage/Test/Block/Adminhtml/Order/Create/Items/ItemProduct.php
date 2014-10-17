@@ -1,0 +1,70 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items;
+
+use Magento\GiftMessage\Test\Fixture\GiftMessage;
+use Mtf\Block\Form;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
+
+/**
+ * Class ItemProduct
+ * Item product block on beackend create order page.
+ */
+class ItemProduct extends Form
+{
+    /**
+     * Selector for GiftOptions link.
+     *
+     * @var string
+     */
+    protected $giftOptionsLink = '[id^="gift_options_link"]';
+
+    /**
+     * Body element selector.
+     *
+     * @var string
+     */
+    protected $body = './ancestor::body';
+
+    /**
+     * Selector for order item GiftMessage form.
+     *
+     * @var string
+     */
+    protected $giftMessageForm = '//*[@role="dialog" and contains(@style,"block")]';
+
+    /**
+     * Magento varienLoader.js loader.
+     *
+     * @var string
+     */
+    protected $loadingMask = '//*[@id="loading-mask"]/*[@id="loading_mask_loader"]';
+
+    /**
+     * Fill GiftMessage form.
+     *
+     * @param GiftMessage $giftMessage
+     * @return void
+     */
+    public function fillGiftMessageForm(GiftMessage $giftMessage)
+    {
+        $giftOptionsLink = $this->_rootElement->find($this->giftOptionsLink);
+        if ($giftOptionsLink->isVisible()) {
+            $giftOptionsLink->click();
+        }
+        /** @var \Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Form $giftMessageForm */
+        $giftMessageForm = $this->blockFactory->create(
+            'Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Form',
+            ['element' => $this->_rootElement->find($this->body . $this->giftMessageForm, Locator::SELECTOR_XPATH)]
+        );
+        $giftMessageForm->fill($giftMessage);
+        $this->waitForElementNotVisible($this->body . $this->loadingMask, Locator::SELECTOR_XPATH);
+    }
+}
