@@ -30,6 +30,10 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     private $objectManager;
 
+    /**
+     * @var \Magento\Framework\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $storeManagerMock;
 
     protected function setUp()
     {
@@ -42,18 +46,21 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->requestMock->expects($this->atLeastOnce())->method('getBasePath')->will($this->returnValue('/'));
-        $this->requestMock->expects(
-            $this->atLeastOnce()
-        )->method(
-            'getHttpHost'
-        )->will(
-            $this->returnValue('init.host')
-        );
+        $this->requestMock->expects($this->atLeastOnce())
+            ->method('getHttpHost')
+            ->will($this->returnValue('init.host'));
         $this->objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->validatorFactory = $this->getMockBuilder('Magento\Framework\ValidatorFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        
+
+        $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $storeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue('/'));
+        $this->storeManagerMock = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+
     }
 
     public function testSetCookiePathNonDefault()
@@ -84,6 +91,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
                 'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
                 'frontNameResolver' => $mockFrontNameResolver,
+                'storeManager' => $this->storeManagerMock
             ]
         );
 
@@ -117,6 +125,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
                 'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
                 'sessionName' => $sessionName,
+                'storeManager' => $this->storeManagerMock
             ]
         );
         $this->assertSame($sessionName, $adminConfig->getName());

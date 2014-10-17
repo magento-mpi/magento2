@@ -12,7 +12,7 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
 
 /**
@@ -57,25 +57,35 @@ class CreateShipmentStep implements TestStepInterface
     protected $order;
 
     /**
+     * Invoice data
+     *
+     * @var array|null
+     */
+    protected $data;
+
+    /**
      * @construct
      * @param OrderIndex $orderIndex
      * @param OrderView $orderView
      * @param OrderShipmentNew $orderShipmentNew
      * @param OrderShipmentView $orderShipmentView
      * @param OrderInjectable $order
+     * @param array|null $data [optional]
      */
     public function __construct(
         OrderIndex $orderIndex,
         OrderView $orderView,
         OrderShipmentNew $orderShipmentNew,
         OrderShipmentView $orderShipmentView,
-        OrderInjectable $order
+        OrderInjectable $order,
+        $data = null
     ) {
         $this->orderIndex = $orderIndex;
         $this->orderView = $orderView;
         $this->orderShipmentNew = $orderShipmentNew;
         $this->orderShipmentView = $orderShipmentView;
         $this->order = $order;
+        $this->data = $data;
     }
 
     /**
@@ -88,7 +98,10 @@ class CreateShipmentStep implements TestStepInterface
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->ship();
-        $this->orderShipmentNew->getShipItemsBlock()->submit();
+        if (!empty($this->data)) {
+            $this->orderShipmentNew->getFormBlock()->fillData($this->data, $this->order->getEntityId()['products']);
+        }
+        $this->orderShipmentNew->getFormBlock()->submit();
 
         return ['shipmentIds' => $this->getShipmentIds()];
     }

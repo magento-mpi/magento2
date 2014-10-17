@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <sender>
+            <selector>[id^='gift-message'][name$='[from]']</selector>
+        </sender>
+        <recipient>
+            <selector>[id^='gift-message'][name$='[to]']</selector>
+        </recipient>
+        <message>
+            <selector>[id^='gift-message'][name$='[message]']</selector>
+        </message>
+    </fields>
+</mapping>
