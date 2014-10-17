@@ -17,14 +17,14 @@ interface ExtensibleDataInterface
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\AttributeValue|null null if the attribute has not been set
+     * @return \Magento\Framework\Api\AttributeInterface|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode);
 
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
+     * @return \Magento\Framework\Api\AttributeInterface[]
      */
     public function getCustomAttributes();
 }
