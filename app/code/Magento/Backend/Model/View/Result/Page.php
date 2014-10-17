@@ -19,11 +19,13 @@ class Page extends View\Result\Page
     protected $title;
 
     /**
+     * Constructor
+     *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Translate\InlineInterface $translateInline
-     * @param View\Page\ConfigFactory $pageConfigFactory
+     * @param View\Page\Config $pageConfig
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
@@ -36,7 +38,7 @@ class Page extends View\Result\Page
         View\Layout\Reader\Pool $layoutReaderPool,
         Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
-        View\Page\ConfigFactory $pageConfigFactory,
+        View\Page\Config $pageConfig,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
@@ -48,7 +50,7 @@ class Page extends View\Result\Page
             $layoutReaderPool,
             $translateInline,
             $layoutBuilderFactory,
-            $pageConfigFactory,
+            $pageConfig,
             $pageConfigRendererFactory,
             $pageLayoutReader,
             $template
@@ -77,6 +79,8 @@ class Page extends View\Result\Page
     }
 
     /**
+     * Add link to breadcrumb block
+     *
      * @param string $label
      * @param string $title
      * @param string|null $link
@@ -89,6 +93,8 @@ class Page extends View\Result\Page
     }
 
     /**
+     * Add content to content section
+     *
      * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return $this
      */
@@ -98,6 +104,8 @@ class Page extends View\Result\Page
     }
 
     /**
+     * Add block to left container
+     *
      * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return $this
      */
@@ -107,6 +115,8 @@ class Page extends View\Result\Page
     }
 
     /**
+     * Add javascript to head
+     *
      * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return $this
      */
