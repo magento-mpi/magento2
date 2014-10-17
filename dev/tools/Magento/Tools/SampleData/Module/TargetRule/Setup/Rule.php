@@ -16,7 +16,7 @@ use Magento\TargetRule\Model\Actions\Condition\Product\Attributes as TargetRuleA
 
 /**
  * Class Setup
- * Launches setup of sample data for RecurringPayment module
+ * Installation of related products rules
  */
 class Rule implements SetupInterface
 {
@@ -88,8 +88,16 @@ class Rule implements SetupInterface
         if (!$categoryId) {
             return null;
         }
+
+        $types = [
+            'Rule' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+            'Actions' => 'Magento\TargetRule\Model\Actions\Condition\Product\Attributes'
+        ];
+        if (empty($types[$ruleType])) {
+            return null;
+        }
         return [
-          'type' => 'Magento\TargetRule\Model\\' . $ruleType . '\Condition\Product\Attributes',
+          'type' => $types[$ruleType],
           'attribute' => 'category_ids',
           'operator' => '==',
           'value' => $categoryId
@@ -137,26 +145,23 @@ class Rule implements SetupInterface
                 }
                 $targetCategory['value_type'] = TargetRuleActionAttributes::VALUE_TYPE_CONSTANT;
 
+                $combineConditionSample = [
+                    'aggregator' => 'all',
+                    'value' => '1',
+                    'new_child' => ''
+                ];
                 $ruleConditions = [
                     'conditions' => [
-                        1 => [
-                            'type' => 'Magento\TargetRule\Model\Rule\Condition\Combine',
-                            'aggregator' => 'all',
-                            'value' => '1',
-                            'new_child' => ''
-                        ],
+                        1 => $combineConditionSample,
                         '1--1' => $sourceCategory
                     ],
                     'actions' => [
-                        1 => [
-                            'type' => 'Magento\TargetRule\Model\Actions\Condition\Combine',
-                            'aggregator' => 'all',
-                            'value' => '1',
-                            'new_child' => ''
-                        ],
+                        1 => $combineConditionSample,
                         '1--1' => $targetCategory
                     ]
                 ];
+                $ruleConditions['conditions'][1]['type'] = 'Magento\TargetRule\Model\Rule\Condition\Combine';
+                $ruleConditions['actions'][1]['type'] = 'Magento\TargetRule\Model\Actions\Condition\Combine';
                 if (!empty($row['conditions'])) {
                     $index = 2;
                     foreach (array_filter(explode("\n", $row['conditions'])) as $condition) {

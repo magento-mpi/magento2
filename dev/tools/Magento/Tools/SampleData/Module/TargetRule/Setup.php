@@ -11,7 +11,7 @@ use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Setup
- * Launches setup of sample data for RecurringPayment module
+ * Launches setup of sample data for TargetRule module
  */
 class Setup implements SetupInterface
 {
