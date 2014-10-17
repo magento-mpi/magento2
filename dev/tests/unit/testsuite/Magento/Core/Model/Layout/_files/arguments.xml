@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <block class="Magento\Test\Block" name="test.block">
         <arguments>
             <argument name="testHelperWithParams" xsi:type="helper" helper="Magento\Core\Model\Layout\Argument\Handler\TestHelper::testMethod">

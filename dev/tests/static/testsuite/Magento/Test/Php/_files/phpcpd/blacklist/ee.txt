@@ -33,7 +33,7 @@ Magento/Reward/Model/Action
 Magento/Reward/Model/Resource
 Magento/Rma
 Magento/SalesArchive
-Magento/Search
+Magento/Solr
 Magento/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
 Magento/TargetRule/Block/Catalog/Product/ProductList/Related
 Magento/TargetRule/Block/Catalog/Product/ProductList
