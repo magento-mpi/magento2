@@ -32,4 +32,7 @@
     <assertProductInCustomerWishlistOnBackendGrid module="Magento_Wishlist">
         <severeness>low</severeness>
     </assertProductInCustomerWishlistOnBackendGrid>
+    <assertMoveProductToWishlistSuccessMessage module="Magento_Wishlist">
+        <severeness>low</severeness>
+    </assertMoveProductToWishlistSuccessMessage>
 </constraint>
