@@ -24,7 +24,7 @@ use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCol
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\Framework\Model\AbstractModel
+class Link extends \Magento\Framework\Model\AbstractModel implements \Magento\Catalog\Api\Data\ProductLinkInterface
 {
     const LINK_TYPE_RELATED = 1;
 
