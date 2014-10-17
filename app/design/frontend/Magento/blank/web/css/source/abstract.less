@@ -120,14 +120,21 @@
 }
 
 //
+//    Abstract block title
+//--------------------------------------
+.abstract-block-title {
+    > strong {
+        .heading(h3);
+    }
+    margin-bottom: 15px;
+}
+
+//
 //    Account blocks
 //--------------------------------------
 .abstract-account-blocks {
     .block-title {
-        > strong {
-            .heading(h3);
-        }
-        margin-bottom: 15px;
+        &:extend(.abstract-block-title all);
         > .action {
             margin-left: 15px;
         }
@@ -247,7 +254,7 @@
     position: absolute;
     top: 31px; // 6px
     left: 10px;
-    margin-left: 50%; // margin-left: @form-field-type-inline-label-width + 50%;
+    margin-left: 70%; // margin-left: @form-field-type-inline-label-width + 50%;
 }
 
 //
@@ -266,9 +273,9 @@
 .abstract-add-fields {
     .fieldset {
         margin-bottom: 50px;
-        .field {
-             .control {
-                width: 50% !important;
+        > .field:not(.choice) {
+            > .control {
+                width: 70%;
             }
         }
         .additional {
@@ -303,6 +310,11 @@
 .responsive(@break) when (@break = @screen-m) {
     .abstract-add-fields-desktop {
         .fieldset {
+            > .field:not(.choice) {
+                > .control {
+                    width: 50%;
+                }
+            }
             .additional {
                 .action.remove {
                     &:extend(.abstract-action-remove-desktop all);
@@ -379,6 +391,12 @@
 
 .responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-add-clearfix-mobile {
+        .clearfix();
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-add-clearfix-mobile-m {
         .clearfix();
     }
 }
@@ -753,4 +771,58 @@
 .abstract-status {
     display: inline-block;
     margin-bottom: @indent-base;
+}
+
+//
+//    Pager toolbar for non-catalog pages mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar-mobile {
+        .toolbar-amount,
+        .limiter,
+        .pages {
+            margin-bottom: @indent-m-base;
+        }
+    }
+}
+
+//
+//    Pager toolbar for non-catalog pages mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-pager-toolbar-mobile-s {
+        .toolbar-amount,
+        .limiter,
+        .pages {
+            margin-bottom: @indent-m-base;
+        }
+    }
+}
+
+//
+//    Pager toolbar for non-catalog pages desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar {
+        margin-bottom: @indent-base;
+        position: relative;
+        &:extend(.abstract-add-clearfix-desktop all);
+        .limiter {
+            float: right;
+            position: relative;
+            z-index: 1;
+        }
+        .toolbar-amount {
+            float: left;
+            line-height: normal;
+            padding: 7px 0 0;
+            position: relative;
+            z-index: 1;
+        }
+        .pages {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+        }
+    }
 }

@@ -52,6 +52,28 @@
     }
 }
 
+.form-giftregistry-search {
+    margin-bottom: @indent-l-base*2;
+    .legend {
+        &:extend(.abstract-account-title all);
+    }
+}
+
+.block-giftregistry-results {
+    .block-title {
+        &:extend(.abstract-block-title all);
+    }
+    .toolbar-giftregistry-results {
+        text-align: center;
+    }
+}
+
+.block-giftregistry-shared-items {
+    .block-title {
+        &:extend(.abstract-block-title all);
+    }
+}
+
 //
 //    Mobile
 //--------------------------------------
@@ -68,6 +90,28 @@
             display: inline-block;
         }
     }
+    .form-giftregistry-search {
+        .fieldset {
+            margin-bottom: @indent-base;
+        }
+    }
+    .block-giftregistry-results {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile-s all);
+            .col.actions:before {
+                &:extend(.abstract-no-display-s all);
+            }
+        }
+    }
+    .block-giftregistry-shared-items {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile-s all);
+        }
+    }
+
+    .toolbar-giftregistry-results {
+        &:extend(.abstract-pager-toolbar-mobile-s all);
+    }
 }
 
 //
@@ -77,5 +121,15 @@
     .form-giftregistry-share,
     .form-giftregistry-edit {
         &:extend(.abstract-add-fields-desktop all);
+    }
+
+    .form-giftregistry-search {
+        .fieldset {
+            margin-bottom: @form-field-vertical-indent-desktop;
+        }
+    }
+
+    .toolbar-giftregistry-results {
+        &:extend(.abstract-pager-toolbar all);
     }
 }

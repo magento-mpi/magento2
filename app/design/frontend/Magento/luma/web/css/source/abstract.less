@@ -778,7 +778,6 @@
     }
 }
 
-
 //
 //    Account pages: title
 //--------------------------------------
@@ -1115,11 +1114,10 @@
         .page-title {
             .title {
                 margin-right: 25px;
-                margin-bottom: 40px;
             }
             .order-date {
                 font-size: 16px;
-                margin: -20px 0 18px;
+                margin-bottom: @indent-s-base;
                 .label {
                     display: none;
                 }
@@ -1136,10 +1134,8 @@
                     display: block;
                 }
                 .order-status {
-                    margin: -20px 0 0;
-                }
-                .order-date {
-                    margin-top: -5px;
+                    @order-status-indent: ceil(@h1-margin-bottom/2);
+                    margin: -@order-status-indent 0 @indent-s-base;
                 }
             }
         }
@@ -1151,9 +1147,40 @@
         .page.main {
             .page-title {
                 .order-date {
-                    margin-top: -30px;
+                    @order-date-indent: ceil(@h1-margin-bottom/1.5);
+                    margin: -@order-date-indent 0 18px;
                 }
             }
+        }
+    }
+}
+
+//
+//    Table striped
+//--------------------------------------
+.abstract-table-striped {
+    .table-striped(@_stripped-highlight: even);
+}
+
+//
+//    Pager toolbar for non-catalog pages desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar {
+        position: relative;
+        .toolbar-amount,
+        .limiter {
+            position: relative;
+            z-index: 1;
+        }
+        .toolbar-amount {
+            padding: 7px 0 0;
+            line-height: normal;
+        }
+        .pages {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
         }
     }
 }
