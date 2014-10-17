@@ -72,6 +72,9 @@
     <assertUrlRewriteCategoryInGrid module="Magento_UrlRewrite">
         <severeness>low</severeness>
     </assertUrlRewriteCategoryInGrid>
+    <assertUrlRewriteProductInGrid module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+    </assertUrlRewriteProductInGrid>
     <assertUrlRewriteCategoryNotInGrid module="Magento_UrlRewrite">
         <severeness>low</severeness>
     </assertUrlRewriteCategoryNotInGrid>

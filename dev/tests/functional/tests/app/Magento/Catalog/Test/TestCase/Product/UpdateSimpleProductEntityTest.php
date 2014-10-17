@@ -108,13 +108,15 @@ class UpdateSimpleProductEntityTest extends Injectable
      * Run update product simple entity test
      *
      * @param CatalogProductSimple $product
-     * @return void
+     * @return array
      */
-    public function testUpdate(CatalogProductSimple $product)
+    public function test(CatalogProductSimple $product)
     {
         $filter = ['sku' => $this->product->getSku()];
         $this->productGrid->open()->getProductGrid()->searchAndOpen($filter);
         $this->editProductPage->getProductForm()->fill($product);
         $this->editProductPage->getFormPageActions()->save();
+
+        return ['initialProduct' => $this->product];
     }
 }
