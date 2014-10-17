@@ -123,6 +123,33 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     }
 
     /**
+     * Add attribute set filter to collection based on attribute set name and corresponding entity type.
+     *
+     * @param string $attributeSetName
+     * @param string $entityTypeCode
+     */
+    public function setAttributeSetFilterBySetName($attributeSetName, $entityTypeCode)
+    {
+        $this->join(
+            array('entity_attribute' => $this->getTable('eav_entity_attribute')),
+            'entity_attribute.attribute_id = main_table.attribute_id'
+        );
+        $this->join(
+            array('entity_type' => $this->getTable('eav_entity_type')),
+            'entity_type.entity_type_id = main_table.entity_type_id',
+            array()
+        );
+        $this->join(
+            array('attribute_set' => $this->getTable('eav_attribute_set')),
+            'attribute_set.attribute_set_id = entity_attribute.attribute_set_id',
+            array()
+        );
+        $this->addFieldToFilter('entity_type.entity_type_code', $entityTypeCode);
+        $this->addFieldToFilter('attribute_set.attribute_set_name', $attributeSetName);
+        $this->setOrder('entity_attribute.sort_order', self::SORT_ORDER_ASC);
+    }
+
+    /**
      * Specify multiple attribute sets filter
      * Result will be ordered by sort_order
      *
