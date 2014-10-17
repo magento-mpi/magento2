@@ -6,29 +6,23 @@
  * @license     {license_link}
  */
 ?>
-<div class="block giftregistry shared">
-    <?php $entity = $this->getEntity() ?>
-    <?php if ($entity): ?>
+<?php $entity = $this->getEntity() ?>
 
-    <div class="table-wrapper">
-        <table class="data table giftregistry shared">
-            <caption class="table-caption"><?php echo __('Gift Registry'); ?></caption>
-            <tbody>
-            <?php foreach ($this->getAttributesToDisplay() as $attributeInfo): ?>
-                <tr>
-                    <th class="col title" scope="col"><?php echo $attributeInfo['title'] ?></th>
-                    <td class="col value" scope="col"><?php echo $attributeInfo['value'] ?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
-    <?php echo $this->getChildHtml('giftregistry_items') ?>
-    <?php endif; ?>
-    <div class="actions">
-        <div class="secondary">
-            <a href="<?php echo $this->escapeUrl($this->getSearchBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+<?php if ($entity): ?>
+    <div class="block block-giftregistry-shared">
+        <div class="block-content">
+            <dl class="item-options giftregistry-description">
+                <?php foreach ($this->getAttributesToDisplay() as $attributeInfo): ?>
+                    <dt class="item-title"><?php echo $attributeInfo['title'] ?></dt>
+                    <dd class="item-value"><?php echo $attributeInfo['value'] ?></dd>
+                <?php endforeach; ?>
+            </dl>
         </div>
+    </div>
+    <?php echo $this->getChildHtml('giftregistry_items') ?>
+<?php endif; ?>
+<div class="actions-toolbar">
+    <div class="secondary">
+        <a href="<?php echo $this->escapeUrl($this->getSearchBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
     </div>
 </div>

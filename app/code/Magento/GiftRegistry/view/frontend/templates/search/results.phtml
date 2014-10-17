@@ -31,7 +31,7 @@
                         <td class="col event" data-th="<?php echo $this->escapeHtml(__('Event')); ?>"><?php echo $this->escapeHtml($item->getTitle()) ?></td>
                         <td class="col type" data-th="<?php echo $this->escapeHtml(__('Type')); ?>"><?php echo $this->escapeHtml($item->getType()) ?></td>
                         <td class="col date" data-th="<?php echo $this->escapeHtml(__('Event Date')); ?>"><?php echo $this->getFormattedDate($item) ?></td>
-                        <td class="col actions" data-th=""><a href="<?php echo $this->getRegistryLink($item) ?>" title="<?php echo __('View') ?>"><?php echo __('View') ?></a></td>
+                        <td class="col actions" data-th="<?php echo $this->escapeHtml(__('Actions')); ?>"><a href="<?php echo $this->getRegistryLink($item) ?>" title="<?php echo __('View') ?>"><?php echo __('View') ?></a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

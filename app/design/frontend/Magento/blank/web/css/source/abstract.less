@@ -39,12 +39,33 @@
     dt {
         float: left;
         clear: left;
-        margin: 0 10px 5px 0;
+        margin: 0 @indent-s-base @indent-xs-base 0;
     }
     dd {
         float: left;
         display: inline-block;
-        margin: 0 0 5px;
+        margin: 0 0 @indent-xs-base;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-product-options-list-desktop {
+        dt:after {
+            content: ': ';
+        }
+        dt {
+            float: left;
+            clear: left;
+            margin: 0 @indent-s-base @indent-xs-base 0;
+        }
+        dd {
+            float: left;
+            display: inline-block;
+            margin: 0 0 @indent-xs-base;
+        }
     }
 }
 
