@@ -12,6 +12,7 @@ use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Helper\PostInstaller;
 use Magento\TargetRule\Model\RuleFactory as RuleFactory;
+use Magento\TargetRule\Model\Actions\Condition\Product\Attributes as TargetRuleActionAttributes;
 
 /**
  * Class Setup
@@ -67,9 +68,10 @@ class Rule implements SetupInterface
 
     /**
      * @param array $categoryPath
+     * @param string $ruleType
      * @return array|null
      */
-    protected function getConditionFromCategory($categoryPath)
+    protected function getConditionFromCategory($categoryPath, $ruleType = 'Rule')
     {
         $categoryId = null;
         $tree = $this->categoryReadService->tree();
@@ -87,7 +89,7 @@ class Rule implements SetupInterface
             return null;
         }
         return [
-          'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+          'type' => 'Magento\TargetRule\Model\\' . $ruleType . '\Condition\Product\Attributes',
           'attribute' => 'category_ids',
           'operator' => '==',
           'value' => $categoryId
@@ -107,7 +109,6 @@ class Rule implements SetupInterface
             \Magento\TargetRule\Model\Rule::CROSS_SELLS => 'crosssell'
         ];
 
-        $sortOrder = 0;
         foreach ($entityFileAssociation as $linkTypeId => $linkType) {
             $fileName = 'TargetRule/' . $linkType . '.csv';
             $fileName = $this->fixtureHelper->getPath($fileName);
@@ -122,15 +123,20 @@ class Rule implements SetupInterface
                 if ($rule->getResourceCollection()->addFilter('name', $row['name'])->getSize() > 0) {
                     continue;
                 }
+
                 $sourceCategory = $this->getConditionFromCategory(
-                    array_filter(explode("\n", $row['source_category']))
+                    array_filter(explode("\n", $row['source_category'])),
+                    'Rule'
                 );
                 $targetCategory = $this->getConditionFromCategory(
-                    array_filter(explode("\n", $row['target_category']))
+                    array_filter(explode("\n", $row['target_category'])),
+                    'Actions'
                 );
                 if (!$sourceCategory || !$targetCategory) {
                     continue;
                 }
+                $targetCategory['value_type'] = TargetRuleActionAttributes::VALUE_TYPE_CONSTANT;
+
                 $ruleConditions = [
                     'conditions' => [
                         1 => [
@@ -158,12 +164,12 @@ class Rule implements SetupInterface
                         $index++;
                     }
                 }
+
                 $rule->setName($row['name'])
                     ->setApplyTo($linkTypeId)
                     ->setIsActive(1)
-                    ->setSortOrder($sortOrder)
+                    ->setSortOrder(0)
                     ->setPositionsLimit(empty($row['limit']) ? 0 : $row['limit']);
-                $sortOrder++;
                 $rule->loadPost($ruleConditions);
                 $rule->save();
                 echo '.';
