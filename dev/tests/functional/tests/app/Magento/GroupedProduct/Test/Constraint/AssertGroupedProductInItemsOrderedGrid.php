@@ -6,18 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint;
+namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
 
 /**
- * Class AssertProductInItemsOrderedGrid
- * Assert product was added to Items Ordered grid in customer account on Order creation page backend
+ * Class AssertGroupedProductInItemsOrderedGrid
+ * Assert grouped product was added to Items Ordered grid in customer account on Order creation page backend
  */
-class AssertProductInItemsOrderedGrid extends AbstractConstraint
+class AssertGroupedProductInItemsOrderedGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -45,22 +44,20 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
      *
      * @param OrderCreateIndex $orderCreateIndex
      * @param array $entityData
-     * @param bool $productsIsConfigured
      * @throws \Exception
      * @return void
      */
-    public function processAssert(OrderCreateIndex $orderCreateIndex, array $entityData, $productsIsConfigured = true)
+    public function processAssert(OrderCreateIndex $orderCreateIndex, array $entityData)
     {
         if (!isset($entityData['products'])) {
             throw new \Exception("No products");
         }
-        $this->productsIsConfigured = $productsIsConfigured;
         $data = $this->prepareData($entityData, $orderCreateIndex->getCreateBlock()->getItemsBlock());
 
         \PHPUnit_Framework_Assert::assertEquals(
             $data['fixtureData'],
             $data['pageData'],
-            'Product data on order create page not equals to passed from fixture.'
+            'Grouped product data on order create page not equals to passed from fixture.'
         );
     }
 
@@ -75,31 +72,19 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     {
         $fixtureData = [];
         foreach ($data['products'] as $product) {
-            $checkoutData = $product->getCheckoutData();
-            $fixtureData[] = [
-                'name' => $product->getName(),
-                'price' => number_format($this->getProductPrice($product), 2),
-                'checkout_data' => [
-                    'qty' => $this->productsIsConfigured && isset($checkoutData['qty']) ? $checkoutData['qty'] : 1
-                ],
-            ];
+            $products = $product->getAssociated()['products'];
+            foreach ($products as $key => $value) {
+                $fixtureData[$key]['name'] = $value->getName();
+                $fixtureData[$key]['price'] = $value->getPrice();
+            }
+            $options = $product->getCheckoutData()['options'];
+            foreach ($options as $key => $option) {
+                $fixtureData[$key]['checkout_data']['qty'] = $option['qty'];
+            }
         }
         $pageData = $itemsBlock->getProductsDataByFields($this->fields);
 
         return ['fixtureData' => $fixtureData, 'pageData' => $pageData];
-    }
-
-    /**
-     * Get product price
-     *
-     * @param FixtureInterface $product
-     * @return int
-     */
-    protected function getProductPrice(FixtureInterface $product)
-    {
-        return isset ($product->getCheckoutData()['cartItem']['price'])
-        ? $product->getCheckoutData()['cartItem']['price']
-        : $product->getPrice();
     }
 
     /**
