@@ -10,7 +10,7 @@ namespace Magento\CatalogSearch\Model\Resource\Search;
 /**
  * Search collection
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
