@@ -11,9 +11,9 @@
  */
 namespace Magento\Webapi\DataObjectSerialization;
 
-use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
+use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseService
@@ -52,7 +52,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
     protected $customAttributeDataObjectBuilder;
 
     /**
-     * @var SimpleDataObjectConverter $dataObjectConverter
+     * @var DataObjectConverter $dataObjectConverter
      */
     protected $dataObjectConverter;
 
@@ -82,7 +82,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         );
 
         $this->dataObjectConverter = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\SimpleDataObjectConverter'
+            'Magento\Webapi\Controller\Rest\Response\DataObjectConverter'
         );
     }
 
