@@ -20,6 +20,7 @@ use Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface;
 
 /**
  * Class to save bundle products
+ * @deprecated
  */
 class BundleProductSaveProcessor implements ProductSaveProcessorInterface
 {
@@ -116,7 +117,7 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         /**
          * @var Product $existingProduct
          */
-        $existingProduct = $this->productRepository->get($sku, true);
+        $existingProduct = $this->productRepository->get($sku, ['edit_mode' => true]);
 
         if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
             return $sku;
