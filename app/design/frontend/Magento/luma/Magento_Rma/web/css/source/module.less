@@ -89,6 +89,21 @@
     .magento-rma-returns-view {
         &:extend(.abstract-title-orders-mobile all);
     }
+    .account {
+        .column.main {
+            .returns-details-items {
+                .block-returns-tracking {
+                    .block-title {
+                        > .action.track {
+                            float: none;
+                            display: block;
+                            margin: 10px 0 0 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 //
@@ -117,6 +132,16 @@
                 clear: none;
                 float: left;
                 width: 100%/4;
+            }
+        }
+    }
+    .block-returns-tracking {
+        .block-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
+                }
             }
         }
     }
