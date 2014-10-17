@@ -1,5 +1,3 @@
-# File
-
 A set of utility classes for handling files:
 
  * Reading/writing data from/to CSV-files

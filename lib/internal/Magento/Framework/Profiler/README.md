@@ -1,5 +1,3 @@
-# Profiler
-
 A library for profiling source code. This is a manual type of profiler, when programmer adds profiling instructions explicitly inline to the source code.
 
 Features:

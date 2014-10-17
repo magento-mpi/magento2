@@ -1,5 +1,3 @@
-# Convert
-
 A set of utility classes that can convert structured data from one type to another. Available features:
 
  * Converting an associative array to an XML-document and vice versa

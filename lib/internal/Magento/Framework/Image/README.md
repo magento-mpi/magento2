@@ -1,5 +1,3 @@
-# Image
-
 A library for processing images (photos, pictures in digital format). Features:
 
  * Resizing
