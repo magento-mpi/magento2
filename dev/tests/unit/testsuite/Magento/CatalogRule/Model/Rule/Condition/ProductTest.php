@@ -42,7 +42,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'getData',
                 'getId',
                 'getStoreId',
-                'getResource'
+                'getResource',
+                'addAttributeToSelect',
             ),
             array(),
             '',
