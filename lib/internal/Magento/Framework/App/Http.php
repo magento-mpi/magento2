@@ -14,6 +14,7 @@ use Magento\Framework\App\Request\Http as RequestHttp;
 use Magento\Framework\App\Response\Http as ResponseHttp;
 use Magento\Framework\Event;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\Response\HttpInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -114,7 +115,7 @@ class Http implements \Magento\Framework\AppInterface
         // TODO: Temporary solution till all controllers are returned not ResultInterface (MAGETWO-28359)
         if ($result instanceof ResultInterface) {
             $result->renderResult($this->_response);
-        } elseif ($result instanceof ResponseHttp) {
+        } elseif ($result instanceof HttpInterface) {
             $this->_response = $result;
         } else {
             throw new \InvalidArgumentException('Invalid return type');
