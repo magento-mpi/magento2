@@ -16,10 +16,10 @@
         <is_html>
             <input>select</input>
         </is_html>
-        <store_ids>
+        <stores>
             <selector>[name="stores[]"]</selector>
             <input>multiselectgrouplist</input>
-        </store_ids>
+        </stores>
         <checkbox_text />
         <content />
         <content_height />
