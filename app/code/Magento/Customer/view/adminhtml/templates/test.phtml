@@ -300,9 +300,14 @@
                 "source": "customer_form_data",
                 "config": {
                     "item_settings": {
-                        "data_namespace": "customer.addresses"        
+                        "namespace": "customer.addresses"        
                     }
                 }
+            },
+            "customer_address": {
+                "name": "customer_address",
+                "path": "Magento_Ui/js/form/components/collection/item",
+                "source": "customer_form_data"
             }
         },
         "layout": { 
@@ -428,7 +433,7 @@
                 "customer_addresses": {
                     "label": "Customer Addresses",
                     "injections": [
-                        "customer_addresses.item"
+                        "customer_addresses.collection"
                     ]
                 },
                 "personal_info": {
@@ -498,7 +503,24 @@
                 }
             },
             "customer_addresses": {
-                "item": [
+                "collection": [
+                    "customer_address.0",
+                    "customer_address.1",
+                    "customer_address.2"
+                ]
+            },
+            "customer_address": {
+                "0": [
+                    "groups.customer_addresses_general",
+                    "groups.customer_addresses_middle_name",
+                    "groups.customer_addresses_lastname"
+                ],
+                "1": [
+                    "groups.customer_addresses_general",
+                    "groups.customer_addresses_middle_name",
+                    "groups.customer_addresses_lastname"
+                ],
+                "2": [
                     "groups.customer_addresses_general",
                     "groups.customer_addresses_middle_name",
                     "groups.customer_addresses_lastname"

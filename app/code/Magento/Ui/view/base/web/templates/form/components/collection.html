@@ -7,10 +7,18 @@
  */
 -->
 
-<!-- ko foreach: { data: items, as: 'item' } -->
-    <!-- ko template: item.getTemplate() --><!-- /ko -->    
+<!-- ko foreach: { data: elems, as: 'element' } -->
+    <button data-bind="click: $parent.setActive(element)">Set active</button>
+    <div data-bind="visible: active">I am active</div>
+    <div data-bind="text: element.index"></div>
+    <div data-bind="foreach: { data: element.values, as: 'value' }">
+        <div data-bind="text: value.index"></div>
+        <div data-bind="text: value.value"></div>
+    </div>
 <!-- /ko -->
 
 <!-- ko foreach: { data: elems, as: 'element' } -->
-    <!-- ko template: element.getTemplate() --><!-- /ko -->    
+    <!-- ko if: element.active -->
+        <!-- ko template: element.getTemplate() --><!-- /ko -->
+    <!-- /ko -->    
 <!-- /ko -->

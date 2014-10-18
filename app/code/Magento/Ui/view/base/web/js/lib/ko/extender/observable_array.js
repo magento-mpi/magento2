@@ -8,10 +8,15 @@ define([
     'ko',
     'underscore'
 ], function (ko, _) {
+    'use strict';
 
-    function observe() {
-        return ko.observable.apply(ko, arguments);
-    };
+    function observeKeys(keys, array) {
+        array.each(function (item) {
+            keys.forEach(function (key) {
+                item[key] = !ko.isObservable(item[key]) ? ko.observable(item[key]) : item[key];
+            });
+        });
+    }
 
     _.extend(ko.observableArray.fn, {
         contains: function (value) {
@@ -23,19 +28,10 @@ define([
         },
 
         observe: function (keys) {
-            var items = this(),
-                value;
-
             keys = _.isArray(keys) ? keys : Array.prototype.slice.call(arguments);
 
-            items.map(function (item) {
-
-                keys.forEach(function (field) {
-                    item[field] = observe(item[field]);    
-                });
-
-                return item;
-            });
+            observeKeys(keys, this);
+            this.subscribe(observeKeys.bind(this, keys));
         },
 
         getLength: function () {
@@ -48,6 +44,14 @@ define([
 
         each: function (iterator, ctx) {
             return _.each(this(), iterator, ctx);
+        },
+
+        without: function () {
+            var args = Array.prototype.slice.call(arguments);
+
+            args.unshift(this());
+
+            return _.without.apply(_, args);
         }
     });
 });

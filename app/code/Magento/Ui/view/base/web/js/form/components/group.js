@@ -91,19 +91,54 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('invalids', []);
+            this.observe('invalids', [])
+                .observe('values', []);
 
             return this;
         },
 
-        initElement: function(elem){
+        initElement: function(element){
             __super__.initElement.apply(this, arguments);
 
-            elem.on('update', this.onUpdate.bind(this));
+            element.on('update', this.onUpdate.bind(this));
 
-            this.extractData();
+            this.extractData().apply(element);
 
             return this;
+        },
+
+        setPath: function (path) {
+            this.path = path;
+
+            return this;
+        },
+
+        setData: function (values) {
+            this.values(values);
+            this.apply();
+
+            return this;
+        },
+
+        apply: function (element) {
+            var indexed = this.elems.indexBy('index'),
+                values  = this.values.indexBy('index'),
+                index,
+                data,
+                elements = element ? [element] : this.elems();
+
+            elements.forEach(function (element) {
+                index   = element.index;
+                data    = values[index];
+
+                element.name = this.pathFor(element);
+                element.set(data ? data.value() : null);
+
+            }, this);
+        },
+
+        pathFor: function (element) {
+            return [this.path, element.index].join('.');
         },
 
         /**
@@ -114,11 +149,13 @@ define([
         extractData: function(){
             var elems = this.elems();
 
-            return _.extend(this, {
+            _.extend(this, {
                 label:      getLabel(elems, this),
                 required:   getRequired(elems, this),
                 uid:        getUid(elems, this)
             });
+
+            return this;
         },
 
         onUpdate: function (element, settings) {

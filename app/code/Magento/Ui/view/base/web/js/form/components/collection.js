@@ -7,14 +7,14 @@
 define([
     'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/form/component',
-    './collection/item',
     'underscore'
-], function (Collection, Component, Item, _) {
+], function (Collection, Component, _) {
     'use strict';
 
     var __super__ = Component.prototype;
 
     var defaults = {
+        lastIndex: 0,
         active: 0
     };
 
@@ -23,95 +23,91 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
-
-            this.initItems().apply();
-        },
-
-        initItems: function () {
-            var data = this.provider.data.get(this.data_namespace),
-                config,
-                values;
-
-            _.map(data, function (value, index) {
-                values = _.map(value, function (value, name) {
-                    return {
-                        value:  value,
-                        name:   name
-                    };
-                });
-
-                config = {
-                    index: index,
-                    values: values
-                };
-
-                return this.createItem(config);
-            }, this);
-
-            return this;
-        },
-
-        createItem: function (config) {
-            var active      = this.active(),
-                count       = this.items.getLength(),
-                settings,
-                item;
-
-            settings = {
-                index:      count,
-                groups:     this.elems,
-                value:      [],
-                namespace:  this.data_namespace
-            };
-
-            _.extend(settings, config);
-
-            settings.active = (active == settings.index);
-
-            item = new Item(settings);
-
-            this.items.push(item);
-
-            return item;
-        },
-
-        setActive: function (index) {
-            return this._setActive.bind(this, index);
-        },
-
-        _setActive: function (index) {
-            var isActive;
-
-            this.active(index);
-
-            this.items.each(function (item) {
-                isActive = item.index === index;
-                item.active(isActive);
-            });
-
-            this.apply();
-        },
-
-        initElement: function () {
-            __super__.initElement.apply(this, arguments);
-
-            this.apply();
-        },
-
-        apply: function (group) {
-            var active = this.active(),
-                items  = this.items.indexBy('index');
-
-            items[active] && items[active].apply(group);
         },
 
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('active')
-                .observe('items', []);
+            this.observe('active');
 
             return this;
+        },
+
+        initElement: function (element) {
+            __super__.initElement.apply(this, arguments);
+
+            var index           = this.lastIndex++,
+                data            = this.dataFor(index),
+                path            = this.pathFor(index),
+                shouldBeActive  = this.active() == index;
+
+            element
+                .setIndex(index)
+                .setPath(path)
+                .setData(data);
+
+            if (shouldBeActive) {
+                this._setActive(element);
+            }
+        },
+
+        dataFor: function (index) {
+            var indexed = this.getValues('by index'),
+                value   = indexed[index] && indexed[index].value;
+
+            value = value && _.map(value, function (value, index) {
+                return {
+                    index: index,
+                    value: value
+                }
+            });
+
+            return value;
+        },
+
+        pathFor: function (index) {
+            return [this.namespace, index].join('.');
+        },
+
+        getValues: function (indexed) {
+            var data    = this.provider.data,
+                values  = data.get(this.namespace);
+
+            values = _.map(values, function (value, index) {
+                return {
+                    value: value,
+                    index: index
+                };
+            });
+
+            return indexed ? _.indexBy(values, 'index') : values;
+        },
+
+        setActive: function (element) {
+            return this._setActive.bind(this, element);
+        },
+
+        _setActive: function (element) {
+            var index   = element.index(),
+                inactive = this.elems.without(element);
+
+            this.active(index);
+            this.activate(element);
+            this.deactivate(inactive);
+
+            element.apply();
+        },
+
+        deactivate: function (elements) {
+            elements.each(function (element) {
+                element.active(false);
+            });
+
+            return this;
+        },
+
+        activate: function (element) {
+            element.active(true);
         },
 
         getTemplate: function () {

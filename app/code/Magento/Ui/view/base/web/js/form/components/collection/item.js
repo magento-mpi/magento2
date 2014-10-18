@@ -5,118 +5,107 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/initializer/collection',
+    'Magento_Ui/js/form/component',
     'underscore',
     'ko'
-], function (Scope, EventBus, _, ko) {
+], function (Collection, Component, _, ko) {
     'use strict';
 
     var defaults = {
-        active: false
+        active: false,
+        index: 0
     };
 
-    function observable() {
-        return ko.observable.apply(ko, arguments);
-    }
+    var __super__ = Component.prototype;
 
-    return Scope.extend({
-        initialize: function (config) {
-            _.extend(this, defaults, config);
+    var Item = Component.extend({
+        initialize: function () {
+            _.extend(this, defaults);
 
-            this.initObservable()
-                .initListeners();
+            __super__.initialize.apply(this, arguments);
         },
 
         initObservable: function () {
-            this.observe('active')
-                .observe('values')
-                .observe('listened', []);
+            __super__.initObservable.apply(this, arguments);
 
+            this.observe('active index')
+                .observe('values', []);
+                
             this.values.observe('value');
 
             return this;
         },
 
         initListeners: function () {
-            this.groups.subscribe(this.initElementListeners, this);
+            __super__.initListeners.apply(this, arguments);
+
+            return this;
         },
 
-        initElementListeners: function () {
-            var listened    = this.listened,
-                update      = this.updateValue.bind(this),
-                alreadyListened;
+        initElement: function (element) {
+            __super__.initElement.apply(this, arguments);
 
-            this.groups.each(function (group) {
-                alreadyListened = listened.contains(group);
-
-                if (!alreadyListened) {
-                    group.on('update', update);
-                    listened.push(group);
-                }
-            });
+            element.on('update', this.updateValues.bind(this));
         },
 
-        updateValue: function (group, settings) {
-            var shouldUpdate = this.active(),
-                values,
-                valueStorage,
-                element;
+        apply: function () {
+            this.elems.each(function (element) {
+                element
+                    .setPath(this.path)
+                    .setData(this.values());
+
+            }, this);
+
+            return this;
+        },
+
+        updateValues: function (element, settings) {
+            var shouldUpdate   = this.active(),
+                indexed,        
+                input,
+                valueStorage;
 
             if (!shouldUpdate) {
                 return;
             }
 
-            values          = this.getIndexedValues();
-            valueStorage    = values[element.index];
-            element         = settings.element;
+            indexed         = this.values.indexBy('index');
+            input           = settings.element;
+            valueStorage    = indexed[input.index];
 
-            if (!valueStorage) {
-                this.values.push({
-                    value: observable(settings.value),
-                    name:  element.index
-                });
-            } else {
+            if (valueStorage) {
                 valueStorage.value(settings.value);
-            }
-        },
-
-        getIndexedValues: function () {
-            return this.values.indexBy('name');
-        },
-
-        apply: function (group) {
-            var values = this.getIndexedValues(),
-                value;
-
-            if (group) {
-                this._apply(group);
             } else {
-                this.groups.each(this._apply, this);
+                this.values.push({
+                    index: input.index,
+                    value: ko.observable(settings.value)
+                });
             }
         },
 
-        _apply: function (group) {
-            group.elems.each(this.__apply, this);
+        setIndex: function (index) {
+            this.index(index);
+
+            return this;
         },
 
-        __apply: function (element) {
-            var values = this.getIndexedValues(),
-                value;
+        setPath: function (path) {
+            this.path = path;
 
-            value = values[element.index];
-            value = value && value.value();
-
-            element.name = this.getElementName(element);
-            element.set(value);
+            return this;
         },
 
-        getElementName: function (element) {
-            return [this.namespace, this.index, element.index].join('.');
+        setData: function (data) {
+            this.values(data);
+
+            return this;
         },
 
         getTemplate: function () {
             return 'ui/form/components/collection/item';
         }
-    }, EventBus);
+    });
+
+    return Collection(Item);
 });

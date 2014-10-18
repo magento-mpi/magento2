@@ -7,15 +7,6 @@
  */
 -->
 
-<div>
-    <!-- ko if: active -->
-    <div>I am active</div>
-    <!-- /ko -->
-    <div data-bind="text: index"></div>
-    <button data-bind="click: $parent.setActive(index)">Make me active</button>
-    <div>Values</div>
-    <div data-bind="foreach: value">
-        <h2 data-bind="text: name"></h2>
-        <div data-bind="text: value"></div>
-    </div>
-</div>
+<!-- ko foreach: { data: elems, as: 'element' } -->
+    <!-- ko template: element.getTemplate() --><!-- /ko -->    
+<!-- /ko -->

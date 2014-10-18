@@ -16,7 +16,7 @@ define([
     './bind/class',
     './bind/keyboard',
     './bind/optgroup',
-    './utils'
+    './extender/observable_array'
 ], function(ko, templateEngine) {
     'use strict';
 

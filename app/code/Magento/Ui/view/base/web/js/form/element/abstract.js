@@ -69,10 +69,6 @@ define([
             this.value(value);
         },
 
-        get: function () {
-            return this.value();
-        },
-
         /**
          * Sets unique id for element
          * @return {Object} - reference to instance
