@@ -5,21 +5,21 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/form/component',
     'underscore',
     'ko'
-], function (Collection, Component, _, ko) {
+], function (Component, _, ko) {
     'use strict';
 
     var defaults = {
         active: false,
-        index: 0
+        index: 0,
+        template: 'ui/form/components/collection/item'
     };
 
     var __super__ = Component.prototype;
 
-    var Item = Component.extend({
+    return Component.extend({
         initialize: function () {
             _.extend(this, defaults);
 
@@ -31,7 +31,7 @@ define([
 
             this.observe('active index')
                 .observe('values', []);
-                
+
             this.values.observe('value');
 
             return this;
@@ -100,12 +100,6 @@ define([
             this.values(data);
 
             return this;
-        },
-
-        getTemplate: function () {
-            return 'ui/form/components/collection/item';
         }
     });
-
-    return Collection(Item);
 });

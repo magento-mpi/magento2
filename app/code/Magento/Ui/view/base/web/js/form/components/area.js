@@ -6,9 +6,8 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/initializer/collection',
     '../component'
-], function(_, Collection, Component) {
+], function(_, Component) {
     'use strict';
 
     var defaults = {
@@ -20,13 +19,14 @@ define([
 
     var __super__ = Component.prototype;
 
-    var Area = Component.extend({
+    return Component.extend({
         initialize: function() {
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
 
-            this.pushParams();
+            this.initListeners()
+                .pushParams();
         },
 
         initObservable: function() {
@@ -94,6 +94,4 @@ define([
             this.loading(finished);
         }
     });
-
-    return Collection(Area);
 });

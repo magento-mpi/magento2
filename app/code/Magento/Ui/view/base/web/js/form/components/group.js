@@ -6,10 +6,9 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/initializer/collection',
     '../component',
     'mage/utils'
-], function(_, Collection, Component, utils) {
+], function(_, Component, utils) {
     'use strict';
 
     var defaults = {
@@ -70,7 +69,7 @@ define([
         return uid;
     }
 
-    var FormGroup = Component.extend({
+    return Component.extend({
 
         /**
          * Extends this with defaults and config.
@@ -180,6 +179,4 @@ define([
             });
         }
     });
-
-    return Collection(FormGroup);
 });

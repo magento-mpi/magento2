@@ -7,9 +7,8 @@
 define([
     'jquery',
     'underscore',
-    'Magento_Ui/js/initializer/collection',
     '../component'
-], function($, _, Collection, Component) {
+], function($, _, Component) {
     'use strict';
 
     var defaults = {
@@ -21,7 +20,7 @@ define([
 
     var __super__ = Component.prototype;
 
-    var Html = Component.extend({
+    return Component.extend({
         initialize: function() {
             _.extend(this, defaults);
 
@@ -96,6 +95,4 @@ define([
             return this;
         }
     });
-
-    return Collection(Html);
 });

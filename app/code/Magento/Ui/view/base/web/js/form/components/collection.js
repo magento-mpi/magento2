@@ -5,20 +5,20 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/initializer/collection',
     'Magento_Ui/js/form/component',
     'underscore'
-], function (Collection, Component, _) {
+], function (Component, _) {
     'use strict';
 
     var __super__ = Component.prototype;
 
     var defaults = {
         lastIndex: 0,
-        active: 0
+        active: 0,
+        template: 'ui/form/components/collection'
     };
 
-    var FormCollection = Component.extend({
+    return Component.extend({
         initialize: function () {
             _.extend(this, defaults);
 
@@ -108,12 +108,6 @@ define([
 
         activate: function (element) {
             element.active(true);
-        },
-
-        getTemplate: function () {
-            return 'ui/form/components/collection';
         }
     });
-
-    return Collection(FormCollection);
 });
