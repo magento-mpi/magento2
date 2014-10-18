@@ -7,9 +7,10 @@
 define([
     'underscore',
     'jquery',
+    'mage/utils',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/registry/registry'
-], function(_, $, Class, registry) {
+], function(_, $, utils, Class, registry) {
     'use strict';
 
     function initNode(node){
@@ -20,7 +21,7 @@ define([
         registry.get(deps, function(){
 
             require(source, function(constr){
-                
+
                 registry.set(name, new constr(node.config, name));
             });
         });
@@ -108,17 +109,18 @@ define([
         },
 
         buildNode: function(parent, node, name){
-            var type = this.types.get(node.type),
-                name = getNodeName.apply(null, arguments);
+            var type = this.types.get(node.type);
 
-            return $.extend(true, {
-                name: name
-            }, type, node);
+            name = getNodeName.apply(null, arguments);
+
+            node.name = name;
+
+            return $.extend(true, {}, type, node);
         },
 
         insert: function(targets, items, position){
-            items   = _.compact(stringToArray(items));
-            targets = stringToArray(targets);
+            items   = _.compact(utils.stringToArray(items));
+            targets = utils.stringToArray(targets);
 
             _.each(targets, function(target){
                 registry.get(target, function(target){

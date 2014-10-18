@@ -5,17 +5,6 @@
                 "path": "Magento_Ui/js/form/provider/provider",
                 "meta": {
                     "customer": {
-                        "website": {
-                            "index": "website",
-                            "data_type": "text",
-                            "input_type": "select",
-                            "label": "Associate to Website",
-                            "caption": "Please select ...",
-                            "options": [
-                                {"label":"Admin Website","value":"0"},
-                                {"label":"Main Website","value":"1"}
-                            ]
-                        },
                         "currencies": {
                             "index": "currencies",
                             "input_type": "multiple_select",
@@ -40,150 +29,6 @@
                                 {"value":"sup","label": "Sup money"},
                                 {"value":"wow","label": "Wow money"}
                             ]
-                        },
-                        "gender": {
-                            "index": "gender",
-                            "data_type": "text",
-                            "input_type": "select",
-                            "label": "Gender",
-                            "no_caption": true,
-                            "options": [
-                                {"value":"0","label": "Male"},
-                                {"value":"1","label": "Female"}
-                            ]
-                        },
-                        "general": {
-                            "index": "general",
-                            "data_type": "text",
-                            "input_type": "select",
-                            "options": [
-                                {"value":"0","label": "General"},
-                                {"value":"1","label": "Wholesale"},
-                                {"value":"2","label": "Retailer"}
-                            ]
-                        },
-                        "prefix": {
-                            "index": "prefix",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Prefix",
-                            "validation": {
-                                "required-entry": true,
-                                "letters-only": true
-                            }
-                        },
-                        "firstname": {
-                            "index": "firstname",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "First Name",
-                            "validation": {
-                                "required-entry": true
-                            }
-                        },
-                        "middle_name": {
-                            "index": "middle_name",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Middle Name/Initial",
-                            "validation": {
-                                "required-entry": true
-                            }
-                        },
-                        "lastname": {
-                            "index": "lastname",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Last Name"
-                        },
-                        "suffix": {
-                            "index": "suffix",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "label": "Suffix"
-                        },
-                        "email": {
-                            "index": "email",
-                            "data_type": "text",
-                            "input_type": "email",
-                            "placeholder": "Enter your email here",
-                            "label": "Email Address",
-                            "notice": "Some notice here",
-                            "addbefore": "@email:",
-                            "required": true
-                        },
-                        "taxvat": {
-                            "index": "taxvat",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "disable_rules": {
-                                "customer.prefix": "xx",
-                                "customer.general": "2"
-                            },
-                            "notice": "Notice for tax/vat",
-                            "label": "Tax/VAT Number"
-                        },
-                        "some": {
-                            "index": "some",
-                            "data_type": "text",
-                            "input_type": "input",
-                            "notice": "Notice for Some other",
-                            "label": "Some other"
-                        },
-                        "price": {
-                            "index": "price",
-                            "type": "price",
-                            "data_type": "price",
-                            "input_type": "price",
-                            "currency_sign": "$",
-                            "disabled": "true",
-                            "disable_rules": {
-                                "customer.prefix": "xx",
-                                "customer.general": "2"
-                            },
-                            "label": "Price / currency fireld"
-                        },
-                        "send_email": {
-                            "index": "send_email",
-                            "data_type": "boolean",
-                            "input_type": "checkbox",
-                            "label": "Welcome Email",
-                            "description": "Send Welcome Email"
-                        },
-                        "disable_auto": {
-                            "index": "disable_auto",
-                            "data_type": "boolean",
-                            "input_type": "checkbox",
-                            "description": "Disable Automatic Group Change Based on VAT ID"
-                        },
-                        "comments": {
-                            "input_type": "textarea",
-                            "label": "Comments",
-                            "index": "comments"
-                        },
-                        "created": {
-                            "index": "created",
-                            "input_type": "date",
-                            "label": "Created",
-                            "placeholder": "mm\/dd\/yyyy",
-                            "options": {
-                                "dateFormat": "mm\/dd\/yyyy",
-                                "showsTime": false,
-                                "timeFormat": null,
-                                "buttonImage": "/pub/static/adminhtml/Magento/backend/en_US/images/grid/cal.gif",
-                                "buttonText": "Select Date"
-                            }
-                        },
-                        "image": {
-                            "index": "image",
-                            "input_type": "media",
-                            "label": "Image"
-                        },
-                        "subscribe": {
-                            "index": "subscribe",
-                            "data_type": "boolean",
-                            "input_type": "checkbox",
-                            "label": "Subscribed to Newsletter"
                         },
                         "addresses": {
                             "prefix": {
@@ -223,7 +68,7 @@
                     }
                 },
                 "data": {
-                    "customer": {
+                    "form": {
                         "prefix": "Mr.",
                         "website": 0,
                         "gender": 0,
@@ -252,14 +97,6 @@
                 }
             }
         },
-        "components": {
-            "customer_form_form": {
-                "name": "customer_form_form",
-                "path": "Magento_Ui/js/form",
-                "source": "customer_form_data",
-                "validateOnChange": false
-            }
-        },
         "types": {
             "base": {
                 "component": "Magento_Ui/js/form/component",
@@ -277,24 +114,58 @@
                     "template": "ui/tab"
                 }
             },
-            "area": [
-                "base",
-                {
-                    "component": "Magento_Ui/js/form/components/area"
+            "input": {
+                "extends": "base",
+                "component": "Magento_Ui/js/form/element/abstract"
+            },
+            "textarea": {
+                "extends": "base",
+                "component": "Magento_Ui/js/form/element/textarea",
+                "config": {
+                    "input_type": "textarea"
                 }
-            ],
-            "fieldset": [
-                "base",
-                {
-                    "component": "Magento_Ui/js/form/components/fieldset"
+            },
+            "checkbox": {
+                "extends": "input",
+                "config": {
+                    "input_type": "checkbox",
+                    "data_type": "boolean",
+                    "template": "ui/form/element/checkbox"
                 }
-            ],
-            "group": [
-                "base",
-                {
-                   "component": "Magento_Ui/js/form/components/group" 
+            },
+            "selectbox": {
+                "extends": "base",
+                "component": "Magento_Ui/js/form/element/select",
+                "config": {
+                    "input_type": "select"
                 }
-            ],
+            },
+            "media": {
+                "extends": "input",
+                "config": {
+                    "input_type": "media",
+                    "template": "ui/form/element/media"
+                }
+            },
+            "date": {
+                "extends": "input",
+                "config": {
+                    "input_type": "date",
+                    "template": "ui/form/element/date"
+                }
+            },
+            "area": {
+                "extends": "base",
+                "component": "Magento_Ui/js/form/components/area"
+            },
+            "fieldset": {
+                "extends": "base",
+                "component": "Magento_Ui/js/form/components/fieldset"
+            },
+            "group": {
+                "extends": "base",
+                "component": "Magento_Ui/js/form/components/group" 
+            },
             "html_content": {
                 "component": "Magento_Ui/js/form/components/html"
             }
@@ -522,49 +393,206 @@
                     }
                 }
             },
+            "form": {
+                "type": "virtual",
+                "children": {
+                    "prefix": {
+                        "type": "input",
+                        "config": {
+                            "index": "prefix",
+                            "input_type": "input",
+                            "label": "Prefix",
+                            "validation": {
+                                "required-entry": true,
+                                "letters-only": true
+                            }  
+                        }
+                    },
+                    "firstname": {
+                        "type": "input",
+                            "config": {
+                            "index": "firstname",
+                            "input_type": "input",
+                            "label": "First Name",
+                            "validation": {
+                                "required-entry": true
+                            }
+                        }
+                    },
+                    "middle_name": {
+                        "type": "input",
+                        "config": {
+                            "index": "middle_name",
+                            "input_type": "input",
+                            "label": "Middle Name/Initial",
+                            "validation": {
+                                "required-entry": true
+                            }
+                        }
+                    },
+                    "lastname": {
+                        "type": "input",
+                        "config": {
+                            "index": "lastname",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Last Name"
+                        }
+                    },
+                    "suffix": {
+                        "type": "input",
+                        "config": {
+                            "index": "suffix",
+                            "data_type": "text",
+                            "input_type": "input",
+                            "label": "Suffix"
+                        }
+                    },
+                    "email": {
+                        "type": "input",
+                        "config": {
+                            "index": "email",
+                            "input_type": "email",
+                            "placeholder": "Enter your email here",
+                            "label": "Email Address",
+                            "notice": "Some notice here",
+                            "addbefore": "@email:",
+                            "required": true
+                        }
+                    },
+                    "comments": {
+                        "type": "textarea",
+                        "config": {
+                            "label": "Comments",
+                            "index": "comments"
+                        }
+                    },
+                    "send_email": {
+                        "type": "checkbox",
+                        "config": {
+                            "index": "send_email",
+                            "label": "Welcome Email",
+                            "description": "Send Welcome Email"
+                        }
+                     
+                    },
+                    "website": {
+                        "type": "selectbox",
+                        "config": {
+                            "index": "website",
+                            "data_type": "text",
+                            "label": "Associate to Website",
+                            "caption": "Please select ...",
+                            "options": [
+                                {"label":"Admin Website","value":"0"},
+                                {"label":"Main Website","value":"1"}
+                            ]
+                        }
+                    },
+                    "gender": {
+                        "type": "selectbox",
+                        "config": {
+                            "index": "gender",
+                            "label": "Gender",
+                            "no_caption": true,
+                            "options": [
+                                {"value":"0","label": "Male"},
+                                {"value":"1","label": "Female"}
+                            ]
+                        }
+                    },
+                    "subscribe": {
+                        "type": "checkbox",
+                        "config":{
+                            "index": "subscribe",
+                            "label": "Subscribed to Newsletter"
+                        }
+                    },
+                    "image": {
+                        "type": "media",
+                        "config": {
+                            "index": "image",
+                            "label": "Image"
+                        }
+                    },
+                    "created": {
+                        "type": "date",
+                        "config": {
+                            "index": "created",
+                            "label": "Created",
+                            "placeholder": "mm\/dd\/yyyy",
+                            "options": {
+                                "dateFormat": "mm\/dd\/yyyy",
+                                "showsTime": false,
+                                "timeFormat": null,
+                                "buttonImage": "/pub/static/adminhtml/Magento/backend/en_US/images/grid/cal.gif",
+                                "buttonText": "Select Date"
+                            }
+                        }
+                    },
+                    "general": {
+                        "type": "selectbox",
+                        "config": {
+                            "index": "general",
+                            "options": [
+                                {"value":"0","label": "General"},
+                                {"value":"1","label": "Wholesale"},
+                                {"value":"2","label": "Retailer"}
+                            ]
+                        }
+                    },
+                    "disable_auto": {
+                        "type": "checkbox",
+                        "config": {
+                            "index": "disable_auto",
+                            "description": "Disable Automatic Group"
+                        }
+                    }
+                }
+            },
             "groups": {
                 "type": "virtual",
                 "children": {
                     "website": {
                         "type": "group",
                         "children": [
-                            "customer.website"
+                            "form.website"
                         ]
                     },
                     "prefix":{
                         "type": "group",
                         "children": [
-                            "customer.prefix"
+                            "form.prefix"
                         ]
                     },
                     "firstname": {
                         "type": "group",
                         "children": [
-                            "customer.firstname"
+                            "form.firstname"
                         ]
                     },
                     "middle_name": {
                         "type": "group",
                         "children": [
-                            "customer.middle_name"
+                            "form.middle_name"
                         ]
                     },
                     "lastname": {
                         "type": "group",
                         "children": [
-                            "customer.lastname"
+                            "form.lastname"
                         ]
                     },
                     "suffix": {
                         "type": "group",
                         "children": [
-                            "customer.suffix"
+                            "form.suffix"
                         ]
                     },
                     "email": {
                         "type": "group",
                         "children": [
-                            "customer.email"
+                            "form.email"
                         ]
                     },
                     "taxvat": {
@@ -576,7 +604,7 @@
                     "gender": {
                         "type": "group",
                         "children": [
-                            "customer.gender"
+                            "form.gender"
                         ]
                     },
                     "price": {
@@ -588,7 +616,7 @@
                     "send_email": {
                         "type": "group",
                         "children": [
-                            "customer.send_email"
+                            "form.send_email"
                         ]
                     },
                     "currencies": {
@@ -600,25 +628,25 @@
                     "comments": {
                         "type": "group",
                         "children": [
-                            "customer.comments"
+                            "form.comments"
                         ]
                     },
                     "created": {
                         "type": "group",
                         "children": [
-                            "customer.created"
+                            "form.created"
                         ]
                     },
                     "image": {
                         "type": "group",
                         "children": [
-                            "customer.image"
+                            "form.image"
                         ]
                     },
                     "subscribe": {
                         "type": "group",
                         "children": [
-                            "customer.subscribe"
+                            "form.subscribe"
                         ]
                     },
                     "group": {
@@ -628,8 +656,8 @@
                             "label": "General"
                         },
                         "children": [
-                            "customer.general",
-                            "customer.disable_auto"
+                            "form.general",
+                            "form.disable_auto"
                         ]
                     },
                     "customer_addresses_general": {

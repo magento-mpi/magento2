@@ -5,12 +5,11 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/form/component',
     'Magento_Ui/js/lib/validation/validator'
-], function (Scope, _, utils, EventsBus, validator) {
+], function (_, utils, Component, validator) {
     'use strict';
 
     var defaults = {
@@ -27,21 +26,23 @@ define([
         error:              '',
         addbefore:          '',
         addafter:           '',
-        notice:             null,
-        template:           ''
+        notice:             null
     };
 
-    return Scope.extend({
+    var __super__ = Component.prototype;
+
+    return Component.extend({
 
         /**
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
          */
-        initialize: function (config) {
-            _.extend(this, defaults, config);
+        initialize: function () {
+            _.extend(this, defaults);
+
+            __super__.initialize.apply(this, arguments);
 
             this.setUniqueId()
-                .initObservable()
                 .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
@@ -52,7 +53,13 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            var rules = this.validation = this.validation || {};
+            var rules;
+
+            __super__.initObservable.apply(this, arguments);
+
+            this.value = this.provider.data.get(this.name);
+
+            rules = this.validation = this.validation || {};
 
             this.observe({
                 'value':         this.initialValue = this.value,
@@ -183,5 +190,5 @@ define([
 
             return isAllValid;
         }
-    }, EventsBus);
+    });
 });

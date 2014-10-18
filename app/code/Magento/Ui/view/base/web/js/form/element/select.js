@@ -5,10 +5,10 @@
  * @license     {license_link}
  */
 define([
-    './abstract',
     'underscore',
+    './abstract',
     'i18n'
-], function (AbstractElement, _, i18n) {
+], function (_, Abstract, i18n) {
     'use strict';
 
     var defaults = {
@@ -19,16 +19,18 @@ define([
         template: 'ui/form/element/select'
     };
 
-    return AbstractElement.extend({
+    var __super__ = Abstract.prototype;
+
+    return Abstract.extend({
 
         /**
          * Extends instance with defaults, extends config with formatted values
          *     and options, and invokes initialize method of AbstractElement class.
          */
         initialize: function () {
-            AbstractElement.prototype.initialize.apply(this, arguments);
-
             _.extend(this, defaults);
+
+            __super__.initialize.apply(this, arguments);
 
             this.extendConfig();
         },

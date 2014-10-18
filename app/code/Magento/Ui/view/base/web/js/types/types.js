@@ -7,9 +7,10 @@
 define([
     'underscore',
     'jquery',
+    'mage/utils',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/registry/registry'
-], function(_, $, Class, registry) {
+], function(_, $, utils, Class, registry) {
     'use strict';
 
     return Class.extend({
@@ -30,13 +31,14 @@ define([
         },
 
         flatten: function(data){
-            var result = {};
+            var result = {},
+                extend = data.extends || [];
 
-            if(!Array.isArray(data)){
-                return data;
-            }
+            extend = utils.stringToArray(extend);
 
-            data.forEach(function(item){
+            delete data.extends;
+
+            extend.forEach(function(item){
                 if(typeof item === 'string'){
                     item = this.get(item);
                 }
@@ -44,7 +46,7 @@ define([
                 $.extend(true, result, item);
             }, this);
 
-            return result;
+            return $.extend(true, result, data);
         }
     });
 });

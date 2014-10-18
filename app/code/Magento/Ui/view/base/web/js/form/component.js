@@ -15,9 +15,7 @@ define([
     
     function loadEach(elems, callback){
         elems.forEach(function(elem, index){
-
             registry.get(elem, function(elem){
-            
                 callback(index, elem);
             });
         });
@@ -54,10 +52,19 @@ define([
         },
 
         insert: function(elems, offset){
-            var size = elems.length,
+            var size    = elems.length,
+                _elems  = this._elems,
                 callback;
+            
+            if(typeof offset === 'undefined'){
+                offset = -1;
+            }
 
-            offset      = utils.reserve(this._elems, size, offset);
+            if(offset < 0){
+                offset += _elems.length + 1;
+            }
+
+            this._elems = utils.reserve(_elems, size, offset);
             callback    = this.insertAt.bind(this, offset);
 
             loadEach(elems, callback);
