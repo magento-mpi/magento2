@@ -210,9 +210,9 @@
             },
             "areas": {
                 "type": "base",
+                "childType": "area",
                 "children": {
                     "orders": {
-                        "type": "area",
                         "config": {
                             "label": "Orders"
                         },
@@ -221,7 +221,6 @@
                         ]
                     },
                     "billing_agreements": {
-                        "type": "area",
                         "config": {
                             "label": "Billing Agreements"
                         },
@@ -230,7 +229,6 @@
                         ]
                     },
                     "recurring_billing": {
-                        "type": "area",
                         "config": {
                             "label": "Recurring Billing Payments (beta)"
                         },
@@ -239,7 +237,6 @@
                         ]
                     },
                     "shopping_cart": {
-                        "type": "area",
                         "config": {
                             "label": "Shopping Cart"
                         },
@@ -248,7 +245,6 @@
                         ]
                     },
                     "reviews": {
-                        "type": "area",
                         "config": {
                             "label": "Product Reviews"
                         },
@@ -257,7 +253,6 @@
                         ]
                     },
                     "wishlist": {
-                        "type": "area",
                         "config": {
                             "label": "Wishlist"
                         },
@@ -266,7 +261,6 @@
                         ]
                     },
                     "account_info": {
-                        "type": "area",
                         "config": {
                             "active": true,
                             "label": "Account Information"
@@ -276,7 +270,6 @@
                         ]
                     },
                     "newsletter_info": {
-                        "type": "area",
                         "config": {
                             "label": "Newsletter"
                         },
@@ -285,7 +278,6 @@
                         ]
                     },
                     "customer_view": {
-                        "type": "area",
                         "config": {
                             "label": "Customer View"
                         },
@@ -298,7 +290,6 @@
                         ]
                     },
                     "customer_addresses": {
-                        "type": "area",
                         "config": {
                             "label": "Addresses"
                         },
@@ -310,9 +301,9 @@
             },
             "fieldsets": {
                 "type": "virtual",
+                "childType": "fieldset",
                 "children": {
                     "customer_addresses": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Customer Addresses"
                         },
@@ -321,7 +312,6 @@
                         ]
                     },
                     "personal_info": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Personal Information"
                         },
@@ -330,7 +320,6 @@
                         ]
                     },
                     "sales_statistics": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Sales Statistics"
                         },
@@ -339,7 +328,6 @@
                         ]
                     },
                     "recent_orders": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Recent Orders",
                             "collapsible": true,
@@ -350,7 +338,6 @@
                         ]
                     },
                     "shopping_cart": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Shoping Cart - 0 item(s)",
                             "collapsible": true,
@@ -361,7 +348,6 @@
                         ]
                     },
                     "viewWishlist": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Wishlist - 0 item(s)",
                             "collapsible": true,
@@ -372,7 +358,6 @@
                         ]
                     },
                     "account_info": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Account Information",
                             "collapsible": true
@@ -397,7 +382,6 @@
                         ]
                     },
                     "newsletter_info": {
-                        "type": "fieldset",
                         "config": {
                             "label": "Newsletter Information"
                         },
@@ -615,105 +599,89 @@
             },
             "groups": {
                 "type": "virtual",
+                "childType": "group",
                 "children": {
                     "website": {
-                        "type": "group",
                         "children": [
                             "form.website"
                         ]
                     },
                     "prefix":{
-                        "type": "group",
                         "children": [
                             "form.prefix"
                         ]
                     },
                     "firstname": {
-                        "type": "group",
                         "children": [
                             "form.firstname"
                         ]
                     },
                     "middle_name": {
-                        "type": "group",
                         "children": [
                             "form.middle_name"
                         ]
                     },
                     "lastname": {
-                        "type": "group",
                         "children": [
                             "form.lastname"
                         ]
                     },
                     "suffix": {
-                        "type": "group",
                         "children": [
                             "form.suffix"
                         ]
                     },
                     "email": {
-                        "type": "group",
                         "children": [
                             "form.email"
                         ]
                     },
                     "taxvat": {
-                        "type": "group",
                         "children": [
                             "customer.taxvat"
                         ]
                     },
                     "gender": {
-                        "type": "group",
                         "children": [
                             "form.gender"
                         ]
                     },
                     "price": {
-                        "type": "group",
                         "children": [
                             "customer.price"
                         ]
                     },
                     "send_email": {
-                        "type": "group",
                         "children": [
                             "form.send_email"
                         ]
                     },
                     "currencies": {
-                        "type": "group",
                         "children": [
                             "customer.currencies"
                         ]
                     },
                     "comments": {
-                        "type": "group",
                         "children": [
                             "form.comments"
                         ]
                     },
                     "created": {
-                        "type": "group",
                         "children": [
                             "form.created"
                         ]
                     },
                     "image": {
-                        "type": "group",
                         "children": [
                             "form.image"
                         ]
                     },
                     "subscribe": {
-                        "type": "group",
                         "children": [
                             "form.subscribe"
                         ]
                     },
                     "group": {
-                        "type": "group",
                         "config": {
                             "breakLine": true,
                             "label": "General"
@@ -724,20 +692,17 @@
                         ]
                     },
                     "customer_address_general": {
-                        "type": "group",
                         "children": [
                             "form.address.prefix",
                             "form.address.middle_name"
                         ]
                     },
                     "customer_address_firstname": {
-                        "type": "group",
                         "children": [
                             "form.address.firstname"
                         ]
                     },
                     "customer_address_middle_name": {
-                        "type": "group",
                         "children": [
                             "form.address.middle_name"
                         ]
@@ -746,95 +711,82 @@
             },
             "customer_addresses": {
                 "type": "collection",
+                "childType": "address_item",
                 "children": [
                     {
-                        "type": "address_item",
                         "name": 0
                     },
                     {   
-                        "type": "address_item",
                         "name": 1
                     },
                     {
-                        "type": "address_item",
                         "name": 2
                     }
                 ]
             },
             "html_content": {
                 "type": "virtual",
+                "childType": "html_content",
                 "children": {
                     "personal_info": {
-                        "type": "html_content",
                         "config": {
                             "content": "<div class='customer-information'><table class='data-table'><tbody><tr><th>Last Logged In:</th><td>Oct 10, 2014 7:29:43 AM (Offline)</td></tr><tr><th>Confirmed email:</th><td>Confirmed</td></tr><tr><th>Account Created on:</th><td>Oct 10, 2014 7:29:40 AM</td></tr><tr><th>Account Created in:</th><td>Default Store View</td></tr><tr><th>Customer Group:</th><td>General</td></tr></tbody></table><address><strong>Default Billing Address</strong><br/> The customer does not have default billing address. </address></div>"
                         }
                     },
                     "sales_statistics": {
-                        "type": "html_content",
                         "config": {
                             "content": "<table class='data-table'><thead><tr><th>Web Site</th><th>Store</th><th>Store View</th><th>Lifetime Sales</th><th class='last'>Average Sale</th></tr></thead><tfoot><tr><td colspan='3'><strong>All Store Views</strong></td><td class='emph'><strong><span class='price'>$0.00</span></strong></td><td class='emph last'><strong><span class='price'>$0.00</span></strong></td></tr></tfoot><tbody><tr class='hidden'><td colspan='5'></td></tr></tbody></table>"
                         }
                     },
                     "billing_agreements": {
-                        "type": "html_content",
                         "config": {
                             "content": "<div id='customer_edit_tab_agreements'><div class='grid-actions'><div class='filter-actions'><button id='id_6d34effd61bf4c8a34e0ac4ab9d93d72' title='Reset Filter' type='button' class='action- scalable action-reset' onclick='customer_edit_tab_agreementsJsObject.resetFilter()' data-ui-id='widget-button-11'><span>Reset Filter</span></button><button id='id_e985f72733f7841d783fae94f15428b0' title='Search' type='button' class='action- scalable task' onclick='customer_edit_tab_agreementsJsObject.doFilter()' data-ui-id='widget-button-12'><span>Search</span></button></div><div class='pager'><span class='pages-total-found'> Total 0 records found </span><span id='customer_edit_tab_agreements-total-count' class='no-display'>0</span><label class='view-pages'> View <select name='limit' onchange='customer_edit_tab_agreementsJsObject.loadByElement(this)' class='select'><option value='20' selected='selected'>20 </option><option value='30'>30 </option><option value='50'>50 </option><option value='100'>100 </option><option value='200'>200 </option></select> per page </label></div></div><div class='grid'><div class='hor-scroll'><table class='data' id='customer_edit_tab_agreements_table'><thead><tr class='headings'><th class='col-id col-agreement_id'><span><a href='#' name='agreement_id' title='asc' class='sort-arrow-desc'><label class='sort-title' for='customer_edit_tab_agreements_filter_agreement_id'>ID</label></a></span></th><th class='col-reference col-reference_id'><span><a href='#' name='reference_id' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_agreements_filter_reference_id'>Reference ID</label></a></span></th><th class='col-status col-status'><span><a href='#' name='status' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_agreements_filter_status'>Status</label></a></span></th><th class='col-period col-created_at'><span><a href='#' name='created_at' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_agreements_filter_created_at'>Created</label></a></span></th><th class='col-period col-updated_at'><span><a href='#' name='updated_at' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_agreements_filter_updated_at'>Updated</label></a></span></th></tr><tr class='filter'><th class='col-id col-agreement_id'><div class='field-100'><input type='text' name='agreement_id' id='customer_edit_tab_agreements_filter_agreement_id' value='' class='input-text no-changes' data-ui-id='widget-grid-column-filter-text-2-filter-agreement-id'></div></th><th class='col-reference col-reference_id'><div class='field-100'><input type='text' name='reference_id' id='customer_edit_tab_agreements_filter_reference_id' value='' class='input-text no-changes' data-ui-id='widget-grid-column-filter-text-6-filter-reference-id'></div></th><th class='col-status col-status'><select name='status' id='customer_edit_tab_agreements_filter_status' data-ui-id='widget-grid-column-filter-select-extended-filter-status' class='no-changes'><option value=''></option><option value='active'>Active</option><option value='canceled'>Canceled</option></select></th><th class='col-period col-created_at'><div class='range' id='customer_edit_tab_agreements_filter_created_at7f6a9ac51c1a1bd4eb88c28c503d3097_range'><div class='range-line date'><input type='text' name='created_at[from]' id='customer_edit_tab_agreements_filter_created_at7f6a9ac51c1a1bd4eb88c28c503d3097_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-3-filter-created-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='created_at[to]' id='customer_edit_tab_agreements_filter_created_at7f6a9ac51c1a1bd4eb88c28c503d3097_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-3-filter-created-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='created_at[locale]' value='en_US'></th><th class='col-period col-updated_at'><div class='range' id='customer_edit_tab_agreements_filter_updated_ate3ed990b01a459481b02d34b87319a27_range'><div class='range-line date'><input type='text' name='updated_at[from]' id='customer_edit_tab_agreements_filter_updated_ate3ed990b01a459481b02d34b87319a27_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-4-filter-updated-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='updated_at[to]' id='customer_edit_tab_agreements_filter_updated_ate3ed990b01a459481b02d34b87319a27_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-4-filter-updated-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='updated_at[locale]' value='en_US'></th></tr></thead><tbody><tr class='even'><td class='empty-text' colspan='5'>We couldn't find any records.</td></tr></tbody></table></div><div class='pager'><label class='page'>Page</label><span class='action-previous disabled'><span>Previous page</span></span><input type='text' name='page' value='1' class='input-text page' onkeypress='customer_edit_tab_agreementsJsObject.inputPage(event, '1')'><span class='pages-total'> of 1 </span><span class='action-next disabled'><span>Next page</span></span></div></div></div>"
                         }
                     },
                     "recurring_billing": {
-                        "type": "html_content",
                         "config": {
                             "content": "<div id='customer_edit_tab_recurring_payment'><div class='grid-actions'><div class='filter-actions'><button id='id_4ce9b84f302d8a3d3bf274d45695ea89' title='Reset Filter' type='button' class='action- scalable action-reset' onclick='customer_edit_tab_recurring_paymentJsObject.resetFilter()' data-ui-id='widget-button-13'><span>Reset Filter</span></button><button id='id_a15698df34d88eff9e30faf7ed0626e9' title='Search' type='button' class='action- scalable task' onclick='customer_edit_tab_recurring_paymentJsObject.doFilter()' data-ui-id='widget-button-14'><span>Search</span></button></div><div class='pager'><span class='pages-total-found'> Total 0 records found </span><span id='customer_edit_tab_recurring_payment-total-count' class='no-display'>0</span><label class='view-pages'> View <select name='limit' onchange='customer_edit_tab_recurring_paymentJsObject.loadByElement(this)' class='select'><option value='20' selected='selected'>20 </option><option value='30'>30 </option><option value='50'>50 </option><option value='100'>100 </option><option value='200'>200 </option></select> per page </label></div></div><div class='grid'><div class='hor-scroll'><table class='data' id='customer_edit_tab_recurring_payment_table'><thead><tr class='headings'><th class=' col-reference_id'><span><a href='#' name='reference_id' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_reference_id'>Payment Reference ID</label></a></span></th><th class=' col-store_id'><span><a href='#' name='store_id' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_store_id'>Store</label></a></span></th><th class=' col-state'><span><a href='#' name='state' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_state'>Payment State</label></a></span></th><th class=' col-created_at'><span><a href='#' name='created_at' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_created_at'>Created</label></a></span></th><th class=' col-updated_at'><span><a href='#' name='updated_at' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_updated_at'>Updated</label></a></span></th><th class=' col-method_code'><span><a href='#' name='method_code' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_method_code'>Payment Method</label></a></span></th><th class=' col-schedule_description'><span><a href='#' name='schedule_description' title='asc' class='not-sort'><label class='sort-title' for='customer_edit_tab_recurring_payment_filter_schedule_description'>Schedule Description</label></a></span></th></tr><tr class='filter'><th class=' col-reference_id'><div class='field-100'><input type='text' name='reference_id' id='customer_edit_tab_recurring_payment_filter_reference_id' value='' class='input-text no-changes' data-ui-id='widget-grid-column-filter-text-7-filter-reference-id'></div></th><th class=' col-store_id'><select name='store_id' data-ui-id='widget-grid-column-filter-store-filter-store-id'><option value='' selected='selected'></option><optgroup label='Main Website'></optgroup><optgroup label='&nbsp;&nbsp;&nbsp;&nbsp;Main Website Store'><option value='1'>&nbsp;&nbsp;&nbsp;&nbsp;Default Store View</option></optgroup><option value='_deleted_'>[ deleted]</option></select></th><th class=' col-state'><select name='state' id='customer_edit_tab_recurring_payment_filter_state' data-ui-id='widget-grid-column-filter-select-extended-1-filter-state' class='no-changes'><option value=''></option><option value='unknown'>Not Initialized</option><option value='pending'>Pending</option><option value='active'>Active</option><option value='suspended'>Suspended</option><option value='canceled'>Canceled</option><option value='expired'>Expired</option></select></th><th class=' col-created_at'><div class='range' id='customer_edit_tab_recurring_payment_filter_created_at8421342ef4bd96bc19e9693f6292f0e4_range'><div class='range-line date'><input type='text' name='created_at[from]' id='customer_edit_tab_recurring_payment_filter_created_at8421342ef4bd96bc19e9693f6292f0e4_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-5-filter-created-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='created_at[to]' id='customer_edit_tab_recurring_payment_filter_created_at8421342ef4bd96bc19e9693f6292f0e4_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-5-filter-created-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='created_at[locale]' value='en_US'></th><th class=' col-updated_at'><div class='range' id='customer_edit_tab_recurring_payment_filter_updated_at2276efeceb384c752f31e2a9e5d9bcb7_range'><div class='range-line date'><input type='text' name='updated_at[from]' id='customer_edit_tab_recurring_payment_filter_updated_at2276efeceb384c752f31e2a9e5d9bcb7_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-6-filter-updated-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='updated_at[to]' id='customer_edit_tab_recurring_payment_filter_updated_at2276efeceb384c752f31e2a9e5d9bcb7_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-6-filter-updated-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='updated_at[locale]' value='en_US'></th><th class=' col-method_code'><select name='method_code' id='customer_edit_tab_recurring_payment_filter_method_code' data-ui-id='widget-grid-column-filter-select-extended-2-filter-method-code' class='no-changes'><option value=''></option><option value='paypal_express'>PayPal Express Checkout</option><option value='payflow_express'>PayPal Express Checkout Payflow Edition</option></select></th><th class=' col-schedule_description'><div class='field-100'><input type='text' name='schedule_description' id='customer_edit_tab_recurring_payment_filter_schedule_description' value='' class='input-text no-changes' data-ui-id='widget-grid-column-filter-text-8-filter-schedule-description'></div></th></tr></thead><tbody><tr class='even'><td class='empty-text' colspan='7'>We couldn't find any records.</td></tr></tbody></table></div><div class='pager'><label class='page'>Page</label><span class='action-previous disabled'><span>Previous page</span></span><input type='text' name='page' value='1' class='input-text page' onkeypress='customer_edit_tab_recurring_paymentJsObject.inputPage(event, '1')'><span class='pages-total'> of 1 </span><span class='action-next disabled'><span>Next page</span></span></div></div></div>"
                         }
                     },
                     "recent_orders": {
-                        "type": "html_content",
                         "config": {
                             "source": "<?php echo $this->getUrl('*') ?>index/lastOrders/id/1/"
                         }
                     },
                     "shopping_cart": {
-                        "type": "html_content",
                         "config": {
                             "source": "<?php echo $this->getUrl('*') ?>index/viewCart/website_id/1/id/1/"
                         }
                     },
                     "viewWishlist": {
-                        "type": "html_content",
                         "config": {
                             "source": "<?php echo $this->getUrl('*') ?>index/viewWishlist/id/1/"
                         }
                     },
                     "orders": {
-                        "type": "html_content",
                         "config": {
                             "showSpinner": false,
                             "source": "<?php echo $this->getUrl('*') ?>index/orders/id/1/"
                         }
                     },
                     "carts": {
-                        "type": "html_content",
                         "config": {
                             "showSpinner": false,
                             "source": "<?php echo $this->getUrl('*') ?>index/carts/id/1/"
                         }
                     },
                     "wishlist": {
-                        "type": "html_content",
                         "config": {
                             "source": "<?php echo $this->getUrl('*') ?>index/wishlist/id/1/"
                         }
                     },
                     "reviews": {
-                        "type": "html_content",
                         "config": {
                             "showSpinner": false,
                             "source": "<?php echo $this->getUrl('*') ?>index/productReviews/id/1/"
                         }
                     },
                     "newsletter_grid": {
-                        "type": "html_content",
                         "config": {
                             "content": "<div id='queueGrid'><div class='grid-actions'><div class='filter-actions'><button id='id_b9b28449b287986632158bd6069cf45d' title='Reset Filter' type='button' class='action- scalable action-reset' onclick='queueGridJsObject.resetFilter()' data-ui-id='widget-button-9'><span>Reset Filter</span></button><button id='id_9e6f17a3e643a3197bcda94eb18eef2e' title='Search' type='button' class='action- scalable task' onclick='queueGridJsObject.doFilter()' data-ui-id='widget-button-10'><span>Search</span></button></div><div class='pager'><span class='pages-total-found'> Total 0 records found </span><span id='queueGrid-total-count' class='no-display'>0</span><label class='view-pages'> View <select name='limit' onchange='queueGridJsObject.loadByElement(this)' class='select'><option value='20' selected='selected'>20 </option><option value='30'>30 </option><option value='50'>50 </option><option value='100'>100 </option><option value='200'>200 </option></select> per page </label></div></div><div class='grid'><div class='hor-scroll'><table class='data' id='queueGrid_table'><thead><tr class='headings'><th class=' col-queue_id'><span><a href='#' name='queue_id' title='asc' class='not-sort'><label class='sort-title' for='queueGrid_filter_queue_id'>ID</label></a></span></th><th class=' col-start_at'><span><a href='#' name='start_at' title='asc' class='sort-arrow-desc'><label class='sort-title' for='queueGrid_filter_start_at'>Start date</label></a></span></th><th class=' col-finish_at'><span><a href='#' name='finish_at' title='asc' class='not-sort'><label class='sort-title' for='queueGrid_filter_finish_at'>End Date</label></a></span></th><th class=' col-letter_sent_at'><span><a href='#' name='letter_sent_at' title='asc' class='not-sort'><label class='sort-title' for='queueGrid_filter_letter_sent_at'>Receive Date</label></a></span></th><th class=' col-template_subject'><span><a href='#' name='template_subject' title='asc' class='not-sort'><label class='sort-title' for='queueGrid_filter_template_subject'>Subject</label></a></span></th><th class=' col-status'><span><a href='#' name='status' title='asc' class='not-sort'><label class='sort-title' for='queueGrid_filter_status'>Status</label></a></span></th><th class=' no-link col-action'><span><label for='queueGrid_filter_action'>Action</label></span></th></tr><tr class='filter'><th class=' col-queue_id'><div class='field-100'><input type='text' name='queue_id' id='queueGrid_filter_queue_id' value='' class='input-text no-changes' data-ui-id='widget-grid-column-filter-text-filter-queue-id'></div></th><th class=' col-start_at'><div class='range' id='queueGrid_filter_start_at3ad9bd6a3fbf6571f01039cdb996de74_range'><div class='range-line date'><input type='text' name='start_at[from]' id='queueGrid_filter_start_at3ad9bd6a3fbf6571f01039cdb996de74_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-filter-start-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='start_at[to]' id='queueGrid_filter_start_at3ad9bd6a3fbf6571f01039cdb996de74_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-filter-start-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='start_at[locale]' value='en_US'></th><th class=' col-finish_at'><div class='range' id='queueGrid_filter_finish_atb257e7ee611d7a33e6e277922a212856_range'><div class='range-line date'><input type='text' name='finish_at[from]' id='queueGrid_filter_finish_atb257e7ee611d7a33e6e277922a212856_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-1-filter-finish-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='finish_at[to]' id='queueGrid_filter_finish_atb257e7ee611d7a33e6e277922a212856_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-1-filter-finish-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='finish_at[locale]' value='en_US'></th><th class=' col-letter_sent_at'><div class='range' id='queueGrid_filter_letter_sent_atd15d71c893f2617e36de37db894254e0_range'><div class='range-line date'><input type='text' name='letter_sent_at[from]' id='queueGrid_filter_letter_sent_atd15d71c893f2617e36de37db894254e0_from' value='' class='input-text no-changes hasDatepicker' placeholder='From' data-ui-id='widget-grid-column-filter-datetime-2-filter-letter-sent-at-from'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div><div class='range-line date'><input type='text' name='letter_sent_at[to]' id='queueGrid_filter_letter_sent_atd15d71c893f2617e36de37db894254e0_to' value='' class='input-text no-changes hasDatepicker' placeholder='To' data-ui-id='widget-grid-column-filter-datetime-2-filter-letter-sent-at-to'><img class='ui-datepicker-trigger v-middle' src='http://mage.dev.com/pub/static/adminhtml/Magento/backend/en_US/images/grid-cal.gif' alt='Date selector' title='Date selector'></div></div><input type='hidden' name='letter_sent_at[locale]' value='en_US'></th><th class=' col-template_subject'><div class='field-100'><input type='text' name='template_subject' id='queueGrid_filter_template_subject' value='' class='input-text no-changes' data-ui-id='widget-grid-column-filter-text-1-filter-template-subject'></div></th><th class=' col-status'><select name='status' id='queueGrid_filter_status' data-ui-id='adminhtml-edit-tab-newsletter-grid-filter-status-filter-status' class='no-changes'><option value=''></option><option value='3'>Sent</option><option value='2'>Cancel</option><option value='0'>Not Sent</option><option value='1'>Sending</option><option value='4'>Paused</option></select></th><th class=' no-link col-action'>&nbsp;</th></tr></thead><tbody><tr class='even'><td class='empty-text' colspan='7'>No Newsletter Found</td></tr></tbody></table></div><div class='pager'><label class='page'>Page</label><span class='action-previous disabled'><span>Previous page</span></span><input type='text' name='page' value='1' class='input-text page' onkeypress='queueGridJsObject.inputPage(event, '1')'><span class='pages-total'> of 1 </span><span class='action-next disabled'><span>Next page</span></span></div></div></div>"
                         }

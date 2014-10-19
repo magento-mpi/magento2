@@ -13,7 +13,7 @@ define([
 ], function(_, $, utils, Class, registry) {
     'use strict';
 
-    function initNode(node){
+    function registerNode(node){
         var deps    = node.deps,
             source  = [node.component],
             name    = node.name;
@@ -40,12 +40,6 @@ define([
         return name;
     }
 
-    function stringToArray(str){
-        return typeof str === 'string' ?
-            str.split(' ') :
-            str;
-    }
-
     return Class.extend({
         initialize: function(nodes) {
             this.types = registry.get('globalStorage').types;
@@ -70,19 +64,24 @@ define([
                 return node;
             }
 
-            node = this.buildNode.apply(this, arguments);
+            node = this.build.apply(this, arguments);
 
             this.manipulate(node);
-
-            if (!node.virtual) {
-                initNode(node);
-            }
 
             if (node.children) {
                 this.process(node.children, node);
             }
 
             return node.name;
+        },
+
+        build: function(parent, node, name){
+            var type = node.type || parent.childType;
+
+            type        = this.types.get(type);
+            node.name   = getNodeName.apply(null, arguments);
+
+            return $.extend(true, {}, type, node);
         },
 
         manipulate: function(node) {
@@ -100,17 +99,11 @@ define([
                 this.wrap(node.wrapIn, node);
             }
 
+            if (!node.virtual) {
+                registerNode(node);
+            }
+
             return this;
-        },
-
-        buildNode: function(parent, node, name){
-            var type = this.types.get(node.type);
-
-            name = getNodeName.apply(null, arguments);
-
-            node.name = name;
-
-            return $.extend(true, {}, type, node);
         },
 
         insert: function(targets, items, position){
@@ -118,7 +111,9 @@ define([
             targets = utils.stringToArray(targets);
 
             _.each(targets, function(target){
+
                 registry.get(target, function(target){
+                
                     target.insert(items, position);
                 });
             });
@@ -127,7 +122,7 @@ define([
         },
 
         wrap: function(node, child){
-            node = this.buildNode('', node);
+            node = this.build('', node);
 
             this.insert(node.name, child.name)
                 .process([node]);
