@@ -97,15 +97,42 @@ class DataObjectProcessor
                             if (is_object($singleValue)) {
                                 $singleValue = $this->buildOutputDataArray($singleValue, $arrayElementType);
                             }
-                            $valueResult[] = $singleValue;
+                            $valueResult[] = $this->castValueToType($singleValue, $returnType);
                         }
-                        $value = $valueResult;
                     }
-                    $outputData[$key] = $value;
+                    $outputData[$key] = $this->castValueToType($value, $returnType);
                 }
             }
         }
         return $outputData;
+    }
+
+    /**
+     * Cast the output type to the documented type. This helps for output purposes.
+     *
+     * @param mixed $value
+     * @param string $type
+     * @return mixed
+     */
+    protected function castValueToType($value, $type)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        if ($type === "int" || $type === "integer") {
+            return (int)$value;
+        } else if ($type === "string") {
+            return (string)$value;
+        } else if ($type === "bool" || $type === "boolean" || $type === "true" || $type == "false") {
+            return (bool)$value;
+        } else if ($type === "float") {
+            return (float)$value;
+        } else if ($type === "double") {
+            return (double)$value;
+        }
+
+        return $value;
     }
 
     /**
