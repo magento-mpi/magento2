@@ -7,27 +7,29 @@
 define([], function(){
     'use strict';
     
-    var data = {};
+    function Storage(){
+        this.data = {};
+    }
 
-    return {
+    Storage.prototype = {
+        constructor: Storage,
+
         /**
          * Retrieves values of the specified elements.
          * @param {Array} elems - An array of elements.
          * @returns {Array} Array of values. 
          */
         get: function(elems) {
-            var result = [],
+            var data = this.data,
                 record;
 
             elems = elems || [];
 
-            elems.forEach(function(elem) {
+            return elems.map(function(elem) {
                 record = data[elem];
 
-                result.push(record ? record.value : undefined);
+                return record ? record.value : undefined;
             });
-
-            return result;
         },
 
 
@@ -38,7 +40,8 @@ define([], function(){
          * returns {storage} Chainable.
          */
         set: function(elem, value) {
-            var record = data[elem] = data[elem] || {};
+            var data    = this.data,
+                record  = data[elem] = data[elem] || {};
 
             record.value = value;
 
@@ -52,6 +55,8 @@ define([], function(){
          * returns {storage} Chainable.
          */
         remove: function(elems) {
+            var data = this.data;
+
             elems.forEach(function(elem) {
                 delete data[elem];
             });
@@ -66,9 +71,14 @@ define([], function(){
          * @returns {Boolean}
          */
         has: function(elems) {
+            var data = this.data;
+
             return elems.every(function(elem) {
                 return typeof data[elem] !== 'undefined';
             });
         }
     };
+
+    return Storage;
 });
+

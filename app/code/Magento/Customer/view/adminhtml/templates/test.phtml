@@ -105,9 +105,6 @@
                     "provider": "customer_form_data"
                 }
             },
-            "virtual": {
-                "virtual": true
-            },
             "tab": {
                 "component": "Magento_Ui/js/form/collapsible",
                 "config": {
@@ -168,14 +165,6 @@
             },
             "html_content": {
                 "component": "Magento_Ui/js/form/components/html"
-            },
-            "address_item": {
-                "component": "Magento_Ui/js/form/components/collection/item",
-                "children": [
-                    "groups.customer_address_general",
-                    "groups.customer_address_firstname",
-                    "groups.customer_address_middle_name"
-                ]
             },
             "collection": {
                 "extends": "base",
@@ -300,7 +289,6 @@
                 }
             },
             "fieldsets": {
-                "type": "virtual",
                 "childType": "fieldset",
                 "children": {
                     "customer_addresses": {
@@ -393,7 +381,6 @@
                 }
             },
             "form": {
-                "type": "virtual",
                 "children": {
                     "prefix": {
                         "type": "input",
@@ -548,7 +535,6 @@
                         }
                     },
                     "address": {
-                        "type": "virtual",
                         "children": {
                             "prefix": {
                                 "type": "input",
@@ -598,7 +584,6 @@
                 }
             },
             "groups": {
-                "type": "virtual",
                 "childType": "group",
                 "children": {
                     "website": {
@@ -711,21 +696,31 @@
             },
             "customer_addresses": {
                 "type": "collection",
-                "childType": "address_item",
                 "children": [
-                    {
+                    {   
+                        "template": "address_item",
                         "name": 0
                     },
                     {   
+                        "template": "address_item",
                         "name": 1
                     },
                     {
+                        "template": "address_item",
                         "name": 2
                     }
                 ]
             },
+            "address_item": {
+                "type": "template",
+                "component": "Magento_Ui/js/form/components/collection/item",
+                "children": [
+                    "groups.customer_address_general",
+                    "groups.customer_address_firstname",
+                    "groups.customer_address_middle_name"
+                ]
+            },
             "html_content": {
-                "type": "virtual",
                 "childType": "html_content",
                 "children": {
                     "personal_info": {
