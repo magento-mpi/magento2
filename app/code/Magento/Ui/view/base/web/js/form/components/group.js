@@ -90,8 +90,7 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('invalids', [])
-                .observe('values', []);
+            this.observe('invalids', []);
 
             return this;
         },
@@ -101,43 +100,9 @@ define([
 
             element.on('update', this.onUpdate.bind(this));
 
-            this.extractData().apply(element);
+            this.extractData();
 
             return this;
-        },
-
-        setPath: function (path) {
-            this.path = path;
-
-            return this;
-        },
-
-        setData: function (values) {
-            this.values(values);
-            this.apply();
-
-            return this;
-        },
-
-        apply: function (element) {
-            var indexed = this.elems.indexBy('index'),
-                values  = this.values.indexBy('index'),
-                index,
-                data,
-                elements = element ? [element] : this.elems();
-
-            elements.forEach(function (element) {
-                index   = element.index;
-                data    = values[index];
-
-                element.name = this.pathFor(element);
-                element.set(data ? data.value() : null);
-
-            }, this);
-        },
-
-        pathFor: function (element) {
-            return [this.path, element.index].join('.');
         },
 
         /**

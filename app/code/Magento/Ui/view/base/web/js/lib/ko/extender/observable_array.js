@@ -52,6 +52,10 @@ define([
             args.unshift(this());
 
             return _.without.apply(_, args);
+        },
+
+        last: function () {
+            return _.last(this());
         }
     });
 });

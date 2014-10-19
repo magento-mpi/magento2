@@ -81,6 +81,16 @@ define([
             this.initElement(elem);
         },
 
+        remove: function (element) {
+            var _elems   = this._elems,
+                position = _elems.indexOf(element);
+
+            _elems.splice(position, 1);
+            this.elems.remove(element);
+
+            return this;
+        },
+
         getTemplate: function(){
             return this.template || 'ui/collection';
         },

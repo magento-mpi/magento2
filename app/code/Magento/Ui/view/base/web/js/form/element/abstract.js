@@ -20,7 +20,6 @@ define([
         type:               'input',
         placeholder:        null,
         noticeid:           null,
-        value:              '',
         description:        '',
         label:              '',
         error:              '',
@@ -60,9 +59,9 @@ define([
             this.value = this.provider.data.get(this.name);
 
             rules = this.validation = this.validation || {};
-
+            
             this.observe({
-                'value':         this.initialValue = this.value,
+                'value':         this.initialValue = this.provider.data.get(this.name),
                 'required':      rules['required-entry'],
                 'disabled':      this.disabled,
                 'error':         this.error,
@@ -70,10 +69,6 @@ define([
             });
 
             return this;
-        },
-
-        set: function (value) {
-            this.value(value);
         },
 
         /**

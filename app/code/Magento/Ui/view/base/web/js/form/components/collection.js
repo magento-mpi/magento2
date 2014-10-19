@@ -6,15 +6,16 @@
  */
 define([
     'Magento_Ui/js/form/component',
-    'underscore'
-], function (Component, _) {
+    'underscore',
+    'Magento_Ui/js/lib/registry/registry'
+], function (Component, _, registry) {
     'use strict';
 
     var __super__ = Component.prototype;
 
     var defaults = {
         lastIndex: 0,
-        active: 0,
+        active: null,
         template: 'ui/form/components/collection'
     };
 
@@ -23,6 +24,10 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
+
+            this.initChildTemplate();
+
+            this.layout = registry.get('globalStorage').layout;
         },
 
         initObservable: function () {
@@ -36,51 +41,49 @@ define([
         initElement: function (element) {
             __super__.initElement.apply(this, arguments);
 
-            var index           = this.lastIndex++,
-                data            = this.dataFor(index),
-                path            = this.pathFor(index),
-                shouldBeActive  = this.active() == index;
-
-            element
-                .setIndex(index)
-                .setPath(path)
-                .setData(data);
+            var active          = this.active(),
+                activeDefined   = !(active === null),
+                index           = element.index,
+                shouldBeActive  = activeDefined ? active == index : true;
 
             if (shouldBeActive) {
                 this._setActive(element);
             }
         },
 
-        dataFor: function (index) {
-            var indexed = this.getValues('by index'),
-                value   = indexed[index] && indexed[index].value;
+        initChildTemplate: function () {
+            this.childTemplate = {
+                type: this.childType,
+                appendTo: this.name,
+                parentName: this.name,
+                config: {}
+            };
+        },
 
-            value = value && _.map(value, function (value, index) {
-                return {
-                    index: index,
-                    value: value
+        addElement: function () {
+            var last    = this.elems.last(),
+                index   = ++last.index;
+
+            _.extend(this.childTemplate, {
+                index: index,
+                config: {
+                    index: index
                 }
             });
 
-            return value;
+            this.layout.process([this.childTemplate]);
         },
 
-        pathFor: function (index) {
-            return [this.namespace, index].join('.');
+        removeElement: function (element) {
+            return this._removeElement.bind(this, element);
         },
 
-        getValues: function (indexed) {
-            var data    = this.provider.data,
-                values  = data.get(this.namespace);
+        _removeElement: function (element) {
+            var shouldRemove = confirm(this.removeMessage);
 
-            values = _.map(values, function (value, index) {
-                return {
-                    value: value,
-                    index: index
-                };
-            });
-
-            return indexed ? _.indexBy(values, 'index') : values;
+            if (shouldRemove) {
+                this.remove(element);
+            }
         },
 
         setActive: function (element) {
@@ -88,14 +91,11 @@ define([
         },
 
         _setActive: function (element) {
-            var index   = element.index(),
-                inactive = this.elems.without(element);
+            var index   = element.index;
 
             this.active(index);
             this.activate(element);
-            this.deactivate(inactive);
-
-            element.apply();
+            this.deactivate(this.elems.without(element));
         },
 
         deactivate: function (elements) {
@@ -111,3 +111,4 @@ define([
         }
     });
 });
+

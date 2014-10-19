@@ -6,19 +6,45 @@
  * @license     {license_link}
  */
 -->
-
-<!-- ko foreach: { data: elems, as: 'element' } -->
-    <button data-bind="click: $parent.setActive(element)">Set active</button>
-    <div data-bind="visible: active">I am active</div>
-    <div data-bind="text: element.index"></div>
-    <div data-bind="foreach: { data: element.values, as: 'value' }">
-        <div data-bind="text: value.index"></div>
-        <div data-bind="text: value.value"></div>
+<div class="ui-tabs">
+    <ul class="address-list ui-tabs-nav">
+        <!-- ko foreach: { data: elems, as: 'element' } -->
+        <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: $parent.setActive(element)">
+            <a href="#" class="ui-tabs-anchor">
+                <div class="address-list-item-actions">
+                    <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeElement(element)">
+                        <span data-bind="text: element.removeLabel"></span>
+                    </button>
+                </div>
+                <address data-bind="text: title"></address>
+                <address data-bind="foreach: { data: element.elems, as: 'element' }">
+                    <span data-bind="text: element.value"></span>
+                </address>
+                <div class="field field-address-item-billing choice">
+                    <input type="checkbox" data-bind="attr: { title: $t('Set as Default Billing Address') }">
+                    <label class="label">
+                        <span data-bind="text: $t('Default Billing Address')"></span>
+                    </label>
+                </div>
+            </a>
+        </li>
+        <!-- /ko -->
+        <li class="address-list-actions last">
+            <button data-bind="attr: { title: $parent.addLabel }, click: addElement" type="button" class="scalable add">
+                <span data-bind="text: $t('Add New Address')"></span>
+            </button>
+        </li>
+    </ul>
+    <!-- ko foreach: { data: element.elems, as: 'element' } -->
+    <div class="address-item-edit" data-bind="visible: active">
+        <div class="address-item-edit-content">
+            <fieldset class="fieldset">
+                <legend class="legend"><span data-bind="text: $parent.title"></span></legend><br>
+                <!-- ko foreach: { data: element.elems, as: 'element' } -->
+                    <!-- ko template: element.getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </fieldset>
+        </div>
     </div>
-<!-- /ko -->
-
-<!-- ko foreach: { data: elems, as: 'element' } -->
-    <!-- ko if: element.active -->
-        <!-- ko template: element.getTemplate() --><!-- /ko -->
-    <!-- /ko -->    
-<!-- /ko -->
+    <!-- /ko -->
+</div>

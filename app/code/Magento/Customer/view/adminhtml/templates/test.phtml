@@ -29,41 +29,6 @@
                                 {"value":"sup","label": "Sup money"},
                                 {"value":"wow","label": "Wow money"}
                             ]
-                        },
-                        "addresses": {
-                            "prefix": {
-                                "index": "prefix",
-                                "data_type": "text",
-                                "input_type": "input",
-                                "label": "Prefix",
-                                "validation": {
-                                    "letters-only": true
-                                }
-                            },
-                            "firstname": {
-                                "index": "firstname",
-                                "data_type": "text",
-                                "input_type": "input",
-                                "label": "First Name",
-                                "validation": {
-                                    "required-entry": true
-                                }
-                            },
-                            "lastname": {
-                                "index": "lastname",
-                                "data_type": "text",
-                                "input_type": "input",
-                                "label": "Last Name"
-                            },
-                            "middle_name": {
-                                "index": "middle_name",
-                                "data_type": "text",
-                                "input_type": "input",
-                                "label": "Middle Name",
-                                "validation": {
-                                    "required-entry": true
-                                }
-                            }
                         }
                     }
                 },
@@ -81,16 +46,26 @@
                         "created": 1412244384313,
                         "addresses": {
                             "0": {
-                                "prefix": "Bla",
-                                "middle_name": "Some middle_name",
-                                "firstname": "Yo"
+                                "0": {
+                                    "prefix": "Bla",
+                                    "middle_name": "Some middle_name"
+                                },
+                                "1": {
+                                    "firstname": "Yo"
+                                }
                             },
                             "1": {
-                                "prefix": "Bla another",
-                                "lastname": "Yo"
+                                "0": {
+                                    "prefix": "Bla another"
+                                },
+                                "1": {
+                                    "lastname": "Yo"
+                                }
                             },
                             "2": {
-                                "prefix": "Hey"
+                                "0": {
+                                    "prefix": "Hey"
+                                }
                             }
                         }
                     }
@@ -169,20 +144,82 @@
             "html_content": {
                 "component": "Magento_Ui/js/form/components/html"
             },
-            "address_item": {
+            "customer_address": {
                 "component": "Magento_Ui/js/form/components/collection/item",
-                "children": [
-                    "groups.customer_address_general",
-                    "groups.customer_address_firstname",
-                    "groups.customer_address_middle_name"
-                ]
+                "childType": "group",
+                "config": {
+                    "title": "New Customer Address"
+                },
+                "children": {
+                    "0": {
+                        "children": {
+                            "prefix": {
+                                "type": "input",
+                                "config": {
+                                    "index": "prefix",
+                                    "label": "Prefix",
+                                    "validation": {
+                                        "letters-only": true
+                                    }
+                                }
+                            },
+                            "middle_name": {
+                                "type": "input",
+                                "config": {
+                                    "index": "middle_name",
+                                    "label": "Middle Name",
+                                    "validation": {
+                                        "required-entry": true
+                                    }    
+                                }
+                            }
+                        }
+                    },
+                    "1": {
+                        "children": {
+                            "firstname": {
+                                "type": "input",
+                                "config": {
+                                    "index": "firstname",
+                                    "label": "First Name",
+                                    "validation": {
+                                        "required-entry": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "2": {
+                        "children": {
+                            "lastname": {
+                                "type": "input",
+                                "config": {
+                                    "index": "lastname",
+                                    "input_type": "input",
+                                    "label": "Last Name"
+                                }
+                            }
+                        }
+                    },
+                    "3": {
+                        "children": {
+                            "middle_name": {
+                                "type": "input",
+                                "config": {
+                                    "index": "middle_name",
+                                    "label": "Middle Name",
+                                    "validation": {
+                                        "required-entry": true
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                }
             },
             "collection": {
                 "extends": "base",
-                "component": "Magento_Ui/js/form/components/collection",
-                "config": {
-                    "namespace": "form.addresses"
-                }
+                "component": "Magento_Ui/js/form/components/collection"
             }
         },
         "layout": { 
@@ -308,7 +345,7 @@
                             "label": "Customer Addresses"
                         },
                         "children": [
-                            "customer_addresses"
+                            "form.addresses"
                         ]
                     },
                     "personal_info": {
@@ -693,36 +730,54 @@
                     },
                     "customer_address_general": {
                         "children": [
-                            "form.address.prefix",
-                            "form.address.middle_name"
+                            "customer_address.prefix",
+                            "customer_address.middle_name"
                         ]
                     },
                     "customer_address_firstname": {
                         "children": [
-                            "form.address.firstname"
+                            "customer_address.firstname"
                         ]
                     },
                     "customer_address_middle_name": {
                         "children": [
-                            "form.address.middle_name"
+                            "customer_address.middle_name"
                         ]
                     }
                 }
             },
-            "customer_addresses": {
+            "addresses": {
                 "type": "collection",
-                "childType": "address_item",
-                "children": [
-                    {
-                        "name": 0
+                "parentName": "form",
+                "childType": "customer_address",
+                "config": {
+                    "active": 0,
+                    "childType": "customer_address",
+                    "removeLabel": "Remove Address",
+                    "addLabel": "Add New Address",
+                    "title": "Edit Customer's Address",
+                    "removeMessage": "Are you sure you want to delete this address?"
+                },
+                "children": {
+                    "0": {
+                        "config": {
+                            "index": 0,
+                            "title": "Customer lala Address"
+                        }
                     },
-                    {   
-                        "name": 1
+                    "1": {   
+                        "config": {
+                            "index": 1,
+                            "title": "Customer blabla Address"
+                        }
                     },
-                    {
-                        "name": 2
+                    "2": {
+                        "config": {
+                            "index": 2,
+                            "title": "Customer mememe Address"
+                        }
                     }
-                ]
+                }
             },
             "html_content": {
                 "type": "virtual",
