@@ -74,11 +74,12 @@ class Page extends Layout
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
+     * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param View\Page\Config $pageConfig
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
-     * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
+     * @param bool $isIsolated
      */
     public function __construct(
         View\Element\Template\Context $context,
@@ -89,7 +90,8 @@ class Page extends Layout
         View\Page\Config $pageConfig,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
-        $template
+        $template,
+        $isIsolated = false
     ) {
         $this->pageConfig = $pageConfig;
         $this->pageLayoutReader = $pageLayoutReader;
@@ -101,7 +103,8 @@ class Page extends Layout
             $layoutFactory,
             $layoutReaderPool,
             $translateInline,
-            $layoutBuilderFactory
+            $layoutBuilderFactory,
+            $isIsolated
         );
         $this->initPageConfigReader();
     }
@@ -192,8 +195,9 @@ class Page extends Layout
             $config = $this->getConfig();
 
             $this->addDefaultBodyClasses();
+            $requireJs = $this->getLayout()->getBlock('require.js');
             $this->assign([
-                'requireJs' => $this->getLayout()->getBlock('require.js')->toHtml(),
+                'requireJs' => $requireJs ? $requireJs->toHtml() : null,
                 'headContent' => $this->pageConfigRenderer->renderHeadContent(),
                 'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
                 'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),

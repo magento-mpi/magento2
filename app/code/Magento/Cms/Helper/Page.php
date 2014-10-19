@@ -82,6 +82,8 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
     protected $pageConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
@@ -169,6 +171,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->_design->setDesignTheme($this->_page->getCustomTheme());
             }
         }
+        $resultPage = $this->_view->getPage();
         if ($this->_page->getPageLayout()) {
             if ($this->_page->getCustomPageLayout()
                 && $this->_page->getCustomPageLayout() != 'empty'
@@ -178,9 +181,8 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             } else {
                 $handle = $this->_page->getPageLayout();
             }
-            $this->pageConfig->setPageLayout($handle);
+            $resultPage->getConfig()->setPageLayout($handle);
         }
-        $resultPage = $this->_view->getPage();
         $resultPage->initLayout();
         $resultPage->addHandle('cms_page_view');
         $resultPage->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
@@ -190,7 +192,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             array('page' => $this->_page, 'controller_action' => $action)
         );
 
-//        $this->_view->loadLayoutUpdates();
         if ($this->_page->getCustomLayoutUpdateXml() && $inRange) {
             $layoutUpdate = $this->_page->getCustomLayoutUpdateXml();
         } else {
@@ -199,7 +200,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
         if (!empty($layoutUpdate)) {
             $resultPage->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         }
-//        $this->_view->generateLayoutXml()->generateLayoutBlocks();
 
         $contentHeadingBlock = $resultPage->getLayout()->getBlock('page_content_heading');
         if ($contentHeadingBlock) {

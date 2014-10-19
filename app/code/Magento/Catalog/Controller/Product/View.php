@@ -107,7 +107,7 @@ class View extends \Magento\Catalog\Controller\Product
 
         // Render page
         try {
-            $page = $this->resultPageFactory->create();
+            $page = $this->resultPageFactory->create(false, ['isIsolated' => true]);
             $this->viewHelper->prepareAndRender($page, $productId, $this, $params);
             return $page;
         } catch (\Exception $e) {

@@ -120,8 +120,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         // Load default page handles and page configurations
-        $update = $resultPage->getLayout()->getUpdate();
-
         if ($params && $params->getBeforeHandles()) {
             foreach ($params->getBeforeHandles() as $handle) {
                 $resultPage->addPageLayoutHandles(
@@ -145,6 +143,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         // Apply custom layout update once layout is loaded
+        $update = $resultPage->getLayout()->getUpdate();
         $layoutUpdates = $settings->getLayoutUpdates();
         if ($layoutUpdates) {
             if (is_array($layoutUpdates)) {
