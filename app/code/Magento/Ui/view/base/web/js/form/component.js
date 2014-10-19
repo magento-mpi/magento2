@@ -21,6 +21,18 @@ define([
         });
     }
 
+    function getOffsetFor(elems, offset){
+        if(typeof offset === 'undefined'){
+            offset = -1;
+        }
+
+        if(offset < 0){
+            offset += elems.length + 1;
+        }
+
+        return offset;
+    }
+
     return Scope.extend({
         initialize: function(config, name){
             _.extend(this, config);
@@ -56,16 +68,9 @@ define([
                 _elems  = this._elems,
                 callback;
             
-            if(typeof offset === 'undefined'){
-                offset = -1;
-            }
-
-            if(offset < 0){
-                offset += _elems.length + 1;
-            }
-
-            this._elems = utils.reserve(_elems, size, offset);
+            offset      = getOffsetFor(_elems, offset);
             callback    = this.insertAt.bind(this, offset);
+            this._elems = utils.reserve(_elems, size, offset);
 
             loadEach(elems, callback);
 

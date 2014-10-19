@@ -13,7 +13,7 @@ define([
 ], function(_, $, utils, Class, registry) {
     'use strict';
 
-    function registerNode(node){
+    function initComponent(node){
         var deps    = node.deps,
             source  = [node.component],
             name    = node.name;
@@ -21,6 +21,7 @@ define([
         registry.get(deps, function(){
 
             require(source, function(constr){
+
                 registry.set(name, new constr(node.config, name));
             });
         });
@@ -42,18 +43,19 @@ define([
 
     return Class.extend({
         initialize: function(nodes) {
-            this.types = registry.get('globalStorage').types;
+            this.types      = registry.get('globalStorage').types;
+            this.registry   = registry.create();
 
             this.process(nodes);
         },
 
         process: function(nodes, parent){
             var parse       = this.parse.bind(this, parent),
-                insert      = parent && !parent.virtual,
+                insert      = parent && parent.component,
                 children    = _.map(nodes, parse);
 
             if(insert){
-                this.insert(parent.name, children);
+                this.insert(children, parent.name);
             }
 
             return this;
@@ -66,7 +68,19 @@ define([
 
             node = this.build.apply(this, arguments);
 
+            if(node.type === "template"){
+                return;
+            }
+
+            if(node.template){
+                return this.waitTemplate(node, parent);      
+            }
+
             this.manipulate(node);
+
+            if (node.component) {
+                initComponent(node);
+            }
 
             if (node.children) {
                 this.process(node.children, node);
@@ -76,37 +90,59 @@ define([
         },
 
         build: function(parent, node, name){
-            var type = node.type || parent.childType;
+            var type = node.type || (parent && parent.childType);
 
-            type        = this.types.get(type);
-            node.name   = getNodeName.apply(null, arguments);
+            type = this.types.get(type);
+            name = getNodeName.apply(null, arguments);
+            node = $.extend(true, {}, type, node, {name: name});
 
-            return $.extend(true, {}, type, node);
+            delete node.type;
+
+            this.registry.set(name, node);
+
+            return node;
         },
 
         manipulate: function(node) {
             var name = node.name;
 
             if (node.appendTo) {
-                this.insert(node.appendTo, name, -1);
+                this.insert(name, node.appendTo, -1);
             }
 
             if (node.prependTo) {
-                this.insert(node.prependTo, name, 0);
+                this.insert(name, node.prependTo, 0);
             }
 
             if (node.wrapIn) {
                 this.wrap(node.wrapIn, node);
             }
 
-            if (!node.virtual) {
-                registerNode(node);
-            }
-
             return this;
         },
 
-        insert: function(targets, items, position){
+        waitTemplate: function(node, parent){
+            var callback = this.applyTemplate.bind(this, node, parent);
+
+            this.registry.get(node.template, callback);
+        },
+
+        applyTemplate: function(node, parent){
+            var result = {},
+                templates = _.toArray(arguments).slice(2);
+
+            templates.push(node);
+
+            templates.forEach(function(part){
+                $.extend(true, result, part);
+            });
+
+            delete result.template;
+
+            this.process([result], parent);
+        },
+
+        insert: function(items, targets, position){
             items   = _.compact(utils.stringToArray(items));
             targets = utils.stringToArray(targets);
 
@@ -124,7 +160,7 @@ define([
         wrap: function(node, child){
             node = this.build('', node);
 
-            this.insert(node.name, child.name)
+            this.insert(child.name, node.name)
                 .process([node]);
         }
     });

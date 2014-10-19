@@ -5,37 +5,20 @@
  * @license     {license_link}
  */
 define([
+    'mage/utils',
     './storage',
     './events'
-], function( storage, events ){
+], function(utils, Storage, Events) {
     'use strict';
-    
-    /**
-     * Adds element to the storage and tries to resolve
-            pending dependencies for it.   
-     * @param {String} elem - Elements' name.
-     * @param {*} value - Elements' value.
-     */
-    function set(elem, value) {
-        storage.set(elem, value);
-        events.resolve(elem);
+
+    function Registry() {
+        this.storage = new Storage();
+        this.events = new Events(this.storage);
     }
 
+    Registry.prototype = {
+        constructor: Registry,
 
-    /**
-     * Tries to split the incoming string by spaces.
-     * @params {(String|*)} st - String to split.
-     * @returns {Array|*}
-            The resulting array or the unmodified
-            incoming value if first parameter wasn't a string.
-     */
-    function stringToArray(st) {
-        return typeof st === 'string' ?
-            st.split(' ') :
-            st;
-    }
-
-    return {
         /**
          * Retrieves data from registry.
          * @params {(String|Array)} elems -
@@ -51,12 +34,12 @@ define([
         get: function(elems, callback) {
             var records;
 
-            elems = stringToArray(elems) || [];
+            elems = utils.stringToArray(elems) || [];
 
             if (typeof callback !== 'undefined') {
-                events.wait(elems, callback);
+                this.events.wait(elems, callback);
             } else {
-                records = storage.get(elems);
+                records = this.storage.get(elems);
 
                 return elems.length === 1 ?
                     records[0] :
@@ -65,33 +48,21 @@ define([
         },
 
 
-        /**
+       /**
          * Sets data to registry.
-         * @params {(String|Array|Object)} elems -
+         * @params {(String|Array)} elems -
                 An array of elements' names or a string of names divided by spaces.
-                Also might be an object with element -> value pairs.
          * @params {*} [value] -
                 Value that will be assigned to elements.
-                This parameter is ignored when the first one
-                represents an object of element -> value pairs.
          * @returns {registry} Chainable.  
          */
         set: function(elems, value) {
-            var i;
+            elems = utils.stringToArray(elems);
 
-            elems = stringToArray(elems);
-
-            if (!Array.isArray(elems)) {
-
-                for (i in elems) {
-                    set(i, elems[i]);
-                }
-            } else {
-
-                for (i = elems.length; i--;) {
-                    set(elems[i], value)
-                }
-            }
+            elems.forEach(function(elem){
+                this.storage.set(elem, value);
+                this.events.resolve(elem);
+            }, this);
 
             return this;
         },
@@ -103,20 +74,25 @@ define([
          * @returns {registry} Chainable.
          */
         remove: function(elems) {
-            storage.remove(stringToArray(elems));
+            this.storage.remove(utils.stringToArray(elems));
 
             return this;
         },
 
-        /**
+       /**
          * Checks whether specified elements has been registered.
          * @params {(String|Array)} elems -
                 An array of elements' names or a string of names divided by spaces.
          * @returns {Boolean}
          */
         has: function(elems) {
-            return storage.has(stringToArray(elems));
-        }
+            return this.storage.has(utils.stringToArray(elems));
+        },
 
+        create: function(){
+            return new Registry;  
+        }
     };
+
+    return new Registry;
 });

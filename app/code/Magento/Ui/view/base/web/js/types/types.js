@@ -27,7 +27,7 @@ define([
         },
 
         get: function(type){
-            return this.types[type];
+            return this.types[type] || {};
         },
 
         flatten: function(data){
