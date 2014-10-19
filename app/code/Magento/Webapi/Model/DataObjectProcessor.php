@@ -97,8 +97,9 @@ class DataObjectProcessor
                             if (is_object($singleValue)) {
                                 $singleValue = $this->buildOutputDataArray($singleValue, $arrayElementType);
                             }
-                            $valueResult[] = $this->castValueToType($singleValue, $returnType);
+                            $valueResult[] = $this->castValueToType($singleValue, $arrayElementType);
                         }
+                        $value = $valueResult;
                     }
                     $outputData[$key] = $this->castValueToType($value, $returnType);
                 }
