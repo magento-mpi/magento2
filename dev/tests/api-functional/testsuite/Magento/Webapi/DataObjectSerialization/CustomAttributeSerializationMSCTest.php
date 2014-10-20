@@ -62,7 +62,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
     protected function setUp()
     {
         $this->_version = 'V1';
-        $this->_soapService = 'testmoduleMSCAllSoapAndRestV1';
+        $this->_soapService = 'testModuleMSCAllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmoduleMSC/";
 
         $this->valueBuilder = Bootstrap::getObjectManager()->create(
