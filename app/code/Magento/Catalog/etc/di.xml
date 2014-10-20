@@ -507,4 +507,17 @@
     <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="\Magento\Catalog\Model\Product\Link" />
     <preference for="\Magento\Catalog\Api\CategoryLinkManagementInterface" type="\Magento\Catalog\Model\CategoryLinkManagement" />
     <preference for="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" type="\Magento\Catalog\Model\CategoryLinkRepository" />
+    <preference for="\Magento\Catalog\Model\Product\Option\Metadata\ConverterInterface" type="Magento\Catalog\Model\Product\Option\Metadata\Converter\Composite" />
+    <type name="Magento\Catalog\Model\Product\Option\Metadata\Converter\Composite">
+        <arguments>
+            <argument name="converters" xsi:type="array">
+                <item name="default" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\DefaultConverter</item>
+                <item name="drop_down" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
+                <item name="radio" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
+                <item name="checkbox" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
+                <item name="multiple" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface" type="\Magento\Catalog\Model\Product\Option" />
 </config>

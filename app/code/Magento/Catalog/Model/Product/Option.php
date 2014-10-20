@@ -19,12 +19,6 @@ use Magento\Framework\Model\AbstractModel;
  * @method \Magento\Catalog\Model\Resource\Product\Option getResource()
  * @method int getProductId()
  * @method \Magento\Catalog\Model\Product\Option setProductId(int $value)
- * @method string getType()
- * @method \Magento\Catalog\Model\Product\Option setType(string $value)
- * @method string getTitle()
- * @method \Magento\Catalog\Model\Product\Option seTitle(string $value)
- * @method int getIsRequire()
- * @method \Magento\Catalog\Model\Product\Option setIsRequire(int $value)
  * @method string getSku()
  * @method \Magento\Catalog\Model\Product\Option setSku(string $value)
  * @method int getMaxCharacters()
@@ -35,12 +29,9 @@ use Magento\Framework\Model\AbstractModel;
  * @method \Magento\Catalog\Model\Product\Option setImageSizeX(int $value)
  * @method int getImageSizeY()
  * @method \Magento\Catalog\Model\Product\Option setImageSizeY(int $value)
- * @method int getSortOrder()
- * @method \Magento\Catalog\Model\Product\Option setSortOrder(int $value)
- *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends AbstractModel
+class Option extends AbstractModel implements \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface
 {
     const OPTION_GROUP_TEXT = 'text';
 
@@ -571,5 +562,75 @@ class Option extends AbstractModel
     protected function _getValidationRulesBeforeSave()
     {
         return $this->validatorPool->get($this->getType());
+    }
+
+    /**
+     * Get product SKU
+     *
+     * @return string
+     */
+    public function getProductSKU()
+    {
+        return $this->_getData('product_sku');
+    }
+
+    /**
+     * Get option id
+     *
+     * @return int|null
+     */
+    public function getOptionId()
+    {
+        return $this->_getData('option_id');
+    }
+
+    /**
+     * Get option metadata
+     *
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionAttributeInterface[]
+     */
+    public function getMetadata()
+    {
+
+    }
+
+    /**
+     * Get option title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_getData('title');
+    }
+
+    /**
+     * Get option type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_getData('type');
+    }
+
+    /**
+     * Get sort order
+     *
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->_getData('sort_order');
+    }
+
+    /**
+     * Get is require
+     *
+     * @return bool
+     */
+    public function getIsRequire()
+    {
+        return $this->_getData('is_required');
     }
 }

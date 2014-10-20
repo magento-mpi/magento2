@@ -11,10 +11,17 @@ namespace Magento\Catalog\Api\Data;
 /**
  * Created from:
  * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option - previous implementation
- * @todo Use implementation \Magento\Catalog\Model\Product\Option implements \Magento\Catalog\Api\Data\Product\CustomOption\OptionInterface
+ * @todo \Magento\Catalog\Model\Product\Option implements
  */
 interface ProductCustomOptionOptionInterface
 {
+    /**
+     * Get product SKU
+     *
+     * @return string
+     */
+    public function getProductSKU();
+
     /**
      * Get option id
      *

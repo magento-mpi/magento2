@@ -8,13 +8,19 @@
 
 namespace Magento\Catalog\Api\Data;
 
-/**
- * Created from:
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata
- * @todo Create \Magento\Catalog\Model\Product\CustomOption\Metadata and extend abstract framework implementation
- */
 interface ProductCustomOptionAttributeInterface
 {
+    const PRICE = 'price';
+    const PRICE_TYPE = 'price_type';
+    const SKU = 'sku';
+    const SORT_ORDER = 'sort_order';
+    const FILE_EXTENSION = 'file_extension';
+    const IMAGE_SIZE_X = 'image_size_x';
+    const IMAGE_SIZE_Y = 'image_size_y';
+    const MAX_CHARACTERS = 'max_characters';
+    const TITLE = 'title';
+    const OPTION_TYPE_ID = 'option_type_id';
+
     /**
      * Get price
      *
