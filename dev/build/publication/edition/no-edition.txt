@@ -1,14 +1,11 @@
-# Files or directories that are not to be part of any Magento product edition (for any reason, can be non-technical)
+# Files or directories that are not part of any Magento product edition (for any reason, can be non-technical)
 #
 app/etc/aliases_to_classes_map.json
 dev/build/core_dev/performance/benchmark
 
 dev/tests/api-functional
 
-dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
-dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/non_public.txt
-dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/non_public.txt
 
 dev/tests/performance/testsuite/benchmark
 dev/tests/performance/testsuite/fixtures/benchmark
