@@ -56,8 +56,6 @@ define([
 
             __super__.initObservable.apply(this, arguments);
 
-            this.value = this.provider.data.get(this.name);
-
             rules = this.validation = this.validation || {};
 
             this.observe({
@@ -109,6 +107,10 @@ define([
             return (this.addbefore !== null) || (this.addafter !== null);
         },
 
+        getNoticeId: function () {
+            return 'notice-' + this.uid;
+        },
+
         /**
          * Stores element's value to registry by element's path value
          * @param  {*} value - current value of form element
@@ -122,7 +124,7 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.template ? this.template : this.module + '/form/element/' + this.type;
+            return this.template || (this.module + '/form/element/' + this.input_type);
         },
 
         /**

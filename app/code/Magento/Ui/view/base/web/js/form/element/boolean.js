@@ -9,15 +9,15 @@ define([
 ], function (Abstract) {
     'use strict';
 
+    var __super__ = Abstract.prototype;
+
     return Abstract.extend({
 
-        /**
-         * Invokes initialize method of parent class.
-         */
-        initialize: function (config) {
-            config.value = !(config.value === undefined);
-            
-            Abstract.prototype.initialize.apply(this, arguments);
+        initObservable: function () {
+            __super__.initObservable.apply(this, arguments);
+
+            this.initialValue = !(this.value() === undefined);
+            this.value(this.initialValue);
         }
     });
 });
