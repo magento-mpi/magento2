@@ -11,7 +11,7 @@ namespace Magento\Customer\Api;
 /**
  * Interface for retrieval information about customer attributes metadata.
  */
-interface CustomerMetadataServiceInterface extends MetadataServiceInterface
+interface CustomerMetadataInterface extends MetadataInterface
 {
     const ATTRIBUTE_SET_ID_CUSTOMER = 1;
 

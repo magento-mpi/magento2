@@ -14,7 +14,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 /**
  * Customer address interface.
  */
-interface Address extends ExtensibleDataInterface
+interface AddressInterface extends ExtensibleDataInterface
 {
     /**
      * Get id
@@ -26,7 +26,7 @@ interface Address extends ExtensibleDataInterface
     /**
      * Get region
      *
-     * @return \Magento\Customer\Api\Data\Region|null
+     * @return \Magento\Customer\Api\Data\RegionInterface|null
      */
     public function getRegion();
 

@@ -12,24 +12,24 @@ namespace Magento\Customer\Api;
 /**
  * Customer CRUD interface.
  */
-interface CustomerRepository
+interface CustomerRepositoryInterface
 {
     /**
      * Create customer.
      *
-     * @param \Magento\Customer\Api\Data\Customer $customer
-     * @return \Magento\Customer\Api\Data\Customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function save(\Magento\Customer\Api\Data\Customer $customer);
+    public function save(\Magento\Customer\Api\Data\CustomerInterface $customer);
 
     /**
      * Retrieve customer.
      *
-     * @param int $customerId
-     * @return \Magento\Customer\Api\Data\Customer
+     * @param string $customerId
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -38,16 +38,16 @@ interface CustomerRepository
     /**
      * Retrieve customers which match a specified criteria.
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Customer\Api\Data\CustomerSearchResults
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \Magento\Customer\Api\Data\CustomerSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete customer.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @return bool True if the customer was deleted
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @throws \Magento\Framework\Exception\LocalizedException

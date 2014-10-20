@@ -11,19 +11,19 @@ namespace Magento\Customer\Api\Data;
 /**
  * Interface for customer address search results.
  */
-interface AddressSearchResults
+interface AddressSearchResultsInterface
 {
     /**
      * Get customer addresses list.
      *
-     * @return \Magento\Customer\Api\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
      */
     public function getItems();
 
     /**
      * Get search criteria.
      *
-     * @return \Magento\Framework\Service\V1\Data\SearchCriteria
+     * @return \Magento\Framework\Api\SearchCriteriaInterface
      */
     public function getSearchCriteria();
 

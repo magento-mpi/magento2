@@ -12,7 +12,7 @@ namespace Magento\Customer\Api;
 /**
  * Interface for managing customers accounts.
  */
-interface AccountManagement
+interface AccountManagementInterface
 {
     const DEFAULT_PASSWORD_LENGTH = 6;
 
@@ -29,27 +29,27 @@ interface AccountManagement
     /**
      * Create customer account. Perform necessary business operations like sending email.
      *
-     * @param \Magento\Customer\Api\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @param string $password
      * @param string $redirectUrl
-     * @return \Magento\Customer\Api\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function createAccount(\Magento\Customer\Api\Data\Customer $customer, $password, $redirectUrl = '' );
+    public function createAccount(\Magento\Customer\Api\Data\CustomerInterface $customer, $password, $redirectUrl = '');
 
     /**
      * Validate customer data.
      *
-     * @param \Magento\Customer\Api\Data\Customer $customer
-     * @return \Magento\Customer\Api\Data\ValidationResults
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @return \Magento\Customer\Api\Data\ValidationResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function validate(\Magento\Customer\Api\Data\Customer $customer);
+    public function validate(\Magento\Customer\Api\Data\CustomerInterface $customer);
 
     /**
      * Check if customer can be deleted.
      *
-     * @param int $customerId
+     * @param string $customerId
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException If group is not found
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -61,7 +61,7 @@ interface AccountManagement
      *
      * @param string $email
      * @param string $confirmationKey
-     * @return \Magento\Customer\Api\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function activate($email, $confirmationKey);
@@ -71,7 +71,7 @@ interface AccountManagement
      *
      * @param string $email
      * @param string $password
-     * @return \Magento\Customer\Api\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function authenticate($email, $password);
