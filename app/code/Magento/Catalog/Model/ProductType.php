@@ -18,24 +18,24 @@ class ProductType implements ProductTypeInterface
      *
      * @var string
      */
-    private $name;
+    private $key;
 
     /**
      * Product type label
      *
      * @var string
      */
-    private $label;
+    private $value;
 
 
     /**
-     * @param string $name
-     * @param string $label
+     * @param string $key
+     * @param string $value
      */
-    public function __construct($name, $label)
+    public function __construct($key, $value)
     {
-        $this->name = $name;
-        $this->label = $label;
+        $this->key = $key;
+        $this->value = $value;
     }
 
     /**
@@ -43,7 +43,7 @@ class ProductType implements ProductTypeInterface
      */
     public function getKey()
     {
-        return $this->name;
+        return $this->key;
     }
 
     /**
@@ -51,6 +51,6 @@ class ProductType implements ProductTypeInterface
      */
     public function getValue()
     {
-        return $this->label;
+        return $this->value;
     }
 }
