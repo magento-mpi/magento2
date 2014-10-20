@@ -18,8 +18,6 @@ use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Controller\Rest\Router\Route;
 use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\PathProcessor;
-use Magento\Webapi\Model\DataObjectProcessor;
-use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Front controller for WebAPI REST area.
@@ -87,11 +85,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected $dataObjectConverter;
 
     /**
-     * @var DataObjectProcessor
-     */
-    protected $dataObjectProcessor;
-
-    /**
      * Initialize dependencies
      *
      * @param RestRequest $request
@@ -107,7 +100,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param PartialResponseProcessor $partialResponseProcessor
      * @param UserContextInterface $userContext
      * @param DataObjectConverter $dataObjectConverter
-     * @param DataObjectProcessor $dataObjectProcessor
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -125,8 +117,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
         UserContextInterface $userContext,
-        DataObjectConverter $dataObjectConverter,
-        DataObjectProcessor $dataObjectProcessor
+        DataObjectConverter $dataObjectConverter
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -141,7 +132,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->partialResponseProcessor = $partialResponseProcessor;
         $this->userContext = $userContext;
         $this->dataObjectConverter = $dataObjectConverter;
-        $this->dataObjectProcessor = $dataObjectProcessor;
     }
 
     /**
@@ -169,11 +159,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            $serviceMethodReturnType =
-                $this->dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
-            $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceMethodReturnType);
+            $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceClassName, $serviceMethodName);
             if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER) && is_array($outputData)) {
                 $outputData = $this->partialResponseProcessor->filter($outputData);
             }

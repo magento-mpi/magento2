@@ -40,11 +40,14 @@ class DataObjectConverter
      * contents and convert each piece individually.
      *
      * @param mixed $data
-     * @param string $dataType
+     * @param string $serviceClassName
+     * @param string $serviceMethodName
      * @return array|int|string|bool|float Scalar or array of scalars
      */
-    public function processServiceOutput($data, $dataType)
+    public function processServiceOutput($data, $serviceClassName, $serviceMethodName)
     {
+        /** @var string $dataType */
+        $dataType = $this->dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         if (is_array($data)) {
             $result = [];
             $arrayElementType = substr($dataType, 0, -2);
