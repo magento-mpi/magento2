@@ -161,7 +161,11 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
-            $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceClassName, $serviceMethodName);
+            $outputData = $this->dataObjectConverter->processServiceOutput(
+                $outputData,
+                $serviceClassName,
+                $serviceMethodName
+            );
             if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER) && is_array($outputData)) {
                 $outputData = $this->partialResponseProcessor->filter($outputData);
             }

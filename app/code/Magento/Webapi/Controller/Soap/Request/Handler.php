@@ -150,8 +150,7 @@ class Handler
     protected function _prepareResponseData($data, $serviceClassName, $serviceMethodName)
     {
         /** @var string $dataType */
-        $dataType =
-            $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
+        $dataType = $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         $result = null;
         if ($data instanceof ExtensibleDataInterface) {
             $result = $this->_dataObjectConverter
