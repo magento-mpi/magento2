@@ -94,7 +94,10 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_testModel = $helper->getObject(
             'Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver',
-            array('checkoutSession' => $this->_checkoutSession, 'quoteImporter' => $this->_quote)
+            array(
+                'checkoutSession' => $this->_checkoutSession,
+                'quoteImporter' => $this->_quote
+            )
         );
 
         $this->_event = $this->getMock(
