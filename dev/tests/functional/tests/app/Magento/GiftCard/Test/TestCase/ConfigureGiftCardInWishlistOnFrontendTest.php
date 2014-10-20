@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnFrontendTest;
+use Magento\Wishlist\Test\TestCase\ConfigureProductInCustomerWishlistOnFrontendTest;
 
 /**
  * Test Creation for ConfigureGiftCardWishlist on frontend
@@ -31,7 +31,7 @@ use Magento\Wishlist\Test\TestCase\ConfigureCustomerWishlistOnFrontendTest;
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-29507
  */
-class ConfigureGiftCardWishlistOnFrontendTest extends ConfigureCustomerWishlistOnFrontendTest
+class ConfigureGiftCardInWishlistOnFrontendTest extends ConfigureProductInCustomerWishlistOnFrontendTest
 {
     //
 }

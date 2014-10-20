@@ -12,24 +12,27 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CheckoutAgreement
+ * Checkout agreement fixture.
  */
 class CheckoutAgreement extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\CheckoutAgreements\Test\Repository\Term';
+    protected $repositoryClass = 'Magento\CheckoutAgreements\Test\Repository\CheckoutAgreement';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\CheckoutAgreements\Test\Handler\Term\TermInterface';
+    // @codingStandardsIgnoreStart
+    protected $handlerInterface = 'Magento\CheckoutAgreements\Test\Handler\CheckoutAgreement\CheckoutAgreementInterface';
+    // @codingStandardsIgnoreEnd
 
     protected $defaultDataSet = [
         'name' => 'DefaultName%isolation%',
         'is_active' => 'Enabled',
         'is_html' => 'Text',
-        'store_ids' => 'Main Website/Main Website Store/Default Store View',
+        'stores' => ['dataSet' => ['default']],
         'checkbox_text' => 'test_checkbox%isolation%',
         'content' => 'TestMessage%isolation%',
     ];
@@ -90,9 +93,10 @@ class CheckoutAgreement extends InjectableFixture
         'input' => '',
     ];
 
-    protected $store_ids = [
+    protected $stores = [
         'attribute_code' => 'store_ids',
         'backend_type' => 'virtual',
+        'source' => 'Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement\Stores',
     ];
 
     public function getAgreementId()
@@ -130,8 +134,8 @@ class CheckoutAgreement extends InjectableFixture
         return $this->getData('is_html');
     }
 
-    public function getStoreIds()
+    public function getStores()
     {
-        return $this->getData('store_ids');
+        return $this->getData('stores');
     }
 }
