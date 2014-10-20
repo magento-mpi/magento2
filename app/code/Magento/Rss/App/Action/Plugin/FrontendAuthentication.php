@@ -79,7 +79,7 @@ class FrontendAuthentication
                 $customer = $this->customerAccountService->authenticate($login, $password);
                 $this->customerSession->setCustomerDataAsLoggedIn($customer);
                 $this->customerSession->regenerateId();
-            } catch (\Magento\Framework\Exception\InvalidEmailOrPasswordException $e) {
+            } catch (\Exception $e) {
                 $this->logger->logException($e);
             }
         }
