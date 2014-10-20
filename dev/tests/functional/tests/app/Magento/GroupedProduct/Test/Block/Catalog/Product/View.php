@@ -97,6 +97,5 @@ class View extends ParentView
     public function fillOptions(FixtureInterface $product)
     {
         $this->getGroupedProductBlock()->fill($product);
-        parent::fillOptions($product);
     }
 }

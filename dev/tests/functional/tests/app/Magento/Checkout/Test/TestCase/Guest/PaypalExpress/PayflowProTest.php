@@ -82,7 +82,7 @@ class PayflowProTest extends Functional
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
         );
-        $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+        $expectedAuthorizedAmount = 'Authorized amount of $' . $fixture->getGrandTotal();
 
         $actualAuthorizedAmount = Factory::getPageFactory()->getSalesOrderView()
             ->getOrderHistoryBlock()->getCommentsHistory();

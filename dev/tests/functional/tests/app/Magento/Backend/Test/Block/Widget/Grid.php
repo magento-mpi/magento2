@@ -195,7 +195,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $firstRowSelector = '//tr[1]/td[@data-column="title"]';
+    protected $firstRowSelector = '';
 
     /**
      * Get backend abstract block
@@ -463,6 +463,13 @@ abstract class Grid extends Block
         $button = $this->_rootElement->find($this->filterButton);
         if ($button->isVisible() && !$this->_rootElement->find($this->filterButton . $this->active)->isVisible()) {
             $button->click();
+            $browser = $this->_rootElement;
+            $selector = $this->searchButton;
+            $browser->waitUntil(
+                function () use ($browser, $selector) {
+                    return $browser->find($selector)->isVisible() ? true : null;
+                }
+            );
         }
     }
 

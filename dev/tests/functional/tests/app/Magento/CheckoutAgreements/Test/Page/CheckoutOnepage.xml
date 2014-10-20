@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/onepage">
+    <blocks>
+        <agreementReview>
+            <class>Magento\CheckoutAgreements\Test\Block\Onepage\AgreementReview</class>
+            <locator>#checkout-step-review</locator>
+            <strategy>css selector</strategy>
+        </agreementReview>
+    </blocks>
+</page>

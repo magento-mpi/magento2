@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Block\Product;
 
-use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Block\AbstractConfigureBlock;
 
 /**
  * Class View
@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.NPathComplexity)
  */
-class View extends Block
+class View extends AbstractConfigureBlock
 {
     /**
      * XPath selector for tab
@@ -88,20 +88,6 @@ class View extends Block
     protected $productShortDescription = '.product.attibute.overview';
 
     /**
-     * Product price element
-     *
-     * @var string
-     */
-    protected $productPrice = '.price-box .price';
-
-    /**
-     * Bundle options block
-     *
-     * @var string
-     */
-    protected $bundleBlock = '#product-options-wrapper';
-
-    /**
      * Click for Price link on Product page
      *
      * @var string
@@ -121,13 +107,6 @@ class View extends Block
      * @var string
      */
     protected $stockAvailability = '.stock span';
-
-    /**
-     * Customize and add to cart button selector
-     *
-     * @var string
-     */
-    protected $customizeButton = '.action.primary.customize';
 
     /**
      * This member holds the class name of the tier price block.
@@ -158,15 +137,15 @@ class View extends Block
     protected $addToWishlist = '[data-action="add-to-wishlist"]';
 
     /**
-     * This method returns the custom options block.
+     * Get block price
      *
-     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     * @return \Magento\Catalog\Test\Block\Product\Price
      */
-    public function getCustomOptionsBlock()
+    public function getPriceBlock()
     {
         return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Product\View\CustomOptions',
-            ['element' => $this->_rootElement->find($this->customOptionsSelector)]
+            'Magento\Catalog\Test\Block\Product\Price',
+            ['element' => $this->_rootElement->find($this->priceBlock, Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -185,8 +164,8 @@ class View extends Block
         }
 
         $this->fillOptions($product);
-        if (isset($checkoutData['options']['qty'])) {
-            $this->_rootElement->find($this->qty)->setValue($checkoutData['options']['qty']);
+        if (isset($checkoutData['qty'])) {
+            $this->setQty($checkoutData['qty']);
         }
         $this->clickAddToCart();
     }
@@ -308,72 +287,6 @@ class View extends Block
     }
 
     /**
-     * Fill in the option specified for the product
-     *
-     * @param FixtureInterface $product
-     * @return void
-     */
-    public function fillOptions(FixtureInterface $product)
-    {
-        $dataConfig = $product->getDataConfig();
-        $typeId = isset($dataConfig['type_id']) ? $dataConfig['type_id'] : null;
-        $checkoutData = null;
-
-        /** @var CatalogProductSimple $product */
-        if ($this->hasRender($typeId)) {
-            $this->callRender($typeId, 'fillOptions', ['product' => $product]);
-        } else {
-            $checkoutCustomOptions = [];
-
-            if ($product instanceof InjectableFixture) {
-                /** @var CatalogProductSimple $product */
-                $checkoutData = $product->getCheckoutData();
-                $checkoutCustomOptions = isset($checkoutData['options']['custom_options'])
-                    ? $checkoutData['options']['custom_options']
-                    : [];
-                $customOptions = $product->hasData('custom_options')
-                    ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
-                    : [];
-
-                $checkoutCustomOptions = $this->prepareCheckoutData($customOptions, $checkoutCustomOptions);
-            }
-
-            $this->getCustomOptionsBlock()->fillCustomOptions($checkoutCustomOptions);
-        }
-    }
-
-    /**
-     * Replace index fields to name fields in checkout data
-     *
-     * @param array $options
-     * @param array $checkoutData
-     * @return array
-     */
-    protected function prepareCheckoutData(array $options, array $checkoutData)
-    {
-        $result = [];
-
-        foreach ($checkoutData as $checkoutOption) {
-            $attribute = str_replace('attribute_key_', '', $checkoutOption['title']);
-            $option = str_replace('option_key_', '', $checkoutOption['value']);
-
-            if (isset($options[$attribute])) {
-                $result[] = [
-                    'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attribute]['type'])),
-                    'title' => isset($options[$attribute]['title'])
-                            ? $options[$attribute]['title']
-                            : $attribute,
-                    'value' => isset($options[$attribute]['options'][$option]['title'])
-                            ? $options[$attribute]['options'][$option]['title']
-                            : $option
-                ];
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * This method return array tier prices
      *
      * @param int $lineNumber [optional]
@@ -439,13 +352,30 @@ class View extends Block
     }
 
     /**
+     * Add product to Wishlist
+     *
+     * @param FixtureInterface $product
+     * @return void
+     */
+    public function addToWishlist(FixtureInterface $product)
+    {
+        /** @var CatalogProductSimple $product */
+        $checkoutData = $product->getCheckoutData();
+        $this->fillOptions($product);
+        if (isset($checkoutData['qty'])) {
+            $this->setQty($checkoutData['qty']);
+        }
+        $this->clickAddToWishlist();
+    }
+
+    /**
      * Click "Add to Wishlist" button
      *
      * @return void
      */
-    public function addToWishlist()
+    public function clickAddToWishlist()
     {
-        $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->addToWishlist)->click();
     }
 
     /**
