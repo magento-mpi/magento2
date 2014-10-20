@@ -202,12 +202,22 @@ class DataObjectProcessor
             } else {
                 $methodMap = [];
                 $class = new ClassReflection($interfaceName);
-                foreach ($class->getMethods() as $method) {
+                foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                    // Its assumed that all data interface will extend ExtensibleDataInterface
+                    $isSuitableClass = $method->class === 'Magento\Framework\Api\ExtensibleDataInterface' ||
+                        $method->class === ltrim($interfaceName, '\\');
+                    if (!$isSuitableClass) {
+                        break;
+                    }
                     $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
                         || $method->isStatic() || $method->isDestructor());
-                    $isExcludedMagicMethod = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
-                    $isSuitableClass = $method->class !== 'Magento\Framework\Api\ExtensibleDataInterface';
-                    if ($isSuitableMethodType && !$isExcludedMagicMethod && $isSuitableClass) {
+                    //Ideally 'getData', 'setData' should never be encountered since only data interfaces are expected.
+                    //These should be removed once all the api contracts are defined with data interfaces only
+                    $isExcludedMagicMethod = in_array(
+                        $method->getName(),
+                        ['__sleep', '__wakeup', '__clone', 'getData', 'setData']
+                    );
+                    if ($isSuitableMethodType && !$isExcludedMagicMethod) {
                         $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method)['type'];
                     }
                 }
