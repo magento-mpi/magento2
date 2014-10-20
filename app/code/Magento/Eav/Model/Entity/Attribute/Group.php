@@ -12,7 +12,6 @@ namespace Magento\Eav\Model\Entity\Attribute;
  *
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group _getResource()
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group getResource()
- * @method int getAttributeSetId()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeSetId(int $value)
  * @method string getAttributeGroupName()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeGroupName(string $value)
@@ -25,7 +24,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
  * @method string getTabGroupCode()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setTabGroupCode(string $value)
  */
-class Group extends \Magento\Framework\Model\AbstractModel
+class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\Eav\Api\Data\AttributeGroupInterface
 {
     /**
      * Resource initialization
@@ -71,5 +70,29 @@ class Group extends \Magento\Framework\Model\AbstractModel
             }
         }
         return parent::_beforeSave();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getData('attribute_group_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->getData('attribute_group_name');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeSetId()
+    {
+        return $this->getData('attribute_set_id');
     }
 }

@@ -19,7 +19,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @deprecated
-     * @see \Magento\Eav\Api\AttributeGroupManagementInterface::create
+     * @see \Magento\Eav\Api\AttributeGroupRepositoryInterface::save
      */
     public function create($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData);
 
@@ -34,7 +34,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      * @deprecated
-     * @see \Magento\Eav\Api\AttributeGroupManagementInterface::update
+     * @see \Magento\Eav\Api\AttributeGroupRepositoryInterface::save
      */
     public function update($attributeSetId, $groupId, \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData);
 
@@ -47,7 +47,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
      * @deprecated
-     * @see \Magento\Eav\Api\AttributeGroupManagementInterface::remove
+     * @see \Magento\Eav\Api\AttributeGroupRepositoryInterface::delete
      */
     public function delete($attributeSetId, $groupId);
 }

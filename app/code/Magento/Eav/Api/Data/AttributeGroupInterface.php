@@ -26,4 +26,11 @@ interface AttributeGroupInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Retrieve attribute set id
+     *
+     * @return int
+     */
+    public function getAttributeSetId();
 }
