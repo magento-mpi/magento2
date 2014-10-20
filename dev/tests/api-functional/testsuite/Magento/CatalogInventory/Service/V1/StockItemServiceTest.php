@@ -200,7 +200,9 @@ class StockItemServiceTest extends WebapiAbstract
                     'qty_increments' => 0,
                     'use_config_enable_qty_inc' => true,
                     'enable_qty_increments' => false,
-                    'is_decimal_divided' => false
+                    'is_decimal_divided' => false,
+                    'low_stock_date' => null,
+                    'notify_stock_qty' => null,
                 ]
             ],
         ];

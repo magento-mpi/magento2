@@ -37,7 +37,8 @@ class ReadServiceTest extends WebapiAbstract
                         'defined' => true,
                         'default' => false,
                         'price' => null,
-                        'price_type' => null
+                        'price_type' => null,
+                        'can_change_quantity' => null,
                     ]
                 ]
             ]
@@ -74,7 +75,8 @@ class ReadServiceTest extends WebapiAbstract
                     'defined' => true,
                     'default' => false,
                     'price' => null,
-                    'price_type' => null
+                    'price_type' => null,
+                    'can_change_quantity' => null,
                 ]
             ]
         ];

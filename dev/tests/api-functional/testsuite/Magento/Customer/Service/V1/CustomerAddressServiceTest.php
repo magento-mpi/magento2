@@ -315,6 +315,11 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'default_shipping' => true,
             'customer_id' => '1',
             'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
+            'fax' => null,
+            'middlename' => null,
+            'prefix' => null,
+            'suffix' => null,
+            'vat_id' => null,
         ];
     }
 
@@ -338,6 +343,12 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'default_shipping' => false,
             'customer_id' => '1',
             'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
+            'fax' => null,
+            'middlename' => null,
+            'prefix' => null,
+            'suffix' => null,
+            'vat_id' => null,
+            'company' => null,
         ];
     }
 }
