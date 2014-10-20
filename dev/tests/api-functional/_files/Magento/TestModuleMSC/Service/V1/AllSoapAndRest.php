@@ -8,9 +8,9 @@
 namespace Magento\TestModuleMSC\Service\V1;
 
 use Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObjectDataBuilder;
-use Magento\TestModuleMSC\Service\V1\Entity\Item;
 use Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\TestModuleMSC\Service\V1\Entity\ItemInterface;
 
 class AllSoapAndRest implements \Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface
 {
@@ -74,7 +74,7 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Service\V1\AllSoapAndRest
     /**
      * {@inheritdoc}
      */
-    public function update(Item $entityItem)
+    public function update(\Magento\TestModuleMSC\Service\V1\Entity\ItemInterface $entityItem)
     {
         return $this->itemDataBuilder->setItemId($entityItem->getItemId())
             ->setName('Updated' . $entityItem->getName())
@@ -93,7 +93,7 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Service\V1\AllSoapAndRest
     /**
      * {@inheritdoc}
      */
-    public function itemAnyType(Item $item)
+    public function itemAnyType(\Magento\TestModuleMSC\Service\V1\Entity\ItemInterface $item)
     {
         return $item;
     }

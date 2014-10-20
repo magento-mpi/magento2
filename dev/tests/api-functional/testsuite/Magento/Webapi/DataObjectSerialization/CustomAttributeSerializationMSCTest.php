@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\DataObjectSerialization;
+
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder;
+use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
+
 /**
  * Class to test if custom attributes are serialized correctly for the new Module Service Contract approach
  */
-namespace Magento\Webapi\DataObjectSerialization;
-
-use Magento\Framework\Service\SimpleDataObjectConverter;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
-
 class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseService
 {
     /**
@@ -52,9 +52,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
     protected $customAttributeDataObjectDataBuilder;
 
     /**
-     * @var SimpleDataObjectConverter $dataObjectConverter
+     * @var DataObjectProcessor $dataObjectProcessor
      */
-    protected $dataObjectConverter;
+    protected $dataObjectProcessor;
 
     /**
      * Set up custom attribute related data objects
@@ -81,8 +81,8 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             'Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObjectDataBuilder'
         );
 
-        $this->dataObjectConverter = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\SimpleDataObjectConverter'
+        $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
+            'Magento\Webapi\Model\DataObjectProcessor'
         );
     }
 
@@ -162,10 +162,10 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
         ];
-        $requestData = $item->__toArray();
+        $requestData = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
-        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item);
+        $expectedResponse = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
         //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
@@ -208,7 +208,10 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setCustomAttribute($customAttributeDataObjectAttributeValue)
             ->setCustomAttribute($customAttributeStringAttributeValue)
             ->create();
-        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item);
+        $expectedResponse = $this->dataObjectProcessor->buildOutputDataArray(
+            $item,
+            '\Magento\TestModuleMSC\Service\V1\Entity\ItemInterface'
+        );
         $this->assertEquals($expectedResponse, $result);
     }
 
@@ -258,10 +261,13 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ],
             'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
         ];
-        $requestData = $item->__toArray();
+        $requestData = $this->dataObjectProcessor->buildOutputDataArray(
+            $item,
+            '\Magento\TestModuleMSC\Service\V1\Entity\ItemInterface'
+        );
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
-        $expectedResponse = $this->dataObjectConverter->processServiceOutput($item);
+        $expectedResponse = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
         //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }

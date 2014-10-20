@@ -150,31 +150,4 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
     }
-
-    /**
-     * TODO : Remove when merging with branch supporting alternate methods to convert to array
-     * Return Data Model in array format.
-     *
-     * @return array
-     */
-    public function __toArray()
-    {
-        $data = $this->_data;
-        $hasToArray = function ($model) {
-            return is_object($model) && method_exists($model, '__toArray') && is_callable([$model, '__toArray']);
-        };
-        foreach ($data as $key => $value) {
-            if ($hasToArray($value)) {
-                $data[$key] = $value->__toArray();
-            } elseif (is_array($value)) {
-                foreach ($value as $nestedKey => $nestedValue) {
-                    if ($hasToArray($nestedValue)) {
-                        $value[$nestedKey] = $nestedValue->__toArray();
-                    }
-                }
-                $data[$key] = $value;
-            }
-        }
-        return $data;
-    }
 }
