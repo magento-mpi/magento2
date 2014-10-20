@@ -23,6 +23,7 @@ use Magento\Webapi\Model\Cache\Type as WebapiCache;
 class DataObjectProcessor
 {
     const IS_METHOD_PREFIX = 'is';
+    const HAS_METHOD_PREFIX = 'has';
     const GETTER_PREFIX = 'get';
     const SERVICE_INTERFACE_METHODS_CACHE_PREFIX = 'serviceInterfaceMethodsMap';
     const BASE_MODEL_CLASS = 'Magento\Framework\Model\AbstractExtensibleModel';
@@ -78,8 +79,15 @@ class DataObjectProcessor
                 $value = $dataObject->{$methodName}();
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
                 $outputData[$key] = $this->castValueToType($value, $returnType);
-            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX &&
-                $methodName !== 'getCustomAttribute') {
+            } else if (substr($methodName, 0, 3) === self::HAS_METHOD_PREFIX) {
+                $value = $dataObject->{$methodName}();
+                $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
+                $outputData[$key] = $this->castValueToType($value, $returnType);
+            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX
+                && $methodName !== 'getCustomAttribute'
+                && $methodName !== 'getData'
+                && $methodName !== 'getFieldExcludedFromWsdl'
+            ) {
                 $value = $dataObject->{$methodName}();
                 if ($methodName === 'getCustomAttributes' && $value === []) {
                     continue;
@@ -232,7 +240,7 @@ class DataObjectProcessor
                     //These should be removed once all the api contracts are defined with data interfaces only
                     $isExcludedMagicMethod = in_array(
                         $method->getName(),
-                        ['__sleep', '__wakeup', '__clone', 'getData', 'setData']
+                        ['__sleep', '__wakeup', '__clone']
                     );
                     if ($isSuitableMethodType && !$isExcludedMagicMethod) {
                         $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method)['type'];
