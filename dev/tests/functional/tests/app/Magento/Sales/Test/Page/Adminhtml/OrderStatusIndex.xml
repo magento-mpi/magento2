@@ -15,7 +15,7 @@
             <strategy>css selector</strategy>
         </orderStatusGrid>
         <gridPageActions>
-            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <class>Magento\Sales\Test\Block\Adminhtml\Order\Status\GridPageActions</class>
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </gridPageActions>
