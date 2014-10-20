@@ -8,7 +8,7 @@
 
 namespace Magento\User\Test\TestCase;
 
-use Mtf\Fixture\FixtureFactory;
+use Magento\User\Test\Fixture\User;
 use Mtf\TestCase\Injectable;
 use Magento\User\Test\Page\Adminhtml\UserEdit;
 use Magento\User\Test\Page\Adminhtml\UserIndex;
@@ -17,6 +17,9 @@ use Magento\User\Test\Page\Adminhtml\UserIndex;
  * Revoke all access tokens for admin without tokens.
  *
  * Test Flow:
+ *
+ * Preconditions:
+ * 1. Tokens are not generated for admin.
  *
  * Steps:
  * 1. Open Backend.
@@ -32,14 +35,14 @@ use Magento\User\Test\Page\Adminhtml\UserIndex;
 class RevokeAllAccessTokensForAdminWithoutTokensTest extends Injectable
 {
     /**
-     * UserIndex page.
+     * User Index page.
      *
      * @var UserIndex
      */
     protected $userIndex;
 
     /**
-     * UserEdit page.
+     * User Edit page.
      *
      * @var UserEdit
      */
@@ -63,15 +66,16 @@ class RevokeAllAccessTokensForAdminWithoutTokensTest extends Injectable
     /**
      * Run Revoke all access tokens for admin without tokens test.
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param User $user
      * @return void
      */
-    public function test(FixtureFactory $fixtureFactory)
+    public function test(User $user)
     {
-        /** @var \Magento\User\Test\Fixture\User $user */
-        $user = $fixtureFactory->createByCode('user', ['dataSet' => 'default']);
+        // Preconditions:
+        $user->persist();
         // Steps:
-        $this->userIndex->open()->getUserGrid()->searchAndOpen(['username' => $user->getUsername()]);
+        $this->userIndex->open();
+        $this->userIndex->getUserGrid()->searchAndOpen(['username' => $user->getUsername()]);
         $this->userEdit->getPageActions()->forceSignIn();
     }
 }

@@ -12,10 +12,10 @@ use Magento\User\Test\Page\Adminhtml\UserEdit;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertRevokeTokensFailMessage
- * Assert that error message appears: "This user has no tokens.".
+ * Class AssertAccessTokensErrorRevokeMessage
+ * Assert that error message appears after click on 'Force Sing-In' button for user without tokens.
  */
-class AssertRevokeTokensFailMessage extends AbstractConstraint
+class AssertAccessTokensErrorRevokeMessage extends AbstractConstraint
 {
     /**
      * User revoke tokens error message.
@@ -30,7 +30,7 @@ class AssertRevokeTokensFailMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that error message appears: "This user has no tokens.".
+     * Assert that error message appears after click on 'Force Sing-In' button for user without tokens.
      *
      * @param UserEdit $userEdit
      * @return void
@@ -50,6 +50,6 @@ class AssertRevokeTokensFailMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return '"This user has no tokens." error message is present on UserEdit page.';
+        return self::ERROR_MESSAGE . ' error message is present on UserEdit page.';
     }
 }
