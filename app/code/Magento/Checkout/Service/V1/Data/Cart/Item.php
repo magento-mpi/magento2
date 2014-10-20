@@ -9,27 +9,46 @@
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
+ * Shopping cart item data object.
+ * 
  * @codeCoverageIgnore
  */
 class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
-    /**#@+
-     * Constants defined for keys of array
+    /**
+     * Item ID.
      */
     const ITEM_ID = 'item_id';
-
+    
+    /**
+     * Product SKU.
+     */
     const SKU = 'sku';
 
+    /**
+     * Product quantity.
+     */
     const QTY = 'qty';
 
+    /**
+     * Product name.
+     */
     const NAME = 'name';
 
+    /**
+     * Product price.
+     */
     const PRICE = 'price';
 
+    /**
+     * Product type.
+     */
     const PRODUCT_TYPE = 'product_type';
 
     /**
-     * @return int|null
+     * Returns the item ID.
+     *
+     * @return int|null Item ID. Otherwise, null.
      */
     public function getItemId()
     {
@@ -37,7 +56,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * @return string|null
+     * Returns the product SKU.
+     *
+     * @return string|null Product SKU. Otherwise, null.
      */
     public function getSku()
     {
@@ -45,7 +66,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * @return int
+     * Returns the product quantity.
+     *
+     * @return int Product quantity.
      */
     public function getQty()
     {
@@ -53,7 +76,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * @return string|null
+     * Returns the product name.
+     *
+     * @return string|null Product name. Otherwise, null.
      */
     public function getName()
     {
@@ -61,7 +86,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * @return float|null
+     * Returns the product price.
+     *
+     * @return float|null Product price. Otherwise, null.
      */
     public function getPrice()
     {
@@ -69,7 +96,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * @return string|null
+     * Returns the product type.
+     *
+     * @return string|null Product type. Otherwise, null.
      */
     public function getProductType()
     {
