@@ -15,18 +15,27 @@ class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**#@+
      * Array keys
      */
+    /**
+     * Region code.
+     */
     const REGION_CODE = 'region_code';
 
+    /**
+     * Region name.
+     */
     const REGION = 'region';
 
+    /**
+     * Region ID.
+     */
     const REGION_ID = 'region_id';
 
     /**#@-*/
 
     /**
-     * Get region code
+     * Returns the region code.
      *
-     * @return string
+     * @return string Region code.
      */
     public function getRegionCode()
     {
@@ -34,9 +43,9 @@ class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Get region
+     * Returns the region name.
      *
-     * @return string
+     * @return string Region.
      */
     public function getRegion()
     {
@@ -44,9 +53,9 @@ class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Get region id
+     * Returns the region ID.
      *
-     * @return int
+     * @return int Region ID.
      */
     public function getRegionId()
     {
