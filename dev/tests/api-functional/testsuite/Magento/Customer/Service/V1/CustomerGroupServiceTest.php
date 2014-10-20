@@ -108,22 +108,32 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 [
                     CustomerGroup::ID => 0,
                     CustomerGroup::CODE => 'NOT LOGGED IN',
-                    CustomerGroup::TAX_CLASS_ID => 3
+                    CustomerGroup::TAX_CLASS_ID => 3,
+                    'tax_class_name' => null,
                 ]
             ],
-            'General' => [[CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]],
+            'General' => [
+                [
+                    CustomerGroup::ID => 1,
+                    CustomerGroup::CODE => 'General',
+                    CustomerGroup::TAX_CLASS_ID => 3,
+                    'tax_class_name' => null,
+                ]
+            ],
             'Wholesale' => [
                 [
                     CustomerGroup::ID => 2,
                     CustomerGroup::CODE => 'Wholesale',
-                    CustomerGroup::TAX_CLASS_ID => 3
+                    CustomerGroup::TAX_CLASS_ID => 3,
+                    'tax_class_name' => null,
                 ]
             ],
             'Retailer' => [
                 [
                     CustomerGroup::ID => 3,
                     CustomerGroup::CODE => 'Retailer',
-                    CustomerGroup::TAX_CLASS_ID => 3
+                    CustomerGroup::TAX_CLASS_ID => 3,
+                    'tax_class_name' => null,
                 ]
             ],
         ];
@@ -135,10 +145,30 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testGetGroups()
     {
         $expectedGroups = [
-            [CustomerGroup::ID => 0, CustomerGroup::CODE => 'NOT LOGGED IN', CustomerGroup::TAX_CLASS_ID => 3],
-            [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
-            [CustomerGroup::ID => 2, CustomerGroup::CODE => 'Wholesale', CustomerGroup::TAX_CLASS_ID => 3],
-            [CustomerGroup::ID => 3, CustomerGroup::CODE => 'Retailer', CustomerGroup::TAX_CLASS_ID => 3]
+            [
+                CustomerGroup::ID => 0,
+                CustomerGroup::CODE => 'NOT LOGGED IN',
+                CustomerGroup::TAX_CLASS_ID => 3,
+                'tax_class_name' => null,
+            ],
+            [
+                CustomerGroup::ID => 1,
+                CustomerGroup::CODE => 'General',
+                CustomerGroup::TAX_CLASS_ID => 3,
+                'tax_class_name' => null,
+            ],
+            [
+                CustomerGroup::ID => 2,
+                CustomerGroup::CODE => 'Wholesale',
+                CustomerGroup::TAX_CLASS_ID => 3,
+                'tax_class_name' => null,
+            ],
+            [
+                CustomerGroup::ID => 3,
+                CustomerGroup::CODE => 'Retailer',
+                CustomerGroup::TAX_CLASS_ID => 3,
+                'tax_class_name' => null,
+            ]
         ];
 
         $serviceInfo = [
@@ -201,9 +231,22 @@ class CustomerGroupServiceTest extends WebapiAbstract
         return [
             'admin' => [
                 0,
-                [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]
+                [
+                    CustomerGroup::ID => 1,
+                    CustomerGroup::CODE => 'General',
+                    CustomerGroup::TAX_CLASS_ID => 3,
+                    'tax_class_name' => null,
+                ]
             ],
-            'base' => [1, [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
+            'base' => [
+                1,
+                [
+                    CustomerGroup::ID => 1,
+                    CustomerGroup::CODE => 'General',
+                    CustomerGroup::TAX_CLASS_ID => 3,
+                    'tax_class_name' => null,
+                ]
+            ]
         ];
     }
 

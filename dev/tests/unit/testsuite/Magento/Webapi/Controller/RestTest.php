@@ -87,16 +87,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     protected $dataObjectProcessorMock;
 
-    /**
-     * @var \Zend\Code\Reflection\ClassReflection|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $classReflectionMock;
-
-    /**
-     * @var \Zend\Code\Reflection\MethodReflection|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $methodReflectionMock;
-
     const SERVICE_METHOD = 'testMethod';
 
     const SERVICE_ID = 'Magento\Webapi\Controller\TestService';
@@ -126,10 +116,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->setMethods(['getUserId'])->getMockForAbstractClass();
         $this->dataObjectProcessorMock = $this->getMockBuilder('Magento\Webapi\Model\DataObjectProcessor')
             ->disableOriginalConstructor()->setMethods(['getMethodReturnType'])->getMockForAbstractClass();
-        $this->classReflectionMock = $this->getMockBuilder('Zend\Code\Reflection\ClassReflection')
-            ->disableOriginalConstructor()->setMethods(['getMethod'])->getMockForAbstractClass();
-        $this->methodReflectionMock = $this->getMockBuilder('Zend\Code\Reflection\MethodReflection')
-            ->disableOriginalConstructor()->setMethods(['getMethod'])->getMockForAbstractClass();
     }
 
     protected function setUp()
@@ -173,13 +159,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_serviceMock));
         $this->_responseMock->expects($this->any())->method('prepareResponse')->will($this->returnValue([]));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(null));
-        $this->_objectManagerMock->expects($this->any())->method('create')
-            ->will($this->returnValue($this->classReflectionMock));
-        $this->classReflectionMock->expects($this->any())->method('getMethod')
-            ->with(self::SERVICE_METHOD)
-            ->will($this->returnValue($this->methodReflectionMock));
         $this->dataObjectProcessorMock->expects($this->any())->method('getMethodReturnType')
-            ->with($this->methodReflectionMock)
+            ->with(self::SERVICE_ID, self::SERVICE_METHOD)
             ->will($this->returnValue('null'));
         parent::setUp();
     }

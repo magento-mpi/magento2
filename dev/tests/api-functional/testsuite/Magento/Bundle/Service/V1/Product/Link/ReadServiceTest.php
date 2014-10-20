@@ -25,8 +25,9 @@ class ReadServiceTest extends WebapiAbstract
         $expected = [
             [
                 'sku' => 'simple',
-                'position' => '0',
+                'position' => 0,
                 'qty' => 1,
+                'can_change_quantity' => null,
             ]
         ];
 

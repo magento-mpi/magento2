@@ -10,16 +10,14 @@ namespace Magento\Webapi\Controller;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
+use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
 use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Controller\Rest\Router\Route;
 use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\PathProcessor;
-use Magento\Webapi\Model\DataObjectProcessor;
-use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Front controller for WebAPI REST area.
@@ -82,14 +80,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected $userContext;
 
     /**
-     * @var SimpleDataObjectConverter $dataObjectConverter
+     * @var DataObjectConverter $dataObjectConverter
      */
     protected $dataObjectConverter;
-
-    /**
-     * @var DataObjectProcessor
-     */
-    protected $dataObjectProcessor;
 
     /**
      * Initialize dependencies
@@ -106,8 +99,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\App\AreaList $areaList
      * @param PartialResponseProcessor $partialResponseProcessor
      * @param UserContextInterface $userContext
-     * @param SimpleDataObjectConverter $dataObjectConverter
-     * @param DataObjectProcessor $dataObjectProcessor
+     * @param DataObjectConverter $dataObjectConverter
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -125,8 +117,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
         UserContextInterface $userContext,
-        SimpleDataObjectConverter $dataObjectConverter,
-        DataObjectProcessor $dataObjectProcessor
+        DataObjectConverter $dataObjectConverter
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -141,7 +132,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->partialResponseProcessor = $partialResponseProcessor;
         $this->userContext = $userContext;
         $this->dataObjectConverter = $dataObjectConverter;
-        $this->dataObjectProcessor = $dataObjectProcessor;
     }
 
     /**
@@ -169,17 +159,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
-            /** @var ClassReflection $serviceClassReflector */
-            $serviceClassReflector = $this->_objectManager->create(
-                'Zend\Code\Reflection\ClassReflection',
-                [$serviceClassName]
-            );
-            $serviceMethodReturnType =
-                $this->dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethodName));
             /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
-            $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceMethodReturnType);
+            $outputData = $this->dataObjectConverter->processServiceOutput($outputData, $serviceClassName, $serviceMethodName);
             if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER) && is_array($outputData)) {
                 $outputData = $this->partialResponseProcessor->filter($outputData);
             }

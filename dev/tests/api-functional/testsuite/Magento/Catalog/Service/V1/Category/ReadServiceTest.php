@@ -24,10 +24,10 @@ class ReadServiceTest extends WebapiAbstract
     public function testInfo()
     {
         $expected = [
-            'parent_id' => '3',
+            'parent_id' => 3,
             'path' => '1/2/3',
-            'position' => '1',
-            'level' => '2',
+            'position' => 1,
+            'level' => 2,
             'custom_attributes' => [
                 [
                     'attribute_code' => 'children_count',
@@ -47,11 +47,12 @@ class ReadServiceTest extends WebapiAbstract
                 ],
             ],
             'available_sort_by' => ['position', 'name'],
-            'include_in_menu' => '1',
+            'include_in_menu' => true,
             'name' => 'Category 1',
             'url_key' => 'category-1',
-            'category_id' => '333',
-            'active' => '1',
+            'display_mode' => null,
+            'category_id' => 333,
+            'active' => true,
             'children' => ['333']
         ];
 

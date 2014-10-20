@@ -11,9 +11,9 @@
  */
 namespace Magento\Webapi\DataObjectSerialization;
 
-use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
+use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseService
@@ -52,7 +52,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
     protected $customAttributeDataObjectBuilder;
 
     /**
-     * @var SimpleDataObjectConverter $dataObjectConverter
+     * @var DataObjectConverter $dataObjectConverter
      */
     protected $dataObjectConverter;
 
@@ -82,7 +82,7 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         );
 
         $this->dataObjectConverter = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\SimpleDataObjectConverter'
+            'Magento\Webapi\Controller\Rest\Response\DataObjectConverter'
         );
     }
 
@@ -157,7 +157,8 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
 
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModule1\Service\V1\Entity\Item'
+            '\Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
+            'itemAnyType'
         );
         //\Magento\TestModule1\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
@@ -188,7 +189,8 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
             ->create();
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModule1\Service\V1\Entity\Item'
+            '\Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
+            'getPreconfiguredItem'
         );
         $this->assertEquals($expectedResponse, $result);
     }
@@ -224,7 +226,8 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
 
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModule1\Service\V1\Entity\Item'
+            '\Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
+            'itemAnyType'
         );
         //\Magento\TestModule1\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);

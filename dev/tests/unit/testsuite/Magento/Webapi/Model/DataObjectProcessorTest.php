@@ -25,21 +25,7 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var \Zend\Code\Reflection\ClassReflection $classRefection */
-        $classRefection = new \Zend\Code\Reflection\ClassReflection('Magento\Webapi\Model\Files\TestDataInterface');
-        $methodReflections = $classRefection->getMethods();
-
-        $this->config = $this->getMockBuilder('Magento\Webapi\Model\Config')
-            ->disableOriginalConstructor()
-            ->setMethods(['getDataInterfaceMethods'])
-            ->getMock();
-        $this->config->expects($this->any())
-            ->method('getDataInterfaceMethods')
-            ->will($this->returnValue($methodReflections));
-        $this->dataObjectProcessor = $objectManager->getObject(
-            'Magento\Webapi\Model\DataObjectProcessor',
-            ['config' => $this->config]
-        );
+        $this->dataObjectProcessor = $objectManager->getObject('Magento\Webapi\Model\DataObjectProcessor');
         parent::setUp();
     }
 

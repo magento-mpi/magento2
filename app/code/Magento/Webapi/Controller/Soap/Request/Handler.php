@@ -117,14 +117,9 @@ class Handler
             );
         }
         $service = $this->_objectManager->get($serviceClass);
-        /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
-        /** @var ClassReflection $serviceClassReflector */
-        $serviceClassReflector = $this->_objectManager->create('Zend\Code\Reflection\ClassReflection', [$serviceClass]);
-        $serviceMethodReturnType =
-            $this->_dataObjectProcessor->getMethodReturnType($serviceClassReflector->getMethod($serviceMethod));
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
         $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
-        return $this->_prepareResponseData($outputData, $serviceMethodReturnType);
+        return $this->_prepareResponseData($outputData, $serviceClass, $serviceMethod);
     }
 
     /**
@@ -147,12 +142,16 @@ class Handler
      * Convert service response into format acceptable by SoapServer.
      *
      * @param object|array|string|int|float|null $data
-     * @param string $dataType
+     * @param string $serviceClassName
+     * @param string $serviceMethodName
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function _prepareResponseData($data, $dataType)
+    protected function _prepareResponseData($data, $serviceClassName, $serviceMethodName)
     {
+        /** @var string $dataType */
+        $dataType =
+            $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         $result = null;
         if ($data instanceof ExtensibleDataInterface) {
             $result = $this->_dataObjectConverter
