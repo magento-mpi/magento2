@@ -46,6 +46,7 @@ class Integration extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'integration_info',
     ];
 
     protected $email = [
