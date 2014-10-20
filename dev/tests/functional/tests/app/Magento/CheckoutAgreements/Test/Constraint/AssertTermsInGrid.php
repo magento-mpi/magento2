@@ -14,7 +14,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTermsInGrid
- * Check that checkout agreement is present in agreement grid
+ * Check that checkout agreement is present in agreement grid.
  */
 class AssertTermsInGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertTermsInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that checkout agreement is present in agreement grid
+     * Assert that checkout agreement is present in agreement grid.
      *
      * @param CheckoutAgreementIndex $agreementIndex
      * @param CheckoutAgreement $agreement

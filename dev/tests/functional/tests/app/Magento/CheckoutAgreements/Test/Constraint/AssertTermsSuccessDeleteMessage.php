@@ -13,12 +13,12 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
  * Class AssertTermsSuccessDeleteMessage
- * Check that after delete Term successful delete message present
+ *Check that after deleting Term successful delete message appears.
  */
 class AssertTermsSuccessDeleteMessage extends AbstractConstraint
 {
     /**
-     * Success terms and conditions save message
+     * Success terms and conditions delete message
      */
     const SUCCESS_DELETE_MESSAGE = 'The condition has been deleted.';
 
@@ -30,7 +30,7 @@ class AssertTermsSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after delete Term successful delete message present
+     * Assert that after deleting Term successful delete message appears.
      *
      * @param CheckoutAgreementIndex $agreementIndex
      * @return void
@@ -45,7 +45,7 @@ class AssertTermsSuccessDeleteMessage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */

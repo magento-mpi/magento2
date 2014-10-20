@@ -13,7 +13,7 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
  * Class AssertTermsSuccessSaveMessage
- * Check that after save block successful message appears
+ * Check that after save block successful message appears.
  */
 class AssertTermsSuccessSaveMessage extends AbstractConstraint
 {
@@ -30,7 +30,7 @@ class AssertTermsSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after save block successful message appears
+     * Assert that after save block successful message appears.
      *
      * @param CheckoutAgreementIndex $agreementIndex
      * @return void
@@ -45,7 +45,7 @@ class AssertTermsSuccessSaveMessage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */

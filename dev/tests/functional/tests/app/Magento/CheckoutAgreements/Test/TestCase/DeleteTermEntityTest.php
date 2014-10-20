@@ -26,7 +26,7 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
  * Steps:
  * 1. Open Backend Stores > Terms and Conditions
  * 2. Open created Term from preconditions
- * 3. Delete Term
+ * 3. Click on 'Delete' button
  * 4. Perform all assertions
  *
  * @group Terms_and_Conditions_(CS)
@@ -48,24 +48,23 @@ class DeleteTermEntityTest extends Injectable
     }
 
     /**
-     * Update Term Entity test
+     * Delete Term Entity test
      *
      * @param CheckoutAgreementNew $agreementNew
      * @param CheckoutAgreementIndex $agreementIndex
-     * @param CheckoutAgreement $agreementOrigin
+     * @param CheckoutAgreement $agreement
      * @return void
      */
     public function test(
         CheckoutAgreementNew $agreementNew,
         CheckoutAgreementIndex $agreementIndex,
-        CheckoutAgreement $agreementOrigin
+        CheckoutAgreement $agreement
     ) {
         // Precondition
-        $agreementOrigin->persist();
+        $agreement->persist();
 
         // Steps
-        $agreementIndex->open();
-        $agreementIndex->getAgreementGridBlock()->searchAndOpen(['name' => $agreementOrigin->getName()]);
+        $agreementIndex->open()->getAgreementGridBlock()->searchAndOpen(['name' => $agreement->getName()]);
         $agreementNew->getPageActionsBlock()->delete();
     }
 
