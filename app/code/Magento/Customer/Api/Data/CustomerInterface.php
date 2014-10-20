@@ -14,19 +14,19 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 /**
  * Customer interface.
  */
-interface Customer extends ExtensibleDataInterface
+interface CustomerInterface extends ExtensibleDataInterface
 {
     /**
      * Get customer id
      *
-     * @return int|null
+     * @return string|null
      */
     public function getId();
 
     /**
      * Get group id
      *
-     * @return string|null
+     * @return int|null
      */
     public function getGroupId();
 
@@ -145,7 +145,7 @@ interface Customer extends ExtensibleDataInterface
     /**
      * Get customer addresses.
      *
-     * @return \Magento\Customer\Api\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
      */
     public function getAddresses();
 }

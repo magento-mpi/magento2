@@ -9,21 +9,21 @@
 namespace Magento\Customer\Api\Data;
 
 /**
- * Interface for customer search results.
+ * Interface for customer groups search results.
  */
-interface CustomerSearchResults
+interface GroupSearchResultsInterface
 {
     /**
-     * Get customers list.
+     * Get customer groups list.
      *
-     * @return \Magento\Customer\Api\Data\Customer[]
+     * @return \Magento\Customer\Api\Data\GroupInterface[]
      */
     public function getItems();
 
     /**
      * Get search criteria.
      *
-     * @return \Magento\Framework\Service\V1\Data\SearchCriteria
+     * @return \Magento\Framework\Api\SearchCriteriaInterface
      */
     public function getSearchCriteria();
 

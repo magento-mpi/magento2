@@ -11,22 +11,22 @@ namespace Magento\Customer\Api;
 /**
  * Customer address CRUD interface.
  */
-interface AddressRepository
+interface AddressRepositoryInterface
 {
     /**
      * Save customer address.
      *
-     * @param \Magento\Customer\Api\Data\Address $address
-     * @return \Magento\Customer\Api\Data\Address
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function save(\Magento\Customer\Api\Data\Address $address);
+    public function save(\Magento\Customer\Api\Data\AddressInterface $address);
 
     /**
      * Retrieve customer address.
      *
      * @param int $addressId
-     * @return \Magento\Customer\Api\Data\Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($addressId);
@@ -34,17 +34,17 @@ interface AddressRepository
     /**
      * Retrieve customers addresses matching the specified criteria.
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Customer\Api\Data\AddressSearchResults
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \Magento\Customer\Api\Data\AddressSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete customer address.
      *
      * @param int $addressId
-     * @return int
+     * @return bool True on success.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete($addressId);

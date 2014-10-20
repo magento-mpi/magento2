@@ -12,7 +12,7 @@ namespace Magento\Customer\Api\Data;
 /**
  * Validation results interface.
  */
-interface ValidationResults
+interface ValidationResultsInterface
 {
     /**
      * Check if the provided data is valid.

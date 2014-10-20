@@ -11,7 +11,7 @@ namespace Magento\Customer\Api\Data;
 /**
  * Customer attribute metadata interface.
  */
-interface AttributeMetadata
+interface AttributeMetadataInterface
 {
     /**
      * Retrieve code of the attribute.

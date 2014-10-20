@@ -6,34 +6,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
- * Customer group interface.
+ * Customer address region interface.
  */
-interface Group extends ExtensibleDataInterface
+interface RegionInterface extends ExtensibleDataInterface
 {
     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId();
-
-    /**
-     * Get code
+     * Get region code
      *
      * @return string
      */
-    public function getCode();
+    public function getRegionCode();
 
     /**
-     * Get tax class id
+     * Get region
+     *
+     * @return string
+     */
+    public function getRegion();
+
+    /**
+     * Get region id
      *
      * @return int
      */
-    public function getTaxClassId();
+    public function getRegionId();
 }

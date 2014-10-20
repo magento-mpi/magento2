@@ -11,7 +11,7 @@ namespace Magento\Customer\Api;
 /**
  * Interface for managing customer groups.
  */
-interface GroupManagement
+interface GroupManagementInterface
 {
     /**
      * Check if customer group can be deleted.
@@ -27,7 +27,7 @@ interface GroupManagement
      * Get default customer group.
      *
      * @param int $storeId
-     * @return \Magento\Customer\Api\Data\Group
+     * @return \Magento\Customer\Api\Data\GroupInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */

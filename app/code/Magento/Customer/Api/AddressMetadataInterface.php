@@ -11,7 +11,7 @@ namespace Magento\Customer\Api;
 /**
  * Interface for retrieval information about customer address attributes metadata.
  */
-interface AddressMetadataServiceInterface extends MetadataServiceInterface
+interface AddressMetadataInterface extends MetadataInterface
 {
     const ATTRIBUTE_SET_ID_ADDRESS = 2;
 
