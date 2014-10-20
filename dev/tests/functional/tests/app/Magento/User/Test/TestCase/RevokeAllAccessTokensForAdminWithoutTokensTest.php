@@ -19,12 +19,12 @@ use Magento\User\Test\Page\Adminhtml\UserIndex;
  * Test Flow:
  *
  * Steps:
- * 1. Open Backend
- * 2. Open System > All Users
- * 3. Open admin from the user grid
- * 4. Click button Force Sign-in
- * 5. Click Ok on popup window
- * 6. Perform all asserts
+ * 1. Open Backend.
+ * 2. Open System > All Users.
+ * 3. Open admin from the user grid.
+ * 4. Click button Force Sign-in.
+ * 5. Click Ok on popup window.
+ * 6. Perform all asserts.
  *
  * @group Web_API_Framework_(PS)
  * @ZephyrId MAGETWO-29675
