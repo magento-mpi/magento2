@@ -5,21 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
- * Product item object.
+ * Shopping cart item data object.
+ * 
+ * @codeCoverageIgnore
  */
 class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {
-    /**#@+
-     * Constants defined for keys of array.
-     */
     /**
      * Item ID.
      */
     const ITEM_ID = 'item_id';
-
+    
     /**
      * Product SKU.
      */
@@ -68,7 +68,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     /**
      * Returns the product quantity.
      *
-     * @return int Product quantity. Otherwise, null.
+     * @return int Product quantity.
      */
     public function getQty()
     {
