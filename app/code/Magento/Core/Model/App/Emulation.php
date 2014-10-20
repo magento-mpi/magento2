@@ -101,7 +101,7 @@ class Emulation extends \Magento\Framework\Object
      *
      * @param integer $storeId
      * @param string $area
-     * @returns void
+     * @return void
      */
     public function startEnvironmentEmulation(
         $storeId,
@@ -168,6 +168,8 @@ class Emulation extends \Magento\Framework\Object
 
     /**
      * Stores current environment info
+     *
+     * @return void
      */
     public function storeCurrentEnvironmentInfo()
     {

@@ -91,7 +91,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param $code
+     * @param string $code
      * @return string
      */
     protected function getMethodModelConfigName($code)
@@ -116,9 +116,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Get and sort available payment methods for specified or current store
-     *
-     * Array structure:
-     *  $index => \Magento\Framework\Simplexml\Element
      *
      * @param null|string|bool|int|Store $store
      * @param Quote|null $quote
