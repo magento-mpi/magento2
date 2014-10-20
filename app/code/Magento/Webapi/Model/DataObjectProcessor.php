@@ -76,7 +76,8 @@ class DataObjectProcessor
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 if ($value !== null) {
-                    $outputData[SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2))] = $value;
+                    $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
+                    $outputData[$key] = $this->castValueToType($value, $returnType);
                 }
             } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX &&
                 $methodName !== 'getCustomAttribute') {
