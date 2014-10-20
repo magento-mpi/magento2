@@ -1,6 +1,6 @@
 <?php
 /**
- * RSS Authentication plugin
+ * RSS Backend Authentication plugin
  *
  * {license_notice}
  *
@@ -14,10 +14,10 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\AbstractAction;
 
 /**
- * Class Authentication
+ * Class BackendAuthentication
  * @package Magento\Rss\App\Action\Plugin
  */
-class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
+class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
     /**
      * @var \Magento\Framework\HTTP\Authentication

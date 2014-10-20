@@ -11,7 +11,7 @@ namespace Magento\Rss\Controller;
  * Class Feed
  * @package Magento\Rss\Controller
  */
-class Feed extends \Magento\Framework\App\Action\Action
+class Feed extends \Magento\Rss\Controller\Authenticate
 {
     /**
      * @var \Magento\Rss\Model\RssManager
