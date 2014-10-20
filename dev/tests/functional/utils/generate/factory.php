@@ -7,6 +7,8 @@
  */
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
+$includePath = new \Magento\Framework\Autoload\IncludePath();
+spl_autoload_register([$includePath, 'load']);
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
 
 $mtfRoot = dirname(dirname(dirname(__FILE__)));
