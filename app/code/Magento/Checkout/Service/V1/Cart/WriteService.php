@@ -151,12 +151,6 @@ class WriteService implements WriteServiceInterface
      * @return boolean
      * @throws \Magento\Framework\Exception\StateException The customer cannot be assigned to the specified cart: The cart belongs to a different store or is not anonymous, or the customer already has an active cart.
      */
-    /**
-     * @param int $cartId The cart ID.
-     * @param int $customerId The customer ID.
-     * @return boolean
-     * @throws \Magento\Framework\Exception\StateException The customer cannot be assigned to the specified cart: The cart belongs to a different store or is not anonymous, or the customer already has an active cart.
-     */
     public function assignCustomer($cartId, $customerId)
     {
         $storeId = $this->storeManager->getStore()->getId();
