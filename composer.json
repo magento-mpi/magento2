@@ -229,7 +229,7 @@
             "Magento\\": ["app/code/Magento/"]
         }
     },
-    "include-path": ["lib/internal/Zend"],
+    "include-path": ["/lib/internal", "/app/code"],
     "autoload-dev" : {
         "psr-4" : {
             "Magento\\Tools\\" : [

@@ -18,7 +18,3 @@ $vendorAutoload = BP . "/{$vendorDir}/autoload.php";
 if (file_exists($vendorAutoload)) {
     require_once $vendorAutoload;
 }
-
-// Required to set paths for code generation
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-$includePath->addIncludePath([BP . '/app/code', BP . '/lib/internal']);
