@@ -92,14 +92,15 @@
 
 .page-title {
     .order-date {
-        margin: 0 0 20px;
+        margin: 0 0 @indent-base;
     }
 }
 
-.account {
+.account,
+.sales-guest-view {
     .page-title {
         .title {
-            margin-right: 25px;
+            margin-right: @indent-m-base;
         }
     }
 }
@@ -197,7 +198,6 @@
                 tr {
                     display: block;
                 }
-                &:extend(.abstract-table-vertical-mobile-s all);
                 tbody,
                 tfoot {
                     > tr > td {
@@ -283,6 +283,13 @@
         .action.print {
             display: block;
             float: right;
+        }
+    }
+
+    .page-title {
+        .order-date {
+            @order-status-indent: ceil(@h1-margin-bottom-desktop/2);
+            .css(margin-top, -@order-status-indent);
         }
     }
 

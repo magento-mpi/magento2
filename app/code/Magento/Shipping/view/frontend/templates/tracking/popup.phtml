@@ -9,11 +9,6 @@
 <?php /** @var $this \Magento\Shipping\Block\Tracking\Popup */ ?>
 <?php $_results = $this->getTrackingInfo(); ?>
 <div class="page tracking">
-    <div class="page-title">
-        <h1 class="title">
-            <span class="base"><?php echo __('Tracking Information'); ?></span>
-        </h1>
-    </div>
     <?php if(sizeof($_results)>0): ?>
     <?php foreach($_results as $shipid => $_result): ?>
         <?php if($shipid): ?>

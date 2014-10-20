@@ -17,7 +17,7 @@
 <div class="block block-return-details">
     <div class="block-content">
         <div class="box box-returns-requested">
-            <div class="box-title"><strong><?php echo __('Request Information') ?></strong></div>
+            <strong class="box-title"><span><?php echo __('Request Information') ?></span></strong>
             <div class="box-content">
                 <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br>
                 <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="box box-treturns-shipping">
-            <div class="box-title"><strong><?php echo __('Shipping Address') ?></strong></div>
+            <strong class="box-title"><span><?php echo __('Shipping Address') ?></span></strong>
             <div class="box-content">
                 <address>
                     <?php echo $this->getAddress() ?>
@@ -67,7 +67,7 @@
             <div class="block-content">
                 <form method="post"
                       id="rma_track_info"
-                      class="form tracking"
+                      class="form form-tracking"
                       data-mage-init='{"rmaTrackInfo":{"addLabelUrl": "<?php echo $this->getAddLabelUrl() ?>"}, "validation":{}}'>
                     <div class="table-wrapper">
                         <table class="data table" id="track-info-table">
@@ -195,7 +195,6 @@
                     <?php foreach($_comments as $_comment): ?>
                         <?php if ($_comment->getIsVisibleOnFront()): ?>
                             <dt class="returns-comment-date">
-                                <?php echo $this->formatDate($_comment->getCreatedAt()) ?> <?php echo $this->formatTime($_comment->getCreatedAt()) ?>
                                 <strong class="returns-comment-autor">
                                     <?php if ($_comment->getIsAdmin()): ?>
                                         <?php echo __('Customer Service')?>
@@ -203,6 +202,7 @@
                                         <?php echo $this->escapeHtml($this->getCustomerName())?>
                                     <?php endif; ?>
                                 </strong>
+                                <?php echo $this->formatDate($_comment->getCreatedAt()) ?> <?php echo $this->formatTime($_comment->getCreatedAt()) ?>
                             </dt>
                             <dd class="returns-comment-text">
                                 <?php echo nl2br($this->escapeHtml($_comment->getComment())); ?>

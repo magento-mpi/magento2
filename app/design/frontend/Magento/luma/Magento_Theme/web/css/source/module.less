@@ -37,6 +37,8 @@
 @button-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 1), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
 @button-shadow-active: inset 0px 1px 0px 0px fade(@border-color-base, 80), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
 
+@h1-margin-bottom-desktop: @indent-xl-base;
+
 body {
     .css(background-color, @page-bg-color);
 }
@@ -105,10 +107,6 @@ body {
 
 .page.main {
     > .page-title {
-        .title {
-            margin: 0;
-        }
-        margin-bottom: @indent-l-base;
         .title + .action {
             margin-top: @indent-l-base;
         }
@@ -367,7 +365,6 @@ body {
 
     .page.main {
         > .page-title {
-            margin-bottom: @indent-l-base;
             .title {
                 display: inline-block;
             }

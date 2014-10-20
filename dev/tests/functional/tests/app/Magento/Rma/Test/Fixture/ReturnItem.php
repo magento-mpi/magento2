@@ -32,9 +32,7 @@ class ReturnItem extends DataFixture
     public function prepareData($fixture)
     {
         $this->_data['fields']['order_id']['value'] = $fixture->getOrderId();
-        $this->_data['fields']['billing_last_name']['value'] = $fixture->getBillingAddress()->getData(
-            'fields/lastname/value'
-        );
+        $this->_data['fields']['billing_last_name']['value'] = $fixture->getBillingAddress()->getLastName();
         $this->_data['fields']['email_address']['value'] = $fixture->getCustomer()->getData('fields/login_email/value');
     }
 

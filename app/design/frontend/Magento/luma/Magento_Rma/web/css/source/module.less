@@ -40,6 +40,9 @@
         dd {
             margin: 0;
         }
+        dt {
+            font-weight: @font-weight-base;
+        }
         dd {
             margin-bottom: 15px;
             &:last-child {
@@ -48,7 +51,7 @@
         }
     }
     .fieldset {
-        margin-bottom: 20px;
+        margin-bottom: @indent-base;
     }
 }
 
@@ -86,6 +89,21 @@
     .magento-rma-returns-view {
         &:extend(.abstract-title-orders-mobile all);
     }
+    .account {
+        .column.main {
+            .returns-details-items {
+                .block-returns-tracking {
+                    .block-title {
+                        > .action.track {
+                            float: none;
+                            display: block;
+                            margin: @indent-s-base 0 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 //
@@ -114,6 +132,16 @@
                 clear: none;
                 float: left;
                 width: 100%/4;
+            }
+        }
+    }
+    .block-returns-tracking {
+        .block-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
+                }
             }
         }
     }

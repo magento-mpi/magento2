@@ -7,33 +7,36 @@
  */
 ?>
 <?php if ($this->getSearchResults() && $this->getSearchResults()->getSize()): ?>
-    <div class="block wishlist find results">
-        <div class="title">
+    <div class="block block-wishlist-search-results">
+        <div class="block-title">
             <strong><?php echo __('Search Results') ?></strong>
         </div>
-        <?php echo $this->getChildHtml('pager') ?>
-        <div class="table-wrapper">
-            <table class="wishlist data table" id="wishlist-search-results">
-                <caption class="table-caption"><?php echo __('Search Results') ?></caption>
-                <thead>
-                <tr>
-                    <th class="col name" scope="col"><?php echo __('Name') ?></th>
-                    <th class="col list" scope="col"><?php echo __('Wish List Name') ?></th>
-                    <th class="col actions" scope="col"><?php echo __('Actions') ?></th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach($this->getSearchResults() as $item): ?>
+        <div class="block-content">
+            <div class="table-wrapper">
+                <table class="wishlist data table" id="wishlist-search-results">
+                    <caption class="table-caption"><?php echo __('Search Results') ?></caption>
+                    <thead>
                     <tr>
-                        <td data-th="<?php echo $this->escapeHtml(__('Name')); ?>" class="col name"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
-                        <td data-th="<?php echo $this->escapeHtml(__('Wish List Name')); ?>" class="col list"><?php echo $this->escapeHtml($item->getName()) ?></td>
-                        <td data-th="<?php echo $this->escapeHtml(__('Actions')); ?>" class="col actions"><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>" class="action view"><?php echo __('View') ?></a></td>
+                        <th class="col name" scope="col"><?php echo __('Name') ?></th>
+                        <th class="col list" scope="col"><?php echo __('Wish List Name') ?></th>
+                        <th class="col actions" scope="col"><?php echo __('Actions') ?></th>
                     </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <?php foreach($this->getSearchResults() as $item): ?>
+                        <tr>
+                            <td class="col name" data-th="<?php echo $this->escapeHtml(__('Name')); ?>"><?php echo $this->escapeHtml($item->getCustomer()->getName()) ?></td>
+                            <td class="col list" data-th="<?php echo $this->escapeHtml(__('Wish List Name')); ?>"><?php echo $this->escapeHtml($item->getName()) ?></td>
+                            <td class="col actions" data-th="<?php echo $this->escapeHtml(__('Actions')); ?>"><a href="<?php echo $this->getWishlistLink($item) ?>" title="<?php echo __('View') ?>" class="action view"><?php echo __('View') ?></a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($this->getChildHtml('pager')): ?>
+                <div class="toolbar toolbar-wishlist-results bottom"><?php echo $this->getChildHtml('pager') ?></div>
+            <?php endif; ?>
         </div>
-        <?php echo $this->getChildHtml('pager') ?>
     </div>
 <?php else: ?>
     <div class="message error"><div><?php echo __('Your search returned no results.') ?></div></div>

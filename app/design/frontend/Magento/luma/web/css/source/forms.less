@@ -23,7 +23,8 @@
     &:last-child {
         margin-bottom: 0;
     }
-    > .field {
+    > .field,
+    > .fields > .field {
         .form-field();
         &.no-label {
             > .label {
@@ -120,7 +121,8 @@ select:focus ~ .tooltip .tooltip-content {
 .sidebar {
     .fieldset {
         margin: 0;
-        > .field:not(.choice) > {
+        > .field:not(.choice) >,
+        .fields > .field {
             margin: 0 0 @form-field-vertical-indent;
             .label {
                 padding: 0 0 5px;

@@ -31,6 +31,7 @@
 @product-name-text-decoration-hover: @link-text-decoration-hover;
 
 @toolbar-mode-icon-font-size: 26px;
+@product-h1-margin-bottom-desktop: @indent-base;
 
 @import "listings.less";
 @import "toolbar.less";
@@ -160,6 +161,11 @@
 }
 
 .product-info-main {
+    .page-title {
+        .title {
+            .css(margin-bottom, @product-h1-margin-bottom-desktop);
+        }
+    }
     .stock {
         &.available,
         &.unavailable {
