@@ -56,8 +56,8 @@ class ProductTypeList implements ProductTypeListInterface
             $productTypes = array();
             foreach ($this->productTypeConfig->getAll() as $productTypeData) {
                 $productTypes[] = $this->productTypeFactory->create(array(
-                    'name' => $productTypeData['name'],
-                    'label' => $productTypeData['label']
+                    'key' => $productTypeData['name'],
+                    'value' => $productTypeData['label']
                 ));
             }
         }
