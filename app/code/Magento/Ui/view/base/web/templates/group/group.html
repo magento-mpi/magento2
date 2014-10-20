@@ -40,7 +40,7 @@
                     <!-- /ko -->
 
                     <!-- ko if: element.notice -->
-                    <div class="note"><span data-bind="text: element.notice"></span></div>
+                    <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: element.notice"></span></div>
                     <!-- /ko -->
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <!-- /ko -->
 
                         <!-- ko if: element.notice -->
-                        <div class="note"><span data-bind="text: element.notice"></span></div>
+                        <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: element.notice"></span></div>
                         <!-- /ko -->
                     </div>
                 </div>
@@ -125,7 +125,7 @@
         </div>
         <!-- /ko -->
         <!-- ko if: element.notice -->
-        <div class="note"><span data-bind="text: notice"></span></div>
+        <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: notice"></span></div>
         <!-- /ko -->
     <!-- /ko -->
     <!-- ko foreach: { data: invalids, as: 'element' } -->

@@ -109,7 +109,10 @@
                 },
                 "input": {
                     "extends": "base",
-                    "component": "Magento_Ui/js/form/element/abstract"
+                    "component": "Magento_Ui/js/form/element/abstract",
+                    "config": {
+                        "input_type": "input"
+                    }
                 },
                 "textarea": {
                     "extends": "base",
@@ -119,11 +122,10 @@
                     }
                 },
                 "checkbox": {
-                    "extends": "input",
+                    "extends": "base",
+                    "component": "Magento_Ui/js/form/element/boolean",
                     "config": {
-                        "input_type": "checkbox",
-                        "data_type": "boolean",
-                        "template": "ui/form/element/checkbox"
+                        "input_type": "checkbox"
                     }
                 },
                 "selectbox": {
@@ -136,15 +138,13 @@
                 "media": {
                     "extends": "input",
                     "config": {
-                        "input_type": "media",
-                        "template": "ui/form/element/media"
+                        "input_type": "media"
                     }
                 },
                 "date": {
                     "extends": "input",
                     "config": {
-                        "input_type": "date",
-                        "template": "ui/form/element/date"
+                        "input_type": "date"
                     }
                 },
                 "area": {
@@ -379,7 +379,6 @@
                             "type": "input",
                             "config": {
                                 "index": "prefix",
-                                "input_type": "input",
                                 "label": "Prefix",
                                 "validation": {
                                     "required-entry": true,
@@ -389,9 +388,8 @@
                         },
                         "firstname": {
                             "type": "input",
-                                "config": {
+                            "config": {
                                 "index": "firstname",
-                                "input_type": "input",
                                 "label": "First Name",
                                 "validation": {
                                     "required-entry": true
@@ -402,7 +400,6 @@
                             "type": "input",
                             "config": {
                                 "index": "middle_name",
-                                "input_type": "input",
                                 "label": "Middle Name/Initial",
                                 "validation": {
                                     "required-entry": true
@@ -413,8 +410,6 @@
                             "type": "input",
                             "config": {
                                 "index": "lastname",
-                                "data_type": "text",
-                                "input_type": "input",
                                 "label": "Last Name"
                             }
                         },
@@ -422,8 +417,6 @@
                             "type": "input",
                             "config": {
                                 "index": "suffix",
-                                "data_type": "text",
-                                "input_type": "input",
                                 "label": "Suffix"
                             }
                         },
@@ -459,7 +452,6 @@
                             "type": "selectbox",
                             "config": {
                                 "index": "website",
-                                "data_type": "text",
                                 "label": "Associate to Website",
                                 "caption": "Please select ...",
                                 "options": [
