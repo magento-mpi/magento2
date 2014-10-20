@@ -104,7 +104,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testPrepareAndRender()
     {
         $this->_helper->prepareAndRender($this->page, 10, $this->_controller);
-        $this->assertNotEmpty($this->_controller->getResponse()->getBody());
+        /** @var \Magento\TestFramework\Response $response */
+        $response = $this->objectManager->get('Magento\TestFramework\Response');
+        $this->page->renderResult($response);
+        $this->assertNotEmpty($response->getBody());
         $this->assertEquals(
             10,
             $this->objectManager->get(

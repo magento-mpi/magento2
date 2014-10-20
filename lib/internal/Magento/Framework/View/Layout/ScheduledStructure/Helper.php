@@ -118,6 +118,7 @@ class Helper
     protected function _overrideElementWorkaround(Layout\ScheduledStructure $scheduledStructure, $name, $path)
     {
         if ($scheduledStructure->hasStructureElement($name)) {
+            $scheduledStructure->setStructureElementData($name, []);
             foreach ($scheduledStructure->getPaths() as $potentialChild => $childPath) {
                 if (0 === strpos($childPath, "{$path}/")) {
                     $scheduledStructure->unsetPathElement($potentialChild);
