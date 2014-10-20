@@ -32,7 +32,7 @@ class ReadServiceTest extends WebapiAbstract
                 'product_links' => [
                     [
                         'sku' => 'simple',
-                        'qty' => 1.0,
+                        'qty' => 1,
                         'position' => 0,
                         'defined' => true,
                         'default' => false,
@@ -69,7 +69,7 @@ class ReadServiceTest extends WebapiAbstract
             'product_links' => [
                 [
                     'sku' => 'simple',
-                    'qty' => 1.0,
+                    'qty' => 1,
                     'position' => 0,
                     'defined' => true,
                     'default' => false,
