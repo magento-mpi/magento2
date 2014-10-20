@@ -32,6 +32,11 @@ define([ 'ko' ], function (ko) {
             var unwrappedArray = ko.utils.unwrapObservable(valueAccessor());
             var filteredArray;
 
+            // {{option}} object settings
+            var optionsText = ko.utils.unwrapObservable(allBindings.get('optionsText')) || 'text';
+            var optionsValue = ko.utils.unwrapObservable(allBindings.get('optionsValue')) || 'value';
+
+
             var previousSelectedValues;
             var itemUpdate = false;
             var callback = setSelectionCallback;
@@ -127,18 +132,18 @@ define([ 'ko' ], function (ko) {
                     itemUpdate = true;
                 }
 
-                if (arrayEntry === captionPlaceholder) {
+                if (arrayEntry === captionPlaceholder) {// empty value, label === caption
                     option = element.ownerDocument.createElement("option");
 
                     ko.utils.setTextContent(option, allBindings.get('optionsCaption'));
                     ko.selectExtensions.writeValue(option, undefined);
-                } else if (!arrayEntry['value']) { // empty value === optgroup
+                } else if (!arrayEntry[optionsValue]) { // empty value === optgroup
                     option = element.ownerDocument.createElement("optgroup");
-                    option.setAttribute('label', arrayEntry.label);
+                    option.setAttribute('label', arrayEntry[optionsText]);
                 } else {
                     option = element.ownerDocument.createElement("option");
-                    ko.selectExtensions.writeValue(option, arrayEntry.value);
-                    ko.utils.setTextContent(option, arrayEntry.label);
+                    ko.selectExtensions.writeValue(option, arrayEntry[optionsValue]);
+                    ko.utils.setTextContent(option, arrayEntry[optionsText]);
                 }
                 return [option];
             }
@@ -174,26 +179,22 @@ define([ 'ko' ], function (ko) {
                     }
                 }
                 ko.utils.arrayForEach(options, function (option, index) {
-                    var label, value;
+                    var label, value, obj = {};
 
-                    value = applyToObject(option, allBindings.get('optionsValue'), option);
-                    value = ko.utils.unwrapObservable(value);
-                    label = applyToObject(option, allBindings.get('optionsText'), value);
+                    value = applyToObject(option, optionsValue, option);
+                    label = applyToObject(option, optionsText, value);
                     label = strPad('\u00a0\u00a0', nestedOptionsLevel) + label;
 
                     if (Array.isArray(value)) {
-                        res.push({
-                            label: label,
-                            value: undefined
-                        });
+                        obj[optionsText] = label;
+                        obj[optionsValue] = undefined;
+                        res.push(obj);
 
                         res = res.concat(formatOptions(value));
                     } else {
-
-                        res.push({
-                            label: label,
-                            value: value
-                        });
+                        obj[optionsText] = label;
+                        obj[optionsValue] = value;
+                        res.push(obj);
                     }
                 });
                 nestedOptionsLevel--;
