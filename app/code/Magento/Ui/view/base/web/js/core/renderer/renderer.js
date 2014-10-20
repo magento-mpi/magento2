@@ -13,7 +13,7 @@ define([
 
         render: function(data){
             this.layout.process(data.layout);
-            this.types.process(data.types);
+            this.types.set(data.types);
         }
     });
 });

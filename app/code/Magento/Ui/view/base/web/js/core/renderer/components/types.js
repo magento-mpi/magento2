@@ -21,6 +21,8 @@ define([
         },
 
         set: function(types){
+            types = types || [];
+            
             _.each(types, function(data, type){
                 this.types[type] = this.flatten(data);
             }, this);

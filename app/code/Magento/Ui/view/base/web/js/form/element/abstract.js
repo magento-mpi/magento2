@@ -23,8 +23,8 @@ define([
         description:        '',
         label:              '',
         error:              '',
-        addbefore:          '',
-        addafter:           '',
+        addbefore:          null,
+        addafter:           null,
         notice:             null
     };
 
@@ -59,7 +59,7 @@ define([
             this.value = this.provider.data.get(this.name);
 
             rules = this.validation = this.validation || {};
-            
+
             this.observe({
                 'value':         this.initialValue = this.provider.data.get(this.name),
                 'required':      rules['required-entry'],
@@ -103,6 +103,10 @@ define([
             });
 
             return self;
+        },
+
+        hasAddons: function () {
+            return (this.addbefore !== null) || (this.addafter !== null);
         },
 
         /**
