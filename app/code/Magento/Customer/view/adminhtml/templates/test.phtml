@@ -47,30 +47,44 @@
                         "addresses": {
                             "0": {
                                 "0": {
-                                    "prefix": "Bla",
-                                    "middle_name": "Some middle_name"
+                                    "firstname": "Misha"
                                 },
-                                "1": {
-                                    "firstname": "Yo"
+                                "2": {
+                                    "lastname": "Miroshnikov"
+                                },
+                                "3": {
+                                    "prefix": "Mr. "
+                                },
+                                "4": {
+                                    "suffix": " Jr."
                                 }
                             },
                             "1": {
                                 "0": {
-                                    "prefix": "Bla another"
+                                    "firstname": "Denys"
                                 },
-                                "1": {
-                                    "lastname": "Yo"
+                                "2": {
+                                    "lastname": "Rul"
+                                },
+                                "3": {
+                                    "prefix": "Mr. "
+                                },
+                                "4": {
+                                    "suffix": " Jr."
                                 }
                             },
                             "2": {
                                 "0": {
-                                    "prefix": "Hey"
-                                }
-                            },
-                            "3": {
-                                "0": {
-                                    "prefix": "Wow prefix",
-                                    "middle_name": "Wow middle_name"
+                                    "firstname": "Anton"
+                                },
+                                "2": {
+                                    "lastname": "Guz"
+                                },
+                                "3": {
+                                    "prefix": "Mr. "
+                                },
+                                "4": {
+                                    "suffix": " Jr."
                                 }
                             }
                         }
@@ -156,30 +170,6 @@
                 "children": {
                     "0": {
                         "children": {
-                            "prefix": {
-                                "type": "input",
-                                "config": {
-                                    "index": "prefix",
-                                    "label": "Prefix",
-                                    "validation": {
-                                        "letters-only": true
-                                    }
-                                }
-                            },
-                            "middle_name": {
-                                "type": "input",
-                                "config": {
-                                    "index": "middle_name",
-                                    "label": "Middle Name",
-                                    "validation": {
-                                        "required-entry": true
-                                    }    
-                                }
-                            }
-                        }
-                    },
-                    "1": {
-                        "children": {
                             "firstname": {
                                 "type": "input",
                                 "config": {
@@ -192,14 +182,67 @@
                             }
                         }
                     },
+                    "1": {
+                        "children": {
+                            "middle_name": {
+                                "type": "input",
+                                "config": {
+                                    "index": "middle_name",
+                                    "label": "Middle Name"
+                                }
+                            }
+                        }
+                    },
                     "2": {
                         "children": {
                             "lastname": {
                                 "type": "input",
                                 "config": {
                                     "index": "lastname",
-                                    "input_type": "input",
-                                    "label": "Last Name"
+                                    "label": "Last Name",
+                                    "validation": {
+                                        "required-entry": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "3": {
+                        "children": {
+                            "prefix": {
+                                "type": "input",
+                                "config": {
+                                    "index": "prefix",
+                                    "label": "Prefix"
+                                }
+                            }
+                        }
+                    },
+                    "4": {
+                        "children": {
+                            "suffix": {
+                                "type": "input",
+                                "config": {
+                                    "index": "suffix",
+                                    "label": "Suffix"
+                                }
+                            }
+                        }
+                    },
+                    "5": {
+                        "children": {
+                            "address": {
+                                "type": "input",
+                                "config": {
+                                    "index": "address",
+                                    "label": "Address"
+                                }
+                            },
+                            "use_default": {
+                                "type": "checkbox",
+                                "config": {
+                                    "index": "use_default",
+                                    "label": "Use Default Address"
                                 }
                             }
                         }
@@ -570,53 +613,6 @@
                             "index": "disable_auto",
                             "description": "Disable Automatic Group"
                         }
-                    },
-                    "address": {
-                        "children": {
-                            "prefix": {
-                                "type": "input",
-                                "config": {
-                                    "index": "prefix",
-                                    "input_type": "input",
-                                    "label": "Prefix",
-                                    "validation": {
-                                        "required-entry": true,
-                                        "letters-only": true
-                                    }  
-                                }
-                            },
-                            "firstname": {
-                                "type": "input",
-                                "config": {
-                                    "index": "firstname",
-                                    "input_type": "input",
-                                    "label": "First Name",
-                                    "validation": {
-                                        "required-entry": true
-                                    }
-                                }
-                            },
-                            "middle_name": {
-                                "type": "input",
-                                "config": {
-                                    "index": "middle_name",
-                                    "input_type": "input",
-                                    "label": "Middle Name/Initial",
-                                    "validation": {
-                                        "required-entry": true
-                                    }
-                                }
-                            },
-                            "lastname": {
-                                "type": "input",
-                                "config": {
-                                    "index": "lastname",
-                                    "data_type": "text",
-                                    "input_type": "input",
-                                    "label": "Last Name"
-                                }
-                            }
-                        }
                     }
                 }
             },
@@ -712,22 +708,6 @@
                             "form.general",
                             "form.disable_auto"
                         ]
-                    },
-                    "customer_address_general": {
-                        "children": [
-                            "customer_address.prefix",
-                            "customer_address.middle_name"
-                        ]
-                    },
-                    "customer_address_firstname": {
-                        "children": [
-                            "customer_address.firstname"
-                        ]
-                    },
-                    "customer_address_middle_name": {
-                        "children": [
-                            "customer_address.middle_name"
-                        ]
                     }
                 }
             },
@@ -741,7 +721,16 @@
                     "removeLabel": "Remove Address",
                     "addLabel": "Add New Address",
                     "title": "Edit Customer's Address",
-                    "removeMessage": "Are you sure you want to delete this address?"
+                    "removeMessage": "Are you sure you want to delete this address?",
+                    "composite": {
+                        "title": [
+                            "prefix",
+                            "firstname",
+                            "middle_name",
+                            "lastname",
+                            "suffix"
+                        ]
+                    }
                 }
             },
             "html_content": {

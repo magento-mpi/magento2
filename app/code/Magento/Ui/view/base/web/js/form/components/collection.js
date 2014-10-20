@@ -82,7 +82,7 @@ define([
 
         addEmptyChild: function () {
             var last    = this.elems.last(),
-                index   = ++last.index;
+                index   = last ? ++last.index : 0;
                 
             this.createChild(index);
         },
