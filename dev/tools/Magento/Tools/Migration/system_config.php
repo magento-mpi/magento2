@@ -21,7 +21,9 @@ use Magento\Tools\Migration\System\Configuration\Logger as Logger;
 
 $rootDir = realpath(__DIR__ . '../../../../../../');
 require __DIR__ . '/../../../../../app/autoload.php';
-(new IncludePath())->addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
+$includePath = new \Magento\Framework\Autoload\IncludePath();
+spl_autoload_register([$includePath, 'load']);
+$includePath->addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
 $defaultReportFile = 'report.log';
 
 try {
