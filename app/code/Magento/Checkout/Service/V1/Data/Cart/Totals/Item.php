@@ -135,7 +135,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Returns the row total in base currency
+     * Returns the row total in base currency.
      *
      * @return float Row total in base currency.
      */
@@ -185,7 +185,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Returns the discount amount in quote currency
+     * Returns the discount amount in quote currency.
      *
      * @return float|null Discount amount in quote currency. Otherwise, null.
      */
@@ -195,7 +195,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Returns the discount amount in base currency
+     * Returns the discount amount in base currency.
      *
      * @return float|null Discount amount in base currency. Otherwise, null.
      */
@@ -215,7 +215,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Returns the price including tax in quote currency
+     * Returns the price including tax in quote currency.
      *
      * @return float|null Price including tax in quote currency. Otherwise, null.
      */
