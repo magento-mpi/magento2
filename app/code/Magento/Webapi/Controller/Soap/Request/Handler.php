@@ -157,6 +157,7 @@ class Handler
             $result = $this->_dataObjectConverter
                 ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
+            $dataType = substr($dataType, 0, -2);
             foreach ($data as $key => $value) {
                 if ($value instanceof ExtensibleDataInterface) {
                     $result[] = $this->_dataObjectConverter
