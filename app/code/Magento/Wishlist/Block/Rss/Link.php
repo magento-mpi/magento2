@@ -68,7 +68,9 @@ class Link extends \Magento\Framework\View\Element\Template
     protected function getLinkParams()
     {
         $params = array();
-        $wishlistId = $this->wishlistHelper->getWishlist()->getId();
+        $wishlist = $this->wishlistHelper->getWishlist();
+        $wishlistId = $wishlist->getId();
+        $sharingCode = $wishlist->getSharingCode();
         $customer = $this->wishlistHelper->getCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
@@ -80,6 +82,7 @@ class Link extends \Magento\Framework\View\Element\Template
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;
+            $params['sharing_code'] = $sharingCode;
         }
         return $params;
     }

@@ -214,10 +214,7 @@ class Wishlist implements DataProviderInterface
     protected function getWishlist()
     {
         $wishlist = $this->wishlistHelper->getWishlist();
-        $currentCustomer = $this->wishlistHelper->getCustomer();
-        if (!$wishlist->getVisibility() && $currentCustomer
-            && ($wishlist->getCustomerId() != $currentCustomer->getId())
-        ) {
+        if ($wishlist->getSharingCode() != $this->request->getParam('sharing_code')) {
             $wishlist->unsetData();
         }
         return $wishlist;
