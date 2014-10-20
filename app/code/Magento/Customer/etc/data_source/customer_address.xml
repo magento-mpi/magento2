@@ -1,4 +1,4 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/dataSource.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
     <datasource name="customer_address" dataset="Magento\Customer\Model\Resource\Address\Collection">
         <fields>
             <field name="entity_id" dataType="int" visible="false"/>
