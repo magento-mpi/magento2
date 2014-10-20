@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
- * Class AssertTermsSuccessDeleteMessage
- *Check that after deleting Term successful delete message appears.
+ * Class AssertTermSuccessDeleteMessage
+ * Check that after deleting Term successful delete message appears.
  */
-class AssertTermsSuccessDeleteMessage extends AbstractConstraint
+class AssertTermSuccessDeleteMessage extends AbstractConstraint
 {
     /**
      * Success terms and conditions delete message

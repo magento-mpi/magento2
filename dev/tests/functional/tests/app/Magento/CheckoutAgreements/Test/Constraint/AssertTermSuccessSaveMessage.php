@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
- * Class AssertTermsSuccessSaveMessage
+ * Class AssertTermSuccessSaveMessage
  * Check that after save block successful message appears.
  */
-class AssertTermsSuccessSaveMessage extends AbstractConstraint
+class AssertTermSuccessSaveMessage extends AbstractConstraint
 {
     /**
      * Success terms and conditions save message

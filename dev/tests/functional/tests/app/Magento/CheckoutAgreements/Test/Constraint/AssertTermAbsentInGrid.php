@@ -13,10 +13,10 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertTermsAbsentInGrid
+ * Class AssertTermAbsentInGrid
  * Check that checkout agreement is absent in agreement grid.
  */
-class AssertTermsAbsentInGrid extends AbstractConstraint
+class AssertTermAbsentInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -29,7 +29,7 @@ class AssertTermsAbsentInGrid extends AbstractConstraint
      * Assert that checkout agreement is absent in agreement grid.
      *
      * @param CheckoutAgreementIndex $agreementIndex
-     * @param CheckoutAgreement|null $agreement
+     * @param CheckoutAgreement $agreement
      * @return void
      */
     public function processAssert(CheckoutAgreementIndex $agreementIndex, CheckoutAgreement $agreement)

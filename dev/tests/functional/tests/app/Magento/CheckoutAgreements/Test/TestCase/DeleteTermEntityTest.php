@@ -35,6 +35,20 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 class DeleteTermEntityTest extends Injectable
 {
     /**
+     * Checkout agreement index page
+     *
+     * @var CheckoutAgreementIndex
+     */
+    protected $agreementIndex;
+
+    /**
+     * Checkout agreement new page
+     *
+     * @var CheckoutAgreementNew
+     */
+    protected $agreementNew;
+
+    /**
      * Set up configuration
      *
      * @return void
@@ -48,24 +62,34 @@ class DeleteTermEntityTest extends Injectable
     }
 
     /**
-     * Delete Term Entity test
+     * Inject pages
      *
      * @param CheckoutAgreementNew $agreementNew
      * @param CheckoutAgreementIndex $agreementIndex
+     * @return void
+     */
+    public function __inject(
+        CheckoutAgreementNew $agreementNew,
+        CheckoutAgreementIndex $agreementIndex
+    ) {
+        $this->agreementNew = $agreementNew;
+        $this->agreementIndex = $agreementIndex;
+    }
+
+    /**
+     * Delete Term Entity test
+     *
      * @param CheckoutAgreement $agreement
      * @return void
      */
-    public function test(
-        CheckoutAgreementNew $agreementNew,
-        CheckoutAgreementIndex $agreementIndex,
-        CheckoutAgreement $agreement
-    ) {
+    public function test(CheckoutAgreement $agreement)
+    {
         // Precondition
         $agreement->persist();
 
         // Steps
-        $agreementIndex->open()->getAgreementGridBlock()->searchAndOpen(['name' => $agreement->getName()]);
-        $agreementNew->getPageActionsBlock()->delete();
+        $this->agreementIndex->open()->getAgreementGridBlock()->searchAndOpen(['name' => $agreement->getName()]);
+        $this->agreementNew->getPageActionsBlock()->delete();
     }
 
     /**

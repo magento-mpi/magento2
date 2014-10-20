@@ -13,10 +13,10 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertTermsInGrid
+ * Class AssertTermInGrid
  * Check that checkout agreement is present in agreement grid.
  */
-class AssertTermsInGrid extends AbstractConstraint
+class AssertTermInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
