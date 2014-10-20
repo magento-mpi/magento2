@@ -42,8 +42,8 @@ define([
     }
 
     return Class.extend({
-        initialize: function(nodes) {
-            this.types      = registry.get('globalStorage').types;
+        initialize: function(nodes, types) {
+            this.types      = types;
             this.registry   = registry.create();
 
             this.process(nodes);
@@ -68,12 +68,14 @@ define([
 
             node = this.build.apply(this, arguments);
 
-            if(node.type === "template"){
-                return;
-            }
-
             if(node.template){
                 return this.waitTemplate(node, parent);      
+            }
+
+            this.registry.set(node.name, node);
+
+            if(node.type === "template"){
+                return;
             }
 
             this.manipulate(node);
@@ -97,8 +99,6 @@ define([
             node = $.extend(true, {}, type, node, {name: name});
 
             delete node.type;
-
-            this.registry.set(name, node);
 
             return node;
         },

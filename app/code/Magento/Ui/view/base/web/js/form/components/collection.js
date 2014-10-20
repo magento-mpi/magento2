@@ -25,7 +25,7 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initLayout()
+            this.initRenderer()
                 .initChildTemplate()
                 .initChildren();
         },
@@ -53,17 +53,16 @@ define([
             }
         },
 
-        initLayout: function () {
-            this.layout = registry.get('globalStorage').layout;
+        initRenderer: function () {
+            this.renderer = registry.get('globalStorage').renderer;
 
             return this;
         },
 
         initChildTemplate: function () {
             this.childTemplate = {
-                type: this.childType,
+                template: this.nodeTemplate,
                 appendTo: this.name,
-                parentName: this.name,
                 config: {}
             };
 
@@ -95,7 +94,9 @@ define([
                 }
             });
 
-            this.layout.process([this.childTemplate]);
+            this.renderer.render({
+                layout: [this.childTemplate]
+            });
         },
 
         removeElement: function (element) {

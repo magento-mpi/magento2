@@ -33,11 +33,12 @@ define([
         },
 
         toggle: function() {
-            var opened = this.opened;
+            var opened = this.opened,
+                active;
 
-            opened(!opened());
+            active = opened(!opened());
 
-            this.trigger('active', opened());
+            this.trigger('active', active);
 
             return this;
         },
