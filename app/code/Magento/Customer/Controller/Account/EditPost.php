@@ -89,7 +89,7 @@ class EditPost extends \Magento\Customer\Controller\Account
             if ($this->getRequest()->getParam('change_password')) {
                 $currPass = $this->getRequest()->getPost('current_password');
                 $newPass = $this->getRequest()->getPost('password');
-                $confPass = $this->getRequest()->getPost('confirmation');
+                $confPass = $this->getRequest()->getPost('password_confirmation');
 
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {

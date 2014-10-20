@@ -199,7 +199,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
                 ->create();
 
             $password = $this->getRequest()->getParam('password');
-            $confirmation = $this->getRequest()->getParam('confirmation');
+            $confirmation = $this->getRequest()->getParam('password_confirmation');
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
 
             $this->checkPasswordConfirmation($password, $confirmation);
