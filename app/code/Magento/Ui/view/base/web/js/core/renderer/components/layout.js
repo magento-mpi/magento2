@@ -13,20 +13,6 @@ define([
 ], function(_, $, utils, Class, registry) {
     'use strict';
 
-    function initComponent(node){
-        var deps    = node.deps,
-            source  = [node.component],
-            name    = node.name;
-
-        registry.get(deps, function(){
-
-            require(source, function(constr){
-
-                registry.set(name, new constr(node.config, name));
-            });
-        });
-    }
-
     function getNodeName(parent, node, name) {
         var parentName = node.parentName || (parent && parent.name);
 
@@ -41,21 +27,33 @@ define([
         return name;
     }
 
-    return Class.extend({
-        initialize: function(nodes, types) {
-            this.types      = types;
-            this.registry   = registry.create();
+    function getNodeType(parent, node){
+        return node.type || (parent && parent.childType);
+    }
 
-            this.process(nodes);
-        },
+    function mergeNode(node, config){
+        return $.extend(true, {}, config, node);
+    }
 
+    function Layout(nodes, types){
+        this.types      = types;
+        this.registry   = registry.create();
+
+        this.process(nodes);
+    }
+
+    _.extend(Layout.prototype, {
         process: function(nodes, parent){
-            var parse       = this.parse.bind(this, parent),
-                insert      = parent && parent.component,
-                children    = _.map(nodes, parse);
+            var insert,
+                children;
 
-            if(insert){
-                this.insert(children, parent.name);
+            if (nodes) {
+                insert   = parent && parent.component;
+                children = _.map(nodes, this.parse.bind(this, parent));
+
+                if (insert) {
+                    this.insert(children, parent.name);
+                }
             }
 
             return this;
@@ -68,41 +66,57 @@ define([
 
             node = this.build.apply(this, arguments);
 
+            if (node) {
+                this.manipulate(node)
+                    .initComponent(node)
+                    .process(node.children, node);
+            }
+
+            return node && node.name;
+        },
+
+        build: function(parent, node, name){
+            var type;
+
+            type = getNodeType.apply(null, arguments);
+            name = getNodeName.apply(null, arguments);
+            node = mergeNode(node, this.types.get(type));
+
+            node.name = name;
+
+            delete node.type;
+
             if(node.template){
                 return this.waitTemplate(node, parent);      
             }
 
-            this.registry.set(node.name, node);
+            this.registry.set(name, node);
 
-            if(node.type === "template"){
-                return;
+            if(type !== 'template'){
+                return node;
             }
-
-            this.manipulate(node);
-
-            if (node.component) {
-                initComponent(node);
-            }
-
-            if (node.children) {
-                this.process(node.children, node);
-            }
-
-            return node.name;
         },
 
-        build: function(parent, node, name){
-            var type = node.type || (parent && parent.childType);
+        initComponent: function(node){
+            var source = node.component,
+                name;
 
-            type = this.types.get(type);
-            name = getNodeName.apply(null, arguments);
-            node = $.extend(true, {}, type, node, {name: name});
+            if(source){
+                source  = [source]; 
+                name    = node.name;
 
-            delete node.type;
+                registry.get(node.deps, function(){
+                    require(source, function(constr){
+                        registry.set(name, new constr(node.config, name));
+                    });
+                });
+            }
 
-            return node;
-        },
-
+            return this;
+        }
+    });
+    
+    _.extend(Layout.prototype, {
         manipulate: function(node) {
             var name = node.name;
 
@@ -119,27 +133,6 @@ define([
             }
 
             return this;
-        },
-
-        waitTemplate: function(node, parent){
-            var callback = this.applyTemplate.bind(this, node, parent);
-
-            this.registry.get(node.template, callback);
-        },
-
-        applyTemplate: function(node, parent){
-            var result = {},
-                templates = _.toArray(arguments).slice(2);
-
-            templates.push(node);
-
-            templates.forEach(function(part){
-                $.extend(true, result, part);
-            });
-
-            delete result.template;
-
-            this.process([result], parent);
         },
 
         insert: function(items, targets, position){
@@ -162,6 +155,33 @@ define([
 
             this.insert(child.name, node.name)
                 .process([node]);
+
+            return this;
         }
     });
+
+    _.extend(Layout.prototype, {
+        waitTemplate: function(node, parent){
+            var callback = this.applyTemplate.bind(this, node, parent);
+
+            this.registry.get(node.template, callback);
+        },
+
+        applyTemplate: function(node, parent){
+            var result = {},
+                templates = _.toArray(arguments).slice(2);
+
+            templates.push(node);
+
+            templates.forEach(function(part){
+                $.extend(true, result, part);
+            });
+
+            delete result.template;
+
+            this.process([result], parent);
+        },
+    });
+
+    return Layout;
 });
