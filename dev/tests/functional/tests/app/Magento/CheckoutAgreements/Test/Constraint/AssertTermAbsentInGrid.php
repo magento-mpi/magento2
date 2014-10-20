@@ -13,10 +13,10 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertTermsInGrid
- * Check that checkout agreement is present in agreement grid
+ * Class AssertTermAbsentInGrid
+ * Check that checkout agreement is absent in agreement grid.
  */
-class AssertTermsInGrid extends AbstractConstraint
+class AssertTermAbsentInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertTermsInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that checkout agreement is present in agreement grid
+     * Assert that checkout agreement is absent in agreement grid.
      *
      * @param CheckoutAgreementIndex $agreementIndex
      * @param CheckoutAgreement $agreement
@@ -35,9 +35,9 @@ class AssertTermsInGrid extends AbstractConstraint
     public function processAssert(CheckoutAgreementIndex $agreementIndex, CheckoutAgreement $agreement)
     {
         $agreementIndex->open();
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $agreementIndex->getAgreementGridBlock()->isRowVisible(['name' => $agreement->getName()]),
-            'Checkout Agreement \'' . $agreement->getName() . '\' is absent in agreement grid.'
+            'Checkout Agreement \'' . $agreement->getName() . '\' is present in agreement grid.'
         );
     }
 
@@ -48,6 +48,6 @@ class AssertTermsInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Checkout Agreement is present in agreement grid.';
+        return 'Checkout Agreement is absent in agreement grid.';
     }
 }

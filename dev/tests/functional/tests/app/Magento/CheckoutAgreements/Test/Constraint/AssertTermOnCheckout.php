@@ -21,10 +21,10 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Constraint\AssertOrderSuccessPlacedMessage;
 
 /**
- * Class AssertTermsOnCheckout
+ * Class AssertTermOnCheckout
  * Check that Terms and Conditions is present on the last checkout step - Order Review.
  */
-class AssertTermsOnCheckout extends AbstractConstraint
+class AssertTermOnCheckout extends AbstractConstraint
 {
     /**
      * Notification message
@@ -105,7 +105,7 @@ class AssertTermsOnCheckout extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */
