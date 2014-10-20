@@ -10,10 +10,11 @@ namespace Magento\Integration\Test\TestCase;
 
 use Magento\Integration\Test\Fixture\Integration;
 use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Re-Authorize tokens for the Integration Entity.
+ * Test Creation for Reauthorize tokens for the Integration Entity.
  *
  * Test Flow:
  *
@@ -23,8 +24,8 @@ use Mtf\TestCase\Injectable;
  *
  * Steps:
  * 1. Go to Integration page on backend
- * 2. Click on the "Re-Authorize" link on the Integration grid
- * 3. Click on the "Re-authorize" button.
+ * 2. Click on the "Reauthorize" link on the Integration grid
+ * 3. Click on the "Reauthorize" button.
  * 4. Click Done
  * 5. Perform assertions
  *
@@ -41,13 +42,23 @@ class ReAuthorizeTokensIntegrationEntityTest extends Injectable
     public $integrationIndex;
 
     /**
-     * Prepare data.
+     * Factory for fixtures.
      *
-     * @param IntegrationIndex $integrationIndex
+     * @var FixtureFactory
      */
-    public function __prepare(IntegrationIndex $integrationIndex)
+    public $fixtureFactory;
+
+    /**
+     * Injection data.
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @param IntegrationIndex $integrationIndex
+     * @retun void
+     */
+    public function __inject(IntegrationIndex $integrationIndex, FixtureFactory $fixtureFactory)
     {
         $this->integrationIndex = $integrationIndex;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
@@ -67,12 +78,16 @@ class ReAuthorizeTokensIntegrationEntityTest extends Injectable
         $this->integrationIndex->getIntegrationGrid()->getResourcesPopup()->clickAllowButton();
         $tokens = $this->integrationIndex->getIntegrationGrid()->getTokensPopup()->getData();
         $this->integrationIndex->getIntegrationGrid()->getTokensPopup()->clickDoneButton();
+        $integration = $this->fixtureFactory->createByCode(
+            'integration',
+            ['data' => array_merge($integration->getData(), $tokens)]
+        );
 
         // Steps
         $this->integrationIndex->getIntegrationGrid()->searchAndReauthorize($filter);
         $this->integrationIndex->getIntegrationGrid()->getResourcesPopup()->clickReauthorizeButton();
         $this->integrationIndex->getIntegrationGrid()->getTokensPopup()->clickDoneButton();
 
-        return ['tokens' => $tokens];
+        return ['integration' => $integration];
     }
 }

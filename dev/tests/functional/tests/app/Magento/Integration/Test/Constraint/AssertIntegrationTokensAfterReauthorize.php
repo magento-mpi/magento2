@@ -32,7 +32,7 @@ class AssertIntegrationTokensAfterReauthorize extends AbstractConstraint
      * @var array
      */
     protected $consumerKeys = [
-        'consumer_key',
+        'key',
         'consumer_secret',
     ];
 
@@ -57,20 +57,18 @@ class AssertIntegrationTokensAfterReauthorize extends AbstractConstraint
      * @param IntegrationIndex $integrationIndex
      * @param IntegrationNew $integrationNew
      * @param Integration $integration
-     * @param array $tokens
      * @return void
      */
     public function processAssert(
         IntegrationIndex $integrationIndex,
         IntegrationNew $integrationNew,
-        Integration $integration,
-        array $tokens
+        Integration $integration
     ) {
         $filter = ['name' => $integration->getName()];
         $integrationIndex->open();
         $integrationIndex->getIntegrationGrid()->searchAndOpen($filter);
         $actualData = $integrationNew->getIntegrationForm()->getData();
-        $errors = $this->checkTokens($actualData, $tokens);
+        $errors = $this->checkTokens($actualData, $integration->getData());
 
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
@@ -108,6 +106,6 @@ class AssertIntegrationTokensAfterReauthorize extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Access tokens was changed correctly.';
+        return 'Access tokens were reauthorized correctly.';
     }
 }
