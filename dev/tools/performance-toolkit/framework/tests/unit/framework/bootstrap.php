@@ -9,6 +9,8 @@
 $magentoBaseDir = realpath(__DIR__ . '/../../../../../../../');
 
 require_once "$magentoBaseDir/app/bootstrap.php";
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+$includePath = new \Magento\Framework\Autoload\IncludePath();
+spl_autoload_register([$includePath, 'load']);
+$includePath->addIncludePath(
     "$magentoBaseDir/dev/tools/performance-toolkit/framework"
 );
