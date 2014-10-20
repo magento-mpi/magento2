@@ -13,9 +13,9 @@ namespace Magento\Tools\SampleData\Module\Cms\Setup\Block;
 class Converter
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
-    protected $categoryTreeReadService;
+    protected $categoryFactory;
 
     /**
      * @var \Magento\Catalog\Service\V1\Category\CategoryLoader
@@ -23,18 +23,25 @@ class Converter
     protected $categoryLoader;
 
     /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @var \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
+     */
+    protected $productConverter;
+
+    /**
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
+        \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader,
+        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
     ) {
-        $this->categoryTreeReadService = $categoryReadService;
+        $this->categoryFactory = $categoryFactory;
         $this->eavConfig = $eavConfig;
         $this->categoryLoader = $categoryLoader;
+        $this->productConverter = $productConverter;
     }
 
     /**
@@ -62,38 +69,32 @@ class Converter
     }
 
     /**
-     * Get product category ids from array
-     *
-     * @param array $categories
-     * @return int
+     * @param $urlKey
+     * @return mixed
+     * @throws \Magento\Framework\Model\Exception
      */
-    protected function getCategoryId($categories)
+    protected function getCategoryId($urlKey)
     {
-        $tree = $this->categoryTreeReadService->tree();
-        foreach ($categories as $name) {
-            foreach ($tree->getChildren() as $child) {
-                if (strcasecmp($child->getName(), $name) == 0) {
-                    $tree = $child;
-                    break;
-                }
-            }
-        }
-        return $tree->getId();
+        $category = $this->categoryFactory->create()
+            ->addAttributeToFilter('url_key', $urlKey)
+            ->getFirstItem();
+        return $category->getId();
     }
 
     /**
      * Get formatted array value
      *
      * @param mixed $value
+     * @param string $separator
      * @return array
      */
-    protected function getArrayValue($value)
+    protected function getArrayValue($value, $separator = "/")
     {
         if (is_array($value)) {
             return $value;
         }
-        if (false !== strpos($value, "/")) {
-            $value = array_filter(explode("/", $value));
+        if (false !== strpos($value, $separator)) {
+            $value = array_filter(explode($separator, $value));
         }
         return !is_array($value) ? [$value] : $value;
     }
@@ -104,9 +105,9 @@ class Converter
      */
     protected function convertContentUrls($content)
     {
-        $categoriesTree = array_filter($this->getContentCategoriesMatches($content));
-        if (!empty($categoriesTree)) {
-            $categoriesUrls = $this->getCategoriesUrl($categoriesTree[1]);
+        $categoryReplacement = $this->getCategoriesMatches($content);
+        if (!empty($categoryReplacement['path'])) {
+            $categoriesUrls = $this->getCategoriesUrl($categoryReplacement);
             foreach ($categoriesUrls as $categoryPath => $categoryUrl) {
                 $content = $this->replaceContentCategoriesPath($content, $categoryPath, $categoryUrl);
             }
@@ -116,41 +117,75 @@ class Converter
 
     /**
      * @param $content
-     * @return mixed
+     * @return array
      */
-    protected function getContentCategoriesMatches($content)
+    protected function getCategoriesMatches($content)
     {
-        $regexp = '/{.(?:category_url=")(.+)(?:"}+)/';
+        $regexp = '/{.(?:category.+)(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:.}+)/';
         preg_match_all($regexp, $content, $matches);
-        return $matches;
+        return array('path' => $matches[1], 'attribute' => $matches[2]);
     }
 
     /**
      * @param $content
-     * @param $categoryPath
+     * @param $urlPath
      * @param $categoryUrl
      * @return mixed
      */
-    protected function replaceContentCategoriesPath($content, $categoryPath, $categoryUrl)
+    protected function replaceContentCategoriesPath($content, $urlPath, $categoryUrl)
     {
-        $categoryPath = str_replace('/', '\/', $categoryPath);
-        $regexp = '/{.(?:category_url=")(' . $categoryPath . '+)(?:"}+)/';
+        $urlPath = str_replace('/', '\/', $urlPath);
+        if (strpos($urlPath, '?')) {
+            $urlPath = array_filter(explode("?", $urlPath));
+            $regexp = '/{.(category).*(url="(' . $urlPath[0] . ')").*(attribute="('. $urlPath[1] .')").*(.})/';
+        } else {
+            $regexp = '/{.(category).*(url="(' . $urlPath .')").*(.})/';
+        }
         return preg_replace($regexp, $categoryUrl, $content);
     }
 
     /**
-     * @param $categoriesTree
-     * @return mixed
+     * @param $categoriesReplacement
+     * @return array
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    protected function getCategoriesUrl($categoriesTree)
+    protected function getCategoriesUrl($categoriesReplacement)
     {
-        foreach ($categoriesTree as $path) {
-            $category = $this->categoryLoader->load($this->getCategoryId($this->getArrayValue($path)));
-            $categoryData[$path] = $category->getUrl();
-            unset($category);
+        $categoryData = array();
+        foreach ($categoriesReplacement['path'] as $categoryNumber => $path) {
+            $category = $this->categoryLoader->load($this->getCategoryId($path));
+            if (!empty($category)) {
+                $categoryUrl =  $category->getUrl();
+                if (!empty($categoriesReplacement['attribute'][$categoryNumber])) {
+                    $urlAttributes = $categoriesReplacement['attribute'][$categoryNumber];
+                    $categoryUrl .= '?' . $this->getUrlFilter($urlAttributes);
+                    $path = $path . '?' . $urlAttributes;
+                }
+                $categoryData[$path] = $categoryUrl;
+                unset($categoryUrl);
+            }
         }
         return $categoryData;
+    }
+
+    /**
+     * @param $urlAttributes
+     * @return string
+     */
+    protected function getUrlFilter($urlAttributes)
+    {
+        $separatedAttributes = $this->getArrayValue($urlAttributes, ';');
+        foreach ($separatedAttributes as $attributeNumber => $attributeValue) {
+            $attributeData = $this->getArrayValue($attributeValue, '=');
+            $attributeOptions = $this->productConverter->getAttributeOptions($attributeData[0]);
+            $attributeValue = $attributeOptions->getItemByColumnValue('value', $attributeData[1]);
+            if ($attributeNumber == 0) {
+                $urlFilter = $attributeData[0] . '=' . $attributeValue->getId();
+                continue;
+            }
+            $urlFilter .= '&' . $attributeData[0] . '=' . $attributeValue->getId();
+        }
+        return $urlFilter;
     }
 
 }

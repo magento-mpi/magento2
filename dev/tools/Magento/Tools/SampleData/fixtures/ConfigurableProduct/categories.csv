@@ -1,19 +1,19 @@
-name,path,active,is_anchor,include_in_menu,position
-Men,,1,1,1,2
-Tops,Men,1,1,1,
-Bottoms,Men,1,1,1,
-Jackets,Men/Tops,1,1,1,
-"Hoodies & Sweatshirts",Men/Tops,1,1,1,
-Tees,Men/Tops,1,1,1,
-Tanks,Men/Tops,1,1,1,
-Pants,Men/Bottoms,1,1,1,
-Shorts,Men/Bottoms,1,1,1,
-Women,,1,1,1,1
-Tops,Women,1,1,1,
-Bottoms,Women,1,1,1,
-Jackets,Women/Tops,1,1,1,
-"Hoodies & Sweatshirts",Women/Tops,1,1,1,
-Tees,Women/Tops,1,1,1,
-"Bras & Tanks",Women/Tops,1,1,1,
-Pants,Women/Bottoms,1,1,1,
-Shorts,Women/Bottoms,1,1,1,
+name,url_key,path,active,is_anchor,include_in_menu,position
+Men,men,,1,1,1,2
+Tops,tops_men,Men,1,1,1,
+Bottoms,bottoms_men,Men,1,1,1,
+Jackets,jackets_men,Men/Tops,1,1,1,
+"Hoodies & Sweatshirts",hoodies_and_sweatshirts_men,Men/Tops,1,1,1,
+Tees,tees_men,Men/Tops,1,1,1,
+Tanks,tanks_men,Men/Tops,1,1,1,
+Pants,pants_men,Men/Bottoms,1,1,1,
+Shorts,shorts_men,Men/Bottoms,1,1,1,
+Women,women,,1,1,1,1
+Tops,tops_women,Women,1,1,1,
+Bottoms,bottoms_women,Women,1,1,1,
+Jackets,jackets_women,Women/Tops,1,1,1,
+"Hoodies & Sweatshirts",hoodies_and_sweatshirts_women,Women/Tops,1,1,1,
+Tees,tees_women,Women/Tops,1,1,1,
+"Bras & Tanks",tanks_women,Women/Tops,1,1,1,
+Pants,pants_women,Women/Bottoms,1,1,1,
+Shorts,shorts_women,Women/Bottoms,1,1,1,

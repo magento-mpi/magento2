@@ -116,6 +116,7 @@ class Category implements SetupInterface
                         'active' => $row['active'],
                         'is_anchor' => $row['is_anchor'],
                         'include_in_menu' => $row['include_in_menu'],
+                        'url_key' => $row['url_key']
                     ];
 
                     $categoryData = $this->categoryDataBuilder->populateWithArray($data)->create();

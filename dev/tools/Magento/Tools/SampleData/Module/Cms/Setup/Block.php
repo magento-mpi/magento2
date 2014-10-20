@@ -116,11 +116,12 @@ class Block implements SetupInterface
         }
         return $cmsBlock;
     }
+
     /**
      * @param $blockId
      * @param $categoryId
      */
-    public function setCategoryLandingPage($blockId, $categoryId)
+    protected function setCategoryLandingPage($blockId, $categoryId)
     {
         $categoryCms = array(
             'landing_page' => $blockId,
