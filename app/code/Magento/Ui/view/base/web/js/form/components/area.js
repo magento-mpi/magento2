@@ -20,6 +20,11 @@ define([
     var __super__ = Component.prototype;
 
     return Component.extend({
+
+        /**
+         * Extends instance with defaults. Invokes parent initialize method.
+         * Calls initListeners and pushParams methods.
+         */
         initialize: function() {
             _.extend(this, defaults);
 
@@ -29,6 +34,11 @@ define([
                 .pushParams();
         },
 
+        /**
+         * Calls initObservable of parent class.
+         * Defines observable properties of instance.
+         * @return {Object} - reference to instance
+         */
         initObservable: function() {
             __super__.initObservable.apply(this, arguments);
 
@@ -37,6 +47,10 @@ define([
             return this;
         },
 
+        /**
+         * Assignes updateState callback to update:activeArea event.
+         * @return {Object} - reference to instance
+         */
         initListeners: function() {
             var params  = this.provider.params;
 
@@ -45,6 +59,12 @@ define([
             return this;
         },
 
+        /**
+         * Calls parent's initElement method.
+         * Assignes callbacks on various event of incoming element.
+         * @param  {Object} elem
+         * @return {Object} - reference to instance
+         */
         initElement: function(elem){
             __super__.initElement.apply(this, arguments);
 
@@ -57,6 +77,10 @@ define([
             return this;
         },
 
+        /**
+         * Checks active state of instance and if true, sets activeArea
+         *     property of params storage to name of instance.
+         */
         pushParams: function() {
             var params = this.provider.params;
 
@@ -65,6 +89,11 @@ define([
             }
         },
 
+        /**
+         * Triggers 'active' event with current active state identifier.
+         * @param  {String} area - area to compare instance's name to
+         * @return {Object} - reference to instance
+         */
         updateState: function(area) {
             var active = area === this.name;
 
@@ -74,12 +103,25 @@ define([
             return this;
         },
         
+        /**
+         * Sets active property to true, then invokes pushParams method.
+         */
         setActive: function(){
             this.active(true);
 
             this.pushParams();
         },
 
+        /**
+         * Is being invoked on children update.
+         * Sets changed property to one incoming.
+         * Invokes setActive method if settings contain makeVisible property
+         *     set to true.
+         * 
+         * @param  {Boolean} changed
+         * @param  {Object} element
+         * @param  {Object} settings
+         */
         onChildrenUpdate: function(changed, element, settings){
             var params  = this.provider.params;
 
@@ -90,6 +132,10 @@ define([
             this.changed(changed);
         },
 
+        /**
+         * Sets loading property to true of false based on finished parameter.
+         * @param  {Boolean} finished
+         */
         onContentLoading: function(finished){
             this.loading(finished);
         }

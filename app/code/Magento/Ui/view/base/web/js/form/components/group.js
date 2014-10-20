@@ -96,6 +96,12 @@ define([
             return this;
         },
 
+        /**
+         * Assignes onUpdate callback to update event of incoming element.
+         * Calls extractData method.
+         * @param  {Object} element
+         * @return {Object} - reference to instance
+         */
         initElement: function(element){
             __super__.initElement.apply(this, arguments);
 
@@ -123,6 +129,12 @@ define([
             return this;
         },
 
+        /**
+         * Pushes invalid element to invalids array. Triggers update method on
+         *     itself.
+         * @param  {Object} element
+         * @param  {Object} settings
+         */
         onUpdate: function (element, settings) {
             var isValid = settings.isValid;
 
@@ -145,10 +157,18 @@ define([
             });
         },
 
+        /**
+         * Defines if group has more than one element.
+         * @return {Boolean}
+         */
         isMultiple: function () {
             return this.elems.getLength() > 1;
         },
 
+        /**
+         * Defines if group has only one element.
+         * @return {Boolean}
+         */
         isSingle: function () {
             return this.elems.getLength() === 1;
         }
