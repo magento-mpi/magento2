@@ -76,12 +76,12 @@ define([
         },
 
         initChild: function (item, index) {
+            this.lastIndex++;
             this.createChild(index);
         },
 
         addEmptyChild: function () {
-            var last    = this.elems.last(),
-                index   = last ? ++last.index : 0;
+            var index = 'new_' + this.lastIndex++;
                 
             this.createChild(index);
         },
