@@ -227,9 +227,9 @@
         "psr-4": {
             "Magento\\Framework\\": ["lib/internal/Magento/Framework/"],
             "Magento\\": ["app/code/Magento/"]
-        },
-        "include-path": ["lib/internal/Zend"]
+        }
     },
+    "include-path": ["lib/internal/Zend"],
     "autoload-dev" : {
         "psr-4" : {
             "Magento\\Tools\\" : [
