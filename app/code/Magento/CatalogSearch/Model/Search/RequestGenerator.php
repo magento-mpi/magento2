@@ -7,19 +7,21 @@
  */
 namespace Magento\CatalogSearch\Model\Search;
 
+use Magento\Catalog\Model\Entity\Attribute;
+use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
+
 class RequestGenerator
 {
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     * @var CollectionFactory
      */
     private $productAttributeCollectionFactory;
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory
+     * @param CollectionFactory $productAttributeCollectionFactory
      */
-    public function __construct(
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory
-    ) {
+    public function __construct(CollectionFactory $productAttributeCollectionFactory)
+    {
         $this->productAttributeCollectionFactory = $productAttributeCollectionFactory;
     }
 
@@ -45,7 +47,7 @@ class RequestGenerator
     {
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
-            /** @var $attribute \Magento\Catalog\Model\Product\Attribute */
+            /** @var $attribute Attribute */
             if (in_array($attribute->getAttributeCode(), ['price', 'sku'])) {
                 //same fields have special semantics
                 continue;
@@ -59,6 +61,20 @@ class RequestGenerator
     }
 
     /**
+     * Retrieve searchable attributes
+     *
+     * @return \Traversable
+     */
+    protected function getSearchableAttributes()
+    {
+        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $productAttributes */
+        $productAttributes = $this->productAttributeCollectionFactory->create();
+        $productAttributes->addFieldToFilter('is_searchable', 1);
+
+        return $productAttributes;
+    }
+
+    /**
      * Generate advanced search request
      *
      * @return array
@@ -67,7 +83,7 @@ class RequestGenerator
     {
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
-            /** @var $attribute \Magento\Catalog\Model\Product\Attribute */
+            /** @var $attribute Attribute */
             if (!$attribute->getIsVisibleInAdvancedSearch()) {
                 continue;
             }
@@ -108,6 +124,7 @@ class RequestGenerator
                     ];
                     $request['filters'][$filterName] = [
                         'field' => $attribute->getAttributeCode(),
+                        'name' => $filterName,
                         'type' => 'rangeFilter',
                         'from' => '$' . $attribute->getAttributeCode() . '.from$',
                         'to' => '$' . $attribute->getAttributeCode() . '.to$',
@@ -123,25 +140,12 @@ class RequestGenerator
 
                     $request['filters'][$filterName] = [
                         'type' => 'termFilter',
+                        'name' => $filterName,
                         'field' => $attribute->getAttributeCode(),
                         'value' => '$' . $attribute->getAttributeCode() . '$',
                     ];
             }
         }
         return $request;
-    }
-
-    /**
-     * Retrieve searchable attributes
-     *
-     * @return \Traversable
-     */
-    protected function getSearchableAttributes()
-    {
-        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $productAttributes */
-        $productAttributes = $this->productAttributeCollectionFactory->create();
-        $productAttributes->addFieldToFilter('is_searchable', 1);
-
-        return $productAttributes;
     }
 }
