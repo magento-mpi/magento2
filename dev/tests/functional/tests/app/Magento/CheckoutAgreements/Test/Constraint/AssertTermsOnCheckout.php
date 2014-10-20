@@ -56,6 +56,8 @@ class AssertTermsOnCheckout extends AbstractConstraint
      * @param array $shipping
      * @param array $payment
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function processAssert(
         FixtureFactory $fixtureFactory,
