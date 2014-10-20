@@ -15,6 +15,7 @@ use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
+use Magento\Webapi\Model\DataObjectProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
@@ -175,7 +176,7 @@ class ServiceArgsSerializer
     protected function getBuilder($className)
     {
         $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
-        if (is_subclass_of($paramInstanceClassName, '\Magento\Framework\Model\AbstractExtensibleModel')) {
+        if (is_subclass_of($paramInstanceClassName, '\\' . DataObjectProcessor::BASE_MODEL_CLASS)) {
             // By convention, need to lookup the concrete class preference for the data interface type and
             // gets its builder.
             return $this->_objectManager->create($paramInstanceClassName . "DataBuilder");

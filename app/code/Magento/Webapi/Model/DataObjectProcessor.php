@@ -25,6 +25,7 @@ class DataObjectProcessor
     const IS_METHOD_PREFIX = 'is';
     const GETTER_PREFIX = 'get';
     const SERVICE_INTERFACE_METHODS_CACHE_PREFIX = 'serviceInterfaceMethodsMap';
+    const BASE_MODEL_CLASS = 'Magento\Framework\Model\AbstractExtensibleModel';
 
     /**
      * @var WebapiCache
@@ -217,13 +218,12 @@ class DataObjectProcessor
                 foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     // Include all the methods of classes inheriting from AbstractExtensibleObject.
                     // Ignore all the methods of AbstractExtensibleModel's parent classes
-                    $baseClass = 'Magento\Framework\Model\AbstractExtensibleModel';
-                    if ($method->class === $baseClass) {
+                    if ($method->class === self::BASE_MODEL_CLASS) {
                         $baseClassMethods = true;
                     }
                     // ReflectionClass::getMethods() sorts the methods by class (lowest in the inheritance tree first)
                     // then by the order they are defined in the class definition
-                    if ($baseClassMethods && $method->class !== $baseClass) {
+                    if ($baseClassMethods && $method->class !== self::BASE_MODEL_CLASS) {
                         break;
                     }
                     $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
