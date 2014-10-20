@@ -101,6 +101,18 @@ define([
         reload: function() {
             this.pushParams()
                 .provider.refresh();
+        },
+
+        updateObservable: function (defs) {
+            var field;
+
+            _.each(defs, function (value, key) {
+                field = this[key];
+                
+                if (ko.isObservable(field)) {
+                    field(value);    
+                }
+            }, this);
         }
     });
 });

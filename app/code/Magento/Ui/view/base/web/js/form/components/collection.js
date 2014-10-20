@@ -25,9 +25,9 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initChildTemplate();
-
-            this.layout = registry.get('globalStorage').layout;
+            this.initLayout()
+                .initChildTemplate()
+                .initChildren();
         },
 
         initObservable: function () {
@@ -39,16 +39,24 @@ define([
         },
 
         initElement: function (element) {
-            __super__.initElement.apply(this, arguments);
+            var activeIndex   = this.active(),
+                activeDefined = activeIndex !== null,
+                elementIndex  = element.index,
+                activeElement;
 
-            var active          = this.active(),
-                activeDefined   = !(active === null),
-                index           = element.index,
-                shouldBeActive  = activeDefined ? active == index : true;
+            activeElement = activeDefined
+                ? (elementIndex == activeIndex) && element
+                : (elementIndex == 0)           && element
 
-            if (shouldBeActive) {
-                this._setActive(element);
+            if (activeElement) {
+                this._setActive(activeElement);
             }
+        },
+
+        initLayout: function () {
+            this.layout = registry.get('globalStorage').layout;
+
+            return this;
         },
 
         initChildTemplate: function () {
@@ -58,14 +66,30 @@ define([
                 parentName: this.name,
                 config: {}
             };
+
+            return this;
         },
 
-        addElement: function () {
+        initChildren: function () {
+            var children = this.provider.data.get(this.name);
+
+            _.each(children, this.initChild.bind(this));
+        },
+
+        initChild: function (item, index) {
+            this.createChild(index);
+        },
+
+        addEmptyChild: function () {
             var last    = this.elems.last(),
                 index   = ++last.index;
+                
+            this.createChild(index);
+        },
 
+        createChild: function (index) {
             _.extend(this.childTemplate, {
-                index: index,
+                name: index,
                 config: {
                     index: index
                 }
@@ -91,7 +115,7 @@ define([
         },
 
         _setActive: function (element) {
-            var index   = element.index;
+            var index = element.index;
 
             this.active(index);
             this.activate(element);

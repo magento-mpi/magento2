@@ -29,7 +29,7 @@ define([
      * @return {String} - label string
      */
     function getLabel(elems, obj){
-        var label = obj.label;
+        var label = obj.label();
 
         if(!label){
             elems.some(function(elem){
@@ -90,7 +90,8 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('invalids', []);
+            this.observe('invalids', [])
+                .observe('label required uid');
 
             return this;
         },
@@ -113,7 +114,7 @@ define([
         extractData: function(){
             var elems = this.elems();
 
-            _.extend(this, {
+            this.updateObservable({
                 label:      getLabel(elems, this),
                 required:   getRequired(elems, this),
                 uid:        getUid(elems, this)
@@ -142,6 +143,14 @@ define([
             return this.elems().some(function(elem){
                 return elem.hasChanged();
             });
+        },
+
+        isMultiple: function () {
+            return this.elems.getLength() > 1;
+        },
+
+        isSingle: function () {
+            return this.elems.getLength() === 1;
         }
     });
 });
