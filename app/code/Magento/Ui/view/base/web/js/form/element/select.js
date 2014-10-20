@@ -67,7 +67,14 @@ define([
          * @return {Boolean}
          */
         hasChanged: function () {
-            return JSON.stringify(this.value()) !== this.initialValue;
+            var storedValue, changedValue = this.value();
+            if (this.type === 'multiple_select') {
+                storedValue = !Array.isArray(changedValue) ? [changedValue] : changedValue;
+            } else {
+                storedValue = Array.isArray(changedValue) ? changedValue[0] : changedValue;
+            }
+
+            return JSON.stringify(storedValue) !== this.initialValue;
         }
     });
 });
