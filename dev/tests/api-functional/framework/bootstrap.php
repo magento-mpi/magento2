@@ -7,6 +7,10 @@
  */
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
+
+$includePath = new \Magento\Framework\Autoload\IncludePath();
+spl_autoload_register([$includePath, 'load']);
+
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
 
@@ -15,7 +19,7 @@ $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+$includePath->addIncludePath(
     array(
         "{$testsBaseDir}/framework",
         "{$testsBaseDir}/testsuite",
