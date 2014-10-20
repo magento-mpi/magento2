@@ -202,11 +202,17 @@ class DataObjectProcessor
             } else {
                 $methodMap = [];
                 $class = new ClassReflection($interfaceName);
+                $baseClassMethods = false;
                 foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                    // Its assumed that all data interface will extend ExtensibleDataInterface
-                    $isSuitableClass = $method->class === 'Magento\Framework\Api\ExtensibleDataInterface' ||
-                        $method->class === ltrim($interfaceName, '\\');
-                    if (!$isSuitableClass) {
+                    // Include all the methods of classes inheriting from AbstractExtensibleObject.
+                    // Ignore all the methods of AbstractExtensibleObject's parent classes
+                    $baseClass = 'Magento\Framework\Service\Data\AbstractExtensibleObject';
+                    if ($method->class === $baseClass) {
+                        $baseClassMethods = true;
+                    }
+                    // ReflectionClass::getMethods() sorts the methods by class (lowest in the inheritance tree first)
+                    // then by the order they are defined in the class definition
+                    if ($baseClassMethods && $method->class !== $baseClass) {
                         break;
                     }
                     $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
