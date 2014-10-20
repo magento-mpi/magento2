@@ -136,27 +136,27 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _renderFiltersBefore()
     {
-        $this->requestBuilder->bindDimension('scope', $this->getStoreId());
-        $this->requestBuilder->bind('search_term', $this->queryText);
-        $this->requestBuilder->setRequestName('quick_search_container');
-        $this->requestBuilder->setFrom($this->getLastPageNumber() * $this->getPageSize());
-        $this->requestBuilder->setSize($this->getPageSize());
-        $queryRequest = $this->requestBuilder->create();
+        if ($this->queryText) {
+            $this->requestBuilder->bindDimension('scope', $this->getStoreId());
+            $this->requestBuilder->bind('search_term', $this->queryText);
+            $this->requestBuilder->setRequestName('quick_search_container');
+            $queryRequest = $this->requestBuilder->create();
 
-        $queryResponse = $this->searchEngine->search($queryRequest);
-        $ids = [0];
-        /** @var \Magento\Framework\Search\Document $document */
-        foreach ($queryResponse as $document) {
-            $ids[] = $document->getId();
+            $queryResponse = $this->searchEngine->search($queryRequest);
+            $ids = [0];
+            /** @var \Magento\Framework\Search\Document $document */
+            foreach ($queryResponse as $document) {
+                $ids[] = $document->getId();
+            }
+            $this->addIdFilter($ids);
+
+            $this->getSelect()
+                ->columns(
+                    [
+                        'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
+                    ]
+                );
         }
-        $this->addIdFilter($ids);
-
-        $this->getSelect()->columns(
-            [
-                'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
-            ]
-        );
-
         return parent::_renderFiltersBefore();
     }
 
