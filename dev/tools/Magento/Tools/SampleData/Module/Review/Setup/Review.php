@@ -52,7 +52,7 @@ class Review implements SetupInterface
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
         \Magento\Review\Model\ReviewFactory $reviewFactory,
