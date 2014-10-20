@@ -171,6 +171,7 @@ class CustomerAddressServiceMeTest extends \Magento\TestFramework\TestCase\Webap
             'prefix' => null,
             'suffix' => null,
             'vat_id' => null,
+            'company' => null,
         ];
     }
 }
