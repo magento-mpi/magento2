@@ -20,4 +20,10 @@
     <assertTermsInGrid module="Magento_CheckoutAgreements">
         <severeness>low</severeness>
     </assertTermsInGrid>
+    <assertTermsSuccessDeleteMessage module="Magento_CheckoutAgreements">
+        <severeness>low</severeness>
+    </assertTermsSuccessDeleteMessage>
+    <assertTermsAbsentInGrid module="Magento_CheckoutAgreements">
+        <severeness>low</severeness>
+    </assertTermsAbsentInGrid>
 </constraint>

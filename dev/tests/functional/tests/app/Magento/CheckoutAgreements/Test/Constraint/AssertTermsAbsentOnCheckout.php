@@ -45,6 +45,7 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
      * @param CheckoutAgreement $agreement
      * @param array $shipping
      * @param array $payment
+     * @param CheckoutAgreement|null $agreementOrigin
      * @return void
      */
     public function processAssert(
@@ -57,7 +58,8 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
         CheckoutOnepage $checkoutOnepage,
         CheckoutAgreement $agreement,
         $shipping,
-        $payment
+        $payment,
+        CheckoutAgreement $agreementOrigin = null
     ) {
         $createProductsStep = $objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
@@ -79,6 +81,7 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
         $checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
 
+        $agreement = ($agreementOrigin !== null) ? $agreementOrigin : $agreement;
         \PHPUnit_Framework_Assert::assertFalse(
             $checkoutOnepage->getAgreementReview()->checkAgreement($agreement),
             'Checkout Agreement \'' . $agreement->getName() . '\' is present in the Place order step.'
