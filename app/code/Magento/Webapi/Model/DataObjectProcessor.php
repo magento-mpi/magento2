@@ -75,35 +75,31 @@ class DataObjectProcessor
         foreach ($methods as $methodName => $returnType) {
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
-                if ($value !== null) {
-                    $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
-                    $outputData[$key] = $this->castValueToType($value, $returnType);
-                }
+                $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
+                $outputData[$key] = $this->castValueToType($value, $returnType);
             } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX &&
                 $methodName !== 'getCustomAttribute') {
                 $value = $dataObject->{$methodName}();
-                if ($value !== null) {
-                    if ($methodName === 'getCustomAttributes' && $value === []) {
-                        continue;
-                    }
-                    $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
-                    if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
-                        $value = $this->convertCustomAttributes($value);
-                    } else if (is_object($value)) {
-                        $value = $this->buildOutputDataArray($value, $returnType);
-                    } else if (is_array($value)) {
-                        $valueResult = array();
-                        $arrayElementType = substr($returnType, 0, -2);
-                        foreach ($value as $singleValue) {
-                            if (is_object($singleValue)) {
-                                $singleValue = $this->buildOutputDataArray($singleValue, $arrayElementType);
-                            }
-                            $valueResult[] = $this->castValueToType($singleValue, $arrayElementType);
-                        }
-                        $value = $valueResult;
-                    }
-                    $outputData[$key] = $this->castValueToType($value, $returnType);
+                if ($methodName === 'getCustomAttributes' && $value === []) {
+                    continue;
                 }
+                $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
+                if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
+                    $value = $this->convertCustomAttributes($value);
+                } else if (is_object($value)) {
+                    $value = $this->buildOutputDataArray($value, $returnType);
+                } else if (is_array($value)) {
+                    $valueResult = array();
+                    $arrayElementType = substr($returnType, 0, -2);
+                    foreach ($value as $singleValue) {
+                        if (is_object($singleValue)) {
+                            $singleValue = $this->buildOutputDataArray($singleValue, $arrayElementType);
+                        }
+                        $valueResult[] = $this->castValueToType($singleValue, $arrayElementType);
+                    }
+                    $value = $valueResult;
+                }
+                $outputData[$key] = $this->castValueToType($value, $returnType);
             }
         }
         return $outputData;
