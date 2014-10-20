@@ -12,7 +12,10 @@
         <methods>
             <method name="test">
                 <steps>
-                    <first>createOrder</first>
+                    <first>setupConfiguration</first>
+                    <step name="setupConfiguration" module="Magento_Core">
+                        <next>createOrder</next>
+                    </step>
                     <step name="createOrder" module="Magento_Sales">
                         <next>openOrder</next>
                     </step>
@@ -40,7 +43,21 @@
         <methods>
             <method name="test">
                 <steps>
-                    <first>openSalesOrders</first>
+                    <first>setupConfiguration</first>
+                    <step name="setupConfiguration" module="Magento_Core">
+                        <next>createProducts</next>
+                    </step>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>createCustomer</next>
+                    </step>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <arguments>
+                            <items name="customer">
+                                <item name="dataSet">johndoe_with_addresses</item>
+                            </items>
+                        </arguments>
+                        <next>openSalesOrders</next>
+                    </step>
                     <step name="openSalesOrders" module="Magento_Sales">
                         <next>createNewOrder</next>
                     </step>
@@ -53,30 +70,6 @@
                     <step name="selectStore" module="Magento_Sales">
                         <next>addProducts</next>
                     </step>
-                    <step name="addProducts" module="Magento_Sales">
-                        <next>updateProductsData</next>
-                    </step>
-                    <step name="updateProductsData" module="Magento_Sales">
-                        <next>fillBillingAddress</next>
-                    </step>
-                    <step name="fillBillingAddress" module="Magento_Sales">
-                        <next>selectPaymentMethodForOrder</next>
-                    </step>
-                    <step name="selectPaymentMethodForOrder" module="Magento_Sales">
-                        <next>selectShippingMethodForOrder</next>
-                    </step>
-                    <step name="selectShippingMethodForOrder" module="Magento_Sales">
-                        <next>submitOrder</next>
-                    </step>
-                    <step name="submitOrder" module="Magento_Sales" />
-                </steps>
-            </method>
-        </methods>
-    </scenario>
-    <scenario name="CreateOrderFromCustomerPageTest">
-        <methods>
-            <method name="test">
-                <steps>
                     <step name="addProducts" module="Magento_Sales">
                         <next>updateProductsData</next>
                     </step>

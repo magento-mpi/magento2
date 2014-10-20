@@ -33,41 +33,12 @@ use Magento\Customer\Test\Page\CustomerAccountLogout;
 class CheckoutWithGiftMessagesTest extends Scenario
 {
     /**
-     * Customer logout page
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
-     * Preparing configuration for test
-     *
-     * @param CustomerAccountLogout $customerAccountLogout
-     * @return void
-     */
-    public function __prepare(
-        CustomerAccountLogout $customerAccountLogout
-    ) {
-        $this->customerAccountLogout = $customerAccountLogout;
-    }
-
-    /**
-     * Runs one page checkout test
+     * Runs one page checkout test with gift message.
      *
      * @return void
      */
     public function test()
     {
         $this->executeScenario();
-    }
-
-    /**
-     * Logout customer
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->customerAccountLogout->open();
     }
 }

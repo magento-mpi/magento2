@@ -12,14 +12,26 @@
         <methods>
             <method name="test">
                 <steps>
-                    <first>addProductsToTheCart</first>
+                    <first>setupConfiguration</first>
+                    <step name="setupConfiguration" module="Magento_Core">
+                        <arguments>
+                            <item name="configData">cashondelivery, enableGiftMessages</item>
+                        </arguments>
+                        <next>createProducts</next>
+                    </step>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>createCustomer</next>
+                    </step>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <next>loginCustomerOnFrontend</next>
+                    </step>
+                    <step name="loginCustomerOnFrontend" module="Magento_Customer">
+                        <next>addProductsToTheCart</next>
+                    </step>
                     <step name="addProductsToTheCart" module="Magento_Checkout">
                         <next>proceedToCheckout</next>
                     </step>
                     <step name="proceedToCheckout" module="Magento_Checkout">
-                        <next>selectCheckoutMethod</next>
-                    </step>
-                    <step name="selectCheckoutMethod" module="Magento_Checkout">
                         <next>fillBillingInformation</next>
                     </step>
                     <step name="fillBillingInformation" module="Magento_Checkout">
