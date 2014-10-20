@@ -182,14 +182,4 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         return $this;
     }
-
-    /**
-     * Retrieve query model object
-     *
-     * @return \Magento\Search\Model\Query
-     */
-    protected function _getQuery()
-    {
-        return $this->queryFactory->get();
-    }
 }
