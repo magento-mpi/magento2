@@ -173,6 +173,17 @@ class DataObjectProcessor
         $value = $customAttribute->getValue();
         if (is_object($value)) {
             $value = $this->buildOutputDataArray($value, get_class($value));
+        } else if (is_array($value)) {
+            $valueResult = array();
+            foreach ($value as $singleValue) {
+                if (is_object($singleValue)) {
+                    $elementType = get_class($singleValue);
+                    $singleValue = $this->buildOutputDataArray($singleValue, $elementType);
+                }
+                // Cannot cast to a type because the type is unknown
+                $valueResult[] = $singleValue;
+            }
+            $value = $valueResult;
         }
         $data[AttributeValue::VALUE] = $value;
         return $data;
