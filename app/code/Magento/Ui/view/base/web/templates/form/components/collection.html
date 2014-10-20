@@ -8,18 +8,16 @@
 -->
 <div class="ui-tabs">
     <ul class="address-list ui-tabs-nav">
-        <!-- ko foreach: { data: items, as: 'item' } -->
-        <li class="address-list-item" data-bind="css: { 'ui-state-active': active }">
+        <!-- ko foreach: { data: elems, as: 'element' } -->
+        <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: $parent.setActive(element)">
             <a href="#" class="ui-tabs-anchor">
                 <div class="address-list-item-actions">
-                    <button class="action-delete" type="button" data-bind="attr: { title: $t('Remove address') }">
-                        <span data-bind="text: $t('Remove address')"></span>
-                    </button>
-                    <button class="action-edit" type="button" data-bind="attr: { title: $t('Edit address') }">
-                        <span data-bind="text: $t('Edit address')"></span>
+                    <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeElement(element)">
+                        <span data-bind="text: element.removeLabel"></span>
                     </button>
                 </div>
-                <address data-bind="foreach: { data: elements, as: 'element' }">
+                <address data-bind="text: title"></address>
+                <address data-bind="foreach: { data: element.elems, as: 'element' }">
                     <span data-bind="text: element.value"></span>
                 </address>
                 <div class="field field-address-item-billing choice">
@@ -32,17 +30,17 @@
         </li>
         <!-- /ko -->
         <li class="address-list-actions last">
-            <button data-bind="attr: { title: $t('Add New Address') }" type="button" class="scalable add">
+            <button data-bind="attr: { title: $parent.addLabel }, click: addElement" type="button" class="scalable add">
                 <span data-bind="text: $t('Add New Address')"></span>
             </button>
         </li>
     </ul>
-    <!-- ko foreach: { data: items, as: 'item' } -->
+    <!-- ko foreach: { data: element.elems, as: 'element' } -->
     <div class="address-item-edit" data-bind="visible: active">
         <div class="address-item-edit-content">
             <fieldset class="fieldset">
-                <legend class="legend"><span data-bind="text: $t('Edit Customer\'s Address')"></span></legend><br>
-                <!-- ko foreach: { data: elements, as: 'element' } -->
+                <legend class="legend"><span data-bind="text: $parent.title"></span></legend><br>
+                <!-- ko foreach: { data: element.elems, as: 'element' } -->
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 <!-- /ko -->
             </fieldset>

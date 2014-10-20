@@ -6,78 +6,92 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/initializer/collection',
-    'Magento_Ui/js/lib/ko/scope'
-], function(_, Collection, Scope) {
+    '../component'
+], function(_, Component) {
     'use strict';
 
     var defaults = {
-        visible: false,
-        label:   ''
+        template:   'ui/area',
+        active:     false,
+        changed:    false,
+        loading:    false
     };
 
-    var Area = Scope.extend({
-        initialize: function(config) {
-            _.extend(this, defaults, config);
-            
-            this.initObservable()
-                .initListeners()
-                .pullParams();
+    var __super__ = Component.prototype;
 
-            console.log('Area.js this=', this);
+    return Component.extend({
+        initialize: function() {
+            _.extend(this, defaults);
+
+            __super__.initialize.apply(this, arguments);
+
+            this.initListeners()
+                .pushParams();
         },
 
         initObservable: function() {
-            this.observe({
-                'visible': this.visible
-            });
+            __super__.initObservable.apply(this, arguments);
+
+            this.observe('active changed loading');
 
             return this;
         },
 
         initListeners: function() {
-            var params  = this.provider.params,
-                update  = this.update,
-                handlers;
+            var params  = this.provider.params;
 
-            handlers = {
-                'change':   update.bind(this, true),
-                'restore':  update.bind(this, false)
-            };
+            params.on('update:activeArea', this.updateState.bind(this));
 
-            params.on('update:activeArea', this.pullParams.bind(this));
+            return this;
+        },
 
-            this.elems.forEach(function(elem){
-                elem.on(handlers);
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
+
+            elem.on({
+                update:     this.onChildrenUpdate.bind(this),
+                loading:    this.onContentLoading.bind(this, true),
+                loaded:     this.onContentLoading.bind(this, false)
             });
 
             return this;
         },
 
-        pullParams: function() {
-            var params  = this.provider.params,
-                area    = params.get('activeArea');
+        pushParams: function() {
+            var params = this.provider.params;
 
-            this.visible(area === this.name);
+            if(this.active()){
+                params.set('activeArea', this.name);
+            }
+        },
 
+        updateState: function(area) {
+            var active = area === this.name;
+
+            this.trigger('active', active)
+                .active(active);
+                
             return this;
         },
+        
+        setActive: function(){
+            this.active(true);
 
-        update: function(changed){
-            var params  = this.provider.params,
-                areas   = params.get('changedAreas') || [];
-
-            areas = changed ?
-                _.union(areas, [this.name]) :
-                _.without(areas, this.name);
-
-            params.set('changedAreas', areas);
+            this.pushParams();
         },
 
-        getTemplate: function () {
-            return 'ui/area';
+        onChildrenUpdate: function(changed, element, settings){
+            var params  = this.provider.params;
+
+            if (settings.makeVisible) {
+                this.setActive();
+            }
+
+            this.changed(changed);
+        },
+
+        onContentLoading: function(finished){
+            this.loading(finished);
         }
     });
-
-    return Collection(Area);
 });

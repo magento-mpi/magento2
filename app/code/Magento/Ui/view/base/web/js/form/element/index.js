@@ -7,20 +7,20 @@
 define([
     './abstract',
     './select',
-    './multiple_select',
-    './textarea'
-], function (Abstract, Select, MultipleSelect, Textarea) {
+    './textarea',
+    './boolean'
+], function (Abstract, Select, Textarea, Bool) {
     'use strict';
 
     return {
         input:              Abstract,
         email:              Abstract,
-        checkbox:           Abstract,
+        checkbox:           Bool,
         price:              Abstract,
         date:               Abstract,
         media:              Abstract,
         select:             Select,
-        multiple_select:    MultipleSelect,
+        multiple_select:    Select,
         textarea:           Textarea
     }
 });

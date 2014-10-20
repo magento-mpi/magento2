@@ -5,37 +5,44 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/lib/ko/scope',
     'underscore',
     'mage/utils',
-    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/form/component',
     'Magento_Ui/js/lib/validation/validator'
-], function (Scope, _, utils, EventsBus, validator) {
+], function (_, utils, Component, validator) {
     'use strict';
 
     var defaults = {
-        tooltip:        null,
-        label:          '',
-        required:       false,
-        module:         'ui',
-        type:           'input',
-        value:          '',
-        description:    '',
-        validation: {},
-        validateOnChange: true
+        tooltip:            null,
+        required:           false,
+        disabled:           false,
+        module:             'ui',
+        type:               'input',
+        placeholder:        null,
+        noticeid:           null,
+        description:        '',
+        label:              '',
+        error:              '',
+        addbefore:          '',
+        addafter:           '',
+        notice:             null
     };
 
-    return Scope.extend({
+    var __super__ = Component.prototype;
+
+    return Component.extend({
 
         /**
          * Invokes initialize method of parent class and initializes properties of instance.
          * @param {Object} config - form element configuration
          */
-        initialize: function (config) {
-            _.extend(this, defaults, config);
-        
+        initialize: function () {
+            _.extend(this, defaults);
+
+            __super__.initialize.apply(this, arguments);
+
             this.setUniqueId()
-                .initObservable();
+                .initDisableStatus();
 
             this.value.subscribe(this.onUpdate, this);
         },
@@ -45,10 +52,20 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
+            var rules;
+
+            __super__.initObservable.apply(this, arguments);
+
+            this.value = this.provider.data.get(this.name);
+
+            rules = this.validation = this.validation || {};
+            
             this.observe({
-                'value': this.initialValue = this.value,
-                'required': this.required,
-                'errorMessages': []
+                'value':         this.initialValue = this.provider.data.get(this.name),
+                'required':      rules['required-entry'],
+                'disabled':      this.disabled,
+                'error':         this.error,
+                'focused':       false
             });
 
             return this;
@@ -65,11 +82,35 @@ define([
         },
 
         /**
+         * Sets notice id for element
+         * @return {Object} - reference to instance
+         */
+        setNoticeId: function () {
+            if (this.notice) {
+                this.noticeid = 'notice-' + this.uid;
+            }
+
+            return this;
+        },
+
+        initDisableStatus: function() {
+            var self = this;
+
+            _.each(this.disable_rules, function(triggeredValue, path){
+                self.provider.data.on('update:' + path, function(changedValue){
+                    self.disabled(triggeredValue === changedValue);
+                });
+            });
+
+            return self;
+        },
+
+        /**
          * Stores element's value to registry by element's path value
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.refs.provider.data.set(this.name, value);
+            this.provider.data.set(this.name, value);
         },
 
         /**
@@ -77,19 +118,22 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.module + '/form/element/' + this.type;
+            return this.template ? this.template : this.module + '/form/element/' + this.type;
         },
 
         /**
          * Is being called when value is updated
          */
-        onUpdate: function(value){
-            if (this.validateOnChange) {
-                this.trigger('validate', this.validate());
-            }
+        onUpdate: function (value) {
+            var isValid = this.validate();
 
-            this.trigger('update', this.name, value)
-                .store(value);
+            this.trigger('update', this, {
+                value:          value,
+                isValid:        isValid,
+                makeVisible:    false
+            });
+
+            this.store(value);
         },
 
         /**
@@ -101,33 +145,41 @@ define([
         },
 
         /**
-         * Validates itself by it's validation rules using validator.
+         * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
-         *     errorMessages array.
-         * Triggers validate event on the instance passing the result of
-         *     validation to it.
+         *     errors array.
          *     
          * @return {Boolean} - true, if element is valid
          */
-        validate: function () {
+        validate: function (showErrors) {
             var value       = this.value(),
-                messages    = [],
-                invalid     = [],
                 rules       = this.validation,
-                isValid;
+                isValid     = true,
+                isAllValid  = true;
 
-            _.each(rules, function (params, rule) {
-                if (!validator.validate(rule, value, params)) {
-                    invalid.push(rule);
-                    messages.push(validator.messageFor(rule));
+            isAllValid = _.every(rules, function (params, rule) {
+                isValid = validator.validate(rule, value, params);
+
+                if (!isValid) {
+                    this.error(validator.messageFor(rule));
                 }
-            });
 
-            isValid = !invalid.length;
-            this.errorMessages(messages);
-            this.trigger('validate', isValid);
+                return isValid;
+            }, this);
 
-            return isValid;
+            if (isAllValid) {
+                this.error('');
+            } else if (showErrors) {
+                this.trigger('update', this, {
+                    value:          value,
+                    isValid:        isAllValid,
+                    makeVisible:    true
+                });
+
+                this.focused(true);
+            }
+
+            return isAllValid;
         }
-    }, EventsBus);
+    });
 });

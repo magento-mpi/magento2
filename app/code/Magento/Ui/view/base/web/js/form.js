@@ -14,25 +14,6 @@ define(function (require) {
         utils       = require('mage/utils'),
         _           = require('underscore');
 
-    var defaults = {
-        elements: {},
-        validateOnChange: true
-    };
-
-    /**
-     * Defines if an object is meta descriptor by checking if one has
-     *     "meta_ref" or "input_type" properties defined
-     *     
-     * @param  {Object}  obj
-     * @return {Boolean} - true, if object is meta descriptor
-     */
-    function isMetaDescriptor(obj) {
-        var isMetaReference = obj && obj.meta_ref,
-            hasInputType    = obj && obj.input_type;
-
-        return !!(isMetaReference || hasInputType);
-    }
-
     var Form = Scope.extend({
 
         /**
@@ -41,7 +22,7 @@ define(function (require) {
          * @param  {Object} config
          */
         initialize: function (config) {
-            _.extend(this, defaults, config);
+            _.extend(this, config);
 
             this.initProperties()
                 .createElements(this.meta);
@@ -54,12 +35,13 @@ define(function (require) {
          * @return {Object} - reference to instance
          */
         initProperties: function () {
-            var provider = this.refs.provider;
+            var provider = this.provider;
 
-            this.data = provider.data.get();
-            this.meta = provider.meta.get();
-
-            provider.params.set('invalid', []);
+            _.extend(this, {
+                data:       provider.data.get(),
+                meta:       provider.meta.get(),
+                elements:   {}
+            })
 
             return this;
         },
@@ -75,8 +57,7 @@ define(function (require) {
          * @param  {String} basePath - path to obj (e.g. "customer.website")
          */
         createElements: function (obj, basePath) {
-            var reference,
-                path = '';
+            var path = '';
 
             _.each(obj, function (element, name) {
                 element     = obj[name];
@@ -86,7 +67,7 @@ define(function (require) {
                     return;
                 }
 
-                isMetaDescriptor(element) 
+                ('input_type' in element)
                     ? this.createElement(element, path)
                     : this.createElements(element, path);
 
@@ -103,22 +84,16 @@ define(function (require) {
          * @param  {Object} name - name for instance
          */
         createElement: function (config, name) {
-            var metaReference   = config.meta_ref,
-                type            = config.input_type,
+            var type            = config.input_type,
                 constr          = elements[type],
                 element;
-
-            if (metaReference) {
-                _.extend(config, this.meta[metaReference]);
-                delete config.meta_ref;
-            }
 
             _.extend(config, {
                 name: name,
                 type: type,
-                refs: this.refs,
                 value: utils.nested(this.data, name),
-                validateOnChange: this.validateOnChange
+                provider: this.provider,
+                globalStorage: this.globalStorage
             });
 
             delete config.input_type;
@@ -156,25 +131,19 @@ define(function (require) {
             console.log('submitting form lalala')
         },
 
+        isElementValid: function (element) {
+            return element.validate(true);
+        },
+
         /**
          * Validates each element and returns true, if all elements are valid.
          * 
          * @return {Boolean}
          */
         validate: function () {
-            var provider = this.refs.provider,
-                params   = provider.params,
-                isValid;
+            var isElementValid = this.isElementValid.bind(this);
 
-            params.set('invalid', [])
-
-            _.each(this.elements, function (element) {
-                element.validate();
-            });
-
-            isValid = !params.get('invalid').length;
-
-            return isValid;
+            return _.every(this.elements, isElementValid);
         }
     });
     
@@ -187,10 +156,11 @@ define(function (require) {
      */
     return function (config) {
         registry.get([config.source, 'globalStorage'], function (provider, globalStorage) {
-            config.refs = {
+
+            _.extend(config, {
                 provider: provider,
                 globalStorage: globalStorage
-            };
+            });
 
             registry.set(config.name, new Form(config));
         });

@@ -28,34 +28,30 @@ define([
         },
 
         initItems: function(){
-            var deps,
-                callback;
+            var config;
                 
             _.each(this.layout, function(item, name){
-                callback    = this.initItem.bind(this, item, name);
-                deps        = item.injections;
-
-                registry.get(deps, callback);
+                config = this.parseConfig(item);
+                
+                this.initItem(config, name);
             }, this);
-
-            console.log('this.layout ',this.layout);
 
             return this;
         },
 
         initItem: function(data, name){            
-            var fullName    = this.name + '.' + name,
-                component   = this.component,
-                injections  = Array.prototype.slice.call(arguments, 2),
+            var fullName            = this.name + '.' + name,
+                injections          = Array.prototype.slice.call(arguments, 2) || [],
+                component           = this.component,
+                componentSettings   = this.item_settings,
                 config,
                 item;
 
             config = _.extend({
                 provider:   this.provider,
                 fullName:   fullName,
-                name:       name,
-                elems:      injections
-            }, data);
+                name:       name
+            }, data, componentSettings);
 
             item = new component(config);
 
@@ -64,6 +60,22 @@ define([
             registry.set(fullName, item);
 
             console.log('Collection this=', this);
+        },
+
+        parseConfig: function(item){
+            var config = {};
+
+            if (typeof item === 'string') {
+                config.injections = item.split(' ');
+            } else if (Array.isArray(item)) {
+                config.injections = item;
+            } else {
+                _.extend(config, item);
+            }
+
+            config.injections = config.injections || [];
+
+            return config;
         },
 
         getTemplate: function () {

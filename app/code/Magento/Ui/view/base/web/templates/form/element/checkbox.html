@@ -6,9 +6,16 @@
  * @license     {license_link}
  */
 -->
-<input type="checkbox" data-bind="checked: value, attr: { id: uid }">
-<!-- ko if: description -->
-    <label>
+<div class="form__field choice">
+    <input type="checkbox" class="control-checkbox" data-bind="checked: value, attr: { id: uid, disabled: disabled }, hasFocus: focused">
+    
+    <!-- ko if: description -->
+    <label class="label" data-bind="checked: value, attr: { for: uid }">
         <span data-bind="text: description"></span>
     </label>
-<!-- /ko -->
+    <!-- /ko -->
+    
+    <!-- ko if: notice -->
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"></span></div>
+    <!-- /ko -->
+</div>

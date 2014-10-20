@@ -6,72 +6,35 @@
  */
 define([
     'underscore',
-    'Magento_Ui/js/initializer/collection',
-    'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/events'
-], function(_, Collection, Scope, EventsBus) {
+    '../collapsible'
+], function(_, Collapsible) {
     'use strict';
 
-    var defaults = {
-        collapsible:    false,
-        opened:         true,
-        template:       'ui/fieldset/fieldset',
-        label:        '',
-        content:        '',
-        ajax:           false
-    };
+    var __super__ = Collapsible.prototype;
 
-    var Fieldset = Scope.extend({
-        initialize: function(config) {
-            _.extend(this, defaults, config);
+    return Collapsible.extend({
+        initialize: function() {
+            this.template = 'ui/fieldset/fieldset';
 
-            this.initObservable()
-                .initListeners();
+            __super__.initialize.apply(this, arguments);
         },
 
-        initObservable: function(){
-            this.observe({
-                'opened': this.opened,
-                'content': this.content
-            });
+        initElement: function(elem){
+            __super__.initElement.apply(this, arguments);
+
+            elem.on('update', this.onElementUpdate.bind(this));
 
             return this;
         },
 
-        initListeners: function(){
-            var update = this.onElementUpdate.bind(this);
-
-            this.elems.forEach(function(elem){
-                elem.on('update', update);
-            });
-
-            return this;
-        },
-
-        toggle: function() {
-            var opened = this.opened;
-
-            if(this.collapsible){
-                opened(!opened());
-            }
-
-            return this;
-        },
-
-        getTemplate: function(){
-            return this.template;
-        },
-
-        onElementUpdate: function(){
+        onElementUpdate: function(element, settings){
             var changed;
 
-            this.elems.some(function(elem){
+            this.elems().some(function(elem){
                 return (changed = elem.hasChanged());
             });
 
-            this.trigger(changed ? 'change' : 'restore');
+            this.trigger('update', changed, this, settings);
         }
-    }, EventsBus);
-
-    return Collection(Fieldset);
+    });
 });

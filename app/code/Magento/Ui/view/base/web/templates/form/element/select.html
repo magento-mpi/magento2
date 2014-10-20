@@ -6,10 +6,20 @@
  * @license     {license_link}
  */
 -->
-<!-- ko ifnot: no_caption -->
-<select class="select" data-bind="attr: { id: uid }, options: options, value: value, optionsText: 'label', optionsCaption: caption" />
-<!-- /ko -->
-
-<!-- ko if: no_caption -->
-<select class="select" data-bind="attr: { id: uid }, options: options, value: value, optionsText: 'label'" />
-<!-- /ko -->
+<select class="control-select"
+        data-bind="
+                   attr: {
+                        id: uid,
+                        size: size,
+                        disabled: disabled,
+                        multiple: multiple,
+                        'aria-describedby': noticeid,
+                        placeholder: placeholder,
+                   },
+                   css: {'multiselect': multiple},
+                   hasFocus: focused,
+                   optgroup: options,
+                   selectedOptions: value,
+                   optionsCaption: caption,
+                   optionsValue: 'value',
+                   optionsText: 'label'" />

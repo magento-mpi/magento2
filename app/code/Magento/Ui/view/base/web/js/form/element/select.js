@@ -5,44 +5,46 @@
  * @license     {license_link}
  */
 define([
-    './abstract',
     'underscore',
+    './abstract',
     'i18n'
-], function (AbstractElement, _, i18n) {
+], function (_, Abstract, i18n) {
     'use strict';
 
     var defaults = {
         caption: i18n('Select...'),
-        no_caption: false
+        multiple: false,
+        disabled: false,
+        size: 10,
+        template: 'ui/form/element/select'
     };
 
-    return AbstractElement.extend({
+    var __super__ = Abstract.prototype;
+
+    return Abstract.extend({
 
         /**
-         * Extends instance with defaults, extends config with formatted values 
+         * Extends instance with defaults, extends config with formatted values
          *     and options, and invokes initialize method of AbstractElement class.
-         * @param {Object} config - form element configuration
          */
-        initialize: function (config) {
+        initialize: function () {
             _.extend(this, defaults);
 
-            this.extendConfig(config);
+            __super__.initialize.apply(this, arguments);
 
-            AbstractElement.prototype.initialize.apply(this, arguments);
+            this.extendConfig();
         },
 
-        /**
-         * Rewrites value and options properties of config by formatted ones.
-         * @param  {Object} config [description]
-         */
-        extendConfig: function (config) {
-            var options = this.formatOptions(config.options),
-                value   = this.formatValue(config.value, options);
+        extendConfig: function(){
+            if (this.type === 'multiple_select') {
+                this.multiple = true;
+                this.caption  = false;
+            } else {
+                this.size = false;
+            }
+            this.initialValue = JSON.stringify(this.value());
 
-            _.extend(config, {
-                options: options,
-                value: value
-            });
+            return this;
         },
 
         /**
@@ -50,39 +52,29 @@ define([
          * @param  {*} changedValue - current value of form element
          */
         store: function (changedValue) {
-            this.refs.provider.data.set(this.name, changedValue.value);
-        },
-
-        /**
-         * Formats options to array of {value: '...', label: '...'} objects.
-         * @param  {Object} options
-         * @return {Array} - formatted options
-         */
-        formatOptions: function (options) {
-            return _.map(options, function (fullValue, index) {
-                return {
-                    label: fullValue.label || '',
-                    value: fullValue.name || ''
-                };
-            });
-        },
-
-        /**
-         * Formats initial value of select by looking up for corresponding
-         *     value to options.
-         * @param  {Number} value
-         * @param  {Array} options
-         * @return {Object} - { value: '...', label: '...' }
-         */
-        formatValue: function (value, options) {
-            var formattedValue = value + '',
-                indexedOptions = _.indexBy(options, 'value');
-
-            if (formattedValue) {
-                formattedValue = indexedOptions[value];
+            var storedValue;
+            if (this.type === 'multiple_select') {
+                storedValue = !Array.isArray(changedValue) ? [changedValue] : changedValue;
+            } else {
+                storedValue = Array.isArray(changedValue) ? changedValue[0] : changedValue;
             }
 
-            return formattedValue;
+            this.provider.data.set(this.name, storedValue);
+        },
+
+        /**
+         * Defines if value has changed
+         * @return {Boolean}
+         */
+        hasChanged: function () {
+            var storedValue, changedValue = this.value();
+            if (this.type === 'multiple_select') {
+                storedValue = !Array.isArray(changedValue) ? [changedValue] : changedValue;
+            } else {
+                storedValue = Array.isArray(changedValue) ? changedValue[0] : changedValue;
+            }
+
+            return JSON.stringify(storedValue) !== this.initialValue;
         }
     });
 });
