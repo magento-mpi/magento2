@@ -12,6 +12,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder;
 use Magento\Webapi\Model\DataObjectProcessor;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 
 /**
  * Class to test if custom attributes are serialized correctly for the new Module Service Contract approach
@@ -57,6 +58,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
     protected $dataObjectProcessor;
 
     /**
+     * @var DataObjectConverter $dataObjectConverter
+     */
+    protected $dataObjectConverter;
+
+    /**
      * Set up custom attribute related data objects
      */
     protected function setUp()
@@ -83,6 +89,10 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
         $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
             'Magento\Webapi\Model\DataObjectProcessor'
+        );
+
+        $this->dataObjectConverter = Bootstrap::getObjectManager()->create(
+            'Magento\Webapi\Controller\Rest\Response\DataObjectConverter'
         );
     }
 
@@ -165,7 +175,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $requestData = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
-        $expectedResponse = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput(
+            $item,
+            '\Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface',
+            'itemAnyType'
+        );
         //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
@@ -208,9 +222,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setCustomAttribute($customAttributeDataObjectAttributeValue)
             ->setCustomAttribute($customAttributeStringAttributeValue)
             ->create();
-        $expectedResponse = $this->dataObjectProcessor->buildOutputDataArray(
+
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModuleMSC\Service\V1\Entity\ItemInterface'
+            '\Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface',
+            'getPreconfiguredItem'
         );
         $this->assertEquals($expectedResponse, $result);
     }
@@ -267,7 +283,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         );
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
-        $expectedResponse = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
+        $expectedResponse = $this->dataObjectConverter->processServiceOutput(
+            $item,
+            '\Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface',
+            'itemAnyType'
+        );
         //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
