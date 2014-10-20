@@ -9,11 +9,6 @@
 <?php /** @var $this \Magento\Shipping\Block\Tracking\Popup */ ?>
 <?php $_results = $this->getTrackingInfo(); ?>
 <div class="page tracking">
-    <div class="page-title">
-        <h1 class="title">
-            <span class="base"><?php echo __('Tracking Information'); ?></span>
-        </h1>
-    </div>
     <?php if(sizeof($_results)>0): ?>
     <?php foreach($_results as $shipid => $_result): ?>
         <?php if($shipid): ?>
@@ -129,10 +124,10 @@
                                 <?php $_detailDate = (isset($_detail['deliverydate']) ? $this->formatDeliveryDate($_detail['deliverydate']) : '') ?>
                                 <?php $_detailTime = (isset($_detail['deliverytime']) ? $this->formatDeliveryTime($_detail['deliverytime'], $_detail['deliverydate']) : '') ?>
                                 <tr>
-                                    <td class="col location"><?php echo (isset($_detail['deliverylocation']) ? $_detail['deliverylocation'] : ''); ?></td>
-                                    <td class="col date"><?php echo $_detailDate ?></td>
-                                    <td class="col time"><?php echo $_detailTime ?></td>
-                                    <td class="col description"><?php echo (isset($_detail['activity']) ? $_detail['activity'] : '') ?></td>
+                                    <td data-th="<?php echo $this->escapeHtml(__('Location')) ?>" class="col location"><?php echo (isset($_detail['deliverylocation']) ? $_detail['deliverylocation'] : ''); ?></td>
+                                    <td data-th="<?php echo $this->escapeHtml(__('Date')) ?>" class="col date"><?php echo $_detailDate ?></td>
+                                    <td data-th="<?php echo $this->escapeHtml(__('Local Time')) ?>" class="col time"><?php echo $_detailTime ?></td>
+                                    <td data-th="<?php echo $this->escapeHtml(__('Description')) ?>" class="col description"><?php echo (isset($_detail['activity']) ? $_detail['activity'] : '') ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

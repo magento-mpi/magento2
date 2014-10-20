@@ -52,7 +52,6 @@ class AssertInvoiceInInvoicesGrid extends AbstractConstraint
                 $invoiceIndex->getInvoicesGrid()->isRowVisible($filter, false, false),
                 'Invoice is absent in invoices grid on invoice index page.'
             );
-
         }
     }
 

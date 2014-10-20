@@ -67,11 +67,11 @@
                 <div class="nested">
                     <div id="radio:item${_index_}_<?php echo $bundleID?>">
                         <div class="table-wrapper">
-                            <table class="data table" id="return-items-table-<?php echo $bundleID?>">
+                            <table class="data table table-return-items" id="return-items-table-<?php echo $bundleID?>">
                                 <caption class="table-caption"><?php echo __('Return items'); ?></caption>
                                 <thead>
                                     <tr>
-                                        <th colspan="2" class="col subitems" scope="col"><?php echo __('Sub-items') ?></th>
+                                        <th class="col product" scope="col"><?php echo __('Sub-items') ?></th>
                                         <th class="col remaining qty" scope="col"><?php echo __('Remaining Qty') ?></th>
                                         <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
                                     </tr>
@@ -79,18 +79,16 @@
                                 <tbody>
                                 <?php foreach($node as $item): ?>
                                     <tr>
-                                        <td class="col">
+                                        <td data-th="<?php echo $this->escapeHtml(__('Product')) ?>" class="col product">
                                             <?php if ($item[3]): ?>
                                                 <input type="checkbox" disabled>
                                             <?php else: ?>
                                                 <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
                                             <?php endif; ?>
-                                        </td>
-                                        <td class="col product">
                                             <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo ($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
                                         </td>
-                                        <td class="col remaining qty"><?php echo $item[2] ?></td>
-                                        <td class="col qty">
+                                        <td data-th="<?php echo $this->escapeHtml(__('Remaining Qty')) ?>" class="col remaining qty"><?php echo $item[2] ?></td>
+                                        <td data-th="<?php echo $this->escapeHtml(__('Qty')) ?>" class="col qty">
                                             <?php if (!$item[3]): ?>
                                                 <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="number" style="display:none" disabled class="input-text">
                                             <?php endif; ?>
@@ -111,7 +109,7 @@
             <div class="control">
                 <input type="number" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
                 <div class="note" id="remaining_quantity_block_${_index_}">
-                    <?php echo __('Remaining quantity: ') ?><span id="remaining_quantity_${_index_}" class="qty remaining"></span>
+                    <?php echo __('Remaining quantity:') ?>&nbsp;<span id="remaining_quantity_${_index_}" class="qty remaining"></span>
                 </div>
             </div>
 

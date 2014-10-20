@@ -10,6 +10,7 @@
 @import "toolbar.less";
 
 @product-info-price: #575757;
+@product-h1-margin-bottom-desktop: @indent-s-base + @indent-xs-base;
 
 //
 //    Category view
@@ -147,11 +148,6 @@
 }
 
 .product-info-main {
-    .page-title {
-        h1 {
-            margin-bottom: @indent-xs-base;
-        }
-    }
     .product-info-price {
         border-bottom: 1px #c1c1c1 solid;
         display: table;
@@ -381,7 +377,7 @@
     .product-info-main {
         .page-title {
             h1 {
-                margin-bottom: @indent-s-base + @indent-xs-base;
+                .css(margin-bottom, @product-h1-margin-bottom-desktop);
             }
         }
         .product-add-form {

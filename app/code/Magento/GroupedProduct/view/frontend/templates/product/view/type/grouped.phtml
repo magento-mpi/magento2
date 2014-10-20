@@ -34,7 +34,7 @@
         <?php foreach ($_associatedProducts as $_item): ?>
         <tbody>
             <tr>
-                <td class="col item">
+                <td data-th="<?php echo $this->escapeHtml(__('Product Name')); ?>" class="col item">
                     <strong class="product name"><?php echo $this->escapeHtml($_item->getName()) ?></strong>
                     <?php if ($this->getCanShowProductPrice($_product)): ?>
                         <?php if ($this->getCanShowProductPrice($_item)): ?>
@@ -43,7 +43,7 @@
                      <?php endif; ?>
                 </td>
                 <?php if ($_product->isSaleable()): ?>
-                <td class="col qty">
+                <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>"  class="col qty">
                 <?php if ($_item->isSaleable()) : ?>
                     <div class="control qty">
                         <input type="number" name="super_group[<?php echo $_item->getId() ?>]"

@@ -60,9 +60,9 @@
                     <?php foreach($package->getItems() as $itemId => $item) : ?>
                         <?php $item = new \Magento\Framework\Object($item) ?>
                         <tr title="#">
-                            <td class="col product"> <?php echo $item->getName(); ?></td>
-                            <td class="col weight"><?php echo $item->getWeight(); ?></td>
-                            <td class="col qty"><?php echo $item->getQty()*1; ?></td>
+                            <td data-th="<?php echo $this->escapeHtml(__('Product')); ?>" class="col product"> <?php echo $item->getName(); ?></td>
+                            <td data-th="<?php echo $this->escapeHtml(__('Weight')); ?>" class="col weight"><?php echo $item->getWeight(); ?></td>
+                            <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>" class="col qty"><?php echo $item->getQty()*1; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

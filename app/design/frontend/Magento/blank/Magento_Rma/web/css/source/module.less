@@ -81,6 +81,34 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .form-create-return {
+        .fieldset {
+            > .actions-toolbar {
+                &:extend(.abstract-add-clearfix-mobile-m all);
+            }
+        }
+    }
+    .account {
+        .column.main {
+            .returns-details-items {
+                .block-returns-tracking {
+                    .block-title {
+                        > .action.track {
+                            float: none;
+                            display: block;
+                            margin: @indent-s-base 0 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
@@ -104,6 +132,16 @@
                         &:extend(.abstract-blocks-2columns all);
                         margin-bottom: @indent-base;
                     }
+                }
+            }
+        }
+    }
+    .block-returns-tracking {
+        .block-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
                 }
             }
         }

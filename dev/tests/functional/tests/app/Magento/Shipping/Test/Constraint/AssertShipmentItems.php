@@ -10,6 +10,7 @@ namespace Magento\Shipping\Test\Constraint;
 
 use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Constraint\AbstractAssertItems;
 use Magento\Shipping\Test\Page\Adminhtml\ShipmentIndex;
 use Magento\Shipping\Test\Page\Adminhtml\SalesShipmentView;
 
@@ -50,17 +51,17 @@ class AssertShipmentItems extends AbstractAssertItems
      * @param SalesShipmentView $orderShipmentView
      * @param OrderInjectable $order
      * @param array $ids
-     * @param array|null $shipment [optional]
+     * @param array|null $data [optional]
      * @return void
      */
     public function processAssert(
         SalesShipmentView $orderShipmentView,
         OrderInjectable $order,
         array $ids,
-        array $shipment = null
+        array $data = null
     ) {
         $this->shipmentPage->open();
-        $this->assert($order, $ids, $orderShipmentView, $shipment);
+        $this->assert($order, $ids, $orderShipmentView, $data);
     }
 
     /**
@@ -69,17 +70,17 @@ class AssertShipmentItems extends AbstractAssertItems
      * @param OrderInjectable $order
      * @param array $ids
      * @param SalesShipmentView $salesShipmentView
-     * @param array|null $shipment [optional]
+     * @param array|null $data [optional]
      * @return void
      */
     protected function assert(
         OrderInjectable $order,
         array $ids,
         SalesShipmentView $salesShipmentView,
-        array $shipment = null
+        array $data = null
     ) {
         $orderId = $order->getId();
-        $productsData = $this->prepareOrderProducts($order, $shipment);
+        $productsData = $this->prepareOrderProducts($order, $data['items_data']);
         foreach ($ids['shipmentIds'] as $shipmentId) {
             $filter = [
                 'order_id' => $orderId,
