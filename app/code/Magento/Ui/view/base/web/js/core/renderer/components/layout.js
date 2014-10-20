@@ -42,8 +42,8 @@ define([
     }
 
     return Class.extend({
-        initialize: function(nodes) {
-            this.types      = registry.get('globalStorage').types;
+        initialize: function(nodes, types) {
+            this.types      = types;
             this.registry   = registry.create();
 
             this.process(nodes);

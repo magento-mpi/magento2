@@ -27,7 +27,7 @@ define([
 
             this.initChildTemplate();
 
-            this.layout = registry.get('globalStorage').layout;
+            this.renderer = registry.get('globalStorage').renderer;
         },
 
         initObservable: function () {
@@ -53,7 +53,7 @@ define([
 
         initChildTemplate: function () {
             this.childTemplate = {
-                type: this.childType,
+                template: this.childTemplate,
                 appendTo: this.name,
                 parentName: this.name,
                 config: {}
@@ -71,7 +71,9 @@ define([
                 }
             });
 
-            this.layout.process([this.childTemplate]);
+            this.renderer.render({
+                layout: [this.childTemplate]
+            });
         },
 
         removeElement: function (element) {
