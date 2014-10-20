@@ -40,7 +40,9 @@
                             <dt class="item-title"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
                             <dd class="item-content">
                                 <fieldset class="fieldset">
-                                    <legend class="legend"><span><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></span></legend>
+                                    <legend class="legend">
+                                        <span><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></span>
+                                    </legend><br>
                                     <?php $_sole = $_sole && count($_rates) == 1; foreach ($_rates as $_rate): ?>
                                     <div class="field choice">
                                     <?php if ($_rate->getErrorMessage()): ?>

@@ -17,7 +17,7 @@
         <dt class="item-title <?php echo $code ?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
         <dd class="item-content <?php echo $code ?>">
             <fieldset class="fieldset">
-                <legend class="legend"><span><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></span></legend>
+                <legend class="legend"><span><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></span></legend><br>
                 <?php $_sole = $_sole && count($_rates) == 1; foreach ($_rates as $_rate): ?>
                     <?php $shippingCodePrice[] = '"'.$_rate->getCode().'":'.(float)$_rate->getPrice(); ?>
                     <div class="field choice">
