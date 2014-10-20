@@ -59,13 +59,13 @@ class Review implements SetupInterface
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
-        \Magento\Catalog\Model\Resource\Product\Collection $productCollection
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->ratingFactory = $ratingFactory;
-        $this->productCollection = $productCollection->addAttributeToSelect('sku');
+        $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
     }
 
     /**
