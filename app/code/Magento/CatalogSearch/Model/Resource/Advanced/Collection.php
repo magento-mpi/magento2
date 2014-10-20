@@ -149,15 +149,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 }
             }
             $queryRequest = $this->requestBuilder->create();
-
             $queryResponse = $this->searchEngine->search($queryRequest);
-            $ids = [];
+
+            $ids = [0];
             /** @var \Magento\Framework\Search\Document $document */
             foreach ($queryResponse as $document) {
                 $ids[] = $document->getId();
             }
 
-            $this->addFieldToFilter('entity_id', array('in' => $ids));
+            $this->addIdFilter($ids);
         }
         return parent::_renderFiltersBefore();
     }

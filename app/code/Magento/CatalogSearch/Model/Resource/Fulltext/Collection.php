@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
+use Magento\Framework\DB\Select;
+
 /**
  * Fulltext Collection
  */
@@ -134,25 +136,27 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _renderFiltersBefore()
     {
-        $this->requestBuilder->bindDimension('scope', $this->getStoreId());
-        $this->requestBuilder->bind('search_term', $this->queryText);
-        $this->requestBuilder->setRequestName('quick_search_container');
-        $queryRequest = $this->requestBuilder->create();
+        if ($this->queryText) {
+            $this->requestBuilder->bindDimension('scope', $this->getStoreId());
+            $this->requestBuilder->bind('search_term', $this->queryText);
+            $this->requestBuilder->setRequestName('quick_search_container');
+            $queryRequest = $this->requestBuilder->create();
 
-        $queryResponse = $this->searchEngine->search($queryRequest);
-        $ids = [];
-        /** @var \Magento\Framework\Search\Document $document */
-        foreach ($queryResponse as $document) {
-            $ids[] = $document->getId();
+            $queryResponse = $this->searchEngine->search($queryRequest);
+            $ids = [0];
+            /** @var \Magento\Framework\Search\Document $document */
+            foreach ($queryResponse as $document) {
+                $ids[] = $document->getId();
+            }
+            $this->addIdFilter($ids);
+
+            $this->getSelect()
+                ->columns(
+                    [
+                        'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
+                    ]
+                );
         }
-        $this->addIdFilter($ids);
-
-        $this->getSelect()->columns(
-            [
-                'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
-            ]
-        );
-
         return parent::_renderFiltersBefore();
     }
 
@@ -163,7 +167,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param string $dir
      * @return $this
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = Select::SQL_DESC)
     {
         if ($attribute == 'relevance') {
             $this->getSelect()->order("relevance {$dir}");
@@ -181,15 +185,5 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setGeneralDefaultQuery()
     {
         return $this;
-    }
-
-    /**
-     * Retrieve query model object
-     *
-     * @return \Magento\Search\Model\Query
-     */
-    protected function _getQuery()
-    {
-        return $this->queryFactory->get();
     }
 }
