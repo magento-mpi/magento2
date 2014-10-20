@@ -1,0 +1,3 @@
+"customer/dataSet";"invitation/data/email";"invitation/data/message";"status";"constraint"
+"default";"test%isolation%_1@email.com, test%isolation%_2@email.com, test%isolation%_3@email.com, test%isolation%_4@email.com, test%isolation%_5@email.com";"testmessage%isolation%";"Sent";"assertFrontendInvitationSentSuccessMessage, assertInvitationInGridOnFrontend, assertInvitationInGrid"
+"default";"test@email.com, test@email.com";"-";"Sent";"assertFrontendInvitationSendFailDuplicateMessage, assertInvitationOneEntry"
