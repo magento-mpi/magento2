@@ -2,6 +2,7 @@
 # because it is used in infrastructure for running tests
 
 # Functional tests
+~dev/tests/functional/tests/app/Magento/AdvancedCheckout
 ~dev/tests/functional/tests/app/Magento/Authorizenet
 ~dev/tests/functional/tests/app/Magento/Banner
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Layer
