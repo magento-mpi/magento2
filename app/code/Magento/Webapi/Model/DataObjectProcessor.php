@@ -216,8 +216,8 @@ class DataObjectProcessor
                 $baseClassMethods = false;
                 foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     // Include all the methods of classes inheriting from AbstractExtensibleObject.
-                    // Ignore all the methods of AbstractExtensibleObject's parent classes
-                    $baseClass = 'Magento\Framework\Service\Data\AbstractExtensibleObject';
+                    // Ignore all the methods of AbstractExtensibleModel's parent classes
+                    $baseClass = 'Magento\Framework\Model\AbstractExtensibleModel';
                     if ($method->class === $baseClass) {
                         $baseClassMethods = true;
                     }
