@@ -261,20 +261,26 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/group-prices" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface" method="getList"/>
+    <route url="/V1/products/:productSku/group-prices/websiteId/:websiteId" method="GET">
+        <service class="Magento\Catalog\Api\ProductGroupPriceManagementInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/group-prices" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface" method="set"/>
+    <route url="/V1/products/:productSku/group-prices/" method="GET">
+        <service class="Magento\Catalog\Api\ProductGroupPriceManagementInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/group-prices/:customerGroupId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface" method="delete"/>
+    <route url="/V1/products/:productSku/group-prices/:customerGroupId/price/:price/websiteId/:websiteId" method="POST">
+        <service class="Magento\Catalog\Api\ProductGroupPriceManagementInterface" method="add"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/group-prices/:customerGroupId/websiteId/:websiteId" method="DELETE">
+        <service class="Magento\Catalog\Api\ProductGroupPriceManagementInterface" method="remove"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
