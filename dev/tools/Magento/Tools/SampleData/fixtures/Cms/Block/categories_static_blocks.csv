@@ -41,6 +41,31 @@ title,identifier,content,category_url_key
    </div>
 </div>
 ",
+"Sale Left Menu Block",sale-left-menu-block,"<span class=""menu-section"">Women's Deals</span>
+<ul>
+    <li><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies and Sweatshirts</a></li>
+    <li><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
+    <li><a href=""{{category url=""tees-women""}}"">Tees</a></li>
+    <li><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
+    <li><a href=""{{category url=""pants-women""}}"">Pants</a></li>
+    <li><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
+</ul>
+
+<span class=""menu-section"">Men's Deals</span>
+<ul>
+    <li><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies and Sweatshirts</a></li>
+    <li><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
+    <li><a href=""{{category url=""tees-men""}}"">Tees</a></li>
+    <li><a href=""{{category url=""pants-men""}}"">Pants</a></li>
+    <li><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
+</ul>
+
+<span class=""menu-section"">Gear Deals</span>
+<ul>
+    <li><a href=""{{category url=""bags""}}"">Bags</a></li>
+    <li><a href=""{{category url=""fitness-equipment""}}"">Fitness Equipment</a></li>
+</ul>
+",
 Women Block,women-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""women""}}"" class=""block-promo womens-main"">
         <img src=""{{media url=""sale/womens/womens-main.jpg""}}"" alt="""" />

@@ -18,6 +18,11 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 class CmsBlock implements SetupInterface
 {
     /**
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     */
+    protected $categoryFactory;
+
+    /**
      * @var \Magento\Tools\SampleData\Helper\Fixture
      */
     protected $fixtureHelper;
@@ -53,6 +58,7 @@ class CmsBlock implements SetupInterface
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param array $fixtures
      */
     public function __construct(
@@ -61,6 +67,7 @@ class CmsBlock implements SetupInterface
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
         $fixtures = array(
             'Widget/cmsblock.csv',
         )
@@ -70,6 +77,7 @@ class CmsBlock implements SetupInterface
         $this->widgetFactory = $widgetFactory;
         $this->themeCollection = $themeCollection;
         $this->cmsBlockCollection = $cmsBlockCollection;
+        $this->categoryFactory = $categoryFactory;
         $this->fixtures = $fixtures;
     }
 
@@ -93,6 +101,15 @@ class CmsBlock implements SetupInterface
                 'layout_handle' => 'default',
                 'template' => 'widget/static_block/default.phtml',
                 'page_id' => ''
+            ),
+            'anchor_categories' => array(
+                'entities' => '',
+                'block' => '',
+                'for' => 'all',
+                'is_anchor_only' => 0,
+                'layout_handle' => 'catalog_category_view_type_layered',
+                'template' => 'widget/static_block/default.phtml',
+                'page_id' => ''
             )
         );
 
@@ -114,6 +131,11 @@ class CmsBlock implements SetupInterface
                 $group = $row['page_group'];
                 $pageGroup['page_group'] = $group;
                 $pageGroup[$group] = array_merge($pageGroupConfig[$group], unserialize($row['group_data']));
+                if (!empty($pageGroup[$group]['entities'])) {
+                    $pageGroup[$group]['entities'] = $this->getCategoryByUrlKey(
+                        $pageGroup[$group]['entities']
+                    )->getId();
+                }
 
                 $widgetInstance->setType($type)->setCode($code)->setThemeId($themeId);
                 $widgetInstance->setTitle($row['title'])
@@ -125,5 +147,18 @@ class CmsBlock implements SetupInterface
             }
         }
         echo "\n";
+    }
+
+    /**
+     * @param $urlKey
+     * @return \Magento\Framework\Object
+     */
+    protected function getCategoryByUrlKey($urlKey)
+    {
+        $category = $this->categoryFactory->create()
+            ->addAttributeToFilter('url_key', $urlKey)
+            ->addUrlRewriteToResult()
+            ->getFirstItem();
+        return $category;
     }
 }
