@@ -131,6 +131,8 @@ class DataObjectProcessor
      * @param mixed $value
      * @param string $type
      * @return mixed
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function castValueToType($value, $type)
     {
