@@ -23,16 +23,12 @@ class ReadServiceTest extends WebapiAbstract
             array(
                 'value' => '1',
                 'label' => 'In Stock',
-                'order' => null,
                 'default' => null,
-                'store_labels' => null,
             ),
             array(
                 'value' => '0',
                 'label' => 'Out of Stock',
-                'order' => null,
                 'default' => null,
-                'store_labels' => null,
             )
         );
 

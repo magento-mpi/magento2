@@ -233,21 +233,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $expectedCustomerDetails = $this->_getCustomerDetails($customerData['id'])->__toArray();
         $expectedCustomerDetails['addresses'][0]['id'] =
             (int)$expectedCustomerDetails['addresses'][0]['id'];
-        $expectedCustomerDetails['addresses'][0]['company'] = null;
-        $expectedCustomerDetails['addresses'][0]['fax'] = null;
-        $expectedCustomerDetails['addresses'][0]['middlename'] = null;
-        $expectedCustomerDetails['addresses'][0]['prefix'] = null;
-        $expectedCustomerDetails['addresses'][0]['suffix'] = null;
-        $expectedCustomerDetails['addresses'][0]['vat_id'] = null;
 
         $expectedCustomerDetails['addresses'][1]['id'] =
             (int)$expectedCustomerDetails['addresses'][1]['id'];
-        $expectedCustomerDetails['addresses'][1]['company'] = null;
-        $expectedCustomerDetails['addresses'][1]['fax'] = null;
-        $expectedCustomerDetails['addresses'][1]['middlename'] = null;
-        $expectedCustomerDetails['addresses'][1]['prefix'] = null;
-        $expectedCustomerDetails['addresses'][1]['suffix'] = null;
-        $expectedCustomerDetails['addresses'][1]['vat_id'] = null;
 
         //Test GetDetails
         $serviceInfo = [
@@ -1067,21 +1055,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->__toArray();
         $expectedCustomerDetails['addresses'][0]['id'] =
             (int)$expectedCustomerDetails['addresses'][0]['id'];
-        $expectedCustomerDetails['addresses'][0]['company'] = null;
-        $expectedCustomerDetails['addresses'][0]['fax'] = null;
-        $expectedCustomerDetails['addresses'][0]['middlename'] = null;
-        $expectedCustomerDetails['addresses'][0]['prefix'] = null;
-        $expectedCustomerDetails['addresses'][0]['suffix'] = null;
-        $expectedCustomerDetails['addresses'][0]['vat_id'] = null;
 
         $expectedCustomerDetails['addresses'][1]['id'] =
             (int)$expectedCustomerDetails['addresses'][1]['id'];
-        $expectedCustomerDetails['addresses'][1]['company'] = null;
-        $expectedCustomerDetails['addresses'][1]['fax'] = null;
-        $expectedCustomerDetails['addresses'][1]['middlename'] = null;
-        $expectedCustomerDetails['addresses'][1]['prefix'] = null;
-        $expectedCustomerDetails['addresses'][1]['suffix'] = null;
-        $expectedCustomerDetails['addresses'][1]['vat_id'] = null;
 
         //Test GetDetails
         $serviceInfo = [

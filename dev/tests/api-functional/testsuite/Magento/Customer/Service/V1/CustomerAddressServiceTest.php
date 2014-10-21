@@ -230,11 +230,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $this->assertCount(2, $createdAddressesIds, "IDs for some of created addresses are missing.");
 
         $firstAddressStoredData = $this->customerAddressService->getAddress($createdAddressesIds[0])->__toArray();
-        $firstAddressStoredData['fax'] = null;
-        $firstAddressStoredData['middlename'] = null;
-        $firstAddressStoredData['prefix'] = null;
-        $firstAddressStoredData['suffix'] = null;
-        $firstAddressStoredData['vat_id'] = null;
         unset($firstAddressStoredData['id']);
         $this->assertEquals(
             $firstAddressData,
@@ -244,11 +239,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
 
         $secondAddressStoredData = $this->customerAddressService->getAddress($createdAddressesIds[1])->__toArray();
         unset($secondAddressStoredData['id']);
-        $secondAddressStoredData['fax'] = null;
-        $secondAddressStoredData['middlename'] = null;
-        $secondAddressStoredData['prefix'] = null;
-        $secondAddressStoredData['suffix'] = null;
-        $secondAddressStoredData['vat_id'] = null;
         $this->assertEquals(
             $secondAddressData,
             $secondAddressStoredData,
@@ -325,11 +315,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'default_shipping' => true,
             'customer_id' => '1',
             'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
-            'fax' => null,
-            'middlename' => null,
-            'prefix' => null,
-            'suffix' => null,
-            'vat_id' => null,
         ];
     }
 
@@ -353,12 +338,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'default_shipping' => false,
             'customer_id' => '1',
             'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
-            'fax' => null,
-            'middlename' => null,
-            'prefix' => null,
-            'suffix' => null,
-            'vat_id' => null,
-            'company' => null,
         ];
     }
 }
