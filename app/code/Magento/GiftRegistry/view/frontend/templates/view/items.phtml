@@ -36,22 +36,19 @@
                             <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
                         </tr>
                         </thead>
-                        <?php if ($_itemsCount): ?>
-                            <tfoot>
-                            <tr>
-                                <td colspan="6" class="actions-toolbar">
-                                    <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action primary">
-                                        <span><?php echo __('Add to Cart') ?></span></button>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        <?php endif; ?>
                         <tbody>
                         <?php foreach($this->getItems() as $_item): ?>
                             <?php echo $this->getItemHtml($_item) ?>
                         <?php endforeach ?>
                         </tbody>
                     </table>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit"
+                                title="<?php echo __('Add to Cart') ?>"
+                                class="action primary"><span><?php echo __('Add to Cart') ?></span></button>
+                    </div>
                 </div>
             </form>
         <?php endif; ?>

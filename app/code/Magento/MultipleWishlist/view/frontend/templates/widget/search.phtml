@@ -54,7 +54,7 @@ require(['jquery', 'mage/mage'], function($){
                 </div>
                 <div class="actions-toolbar">
                     <input type="hidden" name="params[search]" value="type">
-                    <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
+                    <button type="submit" title="<?php echo __('Find') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
                 </div>
             </fieldset>
         </form>
@@ -64,7 +64,7 @@ require(['jquery', 'mage/mage'], function($){
         <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form"
               action="<?php echo $this->getActionUrl() ?>"
               method="get"
-              class="form form-wishlist-search" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>
+              class="form form-wishlist-search" <?php if ($this->useSearchFormSelect()) : ?>style="display: none;"<?php endif;?>
               data-mage-init='{"validation":{}}'>
             <fieldset class="fieldset">
                 <div class="field required email">

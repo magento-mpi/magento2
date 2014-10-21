@@ -91,6 +91,21 @@
             }
         }
     }
+    .account {
+        .column.main {
+            .returns-details-items {
+                .block-returns-tracking {
+                    .block-title {
+                        > .action.track {
+                            float: none;
+                            display: block;
+                            margin: @indent-s-base 0 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 //
@@ -117,6 +132,16 @@
                         &:extend(.abstract-blocks-2columns all);
                         margin-bottom: @indent-base;
                     }
+                }
+            }
+        }
+    }
+    .block-returns-tracking {
+        .block-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
                 }
             }
         }
