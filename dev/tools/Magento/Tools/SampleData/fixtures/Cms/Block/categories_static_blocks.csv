@@ -1,4 +1,46 @@
 title,identifier,content,category_path
+"Footer Links Block",footer_links_block,"<ul class=""footer links"">
+    <li class=""nav item""><a href=""/about-us/"">About us</a></li>
+    <li class=""nav item""><a href=""/customer-service/"">Customer Service</a></li>
+    <li class=""nav item""><a href=""/privacy-policy/"">Privacy Policy</a></li>
+</ul>
+",
+"Contact us info",contact-us-info,"<div class=""contact-info cms-content"">
+   <p class=""cms-content-important"">We love hearing from you, our Luma customers. Please contact us about anything at all. Your latest passion, unique health experience or request for a specific product. We’ll do everything we can to make your Luma experience unforgettable every time. Reach us however you like</p>
+   <div class=""block block-contact-info"">
+       <div class=""block-title"">
+           <strong>Contact Us Info</strong>
+       </div>
+       <div class=""block-content"">
+           <div class=""box box-phone"">
+               <strong class=""box-title"">
+                   <span>Phone</span>
+               </strong>
+               <div class=""box-content"">
+                   <span class=""contact-info-number"">1-800-403-8838</span>
+                   <p>Call the Luma Helpline for concerns, product questions, or anything else. We’re here for you 24 hours a day - 365 days a year.</p>
+               </div>
+           </div>
+           <div class=""box box-design-inquiries"">
+               <strong class=""box-title"">
+                   <span>Apparel Design Inquiries</span>
+               </strong>
+               <div class=""box-content"">
+                   <p>Are you an independent clothing designer? Feature your products on the Luma website! Please direct all inquiries via email to: <a href=""mailto:cs@luma.com"">cs@luma.com</a></p>
+               </div>
+           </div>
+           <div class=""box box-press-inquiries"">
+               <strong class=""box-title"">
+                   <span>Press Inquiries</span>
+               </strong>
+               <div class=""box-content"">
+                   <p>Please direct all media inquiries via email to: <a href=""mailto:pr@luma.com"">pr@luma.com</a></p>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+",
 Women Block,women_block,"<div class=""blocks-promo"">
     <a href=""{{category url=""women""}}"" class=""block-promo womens-main"">
         <img src=""{{media url=""sale/womens/womens-main.jpg""}}"" alt="""" />
@@ -6,7 +48,7 @@ Women Block,women_block,"<div class=""blocks-promo"">
             <span class=""info"">New Luma Yoga Collection</span>
             <strong class=""title"">Yoga is ancient <br />Clothing shouldn’t be</strong>
             <span class=""action more button"">Shop New Yoga</span>
-        </span> 
+        </span>
     </a>
 
     <div class=""block-promo-wrapper block-promo-2columns"">
