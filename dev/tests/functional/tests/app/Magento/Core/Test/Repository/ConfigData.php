@@ -1014,5 +1014,106 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['display_out_of_stock'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/options/show_out_of_stock',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['backorders_allow_qty_below'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/item_options/backorders',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['display_out_of_stock_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/options/show_out_of_stock',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['backorders_allow_qty_below_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/item_options/backorders',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['checkout_term_condition'] = [
+            'section' => [
+                [
+                    'path' => 'checkout/options/enable_agreements',
+                    'scope' => 'checkout',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['checkout_term_condition_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'checkout/options/enable_agreements',
+                    'scope' => 'checkout',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        // MSRP
+        $this->_data['msrp'] = [
+            'section' => [
+                [
+                    'path' => 'sales/msrp/enabled',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/msrp/display_price_type',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 3,
+                ],
+            ]
+        ];
+
+        $this->_data['msrp_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'sales/msrp/enabled',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'sales/msrp/display_price_type',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
     }
 }

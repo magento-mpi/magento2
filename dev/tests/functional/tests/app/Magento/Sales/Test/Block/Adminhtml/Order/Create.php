@@ -16,7 +16,6 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class Create
  * Adminhtml sales order create block
- *
  */
 class Create extends Block
 {
@@ -83,13 +82,19 @@ class Create extends Block
      */
     protected $orderItemsGrid = '#order-items_grid';
 
-
     /**
      * Update items button
      *
      * @var string
      */
     protected $updateItems = '#order-items_grid p button';
+
+    /**
+     * 'Add Selected Product(s) to Order' button
+     *
+     * @var string
+     */
+    protected $addSelectedProducts = 'button[onclick="order.productGridAddSelected()"]';
 
     /**
      * Getter for order selected products grid
@@ -168,7 +173,7 @@ class Create extends Block
      *
      * @return \Magento\Backend\Test\Block\Template
      */
-    protected function getTemplateBlock()
+    public function getTemplateBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendTemplate(
             $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)
@@ -180,7 +185,7 @@ class Create extends Block
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Search\Grid
      */
-    protected function getGridBlock()
+    public function getGridBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreateSearchGrid(
             $this->_rootElement->find($this->gridBlock, Locator::SELECTOR_CSS)
@@ -195,22 +200,6 @@ class Create extends Block
     public function waitOrderItemsGrid()
     {
         $this->waitForElementVisible($this->orderItemsGrid);
-    }
-
-    /**
-     * Add products to order
-     *
-     * @param array $products
-     * @return void
-     */
-    public function addProducts(array $products)
-    {
-        $this->waitForElementVisible($this->itemsBlock);
-        $this->getItemsBlock()->clickAddProducts();
-        $this->getGridBlock()->selectProducts($products);
-        //Loader appears twice
-        $this->getTemplateBlock()->waitLoader();
-        $this->getTemplateBlock()->waitLoader();
     }
 
     /**
@@ -264,6 +253,7 @@ class Create extends Block
      * Select payment method
      *
      * @param array $paymentCode
+     * @return void
      */
     public function selectPaymentMethod(array $paymentCode)
     {
@@ -279,5 +269,15 @@ class Create extends Block
     public function submitOrder()
     {
         $this->getTotalsBlock()->submitOrder();
+    }
+
+    /**
+     * Click "Add Selected Product(s) to Order" button
+     *
+     * @return void
+     */
+    public function addSelectedProductsToOrder()
+    {
+        $this->_rootElement->find($this->addSelectedProducts)->click();
     }
 }

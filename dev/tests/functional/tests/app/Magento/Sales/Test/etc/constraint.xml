@@ -138,4 +138,10 @@
     <assertOrderNotVisibleOnMyAccount module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderNotVisibleOnMyAccount>
+    <assertOrderStatusSuccessUnassignMessage module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusSuccessUnassignMessage>
+    <assertOrderStatusNotAssigned module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertOrderStatusNotAssigned>
 </constraint>

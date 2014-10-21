@@ -36,7 +36,7 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
      * @param ObjectManager $objectManager
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
-     * @param string $orderStatus
+     * @param string $status
      * @param string $orderId
      * @param string|null $statusToCheck
      * @return void
@@ -47,13 +47,13 @@ class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
         ObjectManager $objectManager,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
-        $orderStatus,
+        $status,
         $orderId = '',
         $statusToCheck = null
     ) {
         $filter = [
             'id' => $order->hasData('id') ? $order->getId() : $orderId,
-            'status' => $statusToCheck === null ? $orderStatus : $statusToCheck
+            'status' => $statusToCheck === null ? $status : $statusToCheck
         ];
         $customerLogin = $objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
