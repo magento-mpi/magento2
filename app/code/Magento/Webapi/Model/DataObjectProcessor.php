@@ -239,34 +239,58 @@ class DataObjectProcessor
             if ($methodMap) {
                 $this->serviceInterfaceMethodsMap[$key] = unserialize($methodMap);
             } else {
-                $methodMap = [];
-                $class = new ClassReflection($interfaceName);
-                $baseClassMethods = false;
-                foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                    // Include all the methods of classes inheriting from AbstractExtensibleObject.
-                    // Ignore all the methods of AbstractExtensibleModel's parent classes
-                    if ($method->class === self::BASE_MODEL_CLASS) {
-                        $baseClassMethods = true;
-                    } elseif ($baseClassMethods) {
-                        // ReflectionClass::getMethods() sorts the methods by class (lowest in inheritance tree first)
-                        // then by the order they are defined in the class definition
-                        break;
-                    }
-                    $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
-                        || $method->isStatic() || $method->isDestructor());
-
-                    $isExcludedMagicMethod = in_array(
-                        $method->getName(),
-                        ['__sleep', '__wakeup', '__clone']
-                    );
-                    if ($isSuitableMethodType && !$isExcludedMagicMethod) {
-                        $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method);
-                    }
-                }
+                $methodMap = $this->getMethodMapViaReflection($interfaceName);
                 $this->serviceInterfaceMethodsMap[$key] = $methodMap;
                 $this->cache->save(serialize($this->serviceInterfaceMethodsMap[$key]), $key);
             }
         }
         return $this->serviceInterfaceMethodsMap[$key];
+    }
+
+    /**
+     * Use reflection to load the method information
+     *
+     * @param string $interfaceName
+     * @return array
+     */
+    protected function getMethodMapViaReflection($interfaceName)
+    {
+        $methodMap = [];
+        $class = new ClassReflection($interfaceName);
+        $baseClassMethods = false;
+        foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            // Include all the methods of classes inheriting from AbstractExtensibleObject.
+            // Ignore all the methods of AbstractExtensibleModel's parent classes
+            if ($method->class === self::BASE_MODEL_CLASS) {
+                $baseClassMethods = true;
+            } elseif ($baseClassMethods) {
+                // ReflectionClass::getMethods() sorts the methods by class (lowest in inheritance tree first)
+                // then by the order they are defined in the class definition
+                break;
+            }
+
+            if ($this->isSuitableMethod($method)) {
+                $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method);
+            }
+        }
+        return $methodMap;
+    }
+
+    /**
+     * Determines if the method is suitable to be used by the processor.
+     *
+     * @param \ReflectionMethod $method
+     * @return bool
+     */
+    protected function isSuitableMethod($method)
+    {
+        $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
+            || $method->isStatic() || $method->isDestructor());
+
+        $isExcludedMagicMethod = in_array(
+            $method->getName(),
+            ['__sleep', '__wakeup', '__clone']
+        );
+        return $isSuitableMethodType && !$isExcludedMagicMethod;
     }
 }
