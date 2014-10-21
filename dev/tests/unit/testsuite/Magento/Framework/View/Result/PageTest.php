@@ -59,12 +59,22 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     protected $viewFileSystem;
 
+    /**
+     * @var \Magento\Framework\View\LayoutFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layoutFactory;
+
     protected function setUp()
     {
         $this->layout = $this->getMockBuilder('Magento\Framework\View\Layout')
+            ->setMethods(['addHandle', 'getUpdate', 'isLayoutDefined'])
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->layoutFactory = $this->getMockBuilder('Magento\Framework\View\LayoutFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->layoutFactory->expects($this->any())->method('create')->will($this->returnValue($this->layout));
         $this->layoutMerge = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
             ->disableOriginalConstructor()
             ->getMock();
@@ -119,6 +129,8 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->page = $objectManagerHelper->getObject(
             'Magento\Framework\View\Result\Page',
             [
+                'isIsolated' => true,
+                'layoutFactory' =>$this->layoutFactory,
                 'context' => $this->context,
                 'translateInline' => $this->translateInline,
                 'pageConfigRendererFactory' => $pageConfigRendererFactory,
