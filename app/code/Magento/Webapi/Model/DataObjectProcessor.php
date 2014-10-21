@@ -74,7 +74,8 @@ class DataObjectProcessor
         $outputData = [];
 
         /** @var MethodReflection $method */
-        foreach ($methods as $methodName => $returnType) {
+        foreach ($methods as $methodName => $returnTypeData) {
+            $returnType = $returnTypeData['type'];
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
@@ -151,7 +152,7 @@ class DataObjectProcessor
      */
     public function getMethodReturnType($interfaceName, $methodName)
     {
-        return $this->getMethodsMap($interfaceName)[$methodName];
+        return $this->getMethodsMap($interfaceName)[$methodName]['type'];
     }
 
     /**
@@ -228,22 +229,20 @@ class DataObjectProcessor
                     // Ignore all the methods of AbstractExtensibleModel's parent classes
                     if ($method->class === self::BASE_MODEL_CLASS) {
                         $baseClassMethods = true;
-                    }
-                    // ReflectionClass::getMethods() sorts the methods by class (lowest in the inheritance tree first)
-                    // then by the order they are defined in the class definition
-                    if ($baseClassMethods && $method->class !== self::BASE_MODEL_CLASS) {
+                    } elseif ($baseClassMethods) {
+                        // ReflectionClass::getMethods() sorts the methods by class (lowest in inheritance tree first)
+                        // then by the order they are defined in the class definition
                         break;
                     }
                     $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
                         || $method->isStatic() || $method->isDestructor());
-                    //Ideally 'getData', 'setData' should never be encountered since only data interfaces are expected.
-                    //These should be removed once all the api contracts are defined with data interfaces only
+
                     $isExcludedMagicMethod = in_array(
                         $method->getName(),
                         ['__sleep', '__wakeup', '__clone']
                     );
                     if ($isSuitableMethodType && !$isExcludedMagicMethod) {
-                        $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method)['type'];
+                        $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method);
                     }
                 }
                 $this->serviceInterfaceMethodsMap[$key] = $methodMap;
