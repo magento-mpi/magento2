@@ -278,7 +278,8 @@ class Addresses extends GenericMetadata
 
         $postcode = $form->getElement('postcode');
         if ($postcode) {
-            $postcode->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
+            $postcode->removeClass('required-entry')
+                ->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
         }
 
         if ($this->isReadonly()) {
