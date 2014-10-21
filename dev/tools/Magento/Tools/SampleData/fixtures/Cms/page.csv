@@ -7,10 +7,10 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
       <p>We differentiate ourselves through a combination of unique designs and styles merged with unequaled standards of quality and authenticity. Our founders have deep roots in yoga and health communities and our selections serve amateur practitioners and professional athletes alike.</p>
 
       <ul style=""list-style: none; margin-top: 20px; padding: 0;"">
-          <li><a href=""/contact"">Contact Luma</a></li>
-          <li><a href=""/customer-service"">Customer Service</a></li>
-          <li><a href=""/privacy-policy"">Luma Privacy Policy</a></li>
-          <li><a href=""/"">Shop Luma</a></li>
+          <li><a href=""{{store url=""contact""}}"">Contact Luma</a></li>
+          <li><a href=""{{store url=""customer-service""}}"">Customer Service</a></li>
+          <li><a href=""{{store url=""privacy-policy""}}"">Luma Privacy Policy</a></li>
+          <li><a href=""{{store url=""""}}"">Shop Luma</a></li>
       </ul>
   </div>
 ",,,1,,,,,,,
@@ -123,14 +123,14 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
         <p>By using this website, you accept the policies set forth in this Privacy Policy.</p>
 
         <h2 id=""privacy-policy-title-12"">Questions for Luma?</h2>
-        <p><a href=""/contact"">Contact Us</a></p>
+        <p><a href=""{{store url=""contact""}}"">Contact Us</a></p>
     </div>
 </div>
 ",,,1,,,,,,,
 "Customer Service",1column,,,customer-service,"Customer Service","<div class=""customer-service cms-content"">
   <div class=""cms-content-important"">
       <h2>Luma Delivery and Returns</h2>
-      <p>We hope you love shopping with Luma. Here are our delivery and returns policies to help make sure we meet your expectations. <a href=""/contact"">Contact Us.</a></p>
+      <p>We hope you love shopping with Luma. Here are our delivery and returns policies to help make sure we meet your expectations. <a href=""{{store url=""contact""}}"">Contact Us.</a></p>
   </div>
 
   <h2>Shipping and Delivery</h2>
