@@ -11,8 +11,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 
-class OptionManagement extends \Magento\Framework\Model\AbstractModel
-    implements \Magento\Eav\Api\AttributeOptionManagementInterface
+class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInterface
 {
     /**
      * @var \Magento\Eav\Model\Entity\AttributeFactory
@@ -20,12 +19,18 @@ class OptionManagement extends \Magento\Framework\Model\AbstractModel
     protected $attributeFactory;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute
+     */
+    protected $resourceModel;
+    /**
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      */
     public function __construct(
-        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute $resourceModel
     ) {
         $this->attributeFactory = $attributeFactory;
+        $this->resourceModel = $resourceModel;
     }
 
     /**
@@ -55,7 +60,7 @@ class OptionManagement extends \Magento\Framework\Model\AbstractModel
 
         $attribute->setOption($options);
         try {
-            $attribute->save();
+            $this->resourceModel->save($attribute);
         } catch (\Exception $e) {
             throw new StateException(sprintf('Cannot save attribute %s', $attributeCode));
         }
@@ -88,7 +93,7 @@ class OptionManagement extends \Magento\Framework\Model\AbstractModel
         ];
         $attribute->addData($removalMarker);
         try {
-            $attribute->save();
+            $this->resourceModel->save($attribute);
         } catch (\Exception $e) {
             throw new StateException(sprintf('Cannot save attribute %s', $attributeCode));
         }
