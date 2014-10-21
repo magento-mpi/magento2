@@ -19,8 +19,9 @@ interface WriteServiceInterface
      * @param \Magento\GiftMessage\Service\V1\Data\Message $giftMessage The gift message.
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
-     * @throws \Magento\Framework\Exception\InputException Gift messages do not apply to empty carts.
-     * @throws \Magento\Framework\Exception\State\InvalidTransitionException Gift messages do not apply to virtual products.
+     * @throws \Magento\Framework\Exception\InputException You cannot add gift messages to empty carts.
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException You cannot add gift messages to
+     * virtual products.
      * @throws \Magento\Framework\Exception\CouldNotSaveException The specified gift message could not be saved.
      */
     public function setForQuote($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage);
@@ -33,8 +34,9 @@ interface WriteServiceInterface
      * @param int $itemId The item ID.
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
-     * @throws \Magento\Framework\Exception\InputException Gift messages do not apply to empty carts.
-     * @throws \Magento\Framework\Exception\State\InvalidTransitionException Gift messages do not apply to virtual products.
+     * @throws \Magento\Framework\Exception\InputException You cannot add gift messages to empty carts.
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException You cannot add gift messages to
+     * virtual products.
      * @throws \Magento\Framework\Exception\CouldNotSaveException The specified gift message could not be saved.
      */
     public function setForItem($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage, $itemId);

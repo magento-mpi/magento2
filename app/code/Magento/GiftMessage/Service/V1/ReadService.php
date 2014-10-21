@@ -80,7 +80,7 @@ class ReadService implements ReadServiceInterface
      * @param int $cartId The shopping cart ID.
      * @param int $itemId The item ID.
      * @return \Magento\GiftMessage\Service\V1\Data\Message Gift message.
-     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified item does not exist in the specified cart.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified item does not exist in the cart.
      */
     public function getItemMessage($cartId, $itemId)
     {

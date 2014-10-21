@@ -81,8 +81,9 @@ class WriteService implements WriteServiceInterface
      * @param int $cartId The shopping cart ID.
      * @param Data\Message $giftMessage The gift message.
      * @return bool
-     * @throws \Magento\Framework\Exception\InputException Gift messages are not applicable for empty carts.
-     * @throws \Magento\Framework\Exception\State\InvalidTransitionException Gift messages are not applicable for virtual products.
+     * @throws \Magento\Framework\Exception\InputException You cannot add gift messages to empty carts.
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException You cannot add gift messages to virtual
+     * products.
      */
     public function setForQuote($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage)
     {
@@ -112,8 +113,9 @@ class WriteService implements WriteServiceInterface
      * @param Data\Message $giftMessage The gift message.
      * @param int $itemId The item ID.
      * @return bool
-     * @throws \Magento\Framework\Exception\State\InvalidTransitionException Gift messages are not applicable for virtual products.
-     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified item does not exist in the specified cart.
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException You cannot add gift messages to
+     * virtual products.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified item does not exist in the cart.
      */
     public function setForItem($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage, $itemId)
     {
