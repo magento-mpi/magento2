@@ -38,7 +38,6 @@ class Method extends Block
      */
     public function selectShippingMethod(array $shippingMethod)
     {
-        $this->_rootElement->click();
         $this->_rootElement->find($this->shippingMethodsLink)->click();
         $selector = sprintf(
             $this->shippingMethod,

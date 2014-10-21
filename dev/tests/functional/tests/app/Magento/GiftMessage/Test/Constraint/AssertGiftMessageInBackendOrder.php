@@ -14,10 +14,10 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Mtf\Constraint\AbstractAssertForm;
 
 /**
- * Class AssertBackendOrdersGiftMessage
+ * Class AssertGiftMessageInBackendOrder
  * Assert that message from dataSet is displayed on order(s) view page on backend.
  */
-class AssertBackendOrdersGiftMessage extends AbstractAssertForm
+class AssertGiftMessageInBackendOrder extends AbstractAssertForm
 {
     /**
      * Constraint severeness.
@@ -33,7 +33,6 @@ class AssertBackendOrdersGiftMessage extends AbstractAssertForm
      */
     protected $skippedFields = [
         'allow_gift_options_for_items',
-        'allow_gift_messages_for_order',
         'allow_gift_messages_for_order',
         'allow_gift_options',
     ];
@@ -57,14 +56,15 @@ class AssertBackendOrdersGiftMessage extends AbstractAssertForm
     ) {
         $orderIndex->open()->getSalesOrderGrid()->searchAndOpen(['id' => $orderId]);
 
-        $expectedData = $giftMessage->getData();
         if ($giftMessage->getAllowGiftMessagesForOrder()) {
+            $expectedData = $giftMessage->getData();
             $actualData = $orderView->getGiftOptionsBlock()->getData($giftMessage);
             $this->verifyForm($expectedData, $actualData);
         }
 
         if ($giftMessage->getAllowGiftOptionsForItems()) {
-            foreach ($products as $product) {
+            foreach ($products as $key => $product) {
+                $expectedData = $giftMessage->getGiftMessageItems()[$key]->getData();
                 $actualData = $orderView->getGiftItemsBlock()->getItemProduct($product)
                     ->getGiftMessageFormData($giftMessage);
                 $this->verifyForm($expectedData, $actualData);

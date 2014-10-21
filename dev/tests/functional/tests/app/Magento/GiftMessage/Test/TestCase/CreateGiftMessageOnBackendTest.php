@@ -121,7 +121,7 @@ class CreateGiftMessageOnBackendTest extends Scenario
     ];
 
     /**
-     * Preparing configuration for test.
+     * Preparing data for test.
      *
      * @param FixtureFactory $fixtureFactory
      * @param CustomerAccountLogout $customerAccountLogout
@@ -160,26 +160,19 @@ class CreateGiftMessageOnBackendTest extends Scenario
         if ($this->configuration !== '-') {
             $this->setupConfiguration(true);
         }
-        $this->customerAccountLogout->open();
     }
 
     /**
-     * Setup configuration.
+     * Setup configuration
      *
      * @param bool $rollback
      * @return void
      */
     protected function setupConfiguration($rollback = false)
     {
-        $prefix = ($rollback == false) ? '' : '_rollback';
-        $dataSets = explode(',', $this->configuration);
-
-        foreach ($dataSets as $key => $dataSet) {
-            $dataSets[$key] = trim($dataSet) . $prefix;
-        }
         $setConfigStep = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => implode(',', $dataSets)]
+            ['configData' => $this->configuration, 'rollback' => $rollback]
         );
         $setConfigStep->run();
     }

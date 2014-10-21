@@ -8,8 +8,8 @@
 
 namespace Magento\GiftMessage\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Page\OrderView;
@@ -35,6 +35,7 @@ class AssertGiftMessageInFrontendOrderItems extends AbstractConstraint
      * @param CustomerInjectable $customer
      * @param OrderHistory $orderHistory
      * @param OrderView $orderView
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param string $orderId
      * @param array $products
      * @return void
@@ -44,6 +45,7 @@ class AssertGiftMessageInFrontendOrderItems extends AbstractConstraint
         CustomerInjectable $customer,
         OrderHistory $orderHistory,
         OrderView $orderView,
+        CustomerAccountLogout $customerAccountLogout,
         $orderId,
         $products = []
     ) {
@@ -60,13 +62,22 @@ class AssertGiftMessageInFrontendOrderItems extends AbstractConstraint
         $orderHistory->open();
         $orderHistory->getOrderHistoryBlock()->openOrderById($orderId);
 
-        foreach ($products as $product) {
+        foreach ($products as $key => $product) {
+            if ($giftMessage->hasData('giftMessageItems')) {
+                $itemGiftMessage = $giftMessage->getGiftMessageItems()[$key];
+                $expectedData = [
+                    'sender' => $itemGiftMessage->getSender(),
+                    'recipient' => $itemGiftMessage->getRecipient(),
+                    'message' => $itemGiftMessage->getMessage(),
+                ];
+            }
             \PHPUnit_Framework_Assert::assertEquals(
                 $expectedData,
                 $orderView->getGiftMessageForItemBlock()->getGiftMessage($product->getName()),
                 'Wrong gift message is displayed on "' . $product->getName() . '" item.'
             );
         }
+        $customerAccountLogout->open();
     }
 
     /**

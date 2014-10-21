@@ -8,15 +8,16 @@
 
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\View;
 
-use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
+use Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items\ItemProduct;
+use Magento\Sales\Test\Block\Adminhtml\Order\View\Items as ParentItems;
 
 /**
  * Class Items
  * Adminhtml GiftMessage order view items block.
  */
-class Items extends Block
+class Items extends ParentItems
 {
     /**
      * Item product selector.
@@ -29,7 +30,7 @@ class Items extends Block
      * Get item product block.
      *
      * @param InjectableFixture $product
-     * @return \Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items\ItemProduct
+     * @return ItemProduct
      */
     public function getItemProduct(InjectableFixture $product)
     {
@@ -37,9 +38,9 @@ class Items extends Block
             'Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items\ItemProduct',
             [
                 'element' => $this->_rootElement->find(
-                        sprintf($this->itemProduct, $product->getName()),
-                        Locator::SELECTOR_XPATH
-                    )
+                    sprintf($this->itemProduct, $product->getName()),
+                    Locator::SELECTOR_XPATH
+                )
             ]
         );
     }

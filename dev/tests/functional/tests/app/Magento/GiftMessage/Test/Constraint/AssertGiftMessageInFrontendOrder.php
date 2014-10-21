@@ -8,8 +8,8 @@
 
 namespace Magento\GiftMessage\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
 use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Page\OrderView;
@@ -35,6 +35,7 @@ class AssertGiftMessageInFrontendOrder extends AbstractConstraint
      * @param CustomerInjectable $customer
      * @param OrderHistory $orderHistory
      * @param OrderView $orderView
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param string $orderId
      * @return void
      */
@@ -43,6 +44,7 @@ class AssertGiftMessageInFrontendOrder extends AbstractConstraint
         CustomerInjectable $customer,
         OrderHistory $orderHistory,
         OrderView $orderView,
+        CustomerAccountLogout $customerAccountLogout,
         $orderId
     ) {
         $this->objectManager->create(
@@ -63,6 +65,7 @@ class AssertGiftMessageInFrontendOrder extends AbstractConstraint
             $orderView->getGiftMessageForOrderBlock()->getGiftMessage(),
             'Wrong gift message is displayed on order.'
         );
+        $customerAccountLogout->open();
     }
 
     /**

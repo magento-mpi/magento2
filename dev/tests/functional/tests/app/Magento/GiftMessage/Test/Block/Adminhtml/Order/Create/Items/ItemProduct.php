@@ -9,15 +9,15 @@
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items;
 
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
-use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items\ItemProduct as ParentItemProduct;
 
 /**
  * Class ItemProduct
- * Item product block on beackend create order page.
+ * Item product block on backend create order page.
  */
-class ItemProduct extends Form
+class ItemProduct extends ParentItemProduct
 {
     /**
      * Selector for GiftOptions link.
@@ -27,18 +27,11 @@ class ItemProduct extends Form
     protected $giftOptionsLink = '[id^="gift_options_link"]';
 
     /**
-     * Body element selector.
-     *
-     * @var string
-     */
-    protected $body = './ancestor::body';
-
-    /**
      * Selector for order item GiftMessage form.
      *
      * @var string
      */
-    protected $giftMessageForm = '//*[@role="dialog" and contains(@style,"block")]';
+    protected $giftMessageForm = '//*[@role="dialog"][*[@id="gift_options_configure"]]';
 
     /**
      * Magento varienLoader.js loader.
@@ -56,15 +49,18 @@ class ItemProduct extends Form
     public function fillGiftMessageForm(GiftMessage $giftMessage)
     {
         $giftOptionsLink = $this->_rootElement->find($this->giftOptionsLink);
-        if ($giftOptionsLink->isVisible()) {
-            $giftOptionsLink->click();
-        }
+        $giftOptionsLink->click();
         /** @var \Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Form $giftMessageForm */
         $giftMessageForm = $this->blockFactory->create(
             'Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Form',
-            ['element' => $this->_rootElement->find($this->body . $this->giftMessageForm, Locator::SELECTOR_XPATH)]
+            ['element' => $this->browser->find($this->giftMessageForm, Locator::SELECTOR_XPATH)]
         );
         $giftMessageForm->fill($giftMessage);
-        $this->waitForElementNotVisible($this->body . $this->loadingMask, Locator::SELECTOR_XPATH);
+        $loadingMask = $this->browser->find($this->loadingMask, Locator::SELECTOR_XPATH);
+        $this->browser->waitUntil(
+            function () use ($loadingMask) {
+                return !$loadingMask->isVisible() ? true : null;
+            }
+        );
     }
 }

@@ -18,11 +18,11 @@ use Mtf\Client\Element;
 class Form extends ParentForm
 {
     /**
-     * Selector for 'Cancel' button.
+     * Selector for 'Close' button.
      *
      * @var string
      */
-    protected $cancelButton = '#gift_options_cancel_button';
+    protected $closeButton = '.ui-dialog-titlebar-close';
 
     /**
      * Close form dialog.
@@ -31,6 +31,6 @@ class Form extends ParentForm
      */
     public function closeDialog()
     {
-        $this->_rootElement->find($this->cancelButton)->click();
+        $this->_rootElement->find($this->closeButton)->click();
     }
 }

@@ -10,7 +10,6 @@ namespace Magento\GiftMessage\Test\TestStep;
 
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
-use Mtf\Block\BlockFactory;
 use Mtf\TestStep\TestStepInterface;
 
 /**
@@ -41,35 +40,33 @@ class AddGiftMessageBackendStep implements TestStepInterface
     protected $products;
 
     /**
-     * BlockFactory object.
+     * Fixturefactory object.
      *
-     * @var BlockFactory
+     * @var array
      */
-    protected $blockFactory;
+    protected $fixtureFactory;
 
     /**
      * @constructor
      * @param OrderCreateIndex $orderCreateIndex
      * @param GiftMessage $giftMessage
-     * @param BlockFactory $blockFactory
      * @param array $products
      */
     public function __construct(
         OrderCreateIndex $orderCreateIndex,
         GiftMessage $giftMessage,
-        BlockFactory $blockFactory,
         array $products = []
     ) {
         $this->orderCreateIndex = $orderCreateIndex;
         $this->giftMessage = $giftMessage;
-        $this->blockFactory = $blockFactory;
         $this->products = $products;
+
     }
 
     /**
      * Add gift message to backend order.
      *
-     * @return void
+     * @return array
      */
     public function run()
     {
@@ -80,5 +77,7 @@ class AddGiftMessageBackendStep implements TestStepInterface
             $this->orderCreateIndex->getCreateGiftMessageBlock()
                 ->fillGiftMessageForItems($this->products, $this->giftMessage);
         }
+
+        return ['giftMessage' => $this->giftMessage];
     }
 }

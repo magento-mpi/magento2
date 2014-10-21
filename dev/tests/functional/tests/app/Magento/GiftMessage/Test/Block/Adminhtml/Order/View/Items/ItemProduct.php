@@ -9,15 +9,15 @@
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items;
 
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
-use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items\ItemProduct as ParentItemProduct;
 
 /**
  * Class ItemProduct
  * Item product block on OrderView page.
  */
-class ItemProduct extends Form
+class ItemProduct extends ParentItemProduct
 {
     /**
      * Selector for GiftOptions link.
@@ -31,7 +31,7 @@ class ItemProduct extends Form
      *
      * @var string
      */
-    protected $giftMessageForm = './ancestor::body//*[@role="dialog" and contains(@style,"block")]';
+    protected $giftMessageForm = '//*[@role="dialog"][*[@id="gift_options_configure"]]';
 
     /**
      * Get GiftMessage form data.
@@ -48,7 +48,7 @@ class ItemProduct extends Form
         /** @var \Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Form $giftMessageForm */
         $giftMessageForm = $this->blockFactory->create(
             'Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Form',
-            ['element' => $this->_rootElement->find($this->giftMessageForm, Locator::SELECTOR_XPATH)]
+            ['element' => $this->browser->find($this->giftMessageForm, Locator::SELECTOR_XPATH)]
         );
         $data = $giftMessageForm->getData($giftMessage);
         $giftMessageForm->closeDialog();

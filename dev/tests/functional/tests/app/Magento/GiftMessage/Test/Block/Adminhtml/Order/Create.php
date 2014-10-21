@@ -9,21 +9,19 @@
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order;
 
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
-use Mtf\Block\Block;
 
 /**
  * Class Create
  * Adminhtml GiftMessage order create block.
- *
  */
-class Create extends Block
+class Create extends \Magento\Sales\Test\Block\Adminhtml\Order\Create
 {
     /**
      * Sales order create items block.
      *
      * @var string
      */
-    protected $itemsBlock = '#order-items';
+    protected $itemsBlock = '#order-items_grid';
 
     /**
      * Fill order items gift messages.
@@ -38,8 +36,9 @@ class Create extends Block
             'Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items',
             ['element' => $this->_rootElement->find($this->itemsBlock)]
         );
-        foreach ($products as $product) {
-            $items->getItemProduct($product)->fillGiftMessageForm($giftMessage);
+        foreach ($products as $key => $product) {
+            $giftMessageItem = $giftMessage->getGiftMessageItems()[$key];
+            $items->getItemProduct($product)->fillGiftMessageForm($giftMessageItem);
         }
     }
 }

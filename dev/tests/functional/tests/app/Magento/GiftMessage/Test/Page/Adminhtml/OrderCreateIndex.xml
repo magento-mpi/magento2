@@ -11,12 +11,12 @@
     <blocks>
         <giftMessageForOrderBlock>
             <class>Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\GiftOptions</class>
-            <locator>#order-giftmessage:first-child</locator>
+            <locator>#order-giftmessage</locator>
             <strategy>css selector</strategy>
         </giftMessageForOrderBlock>
         <createGiftMessageBlock>
             <class>Magento\GiftMessage\Test\Block\Adminhtml\Order\Create</class>
-            <locator>[id="page:main-container"]</locator>
+            <locator>#order-items</locator>
             <strategy>css selector</strategy>
         </createGiftMessageBlock>
     </blocks>
