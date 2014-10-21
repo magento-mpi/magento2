@@ -33,17 +33,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param MetadataServiceInterface $metadataService
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        MetadataServiceInterface $metadataService,
         array $data = array()
     ) {
         $this->metadataService = $metadataService;
@@ -151,6 +151,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
 
     /**
      * Fetch all custom attributes for the given extensible model
+     * //TODO : check if the custom attribute is already defined as a getter on the data interface
      *
      * @return string[]
      */
