@@ -28,7 +28,7 @@ define([
 
         $( ".panel.header > .header.links" ).clone().appendTo( "#store\\.links" );
 
-        keyboardHandler.init();
+        keyboardHandler.apply();
     });
 
 });

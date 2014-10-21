@@ -416,7 +416,7 @@ define([
             });
         switcherForIe8();
 
-        keyboardHandler.init();
+        keyboardHandler.apply();
     });
 
     $(document).on('ajaxComplete', function() {
