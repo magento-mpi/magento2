@@ -10,6 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Customer\Api\AddressRepositoryInterface"
                 type="Magento\Customer\Model\Resource\AddressRepository" />
+    <preference for="Magento\Customer\Api\Data\GroupInterface" type="Magento\Customer\Model\Data\Group" />
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
