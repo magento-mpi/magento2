@@ -8,7 +8,6 @@
 
 return [
     'modules' => [
-        'Magento\Config',
         'Magento\Setup',
     ],
     'module_listener_options' => [

@@ -13,7 +13,7 @@ use Zend\View\Model\ViewModel;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Model\Location;
 use Composer\Json\JsonFile;
-use Magento\Config\ConfigFactory as SystemConfigFactory;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class LandingController extends AbstractActionController
 {
@@ -41,18 +41,17 @@ class LandingController extends AbstractActionController
      * @param Location $location
      * @param ServiceLocatorInterface $serviceLocator
      * @param ViewModel $view
-     * @param SystemConfigFactory $systemConfigFactory
+     * @param DirectoryList $directoryList
      */
     public function __construct(
         Location $location,
         ServiceLocatorInterface $serviceLocator,
         ViewModel $view,
-        SystemConfigFactory $systemConfigFactory
+        DirectoryList $directoryList
     ) {
         $this->location = $location;
         $this->view = $view;
-        $config = $systemConfigFactory->create();
-        $jsonFile = new JsonFile($config->getMagentoBasePath() . '/composer.json');
+        $jsonFile = new JsonFile($directoryList->getRoot() . '/composer.json');
         $this->composerJson = $jsonFile->read();
     }
 

@@ -8,6 +8,7 @@
 namespace Magento\Setup\Framework\DB\Adapter\Pdo;
 
 use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Setup\Framework\DB\Adapter\AdapterInterface;
 use Magento\Setup\Framework\DB\Ddl\Table;
 use \Magento\Framework\DB\ExpressionConverter;
@@ -23,7 +24,6 @@ use Zend\Db\Adapter\Profiler;
 use Zend\Db\ResultSet;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Sql;
-use Magento\Setup\Model\FilesystemFactory;
 
 class Mysql extends Adapter implements AdapterInterface
 {
@@ -168,18 +168,16 @@ class Mysql extends Adapter implements AdapterInterface
      * @param Platform\PlatformInterface $platform
      * @param ResultSet\ResultSetInterface $queryResultPrototype
      * @param Profiler\ProfilerInterface $profiler
-     * @param FilesystemFactory $filesystemFactory
+     * @param Filesystem $filesystem
      */
     public function __construct(
         $driver,
         Platform\PlatformInterface $platform = null,
         ResultSet\ResultSetInterface $queryResultPrototype = null,
         Profiler\ProfilerInterface $profiler = null,
-        FilesystemFactory $filesystemFactory = null
+        Filesystem $filesystem = null
     ) {
-        if ($filesystemFactory !== null) {
-            $this->_filesystem = $filesystemFactory->create();
-        }
+        $this->_filesystem = $filesystem;
         parent::__construct($driver, $platform, $queryResultPrototype, $profiler);
     }
 
@@ -1046,7 +1044,8 @@ class Mysql extends Adapter implements AdapterInterface
     protected function _debugWriteToFile($str)
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
-        $this->_filesystem->getDirectoryWrite('var')->writeFile($this->_debugFile, $str, FILE_APPEND | LOCK_EX);
+        $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR)
+            ->writeFile($this->_debugFile, $str, FILE_APPEND | LOCK_EX);
     }
 
     /**

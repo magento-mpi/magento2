@@ -29,12 +29,15 @@ require $autoload;
 
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
+use Magento\Setup\Bootstrap as SetupBootstrap;
 
 $configuration = include "config/application.config.php";
 
 $smConfig = new ServiceManagerConfig();
 $serviceManager = new ServiceManager($smConfig);
 $serviceManager->setService('ApplicationConfig', $configuration);
+$bootstrap = new SetupBootstrap($_SERVER);
+$bootstrap->initialize($serviceManager);
 
 $serviceManager->setAllowOverride(true);
 $serviceManager->get('ModuleManager')->loadModules();

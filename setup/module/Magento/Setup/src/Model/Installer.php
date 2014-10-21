@@ -9,8 +9,6 @@
 namespace Magento\Setup\Model;
 
 use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
-use Magento\Config\ConfigFactory as SystemConfigFactory;
-use Magento\Config\Config as SystemConfig;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Module\ModuleListInterface;
@@ -21,6 +19,8 @@ use Zend\Db\Sql\Sql;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\MaintenanceMode;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -74,11 +74,11 @@ class Installer
     private $moduleList;
 
     /**
-     * System configuration factory
+     * List of directories of Magento application
      *
-     * @var SystemConfig
+     * @var DirectoryList
      */
-    private $systemConfig;
+    private $directoryList;
 
     /**
      * Admin account factory
@@ -130,6 +130,11 @@ class Installer
     private $progress;
 
     /**
+     * @var MaintenanceMode
+     */
+    private $maintenanceMode;
+
+    /**
      * Messages
      *
      * @var array
@@ -143,34 +148,37 @@ class Installer
      * @param DeploymentConfigFactory $deploymentConfigFactory
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
-     * @param SystemConfigFactory $systemConfigFactory
+     * @param DirectoryList $directoryList
      * @param AdminAccountFactory $adminAccountFactory
      * @param LoggerInterface $log
      * @param Random $random
      * @param ConnectionFactory $connectionFactory
+     * @param MaintenanceMode $maintenanceMode
      */
     public function __construct(
         FilePermissions $filePermissions,
         DeploymentConfigFactory $deploymentConfigFactory,
         SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
-        SystemConfigFactory $systemConfigFactory,
+        DirectoryList $directoryList,
         AdminAccountFactory $adminAccountFactory,
         LoggerInterface $log,
         Random $random,
-        ConnectionFactory $connectionFactory
+        ConnectionFactory $connectionFactory,
+        MaintenanceMode $maintenanceMode
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList;
-        $this->systemConfig = $systemConfigFactory->create();
+        $this->directoryList = $directoryList;
         $this->adminAccountFactory = $adminAccountFactory;
         $this->log = $log;
         $this->random = $random;
         $this->connectionFactory = $connectionFactory;
         $this->shellRenderer = new CommandRenderer;
         $this->shell = new Shell($this->shellRenderer);
+        $this->maintenanceMode = $maintenanceMode;
     }
 
     /**
@@ -183,7 +191,7 @@ class Installer
     public function install($request)
     {
         $script[] = ['File permissions check...', 'checkInstallationFilePermissions', []];
-        $script[] = ['Enabling Maintenance Mode:', 'setMaintenanceMode', [1]];
+        $script[] = ['Enabling Maintenance Mode...', 'setMaintenanceMode', [1]];
         $script[] = ['Installing deployment configuration...', 'installDeploymentConfig', [$request]];
         if (!empty($request[self::CLEANUP_DB])) {
             $script[] = ['Cleaning up database...', 'cleanupDb', [$request]];
@@ -323,7 +331,7 @@ class Installer
      */
     public function installDataFixtures()
     {
-        $this->exec('-f %s', [$this->systemConfig->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php']);
+        $this->exec('-f %s', [$this->directoryList->getRoot() . '/dev/shell/run_data_fixtures.php']);
     }
 
     /**
@@ -405,7 +413,7 @@ class Installer
      */
     private function enableCaches()
     {
-        $args = [$this->systemConfig->getMagentoBasePath() . '/dev/shell/cache.php'];
+        $args = [$this->directoryList->getRoot() . '/dev/shell/cache.php'];
         $this->exec('-f %s -- --set=1', $args);
     }
 
@@ -417,8 +425,7 @@ class Installer
      */
     private function setMaintenanceMode($value)
     {
-        $args = [$this->systemConfig->getMagentoBasePath() . '/dev/shell/maintenance.php', $value];
-        $this->exec('-f %s -- --set=%s', $args);
+        $this->maintenanceMode->set($value);
     }
 
     /**

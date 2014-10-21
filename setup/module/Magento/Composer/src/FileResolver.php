@@ -11,7 +11,7 @@ namespace Magento\Composer;
 use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
 use Magento\Config\FileIteratorFactory;
-use Magento\Config\ConfigFactory;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FileResolver implements FileResolverInterface
 {
@@ -21,27 +21,20 @@ class FileResolver implements FileResolverInterface
     protected $iteratorFactory;
 
     /**
-     * @var \Magento\Config\ConfigFactory
+     * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
-    protected $configFactory;
+    private $directoryList;
 
     /**
-     * @var \Magento\Config\Config
-     */
-    protected $config;
-
-    /**
-     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
-     * @param \Magento\Config\ConfigFactory $configFactory
-     * @internal param \Magento\Config\Config $config
+     * @param FileIteratorFactory $iteratorFactory
+     * @param DirectoryList $directoryList
      */
     public function __construct(
         FileIteratorFactory $iteratorFactory,
-        ConfigFactory $configFactory
+        DirectoryList $directoryList
     ) {
         $this->iteratorFactory = $iteratorFactory;
-        $this->configFactory = $configFactory;
-        $this->config = $this->configFactory->create();
+        $this->directoryList = $directoryList;
     }
 
     /**
@@ -52,37 +45,12 @@ class FileResolver implements FileResolverInterface
      */
     public function get($filename)
     {
-        $paths = [];
-        $files = $this->getFiles($this->config->getMagentoModulePath() . '*/*/' . $filename);
-        foreach ($files as $file) {
-            $paths[] = $this->getRelativePath($file);
+        $result = [];
+        $root = $this->directoryList->getRoot();
+        $pattern = $this->directoryList->getPath(DirectoryList::MODULES) . '/*/*/' . $filename;
+        foreach (Glob::glob($pattern) as $file) {
+            $result[] = substr($file, strlen($root));
         }
-        return $this->iteratorFactory->create($this->config->getMagentoBasePath(), $paths);
-    }
-
-    /**
-     * Retrieves relative path
-     *
-     * @param string $path
-     * @return string
-     */
-    protected function getRelativePath($path = null)
-    {
-        $basePath = $this->config->getMagentoBasePath();
-        if (strpos($path, $basePath) === 0
-            || $basePath == $path . '/') {
-            return substr($path, strlen($basePath));
-        } else {
-            return $path;
-        }
-    }
-
-    /**
-     * @param string $path
-     * @return array|false
-     */
-    protected function getFiles($path)
-    {
-        return Glob::glob($this->config->getMagentoBasePath() . $path);
+        return $this->iteratorFactory->create($root, $result);
     }
 }
