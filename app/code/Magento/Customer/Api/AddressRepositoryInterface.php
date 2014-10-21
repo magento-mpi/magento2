@@ -34,18 +34,18 @@ interface AddressRepositoryInterface
     /**
      * Retrieve customers addresses matching the specified criteria.
      *
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\AddressSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete customer address.
      *
-     * @param int $addressId
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return bool True on success.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function delete($addressId);
+    public function delete(\Magento\Customer\Api\Data\AddressInterface $address);
 }

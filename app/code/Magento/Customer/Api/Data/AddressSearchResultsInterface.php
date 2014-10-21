@@ -23,7 +23,7 @@ interface AddressSearchResultsInterface
     /**
      * Get search criteria.
      *
-     * @return \Magento\Framework\Api\SearchCriteriaInterface
+     * @return \Magento\Framework\Api\Data\SearchCriteriaInterface
      */
     public function getSearchCriteria();
 

@@ -28,29 +28,29 @@ interface CustomerRepositoryInterface
     /**
      * Retrieve customer.
      *
-     * @param string $customerId
+     * @param \Magento\Customer\Api\Data\IdentityInterface $customerId
      * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get($customerId);
+    public function get(\Magento\Customer\Api\Data\IdentityInterface $customerId);
 
     /**
      * Retrieve customers which match a specified criteria.
      *
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\CustomerSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete customer.
      *
-     * @param string $customerId
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return bool True if the customer was deleted
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function delete($customerId);
+    public function delete(\Magento\Customer\Api\Data\CustomerInterface $customer);
 }
