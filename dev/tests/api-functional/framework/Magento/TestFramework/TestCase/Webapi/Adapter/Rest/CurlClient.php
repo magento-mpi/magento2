@@ -289,6 +289,7 @@ class CurlClient
     protected function _checkJsonError()
     {
         $jsonError = json_last_error();
+        throw new \Exception('My silly exception');
         if ($jsonError !== JSON_ERROR_NONE) {
             // find appropriate error message
             $message = 'Unknown JSON Error';
