@@ -16,6 +16,19 @@ namespace Magento\Eav\Api\Data;
 interface AttributeOptionInterface
 {
     /**
+     * Constants used as data array keys
+     */
+    const LABEL = 'label';
+
+    const VALUE = 'value';
+
+    const SORT_ORDER = 'sort_order';
+
+    const STORE_LABELS = 'store_labels';
+
+    const IS_DEFAULT = 'is_default';
+
+    /**
      * Get option label
      *
      * @return string
@@ -34,14 +47,14 @@ interface AttributeOptionInterface
      *
      * @return int|null
      */
-    public function getOrder();
+    public function getSortOrder();
 
     /**
      * is default
      *
      * @return bool|null
      */
-    public function isDefault();
+    public function getIsDefault();
 
     /**
      * Set option label for store scopes

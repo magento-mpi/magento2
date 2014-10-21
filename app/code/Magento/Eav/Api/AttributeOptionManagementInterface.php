@@ -34,13 +34,13 @@ interface AttributeOptionManagementInterface
      * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::removeOption
      *
      * @param int $entityType
-     * @param string $attributeId
-     * @param int $optionId
+     * @param string $attributeCode
+     * @param \Magento\Eav\Api\Data\AttributeOptionInterface $option
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return bool
      */
-    public function remove($entityType, $attributeId, $optionId);
+    public function delete($entityType, $attributeCode, $option);
 
     /**
      * Retrieve list of attribute options
