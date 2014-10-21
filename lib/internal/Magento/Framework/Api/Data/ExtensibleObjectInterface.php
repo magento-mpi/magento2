@@ -10,6 +10,9 @@ namespace Magento\Framework\Api\Data;
 
 interface ExtensibleObjectInterface extends SimpleObjectInterface
 {
+    const CUSTOM_ATTRIBUTE = 'custom_attribute';
+    const CUSTOM_ATTRIBUTES = 'custom_attributes';
+
     /**
      * Get an attribute value.
      *

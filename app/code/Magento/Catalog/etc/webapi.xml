@@ -171,42 +171,6 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/links/types" method="GET">
-        <service class="Magento\Catalog\Api\ProductLinkTypeListInterface" method="getItems"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/:productSku/links/:type" method="GET">
-        <service class="Magento\Catalog\Api\ProductLinkManagementInterface" method="getList"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/links/:type/attributes" method="GET">
-        <service class="Magento\Catalog\Api\ProductLinkTypeListInterface" method="getItemAttributes"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/:productSku/links/:type" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="assign"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/:productSku/links/:type/:linkedProductSku" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="remove"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/:productSku/links/:type" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="update"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
     <route url="/V1/products/attributes/:id/options" method="GET">
         <service class="Magento\Catalog\Service\V1\Product\Attribute\Option\ReadServiceInterface" method="options"/>
         <resources>
@@ -397,6 +361,44 @@
     </route>
     <route url="/V1/products/:productSku/options/:optionId" method="DELETE">
         <service class="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="delete"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+
+    <!-- Product Links -->
+    <route url="/V1/products/links/types" method="GET">
+        <service class="Magento\Catalog\Api\ProductLinkTypeListInterface" method="getItems"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/links/:linkType" method="GET">
+        <service class="Magento\Catalog\Api\ProductLinkManagementInterface" method="getLinkedItemsByType"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/links/:type/attributes" method="GET">
+        <service class="Magento\Catalog\Api\ProductLinkTypeListInterface" method="getItemAttributes"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/links/:type" method="POST">
+        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="assign"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/links/:type/:linkedProductSku" method="DELETE">
+        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="remove"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/links/:type" method="PUT">
+        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="update"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

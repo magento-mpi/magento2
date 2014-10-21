@@ -401,7 +401,7 @@
     <type name="Magento\Catalog\Model\ProductLink\Converter\ConverterPool">
         <arguments>
             <argument name="converters" xsi:type="array">
-                <item name="default" xsi:type="object">\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\DefaultConverter</item>
+                <item name="default" xsi:type="object">Magento\Catalog\Model\ProductLink\Converter\DefaultConverter</item>
             </argument>
         </arguments>
     </type>
@@ -504,7 +504,7 @@
     <preference for="Magento\Catalog\Api\Data\ProductLinkAttributeInterface" type="\Magento\Catalog\Model\ProductLink\Attribute" />
     <preference for="Magento\Catalog\Api\Data\ProductLinkTypeInterface" type="Magento\Catalog\Model\ProductLink\Type" />
     <preference for="Magento\Catalog\Api\ProductLinkManagementInterface" type="Magento\Catalog\Model\ProductLink\Management" />
-    <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="\Magento\Catalog\Model\Product\Link" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="Magento\Catalog\Model\ProductLink\Link" />
     <preference for="\Magento\Catalog\Api\CategoryLinkManagementInterface" type="\Magento\Catalog\Model\CategoryLinkManagement" />
     <preference for="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" type="\Magento\Catalog\Model\CategoryLinkRepository" />
     <preference for="\Magento\Catalog\Model\Product\Option\Metadata\ConverterInterface" type="Magento\Catalog\Model\Product\Option\Metadata\Converter\Composite" />

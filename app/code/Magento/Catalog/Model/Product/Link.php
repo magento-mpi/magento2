@@ -24,7 +24,7 @@ use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCol
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\Framework\Model\AbstractModel implements \Magento\Catalog\Api\Data\ProductLinkInterface
+class Link extends \Magento\Framework\Model\AbstractModel
 {
     const LINK_TYPE_RELATED = 1;
 
@@ -181,84 +181,5 @@ class Link extends \Magento\Framework\Model\AbstractModel implements \Magento\Ca
             $this->_getResource()->saveProductLinks($product, $data, self::LINK_TYPE_CROSSSELL);
         }
         return $this;
-    }
-
-    /**
-     * Get product position
-     *
-     * @return int
-     */
-    public function getPosition()
-    {
-        return $this->getData('position');
-    }
-
-    /**
-     * Get an attribute value.
-     *
-     * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\AttributeValue|null The value. Null if the attribute has not been set
-     */
-    public function getCustomAttribute($attributeCode)
-    {
-
-    }
-
-    /**
-     * Retrieve custom attributes values as an associative array.
-     *
-     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
-     */
-    public function getCustomAttributes()
-    {
-
-    }
-
-    /**
-     * Get product SKU
-     *
-     * @identifier
-     * @return string
-     */
-    public function getProductSku()
-    {
-
-    }
-
-    /**
-     * Get link type
-     *
-     * @identifier
-     * @return string
-     */
-    public function getLinkType()
-    {
-
-    }
-
-    /**
-     * Get linked product sku
-     *
-     * @identifier
-     * @return string
-     */
-    public function getLinkedProductSku()
-    {
-
-    }
-
-    /**
-     * Get linked product type (simple, virtual, etc)
-     *
-     * @return string
-     */
-    public function getLinkedProductType()
-    {
-
-    }
-
-    public function __toArray()
-    {
-
     }
 }

@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\ProductLink;
 
-class Attribute implements \Magento\Catalog\Api\Data\ProductLinkAttributeInterface
+class Link implements \Magento\Catalog\Api\Data\ProductLinkInterface
 {
     /**
      * @var array
@@ -18,9 +18,9 @@ class Attribute implements \Magento\Catalog\Api\Data\ProductLinkAttributeInterfa
     /**
      * Initialize internal storage
      *
-     * @param \Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder $builder
+     * @param \Magento\Catalog\Api\Data\ProductLinkInterfaceBuilder $builder
      */
-    public function __construct(\Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder $builder)
+    public function __construct(\Magento\Catalog\Api\Data\ProductLinkInterfaceBuilder $builder)
     {
         $this->_data = $builder->getData();
     }
@@ -63,22 +63,55 @@ class Attribute implements \Magento\Catalog\Api\Data\ProductLinkAttributeInterfa
     }
 
     /**
-     * Get object key
+     * Get product SKU
      *
+     * @identifier
      * @return string
      */
-    public function getKey()
+    public function getProductSku()
     {
-        return $this->_get(self::KEY);
+        return $this->_get(self::PRODUCT_SKU);
     }
 
     /**
-     * Get object value
+     * Get link type
+     *
+     * @identifier
+     * @return string
+     */
+    public function getLinkType()
+    {
+        return $this->_get(self::LINK_TYPE);
+    }
+
+    /**
+     * Get linked product sku
+     *
+     * @identifier
+     * @return string
+     */
+    public function getLinkedProductSku()
+    {
+        return $this->_get(self::LINKED_PRODUCT_SKU);
+    }
+
+    /**
+     * Get linked product type (simple, virtual, etc)
      *
      * @return string
      */
-    public function getValue()
+    public function getLinkedProductType()
     {
-        return $this->_get(self::VALUE);
+        return $this->_get(self::LINKED_PRODUCT_SKU);
     }
-}
+
+    /**
+     * Get product position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->_get(self::POSITION);
+    }
+} 

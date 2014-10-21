@@ -11,16 +11,55 @@ namespace Magento\Catalog\Model\ProductLink;
 class Type implements \Magento\Catalog\Api\Data\ProductLinkTypeInterface
 {
     /**
-     * @var string[]
+     * @var array
      */
-    protected $data;
+    protected $_data;
 
     /**
-     * @param array $data
+     * Initialize internal storage
+     *
+     * @param \Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder $builder
      */
-    public function __construct(array $data)
+    public function __construct(\Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder $builder)
     {
-        $this->data = $data;
+        $this->_data = $builder->getData();
+    }
+
+    /**
+     * Retrieves a value from the data array if set, or null otherwise.
+     *
+     * @param string $key
+     * @return mixed|null
+     */
+    protected function _get($key)
+    {
+        return isset($this->_data[$key]) ? $this->_data[$key] : null;
+    }
+
+    /**
+     * Return Data Object data in array format.
+     *
+     * @return array
+     */
+    public function __toArray()
+    {
+        $data = $this->_data;
+        $hasToArray = function ($model) {
+            return is_object($model) && method_exists($model, '__toArray') && is_callable([$model, '__toArray']);
+        };
+        foreach ($data as $key => $value) {
+            if ($hasToArray($value)) {
+                $data[$key] = $value->__toArray();
+            } elseif (is_array($value)) {
+                foreach ($value as $nestedKey => $nestedValue) {
+                    if ($hasToArray($nestedValue)) {
+                        $value[$nestedKey] = $nestedValue->__toArray();
+                    }
+                }
+                $data[$key] = $value;
+            }
+        }
+        return $data;
     }
 
     /**
@@ -30,7 +69,7 @@ class Type implements \Magento\Catalog\Api\Data\ProductLinkTypeInterface
      */
     public function getKey()
     {
-        return isset($this->data[self::KEY]) ? $this->data[self::KEY] : null;
+        return $this->_get(self::KEY);
     }
 
     /**
@@ -40,6 +79,6 @@ class Type implements \Magento\Catalog\Api\Data\ProductLinkTypeInterface
      */
     public function getValue()
     {
-        return isset($this->data[self::VALUE]) ? $this->data[self::VALUE] : null;
+        return $this->_get(self::VALUE);
     }
 }
