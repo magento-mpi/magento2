@@ -131,7 +131,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function delete($product, array $arguments = [])
+    public function delete(\Magento\Catalog\Api\Data\ProductInterface $product, array $arguments = [])
     {
         $productSku = $product->getSku();
         try {
