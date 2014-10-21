@@ -28,9 +28,10 @@ class Converter
     protected $productConverter;
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
+     * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
@@ -54,8 +55,8 @@ class Converter
     {
         $data = [];
         foreach ($row as $field => $value) {
-            if ('category_path' == $field) {
-                $categoryId = $this->getCategoryId($this->getArrayValue($value));
+            if (('category_url_key' == $field) && !empty($value)) {
+                $categoryId = $this->getCategoryByUrlKey($value)->getId();
                 $data['category_id'] = $categoryId;
                 continue;
             }
@@ -70,15 +71,15 @@ class Converter
 
     /**
      * @param $urlKey
-     * @return mixed
-     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\Object
      */
-    protected function getCategoryId($urlKey)
+    protected function getCategoryByUrlKey($urlKey)
     {
         $category = $this->categoryFactory->create()
             ->addAttributeToFilter('url_key', $urlKey)
+            ->addUrlRewriteToResult()
             ->getFirstItem();
-        return $category->getId();
+        return $category;
     }
 
     /**
@@ -134,7 +135,6 @@ class Converter
      */
     protected function replaceContentCategoriesPath($content, $urlPath, $categoryUrl)
     {
-        $urlPath = str_replace('/', '\/', $urlPath);
         if (strpos($urlPath, '?')) {
             $urlPath = array_filter(explode("?", $urlPath));
             $regexp = '/{.(category).*(url="(' . $urlPath[0] . ')").*(attribute="('. $urlPath[1] .')").*(.})/';
@@ -147,21 +147,20 @@ class Converter
     /**
      * @param $categoriesReplacement
      * @return array
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     protected function getCategoriesUrl($categoriesReplacement)
     {
         $categoryData = array();
-        foreach ($categoriesReplacement['path'] as $categoryNumber => $path) {
-            $category = $this->categoryLoader->load($this->getCategoryId($path));
+        foreach ($categoriesReplacement['path'] as $categoryNumber => $urlKey) {
+            $category = $this->getCategoryByUrlKey($urlKey);
             if (!empty($category)) {
-                $categoryUrl =  $category->getUrl();
+                $categoryUrl = $category->getRequestPath();
                 if (!empty($categoriesReplacement['attribute'][$categoryNumber])) {
                     $urlAttributes = $categoriesReplacement['attribute'][$categoryNumber];
                     $categoryUrl .= '?' . $this->getUrlFilter($urlAttributes);
-                    $path = $path . '?' . $urlAttributes;
+                    $urlKey = $urlKey . '?' . $urlAttributes;
                 }
-                $categoryData[$path] = $categoryUrl;
+                $categoryData[$urlKey] = '{{store url=""}}' . $categoryUrl;
                 unset($categoryUrl);
             }
         }
@@ -175,6 +174,7 @@ class Converter
     protected function getUrlFilter($urlAttributes)
     {
         $separatedAttributes = $this->getArrayValue($urlAttributes, ';');
+        $urlFilter = null;
         foreach ($separatedAttributes as $attributeNumber => $attributeValue) {
             $attributeData = $this->getArrayValue($attributeValue, '=');
             $attributeOptions = $this->productConverter->getAttributeOptions($attributeData[0]);

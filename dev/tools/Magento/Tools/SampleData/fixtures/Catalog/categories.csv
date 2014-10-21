@@ -1,5 +1,5 @@
 name,url_key,path,active,is_anchor,include_in_menu,position
-Gear,gear,,1,1,1,3
+Gear,gear,,1,1,1,4
 Bags,bags,,Gear,1,1,1,
-"Fitness Equipment",fitness_equipment,Gear,1,1,1,
+"Fitness Equipment",fitness-equipment,Gear,1,1,1,
 Watches,watches,Gear,1,1,1,
