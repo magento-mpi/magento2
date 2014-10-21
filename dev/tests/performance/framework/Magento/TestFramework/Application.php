@@ -164,7 +164,7 @@ class Application
 
         // Populate install options with global options
         $baseUrl = 'http://' . $this->_config->getApplicationUrlHost() . $this->_config->getApplicationUrlPath();
-        $installOptions = array_merge($installOptions, array('url' => $baseUrl, 'secure_base_url' => $baseUrl));
+        $installOptions = array_merge($installOptions, array('base_url' => $baseUrl, 'base_url_secure' => $baseUrl));
         $adminOptions = $this->_config->getAdminOptions();
         foreach ($adminOptions as $key => $val) {
             $installOptions['admin_' . $key] = $val;
@@ -173,9 +173,10 @@ class Application
         $installCmd = 'php -f %s install';
         $installCmdArgs = array($this->_installScript);
         foreach ($installOptions as $optionName => $optionValue) {
-            $installCmd .= " --{$optionName} %s";
+            $installCmd .= " --{$optionName}=%s";
             $installCmdArgs[] = $optionValue;
         }
+        $installCmd .= ' --cleanup_database';
         $this->_shell->execute($installCmd, $installCmdArgs);
 
         $this->_isInstalled = true;
