@@ -49,8 +49,14 @@ class StoreId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
         $this->params = $params;
-        if (isset($data['dataSet'])) {
-            $store = $fixtureFactory->createByCode('store', ['dataSet' => $data['dataSet']]);
+
+        $storeData =  isset($data['dataSet']) ? ['dataSet' => $data['dataSet']] : [];
+        if (isset($data['data'])) {
+            $storeData = array_replace_recursive($storeData, $data);
+        }
+
+        if ($storeData) {
+            $store = $fixtureFactory->createByCode('store', $storeData);
             /** @var Store $website */
             if (!$store->getStoreId()) {
                 $store->persist();

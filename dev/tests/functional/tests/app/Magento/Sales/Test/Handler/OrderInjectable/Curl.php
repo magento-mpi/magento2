@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Handler\OrderInjectable;
 
+use Magento\Bundle\Test\Fixture\BundleProduct;
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
@@ -182,6 +183,52 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
             $attributeId = $attributesData[$option['title']]['attribute_id'];
             $optionId = $attributesData[$option['title']]['options'][$option['value']]['id'];
             $result['super_attribute'][$attributeId] = $optionId;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepare data for configurable product
+     *
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function prepareBundleData(FixtureInterface $product)
+    {
+        /** @var BundleProduct $product */
+        $result = [];
+        $checkoutData = $product->getCheckoutData();
+        $bundleOptions = isset($checkoutData['options']['bundle_options'])
+            ? $checkoutData['options']['bundle_options']
+            : [];
+        $bundleSelections = $product->getBundleSelections();
+        $bundleSelectionsData = [];
+        $result['qty'] = $checkoutData['qty'];
+
+        foreach ($bundleSelections['bundle_options'] as $option) {
+            foreach ($option['assigned_products'] as $productData) {
+                $productName = $productData['search_data']['name'];
+                $bundleSelectionsData[$productName] = [
+                    'selection_id' => $productData['selection_id'],
+                    'option_id' => $productData['option_id'],
+                ];
+            }
+        }
+
+        foreach ($bundleOptions as $option) {
+            $productName = $option['value']['name'];
+            foreach ($bundleSelectionsData as $fullProductName => $value) {
+                if (null !== strpos($fullProductName, $productName)) {
+                    $productName = $fullProductName;
+                }
+            }
+
+            if (isset($bundleSelectionsData[$productName])) {
+                $optionId = $bundleSelectionsData[$productName]['option_id'];
+                $selectionId = $bundleSelectionsData[$productName]['selection_id'];
+                $result['bundle_option'][$optionId] = $selectionId;
+            }
         }
 
         return $result;

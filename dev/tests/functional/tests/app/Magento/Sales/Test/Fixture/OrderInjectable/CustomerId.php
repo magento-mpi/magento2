@@ -81,7 +81,7 @@ class CustomerId implements FixtureInterface
     /**
      * Get customer fixture
      *
-     * @return array
+     * @return CustomerInjectable
      */
     public function getCustomer()
     {

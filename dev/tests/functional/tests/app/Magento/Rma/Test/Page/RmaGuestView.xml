@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="rma/guest/view/" module="Magento_Rma">
+    <blocks>
+        <rmaView>
+            <class>Magento\Rma\Test\Block\Returns\View</class>
+            <locator>.column.main</locator>
+            <strategy>css selector</strategy>
+        </rmaView>
+    </blocks>
+</page>

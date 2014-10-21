@@ -8,19 +8,17 @@
 
 namespace Magento\Rma\Test\Block\Returns;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
-/**
- * Order view block
- *
+/***
+ * Class Returns
+ * Order view block/
  */
-class Returns extends Block
+class Returns extends History
 {
     /**
-     * Row selector
+     * Row selector.
      *
      * @var string
      */
@@ -28,6 +26,9 @@ class Returns extends Block
 
     /**
      * Verify specific return.
+     *
+     * @param int $returnId
+     * @return bool
      */
     public function isRowVisible($returnId)
     {

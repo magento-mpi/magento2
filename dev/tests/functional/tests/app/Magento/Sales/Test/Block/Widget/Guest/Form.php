@@ -10,7 +10,10 @@ namespace Magento\Sales\Test\Block\Widget\Guest;
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Orders and Returns form search block
@@ -19,29 +22,14 @@ use Mtf\Fixture\FixtureInterface;
 class Form extends \Mtf\Block\Form
 {
     /**
-     * Search button selector
+     * Search button selector.
      *
      * @var string
      */
     protected $searchButtonSelector = '.action.submit';
 
     /**
-     * Selector for loads form
-     *
-     * @var string
-     */
-    protected $loadsForm = 'div[id*=oar] input';
-
-    /**
-     * Submit search form
-     */
-    public function submit()
-    {
-        $this->_rootElement->find($this->searchButtonSelector, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
-     * Fill the root form
+     * Fill the form.
      *
      * @param FixtureInterface $fixture
      * @param Element|null $element
@@ -49,30 +37,33 @@ class Form extends \Mtf\Block\Form
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $this->waitLoadForm();
-        return parent::fill($fixture, $element);
+        if ($fixture instanceof InjectableFixture) {
+            /** @var OrderInjectable $fixture */
+            /** @var CustomerInjectable $customer */
+            $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
+
+            $data = [
+                'order_id' => $fixture->getId(),
+                'billing_last_name' => $customer->getLastname(),
+                'find_order_by' => 'Email Address',
+                'email_address' => $customer->getEmail(),
+            ];
+        } else {
+            $data = $fixture->getData();
+        }
+
+        $fields = isset($data['fields']) ? $data['fields'] : $data;
+        $mapping = $this->dataMapping($fields);
+        $this->_fill($mapping, $element);
+
+        return $this;
     }
 
     /**
-     * Wait while form is loading
-     *
-     * @return void
+     * Submit search form.
      */
-    protected function waitLoadForm()
+    public function submit()
     {
-        $browser = $this->browser;
-        $selector = $this->loadsForm;
-        $browser->waitUntil(
-            function () use ($browser, $selector) {
-                $inputs = $browser->find($selector)->getElements();
-                $i = 0;
-                foreach ($inputs as $input) {
-                    if ($input->isVisible()) {
-                        ++$i;
-                    }
-                }
-                return $i == 1 ? true : null;
-            }
-        );
+        $this->_rootElement->find($this->searchButtonSelector, Locator::SELECTOR_CSS)->click();
     }
 }

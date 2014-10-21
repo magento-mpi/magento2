@@ -5,17 +5,57 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab;
+
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Rma\Test\Fixture\ReturnItem;
+use Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\Grid as OrderItemsGrid;
+use Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Grid as ItemsGrid;
 
 /**
  * Class Items
- * Return Items block.
- *
+ * Items product tab.
  */
-class Items extends \Magento\Backend\Test\Block\Widget\Tab
+class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
 {
+    /**
+     * Selector for "Add Products" button.
+     *
+     * @var string
+     */
+    protected $addProducts = '[title="Add Products"]';
+
+    /**
+     * Selector for "Add Selected Product(s) to returns" button.
+     *
+     * @var string
+     */
+    protected $addSelectedProducts = '[title="Add Selected Product(s) to returns"]';
+
+    /**
+     * Locator item row by name.
+     *
+     * @var string
+     */
+    protected $rowByName = './/tbody/tr[./td[contains(@class,"col-product_name") and contains(.,"%s")]]';
+
+    /**
+     * Locator for order items grid.
+     *
+     * @var string
+     */
+    protected $orderItemsGrid = '#select-order-items-block';
+
+    /**
+     * Magento loader.
+     *
+     * @var string
+     */
+    protected $loader = './/ancestor::body/div[@class="loading-mask"]';
+
     /**
      * Row containing product name.
      *
@@ -92,6 +132,107 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
     );
 
     /**
+     * Fill data to fields on tab.
+     *
+     * @param array $fields
+     * @param Element|null $element
+     * @return $this
+     */
+    public function fillFormTab(array $fields, Element $element = null)
+    {
+        $items = isset($fields['items']['value']) ? $fields['items']['value'] : [];
+
+        if (!empty($items)) {
+            $this->clickAddProducts();
+            $this->waitForElementVisible($this->orderItemsGrid);
+            foreach ($items as $item) {
+                $this->getOrderItemsGrid()->selectItem($item['product']);
+            }
+
+            $this->clickAddSelectedProducts();
+            $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+            foreach ($items as $item) {
+                $this->fillItem($item);
+            }
+
+            $this->setFields['items'] = $items;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Click "Add Products" button.
+     *
+     * @return void
+     */
+    protected function clickAddProducts()
+    {
+        $this->_rootElement->find($this->addProducts)->click();
+    }
+
+    /**
+     * Click "Add Selected Product(s) to returns" button
+     *
+     * @return void.
+     */
+    protected function clickAddSelectedProducts()
+    {
+        $this->_rootElement->find($this->addSelectedProducts)->click();
+        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Return product grid.
+     *
+     * @return OrderItemsGrid
+     */
+    protected function getOrderItemsGrid()
+    {
+        return $this->blockFactory->create(
+            'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\Grid',
+            ['element' => $this->_rootElement]
+        );
+    }
+
+    /**
+     * Return product grid.
+     *
+     * @return ItemsGrid
+     */
+    protected function getItemsGrid()
+    {
+        return $this->blockFactory->create(
+            'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Grid',
+            ['element' => $this->_rootElement]
+        );
+    }
+
+    /**
+     * Fill item in rma items grid
+     *
+     * @param array $itemData
+     * @return void
+     */
+    protected function fillItem(array $itemData)
+    {
+        /** @var CatalogProductSimple $product */        $product = $itemData['product'];
+        $productConfig = $product->getDataConfig();
+        $productType = isset($productConfig['type_id']) ? ucfirst($productConfig['type_id']) : '';
+        $productItemsClass = 'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\\' . $productType . 'Items';
+
+        if (class_exists($productItemsClass)) {
+            $productGrid = $this->blockFactory->create($productItemsClass, ['element' => $this->_rootElement]);
+            $productGrid->fillItem($itemData);
+        } else {
+            unset($itemData['product']);
+            $fields = $this->dataMapping($itemData);
+            $itemRow = $this->getItemsGrid()->getItemRow($product);
+            $this->_fill($fields, $itemRow);
+        }
+    }
+
+    /**
      * Fill form fields.
      *
      * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItemFixture
@@ -121,8 +262,9 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
      * Checks if all products from the order are in the return grid.
      *
      * @param array $products
-     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItem
+     * @param ReturnItem $returnItem
      * @return bool
+     * @throws \Exception
      */
     public function assertProducts($products, $returnItem)
     {

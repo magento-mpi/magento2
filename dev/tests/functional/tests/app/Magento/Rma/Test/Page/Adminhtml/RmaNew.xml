@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/rma/new" module="Magento_Rma">
+    <blocks>
+        <pageActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+        <rmaForm>
+            <class>Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </rmaForm>
+    </blocks>
+</page>
