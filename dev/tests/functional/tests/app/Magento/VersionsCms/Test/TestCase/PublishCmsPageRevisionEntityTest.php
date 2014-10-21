@@ -118,6 +118,7 @@ class PublishCmsPageRevisionEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Revision $revision, $initialRevision, array $results)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-28876");
         // Steps
         $this->cmsIndex->open();
         $title = $cms->getTitle();

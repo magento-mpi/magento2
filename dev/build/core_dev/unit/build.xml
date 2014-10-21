@@ -20,32 +20,33 @@
         </replace>
     </target>
 
-    <target name="_unit_tests_magento" depends="_product_location" description="Product unit tests">
+    <target name="_unit_tests_magento" depends="_product_location,_composer_install" description="Product unit tests">
         <exec dir="${product_root_dir}/dev/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_magento.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_integration_framework" depends="_product_location" description="Unit tests for integration testing framework">
+    <target name="_unit_tests_integration_framework" depends="_product_location,_composer_install" description="Unit tests for integration testing framework">
         <exec dir="${product_root_dir}/dev/tests/integration/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_integration_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_performance_framework" depends="_product_location" description="Unit tests for performance testing framework">
+    <target name="_unit_tests_performance_framework" depends="_product_location,_composer_install" description="Unit tests for performance testing framework">
         <exec dir="${product_root_dir}/dev/tests/performance/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_performance_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_performance_toolkit_framework" depends="_product_location" description="Unit Tests for performance toolkit framework">
-        <exec dir="${product_root_dir}/dev/tools/performance-toolkit/framework/tests/unit" executable="${phpunit}" failonerror="true">
+    <target name="_unit_tests_performance_toolkit_framework" depends="_product_location,_composer_install" description="Unit Tests for performance toolkit framework">
+        <exec dir="${product_root_dir}/dev/tools/performance-toolkit/framework/tests/unit" executable="${phpunit}"
+              failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_performance_toolkit_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_static_framework" depends="_product_location" description="Unit tests for static code analysis framework">
+    <target name="_unit_tests_static_framework" depends="_product_location,_composer_install" description="Unit tests for static code analysis framework">
         <exec dir="${product_root_dir}/dev/tests/static/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_static_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_unit_framework" depends="_product_location" description="Unit tests for unit testing framework">
+    <target name="_unit_tests_unit_framework" depends="_product_location,_composer_install" description="Unit tests for unit testing framework">
         <exec dir="${product_root_dir}/dev/tests/unit/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
         </exec>
@@ -70,7 +71,7 @@
         <antcall target="_unit_tests_all"/>
     </target>
 
-    <target name="unit_tests_js" depends="_server_info,_product_location" description="Javascript unit tests">
+    <target name="unit_tests_js" depends="_server_info,_product_location,_composer_install" description="Javascript unit tests">
         <copy file="${product_root_dir}/dev/tests/js/jsTestDriver.php.dist"
               tofile="${product_root_dir}/dev/tests/js/jsTestDriver.php" overwrite="true"/>
         <antcall target="_jstestdriver_path_substitution">
