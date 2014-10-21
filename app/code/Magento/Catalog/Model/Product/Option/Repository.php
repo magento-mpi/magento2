@@ -30,13 +30,22 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
     protected $optionConverter;
 
     /**
-     * Get the list of custom options for a specific product
-     *
-     * @param string $productSku
-     * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface[]
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     *
-     * @see \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface::getList - previous implementation
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Model\Resource\Product\Option $optionResource
+     * @param Converter $optionConverter
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Model\Resource\Product\Option $optionResource,
+        Converter $optionConverter
+    ) {
+        $this->productRepository = $productRepository;
+        $this->optionResource = $optionResource;
+        $this->optionConverter = $optionConverter;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getList($productSku)
     {

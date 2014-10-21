@@ -8,12 +8,6 @@
 
 namespace Magento\Catalog\Api;
 
-/**
- * Created from:
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\WriteServiceInterface
- * @todo Create new model \Magento\Catalog\Model\Product\CustomOptionManagement
- */
 interface ProductCustomOptionRepositoryInterface
 {
     /**
@@ -21,9 +15,6 @@ interface ProductCustomOptionRepositoryInterface
      *
      * @param string $productSku
      * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface[]
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     *
-     * @see \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface::getList - previous implementation
      */
     public function getList($productSku);
 

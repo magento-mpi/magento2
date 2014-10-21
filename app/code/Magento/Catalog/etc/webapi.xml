@@ -363,14 +363,16 @@
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
+
     <route url="/V1/products/options/types" method="GET">
         <service class="Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface" method="getTypes"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+
     <route url="/V1/products/:productSku/options" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface" method="getList"/>
+        <service class="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

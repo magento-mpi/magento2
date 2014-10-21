@@ -58,7 +58,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupBuilder $groupBuilder,
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
-        \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder
+        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
     ) {
         $this->groupResource = $groupResource;
         $this->groupListFactory = $groupListFactory;

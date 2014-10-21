@@ -46,7 +46,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute $eavResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder
+        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
     ) {
         $this->eavConfig = $eavConfig;
         $this->eavResource = $eavResource;
