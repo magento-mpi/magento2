@@ -68,7 +68,7 @@ title,identifier,content,category_url_key
 ",
 Women Block,women-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""women""}}"" class=""block-promo womens-main"">
-        <img src=""{{media url=""sale/womens/womens-main.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/womens/womens-main.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <span class=""info"">New Luma Yoga Collection</span>
             <strong class=""title"">Yoga is ancient <br />Clothing shouldn’t be</strong>
@@ -80,13 +80,13 @@ Women Block,women-block,"<div class=""blocks-promo"">
         <a href=""{{category url=""tees-women""}}"" class=""block-promo womens-t-shirts"">
             <span class=""content"">
                 <strong class=""title"">You can’t have too many tees</strong>
-                <img src=""{{media url=""sale/womens/womens-t-shirts.png""}}"" alt="""" />
+                <img src=""{{media url=""wysiwyg/womens/womens-t-shirts.png""}}"" alt="""" />
                 <span class=""info"">4 tees for the price of 3. Right now</span>
                 <span class=""action more icon"">Women’s Tees</span>
             </span>
         </a>
         <a href=""{{category url=""pants-women""}}"" class=""block-promo womens-pants"">
-            <img src=""{{media url=""sale/womens/womens-pants.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/womens/womens-pants.jpg""}}"" alt="""" />
             <span class=""content bg-white"">
                 <strong class=""title"">Hot pants<br /> Hot deals</strong>
                 <span class=""info""><span>20% OFF</span>Luma pants when you shop today*</span>
@@ -101,7 +101,7 @@ Women Block,women-block,"<div class=""blocks-promo"">
             <span class=""info"">It’s no secret: see Luma founder Erin Renny’s wardrobe go-to’s</span>
             <span class=""action more icon"">Shop Erin Recommends</span>
         </span>
-        <span class=""image""><img src=""{{media url=""sale/womens/womens-erin.jpg""}}"" alt="""" /></span>
+        <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-erin.jpg""}}"" alt="""" /></span>
     </a>
 
     <div class=""block-promo-wrapper block-promo-3columns"">
@@ -111,7 +111,7 @@ Women Block,women-block,"<div class=""blocks-promo"">
                 <span class=""info"">Pants for yoga, gym and outdoors</span>
                 <span class=""action more icon"">Shop Pants</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/womens/womens-category-pants.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-category-pants.jpg""}}"" alt="""" /></span>
         </a>
         <a href=""{{category url=""shorts-women""}}"" class=""block-promo womens-category-shorts"">
             <span class=""content"">
@@ -119,7 +119,7 @@ Women Block,women-block,"<div class=""blocks-promo"">
                 <span class=""info"">Exercise comfort</span>
                 <span class=""action more icon"">Shop Shorts</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/womens/womens-category-shorts.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-category-shorts.jpg""}}"" alt="""" /></span>
         </a>
         <a href=""{{category url=""tanks-women""}}"" class=""block-promo womens-category-tanks"">
             <span class=""content"">
@@ -127,14 +127,14 @@ Women Block,women-block,"<div class=""blocks-promo"">
                 <span class=""info"">Stock up for summer!</span>
                 <span class=""action more icon"">Shop Now</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/womens/womens-category-tanks.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-category-tanks.jpg""}}"" alt="""" /></span>
         </a>
     </div>
 </div>",women
 Training Block,training-block,"<div class=""blocks-promo"">
 
     <a href=""{{category url=""training""}}"" class=""block-promo training-main"">
-        <img src=""{{media url=""sale/training/training-main.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/training/training-main.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <strong class=""title"">
                 <span>Motivate</span> yourself.<br />
@@ -147,7 +147,7 @@ Training Block,training-block,"<div class=""blocks-promo"">
     </a>
 
     <a href=""#"" class=""block-promo training-erin"">
-        <img src=""{{media url=""sale/training/training-erin.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/training/training-erin.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <strong class=""title"">Before creating Luma, pro trainer Erin Renny helped world-class athletes reach peak fitness</strong>
             <span class=""info"">Hand-selected by Erin, our training downloads reflect a commitment to yoga, health and wellness.</span>
@@ -180,12 +180,12 @@ Giftcard Block,giftcard-block,"<div class=""blocks-promo"">
             <strong class=""title"">Pristine prices on pants, tanks and bras.</strong>
             <span class=""action more icon"">Shop Women’s Deals</span>
         </span>
-        <span class=""image""><img src=""{{media url=""sale/giftcards/giftcard.jpg""}}"" alt="""" /></span>
+        <span class=""image""><img src=""{{media url=""wysiwyg/giftcards/giftcard.jpg""}}"" alt="""" /></span>
     </a>
 </div>",gift-cards
 Men Block,men-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""men""}}"" class=""block-promo mens-main"">
-        <img src=""{{media url=""sale/mens/mens-main.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/mens/mens-main.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <span class=""info"">Luma’s Performance Fabric collection</span>
             <strong class=""title"">Going the extra mile just got extra comfortable</strong>
@@ -197,13 +197,13 @@ Men Block,men-block,"<div class=""blocks-promo"">
         <a href=""{{category url=""tees-men""}}"" class=""block-promo mens-t-shirts"">
             <span class=""content"">
                 <strong class=""title"">Save up to $24!</strong>
-                <img src=""{{media url=""sale/mens/mens-t-shirts.png""}}"" alt="""" />
+                <img src=""{{media url=""wysiwyg/mens/mens-t-shirts.png""}}"" alt="""" />
                 <span class=""info"">Buy 3 Luma tees, get 4 instead</span>
                 <span class=""action more icon"">Shop Tees</span>
             </span>
         </a>
         <a href=""{{category url=""pants-men""}}"" class=""block-promo mens-pants"">
-            <img src=""{{media url=""sale/mens/mens-pants.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/mens/mens-pants.jpg""}}"" alt="""" />
             <span class=""content bg-white"">
                 <strong class=""title"">Last chance<br /> for pants</strong>
                 <span class=""info"">Take <span>20% OFF</span>and save bigtime*</span>
@@ -219,7 +219,7 @@ Men Block,men-block,"<div class=""blocks-promo"">
                 <span class=""info"">Cool it now</span>
                 <span class=""action more icon"">Shop Shorts</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/mens/mens-category-shorts.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/mens/mens-category-shorts.jpg""}}"" alt="""" /></span>
         </a>
         <a href=""{{category url=""tees-men""}}"" class=""block-promo mens-category-tees"">
             <span class=""content"">
@@ -227,7 +227,7 @@ Men Block,men-block,"<div class=""blocks-promo"">
                 <span class=""info"">Grab a tee or two!</span>
                 <span class=""action more icon"">Shop Tees</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/mens/mens-category-tees.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/mens/mens-category-tees.jpg""}}"" alt="""" /></span>
         </a>
         <a href=""{{category url=""hoodies-and-sweatshirts-men""}}"" class=""block-promo mens-category-hoodies"">
             <span class=""content"">
@@ -235,13 +235,13 @@ Men Block,men-block,"<div class=""blocks-promo"">
                 <span class=""info"">Dress for fitness</span>
                 <span class=""action more icon"">Shop Hoodies</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/mens/mens-category-hoodies.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/mens/mens-category-hoodies.jpg""}}"" alt="""" /></span>
         </a>
     </div>
 </div>",men
 Gear Block,gear-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""gear""}}"" class=""block-promo gear-main"">
-        <img src=""{{media url=""sale/gear/gear-main.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/gear/gear-main.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <strong class=""title"">Sprite Yoga Companion Kit</strong>
             <span class=""info"">Save up to 20% on a bundle!</span>
@@ -251,7 +251,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
 
     <div class=""block-promo-wrapper block-promo-2columns"">
         <a href=""{{category url=""fitness-equipment""}}"" class=""block-promo gear-fitnes"">
-            <img src=""{{media url=""sale/gear/gear-fitnes.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/gear/gear-fitnes.jpg""}}"" alt="""" />
             <span class=""content"">
                 <strong class=""title"">Loosen Up</strong>
                 <span class=""info"">Extend your training with yoga straps, tone bands,<br />and jump ropes</span>
@@ -259,7 +259,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
             </span>
         </a>
         <a href=""{{category url=""fitness-equipment""}}"" class=""block-promo gear-equipment"">
-            <img src=""{{media url=""sale/gear/gear-equipment.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/gear/gear-equipment.jpg""}}"" alt="""" />
             <span class=""content bg-white"">
                 <strong class=""title"">Here’s to you!</strong>
                 <span class=""info"">$4 Luma water bottle<br /> (save&nbsp;70%)</span>
@@ -275,7 +275,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
                 <span class=""info"">Luma bags go the distance</span>
                 <span class=""action more icon"">Shop Bags</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/gear/gear-category-bags.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/gear/gear-category-bags.jpg""}}"" alt="""" /></span>
         </a>
         <a href=""{{category url=""fitness-equipment""}}"" class=""block-promo gear-category-equipment"">
             <span class=""content"">
@@ -283,7 +283,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
                 <span class=""info"">Luma gym equipment fits your goals and&nbsp;style</span>
                 <span class=""action more icon"">Shop Equipment</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/gear/gear-category-equipment.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/gear/gear-category-equipment.jpg""}}"" alt="""" /></span>
         </a>
         <a href=""{{category url=""watches""}}"" class=""block-promo gear-category-watches"">
             <span class=""content"">
@@ -291,13 +291,13 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
                 <span class=""info"">Keeping pace has never been more stylish</span>
                 <span class=""action more icon"">Shop Watches</span>
             </span>
-            <span class=""image""><img src=""{{media url=""sale/gear/gear-category-watches.jpg""}}"" alt="""" /></span>
+            <span class=""image""><img src=""{{media url=""wysiwyg/gear/gear-category-watches.jpg""}}"" alt="""" /></span>
         </a>
     </div>
 </div>",gear
 Sale Block,sale-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo sale-main"">
-        <img src=""{{media url=""sale/sale/sale-main.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/sale/sale-main.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <span class=""info"">Women’s Deals</span>
             <strong class=""title"">Pristine prices on pants, tanks and bras.</strong>
@@ -307,7 +307,7 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
 
     <div class=""block-promo-wrapper block-promo-2columns"">
         <a href=""#"" class=""block-promo sale-mens"">
-            <img src=""{{media url=""sale/sale/sale-mens.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/sale/sale-mens.jpg""}}"" alt="""" />
             <span class=""content"">
                 <strong class=""title"">Men’s Bargains</strong>
                 <span class=""info"">Stretch your budget with active attire</span>
@@ -315,7 +315,7 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
             </span>
         </a>
         <a href=""#"" class=""block-promo sale-women"">
-            <img src=""{{media url=""sale/sale/sale-gear.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/sale/sale-gear.jpg""}}"" alt="""" />
             <span class=""content"">
                 <strong class=""title"">Luma Gear Steals</strong>
                 <span class=""info"">Your best efforts deserve a deal</span>
@@ -327,7 +327,7 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
 </div>",sale
 New Block,new-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo new-main"">
-        <img src=""{{media url=""sale/new/new-main.jpg""}}"" alt="""" />
+        <img src=""{{media url=""wysiwyg/new/new-main.jpg""}}"" alt="""" />
         <span class=""content bg-white"">
             <span class=""info"">New Luma Yoga Collection</span>
             <strong class=""title"">The very latest yoga styles  plus twists on timeless classics</strong>
@@ -337,7 +337,7 @@ New Block,new-block,"<div class=""blocks-promo"">
 
     <div class=""block-promo-wrapper block-promo-2columns"">
         <a href=""#"" class=""block-promo new-performance"">
-            <img src=""{{media url=""sale/new/new-performance.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/new/new-performance.jpg""}}"" alt="""" />
             <span class=""content"">
                 <strong class=""title"">Whatever day brings</strong>
                 <span class=""info"">Luma Cocona<sup>’</sup> for breathability, CoolTech<sup>’</sup> for wicking, or a blend of both.</span>
@@ -345,7 +345,7 @@ New Block,new-block,"<div class=""blocks-promo"">
             </span>
         </a>
         <a href=""#"" class=""block-promo new-eco"">
-            <img src=""{{media url=""sale/new/new-eco.jpg""}}"" alt="""" />
+            <img src=""{{media url=""wysiwyg/new/new-eco.jpg""}}"" alt="""" />
             <span class=""content bg-white"">
                 <strong class=""title"">A sense of renewal</strong>
                 <span class=""info"">Enjoy comfort of body and mind with Luma eco-friendly choices</span>
