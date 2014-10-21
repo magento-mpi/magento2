@@ -30,7 +30,7 @@ class TypesList implements \Magento\Catalog\Api\AttributeTypesListInterface
      */
     public function __construct(
         \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory $inputTypeFactory,
-        \Magento\Catalog\Api\Data\AttributeTypeBuilder $attributeTypeBuilder
+        \Magento\Catalog\Api\Data\AttributeTypeInterfaceBuilder $attributeTypeBuilder
     ) {
         $this->inputTypeFactory = $inputTypeFactory;
         $this->attributeTypeBuilder = $attributeTypeBuilder;

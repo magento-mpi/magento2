@@ -16,7 +16,7 @@ use \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory;
 use \Magento\Eav\Model\Config as EavConfig;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Data\Search\SearchCriteriaInterface;
-use \Magento\Framework\Data\Search\SearchResultsBuilder;
+use \Magento\Framework\Data\Search\SearchResultsBuilderInterface;
 
 class AttributeSetRepository implements AttributeSetRepositoryInterface
 {
@@ -41,7 +41,7 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
     private $eavConfig;
 
     /**
-     * @var SearchResultsBuilder
+     * @var SearchResultsBuilderInterface
      */
     private $searchResultsBuilder;
 
@@ -50,14 +50,14 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
      * @param AttributeSetFactory $attributeSetFactory
      * @param CollectionFactory $collectionFactory
      * @param Config $eavConfig
-     * @param SearchResultsBuilder $searchResultBuilder
+     * @param SearchResultsBuilderInterface $searchResultBuilder
      */
     public function __construct(
         AttributeSetResource $attributeSetResource,
         AttributeSetFactory $attributeSetFactory,
         CollectionFactory $collectionFactory,
         EavConfig $eavConfig,
-        SearchResultsBuilder $searchResultBuilder
+        SearchResultsBuilderInterface $searchResultBuilder
     ) {
         $this->attributeSetResource = $attributeSetResource;
         $this->attributeSetFactory = $attributeSetFactory;

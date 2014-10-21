@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\Product\Attribute;
+namespace Magento\Catalog\Api\Data;
 
 class ProductLinkSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
 {

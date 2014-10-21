@@ -46,7 +46,7 @@ class ReadService implements ReadServiceInterface
     protected $productEntityBuilder;
 
     /**
-     * @var Data\ProductLink\CollectionProvider
+     * @var \Magento\Catalog\Model\ProductLink\CollectionProvider
      */
     protected $entityCollectionProvider;
 
@@ -65,7 +65,7 @@ class ReadService implements ReadServiceInterface
      * @param Data\LinkTypeBuilder $builder
      * @param Data\ProductLinkBuilder $productEntityBuilder
      * @param ProductLoader $productLoader
-     * @param ProductLink\CollectionProvider $entityCollectionProvider
+     * @param \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider
      * @param Data\LinkAttributeBuilder $linkAttributeBuilder
      * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
      * @param LinkTypeResolver $linkTypeResolver
@@ -75,7 +75,7 @@ class ReadService implements ReadServiceInterface
         Data\LinkTypeBuilder $builder,
         Data\ProductLinkBuilder $productEntityBuilder,
         ProductLoader $productLoader,
-        Data\ProductLink\CollectionProvider $entityCollectionProvider,
+        \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider,
         Data\LinkAttributeBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
         LinkTypeResolver $linkTypeResolver

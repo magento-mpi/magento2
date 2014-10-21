@@ -12,7 +12,7 @@ use Magento\Catalog\Api\Data;
 use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Catalog\Api\Data\ProductLinkInterface as Link;
+use \Magento\Catalog\Api\Data\ProductLinkInterface as ProductLinkInterface;
 
 class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
 {
@@ -72,11 +72,11 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         $collection = $this->entityCollectionProvider->getCollection($product, $linkType);
         foreach ($collection as $item) {
             $data = [
-                Link::PRODUCT_SKU => $product->getSku(),
-                Link::LINK_TYPE => $linkType,
-                Link::LINKED_PRODUCT_SKU => $item['sku'],
-                Link::LINKED_PRODUCT_TYPE => $item['type'],
-                Link::POSITION => $item['position']
+                ProductLinkInterface::PRODUCT_SKU => $product->getSku(),
+                ProductLinkInterface::LINK_TYPE => $linkType,
+                ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
+                ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
+                ProductLinkInterface::POSITION => $item['position']
             ];
             $output[] = $this->productLinkBuilder->populateWithArray($data)->create();
         }

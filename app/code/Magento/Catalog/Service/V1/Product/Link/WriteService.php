@@ -45,14 +45,14 @@ class WriteService implements WriteServiceInterface
 
     /**
      * @param LinksInitializer $linkInitializer
-     * @param ProductLink\CollectionProvider $entityCollectionProvider
+     * @param \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider
      * @param ProductLoader $productLoader
      * @param ProductResource $productResource
      * @param ProductLink\DataMapperInterface $dataMapper
      */
     public function __construct(
         LinksInitializer $linkInitializer,
-        ProductLink\CollectionProvider $entityCollectionProvider,
+        \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider,
         ProductLoader $productLoader,
         ProductResource $productResource,
         Data\ProductLink\DataMapperInterface $dataMapper

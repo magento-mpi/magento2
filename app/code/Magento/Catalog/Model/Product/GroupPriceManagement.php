@@ -11,6 +11,7 @@ namespace Magento\Catalog\Model\Product;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
+
 class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceManagementInterface
 {
     /**
@@ -51,8 +52,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
         \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceBuilder $groupPriceBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
-        \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
