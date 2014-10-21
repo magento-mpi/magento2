@@ -6,37 +6,19 @@
 //  * @license     {license_link}
 //  */
 
+@color-remove-icon: #5d5d5d;
+
 .block-addbysku {
     .fieldset {
-        .fields .field {
-            display: inline-block;
-            margin-bottom: @indent-s-base;
-            vertical-align: top;
-            &.sku {
-                &:extend(.abstract-add-box-sizing all);
-                margin-right: -75px;
-                padding-right: 80px;
-                width: 100%;
+        margin: 0 0 @indent-s-base;
+        .field {
+            .note {
+                font-size: @font-size-base;
+                margin: 0 0 @indent-base;
             }
-            &.qty {
-                .qty {
-                    &:extend(.abstract-input-qty all);
-                }
-            }
-        }
-        .fields {
-            position: relative;
         }
     }
     .action {
-        &.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 12px
-            );
-            .button-reset();
-        }
         &.add {
             .button-icon(
                 @_icon-font-content: @icon-expand,
@@ -45,26 +27,127 @@
             );
             line-height: normal;
             padding: 4px;
-            position: absolute;
-            left: 0;
-            top: 0;
             width: auto;
         }
         &.links {
             display: inline-block;
             margin: @indent-base 0 0;
         }
+        &.reset {
+            margin: @indent-s-base 0;
+            display: block;
+        }
     }
-    .form-addbysku > .actions-toolbar {
+    .form-addbysku .actions-toolbar {
         position: relative;
-        padding-top: 45px;
+        .primary {
+            text-align: left;
+            .action {
+                width: auto;
+            }
+        }
+        .secondary {
+            text-align: left;
+            margin: @indent-xs-base 0 @indent-base;
+        }
     }
-    .fields {
-        position: relative;
-        .actions-toolbar {
-            position: absolute;
-            right: 0;
-            top: 40px;
+    .table-sku-items {
+        th {
+            padding-top: 0;
+            border-bottom: 1px solid @border-color-base;
+            &:first-child {
+                padding-left: 0;
+            }
+        }
+        td {
+            &:first-child {
+                padding-left: 0;
+            }
+            .field {
+                > .label {
+                    &:extend(.abstract-visually-hidden all);
+                }
+                .qty {
+                    &:extend(.abstract-input-qty all);
+                }
+            }
+            &.col.qty {
+                width: 54px;
+            }
+            &.col.actions {
+                width: 100px;
+            }
+        }
+    }
+    .block-content {
+        &:extend(.abstract-add-clearfix-desktop all);
+        .box {
+            &:extend(.abstract-blocks-2columns all);
+        }
+    }
+}
+
+
+//
+//    Mobile @screen-s
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .block-addbysku {
+        .table-sku-items {
+            td {
+                &.col.actions,
+                &.col.qty {
+                  width: auto;
+                }
+            }
+        }
+        .action {
+            &.remove {
+                .button-icon(
+                    @_icon-font-content: @icon-remove,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 20px,
+                    @_icon-font-color: @color-remove-icon
+                );
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-trash
+                );
+                .button-reset();
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .block-addbysku {
+        .block-content {
+            .box {
+                &:nth-child(1) {
+                    width: 55%;
+                }
+                &:nth-child(2) {
+                    width: 42%;
+                }
+            }
+        }
+
+        .action {
+            &.remove {
+                .button-reset();
+                .button-as-link();
+                margin-top: 4px;
+            }
+        }
+
+        .fieldset {
+            .field {
+                .note {
+                    margin: 0;
+                }
+            }
         }
     }
 }
