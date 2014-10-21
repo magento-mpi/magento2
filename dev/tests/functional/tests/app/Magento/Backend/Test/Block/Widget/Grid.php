@@ -177,6 +177,27 @@ abstract class Grid extends Block
     protected $loader = '[data-role="spinner"]';
 
     /**
+     * Locator for next page action
+     *
+     * @var string
+     */
+    protected $actionNextPage = '.pager .action-next';
+
+    /**
+     * Locator for disabled next page action
+     *
+     * @var string
+     */
+    protected $actionNextPageDisabled = '.pager .action-next.disabled';
+
+    /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '';
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -378,6 +399,30 @@ abstract class Grid extends Block
     }
 
     /**
+     * Get rows data
+     *
+     * @param array $columns
+     * @return array
+     */
+    public function getRowsData(array $columns)
+    {
+        $data = [];
+        do {
+            $rows = $this->_rootElement->find($this->rowItem)->getElements();
+            foreach ($rows as $row) {
+                $rowData = [];
+                foreach ($columns as $columnName) {
+                    $rowData[$columnName] = trim($row->find('.col-' . $columnName)->getText());
+                }
+
+                $data[] = $rowData;
+            }
+        } while ($this->nextPage());
+
+        return $data;
+    }
+
+    /**
      * Check if specific row exists in grid
      *
      * @param array $filter
@@ -418,6 +463,48 @@ abstract class Grid extends Block
         $button = $this->_rootElement->find($this->filterButton);
         if ($button->isVisible() && !$this->_rootElement->find($this->filterButton . $this->active)->isVisible()) {
             $button->click();
+            $browser = $this->_rootElement;
+            $selector = $this->searchButton;
+            $browser->waitUntil(
+                function () use ($browser, $selector) {
+                    return $browser->find($selector)->isVisible() ? true : null;
+                }
+            );
         }
+    }
+
+    /**
+     * Click to next page action link
+     *
+     * @return bool
+     */
+    protected function nextPage()
+    {
+        if ($this->_rootElement->find($this->actionNextPageDisabled)->isVisible()) {
+            return false;
+        }
+        $this->_rootElement->find($this->actionNextPage)->click();
+        $this->waitLoader();
+        return true;
+    }
+
+    /**
+     * Check whether first row is visible
+     *
+     * @return bool
+     */
+    public function isFirstRowVisible()
+    {
+        return $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Open first item in grid
+     *
+     * @return void
+     */
+    public function openFirstRow()
+    {
+        $this->_rootElement->find($this->firstRowSelector, Locator::SELECTOR_XPATH)->click();
     }
 }

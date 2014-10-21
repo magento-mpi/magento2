@@ -70,8 +70,8 @@ class Request implements RequestInterface
         QueryInterface $query,
         $from = null,
         $size = null,
-        array $dimensions = null,
-        array $buckets = null
+        array $dimensions = [],
+        array $buckets = []
     ) {
         $this->name = $name;
         $this->index = $indexName;
@@ -99,11 +99,19 @@ class Request implements RequestInterface
     }
 
     /**
-     * @return Dimension[]
+     * {@inheritdoc}
      */
     public function getDimensions()
     {
         return $this->dimensions;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScopeDimension()
+    {
+        return $this->dimensions[Dimension::SCOPE];
     }
 
     /**

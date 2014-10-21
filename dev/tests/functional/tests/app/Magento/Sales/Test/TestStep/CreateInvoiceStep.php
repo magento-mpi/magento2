@@ -14,7 +14,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView;
 
 /**
  * Class CreateInvoiceStep
@@ -110,12 +110,10 @@ class CreateInvoiceStep implements TestStepInterface
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->orderView->getPageActions()->invoice();
         if (!empty($this->data)) {
-            $this->orderInvoiceNew->getCreateBlock()->fill($this->data, $this->order->getEntityId()['products']);
+            $this->orderInvoiceNew->getFormBlock()->fillData($this->data, $this->order->getEntityId()['products']);
+            $this->orderInvoiceNew->getFormBlock()->updateQty();
         }
-        $this->orderInvoiceNew->getTotalsBlock()->submit();
-        if (!empty($this->data)) {
-            $successMessage = $this->orderView->getMessagesBlock()->getSuccessMessages();
-        }
+        $this->orderInvoiceNew->getFormBlock()->submit();
         $invoiceIds = $this->getInvoiceIds();
         if (!empty($this->data)) {
             $shipmentIds = $this->getShipmentIds();
@@ -124,7 +122,6 @@ class CreateInvoiceStep implements TestStepInterface
         return [
             'invoiceIds' => $invoiceIds,
             'shipmentIds' => isset($shipmentIds) ? $shipmentIds : null,
-            'successMessage' => isset($successMessage) ? $successMessage : null,
         ];
     }
 
