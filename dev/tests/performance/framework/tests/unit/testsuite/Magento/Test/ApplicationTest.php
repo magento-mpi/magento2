@@ -56,8 +56,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
         $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
 
-        $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir/dev/shell/install.php');
-        $this->_uninstallScript = substr($this->_installerScript, 0, -11) . 'uninstall.php';
+        $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir/setup/index.php');
+        $this->_uninstallScript = substr($this->_installerScript, 0, -15) . 'dev/shell/uninstall.php';
 
         $this->_config = new \Magento\TestFramework\Performance\Config(
             $this->_fixtureConfigData,
