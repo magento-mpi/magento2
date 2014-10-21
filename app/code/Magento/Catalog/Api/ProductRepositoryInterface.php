@@ -10,6 +10,7 @@
 namespace Magento\Catalog\Api;
 
 use Magento\Framework\Data\Search\SearchCriteriaInterface;
+use Magento\Catalog\Api\Data\ProductInterface;
 
 interface ProductRepositoryInterface
 {
@@ -24,7 +25,7 @@ interface ProductRepositoryInterface
      * @see \Magento\Catalog\Service\V1\ProductServiceInterface::update - previous imlementation
      * @see \Magento\Catalog\Service\V1\ProductServiceInterface::create - previous imlementation
      */
-    public function save(\Magento\Catalog\Api\Data\ProductInterface $product, array $arguments = []);
+    public function save(ProductInterface $product, array $arguments = []);
 
     /**
      * Get info about product by product SKU
@@ -47,7 +48,7 @@ interface ProductRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see  \Magento\Catalog\Service\V1\ProductServiceInterface::delete
      */
-    public function delete($product, array $arguments = []);
+    public function delete(ProductInterface $product, array $arguments = []);
 
     /**
      * Get product list
