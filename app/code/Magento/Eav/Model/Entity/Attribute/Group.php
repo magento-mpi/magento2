@@ -77,7 +77,7 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\E
      */
     public function getId()
     {
-        return $this->getData('attribute_group_id');
+        return $this->getData(self::GROUP_ID);
     }
 
     /**
@@ -85,7 +85,7 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\E
      */
     public function getName()
     {
-        return $this->getData('attribute_group_name');
+        return $this->getData(self::GROUP_NAME);
     }
 
     /**
@@ -93,6 +93,6 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\E
      */
     public function getAttributeSetId()
     {
-        return $this->getData('attribute_set_id');
+        return $this->getData(self::ATTRIBUTE_SET_ID);
     }
 }

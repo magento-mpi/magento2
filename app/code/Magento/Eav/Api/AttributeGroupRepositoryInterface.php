@@ -24,7 +24,7 @@ interface AttributeGroupRepositoryInterface
     /**
      * Retrieve list of attribute groups
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
      * @param array $arguments
      * @return \Magento\Eav\Api\Data\AttributeGroupInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException

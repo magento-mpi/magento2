@@ -13,6 +13,12 @@ namespace Magento\Eav\Api\Data;
  */
 interface AttributeGroupInterface
 {
+    const GROUP_ID = 'attribute_group_id';
+
+    const GROUP_NAME = 'attribute_group_name';
+
+    const ATTRIBUTE_SET_ID = 'attribute_set_id';
+
     /**
      * Retrieve id
      *
