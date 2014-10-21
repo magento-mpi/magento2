@@ -52,10 +52,16 @@ class Layout
         )->will(
             \PHPUnit_Framework_TestCase::returnValue($files)
         );
+        $pageLayoutFileSource = $this->_testCase->getMockForAbstractClass(
+            'Magento\Framework\View\File\CollectorInterface'
+        );
+        $pageLayoutFileSource->expects(\PHPUnit_Framework_TestCase::any())
+            ->method('getFiles')
+            ->willReturn([]);
         $cache = $this->_testCase->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento\Framework\View\Layout\ProcessorInterface',
-            ['fileSource' => $fileSource, 'cache' => $cache]
+            ['fileSource' => $fileSource, 'pageLayoutFileSource' => $pageLayoutFileSource, 'cache' => $cache]
         );
     }
 
@@ -104,6 +110,8 @@ class Layout
             'messageManager' => $objectManager->get('Magento\Framework\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\Framework\View\Design\Theme\ResolverInterface'),
             'scopeResolver' => $objectManager->get('Magento\Framework\App\ScopeResolverInterface'),
+            'pageConfigReader' => $objectManager->get('Magento\Framework\View\Page\Config\Reader'),
+            'pageConfigGenerator' => $objectManager->get('Magento\Framework\View\Page\Config\Generator'),
             'scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
         ];
     }

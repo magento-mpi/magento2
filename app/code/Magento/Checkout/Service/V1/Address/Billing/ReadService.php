@@ -5,26 +5,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
 use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
 
+/** Quote billing address read service object. */
 class ReadService implements ReadServiceInterface
 {
     /**
+     * Quote repository.
+     *
      * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
 
     /**
+     * Address converter.
+     *
      * @var AddressConverter
      */
     protected $addressConverter;
 
     /**
-     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
-     * @param AddressConverter $addressConverter
+     * Constructs a quote billing address object.
+     *
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository Quote repository.
+     * @param AddressConverter $addressConverter Address converter.
      */
     public function __construct(
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
@@ -35,11 +41,19 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param int $cartId The cart ID.
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Address Quote billing address object.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
      */
     public function getAddress($cartId)
     {
-        /** @var  \Magento\Sales\Model\Quote\Address $address */
+        /**
+         * Address.
+         *
+         * @var  \Magento\Sales\Model\Quote\Address $address
+         */
         $address = $this->quoteRepository->get($cartId)->getBillingAddress();
         return $this->addressConverter->convertModelToDataObject($address);
     }

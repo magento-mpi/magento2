@@ -480,7 +480,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'autosettings',
+        'group' => 'search-engine-optimization',
     ];
 
     protected $url_path = [
@@ -585,6 +585,27 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
         'group' => null,
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
+    ];
+
+    protected $cross_sell_products = [
+        'attribute_code' => 'cross_sell_products',
+        'backend_type' => 'virtual',
+        'group' => 'crosssells',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts'
+    ];
+
+    protected $up_sell_products = [
+        'attribute_code' => 'up_sell_products',
+        'backend_type' => 'virtual',
+        'group' => 'upsells',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts'
+    ];
+
+    protected $related_products = [
+        'attribute_code' => 'related_products',
+        'backend_type' => 'virtual',
+        'group' => 'related-products',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts'
     ];
 
     public function getCategoryIds()
@@ -885,5 +906,20 @@ class CatalogProductSimple extends InjectableFixture
     public function getCheckoutData()
     {
         return $this->getData('checkout_data');
+    }
+
+    public function getCrossSellProducts()
+    {
+        return $this->getData('cross_sell_products');
+    }
+
+    public function getUpSellProducts()
+    {
+        return $this->getData('up_sell_products');
+    }
+
+    public function getRelatedProducts()
+    {
+        return $this->getData('related_products');
     }
 }

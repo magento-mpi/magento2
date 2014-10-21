@@ -24,7 +24,7 @@ class SaveShipping extends \Magento\Rma\Controller\Adminhtml\Rma
         try {
             $model = $this->_initModel();
             if ($model) {
-                if ($this->_createShippingLabel($model)) {
+                if ($this->labelService->createShippingLabel($model, $this->getRequest()->getPost())) {
                     $this->messageManager->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }

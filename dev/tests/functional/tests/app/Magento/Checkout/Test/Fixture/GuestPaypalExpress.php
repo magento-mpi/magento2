@@ -44,7 +44,7 @@ class GuestPaypalExpress extends Checkout
         $this->_data = [
             'totals' => [
                 'grand_total' => '156.81',
-                'comment_history'   => 'Authorized amount of $156.81',
+                'comment_history'   => 'Authorized amount of 156.81',
             ]
         ];
     }

@@ -69,9 +69,9 @@
         <word>Magento_Rma</word>
         <word>SalesArchive</word>
         <word>ScheduledImportExport</word>
-        <word>Magento/Search</word>
-        <word>Magento\Search</word>
-        <word>Magento_Search</word>
+        <word>Magento/Solr</word>
+        <word>Magento\Solr</word>
+        <word>Magento_Solr</word>
         <word>TargetRule</word>
         <word>VersionsCms</word>
         <word>WebsiteRestriction</word>
@@ -82,65 +82,16 @@
     </words>
     <whitelist>
         <item>
+            <path>vendor</path>
+        </item>
+        <item>
+            <path>setup/vendor</path>
+        </item>
+        <item>
             <path>CHANGELOG.md</path>
         </item>
         <item>
             <path>dev/build/publication/extra_files/ce/CHANGELOG.md</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Enterprise</word>
-            <word>Invitation</word>
-            <word>WebsiteRestriction</word>
-            <path>dev/tests/functional-old/framework/Mage/Selenium/AbstractHelper.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/framework/Unit/testsuite/Mage/Selenium/Helper/ConfigTest.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>GiftRegistry</word>
-            <word>Invitation</word>
-            <path>dev/tests/functional-old/testsuite/Core/Mage/Grid/Reports/GridTest.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Enterprise</word>
-            <word>Invitation</word>
-            <word>WebsiteRestriction</word>
-            <path>dev/tests/functional-old/framework/Mage/Selenium/TestCase.php</path>
-        </item>
-        <item>
-            <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/config/config.yml.dist</path>
-        </item>
-        <item>
-            <!-- License replacement tool does not process *.bat files currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/runtests.bat</path>
-        </item>
-        <item>
-            <!-- License replacement tool does not process *.sh files currently -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>Enterprise</word>
-            <path>dev/tests/functional-old/runtests.sh</path>
         </item>
         <item>
             <word>Magento/Rma</word>
@@ -222,9 +173,9 @@
             <word>Magento_Rma</word>
             <word>SalesArchive</word>
             <word>ScheduledImportExport</word>
-            <word>Magento/Search</word>
-            <word>Magento\Search</word>
-            <word>Magento_Search</word>
+            <word>Magento/Solr</word>
+            <word>Magento\Solr</word>
+            <word>Magento_Solr</word>
             <word>TargetRule</word>
             <word>VersionsCms</word>
             <word>WebsiteRestriction</word>
@@ -283,16 +234,6 @@
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>Reward</word>
-            <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/CustomActionsTest.php</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>Reward</word>
-            <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>GiftRegistry</word>
             <path>app/code/Magento/Wishlist/view/frontend/web/wishlist.js</path>
         </item>
@@ -337,7 +278,7 @@
             <word>Magento\Logging</word>
             <word>Pbridge</word>
             <word>PbridgePaypal</word>
-            <word>Magento\Search</word>
+            <word>Magento\Solr</word>
             <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LayoutFilesTest.php</path>
         </item>
         <item>
@@ -382,13 +323,13 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
             <path>dev/tests/functional/tests/app/Magento/Catalog/Test/Page/Category/CatalogCategoryView.php</path>
-            <word>Magento\Search</word>
+            <word>Magento\Solr</word>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
-            <path>dev/tests/functional/tests/app/Magento/Search/Test/Block/Catalog/Layer/View.php</path>
-            <word>Magento\Search</word>
-            <word>Magento/Search</word>
+            <path>dev/tests/functional/tests/app/Magento/Solr/Test/Block/Catalog/Layer/View.php</path>
+            <word>Magento\Solr</word>
+            <word>Magento/Solr</word>
         </item>
         <item>
             <!-- Skip all words in CE check as currently this testsuites are used only for EE -->

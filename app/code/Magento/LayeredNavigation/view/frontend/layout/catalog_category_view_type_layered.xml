@@ -7,12 +7,10 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="body.class">
-        <action method="addBodyClass">
-            <argument name="class" xsi:type="string">page-with-filter</argument>
-        </action>
-    </referenceBlock>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="page-with-filter"/>
+    </body>
     <referenceContainer name="sidebar.main">
         <block class="Magento\LayeredNavigation\Block\Navigation\Category" name="catalog.leftnav" before="-" template="layer/view.phtml">
             <block class="Magento\LayeredNavigation\Block\Navigation\State\Category" name="catalog.navigation.state" as="state" />

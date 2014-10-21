@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Magento\Sales\Test\Page\SalesOrder;
-use Magento\Sales\Test\Page\SalesOrderView;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 
 /**
  * Class AssertOrderStatusIsCorrect
@@ -30,24 +30,25 @@ class AssertOrderStatusIsCorrect extends AbstractConstraint
      *
      * @param string $orderStatus
      * @param string $orderId
-     * @param SalesOrder $salesOrder
-     * @param SalesOrderView $salesOrderView
+     * @param OrderIndex $salesOrder
+     * @param OrderView $salesOrderView
+     * @param string|null $statusToCheck
      * @return void
      */
     public function processAssert(
         $orderStatus,
         $orderId,
-        SalesOrder $salesOrder,
-        SalesOrderView $salesOrderView
+        OrderIndex $salesOrder,
+        OrderView $salesOrderView,
+        $statusToCheck = null
     ) {
         $salesOrder->open();
-        $salesOrder->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
-        $actualOrderStatus = $salesOrderView->getOrderInfoBlock()->getOrderStatus();
+        $salesOrder->getSalesOrderGrid()->searchAndOpen(['id' => $orderId]);
+        $status = $statusToCheck == null ? $orderStatus : $statusToCheck;
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $actualOrderStatus,
-            $orderStatus,
-            'Wrong order status is displayed.'
+            $salesOrderView->getOrderForm()->getOrderInfoBlock()->getOrderStatus(),
+            $status
         );
     }
 
@@ -58,6 +59,6 @@ class AssertOrderStatusIsCorrect extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Order status is correct';
+        return 'Order status is correct.';
     }
 }

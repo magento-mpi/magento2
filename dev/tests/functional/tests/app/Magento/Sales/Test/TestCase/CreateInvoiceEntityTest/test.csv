@@ -1,0 +1,3 @@
+"order/dataSet";"order/data/price/preset";"order/data/entity_id/products";"order/data/total_qty_ordered/0";"data/items_data/0/qty";"data/form_data/do_shipment";"data/form_data/comment_text";"constraint"
+"default";"full_invoice";"catalogProductSimple::default";"1";"-";"Yes";"comments";"assertInvoiceWithShipmentSuccessMessage, assertNoInvoiceButton, assertInvoiceInInvoicesTab, assertInvoiceInInvoicesGrid, assertInvoicedAmountOnFrontend, assertNoShipButton, assertShipmentInShipmentsTab, assertInvoiceItems"
+"default";"partial_invoice";"catalogProductSimple::100_dollar_product";"-";"1";"No";"comments";"assertInvoiceSuccessCreateMessage, assertInvoiceInInvoicesTab, assertInvoiceInInvoicesGrid, assertInvoiceItems, assertInvoicedAmountOnFrontend"

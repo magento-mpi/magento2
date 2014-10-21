@@ -55,12 +55,6 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
             $amountFixture[] = $amount['price'];
         }
 
-        $errors = $this->verifyData($amountFixture, $amountForm, true, false);
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            $this->prepareErrors($errors, "Amount data on product page(frontend) not equals to passed from fixture:\n")
-        );
-
         if (!empty($amountFixture)
             && $product->hasData('allow_open_amount')
             && 'Yes' == $product->getAllowOpenAmount()
@@ -71,9 +65,18 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
                 'Amount data on product page(frontend) not equals to passed from fixture.'
                 . 'On product page(frontend) cannot choose custom amount.'
             );
+
+            $amountFixture[] = 'custom';
         }
 
-        $errors = $this->verifyFields($catalogProductView, $product);
+        $errors = $this->verifyData($amountFixture, $amountForm, true, false);
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
+            $this->prepareErrors($errors, "Amount data on product page(frontend) not equals to passed from fixture:\n")
+        );
+
+
+        $errors = $this->verifyFields($catalogProductView, $product, $amountFixture);
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
             "\nErrors fields: \n" . implode("\n", $errors)
@@ -85,13 +88,17 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
      *
      * @param CatalogProductView $catalogProductView
      * @param GiftCardProduct $product
+     * @param array $amountFixture [optional]
      * @return array
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function verifyFields(CatalogProductView $catalogProductView, GiftCardProduct $product)
-    {
+    protected function verifyFields(
+        CatalogProductView $catalogProductView,
+        GiftCardProduct $product,
+        array $amountFixture = []
+    ) {
         $giftCard = $catalogProductView->getGiftCardBlock();
         $isAmountSelectVisible = $giftCard->isAmountSelectVisible();
         $isAmountInputVisible = $giftCard->isAmountInputVisible();
@@ -112,7 +119,7 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
         if ($isAmountSelectVisible && !$isShowSelectAmount) {
             $errors[] = '- select amount is displayed.';
         }
-        if ($isAllowOpenAmount && !$isAmountInputVisible) {
+        if (count($amountFixture) == 0 && $isAllowOpenAmount && !$isAmountInputVisible) {
             $errors[] = '- input amount is not displayed.';
         }
         if (!$isAllowOpenAmount && $isAmountInputVisible) {

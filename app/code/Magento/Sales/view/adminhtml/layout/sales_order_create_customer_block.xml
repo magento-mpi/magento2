@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="customer.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.customer.grid.container" as="grid">
             <arguments>
@@ -78,6 +78,13 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Signed-up Point</argument>
                         <argument name="index" xsi:type="string">store_name</argument>
+                        <argument name="align" xsi:type="string">center</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="website_name">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Website</argument>
+                        <argument name="index" xsi:type="string">website_name</argument>
                         <argument name="align" xsi:type="string">center</argument>
                     </arguments>
                 </block>

@@ -11,19 +11,19 @@
  * @license    {license_link}
  */
 
-define('GITHUB_URL_CHANGES', 'https://github.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
+define('GITHUB_URL_CHANGES', 'https://%OAUTH_TOKEN%@github.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
 define(
     'USAGE',
 <<<USAGE
     php -f get_github_changes.php --
-    --team-repo="<team_repo>" --feature-branch="<feature_branch>"
+    --team-repo="<team_repo>" --feature-branch="<feature_branch>" --oauth-token="<token>"
     [--output-file="<output_file>"] [--file-formats="<comma_separated_list_of_formats>"]
 
 USAGE
 );
 
-$options = getopt('', array('team-repo:', 'feature-branch:', 'output-file:', 'file-formats:'));
-if (empty($options['team-repo']) || empty($options['feature-branch'])) {
+$options = getopt('', array('team-repo:', 'feature-branch:', 'output-file:', 'file-formats:', 'oauth-token:'));
+if (empty($options['team-repo']) || empty($options['feature-branch']) || empty($options['oauth-token'])) {
     echo USAGE;
     exit(1);
 }
@@ -31,7 +31,7 @@ if (empty($options['team-repo']) || empty($options['feature-branch'])) {
 $outputFile = isset($options['output-file']) ? $options['output-file'] : 'changed_files.txt';
 $fileFormats = explode(',', isset($options['file-formats']) ? $options['file-formats'] : 'php');
 
-$changes = retrieveChangesAcrossForks($options['team-repo'], $options['feature-branch']);
+$changes = retrieveChangesAcrossForks($options['team-repo'], $options['feature-branch'], $options['oauth-token']);
 $changedFiles = getChangedFiles($changes, $fileFormats);
 generateChangedFilesList($outputFile, $changedFiles);
 
@@ -75,16 +75,18 @@ function getChangedFiles($changes, $fileFormats)
 }
 
 /**
- * Retrieves changes accross forks
+ * Retrieves changes across forks
  *
  * @param string $teamRepo
  * @param string $featureBranch
+ * @param string $token
  * @return array
  * @throws Exception
  */
-function retrieveChangesAcrossForks($teamRepo, $featureBranch)
+function retrieveChangesAcrossForks($teamRepo, $featureBranch, $token)
 {
-    $githubChangesUrl = str_replace('%FEATURE_BRANCH%', $featureBranch, str_replace('%TEAM_REPO%', $teamRepo, GITHUB_URL_CHANGES));
+    $githubAuthUrl = str_replace('%OAUTH_TOKEN%', $token, GITHUB_URL_CHANGES);
+    $githubChangesUrl = str_replace('%FEATURE_BRANCH%', $featureBranch, str_replace('%TEAM_REPO%', $teamRepo, $githubAuthUrl));
 
     $request = curl_init($githubChangesUrl);
     curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);

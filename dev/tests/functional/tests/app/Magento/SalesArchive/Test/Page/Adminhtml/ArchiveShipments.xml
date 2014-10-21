@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/archive/shipments" module="Magento_SalesArchive">
+    <blocks>
+        <shipmentsGrid>
+            <class>Magento\SalesArchive\Test\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid</class>
+            <locator>#sales_shipment_grid_archive</locator>
+            <strategy>css selector</strategy>
+        </shipmentsGrid>
+    </blocks>
+</page>
