@@ -1,3 +1,3 @@
-name,path,active,is_anchor,include_in_menu,position
-Training,,1,1,1,4
-"Video Download",Training,1,1,1,
+name,url_key,path,active,is_anchor,include_in_menu,position
+Training,training,,1,1,1,5
+"Video Download",training-video,Training,1,1,1,

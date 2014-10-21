@@ -104,5 +104,6 @@ class ProductLink implements SetupInterface
                 }
             }
         }
+        echo "\n";
     }
 }

@@ -1,0 +1,4 @@
+block_identifier,type_code,theme_path,title,page_group,group_data
+contact-us-info,cms_static_block,"frontend/Magento/luma","Contact us info",pages,"a:2:{s:5:""block"";s:11:""content.top"";s:13:""layout_handle"";s:19:""contact_index_index"";}"
+footer_links_block,cms_static_block,"frontend/Magento/luma","Footer Links",all_pages,"a:1:{s:5:""block"";s:26:""cms_footer_links_container"";}"
+sale-left-menu-block,cms_static_block,"frontend/Magento/luma","Sale Left Menu",anchor_categories,"a:4:{s:8:""entities"";s:4:""sale"";s:5:""block"";s:12:""sidebar.main"";s:3:""for"";s:8:""specific"";s:14:""is_anchor_only"";i:1;}"
