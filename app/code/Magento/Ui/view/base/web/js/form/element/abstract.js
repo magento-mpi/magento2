@@ -131,14 +131,7 @@ define([
          * Is being called when value is updated
          */
         onUpdate: function (value) {
-            var isValid = this.validate();
-
-            this.trigger('update', this, {
-                value:          value,
-                isValid:        isValid,
-                makeVisible:    false
-            });
-
+            this.validate();
             this.store(value);
         },
 
@@ -175,15 +168,15 @@ define([
 
             if (isAllValid) {
                 this.error('');
-            } else if (showErrors) {
-                this.trigger('update', this, {
-                    value:          value,
-                    isValid:        isAllValid,
-                    makeVisible:    true
-                });
-
-                this.focused(true);
             }
+
+            this.trigger('update', this, {
+                value:          value,
+                isValid:        isAllValid,
+                makeVisible:    showErrors
+            });
+
+            this.focused(showErrors);
 
             return isAllValid;
         }

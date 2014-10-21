@@ -38,19 +38,32 @@ define([
          */
         submit: function () {},
 
-        isElementValid: function (element) {
-            return element.validate(true);
-        },
-
         /**
          * Validates each element and returns true, if all elements are valid.
          * 
          * @return {Boolean}
          */
         validate: function () {
-            var isElementValid = this.isElementValid.bind(this);
+            var isInvalidShown = false,
+                isElementValid = true,
+                isFormValid    = true;
 
-            return this.elems.every(isElementValid);
+            this.elems.each(function (element) {
+                if (!isInvalidShown) {
+                    isElementValid = element.validate(true);
+                    if (!isElementValid) {
+                        isInvalidShown = true;      
+                    }
+                } else {
+                    isElementValid = element.validate();
+                }
+
+                if (isFormValid && !isElementValid) {
+                    isFormValid = false;
+                }
+            });
+
+            return isFormValid;
         }
     });
 });
