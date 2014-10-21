@@ -6,20 +6,20 @@
  * @license     {license_link}
  */
 -->
-<select class="control-select"
-        data-bind="
-                   attr: {
-                        id: uid,
-                        size: size,
-                        disabled: disabled,
-                        multiple: multiple,
-                        'aria-describedby': noticeid,
-                        placeholder: placeholder,
-                   },
-                   css: {'multiselect': multiple},
-                   hasFocus: focused,
-                   optgroup: options,
-                   selectedOptions: value,
-                   optionsCaption: caption,
-                   optionsValue: 'value',
-                   optionsText: 'label'" />
+<select class="control-select" data-bind="
+    attr: {
+        id: uid,
+        size: size,
+        disabled: disabled,
+        multiple: multiple,
+        'aria-describedby': noticeid,
+        placeholder: placeholder
+    },
+    css: {'multiselect': multiple},
+    hasFocus: focused,
+    optgroup: options,
+    selectedOptions: value,
+    optionsCaption: caption,
+    optionsValue: 'value',
+    optionsText: 'label'"
+/>

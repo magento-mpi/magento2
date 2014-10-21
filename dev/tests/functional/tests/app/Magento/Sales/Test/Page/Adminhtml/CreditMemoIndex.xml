@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/creditmemo" module="Magento_Sales">
+    <blocks>
+        <creditMemoGrid>
+            <class>Magento\Sales\Test\Block\Adminhtml\CreditMemo\Grid</class>
+            <locator>[data-grid-id="sales_creditmemo_grid"]</locator>
+            <strategy>css selector</strategy>
+        </creditMemoGrid>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
+</page>
