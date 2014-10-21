@@ -75,7 +75,6 @@ class Page extends Layout
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
-     * @param View\Page\ConfigFactory $pageConfigFactory
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
@@ -87,13 +86,12 @@ class Page extends Layout
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
-        View\Page\ConfigFactory $pageConfigFactory,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
         $isIsolated = false
     ) {
-        $this->pageConfig = $isIsolated ? $pageConfigFactory->create() : $context->getPageConfig();
+        $this->pageConfig = $context->getPageConfig();
         $this->pageLayoutReader = $pageLayoutReader;
         $this->viewFileSystem = $context->getViewFileSystem();
         $this->pageConfigRendererFactory = $pageConfigRendererFactory;

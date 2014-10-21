@@ -52,7 +52,6 @@
         </referenceBlock>
         <referenceContainer name="content">
             <container name="bundle.options.container" label="invisible" htmlTag="div" htmlClass="bundle-options-container" after="product.info.main"/>
-            <move element="product.info" destination="bundle.options.container" before="-"/>
         </referenceContainer>
         <referenceContainer name="product.info.type">
             <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle" as="product_type_data" template="catalog/product/view/type/bundle.phtml"/>
@@ -61,5 +60,6 @@
         <referenceContainer name="product.info.main">
             <block class="Magento\Catalog\Block\Product\View" name="customize.button" as="customize_button" template="Magento_Bundle::catalog/product/view/customize.phtml" after="product.info.price" />
         </referenceContainer>
+        <move element="product.info" destination="bundle.options.container" before="-"/>
     </body>
 </page>
