@@ -9,6 +9,7 @@
 namespace Magento\CheckoutAgreements\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
+use Mtf\ObjectManager;
 use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
@@ -22,7 +23,7 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
  * 1. Enable "Terms and Conditions": Stores > Configuration > Sales > Checkout > Checkout Options
  *
  * Steps:
- * 1. Open Backend Stores> Terms and Conditions
+ * 1. Open Backend Stores > Terms and Conditions
  * 2. Create new "Terms and Conditions"
  * 3. Fill data from dataSet
  * 4. Save
@@ -34,27 +35,16 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 class CreateTermEntityTest extends Injectable
 {
     /**
-     * Delete all terms on backend
+     * Set up configuration
      *
      * @return void
      */
     public function __prepare()
     {
-        $this->objectManager->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep')->run();
-    }
-
-    /**
-     * Set up configuration
-     *
-     * @return void
-     */
-    public function __inject()
-    {
-        $setConfigStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition']
-        );
-        $setConfigStep->run();
+        )->run();
     }
 
     /**
@@ -78,18 +68,26 @@ class CreateTermEntityTest extends Injectable
     }
 
     /**
-     * Disable enabled config after test and delete all terms on backend
+     * Delete all terms on backend
      *
      * @return void
      */
     public function tearDown()
     {
-        $setConfigStep = $this->objectManager->create(
+        $this->objectManager->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep')->run();
+    }
+
+    /**
+     * Set default configuration
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        $setupConfigurationStep = ObjectManager::getInstance()->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition', 'rollback' => true]
         );
-        $setConfigStep->run();
-
-        $this->objectManager->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep')->run();
+        $setupConfigurationStep->run();
     }
 }

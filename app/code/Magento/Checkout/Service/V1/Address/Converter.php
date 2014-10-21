@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\Address;
 
 use Magento\Checkout\Service\V1\Data\Cart\Address;
@@ -15,21 +14,28 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Service\SimpleDataObjectConverter;
 
+/** Quote shipping address converter service. */
 class Converter
 {
     /**
+     * Address builder.
+     *
      * @var AddressBuilder
      */
     protected $addressBuilder;
 
     /**
+     * Customer metadata service interface.
+     *
      * @var CustomerMetadataServiceInterface
      */
     protected $metadataService;
 
     /**
-     * @param AddressBuilder $addressBuilder
-     * @param CustomerMetadataServiceInterface $metadataService
+     * Constructs a quote shipping address converter service object.
+     *
+     * @param AddressBuilder $addressBuilder Address builder.
+     * @param CustomerMetadataServiceInterface $metadataService Metadata service.
      */
     public function __construct(AddressBuilder $addressBuilder, CustomerMetadataServiceInterface $metadataService)
     {
@@ -38,8 +44,10 @@ class Converter
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Checkout\Service\V1\Data\Cart\Address
+     * Converts a quote address model to an address data object.
+     *
+     * @param \Magento\Sales\Model\Quote\Address $address The quote address model.
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Address Address data object.
      */
     public function convertModelToDataObject(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -78,11 +86,11 @@ class Converter
     }
 
     /**
-     * Convert address data object to quote address model
+     * Converts an address data object to a quote address model.
      *
-     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $dataObject
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $dataObject The address data object.
+     * @param \Magento\Sales\Model\Quote\Address $address The address.
+     * @return \Magento\Sales\Model\Quote\Address Quote address model.
      */
     public function convertDataObjectToModel($dataObject, $address)
     {
