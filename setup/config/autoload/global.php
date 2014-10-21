@@ -6,4 +6,6 @@
  * @license   {license_link}
  */
 
-return [];
+return [
+    \Magento\Setup\Bootstrap::DEFAULT_ROOT_DIR => __DIR__ . '/../../..'
+];
