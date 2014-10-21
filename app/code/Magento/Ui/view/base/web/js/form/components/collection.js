@@ -61,7 +61,7 @@ define([
 
         initChildTemplate: function () {
             this.childTemplate = {
-                template: this.nodeTemplate,
+                template: this.name + '.' + this.nodeTemplate,
                 appendTo: this.name,
                 config: {}
             };

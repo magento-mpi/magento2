@@ -620,7 +620,7 @@
                     "parentName": "form",
                     "config": {
                         "active": 1,
-                        "nodeTemplate": "form.addresses.customer_address",
+                        "nodeTemplate": "customer_address",
                         "removeLabel": "Remove Address",
                         "addLabel": "Add New Address",
                         "title": "Edit Customer's Address",
@@ -634,91 +634,67 @@
                                 "suffix"
                             ]
                         }
-                    }
-                },
-                "customer_address": {
-                    "type": "template",
-                    "component": "Magento_Ui/js/form/components/collection/item",
-                    "childType": "group",
-                    "parentName": "form.addresses",
-                    "config": {
-                        "title": "New Customer Address"
                     },
                     "children": {
-                        "0": {
+                        "customer_address": {
+                            "type": "template",
+                            "component": "Magento_Ui/js/form/components/collection/item",
+                            "childType": "group",
+                            "parentName": "form.addresses",
+                            "config": {
+                                "title": "New Customer Address"
+                            },
                             "children": {
-                                "firstname": {
-                                    "type": "input",
-                                    "appendTo": "form",
-                                    "config": {
-                                        "index": "firstname",
-                                        "label": "First Name",
-                                        "validation": {
-                                            "required-entry": true
+                                "0": {
+                                    "children": {
+                                        "firstname": {
+                                            "template": "form.firstname",
+                                            "appendTo": "form"
                                         }
                                     }
-                                }
-                            }
-                        },
-                        "1": {
-                            "children": {
-                                "middle_name": {
-                                    "type": "input",
-                                    "appendTo": "form",
-                                    "config": {
-                                        "index": "middle_name",
-                                        "label": "Middle Name"
-                                    }
-                                }
-                            }
-                        },
-                        "2": {
-                            "children": {
-                                "lastname": {
-                                    "type": "input",
-                                    "appendTo": "form",
-                                    "config": {
-                                        "index": "lastname",
-                                        "label": "Last Name",
-                                        "validation": {
-                                            "required-entry": true
+                                },
+                                "1": {
+                                    "children": {
+                                        "middle_name": {
+                                            "template": "form.middle_name",
+                                            "appendTo": "form"
                                         }
                                     }
-                                }
-                            }
-                        },
-                        "3": {
-                            "children": {
-                                "prefix": {
-                                    "type": "input",
-                                    "appendTo": "form",
-                                    "config": {
-                                        "index": "prefix",
-                                        "label": "Prefix"
+                                },
+                                "2": {
+                                    "children": {
+                                        "lastname": {
+                                            "template": "form.lastname",
+                                            "appendTo": "form"
+                                        }
                                     }
-                                }
-                            }
-                        },
-                        "4": {
-                            "children": {
-                                "suffix": {
-                                    "type": "input",
-                                    "appendTo": "form",
-                                    "config": {
-                                        "index": "suffix",
-                                        "label": "Suffix"
+                                },
+                                "3": {
+                                    "children": {
+                                        "prefix": {
+                                            "template": "form.prefix",
+                                            "appendTo": "form"
+                                        }
                                     }
-                                }
-                            }
-                        },
-                        "5": {
-                            "children": {
-                                "address": {
-                                    "type": "input",
-                                    "appendTo": "form",
-                                    "config": {
-                                        "index": "address",
-                                        "label": "Address"
+                                },
+                                "4": {
+                                    "children": {
+                                        "suffix": {
+                                            "template": "form.suffix",
+                                            "appendTo": "form"
+                                        }
+                                    }
+                                },
+                                "5": {
+                                    "children": {
+                                        "address": {
+                                            "type": "input",
+                                            "appendTo": "form",
+                                            "config": {
+                                                "index": "address",
+                                                "label": "Address"
+                                            }
+                                        }
                                     }
                                 }
                             }
