@@ -56,6 +56,10 @@ define([
 
         last: function () {
             return _.last(this());
+        },
+
+        every: function (predicate, ctx) {
+            return _.every(this(), predicate, ctx);
         }
     });
 });
