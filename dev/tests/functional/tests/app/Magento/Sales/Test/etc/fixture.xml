@@ -37,8 +37,11 @@
         <data_config />
     </orderInjectable>
     <orderStatus module="Magento_Sales">
-        <type>flat</type>
-        <entity_type>sales_order_status</entity_type>
+        <type>composite</type>
+        <entities>
+            <sales_order_status>sales_order_status</sales_order_status>
+            <sales_order_status_state>sales_order_status_state</sales_order_status_state>
+        </entities>
         <collection>Magento\Sales\Model\Resource\Order\Status\Collection</collection>
     </orderStatus>
 </fixture>

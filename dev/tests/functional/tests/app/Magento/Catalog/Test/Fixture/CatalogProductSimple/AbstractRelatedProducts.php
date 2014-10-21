@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AbstractRelatedProducts
- * Base class create related products
+ * Base class for create related products
  */
 class AbstractRelatedProducts implements FixtureInterface
 {
