@@ -143,8 +143,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         }
                     } elseif (!is_array($attributeValue)) {
                         $this->requestBuilder->bind($attributeCode, $attributeValue);
-                    } else {
+                    } else if (isset($attributeValue['like'])) {
                         $this->requestBuilder->bind($attributeCode, trim($attributeValue['like'], '%'));
+                    } else {
+                        $this->requestBuilder->bind($attributeCode, $attributeValue['in']);
                     }
                 }
             }
