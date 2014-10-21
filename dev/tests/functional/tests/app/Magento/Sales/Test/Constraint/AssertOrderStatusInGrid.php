@@ -8,13 +8,12 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Magento\Sales\Test\Fixture\OrderStatus;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertOrderStatusInGrid
- *
+ * Assert that order status is visible in order status grid on backend
  */
 class AssertOrderStatusInGrid extends AbstractConstraint
 {
@@ -28,22 +27,16 @@ class AssertOrderStatusInGrid extends AbstractConstraint
     /**
      * Assert order status availability in Order Status grid
      *
-     * @param OrderStatus $orderStatus
+     * @param string $orderStatus
      * @param OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
-    public function processAssert(
-        OrderStatus $orderStatus,
-        OrderStatusIndex $orderStatusIndexPage
-    ) {
-        $filter = [
-            'status' => $orderStatus->getStatus(),
-            'label' => $orderStatus->getLabel()
-        ];
+    public function processAssert($orderStatus, OrderStatusIndex $orderStatusIndexPage)
+    {
         $orderStatusIndexPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible($filter),
-            'Order status \'' . $orderStatus->getStatus() . '\' is absent in Order Status grid.'
+            $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible(['label' => $orderStatus]),
+            'Order status \'' . $orderStatus . '\' is absent in Order Status grid.'
         );
     }
 

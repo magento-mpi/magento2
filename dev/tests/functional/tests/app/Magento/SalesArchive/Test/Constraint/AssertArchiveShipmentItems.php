@@ -8,15 +8,17 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Magento\Sales\Test\Page\Adminhtml\OrderShipmentView;
+use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Shipping\Test\Constraint\AssertShipmentItems;
+use Magento\Shipping\Test\Page\Adminhtml\SalesShipmentView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
 
 /**
  * Class AssertArchiveShipmentItems
  * Assert shipped products are represented on archived shipment page
  */
-class AssertArchiveShipmentItems extends AbstractAssertArchiveItems
+class AssertArchiveShipmentItems extends AssertShipmentItems
 {
     /**
      * Constraint severeness
@@ -26,34 +28,33 @@ class AssertArchiveShipmentItems extends AbstractAssertArchiveItems
     protected $severeness = 'low';
 
     /**
+     * @constructor
+     * @param ObjectManager $objectManager
+     * @param ArchiveShipments $archiveShipments
+     */
+    public function __construct(ObjectManager $objectManager, ArchiveShipments $archiveShipments)
+    {
+        $this->objectManager = $objectManager;
+        $this->shipmentPage = $archiveShipments;
+    }
+
+    /**
      * Assert shipped products are represented on archived shipment page
      *
-     * @param ArchiveShipments $archiveShipments
-     * @param OrderShipmentView $orderShipmentView
+     * @param SalesShipmentView $salesShipmentView
      * @param OrderInjectable $order
      * @param array $ids
+     * @param array|null $data [optional]
      * @return void
      */
     public function processAssert(
-        ArchiveShipments $archiveShipments,
-        OrderShipmentView $orderShipmentView,
+        SalesShipmentView $salesShipmentView,
         OrderInjectable $order,
-        array $ids
+        array $ids,
+        array $data = null
     ) {
-        $orderId = $order->getId();
-        $productsData = $this->prepareOrderProducts($order);
-        foreach ($ids['shipmentIds'] as $shipmentId) {
-            $filter = [
-                'order_id' => $orderId,
-                'shipment_id' => $shipmentId
-            ];
-
-            $archiveShipments->open();
-            $archiveShipments->getShipmentsGrid()->searchAndOpen($filter);
-            $itemsData = $this->preparePageItems($orderShipmentView->getItemsBlock()->getData());
-            $error = $this->verifyData($productsData, $itemsData);
-            \PHPUnit_Framework_Assert::assertEmpty($error, $error);
-        }
+        $this->shipmentPage->open();
+        $this->assert($order, $ids, $salesShipmentView, $data);
     }
 
     /**

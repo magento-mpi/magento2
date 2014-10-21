@@ -32,16 +32,23 @@ class AssertOrderStatusIsCorrect extends AbstractConstraint
      * @param string $orderId
      * @param OrderIndex $salesOrder
      * @param OrderView $salesOrderView
+     * @param string|null $statusToCheck
      * @return void
      */
-    public function processAssert($orderStatus, $orderId, OrderIndex $salesOrder, OrderView $salesOrderView)
-    {
+    public function processAssert(
+        $orderStatus,
+        $orderId,
+        OrderIndex $salesOrder,
+        OrderView $salesOrderView,
+        $statusToCheck = null
+    ) {
         $salesOrder->open();
         $salesOrder->getSalesOrderGrid()->searchAndOpen(['id' => $orderId]);
+        $status = $statusToCheck == null ? $orderStatus : $statusToCheck;
 
         \PHPUnit_Framework_Assert::assertEquals(
             $salesOrderView->getOrderForm()->getOrderInfoBlock()->getOrderStatus(),
-            $orderStatus
+            $status
         );
     }
 

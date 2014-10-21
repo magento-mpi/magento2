@@ -138,6 +138,8 @@ dev/tests/functional/tests/app/Magento/Customer/Test/Fixture/CustomerConfig.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Fixture/VatGroup.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Repository/CustomerConfig.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Repository/VatGroup.php
+dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/CreateOrderFromCustomerPageTest
+dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/CreateOrderFromCustomerPageTest.php
 dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/VatGroupAssignmentTest.php
 dev/tests/functional/tests/app/Magento/CustomerBalance
 dev/tests/functional/tests/app/Magento/CustomerCustomAttributes

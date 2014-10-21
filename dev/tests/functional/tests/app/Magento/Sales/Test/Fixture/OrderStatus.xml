@@ -9,8 +9,11 @@
 -->
 <fixture class="Magento\Sales\Test\Fixture\OrderStatus">
     <module>Magento_Sales</module>
-    <type>flat</type>
-    <entity_type>sales_order_status</entity_type>
+    <type>composite</type>
+    <entities>
+        <sales_order_status>sales_order_status</sales_order_status>
+        <sales_order_status_state>sales_order_status_state</sales_order_status_state>
+    </entities>
     <collection>Magento\Sales\Model\Resource\Order\Status\Collection</collection>
     <fields>
         <status>
@@ -27,6 +30,27 @@
             <default_value></default_value>
             <input></input>
         </label>
+        <state>
+            <attribute_code>state</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </state>
+        <is_default>
+            <attribute_code>is_default</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </is_default>
+        <visible_on_front>
+            <attribute_code>visible_on_front</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </visible_on_front>
     </fields>
     <repository_class>Magento\Sales\Test\Repository\OrderStatus</repository_class>
     <handler_interface>Magento\Sales\Test\Handler\OrderStatus\OrderStatusInterface</handler_interface>
