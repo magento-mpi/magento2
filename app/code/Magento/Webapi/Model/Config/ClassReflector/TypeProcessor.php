@@ -281,7 +281,8 @@ class TypeProcessor
         return [
             'type' => $returnType,
             'isRequired' => $isRequired,
-            'description' => $returnAnnotation->getDescription()
+            'description' => $returnAnnotation->getDescription(),
+            'parameterCount' => $methodReflection->getNumberOfParameters()
         ];
     }
 
