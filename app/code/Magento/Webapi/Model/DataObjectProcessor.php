@@ -140,13 +140,21 @@ class DataObjectProcessor
 
         if ($type === "int" || $type === "integer") {
             return (int)$value;
-        } else if ($type === "string") {
+        }
+
+        if ($type === "string") {
             return (string)$value;
-        } else if ($type === "bool" || $type === "boolean" || $type === "true" || $type == "false") {
+        }
+
+        if ($type === "bool" || $type === "boolean" || $type === "true" || $type == "false") {
             return (bool)$value;
-        } else if ($type === "float") {
+        }
+
+        if ($type === "float") {
             return (float)$value;
-        } else if ($type === "double") {
+        }
+
+        if ($type === "double") {
             return (double)$value;
         }
 

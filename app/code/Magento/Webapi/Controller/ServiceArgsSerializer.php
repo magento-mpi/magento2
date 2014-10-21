@@ -21,6 +21,11 @@ use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
 use Magento\Framework\Service\SimpleDataObjectConverter;
 
+/**
+ * Deserializes arguments from API requests.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ServiceArgsSerializer
 {
     /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
