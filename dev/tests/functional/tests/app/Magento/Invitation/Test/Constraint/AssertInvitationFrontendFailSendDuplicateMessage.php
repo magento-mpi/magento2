@@ -12,13 +12,13 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Invitation\Test\Page\InvitationIndex;
 
 /**
- * Class AssertFrontendInvitationSendFailDuplicateMessage
+ * Class AssertInvitationFrontendFailSendDuplicateMessage
  * Assert that error message appears after sent invitation to the same email address
  */
-class AssertFrontendInvitationSendFailDuplicateMessage extends AbstractConstraint
+class AssertInvitationFrontendFailSendDuplicateMessage extends AbstractConstraint
 {
     /**
-     * Success add message
+     * Error duplicate message
      */
     const ERROR_MESSAGE = "Invitation for same email address already exists.";
 
@@ -40,7 +40,7 @@ class AssertFrontendInvitationSendFailDuplicateMessage extends AbstractConstrain
         \PHPUnit_Framework_Assert::assertEquals(
             self::ERROR_MESSAGE,
             $invitationIndex->getMessagesBlock()->getErrorMessages(),
-            "Expected success message doesn't match actual."
+            "Expected error duplicate message doesn't match actual."
         );
     }
 
@@ -51,6 +51,6 @@ class AssertFrontendInvitationSendFailDuplicateMessage extends AbstractConstrain
      */
     public function toString()
     {
-        return 'Success message appears on Invitation index frontend page.';
+        return 'Error duplicate message appears on Invitation index frontend page.';
     }
 }

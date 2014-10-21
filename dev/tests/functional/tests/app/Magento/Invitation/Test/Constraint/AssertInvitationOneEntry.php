@@ -44,17 +44,16 @@ class AssertInvitationOneEntry extends AbstractConstraint
         InvitationIndex $invitationIndex,
         $status
     ) {
-        $loginCustomerOnFrontendStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $customer]
-        );
-        $loginCustomerOnFrontendStep->run();
+        )->run();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Invitations');
-        $email = $invitation->getEmail()[1];
-        $actualData = $invitationIndex->getInvitationsBlock()->getRowData($email, $status);
+        $email = array_unique($invitation->getEmail());
+        $actualData = $invitationIndex->getInvitationsBlock()->getInvitationElements($email[1], $status);
         \PHPUnit_Framework_Assert::assertTrue(
             count($actualData) == 1,
-            "Invitation with email: {$email} and status: {$status} is absent in grid or its number is greater than 1."
+            "The number of invitation with email: {$email[1]} and status: {$status} is not equal to 1."
         );
     }
 

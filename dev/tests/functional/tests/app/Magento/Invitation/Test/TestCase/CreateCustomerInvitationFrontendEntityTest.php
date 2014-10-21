@@ -88,14 +88,13 @@ class CreateCustomerInvitationFrontendEntityTest extends Injectable
         $customer->persist();
 
         // Steps
-        $loginCustomerOnFrontendStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $customer]
-        );
-        $loginCustomerOnFrontendStep->run();
+        )->run();
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Invitations');
-        $this->invitationIndex->getInvitationsBlock()->sendInvitation();
+        $this->invitationIndex->getInvitationsBlock()->sendInvitations();
         $this->invitationSend->getInvitationsBlock()->fill($invitation);
-        $this->invitationSend->getInvitationsBlock()->submit();
+        $this->invitationSend->getInvitationsBlock()->sendInvitations();
     }
 }

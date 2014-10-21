@@ -22,16 +22,16 @@ class Form extends \Mtf\Block\Form
      *
      * @var string
      */
-    protected $submit = '.action.submit';
+    protected $sendInvitationsButton = '.action.submit';
 
     /**
      * Click 'Send Invitations' button
      *
      * @return void
      */
-    public function submit()
+    public function sendInvitations()
     {
-        $this->_rootElement->find($this->submit)->click();
+        $this->_rootElement->find($this->sendInvitationsButton)->click();
     }
 
     /**
@@ -66,20 +66,20 @@ class Form extends \Mtf\Block\Form
         $data = ($this->mappingMode || null === $fields) ? $mappingFields : $fields;
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                foreach ($value as $k => $email) {
-                    $mapping[$key.'_'.$k]['selector'] = isset($mappingFields[$key.'_'.$k]['selector'])
-                        ? $mappingFields[$key.'_'.$k]['selector']
-                        : sprintf($mappingFields[$key.'_'.$k]['selector'], $k);
-                    $mapping[$key.'_'.$k]['strategy'] = isset($mappingFields[$key.'_'.$k]['strategy'])
-                        ? $mappingFields[$key.'_'.$k]['strategy']
+                foreach ($value as $index => $email) {
+                    $mapping[$key.'_'.$index]['selector'] = isset($mappingFields[$key.'_'.$index]['selector'])
+                        ? $mappingFields[$key.'_'.$index]['selector']
+                        : sprintf($mappingFields[$key.'_'.$index]['selector'], $index);
+                    $mapping[$key.'_'.$index]['strategy'] = isset($mappingFields[$key.'_'.$index]['strategy'])
+                        ? $mappingFields[$key.'_'.$index]['strategy']
                         : Element\Locator::SELECTOR_CSS;
-                    $mapping[$key.'_'.$k]['input'] = isset($mappingFields[$key.'_'.$k]['input'])
-                        ? $mappingFields[$key.'_'.$k]['input']
+                    $mapping[$key.'_'.$index]['input'] = isset($mappingFields[$key.'_'.$index]['input'])
+                        ? $mappingFields[$key.'_'.$index]['input']
                         : null;
-                    $mapping[$key.'_'.$k]['class'] = isset($mappingFields[$key.'_'.$k]['class'])
-                        ? $mappingFields[$key.'_'.$k]['class']
+                    $mapping[$key.'_'.$index]['class'] = isset($mappingFields[$key.'_'.$index]['class'])
+                        ? $mappingFields[$key.'_'.$index]['class']
                         : null;
-                    $mapping[$key.'_'.$k]['value'] = $fields[$key][$k];
+                    $mapping[$key.'_'.$index]['value'] = $fields[$key][$index];
                 }
             }
         }

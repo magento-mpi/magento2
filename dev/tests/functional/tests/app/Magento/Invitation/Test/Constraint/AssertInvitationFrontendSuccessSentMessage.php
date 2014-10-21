@@ -13,13 +13,13 @@ use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\InvitationIndex;
 
 /**
- * Class AssertFrontendInvitationSentSuccessMessage
+ * Class AssertInvitationFrontendSuccessSentMessage
  * Assert that success message appears after sent invitation on frontend
  */
-class AssertFrontendInvitationSentSuccessMessage extends AbstractConstraint
+class AssertInvitationFrontendSuccessSentMessage extends AbstractConstraint
 {
     /**
-     * Success add message
+     * Success sent message
      */
     const SUCCESS_MESSAGE = "You sent the invitation for %s.";
 
@@ -39,12 +39,12 @@ class AssertFrontendInvitationSentSuccessMessage extends AbstractConstraint
      */
     public function processAssert(Invitation $invitation, InvitationIndex $invitationIndex)
     {
-        $actualMessages = [];
+        $expectedMessages = [];
         foreach ($invitation->getEmail() as $email) {
-            $actualMessages[] = sprintf(self::SUCCESS_MESSAGE, $email);
+            $expectedMessages[] = sprintf(self::SUCCESS_MESSAGE, $email);
         }
         \PHPUnit_Framework_Assert::assertEquals(
-            $actualMessages,
+            $expectedMessages,
             $invitationIndex->getMessagesBlock()->getSuccessMessages(),
             "Expected success message doesn't match actual."
         );

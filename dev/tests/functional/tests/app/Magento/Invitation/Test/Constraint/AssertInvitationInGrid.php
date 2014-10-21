@@ -50,8 +50,9 @@ class AssertInvitationInGrid extends AbstractConstraint
                 'invitee_group' => $customer->getGroupId(),
                 'status' => $status
             ];
-            if (!$invitationsIndex->getInvitationGrid()->isRowVisible($filter)) {
-                $error = "Email: {$email} with status: {$status} is not available in invitation grid.\n";
+            $invitationGrid = $invitationsIndex->getInvitationGrid();
+            if (!$invitationGrid->isRowVisible($filter)) {
+                $error .= "Email: {$email} with status: {$status} is not available in invitation grid.\n";
             }
         }
         \PHPUnit_Framework_Assert::assertEmpty($error, $error);

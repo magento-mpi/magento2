@@ -10,11 +10,10 @@ namespace Magento\Invitation\Test\Fixture\Invitation;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Store\Test\Fixture\Store;
 
 /**
  * Class Email
- * Store email source
+ * Prepare data for email field in Invitation fixture
  */
 class Email implements FixtureInterface
 {
@@ -49,7 +48,7 @@ class Email implements FixtureInterface
     }
 
     /**
-     * Persist custom selections products
+     * Persists prepared data into application
      *
      * @return void
      */

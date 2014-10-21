@@ -8,18 +8,18 @@
  */
 -->
 <constraint>
-    <assertFrontendInvitationSentSuccessMessage module="Magento_Invitation">
+    <assertInvitationFrontendSuccessSentMessage module="Magento_Invitation">
         <severeness>low</severeness>
-    </assertFrontendInvitationSentSuccessMessage>
+    </assertInvitationFrontendSuccessSentMessage>
     <assertInvitationInGridOnFrontend module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationInGridOnFrontend>
     <assertInvitationInGrid module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationInGrid>
-    <assertFrontendInvitationSendFailDuplicateMessage module="Magento_Invitation">
+    <assertInvitationFrontendFailSendDuplicateMessage module="Magento_Invitation">
         <severeness>low</severeness>
-    </assertFrontendInvitationSendFailDuplicateMessage>
+    </assertInvitationFrontendFailSendDuplicateMessage>
     <assertInvitationOneEntry module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationOneEntry>

@@ -22,7 +22,7 @@ class ListCustomer extends Block
      *
      * @var string
      */
-    protected $sendInvitations = '.action.send';
+    protected $sendInvitationsButton = '.action.send';
 
     /**
      * Locator for email and its status
@@ -36,9 +36,9 @@ class ListCustomer extends Block
      *
      * @return void
      */
-    public function sendInvitation()
+    public function sendInvitations()
     {
-        $this->_rootElement->find($this->sendInvitations)->click();
+        $this->_rootElement->find($this->sendInvitationsButton)->click();
     }
 
     /**
@@ -64,13 +64,13 @@ class ListCustomer extends Block
     }
 
     /**
-     * Get row data by email and status from invitations grid on frontend
+     * Get invitation elements from invitations grid on frontend
      *
      * @param string $email
      * @param string $status
-     * @return array
+     * @return \Mtf\Client\Element[]
      */
-    public function getRowData($email, $status)
+    public function getInvitationElements($email, $status)
     {
         return $this->_rootElement->find(
             sprintf($this->invitationRow, $email, $status),
