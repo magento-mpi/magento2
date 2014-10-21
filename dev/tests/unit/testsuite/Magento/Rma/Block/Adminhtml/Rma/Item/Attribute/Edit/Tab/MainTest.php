@@ -73,7 +73,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $translateState;
 
-    /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $appFilesystem;
 
     /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
@@ -156,7 +156,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->filterManager = $this->getMock('Magento\Framework\Filter\FilterManager', [], [], '', false);
         $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->translateState = $this->getMock('Magento\Framework\Translate\Inline\StateInterface');
-        $this->appFilesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->appFilesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);
         $this->templateEnginePool = $this->getMock('Magento\Framework\View\TemplateEnginePool', [], [], '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);

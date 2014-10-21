@@ -7,6 +7,8 @@
  */
 namespace Magento\Pci\Model\Resource\Key;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Encryption key changer resource model
  * The operation must be done in one transaction
@@ -38,19 +40,19 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Model\Config\Structure $structure,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::CONFIG_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG);
         $this->_structure = $structure;
     }
 

@@ -21,11 +21,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $_responseMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_filesystemMock;
-
-    /**
      * @var \Magento\Framework\App\Http
      */
     protected $_http;
@@ -92,11 +87,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->setMethods(
             ['dispatch']
         )->getMock();
-        $this->_filesystemMock = $this->getMockBuilder(
-            'Magento\Framework\App\Filesystem'
-        )->disableOriginalConstructor()->setMethods(
-            ['getPath']
-        )->getMock();
 
         $this->_http = $this->_objectManager->getObject(
             'Magento\Framework\App\Http',
@@ -107,7 +97,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'request' => $this->_requestMock,
                 'response' => $this->_responseMock,
                 'configLoader' => $configLoaderMock,
-                'filesystem' => $this->_filesystemMock
+                'filesystem' => $this->getMock('Magento\Framework\Filesystem', [], [], '', false),
             ]
         );
     }

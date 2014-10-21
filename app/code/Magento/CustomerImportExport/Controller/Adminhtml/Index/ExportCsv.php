@@ -8,6 +8,8 @@
  */
 namespace Magento\CustomerImportExport\Controller\Adminhtml\Index;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Class Index
  */
@@ -46,7 +48,7 @@ class ExportCsv extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile(),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

@@ -8,6 +8,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml\Logging;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportCsv extends \Magento\Logging\Controller\Adminhtml\Logging
@@ -26,7 +27,7 @@ class ExportCsv extends \Magento\Logging\Controller\Adminhtml\Logging
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

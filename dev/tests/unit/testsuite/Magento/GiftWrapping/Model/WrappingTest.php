@@ -8,6 +8,7 @@
 
 namespace Magento\GiftWrapping\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class WrappingTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +19,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
     /** @var string */
@@ -31,11 +32,11 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->mediaDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\WriteInterface')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $this->filesystemMock->expects($this->once())->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::MEDIA_DIR)->will($this->returnValue($this->mediaDirectoryMock));
+            ->with(DirectoryList::MEDIA)->will($this->returnValue($this->mediaDirectoryMock));
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->wrapping = $this->objectManagerHelper->getObject(
