@@ -10,9 +10,9 @@ namespace Magento\Wishlist\Block\Rss;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
-class LinkTest extends \PHPUnit_Framework_TestCase
+class EmailLinkTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Wishlist\Block\Rss\Link */
+    /** @var \Magento\Wishlist\Block\Rss\EmailLink */
     protected $link;
 
     /** @var ObjectManagerHelper */
@@ -24,13 +24,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Rss\UrlBuilderInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlBuilder;
 
-    /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $scopeConfig;
-
     protected function setUp()
     {
-        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId'], [], '', false);
+        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId', 'getSharingCode'], [], '', false);
         $wishlist->expects($this->any())->method('getId')->will($this->returnValue(5));
+        $wishlist->expects($this->any())->method('getSharingCode')->will($this->returnValue('somesharingcode'));
         $customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $customer->expects($this->any())->method('getId')->will($this->returnValue(8));
         $customer->expects($this->any())->method('getEmail')->will($this->returnValue('test@example.com'));
@@ -46,15 +44,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $this->wishlistHelper->expects($this->any())->method('getCustomer')->will($this->returnValue($customer));
 
         $this->urlBuilder = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
-        $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->link = $this->objectManagerHelper->getObject(
-            'Magento\Wishlist\Block\Rss\Link',
+            'Magento\Wishlist\Block\Rss\EmailLink',
             [
                 'wishlistHelper' => $this->wishlistHelper,
-                'rssUrlBuilder' => $this->urlBuilder,
-                'scopeConfig' => $this->scopeConfig
+                'rssUrlBuilder' => $this->urlBuilder
             ]
         );
     }
@@ -66,19 +61,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
                 'type' => 'wishlist',
                 'data' => 'OCx0ZXN0QGV4YW1wbGUuY29t',
                 '_secure' => false,
-                'wishlist_id' => 5
+                'wishlist_id' => 5,
+                'sharing_code' => 'somesharingcode'
             )))
             ->will($this->returnValue('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5'));
         $this->assertEquals('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5', $this->link->getLink());
     }
 
-    public function testIsRssAllowed()
-    {
-        $this->scopeConfig
-            ->expects($this->atLeastOnce())
-            ->method('isSetFlag')
-            ->with('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ->will($this->returnValue(true));
-        $this->assertEquals(true, $this->link->isRssAllowed());
-    }
 }

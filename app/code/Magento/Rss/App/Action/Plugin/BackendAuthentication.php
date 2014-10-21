@@ -38,7 +38,6 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
      * @var array
      */
     protected $aclResources = array(
-        'authenticate' => 'Magento_Rss::rss',
         'feed' => 'Magento_Rss::rss'
     );
 

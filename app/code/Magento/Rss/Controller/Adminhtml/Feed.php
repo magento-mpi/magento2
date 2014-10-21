@@ -11,7 +11,7 @@ namespace Magento\Rss\Controller\Adminhtml;
  * Class Feed
  * @package Magento\Rss\Controller
  */
-class Feed extends Authenticate
+class Feed extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Rss\Model\RssManager
@@ -41,6 +41,7 @@ class Feed extends Authenticate
         \Magento\Rss\Model\RssFactory $rssFactory
     ) {
         parent::__construct($context);
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOffSecretKey();
         $this->rssManager = $rssManager;
         $this->scopeConfig = $scopeConfig;
         $this->rssFactory = $rssFactory;
