@@ -72,10 +72,11 @@ class Application
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Shell $shell
     ) {
-        $shellDir = $config->getApplicationBaseDir() . '/dev/shell';
+        $installShellDir = $config->getApplicationBaseDir() . '/setup';
+        $uninstallShellDir = $config->getApplicationBaseDir() . '/dev/shell';
         $this->_objectManager = $objectManager;
-        $this->_installScript = $this->_assertPath($shellDir . '/install.php');
-        $this->_uninstallScript = $this->_assertPath($shellDir . '/uninstall.php');
+        $this->_installScript = $this->_assertPath($installShellDir . '/index.php');
+        $this->_uninstallScript = $this->_assertPath($uninstallShellDir . '/uninstall.php');
         $this->_config = $config;
         $this->_shell = $shell;
     }
@@ -169,7 +170,7 @@ class Application
             $installOptions['admin_' . $key] = $val;
         }
 
-        $installCmd = 'php -f %s --';
+        $installCmd = 'php -f %s install';
         $installCmdArgs = array($this->_installScript);
         foreach ($installOptions as $optionName => $optionValue) {
             $installCmd .= " --{$optionName} %s";
