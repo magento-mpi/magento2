@@ -24,21 +24,29 @@ class Setup implements SetupInterface
     protected $blockSetup;
 
     /**
+     * Setup class for CMS Page
+     *
+     * @var Setup\Page
+     */
+    protected $pageSetup;
+
+    /**
      * @var PostInstaller
      */
     protected $postInstaller;
 
     /**
-     * Constructor
-     *
      * @param Setup\Block $blockSetup
+     * @param Setup\Page $pageSetup
      * @param PostInstaller $postInstaller
      */
     public function __construct(
         Setup\Block $blockSetup,
+        Setup\Page $pageSetup,
         PostInstaller $postInstaller
     ) {
         $this->blockSetup = $blockSetup;
+        $this->pageSetup = $pageSetup;
         $this->postInstaller = $postInstaller;
     }
 
@@ -47,6 +55,7 @@ class Setup implements SetupInterface
      */
     public function run()
     {
+        $this->pageSetup->run();
         $this->postInstaller->addSetupResource($this->blockSetup);
     }
 }

@@ -14,6 +14,7 @@ return [
         'Magento_Downloadable' => 'Magento\Tools\SampleData\Module\Downloadable\Setup',
         'Magento_GroupedProduct' => 'Magento\Tools\SampleData\Module\GroupedProduct\Setup',
         'Magento_Bundle' => 'Magento\Tools\SampleData\Module\Bundle\Setup',
-        'Magento_Cms' => 'Magento\Tools\SampleData\Module\Cms\Setup'
+        'Magento_Cms' => 'Magento\Tools\SampleData\Module\Cms\Setup',
+        'Magento_Widget' => 'Magento\Tools\SampleData\Module\Widget\Setup',
     ],
 ];
