@@ -74,8 +74,13 @@ class DataObjectProcessor
         $outputData = [];
 
         /** @var MethodReflection $method */
-        foreach ($methods as $methodName => $returnTypeData) {
-            $returnType = $returnTypeData['type'];
+        foreach ($methods as $methodName => $methodReflectionData) {
+            // any method with parameter(s) gets ignored because we do not know the type and value of
+            // the parameter(s), so we are not able to process
+            if ($methodReflectionData['parameterCount'] > 0) {
+                continue;
+            }
+            $returnType = $methodReflectionData['type'];
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
@@ -84,16 +89,12 @@ class DataObjectProcessor
                 $value = $dataObject->{$methodName}();
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
                 $outputData[$key] = $this->castValueToType($value, $returnType);
-            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX
-                && $methodName !== 'getCustomAttribute'
-                && $methodName !== 'getData'
-                && $methodName !== 'getFieldExcludedFromWsdl'
-            ) {
+            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 if ($methodName === 'getCustomAttributes' && $value === []) {
                     continue;
                 }
-                if ($value === null && !$returnTypeData['isRequired']) {
+                if ($value === null && !$methodReflectionData['isRequired']) {
                     continue;
                 }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
