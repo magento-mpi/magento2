@@ -83,10 +83,16 @@ class DataObjectProcessor
             $returnType = $methodReflectionData['type'];
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
+                if ($value === null && !$methodReflectionData['isRequired']) {
+                    continue;
+                }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
                 $outputData[$key] = $this->castValueToType($value, $returnType);
             } else if (substr($methodName, 0, 3) === self::HAS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
+                if ($value === null && !$methodReflectionData['isRequired']) {
+                    continue;
+                }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
                 $outputData[$key] = $this->castValueToType($value, $returnType);
             } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX) {
