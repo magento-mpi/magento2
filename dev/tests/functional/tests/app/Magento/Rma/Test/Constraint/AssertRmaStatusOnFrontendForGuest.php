@@ -52,8 +52,7 @@ class AssertRmaStatusOnFrontendForGuest extends AbstractConstraint
         )->run();
 
         $salesGuestView->getViewBlock();
-        // $salesGuestView->getViewBlock()->clickLink('Returns');
-        $rmaGuestIndex->open();
+        $salesGuestView->getViewBlock()->clickLink('Returns');
 
         $fixtureRmaStatus = $rma->getStatus();
         $pageRmaData = $rmaGuestIndex->getReturnsBlock()->getRmaTable()->getRmaRow($rma)->getData();

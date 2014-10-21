@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductNew</class>
     </catalogProductNew>
+    <catalogProductView>
+        <mca>catalog/product/view</mca>
+        <area>product</area>
+        <class>Magento\ConfigurableProduct\Test\Page\Product\CatalogProductView</class>
+    </catalogProductView>
 </page>

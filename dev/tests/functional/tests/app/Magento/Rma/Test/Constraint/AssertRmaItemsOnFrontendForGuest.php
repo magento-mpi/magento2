@@ -58,8 +58,7 @@ class AssertRmaItemsOnFrontendForGuest extends AssertRmaItemsOnFrontend
         )->run();
 
         $salesGuestView->getViewBlock();
-        // $salesGuestView->getViewBlock()->clickLink('Returns');
-        $rmaGuestIndex->open();
+        $salesGuestView->getViewBlock()->clickLink('Returns');
         $rmaGuestIndex->getReturnsBlock()->getRmaTable()->getRmaRow($rma)->clickView();
 
         $fixtureRmaItems = $this->sortDataByPath($this->getRmaItems($rma), '::sku');
