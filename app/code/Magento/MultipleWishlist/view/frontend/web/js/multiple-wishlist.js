@@ -364,8 +364,7 @@ define([
             this._super();
             this.element.on('click', '[data-post-new-wishlist]', $.proxy(function(e) {
                 var data = $(e.currentTarget).data('post-new-wishlist');
-                if ($(e.currentTarget).data('post'))
-                    $.extend(data.data, $(e.currentTarget).data('post').data);
+                $.extend(true, data, $(e.currentTarget).data('post'));
                 this._addToNew(data);
             }, this));
             this._buildWishlistDropdown();
