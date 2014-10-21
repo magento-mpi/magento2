@@ -13,6 +13,19 @@ use Magento\Framework\Exception\CouldNotSaveException;
 
 class PriceModifier
 {
+
+    /**
+     * @var \Magento\Catalog\Model\ProductRepository
+     */
+    protected $productRepository;
+
+    public function __construct(
+        \Magento\Catalog\Model\ProductRepository $productRepository
+    ) {
+        $this->productRepository = $productRepository;
+    }
+
+
     /**
      * @param \Magento\Catalog\Model\Product $product
      * @param int $customerGroupId
@@ -43,7 +56,7 @@ class PriceModifier
         }
         $product->setData('group_price', $prices);
         try {
-            $product->save();
+            $this->productRepository->save($product);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException("Invalid data provided for group price");
         }
@@ -85,7 +98,7 @@ class PriceModifier
         }
         $product->setData('tier_price', $prices);
         try {
-            $product->save();
+            $this->productRepository->save($product);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException("Invalid data provided for tier_price");
         }

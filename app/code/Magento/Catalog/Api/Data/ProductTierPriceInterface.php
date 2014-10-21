@@ -16,6 +16,10 @@ namespace Magento\Catalog\Api\Data;
  */
 interface ProductTierPriceInterface
 {
+    const QTY = 'qty';
+
+    const VALUE = 'value';
+
     /**
      * Retrieve tier qty
      *
