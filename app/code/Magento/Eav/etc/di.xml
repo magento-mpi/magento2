@@ -14,6 +14,9 @@
     <preference for="Magento\Eav\Api\Data\AttributeIdentifierInterface" type="Magento\Eav\Model\Entity\Attribute\Identifier" />
     <preference for="Magento\Eav\Api\Data\AttributeGroupInterface" type="Magento\Eav\Model\Entity\Attribute\Group" />
     <preference for="Magento\Eav\Api\AttributeGroupRepositoryInterface" type="Magento\Eav\Model\Attribute\GroupRepository" />
+    <preference for="Magento\Eav\Api\AttributeSetRepositoryInterface" type="Magento\Eav\Model\AttributeSetRepository" />
+    <preference for="Magento\Eav\Api\AttributeSetManagementInterface" type="Magento\Eav\Model\AttributeSetManagement" />
+    <preference for="Magento\Eav\Api\Data\AttributeSetInterface" type="Magento\Eav\Model\Entity\Attribute\Set" />
     <type name="Magento\Eav\Model\Entity\Attribute\Config">
         <arguments>
             <argument name="reader" xsi:type="object">Magento\Eav\Model\Entity\Attribute\Config\Reader\Proxy</argument>

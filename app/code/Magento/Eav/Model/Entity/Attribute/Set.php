@@ -24,7 +24,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Eav\Model\Entity\Type;
 
-class Set extends \Magento\Framework\Model\AbstractModel
+class Set extends \Magento\Framework\Model\AbstractModel implements \Magento\Eav\Api\Data\AttributeSetInterface
 {
     /**
      * Resource instance
@@ -325,5 +325,31 @@ class Set extends \Magento\Framework\Model\AbstractModel
     protected function _getResource()
     {
         return $this->_resource ?: parent::_getResource();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->getData('attribute_set_name');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSortOrder()
+    {
+        return $this->getData('sort_order');
+    }
+
+    /**
+     * Set attribute set name.
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->setData('attribute_set_name', $name);
     }
 }

@@ -8,10 +8,6 @@
  */
 namespace Magento\Eav\Api;
 
-/**
- * Interface AttributeSetManagement must be implemented
- * in new model \Magento\Eav\Model\AttributeSetManagement
- */
 interface AttributeSetManagementInterface
 {
     /**
@@ -20,7 +16,7 @@ interface AttributeSetManagementInterface
      * @param string $entityType
      * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
      * @param int $skeletonId
-     * @return int
+     * @return \Magento\Eav\Api\Data\AttributeSetInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
