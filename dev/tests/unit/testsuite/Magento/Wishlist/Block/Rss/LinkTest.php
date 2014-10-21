@@ -29,8 +29,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', [], [], '', false);
+        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId', 'getSharingCode'], [], '', false);
         $wishlist->expects($this->any())->method('getId')->will($this->returnValue(5));
+        $wishlist->expects($this->any())->method('getSharingCode')->will($this->returnValue('somesharingcode'));
 
         $customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $customer->expects($this->any())->method('getId')->will($this->returnValue(8));
@@ -67,7 +68,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
                 'type' => 'wishlist',
                 'data' => 'OCx0ZXN0QGV4YW1wbGUuY29t',
                 '_secure' => false,
-                'wishlist_id' => 5
+                'wishlist_id' => 5,
+                'sharing_code' => 'somesharingcode'
             )))
             ->will($this->returnValue('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5'));
         $this->assertEquals('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5', $this->link->getLink());

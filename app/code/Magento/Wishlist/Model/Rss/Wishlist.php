@@ -62,6 +62,11 @@ class Wishlist implements DataProviderInterface
     protected $wishlistBlock;
 
     /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $request;
+
+    /**
      * @param \Magento\Wishlist\Helper\Rss $wishlistHelper
      * @param \Magento\Wishlist\Block\Customer\Wishlist $wishlistBlock
      * @param \Magento\Catalog\Helper\Output $outputHelper
@@ -79,7 +84,8 @@ class Wishlist implements DataProviderInterface
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\View\LayoutInterface $layout
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->wishlistHelper = $wishlistHelper;
         $this->wishlistBlock = $wishlistBlock;
@@ -89,6 +95,7 @@ class Wishlist implements DataProviderInterface
         $this->scopeConfig = $scopeConfig;
         $this->eventManager = $eventManager;
         $this->layout = $layout;
+        $this->request = $request;
     }
 
     /**
@@ -214,9 +221,6 @@ class Wishlist implements DataProviderInterface
     protected function getWishlist()
     {
         $wishlist = $this->wishlistHelper->getWishlist();
-        if ($wishlist->getSharingCode() != $this->request->getParam('sharing_code')) {
-            $wishlist->unsetData();
-        }
         return $wishlist;
     }
 
@@ -254,5 +258,16 @@ class Wishlist implements DataProviderInterface
     public function getFeeds()
     {
         return array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAuthRequired()
+    {
+        if ($this->request->getParam('sharing_code') == $this->getWishlist()->getSharingCode()) {
+            return false;
+        }
+        return true;
     }
 }

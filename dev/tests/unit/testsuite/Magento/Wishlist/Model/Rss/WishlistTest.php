@@ -102,6 +102,10 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ['getBlock']
         );
 
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
+        $requestMock->expects($this->any())->method('getParam')->with('sharing_code')
+            ->will($this->returnValue('somesharingcode'));
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\Wishlist\Model\Rss\Wishlist',
@@ -114,6 +118,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                 'scopeConfig' => $this->scopeConfig,
                 'rssFactory' => $this->rssFactoryMock,
                 'layout' => $this->layoutMock,
+                'request' => $requestMock
             ]
         );
     }
@@ -125,7 +130,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $title = "$customerName's Wishlist";
         $wishlistModelMock = $this->getMock(
             'Magento\Wishlist\Model\Wishlist',
-            ['getId', '__wakeup', 'getCustomerId', 'getItemCollection'],
+            ['getId', '__wakeup', 'getCustomerId', 'getItemCollection', 'getSharingCode'],
             [],
             '',
             false
@@ -296,5 +301,17 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     public function testGetCacheLifetime()
     {
         $this->assertEquals(60, $this->model->getCacheLifetime());
+    }
+
+    public function testIsAuthRequired()
+    {
+        $wishlist = $this->getMockBuilder('Magento\Wishlist\Model\Wishlist')->setMethods(
+            ['getId', '__wakeup', 'getCustomerId', 'getItemCollection', 'getSharingCode']
+        )->disableOriginalConstructor()->getMock();
+        $wishlist->expects($this->any())->method('getSharingCode')
+            ->will($this->returnValue('somesharingcode'));
+        $this->wishlistHelperMock->expects($this->any())->method('getWishlist')
+            ->will($this->returnValue($wishlist));
+        $this->assertEquals(false, $this->model->isAuthRequired());
     }
 }
