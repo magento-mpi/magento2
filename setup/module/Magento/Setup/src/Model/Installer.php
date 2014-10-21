@@ -518,12 +518,13 @@ class Installer
         $adapter->connect();
         if (!$adapter->getDriver()->getConnection()->isConnected()) {
             $this->log->log('No database connection defined - skipping database cleanup');
-        } else {
-            $dbName = $adapter->quoteIdentifier($config[Config::KEY_DB_NAME]);
-            $this->log->log("Recreating database {$dbName}");
-            $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
-            $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
+            return;
         }
+
+        $dbName = $adapter->quoteIdentifier($config[Config::KEY_DB_NAME]);
+        $this->log->log("Recreating database {$dbName}");
+        $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
+        $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
     }
 
     /**
@@ -544,6 +545,11 @@ class Installer
      */
     private function recreateDatabase()
     {
+        if (!$this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('local.xml')) {
+            $this->log->log("No database connection defined - skipping database cleanup");
+            return;
+        }
+
         $config = $this->deploymentConfigFactory->create();
         $config->loadFromFile();
         $configData = $config->getConfigData();
