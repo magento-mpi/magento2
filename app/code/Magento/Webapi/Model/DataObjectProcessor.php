@@ -93,6 +93,9 @@ class DataObjectProcessor
                 if ($methodName === 'getCustomAttributes' && $value === []) {
                     continue;
                 }
+                if ($value === null && !$returnTypeData['isRequired']) {
+                    continue;
+                }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
                 if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
                     $value = $this->convertCustomAttributes($value);
