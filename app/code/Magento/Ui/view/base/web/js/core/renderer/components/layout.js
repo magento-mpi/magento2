@@ -39,40 +39,39 @@ define([
         this.types      = types;
         this.registry   = registry.create();
 
-        this.process(nodes);
+        this.run(nodes);
     }
 
     _.extend(Layout.prototype, {
-        process: function(nodes, parent){
-            var insert,
-                children;
-
-            if (nodes) {
-                insert   = parent && parent.component;
-                children = _.map(nodes, this.parse.bind(this, parent));
-
-                if (insert) {
-                    this.insert(children, parent.name);
-                }
-            }
+        run: function(nodes, parent){
+            _.each(nodes || [], this.iterator.bind(this, parent));
 
             return this;
         },
 
-        parse: function(parent, node, name) {
-            if (typeof node === 'string') {
-                return node;
+        iterator: function(parent, node, name){
+            var action = typeof node === 'string' ?
+                this.addChild :
+                this.process;
+
+            action.apply(this, arguments);
+        },
+
+        process: function(parent, node) {
+            if(node.template){
+                return this.waitTemplate.apply(this, arguments);      
             }
 
             node = this.build.apply(this, arguments);
 
-            if (node) {
-                this.manipulate(node)
+            if(node){
+                this.addChild(parent, node.name)
+                    .manipulate(node)
                     .initComponent(node)
-                    .process(node.children, node);
+                    .run(node.children, node);
             }
 
-            return node && node.name;
+            return this;
         },
 
         build: function(parent, node, name){
@@ -86,10 +85,6 @@ define([
 
             delete node.type;
 
-            if(node.template){
-                return this.waitTemplate(node, parent);      
-            }
-
             this.registry.set(name, node);
 
             if(type !== 'template'){
@@ -99,6 +94,7 @@ define([
 
         initComponent: function(node){
             var source = node.component,
+                component,
                 name;
 
             if(source){
@@ -106,8 +102,11 @@ define([
                 name    = node.name;
 
                 registry.get(node.deps, function(){
+
                     require(source, function(constr){
-                        registry.set(name, new constr(node.config, name));
+                        component = new constr(node.config, name);
+
+                        registry.set(name, component);
                     });
                 });
             }
@@ -115,7 +114,30 @@ define([
             return this;
         }
     });
-    
+        
+    _.extend(Layout.prototype, {
+        waitTemplate: function(parent, node, name){
+            var callback = this.applyTemplate.bind(this, parent, node, name);
+
+            this.registry.get(node.template, callback);
+        },
+
+        applyTemplate: function(parent, node, name){
+            var templates = _.toArray(arguments).slice(3),
+                result = {};
+
+            templates.push(node);
+
+            templates.forEach(function(part){
+                $.extend(true, result, part);
+            });
+
+            delete result.template;
+
+            this.process(parent, result, name);
+        },
+    });
+
     _.extend(Layout.prototype, {
         manipulate: function(node) {
             var name = node.name;
@@ -154,33 +176,18 @@ define([
             node = this.build('', node);
 
             this.insert(child.name, node.name)
-                .process([node]);
+                .run([node]);
+
+            return this;
+        },
+
+        addChild: function(parent, child){
+            if(parent && parent.component){
+                this.insert(child, parent.name);
+            }
 
             return this;
         }
-    });
-
-    _.extend(Layout.prototype, {
-        waitTemplate: function(node, parent){
-            var callback = this.applyTemplate.bind(this, node, parent);
-
-            this.registry.get(node.template, callback);
-        },
-
-        applyTemplate: function(node, parent){
-            var result = {},
-                templates = _.toArray(arguments).slice(2);
-
-            templates.push(node);
-
-            templates.forEach(function(part){
-                $.extend(true, result, part);
-            });
-
-            delete result.template;
-
-            this.process([result], parent);
-        },
     });
 
     return Layout;

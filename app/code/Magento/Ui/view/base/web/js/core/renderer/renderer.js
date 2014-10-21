@@ -12,7 +12,7 @@ define([
         },
 
         render: function(data){
-            this.layout.process(data.layout);
+            this.layout.run(data.layout);
             this.types.set(data.types);
         }
     });
