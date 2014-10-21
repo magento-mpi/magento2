@@ -39,6 +39,7 @@ class ConsoleController extends AbstractActionController
     const CMD_INSTALL_USER_CONFIG = 'install-user-configuration';
     const CMD_INSTALL_ADMIN_USER = 'install-admin-user';
     const CMD_UPDATE = 'update';
+    const CMD_UNINSTALL = 'uninstall';
     /**#@- */
 
     /**#@+
@@ -63,6 +64,7 @@ class ConsoleController extends AbstractActionController
         self::CMD_INSTALL_USER_CONFIG => 'installUserConfig',
         self::CMD_INSTALL_ADMIN_USER => 'installAdminUser',
         self::CMD_UPDATE => 'update',
+        self::CMD_UNINSTALL => 'uninstall',
     ];
 
     /**
@@ -78,6 +80,7 @@ class ConsoleController extends AbstractActionController
         self::CMD_INSTALL_USER_CONFIG,
         self::CMD_INSTALL_ADMIN_USER,
         self::CMD_UPDATE,
+        self::CMD_UNINSTALL,
         self::INFO_LOCALES,
         self::INFO_CURRENCIES,
         self::INFO_TIMEZONES,
@@ -186,6 +189,12 @@ class ConsoleController extends AbstractActionController
                 'usage' => '',
                 'usage_short' => self::CMD_UPDATE,
                 'usage_desc' => 'Update database schema and data',
+            ],
+            self::CMD_UNINSTALL => [
+                'route' => self::CMD_UNINSTALL,
+                'usage' => '',
+                'usage_short' => self::CMD_UNINSTALL,
+                'usage_desc' => 'Uninstall Magento application',
             ],
             self::CMD_INSTALL_CONFIG => [
                 'route' => self::CMD_INSTALL_CONFIG . ' ' . $deployConfig,
@@ -352,6 +361,21 @@ class ConsoleController extends AbstractActionController
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
         $this->installer->installAdminUser($request->getParams());
+    }
+
+    /**
+     * Controller for Uninstall Command
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function uninstallAction()
+    {
+        try {
+            $this->installer->uninstall();
+        } catch (Exception $e) {
+            $this->log->logError($e);
+        }
     }
 
     /**

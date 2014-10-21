@@ -21,6 +21,8 @@ use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\MaintenanceMode;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\FilesystemException;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -142,6 +144,11 @@ class Installer
     private $messages = array();
 
     /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -154,6 +161,7 @@ class Installer
      * @param Random $random
      * @param ConnectionFactory $connectionFactory
      * @param MaintenanceMode $maintenanceMode
+     * @param Filesystem $filesystem
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -165,7 +173,8 @@ class Installer
         LoggerInterface $log,
         Random $random,
         ConnectionFactory $connectionFactory,
-        MaintenanceMode $maintenanceMode
+        MaintenanceMode $maintenanceMode,
+        Filesystem $filesystem
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -179,6 +188,7 @@ class Installer
         $this->shellRenderer = new CommandRenderer;
         $this->shell = new Shell($this->shellRenderer);
         $this->maintenanceMode = $maintenanceMode;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -407,6 +417,24 @@ class Installer
     }
 
     /**
+     * Uninstall Magento application
+     *
+     * @return void
+     */
+    public function uninstall()
+    {
+        $this->log->log('Starting Magento uninstallation:');
+
+        $this->recreateDatabase();
+        $this->log->log('File system cleanup:');
+        $this->deleteDirContents(DirectoryList::VAR_DIR);
+        $this->deleteDirContents(DirectoryList::STATIC_VIEW);
+        $this->deleteLocalXml();
+
+        $this->log->logSuccess('Magento uninstallation complete.');
+    }
+
+    /**
      * Enables caches after installing application
      *
      * @return void
@@ -487,9 +515,15 @@ class Installer
     public function cleanupDb($config)
     {
         $adapter = $this->connectionFactory->create($config);
-        $dbName = $adapter->quoteIdentifier($config[Config::KEY_DB_NAME]);
-        $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
-        $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
+        $adapter->connect();
+        if (!$adapter->getDriver()->getConnection()->isConnected()) {
+            $this->log->log('No database connection defined - skipping database cleanup');
+        } else {
+            $dbName = $adapter->quoteIdentifier($config[Config::KEY_DB_NAME]);
+            $this->log->log("Recreating database {$dbName}");
+            $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
+            $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
+        }
     }
 
     /**
@@ -500,5 +534,63 @@ class Installer
     public function getMessages()
     {
         return $this->messages;
+    }
+
+
+    /**
+     * Deletes the database and creates it again
+     *
+     * @return void
+     */
+    private function recreateDatabase()
+    {
+        $config = $this->deploymentConfigFactory->create();
+        $config->loadFromFile();
+        $configData = $config->getConfigData();
+        $this->cleanupDb($configData);
+    }
+
+    /**
+     * Removes contents of a directory
+     *
+     * @param string $type
+     * @return void
+     */
+    private function deleteDirContents($type)
+    {
+        $dir = $this->filesystem->getDirectoryWrite($type);
+        $dirPath = $dir->getAbsolutePath();
+        foreach ($dir->read() as $path) {
+            if (preg_match('/^\./', $path)) {
+                continue;
+            }
+            $this->log->log("{$dirPath}{$path}");
+            try {
+                $dir->delete($path);
+            } catch (FilesystemException $e) {
+                $this->log->log($e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Removes deployment configuration
+     *
+     * @return void
+     */
+    private function deleteLocalXml()
+    {
+        $configDir = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
+        $localXml = "{$configDir->getAbsolutePath()}local.xml";
+        if (!$configDir->isFile('local.xml')) {
+            $this->log->log("The file '{$localXml}' doesn't exist - skipping cleanup");
+            return;
+        }
+        try {
+            $this->log->log($localXml);
+            $configDir->delete('local.xml');
+        } catch (FilesystemException $e) {
+            $this->log->log($e->getMessage());
+        }
     }
 }

@@ -13,7 +13,6 @@ use Magento\Framework\Filesystem;
 
 class FilePermissions
 {
-
     /**
      * @var Filesystem
      */
