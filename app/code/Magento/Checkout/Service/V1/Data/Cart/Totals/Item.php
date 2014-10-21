@@ -8,41 +8,96 @@
 namespace Magento\Checkout\Service\V1\Data\Cart\Totals;
 
 /**
- * Cart item totals
+ * Cart item totals.
  *
  * @codeCoverageIgnore
  */
 class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
 {
-    /* ITEM DATA */
+    /**
+     * Price.
+     */
     const PRICE = 'price';
+
+    /**
+     * Base price.
+     */
     const BASE_PRICE = 'base_price';
+
+    /**
+     * Quantity.
+     */
     const QTY = 'qty';
 
-    /* ROW TOTALS */
+    /**
+     * Row total.
+     */
     const ROW_TOTAL = 'row_total';
+
+    /**
+     * Base row total.
+     */
     const BASE_ROW_TOTAL = 'base_row_total';
+
+    /**
+     * Row total with discount.
+     */
     const ROW_TOTAL_WITH_DISCOUNT = 'row_total_with_discount';
 
-    /* DISCOUNT */
+    /**
+     * Discount amount.
+     */
     const DISCOUNT_AMOUNT = 'discount_amount';
+
+    /**
+     * Base discount amount.
+     */
     const BASE_DISCOUNT_AMOUNT = 'base_discount_amount';
+
+    /**
+     * Discount percent.
+     */
     const DISCOUNT_PERCENT = 'discount_percent';
 
-    /* TAX */
+    /**
+     * Tax amount.
+     */
     const TAX_AMOUNT = 'tax_amount';
+
+    /**
+     * Base tax amount.
+     */
     const BASE_TAX_AMOUNT = 'base_tax_amount';
+
+    /**
+     * Tax percent.
+     */
     const TAX_PERCENT = 'tax_percent';
 
+    /**
+     * Price including tax.
+     */
     const PRICE_INCL_TAX = 'price_incl_tax';
+
+    /**
+     * Base price including tax.
+     */
     const BASE_PRICE_INCL_TAX = 'base_price_incl_tax';
+
+    /**
+     * Row total including tax.
+     */
     const ROW_TOTAL_INCL_TAX = 'row_total_incl_tax';
+
+    /**
+     * Base row total including tax.
+     */
     const BASE_ROW_TOTAL_INCL_TAX = 'base_row_total_incl_tax';
 
     /**
-     * Get item price in quote currency
+     * Returns the item price in quote currency.
      *
-     * @return float
+     * @return float Item price in quote currency.
      */
     public function getPrice()
     {
@@ -50,9 +105,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get item price in base currency
+     * Returns the item price in base currency.
      *
-     * @return float
+     * @return float Item price in base currency.
      */
     public function getBasePrice()
     {
@@ -60,9 +115,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get item qty
+     * Returns the item quantity.
      *
-     * @return int
+     * @return int Item quantity.
      */
     public function getQty()
     {
@@ -70,9 +125,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get row total in quote currency
+     * Returns the row total in quote currency.
      *
-     * @return float
+     * @return float Row total in quote currency.
      */
     public function getRowTotal()
     {
@@ -80,9 +135,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get row total in base currency
+     * Returns the row total in base currency.
      *
-     * @return float
+     * @return float Row total in base currency.
      */
     public function getBaseRowTotal()
     {
@@ -90,9 +145,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get row total with discount in quote currency
+     * Returns the row total with discount in quote currency.
      *
-     * @return float|null
+     * @return float|null Row total with discount in quote currency. Otherwise, null.
      */
     public function getRowTotalWithDiscount()
     {
@@ -100,9 +155,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get tax amount in quote currency
+     * Returns the tax amount in quote currency.
      *
-     * @return float|null
+     * @return float|null Tax amount in quote currency. Otherwise, null.
      */
     public function getTaxAmount()
     {
@@ -110,9 +165,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get tax amount in base currency
+     * Returns the tax amount in base currency.
      *
-     * @return float|null
+     * @return float|null Tax amount in base currency. Otherwise, null.
      */
     public function getBaseTaxAmount()
     {
@@ -120,9 +175,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get tax percent
+     * Returns the tax percent.
      *
-     * @return int|null
+     * @return int|null Tax percent. Otherwise, null.
      */
     public function getTaxPercent()
     {
@@ -130,9 +185,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get discount amount in quote currency
+     * Returns the discount amount in quote currency.
      *
-     * @return float|null
+     * @return float|null Discount amount in quote currency. Otherwise, null.
      */
     public function getDiscountAmount()
     {
@@ -140,9 +195,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get discount amount in base currency
+     * Returns the discount amount in base currency.
      *
-     * @return float|null
+     * @return float|null Discount amount in base currency. Otherwise, null.
      */
     public function getBaseDiscountAmount()
     {
@@ -150,9 +205,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get discount percent
+     * Returns the discount percent.
      *
-     * @return int|null
+     * @return int|null Discount percent. Otherwise, null.
      */
     public function getDiscountPercent()
     {
@@ -160,9 +215,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get price including tax in quote currency
+     * Returns the price including tax in quote currency.
      *
-     * @return float|null
+     * @return float|null Price including tax in quote currency. Otherwise, null.
      */
     public function getPriceInclTax()
     {
@@ -170,9 +225,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get price including tax in base currency
+     * Returns the price including tax in base currency.
      *
-     * @return float|null
+     * @return float|null Price including tax in base currency. Otherwise, null.
      */
     public function getBasePriceInclTax()
     {
@@ -180,9 +235,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get row total including tax in quote currency
+     * Returns the row total including tax in quote currency.
      *
-     * @return float|null
+     * @return float|null Row total including tax in quote currency. Otherwise, null.
      */
     public function getRowTotalInclTax()
     {
@@ -190,9 +245,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractSimpleObject
     }
 
     /**
-     * Get row total including tax in base currency
+     * Returns the row total including tax in base currency.
      *
-     * @return float|null
+     * @return float|null Row total including tax in base currency. Otherwise, null.
      */
     public function getBaseRowTotalInclTax()
     {
