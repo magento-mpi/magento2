@@ -35,14 +35,14 @@ try {
     $isInternal = isset($options['internal']) ? true : false;
     if ($isInternal) {
         if ($options['edition'] != 'ee') {
-            $lists[] = 'internal_ee.txt';
+            $lists[] = 'internal-ee.txt';
         } else {
-            $includeLists[] = 'internal_ee.txt';
+            $includeLists[] = 'internal-ee.txt';
         }
         $includeLists[] = 'internal.txt';
     } else {
         $lists[] = 'internal.txt';
-        $lists[] = 'internal_ee.txt';
+        $lists[] = 'internal-ee.txt';
     }
 
     $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("{$dir}/.git"), escapeshellarg($dir));
