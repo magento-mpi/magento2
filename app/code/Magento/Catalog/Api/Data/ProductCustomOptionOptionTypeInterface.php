@@ -8,14 +8,12 @@
 
 namespace Magento\Catalog\Api\Data;
 
-/**
- * Created from:
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionType - previous implementation
- *
- * @todo Create new model \Magento\Catalog\Model\Product\CustomOption\OptionType implements \Magento\Catalog\Api\Data\Product\CustomOption\OptionTypeInterface
- */
 interface ProductCustomOptionOptionTypeInterface
 {
+    const LABEL = 'label';
+    const CODE = 'code';
+    const GROUP = 'group';
+
     /**
      * Get option type label
      *

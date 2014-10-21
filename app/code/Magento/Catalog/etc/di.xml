@@ -519,8 +519,9 @@
             </argument>
         </arguments>
     </type>
-    <preference for="\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface" type="\Magento\Catalog\Model\Product\Option" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface" type="Magento\Catalog\Model\Product\Option" />
     <preference for="Magento\Catalog\Api\ProductGroupPriceManagementInterface" type="Magento\Catalog\Model\Product\GroupPriceManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductGroupPriceInterface" type="Magento\Catalog\Model\Product\GroupPrice" />
-    <preference for="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" type="\Magento\Catalog\Model\Product\Option\Repository" />
+    <preference for="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" type="Magento\Catalog\Model\Product\Option\Repository" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface" type="Magento\Catalog\Model\Product\Option\Type" />
 </config>
