@@ -10,6 +10,9 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Customer\Api\AddressRepositoryInterface"
                 type="Magento\Customer\Model\Resource\AddressRepository" />
+
+    <preference for="Magento\Customer\Api\Data\CustomerInterface"
+                type="Magento\Customer\Model\Data\Customer" />
     <preference for="Magento\Customer\Api\Data\AttributeMetadataInterface"
                 type="Magento\Customer\Model\Data\AttributeMetadata" />
     <preference for="Magento\Customer\Api\Data\GroupInterface" type="Magento\Customer\Model\Data\Group" />
@@ -19,12 +22,14 @@
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
     <preference for="Magento\Customer\Model\Data\CustomerSearchResultsInterface"
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
+
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerGroupService" />
     <preference for="Magento\Customer\Service\V1\CustomerAccountServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAccountService" />
+
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
     <preference for="Magento\Customer\Service\V1\AddressMetadataServiceInterface"
