@@ -22,7 +22,6 @@ class Page extends View\Result\Page
      * Constructor
      *
      * @param View\Element\Template\Context $context
-     * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Translate\InlineInterface $translateInline
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
@@ -33,7 +32,6 @@ class Page extends View\Result\Page
      */
     public function __construct(
         View\Element\Template\Context $context,
-        View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
         Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
@@ -44,7 +42,6 @@ class Page extends View\Result\Page
     ) {
         parent::__construct(
             $context,
-            $layoutFactory,
             $layoutReaderPool,
             $translateInline,
             $layoutBuilderFactory,
