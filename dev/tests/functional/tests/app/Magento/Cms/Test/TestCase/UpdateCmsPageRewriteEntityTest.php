@@ -133,7 +133,7 @@ class UpdateCmsPageRewriteEntityTest extends Injectable
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
 
-        return ['cmsPage' => $cmsPageRewrite->getDataFieldConfig('id_path')['source']->getEntity()];
+        return ['cmsPage' => $cmsPageRewrite->getDataFieldConfig('target_path')['source']->getEntity()];
     }
 
     /**
