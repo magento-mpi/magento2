@@ -12,10 +12,6 @@
     <body>
         <referenceContainer name="content">
             <block class="Magento\Invitation\Block\Customer\Form\Register" name="customer_form_register_invitation" template="Magento_Customer::form/register.phtml" cacheable="false"/>
-            <move element="customer.form.register.fields.before" destination="customer_form_register_invitation" as="form_fields_before"/>
-            <move element="customer_form_user_attributes" destination="customer_form_register_invitation"/>
-            <move element="customer_form_address_user_attributes" destination="customer_form_register_invitation"/>
-            <remove name="customer_form_register"/>
             <block class="Magento\Core\Block\RequireCookie" name="require-cookie" template="Magento_Core::require_cookie.phtml">
                 <arguments>
                     <argument name="triggers" xsi:type="array">
@@ -24,5 +20,9 @@
                 </arguments>
             </block>
         </referenceContainer>
+        <move element="customer.form.register.fields.before" destination="customer_form_register_invitation" as="form_fields_before"/>
+        <move element="customer_form_user_attributes" destination="customer_form_register_invitation"/>
+        <move element="customer_form_address_user_attributes" destination="customer_form_register_invitation"/>
+        <remove name="customer_form_register"/>
     </body>
 </page>
