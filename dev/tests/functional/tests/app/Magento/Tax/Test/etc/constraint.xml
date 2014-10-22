@@ -61,11 +61,16 @@
     </assertTaxRuleIsApplied>
     <assertTaxRuleIsAppliedToAllPrices module="Magento_Tax">
         <severeness>high</severeness>
-        <require />
     </assertTaxRuleIsAppliedToAllPrices>
+    <assertTaxWithCrossBorderApplied module="Magento_Tax">
+        <severeness>high</severeness>
+    </assertTaxWithCrossBorderApplied>
     <assertTaxRuleIsNotApplied module="Magento_Tax">
         <severeness>high</severeness>
     </assertTaxRuleIsNotApplied>
+    <assertTaxWithCrossBorderNotApplied module="Magento_Tax">
+        <severeness>high</severeness>
+    </assertTaxWithCrossBorderNotApplied>
     <assertTaxRuleSuccessDeleteMessage module="Magento_Tax">
         <severeness>high</severeness>
         <require>

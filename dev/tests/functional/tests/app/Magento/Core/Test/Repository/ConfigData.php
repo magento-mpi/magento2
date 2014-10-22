@@ -1190,6 +1190,12 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => '0'
                 ],
+                [
+                    'path' => 'tax/calculation/cross_border_trade_enabled',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
             ]
         ];
         $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =
@@ -1348,6 +1354,50 @@ class ConfigData extends AbstractRepository
                         ['value' => '1'],
                         ['value' => '1'],
                         ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['cross_border_enabled_price_incl_tax'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '1'], //tax/calculation/price_includes_tax
+                        ['value' => '1'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '1'], //tax/calculation/discount_tax
+                        ['value' => '2'], //tax/display/type
+                        ['value' => '2'], //tax/display/shipping
+                        ['value' => '2'], //tax/cart_display/price
+                        ['value' => '2'], //tax/cart_display/subtotal
+                        ['value' => '2'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '1'], //tax/calculation/cross_border_trade_enabled
+                    ]
+                ]
+            );
+
+        $this->_data['cross_border_enabled_price_excl_tax'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '2'], //tax/display/type
+                        ['value' => '2'], //tax/display/shipping
+                        ['value' => '2'], //tax/cart_display/price
+                        ['value' => '2'], //tax/cart_display/subtotal
+                        ['value' => '2'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '1'], //tax/calculation/cross_border_trade_enabled
                     ]
                 ]
             );
