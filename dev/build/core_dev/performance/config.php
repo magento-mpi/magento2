@@ -32,6 +32,9 @@ return array(
                 'admin_use_security_key'     => '0',
                 'backend_frontname'          => 'backend',
             ),
+            'options_no_value' => array(
+                'cleanup_database',
+            ),
         ),
     ),
     'scenario' => array(

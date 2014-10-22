@@ -149,6 +149,7 @@ class Application
     protected function _install()
     {
         $installOptions = $this->_config->getInstallOptions();
+        $installOptionsNoValue = $this->_config->getInstallOptionsNoValue();
         if (!$installOptions) {
             throw new \Magento\Framework\Exception('Trying to install Magento, but installation options are not set');
         }
@@ -167,7 +168,9 @@ class Application
             $installCmd .= " --{$optionName}=%s";
             $installCmdArgs[] = $optionValue;
         }
-        $installCmd .= ' --cleanup_database';
+        foreach ($installOptionsNoValue as $optionName) {
+            $installCmd .= " --{$optionName}";
+        }
         $this->_shell->execute($installCmd, $installCmdArgs);
 
         $this->_isInstalled = true;

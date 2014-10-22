@@ -51,6 +51,11 @@ class Config
     /**
      * @var array
      */
+    protected $_installOptionsNoValue = array();
+
+    /**
+     * @var array
+     */
     protected $_scenarios = array();
 
     /**
@@ -80,6 +85,10 @@ class Config
 
         if (isset($applicationOptions['installation']['options'])) {
             $this->_installOptions = $applicationOptions['installation']['options'];
+        }
+
+        if (isset($applicationOptions['installation']['options_no_value'])) {
+            $this->_installOptionsNoValue = $applicationOptions['installation']['options_no_value'];
         }
 
         $this->_parseScenarios($configData['scenario']);
@@ -347,6 +356,16 @@ class Config
     public function getInstallOptions()
     {
         return $this->_installOptions;
+    }
+
+    /**
+     * Retrieve application installation options that have no value
+     *
+     * @return array
+     */
+    public function getInstallOptionsNoValue()
+    {
+        return $this->_installOptionsNoValue;
     }
 
     /**
