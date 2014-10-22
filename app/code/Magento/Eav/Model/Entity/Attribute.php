@@ -457,7 +457,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getAttributeId()
     {
-        return $this->getData('attribute_id');
+        return $this->getData(self::ATTRIBUTE_ID);
     }
 
     /**
@@ -465,7 +465,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function isUnique()
     {
-        return $this->getData('is_unique');
+        return $this->getData(self::IS_UNIQUE);
     }
 
     /**
@@ -481,7 +481,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getFrontendClass()
     {
-        return $this->getData('frontend_class');
+        return $this->getData(self::FRONTEND_CLASS);
     }
 
     /**
@@ -489,7 +489,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getAttributeCode()
     {
-        return $this->getData('attribute_code');
+        return $this->getData(self::ATTRIBUTE_CODE);
     }
 
     /**
@@ -497,7 +497,15 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getFrontendInput()
     {
-        return $this->getData('frontend_input');
+        return $this->getData(self::FRONTEND_INPUT);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEntityTypeId()
+    {
+        return $this->getData(self::ENTITY_TYPE_ID);
     }
 
     /**
@@ -505,7 +513,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function isRequired()
     {
-        return $this->getData('is_required');
+        return $this->getData(self::IS_REQUIRED);
     }
 
     /**
@@ -521,7 +529,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function isUserDefined()
     {
-        return $this->getData('is_user_defined');
+        return $this->getData(self::IS_USER_DEFINED);
     }
 
     /**
@@ -529,7 +537,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getFrontendLabel()
     {
-        return $this->getData('frontend_label');
+        return $this->getData(self::FRONTEND_LABEL);
     }
 
     /**
@@ -552,7 +560,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getNote()
     {
-        return $this->getData('note');
+        return $this->getData(self::NOTE);
     }
 
     /**
@@ -560,7 +568,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getBackendType()
     {
-        return $this->getData('backend_type');
+        return $this->getData(self::BACKEND_TYPE);
     }
 
     /**
@@ -568,7 +576,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getBackendModel()
     {
-        return $this->getData('backend_model');
+        return $this->getData(self::BACKEND_MODEL);
     }
 
     /**
@@ -576,7 +584,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getSourceModel()
     {
-        return $this->getData('source_model');
+        return $this->getData(self::SOURCE_MODEL);
     }
 
     /**
@@ -584,7 +592,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getValidationRules()
     {
-        $rules = $this->getData('validate_rules');
+        $rules = $this->getData(self::VALIDATE_RULES);
         if (is_array($rules)) {
             return $rules;
         } else if (!empty($rules)) {

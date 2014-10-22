@@ -8,8 +8,40 @@
  */
 namespace Magento\Eav\Api\Data;
 
-interface AttributeInterface 
+interface AttributeInterface
 {
+    const ATTRIBUTE_ID = 'attribute_id';
+
+    const IS_UNIQUE = 'is_unique';
+
+    const SCOPE = 'scope';
+
+    const FRONTEND_CLASS = 'frontend_class';
+
+    const ATTRIBUTE_CODE = 'attribute_code';
+
+    const FRONTEND_INPUT = 'frontend_input';
+
+    const IS_REQUIRED = 'is_required';
+
+    const OPTIONS = 'options';
+
+    const IS_USER_DEFINED = 'is_user_defined';
+
+    const FRONTEND_LABEL = 'frontend_label';
+
+    const NOTE = 'note';
+
+    const BACKEND_TYPE = 'backend_type';
+
+    const BACKEND_MODEL = 'backend_model';
+
+    const SOURCE_MODEL = 'source_model';
+
+    const VALIDATE_RULES = 'validate_rules';
+
+    const ENTITY_TYPE_ID = 'entity_type_id';
+
     /**
      * Retrieve id of the attribute.
      *
@@ -30,6 +62,13 @@ interface AttributeInterface
      * @return string|null
      */
     public function getFrontendInput();
+
+    /**
+     * Retrieve entity type id
+     *
+     * @return string
+     */
+    public function getEntityTypeId();
 
     /**
      * Whether attribute is required.

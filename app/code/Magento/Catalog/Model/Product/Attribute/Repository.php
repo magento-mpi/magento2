@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Attribute;
+namespace Magento\Catalog\Model\Product\Attribute;
 
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Exception\NoSuchEntityException;
@@ -19,7 +19,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $attributeResource;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsBuilder
+     * @var \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder
      */
     protected $searchResultsBuilder;
 
@@ -29,12 +29,12 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $eavAttributeRepository;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchCriteriaBuilder
+     * @var \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Data\Search\FilterBuilder
+     * @var \Magento\Framework\Data\Search\FilterInterfaceBuilder
      */
     protected $filterBuilder;
 
@@ -72,9 +72,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      * @param \Magento\Catalog\Model\Resource\Attribute $attributeResource
      * @param \Magento\Catalog\Model\Entity\AttributeBuilder $attributeBuilder
      * @param \Magento\Catalog\Helper\Product $productHelper
-     * @param \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder
-     * @param \Magento\Framework\Data\Search\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Data\Search\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
+     * @param \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Data\Search\FilterInterfaceBuilder $filterBuilder
      * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Eav\Model\AttributeRepository $eavAttributeRepository
      * @param \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
@@ -110,7 +110,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function get($attributeCode, array $arguments = [])
+    public function get($attributeCode)
     {
         $identifier = $this->attributeIdentifierFactory->create([
             'attributeCode' => $attributeCode,
@@ -122,23 +122,16 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getList(
-        \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria,
-        array $arguments = []
-    ) {
+    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    {
         $this->searchCriteriaBuilder->setFilterGroups($searchCriteria->getFilterGroups());
         $this->searchCriteriaBuilder->setSortOrders($searchCriteria->getSortOrders());
         $this->searchCriteriaBuilder->setPageSize($searchCriteria->getPageSize());
         $this->searchCriteriaBuilder->setCurrentPage($searchCriteria->getCurrentPage());
 
-        $this->searchCriteriaBuilder->addFilter(
-            [
-                $this->filterBuilder
-                    ->setField('entityTypeCode')
-                    ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
-                    ->create()
-            ]
-        );
+        $this->filterBuilder->setField('entityTypeCode');
+        $this->filterBuilder->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE);
+        $this->searchCriteriaBuilder->addFilter([$this->filterBuilder->create()]);
 
         return $this->eavAttributeRepository->getList($this->searchCriteriaBuilder->create());
     }
@@ -146,7 +139,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute, array $arguments = [])
+    public function save(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute)
     {
         $attributeData = $this->attributeBuilder->populate($attribute);
 
@@ -214,13 +207,13 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         }
 
         $this->attributeResource->save($attributeData->create());
-        return true;
+        return $attributeData;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute, array $arguments = [])
+    public function delete(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute)
     {
         $this->attributeResource->delete($attribute);
         return true;

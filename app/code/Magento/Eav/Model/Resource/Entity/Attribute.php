@@ -279,14 +279,21 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Save in set including
      *
+     * @param $attributeId
+     * @param $attributeSetId
+     * @param $attributeGroupId
      * @param AbstractModel $object
      * @return $this
      */
-    public function saveInSetIncluding(AbstractModel $object)
-    {
-        $attributeId = (int)$object->getId();
-        $setId = (int)$object->getAttributeSetId();
-        $groupId = (int)$object->getAttributeGroupId();
+    public function saveInSetIncluding(
+        AbstractModel $object,
+        $attributeEntityId = null,
+        $attributeSetId = null,
+        $attributeGroupId = null
+    ) {
+        $attributeId = !$attributeEntityId ? (int)$object->getId() : (int)$attributeEntityId;
+        $setId = !$attributeSetId ? (int)$object->getAttributeSetId() : (int)$attributeSetId;
+        $groupId = !$attributeGroupId ? (int)$object->getAttributeGroupId() : (int)$attributeGroupId;
 
         if ($setId && $groupId && $object->getEntityTypeId()) {
             $adapter = $this->_getWriteAdapter();

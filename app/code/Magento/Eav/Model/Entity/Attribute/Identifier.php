@@ -8,7 +8,7 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
-class Identifier extends \Magento\Framework\Object implements \Magento\Eav\Api\Data\AttributeIdentifierInterface
+class Identifier extends \Magento\Framework\Object
 {
     /**
      * @var string

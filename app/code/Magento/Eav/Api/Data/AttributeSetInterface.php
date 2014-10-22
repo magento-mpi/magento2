@@ -30,4 +30,11 @@ interface AttributeSetInterface
      * @return int
      */
     public function getSortOrder();
+
+    /**
+     * Get attribute set entity type id
+     *
+     * @return int
+     */
+    public function getEntityTypeId();
 }

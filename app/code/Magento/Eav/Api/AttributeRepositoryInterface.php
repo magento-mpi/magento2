@@ -8,48 +8,41 @@
  */
 namespace Magento\Eav\Api;
 
-interface AttributeRepositoryInterface 
+interface AttributeRepositoryInterface
 {
     /**
      * Retrieve all attributes for entity type
      *
      * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
-     * @param array $arguments
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAllAttributeMetadata
      */
-    public function getList(
-        \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria,
-        array $arguments = []
-    );
+    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Retrieve specific attribute
      *
-     * @param \Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier
-     * @param array $arguments
+     * @param \Magento\Eav\Model\Entity\Attribute\Identifier $identifier
      * @return \Magento\Eav\Api\Data\AttributeInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
-    public function get(\Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier, array $arguments = []);
+    public function get(\Magento\Eav\Model\Entity\Attribute\Identifier $identifier);
 
     /**
      * Create attribute data
      *
-     * @param \Magento\Eav\Api\Data\AttributeInterface $attributeMetadata
-     * @param array $arguments
+     * @param \Magento\Eav\Api\Data\AttributeInterface $attribute
      * @return string
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute, array $arguments = []);
+    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute);
 
     /**
      * Delete Attribute
      *
      * @param Data\AttributeInterface $attribute
-     * @param array $arguments
      * @return bool True if the entity was deleted (always true)
      */
-    public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute, array $arguments = []);
+    public function delete(Data\AttributeInterface $attribute);
 }

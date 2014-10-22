@@ -11,7 +11,6 @@
     <preference for="Magento\Eav\Model\Entity\Setup\PropertyMapperInterface" type="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite" />
     <preference for="Magento\Eav\Api\Data\AttributeInterface" type="Magento\Eav\Model\Entity\Attribute" />
     <preference for="Magento\Eav\Api\AttributeRepositoryInterface" type="Magento\Eav\Model\AttributeRepository" />
-    <preference for="Magento\Eav\Api\Data\AttributeIdentifierInterface" type="Magento\Eav\Model\Entity\Attribute\Identifier" />
     <preference for="Magento\Eav\Api\Data\AttributeGroupInterface" type="Magento\Eav\Model\Entity\Attribute\Group" />
     <preference for="Magento\Eav\Api\AttributeGroupRepositoryInterface" type="Magento\Eav\Model\Attribute\GroupRepository" />
     <preference for="Magento\Eav\Api\AttributeSetRepositoryInterface" type="Magento\Eav\Model\AttributeSetRepository" />

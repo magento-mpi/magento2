@@ -344,6 +344,14 @@ class Set extends \Magento\Framework\Model\AbstractModel implements \Magento\Eav
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getEntityTypeId()
+    {
+        return $this->getData('entity_type_id');
+    }
+
+    /**
      * Set attribute set name.
      *
      * @param string $name

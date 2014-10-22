@@ -32,15 +32,15 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $attributeCollectionFactory;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsBuilder
+     * @var \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder
      */
     protected $searchResultsBuilder;
 
     /**
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute $eavResource
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Framework\Data\Search\SearchResultsBuilder $searchResultsBuilder
+     * @param Config $eavConfig
+     * @param Resource\Entity\Attribute $eavResource
+     * @param Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
@@ -57,19 +57,17 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute, array $arguments = [])
+    public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute)
     {
         $this->eavResource->save($attribute);
-        return true;
+        return $attribute;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getList(
-        \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria,
-        array $arguments = []
-    ) {
+    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
@@ -120,7 +118,6 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
 
         // Group attributes by id to prevent duplicates with different attribute sets
         $attributeCollection->addAttributeGrouping();
-
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
         $attributeCollection->setPageSize($searchCriteria->getPageSize());
 
@@ -137,7 +134,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function get(\Magento\Eav\Api\Data\AttributeIdentifierInterface $identifier, array $arguments = [])
+    public function get(\Magento\Eav\Model\Entity\Attribute\Identifier $identifier)
     {
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         $attribute = $this->eavConfig->getAttribute($identifier->getEntityTypeCode(), $identifier->getAttributeCode());
@@ -151,7 +148,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute, array $arguments = [])
+    public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute)
     {
         $this->eavResource->delete($attribute);
         return true;
@@ -160,7 +157,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param FilterGroupInterface  $filterGroup
+     * @param FilterGroupInterface $filterGroup
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
      * @return void
      * @throws \Magento\Framework\Exception\InputException

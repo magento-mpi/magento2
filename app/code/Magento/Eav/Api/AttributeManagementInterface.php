@@ -11,20 +11,20 @@ namespace Magento\Eav\Api;
 interface AttributeManagementInterface 
 {
     /**
-     * @param $entityType
-     * @param $attributeSetName
-     * @param $attributeGroup
+     * @param $entityTypeCode
+     * @param $attributeSetId
+     * @param $attributeGroupId
      * @param $attributeCode
      * @param $sortOrder
      * @return int
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface::addAttribute
      */
-    public function assign($entityType, $attributeSetName, $attributeGroup, $attributeCode, $sortOrder);
+    public function assign($entityTypeCode, $attributeSetId, $attributeGroupId, $attributeCode, $sortOrder);
 
     /**
      * Remove attribute from attribute set
      *
-     * @param string $attributeSetName
+     * @param string $attributeSetId
      * @param string $attributeCode
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -32,16 +32,16 @@ interface AttributeManagementInterface
      * @return bool
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface::deleteAttribute
      */
-    public function unassign($attributeSetName, $attributeCode);
+    public function unassign($attributeSetId, $attributeCode);
 
     /**
      * Retrieve related attributes based on given attribute set ID
      *
-     * @param string $entityType
-     * @param string $attributeSetName
+     * @param string $entityTypeCode
+     * @param string $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Catalog\Api\Data\AttributeInterface[]
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getAttributeList
      */
-    public function getAttributes($entityType, $attributeSetName);
+    public function getAttributes($entityTypeCode, $attributeSetId);
 }
