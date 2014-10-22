@@ -19,17 +19,17 @@ namespace Magento\Framework\View\Layout\Reader;
 class BlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\View\Layout\ScheduledStructure|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $scheduledStructure;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Context|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\Reader\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $context;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Pool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ReaderPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $readerPool;
 
@@ -89,7 +89,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->context = $this->getMock('Magento\Framework\View\Layout\Reader\Context', [], [], '', false);
-        $this->readerPool = $this->getMock('Magento\Framework\View\Layout\Reader\Pool', [], [], '', false);
+        $this->readerPool = $this->getMock('Magento\Framework\View\Layout\ReaderPool', [], [], '', false);
         $this->parentElement = $this->getElement('<' . \Magento\Framework\View\Layout\Reader\Block::TYPE_BLOCK . '/>');
     }
 
@@ -99,7 +99,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $isSetFlagCount
      * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $scheduleStructureCount
      * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $getScopeCount
-     * @covers Magento\Framework\View\Layout\Reader\Block::process()
+     * @covers Magento\Framework\View\Layout\Reader\Block::interpret()
      * @dataProvider processDataProvider
      */
     public function testProcessBlock(
@@ -138,11 +138,11 @@ class BlockTest extends \PHPUnit_Framework_TestCase
                 'readerPool' => $this->readerPool
             ]
         );
-        $block->process($this->context, $this->currentElement, $this->parentElement);
+        $block->interpret($this->context, $this->currentElement, $this->parentElement);
     }
 
     /**
-     * @covers Magento\Framework\View\Layout\Reader\Block::process()
+     * @covers Magento\Framework\View\Layout\Reader\Block::interpret()
      */
     public function testProcessReference()
     {
@@ -159,7 +159,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\View\Layout\Reader\Block $block */
         $block = $this->getBlock(['readerPool' => $this->readerPool]);
-        $block->process($this->context, $this->currentElement, $this->parentElement);
+        $block->interpret($this->context, $this->currentElement, $this->parentElement);
     }
 
     /**

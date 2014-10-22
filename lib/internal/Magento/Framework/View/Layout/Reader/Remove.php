@@ -18,6 +18,8 @@ class Remove implements Layout\ReaderInterface
     /**#@-*/
 
     /**
+     * {@inheritdoc}
+     *
      * @return string[]
      */
     public function getSupportedNodes()
@@ -33,7 +35,7 @@ class Remove implements Layout\ReaderInterface
      * @param Layout\Element $parentElement
      * @return $this
      */
-    public function process(Context $readerContext, Layout\Element $currentElement, Layout\Element $parentElement)
+    public function interpret(Context $readerContext, Layout\Element $currentElement)
     {
         $scheduledStructure = $readerContext->getScheduledStructure();
         $scheduledStructure->setElementToRemoveList((string)$currentElement->getAttribute('name'));

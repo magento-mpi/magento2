@@ -29,7 +29,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     protected $helperMock;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Pool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ReaderPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $readerPoolMock;
 
@@ -39,7 +39,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->helperMock = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure\Helper')
             ->disableOriginalConstructor()->getMock();
-        $this->readerPoolMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Pool')
+        $this->readerPoolMock = $this->getMockBuilder('Magento\Framework\View\Layout\ReaderPool')
             ->disableOriginalConstructor()->getMock();
 
         $this->container = $this->objectManagerHelper->getObject(
@@ -96,7 +96,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             ->with($contextMock, $elementCurrent)
             ->willReturnSelf();
 
-        $this->container->process($contextMock, $elementCurrent, $elementParent);
+        $this->container->interpret($contextMock, $elementCurrent, $elementParent);
     }
 
     /**

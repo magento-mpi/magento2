@@ -23,7 +23,7 @@ class Page extends View\Result\Page
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
-     * @param View\Layout\Reader\Pool $layoutReaderPool
+     * @param View\Layout\ReaderPool $layoutReaderPool
      * @param Translate\InlineInterface $translateInline
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
@@ -34,7 +34,7 @@ class Page extends View\Result\Page
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
-        View\Layout\Reader\Pool $layoutReaderPool,
+        View\Layout\ReaderPool $layoutReaderPool,
         Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,

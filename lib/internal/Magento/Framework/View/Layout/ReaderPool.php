@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\View\Layout\Reader;
+namespace Magento\Framework\View\Layout;
 
 use Magento\Framework\View\Layout;
 
 /**
  * Class Pool
  */
-class Pool
+class ReaderPool implements ReaderInterface
 {
     /**
      * @var array
@@ -37,10 +37,36 @@ class Pool
      * @param Layout\ReaderFactory $readerFactory
      * @param array $readers
      */
-    public function __construct(Layout\ReaderFactory $readerFactory, array $readers = [])
-    {
+    public function __construct(
+        Layout\ReaderFactory $readerFactory,
+        array $readers = []
+    ) {
         $this->readerFactory = $readerFactory;
         $this->readers = $readers;
+    }
+
+    /**
+     * Add reader to the pool
+     *
+     * @param Layout\ReaderInterface $reader
+     * @return $this
+     */
+    public function addReader(Layout\ReaderInterface $reader)
+    {
+        foreach ($reader->getSupportedNodes() as $nodeName) {
+            $this->nodeReaders[$nodeName] = $reader;
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string[]
+     */
+    public function getSupportedNodes()
+    {
+        return array_keys($this->nodeReaders);
     }
 
     /**
@@ -54,23 +80,20 @@ class Pool
         /** @var $reader Layout\ReaderInterface */
         foreach ($readers as $readerClass) {
             $reader = $this->readerFactory->create($readerClass);
-            foreach ($reader->getSupportedNodes() as $nodeName) {
-                $this->nodeReaders[$nodeName] = $reader;
-            }
+            $this->addReader($reader);
         }
     }
 
     /**
      * Traverse through all nodes
      *
-     * @param Context $readerContext
+     * @param Reader\Context $readerContext
      * @param Layout\Element $element
      * @return $this
      */
-    public function readStructure(Context $readerContext, Layout\Element $element)
+    public function interpret(Reader\Context $readerContext, Layout\Element $element)
     {
         $this->prepareReader($this->readers);
-
         /** @var $node Layout\Element */
         foreach ($element as $node) {
             $nodeName = $node->getName();
@@ -79,7 +102,7 @@ class Pool
             }
             /** @var $reader Layout\ReaderInterface */
             $reader = $this->nodeReaders[$nodeName];
-            $reader->process($readerContext, $node, $element);
+            $reader->interpret($readerContext, $node, $element);
         }
         return $this;
     }

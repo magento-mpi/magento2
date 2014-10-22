@@ -94,8 +94,7 @@ class UiComponentTest extends \PHPUnit_Framework_TestCase
             $this->element->getAttribute('name'),
             ['attributes' => ['group' => '', 'component' => 'listing']]
         );
-
-        $this->model->process($this->context, $this->element, $this->element);
+        $this->model->interpret($this->context, $this->element, $this->element);
     }
 
     public function processDataProvider()

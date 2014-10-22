@@ -44,7 +44,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $readerContext;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Pool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ReaderPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $readerPool;
 
@@ -79,7 +79,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
         $this->pageLayoutFileSource = $this->getMockBuilder('Magento\Framework\View\File\CollectorInterface')
             ->getMock();
-        $this->readerPool = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Pool')
+        $this->readerPool = $this->getMockBuilder('Magento\Framework\View\Layout\ReaderPool')
             ->disableOriginalConstructor()
             ->getMock();
         $this->readerContext = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')

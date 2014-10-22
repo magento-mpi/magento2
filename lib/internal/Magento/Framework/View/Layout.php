@@ -113,7 +113,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $themeResolver;
 
     /**
-     * @var Layout\Reader\Pool
+     * @var Layout\ReaderPool
      */
     protected $reader;
 
@@ -147,7 +147,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Design\Theme\ResolverInterface $themeResolver
      * @param Page\Config\Structure $pageConfigStructure
-     * @param Layout\Reader\Pool $reader
+     * @param Layout\ReaderPool $reader
      * @param Layout\GeneratorPool $generatorPool
      * @param bool $cacheable
      */
@@ -159,7 +159,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         MessageManagerInterface $messageManager,
         Design\Theme\ResolverInterface $themeResolver,
         Page\Config\Structure $pageConfigStructure,
-        Layout\Reader\Pool $reader,
+        Layout\ReaderPool $reader,
         Layout\GeneratorPool $generatorPool,
         $cacheable = true
     ) {
@@ -275,7 +275,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
         \Magento\Framework\Profiler::start('build_structure');
-        $this->reader->readStructure($this->readerContext, $this->getNode());
+        $this->reader->interpret($this->readerContext, $this->getNode());
         \Magento\Framework\Profiler::stop('build_structure');
 
         \Magento\Framework\Profiler::start('generate_elements');

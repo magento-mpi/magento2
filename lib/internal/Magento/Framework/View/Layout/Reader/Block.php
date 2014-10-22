@@ -10,6 +10,9 @@ namespace Magento\Framework\View\Layout\Reader;
 use Magento\Framework\View\Layout;
 use Magento\Framework\App;
 
+/**
+ * Block structure reader
+ */
 class Block implements Layout\ReaderInterface
 {
     /**#@+
@@ -52,7 +55,7 @@ class Block implements Layout\ReaderInterface
     protected $scopeResolver;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Pool
+     * @var \Magento\Framework\View\Layout\ReaderPool
      */
     protected $readerPool;
 
@@ -66,7 +69,7 @@ class Block implements Layout\ReaderInterface
      *
      * @param Layout\ScheduledStructure\Helper $helper
      * @param Layout\Argument\Parser $argumentParser
-     * @param Layout\Reader\Pool $readerPool
+     * @param Layout\ReaderPool $readerPool
      * @param App\Config\ScopeConfigInterface $scopeConfig
      * @param App\ScopeResolverInterface $scopeResolver
      * @param string|null $scopeType
@@ -74,7 +77,7 @@ class Block implements Layout\ReaderInterface
     public function __construct(
         Layout\ScheduledStructure\Helper $helper,
         Layout\Argument\Parser $argumentParser,
-        Layout\Reader\Pool $readerPool,
+        Layout\ReaderPool $readerPool,
         App\Config\ScopeConfigInterface $scopeConfig,
         App\ScopeResolverInterface $scopeResolver,
         $scopeType = null
@@ -88,6 +91,8 @@ class Block implements Layout\ReaderInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @return string[]
      */
     public function getSupportedNodes()
@@ -103,12 +108,12 @@ class Block implements Layout\ReaderInterface
      * @param Layout\Element $parentElement
      * @return $this
      */
-    public function process(Context $readerContext, Layout\Element $currentElement, Layout\Element $parentElement)
+    public function interpret(Context $readerContext, Layout\Element $currentElement)
     {
         $scheduledStructure = $readerContext->getScheduledStructure();
         switch ($currentElement->getName()) {
             case self::TYPE_BLOCK:
-                $this->scheduleBlock($scheduledStructure, $currentElement, $parentElement);
+                $this->scheduleBlock($scheduledStructure, $currentElement);
                 break;
 
             case self::TYPE_REFERENCE_BLOCK:
@@ -118,7 +123,7 @@ class Block implements Layout\ReaderInterface
             default:
                 break;
         }
-        return $this->readerPool->readStructure($readerContext, $currentElement);
+        return $this->readerPool->interpret($readerContext, $currentElement);
     }
 
     /**
@@ -126,15 +131,17 @@ class Block implements Layout\ReaderInterface
      *
      * @param Layout\ScheduledStructure $scheduledStructure
      * @param Layout\Element $currentElement
-     * @param Layout\Element $parentElement
      * @return void
      */
     protected function scheduleBlock(
         Layout\ScheduledStructure $scheduledStructure,
-        Layout\Element $currentElement,
-        Layout\Element $parentElement
+        Layout\Element $currentElement
     ) {
-        $elementName = $this->helper->scheduleStructure($scheduledStructure, $currentElement, $parentElement);
+        $elementName = $this->helper->scheduleStructure(
+            $scheduledStructure,
+            $currentElement,
+            $currentElement->getParent()
+        );
         $data = $scheduledStructure->getStructureElementData($elementName, []);
         $data['attributes'] = $this->getAttributes($currentElement);
         $this->updateScheduledData($currentElement, $data);
@@ -218,7 +225,7 @@ class Block implements Layout\ReaderInterface
                 continue;
             }
             $methodName = $actionElement->getAttribute('method');
-            $actionArguments = $this->_parseArguments($actionElement);
+            $actionArguments = $this->parseArguments($actionElement);
             $actions[] = [$methodName, $actionArguments];
         }
         return $actions;
@@ -233,9 +240,9 @@ class Block implements Layout\ReaderInterface
     protected function getArguments(Layout\Element $blockElement)
     {
         $arguments = $this->getElementsByType($blockElement, self::TYPE_ARGUMENTS);
-        // We have only one declaration of <arguments> node in block or it's reference
+        // We have only one declaration of <arguments> node in block or its reference
         $argumentElement = reset($arguments);
-        return $argumentElement ? $this->_parseArguments($argumentElement) : [];
+        return $argumentElement ? $this->parseArguments($argumentElement) : [];
     }
 
     /**
@@ -263,7 +270,7 @@ class Block implements Layout\ReaderInterface
      * @param Layout\Element $node
      * @return array
      */
-    protected function _parseArguments(Layout\Element $node)
+    protected function parseArguments(Layout\Element $node)
     {
         $nodeDom = dom_import_simplexml($node);
         $result = [];

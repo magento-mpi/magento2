@@ -30,7 +30,7 @@ class Layout extends AbstractResult
     protected $layoutBuilderFactory;
 
     /**
-     * @var \Magento\Framework\View\Layout\Reader\Pool
+     * @var \Magento\Framework\View\Layout\ReaderPool
      */
     protected $layoutReaderPool;
 
@@ -59,7 +59,7 @@ class Layout extends AbstractResult
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
-     * @param View\Layout\Reader\Pool $layoutReaderPool
+     * @param View\Layout\ReaderPool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param bool $isIsolated
@@ -67,7 +67,7 @@ class Layout extends AbstractResult
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
-        View\Layout\Reader\Pool $layoutReaderPool,
+        View\Layout\ReaderPool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
         $isIsolated = false
@@ -103,14 +103,6 @@ class Layout extends AbstractResult
     public function getLayout()
     {
         return $this->layout;
-    }
-
-    /**
-     * @return $this
-     */
-    public function initLayout()
-    {
-        return $this;
     }
 
     /**

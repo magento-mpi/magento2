@@ -15,7 +15,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Framework\View\Layout\Reader\Pool */
+    /** @var \Magento\Framework\View\Layout\ReaderPool */
     protected $pool;
 
     /** @var \Magento\Framework\View\Layout\ReaderFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -28,7 +28,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $this->pool = $this->objectManagerHelper->getObject(
-            'Magento\Framework\View\Layout\Reader\Pool',
+            'Magento\Framework\View\Layout\ReaderPool',
             [
                 'readerFactory' => $this->readerFactoryMock,
                 'readers' => [
