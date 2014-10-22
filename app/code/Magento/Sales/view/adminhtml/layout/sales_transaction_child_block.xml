@@ -39,7 +39,6 @@
                         <argument name="sortable" xsi:type="boolean">false</argument>
                     </arguments>
                 </referenceBlock>
-                <remove name="parent_txn_id"/>
                 <referenceBlock name="method">
                     <arguments>
                         <argument name="sortable" xsi:type="boolean">false</argument>
@@ -62,5 +61,6 @@
                 </referenceBlock>
             </referenceBlock>
         </referenceBlock>
+        <remove name="parent_txn_id"/>
     </body>
 </page>

@@ -11,7 +11,7 @@
     <body>
         <referenceBlock name="product.composite.fieldset">
             <block class="Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped" name="product.composite.fieldset.grouped" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/grouped.phtml"/>
-            <remove name="product.composite.fieldset.qty"/>
         </referenceBlock>
+        <remove name="product.composite.fieldset.qty"/>
     </body>
 </page>

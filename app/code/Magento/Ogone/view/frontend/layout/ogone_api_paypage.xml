@@ -10,17 +10,13 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <body>
         <remove name="catalog.topnav"/>
-        <referenceContainer name="header-wrapper">
-            <remove name="top.links"/>
-            <remove name="top.search"/>
-            <remove name="store_language"/>
-            <remove name="top.container"/>
-        </referenceContainer>
-        <referenceBlock name="footer">
-            <remove name="cms_footer_links"/>
-            <remove name="footer_links"/>
-            <remove name="store_switcher"/>
-        </referenceBlock>
+        <remove name="top.links"/>
+        <remove name="top.search"/>
+        <remove name="store_language"/>
+        <remove name="top.container"/>
+        <remove name="cms_footer_links"/>
+        <remove name="footer_links"/>
+        <remove name="store_switcher"/>
         <referenceContainer name="content">
             <block class="Magento\Ogone\Block\Paypage" name="ogone_paypage" template="paypage.phtml"/>
         </referenceContainer>
