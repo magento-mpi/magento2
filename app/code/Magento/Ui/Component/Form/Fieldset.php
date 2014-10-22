@@ -14,6 +14,7 @@ use Magento\Ui\Component\AbstractView;
  */
 class Fieldset extends AbstractView
 {
+    const UI_ELEMENT_FIELDSET = 'fieldset';
     /**
      * Legend text
      *

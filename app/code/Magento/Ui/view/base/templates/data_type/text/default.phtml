@@ -10,5 +10,5 @@
  */
 ?>
 <span>
-    <?php echo $this->getDataObjectValue(); ?>
+    <?php echo $this->renderElement($this->getData('field_config/formElement'), $this->getData('field_config')); ?>
 </span>

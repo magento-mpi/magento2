@@ -9,9 +9,6 @@
  * @var \Magento\Ui\Component\Form\Element\Input $this
  */
 ?>
-<span>
-    <?php echo $this->getData('label'); ?>
-</span>
 <div class="fields group group-2">
     <div class="field field-range-from">
         <label class="label"><span data-bind-="text: $t('From')">From</span></label>
@@ -30,3 +27,11 @@
         </div>
     </div>
 </div>
+<?php if ($this->getData('description')): ?>
+    <label class="label" data-bind="checked: value, attr: { for: uid }">
+        <span data-bind="text: description"><?php echo $this->getData('description') ?></span>
+    </label>
+<?php endif; ?>
+<?php if ($this->getData('notice')): ?>
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"><?php echo $this->getData('notice') ?></span></div>
+<?php endif; ?>

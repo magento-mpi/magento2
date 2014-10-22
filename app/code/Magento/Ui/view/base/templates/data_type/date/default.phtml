@@ -9,4 +9,18 @@
  * @var \Magento\Ui\Component\Form\Element\DataType\Date $this
  */
 ?>
-<?php echo $this->getData('label'); ?><input name="<?php echo $this->getData('index'); ?>" type="date" value="<?php echo $this->getValue(); ?>"/>
+<span>
+    <?php $config = $this->getData('field_config');?>
+    <?php $config['data-bind'] = "
+                hasFocus: focused,
+                datepicker: { storage: value, options: options },
+                attr: {
+                    value: value,
+                    placeholder: placeholder,
+                    'aria-describedby': noticeid,
+                    id: uid,
+                    disabled: disabled
+                }"?>
+    <?php ?>
+    <?php echo $this->renderElement($this->getData('field_config/formElement'), $config); ?>
+</span>

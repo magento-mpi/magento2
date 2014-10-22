@@ -9,9 +9,6 @@
  * @var \Magento\Ui\Component\Form\Element\Select $this
  */
 ?>
-<span>
-    <?php echo $this->getData('label'); ?>
-</span>
 <select name="<?php echo $this->getData('index'); ?>">
     <?php foreach ($this->getData('options') as $option): ?>
         <?php if (is_array($option['value'])): ?>
@@ -38,3 +35,11 @@
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
+<?php if ($this->getData('description')): ?>
+    <label class="label" data-bind="checked: value, attr: { for: uid }">
+        <span data-bind="text: description"><?php echo $this->getData('description') ?></span>
+    </label>
+<?php endif; ?>
+<?php if ($this->getData('notice')): ?>
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"><?php echo $this->getData('notice') ?></span></div>
+<?php endif; ?>

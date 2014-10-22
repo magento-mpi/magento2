@@ -79,7 +79,6 @@ class Metadata implements \Iterator, \ArrayAccess
     protected function initAttributes()
     {
         if (empty($this->attributes)) {
-
             foreach ($this->config as $field) {
                 if (isset($field['source']) && $field['source'] == 'eav') {
                     $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
@@ -113,22 +112,24 @@ class Metadata implements \Iterator, \ArrayAccess
             'name' => $this->key(),
         ];
         $options = [];
-        if (isset($this->config[$this->key()]['source'])
-            && $this->config[$this->key()]['source']== 'option'
-        ) {
-            $rawOptions = $this->manager->getData(
-                $this->config[$this->key()]['reference']['target']
-            );
-            $options[] = [
-                'label' => null,
-                'value' => null
-            ];
-            foreach ($rawOptions as $rawOption) {
+        if (isset($this->config[$this->key()]['source'])) {
+            if ($this->config[$this->key()]['source']== 'option') {
+                $rawOptions = $this->manager->getData(
+                    $this->config[$this->key()]['reference']['target']
+                );
                 $options[] = [
-                    'label' => $rawOption[$this->config[$this->key()]['reference']['neededField']],
-                    'value' => $rawOption[$this->config[$this->key()]['reference']['targetField']]
-
+                    'label' => null,
+                    'value' => null
                 ];
+                foreach ($rawOptions as $rawOption) {
+                    $options[] = [
+                        'label' => $rawOption[$this->config[$this->key()]['reference']['neededField']],
+                        'value' => $rawOption[$this->config[$this->key()]['reference']['targetField']]
+
+                    ];
+                }
+            } else {
+                //
             }
         }
         $attributeCodes = [
@@ -137,7 +138,7 @@ class Metadata implements \Iterator, \ArrayAccess
             'filterType' => ['eav_map' => 'input_filter'],
             'formElement' => ['default' => 'input'],
             'visible' => ['eav_map' => 'is_visible', 'default' => true],
-            'required' => ['eav_map' => 'required', 'default' => false],
+            'required' => ['eav_map' => 'is_required', 'default' => false],
             'label' => ['eav_map' => 'frontend_label'],
             'sortOrder' => ['eav_map' => 'sort_order']
         ];

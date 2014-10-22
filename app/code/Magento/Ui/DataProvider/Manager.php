@@ -91,7 +91,7 @@ class Manager
                     $lookup = $this->getData($field['reference']['target'],
                         [$field['reference']['targetField']=> $row[$field['reference']['referencedField']]]
                     );
-                    $row[$field['name']] = $lookup[0][$field['reference']['neededField']];;
+                    $row[$field['name']] = $lookup[0][$field['reference']['neededField']];
                 } elseif (isset($field['source']) && $field['source'] == 'option') {
                     $row[$field['name']] = $item->getData($field['reference']['referencedField']);
                 } else {

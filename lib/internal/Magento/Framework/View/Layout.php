@@ -113,7 +113,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var \Magento\Framework\Data\Structure
      */
-    protected $_structure;
+    public  $_structure;
 
     /**
      * An increment to generate names

@@ -100,30 +100,31 @@ class Form extends AbstractView
         $this->renderContext->getStorage()->addComponent(
             $this->getData('name'),
             [
-                'path' => 'Magento_Ui/js/form',
-                'source' => $this->getData('name'),
-                'name' => $this->getData('name')
+                'config' => [
+                    'provider' => $this->getData('name')
+                ],
+                'deps' => $this->getData('name')
             ]
         );
-        if ($this->hasData('data_sources')) {
-            $layoutConfiguration = $this->getData('layout');
-            $layoutType = isset($layoutConfiguration['type']) ? $layoutConfiguration['type'] : 'fieldset';
-            $data = [
-                'name' => $this->getData('name'),
-                'dataSources' => $this->getData('data_sources'),
-                'childBlocks' => $this->getLayout()->getChildBlocks($this->getNameInLayout()),
-                'configuration' => $layoutConfiguration['configuration']
-            ];
-            $data['configuration'] = isset($layoutConfiguration['configuration'])
-                ? $layoutConfiguration['configuration']
-                : [];
-            $layout = $this->factory->create(
-                $layoutType,
-                $data
-            );
-            $layout->prepare();
-            $this->elements[] = $layout;
-        }
+        $layoutSettings = (array) $this->getData('layout');
+        $data = [
+            'name' => $this->getData('name'),
+            'label' => $this->getData('label'),
+            'dataSources' => $this->getData('data_sources'),
+            'childBlocks' => $this->getLayout()->getChildBlocks($this->getNameInLayout()),
+            'configuration' => isset($layoutSettings['configuration'])
+                ? $layoutSettings['configuration']
+                : []
+        ];
+        $layoutType = isset($layoutSettings['type'])
+            ? $layoutSettings['type']
+            : \Magento\Ui\Component\Form\Fieldset::UI_ELEMENT_FIELDSET;
+        $layout = $this->factory->create(
+            $layoutType,
+            $data
+        );
+        $layout->prepare();
+        $this->elements[] = $layout;
     }
 
     /**

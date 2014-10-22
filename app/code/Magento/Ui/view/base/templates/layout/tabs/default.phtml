@@ -9,31 +9,27 @@
  * @var \Magento\Ui\Component\Layout\Tabs $this
  */
 ?>
-<?php if(true): ?>
+<?php if (false): ?>
     <div data-bind="scope: 'customer_form_tabs' " class="ui-tabs">
         <!-- ko template: getTemplate() --><!-- /ko -->
     </div>
 <?php else: ?>
-<div id="<?php echo $this->getName(); ?>">
-    <div class="tab-switcher" style="float: left; width: 20%;">
-        <h3>
-            <span>Basic Settings</span>
-        </h3>
-        <ul>
-            <?php foreach ($this->getTabs() as $tab): ?>
-                <li><h4><?php echo $tab['label']; ?></h4></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-    <div class="tabs-content" style="width: 80%; float: right;">
-        <?php foreach ($this->getTabs() as $tab): ?>
-            <div class="fieldset-wrapper <?php echo $tab['index']; ?>">
-                <?php foreach ($tab['elements'] as $element): ?>
-                    <p><?php echo $element->toHtml(); ?></p>
+<div style="width: 80%; float: right;" data-bind="scope: 'areas'" class="entry-edit form-inline">
+    <?php foreach ($this->getTabs() as $tab): ?>
+    <?php if (isset($tab['children'])): ?>
+        <?php foreach ($tab['children'] as $childTabName): ?>
+            <?php $tabElement = $this->getLayoutElement($childTabName);?>
+            <div class="fieldset-wrapper <?php echo $tabElement['name']; ?>">
+            <?php if (isset($tabElement['children'])): ?>
+                <?php foreach ($tabElement['children'] as $fieldSetName): ?>
+                    <?php $fieldSetElement = $this->getLayoutElement($fieldSetName);?>
+                    <?php echo $this->renderElement('fieldset', $fieldSetElement); ?>
                 <?php endforeach; ?>
+            <?php endif;?>
             </div>
         <?php endforeach; ?>
-    </div>
-    <div style="clear: both"></div>
+    <?php endif;?>
+    <?php endforeach; ?>
 </div>
+<div style="clear: both"></div>
 <?php endif; ?>

@@ -5,30 +5,27 @@
             dataset="Magento\Customer\Model\Resource\Customer\Collection"
     >
         <fields entityType="customer">
-            <field name="entity_id" dataType="text" visible="false"/>
-            <field name="entity_type_id" dataType="text" visible="false"/>
-            <field name="email" source="eav" />
-            <field name="attribute_set_id" dataType="number" visible="false"/>
-            <field name="group_id" dataType="number" visible="false"/>
-            <field name="website_id" dataType="number" visible="false"/>
-            <field name="default_billing" source="eav" visible="false"/>
-            <field name="gender" source="eav"/>
-            <field name="firstname" source="eav"/>
-            <field name="lastname" source="eav"/>
-            <field name="customer_group_code" dataType="select" source="option" label="Customer Group">
-                <reference target="customer_group"
-                    referencedField="group_id"
-                    targetField="customer_group_id"
-                    neededField="customer_group_code"
-                />
-            </field>
-            <field name="website_code" dataType="text" source="lookup" label="Website">
+            <field name="website_code" dataType="number" formElement="select" source="option" label="Website">
                 <reference target="website"
-                    referencedField="website_id"
-                    targetField="website_id"
-                    neededField="name"
-                />
+                           referencedField="website_id"
+                           targetField="website_id"
+                           neededField="name"
+                        />
             </field>
+            <field name="prefix" source="eav" dataType="text" />
+            <field name="customer_group_code" dataType="number" formElement="select" source="option" label="Customer Group">
+                <reference target="customer_group"
+                           referencedField="group_id"
+                           targetField="customer_group_id"
+                           neededField="customer_group_code"
+                        />
+            </field>
+            <field name="firstname" source="eav" dataType="text"/>
+            <field name="middlename" source="eav" dataType="text"/>
+            <field name="lastname" source="eav" dataType="text"/>
+            <field name="suffix" source="eav" dataType="text" />
+            <field name="email" source="eav" />
+            <field name="gender" source="eav" dataType="text" />
         </fields>
     </datasource>
 </config>

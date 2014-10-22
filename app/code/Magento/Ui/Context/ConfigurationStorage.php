@@ -88,6 +88,31 @@ class ConfigurationStorage implements ConfigStorageInterface
 
     /**
      * @param string $name
+     * @param mixed $default
+     * @return array
+     */
+    public function getLayoutNode($name, $default = null)
+    {
+        if (strpos($name, '.') !== false) {
+            $nameParts = explode('.', $name);
+            $firstChunk = array_shift($nameParts);
+            $node = isset($this->layoutNodes[$firstChunk]) ? $this->layoutNodes[$firstChunk] : [];
+            foreach ($nameParts as $nodeName) {
+                if (isset($node['children'][$nodeName])) {
+                    $node = $node['children'][$nodeName];
+                } else {
+                    $node = $default;
+                    break;
+                }
+            }
+        } else {
+            $node = isset($this->layoutNodes[$name]) ? $this->layoutNodes[$name] : [];
+        }
+        return $node;
+    }
+
+    /**
+     * @param string $name
      * @param array $data
      * @return mixed
      */

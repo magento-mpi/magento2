@@ -9,9 +9,14 @@
  * @var \Magento\Ui\Component\Form\Element\Checkbox $this
  */
 ?>
-<span>
-    <?php echo $this->getData('label'); ?>
-</span>
-<select>
-    <?php echo $this->getValue(); ?>
-</select>
+<div class="form__field choice">
+    <input type="checkbox" value="<?php echo $this->getValue(); ?>" checked="<?php echo (bool)$this->getValue(); ?>" class="control-checkbox" data-bind="checked: value, attr: { id: uid, disabled: disabled }, hasFocus: focused">
+    <?php if ($this->getData('description')): ?>
+    <label class="label" data-bind="checked: value, attr: { for: uid }">
+        <span data-bind="text: description"><?php echo $this->getData('description') ?></span>
+    </label>
+    <?php endif; ?>
+    <?php if ($this->getData('notice')): ?>
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"><?php echo $this->getData('notice') ?></span></div>
+    <?php endif; ?>
+</div>

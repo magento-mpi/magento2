@@ -11,26 +11,24 @@
 $legendText = $this->getLegendText();
 $attributes = $this->getAttributes();
 ?>
-<fieldset id="<?php echo $this->getData('index'); ?>" data-bind="scope: '<?php echo $this->getData('index'); ?>'" ?>
-    <?php if (!empty($legendText)): ?>
-        <legend data-bind="click: toggle"><?php echo $legendText; ?></legend>
-    <?php endif; ?>
-    <div data-bind="visible: opened" id="fieldset_content" data-role="content">
-        <?php if(!$this->getIsAjax()): ?>
-        <?php foreach ($this->getElements() as $element): ?>
-            <p><?php echo $element->render(); ?></p>
-        <?php endforeach; ?>
+
+<div class="fieldset-wrapper-title" tabindex="3" data-bind="click: onClick, keyboard: { 13: toggle }">
+    <strong class="title">
+        <span data-bind="text: label"><?php echo $this->getData('config/label'); ?></span>
+    </strong>
+</div>
+
+<div class="fieldset-wrapper-content">
+    <fieldset id="<?php echo $this->getData('index'); ?>" class="fieldset">
+        <?php if (!empty($legendText)): ?>
+            <legend class="label"><span data-bind="text: label"><?php echo $legendText; ?></span></legend><br />
         <?php endif; ?>
-    </div>
-</fieldset>
-<?php if ($this->getIsCollapsible()): ?>
-    <script data-mage-init='{ "Magento_Ui/js/collapsible": "" }' type="application/json">
-{
-        "name": "<?php echo $this->getData('index'); ?>"
-        <?php if($this->getIsAjax()): ?>,
-        "source": "<?php echo $this->getAjaxUrl(); ?>",
-        "opened": false
-        <?php endif;?>
-}
-</script>
-<?php endif; ?>
+        <?php if(!$this->getIsAjax()): ?>
+            <?php foreach ($this->getChildren() as $childName): ?>
+                <?php $childElement = $this->getLayoutElement($childName);?>
+                <p><?php echo $this->renderElement('group', $childElement); ?></p>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </fieldset>
+</div>
+

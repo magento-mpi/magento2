@@ -62,6 +62,11 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
         </arguments>
     </block>
+    <block class="Magento\Ui\Component\Form\Element\Multiline" name="multiline">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/multiline/default.phtml</argument>
+        </arguments>
+    </block>
     <block class="Magento\Ui\Component\Form\Element\Select" name="select">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/select/default.phtml</argument>
@@ -88,6 +93,21 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/text/default.phtml</argument>
         </arguments>
     </block>
+    <block class="Magento\Ui\Component\Form\Element\DataType\Number" name="number">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/number/default.phtml</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Form\Element\DataType\Email" name="email">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/email/default.phtml</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Form\Element\DataType\Price" name="price">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/price/default.phtml</argument>
+        </arguments>
+    </block>
 
     <block class="Magento\Ui\Component\Filter\Type\Select" name="filter_select">
         <arguments>
@@ -110,17 +130,6 @@
         </arguments>
     </block>
 
-    <block class="Magento\Ui\Component\Container\Content" name="content">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
-        </arguments>
-    </block>
-    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
-        </arguments>
-        <container label="Static Content" name="other_tabs"/>
-    </block>
     <block class="Magento\Ui\Component\Form" name="form">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form/default.phtml</argument>
@@ -129,12 +138,44 @@
             <argument name="layout" xsi:type="array">
                 <item name="type" xsi:type="string">fieldset</item>
             </argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="path" xsi:type="string">Magento_Ui/js/form</item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Fieldset" name="fieldset">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form/fieldset/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="path" xsi:type="string">Magento_Ui/js/form/components/group</item>
+            </argument>
         </arguments>
     </block>
-
+    <block class="Magento\Ui\Component\Container\Content" name="content">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="path" xsi:type="string">Magento_Ui/js/form/components/collapsible</item>
+            </argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Layout\Tabs" name="tabs">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="path" xsi:type="string">Magento_Ui/js/form/components/tab/group</item>
+            </argument>
+        </arguments>
+        <container label="Static Content" name="other_tabs"/>
+    </block>
+    <block class="Magento\Ui\Component\Layout\Group" name="group">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/group/default.phtml</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Layout\Tabs\Nav" name="nav">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/nav/default.phtml</argument>
+        </arguments>
+    </block>
 </layout>

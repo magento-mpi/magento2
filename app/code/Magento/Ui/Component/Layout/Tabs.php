@@ -7,9 +7,17 @@
  */
 namespace Magento\Ui\Component\Layout;
 
+use Magento\Framework\View\Element\UiElementFactory;
 use Magento\Ui\Component\AbstractView;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\DataProvider\Metadata;
+use Magento\Ui\DataProvider\Manager;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
 
 /**
  * Class Tabs
@@ -38,106 +46,157 @@ class Tabs extends AbstractView
     protected $tabs = [];
 
     /**
-     * Prepare component data
-     *
-     * @return void
+     * @var UiElementFactory
      */
-//    public function prepare()
-//    {
-//        parent::prepare();
-//        $configData = $this->getDefaultConfiguration();
-//        if ($this->hasData('config')) {
-//            $configData = array_merge($configData, $this->getData('config'));
-//        }
-//
-//        $this->prepareConfiguration($configData);
-//
-//        $this->createDataProviders();
-//    }
+    protected $factory;
+
+    /**
+     * Constructor
+     *
+     * @param TemplateContext $context
+     * @param Context $renderContext
+     * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
+     * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
+     * @param UiElementFactory $factory
+     * @param array $data
+     */
+    public function __construct(
+        TemplateContext $context,
+        Context $renderContext,
+        ContentTypeFactory $contentTypeFactory,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
+        DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
+        UiElementFactory $factory,
+        array $data = []
+    ) {
+        $this->factory = $factory;
+        parent::__construct(
+            $context,
+            $renderContext,
+            $contentTypeFactory,
+            $configFactory,
+            $configBuilder,
+            $dataProviderFactory,
+            $dataProviderManager,
+            $data
+        );
+    }
 
     public function prepare()
     {
         $this->registerComponents();
+        $ns = $this->getData('name');
+        $tabs = [
+            'type' => 'base',
+            'children' => [
+                $ns => [
+                    'config' => [
+                        'label' => $this->getData('label')
+                    ]
+                ]
+            ]
+        ];
+        $areas = [
+            'type' => 'group',
+            'children' => [
+                $ns => []
+            ]
+        ];
+        $fields = [
+            'childType' => 'group',
+            'children' => [
+                $ns => []
+            ]
+        ];
+        $fieldSets = [
+            'childType' => 'fieldset',
+            'children' => [
+                $ns => []
+            ]
+        ];
+        //Add child blocks content
+        foreach ($this->getData('childBlocks') as $childBlock) {
+            if (!($childBlock instanceof \Magento\Backend\Block\Widget\Tab\TabInterface)) {
+                throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
+            }
+            $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childBlock->getNameInLayout();
+            $areas['children'][$ns]['children'][$childBlock->getNameInLayout()] = [
+                'name' => $childBlock->getNameInLayout(),
+                'label' => $childBlock->getTabTitle(),
+                'ajax' => $this->getUrl(
+                    'mui/form/fieldset',
+                    [
+                        'component' => 'form',
+                        'name' => $this->getData('name'),
+                        'container' => $childBlock->getNameInLayout()
+                    ]
+                )
+            ];
+        }
+
+        $id = $this->renderContext->getRequestParam('id');
         foreach ($this->getData('dataSources') as $name => $dataSource) {
-            $layoutGroups = [];
-            $layoutFieldsets = [];
-            $layoutAreas = [];
-            $layoutTabs = ['default' => ['label' => 'Tab Group']];
-
-            $id = $this->renderContext->getRequestParam('id');
-            $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
+            $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $dataSource;
             $meta = $this->dataManager->getMetadata($dataSource);
-            $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
-
-
-            $preparedMeta = [];
+            $fieldSets['children'][$ns]['children'][$dataSource] = [
+                'config' => [
+                    'label' => $dataSource,
+                    'collapsible' => true
+                ]
+            ];
             foreach ($meta as $key => $value) {
                 if ($key != Metadata::CHILD_DATA_SOURCES) {
-                    $preparedMeta[$dataSource][$key] = $value;
-                    $layoutGroups[$key]['injections'][] = $dataSource . '.' . $key;
-                    $layoutFieldsets[$dataSource]['injections'][] = $this->getData('name') . '_groups.' . $key;
+                    $fieldSets['children'][$ns]['children'][$dataSource]['children'][] = 'fields.' . $ns . '.' . $dataSource . '.' . $key;
+                    $fields['children'][$ns]['children'][$dataSource]['children'][$key] = $value;
+                    $fields['children'][$ns]['children'][$dataSource]['children'][$key]['children'] = [$value];
                 }
-            }
-            $layoutFieldsets[$dataSource]['label'] = $dataSource;
-            $layoutAreas[$dataSource]['injections'][] = $this->getData('name') . '_fieldsets.' . $dataSource;
-            $layoutTabs['default']['items'][$dataSource] = ['name' => $dataSource, 'label' => $dataSource, 'active' => true];
-            foreach ($children as $childName) {
-                $childMeta = $this->dataManager->getMetadata($childName);
-                foreach ($childMeta as $key => $value) {
-                    $preparedMeta[$childName][$key] = $value;
-                    $layoutGroups[$key]['injections'][] = $childName . '.' . $key;
-                    $layoutFieldsets[$childName]['injections'][] = $this->getData('name') . '_groups.' . $key;
-                }
-                $layoutFieldsets[$childName]['label'] = $childName;
-                $layoutAreas[$childName]['injections'][] = $this->getData('name') . '_fieldsets.' . $childName;
-                $layoutTabs['default']['items'][$childName] = ['name' => $childName, 'label' => $childName];
             }
 
-            //Add child blocks content
-            foreach ($this->getData('childBlocks') as $childBlock) {
-                if (!($childBlock instanceof \Magento\Backend\Block\Widget\Tab\TabInterface)) {
-                    throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
+            $areas['children'][$ns]['children'][$dataSource] = [
+                'name' => $dataSource,
+                'config' => [
+                    'active' => true,
+                    'label' => $dataSource
+                ],
+                'children' => ['fieldSets.' . $ns . '.' . $dataSource]
+            ];
+
+            $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
+            foreach ($children as $childName) {
+                $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childName;
+                $childMeta = $this->dataManager->getMetadata($childName);
+                $fieldSets['children'][$ns]['children'][$childName] = [
+                    'config' => [
+                        'label' => $childName,
+                        'collapsible' => true
+                    ]
+                ];
+                foreach ($childMeta as $key => $value) {
+                    $fieldSets['children'][$ns]['children'][$childName]['children'][] = 'fields.' . $ns . '.' . $childName . '.' . $key;
+                    $fields['children'][$ns]['children'][$childName]['children'][$key] = $value;
+                    $fields['children'][$ns]['children'][$childName]['children'][$key]['children'] = [$value];
                 }
-                $layoutTabs['default']['items'][$childBlock->getNameInLayout()] = [
-                    'name' => $childBlock->getNameInLayout(),
-                    'label' => $childBlock->getTabTitle(),
-                    'ajax' => $this->getUrl(
-                        'mui/form/fieldset',
-                        [
-                            'component' => 'form',
-                            'name' => $this->getData('name'),
-                            'container' => $childBlock->getNameInLayout()
-                        ]
-                    )
+                $areas['children'][$ns]['children'][$childName] = [
+                    'name' => $childName,
+                    'label' => $childName,
+                    'active' => true,
+                    'children' => ['fieldSets.' . $ns . '.' . $childName]
                 ];
             }
 
-            $layoutTabs['default']['items']['test_tab_with_content'] = [
-                'name' => 'test_tab',
-                'label' => 'Test tab with content',
-                'content' => 'Hello World!',
-                'id' => $id
-            ];
-
-            $this->renderContext->getStorage()->addLayoutNode(
-                $this->getData('name') . '_groups',
-                $layoutGroups
-            );
-            $this->renderContext->getStorage()->addLayoutNode(
-                $this->getData('name') . '_fieldsets',
-                $layoutFieldsets
-            );
-            $this->renderContext->getStorage()->addLayoutNode(
-                $this->getData('name') . '_tabs',
-                $layoutTabs
-            );
-            $this->renderContext->getStorage()->addLayoutNode(
-                $this->getData('name') . '_areas',
-                $layoutAreas
-            );
+            $this->renderContext->getStorage()->addLayoutNode('tabs', $tabs);
+            $this->renderContext->getStorage()->addLayoutNode('areas', $areas);
+            $this->renderContext->getStorage()->addLayoutNode('fieldSets', $fieldSets);
+            $this->renderContext->getStorage()->addLayoutNode('fields', $fields);
 
             $preparedData = [];
-            foreach ($data[0] as $key => $value) {
+            $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
+            foreach ($data as $key => $value) {
                 if (is_array($value)) {
                     $preparedData[$key] = $value;
                 } else {
@@ -145,32 +204,26 @@ class Tabs extends AbstractView
                 }
             }
             $this->renderContext->getStorage()->addData($this->getData('name'), $preparedData);
-            $this->renderContext->getStorage()->addMeta($this->getData('name'), $preparedMeta);
+        }
+
+        if ($this->getData('configuration/tabs_container_name')) {
+            $navBlock = $this->factory->create('nav', $tabs);
+            $this->getRenderContext()->getPageLayout()
+                ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
         }
     }
 
     public function registerComponents()
     {
-        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_tabs', [
-                'name' => $this->getData('name') . '_tabs',
-                'path' => 'Magento_Ui/js/form/components/tab/group',
-                'source' => $this->getData('name')
-            ]);
-        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_fieldsets', [
-                'name' => $this->getData('name') . '_fieldsets',
-                'path' => 'Magento_Ui/js/form/components/fieldset',
-                'source' => $this->getData('name')
-            ]);
-        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_areas', [
-                'name' => $this->getData('name') . '_areas',
-                'path' => 'Magento_Ui/js/form/components/area',
-                'source' => $this->getData('name')
-            ]);
-        $this->renderContext->getStorage()->addComponent($this->getData('name') . '_groups', [
-                'name' => $this->getData('name') . '_groups',
-                'path' => 'Magento_Ui/js/form/components/group',
-                'source' => $this->getData('name')
-            ]);
+        foreach ($this->getLayout()->getAllBlocks() as $block) {
+            if ($block instanceof \Magento\Framework\View\Element\UiComponentInterface) {
+                $config = (array)$block->getData('js_config');
+                if (!isset($config['extends'])) {
+                    $config['extends'] = $this->getData('name');
+                }
+                $this->renderContext->getStorage()->addComponent($block->getNameInLayout(), $config);
+            }
+        };
     }
 
     /**
@@ -199,10 +252,8 @@ class Tabs extends AbstractView
      */
     public function getTabs()
     {
-        if(!$this->tabs) {
-            $this->setTabs($this->getConfiguredTabs());
-        }
-        return $this->tabs;
+        $tabs = $this->renderContext->getStorage()->getLayoutNode('tabs');
+        return isset($tabs['children']) ? $tabs['children'] : [];
     }
 
     /**

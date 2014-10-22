@@ -55,6 +55,8 @@ class UiElementFactory
         if (!$block) {
             throw new \Exception('Can not find block of element ' . $elementName);
         }
-        return $this->objectManager->create(get_class($block), ['data' => $data + $block->getData()]);
+        $newBlock = clone $block;
+        $newBlock->addData($data);
+        return $newBlock;
     }
 }

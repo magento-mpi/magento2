@@ -9,7 +9,7 @@
  * @var \Magento\Ui\Component\Form $this
  */
 ?>
-<?php if (true): ?>
+<?php if (false): ?>
 <script data-mage-init='{ "Magento_Ui/js/initializer/main": "" }' type="application/json">
     <?php echo $this->getRenderContext()->getConfigBuilder()->toJsonNew($this->getRenderContext()->getStorage()); ?>
 </script>
@@ -34,7 +34,7 @@
 <?php else:?>
 <div class="form">
     <form id="demo_form" class="default-form" action="<?php echo $this->getSaveAction(); ?>" method="post">
-        <?php foreach ($this->getElements() as $element): ?>
+        <?php foreach ($this->getElements() as $element):?>
             <?php echo $element->render(); ?>
         <?php endforeach; ?>
         <input type="hidden" name="component" value="form"/>
@@ -67,5 +67,5 @@
         jQuery.ajax(ajaxSettings);
     });
 })(jQuery);
-<\script>
+</script>
 <?php endif; ?>
