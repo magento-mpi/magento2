@@ -53,10 +53,20 @@ interface GroupRepositoryInterface
      * Delete customer group.
      *
      * @param \Magento\Customer\Api\Data\GroupInterface $group
-     * @return bool True if the group was successfully deleted
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If the specified customer group does not exist.
-     * @throws \Magento\Framework\Exception\StateException Thrown if customer group cannot be deleted
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\StateException If customer group cannot be deleted
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete(\Magento\Customer\Api\Data\GroupInterface $group);
+
+    /**
+     * Delete customer group by ID.
+     *
+     * @param int $groupId
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException If customer group cannot be deleted
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteById($groupId);
 }

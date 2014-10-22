@@ -44,8 +44,18 @@ interface AddressRepositoryInterface
      * Delete customer address.
      *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
-     * @return bool True on success.
+     * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete(\Magento\Customer\Api\Data\AddressInterface $address);
+
+    /**
+     * Delete customer address by ID.
+     *
+     * @param int $addressId
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteById($addressId);
 }

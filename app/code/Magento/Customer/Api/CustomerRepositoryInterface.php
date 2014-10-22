@@ -48,9 +48,18 @@ interface CustomerRepositoryInterface
      * Delete customer.
      *
      * @param \Magento\Customer\Api\Data\CustomerInterface $customer
-     * @return bool True if the customer was deleted
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete(\Magento\Customer\Api\Data\CustomerInterface $customer);
+
+    /**
+     * Delete customer by ID.
+     *
+     * @param int $customerId
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function deleteById($customerId);
 }
