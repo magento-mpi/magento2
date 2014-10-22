@@ -51,7 +51,7 @@ $reportDir = __DIR__ . '/' . $config['report_dir'];
 
 /* Install application */
 if ($installOptions) {
-    $installCmd = sprintf('php -f %s --', escapeshellarg("$baseDir/dev/shell/install.php"));
+    $installCmd = sprintf('php -f %s -- install', escapeshellarg("$baseDir/setup/index.php"));
     foreach ($installOptions as $optionName => $optionValue) {
         $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
     }

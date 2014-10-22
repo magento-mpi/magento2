@@ -12,7 +12,7 @@
 define(
     'SYNOPSIS',
 <<<SYNOPSIS
-php -f install.php -- --build_properties_file "<path_to_file>"
+php -f newinstall.php -- --build_properties_file "<path_to_file>"
 
 SYNOPSIS
 );
@@ -51,7 +51,7 @@ $reportDir = __DIR__ . '/' . $config['report_dir'];
 
 /* Install application */
 if ($installOptions) {
-    $installCmd = sprintf('php -f %s --', escapeshellarg("$baseDir/dev/shell/install.php"));
+    $installCmd = sprintf('php -f %s -- install', escapeshellarg("$baseDir/setup/index.php"));
     foreach ($installOptions as $optionName => $optionValue) {
         $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
     }
@@ -64,6 +64,6 @@ if ($installOptions) {
 
 require_once __DIR__ . '/../../../app/bootstrap.php';
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
-/** @var \Magento\Index\App\Indexer $app */
-$app = $bootstrap->createApplication('Magento\Index\App\Indexer', ['reportDir' => $reportDir]);
+/** @var \Magento\Indexer\App\Indexer $app */
+$app = $bootstrap->createApplication('Magento\Indexer\App\Indexer', ['reportDir' => $reportDir]);
 $bootstrap->run($app);

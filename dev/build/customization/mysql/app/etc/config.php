@@ -5,26 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 return array(
     /**
      * Console installer options
-     * @see \Magento\Install\Model\Installer\Console::installParameters
      */
     'install_options' => array(
-        'license_agreement_accepted' => 'yes',
-        'locale'                     => 'en_US',
+        'language'                   => 'en_US',
         'timezone'                   => 'America/Los_Angeles',
-        'default_currency'           => 'USD',
+        'currency'                   => 'USD',
         'db_host'                    => '{{db_host}}',
         'db_name'                    => '{{db_name}}',
         'db_user'                    => '{{db_user}}',
         'db_pass'                    => '{{db_password}}',
-        'url'                        => '{{url}}',
-        'secure_base_url'            => '{{secure_url}}',
-        'use_secure'                 => 'no',
-        'use_secure_admin'           => 'no',
-        'use_rewrites'               => 'no',
+        'base_url'                   => '{{url}}',
+        'base_url_secure'            => '{{secure_url}}',
+        'backend_frontname'          => 'backend',
+        'use_secure'                 => '0',
+        'use_secure_admin'           => '0',
+        'use_rewrites'               => '0',
         'admin_lastname'             => 'Admin',
         'admin_firstname'            => 'Admin',
         'admin_email'                => 'admin@example.com',
