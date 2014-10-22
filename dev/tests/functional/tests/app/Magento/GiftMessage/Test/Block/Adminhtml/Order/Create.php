@@ -31,6 +31,7 @@ class Create extends \Magento\Sales\Test\Block\Adminhtml\Order\Create
      */
     public function fillGiftMessageForItems(array $products, GiftMessage $giftMessage)
     {
+        // Click on rootElement to solve overlapping inner elements by header menu.
         $this->_rootElement->click();
         /** @var \Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items $items */
         $items = $this->blockFactory->create(

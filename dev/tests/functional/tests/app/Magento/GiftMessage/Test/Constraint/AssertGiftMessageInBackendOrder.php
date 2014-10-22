@@ -58,8 +58,8 @@ class AssertGiftMessageInBackendOrder extends AbstractAssertForm
         $orderIndex->open()->getSalesOrderGrid()->searchAndOpen(['id' => $orderId]);
 
         if ($giftMessage->getAllowGiftMessagesForOrder()) {
-            $expectedData = $giftMessage->getData();
-            $actualData = $orderView->getGiftOptionsBlock()->getData($giftMessage);
+            $expectedData[] = $giftMessage->getData();
+            $actualData[] = $orderView->getGiftOptionsBlock()->getData($giftMessage);
         }
 
         if ($giftMessage->getAllowGiftOptionsForItems()) {
@@ -68,20 +68,9 @@ class AssertGiftMessageInBackendOrder extends AbstractAssertForm
                 $actualData[] = $orderView->getGiftItemsBlock()->getItemProduct($product)
                     ->getGiftMessageFormData($giftMessage);
             }
-            $this->verifyForm($expectedData, $actualData);
         }
-    }
 
-    /**
-     * Verify form.
-     *
-     * @param array $expected
-     * @param array $actual
-     * @return void
-     */
-    protected function verifyForm($expected, $actual)
-    {
-        $errors = $this->verifyData($expected, $actual);
+        $errors = $this->verifyData($expectedData, $actualData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 

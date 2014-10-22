@@ -44,9 +44,8 @@ class Items implements FixtureInterface
         if (isset($data['dataSets'])) {
             $dataSets = explode(',', $data['dataSets']);
             foreach ($dataSets as $dataSet) {
-                $giftMessageItems[] = $fixtureFactory->createByCode('giftMessage', ['dataSet' => trim($dataSet)]);
+                $this->data[] = $fixtureFactory->createByCode('giftMessage', ['dataSet' => trim($dataSet)]);
             }
-            $this->data = $giftMessageItems;
         } else {
             $this->data = $data;
         }
