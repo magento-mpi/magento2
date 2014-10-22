@@ -50,7 +50,7 @@ interface AttributeGroupRepositoryInterface
     /**
      * Remove attribute group by id
      *
-     * @param $groupId
+     * @param int $groupId
      * @return bool
      */
     public function deleteById($groupId);
