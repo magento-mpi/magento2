@@ -42,7 +42,15 @@ interface AttributeRepositoryInterface
      * Delete Attribute
      *
      * @param Data\AttributeInterface $attribute
-     * @return bool True if the entity was deleted (always true)
+     * @return bool True if the entity was deleted
      */
     public function delete(Data\AttributeInterface $attribute);
+
+    /**
+     * Delete Attribute By Id
+     *
+     * @param $attributeId
+     * @return bool True if the entity was deleted
+     */
+    public function deleteById($attributeId);
 }

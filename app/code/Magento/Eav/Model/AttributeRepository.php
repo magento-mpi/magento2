@@ -37,21 +37,29 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $searchResultsBuilder;
 
     /**
+     * @var Entity\AttributeFactory
+     */
+    protected $attributeFactory;
+
+    /**
      * @param Config $eavConfig
      * @param Resource\Entity\Attribute $eavResource
      * @param Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
+     * @param Entity\AttributeFactory $attributeFactory
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute $eavResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
+        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
     ) {
         $this->eavConfig = $eavConfig;
         $this->eavResource = $eavResource;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
+        $this->attributeFactory = $attributeFactory;
     }
 
     /**
@@ -151,6 +159,23 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute)
     {
         $this->eavResource->delete($attribute);
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteById($attributeId)
+    {
+        /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
+        $attribute = $this->attributeFactory->create();
+        $this->eavResource->load($attribute, $attributeId);
+
+        if (!$attribute->getAttributeId()) {
+            throw new NoSuchEntityException(sprintf('Attribute with id "%s" does not exist.', $attributeId));
+        }
+
+        $this->delete($attribute);
         return true;
     }
 
