@@ -24,7 +24,9 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Abstract Class AbstractMultipleWishlistEntityTest
- * Abstract class for multiple wish list entity tests.
+ * Abstract Class for multiple wish list entity tests.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractMultipleWishlistEntityTest extends Injectable
 {

@@ -5,46 +5,58 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
 
+/** Quote shipping address write service object. */
 class WriteService implements WriteServiceInterface
 {
     /**
+     * Quote repository.
+     *
      * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
 
     /**
+     * Quote address factory.
+     *
      * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $quoteAddressFactory;
 
     /**
+     * Address converter.
+     *
      * @var \Magento\Checkout\Service\V1\Address\Converter
      */
     protected $addressConverter;
 
     /**
+     * Address validator.
+     *
      * @var \Magento\Checkout\Service\V1\Address\Validator
      */
     protected $addressValidator;
 
     /**
+     * Logger.
+     *
      * @var Logger
      */
     protected $logger;
 
     /**
-     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
-     * @param \Magento\Checkout\Service\V1\Address\Converter $addressConverter
-     * @param \Magento\Checkout\Service\V1\Address\Validator $addressValidator
-     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
-     * @param Logger $logger
+     * Constructs a quote shipping address write service object.
+     *
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository Quote repository.
+     * @param \Magento\Checkout\Service\V1\Address\Converter $addressConverter Address converter.
+     * @param \Magento\Checkout\Service\V1\Address\Validator $addressValidator Address validator.
+     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory Quote address factory.
+     * @param Logger $logger Logger.
      */
     public function __construct(
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
@@ -61,7 +73,13 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @param int $cartId The cart ID.
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $addressData The shipping address data.
+     * @return int Address ID.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
+     * @throws \Magento\Framework\Exception\InputException The specified cart ID or address data is not valid.
      */
     public function setAddress($cartId, $addressData)
     {
