@@ -56,7 +56,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category, array $arguments = [])
+    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category)
     {
         try {
             $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
@@ -75,7 +75,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function get($categoryId, array $arguments = [])
+    public function get($categoryId)
     {
         /** @var Category $category */
         $category = $this->categoryFactory->create();
@@ -90,7 +90,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Catalog\Api\Data\CategoryInterface $category, array $arguments = [])
+    public function delete(\Magento\Catalog\Api\Data\CategoryInterface $category)
     {
         try {
             $this->categoryResource->delete($category);
@@ -99,6 +99,15 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
                 ['category_id' => $category->getId()], $e);
         }
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteByIdentifier($categoryId)
+    {
+        $category = $this->get($categoryId);
+        return  $this->delete($category);
     }
 
     /**

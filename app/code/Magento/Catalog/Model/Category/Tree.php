@@ -30,7 +30,7 @@ class Tree
     protected $categoryCollection;
 
     /**
-     * @var \Magento\Catalog\Api\Data\CategoryTreeInterfaceBuilderFactory
+     * @var \Magento\Catalog\Api\Data\CategoryTreeInterfaceBuilder
      */
     protected $treeBuilderFactory;
 
@@ -38,7 +38,7 @@ class Tree
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection
-     * @param \Magento\Catalog\Api\Data\CategoryTreeBuilderFactory $treeBuilderFactory
+     * @param \Magento\Catalog\Api\Data\CategoryTreeInterfaceBuilder $treeBuilderFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,

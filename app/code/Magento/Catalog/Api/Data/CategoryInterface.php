@@ -15,6 +15,7 @@ namespace Magento\Catalog\Api\Data;
  */
 interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
 {
+
     /**
      * Category id
      *

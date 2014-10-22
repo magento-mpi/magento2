@@ -274,7 +274,7 @@
         </resources>
     </route>
     <route url="/V1/categories/:categoryId" method="DELETE">
-        <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="delete" />
+        <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="deleteByIdentifier" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>

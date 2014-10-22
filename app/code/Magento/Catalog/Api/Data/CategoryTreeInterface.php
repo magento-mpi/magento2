@@ -14,6 +14,15 @@ namespace Magento\Catalog\Api\Data;
  */
 interface CategoryTreeInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
 {
+    const ID = 'id';
+    const PARENT_ID = 'parent_id';
+    const NAME = 'name';
+    const ACTIVE = 'active';
+    const POSITION = 'position';
+    const LEVEL = 'level';
+    const CHILDREN = 'children';
+    const PRODUCT_COUNT = 'product_count';
+
     public function getId();
     /**
      * Get parent category ID
