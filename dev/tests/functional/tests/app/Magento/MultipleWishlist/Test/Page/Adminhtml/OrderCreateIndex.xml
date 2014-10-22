@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_create/index">
+    <blocks>
+        <multipleWishlistBlock >
+            <class>Magento\MultipleWishlist\Test\Block\Adminhtml\Sales\Order\Create\Sidebar\Wishlist</class>
+            <locator>#order-sidebar_wishlist</locator>
+            <strategy>css selector</strategy>
+        </multipleWishlistBlock >
+    </blocks>
+</page>

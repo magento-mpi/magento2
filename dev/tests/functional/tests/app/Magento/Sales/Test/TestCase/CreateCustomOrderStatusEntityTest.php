@@ -40,8 +40,11 @@ class CreateCustomOrderStatusEntityTest extends Injectable
     protected $orderStatusNewPage;
 
     /**
+     * Injection data
+     *
      * @param OrderStatusIndex $orderStatusIndexPage
      * @param OrderStatusNew $orderStatusNewPage
+     * @return void
      */
     public function __inject(
         OrderStatusIndex $orderStatusIndexPage,
@@ -52,7 +55,10 @@ class CreateCustomOrderStatusEntityTest extends Injectable
     }
 
     /**
+     * Run Create Order Status test
+     *
      * @param OrderStatus $orderStatus
+     * @return void
      */
     public function testCreateOrderStatus(OrderStatus $orderStatus)
     {

@@ -27,7 +27,7 @@
             <replacefilter token="{{web_access_path}}" value="${env.web_access_path}"/>
         </replace>
     </target>
-    <target name="_performance_tests_magento" depends="_installation_requirements" description="Product performance tests">
+    <target name="_performance_tests_magento" depends="_installation_requirements,_composer_install" description="Product performance tests">
         <exec executable="php" failonerror="true">
             <arg value="${product_root_dir}/dev/tests/performance/run_scenarios.php"/>
         </exec>

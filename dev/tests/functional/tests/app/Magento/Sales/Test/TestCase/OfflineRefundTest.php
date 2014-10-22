@@ -29,7 +29,6 @@ class OfflineRefundTest extends RefundTest
      */
     public function testRefund(OrderCheckout $fixture)
     {
-        $this->markTestIncomplete('MAGETWO-28230');
         // Setup preconditions
         parent::setupPreconditions($fixture);
 
@@ -41,8 +40,6 @@ class OfflineRefundTest extends RefundTest
         $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $tabsWidget = $orderPage->getFormTabsBlock();
-        /** @var \Magento\Sales\Test\Block\Adminhtml\Order\Actions $creditMemoActionsBlock */
-        $creditMemoActionsBlock = Factory::getPageFactory()->getSalesOrderCreditMemoNew()->getActionsBlock();
 
         if ($fixture instanceof AuthorizeNetOrder) {
             // Step 2: Open Invoice
@@ -57,7 +54,7 @@ class OfflineRefundTest extends RefundTest
         }
 
         // Step 3/4: Submit Credit Memo
-        $creditMemoActionsBlock->refundOffline();
+        Factory::getPageFactory()->getSalesOrderCreditmemoNew()->getActionsBlock()->refundOffline();
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();

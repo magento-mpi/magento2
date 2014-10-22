@@ -368,6 +368,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>text</input>
+            <group>search-engine-optimization</group>
         </url_key>
         <url_path>
             <attribute_code>url_path</attribute_code>
@@ -417,7 +418,7 @@
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>
-            <group>product_info_tabs_customer_options</group>
+            <group>customer-options</group>
             <is_required>0</is_required>
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
         </custom_options>

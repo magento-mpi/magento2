@@ -40,7 +40,6 @@ class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedPr
      */
     public function test($products)
     {
-        $this->markTestIncomplete('MAGETWO-26865');
         // Preconditions
         $products = $this->createProducts($products);
         $this->loginCustomer();

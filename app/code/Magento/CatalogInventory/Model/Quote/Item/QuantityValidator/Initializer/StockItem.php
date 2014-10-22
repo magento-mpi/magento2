@@ -57,10 +57,11 @@ class StockItem
         if (!is_null($productTypeCustomOption)) {
             // Check if product related to current item is a part of product that represents product set
             if ($this->typeConfig->isProductSet($productTypeCustomOption->getValue())) {
-                $stockItem->setProductName($quoteItem->getProduct()->getName());
                 $stockItem->setIsChildItem(true);
             }
         }
+
+        $stockItem->setProductName($quoteItem->getProduct()->getName());
 
         $stockItem->setProduct($quoteItem->getProduct());
         $result = $stockItem->checkQuoteItemQty($rowQty, $qtyForCheck, $qty);
