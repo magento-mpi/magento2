@@ -10,14 +10,16 @@ namespace Magento\CheckoutAgreements\Service\V1\Data;
 use \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
 /**
+ * Checkout agreement data object builder.
+ * 
  * @codeCoverageIgnore
  */
 class AgreementBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
-     * Set agreement ID
+     * Sets the agreement ID.
      *
-     * @param int $value
+     * @param int $value The agreement ID.
      * @return $this
      */
     public function setId($value)
@@ -26,9 +28,9 @@ class AgreementBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set agreement name
+     * Sets the agreement name.
      *
-     * @param string $value
+     * @param string $value The agreement name.
      * @return $this
      */
     public function setName($value)
@@ -37,9 +39,9 @@ class AgreementBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set agreement content
+     * Sets the agreement content.
      *
-     * @param string $value
+     * @param string $value The agreement content.
      * @return $this
      */
     public function setContent($value)
@@ -48,9 +50,9 @@ class AgreementBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set agreement content height (optional CSS property)
+     * Sets the agreement content height, which is an optional CSS property.
      *
-     * @param string $value
+     * @param string $value The agreement content height.
      * @return $this
      */
     public function setContentHeight($value)
@@ -59,9 +61,9 @@ class AgreementBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set agreement checkbox text
+     * Sets the agreement checkbox text.
      *
-     * @param string $value
+     * @param string $value The agreement checkbox text.
      * @return $this
      */
     public function setCheckboxText($value)
@@ -70,9 +72,9 @@ class AgreementBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set agreement status
+     * Sets the agreement status.
      *
-     * @param bool $value
+     * @param bool $value The agreement status value. Set to true for active.
      * @return $this
      */
     public function setActive($value)
@@ -81,9 +83,9 @@ class AgreementBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set agreement content type
+     * Sets the agreement content type.
      *
-     * @param bool $value
+     * @param bool $value The agreement content type. Set to true for HTML. Set to false for plain text.
      * @return $this
      */
     public function setHtml($value)
