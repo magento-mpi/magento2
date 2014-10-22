@@ -50,8 +50,9 @@ class AssertInvitationInGridOnFrontend extends AbstractConstraint
         );
         $loginCustomerOnFrontendStep->run();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Invitations');
-        $error = $invitationIndex->getInvitationsBlock()->isInvitationInGrid($invitation->getEmail(), $status);
-        \PHPUnit_Framework_Assert::assertEmpty($error, $error);
+        $expectedData = $invitation->getEmail();
+        $actualData = $invitationIndex->getInvitationsBlock()->getAvailableEmails($expectedData, $status);
+        \PHPUnit_Framework_Assert::assertEquals($expectedData, $actualData);
     }
 
     /**

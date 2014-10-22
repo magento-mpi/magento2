@@ -12,10 +12,10 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Invitation\Test\Page\InvitationIndex;
 
 /**
- * Class AssertInvitationFrontendFailSendDuplicateMessage
+ * Class AssertInvitationFrontendErrorSendDuplicateMessage
  * Assert that error message appears after sent invitation to the same email address
  */
-class AssertInvitationFrontendFailSendDuplicateMessage extends AbstractConstraint
+class AssertInvitationFrontendErrorSendDuplicateMessage  extends AbstractConstraint
 {
     /**
      * Error duplicate message

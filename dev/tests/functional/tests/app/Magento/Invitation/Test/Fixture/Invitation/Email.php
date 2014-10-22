@@ -42,7 +42,7 @@ class Email implements FixtureInterface
         $emails = explode(',', $data);
         $data = [];
         foreach ($emails as $key => $value) {
-            $data[$key + 1] = trim($value);
+            $data['email_' . ($key + 1)] = trim($value);
         }
         $this->data = $data;
     }
@@ -62,6 +62,8 @@ class Email implements FixtureInterface
      *
      * @param string|null $key [optional]
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

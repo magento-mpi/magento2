@@ -16,8 +16,9 @@ use Mtf\Fixture\InjectableFixture;
 class Invitation extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'email' => 'test@test.com',
+        'email' => 'test@example.com',
         'message' => 'test message',
+        'status' => null,
     ];
 
     protected $invitation_id = [

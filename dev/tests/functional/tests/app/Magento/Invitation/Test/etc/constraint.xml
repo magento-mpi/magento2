@@ -17,9 +17,9 @@
     <assertInvitationInGrid module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationInGrid>
-    <assertInvitationFrontendFailSendDuplicateMessage module="Magento_Invitation">
+    <assertInvitationFrontendErrorSendDuplicateMessage module="Magento_Invitation">
         <severeness>low</severeness>
-    </assertInvitationFrontendFailSendDuplicateMessage>
+    </assertInvitationFrontendErrorSendDuplicateMessage>
     <assertInvitationOneEntry module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationOneEntry>

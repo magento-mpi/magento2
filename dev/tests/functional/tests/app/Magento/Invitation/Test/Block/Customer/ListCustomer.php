@@ -42,39 +42,39 @@ class ListCustomer extends Block
     }
 
     /**
-     * Check if invitation emails and status are available on My invitation grid
+     * Get available emails on My invitation grid
      *
      * @param array $emails
      * @param string $status
-     * @return string
+     * @return array
      */
-    public function isInvitationInGrid(array $emails, $status)
+    public function getAvailableEmails(array $emails, $status)
     {
-        $error = '';
-        foreach ($emails as $email) {
-            if (!$this->_rootElement->find(
+        $availableEmails = [];
+        foreach ($emails as $key => $email) {
+            if ($this->_rootElement->find(
                 sprintf($this->invitationRow, $email, $status),
                 Locator::SELECTOR_XPATH
             )->isVisible()
             ) {
-                $error = "Email: " . $email . " with status: " . $status . " is not available in the grid.\n";
+                $availableEmails[$key] = $email;
             }
         }
-        return $error;
+        return $availableEmails;
     }
 
     /**
-     * Get invitation elements from invitations grid on frontend
+     * Get number of invitations from invitations grid on frontend
      *
      * @param string $email
      * @param string $status
-     * @return \Mtf\Client\Element[]
+     * @return int
      */
-    public function getInvitationElements($email, $status)
+    public function countInvitations($email, $status)
     {
-        return $this->_rootElement->find(
+        return count($this->_rootElement->find(
             sprintf($this->invitationRow, $email, $status),
             Locator::SELECTOR_XPATH
-        )->getElements();
+        )->getElements());
     }
 }
