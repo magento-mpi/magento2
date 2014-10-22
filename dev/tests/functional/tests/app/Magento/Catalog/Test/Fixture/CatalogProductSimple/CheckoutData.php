@@ -102,8 +102,8 @@ class CheckoutData implements FixtureInterface
                             'value' => 'Content option %isolation%',
                         ]
                     ],
-                    'qty' => 1
                 ],
+                'qty' => 1,
                 'cartItem' => [
                     'price' => 340,
                     'subtotal' => 340
@@ -152,15 +152,11 @@ class CheckoutData implements FixtureInterface
                 ]
             ],
             'order_default' => [
-                'options' => [
-                    'qty' => 1
-                ],
+                'qty' => 1,
                 'cartItem' => []
             ],
             'two_products' => [
-                'options' => [
-                    'qty' => 2
-                ],
+                'qty' => 2,
                 'cartItem' => [
                     'price' => 100,
                     'subtotal' => 200
@@ -170,8 +166,8 @@ class CheckoutData implements FixtureInterface
                 'qty' => 900
             ],
             'order_custom_price' => [
+                'qty' => 3,
                 'checkout_data' => [
-                    'qty' => 3,
                     'use_custom_price' => "Yes",
                     'custom_price' => 100,
                 ],
