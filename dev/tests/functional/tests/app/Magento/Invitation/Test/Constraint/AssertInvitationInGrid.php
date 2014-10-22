@@ -44,13 +44,13 @@ class AssertInvitationInGrid extends AbstractConstraint
         $invitationsIndex->open();
         $emails = $invitation->getEmail();
         $error = '';
+        $invitationGrid = $invitationsIndex->getInvitationGrid();
         foreach ($emails as $email) {
             $filter = [
                 'email' => $email,
                 'invitee_group' => $customer->getGroupId(),
                 'status' => $status
             ];
-            $invitationGrid = $invitationsIndex->getInvitationGrid();
             if (!$invitationGrid->isRowVisible($filter)) {
                 $error .= "Email: {$email} with status: {$status} is not available in invitation grid.\n";
             }

@@ -18,7 +18,6 @@ class Invitation extends InjectableFixture
     protected $defaultDataSet = [
         'email' => 'test@test.com',
         'message' => 'test message',
-        'status' => null,
     ];
 
     protected $invitation_id = [
