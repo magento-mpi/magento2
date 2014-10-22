@@ -8,29 +8,57 @@
 ?>
 <?php /** @var $this \Magento\Invitation\Block\Form */?>
 <?php echo $this->getChildHtml('form_before')?>
+
 <?php $maxPerSend = $this->getMaxInvitationsPerSend(); ?>
 <?php if ($maxPerSend): ?>
-    <form id="invitationForm" action="" method="post" class="form form-add-invitations" data-mage-init='{"validation": {}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
+    <form id="invitationForm" action="" method="post" class="form form-add-invitations" data-mage-init='{
+        "rowBuilder":{
+            "rowTemplate":"#add-email-friends-tmpl",
+            "rowContainer":"#invitations-options",
+            "rowParentElem":"<div></div>",
+            "remEventSelector":"button",
+            "btnRemoveSelector":".action.remove",
+            "maxRows":"<?php echo $this->getMaxInvitationsPerSend(); ?>",
+            "maxRowsMsg":"#max-emails-message",
+            "addRowBtn":"#add-email-button",
+            "additionalRowClass":"additional"},
+        "validation":{}}'
+        data-hasrequired="<?php echo __('* Required Fields') ?>">
+
         <fieldset class="fieldset">
-            <legend class="legend"><span><?php echo __('Invite your friends by entering their email addresses.'); ?></span></legend>
+            <legend class="legend">
+                <span><?php echo __('Invite your friends by entering their email addresses.'); ?></span>
+            </legend>
             <br>
-                <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
-                <div class="field email<?php if ($_index == 1) echo ' required' ?>">
-                    <label for="email_<?php echo $_index ?>" class="label"><span><?php echo $_index; ?></span></label>
-                    <div class="control">
-                        <input tabindex="<?php echo $_index ?>" name="email[<?php echo $_index ?>]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text" type="email" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
-                    </div>
+
+            <div id="invitations-options"></div>
+
+            <?php if ($this->isInvitationMessageAllowed()): ?>
+                <div id="max-emails-message" style="display: none;" class="message notice limit">
+                    <span><?php echo __('Maximum %1 email addresses allowed.', $this->getMaxInvitationsPerSend()) ?></span>
                 </div>
-                <?php endfor; ?>
+            <?php endif; ?>
+
+            <div class="actions-toolbar">
+                <div class="secondary">
+                    <?php if (1 < $this->getMaxInvitationsPerSend()): ?>
+                        <button type="button" id="add-email-button" class="action add">
+                            <span><?php echo __('Add') ?></span>
+                        </button>
+                    <?php endif; ?>
+                </div>
+            </div>
+
             <?php if ($this->isInvitationMessageAllowed()): ?>
                 <div class="field text">
                     <label for="message" class="label"><span><?php echo __('Message');?></span></label>
                     <div class="control">
-                        <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo __('Message') ?>"  class="input-text message" rows="5" cols="5"></textarea>
+                        <textarea name="message" id="message" title="<?php echo __('Message') ?>"  class="input-text message" rows="5" cols="5"></textarea>
                     </div>
                 </div>
             <?php endif;?>
         </fieldset>
+
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action submit primary" type="submit"><span><?php echo __('Send Invitations') ?></span></button>
@@ -40,28 +68,31 @@
             </div>
         </div>
     </form>
-    <script type="text/javascript">
-require(['jquery', 'mage/mage', 'jquery/validate'], function(jQuery){
 
-        (function($) {
-            /**
-             * All input fields have the same name attribute 'email[]',
-             * by default jQuery validate only validate the first input field.
-             * We overwrite checkForm function to validate all the input fields.
-             * This maybe a use case to have a beforeValidation event?
-             */
-            $.extend($.validator.prototype, {checkForm: function() {
-                this.prepareForm();
-                this.findByName(this.elements()[0].name).each($.proxy(function(i, e) {
-                    this.check(e);
-                }, this));
-                return this.valid();
-            }});
-            $('#invitationForm').mage('validation');
-        })(jQuery);
-    
-});
-</script>
+    <script id="add-email-friends-tmpl" type="text/x-jQuery-tmpl">
+    <fieldset class="fieldset">
+         <div class="field email required">
+            <label for="email_${_index_}" class="label"><span><?php echo __('Email') ?></span></label>
+            <div class="control">
+                <input name="email[${_index_}]" id="email_${_index_}"
+                title="<?php echo __('Email') ?>" value="" class="input-text" type="email"
+                data-validate="{required:true, 'validate-email':true}"
+                {{if _index_ > 0}} placeholder="<?php echo __('Enter Email') ?>" {{/if}}
+                 />
+            </div>
+        </div>
+        <div class="actions-toolbar">
+            <div class="secondary">
+                <button type="button" id="btn-remove${_index_}" class="action remove"
+                   title="<?php echo $this->escapeJsQuote(__('Remove')) ?>">
+                   <span><?php echo $this->escapeJsQuote(__('Remove')) ?></span>
+               </button>
+            </div>
+        </div>
+    </fieldset>
+
+
+    </script>
 <?php else:?>
     <div class="message info empty"><span><?php echo __('You cannot send more invitations'); ?></span></div>
     <div class="actions">

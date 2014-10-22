@@ -8,26 +8,24 @@
 
 .form-add-invitations {
     .fieldset {
-        margin: 0 0 @indent-s-base;
-
+        .legend {
+            &:extend(.abstract-reset-left-margin-desktop all);
+        }
         .fields {
             position: relative;
-            .field {
-                > .label {
-                    &:extend(.abstract-visually-hidden all);
-                }
-            }
             .actions-toolbar {
+                &:extend(.abstract-reset-left-margin-desktop all);
                 position: absolute;
-                left: 72%;
-                top: 0;
+                left: 80%;
+                top: 3px;
             }
         }
 
         > .actions-toolbar {
-            margin: 0 0 @indent-base;
             .secondary {
+                float: none;
                 text-align: left;
+                margin: 0 0 @indent-base;
             }
         }
 
@@ -49,6 +47,17 @@
             padding: 4px;
             width: auto;
         }
+        &.remove {
+            .button-icon(
+                @_icon-font-content: @icon-remove,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 28px
+            );
+            .icon-font-symbol(
+                @_icon-font-content: @icon-trash
+            );
+            .button-reset();
+        }
     }
 }
 
@@ -60,18 +69,16 @@
     .table-wrapper.invitations {
         &:extend(.abstract-account-table-border all);
     }
-    .action {
-        &.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 20px,
-                @_icon-font-color: @color-remove-icon
-            );
-            .icon-font-symbol(
-                @_icon-font-content: @icon-trash
-            );
-            .button-reset();
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .form-add-invitations {
+        .fieldset {
+            .fields {
+                .actions-toolbar {
+                    top: 30px;
+                }
+            }
         }
     }
 }
@@ -79,18 +86,6 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
-    .form-add-invitations {
-        .action {
-            &.remove {
-                .button-reset();
-                .button-as-link();
-                margin-top: 4px;
-            }
-        }
-    }
-}
-
 .responsive(@break) when (@break = @screen-m) {
     .table-invitations {
         .col {
