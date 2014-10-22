@@ -144,6 +144,8 @@ class Installer
     private $messages = array();
 
     /**
+     * Magento filesystem
+     *
      * @var Filesystem
      */
     protected $filesystem;
@@ -204,7 +206,7 @@ class Installer
         $script[] = ['Enabling Maintenance Mode...', 'setMaintenanceMode', [1]];
         $script[] = ['Installing deployment configuration...', 'installDeploymentConfig', [$request]];
         if (!empty($request[self::CLEANUP_DB])) {
-            $script[] = ['Cleaning up database...', 'cleanupDb', [$request]];
+            $script[] = ['Cleaning up database...', 'cleanupDb', []];
         }
         $script[] = ['Installing database schema:', 'installSchema', []];
         $script[] = ['Installing user configuration...', 'installUserConfig', [$request]];
@@ -425,7 +427,7 @@ class Installer
     {
         $this->log->log('Starting Magento uninstallation:');
 
-        $this->recreateDatabase();
+        $this->cleanupDb();
         $this->log->log('File system cleanup:');
         $this->deleteDirContents(DirectoryList::VAR_DIR);
         $this->deleteDirContents(DirectoryList::STATIC_VIEW);
@@ -507,27 +509,6 @@ class Installer
     }
 
     /**
-     * Cleans up database
-     *
-     * @param \ArrayObject|array $config
-     * @return void
-     */
-    public function cleanupDb($config)
-    {
-        $adapter = $this->connectionFactory->create($config);
-        $adapter->connect();
-        if (!$adapter->getDriver()->getConnection()->isConnected()) {
-            $this->log->log('No database connection defined - skipping database cleanup');
-            return;
-        }
-
-        $dbName = $adapter->quoteIdentifier($config[Config::KEY_DB_NAME]);
-        $this->log->log("Recreating database {$dbName}");
-        $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
-        $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
-    }
-
-    /**
      * Return messages
      *
      * @return array
@@ -543,17 +524,28 @@ class Installer
      *
      * @return void
      */
-    private function recreateDatabase()
+    private function cleanupDb()
     {
+        $errorMsg = 'No database connection defined - skipping database cleanup';
+        //stops cleanup if app/etc/local.xml does not exist
         if (!$this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('local.xml')) {
-            $this->log->log("No database connection defined - skipping database cleanup");
+            $this->log->log($errorMsg);
             return;
         }
-
         $config = $this->deploymentConfigFactory->create();
         $config->loadFromFile();
         $configData = $config->getConfigData();
-        $this->cleanupDb($configData);
+        $adapter = $this->connectionFactory->create($configData);
+        $adapter->connect();
+        //stops cleanup if database connection info is wrong
+        if (!$adapter->getDriver()->getConnection()->isConnected()) {
+            $this->log->log($errorMsg);
+            return;
+        }
+        $dbName = $adapter->quoteIdentifier($configData[Config::KEY_DB_NAME]);
+        $this->log->log("Recreating database {$dbName}");
+        $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
+        $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
     }
 
     /**

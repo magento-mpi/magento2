@@ -284,7 +284,7 @@ class ConsoleController extends AbstractActionController
             /** @var \Zend\Console\Request $request */
             $request = $this->getRequest();
             $this->installer->install($request->getParams());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log->logError($e);
         }
     }
@@ -373,7 +373,7 @@ class ConsoleController extends AbstractActionController
     {
         try {
             $this->installer->uninstall();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log->logError($e);
         }
     }
