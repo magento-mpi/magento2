@@ -8,9 +8,12 @@
 namespace Magento\Catalog\Model\Category;
 
 use Magento\Catalog\Api\CategoryAttributeRepositoryInterface;
+use Magento\Framework\Data\Search\SearchCriteriaInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Catalog\Api\Data\CategoryAttributeInterface;
+use Magento\Framework\Data\Search\FilterGroupInterface;
+use Magento\Eav\Model\Resource\Entity\Attribute\Collection as AttributeCollection;
 
 class AttributeRepository implements CategoryAttributeRepositoryInterface
 {
@@ -20,12 +23,33 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
     protected $eavConfig;
 
     /**
+     * @var \Magento\Framework\Data\Search\SearchResultsBuilderInterface
+     */
+    protected $searchResultsBuilder;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory
+     */
+    protected $attributeCollectionFactory;
+
+    /**
+     * @var \Magento\Framework\Data\Search\SortOrderInterface
+     */
+    protected $sortOrder;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
-        \Magento\Eav\Model\Config $eavConfig
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Framework\Data\Search\SearchResultsBuilderInterface $searchResultsBuilder,
+        \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Framework\Data\Search\SortOrderInterface $sortOrder
     ) {
         $this->eavConfig = $eavConfig;
+        $this->searchResultsBuilder = $searchResultsBuilder;
+        $this->attributeCollectionFactory = $attributeCollectionFactory;
+        $this->sortOrder = $sortOrder;
     }
 
     /**
@@ -34,7 +58,6 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
     public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
     {
         $categoryEntityType = CategoryAttributeInterface::ENTITY_TYPE_CODE;
-
 
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
@@ -59,11 +82,11 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $attributeCollection);
         }
-        /** @var SortOrder $sortOrder */
+        /** @var \Magento\Framework\Data\Search\SortOrderInterface $sortOrder */
         foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $attributeCollection->addOrder(
-                $this->translateField($sortOrder->getField()),
-                ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                $sortOrder->getField(),
+                ($sortOrder->getDirection() == SearchCriteriaInterface::SORT_ASC) ? 'ASC' : 'DESC'
             );
         }
 
@@ -75,12 +98,7 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
         $attributeCollection->setPageSize($searchCriteria->getPageSize());
 
-        $attributes = [];
-        /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
-        foreach ($attributeCollection as $attribute) {
-            $attributes[] = $this->getAttributeMetadata($categoryEntityType, $attribute->getAttributeCode());
-        }
-        $this->searchResultsBuilder->setItems($attributes);
+        $this->searchResultsBuilder->setItems($attributeCollection->getItems());
         $this->searchResultsBuilder->setTotalCount($totalCount);
         return $this->searchResultsBuilder->create();
     }
@@ -98,5 +116,22 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
                 ->singleField('attributeCode', $attributeCode);
         }
         return $attribute;
+    }
+
+    /**
+     * Add FilterGroup to collection
+     *
+     * @param FilterGroupInterface $filterGroup
+     * @param AttributeCollection $collection
+     */
+    protected function addFilterGroupToCollection(FilterGroupInterface $filterGroup, AttributeCollection $collection)
+    {
+        foreach ($filterGroup->getFilters() as $filter) {
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $collection->addFieldToFilter(
+                $filter->getField(),
+                [$condition => $filter->getValue()]
+            );
+        }
     }
 }
