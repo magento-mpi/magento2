@@ -9,7 +9,7 @@
 
 namespace Magento\Customer\Api\Data;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\Data\ExtensibleDataInterface;
 
 /**
  * Customer interface.
@@ -19,7 +19,7 @@ interface CustomerInterface extends ExtensibleDataInterface
     /**
      * Get customer id
      *
-     * @return string|null
+     * @return int|null
      */
     public function getId();
 
@@ -33,7 +33,7 @@ interface CustomerInterface extends ExtensibleDataInterface
     /**
      * Get default billing address id
      *
-     * @return string|null
+     * @return int|null
      */
     public function getDefaultBilling();
 

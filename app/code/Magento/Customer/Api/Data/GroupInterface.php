@@ -9,7 +9,7 @@
 
 namespace Magento\Customer\Api\Data;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\Data\ExtensibleDataInterface;
 
 /**
  * Customer group interface.
@@ -36,4 +36,11 @@ interface GroupInterface extends ExtensibleDataInterface
      * @return int
      */
     public function getTaxClassId();
+
+    /**
+     * Get tax class name
+     *
+     * @return string
+     */
+    public function getTaxClassName();
 }

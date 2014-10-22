@@ -9,7 +9,7 @@
 
 namespace Magento\Customer\Api\Data;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\Data\ExtensibleDataInterface;
 
 /**
  * Customer address interface.
@@ -17,11 +17,18 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface AddressInterface extends ExtensibleDataInterface
 {
     /**
-     * Get id
+     * Get ID
      *
      * @return int|null
      */
     public function getId();
+
+    /**
+     * Get customer ID
+     *
+     * @return int|null
+     */
+    public function getCustomerId();
 
     /**
      * Get region
@@ -33,7 +40,7 @@ interface AddressInterface extends ExtensibleDataInterface
     /**
      * Get country id
      *
-     * @return string|null
+     * @return int|null
      */
     public function getCountryId();
 
