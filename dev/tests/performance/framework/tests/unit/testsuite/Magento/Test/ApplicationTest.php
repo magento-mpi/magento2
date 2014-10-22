@@ -31,12 +31,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $_installerScript;
-
-    /**
-     * @var string
-     */
-    protected $_uninstallScript;
+    protected $_script;
 
     /**
      * @var string
@@ -56,8 +51,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
         $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
 
-        $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir/setup/index.php');
-        $this->_uninstallScript = substr($this->_installerScript, 0, -15) . 'dev/shell/uninstall.php';
+        $this->_script = realpath($this->_fixtureDir . '/app_base_dir/setup/index.php');
 
         $this->_config = new \Magento\TestFramework\Performance\Config(
             $this->_fixtureConfigData,
@@ -187,7 +181,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             'execute'
         )->with(
             $this->anything(),
-            $this->contains($this->_uninstallScript)
+            $this->contains($this->_script)
         );
 
         $this->_shell->expects(
@@ -196,7 +190,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             'execute'
         )->with(
             $this->anything(),
-            $this->contains($this->_installerScript)
+            $this->contains($this->_script)
         );
 
         $fixture1 = $this->_getFixtureFiles(array('fixture1'));
@@ -228,7 +222,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             'execute'
         )->with(
             $this->anything(),
-            $this->contains($this->_uninstallScript)
+            $this->contains($this->_script)
         );
 
         $this->_shell->expects(
@@ -237,7 +231,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             'execute'
         )->with(
             $this->anything(),
-            $this->contains($this->_installerScript)
+            $this->contains($this->_script)
         );
 
         $fixtures = $this->_getFixtureFiles(array('fixture1', 'fixture2'));

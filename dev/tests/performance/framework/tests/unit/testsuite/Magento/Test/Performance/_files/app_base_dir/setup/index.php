@@ -6,4 +6,4 @@
  * @license     {license_link}
  */
 
-/* Magento console installer stub */
+/* Magento console installer and uninstaller stub */

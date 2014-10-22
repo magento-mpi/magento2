@@ -23,18 +23,11 @@ class Application
     protected $_config;
 
     /**
-     * Path to shell installer script
+     * Path to shell installer and uninstaller script
      *
      * @var string
      */
-    protected $_installScript;
-
-    /**
-     * Path to shell uninstaller script
-     *
-     * @var string
-     */
-    protected $_uninstallScript;
+    protected $_script;
 
     /**
      * @var \Magento\Framework\Shell
@@ -72,11 +65,9 @@ class Application
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Shell $shell
     ) {
-        $installShellDir = $config->getApplicationBaseDir() . '/setup';
-        $uninstallShellDir = $config->getApplicationBaseDir() . '/dev/shell';
+        $shellDir = $config->getApplicationBaseDir() . '/setup';
         $this->_objectManager = $objectManager;
-        $this->_installScript = $this->_assertPath($installShellDir . '/index.php');
-        $this->_uninstallScript = $this->_assertPath($uninstallShellDir . '/uninstall.php');
+        $this->_script = $this->_assertPath($shellDir . '/index.php');
         $this->_config = $config;
         $this->_shell = $shell;
     }
@@ -141,7 +132,7 @@ class Application
      */
     protected function _uninstall()
     {
-        $this->_shell->execute('php -f %s', array($this->_uninstallScript));
+        $this->_shell->execute('php -f %s uninstall', array($this->_script));
 
         $this->_isInstalled = false;
         $this->_fixtures = array();
@@ -171,7 +162,7 @@ class Application
         }
 
         $installCmd = 'php -f %s install';
-        $installCmdArgs = array($this->_installScript);
+        $installCmdArgs = array($this->_script);
         foreach ($installOptions as $optionName => $optionValue) {
             $installCmd .= " --{$optionName}=%s";
             $installCmdArgs[] = $optionValue;
