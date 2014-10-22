@@ -220,6 +220,17 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function deleteById($attributeCode)
+    {
+        $this->delete(
+            $this->get($attributeCode)
+        );
+        return true;
+    }
+
+    /**
      * Generate code from label
      *
      * @param string $label

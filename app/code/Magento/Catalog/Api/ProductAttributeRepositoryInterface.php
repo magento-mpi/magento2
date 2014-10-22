@@ -48,4 +48,11 @@ interface ProductAttributeRepositoryInterface
      * @return bool True if the entity was deleted (always true)
      */
     public function delete(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute);
+
+    /**
+     * Delete Attribute by id
+     * @param $attributeCode
+     * @return true
+     */
+    public function deleteById($attributeCode);
 }
