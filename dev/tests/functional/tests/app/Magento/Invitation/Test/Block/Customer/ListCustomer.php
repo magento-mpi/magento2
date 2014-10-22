@@ -51,13 +51,10 @@ class ListCustomer extends Block
     public function getAvailableEmails(array $emails, $status)
     {
         $availableEmails = [];
-        foreach ($emails as $key => $email) {
-            if ($this->_rootElement->find(
-                sprintf($this->invitationRow, $email, $status),
-                Locator::SELECTOR_XPATH
-            )->isVisible()
-            ) {
-                $availableEmails[$key] = $email;
+        foreach ($emails as $key => $value) {
+            $email = $this->_rootElement->find(sprintf($this->invitationRow, $value, $status), Locator::SELECTOR_XPATH);
+            if ($email->isVisible()) {
+                $availableEmails[$key] = $value;
             }
         }
         return $availableEmails;

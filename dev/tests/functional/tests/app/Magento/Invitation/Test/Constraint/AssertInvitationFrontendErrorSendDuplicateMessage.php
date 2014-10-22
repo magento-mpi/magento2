@@ -15,7 +15,7 @@ use Magento\Invitation\Test\Page\InvitationIndex;
  * Class AssertInvitationFrontendErrorSendDuplicateMessage
  * Assert that error message appears after sent invitation to the same email address
  */
-class AssertInvitationFrontendErrorSendDuplicateMessage  extends AbstractConstraint
+class AssertInvitationFrontendErrorSendDuplicateMessage extends AbstractConstraint
 {
     /**
      * Error duplicate message
