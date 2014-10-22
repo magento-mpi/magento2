@@ -56,7 +56,7 @@ class CartItem extends AbstractCartItem
      *
      * @var string
      */
-    protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
+    protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="price-excluding-tax"]//span[@class="price"]';
 
     /**
      * Get product name

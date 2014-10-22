@@ -12,15 +12,15 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
- * Class AssertTermsSuccessSaveMessage
- * Check that after save block successful message appears
+ * Class AssertTermSuccessDeleteMessage
+ * Check that after deleting Term successful delete message appears.
  */
-class AssertTermsSuccessSaveMessage extends AbstractConstraint
+class AssertTermSuccessDeleteMessage extends AbstractConstraint
 {
     /**
-     * Success terms and conditions save message
+     * Success terms and conditions delete message
      */
-    const SUCCESS_SAVE_MESSAGE = 'The condition has been saved.';
+    const SUCCESS_DELETE_MESSAGE = 'The condition has been deleted.';
 
     /**
      * Constraint severeness
@@ -30,7 +30,7 @@ class AssertTermsSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after save block successful message appears
+     * Assert that after deleting Term successful delete message appears.
      *
      * @param CheckoutAgreementIndex $agreementIndex
      * @return void
@@ -38,19 +38,19 @@ class AssertTermsSuccessSaveMessage extends AbstractConstraint
     public function processAssert(CheckoutAgreementIndex $agreementIndex)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_SAVE_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $agreementIndex->getMessagesBlock()->getSuccessMessages(),
-            'Wrong success message is displayed.'
+            'Wrong success delete message is displayed.'
         );
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Terms and Conditions success create message is present.';
+        return 'Terms and Conditions success delete message is present.';
     }
 }
