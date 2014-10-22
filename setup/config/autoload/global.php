@@ -6,6 +6,11 @@
  * @license   {license_link}
  */
 
+use Magento\Framework\App\Bootstrap;
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 return [
-    \Magento\Setup\Bootstrap::DEFAULT_ROOT_DIR => __DIR__ . '/../../..'
+    Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+        DirectoryList::ROOT => [DirectoryList::PATH => dirname(dirname(dirname(__DIR__)))]
+    ]
 ];

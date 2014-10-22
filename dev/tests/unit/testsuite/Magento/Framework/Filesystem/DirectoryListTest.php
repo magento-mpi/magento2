@@ -14,6 +14,31 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(DirectoryList::SYS_TMP, DirectoryList::getDefaultConfig());
     }
 
+    /**
+     * @param array $config
+     * @param string $expectedError
+     * @dataProvider validateDataProvider
+     */
+    public function testValidate($config, $expectedError)
+    {
+        $this->setExpectedException('\InvalidArgumentException', $expectedError);
+        DirectoryList::validate($config);
+    }
+
+    /**
+     * @return array
+     */
+    public function validateDataProvider()
+    {
+        return [
+            ['', 'Unexpected value type.'],
+            [1, 'Unexpected value type.'],
+            [[DirectoryList::SYS_TMP => ''], 'Unexpected value type.'],
+            [[DirectoryList::SYS_TMP => 1], 'Unexpected value type.'],
+            [[DirectoryList::SYS_TMP => []], 'Missing required keys at: ' . DirectoryList::SYS_TMP],
+        ];
+    }
+
     public function testGetters()
     {
         $customDirs = [

@@ -27,7 +27,4 @@ HTML;
 
 require $autoload;
 
-$application = \Zend\Mvc\Application::init(require 'config/application.config.php');
-$magentoBootstrap = new \Magento\Setup\Bootstrap($_SERVER);
-$magentoBootstrap->initialize($application);
-$application->run();
+\Zend\Mvc\Application::init(require __DIR__ . '/config/application.config.php')->run();

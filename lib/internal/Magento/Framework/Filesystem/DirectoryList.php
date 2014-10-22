@@ -62,6 +62,31 @@ class DirectoryList
     }
 
     /**
+     * Validates format and contents of given configuration
+     *
+     * @param array $config
+     * @throws \InvalidArgumentException
+     */
+    public static function validate($config)
+    {
+        if (!is_array($config)) {
+            throw new \InvalidArgumentException('Unexpected value type.');
+        }
+        $defaultConfig = static::getDefaultConfig();
+        foreach ($config as $type => $row) {
+            if (!is_array($row)) {
+                throw new \InvalidArgumentException('Unexpected value type.');
+            }
+            if (!isset($defaultConfig[$type])) {
+                throw new \InvalidArgumentException("Unknown type: {$type}");
+            }
+            if (!isset($row[self::PATH]) && !isset($row[self::URL_PATH])) {
+                throw new \InvalidArgumentException("Missing required keys at: {$type}");
+            }
+        }
+    }
+
+    /**
      * Constructor
      *
      * @param string $root

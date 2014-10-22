@@ -19,4 +19,5 @@ return [
             __DIR__ . '/autoload/{,*.}{global,local}.php',
         ),
     ],
+    'listeners' => ['Magento\Setup\Mvc\Bootstrap\DirectoriesListener'],
 ];
