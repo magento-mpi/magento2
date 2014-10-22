@@ -13,6 +13,8 @@
     <preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />
     <preference for="Magento\Catalog\Api\Data\ProductInterface" type="Magento\Catalog\Model\Product" />
     <preference for="Magento\Catalog\Api\ProductRepositoryInterface" type="Magento\Catalog\Model\ProductRepository" />
+    <preference for="Magento\Catalog\Api\CategoryAttributeRepositoryInterface" type="Magento\Catalog\Model\Category\AttributeRepository" />
+    <preference for="Magento\Catalog\Api\Data\CategoryAttributeInterface" type="Magento\Catalog\Model\Category\Attribute" />
     <preference for="Magento\Catalog\Service\V1\Category\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\WriteService" />

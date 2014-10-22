@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Api;
-use Magento\Eav\Api\AttributeRepositoryInterface;
 
 /**
  * Interface RepositoryInterface must be implemented in new model
@@ -26,9 +25,9 @@ interface CategoryAttributeRepositoryInterface
     /**
      * Retrieve specific attribute
      *
-     * @param string $identifier
+     * @param string $attributeCode
      * @return \Magento\Catalog\Api\Data\CategoryAttributeInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
-    public function get($identifier);
+    public function get($attributeCode);
 }
