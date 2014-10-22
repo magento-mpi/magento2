@@ -67,6 +67,11 @@ class Wishlist implements DataProviderInterface
     protected $request;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
      * @param \Magento\Wishlist\Helper\Rss $wishlistHelper
      * @param \Magento\Wishlist\Block\Customer\Wishlist $wishlistBlock
      * @param \Magento\Catalog\Helper\Output $outputHelper
@@ -84,6 +89,7 @@ class Wishlist implements DataProviderInterface
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\RequestInterface $request
     ) {
@@ -94,6 +100,7 @@ class Wishlist implements DataProviderInterface
         $this->urlBuilder = $urlBuilder;
         $this->scopeConfig = $scopeConfig;
         $this->eventManager = $eventManager;
+        $this->customerFactory = $customerFactory;
         $this->layout = $layout;
         $this->request = $request;
     }
@@ -204,7 +211,9 @@ class Wishlist implements DataProviderInterface
      */
     public function getHeader()
     {
-        $title = __('%1\'s Wishlist', $this->wishlistHelper->getCustomerName());
+        $customerId = $this->getWishlist()->getCustomerId();
+        $customer = $this->customerFactory->create()->load($customerId);
+        $title = __('%1\'s Wishlist', $customer->getName());
         $newUrl = $this->urlBuilder->getUrl(
             'wishlist/shared/index',
             array('code' => $this->getWishlist()->getSharingCode())
