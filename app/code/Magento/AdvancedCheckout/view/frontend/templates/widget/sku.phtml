@@ -25,15 +25,7 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
             <div class="box">
-                <table class="table table-sku-items">
-                    <caption class="table-caption"><?php echo __('Order by SKU') ?></caption>
-                    <thead>
-                        <th scope="col" class="col sku"><?php echo __('SKU') ?></th>
-                        <th scope="col" class="col qty"><?php echo __('Qty') ?></th>
-                        <th scope="col" class="col actions">&nbsp;</th>
-                    </thead>
-                    <tbody data-container="items"></tbody>
-                </table>
+                <fieldset class="fieldset" data-container="items"></fieldset>
                 <div class="actions-toolbar">
                     <div class="secondary">
                         <button type="button" id="add_new_item_button<?php echo $uniqueSuffix; ?>"
@@ -52,7 +44,6 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
                 <?php endif; ?>
             </div>
 
-
             <div class="actions-toolbar">
                 <div class="primary">
                     <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
@@ -68,40 +59,38 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
             <?php endif; ?>
         </form>
         <script data-template="add-block" type="text/x-jQuery-tmpl">
-            <tr class="deletableItem" data-mage-init='{"deletableItem":{}}'>
-                <td class="col sku" data-th="<?php echo __('SKU') ?>">
-                    <div class="field sku required">
-                        <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('SKU') ?></span></label>
-                        <div class="control">
-                            <input type="text"
-                                   name="items[${rowIndex}${uniqueSuffix}][sku]"
-                                   id="id-items[${rowIndex}${uniqueSuffix}][sku]"
-                                   data-id="${rowIndex}${uniqueSuffix}sku" />
-                        </div>
+            <div class="fields additional deletableItem" data-mage-init='{"deletableItem":{}}'>
+                <div class="field sku required">
+                    <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('SKU') ?></span></label>
+                    <div class="control">
+                        <input type="text"
+                               name="items[${rowIndex}${uniqueSuffix}][sku]"
+                               id="id-items[${rowIndex}${uniqueSuffix}][sku]"
+                               data-id="${rowIndex}${uniqueSuffix}sku" />
                     </div>
-                </td>
-                <td class="col qty" data-th="<?php echo __('SKU') ?>">
-                    <div class="field qty required">
-                        <label class="label" for="id-items[${rowIndex}${uniqueSuffix}][qty]"><span><?php echo __('Qty') ?></span></label>
-                        <div class="control">
-                            <input type="number"
-                                   name="items[${rowIndex}${uniqueSuffix}][qty]"
-                                   id="id-items[${rowIndex}${uniqueSuffix}][qty]"
-                                   class="qty"
-                                   maxlength="13"
-                                   data-validate='{
-                                        "required-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
-                                        "validate-number": true,
-                                        "validate-greater-than-zero": true,
-                                        "validate-number-range": "0.0001-99999999.9999"
-                                        }'/>
-                        </div>
+                </div>
+                <div class="field qty required">
+                    <label class="label" for="id-items[${rowIndex}${uniqueSuffix}][qty]"><span><?php echo __('Qty') ?></span></label>
+                    <div class="control">
+                        <input type="number"
+                               name="items[${rowIndex}${uniqueSuffix}][qty]"
+                               id="id-items[${rowIndex}${uniqueSuffix}][qty]"
+                               class="qty"
+                               maxlength="13"
+                               data-validate='{
+                                    "required-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
+                                    "validate-number": true,
+                                    "validate-greater-than-zero": true,
+                                    "validate-number-range": "0.0001-99999999.9999"
+                                    }'/>
                     </div>
-                </td>
-                <td class="col actions">
-                    <button type="button" class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
-                </td>
-            </tr>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="secondary">
+                        <button type="button" class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
+                    </div>
+                </div>
+            </div>
         </script>
     </div>
 </div>

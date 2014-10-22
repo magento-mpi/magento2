@@ -11,13 +11,33 @@
 .block-addbysku {
     .fieldset {
         margin: 0 0 @indent-s-base;
-        .field {
-            .note {
-                font-size: @font-size-base;
-                margin: 0 0 @indent-base;
+        .fields {
+            position: relative;
+            .field {
+                display: inline-block;
+                margin-bottom: @indent-s-base;
+                vertical-align: top;
+                &.sku {
+                    &:extend(.abstract-add-box-sizing all);
+                }
+                &.qty {
+                    .qty {
+                        &:extend(.abstract-input-qty all);
+                    }
+                }
+                .note {
+                    font-size: @font-size-base;
+                    margin: 0 0 @indent-base;
+                }
+            }
+            .actions-toolbar {
+                position: absolute;
+                top: 30px;
+                right: 0;
             }
         }
     }
+
     .action {
         &.add {
             .button-icon(
@@ -38,8 +58,8 @@
             display: block;
         }
     }
+
     .form-addbysku .actions-toolbar {
-        position: relative;
         .primary {
             text-align: left;
             .action {
@@ -48,41 +68,16 @@
         }
         .secondary {
             text-align: left;
-            margin: @indent-xs-base 0 @indent-base;
         }
     }
-    .table-sku-items {
-        th {
-            padding-top: 0;
-            border-bottom: 1px solid @border-color-base;
-            &:first-child {
-                padding-left: 0;
-            }
-        }
-        td {
-            &:first-child {
-                padding-left: 0;
-            }
-            .field {
-                > .label {
-                    &:extend(.abstract-visually-hidden all);
-                }
-                .qty {
-                    &:extend(.abstract-input-qty all);
-                }
-            }
-            &.col.qty {
-                width: 54px;
-            }
-            &.col.actions {
-                width: 100px;
-            }
-        }
-    }
+
     .block-content {
         &:extend(.abstract-add-clearfix-desktop all);
         .box {
             &:extend(.abstract-blocks-2columns all);
+            > .actions-toolbar {
+                margin: 0 0 @indent-base;
+            }
         }
     }
 }
@@ -93,14 +88,6 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
     .block-addbysku {
-        .table-sku-items {
-            td {
-                &.col.actions,
-                &.col.qty {
-                  width: auto;
-                }
-            }
-        }
         .action {
             &.remove {
                 .button-icon(
@@ -115,6 +102,17 @@
                 .button-reset();
             }
         }
+
+        .fieldset {
+            .fields {
+                .sku {
+                    margin-right: -85px;
+                    padding-right: 90px;
+                    width: 100%;
+                }
+            }
+        }
+
     }
 }
 
@@ -146,6 +144,13 @@
             .field {
                 .note {
                     margin: 0;
+                }
+            }
+            .fields {
+                .sku {
+                    margin-right: -155px;
+                    padding-right: 160px;
+                    width: 100%;
                 }
             }
         }
