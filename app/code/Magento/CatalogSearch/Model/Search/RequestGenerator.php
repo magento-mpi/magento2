@@ -97,7 +97,6 @@ class RequestGenerator
                 'clause' => 'should',
                 'ref' => $queryName,
             ];
-//            $attribute->getFrontendInput();
             switch ($attribute->getBackendType()) {
                 case 'static':
                     break;
