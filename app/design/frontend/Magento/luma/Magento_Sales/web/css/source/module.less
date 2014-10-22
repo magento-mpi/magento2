@@ -279,13 +279,16 @@
     }
 }
 
-.block.reorder {
-    .item {
+.block-reorder {
+    .product-item {
         .checkbox {
             position: relative;
             top: 2px;
             vertical-align: baseline;
         }
+    }
+    .product-item-name {
+        display: inline-block;
     }
     .actions-toolbar {
         margin: 17px 0;
@@ -293,7 +296,7 @@
     }
     .sidebar-main & .subtitle,
     .sidebar-additional & .subtitle {
-        display: none;
+        &:extend(.abstract-no-display all);
     }
 }
 

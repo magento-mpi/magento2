@@ -81,53 +81,48 @@
     }
 }
 
-.block.wishlist {
-    .item.product {
+.block-wishlist {
+    .product-item {
         margin-bottom: 14px;
-        > .product {
+        .product-item-info {
             position: relative;
-            .product.photo {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-            .product.details {
-                margin: 0 25px 0 64px;
-                padding: 0;
-            }
+            width: auto;
+        }
+        .product-item-photo {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .product-item-details {
+            margin: 0 0 0 85px;
+            padding: 0;
         }
     }
     .price-box {
         display: block;
         margin: 7px 0;
     }
-    .actions {
+    .product-item-actions {
         margin: 7px 0;
         .action.delete {
-            &:extend(.remove-button-for-blocks all);
+            &:extend(.abstract-remove-button-for-blocks all);
             position: absolute;
             right: 0;
             top: 0;
-        }
-        a.action.tocart {
-            .link-as-button();
-        }
-        .action.tocart {
-            padding: 0 7px;
         }
     }
     .text {
         margin-right: 8px;
     }
-    .counter.qty {
-        color: #999;
+    .counter {
+        color: @color-primary-lighter;
         font-size: 12px;
         white-space: nowrap;
     }
     .sidebar-main &,
     .sidebar-additional & {
         .subtitle {
-            display: none;
+            &:extend(.abstract-no-display all);
         }
     }
 }

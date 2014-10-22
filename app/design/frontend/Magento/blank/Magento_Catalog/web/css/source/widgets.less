@@ -17,7 +17,7 @@ div.widget.category.link {
     &:extend(.abstract-margin-for-blocks-and-widgets all);
 }
 
-.block.widget.new {
+.block.widget {
     .pager {
         padding: @indent-s-base;
         background: @panel-bg;
@@ -35,7 +35,7 @@ div.widget.category.link {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .block.widget.new {
+    .block.widget {
         .pager {
             text-align: left;
             .amount {

@@ -74,9 +74,9 @@
         <var name="product_page_more_views:height">110</var>
 
         <var name="side_column_widget_product_thumbnail:type">thumbnail</var>
-        <var name="side_column_widget_product_thumbnail:width">50</var>
-        <var name="side_column_widget_product_thumbnail:ratio">1</var>
-        <var name="side_column_widget_product_thumbnail:height">50</var>
+        <var name="side_column_widget_product_thumbnail:width">75</var>
+        <var name="side_column_widget_product_thumbnail:ratio">0.8</var>
+        <var name="side_column_widget_product_thumbnail:height">90</var>
 
         <var name="new_products_content_widget_list:type">small_image</var>
         <var name="new_products_content_widget_list:width">166</var>
@@ -89,14 +89,14 @@
         <var name="new_products_content_widget_grid:height">166</var>
 
         <var name="recently_compared_products_images_names_widget:type">thumbnail</var>
-        <var name="recently_compared_products_images_names_widget:width">50</var>
-        <var name="recently_compared_products_images_names_widget:ratio">1</var>
-        <var name="recently_compared_products_images_names_widget:height">50</var>
+        <var name="recently_compared_products_images_names_widget:width">75</var>
+        <var name="recently_compared_products_images_names_widget:ratio">0.8</var>
+        <var name="recently_compared_products_images_names_widget:height">90</var>
 
         <var name="recently_viewed_products_images_names_widget:type">small_image</var>
-        <var name="recently_viewed_products_images_names_widget:width">50</var>
-        <var name="recently_viewed_products_images_names_widget:ratio">1</var>
-        <var name="recently_viewed_products_images_names_widget:height">50</var>
+        <var name="recently_viewed_products_images_names_widget:width">75</var>
+        <var name="recently_viewed_products_images_names_widget:ratio">0.8</var>
+        <var name="recently_viewed_products_images_names_widget:height">90</var>
 
         <var name="recently_compared_products_images_only_widget:type">thumbnail</var>
         <var name="recently_compared_products_images_only_widget:width">76</var>
@@ -144,9 +144,9 @@
         <var name="wishlist_thumbnail:height">250</var>
 
         <var name="wishlist_sidebar_block:type">thumbnail</var>
-        <var name="wishlist_sidebar_block:width">50</var>
-        <var name="wishlist_sidebar_block:ratio">1</var>
-        <var name="wishlist_sidebar_block:height">50</var>
+        <var name="wishlist_sidebar_block:width">75</var>
+        <var name="wishlist_sidebar_block:ratio">0.8</var>
+        <var name="wishlist_sidebar_block:height">90</var>
 
         <var name="shared_wishlist_email:type">small_image</var>
         <var name="shared_wishlist_email:width">135</var>
