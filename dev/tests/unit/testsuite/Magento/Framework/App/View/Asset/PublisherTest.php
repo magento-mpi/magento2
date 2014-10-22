@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\App\View\Asset;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\View\Asset\Publisher;
 
 class PublisherTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +19,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     private $appState;
 
     /**
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     private $filesystem;
 
@@ -45,7 +46,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
         $this->object = new Publisher($this->appState, $this->filesystem);
 
         $this->rootDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
@@ -53,13 +54,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->filesystem->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->staticDirRead));
         $this->filesystem->expects($this->any())
             ->method('getDirectoryWrite')
             ->will($this->returnValueMap([
-                [\Magento\Framework\App\Filesystem::ROOT_DIR, $this->rootDirWrite],
-                [\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirWrite],
+                [DirectoryList::ROOT, $this->rootDirWrite],
+                [DirectoryList::STATIC_VIEW, $this->staticDirWrite],
             ]));
     }
 

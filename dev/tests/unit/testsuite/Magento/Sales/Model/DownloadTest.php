@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class DownloadTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -44,12 +46,12 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         $this->writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
+        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
+            ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->writeDirectoryMock));
 
         $this->storageMock = $this->getMockBuilder('Magento\Core\Helper\File\Storage\Database')
@@ -220,7 +222,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $info['title'],
                 ['value' => $info['order_path'], 'type' => 'filename'],
-                \Magento\Framework\App\Filesystem::ROOT_DIR,
+                DirectoryList::ROOT,
                 'application/octet-stream',
                 null
             );
