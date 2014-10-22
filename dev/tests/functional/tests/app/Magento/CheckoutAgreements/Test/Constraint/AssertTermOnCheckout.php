@@ -15,16 +15,22 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Checkout\Test\Page\CheckoutOnepageSuccess;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
+use Magento\Checkout\Test\Constraint\AssertOrderSuccessPlacedMessage;
 
 /**
- * Class AssertTermsAbsentOnCheckout
- * Check that Checkout Agreement is absent in the Place order tab
+ * Class AssertTermOnCheckout
+ * Check that Terms and Conditions is present on the last checkout step - Order Review.
  */
-class AssertTermsAbsentOnCheckout extends AbstractConstraint
+class AssertTermOnCheckout extends AbstractConstraint
 {
+    /**
+     * Notification message
+     */
+    const NOTIFICATION_MESSAGE = 'This is a required field.';
+
     /**
      * Constraint severeness
      *
@@ -33,7 +39,10 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Place order and verify there is no checkbox Terms and Conditions
+     * Check that checkbox is present on the last checkout step - Order Review.
+     * Check that after Place order without click on checkbox "Terms and Conditions" order was not successfully placed.
+     * Check that after clicking on "Terms and Conditions" checkbox and "Place Order" button success place order message
+     * appears.
      *
      * @param FixtureFactory $fixtureFactory
      * @param ObjectManager $objectManager
@@ -42,10 +51,13 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
-     * @param CheckoutAgreement $agreement
+     * @param CheckoutOnepageSuccess $checkoutOnepageSuccess
+     * @param AssertOrderSuccessPlacedMessage $assertOrderSuccessPlacedMessage
      * @param array $shipping
      * @param array $payment
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function processAssert(
         FixtureFactory $fixtureFactory,
@@ -55,15 +67,16 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
-        CheckoutAgreement $agreement,
+        CheckoutOnepageSuccess $checkoutOnepageSuccess,
+        AssertOrderSuccessPlacedMessage $assertOrderSuccessPlacedMessage,
         $shipping,
         $payment
     ) {
-        $products = $objectManager->create(
+        $createProductsStep = $objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $product]
         );
-        $product = $products->run();
+        $product = $createProductsStep->run();
 
         $billingAddress = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => 'default']);
 
@@ -78,20 +91,26 @@ class AssertTermsAbsentOnCheckout extends AbstractConstraint
         $checkoutOnepage->getShippingMethodBlock()->clickContinue();
         $checkoutOnepage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnepage->getPaymentMethodsBlock()->clickContinue();
+        $checkoutOnepage->getAgreementReview()->placeOrder();
 
-        \PHPUnit_Framework_Assert::assertFalse(
-            $checkoutOnepage->getAgreementReview()->checkAgreement($agreement),
-            'Checkout Agreement \'' . $agreement->getName() . '\' is present in the Place order step.'
+        \PHPUnit_Framework_Assert::assertEquals(
+            self::NOTIFICATION_MESSAGE,
+            $checkoutOnepage->getAgreementReview()->getNotificationMassage(),
+            'Notification required message of Terms and Conditions is absent.'
         );
+
+        $checkoutOnepage->getAgreementReview()->setAgreement('Yes');
+        $checkoutOnepage->getAgreementReview()->placeOrder();
+        $assertOrderSuccessPlacedMessage->processAssert($checkoutOnepageSuccess);
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Checkout Agreement is absent in the Place order step.';
+        return 'Order was placed with checkout agreement successfully.';
     }
 }

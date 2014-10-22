@@ -39,6 +39,8 @@ use Magento\Wishlist\Test\Page\WishlistShare;
  *
  * @group Wishlist_(CS)
  * @ZephyrId MAGETWO-23394
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ShareWishlistEntityTest extends Injectable
 {

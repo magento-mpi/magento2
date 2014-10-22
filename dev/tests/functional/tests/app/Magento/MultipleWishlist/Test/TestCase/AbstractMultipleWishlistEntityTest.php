@@ -15,7 +15,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Client\Driver\Selenium\Browser;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
@@ -24,7 +24,9 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Abstract Class AbstractMultipleWishlistEntityTest
- * Abstract Class for multiple wish list entity tests
+ * Abstract Class for multiple wish list entity tests.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractMultipleWishlistEntityTest extends Injectable
 {
@@ -43,13 +45,6 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     protected $cmsIndex;
 
     /**
-     * Customer login page
-     *
-     * @var CustomerAccountLogin
-     */
-    protected $customerAccountLogin;
-
-    /**
      * Customer account index page
      *
      * @var CustomerAccountIndex
@@ -62,6 +57,13 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
      * @var WishlistIndex
      */
     protected $wishlistIndex;
+
+    /**
+     * Catalog product view page.
+     *
+     * @var CatalogProductView
+     */
+    protected $catalogProductView;
 
     /**
      * Wish list id
@@ -92,7 +94,7 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     protected static $browser;
 
     /**
-     * Prepare data
+     * Prepare data.
      *
      * @param FixtureFactory $fixtureFactory
      * @param CustomerInjectable $customer
@@ -114,8 +116,7 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
         self::$browser = $browser;
         self::$cachePage = $cachePage;
         $this->fixtureFactory = $fixtureFactory;
-        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'multiple_wishlist_default']);
-        $config->persist();
+        $this->setupConfiguration('multiple_wishlist_default');
         $customer->persist();
         $category->persist();
 
@@ -123,28 +124,28 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     }
 
     /**
-     * Injection data
+     * Injection data.
      *
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param WishlistIndex $wishlistIndex
+     * @param CatalogProductView $catalogProductView
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
-        WishlistIndex $wishlistIndex
+        WishlistIndex $wishlistIndex,
+        CatalogProductView $catalogProductView
     ) {
         $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogin;
         $this->wishlistIndex = $wishlistIndex;
         $this->customerAccountIndex = $customerAccountIndex;
+        $this->catalogProductView = $catalogProductView;
     }
 
     /**
-     * Create multiple wish list
+     * Create multiple wish list.
      *
      * @param MultipleWishlist $multipleWishlist
      * @param CustomerInjectable $customer
@@ -161,7 +162,7 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     }
 
     /**
-     * Add wish list search widget
+     * Add wish list search widget.
      *
      * @return void
      */
@@ -177,23 +178,22 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     }
 
     /**
-     * Login customer
+     * Log in customer on frontend.
      *
      * @param CustomerInjectable $customer
      * @return void
      */
     protected function loginCustomer(CustomerInjectable $customer)
     {
-        $this->cmsIndex->open();
-        $linksBlock = $this->cmsIndex->getLinksBlock();
-        if (!$linksBlock->isLinkVisible('Log Out')) {
-            $linksBlock->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $customerLogin = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        );
+        $customerLogin->run();
     }
 
     /**
-     * Open wish list page
+     * Open wish list page.
      *
      * @param CustomerInjectable $customer
      * @return void
@@ -203,5 +203,31 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
         $this->loginCustomer($customer);
         $this->cmsIndex->getLinksBlock()->openLink('My Account');
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
+    }
+
+    /**
+     * Setup configuration.
+     *
+     * @param string $configData
+     * @param bool $rollback
+     * @return void
+     */
+    public static function setupConfiguration($configData, $rollback = false)
+    {
+        $setConfigStep = ObjectManager::getInstance()->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => $configData, 'rollback' => $rollback]
+        );
+        $setConfigStep->run();
+    }
+
+    /**
+     * Disable multiple wish list in config.
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        self::setupConfiguration('multiple_wishlist_default', true);
     }
 }
