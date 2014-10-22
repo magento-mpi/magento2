@@ -25,14 +25,6 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
         );
         $shipment->setOrder($order);
 
-        $payment = $order->getPayment();
-        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Payment\Helper\Data'
-        )->getInfoBlock(
-            $payment
-        );
-        $payment->setBlockMock($paymentInfoBlock);
-
         $this->assertEmpty($shipment->getEmailSent());
 
         $orderSender = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -42,7 +34,6 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result);
 
         $this->assertNotEmpty($shipment->getEmailSent());
-        $this->assertEquals('frontend', $paymentInfoBlock->getArea());
     }
 
     /**
@@ -57,14 +48,6 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
         $order = $objectManager->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
-
-        $payment = $order->getPayment();
-        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Payment\Helper\Data'
-        )->getInfoBlock(
-            $payment
-        );
-        $payment->setBlockMock($paymentInfoBlock);
 
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
         $shipment = $objectManager->create('Magento\Sales\Model\Order\Shipment');
