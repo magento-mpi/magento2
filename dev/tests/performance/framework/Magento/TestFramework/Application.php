@@ -157,11 +157,6 @@ class Application
         // Populate install options with global options
         $baseUrl = 'http://' . $this->_config->getApplicationUrlHost() . $this->_config->getApplicationUrlPath();
         $installOptions = array_merge($installOptions, array('base_url' => $baseUrl, 'base_url_secure' => $baseUrl));
-        $adminOptions = $this->_config->getAdminOptions();
-        foreach ($adminOptions as $key => $val) {
-            $installOptions['admin_' . $key] = $val;
-        }
-
         $installCmd = 'php -f %s install';
         $installCmdArgs = array($this->_script);
         foreach ($installOptions as $optionName => $optionValue) {

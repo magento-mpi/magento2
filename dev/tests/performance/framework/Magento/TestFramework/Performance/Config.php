@@ -34,11 +34,6 @@ class Config
     protected $_applicationUrlPath;
 
     /**
-     * @var array
-     */
-    protected $_adminOptions = array();
-
-    /**
      * @var string
      */
     protected $_reportDir;
@@ -81,7 +76,6 @@ class Config
         $this->_applicationBaseDir = $appBaseDir;
         $this->_applicationUrlHost = $applicationOptions['url_host'];
         $this->_applicationUrlPath = $applicationOptions['url_path'];
-        $this->_adminOptions = $applicationOptions['admin'];
 
         if (isset($applicationOptions['installation']['options'])) {
             $this->_installOptions = $applicationOptions['installation']['options'];
@@ -121,10 +115,10 @@ class Config
         }
 
         // Validate admin options data
-        $requiredAdminKeys = array('username', 'password');
+        $requiredAdminKeys = array('admin_username', 'admin_password', 'backend_frontname');
         foreach ($requiredAdminKeys as $requiredKeyName) {
-            if (empty($configData['application']['admin'][$requiredKeyName])) {
-                throw new \Magento\Framework\Exception("Admin options array must define '{$requiredKeyName}' key.");
+            if (empty($configData['application']['installation']['options'][$requiredKeyName])) {
+                throw new \Magento\Framework\Exception("Installation options array must define '{$requiredKeyName}' key.");
             }
         }
     }
@@ -274,14 +268,14 @@ class Config
      */
     protected function _getFixedScenarioArguments()
     {
-        $adminOptions = $this->getAdminOptions();
+        $options = $this->getInstallOptions();
         return array(
             \Magento\TestFramework\Performance\Scenario::ARG_HOST => $this->getApplicationUrlHost(),
             \Magento\TestFramework\Performance\Scenario::ARG_PATH => $this->getApplicationUrlPath(),
             \Magento\TestFramework\Performance\Scenario::ARG_BASEDIR => $this->getApplicationBaseDir(),
-            \Magento\TestFramework\Performance\Scenario::ARG_BACKEND_FRONTNAME => $adminOptions['frontname'],
-            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_USERNAME => $adminOptions['username'],
-            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD => $adminOptions['password'],
+            \Magento\TestFramework\Performance\Scenario::ARG_BACKEND_FRONTNAME => $options['backend_frontname'],
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_USERNAME => $options['admin_username'],
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD => $options['admin_password'],
             'jmeter.save.saveservice.output_format' => 'xml',
         );
     }
@@ -336,16 +330,6 @@ class Config
     public function getApplicationUrlPath()
     {
         return $this->_applicationUrlPath;
-    }
-
-    /**
-     * Retrieve admin options - backend path and admin user credentials
-     *
-     * @return array
-     */
-    public function getAdminOptions()
-    {
-        return $this->_adminOptions;
     }
 
     /**

@@ -10,10 +10,6 @@ return array(
     'application' => array(
         'url_host' => '{{web_access_host}}',
         'url_path' => '{{web_access_path}}',
-        'admin' => array(
-            'username'  => 'admin',
-            'password'  => '123123q',
-        ),
         'installation' => array(
             'options' => array(
                 'language'                   => 'en_US',
@@ -29,6 +25,8 @@ return array(
                 'admin_lastname'             => 'Admin',
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',
+                'admin_username'             => 'admin',
+                'admin_password'             => '123123q',
                 'admin_use_security_key'     => '0',
                 'backend_frontname'          => 'backend',
             ),
