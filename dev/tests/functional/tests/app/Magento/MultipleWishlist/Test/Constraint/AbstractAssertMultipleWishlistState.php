@@ -23,6 +23,8 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 /**
  * Abstract Class AbstractAssertMultipleWishlistState
  * Assert that Wish list can be or can't be find by another Customer (or guest) via "Wishlist Search"
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
 {
