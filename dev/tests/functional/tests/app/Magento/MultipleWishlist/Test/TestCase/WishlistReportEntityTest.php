@@ -202,7 +202,7 @@ class WishlistReportEntityTest extends Injectable
     {
         $config = ObjectManager::getInstance()->create(
             'Magento\Core\Test\Fixture\ConfigData',
-            ['dataSet' => 'disabled_multiple_wishlist_default']
+            ['configData' => 'multiple_wishlist_default', 'rollback' => true]
         );
         $config->persist();
     }
