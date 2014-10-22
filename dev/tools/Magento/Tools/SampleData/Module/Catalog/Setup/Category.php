@@ -56,7 +56,6 @@ class Category implements SetupInterface
      */
     protected $csvReaderFactory;
 
-
     /**
      * @var categoryTree
      */
@@ -121,17 +120,34 @@ class Category implements SetupInterface
 
                     $categoryData = $this->categoryDataBuilder->populateWithArray($data)->create();
                     $categoryId = $this->writeService->create($categoryData);
-                    if (!empty($row['position'])) {
-                        $positionData = array('position' => $row['position']);
-                        $updateCategoryData = $this->categoryDataBuilder->populateWithArray($positionData)->create();
-                        $this->writeService->update($categoryId, $updateCategoryData);
-                    }
+                    $this->setAdditionalData($row, $categoryId);
                 }
                 echo '.';
             }
         }
 
         echo "\n";
+    }
+
+    /**
+     * @param $row
+     * @param $categoryId
+     */
+    protected function setAdditionalData($row, $categoryId)
+    {
+        $additionalAttributes = [
+            'position',
+            'display_mode'
+        ];
+
+        foreach ($additionalAttributes as $categoryAttribute) {
+            if (!empty($row[$categoryAttribute])) {
+                $attributeData = array($categoryAttribute => $row[$categoryAttribute]);
+                $updateCategoryData = $this->categoryDataBuilder->populateWithArray($attributeData)->create();
+                $this->writeService->update($categoryId, $updateCategoryData);
+            }
+        }
+
     }
 
     /**

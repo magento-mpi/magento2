@@ -55,11 +55,6 @@ class Converter
     {
         $data = [];
         foreach ($row as $field => $value) {
-            if (('category_url_key' == $field) && !empty($value)) {
-                $categoryId = $this->getCategoryByUrlKey($value)->getId();
-                $data['category_id'] = $categoryId;
-                continue;
-            }
             if ('content' == $field) {
                 $data['block'][$field] = $this->convertContentUrls($value);
                 continue;

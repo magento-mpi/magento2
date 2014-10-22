@@ -89,9 +89,6 @@ class Block implements SetupInterface
             foreach ($csvReader as $row) {
                 $data = $this->converter->convertRow($row);
                 $cmsBlock = $this->saveCmsBlock($data['block']);
-                if (!empty($data['category_id'])) {
-                    $this->setCategoryLandingPage($cmsBlock->getId(), $data['category_id']);
-                }
                 $cmsBlock->unsetData();
                 echo '.';
             }

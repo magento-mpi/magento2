@@ -1,10 +1,10 @@
-title,identifier,content,category_url_key
+title,identifier,content
 "Footer Links Block",footer_links_block,"<ul class=""footer links"">
     <li class=""nav item""><a href=""{{store url=""about-us""}}"">About us</a></li>
     <li class=""nav item""><a href=""{{store url=""customer-service""}}"">Customer Service</a></li>
     <li class=""nav item""><a href=""{{store url=""privacy-policy""}}"">Privacy Policy</a></li>
 </ul>
-",
+"
 "Contact us info",contact-us-info,"<div class=""contact-info cms-content"">
    <p class=""cms-content-important"">We love hearing from you, our Luma customers. Please contact us about anything at all. Your latest passion, unique health experience or request for a specific product. We’ll do everything we can to make your Luma experience unforgettable every time. Reach us however you like</p>
    <div class=""block block-contact-info"">
@@ -40,7 +40,7 @@ title,identifier,content,category_url_key
        </div>
    </div>
 </div>
-",
+"
 "Sale Left Menu Block",sale-left-menu-block,"<span class=""menu-section"">Women's Deals</span>
 <ul>
     <li><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies and Sweatshirts</a></li>
@@ -65,7 +65,7 @@ title,identifier,content,category_url_key
     <li><a href=""{{category url=""bags""}}"">Bags</a></li>
     <li><a href=""{{category url=""fitness-equipment""}}"">Fitness Equipment</a></li>
 </ul>
-",
+"
 Women Block,women-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""women""}}"" class=""block-promo womens-main"">
         <img src=""{{media url=""wysiwyg/womens/womens-main.jpg""}}"" alt="""" />
@@ -130,7 +130,7 @@ Women Block,women-block,"<div class=""blocks-promo"">
             <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-category-tanks.jpg""}}"" alt="""" /></span>
         </a>
     </div>
-</div>",women
+</div>"
 Training Block,training-block,"<div class=""blocks-promo"">
 
     <a href=""{{category url=""training""}}"" class=""block-promo training-main"">
@@ -172,7 +172,7 @@ Training Block,training-block,"<div class=""blocks-promo"">
         </a>
     </div>
 
-</div>",training
+</div>"
 Giftcard Block,giftcard-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""gift-cards""}}"" class=""block-promo giftcard-main"">
         <span class=""content"">
@@ -238,7 +238,7 @@ Men Block,men-block,"<div class=""blocks-promo"">
             <span class=""image""><img src=""{{media url=""wysiwyg/mens/mens-category-hoodies.jpg""}}"" alt="""" /></span>
         </a>
     </div>
-</div>",men
+</div>"
 Gear Block,gear-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""gear""}}"" class=""block-promo gear-main"">
         <img src=""{{media url=""wysiwyg/gear/gear-main.jpg""}}"" alt="""" />
@@ -294,7 +294,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
             <span class=""image""><img src=""{{media url=""wysiwyg/gear/gear-category-watches.jpg""}}"" alt="""" /></span>
         </a>
     </div>
-</div>",gear
+</div>"
 Sale Block,sale-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo sale-main"">
         <img src=""{{media url=""wysiwyg/sale/sale-main.jpg""}}"" alt="""" />
@@ -324,7 +324,7 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
         </a>
     </div>
 
-</div>",sale
+</div>"
 New Block,new-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo new-main"">
         <img src=""{{media url=""wysiwyg/new/new-main.jpg""}}"" alt="""" />
@@ -353,8 +353,8 @@ New Block,new-block,"<div class=""blocks-promo"">
             </span>
         </a>
     </div>
-</div>",what-is-new
+</div>"
 Headings Block,headings-block,"<div class=""content-heading"">
     <h2 class=""title"">Hot Sellers</h2>
     <p class=""info"">Here is what`s trending on Luma right now</p>
-</div>",
+</div>"
