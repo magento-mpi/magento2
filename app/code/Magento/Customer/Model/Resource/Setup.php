@@ -420,7 +420,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'input' => 'text',
                         'sort_order' => 110,
                         'validate_rules' => 'a:0:{}',
-                        'data' => 'Magento\Customer\Model\Attribute\Data\Postcode',
+                        'data' => 'Magento\Customer\Model\Metadata\Form\Postcode',
                         'position' => 110
                     ),
                     'telephone' => array(
