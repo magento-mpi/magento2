@@ -34,8 +34,6 @@ class CommonTaxCollector extends AbstractTotal
     const ITEM_TYPE_PRODUCT = 'product';
     /**#@-*/
 
-    protected $counter = 0;
-
     /**
      * Constant for shipping item code
      */
@@ -92,6 +90,13 @@ class CommonTaxCollector extends AbstractTotal
      * @var \Magento\Tax\Model\Config
      */
     protected $_config;
+
+    /**
+     * Counter that is used to construct temporary ids for taxable items
+     *
+     * @var int
+     */
+    protected $counter = 0;
 
     /**
      * Tax calculation service, the collector will call the service which performs the actual calculation
