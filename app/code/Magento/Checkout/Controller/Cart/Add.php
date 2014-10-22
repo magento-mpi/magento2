@@ -52,6 +52,13 @@ class Add extends \Magento\Checkout\Controller\Cart
 
             $product = $this->_initProduct();
             $related = $this->getRequest()->getParam('related_product');
+            if ($product->getTypeId() === 'giftcard') {
+                foreach ($params as $key => $value) {
+                    if ($value) {
+                        $this->_checkoutSession->setData($key, $value);
+                    }
+                }
+            }
 
             /**
              * Check product availability
