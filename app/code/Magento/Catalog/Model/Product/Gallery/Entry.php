@@ -18,7 +18,7 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function getId()
     {
-        return $this->getData('id');
+        return $this->_get(self::ID);
     }
 
     /**
@@ -28,7 +28,7 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function getLabel()
     {
-        return $this->getData('label');
+        return $this->_get(self::LABEL);
     }
 
     /**
@@ -38,7 +38,7 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function getPosition()
     {
-        return $this->getData('position');
+        return $this->_get(self::POSITION);
     }
 
     /**
@@ -48,7 +48,7 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function isDisabled()
     {
-        return $this->getData('is_disabled');
+        return $this->_get(self::DISABLED);
     }
 
     /**
@@ -58,7 +58,7 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function getTypes()
     {
-        return $this->getData('types');
+        return $this->_get(self::TYPES);
     }
 
     /**
@@ -68,6 +68,6 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function getFile()
     {
-        return $this->getData('file');
+        return $this->_get(self::FILE);
     }
 } 

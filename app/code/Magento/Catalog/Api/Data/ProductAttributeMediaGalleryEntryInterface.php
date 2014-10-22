@@ -15,6 +15,13 @@ namespace Magento\Catalog\Api\Data;
  */
 interface ProductAttributeMediaGalleryEntryInterface
 {
+    const ID = 'id';
+    const LABEL = 'label';
+    const POSITION = 'position';
+    const DISABLED = 'disabled';
+    const TYPES = 'types';
+    const FILE = 'file';
+
     /**
      * Retrieve gallery entry ID
      *

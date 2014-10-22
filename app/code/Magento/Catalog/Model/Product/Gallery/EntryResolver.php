@@ -11,7 +11,8 @@ namespace Magento\Catalog\Model\Product\Gallery;
 
 use \Magento\Catalog\Model\Product;
 
-class EntryResolver {
+class EntryResolver
+{
     /**
      * Retrieve file path that corresponds to the given gallery entry ID
      *
