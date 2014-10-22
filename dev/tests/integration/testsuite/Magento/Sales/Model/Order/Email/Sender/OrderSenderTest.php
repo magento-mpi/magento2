@@ -23,15 +23,6 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $payment = $order->getPayment();
-        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Payment\Helper\Data'
-        )->getInfoBlock(
-                $payment
-            );
-        $paymentInfoBlock->setArea('invalid-area');
-        $payment->setBlockMock($paymentInfoBlock);
-
         $this->assertEmpty($order->getEmailSent());
 
         $orderSender = Bootstrap::getObjectManager()
@@ -41,6 +32,5 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result);
 
         $this->assertNotEmpty($order->getEmailSent());
-        $this->assertEquals('frontend', $paymentInfoBlock->getArea());
     }
 }

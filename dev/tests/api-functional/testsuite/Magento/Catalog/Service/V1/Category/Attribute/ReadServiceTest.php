@@ -34,15 +34,15 @@ class ReadServiceTest extends WebapiAbstract
                     [
                         [
                             'value' => 'PRODUCTS',
-                            'label' => 'Products only'
+                            'label' => 'Products only',
                         ],
                         [
                             'value' => 'PAGE',
-                            'label' => 'Static block only'
+                            'label' => 'Static block only',
                         ],
                         [
                             'value' => 'PRODUCTS_AND_PAGE',
-                            'label' => 'Static block and products'
+                            'label' => 'Static block and products',
                         ]
                     ]
                 ],
