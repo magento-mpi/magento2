@@ -33,7 +33,7 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\ProductLinkInterface $entity, array $arguments = [])
+    public function save(\Magento\Catalog\Api\Data\ProductLinkInterface $entity)
     {
         $linkedProduct = $this->productRepository->get($entity->getLinkedProductSku());
         $product = $this->productRepository->get($entity->getProductSku());
@@ -54,7 +54,7 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Catalog\Api\Data\ProductLinkInterface $entity, array $arguments = [])
+    public function delete(\Magento\Catalog\Api\Data\ProductLinkInterface $entity)
     {
         $linkedProduct = $this->productRepository->get($entity->getLinkedProductSku());
         $product = $this->productRepository->get($entity->getProductSku());

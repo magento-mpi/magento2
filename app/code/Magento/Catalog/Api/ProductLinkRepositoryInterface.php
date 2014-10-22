@@ -19,14 +19,13 @@ interface ProductLinkRepositoryInterface
      * @param \Magento\Catalog\Api\Data\ProductLinkInterface $entity
      * @return bool
      */
-    public function save(\Magento\Catalog\Api\Data\ProductLinkInterface $entity, array $arguments = []);
+    public function save(\Magento\Catalog\Api\Data\ProductLinkInterface $entity);
 
     /**
      * Delete product link
      *
      * @param \Magento\Catalog\Api\Data\ProductLinkInterface $entity
-     * @param array $arguments
      * @return bool
      */
-    public function delete(\Magento\Catalog\Api\Data\ProductLinkInterface $entity, array $arguments = []);
+    public function delete(\Magento\Catalog\Api\Data\ProductLinkInterface $entity);
 }
