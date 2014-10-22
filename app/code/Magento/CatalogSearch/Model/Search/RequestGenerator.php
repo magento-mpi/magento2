@@ -97,22 +97,39 @@ class RequestGenerator
                 'clause' => 'should',
                 'ref' => $queryName,
             ];
+//            $attribute->getFrontendInput();
             switch ($attribute->getBackendType()) {
                 case 'static':
                     break;
                 case 'text':
                 case 'varchar':
-                    $request['queries'][$queryName] = [
-                        'name' => $queryName,
-                        'type' => 'matchQuery',
-                        'value' => '$' . $attribute->getAttributeCode() . '$',
-                        'match' => [
-                            [
-                                'field' => $attribute->getAttributeCode(),
-                                'boost' => $attribute->getSearchWeight() ?: 1,
+                    if ($attribute->getFrontendInput() === 'multiselect') {
+                        $filterName = $attribute->getAttributeCode() . '_filter';
+                        $request['queries'][$queryName] = [
+                            'name' => $queryName,
+                            'type' => 'filteredQuery',
+                            'filterReference' => [['ref' => $filterName]]
+                        ];
+
+                        $request['filters'][$filterName] = [
+                            'type' => 'wildcardFilter',
+                            'name' => $filterName,
+                            'field' => $attribute->getAttributeCode(),
+                            'value' => '$' . $attribute->getAttributeCode() . '$',
+                        ];
+                    } else {
+                        $request['queries'][$queryName] = [
+                            'name' => $queryName,
+                            'type' => 'matchQuery',
+                            'value' => '$' . $attribute->getAttributeCode() . '$',
+                            'match' => [
+                                [
+                                    'field' => $attribute->getAttributeCode(),
+                                    'boost' => $attribute->getSearchWeight() ?: 1,
+                                ]
                             ]
-                        ]
-                    ];
+                        ];
+                    }
                     break;
                 case 'decimal':
                 case 'datetime':
