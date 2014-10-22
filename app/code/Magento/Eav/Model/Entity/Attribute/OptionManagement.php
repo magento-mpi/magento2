@@ -119,10 +119,7 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
     }
 
     /**
-     * @param string $entityType
-     * @param string $attributeCode
-     * @return \Magento\Eav\Model\Entity\Attribute
-     * @throws NoSuchEntityException
+     * {@inheritdoc}
      */
     protected function loadAttribute($entityType, $attributeCode)
     {
