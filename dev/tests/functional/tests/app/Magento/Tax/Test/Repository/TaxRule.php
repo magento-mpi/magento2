@@ -151,5 +151,18 @@ class TaxRule extends AbstractRepository
             'priority' => '0',
             'position' => '0',
         ];
+
+        $this->_data['cross_border_tax_rule'] = [
+            'code' => 'TaxIdentifier%isolation%',
+            'tax_rate' => [
+                'dataSet' => [
+                    0 => 'tx_rate_10',
+                    1 => 'ny_rate_20',
+                    2 => 'ca_rate_30',
+                ]
+            ],
+            'priority' => '0',
+            'position' => '0',
+        ];
     }
 }

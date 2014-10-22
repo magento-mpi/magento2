@@ -107,5 +107,15 @@ class CustomerInjectable extends AbstractRepository
             'password_confirmation' => '123123q',
             'address' => ['presets' => 'US_address_NY']
         ];
+
+        $this->_data['johndoe_unique_TX'] = [
+            'firstname' => 'John',
+            'lastname' => 'Doe%isolation%',
+            'group_id' => ['dataSet' => 'General'],
+            'email' => 'JohnDoe_%isolation%@example.com',
+            'password' => '123123q',
+            'password_confirmation' => '123123q',
+            'address' => ['presets' => 'US_address_TX']
+        ];
     }
 }

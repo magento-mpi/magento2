@@ -528,5 +528,18 @@ class CatalogProductSimple extends AbstractRepository
             'msrp' => 500.00,
             'msrp_display_actual_price_type' => 'Before Order Confirmation'
         ];
+
+        $this->_data['with_one_custom_option_and_category'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 300, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'drop_down_with_one_option_percent_price'],
+            'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
+            'website_ids' => ['Main Website'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+        ];
     }
 }

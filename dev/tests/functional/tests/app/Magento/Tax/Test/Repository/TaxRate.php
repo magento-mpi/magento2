@@ -148,5 +148,29 @@ class TaxRate extends AbstractRepository
             'tax_region_id' => 'Utah',
             'rate' => '20'
         ];
+
+        $this->_data['tx_rate_10'] = [
+            'code' => 'TaxIdentifier%isolation%',
+            'tax_postcode' => '*',
+            'tax_country_id' => 'United States',
+            'tax_region_id' => 'Texas',
+            'rate' => '10'
+        ];
+
+        $this->_data['ny_rate_20'] = [
+            'code' => 'TaxIdentifier%isolation%',
+            'tax_postcode' => '*',
+            'tax_country_id' => 'United States',
+            'tax_region_id' => 'New York',
+            'rate' => '20'
+        ];
+
+        $this->_data['ca_rate_30'] = [
+            'code' => 'TaxIdentifier%isolation%',
+            'tax_postcode' => '*',
+            'tax_country_id' => 'United States',
+            'tax_region_id' => 'California',
+            'rate' => '30'
+        ];
     }
 }
