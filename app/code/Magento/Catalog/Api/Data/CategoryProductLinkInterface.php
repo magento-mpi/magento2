@@ -8,10 +8,6 @@
 
 namespace Magento\Catalog\Api\Data;
 
-/**
- * Implementation
- * @see \Magento\Catalog\Model\Product
- */
 interface CategoryProductLinkInterface
 {
     const SKU = 'sku';

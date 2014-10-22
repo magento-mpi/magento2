@@ -285,30 +285,6 @@
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
-    <route url="/V1/categories/:categoryId/products" method="GET">
-        <service class="\Magento\Catalog\Api\CategoryLinkManagementInterface" method="getAssignedProducts" />
-        <resources>
-            <resource ref="Magento_Catalog::categories" />
-        </resources>
-    </route>
-    <route url="/V1/categories/:categoryId/products" method="POST">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
-        <resources>
-            <resource ref="Magento_Catalog::categories" />
-        </resources>
-    </route>
-    <route url="/V1/categories/:categoryId/products" method="PUT">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
-        <resources>
-            <resource ref="Magento_Catalog::categories" />
-        </resources>
-    </route>
-    <route url="/V1/categories/:categoryId/products/:productSku" method="DELETE">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="delete" />
-        <resources>
-            <resource ref="Magento_Catalog::categories" />
-        </resources>
-    </route>
     <route url="/V1/categories" method="POST">
         <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="save" />
         <resources>
@@ -407,6 +383,32 @@
         <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="update"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+
+    <!-- Category Product Links -->
+    <route url="/V1/categories/:categoryId/products" method="GET">
+        <service class="\Magento\Catalog\Api\CategoryLinkManagementInterface" method="getAssignedProducts" />
+        <resources>
+            <resource ref="Magento_Catalog::categories" />
+        </resources>
+    </route>
+    <route url="/V1/categories/:categoryId/products" method="POST">
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
+        <resources>
+            <resource ref="Magento_Catalog::categories" />
+        </resources>
+    </route>
+    <route url="/V1/categories/:categoryId/products" method="PUT">
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
+        <resources>
+            <resource ref="Magento_Catalog::categories" />
+        </resources>
+    </route>
+    <route url="/V1/categories/:categoryId/products/:productSku" method="DELETE">
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="delete" />
+        <resources>
+            <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
 </routes>

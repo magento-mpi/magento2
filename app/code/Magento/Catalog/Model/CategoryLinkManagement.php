@@ -23,6 +23,18 @@ class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagem
     protected $productLinkBuilder;
 
     /**
+     * @param CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceBuilder $productLinkInterfaceBuilder
+     */
+    public function __construct(
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceBuilder $productLinkInterfaceBuilder
+    ) {
+        $this->categoryRepository = $categoryRepository;
+        $this->productLinkBuilder = $productLinkInterfaceBuilder;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getAssignedProducts($categoryId)
@@ -39,7 +51,11 @@ class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagem
         /** @var \Magento\Catalog\Model\Product $product */
         foreach ($products->getItems() as $productId => $product) {
             $links[] = $this->productLinkBuilder->populateWithArray(
-                [ProductLink::SKU => $product->getSku(), ProductLink::POSITION => $productsPosition[$productId]]
+                [
+                    ProductLink::SKU => $product->getSku(),
+                    ProductLink::POSITION => $productsPosition[$productId],
+                    ProductLink::CATEGORY_ID => $category->getId()
+                ]
             )->create();
         }
         return $links;
