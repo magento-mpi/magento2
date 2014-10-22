@@ -59,8 +59,10 @@
     <preference for="Magento\Catalog\Api\Data\CategoryTreeInterface" type="Magento\Catalog\Model\Category" />
     <preference for="Magento\Catalog\Api\ProductAttributeRepositoryInterface" type="Magento\Catalog\Model\Product\Attribute\Repository" />
     <preference for="Magento\Catalog\Api\Data\ProductAttributeInterface" type="Magento\Catalog\Model\Entity\Attribute" />
-    <preference for="\Magento\Catalog\Api\ProductTypeListInterface" type="\Magento\Catalog\Model\ProductTypeList" />
-    <preference for="\Magento\Catalog\Api\Data\ProductTypeInterface" type="\Magento\Catalog\Model\ProductType" />
+    <preference for="Magento\Catalog\Api\ProductTypeListInterface" type="Magento\Catalog\Model\ProductTypeList" />
+    <preference for="Magento\Catalog\Api\Data\ProductTypeInterface" type="Magento\Catalog\Model\ProductType" />
+    <preference for="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" type="Magento\Catalog\Model\Product\Gallery\GalleryManagement" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface" type="Magento\Catalog\Model\Product\Gallery\Entry" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>

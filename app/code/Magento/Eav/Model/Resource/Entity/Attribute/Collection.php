@@ -46,8 +46,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->eavConfig = $eavConfig;
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**

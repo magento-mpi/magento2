@@ -196,31 +196,31 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku/media/:imageId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="info"/>
+        <service class="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" method="get"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/:productSku/media" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface" method="create"/>
+        <service class="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" method="create"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/media" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface" method="update"/>
+    <route url="/V1/products/:productSku/media/:entryId" method="PUT">
+        <service class="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" method="update"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/:productSku/media/:entryId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface" method="delete"/>
+        <service class="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" method="remove"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/:productSku/media" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="getList"/>
+        <service class="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
