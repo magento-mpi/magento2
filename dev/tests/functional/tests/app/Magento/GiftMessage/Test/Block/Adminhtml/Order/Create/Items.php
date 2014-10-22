@@ -11,13 +11,12 @@ namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\Create;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
 use Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items\ItemProduct;
-use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items as ParentItems;
 
 /**
  * Class Items
  * Adminhtml GiftMessage order create items block.
  */
-class Items extends ParentItems
+class Items extends \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
 {
     /**
      * Item product.

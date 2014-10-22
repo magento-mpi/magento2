@@ -11,13 +11,12 @@ namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\View;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
 use Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items\ItemProduct;
-use Magento\Sales\Test\Block\Adminhtml\Order\View\Items as ParentItems;
 
 /**
  * Class Items
  * Adminhtml GiftMessage order view items block.
  */
-class Items extends ParentItems
+class Items extends \Magento\Sales\Test\Block\Adminhtml\Order\View\Items
 {
     /**
      * Item product selector.

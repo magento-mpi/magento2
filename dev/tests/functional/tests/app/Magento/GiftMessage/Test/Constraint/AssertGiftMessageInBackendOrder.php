@@ -35,6 +35,7 @@ class AssertGiftMessageInBackendOrder extends AbstractAssertForm
         'allow_gift_options_for_items',
         'allow_gift_messages_for_order',
         'allow_gift_options',
+        'items'
     ];
 
     /**
@@ -59,16 +60,15 @@ class AssertGiftMessageInBackendOrder extends AbstractAssertForm
         if ($giftMessage->getAllowGiftMessagesForOrder()) {
             $expectedData = $giftMessage->getData();
             $actualData = $orderView->getGiftOptionsBlock()->getData($giftMessage);
-            $this->verifyForm($expectedData, $actualData);
         }
 
         if ($giftMessage->getAllowGiftOptionsForItems()) {
             foreach ($products as $key => $product) {
-                $expectedData = $giftMessage->getGiftMessageItems()[$key]->getData();
-                $actualData = $orderView->getGiftItemsBlock()->getItemProduct($product)
+                $expectedData[] = $giftMessage->getItems()[$key]->getData();
+                $actualData[] = $orderView->getGiftItemsBlock()->getItemProduct($product)
                     ->getGiftMessageFormData($giftMessage);
-                $this->verifyForm($expectedData, $actualData);
             }
+            $this->verifyForm($expectedData, $actualData);
         }
     }
 

@@ -11,13 +11,12 @@ namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\View\Items;
 use Magento\GiftMessage\Test\Fixture\GiftMessage;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items\ItemProduct as ParentItemProduct;
 
 /**
  * Class ItemProduct
  * Item product block on OrderView page.
  */
-class ItemProduct extends ParentItemProduct
+class ItemProduct extends \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items\ItemProduct
 {
     /**
      * Selector for GiftOptions link.

@@ -86,10 +86,10 @@ class GiftMessage extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $giftMessageItems = [
-        'attribute_code' => 'giftMessageItems',
+    protected $items = [
+        'attribute_code' => 'items',
         'backend_type' => 'virtual',
-        'source' => 'Magento\GiftMessage\Test\Fixture\GiftMessage\GiftMessageItems',
+        'source' => 'Magento\GiftMessage\Test\Fixture\GiftMessage\Items',
     ];
 
     public function getGiftMessageId()
@@ -132,8 +132,8 @@ class GiftMessage extends InjectableFixture
         return $this->getData('allow_gift_options');
     }
 
-    public function getGiftMessageItems()
+    public function getItems()
     {
-        return $this->getData('giftMessageItems');
+        return $this->getData('items');
     }
 }

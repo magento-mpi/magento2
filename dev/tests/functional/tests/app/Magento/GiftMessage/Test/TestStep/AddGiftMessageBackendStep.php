@@ -40,13 +40,6 @@ class AddGiftMessageBackendStep implements TestStepInterface
     protected $products;
 
     /**
-     * Fixturefactory object.
-     *
-     * @var array
-     */
-    protected $fixtureFactory;
-
-    /**
      * @constructor
      * @param OrderCreateIndex $orderCreateIndex
      * @param GiftMessage $giftMessage
@@ -60,7 +53,6 @@ class AddGiftMessageBackendStep implements TestStepInterface
         $this->orderCreateIndex = $orderCreateIndex;
         $this->giftMessage = $giftMessage;
         $this->products = $products;
-
     }
 
     /**

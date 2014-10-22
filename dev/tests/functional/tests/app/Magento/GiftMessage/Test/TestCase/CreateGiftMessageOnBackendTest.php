@@ -8,8 +8,6 @@
 
 namespace Magento\GiftMessage\Test\TestCase;
 
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Scenario;
 
 /**
@@ -18,7 +16,7 @@ use Mtf\TestCase\Scenario;
  * Test Flow:
  *
  * Preconditions:
- * 1. Create Product according dataset.
+ * 1. Create Product according dataSet.
  * 2. Enable Gift Messages (Order/Items level).
  *
  * Steps:
@@ -34,120 +32,13 @@ use Mtf\TestCase\Scenario;
 class CreateGiftMessageOnBackendTest extends Scenario
 {
     /**
-     * Configuration data set name.
-     *
-     * @var string
-     */
-    protected $configuration;
-
-    /**
-     * Factory for Fixtures.
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * Customer logout page.
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
-     * Steps for scenario.
-     *
-     * @var array
-     */
-    protected $scenario = [
-        'CreateGiftMessageOnBackendTest' => [
-            'methods' => [
-                'test' => [
-                    'scenario' => [
-                        'createCustomer' => [
-                            'module' => 'Magento_Customer',
-                            'arguments' => [
-                                'customer' => ['dataSet' => 'johndoe_with_addresses'],
-                            ],
-                            'next' => 'createProducts'
-                        ],
-                        'createProducts' => [
-                            'module' => 'Magento_Catalog',
-                            'next' => 'openSalesOrders'
-                        ],
-                        'openSalesOrders' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'createNewOrder'
-                        ],
-                        'createNewOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectCustomerOrder'
-                        ],
-                        'selectCustomerOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectStore'
-                        ],
-                        'selectStore' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'addProducts'
-                        ],
-                        'addProducts' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'addGiftMessageBackend'
-                        ],
-                        'addGiftMessageBackend' => [
-                            'module' => 'Magento_GiftMessage',
-                            'next' => 'fillBillingAddress'
-                        ],
-                        'fillBillingAddress' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectPaymentMethodForOrder'
-                        ],
-                        'selectPaymentMethodForOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectShippingMethodForOrder'
-                        ],
-                        'selectShippingMethodForOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'submitOrder'
-                        ],
-                        'submitOrder' => [
-                            'module' => 'Magento_Sales',
-                        ],
-                    ]
-                ]
-            ]
-        ]
-    ];
-
-    /**
-     * Preparing data for test.
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @param CustomerAccountLogout $customerAccountLogout
-     * @return void
-     */
-    public function __prepare(
-        FixtureFactory $fixtureFactory,
-        CustomerAccountLogout $customerAccountLogout
-    ) {
-        $this->fixtureFactory = $fixtureFactory;
-        $this->customerAccountLogout = $customerAccountLogout;
-    }
-
-    /**
      * Run CreateGiftMessageOnBackend test.
      *
-     * @param string $config
      * @return void
      */
-    public function test($config)
+    public function test()
     {
-        $this->configuration = $config;
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration();
-        }
-        $this->executeScenario($this->scenario);
+        $this->executeScenario();
     }
 
     /**
@@ -157,22 +48,9 @@ class CreateGiftMessageOnBackendTest extends Scenario
      */
     public function tearDown()
     {
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration(true);
-        }
-    }
-
-    /**
-     * Setup configuration
-     *
-     * @param bool $rollback
-     * @return void
-     */
-    protected function setupConfiguration($rollback = false)
-    {
         $setConfigStep = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => $this->configuration, 'rollback' => $rollback]
+            ['configData' => 'cashondelivery', 'rollback' => true]
         );
         $setConfigStep->run();
     }

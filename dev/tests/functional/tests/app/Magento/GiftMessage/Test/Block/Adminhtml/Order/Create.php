@@ -31,13 +31,14 @@ class Create extends \Magento\Sales\Test\Block\Adminhtml\Order\Create
      */
     public function fillGiftMessageForItems(array $products, GiftMessage $giftMessage)
     {
+        $this->_rootElement->click();
         /** @var \Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items $items */
         $items = $this->blockFactory->create(
             'Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Items',
             ['element' => $this->_rootElement->find($this->itemsBlock)]
         );
         foreach ($products as $key => $product) {
-            $giftMessageItem = $giftMessage->getGiftMessageItems()[$key];
+            $giftMessageItem = $giftMessage->getItems()[$key];
             $items->getItemProduct($product)->fillGiftMessageForm($giftMessageItem);
         }
     }

@@ -12,10 +12,10 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class GiftMessageItems
- * Prepare GiftMessageItems for GiftMessage
+ * Class Items
+ * Prepare Items for GiftMessage
  */
-class GiftMessageItems implements FixtureInterface
+class Items implements FixtureInterface
 {
     /**
      * Prepared dataSet data
@@ -43,7 +43,6 @@ class GiftMessageItems implements FixtureInterface
         $this->params = $params;
         if (isset($data['dataSets'])) {
             $dataSets = explode(',', $data['dataSets']);
-            $giftMessageItems = [];
             foreach ($dataSets as $dataSet) {
                 $giftMessageItems[] = $fixtureFactory->createByCode('giftMessage', ['dataSet' => trim($dataSet)]);
             }
