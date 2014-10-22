@@ -40,6 +40,7 @@
                         "currencies": ["dut", "ua"],
                         "price": "123.45",
                         "send_email": true,
+                        "send_from": "default",
                         "disable_auto": false,
                         "general": "0",
                         "comments": "Some commentary",
@@ -342,7 +343,7 @@
                                 "groups.taxvat",
                                 "groups.gender",
                                 "groups.send_email",
-                                "groups.currencies",
+                                "groups.send_from",
                                 "groups.comments",
                                 "groups.created",
                                 "groups.image"
@@ -495,6 +496,7 @@
                             "type": "selectbox",
                             "config": {
                                 "index": "general",
+                                "label": "General",
                                 "options": [
                                     {"value":"0","label": "General"},
                                     {"value":"1","label": "Wholesale"},
@@ -507,6 +509,30 @@
                             "config": {
                                 "index": "disable_auto",
                                 "description": "Disable Automatic Group"
+                            }
+                        },
+                        "send_from": {
+                            "type": "selectbox",
+                            "config": {
+                                "input_type": "select",
+                                "no_caption": true,
+                                "label": "Send From",
+                                "options": [
+                                    {
+                                        "value":[
+                                            {
+                                                "value": [
+                                                    {
+                                                        "value": "default",
+                                                        "label": "Default Store View"
+                                                    }
+                                                ],
+                                                "label": "Main Website Store"
+                                            }
+                                        ],
+                                        "label": "Main Website"
+                                    }
+                                ]
                             }
                         }
                     }
@@ -569,9 +595,9 @@
                                 "form.send_email"
                             ]
                         },
-                        "currencies": {
+                        "send_from": {
                             "children": [
-                                "customer.currencies"
+                                "form.send_from"
                             ]
                         },
                         "comments": {
@@ -595,10 +621,6 @@
                             ]
                         },
                         "group": {
-                            "config": {
-                                "breakLine": true,
-                                "label": "General"
-                            },
                             "children": [
                                 "form.general"
                             ]

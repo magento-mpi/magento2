@@ -12,62 +12,14 @@ define([
     'use strict';
 
     var defaults = {
-        label:      '',
-        required:   false,
-        template:   'ui/group/group',
-        breakLine:  false
+        label:          '',
+        required:       false,
+        template:       'ui/group/group',
+        fieldTemplate:  'ui/group/field',
+        breakLine:      false
     };
 
     var __super__ = Component.prototype;
-
-    /**
-     * Either takes label property of 'obj' or if undefined loops over 
-     *     elements and returnes first label found.
-     * 
-     * @param  {Array} elems - array of elements
-     * @param  {Object} obj - alternate source of label
-     * @return {String} - label string
-     */
-    function getLabel(elems, obj){
-        var label = obj.label();
-
-        if(!label){
-            elems.some(function(elem){
-                return (label = elem.label);
-            });
-        }
-
-        return label;
-    }
-
-    /**
-     * Returns true if at least one of passed elements has it's required
-     *     observable attribute set to true.
-     *     
-     * @param  {Array} elems
-     * @return {Boolean}
-     */
-    function getRequired(elems){
-        return elems.some(function(elem){
-            return elem.required();
-        });
-    }
-
-    /**
-     * Loops over elems array and returnes first uid found.
-     * 
-     * @param  {Array} elems
-     * @return {String}
-     */
-    function getUid(elems){
-        var uid;
-
-        elems.some(function(elem){
-            return (uid = elem.uid);
-        });
-
-        return uid;
-    }
 
     return Component.extend({
 
@@ -90,8 +42,7 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('invalids', [])
-                .observe('label required uid');
+            this.observe('invalids', []);
 
             return this;
         },
@@ -106,25 +57,6 @@ define([
             __super__.initElement.apply(this, arguments);
 
             element.on('update', this.onUpdate.bind(this));
-
-            this.extractData();
-
-            return this;
-        },
-
-        /**
-         * Extends instance with additional properties.
-         * 
-         * @return {Object} - reference to instance
-         */
-        extractData: function(){
-            var elems = this.elems();
-
-            this.updateObservable({
-                label:      getLabel(elems, this),
-                required:   getRequired(elems, this),
-                uid:        getUid(elems, this)
-            });
 
             return this;
         },

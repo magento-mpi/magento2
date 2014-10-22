@@ -21,6 +21,12 @@ define([
 
     var __super__ = Abstract.prototype;
 
+    function parseValue(value, type){
+        return type === 'multiple_select' ?
+            (!Array.isArray(value) ? [value] : value) :
+            (Array.isArray(value) ? value[0] : value);
+    }
+
     return Abstract.extend({
 
         /**
@@ -42,9 +48,16 @@ define([
             } else {
                 this.size = false;
             }
+
             this.initialValue = JSON.stringify(this.value());
 
             return this;
+        },
+
+        getCaption: function(){
+            if(!this.no_caption){
+                return this.caption; 
+            }
         },
 
         /**
@@ -52,12 +65,7 @@ define([
          * @param  {*} changedValue - current value of form element
          */
         store: function (changedValue) {
-            var storedValue;
-            if (this.type === 'multiple_select') {
-                storedValue = !Array.isArray(changedValue) ? [changedValue] : changedValue;
-            } else {
-                storedValue = Array.isArray(changedValue) ? changedValue[0] : changedValue;
-            }
+            var storedValue = parseValue(changedValue, this.type);
 
             this.provider.data.set(this.name, storedValue);
         },
@@ -67,12 +75,7 @@ define([
          * @return {Boolean}
          */
         hasChanged: function () {
-            var storedValue, changedValue = this.value();
-            if (this.type === 'multiple_select') {
-                storedValue = !Array.isArray(changedValue) ? [changedValue] : changedValue;
-            } else {
-                storedValue = Array.isArray(changedValue) ? changedValue[0] : changedValue;
-            }
+            var storedValue = parseValue(this.value(), this.type);
 
             return JSON.stringify(storedValue) !== this.initialValue;
         }

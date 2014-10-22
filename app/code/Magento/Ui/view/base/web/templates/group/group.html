@@ -9,128 +9,55 @@
 
 <!-- ko if: element.isMultiple() -->
 <fieldset class="field form__field" data-bind="css: {'required': element.required}">
-    <legend class="label"><span data-bind="text: element.label"></span></legend><br />
+    <legend class="label">
+        <span data-bind="text: element.label"></span>
+    </legend><br />
     <div class="control" data-bind="css: {'control-fields': element.breakLine}">
-    <!-- ko ifnot: element.breakLine -->
-        <div class="control-grouped">
-        <!-- ko foreach: { data: elems, as: 'element' } -->
-
-            <!-- ko ifnot: (element.type == 'checkbox' || element.type == 'radio') -->
-
-            <div class="field form__field" data-bind="css: {'required': element.required}">
-                <!-- ko if: element.label -->
-                <label class="label" data-bind="attr: { for: element.uid }, css: {'dublicated': element.label == $parent.label}">
-                    <span data-bind="text: element.label"></span>
-                </label>
-                <!-- /ko -->
-                <div class="control">
-                    <!-- ko ifnot: element.hasAddons() -->
-                        <!-- ko template: element.getTemplate() --><!-- /ko -->
-                    <!-- /ko -->
-                    <!-- ko if: element.hasAddons() -->
-                    <div class="control-addon">
-                        <!-- ko template: element.getTemplate() --><!-- /ko -->
-                        <!-- ko if: element.addbefore -->
-                        <label class="control-before" data-bind="attr: { for: element.uid }"><span data-bind="text: element.addbefore"></span></label>
-                        <!-- /ko -->
-                        <!-- ko if: element.addafter -->
-                        <label class="control-after" data-bind="attr: { for: element.uid }"><span data-bind="text: element.addafter"></span></label>
-                        <!-- /ko -->
-                    </div>
-                    <!-- /ko -->
-
-                    <!-- ko if: element.notice -->
-                    <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: element.notice"></span></div>
-                    <!-- /ko -->
-                </div>
-            </div>
-            <!-- /ko -->
-
-            <!-- ko if: (element.type == 'checkbox' || element.type == 'radio') -->
-                    <!-- ko template: element.getTemplate() --><!-- /ko -->
-            <!-- /ko -->
-
-        <!-- /ko -->
-        </div>
-    <!-- /ko -->
-
-        <!-- ko if: element.breakLine -->
-
+        
+        <!-- ko ifnot: element.breakLine -->
+            <div class="control-grouped">
             <!-- ko foreach: { data: elems, as: 'element' } -->
 
-                <!-- ko ifnot: (type == 'checkbox' || type == 'radio') -->
-
-                <div class="field form__field" data-bind="css: {'required': element.required}">
-                    <!-- ko if: element.label -->
-                    <label class="label" data-bind="attr: { for: element.uid }, css: {'dublicated': element.label == $parent.label}">
-                        <span data-bind="text: element.label"></span>
-                    </label>
-                    <!-- /ko -->
-                    <div class="control">
-                        <!-- ko ifnot: element.hasAddons() -->
-                                <!-- ko template: element.getTemplate() --><!-- /ko -->
-                        <!-- /ko -->
-                        <!-- ko if: element.hasAddons() -->
-                        <div class="control-addon">
-                            <!-- ko template: element.getTemplate() --><!-- /ko -->
-                            <!-- ko if: element.addbefore -->
-                            <label class="control-before" data-bind="attr: { for: element.uid }"><span data-bind="text: element.addbefore"></span></label>
-                            <!-- /ko -->
-                            <!-- ko if: element.addafter -->
-                            <label class="control-after" data-bind="attr: { for: element.uid }"><span data-bind="text: element.addafter"></span></label>
-                            <!-- /ko -->
-                        </div>
-                        <!-- /ko -->
-
-                        <!-- ko if: element.notice -->
-                        <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: element.notice"></span></div>
-                        <!-- /ko -->
-                    </div>
-                </div>
+                <!-- ko ifnot: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                    <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
                 <!-- /ko -->
 
-                <!-- ko if: (element.type == 'checkbox' || element.type == 'radio') -->
+                <!-- ko if: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                        <!-- ko template: element.getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+
+            <!-- /ko -->
+            </div>
+        <!-- /ko -->
+
+        <!-- ko if: element.breakLine -->
+            <!-- ko foreach: { data: elems, as: 'element' } -->
+
+                <!-- ko ifnot: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                    <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
+                <!-- /ko -->
+
+                <!-- ko if: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 <!-- /ko -->
 
             <!-- /ko -->
-
         <!-- /ko -->
+
         <!-- ko foreach: { data: invalids, as: 'element' } -->
-        <label class="mage-error" data-bind="attr: { for: uid }, text: element.error"></label>
+            <label class="mage-error" data-bind="attr: { for: uid }, text: element.error"></label>
         <!-- /ko -->
     </div>
+
 </fieldset>
 <!-- /ko -->
 
 <!-- ko if: element.isSingle() -->
-<div class="field form__field" data-bind="css: {'required': element.required}">
-    <label class="label" data-bind="attr: { for: element.uid }">
-        <span data-bind="text: element.label"></span>
-    </label>
-    <div class="control">
+
     <!-- ko foreach: { data: elems, as: 'element' } -->
-        <!-- ko ifnot: element.hasAddons() -->
-                <!-- ko template: element.getTemplate() --><!-- /ko -->
-        <!-- /ko -->
-        <!-- ko if: element.hasAddons() -->
-        <div class="control-addon">
-            <!-- ko template: element.getTemplate() --><!-- /ko -->
-            <!-- ko if: element.addbefore -->
-            <label class="control-before" data-bind="attr: { for: element.uid }"><span data-bind="text: addbefore"></span></label>
-            <!-- /ko -->
-            <!-- ko if: element.addafter -->
-            <label class="control-after" data-bind="attr: { for: element.uid }"><span data-bind="text: addafter"></span></label>
-            <!-- /ko -->
-        </div>
-        <!-- /ko -->
-        <!-- ko if: element.notice -->
-        <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: notice"></span></div>
-        <!-- /ko -->
+    
+        <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
+    
     <!-- /ko -->
-    <!-- ko foreach: { data: invalids, as: 'element' } -->
-    <label class="mage-error" data-bind="attr: { for: element.uid }, text: element.error"></label>
-    <!-- /ko -->
-    </div>
-</div>
+
 <!-- /ko -->

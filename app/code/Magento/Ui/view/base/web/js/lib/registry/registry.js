@@ -74,7 +74,9 @@ define([
          * @returns {registry} Chainable.
          */
         remove: function(elems) {
-            this.storage.remove(utils.stringToArray(elems));
+            elems = utils.stringToArray(elems)
+
+            this.storage.remove(elems);
 
             return this;
         },
@@ -86,7 +88,9 @@ define([
          * @returns {Boolean}
          */
         has: function(elems) {
-            return this.storage.has(utils.stringToArray(elems));
+            elems = utils.stringToArray(elems);
+
+            return this.storage.has(elems);
         },
 
         create: function(){
