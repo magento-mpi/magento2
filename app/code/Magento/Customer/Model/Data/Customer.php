@@ -230,7 +230,7 @@ class Customer extends \Magento\Framework\Service\Data\AbstractExtensibleObject 
      */
     public function getWebsiteId()
     {
-        return (int)$this->_get(self::WEBSITE_ID);
+        return $this->_get(self::WEBSITE_ID);
     }
 
     /**
