@@ -24,8 +24,8 @@ require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');
 //if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
 if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
     $uninstallCmd = sprintf(
-        'php -f %s --',
-        escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../dev/shell/uninstall.php'))
+        'php -f %s uninstall',
+        escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../setup/index.php'))
     );
     passthru($uninstallCmd, $exitCode);
     if ($exitCode) {
@@ -40,12 +40,13 @@ $installOptions = isset($installConfig['install_options']) ? $installConfig['ins
 /* Install application */
 if ($installOptions) {
     $installCmd = sprintf(
-        'php -f %s --',
-        escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../dev/shell/install.php'))
+        'php -f %s install',
+        escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../setup/index.php'))
     );
     foreach ($installOptions as $optionName => $optionValue) {
-        $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
+        $installCmd .= sprintf(' --%s=%s', $optionName, escapeshellarg($optionValue));
     }
+    $installCmd .= ' --cleanup_database';
     passthru($installCmd, $exitCode);
     if ($exitCode) {
         exit($exitCode);
