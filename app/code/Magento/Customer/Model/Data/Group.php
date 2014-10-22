@@ -20,6 +20,7 @@ class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const ID = 'id';
     const CODE = 'code';
     const TAX_CLASS_ID = 'tax_class_id';
+    const TAX_CLASS_NAME = 'tax_class_name';
 
     /**
      * Get ID
@@ -50,4 +51,15 @@ class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     {
         return $this->_get(self::TAX_CLASS_ID);
     }
+
+    /**
+     * Get tax class name
+     *
+     * @return string
+     */
+    public function getTaxClassName()
+    {
+        return $this->_get(self::TAX_CLASS_NAME);
+    }
+
 }
