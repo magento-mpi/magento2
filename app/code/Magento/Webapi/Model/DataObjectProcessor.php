@@ -23,6 +23,7 @@ use Magento\Webapi\Model\Cache\Type as WebapiCache;
 class DataObjectProcessor
 {
     const IS_METHOD_PREFIX = 'is';
+    const HAS_METHOD_PREFIX = 'has';
     const GETTER_PREFIX = 'get';
     const SERVICE_INTERFACE_METHODS_CACHE_PREFIX = 'serviceInterfaceMethodsMap';
     const BASE_MODEL_CLASS = 'Magento\Framework\Model\AbstractExtensibleModel';
@@ -73,15 +74,33 @@ class DataObjectProcessor
         $outputData = [];
 
         /** @var MethodReflection $method */
-        foreach ($methods as $methodName => $returnType) {
+        foreach ($methods as $methodName => $methodReflectionData) {
+            // any method with parameter(s) gets ignored because we do not know the type and value of
+            // the parameter(s), so we are not able to process
+            if ($methodReflectionData['parameterCount'] > 0) {
+                continue;
+            }
+            $returnType = $methodReflectionData['type'];
             if (substr($methodName, 0, 2) === self::IS_METHOD_PREFIX) {
                 $value = $dataObject->{$methodName}();
+                if ($value === null && !$methodReflectionData['isRequired']) {
+                    continue;
+                }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 2));
                 $outputData[$key] = $this->castValueToType($value, $returnType);
-            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX &&
-                $methodName !== 'getCustomAttribute') {
+            } else if (substr($methodName, 0, 3) === self::HAS_METHOD_PREFIX) {
+                $value = $dataObject->{$methodName}();
+                if ($value === null && !$methodReflectionData['isRequired']) {
+                    continue;
+                }
+                $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
+                $outputData[$key] = $this->castValueToType($value, $returnType);
+            } else if (substr($methodName, 0, 3) === self::GETTER_PREFIX) {
                 $value = $dataObject->{$methodName}();
                 if ($methodName === 'getCustomAttributes' && $value === []) {
+                    continue;
+                }
+                if ($value === null && !$methodReflectionData['isRequired']) {
                     continue;
                 }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
@@ -112,6 +131,8 @@ class DataObjectProcessor
      * @param mixed $value
      * @param string $type
      * @return mixed
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function castValueToType($value, $type)
     {
@@ -121,13 +142,21 @@ class DataObjectProcessor
 
         if ($type === "int" || $type === "integer") {
             return (int)$value;
-        } else if ($type === "string") {
+        }
+
+        if ($type === "string") {
             return (string)$value;
-        } else if ($type === "bool" || $type === "boolean" || $type === "true" || $type == "false") {
+        }
+
+        if ($type === "bool" || $type === "boolean" || $type === "true" || $type == "false") {
             return (bool)$value;
-        } else if ($type === "float") {
+        }
+
+        if ($type === "float") {
             return (float)$value;
-        } else if ($type === "double") {
+        }
+
+        if ($type === "double") {
             return (double)$value;
         }
 
@@ -143,7 +172,7 @@ class DataObjectProcessor
      */
     public function getMethodReturnType($interfaceName, $methodName)
     {
-        return $this->getMethodsMap($interfaceName)[$methodName];
+        return $this->getMethodsMap($interfaceName)[$methodName]['type'];
     }
 
     /**
@@ -212,36 +241,58 @@ class DataObjectProcessor
             if ($methodMap) {
                 $this->serviceInterfaceMethodsMap[$key] = unserialize($methodMap);
             } else {
-                $methodMap = [];
-                $class = new ClassReflection($interfaceName);
-                $baseClassMethods = false;
-                foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                    // Include all the methods of classes inheriting from AbstractExtensibleObject.
-                    // Ignore all the methods of AbstractExtensibleModel's parent classes
-                    if ($method->class === self::BASE_MODEL_CLASS) {
-                        $baseClassMethods = true;
-                    }
-                    // ReflectionClass::getMethods() sorts the methods by class (lowest in the inheritance tree first)
-                    // then by the order they are defined in the class definition
-                    if ($baseClassMethods && $method->class !== self::BASE_MODEL_CLASS) {
-                        break;
-                    }
-                    $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
-                        || $method->isStatic() || $method->isDestructor());
-                    //Ideally 'getData', 'setData' should never be encountered since only data interfaces are expected.
-                    //These should be removed once all the api contracts are defined with data interfaces only
-                    $isExcludedMagicMethod = in_array(
-                        $method->getName(),
-                        ['__sleep', '__wakeup', '__clone', 'getData', 'setData']
-                    );
-                    if ($isSuitableMethodType && !$isExcludedMagicMethod) {
-                        $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method)['type'];
-                    }
-                }
+                $methodMap = $this->getMethodMapViaReflection($interfaceName);
                 $this->serviceInterfaceMethodsMap[$key] = $methodMap;
                 $this->cache->save(serialize($this->serviceInterfaceMethodsMap[$key]), $key);
             }
         }
         return $this->serviceInterfaceMethodsMap[$key];
+    }
+
+    /**
+     * Use reflection to load the method information
+     *
+     * @param string $interfaceName
+     * @return array
+     */
+    protected function getMethodMapViaReflection($interfaceName)
+    {
+        $methodMap = [];
+        $class = new ClassReflection($interfaceName);
+        $baseClassMethods = false;
+        foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+            // Include all the methods of classes inheriting from AbstractExtensibleObject.
+            // Ignore all the methods of AbstractExtensibleModel's parent classes
+            if ($method->class === self::BASE_MODEL_CLASS) {
+                $baseClassMethods = true;
+            } elseif ($baseClassMethods) {
+                // ReflectionClass::getMethods() sorts the methods by class (lowest in inheritance tree first)
+                // then by the order they are defined in the class definition
+                break;
+            }
+
+            if ($this->isSuitableMethod($method)) {
+                $methodMap[$method->getName()] = $this->typeProcessor->getGetterReturnType($method);
+            }
+        }
+        return $methodMap;
+    }
+
+    /**
+     * Determines if the method is suitable to be used by the processor.
+     *
+     * @param \ReflectionMethod $method
+     * @return bool
+     */
+    protected function isSuitableMethod($method)
+    {
+        $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
+            || $method->isStatic() || $method->isDestructor());
+
+        $isExcludedMagicMethod = in_array(
+            $method->getName(),
+            ['__sleep', '__wakeup', '__clone']
+        );
+        return $isSuitableMethodType && !$isExcludedMagicMethod;
     }
 }

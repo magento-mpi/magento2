@@ -290,7 +290,6 @@ class TaxRateServiceTest extends WebapiAbstract
             'percentage_rate' => 8.375,
             'titles' => [],
             'region_name' => 'NY',
-            'zip_range' => null,
         ];
         $this->assertEquals($expectedRateData, $result);
     }
@@ -431,7 +430,6 @@ class TaxRateServiceTest extends WebapiAbstract
                 'code' =>  $rates['codeUs12']->getCode(),
                 'percentage_rate' => ((float) $rates['codeUs12']->getRate()),
                 'titles' => [],
-                'zip_range' => null,
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
@@ -481,9 +479,7 @@ class TaxRateServiceTest extends WebapiAbstract
                 'code' =>  $rates['codeCz2']->getCode(),
                 'percentage_rate' =>  ((float) $rates['codeCz2']->getRate()),
                 'region_id' => 0,
-                'region_name' => null,
                 'titles' => [],
-                'zip_range' => null,
             ],
             [
                 'id' => (int)$rates['codeCz1']->getId(),
@@ -492,9 +488,7 @@ class TaxRateServiceTest extends WebapiAbstract
                 'code' => $rates['codeCz1']->getCode(),
                 'percentage_rate' => ((float) $rates['codeCz1']->getRate()),
                 'region_id' => 0,
-                'region_name' => null,
                 'titles' => [],
-                'zip_range' => null,
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);

@@ -50,7 +50,6 @@ class ReadServiceTest extends WebapiAbstract
             'include_in_menu' => true,
             'name' => 'Category 1',
             'url_key' => 'category-1',
-            'display_mode' => null,
             'category_id' => 333,
             'active' => true,
             'children' => ['333']

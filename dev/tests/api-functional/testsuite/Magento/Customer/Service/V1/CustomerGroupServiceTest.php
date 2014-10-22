@@ -109,7 +109,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 0,
                     CustomerGroup::CODE => 'NOT LOGGED IN',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    'tax_class_name' => null,
                 ]
             ],
             'General' => [
@@ -117,7 +116,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    'tax_class_name' => null,
                 ]
             ],
             'Wholesale' => [
@@ -125,7 +123,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 2,
                     CustomerGroup::CODE => 'Wholesale',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    'tax_class_name' => null,
                 ]
             ],
             'Retailer' => [
@@ -133,7 +130,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 3,
                     CustomerGroup::CODE => 'Retailer',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    'tax_class_name' => null,
                 ]
             ],
         ];
@@ -149,25 +145,21 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 CustomerGroup::ID => 0,
                 CustomerGroup::CODE => 'NOT LOGGED IN',
                 CustomerGroup::TAX_CLASS_ID => 3,
-                'tax_class_name' => null,
             ],
             [
                 CustomerGroup::ID => 1,
                 CustomerGroup::CODE => 'General',
                 CustomerGroup::TAX_CLASS_ID => 3,
-                'tax_class_name' => null,
             ],
             [
                 CustomerGroup::ID => 2,
                 CustomerGroup::CODE => 'Wholesale',
                 CustomerGroup::TAX_CLASS_ID => 3,
-                'tax_class_name' => null,
             ],
             [
                 CustomerGroup::ID => 3,
                 CustomerGroup::CODE => 'Retailer',
                 CustomerGroup::TAX_CLASS_ID => 3,
-                'tax_class_name' => null,
             ]
         ];
 
@@ -235,7 +227,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    'tax_class_name' => null,
                 ]
             ],
             'base' => [
@@ -244,7 +235,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
-                    'tax_class_name' => null,
                 ]
             ]
         ];

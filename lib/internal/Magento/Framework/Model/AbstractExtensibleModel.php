@@ -33,17 +33,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param MetadataServiceInterface $metadataService
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        MetadataServiceInterface $metadataService,
         array $data = array()
     ) {
         $this->metadataService = $metadataService;
@@ -95,7 +95,16 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
     }
 
     /**
-     * {@inheritdoc}
+     * Overwrite data in the object.
+     *
+     * The $key parameter can be string or array.
+     * If $key is string, the attribute value will be overwritten by $value
+     *
+     * If $key is an array, it will overwrite all the data in the object.
+     *
+     * @param string|array  $key
+     * @param mixed         $value
+     * @return $this
      */
     public function setData($key, $value = null)
     {
@@ -106,9 +115,21 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
     }
 
     /**
-     * {@inheritdoc}
+     * Object data getter
+     *
+     * If $key is not defined will return all the data as an array.
+     * Otherwise it will return value of the element specified by $key.
+     * It is possible to use keys like a/b/c for access nested array data
+     *
+     * If $index is specified it will assume that attribute data is an array
+     * and retrieve corresponding member. If data is the string - it will be explode
+     * by new line character and converted to array.
      *
      * In addition to parent implementation custom attributes support is added.
+     *
+     * @param string     $key
+     * @param string|int $index
+     * @return mixed
      */
     public function getData($key = '', $index = null)
     {
@@ -130,6 +151,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
 
     /**
      * Fetch all custom attributes for the given extensible model
+     * //TODO : check if the custom attribute is already defined as a getter on the data interface
      *
      * @return string[]
      */

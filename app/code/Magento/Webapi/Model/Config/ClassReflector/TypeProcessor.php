@@ -281,7 +281,8 @@ class TypeProcessor
         return [
             'type' => $returnType,
             'isRequired' => $isRequired,
-            'description' => $returnAnnotation->getDescription()
+            'description' => $returnAnnotation->getDescription(),
+            'parameterCount' => $methodReflection->getNumberOfParameters()
         ];
     }
 
@@ -447,7 +448,7 @@ class TypeProcessor
                 throw new WebapiException(sprintf($invalidTypeMsg, $value, $type));
             }
         } else {
-            throw new WebapiException(sprintf($invalidTypeMsg, $value, $type));
+            throw new WebapiException(sprintf($invalidTypeMsg, (string)$value, $type));
         }
         return $value;
     }

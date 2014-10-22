@@ -150,13 +150,13 @@ class Handler
     protected function _prepareResponseData($data, $serviceClassName, $serviceMethodName)
     {
         /** @var string $dataType */
-        $dataType =
-            $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
+        $dataType = $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         $result = null;
         if ($data instanceof ExtensibleDataInterface) {
             $result = $this->_dataObjectConverter
                 ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
+            $dataType = substr($dataType, 0, -2);
             foreach ($data as $key => $value) {
                 if ($value instanceof ExtensibleDataInterface) {
                     $result[] = $this->_dataObjectConverter
