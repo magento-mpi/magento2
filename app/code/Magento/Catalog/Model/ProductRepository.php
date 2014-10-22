@@ -85,9 +85,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function get($sku, array $arguments = [])
+    public function get($sku, $editMode = false)
     {
-        $editMode = array_key_exists('edit_mode', $arguments) ? $arguments['edit_mode'] : false;
         if (!isset($this->instances[$sku])) {
             $product = $this->productFactory->create();
             $productId = $product->getIdBySku($sku);
@@ -105,9 +104,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
 
     /**
      * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function save(\Magento\Catalog\Api\Data\ProductInterface $product, array $arguments = [])
+    public function save(\Magento\Catalog\Api\Data\ProductInterface $product)
     {
         try {
             $this->initializationHelper->initialize($product);
@@ -129,9 +127,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
 
     /**
      * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function delete(\Magento\Catalog\Api\Data\ProductInterface $product, array $arguments = [])
+    public function delete(\Magento\Catalog\Api\Data\ProductInterface $product)
     {
         $productSku = $product->getSku();
         try {
@@ -147,9 +144,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
 
     /**
      * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getList(SearchCriteriaInterface $searchCriteria, array $arguments = [])
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */

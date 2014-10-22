@@ -18,45 +18,42 @@ interface ProductRepositoryInterface
      * Create product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param array $arguments
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @see \Magento\Catalog\Service\V1\ProductServiceInterface::update - previous imlementation
      * @see \Magento\Catalog\Service\V1\ProductServiceInterface::create - previous imlementation
      */
-    public function save(ProductInterface $product, array $arguments = []);
+    public function save(ProductInterface $product);
 
     /**
      * Get info about product by product SKU
      *
      * @param string $productSku
-     * @param array $arguments
+     * @param bool $editMode
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($productSku, array $arguments = []);
+    public function get($productSku, $editMode = false);
 
     /**
      * Delete product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param array $arguments
      * @return bool Will returned True if deleted
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see  \Magento\Catalog\Service\V1\ProductServiceInterface::delete
      */
-    public function delete(ProductInterface $product, array $arguments = []);
+    public function delete(ProductInterface $product);
 
     /**
      * Get product list
      *
      * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
-     * @param array $arguments
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
      * @see \Magento\Catalog\Service\V1\ProductServiceInterface::search
      */
-    public function getList(SearchCriteriaInterface $searchCriteria, array $arguments = []);
+    public function getList(SearchCriteriaInterface $searchCriteria);
 }
