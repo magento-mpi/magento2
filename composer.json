@@ -220,13 +220,14 @@
             "Credis_": ["lib/internal/"],
             "Less_" : ["lib/internal/"],
             "Symfony\\" : ["lib/internal/"],
-            "Zend_": ["app/code/", "lib/internal/"],
-            "Zend\\" : ["app/code/", "lib/internal"],
-            "" : ["var/generation"]
+            "Zend_": ["lib/internal/", "app/code/"],
+            "Zend\\" : ["lib/internal/"]
         },
         "psr-4": {
             "Magento\\Framework\\": ["lib/internal/Magento/Framework/"],
-            "Magento\\": ["app/code/Magento/"]
+            "Magento\\": ["app/code/Magento/", "var/generation/Magento"],
+            "Zend\\Soap\\": ["app/code/Zend/Soap"],
+            "Zend\\" : ["lib/internal/Zend"]
         }
     },
     "include-path": ["/lib/internal", "/app/code"],
@@ -237,14 +238,6 @@
             ],
             "Magento\\Tools\\License\\" : ["dev/build/publication/license/"],
             "Magento\\Tools\\Sanity\\" : ["dev/build/publication/sanity/Magento/Tools/Sanity"],
-            "Magento\\Tools\\Composer\\" : ["dev/tools/Magento/Tools/Composer/"],
-            "Magento\\Tools\\Dependency\\" : ["dev/tools/Magento/Tools/Dependency/"],
-            "Magento\\Tools\\Di\\" : ["dev/tools/Magento/Tools/Di/"],
-            "Magento\\Tools\\Formatter\\" : ["dev/tools/Magento/Tools/Formatter/"],
-            "Magento\\Tools\\I18n\\" : ["dev/tools/Magento/Tools/I18n/"],
-            "Magento\\Tools\\Layout\\" : ["dev/tools/Magento/Tools/Layout/"],
-            "Magento\\Tools\\Migration\\" : ["dev/tools/Magento/Tools/Migration/"],
-            "Magento\\Tools\\View\\" : ["dev/tools/Magento/Tools/View/"],
             "Magento\\TestFramework\\Inspection\\" : [
                 "dev/tests/static/framework/Magento/TestFramework/Inspection"
             ],
