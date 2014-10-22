@@ -56,7 +56,9 @@ class AssertTargetRuleForm extends AbstractConstraint
     ) {
         $replace = [
             'customer_segment_ids' => [
-                '%customer_segment%' => $customerSegment->hasData() ? $customerSegment->getName() : '',
+                '%customer_segment%' => $customerSegment && $customerSegment->hasData()
+                    ? $customerSegment->getName()
+                    : '',
             ],
         ];
 

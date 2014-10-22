@@ -63,6 +63,11 @@ class Design implements \Magento\Framework\View\DesignInterface
     protected $_locale;
 
     /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
      * @var \Magento\Framework\App\State
      */
     protected $_appState;
@@ -72,7 +77,7 @@ class Design implements \Magento\Framework\View\DesignInterface
      * @param \Magento\Framework\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
-     * @param \Magento\Framework\Locale\ResolverInterface $locale
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\State $appState
      * @param array $themes
      */
@@ -81,7 +86,7 @@ class Design implements \Magento\Framework\View\DesignInterface
         \Magento\Framework\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
-        \Magento\Framework\Locale\ResolverInterface $locale,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\App\State $appState,
         array $themes
     ) {
@@ -91,7 +96,7 @@ class Design implements \Magento\Framework\View\DesignInterface
         $this->_scopeConfig = $scopeConfig;
         $this->_appState = $appState;
         $this->_themes = $themes;
-        $this->_locale = $locale;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -241,6 +246,9 @@ class Design implements \Magento\Framework\View\DesignInterface
      */
     public function getLocale()
     {
+        if (null === $this->_locale) {
+            $this->_locale = $this->objectManager->get('Magento\Framework\Locale\ResolverInterface');
+        }
         return $this->_locale->getLocaleCode();
     }
 

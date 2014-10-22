@@ -29,7 +29,7 @@ class SalesGuestView extends Page
      *
      * @var string
      */
-    protected $blockSelector = '//div[@class="order details view"]';
+    protected $blockSelector = '.page-title';
 
     /**
      * Custom constructor
@@ -47,7 +47,7 @@ class SalesGuestView extends Page
     public function getViewBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesOrderInfoButtons(
-            $this->_browser->find($this->blockSelector, Locator::SELECTOR_XPATH)
+            $this->_browser->find($this->blockSelector)
         );
     }
 }
