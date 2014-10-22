@@ -83,10 +83,22 @@
 
     * {
         &:focus {
-            outline: none;
-            box-shadow: 0 0 3px 1px @color-focus;
+            outline: 0;
+            box-shadow: none;
         }
     }
+
+    .focusin *,
+    input:not([disabled]),
+    textarea:not([disabled]),
+    select:not([disabled]) {
+        &:focus {
+            box-shadow: @focus-box-shadow;
+        }
+    }
+
+
+
 }
 
 //
