@@ -36,6 +36,7 @@ $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
 $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
 $installConfig = require($installConfigFile);
 $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
+$installOptionsNoValue = isset($installConfig['install_options_no_value']) ? $installConfig['install_options_no_value'] : array();
 
 /* Install application */
 if ($installOptions) {
@@ -46,7 +47,9 @@ if ($installOptions) {
     foreach ($installOptions as $optionName => $optionValue) {
         $installCmd .= sprintf(' --%s=%s', $optionName, escapeshellarg($optionValue));
     }
-    $installCmd .= ' --cleanup_database';
+    foreach ($installOptionsNoValue as $optionName) {
+        $installCmd .= sprintf(' --%s', $optionName);
+    }
     passthru($installCmd, $exitCode);
     if ($exitCode) {
         exit($exitCode);

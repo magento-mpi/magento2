@@ -7,10 +7,6 @@
  */
 
 return array(
-    /**
-     * Console installer options
-     * @see \Magento\Install\Model\Installer\Console::installParameters
-     */
     'install_options' => array(
         'language'               => 'en_US',
         'timezone'               => 'America/Los_Angeles',
@@ -33,5 +29,8 @@ return array(
         'base_url_secure'        => '{{secure_url}}',
         'session_save'           => 'db',
         'backend_frontname'      => 'backend',
+    ),
+    'install_options_no_value' => array(
+        'cleanup_database',
     )
 );
