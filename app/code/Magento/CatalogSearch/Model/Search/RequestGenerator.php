@@ -69,7 +69,7 @@ class RequestGenerator
     {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $productAttributes */
         $productAttributes = $this->productAttributeCollectionFactory->create();
-        $productAttributes->addFieldToFilter('is_searchable', 1);
+        $productAttributes->addFieldToFilter(['is_searchable', 'is_visible_in_advanced_search'], [1, 1]);
 
         return $productAttributes;
     }
@@ -115,6 +115,7 @@ class RequestGenerator
                     ];
                     break;
                 case 'decimal':
+                case 'datetime':
                 case 'date':
                     $filterName = $attribute->getAttributeCode() . '_filter';
                     $request['queries'][$queryName] = [
