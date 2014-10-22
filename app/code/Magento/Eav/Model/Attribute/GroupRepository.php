@@ -167,6 +167,17 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function deleteById($groupId)
+    {
+        $this->delete(
+            $this->get($groupId)
+        );
+        return true;
+    }
+
+    /**
      * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
      * @return null|string
      */

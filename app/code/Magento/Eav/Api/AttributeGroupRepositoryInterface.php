@@ -46,4 +46,12 @@ interface AttributeGroupRepositoryInterface
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::delete
      */
     public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
+
+    /**
+     * Remove attribute group by id
+     *
+     * @param $groupId
+     * @return bool
+     */
+    public function deleteById($groupId);
 }
