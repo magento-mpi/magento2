@@ -244,6 +244,26 @@ class View extends AbstractConfigureBlock
     }
 
     /**
+     * Return product price excluding tax displayed on page
+     *
+     * @return string
+     */
+    public function getProductPriceExcludingTax()
+    {
+        return $this->getPriceBlock()->getPriceExcludingTax();
+    }
+
+    /**
+     * Return product price including tax displayed on page
+     *
+     * @return string
+     */
+    public function getProductPriceIncludingTax()
+    {
+        return $this->getPriceBlock()->getPriceIncludingTax();
+    }
+
+    /**
      * Return product short description on page
      *
      * @return string|null

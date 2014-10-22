@@ -1115,5 +1115,241 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $taxCalculationConf = [
+            'section' => [
+                [
+                    'path' => 'tax/calculation/algorithm',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => 'UNIT_BASE_CALCULATION',
+                ],
+                [
+                    'path' => 'tax/calculation/price_includes_tax',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/calculation/shipping_includes_tax',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/calculation/apply_after_discount',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/calculation/discount_tax',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/display/type',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/display/shipping',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/price',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/subtotal',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/shipping',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/grandtotal',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1'
+                ],
+                [
+                    'path' => 'tax/cart_display/full_summary',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
+            ]
+        ];
+        $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'ROW_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['row_cat_excl_ship_incl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'ROW_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_excl_ship_incl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['row_cat_incl_ship_excl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'ROW_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['unit_cat_incl_ship_incl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'UNIT_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_excl_ship_incl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['unit_cat_excl_ship_excl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'UNIT_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_incl_ship_excl_before_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_excl_ship_incl_after_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['unit_cat_excl_ship_incl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'UNIT_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['default_tax_configuration'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
     }
 }

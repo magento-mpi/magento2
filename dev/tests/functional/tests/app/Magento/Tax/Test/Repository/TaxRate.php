@@ -61,9 +61,33 @@ class TaxRate extends AbstractRepository
             'tax_region_id' => 'California',
         ];
 
+        $this->_data['us_ca_rate_8_25_no_zip'] = [
+            'code' => 'Tax Rate %isolation%',
+            'rate' => '8.25',
+            'tax_country_id' => 'United States',
+            'tax_postcode' => '*',
+            'tax_region_id' => 'California',
+        ];
+
+        $this->_data['us_ca_rate_8_375'] = [
+            'code' => 'Tax Rate %isolation%',
+            'rate' => '8.375',
+            'tax_country_id' => 'United States',
+            'tax_postcode' => '*',
+            'tax_region_id' => 'California',
+        ];
+
         $this->_data['us_ny_rate_8_375'] = [
             'code' => 'Tax Rate %isolation%',
             'rate' => '8.375',
+            'tax_country_id' => 'United States',
+            'tax_region_id' => 'New York',
+            'tax_postcode' => '*',
+        ];
+
+        $this->_data['us_ny_rate_8_25'] = [
+            'code' => 'Tax Rate %isolation%',
+            'rate' => '8.25',
             'tax_country_id' => 'United States',
             'tax_region_id' => 'New York',
             'tax_postcode' => '*',

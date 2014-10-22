@@ -59,6 +59,10 @@
     <assertTaxRuleIsApplied module="Magento_Tax">
         <severeness>high</severeness>
     </assertTaxRuleIsApplied>
+    <assertTaxRuleIsAppliedToAllPrices module="Magento_Tax">
+        <severeness>high</severeness>
+        <require />
+    </assertTaxRuleIsAppliedToAllPrices>
     <assertTaxRuleIsNotApplied module="Magento_Tax">
         <severeness>high</severeness>
     </assertTaxRuleIsNotApplied>
