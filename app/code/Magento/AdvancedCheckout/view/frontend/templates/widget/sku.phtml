@@ -36,13 +36,13 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
                 </div>
             </div>
 
-            <div class="box">
-                <?php if ($this->getChildHtml()): ?>
+            <?php if ($this->getChildHtml()): ?>
+                <div class="box">
                     <fieldset class="fieldset">
                         <?php echo $this->getChildHtml(); ?>
                     </fieldset>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
 
             <div class="actions-toolbar">
                 <div class="primary">

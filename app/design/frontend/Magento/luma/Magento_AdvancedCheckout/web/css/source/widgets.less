@@ -59,25 +59,65 @@
         }
     }
 
-    .form-addbysku .actions-toolbar {
-        .primary {
-            text-align: left;
-            .action {
-                width: auto;
+    .form-addbysku {
+        .actions-toolbar {
+            margin: 0 0 @indent-base;
+            .primary {
+                text-align: left;
+                .action {
+                    width: auto;
+                }
             }
-        }
-        .secondary {
-            text-align: left;
+            .secondary {
+                text-align: left;
+            }
         }
     }
 
-    .block-content {
-        &:extend(.abstract-add-clearfix-desktop all);
-        .box {
-            &:extend(.abstract-blocks-2columns all);
-            > .actions-toolbar {
-                margin: 0 0 @indent-base;
+    .fieldset {
+        .fields {
+            .sku {
+                margin-right: -85px;
+                padding-right: 90px;
+                width: 100%;
             }
+        }
+    }
+}
+
+.column {
+    &:not(.sidebar) {
+        .block-content {
+            &:extend(.abstract-add-clearfix-desktop all);
+            .box {
+                &:extend(.abstract-blocks-2columns all);
+            }
+        }
+    }
+}
+
+.sidebar {
+    .block-addbysku {
+        .fieldset {
+            .fields {
+                .actions-toolbar {
+                    top: 33px;
+                }
+            }
+        }
+    }
+    .action {
+        &.remove {
+            .button-icon(
+                @_icon-font-content: @icon-remove,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 20px,
+                @_icon-font-color: @color-remove-icon
+            );
+            .icon-font-symbol(
+                @_icon-font-content: @icon-trash
+            );
+            .button-reset();
         }
     }
 }
@@ -87,32 +127,23 @@
 //    Mobile @screen-s
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .block-addbysku {
-        .action {
-            &.remove {
-                .button-icon(
-                    @_icon-font-content: @icon-remove,
-                    @_icon-font-text-hide: true,
-                    @_icon-font-size: 20px,
-                    @_icon-font-color: @color-remove-icon
-                );
-                .icon-font-symbol(
-                    @_icon-font-content: @icon-trash
-                );
-                .button-reset();
-            }
-        }
-
-        .fieldset {
-            .fields {
-                .sku {
-                    margin-right: -85px;
-                    padding-right: 90px;
-                    width: 100%;
+    .column {
+        &:not(.sidebar) {
+            .action {
+                &.remove {
+                    .button-icon(
+                        @_icon-font-content: @icon-remove,
+                        @_icon-font-text-hide: true,
+                        @_icon-font-size: 20px,
+                        @_icon-font-color: @color-remove-icon
+                    );
+                    .icon-font-symbol(
+                        @_icon-font-content: @icon-trash
+                    );
+                    .button-reset();
                 }
             }
         }
-
     }
 }
 
@@ -120,30 +151,16 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-s) {
-    .block-addbysku {
-        .block-content {
-            .box {
-                &:nth-child(1) {
-                    width: 55%;
-                }
-                &:nth-child(2) {
-                    width: 42%;
-                }
-            }
-        }
-
-        .action {
-            &.remove {
-                .button-reset();
-                .button-as-link();
-                margin-top: 4px;
-            }
-        }
-
-        .fieldset {
-            .field {
-                .note {
-                    margin: 0;
+    .column {
+        &:not(.sidebar) {
+            .block-content {
+                .box {
+                    &:nth-child(1) {
+                        width: 55%;
+                    }
+                    &:nth-child(2) {
+                        width: 42%;
+                    }
                 }
             }
             .fields {
@@ -151,6 +168,22 @@
                     margin-right: -155px;
                     padding-right: 160px;
                     width: 100%;
+                }
+            }
+            .block-addbysku {
+                .action {
+                    &.remove {
+                        .button-reset();
+                        .button-as-link();
+                        margin-top: 4px;
+                    }
+                }
+                .fieldset {
+                    .field {
+                        .note {
+                            margin: 0;
+                        }
+                    }
                 }
             }
         }
