@@ -36,8 +36,22 @@ interface AllSoapAndRestInterface
     /**
      * Update existing item.
      *
-     * @param \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item
+     * @param \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
      * @return \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest
      */
-    public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item);
+    public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem);
+
+    /**
+     * Update existing item.
+     *
+     * @param string $firstId
+     * @param string $secondId
+     * @param \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
+     * @return \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest
+     */
+    public function nestedUpdate(
+        $firstId,
+        $secondId,
+        \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
+    );
 }

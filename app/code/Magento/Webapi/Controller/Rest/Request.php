@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Controller\Rest;
+
+use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class Request extends \Magento\Webapi\Controller\Request
 {
@@ -161,14 +164,44 @@ class Request extends \Magento\Webapi\Controller\Request
     public function getRequestData()
     {
         $requestBody = array();
+        $params = $this->getParams();
 
         $httpMethod = $this->getHttpMethod();
-        if ($httpMethod == \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST ||
-            $httpMethod == \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+        if ($httpMethod == RestConfig::HTTP_METHOD_POST ||
+            $httpMethod == RestConfig::HTTP_METHOD_PUT
         ) {
             $requestBody = $this->getBodyParams();
         }
 
-        return array_merge($requestBody, $this->getParams());
+        /*
+         * Valid only for updates using PUT when passing id value both in URL and body
+         */
+        if ($httpMethod == RestConfig::HTTP_METHOD_PUT && !empty($params)) {
+            $requestBody = $this->overrideRequestBodyIdWithPathParam($params);
+        }
+
+        return array_merge($requestBody, $params);
+    }
+
+    /**
+     * Override request body identifier property with id passed in url path parameter
+     *
+     * This method assumes that the Data Object uses 'id' as the entity identifier and path parameter ends with
+     * suffix as 'id' ex URI . /:firstId/nestedResource/:secondId. Here :secondId value will be used for overriding
+     * 'id' property in the body.
+     *
+     * @param array params url path parameters as array
+     * @return array updated request body identifier value
+     */
+    protected function overrideRequestBodyIdWithPathParam($urlPathParams)
+    {
+        $requestBodyParams = $this->getBodyParams();
+        $urlIdParamValue = end($urlPathParams);
+        $idKey = lcfirst(substr(key($urlPathParams), -2));
+        $requestDataKey = key($requestBodyParams);
+        if (isset($requestBodyParams[$requestDataKey][$idKey])) {
+            $requestBodyParams[$requestDataKey][$idKey] = $urlIdParamValue;
+        }
+        return $requestBodyParams;
     }
 }

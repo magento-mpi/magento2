@@ -33,6 +33,13 @@
             <resource ref="Magento_TestModule5::resource2" />
         </resources>
     </route>
+    <route method="PUT" url="/V1/TestModule5/:firstId/nestedResource/:secondId">
+        <service class="Magento\TestModule5\Service\V1\AllSoapAndRestInterface" method="nestedUpdate" />
+        <resources>
+            <resource ref="Magento_TestModule5::resource1" />
+            <resource ref="Magento_TestModule5::resource2" />
+        </resources>
+    </route>
     <route method="GET" url="/V2/TestModule5/:id">
         <service class="Magento\TestModule5\Service\V2\AllSoapAndRestInterface" method="item" />
         <resources>

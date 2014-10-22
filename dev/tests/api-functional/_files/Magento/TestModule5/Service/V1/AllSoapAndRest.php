@@ -58,9 +58,16 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     /**
      * @inheritdoc
      */
-    public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item)
+    public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem)
     {
-        $item->setName('Updated' . $item->getName());
-        return $this->builder->populate($item)->create();
+        return $entityItem;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function nestedUpdate($firstId, $secondId, \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem)
+    {
+        return $entityItem;
     }
 }
