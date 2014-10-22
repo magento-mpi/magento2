@@ -5,6 +5,10 @@
  * @license     {license_link}
  */
 
+.trnslate-inline-area [data-translate],
+.trnslate-inline-area .translate-inline {
+	outline:  dotted 1px red!important;
+}
 * html .translate-inline,
 *+html .translate-inline{
 	border:  dotted 1px red !important;
