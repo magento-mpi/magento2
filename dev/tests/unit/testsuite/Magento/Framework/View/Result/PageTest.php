@@ -91,13 +91,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $pageConfigFactory = $this->getMockBuilder('Magento\Framework\View\Page\ConfigFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $pageConfigFactory->expects($this->once())
-            ->method('create')
-            ->willReturn($this->pageConfig);
-
         $this->viewFileSystem = $this->getMockBuilder('Magento\Framework\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
@@ -106,9 +99,9 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->context = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template\Context', [
             'layout' => $this->layout,
             'request' => $this->request,
-            'viewFileSystem' => $this->viewFileSystem
+            'viewFileSystem' => $this->viewFileSystem,
+            'pageConfig' => $this->pageConfig
         ]);
-
 
         $this->translateInline = $this->getMock('Magento\Framework\Translate\InlineInterface');
 
@@ -134,7 +127,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 'context' => $this->context,
                 'translateInline' => $this->translateInline,
                 'pageConfigRendererFactory' => $pageConfigRendererFactory,
-                'pageConfigFactory' => $pageConfigFactory,
             ]
         );
     }
