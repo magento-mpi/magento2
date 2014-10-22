@@ -19,7 +19,7 @@ use Mtf\Fixture\InjectableFixture;
 abstract class AbstractActionProductToAnotherWishlistTest extends AbstractMultipleWishlistEntityTest
 {
     /**
-     * Action for this test.
+     * Multiple wish list action type.
      *
      * @var string
      */
@@ -56,7 +56,7 @@ abstract class AbstractActionProductToAnotherWishlistTest extends AbstractMultip
     }
 
     /**
-     * Action  product to another wish list.
+     * Action product to another wish list.
      *
      * @param MultipleWishlist $multipleWishlist
      * @param InjectableFixture $product

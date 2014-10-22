@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\TestCase\MoveProductToAnotherWishlistTest;
+use Magento\MultipleWishlist\Test\TestCase\MoveProductToAnotherWishlistEntityTest;
 
 /**
  * Test Creation for MoveGiftCardToAnotherWishlistTest
@@ -30,7 +30,7 @@ use Magento\MultipleWishlist\Test\TestCase\MoveProductToAnotherWishlistTest;
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-28820
  */
-class MoveGiftCardToAnotherWishlistTest extends MoveProductToAnotherWishlistTest
+class MoveGiftCardToAnotherWishlistEntityTest extends MoveProductToAnotherWishlistEntityTest
 {
     //
 }

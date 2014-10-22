@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\TestCase\CopyProductToAnotherWishListTest;
+use Magento\MultipleWishlist\Test\TestCase\CopyProductToAnotherWishlistEntityTest;
 
 /**
  * Test Creation for CopyProductToAnotherWishList
@@ -31,7 +31,7 @@ use Magento\MultipleWishlist\Test\TestCase\CopyProductToAnotherWishListTest;
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-29640
  */
-class CopyGiftCardToAnotherWishListTest extends CopyProductToAnotherWishListTest
+class CopyGiftCardToAnotherWishlistEntityTest extends CopyProductToAnotherWishlistEntityTest
 {
     //
 }

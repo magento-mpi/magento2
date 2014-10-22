@@ -12,34 +12,33 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Test Creation for CopyProductToAnotherWishList
+ * Test Creation for MoveProductToAnotherWishlistTest
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Enable Multiple wish list in config.
- * 2. Create customer.
- * 3. Create one multiple wish list.
+ * 2. Register new customer.
+ * 3. Create one custom wish list.
  * 4. Add product with qty defined in dataSet to default wish list.
  *
  * Steps:
- * 1. Log in on frontend.
+ * 1. Login to the Frontend as a customer.
  * 2. Open default wish list.
- * 3. Check product.
- * 4. Set qtyToCopy and copy it to another wish list.
- * 5. Perform assertions.
+ * 3. Set qtyToMove and move it to custom wish list.
+ * 4. Perform assertions.
  *
  * @group Multiple_Wishlists_(CS)
- * @ZephyrId MAGETWO-29640
+ * @ZephyrId MAGETWO-28820
  */
-class CopyProductToAnotherWishListTest extends AbstractActionProductToAnotherWishlistTest
+class MoveProductToAnotherWishlistEntityTest extends AbstractActionProductToAnotherWishlistTest
 {
     /**
-     * Action for this test.
+     * Multiple wish list move action.
      *
      * @var string
      */
-    protected $action = 'copy';
+    protected $action = 'move';
 
     /**
      * Run Move To Another Wishlist test.
