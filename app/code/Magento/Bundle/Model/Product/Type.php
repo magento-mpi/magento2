@@ -319,9 +319,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                     $virtualCount++;
                 }
             }
-            if ($virtualCount == count($selections)) {
-                return true;
-            }
+            return  $virtualCount == count($selections);
         }
         return false;
     }
