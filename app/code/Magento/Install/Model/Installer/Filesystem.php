@@ -7,6 +7,8 @@
  */
 namespace Magento\Install\Model\Installer;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Filesystem installer
  */
@@ -22,7 +24,7 @@ class Filesystem
     /**#@- */
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -46,12 +48,12 @@ class Filesystem
     protected $messageManager;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Install\Model\Config $installConfig
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Install\Model\Config $installConfig,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
@@ -106,7 +108,7 @@ class Filesystem
     protected function _checkFullPath($fullPath, $recursive, $existence)
     {
         $result = true;
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $path = $directory->getRelativePath($fullPath);
         if ($recursive && $directory->isDirectory($path)) {
             $pathsToCheck = $directory->read($path);

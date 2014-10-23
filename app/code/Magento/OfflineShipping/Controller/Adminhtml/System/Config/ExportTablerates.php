@@ -8,6 +8,7 @@
  */
 namespace Magento\OfflineShipping\Controller\Adminhtml\System\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 use Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker;
 
@@ -62,6 +63,6 @@ class ExportTablerates extends \Magento\Backend\Controller\Adminhtml\System\Abst
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
         $content = $gridBlock->getCsvFile();
-        return $this->_fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, DirectoryList::VAR_DIR);
     }
 }
