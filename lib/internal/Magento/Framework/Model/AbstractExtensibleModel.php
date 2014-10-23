@@ -16,7 +16,9 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  * This class defines basic data structure of how custom attributes are stored in an ExtensibleModel.
  * Implementations may choose to process custom attributes as their persistence requires them to.
  */
-abstract class AbstractExtensibleModel extends AbstractModel implements \Magento\Framework\Api\ExtensibleDataInterface
+abstract class AbstractExtensibleModel
+    extends AbstractModel
+    implements \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 

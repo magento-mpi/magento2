@@ -25,7 +25,9 @@ class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaI
     const CURRENT_PAGE = 'current_page';
 
     /**
-     * {@inheritdoc}
+     * Get a list of filter groups.
+     *
+     * @return \Magento\Framework\Service\V1\Data\Search\FilterGroup[]
      */
     public function getFilterGroups()
     {
@@ -33,7 +35,9 @@ class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaI
     }
 
     /**
-     * {@inheritdoc}
+     * Get sort order.
+     *
+     * @return \Magento\Framework\Service\V1\Data\SortOrder[]|null
      */
     public function getSortOrders()
     {
@@ -41,7 +45,9 @@ class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaI
     }
 
     /**
-     * {@inheritdoc}
+     * Get page size.
+     *
+     * @return int|null
      */
     public function getPageSize()
     {
@@ -49,7 +55,9 @@ class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaI
     }
 
     /**
-     * {@inheritdoc}
+     * Get current page.
+     *
+     * @return int|null
      */
     public function getCurrentPage()
     {

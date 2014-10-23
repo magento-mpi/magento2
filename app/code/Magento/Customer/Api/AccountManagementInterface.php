@@ -100,6 +100,7 @@ interface AccountManagementInterface
      * @param string $email
      * @param string $currentPassword
      * @param string $newPassword
+     * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function changePassword($email, $currentPassword, $newPassword);
@@ -110,6 +111,7 @@ interface AccountManagementInterface
      * @param string $email
      * @param string $template
      * @param int $websiteId
+     * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function initiatePasswordReset($email, $template, $websiteId = null);
@@ -120,6 +122,7 @@ interface AccountManagementInterface
      * @param string $email
      * @param string $resetToken
      * @param string $newPassword
+     * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function resetPassword($email, $resetToken, $newPassword);
@@ -142,6 +145,7 @@ interface AccountManagementInterface
      * Gets the account confirmation status.
      *
      * @param int $customerId
+     * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getConfirmationStatus($customerId);
@@ -152,6 +156,7 @@ interface AccountManagementInterface
      * @param string $email
      * @param int $websiteId
      * @param string $redirectUrl
+     * @return bool true on success
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function resendConfirmation($email, $websiteId, $redirectUrl = '');
