@@ -15,10 +15,17 @@ class Autoloader
     protected $_generator;
 
     /**
+     * @var \Magento\Framework\Code\Generator\FileResolver
+     */
+    protected $fileResolver;
+    /**
      * @param \Magento\Framework\Code\Generator $generator
      */
-    public function __construct(\Magento\Framework\Code\Generator $generator)
-    {
+    public function __construct(
+        \Magento\Framework\Code\Generator $generator,
+        \Magento\Framework\Code\Generator\FileResolver $fileResolver
+    ) {
+        $this->fileResolver = $fileResolver;
         $this->_generator = $generator;
     }
 
@@ -32,7 +39,10 @@ class Autoloader
     {
         if (!class_exists($className)) {
             if (\Magento\Framework\Code\Generator::GENERATION_SUCCESS === $this->_generator->generateClass($className)) {
-                (new \Magento\Framework\Autoload\IncludePath())->load($className);
+                $file = $this->fileResolver->getFile($className);
+                if($file) {
+                    include $file;
+                }
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Profiler;
+use Magento\Framework\Code\Generator\FileResolver;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -56,9 +57,7 @@ class ObjectManagerFactory
         ) ? $arguments[Filesystem::PARAM_APP_DIRS] : array();
         $directoryList = new DirectoryList($rootDir, $directories);
 
-        (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($directoryList->getDir(Filesystem::GENERATION_DIR))
-        );
+        FileResolver::addIncludePath($directoryList->getDir(Filesystem::GENERATION_DIR));
 
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 

@@ -135,7 +135,7 @@ class DefinitionFactory
                         => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
                 )
             );
-            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
+            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
             spl_autoload_register(array($autoloader, 'load'));
 
             $result = new Runtime();
