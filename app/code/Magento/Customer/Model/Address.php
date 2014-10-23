@@ -76,6 +76,79 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_init('Magento\Customer\Model\Resource\Address');
     }
 
+    public function updateFromDataModel($address)
+    {
+        // Set all attributes
+        $attributes = AddressConverter::toFlatArray($address);
+        foreach ($attributes as $attributeCode => $attributeData) {
+            if (Address::KEY_REGION === $attributeCode && $address->getRegion() instanceof Region) {
+                $this->setDataUsingMethod(Region::KEY_REGION, $address->getRegion()->getRegion());
+                $this->setDataUsingMethod(Region::KEY_REGION_CODE, $address->getRegion()->getRegionCode());
+                $this->setDataUsingMethod(Region::KEY_REGION_ID, $address->getRegion()->getRegionId());
+            } else {
+                $this->setDataUsingMethod($attributeCode, $attributeData);
+            }
+        }
+        // Set customer related data
+        $isBilling = $address->isDefaultBilling();
+        $this->setIsDefaultBilling($isBilling);
+        $this->setIsDefaultShipping($address->isDefaultShipping());
+        // Need to use attribute set or future updates can cause data loss
+        if (!$this->getAttributeSetId()) {
+            $this->setAttributeSetId(AddressMetadataServiceInterface::ATTRIBUTE_SET_ID_ADDRESS);
+        }
+    }
+
+    public function getDataModel($defaultBillingId, $defaultShippingId)
+    {
+        $addressId = $this->getId();
+
+        $attributes = $this->_addressMetadataService->getAllAttributesMetadata();
+        $addressData = array();
+        foreach ($attributes as $attribute) {
+            $code = $attribute->getAttributeCode();
+            if (!is_null($this->getData($code))) {
+                $addressData[$code] = $this->getData($code);
+            }
+        }
+
+        $isDefaultBilling = $this->getData('is_default_billing') === null && intval($addressId)
+            ? $addressId === $defaultBillingId
+            : $this->getData('is_default_billing');
+
+        $isDefaultShipping = $this->getData('is_default_shipping') === null && intval($addressId)
+            ? $addressId === $defaultShippingId
+            : $this->getData('is_default_shipping');
+
+        $this->_addressBuilder->populateWithArray(
+            array_merge(
+                $addressData,
+                array(
+                    Address::KEY_STREET => $this->getStreet(),
+                    Address::KEY_DEFAULT_BILLING => $isDefaultBilling,
+                    Address::KEY_DEFAULT_SHIPPING => $isDefaultShipping,
+                    Address::KEY_REGION => array(
+                        Region::KEY_REGION => $this->getRegion(),
+                        Region::KEY_REGION_ID => $this->getRegionId(),
+                        Region::KEY_REGION_CODE => $this->getRegionCode()
+                    )
+                )
+            )
+        );
+
+        if ($addressId) {
+            $this->_addressBuilder->setId($addressId);
+        }
+
+        if ($this->getCustomerId() || $this->getParentId()) {
+            $customerId = $this->getCustomerId() ?: $this->getParentId();
+            $this->_addressBuilder->setCustomerId($customerId);
+        }
+
+        $addressDataObject = $this->_addressBuilder->create();
+        return $addressDataObject;
+    }
+
     /**
      * Retrieve address customer identifier
      *

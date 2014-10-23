@@ -1299,4 +1299,74 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         );
         return $types;
     }
+
+    /**
+     * Creates a customer model from a customer entity.
+     *
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @return $this
+     */
+    public function initFromDataObject(\Magento\Customer\Service\V1\Data\Customer $customer)
+    {
+        $attributes = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
+        foreach ($attributes as $attributeCode => $attributeValue) {
+            // avoid setting password through set attribute
+            if ($attributeCode == 'password') {
+                continue;
+            } else {
+                $this->setData($attributeCode, $attributeValue);
+            }
+        }
+
+        $customerId = $customer->getId();
+        if ($customerId) {
+            $this->setId($customerId);
+        }
+
+        // Need to use attribute set or future updates can cause data loss
+        if (!$this->getAttributeSetId()) {
+            $this->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Convert a customer model to a customer entity
+     *
+     * @return \Magento\Customer\Service\V1\Data\Customer
+     */
+    public function getDataObject()
+    {
+        $customerBuilder = $this->_populateBuilderWithAttributes($this);
+        $customerBuilder->setId($this->getId());
+        $customerBuilder->setFirstname($this->getFirstname());
+        $customerBuilder->setLastname($this->getLastname());
+        $customerBuilder->setEmail($this->getEmail());
+        return $customerBuilder->create();
+    }
+
+    /**
+     * Loads the values from a customer model
+     *
+     * @return \Magento\Customer\Service\V1\Data\CustomerBuilder
+     */
+    protected function _populateBuilderWithAttributes()
+    {
+        $attributes = array();
+        foreach ($this->getAttributes() as $attribute) {
+            $attrCode = $attribute->getAttributeCode();
+            $value = $this->getDataUsingMethod($attrCode);
+            $value = $value ? $value : $this->getData($attrCode);
+            if (null !== $value) {
+                if ($attrCode == 'entity_id') {
+                    $attributes[\Magento\Customer\Service\V1\Data\Customer::ID] = $value;
+                } else {
+                    $attributes[$attrCode] = $value;
+                }
+            }
+        }
+
+        return $this->_customerDataBuilder->populateWithArray($attributes);
+    }
 }
