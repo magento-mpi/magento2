@@ -8,7 +8,7 @@
 -->
 <div class="ui-tabs">
     <ul class="address-list ui-tabs-nav">
-        <!-- ko foreach: { data: elems, as: 'element' } -->
+        <!-- ko foreach: { data: element.elems, as: 'element' } -->
         <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: $parent.setActive(element)">
             <a href="#" class="ui-tabs-anchor">
                 <div class="address-list-item-actions">
@@ -18,7 +18,11 @@
                 </div>
                 <address data-bind="text: title"></address>
                 <address data-bind="foreach: { data: element.elems, as: 'element' }">
-                    <span data-bind="text: element.value"></span>
+                    <!-- ko foreach: { data: element.elems, as: 'element' } -->
+                        <!-- ko if: element.value -->
+                        <span data-bind="text: element.value"></span><br>
+                        <!-- /ko -->
+                    <!-- /ko -->
                 </address>
                 <div class="field field-address-item-billing choice">
                     <input type="checkbox" data-bind="attr: { title: $t('Set as Default Billing Address') }">
@@ -30,13 +34,13 @@
         </li>
         <!-- /ko -->
         <li class="address-list-actions last">
-            <button data-bind="attr: { title: $parent.addLabel }, click: addElement" type="button" class="scalable add">
-                <span data-bind="text: $t('Add New Address')"></span>
+            <button data-bind="attr: { title: element.addLabel }, click: element.addEmptyChild" type="button" class="scalable add">
+                <span data-bind="text: element.addLabel"></span>
             </button>
         </li>
     </ul>
     <!-- ko foreach: { data: element.elems, as: 'element' } -->
-    <div class="address-item-edit" data-bind="visible: active">
+    <div class="address-item-edit" data-bind="visible: element.active">
         <div class="address-item-edit-content">
             <fieldset class="fieldset">
                 <legend class="legend"><span data-bind="text: $parent.title"></span></legend><br>

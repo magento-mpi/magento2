@@ -9,8 +9,9 @@ define([
     '../storage/index',
     './component',
     'Magento_Ui/js/lib/class',
-    'Magento_Ui/js/lib/events'
-], function(_, storages, Component, Class, EventsBus){
+    'Magento_Ui/js/lib/events',
+    'Magento_Ui/js/lib/registry/registry'
+], function(_, storages, Component, Class, EventsBus, registry){
     'use strict';
     
     var defaults = {
@@ -24,6 +25,8 @@ define([
          */
         initialize: function(settings) {
             _.extend(this, defaults, settings);
+
+            this.global = registry.get('globalStorage');
 
             this.initStorages();
         },
@@ -44,6 +47,12 @@ define([
             }, this);
 
             return this;
+        },
+
+        get: function(source){
+            var global = this.global;
+
+            global.get.apply(global, arguments);
         }
     }, EventsBus);
 

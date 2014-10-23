@@ -25,9 +25,9 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initChildTemplate();
-
-            this.layout = registry.get('globalStorage').layout;
+            this.initRenderer()
+                .initChildTemplate()
+                .initChildren();
         },
 
         initObservable: function () {
@@ -39,39 +39,64 @@ define([
         },
 
         initElement: function (element) {
-            __super__.initElement.apply(this, arguments);
+            var activeIndex   = this.active(),
+                activeDefined = activeIndex !== null,
+                elementIndex  = element.index,
+                activeElement;
 
-            var active          = this.active(),
-                activeDefined   = !(active === null),
-                index           = element.index,
-                shouldBeActive  = activeDefined ? active == index : true;
+            activeElement = activeDefined
+                ? (elementIndex == activeIndex) && element
+                : (elementIndex == 0)           && element
 
-            if (shouldBeActive) {
-                this._setActive(element);
+            if (activeElement) {
+                this._setActive(activeElement);
             }
+        },
+
+        initRenderer: function () {
+            this.renderer = registry.get('globalStorage').renderer;
+
+            return this;
         },
 
         initChildTemplate: function () {
             this.childTemplate = {
-                type: this.childType,
+                template: this.name + '.' + this.nodeTemplate,
                 appendTo: this.name,
-                parentName: this.name,
                 config: {}
             };
+
+            return this;
         },
 
-        addElement: function () {
-            var last    = this.elems.last(),
-                index   = ++last.index;
+        initChildren: function () {
+            var children = this.provider.data.get(this.name);
 
+            _.each(children, this.initChild.bind(this));
+        },
+
+        initChild: function (item, index) {
+            this.lastIndex++;
+            this.createChild(index);
+        },
+
+        addEmptyChild: function () {
+            var index = 'new_' + this.lastIndex++;
+                
+            this.createChild(index);
+        },
+
+        createChild: function (index) {
             _.extend(this.childTemplate, {
-                index: index,
+                name: index,
                 config: {
                     index: index
                 }
             });
 
-            this.layout.process([this.childTemplate]);
+            this.renderer.render({
+                layout: [this.childTemplate]
+            });
         },
 
         removeElement: function (element) {
@@ -91,7 +116,7 @@ define([
         },
 
         _setActive: function (element) {
-            var index   = element.index;
+            var index = element.index;
 
             this.active(index);
             this.activate(element);

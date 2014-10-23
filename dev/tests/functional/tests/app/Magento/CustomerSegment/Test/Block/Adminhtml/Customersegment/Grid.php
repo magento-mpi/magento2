@@ -49,24 +49,4 @@ class Grid extends AbstractGrid
             'input' => 'select',
         ],
     ];
-
-    /**
-     * Check whether first row is visible
-     *
-     * @return bool
-     */
-    public function isFirstRowVisible()
-    {
-        return $this->_rootElement->find($this->firstRowSelector)->isVisible();
-    }
-
-    /**
-     * Open first item in grid
-     *
-     * @return void
-     */
-    public function openFirstRow()
-    {
-        $this->_rootElement->find($this->firstRowSelector)->click();
-    }
 }

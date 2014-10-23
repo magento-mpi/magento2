@@ -52,19 +52,15 @@
     </assertTaxRateForm>
     <assertTaxRateIsInCorrectRange module="Magento_Tax">
         <severeness>low</severeness>
-        <require/>
     </assertTaxRateIsInCorrectRange>
     <assertTaxRateInTaxRule module="Magento_Tax">
         <severeness>low</severeness>
-        <require/>
     </assertTaxRateInTaxRule>
     <assertTaxRuleIsApplied module="Magento_Tax">
         <severeness>high</severeness>
-        <require />
     </assertTaxRuleIsApplied>
     <assertTaxRuleIsNotApplied module="Magento_Tax">
         <severeness>high</severeness>
-        <require />
     </assertTaxRuleIsNotApplied>
     <assertTaxRuleSuccessDeleteMessage module="Magento_Tax">
         <severeness>high</severeness>

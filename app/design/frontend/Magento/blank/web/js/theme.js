@@ -6,9 +6,10 @@
  */
 define([
     "jquery",
+    'mage/smart-keyboard-handler',
     "mage/mage",
     "mage/collapsible"
-],function($) {
+],function($, keyboardHandler) {
     'use strict';
 
     $(function() {
@@ -26,6 +27,8 @@ define([
         });
 
         $( ".panel.header > .header.links" ).clone().appendTo( "#store\\.links" );
+
+        keyboardHandler.apply();
     });
 
 });

@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\View\Asset\File;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * An advanced context that contains information necessary for view files fallback system
  */
@@ -39,7 +41,7 @@ class FallbackContext extends Context
         $this->area = $areaType;
         $this->theme = $themePath;
         $this->locale = $localeCode;
-        parent::__construct($baseUrl, \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR, $this->generatePath());
+        parent::__construct($baseUrl, DirectoryList::STATIC_VIEW, $this->generatePath());
     }
 
     /**

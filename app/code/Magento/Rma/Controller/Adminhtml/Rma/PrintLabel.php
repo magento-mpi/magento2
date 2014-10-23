@@ -8,6 +8,8 @@
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class PrintLabel extends \Magento\Rma\Controller\Adminhtml\Rma
 {
     /**
@@ -45,7 +47,7 @@ class PrintLabel extends \Magento\Rma\Controller\Adminhtml\Rma
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
-                    \Magento\Framework\App\Filesystem::MEDIA_DIR,
+                    DirectoryList::MEDIA,
                     'application/pdf'
                 );
             }

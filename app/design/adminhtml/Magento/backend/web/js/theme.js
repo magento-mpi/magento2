@@ -7,13 +7,14 @@
 
 define([
     "jquery",
+    'mage/smart-keyboard-handler',
     "jquery/ui",
     "jquery/hover-intent",
     "jquery/jquery.details",
     "jquery/jquery.tabs",
     "mage/backend/floating-header",
     "jquery/farbtastic"  // $(..).farbtastic()
-],function($) {
+],function($, keyboardHandler) {
     'use strict';
 
     $.widget('mage.globalSearch', {
@@ -414,6 +415,8 @@ define([
                 toggleColorPickerPosition();
             });
         switcherForIe8();
+
+        keyboardHandler.apply();
     });
 
     $(document).on('ajaxComplete', function() {

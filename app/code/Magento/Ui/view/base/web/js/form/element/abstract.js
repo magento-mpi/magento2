@@ -23,8 +23,8 @@ define([
         description:        '',
         label:              '',
         error:              '',
-        addbefore:          '',
-        addafter:           '',
+        addbefore:          null,
+        addafter:           null,
         notice:             null
     };
 
@@ -56,10 +56,8 @@ define([
 
             __super__.initObservable.apply(this, arguments);
 
-            this.value = this.provider.data.get(this.name);
-
             rules = this.validation = this.validation || {};
-            
+
             this.observe({
                 'value':         this.initialValue = this.provider.data.get(this.name),
                 'required':      rules['required-entry'],
@@ -105,6 +103,14 @@ define([
             return self;
         },
 
+        hasAddons: function () {
+            return (this.addbefore !== null) || (this.addafter !== null);
+        },
+
+        getNoticeId: function () {
+            return 'notice-' + this.uid;
+        },
+
         /**
          * Stores element's value to registry by element's path value
          * @param  {*} value - current value of form element
@@ -118,21 +124,14 @@ define([
          * @return {String}
          */
         getTemplate: function () {
-            return this.template ? this.template : this.module + '/form/element/' + this.type;
+            return this.template || (this.module + '/form/element/' + this.input_type);
         },
 
         /**
          * Is being called when value is updated
          */
         onUpdate: function (value) {
-            var isValid = this.validate();
-
-            this.trigger('update', this, {
-                value:          value,
-                isValid:        isValid,
-                makeVisible:    false
-            });
-
+            this.validate();
             this.store(value);
         },
 
@@ -169,15 +168,15 @@ define([
 
             if (isAllValid) {
                 this.error('');
-            } else if (showErrors) {
-                this.trigger('update', this, {
-                    value:          value,
-                    isValid:        isAllValid,
-                    makeVisible:    true
-                });
-
-                this.focused(true);
             }
+
+            this.trigger('update', this, {
+                value:          value,
+                isValid:        isAllValid,
+                makeVisible:    showErrors
+            });
+
+            this.focused(showErrors);
 
             return isAllValid;
         }

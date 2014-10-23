@@ -9,6 +9,7 @@
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\Order;
 
@@ -49,7 +50,13 @@ class CreateOrderTest extends Functional
 
         $orderCreateBlock = $orderCreatePage->getCreateBlock();
         $orderCreateBlock->waitOrderItemsGrid();
-        $orderCreateBlock->addProducts($fixture->getProducts());
+
+        $addProductsStep = $this->objectManager->create(
+            'Magento\Sales\Test\TestStep\AddProductsStep',
+            ['products' => $fixture->getProducts()]
+        );
+        $addProductsStep->run();
+
         $billingAddress = $fixture->getBillingAddress();
         if (empty($billingAddress)) {
             $billingAddress = $fixture->getCustomer()->getDefaultBillingAddress();
@@ -59,7 +66,7 @@ class CreateOrderTest extends Functional
         $orderCreateBlock->selectPaymentMethod(['method' => $fixture->getPaymentMethod()->getPaymentCode()]);
         $orderCreateBlock->submitOrder();
         //Verification
-        $this->_checkOrderAndCustomer($fixture);
+        $this->checkOrderAndCustomer($fixture);
     }
 
     /**
@@ -67,7 +74,7 @@ class CreateOrderTest extends Functional
      *
      * @param Order $fixture
      */
-    protected function _checkOrderAndCustomer(Order $fixture)
+    protected function checkOrderAndCustomer(Order $fixture)
     {
         $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
         $orderGridPage = Factory::getPageFactory()->getSalesOrder();
@@ -80,7 +87,7 @@ class CreateOrderTest extends Functional
         $orderGridPage->open();
         $orderGrid->searchAndOpen(['id' => $orderId]);
         $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
-        $this->_checkCustomer($fixture, $email);
+        $this->checkCustomer($fixture, $email);
     }
 
     /**
@@ -89,7 +96,7 @@ class CreateOrderTest extends Functional
      * @param Order $fixture
      * @param string $email
      */
-    protected function _checkCustomer($fixture, $email)
+    protected function checkCustomer($fixture, $email)
     {
         //Pages
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
