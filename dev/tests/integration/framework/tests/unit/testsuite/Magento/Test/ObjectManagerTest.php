@@ -24,13 +24,6 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $resource = new \stdClass();
         $instanceConfig = new \Magento\TestFramework\ObjectManager\Config();
-        $verification = $this->getMock(
-            'Magento\Framework\App\Filesystem\DirectoryList\Verification',
-            array(),
-            array(),
-            '',
-            false
-        );
         $cache = $this->getMock('Magento\Framework\App\CacheInterface');
         $configLoader = $this->getMock('Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false);
         $configCache = $this->getMock('Magento\Framework\App\ObjectManager\ConfigCache', array(), array(), '', false);
@@ -56,7 +49,6 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             $factory,
             $instanceConfig,
             array(
-                'Magento\Framework\App\Filesystem\DirectoryList\Verification' => $verification,
                 'Magento\Framework\App\Cache\Type\Config' => $cache,
                 'Magento\Framework\App\ObjectManager\ConfigLoader' => $configLoader,
                 'Magento\Framework\App\ObjectManager\ConfigCache' => $configCache,

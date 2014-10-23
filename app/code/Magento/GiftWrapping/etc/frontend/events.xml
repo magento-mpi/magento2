@@ -15,6 +15,6 @@
         <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="checkoutProcessWrappingInfo" />
     </event>
     <event name="gift_options_prepare_items">
-        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="prepareGiftOptpionsItems" />
+        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="prepareGiftOptionsItems" />
     </event>
 </config>

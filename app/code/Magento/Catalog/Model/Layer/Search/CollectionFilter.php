@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,53 +7,50 @@
  */
 namespace Magento\Catalog\Model\Layer\Search;
 
+use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\CollectionFilterInterface;
+use Magento\Catalog\Model\Product\Visibility;
+use Magento\Framework\DB\Select;
+use Magento\Framework\StoreManagerInterface;
 
 class CollectionFilter implements CollectionFilterInterface
 {
     /**
-     * @var \Magento\Catalog\Model\Config
+     * @var Config
      */
     protected $catalogConfig;
 
     /**
-     * @var \Magento\CatalogSearch\Helper\Data
-     */
-    protected $helper;
-
-    /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Visibility
+     * @var Visibility
      */
     protected $productVisibility;
 
     /**
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\CatalogSearch\Helper\Data $helper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param Config $catalogConfig
+     * @param StoreManagerInterface $storeManager
+     * @param Visibility $productVisibility
      */
     public function __construct(
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\CatalogSearch\Helper\Data $helper,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Product\Visibility $productVisibility
+        Config $catalogConfig,
+        StoreManagerInterface $storeManager,
+        Visibility $productVisibility
     ) {
         $this->catalogConfig = $catalogConfig;
-        $this->helper = $helper;
         $this->storeManager = $storeManager;
         $this->productVisibility = $productVisibility;
     }
 
     /**
+     * Filter product collection
+     *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\Catalog\Model\Category $category
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function filter(
         $collection,
@@ -62,13 +58,13 @@ class CollectionFilter implements CollectionFilterInterface
     ) {
         $collection
             ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
-            ->addSearchFilter($this->helper->getQuery()->getQueryText())
             ->setStore($this->storeManager->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility($this->productVisibility->getVisibleInSearchIds());
+            ->setVisibility($this->productVisibility->getVisibleInSearchIds())
+            ->setOrder('relevance', Select::SQL_ASC);
     }
 }

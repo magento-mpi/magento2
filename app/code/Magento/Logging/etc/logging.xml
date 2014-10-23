@@ -146,7 +146,7 @@
         <group name="catalogsearch">
             <label translate="true">Catalog Search</label>
             <expected_models>
-                <expected_model class="Magento\CatalogSearch\Model\Query" />
+                <expected_model class="Magento\Search\Model\Query" />
             </expected_models>
             <events>
                 <event controller_action="catalog_search_edit" action_alias="view" />

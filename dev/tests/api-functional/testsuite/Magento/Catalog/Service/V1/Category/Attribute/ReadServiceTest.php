@@ -7,12 +7,13 @@
  */
 namespace Magento\Catalog\Service\V1\Category\Attribute;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class ReadServiceTest
+ *
  * @package Magento\Catalog\Service\V1\Category\Attribute
  */
 class ReadServiceTest extends WebapiAbstract
@@ -24,281 +25,41 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * Data provider
      */
-    public function attributeMetadataDataProvider() {
-        return [
+    public function categoryAttributesDataProvider()
+    {
+        return
             [
-                'msrp_enabled',
                 [
-                    'attribute_id' => '115',
-                    'attribute_code' => 'msrp_enabled',
-                    'frontend_input' => 'select',
-                    'validation_rules' =>[],
-                    'visible' => true,
-                    'required' => false,
-                    'options' =>
+                    'display_mode',
                     [
-                        0 =>
                         [
-                            'label' => 'Yes',
-                            'value' => '1',
+                            'value' => 'PRODUCTS',
+                            'label' => 'Products only',
                         ],
-                        1 =>
                         [
-                            'label' => 'No',
-                            'value' => '0',
+                            'value' => 'PAGE',
+                            'label' => 'Static block only',
                         ],
-                        2 =>
                         [
-                            'label' => 'Use config',
-                            'value' => '2',
-                        ],
-                    ],
-                    'user_defined' => false,
-                    'frontend_label' =>
-                    [
-                    0 =>
-                    [
-                      'store_id' => '0',
-                      'label' => 'Apply MAP',
-                    ],
-                    ],
-                    'backend_type' => 'varchar',
-                    'backend_model' => 'Magento\\Catalog\\Model\\Product\\Attribute\\Backend\\Msrp',
-                    'source_model' => 'Magento\\Catalog\\Model\\Product\\Attribute\\Source\\Msrp\\Type\\Enabled',
-                    'default_value' => '2',
-                    'unique' => '0',
-                    'apply_to' =>
-                    [
-                        0 => 'simple',
-                        1 => 'bundle',
-                        2 => 'virtual',
-                        3 => 'downloadable',
-                        4 => 'configurable',
-                    ],
-                    'searchable' => '0',
-                    'visible_in_advanced_search' => '0',
-                    'comparable' => '0',
-                    'used_for_promo_rules' => '0',
-                    'visible_on_front' => '0',
-                    'used_in_product_listing' => '1',
-                    'scope' => 'website',
-                    'wysiwyg_enabled' => false,
-                    'html_allowed_on_front' => false,
-                    'used_for_sort_by' => false,
-                    'filterable' => false,
-                    'filterable_in_search' => false,
-                    'position' => 0,
-                ]
-            ],
-            [
-                'allow_open_amount',
-                [
-                    'attribute_id' => '125',
-                    'attribute_code' => 'allow_open_amount',
-                    'frontend_input' => 'select',
-                    'validation_rules' => [],
-                    'visible' => true,
-                    'required' => false,
-                    'options' =>
-                    [
-                        0 =>
-                        [
-                            'label' => 'No',
-                            'value' => '0',
-                        ],
-                        1 =>
-                        [
-                            'label' => 'Yes',
-                            'value' => '1',
-                        ],
-                    ],
-                    'user_defined' => false,
-                    'frontend_label' =>
-                    [
-                        0 =>
-                        [
-                            'store_id' => '0',
-                            'label' => 'Allow Open Amount',
-                        ],
-                    ],
-                    'backend_type' => 'int',
-                    'source_model' => 'Magento\\GiftCard\\Model\\Source\\Open',
-                    'unique' => '0',
-                    'apply_to' =>
-                    [
-                        0 => 'giftcard',
-                    ],
-                    'searchable' => '0',
-                    'visible_in_advanced_search' => '0',
-                    'comparable' => '0',
-                    'used_for_promo_rules' => '0',
-                    'visible_on_front' => '0',
-                    'used_in_product_listing' => '1',
-                    'scope' => 'website',
-                    'wysiwyg_enabled' => false,
-                    'html_allowed_on_front' => false,
-                    'used_for_sort_by' => false,
-                    'filterable' => false,
-                    'filterable_in_search' => false,
-                    'position' => 0,
-                ]
-            ],
-            [
-                'visibility',
-                [
-                    'attribute_id' => '100',
-                    'attribute_code' => 'visibility',
-                    'frontend_input' => 'select',
-                    'validation_rules' => [],
-                    'visible' => true,
-                    'required' => false,
-                    'options' =>
-                    [
-                        0 =>
-                        [
-                            'label' => 'Not Visible Individually',
-                            'value' => '1',
-                        ],
-                        1 =>
-                        [
-                            'label' => 'Catalog',
-                            'value' => '2',
-                        ],
-                        2 =>
-                        [
-                            'label' => 'Search',
-                            'value' => '3',
-                        ],
-                        3 =>
-                        [
-                            'label' => 'Catalog, Search',
-                            'value' => '4',
-                        ],
-                    ],
-                    'user_defined' => false,
-                    'frontend_label' =>
-                    [
-                    0 =>
-                        [
-                            'store_id' => '0',
-                            'label' => 'Visibility',
-                        ],
-                    ],
-                    'backend_type' => 'int',
-                    'source_model' => 'Magento\\Catalog\\Model\\Product\\Visibility',
-                    'default_value' => '4',
-                    'unique' => '0',
-                    'apply_to' => [],
-                    'searchable' => '0',
-                    'visible_in_advanced_search' => '0',
-                    'comparable' => '0',
-                    'used_for_promo_rules' => '0',
-                    'visible_on_front' => '0',
-                    'used_in_product_listing' => '0',
-                    'scope' => 'store',
-                    'wysiwyg_enabled' => false,
-                    'html_allowed_on_front' => false,
-                    'used_for_sort_by' => false,
-                    'filterable' => false,
-                    'filterable_in_search' => false,
-                    'position' => 0,
-                ]
-            ],
-            [
-                'name',
-                [
-                    'attribute_id' => '71',
-                    'attribute_code' => 'name',
-                    'frontend_input' => 'text',
-                    'validation_rules' => [],
-                    'visible' => true,
-                    'required' => true,
-                    'options' => [],
-                    'user_defined' => false,
-                    'frontend_label' =>
-                    [
-                        0 =>
-                        [
-                            'store_id' => '0',
-                            'label' => 'Name',
-                        ],
-                    ],
-                    'backend_type' => 'varchar',
-                    'unique' => '0',
-                    'apply_to' => [],
-                    'searchable' => '1',
-                    'visible_in_advanced_search' => '1',
-                    'comparable' => '0',
-                    'used_for_promo_rules' => '0',
-                    'visible_on_front' => '0',
-                    'used_in_product_listing' => '1',
-                    'scope' => 'store',
-                    'frontend_class' => 'validate-length maximum-length-255',
-                    'wysiwyg_enabled' => false,
-                    'html_allowed_on_front' => false,
-                    'used_for_sort_by' => true,
-                    'filterable' => false,
-                    'filterable_in_search' => false,
-                    'position' => 0,
-                ]
-            ],
-            [
-                'sku',
-                [
-                    'attribute_id' => '72',
-                    'attribute_code' => 'sku',
-                    'frontend_input' => 'text',
-                    'validation_rules' => [],
-                    'visible' => true,
-                    'required' => true,
-                    'options' => [],
-                    'user_defined' => false,
-                    'frontend_label' =>
-                    [
-                        0 =>
-                        [
-                            'store_id' => '0',
-                            'label' => 'SKU',
-                        ],
-                    ],
-                    'backend_type' => 'static',
-                    'backend_model' => 'Magento\\Catalog\\Model\\Product\\Attribute\\Backend\\Sku',
-                    'unique' => '1',
-                    'apply_to' => [],
-                    'searchable' => '1',
-                    'visible_in_advanced_search' => '1',
-                    'comparable' => '1',
-                    'used_for_promo_rules' => '0',
-                    'visible_on_front' => '0',
-                    'used_in_product_listing' => '0',
-                    'scope' => 'global',
-                    'frontend_class' => 'validate-length maximum-length-64',
-                    'wysiwyg_enabled' => false,
-                    'html_allowed_on_front' => false,
-                    'used_for_sort_by' => false,
-                    'filterable' => false,
-                    'filterable_in_search' => false,
-                    'position' => 0,
+                            'value' => 'PRODUCTS_AND_PAGE',
+                            'label' => 'Static block and products',
+                        ]
+                    ]
                 ],
                 [
-                    'Not Existing Attribute Code',
+                    'is_active',
                     [
-                        'attribute_code' => 'Not Existing Attribute Code',
-                        'validation_rules' => [],
-                        'options' => [],
-                        'frontend_label' =>
                         [
-                        0 =>
-                            [
-                                'store_id' => '0',
-                                'label' => '',
-                            ],
+                            'value' => '1',
+                            'label' => 'Yes',
                         ],
-                        'scope' => 'store',
+                        [
+                            'value' => '0',
+                            'label' => 'No',
+                        ],
                     ]
                 ]
-            ]
-        ];
+            ];
     }
 
     /**
@@ -307,11 +68,10 @@ class ReadServiceTest extends WebapiAbstract
      * @param string $id Attribute ID/code
      * @param array $expectedAttributeMetadata Expected attribute metadata
      *
-     * @dataProvider attributeMetadataDataProvider
+     * @dataProvider categoryAttributesDataProvider
      */
     public function testOptions($id, $expectedAttributeMetadata)
     {
-        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $id . '/options',
@@ -324,9 +84,59 @@ class ReadServiceTest extends WebapiAbstract
             ]
         ];
         $actualResult = $this->_webApiCall($serviceInfo, ['id' => $id]);
+        $this->assertEquals($expectedAttributeMetadata, $actualResult);
+    }
 
-        //$this->assertEquals($expectedAttributeMetadata['options'], $actualResult);
-        //^^^^^^^^^^^^^^^^^^^^^^^Doesn't work in REST test^^^^^^^^^^^^^^^^^^^^^^^^^^
+    /**
+     * Data provider
+     */
+    public function attributeOptionsDataProvider()
+    {
+        return
+            [
+                [
+                    'name',
+                    [
+                        'attribute_code' => 'name',
+                        'backend_model' => '',
+                        'backend_type' => 'varchar',
+                        'frontend_input' => 'text',
+                        'frontend_label' =>
+                            [
+                                0 =>
+                                    [
+                                        'store_id' => '0',
+                                        'label' => 'Name',
+                                    ],
+                            ],
+                        'frontend_class' => '',
+                        'source_model' => '',
+                        'default_value' => '',
+                        'note' => '',
+                        'used_in_product_listing' => '0',
+                        'used_for_sort_by' => '0',
+                        'apply_to' => [],
+                        'position' => 0,
+                        'required' => '1',
+                        'user_defined' => '0',
+                        'unique' => '0',
+                        'visible' => '1',
+                        'searchable' => '0',
+                        'filterable' => '0',
+                        'comparable' => '0',
+                        'visible_on_front' => '0',
+                        'html_allowed_on_front' => '0',
+                        'filterable_in_search' => '0',
+                        'visible_in_advanced_search' => '0',
+                        'wysiwyg_enabled' => '0',
+                        'used_for_promo_rules' => '0',
+                        'configurable' => '1',
+                        'options' => [],
+                        'validation_rules' => [],
+                        'scope' => 'store'
+                    ]
+                ]
+            ];
     }
 
     /**
@@ -335,11 +145,11 @@ class ReadServiceTest extends WebapiAbstract
      * @param string $id Attribute ID/code
      * @param array $expectedResult Expected attribute metadata
      *
-     * @dataProvider attributeMetadataDataProvider
+     * @dataProvider attributeOptionsDataProvider
      */
     public function testInfo($id, $expectedResult)
     {
-        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
+        $this->markTestSkipped("This test case will be fixed in MAGETWO-29118");
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $id,
@@ -354,24 +164,24 @@ class ReadServiceTest extends WebapiAbstract
 
         $requestData = ['id' => $id];
         $actualResult = $this->_webApiCall($serviceInfo, $requestData);
-        //$this->assertEquals($expectedResult, $actualResult);
-        //^^^^^^^^^^^^^Doesn't work in REST test^^^^^^^^^^^^^^
+        unset($actualResult['attribute_id']);
+        ksort($actualResult);
+        ksort($expectedResult);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     public function testSearch()
     {
-        $this->markTestSkipped("This test case will be fixed in MAGETWO-27258");
         /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
         $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
-        $searchCriteriaBuilder =  Bootstrap::getObjectManager()
+        $searchCriteriaBuilder = Bootstrap::getObjectManager()
             ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
-        $filter = $filterBuilder->setField('code')->setValue('name')->create();
+        $attributeCode = 'name';
+        $filter = $filterBuilder->setField('code')->setValue($attributeCode)->create();
         $searchCriteriaBuilder->addFilter([$filter]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();
-
         $requestData = ['searchCriteria' => $searchData];
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
@@ -383,9 +193,8 @@ class ReadServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_READ_NAME . 'search'
             ]
         ];
-
         $result = $this->_webApiCall($serviceInfo, $requestData);
-
-        //^^^^^^^^^^^^^API call Produces ERROR^^^^^^^^^^^^^^
+        $this->assertEquals(1, $result['total_count']);
+        $this->assertEquals($attributeCode, $result['items'][0]['attribute_code']);
     }
 }

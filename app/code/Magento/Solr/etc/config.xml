@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
+    <default>
+        <catalog>
+            <search>
+                <solr_server_hostname>localhost</solr_server_hostname>
+                <solr_server_port>8983</solr_server_port>
+                <solr_server_username>admin</solr_server_username>
+                <solr_server_timeout>15</solr_server_timeout>
+                <solr_server_path>solr</solr_server_path>
+                <engine_commit_mode>0</engine_commit_mode>
+                <solr_server_suggestion_enabled>1</solr_server_suggestion_enabled>
+                <solr_server_suggestion_count>2</solr_server_suggestion_count>
+                <solr_server_suggestion_count_results_enabled>0</solr_server_suggestion_count_results_enabled>
+                <search_recommendations_enabled>1</search_recommendations_enabled>
+                <search_recommendations_count>5</search_recommendations_count>
+                <search_recommendations_count_results_enabled>0</search_recommendations_count_results_enabled>
+                <solr_server_use_in_catalog_navigation>1</solr_server_use_in_catalog_navigation>
+            </search>
+        </catalog>
+    </default>
+</config>

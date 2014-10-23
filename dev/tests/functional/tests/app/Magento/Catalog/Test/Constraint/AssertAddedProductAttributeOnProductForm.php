@@ -45,8 +45,7 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
      * @param CatalogProductAttribute|null $productAttribute
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         FixtureFactory $fixtureFactory,
         CatalogProductSetIndex $productSet,
         CatalogProductSetEdit $productSetEdit,

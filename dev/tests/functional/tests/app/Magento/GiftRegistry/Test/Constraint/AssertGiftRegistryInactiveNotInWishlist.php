@@ -46,7 +46,7 @@ class AssertGiftRegistryInactiveNotInWishlist extends AbstractConstraint
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $catalogProductView->getViewBlock()->addToWishlist();
+        $catalogProductView->getViewBlock()->clickAddToWishlist();
         \PHPUnit_Framework_Assert::assertFalse(
             $wishlistIndex->getGiftRegistryWishlistBlock()->isGiftRegistryAvailable($giftRegistry),
             'Product can be added to inactive gift registry \'' . $giftRegistry->getTitle() . '\' from Wishlist.'

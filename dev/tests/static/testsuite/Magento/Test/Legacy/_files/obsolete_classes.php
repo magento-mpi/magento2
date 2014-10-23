@@ -699,35 +699,35 @@ return array(
     ),
     array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
     array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
-    array('Magento\Search\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
+    array('Magento\Solr\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Attribute',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Attribute',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Category',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Category',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Decimal',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Decimal',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalog\Layer\Filter\Price',
+        'Magento\Solr\Block\Catalog\Layer\Filter\Price',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array(
-        'Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute',
+        'Magento\Solr\Block\Catalogsearch\Layer\Filter\Attribute',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
-    array('Magento\Search\Block\Catalogsearch\Layer', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'),
-    array('Magento\Search\Model\Catalog\Layer', 'Magento\Catalog\Model\Layer\Category'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Category', 'Magento\Catalog\Model\Layer\Filter\Category'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Decimal', 'Magento\Catalog\Model\Layer\Filter\Decimal'),
-    array('Magento\Search\Model\Catalog\Layer\Filter\Price', 'Magento\Catalog\Model\Layer\Filter\Price'),
-    array('Magento\Search\Model\Search\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
-    array('Magento\Search\Model\Search\Layer', 'Magento\Catalog\Model\Layer'),
+    array('Magento\Solr\Block\Catalogsearch\Layer', 'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'),
+    array('Magento\Solr\Model\Catalog\Layer', 'Magento\Catalog\Model\Layer\Category'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Category', 'Magento\Catalog\Model\Layer\Filter\Category'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Decimal', 'Magento\Catalog\Model\Layer\Filter\Decimal'),
+    array('Magento\Solr\Model\Catalog\Layer\Filter\Price', 'Magento\Catalog\Model\Layer\Filter\Price'),
+    array('Magento\Solr\Model\Search\Layer\Filter\Attribute', 'Magento\Catalog\Model\Layer\Filter\Attribute'),
+    array('Magento\Solr\Model\Search\Layer', 'Magento\Catalog\Model\Layer'),
     array(
         'Magento\Catalog\Model\Product\Type\Configurable',
         'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
@@ -770,7 +770,7 @@ return array(
     array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
-    array('Mage_Core_Model_Config_Options', 'Magento\Framework\App\Filesystem'),
+    array('Mage_Core_Model_Config_Options', 'Magento\Framework\Filesystem'),
     array('Magento\Framework\App\Dir', 'Magento\Framework\Filesystem'),
     array('Magento\Framework\Filesystem\Adapter\Local', 'Magento\Framework\Filesystem\Driver\File'),
     array('Magento\Framework\Filesystem\Adapter\Zlib', 'Magento\Framework\Filesystem\Driver\Zlib'),
@@ -1754,7 +1754,6 @@ return array(
     array('Magento\Adminhtml\Block\Report\Shopcart\Product', 'Magento\Reports\Block\Adminhtml\Shopcart\Product'),
     array('Magento\Adminhtml\Block\Report\Wishlist\Grid', 'Magento\Reports\Block\Adminhtml\Wishlist\Grid'),
     array('Magento\Adminhtml\Block\Report\Wishlist', 'Magento\Reports\Block\Adminhtml\Wishlist'),
-    array('Magento\Framework\App\Dir\Verification', 'Magento\Framework\App\Filesystem\DirectoryList\Verification'),
     array('Magento\Backend\Helper\Addresses'),
     array('Magento\Core\Model\Cookie', 'Magento\Framework\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Framework\Logger'),
@@ -2794,6 +2793,7 @@ return array(
     ['\Magento\Install\Block\Begin'],
     ['\Magento\Checkout\Service\V1\QuoteLoader', '\Magento\Sales\Model\QuoteRepository'],
     ['Magento\PageCache\Model\Observer'],
+    ['Magento\Catalog\Model\Layer\Filter\Price\Algorithm', 'Magento\Framework\Search\Dynamic\Algorithm'],
     ['Magento\Rss\Block\Order\Info\Buttons\Rss'],
     ['Magento\Rss\Block\Order\NewOrder'],
     ['Magento\Rss\Block\Order\Status'],
@@ -2817,4 +2817,12 @@ return array(
     ['Magento\Rss\Controller\Catalog'],
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
+    ['Magento\Checkout\Controller\Onepage\Progress'],
+    ['Magento\Framework\App\Filesystem', 'Magento\Framework\Filesystem'],
+    ['Magento\TestFramework\App\Filesystem\DirectoryList'],
+    ['Magento\Framework\App\Filesystem\DirectoryList\Configuration'],
+    ['Magento\Framework\App\Filesystem\DirectoryList\Verification'],
+    ['Magento\Framework\Filesystem\DriverFactory', 'Magento\Framework\Filesystem\DriverPool'],
+    ['Magento\Framework\Filesystem\WrapperFactory'],
+    ['Magento\Framework\Filesystem\WrapperInterface'],
 );

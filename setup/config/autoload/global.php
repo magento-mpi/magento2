@@ -17,23 +17,6 @@ return [
                 'module' => '/app/code/',
                 'config' => '/app/etc/',
                 'framework' => '/lib/internal/Magento/Framework/',
-                'permissions' => [
-                    'etc' => [
-                        'path' => 'app/etc',
-                    ],
-                    'var' => [
-                        'path' => 'var',
-                    ],
-                    'cache' => [
-                        'path' => 'var/cache',
-                    ],
-                    'log' => [
-                        'path' => 'var/log',
-                    ],
-                    'session' => [
-                        'path' => 'var/session',
-                    ],
-                ],
             ],
         ],
     ],

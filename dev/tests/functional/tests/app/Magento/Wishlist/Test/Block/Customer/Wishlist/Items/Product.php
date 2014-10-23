@@ -31,6 +31,34 @@ class Product extends Form
     protected $remove = '[data-role="remove"]';
 
     /**
+     * Selector for 'View Details' element
+     *
+     * @var string
+     */
+    protected $viewDetails = '.details.tooltip';
+
+    /**
+     * Edit button css selector
+     *
+     * @var string
+     */
+    protected $edit = '.action.edit';
+
+    /**
+     * Selector for option's label
+     *
+     * @var string
+     */
+    protected $optionLabel = '.tooltip.content .label';
+
+    /**
+     * Selector for option's value
+     *
+     * @var string
+     */
+    protected $optionValue = '.tooltip.content .values';
+
+    /**
      * Fill item product details
      *
      * @param array $fields
@@ -60,5 +88,41 @@ class Product extends Form
     public function remove()
     {
         $this->_rootElement->find($this->remove)->click();
+    }
+
+    /**
+     * Get product options
+     *
+     * @return array|null
+     */
+    public function getOptions()
+    {
+        $viewDetails = $this->_rootElement->find($this->viewDetails);
+        if ($viewDetails->isVisible()) {
+            $viewDetails->click();
+            $labels = $this->_rootElement->find($this->optionLabel)->getElements();
+            $values = $this->_rootElement->find($this->optionValue)->getElements();
+            $data = [];
+            foreach ($labels as $key => $label) {
+                $data[] = [
+                    'title' => $label->getText(),
+                    'value' => str_replace('$', '', $values[$key]->getText())
+                ];
+            }
+
+            return $data;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Click edit button
+     *
+     * @return void
+     */
+    public function clickEdit()
+    {
+        $this->_rootElement->find($this->edit)->click();
     }
 }

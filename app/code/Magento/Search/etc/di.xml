@@ -7,64 +7,33 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Search\Helper\ClientInterface" type="Magento\Search\Helper\Data" />
-    <type name="Magento\CatalogSearch\Model\Indexer\Fulltext">
-        <plugin name="fulltextIndexRebuild" type="Magento\Search\Model\Plugin\FulltextIndexRebuild" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="search" xsi:type="string">Magento_Search</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Search\Block\Recommendations">
+        <arguments>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
+            <argument name="title" xsi:type="string">Related search terms</argument>
+        </arguments>
     </type>
     <type name="Magento\Search\Block\Suggestions">
         <arguments>
-            <argument name="suggestions" xsi:type="object">Magento\Search\Model\Suggestions\Proxy</argument>
+            <argument name="searchDataProvider" xsi:type="object">Magento\Search\Model\SearchDataProvider</argument>
+            <argument name="title" xsi:type="string">Did you mean</argument>
         </arguments>
     </type>
-    <type name="Magento\Search\Model\Layer\Category\Filter\Price">
+    <type name="Magento\Search\Model\AdapterFactory">
         <arguments>
-            <argument name="resourceEngine" xsi:type="object">Magento\Search\Model\Resource\Solr\Engine\Proxy</argument>
+            <argument name="path" xsi:type="string">catalog/search/adapter</argument>
+            <argument name="scopeType" xsi:type="const">\Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT</argument>
         </arguments>
     </type>
-    <type name="Magento\Search\Model\Observer">
-        <arguments>
-            <argument name="searchData" xsi:type="object">Magento\Search\Helper\Data\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Search\Model\Resource\Solr\Engine">
-        <arguments>
-            <argument name="searchResourceIndex" xsi:type="object">Magento\Search\Model\Resource\Index\Proxy</argument>
-            <argument name="catalogProductVisibility" xsi:type="object">Magento\Catalog\Model\Product\Visibility\Proxy</argument>
-            <argument name="searchResource" xsi:type="object">Magento\Search\Model\Resource\Advanced\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Search\Model\Adapter\AbstractAdapter">
-        <arguments>
-            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
-            <argument name="resourceIndex" xsi:type="object">Magento\Search\Model\Resource\Index\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Layer\Category">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\Search\Model\Layer\Category\Context</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Layer\Search">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\Search\Model\Layer\Search\Context</argument>
-        </arguments>
-    </type>
-    <type name="Magento\CatalogSearch\Model\Layer\Advanced">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>
-        </arguments>
-    </type>
-    <virtualType name="categoryFilterList" type="Magento\Search\Model\Layer\Category\FilterList"/>
-    <virtualType name="categorySearchList" type="Magento\Search\Model\Layer\Search\FilterList">
-        <arguments>
-            <argument name="filterableAttributes" xsi:type="object">Magento\Search\Model\Layer\Search\FilterableAttributeList</argument>
-        </arguments>
-    </virtualType>
-    <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
-        <plugin name="search" type="Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
-    </type>
-    <type name="Magento\Customer\Model\Resource\Group">
-        <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Search\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
-    </type>
+    <preference for="Magento\Search\Model\QueryFactoryInterface" type="Magento\Search\Model\QueryFactory" />
+    <preference for="Magento\Search\Model\QueryInterface" type="Magento\Search\Model\Query" />
 </config>

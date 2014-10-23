@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="promo_catalog_edit_tabs">
         <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners" name="catalogrule.related.banners">
             <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners\Grid" name="related_catalogrule_banners_grid"/>

@@ -24,10 +24,25 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     protected $_localeDateMock;
 
+    /**
+     * @var \Magento\Framework\View\Element\Html\Date|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dateElement;
+
+    /**
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $request;
+
+    /**
+     * @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $assetRepo;
+
     protected function setUp()
     {
         $contextMock = $this->getMock(
-            'Magento\Framework\View\Element\Template\Context', array('getLocaleDate'), array(), '', false
+            'Magento\Framework\View\Element\Template\Context', array(), array(), '', false
         );
 
         $this->_localeDateMock = $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
@@ -36,7 +51,48 @@ class DateTest extends \PHPUnit_Framework_TestCase
             ->method('getLocaleDate')
             ->will($this->returnValue($this->_localeDateMock));
 
-        $this->_block = new Date($contextMock);
+        $this->request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()->getMock();
+        $this->assetRepo = $this->getMockBuilder('Magento\Framework\View\Asset\Repository')
+            ->disableOriginalConstructor()->getMock();
+
+        $contextMock->expects($this->any())
+            ->method('getRequest')
+            ->willReturn($this->request);
+
+        $contextMock->expects($this->any())
+            ->method('getAssetRepository')
+            ->willReturn($this->assetRepo);
+
+        $this->dateElement = $this->getMockBuilder('Magento\Framework\View\Element\Html\Date')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_block = new Date($contextMock, $this->dateElement);
+    }
+
+    public function testGetFieldHtml()
+    {
+        $testResult = '<input type="date" value="">';
+
+        $this->request->expects($this->any())
+            ->method('isSecure')
+            ->willReturn(false);
+
+        $this->dateElement->expects($this->once())
+            ->method('setData')
+            ->willReturnSelf();
+        $this->dateElement->expects($this->once())
+            ->method('getHtml')
+            ->willReturn($testResult);
+
+        $this->_block->setAttributeObject(
+            $this->getMockBuilder('Magento\Eav\Model\Attribute')->disableOriginalConstructor()->getMock()
+        );
+        $this->_block->setEntity(
+            $this->getMockBuilder('\Magento\Framework\Model\AbstractModel')->disableOriginalConstructor()->getMock()
+        );
+        $this->assertEquals($testResult, $this->_block->getFieldHtml());
     }
 
     public function testGetDateFormat()

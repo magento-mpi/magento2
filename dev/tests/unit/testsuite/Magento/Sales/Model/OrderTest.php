@@ -50,6 +50,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->incrementId = '#00000001';
+
         $this->order = $helper->getObject(
             'Magento\Sales\Model\Order',
             [

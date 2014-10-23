@@ -119,7 +119,6 @@ class MoveToAnotherWishlistTest extends Injectable
      */
     public function test(MultipleWishlist $multipleWishlist, $product, $qty, $qtyToMove)
     {
-        $this->markTestIncomplete('MAGETWO-28924');
         // Precondition:
         $multipleWishlist->persist();
         $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();
@@ -178,7 +177,6 @@ class MoveToAnotherWishlistTest extends Injectable
     {
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $wishlistViewBlock = $this->catalogProductView->getMultipleWishlistViewBlock();
-        $wishlistViewBlock->fillOptions($product);
-        $wishlistViewBlock->addToWishlist();
+        $wishlistViewBlock->addToWishlist($product);
     }
 }

@@ -50,7 +50,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_encryptor;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -65,7 +65,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\Module\ResourceInterface $resourceResource
      * @param \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
@@ -76,7 +76,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\Module\ResourceInterface $resourceResource,
         \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
@@ -154,7 +154,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Framework\App\Filesystem
+     * @return \Magento\Framework\Filesystem
      */
     public function getFilesystem()
     {

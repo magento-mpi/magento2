@@ -29,7 +29,7 @@ class Returns extends Page
      *
      * @var string
      */
-    protected $blockSelector = '//div[@class="order returns"]';
+    protected $blockSelector = 'div.order-items.returns';
 
     /**
      * Message selector
@@ -54,7 +54,7 @@ class Returns extends Page
     public function getReturnsReturnsBlock()
     {
         return Factory::getBlockFactory()->getMagentoRmaReturnsReturns(
-            $this->_browser->find($this->blockSelector, Locator::SELECTOR_XPATH)
+            $this->_browser->find($this->blockSelector)
         );
     }
 

@@ -9,6 +9,7 @@
 namespace Magento\Rma\Controller\Tracking;
 
 use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class PrintLabel extends \Magento\Rma\Controller\Tracking
 {
@@ -59,7 +60,7 @@ class PrintLabel extends \Magento\Rma\Controller\Tracking
             return $this->_fileResponseFactory->create(
                 'ShippingLabel(' . $rmaIncrementId . ').pdf',
                 $pdfContent,
-                \Magento\Framework\App\Filesystem::VAR_DIR,
+                DirectoryList::VAR_DIR,
                 'application/pdf'
             );
         } catch (\Magento\Framework\Model\Exception $e) {

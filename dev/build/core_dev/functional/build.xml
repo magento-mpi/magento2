@@ -15,14 +15,24 @@
     <target name="run-ee" depends="_server_info" description="Run functional tests on EE">
         <antcall>
             <target name="_enterprise_edition"/>
+            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
     </target>
     <target name="run-ce" depends="_server_info" description="Run functional tests on CE">
         <antcall>
             <target name="_community_edition"/>
+            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
+    </target>
+
+    <target name="remove-unwanted-modules"
+            if="env.bamboo_build_module_list_file"
+            description="Remove modules according to test profile">
+        <exec executable="php" dir="${basedir}/dev/build" failonerror="true">
+            <arg line="remove-unwanted-modules.php --included-module-list-file ${env.bamboo_build_module_list_file}"/>
+        </exec>
     </target>
 
     <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
@@ -108,9 +118,12 @@
             <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
         </replace>
 
-        <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install --prefer-source --no-interaction"/>
-        </exec>
+        <antcall target="_composer_install">
+            <param name="product_root_dir" value="${basedir}"/>
+        </antcall>
+        <antcall target="_composer_install_dir">
+            <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
+        </antcall>
 
         <script language="javascript"><![CDATA[
             var antcall = project.createTask('antcall');
