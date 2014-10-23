@@ -60,38 +60,92 @@
     <block class="Magento\Ui\Component\Form\Element\Input" name="input">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">input</item>
+                </item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\Input" name="checkbox">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
             <argument name="input_type" xsi:type="string">checkbox</argument>
-        </arguments>
-    </block>
-    <block class="Magento\Ui\Component\Form\Element\Multiline" name="multiline">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/multiline/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/element/boolean</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">checkbox</item>
+                </item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\Select" name="select">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/select/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">select</item>
+                </item>
+            </argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Form\Element\Textarea" name="textarea">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/textarea/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/element/textarea</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">textarea</item>
+                </item>
+            </argument>
+        </arguments>
+    </block>
+    <block class="Magento\Ui\Component\Form\Element\Multiline" name="multiline">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/multiline/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">input</item>
+                </item>
+            </argument>
         </arguments>
     </block>
 
-    <block class="Magento\Ui\Component\Form\Element\DataType\Boolean" name="boolean">
+
+    <block class="Magento\Ui\Component\Form\Element\DataType\Media" name="media">
         <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/boolean/default.phtml</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/media/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="extends" xsi:type="string">input</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">media</item>
+                </item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\DataType\Date" name="date">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/date/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="extends" xsi:type="string">input</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">date</item>
+                </item>
+            </argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Component\Form\Element\DataType\Media" name="media">
+    <block class="Magento\Ui\Component\Form\Element\DataType\Boolean" name="boolean">
         <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/media/default.phtml</argument>
+            <argument name="content_template" xsi:type="string">Magento_Ui::data_type/boolean/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="extends" xsi:type="string">input</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">select</item>
+                </item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\DataType\Text" name="text">
@@ -153,15 +207,7 @@
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form/fieldset/default.phtml</argument>
             <argument name="js_config" xsi:type="array">
-                <item name="path" xsi:type="string">Magento_Ui/js/form/components/group</item>
-            </argument>
-        </arguments>
-    </block>
-    <block class="Magento\Ui\Component\Container\Content" name="content">
-        <arguments>
-            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
-            <argument name="js_config" xsi:type="array">
-                <item name="path" xsi:type="string">Magento_Ui/js/form/components/collapsible</item>
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/fieldset</item>
             </argument>
         </arguments>
     </block>
@@ -169,19 +215,53 @@
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/default.phtml</argument>
             <argument name="js_config" xsi:type="array">
-                <item name="path" xsi:type="string">Magento_Ui/js/form/components/tab/group</item>
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/tabs</item>
             </argument>
         </arguments>
-        <container label="Static Content" name="other_tabs"/>
+    </block>
+    <block class="Magento\Ui\Component\Layout\Tabs\Tab" name="tab">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/tab/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/area</item>
+            </argument>
+        </arguments>
     </block>
     <block class="Magento\Ui\Component\Layout\Group" name="group">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::layout/group/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/group</item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Layout\Tabs\Nav" name="nav">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/nav/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/collapsible</item>
+                <item name="config" xsi:type="array">
+                    <item name="template" xsi:type="string">ui/tab</item>
+                </item>
+            </argument>
         </arguments>
     </block>
+    <block class="Magento\Ui\Component\Container\Content" name="html_content">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::container/content/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/html</item>
+            </argument>
+        </arguments>
+    </block>
+
+    <block class="Magento\Ui\Component\Form\Collection" name="collection">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form/collection/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/collection</item>
+            </argument>
+        </arguments>
+    </block>
+
 </layout>

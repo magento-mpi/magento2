@@ -9,27 +9,19 @@
  * @var \Magento\Ui\Component\Form $this
  */
 ?>
-<?php if (false): ?>
-<script data-mage-init='{ "Magento_Ui/js/initializer/main": "" }' type="application/json">
+<?php if (true): ?>
+<script data-mage-init='{ "Magento_Ui/js/core/app": "" }' type="application/json">
     <?php echo $this->getRenderContext()->getConfigBuilder()->toJsonNew($this->getRenderContext()->getStorage()); ?>
 </script>
 <script>
     var allowLocalCache = false;
 </script>
-<div data-bind="scope: 'customer_form_areas' " class="entry-edit form-inline">
-    <form action="" method="post">
-
-        <!-- ko foreach: elems -->
-        <div data-bind="visible: visible">
-
-            <!-- ko foreach: elems -->
-            <!-- ko template: template --><!-- /ko -->
-            <!-- /ko -->
-
-        </div>
-        <!-- /ko -->
-
-    </form>
+<div data-bind="scope: '<?php echo $this->getFormComponentScope(); ?>'">
+    <button data-bind="click: onSubmit">Validate</button>
+    <div class="messages" style="display: none" data-bind="visible: isValid"><div class="message success"><div data-ui-id="messages-message-success">The form is valid!</div></div></div>
+</div>
+<div data-bind="scope: 'areas'" class="entry-edit form-inline">
+    <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
 <?php else:?>
 <div class="form">

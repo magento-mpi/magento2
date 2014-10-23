@@ -11,7 +11,8 @@ namespace Magento\Ui\DataProvider\Config;
 
 use Magento\Framework\Config\FileResolverInterface;
 use Magento\Framework\Config\FileIteratorFactory;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class FileResolver
@@ -36,7 +37,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
         Filesystem $filesystem,
         FileIteratorFactory $iteratorFactory
     ) {
-        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->directoryRead = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->iteratorFactory = $iteratorFactory;
     }
 

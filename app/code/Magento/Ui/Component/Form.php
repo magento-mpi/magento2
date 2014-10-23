@@ -100,10 +100,11 @@ class Form extends AbstractView
         $this->renderContext->getStorage()->addComponent(
             $this->getData('name'),
             [
+                'component' => 'Magento_Ui/js/form/component',
                 'config' => [
                     'provider' => $this->getData('name')
                 ],
-                'deps' => $this->getData('name')
+                'deps' => [$this->getData('name')]
             ]
         );
         $layoutSettings = (array) $this->getData('layout');
@@ -125,6 +126,16 @@ class Form extends AbstractView
         );
         $layout->prepare();
         $this->elements[] = $layout;
+    }
+
+    /**
+     * Returns current form Data Scope name
+     *
+     * @return string
+     */
+    public function getFormComponentScope()
+    {
+        return "fields.{$this->getData('name')}";
     }
 
     /**

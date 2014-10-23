@@ -93,9 +93,10 @@ class Tabs extends AbstractView
         $this->registerComponents();
         $ns = $this->getData('name');
         $tabs = [
-            'type' => 'base',
+            'type' => $ns,
             'children' => [
                 $ns => [
+                    'type' => 'nav',
                     'config' => [
                         'label' => $this->getData('label')
                     ]
@@ -103,9 +104,11 @@ class Tabs extends AbstractView
             ]
         ];
         $areas = [
-            'type' => 'group',
+            'type' => $ns,
             'children' => [
-                $ns => []
+                $ns => [
+                    'type' => $ns
+                ]
             ]
         ];
         $fields = [
@@ -115,9 +118,10 @@ class Tabs extends AbstractView
             ]
         ];
         $fieldSets = [
-            'childType' => 'fieldset',
             'children' => [
-                $ns => []
+                $ns => [
+                    'childType' => 'fieldset',
+                ]
             ]
         ];
         //Add child blocks content
@@ -128,6 +132,7 @@ class Tabs extends AbstractView
             }
             $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childBlock->getNameInLayout();
             $areas['children'][$ns]['children'][$childBlock->getNameInLayout()] = [
+                'type' => 'tab',
                 'config' => [
                     'name' => $childBlock->getNameInLayout(),
                     'label' => $childBlock->getTabTitle()
@@ -136,12 +141,14 @@ class Tabs extends AbstractView
             ];
             if ($childBlock->isAjaxLoaded()) {
                 $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
+                    'type' => 'html_content',
                     'config' => [
                         'source' => $childBlock->getTabUrl()
                     ]
                 ];
             } else {
                 $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
+                    'type' => 'html_content',
                     'config' => [
                         'content' => $childBlock->toHtml()
                     ]
@@ -154,21 +161,30 @@ class Tabs extends AbstractView
             $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $dataSource;
             $meta = $this->dataManager->getMetadata($dataSource);
             $fieldSets['children'][$ns]['children'][$dataSource] = [
+                'type' => 'fieldset',
                 'config' => [
                     'label' => $dataSource,
                     'collapsible' => true
                 ]
             ];
 
+            $fields['children'][$ns]['component'] = 'Magento_Ui/js/form';
+
             foreach ($meta as $key => $value) {
                 if ($key != Metadata::CHILD_DATA_SOURCES) {
-                    $fieldSets['children'][$ns]['children'][$dataSource]['children'][] = 'fields.' . $ns . '.' . $dataSource . '.' . $key;
-                    $fields['children'][$ns]['children'][$dataSource]['children'][$key] = $value;
-                    $fields['children'][$ns]['children'][$dataSource]['children'][$key]['children'] = [$value];
+                    $fieldSets['children'][$ns]['children'][$dataSource]['children'][] = 'fields.' . $ns . '.' . $key;
+                    $fields['children'][$ns]['children'][$key] = $value;
+                    $fields['children'][$ns]['children'][$key]['type'] = 'group';
+                    $value['dataScope'] = $dataSource . '.' . $key;
+                    $fields['children'][$ns]['children'][$key]['children'][$key] = [
+                        'type' => $value['formElement'],
+                        'config' => $value
+                    ];
                 }
             }
 
             $areas['children'][$ns]['children'][$dataSource] = [
+                'type' => 'tab',
                 'config' => [
                     'active' => true,
                     'name' => $dataSource,
@@ -182,23 +198,43 @@ class Tabs extends AbstractView
                 $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childName;
                 $childMeta = $this->dataManager->getMetadata($childName);
                 $fieldSets['children'][$ns]['children'][$childName] = [
+                    'type' => 'collection',
+                    'parentName' => 'fields.' . $ns,
                     'config' => [
-                        'label' => $childName,
-                        'collapsible' => true
+                        'active' => 1,
+                        'title' => $childMeta->getLabel(),
+                        'label' => $childMeta->getLabel(),
+                        'removeLabel' => __('Remove ' . $childMeta->getLabel()),
+                        'removeMessage' => __('Are you sure you want to delete this item?'),
+                        'addLabel' => __('Add New ' . $childMeta->getLabel()),
+                        'nodeTemplate' => 'item_template'
+                    ]
+                ];
+                $itemTemplate = [
+                    'type' => 'template',
+                    'component' => 'Magento_Ui/js/form/components/collection/item',
+                    'childType' => 'group',
+                    'parentName' => 'fields.' . $ns . '.' . $childName,
+                    'config' => [
+                        'title' => 'New Customer Address'
                     ]
                 ];
                 foreach ($childMeta as $key => $value) {
-                    $fieldSets['children'][$ns]['children'][$childName]['children'][] = 'fields.' . $ns . '.' . $childName . '.' . $key;
-                    $fields['children'][$ns]['children'][$childName]['children'][$key] = $value;
-                    $fields['children'][$ns]['children'][$childName]['children'][$key]['children'] = [$value];
+                    $itemTemplate['children'][$key] = $value;
+                    $value['dataScope'] = $dataSource . '.' . $childName . '.' . $key;
+                    $itemTemplate['children'][$key] = [
+                        'type' => $value['formElement'],
+                        'config' => $value
+                    ];
                 }
+                $fieldSets['children'][$ns]['children'][$childName]['children']['item_template'] = $itemTemplate;
                 $areas['children'][$ns]['children'][$childName] = [
+                    'type' => 'tab',
                     'config' => [
                         'name' => $childName,
-                        'label' => $childMeta->getLabel(),
-                        'active' => true
+                        'label' => $childMeta->getLabel()
                     ],
-                    'children' => ['fieldSets.' . $ns . '.' . $childName]
+                    'children' => ['fields.' . $ns . '.' . $childName]
                 ];
             }
 
