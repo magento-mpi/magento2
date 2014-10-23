@@ -79,7 +79,7 @@ class Progress extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         $stepsRevertIndex = array_flip($this->_getStepCodes());
 
-        $toStep = $this->getRequest()->getParam('toStep');
+        $toStep = $this->getNextStep();
 
         if (empty($toStep) || !isset($stepsRevertIndex[$currentStep])) {
             return $this->getCheckout()->getStepData($currentStep, 'complete');

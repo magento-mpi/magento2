@@ -37,6 +37,8 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryShare;
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-27035
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ShareGiftRegistryFrontendEntityTest extends Injectable
 {

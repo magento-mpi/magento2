@@ -7,6 +7,8 @@
  */
 namespace Magento\ImportExport\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Operation abstract class
  *
@@ -58,18 +60,18 @@ abstract class AbstractModel extends \Magento\Framework\Object
 
     /**
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Logger\AdapterFactory $adapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Logger\AdapterFactory $adapterFactory,
         array $data = array()
     ) {
         $this->_logger = $logger;
-        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->_adapterFactory = $adapterFactory;
         parent::__construct($data);
     }

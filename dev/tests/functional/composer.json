@@ -3,6 +3,10 @@
         {
             "type": "git",
             "url": "https://github.corp.ebay.com/mtf/mtf.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/giorgiosironi/phpunit-selenium.git"
         }
     ],
     "require": {

@@ -7,6 +7,8 @@
  */
 namespace Magento\PageCache\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,7 +32,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $filesystemMock =
-            $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryRead'), array(), '', false);
+            $this->getMock('Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_coreConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_cacheState =
             $this->getMock('\Magento\Framework\App\Cache\State', array('isEnabled'), array(), '', false);
@@ -47,7 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\Framework\App\Filesystem::MODULES_DIR
+            DirectoryList::MODULES
         )->will(
             $this->returnValue($modulesDirectoryMock)
         );

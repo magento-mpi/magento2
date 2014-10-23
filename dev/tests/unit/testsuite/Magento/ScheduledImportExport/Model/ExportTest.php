@@ -54,7 +54,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
             $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Entity\Factory', array(), array(), '', false),
