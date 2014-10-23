@@ -41,6 +41,7 @@ class Binder
                 $data[$limit] = $bindData[$limit];
             }
         }
+
         return $data;
     }
 
@@ -56,6 +57,7 @@ class Binder
                 $data[$name]['value'] = $bindData[$name];
             }
         }
+
         return $data;
     }
 
@@ -72,8 +74,8 @@ class Binder
             if (is_array($value)) {
                 $data[$key] = $this->processData($value, $bindData);
             } else {
-                foreach($bindData as $bindKey => $bindValue) {
-                    if (strpos($value, $bindKey) !== FALSE) {
+                foreach ($bindData as $bindKey => $bindValue) {
+                    if (strpos($value, $bindKey) !== false) {
                         if (is_string($bindValue)) {
                             $data[$key] = str_replace($bindKey, $bindValue, $value);
                         } else {
@@ -83,6 +85,7 @@ class Binder
                 }
             }
         }
+
         return $data;
     }
 }
