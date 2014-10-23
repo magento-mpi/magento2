@@ -65,7 +65,7 @@ Gcontent.Attribute.prototype = {
 var attributesSelectTemplate = '<tr id="<?php echo $this->getFieldId() ?>_{{index}}">' +
                 '<td>'+
                     '<?php echo $this->getAttributesSelectHtml(true) ?>' +
-                    '<input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" value="">' +
+                    '<input type="hidden" name="<?php echo $this->getFieldName() ?>[{{index}}][delete]" class="delete" value="">' +
                 '</td>' +
                 '<td><?php echo $this->getGcontentAttributesSelectHtml() ?></td>' +
                 '<td class="col-delete">' + <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getDeleteButtonHtml()) ?> + '</td>' +
