@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FileExistsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,10 +35,10 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     {
         $this->mergerMock = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\MergeStrategyInterface');
         $this->dirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
-        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(DirectoryList::STATIC_VIEW)
             ->will($this->returnValue($this->dirMock))
         ;
         $this->fileExists = new FileExists($this->mergerMock, $filesystem);

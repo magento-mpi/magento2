@@ -9,6 +9,8 @@
  */
 namespace Magento\Framework\Filesystem;
 
+use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList as AppDirectoryList;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -19,13 +21,13 @@ use Magento\TestFramework\Helper\Bootstrap;
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $filesystem;
 
     protected function setUp()
     {
-        $this->filesystem = Bootstrap::getObjectManager()->create('Magento\Framework\App\Filesystem');
+        $this->filesystem = Bootstrap::getObjectManager()->create('Magento\Framework\Filesystem');
     }
 
     /**
@@ -33,7 +35,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDirectoryReadInstance()
     {
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $dir = $this->filesystem->getDirectoryRead(AppDirectoryList::VAR_DIR);
         $this->assertInstanceOf('\Magento\Framework\Filesystem\Directory\Read', $dir);
     }
 
@@ -42,18 +44,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDirectoryWriteInstance()
     {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(AppDirectoryList::VAR_DIR);
         $this->assertInstanceOf('\Magento\Framework\Filesystem\Directory\Write', $dir);
-    }
-
-    /**
-     * Test getDirectoryWrite throws exception on trying to get directory with write access
-     *
-     * @expectedException \Magento\Framework\Filesystem\FilesystemException
-     */
-    public function testGetDirectoryWriteException()
-    {
-        $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::THEMES_DIR);
     }
 
     /**
@@ -61,6 +53,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUri()
     {
-        $this->assertContains('media', $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR));
+        $this->assertContains('media', $this->filesystem->getDirectoryRead(AppDirectoryList::MEDIA)->getAbsolutePath());
     }
 }

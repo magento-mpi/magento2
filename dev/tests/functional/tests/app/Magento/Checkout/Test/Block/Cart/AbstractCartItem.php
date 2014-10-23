@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Checkout\Test\Block\Cart;
 
 use Mtf\Block\Block;
@@ -49,7 +49,7 @@ class AbstractCartItem extends Block
      *
      * @var string
      */
-    protected $optionsBlock = './/dl[@class="cart-item-options"]';
+    protected $optionsBlock = './/dl[@class="item-options"]';
 
     /**
      * Escape currency in price

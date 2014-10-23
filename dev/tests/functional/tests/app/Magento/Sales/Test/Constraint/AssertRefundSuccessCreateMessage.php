@@ -13,14 +13,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
 
 /**
  * Class AssertRefundSuccessCreateMessage
- * Assert that success message is displayed after refund has been created
+ * Assert that success create credit memo message is present on order view page
  */
 class AssertRefundSuccessCreateMessage extends AbstractConstraint
 {
     /**
-     * Credit memo created success message
+     * Text value to be checked
      */
-    const SUCCESS_MESSAGE = 'You created the credit memo.';
+    const SUCCESS_CREATE_MESSAGE = 'You created the credit memo.';
 
     /**
      * Constraint severeness
@@ -30,7 +30,7 @@ class AssertRefundSuccessCreateMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after refund has been created
+     * Assert that success create credit memo message is present on order view page
      *
      * @param OrderView $orderView
      * @return void
@@ -38,7 +38,7 @@ class AssertRefundSuccessCreateMessage extends AbstractConstraint
     public function processAssert(OrderView $orderView)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_CREATE_MESSAGE,
             $orderView->getMessagesBlock()->getSuccessMessages()
         );
     }
@@ -50,6 +50,6 @@ class AssertRefundSuccessCreateMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Credit memo success create message is present.';
+        return 'Success create credit memo message is present  on order view page.';
     }
 }

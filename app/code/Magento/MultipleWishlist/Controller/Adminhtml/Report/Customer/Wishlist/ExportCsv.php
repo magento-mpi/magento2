@@ -8,6 +8,8 @@
  */
 namespace Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ExportCsv extends \Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist
 {
     /**
@@ -27,7 +29,7 @@ class ExportCsv extends \Magento\MultipleWishlist\Controller\Adminhtml\Report\Cu
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile(),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

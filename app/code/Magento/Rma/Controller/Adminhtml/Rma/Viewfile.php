@@ -9,6 +9,7 @@
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
 use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
 {
@@ -89,7 +90,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
             $this->_fileFactory->create(
                 $name,
                 array('type' => 'filename', 'value' => $this->readDirectory->getAbsolutePath($filePath)),
-                \Magento\Framework\App\Filesystem::MEDIA_DIR
+                DirectoryList::MEDIA
             )->sendResponse();
         }
 
