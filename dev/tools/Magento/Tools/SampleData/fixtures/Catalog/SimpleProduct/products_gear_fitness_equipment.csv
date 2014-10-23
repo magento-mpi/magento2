@@ -1,4 +1,4 @@
-category,name,sku,price,qty,description,activity_general,category_gear,gender,material_gear,attribute_set
+category,name,sku,price,qty,description,activity_general,category_gear,gender,material_gear,attribute_set,url_key
 "Gear
 Fitness Equipment","Affirm Water Bottle",24-WG06,7,100,"<p>You'll stay hydrated with ease with the Affirm Water Bottle by your side or in hand. Measurements on the outside help you keep track of how much you're drinking, while the screw-top lid prevents spills. A metal carabiner clip allows you to attach it to the outside of a backpack or bag for easy access.</p>
 <ul>
@@ -13,7 +13,7 @@ Hydration","Men
 Women
 Boys
 Girls
-Unisex",Plastic,Gear
+Unisex",Plastic,Gear,
 "Gear
 Fitness Equipment","Affirm Water Bottle",24-UG06,7,100,"<p>You'll stay hydrated with ease with the Affirm Water Bottle by your side or in hand. Measurements on the outside help you keep track of how much you're drinking, while the screw-top lid prevents spills. A metal carabiner clip allows you to attach it to the outside of a backpack or bag for easy access.</p>
 <ul>
@@ -28,7 +28,7 @@ Hydration","Men
 Women
 Boys
 Girls
-Unisex",Plastic,Gear
+Unisex",Plastic,Gear,Affirm Water Bottle2
 "Gear
 Fitness Equipment","Dual Handle Cardio Ball",24-UG07,12,100,"<p>Make the most of your limited workout window with our Dual-Handle Cardio Ball. The 15-lb ball maximizes the effort-impact to your abdominal, upper arm and lower-body muscles. It features a handle on each side for a firm, secure grip.</p>
 <ul>
@@ -40,7 +40,7 @@ Sports
 Gym","Cardio
 Exercise","Men
 Women
-Unisex",Plastic,Gear
+Unisex",Plastic,Gear,
 "Gear
 Fitness Equipment","Zing Jump Rope",24-UG04,12,100,"<p>One of the world's simplest and most portable exercise devices, a jump rope enables endless variations and fitness output. The Zing Jump Rope goes anywhere and can be used any time. It is adjustable in length and has contoured foam handles for a great grip.</p>
 <ul>
@@ -50,7 +50,7 @@ Fitness Equipment","Zing Jump Rope",24-UG04,12,100,"<p>One of the world's simple
 Exercise","Men
 Women
 Unisex","Leather
-Plastic",Gear
+Plastic",Gear,
 "Gear
 Fitness Equipment","Pursuit Lumaflex&trade; Tone Band ",24-UG02,16,100,"<p>Save your knees and joints while strengthening arms, legs and core with the Pursuit Lumaflex&trade; Tone Band. This ultra-durable training tool lets you complete a full-body workout free of bulky machines or free weights.</p>
 <ul>
@@ -60,7 +60,7 @@ Fitness Equipment","Pursuit Lumaflex&trade; Tone Band ",24-UG02,16,100,"<p>Save 
 Exercise","Men
 Women
 Unisex","Rubber
-Synthetic",Gear
+Synthetic",Gear,
 "Gear
 Fitness Equipment","Go-Get'r Pushup Grips",24-UG05,19,100,"<p>The Go-Get'r Pushup Grips safely provide the extra range of motion you need for a deep-dip routine targeting core, shoulder, chest and arm strength. Do fewer pushups using more energy, getting better results faster than the standard floor-level technique yield.</p>
 <ul>
@@ -70,7 +70,7 @@ Fitness Equipment","Go-Get'r Pushup Grips",24-UG05,19,100,"<p>The Go-Get'r Pushu
 Gym",Exercise,"Men
 Women
 Unisex","Plastic
-Rubber",Gear
+Rubber",Gear,
 "Gear
 Fitness Equipment","Quest Lumaflex&trade; Band",24-UG01,19,100,"<p>From leg extensions and standing squats to a full range of floor routines, the Quest Strength Band brings your own personal gym with you everywhere you go. Designed to add extra resistance to any training session, this strength band helps you tone and define your muscles. You'll love the extra comfort of its grippy handles and adjustable design.</p>
 <ul>
@@ -82,7 +82,7 @@ Exercise","Men
 Women
 Unisex","Leather
 Plastic
-Rubber",Gear
+Rubber",Gear,
 "Gear
 Fitness Equipment","Sprite Stasis Ball 55 cm",24-WG081,23,100,"<p>The Sprite Stasis Ball gives you the toned abs, sides, and back you want by amping up your core workout. With bright colors and a burst-resistant design, it's a must-have for every hard-core exercise addict. Use for abdominal conditioning, balance training, yoga, or even physical therapy.</p>
 <ul>
@@ -94,7 +94,7 @@ Gym",Exercise,"Men
 Women
 Boys
 Girls
-Unisex",Plastic,Gear
+Unisex",Plastic,Gear,
 "Gear
 Fitness Equipment","Sprite Stasis Ball 65 cm",24-WG082,27,100,"<p>The Sprite Stasis Ball gives you the toned abs, sides, and back you want by amping up your core workout. With bright colors and a burst-resistant design, it's a must-have for every hard-core exercise addict. Use for abdominal conditioning, balance training, yoga, or even physical therapy.</p>
 <ul>
@@ -106,7 +106,7 @@ Gym",Exercise,"Men
 Women
 Boys
 Girls
-Unisex",Plastic,Gear
+Unisex",Plastic,Gear,
 "Gear
 Fitness Equipment","Sprite Stasis Ball 75 cm",24-WG083,32,100,"<p>The Sprite Stasis Ball gives you the toned abs, sides, and back you want by amping up your core workout. With bright colors and a burst-resistant design, it's a must-have for every hard-core exercise addict. Use for abdominal conditioning, balance training, yoga, or even physical therapy.</p>
 <ul>
@@ -118,7 +118,7 @@ Gym",Exercise,"Men
 Women
 Boys
 Girls
-Unisex",Plastic,Gear
+Unisex",Plastic,Gear,
 "Gear
 Fitness Equipment","Sprite Foam Yoga Brick",24-WG084,5,100,"<p>Our top-selling yoga prop, the 4-inch, high-quality Sprite Foam Yoga Brick is popular among yoga novices and studio professionals alike. An essential yoga accessory, the yoga brick is a critical tool for finding balance and alignment in many common yoga poses. Choose from 5 color options.</p>
 <ul>
@@ -132,7 +132,7 @@ Recreation
 Sports
 Gym",Exercise,"Men
 Women
-Unisex",Foam,Gear
+Unisex",Foam,Gear,
 "Gear
 Fitness Equipment","Sprite Yoga Strap 6 foot",24-WG085,14,100,"<p>The 8-Foot Sprite Yoga Strap is your untiring partner in demanding stretches, holds and alignment routines. The strap's 100% organic cotton fabric is woven tightly to form a soft, textured yet non-slip surface. The plastic clasp buckle is easily adjustable, lightweight and durable under strain.</p>
 <ul>
@@ -143,7 +143,7 @@ Fitness Equipment","Sprite Yoga Strap 6 foot",24-WG085,14,100,"<p>The 8-Foot Spr
 </ul>",Yoga,Exercise,"Men
 Women
 Unisex","Canvas
-Plastic",Gear
+Plastic",Gear,
 "Gear
 Fitness Equipment","Sprite Yoga Strap 8 foot",24-WG086,17,100,"<p>The 8-Foot Sprite Yoga Strap is your untiring partner in demanding stretches, holds and alignment routines. The strap's 100% organic cotton fabric is woven tightly to form a soft, textured yet non-slip surface. The plastic clasp buckle is easily adjustable, lightweight and durable under strain.</p>
 <ul>
@@ -154,7 +154,7 @@ Fitness Equipment","Sprite Yoga Strap 8 foot",24-WG086,17,100,"<p>The 8-Foot Spr
 </ul>",Yoga,Exercise,"Men
 Women
 Unisex","Canvas
-Plastic",Gear
+Plastic",Gear,
 "Gear
 Fitness Equipment","Sprite Yoga Strap 10 foot",24-WG087,21,100,"<p>The 8-Foot Sprite Yoga Strap is your untiring partner in demanding stretches, holds and alignment routines. The strap's 100% organic cotton fabric is woven tightly to form a soft, textured yet non-slip surface. The plastic clasp buckle is easily adjustable, lightweight and durable under strain.</p>
 <ul>
@@ -165,7 +165,7 @@ Fitness Equipment","Sprite Yoga Strap 10 foot",24-WG087,21,100,"<p>The 8-Foot Sp
 </ul>",Yoga,Exercise,"Men
 Women
 Unisex","Canvas
-Plastic",Gear
+Plastic",Gear,
 "Gear
 Fitness Equipment","Sprite Foam Roller",24-WG088,19,100,"<p>It hurts so good to use the Sprite Foam Roller on achy, tired muscles for myofascial massage therapy. Or you can add this fundamental piece to your Pilates and yoga accouterment, or apply towards core stability, strengthening and balance exercise. </p>
 <ul>
@@ -176,7 +176,7 @@ Fitness Equipment","Sprite Foam Roller",24-WG088,19,100,"<p>It hurts so good to 
 </ul>","Yoga
 Gym",Exercise,"Men
 Women
-Unisex",Foam,Gear
+Unisex",Foam,Gear,
 "Gear
 Fitness Equipment","Harmony Lumaflex&trade; Strength Band Kit ",24-UG03,22,100,"<p>Forget fancy machines and costly memberships - the Harmony Lumaflex&trade; Stength Band Kit is all you need for an amazing workout. The kit has everything you need for a range of strengthening and toning exercises.</p>
 <ul>
@@ -189,4 +189,4 @@ Women
 Unisex","
 Leather
 Plastic
-Rubber",Gear
+Rubber",Gear,

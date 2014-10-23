@@ -95,7 +95,7 @@ class Installer implements \Magento\Framework\AppInterface
      **/
     public function launch()
     {
-        $areaCode = 'backend';
+        $areaCode = 'install';
         $this->appState->setAreaCode($areaCode);
         $this->objectManager->configure($this->configLoader->load($areaCode));
 
