@@ -1,0 +1,4 @@
+Module Magento\RecurringPayment provides a new ability to set and configure recurring payments on a product. These are most often used for subscriptions or products with installment payment plans.
+When a product like this is purchased from the store, the customer is redirected to a 3rd-party payment system where a "recurring payment agreement" with the store is signed/authorized by the customer.
+A recurring payment agreement is an agreement between the customer and the store authorized at the side of a payment system. In the payment system, this agreement authorizes the merchant to charge the customer account again in the future according to the recurring payment settings.
+These are called "recurring payments" in Magento. In the 3rd-party payment system, a recurring payment is an accounting record that captures payments on a regular basis and according to the payment schedule defined in the recurring payment.
