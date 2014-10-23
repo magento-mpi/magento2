@@ -29,7 +29,7 @@
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
         <const name="TESTS_CLEANUP" value="enabled"/>
         <const name="TESTS_MAGENTO_INSTALLATION" value="enabled"/>
-        <const name="TESTS_MAGENTO_MODE" value="developer"/>
+        <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
         <const name="TESTS_XDEBUG_ENABLED" value="false"/>
     </php>
     <listeners>
