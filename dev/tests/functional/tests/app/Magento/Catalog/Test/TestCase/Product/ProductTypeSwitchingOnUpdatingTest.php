@@ -8,15 +8,15 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config;
+use Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
 /**
- * Test Creation for ProductTypeSwitchingOnEditing
+ * Test Creation for ProductTypeSwitchingOnUpdating
  *
  * Test Flow:
  *
@@ -35,7 +35,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * @group Products_(MX)
  * @ZephyrId MAGETWO-29633
  */
-class ProductTypeSwitchingOnEditingTest extends Injectable
+class ProductTypeSwitchingOnUpdatingTest extends Injectable
 {
     /**
      * Product page with a grid
@@ -77,14 +77,14 @@ class ProductTypeSwitchingOnEditingTest extends Injectable
     }
 
     /**
-     * Run product type switching on creation test
+     * Run product type switching on updating test.
      *
      * @param string $productOrigin
      * @param string $product
-     * @param string $deleteVariations
+     * @param string $actionName
      * @return array
      */
-    public function test($productOrigin, $product, $deleteVariations)
+    public function test($productOrigin, $product, $actionName)
     {
         // Preconditions
         list($fixtureClass, $dataSet) = explode('::', $productOrigin);
@@ -98,26 +98,52 @@ class ProductTypeSwitchingOnEditingTest extends Injectable
         list($fixtureClass, $dataSet) = explode('::', $product);
         $product = $this->fixtureFactory->createByCode(trim($fixtureClass), ['dataSet' => trim($dataSet)]);
         $this->catalogProductEdit->getProductForm()->fill($product);
-        $this->deleteVariations($deleteVariations);
+        $this->performAction($actionName);
         $this->catalogProductEdit->getFormPageActions()->save($product);
 
         return ['product' => $product];
     }
 
     /**
-     * Delete variations
+     * Perform action.
      *
-     * @param string $deleteVariations
+     * @param $actionName
+     * @throws \Exception
      * @return void
      */
-    protected function deleteVariations($deleteVariations)
+    protected function performAction($actionName)
     {
-        if ($deleteVariations !== '-') {
-            $this->catalogProductEdit->getProductForm()->openTab('product-details');
-            $this->catalogProductEdit->getProductForm()->openTab('variations');
-            /** @var Config $variationsTab */
-            $variationsTab = $this->catalogProductEdit->getProductForm()->getTabElement('variations');
-            $variationsTab->deleteVariations();
+        if ($actionName !== '-') {
+            if (!method_exists(__CLASS__, $actionName)) {
+                throw new \Exception('Method does not exist.');
+            }
+            $this->$actionName();
         }
+    }
+
+    /**
+     * Delete variations.
+     *
+     * @return void
+     */
+    protected function deleteAttributes()
+    {
+        $this->catalogProductEdit->getProductForm()->openTab('variations');
+        /** @var Config $variationsTab */
+        $variationsTab = $this->catalogProductEdit->getProductForm()->getTabElement('variations');
+        $variationsTab->deleteAttributes();
+    }
+
+    /**
+     * Delete links.
+     *
+     * @return void
+     */
+    protected function deleteLinks()
+    {
+        $this->catalogProductEdit->getProductForm()->openTab('downloadable_information');
+        /** @var Downloadable $downloadableInfoTab */
+        $downloadableInfoTab = $this->catalogProductEdit->getProductForm()->getTabElement('downloadable_information');
+        $downloadableInfoTab->getDownloadableBlock('Links')->deleteLinks();
     }
 }

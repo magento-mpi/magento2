@@ -119,4 +119,20 @@ class Links extends Form
         }
         return $newFields;
     }
+
+    /**
+     * Delete all links and clear title
+     *
+     * @return void
+     */
+    public function deleteLinks()
+    {
+        $this->_rootElement->find($this->title, Locator::SELECTOR_XPATH)->setValue('');
+        $index = 1;
+        while ($this->_rootElement->find(sprintf($this->rowBlock, $index), Locator::SELECTOR_XPATH)->isVisible()) {
+            $rowBlock = $this->getRowBlock($index - 1);
+            $rowBlock->clickDeleteButton();
+            ++$index;
+        }
+    }
 }

@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertProductInGrid
+ * Assert that product is present in products grid.
  */
 class AssertProductInGrid extends AbstractConstraint
 {
@@ -25,7 +26,7 @@ class AssertProductInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert product availability in products grid
+     * Assert that product is present in products grid and can be found by sku, type, status and attribute set.
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
@@ -33,16 +34,39 @@ class AssertProductInGrid extends AbstractConstraint
      */
     public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
     {
-        $filter = ['sku' => $product->getSku()];
         $productGrid->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $productGrid->getProductGrid()->isRowVisible($filter),
-            'Product with sku \'' . $product->getSku() . '\' is absent in Products grid.'
+            $productGrid->getProductGrid()->isRowVisible($this->prepareFilter($product)),
+            'Product \'' . $product->getName() . '\' is absent in Products grid.'
         );
     }
 
     /**
-     * Returns a string representation of the object
+     * Prepare filter for product grid.
+     *
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function prepareFilter(FixtureInterface $product)
+    {
+        $config = $product->getDataConfig();
+        $productStatus = ($product->getStatus() === null || $product->getStatus() === 'Product online')
+            ? 'Enabled'
+            : 'Disabled';
+        $filter = [
+            'type' => ucfirst($config['create_url_params']['type']) . ' Product',
+            'sku' => $product->getSku(),
+            'status' => $productStatus,
+        ];
+        if (method_exists($product, 'getAttributeSetId')) {
+            $filter['set_name'] = $product->getAttributeSetId();
+        }
+
+        return $filter;
+    }
+
+    /**
+     * Returns a string representation of the object.
      *
      * @return string
      */

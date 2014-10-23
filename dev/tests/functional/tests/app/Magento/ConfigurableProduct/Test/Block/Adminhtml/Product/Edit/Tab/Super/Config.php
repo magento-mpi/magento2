@@ -178,11 +178,11 @@ class Config extends Tab
     }
 
     /**
-     * Delete all variations
+     * Delete all attributes
      *
      * @return void
      */
-    public function deleteVariations()
+    public function deleteAttributes()
     {
         $attributeElements = $this->_rootElement->find($this->attributeElement)->getElements();
         $this->_rootElement->find($this->variationsContent)->click();
