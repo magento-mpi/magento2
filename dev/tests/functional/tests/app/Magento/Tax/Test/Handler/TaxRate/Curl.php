@@ -41,6 +41,7 @@ class Curl extends AbstractCurl implements TaxRateInterface
         '0' => '*',
         '12' => 'California',
         '43' => 'New York',
+        '57' => 'Texas',
     ];
 
     /**
