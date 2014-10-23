@@ -28,15 +28,6 @@ class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
         );
         $creditmemo->setOrder($order);
 
-        $payment = $order->getPayment();
-        $paymentInfoBlock = Bootstrap::getObjectManager()->get(
-            'Magento\Payment\Helper\Data'
-        )->getInfoBlock(
-                $payment
-            );
-        $paymentInfoBlock->setArea('invalid-area');
-        $payment->setBlockMock($paymentInfoBlock);
-
         $this->assertEmpty($creditmemo->getEmailSent());
 
         $creditmemoSender = Bootstrap::getObjectManager()
@@ -45,6 +36,5 @@ class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($result);
         $this->assertNotEmpty($creditmemo->getEmailSent());
-        $this->assertEquals('frontend', $paymentInfoBlock->getArea());
     }
 }

@@ -8,6 +8,8 @@
  */
 namespace Magento\PageCache\Controller\Adminhtml\PageCache;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ExportVarnishConfig extends \Magento\Backend\App\Action
 {
     /**
@@ -44,6 +46,6 @@ class ExportVarnishConfig extends \Magento\Backend\App\Action
     {
         $fileName = 'varnish.vcl';
         $content = $this->config->getVclFile();
-        return $this->fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->fileFactory->create($fileName, $content, DirectoryList::VAR_DIR);
     }
 }

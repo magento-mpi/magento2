@@ -5,12 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Magento\Framework\App\Bootstrap;
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
     ->load(\Magento\Framework\App\Area::PART_CONFIG);
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-    \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-        \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => realpath(__DIR__)),
+    Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
+        DirectoryList::THEMES => array('path' => realpath(__DIR__)),
     ),
 ));
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(

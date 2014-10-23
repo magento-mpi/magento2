@@ -12,6 +12,8 @@
  */
 namespace Magento\Pci\Controller\Adminhtml\Crypt;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Key extends \Magento\Backend\App\Action
 {
     /**
@@ -23,9 +25,9 @@ class Key extends \Magento\Backend\App\Action
     {
         /** @var \Magento\Framework\Filesystem\Directory\Write $configDirectory */
         $configDirectory = $this->_objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::CONFIG_DIR
+            DirectoryList::CONFIG
         );
         if (!$configDirectory->isWritable('local.xml')) {
             $this->messageManager->addError(

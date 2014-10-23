@@ -218,7 +218,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $result = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($customerData[Customer::ID], $result[Customer::ID], 'Wrong customer!');
-        $this->assertArrayNotHasKey(Customer::CONFIRMATION, $result, 'Customer is not activated');
+        $this->assertTrue(
+            !isset($result[Customer::CONFIRMATION]) || $result[Customer::CONFIRMATION] === null,
+            'Customer is not activated!'
+        );
     }
 
     public function testGetCustomerDetails()
@@ -228,6 +231,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         //Get expected details from the Service directly
         $expectedCustomerDetails = $this->_getCustomerDetails($customerData['id'])->__toArray();
+        $expectedCustomerDetails['addresses'][0]['id'] =
+            (int)$expectedCustomerDetails['addresses'][0]['id'];
+
+        $expectedCustomerDetails['addresses'][1]['id'] =
+            (int)$expectedCustomerDetails['addresses'][1]['id'];
 
         //Test GetDetails
         $serviceInfo = [
@@ -1045,6 +1053,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $expectedCustomerDetails = $this->customerAccountService
             ->getCustomerDetailsByEmail($customerData[Customer::EMAIL])
             ->__toArray();
+        $expectedCustomerDetails['addresses'][0]['id'] =
+            (int)$expectedCustomerDetails['addresses'][0]['id'];
+
+        $expectedCustomerDetails['addresses'][1]['id'] =
+            (int)$expectedCustomerDetails['addresses'][1]['id'];
 
         //Test GetDetails
         $serviceInfo = [
