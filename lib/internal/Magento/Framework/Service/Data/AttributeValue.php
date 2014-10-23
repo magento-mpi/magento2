@@ -5,12 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Framework\Service\Data;
+
+use Magento\Framework\Api\AttributeInterface;
 
 /**
  * Custom Attribute Data object
  */
-class AttributeValue extends AbstractSimpleObject
+class AttributeValue extends AbstractSimpleObject implements AttributeInterface
 {
     /**#@+
      * Constant used as key into $_data
@@ -22,7 +25,7 @@ class AttributeValue extends AbstractSimpleObject
     /**
      * Get attribute code
      *
-     * @return string the attribute code
+     * @return string
      */
     public function getAttributeCode()
     {
@@ -32,7 +35,7 @@ class AttributeValue extends AbstractSimpleObject
     /**
      * Get attribute value
      *
-     * @return mixed the attribute value
+     * @return mixed
      */
     public function getValue()
     {

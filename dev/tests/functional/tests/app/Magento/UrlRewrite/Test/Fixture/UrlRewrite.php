@@ -35,12 +35,6 @@ class UrlRewrite extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $id_path = [
-        'attribute_code' => 'id_path',
-        'backend_type' => 'virtual',
-        'source' => 'Magento\UrlRewrite\Test\Fixture\UrlRewrite\IdPath',
-    ];
-
     protected $store_id = [
         'attribute_code' => 'store_id',
         'backend_type' => 'varchar',
@@ -65,12 +59,21 @@ class UrlRewrite extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $entity_type = [
+        'attribute_code' => 'entity_type',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
     protected $target_path = [
         'attribute_code' => 'target_path',
         'backend_type' => 'varchar',
         'is_required' => '1',
         'default_value' => 'target_path%isolation%',
         'input' => 'text',
+        'source' => 'Magento\UrlRewrite\Test\Fixture\UrlRewrite\TargetPath',
     ];
 
     protected $description = [
@@ -83,11 +86,6 @@ class UrlRewrite extends InjectableFixture
     public function getId()
     {
         return $this->getData('id');
-    }
-
-    public function getIdPath()
-    {
-        return $this->getData('id_path');
     }
 
     public function getStoreId()
@@ -103,6 +101,11 @@ class UrlRewrite extends InjectableFixture
     public function getRequestPath()
     {
         return $this->getData('request_path');
+    }
+
+    public function getEntityType()
+    {
+        return $this->getData('entity_type');
     }
 
     public function getTargetPath()

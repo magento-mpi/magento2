@@ -9,7 +9,8 @@
  */
 namespace Magento\Framework\Module\Dir;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Config\FileIterator;
 use Magento\Framework\Config\FileIteratorFactory;
 use Magento\Framework\Filesystem\Directory\Read;
@@ -64,7 +65,7 @@ class Reader
         $this->moduleDirs = $moduleDirs;
         $this->modulesList = $moduleList;
         $this->fileIteratorFactory = $fileIteratorFactory;
-        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
     }
 
     /**

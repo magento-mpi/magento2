@@ -91,15 +91,21 @@
 }
 
 .page-title {
-    .title {
-        margin-right: 25px;
-    }
     .order-date {
-        margin: 0 0 20px;
+        margin: 0 0 @indent-base;
     }
 }
 
-.form.orders.search {
+.account,
+.sales-guest-view {
+    .page-title {
+        .title {
+            margin-right: @indent-m-base;
+        }
+    }
+}
+
+.form-orders-search {
     .field {
         &.email,
         &.zip {
@@ -198,7 +204,6 @@
                 tr {
                     display: block;
                 }
-                &:extend(.abstract-table-vertical-mobile-s all);
                 tbody,
                 tfoot {
                     > tr > td {
@@ -284,6 +289,13 @@
         .action.print {
             display: block;
             float: right;
+        }
+    }
+
+    .page-title {
+        .order-date {
+            @order-status-indent: ceil(@h1-margin-bottom-desktop/2);
+            .css(margin-top, -@order-status-indent);
         }
     }
 

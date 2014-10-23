@@ -66,35 +66,38 @@
             <?php foreach($html as $bundleID=>$node): ?>
                 <div class="nested">
                     <div id="radio:item${_index_}_<?php echo $bundleID?>">
-                        <table class="data table" id="return-items-table-<?php echo $bundleID?>">
-                            <thead>
-                                <th colspan="2" class="col subitems"><?php echo __('Sub-items') ?></th>
-                                <th class="col remaining qty"><?php echo __('Remaining Qty') ?></th>
-                                <th class="col qty"><?php echo __('Qty') ?></th>
-                            </thead>
-                            <tbody>
-                            <?php foreach($node as $item): ?>
-                            <tr>
-                                <td class="col">
-                                    <?php if ($item[3]): ?>
-                                        <input type="checkbox" disabled>
-                                    <?php else: ?>
-                                        <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
-                                    <?php endif; ?>
-                                </td>
-                                <td class="col product">
-                                    <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo ($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
-                                </td>
-                                <td class="col remaining qty"><?php echo $item[2] ?></td>
-                                <td class="col qty">
-                                    <?php if (!$item[3]): ?>
-                                        <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="number" style="display:none" disabled class="input-text">
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                        <div class="table-wrapper">
+                            <table class="data table table-return-items" id="return-items-table-<?php echo $bundleID?>">
+                                <caption class="table-caption"><?php echo __('Return items'); ?></caption>
+                                <thead>
+                                    <tr>
+                                        <th class="col product" scope="col"><?php echo __('Sub-items') ?></th>
+                                        <th class="col remaining qty" scope="col"><?php echo __('Remaining Qty') ?></th>
+                                        <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($node as $item): ?>
+                                    <tr>
+                                        <td data-th="<?php echo $this->escapeHtml(__('Product')) ?>" class="col product">
+                                            <?php if ($item[3]): ?>
+                                                <input type="checkbox" disabled>
+                                            <?php else: ?>
+                                                <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
+                                            <?php endif; ?>
+                                            <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo ($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
+                                        </td>
+                                        <td data-th="<?php echo $this->escapeHtml(__('Remaining Qty')) ?>" class="col remaining qty"><?php echo $item[2] ?></td>
+                                        <td data-th="<?php echo $this->escapeHtml(__('Qty')) ?>" class="col qty">
+                                            <?php if (!$item[3]): ?>
+                                                <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="number" style="display:none" disabled class="input-text">
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -106,7 +109,7 @@
             <div class="control">
                 <input type="number" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
                 <div class="note" id="remaining_quantity_block_${_index_}">
-                    <?php echo __('Remaining quantity: ') ?><span id="remaining_quantity_${_index_}" class="qty remaining"></span>
+                    <?php echo __('Remaining quantity:') ?>&nbsp;<span id="remaining_quantity_${_index_}" class="qty remaining"></span>
                 </div>
             </div>
 
@@ -121,22 +124,22 @@
     </fieldset>
 </div>
 
-<form id="rma_create_form" method="post" enctype="multipart/form-data" class="form-create-return">
+<form id="rma_create_form" method="post" enctype="multipart/form-data" class="form form-create-return">
     <fieldset class="fieldset">
         <legend class="legend">
             <span><?php echo __('New Return for Order %1', $_order->getIncrementId()) ?></span>
         </legend>
         <br>
         <div class="field id">
-            <strong class="label"><span><?php echo __('Order ID') ?></span></strong>
+            <span class="label"><span><?php echo __('Order ID') ?></span></span>
             <div class="control"><span><?php echo $_order->getIncrementId() ?></span></div>
         </div>
         <div class="field name">
-            <strong class="label"><span><?php echo __('Customer Name') ?></span></strong>
+            <span class="label"><span><?php echo __('Customer Name') ?></span></span>
             <div class="control"><span><?php echo $this->escapeHtml($_order->getCustomerName()) ?></span></div>
         </div>
         <div class="field email">
-            <strong class="label"><span><?php echo __('Email Address') ?></span></strong>
+            <span class="label"><span><?php echo __('Email Address') ?></span></span>
             <div class="control"><span><?php echo $_order->getCustomerEmail()?></span></div>
         </div>
         <div class="field contact email">
@@ -146,7 +149,7 @@
             </div>
         </div>
         <div class="field address shipping">
-            <strong class="label"><?php echo __('Order Shipping Address') ?></strong>
+            <span class="label"><span><?php echo __('Order Shipping Address') ?></span></span>
             <address class="control"><?php echo $_order->getShippingAddress()->format('html') ?></address>
         </div>
     </fieldset>

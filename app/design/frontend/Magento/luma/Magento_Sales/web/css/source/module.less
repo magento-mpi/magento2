@@ -45,10 +45,6 @@
         }
         .action {
             display: inline-block;
-            margin: 12px 0 0 30px;
-            &.track {
-                float: right;
-            }
         }
     }
     .table-wrapper {
@@ -174,7 +170,7 @@
         .font-size(18);
     }
     .items-qty {
-        &:extend(.reset-list all);
+        &:extend(.abstract-reset-list all);
         .item {
             white-space: nowrap;
         }
@@ -268,22 +264,12 @@
     &:extend(.abstract-status all);
 }
 
-.sales-order-view {
-    .page-title {
-        .title {
-            margin-right: 25px;
-        }
-        .order-date {
-            font-size: 16px;
-            margin: -20px 0 18px;
-            .label {
-                display: none;
-            }
-        }
-    }
+.account,
+.sales-guest-view {
+    &:extend(.abstract-title-orders all);
 }
 
-.form.orders.search {
+.form-orders-search {
     &:extend(.abstract-forms-general-desktop all);
     .field {
         &.email,
@@ -345,7 +331,6 @@
             tbody tr {
                 display: block;
             }
-            &:extend(.abstract-table-vertical-mobile-s all);
             .product-item-name {
                 display: inline-block;
                 margin: 0;
@@ -355,20 +340,19 @@
             display: table-cell;
         }
     }
-    .sales-order-view {
-        .page-title {
-            .title {
-                display: block;
-            }
-            .order-status {
-                margin: -20px 0 0;
-            }
-            .order-date {
-                margin-top: -5px;
-            }
-        }
+    .account,
+    .sales-guest-view {
+        &:extend(.abstract-title-orders-mobile all);
     }
     .order-details-items {
+        .order-title {
+            strong {
+                display: block;
+            }
+        }
+        .action {
+            .css(margin-top, @indent-s-base);
+        }
         .items-qty {
             display: inline-block;
             vertical-align: top;
@@ -412,6 +396,21 @@
         }
     }
 }
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .order-details-items {
+        .order-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
+                }
+            }
+        }
+    }
+}
 
 //
 //    Desktop
@@ -444,16 +443,9 @@
         }
     }
 
-    .sales-order-view {
-        .page-title {
-            .order-date {
-                margin-top: -30px;
-            }
-        }
-    }
-
     .account,
     .sales-guest-view {
+        &:extend(.abstract-title-orders-desktop all);
         .column.main .block.block-order-details-view {
             &:extend(.abstract-add-clearfix-desktop all);
             .block-content:not(.widget) .box {
@@ -485,13 +477,6 @@
     .order-details-items {
         margin-top: -1px;
         padding: 25px;
-        .order-title {
-            .action {
-                &.track {
-                    float: right;
-                }
-            }
-        }
         .col {
             &.name {
                 padding-left: 0;

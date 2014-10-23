@@ -8,6 +8,8 @@
  */
 namespace Magento\Rma\Controller\Tracking;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class PackagePrint extends \Magento\Rma\Controller\Tracking
 {
     /**
@@ -40,7 +42,7 @@ class PackagePrint extends \Magento\Rma\Controller\Tracking
             $this->_fileResponseFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                \Magento\Framework\App\Filesystem::VAR_DIR,
+                DirectoryList::VAR_DIR,
                 'application/pdf'
             );
         }

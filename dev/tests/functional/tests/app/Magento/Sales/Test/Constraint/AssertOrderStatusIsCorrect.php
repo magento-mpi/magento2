@@ -28,16 +28,23 @@ class AssertOrderStatusIsCorrect extends AbstractConstraint
     /**
      * Assert that status is correct on order page in backend (same with value of orderStatus variable)
      *
-     * @param string $orderStatus
+     * @param string $status
      * @param string $orderId
      * @param OrderIndex $salesOrder
      * @param OrderView $salesOrderView
+     * @param string|null $statusToCheck
      * @return void
      */
-    public function processAssert($orderStatus, $orderId, OrderIndex $salesOrder, OrderView $salesOrderView)
-    {
+    public function processAssert(
+        $status,
+        $orderId,
+        OrderIndex $salesOrder,
+        OrderView $salesOrderView,
+        $statusToCheck = null
+    ) {
         $salesOrder->open();
         $salesOrder->getSalesOrderGrid()->searchAndOpen(['id' => $orderId]);
+        $orderStatus = $statusToCheck == null ? $status : $statusToCheck;
 
         \PHPUnit_Framework_Assert::assertEquals(
             $salesOrderView->getOrderForm()->getOrderInfoBlock()->getOrderStatus(),

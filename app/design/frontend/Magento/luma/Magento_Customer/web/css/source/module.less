@@ -79,8 +79,6 @@
     .page-title {
         .title {
             display: inline-block;
-            margin-top: 0;
-            margin-bottom: @indent-l-base;
         }
     }
     .messages {
@@ -107,7 +105,7 @@
         }
     }
     .data.table {
-        .table-striped(@_stripped-highlight: even);
+        &:extend(.abstract-table-striped all);
         .col.actions {
             .action {
                 &:extend(.abstract-account-actions all);
@@ -137,7 +135,7 @@
 //    Blocks & Widgets
 //--------------------------------------
 .block {
-    &:extend(.margin-for-blocks-and-widgets all);
+    &:extend(.abstract-margin-for-blocks-and-widgets all);
     &:last-child {
         margin-bottom: 0;
     }
@@ -167,9 +165,13 @@
     }
 }
 
-.widget {
-    img {
-        max-width: 100%;
+.account {
+    .data.table-return-items {
+        .qty {
+            .input-text {
+                &:extend(.abstract-input-qty all);
+            }
+        }
     }
 }
 
@@ -228,9 +230,6 @@
     .account {
         .page-title {
             &:extend(.abstract-add-clearfix-desktop all);
-            .title {
-                margin-bottom: @indent-xl-base;
-            }
         }
         .column.main {
             .block:not(.widget) {
@@ -243,37 +242,19 @@
             }
         }
         .data.table {
-            .table-bordered(
-                @_type: light,
-                @_border-width: 1px
-            );
+            &:extend(.abstract-table-bordered-desktop all);
             margin-bottom: 0;
-        }
-
-        .data.table {
-            .col.total {
-                text-align: right;
-            }
-            .col.actions {
-                white-space: nowrap;
+            .col {
+                &.total {
+                    text-align: right;
+                }
+                &.actions {
+                    white-space: nowrap;
+                }
             }
         }
         .toolbar {
-            position: relative;
-            .toolbar-amount,
-            .limiter {
-                position: relative;
-                z-index: 1;
-            }
-            .toolbar-amount {
-                padding: 7px 0 0;
-                line-height: normal;
-            }
-            .pages {
-                position: absolute;
-                z-index: 0;
-                width: 100%;
-            }
+            &:extend(.abstract-pager-toolbar all);
         }
     }
 
@@ -292,10 +273,6 @@
         address {
             &:extend(.abstract-account-block-font-size all);
         }
-    }
-
-    .widget {
-        clear: both;
     }
 
     .page.main .block {
@@ -326,18 +303,12 @@
 }
 
 //
-//    Mobile
+//    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .account {
-        .page.messages {
-            margin-bottom: 40px;
-        }
-        .block-collapsible-nav {
-            margin-top: -21px;
-        }
         .data.table {
-            &:extend(.abstract-table-vertical-mobile-m all);
+            &:extend(.abstract-table-vertical-mobile-s all);
             td {
                 &:first-child {
                     padding-top: 15px;
@@ -346,6 +317,20 @@
                     padding-bottom: 15px;
                 }
             }
+        }
+    }
+}
+
+//
+//    Mobile @screen-m
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .account {
+        .page.messages {
+            margin-bottom: 40px;
+        }
+        .block-collapsible-nav {
+            margin-top: -21px;
         }
         .column.main {
             .block:not(.widget) {

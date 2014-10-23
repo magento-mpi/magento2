@@ -1,0 +1,7 @@
+"multipleWishlist/dataSet";"products";"duplicate";"qtyToMove";"constraint";"issue"
+"wishlist_public";"catalogProductSimple::100_dollar_product";"yes";"2";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertProductIsPresentInCustomerBackendWishlist";""
+"wishlist_public";"catalogProductVirtual::50_dollar_product";"no";"1";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertProductIsPresentInCustomerBackendWishlist";""
+"wishlist_public";"configurableProductInjectable::default";"no";"3";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertProductIsPresentInCustomerBackendWishlist";""
+"wishlist_public";"groupedProductInjectable::three_simple_products";"no";"-";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertProductIsPresentInCustomerBackendWishlist";""
+"wishlist_public";"downloadableProductInjectable::with_two_separately_links";"no";"1";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertProductIsPresentInCustomerBackendWishlist";"MAGETWO-29173"
+"wishlist_public";"bundleProduct::bundle_dynamic_product";"no";"2";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertBundleProductDetailsInMultipleWishlist, assertProductIsPresentInCustomerBackendWishlist";""

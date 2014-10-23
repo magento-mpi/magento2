@@ -1,0 +1,2 @@
+"description";"orderStatus/dataSet";"defaultState";"constraint"
+"unassign order status";"assign_to_pending";"Pending";"assertOrderStatusSuccessUnassignMessage, assertOrderStatusInGrid, assertOrderStatusNotAssigned"

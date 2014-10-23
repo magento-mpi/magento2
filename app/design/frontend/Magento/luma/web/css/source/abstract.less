@@ -9,7 +9,7 @@
 //
 //    List default styles reset
 //--------------------------------------
-.reset-list {
+.abstract-reset-list {
     .list-reset-styles();
     > li {
         margin: 0;
@@ -89,7 +89,7 @@
     dt {
         float: left;
         clear: left;
-        margin: 0 10px 5px 0;
+        margin: 0 @indent-s-base @indent-xs-base 0;
         &:after {
             content: ': ';
         }
@@ -97,7 +97,28 @@
     dd {
         float: left;
         display: inline-block;
-        margin: 0 0 5px;
+        margin: 0 0 @indent-xs-base;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-product-options-list-desktop {
+        dt:after {
+            content: ': ';
+        }
+        dt {
+            float: left;
+            clear: left;
+            margin: 0 @indent-s-base @indent-xs-base 0;
+        }
+        dd {
+            float: left;
+            display: inline-block;
+            margin: 0 0 @indent-xs-base;
+        }
     }
 }
 
@@ -218,7 +239,7 @@
 //
 //    Marging for blocks & widgets
 //--------------------------------------
-.margin-for-blocks-and-widgets {
+.abstract-margin-for-blocks-and-widgets {
     margin-bottom: @indent-xl-base;
 }
 
@@ -315,7 +336,7 @@
             }
         }
         .additional {
-            margin-top: @form-field-vertical-indent;
+            margin-top: 55px;
             position: relative;
             .action.remove {
                 &:extend(.action-remove all);
@@ -778,7 +799,6 @@
     }
 }
 
-
 //
 //    Account pages: title
 //--------------------------------------
@@ -1100,12 +1120,100 @@
     vertical-align: top;
 }
 
-//
-//    Desktop
-//--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .abstract-status-desktop {
         margin-top: 6px;
         padding: 5px 10px;
+    }
+}
+
+//
+//    Page title - orders pages
+//--------------------------------------
+.abstract-title-orders {
+    .page.main {
+        .page-title {
+            .title {
+                margin-right: 25px;
+            }
+            .order-date {
+                font-size: 16px;
+                margin-bottom: @indent-s-base;
+                .label {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-title-orders-mobile {
+        .page.main {
+            .page-title {
+                .title {
+                    display: block;
+                }
+                .order-status {
+                    @order-status-indent: ceil(@h1-margin-bottom/2);
+                    margin: -@order-status-indent 0 @indent-s-base;
+                }
+            }
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-title-orders-desktop {
+        .page.main {
+            .page-title {
+                .order-date {
+                    @order-date-indent: ceil(@h1-margin-bottom/1.5);
+                    margin: -@order-date-indent 0 18px;
+                }
+            }
+        }
+    }
+}
+
+//
+//    Table striped
+//--------------------------------------
+.abstract-table-striped {
+    .table-striped(@_stripped-highlight: even);
+}
+
+//
+//    Table bordered desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-table-bordered-desktop {
+        .table-bordered(
+            @_type: light,
+            @_border-width: 1px
+        );
+    }
+}
+
+//
+//    Pager toolbar for non-catalog pages desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar {
+        position: relative;
+        .toolbar-amount,
+        .limiter {
+            position: relative;
+            z-index: 1;
+        }
+        .toolbar-amount {
+            padding: 7px 0 0;
+            line-height: normal;
+        }
+        .pages {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+        }
     }
 }

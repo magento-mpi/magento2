@@ -5,24 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\Address;
 
+/** Quote shipping address validator service. */
 class Validator
 {
     /**
+     * Address factory.
+     *
      * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $quoteAddressFactory;
 
     /**
+     * Customer factory.
+     *
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
 
     /**
-     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * Constructs a quote shipping address validator service object.
+     *
+     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory Address factory.
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory Customer factory.
      */
     public function __construct(
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
@@ -33,12 +39,12 @@ class Validator
     }
 
     /**
-     * Validate data object fields
+     * Validates the fields in a specified address data object.
      *
-     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $addressData
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $addressData The address data object.
      * @return bool
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException The specified address belongs to another customer.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified customer ID or address ID is not valid.
      */
     public function validate($addressData)
     {

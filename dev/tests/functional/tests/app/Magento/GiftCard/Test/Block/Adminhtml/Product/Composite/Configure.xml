@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <giftcard_amount>
+            <input>select</input>
+        </giftcard_amount>
+        <qty />
+        <giftcard_sender_name />
+        <giftcard_sender_email />
+        <giftcard_recipient_name />
+        <giftcard_recipient_email />
+        <giftcard_message />
+    </fields>
+</mapping>

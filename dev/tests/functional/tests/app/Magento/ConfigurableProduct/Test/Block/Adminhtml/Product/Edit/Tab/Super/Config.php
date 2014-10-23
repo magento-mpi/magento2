@@ -47,6 +47,13 @@ class Config extends Tab
     protected $variationsMatrix = '[data-role="product-variations-matrix"]';
 
     /**
+     * Selector for variations matrix row
+     *
+     * @var string
+     */
+    protected $variationsMatrixRow = '[data-role="product-variations-matrix"] [data-role="row"]';
+
+    /**
      * Fill variations fieldset
      *
      * @param array $fields
@@ -94,7 +101,7 @@ class Config extends Tab
     public function generateVariations()
     {
         $this->_rootElement->find($this->generateVariations)->click();
-        $this->waitForElementVisible($this->variationsMatrix);
+        $this->waitForElementVisible($this->variationsMatrixRow);
     }
 
     /**

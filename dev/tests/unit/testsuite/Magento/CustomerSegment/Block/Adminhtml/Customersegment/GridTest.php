@@ -9,6 +9,7 @@
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
 use Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Object;
 
 class GridTest extends \PHPUnit_Framework_TestCase
@@ -34,7 +35,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected $segmentFactory;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -61,11 +62,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
 
         $writeInterface = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface');
-        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->filesystem
             ->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with($this->equalTo(\Magento\Framework\App\Filesystem::VAR_DIR))
+            ->with($this->equalTo(DirectoryList::VAR_DIR))
             ->will($this->returnValue($writeInterface));
 
         $this->urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface', [], '', false);

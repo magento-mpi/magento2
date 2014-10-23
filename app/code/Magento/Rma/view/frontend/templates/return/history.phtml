@@ -12,7 +12,7 @@
 <?php if($_returns->getSize()): ?>
     <div class="table-wrapper returns">
         <table class="data table table-returns" id="my-returns-table">
-            <caption><?php echo __('My Returns') ?></caption>
+            <caption class="table-caption"><?php echo __('My Returns') ?></caption>
             <thead>
                 <tr>
                     <th scope="col" class="col id"><?php echo __('Return #') ?></th>
@@ -30,7 +30,7 @@
                     <td data-th="<?php echo $this->escapeHtml(__('Date')) ?>" class="col date"><?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_return->getDateRequested()) ?></td>
                     <td data-th="<?php echo $this->escapeHtml(__('Ship From')) ?>" class="col shipping"><?php echo $this->escapeHtml($_return->getCustomerName()) ?></td>
                     <td data-th="<?php echo $this->escapeHtml(__('Return Status')) ?>" class="col status"><?php echo $this->escapeHtml($_return->getStatusLabel()) ?></td>
-                    <td data-th="" class="col actions">
+                    <td data-th="<?php echo $this->escapeHtml(__('Actions')) ?>" class="col actions">
                         <a href="<?php echo $this->getViewUrl($_return) ?>" class="action view"><span><?php echo __('View Return') ?></span></a>
                     </td>
                 </tr>

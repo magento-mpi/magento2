@@ -127,7 +127,7 @@
         <antcall>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ce"/>
-            <target name="_product_edition_no_additional"/>
+            <target name="_product_edition_no_internal"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>
@@ -136,7 +136,7 @@
         <antcall>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="ee"/>
-            <target name="_product_edition_no_additional"/>
+            <target name="_product_edition_no_internal"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>

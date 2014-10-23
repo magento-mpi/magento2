@@ -34,13 +34,43 @@
     &:extend(.abstract-status all);
 }
 
+.block-returns-comments {
+    .returns-comments {
+        dt,
+        dd {
+            margin: 0;
+        }
+        dt {
+            font-weight: @font-weight-base;
+        }
+        dd {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .fieldset {
+        margin-bottom: @indent-base;
+    }
+}
+
+.magento-rma-returns-returns,
 .magento-rma-returns-view {
-    .page-title {
-        .title {
-            margin-right: 25px;
+    &:extend(.abstract-title-orders all);
+}
+
+//
+//    Guest return view page
+//--------------------------------------
+.magento-rma-guest-returns {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
         }
     }
 }
+
 //
 //    Mobile
 //--------------------------------------
@@ -52,6 +82,25 @@
             }
             .field:last-child {
                 margin-top: @form-field-vertical-indent;
+            }
+        }
+    }
+    .magento-rma-returns-returns,
+    .magento-rma-returns-view {
+        &:extend(.abstract-title-orders-mobile all);
+    }
+    .account {
+        .column.main {
+            .returns-details-items {
+                .block-returns-tracking {
+                    .block-title {
+                        > .action.track {
+                            float: none;
+                            display: block;
+                            margin: @indent-s-base 0 0;
+                        }
+                    }
+                }
             }
         }
     }
@@ -70,5 +119,30 @@
     }
     .return-status {
         &:extend(.abstract-status-desktop all);
+    }
+    .magento-rma-returns-returns,
+    .magento-rma-returns-view {
+        &:extend(.abstract-title-orders-desktop all);
+    }
+    .magento-rma-guest-returns {
+        .column.main .block.block-order-details-view {
+            &:extend(.abstract-add-clearfix-desktop all);
+            .block-content:not(.widget) .box {
+                &:extend(.abstract-add-box-sizing-desktop all);
+                clear: none;
+                float: left;
+                width: 100%/4;
+            }
+        }
+    }
+    .block-returns-tracking {
+        .block-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
+                }
+            }
+        }
     }
 }
