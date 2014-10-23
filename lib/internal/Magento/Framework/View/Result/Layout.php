@@ -79,7 +79,7 @@ class Layout extends AbstractResult
         $this->request = $context->getRequest();
         $this->translateInline = $translateInline;
         // TODO Shared layout object will be deleted in MAGETWO-28359
-	    $this->layout = $isIsolated
+        $this->layout = $isIsolated
             ? $this->layoutFactory->create(['reader' => $this->layoutReaderPool])
             : $context->getLayout();
         $this->initLayoutBuilder();
