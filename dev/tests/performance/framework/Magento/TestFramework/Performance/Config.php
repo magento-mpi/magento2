@@ -118,7 +118,9 @@ class Config
         $requiredAdminKeys = array('admin_username', 'admin_password', 'backend_frontname');
         foreach ($requiredAdminKeys as $requiredKeyName) {
             if (empty($configData['application']['installation']['options'][$requiredKeyName])) {
-                throw new \Magento\Framework\Exception("Installation options array must define '{$requiredKeyName}' key.");
+                throw new \Magento\Framework\Exception(
+                    "Installation options array must define '{$requiredKeyName}' key."
+                );
             }
         }
     }

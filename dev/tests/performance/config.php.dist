@@ -19,7 +19,6 @@ return array(
         'installation' => array(
             /**
              * Console installer options
-             * @see \Magento\Install\Model\Installer\Console::_installOptions
              */
             'options' => array(
                 'license_agreement_accepted' => 'yes',
