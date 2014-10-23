@@ -218,7 +218,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getId()) {
             // set initial data for new one
@@ -260,7 +260,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
                 throw new \Magento\Framework\Model\Exception(__("You can't update this message."), self::ERROR_STATUS);
             }
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -268,10 +268,10 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_historyFactory->create()->setInvitationId($this->getId())->setStatus($this->getStatus())->save();
-        $parent = parent::_afterSave();
+        $parent = parent::afterSave();
         if ($this->getStatus() === Invitation\Status::STATUS_NEW) {
             $this->setOrigData();
         }

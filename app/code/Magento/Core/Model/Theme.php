@@ -336,10 +336,10 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->_validate();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -347,14 +347,14 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $stagingVersion = $this->getStagingVersion();
         if ($stagingVersion) {
             $stagingVersion->delete();
         }
         $this->getCollection()->updateChildRelations($this);
-        return parent::_afterDelete();
+        return parent::afterDelete();
     }
 
     /**

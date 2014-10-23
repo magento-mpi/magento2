@@ -314,9 +314,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getParentId() && $this->getInvoice()) {
             $this->setParentId($this->getInvoice()->getId());
@@ -330,13 +330,13 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if (null == !$this->_orderItem) {
             $this->_orderItem->save();
         }
 
-        parent::_afterSave();
+        parent::afterSave();
         return $this;
     }
 }

@@ -95,7 +95,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      * @return \Magento\Tax\Model\Calculation\Rate
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $isWrongRange = $this->getZipIsRange() && ($this->getZipFrom() === '' || $this->getZipTo() === '');
 
@@ -139,7 +139,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
             $this->setTaxPostcode($taxPostCode)->setZipIsRange(null)->setZipFrom(null)->setZipTo(null);
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
         $country = $this->getTaxCountryId();
         $region = $this->getTaxRegionId();
         /** @var $regionModel \Magento\Directory\Model\Region */
@@ -156,11 +156,11 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Magento\Tax\Model\Calculation\Rate
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->saveTitles();
         $this->_eventManager->dispatch('tax_settings_change_after');
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -169,12 +169,12 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      * @return \Magento\Tax\Model\Calculation\Rate
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         if ($this->_isInRule()) {
             throw new CouldNotDeleteException('The tax rate cannot be removed. It exists in a tax rule.');
         }
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -183,10 +183,10 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Magento\Tax\Model\Calculation\Rate
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_eventManager->dispatch('tax_settings_change_after');
-        return parent::_afterDelete();
+        return parent::afterDelete();
     }
 
     /**

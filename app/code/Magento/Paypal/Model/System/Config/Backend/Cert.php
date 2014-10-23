@@ -61,7 +61,7 @@ class Cert extends \Magento\Framework\App\Config\Value
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $value = $this->getValue();
         if (is_array($value) && !empty($value['delete'])) {
@@ -91,7 +91,7 @@ class Cert extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_certFactory->create()->loadByWebsite($this->getScopeId())->delete();
         return $this;

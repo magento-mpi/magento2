@@ -140,9 +140,9 @@ class Token extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         // Cleanup old entries
         if ($this->_oauthData->isCleanupProbability()) {
@@ -259,12 +259,12 @@ class Token extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->isObjectNew() && null === $this->getCreatedAt()) {
             $this->setCreatedAt($this->_dateTime->now());
         }
-        parent::_beforeSave();
+        parent::beforeSave();
         return $this;
     }
 

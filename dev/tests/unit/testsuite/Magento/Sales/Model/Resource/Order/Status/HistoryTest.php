@@ -50,7 +50,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->adapterMock = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            ['describeTable', 'insert', 'lastInsertId'],
+            [],
             [],
             '',
             false
@@ -95,6 +95,8 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $historyMock->expects($this->any())->method('hasDataChanges')->will($this->returnValue(true));
+        $historyMock->expects($this->any())->method('isSaveAllowed')->will($this->returnValue(true));
         $this->validatorMock->expects($this->once())
             ->method('validate')
             ->with($historyMock)
@@ -116,6 +118,8 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $historyMock->expects($this->any())->method('hasDataChanges')->will($this->returnValue(true));
+        $historyMock->expects($this->any())->method('isSaveAllowed')->will($this->returnValue(true));
         $this->validatorMock->expects($this->once())
             ->method('validate')
             ->with($historyMock)

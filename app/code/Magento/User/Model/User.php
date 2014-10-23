@@ -224,7 +224,7 @@ class User extends AbstractModel implements StorageInterface
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $data = array(
             'firstname' => $this->getFirstname(),
@@ -252,7 +252,7 @@ class User extends AbstractModel implements StorageInterface
 
         $this->addData($data);
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -381,10 +381,10 @@ class User extends AbstractModel implements StorageInterface
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_role = null;
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

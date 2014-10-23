@@ -177,9 +177,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return \Magento\TargetRule\Model\Rule
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if ($this->dataHasChangedFor('actions_serialized')) {
             $this->setData('action_select', null);
@@ -194,7 +194,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->isObjectNew() || $this->dataHasChangedForAny([
             'is_active',
@@ -208,7 +208,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         ])) {
             $this->_ruleProductIndexerProcessor->reindexRow($this->getId());
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -216,10 +216,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->_ruleProductIndexerProcessor->reindexRow($this->getId());
-        return parent::_afterDeleteCommit();
+        return parent::afterDeleteCommit();
     }
 
     /**

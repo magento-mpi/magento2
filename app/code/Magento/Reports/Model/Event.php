@@ -89,11 +89,11 @@ class Event extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $date = $this->_dateFactory->create();
         $this->setLoggedAt($date->gmtDate());
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

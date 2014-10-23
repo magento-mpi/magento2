@@ -68,7 +68,7 @@ class Type extends Value
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $newValue = $this->getValue();
         $oldValue = $this->_config->getValue(

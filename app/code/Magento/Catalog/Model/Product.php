@@ -668,7 +668,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      *
      * @return void
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->cleanCache();
         $this->setTypeHasOptions(false);
@@ -725,7 +725,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             $this->setOrigData('website_ids', $websiteIds);
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -748,7 +748,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
@@ -767,7 +767,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             $this->getOptionInstance()->setProduct($this)->saveOptions();
         }
 
-        $result = parent::_afterSave();
+        $result = parent::afterSave();
 
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         $this->reloadPriceInfo();
@@ -840,10 +840,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $this->cleanCache();
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -851,11 +851,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      *
      * @return void
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->reindex();
         $this->_productPriceIndexerProcessor->reindexRow($this->getId());
-        parent::_afterDeleteCommit();
+        parent::afterDeleteCommit();
     }
 
     /**
@@ -1582,21 +1582,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             unset($data['stock_item']);
         }
         $this->setData($data);
-        return $this;
-    }
-
-    /**
-     * Delete product
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function delete()
-    {
-        parent::delete();
-        $this->_eventManager->dispatch(
-            $this->_eventPrefix . '_delete_after_done',
-            array($this->_eventObject => $this)
-        );
         return $this;
     }
 

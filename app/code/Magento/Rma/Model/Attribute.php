@@ -79,10 +79,10 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return \Magento\Rma\Model\Attribute
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_eavConfig->clear();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

@@ -54,6 +54,23 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function save(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $hasDataChanges = $object->hasDataChanges();
+        $object->setIsOptionsSaved(false);
+
+        $result = parent::save($object);
+
+        if ($hasDataChanges && !$object->isOptionsSaved()) {
+            $object->saveItemOptions();
+        }
+        return $result;
+    }
+
+
+    /**
      * Load item by registry id and product id
      *
      * @param \Magento\GiftRegistry\Model\Item $object

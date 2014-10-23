@@ -19,7 +19,7 @@ class Address extends \Magento\Framework\App\Config\Value
      * @return $this
      * @throws Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $value = $this->getValue();
         if (!\Zend_Validate::is($value, 'EmailAddress')) {

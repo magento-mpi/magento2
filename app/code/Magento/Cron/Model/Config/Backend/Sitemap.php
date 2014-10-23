@@ -64,7 +64,7 @@ class Sitemap extends \Magento\Framework\App\Config\Value
      * @return void
      * @throws \Exception
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $time = $this->getData('groups/generate/fields/time/value');
         $frequency = $this->getData('groups/generate/frequency/value');

@@ -61,7 +61,7 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\E
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getAttributeGroupCode()) {
             $groupName = $this->getAttributeGroupName();
@@ -69,7 +69,7 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\E
                 $this->setAttributeGroupCode(trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($groupName)), '-'));
             }
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

@@ -26,7 +26,7 @@ class Customer extends \Magento\Framework\App\Config\Value
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $groups = $this->getGroups();
         if (isset(
@@ -37,6 +37,6 @@ class Customer extends \Magento\Framework\App\Config\Value
             return $this;
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

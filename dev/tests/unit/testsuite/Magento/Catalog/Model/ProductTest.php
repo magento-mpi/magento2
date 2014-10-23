@@ -302,7 +302,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->categoryIndexerMock->expects($this->once())->method('reindexRow');
         $this->productFlatProcessor->expects($this->once())->method('reindexRow');
         $this->productPriceProcessor->expects($this->once())->method('reindexRow');
-        $this->assertSame($this->model, $this->model->delete());
+        $this->model->afterDeleteCommit();
     }
 
     public function testReindex()
@@ -419,7 +419,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->configureSaveTest();
         $this->optionInstanceMock->expects($this->any())->method('setProduct')->will($this->returnSelf());
         $this->optionInstanceMock->expects($this->once())->method('saveOptions')->will($this->returnSelf());
-        $this->model->save();
+        $this->model->beforeSave();
+        $this->model->afterSave();
     }
 
     /**
@@ -429,7 +430,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->model->setIsDuplicate(true);
         $this->configureSaveTest();
-        $this->model->save();
+        $this->model->beforeSave();
+        $this->model->afterSave();
     }
 
     /**
