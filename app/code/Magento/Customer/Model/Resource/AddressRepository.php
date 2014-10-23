@@ -46,6 +46,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Customer\Model\Resource\Address $addressResourceModel
+     * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -83,11 +84,10 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         } else {
             $addressModel->updateData($address);
         }
-        var_dump($addressModel->getData());
-        $inputException = $this->_validate($addressModel);
+
+        $inputException = $this->_validate($addressModel); //move out validation
         if ($inputException->wasErrorAdded()) {
-            echo $inputException->getRawMessage();
-            //throw $inputException;
+            throw $inputException;
         }
         $this->addressResource->save($addressModel); // move before/after save from model to resource model
         $this->addressRegistry->push($addressModel); // customer set by id
@@ -98,13 +98,13 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * Retrieve customer address.
      *
      * @param int $addressId
-     * @return \Magento\Customer\Api\Data\Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
-        $address->getDataModel(true, true);
+        return $address->getDataModel(true, true);
     }
 
     /**
@@ -120,27 +120,6 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     }
 
     /**
-     * Helper function that adds a FilterGroup to the collection.
-     *
-     * @param FilterGroup $filterGroup
-     * @param Collection $collection
-     * @return void
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
-    {
-        $fields = [];
-        $conditions = [];
-        foreach ($filterGroup->getFilters() as $filter) {
-            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
-        }
-        if ($fields) {
-            $collection->addFieldToFilter($fields, $conditions);
-        }
-    }
-
-    /**
      * Delete customer address.
      *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
@@ -149,9 +128,9 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      */
     public function delete(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $address = $this->addressRegistry->retrieve($addressId);
-        $address->delete();
-        $address = $this->addressRegistry->remove($addressId);
+        $address = $this->addressRegistry->retrieve($address->getId());
+        $this->addressResource->delete($address);
+        $this->addressRegistry->remove($address->getId());
         return true;
     }
 
@@ -165,7 +144,10 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      */
     public function deleteById($addressId)
     {
-
+        $address = $this->addressRegistry->retrieve($addressId);
+        $this->addressResource->delete($address);
+        $this->addressRegistry->remove($addressId);
+        return true;
     }
 
     /**

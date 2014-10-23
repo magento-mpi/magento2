@@ -106,37 +106,39 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
     /**
      * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @return $this
      */
     public function updateData($address)
     {
         // Set all attributes
-        //$attributes = AddressConverter::toFlatArray($address);
         $attributes = $this->dataProcessor
             ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
 
         foreach ($attributes as $attributeCode => $attributeData) {
             if (
                 AddressData::KEY_REGION === $attributeCode
-                //&& $address->getRegion() instanceof \Magento\Customer\Api\Data\RegionInterface
+                && $address->getRegion() instanceof \Magento\Customer\Api\Data\RegionInterface
             ) {
-                $this->setDataUsingMethod(RegionData::KEY_REGION, $address->getRegion()->getRegion());
-                $this->setDataUsingMethod(RegionData::KEY_REGION_CODE, $address->getRegion()->getRegionCode());
-                $this->setDataUsingMethod(RegionData::KEY_REGION_ID, $address->getRegion()->getRegionId());
+                $this->setDataUsingMethod(RegionData::REGION, $address->getRegion()->getRegion());
+                $this->setDataUsingMethod(RegionData::REGION_CODE, $address->getRegion()->getRegionCode());
+                $this->setDataUsingMethod(RegionData::REGION_ID, $address->getRegion()->getRegionId());
             } else {
                 $this->setDataUsingMethod($attributeCode, $attributeData);
             }
         }
-        // Set customer related data
-        //$isBilling = $address->isDefaultBilling();
-        //$this->setIsDefaultBilling($isBilling);
-        //$this->setIsDefaultShipping($address->isDefaultShipping());
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
             $this->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);
         }
+        return $this;
     }
 
-    public function getDataModel($defaultBillingId, $defaultShippingId)
+    /**
+     * Retrieve Data Model with the Address data
+     *
+     * @return \Magento\Customer\Api\Data\AddressInterface
+     */
+    public function getDataModel()
     {
         $addressId = $this->getId();
 
@@ -149,25 +151,15 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             }
         }
 
-        $isDefaultBilling = $this->getData('is_default_billing') === null && intval($addressId)
-            ? $addressId === $defaultBillingId
-            : $this->getData('is_default_billing');
-
-        $isDefaultShipping = $this->getData('is_default_shipping') === null && intval($addressId)
-            ? $addressId === $defaultShippingId
-            : $this->getData('is_default_shipping');
-
         $this->_addressBuilder->populateWithArray(
             array_merge(
                 $addressData,
                 array(
                     AddressData::KEY_STREET => $this->getStreet(),
-                    AddressData::KEY_DEFAULT_BILLING => $isDefaultBilling,
-                    AddressData::KEY_DEFAULT_SHIPPING => $isDefaultShipping,
                     AddressData::KEY_REGION => array(
-                        RegionData::KEY_REGION => $this->getRegion(),
-                        RegionData::KEY_REGION_ID => $this->getRegionId(),
-                        RegionData::KEY_REGION_CODE => $this->getRegionCode()
+                        RegionData::REGION => $this->getRegion(),
+                        RegionData::REGION_ID => $this->getRegionId(),
+                        RegionData::REGION_CODE => $this->getRegionCode()
                     )
                 )
             )

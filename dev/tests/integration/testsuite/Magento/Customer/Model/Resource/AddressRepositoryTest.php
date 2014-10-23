@@ -39,9 +39,9 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Model\Data\AddressBuilder');
 
-        $builder = $this->_objectManager->create('\Magento\Customer\Model\Data\RegionBuilder');
-        $region = $builder
-            ->setRegionCode('AL')
+        $builder = $this->_objectManager->create('Magento\Customer\Model\Data\RegionBuilder');
+        var_dump(get_class($builder));
+        $region = $builder->setRegionCode('AL')
             ->setRegion('Alabama')
             ->setRegionId(1)
             ->create();
@@ -50,8 +50,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
-            ->setDefaultBilling(true)
-            ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion($region)
             ->setStreet(array('Green str, 67'))
@@ -62,14 +60,11 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setCompany('CompanyName');
         $address = $this->_addressBuilder->create();
 
-        /* XXX: would it be better to have a clear method for this? */
         $this->_addressBuilder
             ->setId(2)
             ->setCustomerId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
-            ->setDefaultBilling(false)
-            ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion($region)
             ->setStreet(array('Black str, 48'))
@@ -121,44 +116,24 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Helper function that returns an Address Data Object that matches the data from customer_address fixture
-     *
-     * @return \Magento\Customer\Service\V1\Data\AddressBuilder
+     * @magentoDataFixture  Magento/Customer/_files/customer.php
+     * @magentoDataFixture  Magento/Customer/_files/customer_address.php
+     * @magentoAppIsolation enabled
      */
-    private function _createFirstAddressBuilder()
+    public function testGetAddress()
     {
-        $addressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[0]);
-        $addressBuilder->setId(null);
-        return $addressBuilder;
-    }
+        $address = $this->_service->get(1);
 
-    /**
-     * Checks that the arrays are equal, but accounts for the 'region' being an object
-     *
-     * @param array $expectedArray
-     * @param array $actualArray
-     */
-    protected function _assertAddressAndRegionArrayEquals($expectedArray, $actualArray)
-    {
-        if (array_key_exists('region', $expectedArray)) {
-            /** @var \Magento\Customer\Service\V1\Data\Region $expectedRegion */
-            $expectedRegion = $expectedArray['region'];
-            unset($expectedArray['region']);
-        }
-        if (array_key_exists('region', $actualArray)) {
-            /** @var \Magento\Customer\Service\V1\Data\Region $actualRegion */
-            $actualRegion = $actualArray['region'];
-            unset($actualArray['region']);
-        }
+        var_dump($address);
 
-        $this->assertEquals($expectedArray, $actualArray);
-
-        // Either both set or both unset
-        $this->assertTrue(!(isset($expectedRegion) xor isset($actualRegion)));
-        if (isset($expectedRegion) && isset($actualRegion)) {
-            $this->assertTrue(is_array($expectedRegion));
-            $this->assertTrue(is_array($actualRegion));
-            $this->assertEquals($expectedRegion, $actualRegion);
-        }
+//        $addresses = $this->_service->get($customerId);
+//        $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
+//        $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
+//        $expectedNewAddressBuilder->setId($addresses[1]->getId());
+//        $expectedNewAddress = $expectedNewAddressBuilder->create();
+//        $this->assertEquals(
+//            AddressConverter::toFlatArray($expectedNewAddress),
+//            AddressConverter::toFlatArray($addresses[1])
+//        );
     }
 }
