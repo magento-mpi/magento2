@@ -46,7 +46,7 @@ abstract class AbstractExtensibleModel extends AbstractModel
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
-    ) {var_dump(get_class($this));
+    ) {
         $this->metadataService = $metadataService;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
