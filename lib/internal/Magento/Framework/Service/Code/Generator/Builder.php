@@ -85,7 +85,7 @@ class Builder extends EntityAbstract
             'parameters' => [
                 ['name' => lcfirst(substr($method->getName(), 3))]
             ],
-            'body' => "\$this->_set("
+            'body' => "return \$this->_set("
                 . '\\' . $class->getName() . "::"
                 . strtoupper(preg_replace('/(.)([A-Z])/', "$1_$2", substr($method->getName(), 3)))
                 . ", \$" . lcfirst(substr($method->getName(), 3)) . ");",

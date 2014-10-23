@@ -14,11 +14,12 @@ use Magento\Customer\Model\Address as CustomerAddressModel;
 
 class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterface
 {
-
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * Directory data
+     *
+     * @var \Magento\Directory\Helper\Data
      */
-    protected $dataProcessor;
+    protected $directoryData;
 
     /**
      * @var \Magento\Customer\Model\AddressFactory
@@ -36,21 +37,29 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     protected $customerRegistry;
 
     /**
+     * @var \Magento\Customer\Model\Resource\Address
+     */
+    protected $addressResourceModel;
+
+    /**
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
+     * @param \Magento\Customer\Model\Resource\Address $addressResourceModel
+     * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         \Magento\Customer\Model\AddressRegistry $addressRegistry,
-        \Magento\Customer\Model\CustomerRegistry $customerRegistry
+        \Magento\Customer\Model\CustomerRegistry $customerRegistry,
+        \Magento\Customer\Model\Resource\Address $addressResourceModel,
+        \Magento\Directory\Helper\Data $directoryData
     ) {
-        $this->dataProcessor = $dataProcessor;
         $this->addressFactory = $addressFactory;
         $this->addressRegistry = $addressRegistry;
         $this->customerRegistry = $customerRegistry;
+        $this->addressResource = $addressResourceModel;
+        $this->directoryData = $directoryData;
     }
 
     /**
@@ -66,84 +75,78 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $addressModel = null;
         if ($address->getId()) {
             $addressModel = $customerModel->getAddressItemById($address->getId());
+            // is there set address by id
         }
         if (is_null($addressModel)) {
-            $addressData = $this->dataProcessor
-                ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
-            $address = $this->addressFactory->create($addressData);
+            $addressModel = $this->addressFactory->create();
+            $addressModel->updateData($address);
             $addressModel->setCustomer($customerModel);
         } else {
-            $addressModel->updateFromDataModel($address);
+            $addressModel->updateData($address);
         }
 
-        $inputException = $this->_validate($addressModel);
+        $inputException = $this->_validate($addressModel); //move out validation
         if ($inputException->wasErrorAdded()) {
             throw $inputException;
         }
-
-        $addressModel->save();
-        $this->addressRegistry->push($addressModel);
-        return $address->getDataModel(true, true);
+        $this->addressResource->save($addressModel); // move before/after save from model to resource model
+        $this->addressRegistry->push($addressModel); // customer set by id
+        return $addressModel->getDataModel(true, true); // remove parameters
     }
 
     /**
      * Retrieve customer address.
      *
      * @param int $addressId
-     * @return \Magento\Customer\Api\Data\Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
-        $address->getDataModel(true, true);
+        return $address->getDataModel(true, true);
     }
 
     /**
      * Retrieve customers addresses matching the specified criteria.
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\AddressSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria)
     {
         //return new \Magento\Customer\Api\Data\AddressSearchResultsInterface();
     }
 
     /**
-     * Helper function that adds a FilterGroup to the collection.
+     * Delete customer address.
      *
-     * @param FilterGroup $filterGroup
-     * @param Collection $collection
-     * @return void
-     * @throws \Magento\Framework\Exception\InputException
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
+    public function delete(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $fields = [];
-        $conditions = [];
-        foreach ($filterGroup->getFilters() as $filter) {
-            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
-        }
-        if ($fields) {
-            $collection->addFieldToFilter($fields, $conditions);
-        }
+        $address = $this->addressRegistry->retrieve($address->getId());
+        $this->addressResource->delete($address);
+        $this->addressRegistry->remove($address->getId());
+        return true;
     }
 
     /**
-     * Delete customer address.
+     * Delete customer address by ID.
      *
      * @param int $addressId
-     * @return int
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function delete($addressId)
+    public function deleteById($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
-        $address->delete();
-        $address = $this->addressRegistry->remove($addressId);
+        $this->addressResource->delete($address);
+        $this->addressRegistry->remove($addressId);
         return true;
     }
 

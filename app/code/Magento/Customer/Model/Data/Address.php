@@ -1,6 +1,6 @@
 <?php
 /**
- * Service Data Object defining the Address interface
+ * Data Model implementing the Address interface
  *
  * {license_notice}
  *
@@ -12,20 +12,10 @@ namespace Magento\Customer\Model\Data;
 class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     implements \Magento\Customer\Api\Data\AddressInterface
 {
-    // FIXME: This constant relates to a quote address object, not this Data Object
-    const ADDRESS_TYPE_BILLING = 'billing';
-
-    // FIXME: This constant relates to a quote address object, not this Data Object
-    const ADDRESS_TYPE_SHIPPING = 'shipping';
-
     /**#@+
      * Constants defined for keys of array, makes typos less likely
      */
     const KEY_COUNTRY_ID = 'country_id';
-
-    const KEY_DEFAULT_BILLING = 'default_billing';
-
-    const KEY_DEFAULT_SHIPPING = 'default_shipping';
 
     const KEY_ID = 'id';
 
@@ -67,26 +57,6 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     public function getId()
     {
         return $this->_get(self::KEY_ID);
-    }
-
-    /**
-     * Get if this address is default shipping address.
-     *
-     * @return bool|null
-     */
-    public function isDefaultShipping()
-    {
-        return $this->_get(self::KEY_DEFAULT_SHIPPING);
-    }
-
-    /**
-     * Get if this address is default billing address
-     *
-     * @return bool|null
-     */
-    public function isDefaultBilling()
-    {
-        return $this->_get(self::KEY_DEFAULT_BILLING);
     }
 
     /**

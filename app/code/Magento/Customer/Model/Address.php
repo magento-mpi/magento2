@@ -7,6 +7,10 @@
  */
 namespace Magento\Customer\Model;
 
+use \Magento\Customer\Model\Data\Address as AddressData;
+use \Magento\Customer\Model\Data\Region as RegionData;
+use Magento\Customer\Api\AddressMetadataInterface;
+
 /**
  * Customer address model
  *
@@ -28,6 +32,21 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\AddressMetadataServiceInterface
+     */
+    protected $_addressMetadataService;
+
+    /**
+     * @var Data\AddressBuilder
+     */
+    protected $_addressBuilder;
+
+    /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataProcessor;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
@@ -36,6 +55,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param CustomerFactory $customerFactory
+     * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
+     * @param \Magento\Customer\Model\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -49,11 +71,17 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         CustomerFactory $customerFactory,
+        \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
+        \Magento\Customer\Model\Data\AddressBuilder $addressBuilder,
+        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->dataProcessor = $dataProcessor;
         $this->_customerFactory = $customerFactory;
+        $this->_addressMetadataService = $addressMetadataService;
+        $this->_addressBuilder = $addressBuilder;
         parent::__construct(
             $context,
             $registry,
@@ -76,30 +104,41 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_init('Magento\Customer\Model\Resource\Address');
     }
 
-    public function updateFromDataModel($address)
+    /**
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @return $this
+     */
+    public function updateData($address)
     {
         // Set all attributes
-        $attributes = AddressConverter::toFlatArray($address);
+        $attributes = $this->dataProcessor
+            ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
+
         foreach ($attributes as $attributeCode => $attributeData) {
-            if (Address::KEY_REGION === $attributeCode && $address->getRegion() instanceof Region) {
-                $this->setDataUsingMethod(Region::KEY_REGION, $address->getRegion()->getRegion());
-                $this->setDataUsingMethod(Region::KEY_REGION_CODE, $address->getRegion()->getRegionCode());
-                $this->setDataUsingMethod(Region::KEY_REGION_ID, $address->getRegion()->getRegionId());
+            if (
+                AddressData::KEY_REGION === $attributeCode
+                && $address->getRegion() instanceof \Magento\Customer\Api\Data\RegionInterface
+            ) {
+                $this->setDataUsingMethod(RegionData::REGION, $address->getRegion()->getRegion());
+                $this->setDataUsingMethod(RegionData::REGION_CODE, $address->getRegion()->getRegionCode());
+                $this->setDataUsingMethod(RegionData::REGION_ID, $address->getRegion()->getRegionId());
             } else {
                 $this->setDataUsingMethod($attributeCode, $attributeData);
             }
         }
-        // Set customer related data
-        $isBilling = $address->isDefaultBilling();
-        $this->setIsDefaultBilling($isBilling);
-        $this->setIsDefaultShipping($address->isDefaultShipping());
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
-            $this->setAttributeSetId(AddressMetadataServiceInterface::ATTRIBUTE_SET_ID_ADDRESS);
+            $this->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);
         }
+        return $this;
     }
 
-    public function getDataModel($defaultBillingId, $defaultShippingId)
+    /**
+     * Retrieve Data Model with the Address data
+     *
+     * @return \Magento\Customer\Api\Data\AddressInterface
+     */
+    public function getDataModel()
     {
         $addressId = $this->getId();
 
@@ -112,25 +151,15 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             }
         }
 
-        $isDefaultBilling = $this->getData('is_default_billing') === null && intval($addressId)
-            ? $addressId === $defaultBillingId
-            : $this->getData('is_default_billing');
-
-        $isDefaultShipping = $this->getData('is_default_shipping') === null && intval($addressId)
-            ? $addressId === $defaultShippingId
-            : $this->getData('is_default_shipping');
-
         $this->_addressBuilder->populateWithArray(
             array_merge(
                 $addressData,
                 array(
-                    Address::KEY_STREET => $this->getStreet(),
-                    Address::KEY_DEFAULT_BILLING => $isDefaultBilling,
-                    Address::KEY_DEFAULT_SHIPPING => $isDefaultShipping,
-                    Address::KEY_REGION => array(
-                        Region::KEY_REGION => $this->getRegion(),
-                        Region::KEY_REGION_ID => $this->getRegionId(),
-                        Region::KEY_REGION_CODE => $this->getRegionCode()
+                    AddressData::KEY_STREET => $this->getStreet(),
+                    AddressData::KEY_REGION => array(
+                        RegionData::REGION => $this->getRegion(),
+                        RegionData::REGION_ID => $this->getRegionId(),
+                        RegionData::REGION_CODE => $this->getRegionCode()
                     )
                 )
             )

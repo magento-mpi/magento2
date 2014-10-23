@@ -68,28 +68,6 @@ class AddressBuilder extends AbstractExtensibleObjectBuilder
     }
 
     /**
-     * Set if the address is default shipping address
-     *
-     * @param bool $defaultShipping
-     * @return $this
-     */
-    public function setDefaultShipping($defaultShipping)
-    {
-        return $this->_set(Address::KEY_DEFAULT_SHIPPING, (bool)$defaultShipping);
-    }
-
-    /**
-     * Set if the address is default billing address
-     *
-     * @param bool $defaultBilling
-     * @return $this
-     */
-    public function setDefaultBilling($defaultBilling)
-    {
-        return $this->_set(Address::KEY_DEFAULT_BILLING, (bool)$defaultBilling);
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function _setDataValues(array $data)
@@ -98,7 +76,7 @@ class AddressBuilder extends AbstractExtensibleObjectBuilder
             if (!is_array($data[Address::KEY_REGION])) {
                 // Region data has been submitted as individual keys of Address object. Let's extract it.
                 $regionData = array();
-                foreach (array(Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID) as $attrCode) {
+                foreach (array(Region::REGION, Region::REGION_CODE, Region::REGION_ID) as $attrCode) {
                     if (isset($data[$attrCode])) {
                         $regionData[$attrCode] = $data[$attrCode];
                     }
@@ -114,7 +92,7 @@ class AddressBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Set region
      *
-     * @param \Magento\Customer\Service\V1\Data\Region $region
+     * @param \Magento\Customer\Model\Data\Region $region
      * @return $this
      */
     public function setRegion(\Magento\Customer\Model\Data\Region $region)

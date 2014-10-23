@@ -70,12 +70,7 @@
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
-    <route url="/V1/customerGroups" method="DELETE">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="deleteGroup"/>
-        <resources>
-            <resource ref="Magento_Customer::group"/>
-        </resources>
-    </route>
+
     <!-- Customer Metadata Service-->
     <route url="/V1/attributeMetadata/customer/attribute/:attributeCode" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getAttributeMetadata"/>
