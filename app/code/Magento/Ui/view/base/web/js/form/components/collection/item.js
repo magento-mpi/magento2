@@ -6,8 +6,9 @@
  */
 define([
     'Magento_Ui/js/form/component',
-    'ko'
-], function (Component, ko) {
+    'ko',
+    'underscore'
+], function (Component, ko, _) {
     'use strict';
 
     var defaults = {
@@ -57,24 +58,22 @@ define([
             var config          = this.titleConfig,
                 defaultTitle    = config['default'] || this.defaultTitle,
                 separator       = config.separator  || this.separator,
-                values          = [],
+                elements        = [],
                 parts           = config.composite_of,
                 indexed         = this.elems.indexBy('index'),
-                title           = '';
+                title           = '',
+                getValues       = this.getValues.bind(this, separator);
 
             if (parts) {
-                parts  = parts.map(function (index) { return indexed[index] });
-                values = parts.map(this.getValues.bind(this, separator));
-                title  = values.join(separator);
+                elements    = parts.map(function (part) { return indexed[part] });
+                title       = _.compact(elements).map(getValues).join(separator).trim();
             }
-            console.log(title);
-            return title.length ? title : defaultTitle;
+
+            return title || defaultTitle;
         },
 
         getValues: function (separator, element) {
-            return element.elems
-                .filter(function (element) { return element.hasChanged() })
-                .map   (function (element) { return element.value() });
+            return element.elems.map(function (element) { return element.value() }).join(separator);
         }
     });
 });
