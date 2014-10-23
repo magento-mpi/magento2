@@ -8,8 +8,9 @@
 /**
  * @var \Magento\Ui\Component\Form\Fieldset $this
  */
-$legendText = $this->getLegendText();
-$attributes = $this->getAttributes();
+$children = $this->getChildren();
+$content = $this->getContent();
+$ajaxUrl = $this->getAjaxUrl();
 ?>
 
 <div class="fieldset-wrapper-title" tabindex="3" data-bind="click: onClick, keyboard: { 13: toggle }">
@@ -20,11 +21,11 @@ $attributes = $this->getAttributes();
 
 <div class="fieldset-wrapper-content">
     <fieldset id="<?php echo $this->getData('index'); ?>" class="fieldset">
-        <?php if (!empty($legendText)): ?>
-            <legend class="label"><span data-bind="text: label"><?php echo $legendText; ?></span></legend><br />
+        <?php if (!empty($content)): ?>
+            <?php echo $content; ?>
         <?php endif; ?>
-        <?php if(!$this->getIsAjax()): ?>
-            <?php foreach ($this->getChildren() as $childName): ?>
+        <?php if(is_array($children) && !$ajaxUrl): ?>
+            <?php foreach ($children as $childName): ?>
                 <?php $childElement = $this->getLayoutElement($childName);?>
                 <p><?php echo $this->renderElement('group', $childElement); ?></p>
             <?php endforeach; ?>

@@ -67,9 +67,9 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
             ];
         }
         $result['renderer']= [
-            'types' => $storage->getComponents()
+            'types' => $storage->getComponents(),
+            'layout' => $storage->getLayoutNodes()
         ];
-        $result['layout'] = $storage->getLayoutNodes();
 //        ob_clean();
 //        echo '<pre>';
 //        print_r($result);

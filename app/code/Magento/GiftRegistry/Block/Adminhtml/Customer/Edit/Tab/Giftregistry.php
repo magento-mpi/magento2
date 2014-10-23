@@ -7,7 +7,7 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
-class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\Ui\Component\Layout\Tabs\TabInterface
 {
     /**
      * Gift registry data
@@ -50,6 +50,11 @@ class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\B
         parent::_construct();
         $this->setId('gifregustry');
         $this->setTitle(__('Gift Registry'));
+    }
+
+    public function isAjaxLoaded()
+    {
+        return true;
     }
 
     /**

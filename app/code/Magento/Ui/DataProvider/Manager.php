@@ -45,29 +45,28 @@ class Manager
     }
 
     /**
-     * returns datasource metadata
+     * Returns Data Source metadata
      *
-     * @param $datasource
+     * @param $dataSource
      * @return \Magento\Ui\DataProvider\Metadata
      */
-    public function getMetadata($datasource)
+    public function getMetadata($dataSource)
     {
         return $this->metadataFactory->create([
-            'config' => $this->config->getDataSource($datasource)
+            'config' => $this->config->getDataSource($dataSource)
         ]);
-
     }
 
     /**
-     * Returns data by specified datasource name
+     * Returns data by specified Data Source name
      *
-     * @param string $datasource
+     * @param string $dataSource
      * @param array $filters
      * @return array
      */
-    public function getData($datasource, $filters = null)
+    public function getData($dataSource, $filters = null)
     {
-        $config = $this->config->getDataSource($datasource);
+        $config = $this->config->getDataSource($dataSource);
         /** @var \Magento\Framework\Data\Collection\Db $collection */
         $collection = $this->objectManager->create($config['dataset']);
 

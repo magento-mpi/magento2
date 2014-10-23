@@ -15,12 +15,6 @@ use Magento\Ui\Component\AbstractView;
 class Fieldset extends AbstractView
 {
     const UI_ELEMENT_FIELDSET = 'fieldset';
-    /**
-     * Legend text
-     *
-     * @var string
-     */
-    protected $legendText = '';
 
     /**
      * @var bool
@@ -28,24 +22,11 @@ class Fieldset extends AbstractView
     protected $collapsible = false;
 
     /**
-     * @var bool
-     */
-    protected $loadByAjax = false;
-
-    /**
-     * @return void
-     */
-    public function setNotLoadByAjax()
-    {
-        $this->loadByAjax = false;
-    }
-
-    /**
      * @return string
      */
     public function getLegendText()
     {
-        return $this->legendText;
+        return $this->getData('config/label');
     }
 
     /**
@@ -53,15 +34,7 @@ class Fieldset extends AbstractView
      */
     public function getIsCollapsible()
     {
-        return $this->collapsible;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsAjax()
-    {
-        return $this->loadByAjax;
+        return $this->getData('config/collapsible', $this->collapsible);
     }
 
     /**
@@ -69,20 +42,22 @@ class Fieldset extends AbstractView
      */
     public function getAjaxUrl()
     {
-        return $this->getUrl('mui/form/fieldset');
+        return $this->getData('config/source');
     }
 
     /**
-     * Prepare component data
-     *
-     * @return void
+     * @return string
      */
-    public function prepare()
+    public function getContent()
     {
-        parent::prepare();
-        $this->legendText = $this->getData('label') ? $this->getData('label') : $this->legendText;
-        $this->elements = $this->getData('elements') ?: $this->elements;
-        $this->collapsible = $this->getData('collapsible') ?: $this->collapsible;
-        $this->loadByAjax = $this->getData('load_by_ajax') ?: $this->loadByAjax;
+        return $this->getData('config/content');
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildren()
+    {
+        return $this->getData('children');
     }
 }

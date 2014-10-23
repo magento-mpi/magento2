@@ -62,6 +62,12 @@
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
         </arguments>
     </block>
+    <block class="Magento\Ui\Component\Form\Element\Input" name="checkbox">
+        <arguments>
+            <argument name="content_template" xsi:type="string">Magento_Ui::form_element/input/default.phtml</argument>
+            <argument name="input_type" xsi:type="string">checkbox</argument>
+        </arguments>
+    </block>
     <block class="Magento\Ui\Component\Form\Element\Multiline" name="multiline">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::form_element/multiline/default.phtml</argument>

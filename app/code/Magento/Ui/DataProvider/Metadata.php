@@ -51,19 +51,27 @@ class Metadata implements \Iterator, \ArrayAccess
     protected $manager;
 
     /**
-     * @param array $config
      * @param ObjectManager $objectManager
      * @param Manager $manager
+     * @param array $config
      */
-    public function __construct(array $config, ObjectManager $objectManager, Manager $manager)
+    public function __construct(ObjectManager $objectManager, Manager $manager, array $config)
     {
-        $this->config = $config['fields'];
-        if (isset($config['children'])) {
-            $this->config[self::CHILD_DATA_SOURCES] = array_keys($config['children']);
+        $this->config = $config;
+        if (isset($this->config['children'])) {
+            $this->config['fields'][self::CHILD_DATA_SOURCES] = array_keys($config['children']);
         }
-        $this->dataSet = $objectManager->get($config['dataset']);
+        $this->dataSet = $objectManager->get($this->config['dataset']);
         $this->manager = $manager;
         $this->initAttributes();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->config['label'];
     }
 
     /**
@@ -73,13 +81,13 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function rewind()
     {
-        return reset($this->config);
+        return reset($this->config['fields']);
     }
 
     protected function initAttributes()
     {
         if (empty($this->attributes)) {
-            foreach ($this->config as $field) {
+            foreach ($this->config['fields'] as $field) {
                 if (isset($field['source']) && $field['source'] == 'eav') {
                     $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
                     $this->attributes[$field['name']] = $attribute->getData();
@@ -103,19 +111,19 @@ class Metadata implements \Iterator, \ArrayAccess
     public function current()
     {
         if ($this->key() == self::CHILD_DATA_SOURCES) {
-            foreach ($this->config[$this->key()] as $child) {
+            foreach ($this->config['fields'][$this->key()] as $child) {
                 $this->metadata[$this->key()][$child] = $this->manager->getMetadata($child);
             }
             return $this->metadata[$this->key()];
         }
         $this->metadata[$this->key()] = [
-            'name' => $this->key(),
+            'name' => $this->key()
         ];
         $options = [];
-        if (isset($this->config[$this->key()]['source'])) {
-            if ($this->config[$this->key()]['source']== 'option') {
+        if (isset($this->config['fields'][$this->key()]['source'])) {
+            if ($this->config['fields'][$this->key()]['source']== 'option') {
                 $rawOptions = $this->manager->getData(
-                    $this->config[$this->key()]['reference']['target']
+                    $this->config['fields'][$this->key()]['reference']['target']
                 );
                 $options[] = [
                     'label' => null,
@@ -123,8 +131,8 @@ class Metadata implements \Iterator, \ArrayAccess
                 ];
                 foreach ($rawOptions as $rawOption) {
                     $options[] = [
-                        'label' => $rawOption[$this->config[$this->key()]['reference']['neededField']],
-                        'value' => $rawOption[$this->config[$this->key()]['reference']['targetField']]
+                        'label' => $rawOption[$this->config['fields'][$this->key()]['reference']['neededField']],
+                        'value' => $rawOption[$this->config['fields'][$this->key()]['reference']['targetField']]
 
                     ];
                 }
@@ -140,12 +148,13 @@ class Metadata implements \Iterator, \ArrayAccess
             'visible' => ['eav_map' => 'is_visible', 'default' => true],
             'required' => ['eav_map' => 'is_required', 'default' => false],
             'label' => ['eav_map' => 'frontend_label'],
-            'sortOrder' => ['eav_map' => 'sort_order']
+            'sortOrder' => ['eav_map' => 'sort_order'],
+            'notice' => ['eav_map' => 'note']
         ];
 
         foreach ($attributeCodes as  $code => $info) {
-            if (isset($this->config[$this->key()][$code])) {
-                $this->metadata[$this->key()][$code] = $this->config[$this->key()][$code];
+            if (isset($this->config['fields'][$this->key()][$code])) {
+                $this->metadata[$this->key()][$code] = $this->config['fields'][$this->key()][$code];
             } else {
                 if (isset($this->attributes[$this->key()]) && isset($info['eav_map'])) {
                     $this->metadata[$this->key()][$code] = $this->attributes[$this->key()][$info['eav_map']];
@@ -157,7 +166,6 @@ class Metadata implements \Iterator, \ArrayAccess
                 $this->metadata[$this->key()][$code] = $info['default'];
             }
         }
-
         return $this->metadata[$this->key()];
     }
 
@@ -168,7 +176,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function key()
     {
-        return key($this->config);
+        return key($this->config['fields']);
     }
 
     /**
@@ -178,7 +186,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function next()
     {
-        return next($this->config);
+        return next($this->config['fields']);
     }
 
     /**
@@ -199,7 +207,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function get($code)
     {
-        return isset($this->config[$code]) ? $this->config[$code] : false;
+        return isset($this->config['fields'][$code]) ? $this->config['fields'][$code] : false;
     }
 
     /**
@@ -212,9 +220,9 @@ class Metadata implements \Iterator, \ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            $this->config[] = $value;
+            $this->config['fields'][] = $value;
         } else {
-            $this->config[$offset] = $value;
+            $this->config['fields'][$offset] = $value;
         }
     }
 
@@ -226,7 +234,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->config[$offset]);
+        return isset($this->config['fields'][$offset]);
     }
 
     /**
@@ -237,7 +245,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->config[$offset]);
+        unset($this->config['fields'][$offset]);
     }
 
     /**
@@ -248,7 +256,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->config[$offset]) ? $this->config[$offset] : null;
+        return isset($this->config['fields'][$offset]) ? $this->config['fields'][$offset] : null;
     }
 
 } 

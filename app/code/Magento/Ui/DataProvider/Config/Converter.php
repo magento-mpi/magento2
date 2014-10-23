@@ -80,6 +80,7 @@ class Converter implements ConverterInterface
         foreach ($output['config']['datasource'] as $datasource) {
             $data[$datasource['@attributes']['name']] = [
                 'name' => $datasource['@attributes']['name'],
+                'label' => $datasource['@attributes']['label'],
                 'dataset' => $datasource['@attributes']['dataset'],
             ];
             $fields = [];

@@ -18,6 +18,7 @@ use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
  * Class Tabs
@@ -121,22 +122,31 @@ class Tabs extends AbstractView
         ];
         //Add child blocks content
         foreach ($this->getData('childBlocks') as $childBlock) {
-            if (!($childBlock instanceof \Magento\Backend\Block\Widget\Tab\TabInterface)) {
+            /** @var TabInterface $childBlock */
+            if (!($childBlock instanceof TabInterface)) {
                 throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
             }
             $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childBlock->getNameInLayout();
             $areas['children'][$ns]['children'][$childBlock->getNameInLayout()] = [
-                'name' => $childBlock->getNameInLayout(),
-                'label' => $childBlock->getTabTitle(),
-                'ajax' => $this->getUrl(
-                    'mui/form/fieldset',
-                    [
-                        'component' => 'form',
-                        'name' => $this->getData('name'),
-                        'container' => $childBlock->getNameInLayout()
-                    ]
-                )
+                'config' => [
+                    'name' => $childBlock->getNameInLayout(),
+                    'label' => $childBlock->getTabTitle()
+                ],
+                'children' => ['fieldSets.' . $ns . '.additional_tabs.' . $childBlock->getNameInLayout()]
             ];
+            if ($childBlock->isAjaxLoaded()) {
+                $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
+                    'config' => [
+                        'source' => $childBlock->getTabUrl()
+                    ]
+                ];
+            } else {
+                $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
+                    'config' => [
+                        'content' => $childBlock->toHtml()
+                    ]
+                ];
+            }
         }
 
         $id = $this->renderContext->getRequestParam('id');
@@ -149,6 +159,7 @@ class Tabs extends AbstractView
                     'collapsible' => true
                 ]
             ];
+
             foreach ($meta as $key => $value) {
                 if ($key != Metadata::CHILD_DATA_SOURCES) {
                     $fieldSets['children'][$ns]['children'][$dataSource]['children'][] = 'fields.' . $ns . '.' . $dataSource . '.' . $key;
@@ -158,10 +169,10 @@ class Tabs extends AbstractView
             }
 
             $areas['children'][$ns]['children'][$dataSource] = [
-                'name' => $dataSource,
                 'config' => [
                     'active' => true,
-                    'label' => $dataSource
+                    'name' => $dataSource,
+                    'label' => $meta->getLabel()
                 ],
                 'children' => ['fieldSets.' . $ns . '.' . $dataSource]
             ];
@@ -182,9 +193,11 @@ class Tabs extends AbstractView
                     $fields['children'][$ns]['children'][$childName]['children'][$key]['children'] = [$value];
                 }
                 $areas['children'][$ns]['children'][$childName] = [
-                    'name' => $childName,
-                    'label' => $childName,
-                    'active' => true,
+                    'config' => [
+                        'name' => $childName,
+                        'label' => $childMeta->getLabel(),
+                        'active' => true
+                    ],
                     'children' => ['fieldSets.' . $ns . '.' . $childName]
                 ];
             }
@@ -207,7 +220,9 @@ class Tabs extends AbstractView
         }
 
         if ($this->getData('configuration/tabs_container_name')) {
-            $navBlock = $this->factory->create('nav', $tabs);
+            $navBlock = $this->factory->create('nav', [
+                    'data_scope' => $ns
+                ]);
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
         }
