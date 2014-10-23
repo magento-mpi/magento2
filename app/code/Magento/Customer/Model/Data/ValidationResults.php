@@ -22,9 +22,7 @@ class ValidationResults extends \Magento\Framework\Service\Data\AbstractExtensib
     const MESSAGES = 'messages';
 
     /**
-     * Check if the provided data is valid.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isValid()
     {
@@ -32,9 +30,7 @@ class ValidationResults extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get error messages as array in case of validation failure, else return empty array.
-     *
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getMessages()
     {
