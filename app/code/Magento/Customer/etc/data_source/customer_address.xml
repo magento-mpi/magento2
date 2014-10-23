@@ -7,7 +7,8 @@
             <field name="prefix" source="eav"/>
             <field name="suffix" source="eav"/>
             <field name="city" source="eav"/>
-            <field name="street"  dataType="text" formElement="multiline" source="eav"/>
+            <field name="default_billing" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Billing Address" />
+            <field name="street" dataType="text" formElement="multiline" source="eav"/>
         </fields>
         <references>
             <reference target="customer"

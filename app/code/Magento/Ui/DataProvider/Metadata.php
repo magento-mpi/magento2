@@ -145,6 +145,7 @@ class Metadata implements \Iterator, \ArrayAccess
             'dataType' => ['eav_map' => 'frontend_input', 'default' => 'text'],
             'filterType' => ['eav_map' => 'input_filter'],
             'formElement' => ['default' => 'input'],
+            'displayArea' => ['default' => 'body'],
             'visible' => ['eav_map' => 'is_visible', 'default' => true],
             'required' => ['eav_map' => 'is_required', 'default' => false],
             'label' => ['eav_map' => 'frontend_label'],

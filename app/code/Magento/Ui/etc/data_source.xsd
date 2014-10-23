@@ -45,6 +45,7 @@
             <xs:attribute type="required_attribute" name="name" use="required"/>
             <xs:attribute type="required_attribute" name="dataType" use="optional"/>
             <xs:attribute type="required_attribute" name="formElement" use="optional"/>
+            <xs:attribute type="required_attribute" name="displayArea" use="optional"/>
             <xs:attribute type="required_attribute" name="source" use="optional"/>
             <xs:attribute type="text_attribute" name="label" use="optional"/>
             <xs:attribute type="visible_attribute" name="visible" use="optional"/>

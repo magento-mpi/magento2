@@ -124,6 +124,11 @@ class Tabs extends AbstractView
                 ]
             ]
         ];
+        $collections = [
+            'children' => [
+                $ns => []
+            ]
+        ];
         //Add child blocks content
         foreach ($this->getData('childBlocks') as $childBlock) {
             /** @var TabInterface $childBlock */
@@ -198,44 +203,61 @@ class Tabs extends AbstractView
                 $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childName;
                 $childMeta = $this->dataManager->getMetadata($childName);
                 $fieldSets['children'][$ns]['children'][$childName] = [
+                    'type' => 'fieldset',
+                    'config' => [
+                        'label' => $childMeta->getLabel()
+                    ],
+                    'children' => ['fields.' . $ns . '.' . $childName]
+                ];
+
+                $collection = [
                     'type' => 'collection',
                     'parentName' => 'fields.' . $ns,
                     'config' => [
                         'active' => 1,
-                        'title' => $childMeta->getLabel(),
                         'label' => $childMeta->getLabel(),
                         'removeLabel' => __('Remove ' . $childMeta->getLabel()),
                         'removeMessage' => __('Are you sure you want to delete this item?'),
                         'addLabel' => __('Add New ' . $childMeta->getLabel()),
-                        'nodeTemplate' => 'item_template'
+                        'itemTemplate' => 'fields.' . $ns . '.' . $childName . '.item_template'
                     ]
                 ];
+
                 $itemTemplate = [
                     'type' => 'template',
                     'component' => 'Magento_Ui/js/form/components/collection/item',
                     'childType' => 'group',
                     'parentName' => 'fields.' . $ns . '.' . $childName,
                     'config' => [
-                        'title' => 'New Customer Address'
+                        'title' => [
+                            'default' => 'New Customer Address',
+                            'composite_of' => ['prefix', 'firstname', 'lastname']
+                        ]
                     ]
                 ];
                 foreach ($childMeta as $key => $value) {
                     $itemTemplate['children'][$key] = $value;
                     $value['dataScope'] = $dataSource . '.' . $childName . '.' . $key;
                     $itemTemplate['children'][$key] = [
-                        'type' => $value['formElement'],
-                        'config' => $value
+                        'type' => 'group',
+                        'children' => [
+                            $key => [
+                                'type' => $value['formElement'],
+                                'config' => $value
+                            ]
+                        ]
                     ];
                 }
-                $fieldSets['children'][$ns]['children'][$childName]['children']['item_template'] = $itemTemplate;
+                $collection['children']['item_template'] = $itemTemplate;
                 $areas['children'][$ns]['children'][$childName] = [
                     'type' => 'tab',
                     'config' => [
-                        'name' => $childName,
                         'label' => $childMeta->getLabel()
                     ],
-                    'children' => ['fields.' . $ns . '.' . $childName]
+                    'children' => ['fieldSets.' . $ns . '.' . $childName]
                 ];
+                //$collections['children'][$ns]['children'][$childName] = $collection;
+                $this->renderContext->getStorage()->addLayoutNode($childName, $collection);
             }
 
             $this->renderContext->getStorage()->addLayoutNode('tabs', $tabs);
