@@ -13,6 +13,7 @@ use Magento\Sales\Test\Fixture\OrderStatus;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusEdit;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -103,11 +104,17 @@ class UpdateCustomOrderStatusTest extends Injectable
      * @param OrderStatus $orderStatusInitial
      * @param OrderStatus $orderStatus
      * @param OrderInjectable $order
+     * @param FixtureFactory $fixtureFactory
      * @param string $orderExist
      * @return array
      */
-    public function test(OrderStatus $orderStatusInitial, OrderStatus $orderStatus, OrderInjectable $order, $orderExist)
-    {
+    public function test(
+        OrderStatus $orderStatusInitial,
+        OrderStatus $orderStatus,
+        OrderInjectable $order,
+        FixtureFactory $fixtureFactory,
+        $orderExist
+    ) {
         // Preconditions:
         $orderStatusInitial->persist();
         if ($orderExist == 'Yes') {
@@ -119,12 +126,19 @@ class UpdateCustomOrderStatusTest extends Injectable
         $this->orderStatusEdit->getOrderStatusForm()->fill($orderStatus);
         $this->orderStatusEdit->getFormPageActions()->save();
 
+        // Configuring orderStatus for asserts.
+        $orderStatus = $fixtureFactory->createByCode(
+            'orderStatus',
+            ['data' => array_merge($orderStatusInitial->getData(), $orderStatus->getData())]
+        );
+
         // Prepare data for tear down
         $this->orderStatus = $orderStatus;
         $this->orderStatusInitial = $orderStatusInitial;
         $this->order = $order;
 
         return [
+            'orderStatus' => $orderStatus,
             'status' => $orderStatus->getLabel(),
             'customer' => $order->getDataFieldConfig('customer_id')['source']->getCustomer()
         ];

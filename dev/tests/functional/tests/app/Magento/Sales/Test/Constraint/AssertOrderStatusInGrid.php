@@ -37,21 +37,17 @@ class AssertOrderStatusInGrid extends AbstractConstraint
      *
      * @param OrderStatus $orderStatus
      * @param OrderStatusIndex $orderStatusIndexPage
-     * @param OrderStatus|null $orderStatusInitial
      * @param string|null $defaultState
      * @return void
      */
     public function processAssert(
         OrderStatus $orderStatus,
         OrderStatusIndex $orderStatusIndexPage,
-        OrderStatus $orderStatusInitial = null,
         $defaultState = null
     ) {
         $orderStatusIndexPage->open();
         $orderStatusLabel = $orderStatus->getLabel();
-        $filter = $orderStatusInitial !== null
-            ? ['status' => $orderStatusInitial->getStatus(), 'label' => $orderStatusLabel]
-            : ['label' => $orderStatusLabel];
+        $filter = ['status' => $orderStatus->getStatus(), 'label' => $orderStatusLabel];
         if ($defaultState !== null) {
             $state = $this->prepareState($orderStatus->getState());
             $filter = ['label' => $defaultState, 'state' => $state];

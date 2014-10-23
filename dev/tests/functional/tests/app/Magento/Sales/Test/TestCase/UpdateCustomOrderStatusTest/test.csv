@@ -1,3 +1,3 @@
 "description";"orderStatusInitial/dataSet";"orderExist";"orderStatus/data/label";"constraint";"issue"
 "change status label to existed";"default";"No";"Processing";"assertOrderStatusSuccessCreateMessage, assertOrderStatusInGrid";""
-"change status label to new and validate orders with this status were updated on frontend and on backend in Order grid";"assign_to_pending";"Yes";"orderLabel%isolation%";"assertOrderStatusSuccessCreateMessage, assertOrderStatusInGrid, assertOrderInOrdersGrid, assertOrderInOrdersGridOnFrontend";"Bug: MAGETWO-25091"
+"change status label to new and check orderStatus for order with changed orderStatus";"assign_to_pending";"Yes";"orderLabel%isolation%";"assertOrderStatusSuccessCreateMessage, assertOrderStatusInGrid, assertOrderInOrdersGrid, assertOrderInOrdersGridOnFrontend";"Bug: MAGETWO-29900"
