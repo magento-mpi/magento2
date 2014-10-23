@@ -2819,4 +2819,5 @@ return array(
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
     ['Magento\Checkout\Controller\Onepage\Progress'],
+    ['Magento\Checkout\Controller\Onepage\GetAdditional'],
 );
