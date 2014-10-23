@@ -41,6 +41,11 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     private $attributeMetadataDataProvider;
 
     /**
+     * @var null|\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     */
+    private $allAttributesMetadata = null;
+
+    /**
      * @param MetadataConfig $metadataConfig
      * @param AttributeMetadataConverter $attributeMetadataConverter
      * @param AttributeMetadataDataProvider $attributeMetadataDataProvider
@@ -103,23 +108,26 @@ class AddressMetadataService implements AddressMetadataServiceInterface
      */
     public function getAllAttributesMetadata()
     {
+        if ($this->allAttributesMetadata !== null) {
+            return $this->allAttributesMetadata;
+        }
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
             self::ENTITY_TYPE_ADDRESS,
             self::ATTRIBUTE_SET_ID_ADDRESS
         );
 
-        $attributesMetadata = [];
+        $this->allAttributesMetadata = [];
 
         foreach ($attributeCodes as $attributeCode) {
             try {
-                $attributesMetadata[] = $this->getAttributeMetadata($attributeCode);
+                $this->allAttributesMetadata[] = $this->getAttributeMetadata($attributeCode);
             } catch (NoSuchEntityException $e) {
                 //If no such entity, skip
             }
         }
 
-        return $attributesMetadata;
+        return $this->allAttributesMetadata;
     }
 
     /**

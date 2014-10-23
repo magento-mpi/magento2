@@ -36,21 +36,29 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     protected $customerRegistry;
 
     /**
+     * @var \Magento\Customer\Model\Resource\Address
+     */
+    protected $addressResourceModel;
+
+    /**
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
+     * @param \Magento\Customer\Model\Resource\Address $addressResourceModel
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         \Magento\Customer\Model\AddressRegistry $addressRegistry,
-        \Magento\Customer\Model\CustomerRegistry $customerRegistry
+        \Magento\Customer\Model\CustomerRegistry $customerRegistry,
+        \Magento\Customer\Model\Resource\Address $addressResourceModel
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->addressFactory = $addressFactory;
         $this->addressRegistry = $addressRegistry;
         $this->customerRegistry = $customerRegistry;
+        $this->addressResource = $addressResourceModel;
     }
 
     /**
@@ -66,24 +74,25 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $addressModel = null;
         if ($address->getId()) {
             $addressModel = $customerModel->getAddressItemById($address->getId());
+            // is there set address by id
         }
         if (is_null($addressModel)) {
             $addressData = $this->dataProcessor
                 ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
+            var_dump($addressData);
             $address = $this->addressFactory->create($addressData);
             $addressModel->setCustomer($customerModel);
         } else {
-            $addressModel->updateFromDataModel($address);
+            $addressModel->updateData($address);
         }
 
         $inputException = $this->_validate($addressModel);
         if ($inputException->wasErrorAdded()) {
             throw $inputException;
         }
-
-        $addressModel->save();
-        $this->addressRegistry->push($addressModel);
-        return $address->getDataModel(true, true);
+        $this->addressResource->save($addressModel); // move before/after save from model to resource model
+        $this->addressRegistry->push($addressModel); // customer set by id
+        return $address->getDataModel(true, true); // remove parameters
     }
 
     /**

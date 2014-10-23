@@ -114,7 +114,7 @@ class AddressBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Set region
      *
-     * @param \Magento\Customer\Service\V1\Data\Region $region
+     * @param \Magento\Customer\Model\Data\Region $region
      * @return $this
      */
     public function setRegion(\Magento\Customer\Model\Data\Region $region)
