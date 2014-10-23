@@ -47,7 +47,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
+    public function setCustomAttribute(\Magento\Framework\Api\Data\AttributeInterface $attribute)
     {
         // Store as an associative array for easier lookup and processing
         $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]
