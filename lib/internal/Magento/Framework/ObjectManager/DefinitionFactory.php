@@ -21,6 +21,7 @@ use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerat
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 use Magento\Framework\ObjectManager\Profiler\Code\Generator as ProfilerGenerator;
+use Magento\TestFramework\Event\Magento;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -101,14 +102,14 @@ class DefinitionFactory
             $definitionModel = $this->_definitionClasses[$this->_definitionFormat];
             $result = new $definitionModel($definitions);
         } else {
-            $autoloader = new \Magento\Framework\Autoload\IncludePath();
+            $fileResolver = new \Magento\Framework\Code\Generator\FileResolver();
             $generatorIo = new \Magento\Framework\Code\Generator\Io(
                 $this->_filesystemDriver,
-                $autoloader,
+                $fileResolver,
                 $this->_generationDir
             );
             $generator = new \Magento\Framework\Code\Generator(
-                $autoloader,
+                $fileResolver,
                 $generatorIo,
                 array(
 
