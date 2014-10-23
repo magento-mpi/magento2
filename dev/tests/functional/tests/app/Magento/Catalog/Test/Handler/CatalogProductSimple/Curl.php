@@ -116,7 +116,8 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'name' => 'cust_group',
             'data' => [
                 'ALL GROUPS' => 32000,
-                'NOT LOGGED IN' => 0
+                'NOT LOGGED IN' => 0,
+                'General' => 1
             ]
         ]
     ];

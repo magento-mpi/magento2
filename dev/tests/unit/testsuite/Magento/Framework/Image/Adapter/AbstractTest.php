@@ -38,7 +38,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->filesystemMock = $this->getMock(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('getDirectoryWrite', 'createDirectory'),
             array(),
             '',

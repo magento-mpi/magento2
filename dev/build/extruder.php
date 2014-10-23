@@ -22,7 +22,7 @@ $>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] 
 USAGE
 );
 
-$options = getopt('w:l:v');
+$options = getopt('w:l:vi:');
 
 $logWriter = new Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
@@ -45,6 +45,11 @@ try {
     if (!is_array($options['l'])) {
         $options['l'] = array($options['l']);
     }
+    if (!isset($options['i'])) {
+        $options['i'] = [];
+    } elseif (!is_array($options['i'])) {
+        $options['i'] = [$options['i']];
+    }
     $list = array();
     $patternList = array();
     $ignoreList = array();
@@ -64,7 +69,20 @@ try {
             $patternList[$pattern] = $pattern;
         }
     }
-    $patternList = array_diff($patternList, $ignoreList);
+    foreach ($options['i'] as $file) {
+        if (!is_file($file) || !is_readable($file)) {
+            throw new Exception("Specified file with ignore patterns does not exist or cannot be read: '{$file}'");
+        }
+        $patterns = file($file, FILE_IGNORE_NEW_LINES);
+        foreach ($patterns as $pattern) {
+            if (empty($pattern) || 0 === strpos($pattern, '#')) { // comments start from #
+                continue;
+            }
+            $pattern = $workingDir . '/' . $pattern;
+            $ignoreList[$pattern] = $pattern;
+        }
+    }
+
     foreach ($patternList as $pattern) {
         $items = glob($pattern, GLOB_BRACE);
         if (empty($items)) {
@@ -72,9 +90,21 @@ try {
         }
         $list = array_merge($list, $items);
     }
+    $ignore = [];
+    foreach ($ignoreList as $pattern) {
+        $items = glob($pattern, GLOB_BRACE);
+        if (empty($items)) {
+            throw new Exception("glob() pattern '{$pattern}' returned empty result.");
+        }
+        $ignore = array_merge($ignore, $items);
+    }
+    $list = array_diff($list, $ignore);
     if (empty($list)) {
         throw new Exception('List of files or directories to delete is empty.');
     }
+    // avoid multiple attempts to remove same file, including removal of a directory before removal of files in it
+    $list = array_unique($list);
+    rsort($list);
 
     // verbosity argument
     $verbose = isset($options['v']);
