@@ -16,7 +16,7 @@
                 </button>
             </div>
             <address data-bind="text: title"></address>
-            <address data-bind="foreach: { data: element.bodyElements, as: 'element' }">
+            <address data-bind="foreach: { data: element.displayed, as: 'element' }">
                 <!-- ko foreach: { data: element.elems, as: 'element' } -->
                     <!-- ko if: element.value -->
                     <span data-bind="text: element.value"></span><br>
@@ -39,7 +39,7 @@
     <div class="address-item-edit" data-bind="visible: element.active">
         <div class="address-item-edit-content">
             <fieldset class="fieldset">
-                <legend class="legend"><span data-bind="text: $parent.title"></span></legend><br>
+                <legend class="legend"><span data-bind="text: $parent.label"></span></legend><br>
                 <!-- ko foreach: { data: element.bodyElements, as: 'element' } -->
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 <!-- /ko -->

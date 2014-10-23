@@ -35,7 +35,8 @@ define([
 
             this.observe('active')
                 .observe('bodyElements', [])
-                .observe('headElements', []);
+                .observe('headElements', [])
+                .observe('displayed', []);
 
             return this;
         },
@@ -47,18 +48,21 @@ define([
             __super__.initElement.apply(this, arguments);
 
             storage.push(element);
+            this.updateDisplayed(element);
         },
 
         initTitle: function () {
             this.titleConfig = this.title || {};
             this.title       = ko.computed(this.compositeTitle.bind(this));
+
+            return this;
         },
 
         compositeTitle: function () {
             var config          = this.titleConfig,
                 defaultTitle    = config['default'] || this.defaultTitle,
                 separator       = config.separator  || this.separator,
-                elements        = [],
+                elements,
                 parts           = config.composite_of,
                 indexed         = this.elems.indexBy('index'),
                 title           = '',
@@ -73,7 +77,18 @@ define([
         },
 
         getValues: function (separator, element) {
-            return element.elems.map(function (element) { return element.value() }).join(separator);
+            var getValue = function (element) { return element.value() };
+
+            return element.elems.map(getValue).join(separator);
+        },
+
+        updateDisplayed: function (element) {
+            var config              = this.display || [],
+                shouldBeDisplayed   = !!~config.indexOf(element.index);
+
+            if (shouldBeDisplayed) {
+                this.displayed.push(element);
+            }
         }
     });
 });
