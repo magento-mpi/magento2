@@ -11,7 +11,7 @@
 namespace Magento\Webapi\Controller\Rest;
 
 use Magento\Framework\Service\SimpleDataObjectConverter;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class Request extends \Magento\Webapi\Controller\Request
 {
@@ -191,8 +191,8 @@ class Request extends \Magento\Webapi\Controller\Request
      * snake case key described as part of the api contract. example: /:parentId/nestedResource/:entityId.
      * Here :entityId value will be used for overriding 'entity_id' property in the body.
      *
-     * @param array params url path parameters as array
-     * @return array updated request body identifier value
+     * @param array $urlPathParams url path parameters as array
+     * @return array
      */
     protected function overrideRequestBodyIdWithPathParam($urlPathParams)
     {
