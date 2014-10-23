@@ -646,25 +646,26 @@
                         "removeLabel": "Remove Address",
                         "addLabel": "Add New Address",
                         "title": "Edit Customer's Address",
-                        "removeMessage": "Are you sure you want to delete this address?",
-                        "composite": {
-                            "title": [
-                                "prefix",
-                                "firstname",
-                                "middle_name",
-                                "lastname",
-                                "suffix"
-                            ]
-                        }
+                        "removeMessage": "Are you sure you want to delete this address?"
                     },
                     "children": {
                         "customer_address": {
                             "type": "template",
                             "component": "Magento_Ui/js/form/components/collection/item",
-                            "childType": "group",
                             "parentName": "form.addresses",
+                            "childType": "group",
                             "config": {
-                                "title": "New Customer Address"
+                                "title": {
+                                    "default": "New Customer Address",
+                                    "composite_of": [
+                                        "3",
+                                        "0",
+                                        "1",
+                                        "2",
+                                        "4"
+                                    ],
+                                    "separate_by": " "
+                                }
                             },
                             "children": {
                                 "0": {
@@ -717,6 +718,22 @@
                                                 "label": "Address"
                                             }
                                         }
+                                    }
+                                },
+                                "default_billing": {
+                                    "type": "checkbox",
+                                    "config": {
+                                        "index": "default_billing",
+                                        "displayArea": "head",
+                                        "description": "Default Billing Address"
+                                    }
+                                },
+                                "default_shipping": {
+                                    "type": "checkbox",
+                                    "config": {
+                                        "index": "default_shipping",
+                                        "displayArea": "head",
+                                        "description": "Default Shipping Address"
                                     }
                                 }
                             }

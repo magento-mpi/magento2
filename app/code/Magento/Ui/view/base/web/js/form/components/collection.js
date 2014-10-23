@@ -39,9 +39,9 @@ define([
         },
 
         initElement: function (element) {
-            var activeIndex   = this.active(),
-                activeDefined = activeIndex !== null,
-                elementIndex  = element.index,
+            var activeIndex     = this.active(),
+                activeDefined   = activeIndex !== null,
+                elementIndex    = element.index,
                 activeElement;
 
             activeElement = activeDefined

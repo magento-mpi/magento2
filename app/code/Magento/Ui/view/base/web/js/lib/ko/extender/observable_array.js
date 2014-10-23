@@ -46,6 +46,14 @@ define([
             return _.each(this(), iterator, ctx);
         },
 
+        map: function (iterator, ctx) {
+            return _.map(this(), iterator, ctx);
+        },
+
+        filter: function (iterator, ctx) {
+            return _.filter(this(), iterator, ctx);
+        },
+
         without: function () {
             var args = Array.prototype.slice.call(arguments);
 
