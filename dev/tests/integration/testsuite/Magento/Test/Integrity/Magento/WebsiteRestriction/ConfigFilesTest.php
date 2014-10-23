@@ -7,6 +7,8 @@
  */
 namespace Magento\Test\Integrity\Magento\WebsiteRestriction;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -17,9 +19,9 @@ class ConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $filesystem \Magento\Framework\App\Filesystem */
-        $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
-        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        /** @var $filesystem \Magento\Framework\Filesystem */
+        $filesystem = $objectManager->get('Magento\Framework\Filesystem');
+        $modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $fileIteratorFactory = $objectManager->get('Magento\Framework\Config\FileIteratorFactory');
         $xmlFiles = $fileIteratorFactory->create(
             $modulesDirectory,

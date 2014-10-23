@@ -38,7 +38,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $choiceLink = './/*[contains(@class,"choice")]';
+    protected $choiceLink = './/*[contains(@class,"choice") and @data-role="link"]';
 
     /**
      * Checkbox selector item links
@@ -52,7 +52,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $linkForChoice = './/label/span[1]';
+    protected $linkForChoice = '[data-role="link"] label>span:first-child';
 
     /**
      * Checkbox selector item links
@@ -114,15 +114,15 @@ class Links extends Block
 
         $choiceLinks = $this->_rootElement->find($this->choiceLink, Locator::SELECTOR_XPATH)->getElements();
         foreach ($choiceLinks as $choiceLink) {
-            $link = $choiceLink->find($this->linkForChoice, Locator::SELECTOR_XPATH);
+            $link = $choiceLink->find($this->linkForChoice);
             $sample = $choiceLink->find($this->sampleLinkForChoice);
             $price = $choiceLink->find($this->priceForChoice);
             $priceAdjustments = $choiceLink->find($this->priceAdjustmentsForChoice);
 
             $linkData = [
                 'links_purchased_separately' => $choiceLink->find($this->separatelyForChoice)->isVisible()
-                        ? 'Yes'
-                        : 'No',
+                    ? 'Yes'
+                    : 'No',
                 'title' => $link->isVisible() ? $link->getText() : null,
                 'sample' => $sample->isVisible() ? $sample->getText() : null,
                 'price' => $price->isVisible() ? $this->escapePrice($price->getText()) : null,

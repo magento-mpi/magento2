@@ -71,8 +71,12 @@ class Binder
         foreach ($data as $key => $value) {
             if (is_array($value)) {
                 $data[$key] = $this->processData($value, $bindData);
-            } elseif (!empty($bindData[$value])) {
-                $data[$key] = $bindData[$value];
+            } else {
+                foreach($bindData as $bindKey => $bindValue) {
+                    if (strpos($value, $bindKey) !== FALSE) {
+                        $data[$key] = str_replace($bindKey, $bindValue, $value);
+                    }
+                }
             }
         }
         return $data;

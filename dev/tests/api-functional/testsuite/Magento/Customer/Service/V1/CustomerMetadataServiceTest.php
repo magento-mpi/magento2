@@ -96,13 +96,13 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::MULTILINE_COUNT  => 0,
                     AttributeMetadata::DATA_MODEL       => '',
                     AttributeMetadata::OPTIONS          => [
-                        ['label' => null, 'value' => null],
+                        ['label' => '', 'value' => ''],
                         ['label' => 'Male', 'value' => '1'],
                         ['label' => 'Female', 'value' => '2']
                     ],
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'Gender',
-                    AttributeMetadata::NOTE             => null,
+                    AttributeMetadata::NOTE             => '',
                     AttributeMetadata::SYSTEM           => false,
                     AttributeMetadata::USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'int',

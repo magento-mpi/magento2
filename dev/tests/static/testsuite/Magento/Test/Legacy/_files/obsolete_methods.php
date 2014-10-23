@@ -317,7 +317,7 @@ return array(
     array(
         'cleanVarSubFolders',
         '',
-        '\Magento\Framework\App\Filesystem::getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR)::search())'
+        '\Magento\Framework\Filesystem::getDirectoryRead(\Magento\Framework\Filesystem::VAR_DIR)::search())'
     ),
     array('collectRoutes', 'Magento\Backend\App\Router'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
@@ -1335,6 +1335,11 @@ return array(
     array('getCookie', 'Magento\Framework\View\Element\Js\Cookie'),
     array('setCopyright', 'Magento\Theme\Block\Html\Footer'),
     array('setLogo', 'Magento\Theme\Block\Html\Header'),
+    array('isHomePage', 'Magento\Theme\Block\Html\Header', 'Magento\Theme\Block\Html\Header\Logo::isHomePage'),
+    array('getLogoSrc', 'Magento\Theme\Block\Html\Header', 'Magento\Theme\Block\Html\Header\Logo::getLogoSrc'),
+    array('getLogoAlt', 'Magento\Theme\Block\Html\Header', 'Magento\Theme\Block\Html\Header\Logo::getLogoAlt'),
+    array('_getLogoUrl', 'Magento\Theme\Block\Html\Header', 'Magento\Theme\Block\Html\Header\Logo::_getLogoUrl'),
+    array('_isFile', 'Magento\Theme\Block\Html\Header', 'Magento\Theme\Block\Html\Header\Logo::_isFile'),
     array('_beforeCacheUrl', 'Magento\Framework\View\Element\AbstractBlock'),
     array('_afterCacheUrl', 'Magento\Framework\View\Element\AbstractBlock'),
     array('_getGroupFor', 'Magento\Framework\View\Asset\GroupedCollection', 'getGroupFor'),
@@ -1993,6 +1998,7 @@ return array(
         'updateCategoryIndex',
         'Magento\CatalogSearch\Model\Resource\Fulltext',
     ],
+    ['_getRestrictedStoresList', 'Magento\UrlRewrite\Block\Edit\Form'],
     ['removeTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['addTag', 'Magento\UrlRewrite\Model\UrlRewrite'],
     ['loadByTags', 'Magento\UrlRewrite\Model\UrlRewrite'],

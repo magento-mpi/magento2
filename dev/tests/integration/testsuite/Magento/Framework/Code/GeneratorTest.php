@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Code;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\ObjectManager\Code\Generator as DIGenerator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 
@@ -48,9 +49,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_includePath = get_include_path();
 
         $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
         $generationDirectory = $this->varDirectory->getAbsolutePath('generation');
 

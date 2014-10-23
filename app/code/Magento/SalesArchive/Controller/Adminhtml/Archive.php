@@ -7,6 +7,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
 
 /**
@@ -67,12 +68,12 @@ class Archive extends \Magento\Backend\App\Action
         $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
 
         if ($type == 'csv') {
-            return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
+            return $this->_fileFactory->create($fileName, $grid->getCsvFile(), DirectoryList::VAR_DIR);
         } else {
             return $this->_fileFactory->create(
                 $fileName,
                 $grid->getExcelFile($fileName),
-                \Magento\Framework\App\Filesystem::VAR_DIR
+                DirectoryList::VAR_DIR
             );
         }
     }

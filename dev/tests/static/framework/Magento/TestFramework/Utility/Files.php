@@ -187,6 +187,7 @@ class Files
             $this->getMainConfigFiles(),
             $this->getLayoutFiles(),
             $this->getConfigFiles(),
+            $this->getDiConfigs(true),
             $this->getLayoutConfigFiles(),
             $this->getPageTypeFiles()
         );
@@ -838,7 +839,7 @@ class Files
         if ($asDataSet) {
             $output = [];
             foreach ($configs as $file) {
-                $output[] = [$file];
+                $output[$file] = [$file];
             }
 
             return $output;
@@ -866,7 +867,7 @@ class Files
             '/app/code/',
             '/lib/internal/',
             '/dev/tools/',
-            '/dev/tools/performance_toolkit/framework/',
+            '/dev/tools/performance-toolkit/framework/',
             '/dev/tests/api-functional/framework/',
             '/dev/tests/integration/framework/',
             '/dev/tests/integration/framework/tests/unit/testsuite/',
