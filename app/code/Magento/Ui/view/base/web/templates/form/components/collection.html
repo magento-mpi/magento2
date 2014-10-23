@@ -10,27 +10,23 @@
     <ul class="address-list ui-tabs-nav">
         <!-- ko foreach: { data: element.elems, as: 'element' } -->
         <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: $parent.setActive(element)">
-            <a href="#" class="ui-tabs-anchor">
-                <div class="address-list-item-actions">
-                    <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeElement(element)">
-                        <span data-bind="text: element.removeLabel"></span>
-                    </button>
-                </div>
-                <address data-bind="text: title"></address>
-                <address data-bind="foreach: { data: element.elems, as: 'element' }">
-                    <!-- ko foreach: { data: element.elems, as: 'element' } -->
-                        <!-- ko if: element.value -->
-                        <span data-bind="text: element.value"></span><br>
-                        <!-- /ko -->
+            <div class="address-list-item-actions">
+                <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeElement(element)">
+                    <span data-bind="text: element.removeLabel"></span>
+                </button>
+            </div>
+            <address data-bind="text: title"></address>
+            <address data-bind="foreach: { data: element.bodyElements, as: 'element' }">
+                <!-- ko foreach: { data: element.elems, as: 'element' } -->
+                    <!-- ko if: element.value -->
+                    <span data-bind="text: element.value"></span><br>
                     <!-- /ko -->
-                </address>
-                <div class="field field-address-item-billing choice">
-                    <input type="checkbox" data-bind="attr: { title: $t('Set as Default Billing Address') }">
-                    <label class="label">
-                        <span data-bind="text: $t('Default Billing Address')"></span>
-                    </label>
-                </div>
-            </a>
+                <!-- /ko -->
+            </address>
+
+            <div data-bind="foreach: { data: element.headElements, as: 'element' }, stopPropagation: true">
+                <!-- ko template: element.getTemplate() --><!-- /ko -->
+            </div>
         </li>
         <!-- /ko -->
         <li class="address-list-actions last">
@@ -44,7 +40,7 @@
         <div class="address-item-edit-content">
             <fieldset class="fieldset">
                 <legend class="legend"><span data-bind="text: $parent.title"></span></legend><br>
-                <!-- ko foreach: { data: element.elems, as: 'element' } -->
+                <!-- ko foreach: { data: element.bodyElements, as: 'element' } -->
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 <!-- /ko -->
             </fieldset>

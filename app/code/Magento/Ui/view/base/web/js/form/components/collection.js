@@ -39,9 +39,9 @@ define([
         },
 
         initElement: function (element) {
-            var activeIndex   = this.active(),
-                activeDefined = activeIndex !== null,
-                elementIndex  = element.index,
+            var activeIndex     = this.active(),
+                activeDefined   = activeIndex !== null,
+                elementIndex    = element.index,
                 activeElement;
 
             activeElement = activeDefined
@@ -61,7 +61,7 @@ define([
 
         initChildTemplate: function () {
             this.childTemplate = {
-                template: this.name + '.' + this.nodeTemplate,
+                template: this.itemTemplate,
                 appendTo: this.name,
                 config: {}
             };
