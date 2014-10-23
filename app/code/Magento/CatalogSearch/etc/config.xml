@@ -18,7 +18,6 @@
                 <min_query_length>1</min_query_length>
                 <max_query_length>128</max_query_length>
                 <max_query_words>10</max_query_words>
-                <search_type>1</search_type>
                 <use_layered_navigation_count>2000</use_layered_navigation_count>
             </search>
         </catalog>

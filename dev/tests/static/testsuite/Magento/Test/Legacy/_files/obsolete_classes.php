@@ -2825,4 +2825,6 @@ return array(
     ['Magento\Framework\Filesystem\DriverFactory', 'Magento\Framework\Filesystem\DriverPool'],
     ['Magento\Framework\Filesystem\WrapperFactory'],
     ['Magento\Framework\Filesystem\WrapperInterface'],
+    ['Magento\CatalogSearch\Model\Config\Source\Search\Type'],
+    ['Magento\CatalogSearch\Model\Config\Backend\Search\Type'],
 );
