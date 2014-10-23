@@ -215,33 +215,41 @@
     },
     "autoload": {
         "psr-0": {
-            "Apache_" : ["lib/internal"],
-            "Cm_": ["lib/internal/"],
-            "Credis_": ["lib/internal/"],
-            "Less_" : ["lib/internal/"],
-            "Symfony\\" : ["lib/internal/"],
-            "Zend_": ["lib/internal/", "app/code/"],
-            "Zend\\" : ["lib/internal/"]
+            "Apache_": "lib/internal",
+            "Cm_": "lib/internal/",
+            "Credis_": "lib/internal/",
+            "Less_": "lib/internal/",
+            "Symfony\\": "lib/internal/",
+            "Zend_Date": "app/code",
+            "Zend_Mime": "app/code",
+            "Zend_": "lib/internal/",
+            "Zend\\": "lib/internal/"
         },
         "psr-4": {
-            "Magento\\Framework\\": ["lib/internal/Magento/Framework/"],
-            "Magento\\": ["app/code/Magento/", "var/generation/Magento"],
-            "Zend\\Soap\\": ["app/code/Zend/Soap"],
-            "Zend\\" : ["lib/internal/Zend"]
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
+            "Magento\\": [
+                "app/code/Magento/",
+                "var/generation/Magento"
+            ],
+            "Zend\\Soap\\": "app/code/Zend/Soap",
+            "Zend\\": "lib/internal/Zend"
         }
     },
-    "include-path": ["/lib/internal", "/app/code"],
-    "autoload-dev" : {
-        "psr-4" : {
-            "Magento\\Tools\\" : [
+    "include-path": [
+        "/lib/internal",
+        "/app/code"
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\Tools\\": [
                 "dev/tools/Magento/Tools/"
             ],
-            "Magento\\Tools\\License\\" : ["dev/build/publication/license/"],
-            "Magento\\Tools\\Sanity\\" : ["dev/build/publication/sanity/Magento/Tools/Sanity"],
-            "Magento\\TestFramework\\Inspection\\" : [
+            "Magento\\Tools\\License\\": ["dev/build/publication/license/"],
+            "Magento\\Tools\\Sanity\\": ["dev/build/publication/sanity/Magento/Tools/Sanity"],
+            "Magento\\TestFramework\\Inspection\\": [
                 "dev/tests/static/framework/Magento/TestFramework/Inspection"
             ],
-            "Magento\\ToolkitFramework\\" : ["dev/tools/performance_toolkit/framework/Magento/ToolkitFramework/"]
+            "Magento\\ToolkitFramework\\": ["dev/tools/performance_toolkit/framework/Magento/ToolkitFramework/"]
         }
     }
 }
