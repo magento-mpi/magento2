@@ -6,10 +6,13 @@
  * @license     {license_link}
  */
 
+use Magento\Framework\App\Bootstrap;
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
     array(
-        \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-            \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/design')
+        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
+            DirectoryList::THEMES => array('path' => dirname(__DIR__) . '/design')
         )
     )
 );

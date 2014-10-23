@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Module\Setup;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -141,7 +143,7 @@ class Migration extends \Magento\Framework\Module\Setup
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
         $compositeModules = array()
     ) {
-        $this->_directory = $context->getFilesystem()->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->_directory = $context->getFilesystem()->getDirectoryRead(DirectoryList::ROOT);
         $this->_pathToMapFile = $confPathToMapFile;
         $this->_migrationData = $migrationData;
         $this->_replacePatterns = array(

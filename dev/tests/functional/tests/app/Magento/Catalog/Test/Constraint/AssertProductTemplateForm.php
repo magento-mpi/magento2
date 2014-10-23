@@ -38,8 +38,7 @@ class AssertProductTemplateForm extends AbstractConstraint
      * @param CatalogProductAttribute $productAttribute
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         CatalogProductSetIndex $productSet,
         CatalogProductSetEdit $productSetEdit,
         CatalogAttributeSet $attributeSet,

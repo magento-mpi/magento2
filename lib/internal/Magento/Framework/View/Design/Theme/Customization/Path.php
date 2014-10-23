@@ -11,6 +11,8 @@
  */
 namespace Magento\Framework\View\Design\Theme\Customization;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Theme Customization Path
  */
@@ -31,7 +33,7 @@ class Path
     /**
      * File system
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -52,17 +54,17 @@ class Path
     /**
      * Constructor
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param string $filename
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         $filename = \Magento\Framework\View\ConfigInterface::CONFIG_FILE_NAME
     ) {
         $this->filesystem = $filesystem;
         $this->filename = $filename;
-        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-        $this->themeDirectoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
+        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        $this->themeDirectoryRead = $this->filesystem->getDirectoryRead(DirectoryList::THEMES);
     }
 
     /**
