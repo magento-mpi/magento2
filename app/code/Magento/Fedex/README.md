@@ -1,0 +1,2 @@
+Module Magento\Fedex implements integration with FedEx which is one of the world's largest shipping service companies, providing air, freight, and ground shipping services with several levels of priorities.
+FedEx merchant account should be registered for FedEx Web Services Production Access and such information as Account ID, Meter Number, Key, Password from FedEx account should be set when method is configuring in backend.
