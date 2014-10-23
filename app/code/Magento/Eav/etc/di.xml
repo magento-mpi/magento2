@@ -33,4 +33,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Eav\Model\Resource\Entity\Attribute">
+        <plugin name="storeLabelCaching" type="Magento\Eav\Plugin\Model\Resource\Entity\Attribute" />
+    </type>
 </config>

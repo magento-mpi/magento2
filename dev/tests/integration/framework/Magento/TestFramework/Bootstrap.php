@@ -28,49 +28,49 @@ class Bootstrap
     /**
      * @var \Magento\TestFramework\Bootstrap\Settings
      */
-    private $_settings;
+    protected $_settings;
 
     /**
      * @var string
      */
-    private $_dbVendorName;
+    protected $_dbVendorName;
 
     /**
      * @var \Magento\Framework\Simplexml\Element
      */
-    private $dbConfig;
+    protected $dbConfig;
 
     /**
      * @var \Magento\TestFramework\Application
      */
-    private $_application;
+    protected $_application;
 
     /**
      * @var \Magento\TestFramework\Bootstrap\Environment
      */
-    private $_envBootstrap;
+    protected $_envBootstrap;
 
     /**
      * @var \Magento\TestFramework\Bootstrap\DocBlock
      */
-    private $_docBlockBootstrap;
+    protected $_docBlockBootstrap;
 
     /**
      * @var \Magento\TestFramework\Bootstrap\Profiler
      */
-    private $_profilerBootstrap;
+    protected $_profilerBootstrap;
 
     /**
      * @var \Magento\Framework\Shell
      */
-    private $_shell;
+    protected $_shell;
 
     /**
      * Temporary directory to be used to host the application installation sandbox
      *
      * @var string
      */
-    private $_tmpDir;
+    protected $_tmpDir;
 
     /**
      * Constructor

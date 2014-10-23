@@ -26,7 +26,7 @@
         <dbName><![CDATA[magento2]]></dbName>
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <model><![CDATA[mysql4]]></model>
-        <adapter>Magento\TestFramework\Db\ConnectionAdapter</adapter>
+        <adapter>Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql</adapter>
         <active>1</active>
     </connection>
     <resource name="default_setup" connection="default"/>
