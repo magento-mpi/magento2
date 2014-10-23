@@ -123,5 +123,4 @@ class Curl extends ProductCurl implements DownloadableProductInjectableInterface
 
         return ['id' => $matches[1], 'checkout_data' => $checkoutData];
     }
-
 }

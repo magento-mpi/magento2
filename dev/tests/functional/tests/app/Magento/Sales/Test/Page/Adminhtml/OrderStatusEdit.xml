@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_status/new" module="Magento_Sales">
+<page mca="sales/order_status/edit" module="Magento_Sales">
     <blocks>
         <formPageActions>
             <class>Magento\Backend\Test\Block\FormPageActions</class>
