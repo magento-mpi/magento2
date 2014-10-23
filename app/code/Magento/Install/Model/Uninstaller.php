@@ -8,7 +8,8 @@
 
 namespace Magento\Install\Model;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\FilesystemException;
 
 /**
@@ -64,8 +65,8 @@ class Uninstaller
         $this->log('Starting uninstall');
         $this->recreateDatabase();
         $this->log('File system cleanup:');
-        $this->deleteDirContents(Filesystem::VAR_DIR);
-        $this->deleteDirContents(Filesystem::STATIC_VIEW_DIR);
+        $this->deleteDirContents(DirectoryList::VAR_DIR);
+        $this->deleteDirContents(DirectoryList::STATIC_VIEW);
         $this->deleteLocalXml();
         $this->log('Uninstall complete.');
     }
@@ -128,7 +129,7 @@ class Uninstaller
      */
     protected function deleteLocalXml()
     {
-        $configDir = $this->filesystem->getDirectoryWrite(Filesystem::CONFIG_DIR);
+        $configDir = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
         $localXml = "{$configDir->getAbsolutePath()}local.xml";
         if (!$configDir->isFile('local.xml')) {
             $this->log("The file '{$localXml}' doesn't exist - skipping cleanup");

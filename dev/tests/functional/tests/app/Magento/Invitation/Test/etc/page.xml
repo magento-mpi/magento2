@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Invitation">
+    <invitationIndex>
+        <mca>invitation/index</mca>
+        <class>Magento\Invitation\Test\Page\InvitationIndex</class>
+    </invitationIndex>
+    <invitationSend>
+        <mca>invitation/index/send</mca>
+        <class>Magento\Invitation\Test\Page\InvitationSend</class>
+    </invitationSend>
+    <invitationsIndex>
+        <mca>invitations/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex</class>
+    </invitationsIndex>
+</page>

@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Media.
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
@@ -34,9 +36,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         $mediaDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+            DirectoryList::MEDIA
         );
 
         self::$_mediaTmpDir = $mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath());
@@ -59,9 +61,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::MEDIA_DIR
+            DirectoryList::MEDIA
         );
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
