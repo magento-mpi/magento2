@@ -34,11 +34,12 @@ define([
     }
 
     return Scope.extend({
-        initialize: function(config, name){
+        initialize: function(config, name, index){
             _.extend(this, config);
 
             this._elems     = [];
             this.name       = name;
+            this.index      = index;
             this.provider   = registry.get(this.provider);
 
             this.initObservable();
