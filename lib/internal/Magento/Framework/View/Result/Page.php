@@ -71,21 +71,25 @@ class Page extends Layout
      * Constructor
      *
      * @param View\Element\Template\Context $context
+     * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
+     * @param bool $isIsolated
      */
     public function __construct(
         View\Element\Template\Context $context,
+        View\LayoutFactory $layoutFactory,
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
-        $template
+        $template,
+        $isIsolated = false
     ) {
         $this->pageConfig = $context->getPageConfig();
         $this->pageLayoutReader = $pageLayoutReader;
@@ -94,9 +98,11 @@ class Page extends Layout
         $this->template = $template;
         parent::__construct(
             $context,
+            $layoutFactory,
             $layoutReaderPool,
             $translateInline,
-            $layoutBuilderFactory
+            $layoutBuilderFactory,
+            $isIsolated
         );
         $this->initPageConfigReader();
     }
