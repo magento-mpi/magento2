@@ -39,14 +39,16 @@ define([
         },
 
         initElement: function (element) {
-            var activeIndex     = this.active(),
+            var indexed         = this.elems.indexBy('index'),
+                activeIndex     = this.active(),
+                activeExists    = indexed[activeIndex],
                 activeDefined   = activeIndex !== null,
                 elementIndex    = element.index,
                 activeElement;
 
             activeElement = activeDefined
-                ? (elementIndex == activeIndex) && element
-                : (elementIndex == 0)           && element
+                ? (activeExists ? (elementIndex == activeIndex) && element : element)
+                : (elementIndex == 0) && element
 
             if (activeElement) {
                 this._setActive(activeElement);
