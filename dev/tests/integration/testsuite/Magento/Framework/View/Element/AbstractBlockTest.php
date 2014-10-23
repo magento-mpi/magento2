@@ -70,8 +70,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_block->getParentBlock());
 
         // Need to create blocks through layout
-        $parentBlock = $this->_createBlockWithLayout('block1', 'block1', 'Magento\Framework\View\Element\Text');
-        $childBlock = $this->_createBlockWithLayout('block2', 'block2');
+        $parentBlock = $this->_createBlockWithLayout('block1', 'Magento\Framework\View\Element\Text');
+        $childBlock = $this->_createBlockWithLayout('block2');
 
         $this->assertEmpty($childBlock->getParentBlock());
         $parentBlock->setChild('block2', $childBlock);
@@ -84,7 +84,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testAddChild()
     {
         $parentBlock = $this->_createBlockWithLayout(
-            'testAddChild',
             'testAddChild',
             'Magento\Framework\View\Element\Text'
         );
@@ -135,7 +134,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $this->_block->getChildNames());
 
         // With layout
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
         $block1 = $this->_createBlockWithLayout('block1');
         $block2 = $this->_createBlockWithLayout('block2');
         $block3 = $this->_createBlockWithLayout('block3');
@@ -166,16 +165,16 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testSetGetUnsetChild()
     {
         // With layout
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
 
         // Regular block
         $nameOne = uniqid('block.');
-        $blockOne = $this->_createBlockWithLayout($nameOne, $nameOne);
+        $blockOne = $this->_createBlockWithLayout($nameOne);
         $parent->setChild('block1', $blockOne);
         $this->assertSame($blockOne, $parent->getChildBlock('block1'));
 
         // Block factory name
-        $blockTwo = $this->_createBlockWithLayout('parent_block2', 'parent_block2');
+        $blockTwo = $this->_createBlockWithLayout('parent_block2');
         $blockTwo->setChild('block2', $nameOne);
         $this->assertSame($blockOne, $blockTwo->getChildBlock('block2'));
 
@@ -199,8 +198,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsetCallChild()
     {
-        $blockParent = $this->_createBlockWithLayout('parent', 'parent');
-        $block = $this->_createBlockWithLayout('block1', 'block1');
+        $blockParent = $this->_createBlockWithLayout('parent');
+        $block = $this->_createBlockWithLayout('block1');
         $block->setSomeValue(true);
         $blockParent->setChild('block1', $block);
         $this->assertSame($block, $blockParent->getChildBlock('block1'));
@@ -215,10 +214,10 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsetChildren()
     {
-        $parent = $this->_createBlockWithLayout('block', 'block');
+        $parent = $this->_createBlockWithLayout('block');
         $this->assertEquals(array(), $parent->getChildNames());
-        $blockOne = $this->_createBlockWithLayout('block1', 'block1');
-        $blockTwo = $this->_createBlockWithLayout('block2', 'block2');
+        $blockOne = $this->_createBlockWithLayout('block1');
+        $blockTwo = $this->_createBlockWithLayout('block2');
         $parent->setChild('block1', $blockOne);
         $parent->setChild('block2', $blockTwo);
         $this->assertSame($blockOne, $parent->getChildBlock('block1'));
@@ -267,9 +266,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_block->getChildHtml('block'));
 
         // With layout
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
-        $blockOne = $this->_createBlockWithLayout('block1', 'block1', 'Magento\Framework\View\Element\Text');
-        $blockTwo = $this->_createBlockWithLayout('block2', 'block2', 'Magento\Framework\View\Element\Text');
+        $parent = $this->_createBlockWithLayout('parent');
+        $blockOne = $this->_createBlockWithLayout('block1', 'Magento\Framework\View\Element\Text');
+        $blockTwo = $this->_createBlockWithLayout('block2', 'Magento\Framework\View\Element\Text');
         $blockOne->setText('one');
         $blockTwo->setText('two');
         $parent->insert($blockTwo, '-', false, 'block2');
@@ -299,13 +298,13 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_block->getChildChildHtml('alias'));
 
         // With layout
-        $parent1 = $this->_createBlockWithLayout('parent1', 'parent1');
-        $parent2 = $this->_createBlockWithLayout('parent2', 'parent2');
+        $parent1 = $this->_createBlockWithLayout('parent1');
+        $parent2 = $this->_createBlockWithLayout('parent2');
 
-        $block1 = $this->_createBlockWithLayout('block1', 'block1', 'Magento\Framework\View\Element\Text');
-        $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Magento\Framework\View\Element\Text');
-        $block3 = $this->_createBlockWithLayout('block3', 'block3', 'Magento\Framework\View\Element\Text');
-        $block4 = $this->_createBlockWithLayout('block4', 'block4', 'Magento\Framework\View\Element\Text');
+        $block1 = $this->_createBlockWithLayout('block1', 'Magento\Framework\View\Element\Text');
+        $block2 = $this->_createBlockWithLayout('block2', 'Magento\Framework\View\Element\Text');
+        $block3 = $this->_createBlockWithLayout('block3', 'Magento\Framework\View\Element\Text');
+        $block4 = $this->_createBlockWithLayout('block4', 'Magento\Framework\View\Element\Text');
 
         $block1->setText('one');
         $block2->setText('two');
@@ -336,8 +335,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
         // With layout
         $expected = 'Block2';
-        $block2 = $this->_createBlockWithLayout('block2', 'block2', 'Magento\Framework\View\Element\Text');
-        $block3 = $this->_createBlockWithLayout('block3', 'block3');
+        $block2 = $this->_createBlockWithLayout('block2', 'Magento\Framework\View\Element\Text');
+        $block3 = $this->_createBlockWithLayout('block3');
         $block2->setText($expected);
         $html = $block3->getBlockHtml('block2');
         $this->assertInternalType('string', $html);
@@ -349,7 +348,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testInsertBlockWithoutName()
     {
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
         $block = $this->_createBlockWithLayout('');
         $parent->setChild('', $block);
         $this->assertContains('abstractblockmock_0', $parent->getChildNames());
@@ -360,7 +359,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testInsertBlockWithAlias()
     {
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
         $block = $this->_createBlockWithLayout('block_name');
         $parent->insert($block, '', true, 'block_alias');
         $this->assertContains('block_name', $parent->getChildNames());
@@ -370,7 +369,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testInsertWithSibling()
     {
         $name1 = 'block_one';
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
         $blockOne = $this->_createBlockWithLayout($name1);
         $parent->insert($blockOne);
         $this->assertContains($name1, $parent->getChildNames());
@@ -397,7 +396,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testInsertWithoutCreateBlock()
     {
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
         $parent->insert('block');
     }
 
@@ -408,7 +407,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     {
         $parentName = 'parent';
         $name = 'container';
-        $parent = $this->_createBlockWithLayout($parentName, $parentName);
+        $parent = $this->_createBlockWithLayout($parentName);
         $layout = $parent->getLayout();
 
         $this->assertEmpty($layout->getChildNames($parentName));
@@ -422,7 +421,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testAppend()
     {
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
+        $parent = $this->_createBlockWithLayout('parent');
         $child1 = $this->_createBlockWithLayout('child1');
         $parent->append($child1, 'child1');
         $child2 = $this->_createBlockWithLayout('child2');
@@ -437,9 +436,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddToParentGroup()
     {
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
-        $block1 = $this->_createBlockWithLayout('block1', 'block1');
-        $block2 = $this->_createBlockWithLayout('block2', 'block2');
+        $parent = $this->_createBlockWithLayout('parent');
+        $block1 = $this->_createBlockWithLayout('block1');
+        $block2 = $this->_createBlockWithLayout('block2');
         $parent->setChild('block1', $block1)->setChild('block2', $block2);
         $this->_layout->addToParentGroup('block1', 'group');
         $this->_layout->addToParentGroup('block2', 'group');
@@ -452,8 +451,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     public function testGetChildData()
     {
-        $parent = $this->_createBlockWithLayout('parent', 'parent');
-        $block = $this->_createBlockWithLayout('block', 'block');
+        $parent = $this->_createBlockWithLayout('parent');
+        $block = $this->_createBlockWithLayout('block');
         $block->setSomeProperty('some_value');
         $parent->setChild('block1', $block);
 
@@ -619,13 +618,11 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      * Create Block with Layout
      *
      * @param string $name
-     * @param null|string $alias
      * @param null|string $type
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _createBlockWithLayout(
         $name = 'block',
-        $alias = null,
         $type = 'Magento\Framework\View\Element\AbstractBlock'
     ) {
         $typePart = explode('\\', $type);
@@ -647,7 +644,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
                 'Magento\Framework\View\LayoutInterface'
             );
         }
-        $block = $this->_layout->addBlock($mockClass, $name, '', $alias);
+        $block = $this->_layout->createBlock($mockClass, $name);
         return $block;
     }
 }
