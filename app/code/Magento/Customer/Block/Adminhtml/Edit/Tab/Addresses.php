@@ -334,6 +334,30 @@ class Addresses extends GenericMetadata
     }
 
     /**
+     * @param Address $address
+     * @return $this
+     */
+    public function initAddressForm(Address $address)
+    {
+        $form = $this->getForm();
+
+        $postcode = $form->getElement('postcode');
+        if ($postcode) {
+            $postcode->removeClass('required-entry')
+                ->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
+        }
+
+        $form->addValues(AddressConverter::toFlatArray($address))
+            ->setHtmlIdPrefix("_item{$address->getId()}")
+            ->setFieldNameSuffix('address[' . $address->getId() . ']');
+
+        $this->addValuesToNamePrefixElement($address->getPrefix())
+            ->addValuesToNameSuffixElement($address->getSuffix());
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getCancelButtonHtml()
