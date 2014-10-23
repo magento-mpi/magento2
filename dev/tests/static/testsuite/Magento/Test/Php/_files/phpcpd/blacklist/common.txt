@@ -42,6 +42,7 @@ Magento/Catalog/Service/V1/Data
 Magento/CatalogImportExport/Model/Export
 Magento/CatalogImportExport/Model/Import
 Magento/Catalog/Controller/Adminhtml/Product/AlertsPriceGrid
+Magento/Catalog/Controller/Adminhtml/Product/OptionsImportGrid
 Magento/CatalogRule/Block/Adminhtml/Promo/Catalog/Edit/Tab
 Magento/Checkout/Block/Onepage
 Magento/Checkout/Service/V1/Data/Cart
