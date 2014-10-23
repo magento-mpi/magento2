@@ -7,6 +7,9 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
+
 /**
  * System config file field backend model
  *
@@ -27,7 +30,7 @@ class File extends \Magento\Framework\App\Config\Value
     protected $_maxFileSize = 0;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $_filesystem;
 
@@ -47,7 +50,7 @@ class File extends \Magento\Framework\App\Config\Value
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -58,7 +61,7 @@ class File extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
-        \Magento\Framework\App\Filesystem $filesystem,
+        Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -66,7 +69,7 @@ class File extends \Magento\Framework\App\Config\Value
         $this->_uploaderFactory = $uploaderFactory;
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
@@ -127,7 +130,7 @@ class File extends \Magento\Framework\App\Config\Value
      */
     public function validateMaxSize($filePath)
     {
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $directory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
         if ($this->_maxFileSize > 0 && $directory->stat(
             $directory->getRelativePath($filePath)
         )['size'] > $this->_maxFileSize * 1024

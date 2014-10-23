@@ -111,7 +111,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     /**
      * Application filesystem
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -127,7 +127,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -143,7 +143,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

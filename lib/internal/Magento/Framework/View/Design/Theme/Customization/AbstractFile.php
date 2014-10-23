@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Design\Theme\Customization;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Theme file service abstract class
  */
@@ -31,7 +33,7 @@ abstract class AbstractFile implements
     /**
      * File system
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -40,12 +42,12 @@ abstract class AbstractFile implements
      *
      * @param \Magento\Framework\View\Design\Theme\Customization\Path $customizationPath
      * @param \Magento\Framework\View\Design\Theme\FileFactory $fileFactory
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\View\Design\Theme\Customization\Path $customizationPath,
         \Magento\Framework\View\Design\Theme\FileFactory $fileFactory,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_customizationPath = $customizationPath;
         $this->_fileFactory = $fileFactory;
@@ -205,6 +207,6 @@ abstract class AbstractFile implements
      */
     protected function getDirectoryWrite()
     {
-        return $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        return $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
     }
 }

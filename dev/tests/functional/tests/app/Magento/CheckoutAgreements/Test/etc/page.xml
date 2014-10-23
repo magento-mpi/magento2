@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_CheckoutAgreements">
+    <checkoutAgreementIndex>
+        <mca>checkout/agreement/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex</class>
+    </checkoutAgreementIndex>
+    <checkoutAgreementNew>
+        <mca>checkout/agreement/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew</class>
+    </checkoutAgreementNew>
+</page>

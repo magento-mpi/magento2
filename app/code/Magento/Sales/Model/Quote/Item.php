@@ -276,6 +276,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     {
         $this->_quote = $quote;
         $this->setQuoteId($quote->getId());
+        $this->setStoreId($quote->getStoreId());
         return $this;
     }
 

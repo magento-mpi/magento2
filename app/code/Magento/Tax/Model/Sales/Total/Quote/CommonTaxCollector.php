@@ -92,6 +92,13 @@ class CommonTaxCollector extends AbstractTotal
     protected $_config;
 
     /**
+     * Counter that is used to construct temporary ids for taxable items
+     *
+     * @var int
+     */
+    protected $counter = 0;
+
+    /**
      * Tax calculation service, the collector will call the service which performs the actual calculation
      *
      * @var \Magento\Tax\Service\V1\TaxCalculationService
@@ -779,5 +786,16 @@ class CommonTaxCollector extends AbstractTotal
     protected function saveAppliedTaxes()
     {
         return false;
+    }
+
+    /**
+     * Increment and return counter. This function is intended to be used to generate temporary
+     * id for an item.
+     *
+     * @return int
+     */
+    protected function getNextIncrement()
+    {
+        return ++$this->counter;
     }
 }

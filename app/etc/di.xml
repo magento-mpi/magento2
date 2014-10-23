@@ -252,12 +252,6 @@
             <argument name="session" xsi:type="object">Magento\Framework\Session\Generic\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\App\Filesystem">
-        <arguments>
-            <argument name="fileReadFactory" xsi:type="object">Magento\Framework\Filesystem\File\ReadFactory</argument>
-            <argument name="fileWriteFactory" xsi:type="object">Magento\Framework\Filesystem\File\WriteFactory</argument>
-        </arguments>
-    </type>
     <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Framework\Data\Argument\Interpreter\Composite">
         <arguments>
             <argument name="interpreters" xsi:type="array">
