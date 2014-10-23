@@ -14,35 +14,37 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 
 /**
- * Class AssertInvitationInGrid
- * Assert created invitation appears in Invitation grid on backend
+ * Class AssertInvitationInGrid.
+ * Assert created invitation appears in Invitation grid on backend.
  */
 class AssertInvitationInGrid extends AbstractConstraint
 {
     /**
-     * Constraint severeness
+     * Constraint severeness.
      *
      * @var string
      */
     protected $severeness = 'low';
 
     /**
-     * Assert created invitation appears in Invitation grid on backend: email, status, Invitee
+     * Assert created invitation appears in Invitation grid on backend: email, status, Invitee.
      *
      * @param InvitationsIndex $invitationsIndex
      * @param Invitation $invitation
      * @param CustomerInjectable $customer
      * @param string $status
+     * @param array|null $emails [optional]
      * @return void
      */
     public function processAssert(
         InvitationsIndex $invitationsIndex,
         Invitation $invitation,
         CustomerInjectable $customer,
-        $status
+        $status,
+        array $emails = null
     ) {
         $invitationsIndex->open();
-        $emails = $invitation->getEmail();
+        $emails = isset($emails) ? $emails : $invitation->getEmail();
         $error = '';
         $invitationGrid = $invitationsIndex->getInvitationGrid();
         foreach ($emails as $email) {
@@ -59,7 +61,7 @@ class AssertInvitationInGrid extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */

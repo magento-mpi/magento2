@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="invitations/index/view" module="Magento_Invitation">
+    <blocks>
+        <pageActions>
+            <class>Magento\Invitation\Test\Block\Adminhtml\PageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
+        <generalTab>
+            <class>Magento\Invitation\Test\Block\Adminhtml\Invitation\View\Tab\General</class>
+            <locator>#invitation-elements</locator>
+            <strategy>css selector</strategy>
+        </generalTab>
+    </blocks>
+</page>

@@ -23,4 +23,13 @@
     <assertInvitationOneEntry module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationOneEntry>
+    <assertInvitationSuccessSentMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationSuccessSentMessage>
+    <assertInvitationForm module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationForm>
+    <assertInvitationSuccessDiscardMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationSuccessDiscardMessage>
 </constraint>

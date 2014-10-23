@@ -9,13 +9,20 @@
 namespace Magento\Invitation\Test\Block\Adminhtml\Invitation;
 
 /**
- * Class Grid
- * Invitations grid on backend
+ * Class Grid.
+ * Invitations grid on backend.
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
-     * Filters array mapping
+     * Locator value for link in action column.
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-email]';
+
+    /**
+     * Filters array mapping.
      *
      * @var array
      */
