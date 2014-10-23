@@ -14,11 +14,6 @@ use Magento\Framework\Model\Exception;
 class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
 {
     /**
-     * @var \Magento\Framework\View\LayoutFactory
-     */
-    protected $layoutFactory;
-
-    /**
      * @var \Magento\Framework\View\Result\LayoutFactory
      */
     protected $resultLayoutFactory;
@@ -26,17 +21,14 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
     ) {
         parent::__construct($context, $registry);
-        $this->layoutFactory = $layoutFactory;
         $this->resultLayoutFactory = $resultLayoutFactory;
     }
 

@@ -89,9 +89,11 @@ class UiComponent implements Layout\ReaderInterface
         $referenceName = $this->layoutHelper->scheduleStructure(
             $readerContext->getScheduledStructure(),
             $currentElement,
-            $parentElement,
-            ['attributes' => $this->getAttributes($currentElement)]
+            $parentElement
         );
+        $scheduledStructure->setStructureElementData($referenceName, [
+            'attributes' => $this->getAttributes($currentElement)
+        ]);
         $configPath = (string)$currentElement->getAttribute('ifconfig');
         if (!empty($configPath)
             && !$this->scopeConfig->isSetFlag($configPath, $this->scopeType, $this->scopeResolver->getScope())
