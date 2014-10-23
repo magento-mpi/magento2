@@ -81,7 +81,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
         $filesystem =
-            $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
+            $this->getMockBuilder('Magento\Framework\Filesystem')->disableOriginalConstructor()->getMock();
         $storage = $this->getMockBuilder(
             'Magento\Core\Helper\File\Storage\Database'
         )->disableOriginalConstructor()->getMock();

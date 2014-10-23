@@ -10,6 +10,7 @@ namespace Magento\TestModule4\Service\V1;
 use Magento\TestModule4\Service\V1\Entity\DataObjectResponseBuilder;
 use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
+use Magento\TestModule4\Service\V1\Entity\ExtensibleRequestInterface;
 
 class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectServiceInterface
 {
@@ -59,5 +60,13 @@ class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectSer
     public function scalarResponse($id)
     {
         return $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function extensibleDataObject($id, ExtensibleRequestInterface $request)
+    {
+        return $this->responseBuilder->setEntityId($id)->setName($request->getName())->create();
     }
 }

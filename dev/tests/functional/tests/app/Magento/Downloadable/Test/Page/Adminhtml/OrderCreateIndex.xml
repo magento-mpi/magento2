@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_create/index">
+    <blocks>
+        <configureProductBlock>
+            <renders>
+                <downloadable>
+                    <class>Magento\Downloadable\Test\Block\Adminhtml\Product\Composite\Configure</class>
+                </downloadable>
+            </renders>
+        </configureProductBlock>
+    </blocks>
+</page>

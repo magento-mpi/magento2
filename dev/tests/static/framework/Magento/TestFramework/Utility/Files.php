@@ -187,6 +187,7 @@ class Files
             $this->getMainConfigFiles(),
             $this->getLayoutFiles(),
             $this->getConfigFiles(),
+            $this->getDiConfigs(true),
             $this->getLayoutConfigFiles(),
             $this->getPageTypeFiles()
         );
@@ -838,7 +839,7 @@ class Files
         if ($asDataSet) {
             $output = [];
             foreach ($configs as $file) {
-                $output[] = [$file];
+                $output[$file] = [$file];
             }
 
             return $output;

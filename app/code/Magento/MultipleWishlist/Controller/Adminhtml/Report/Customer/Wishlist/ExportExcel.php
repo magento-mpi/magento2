@@ -8,6 +8,8 @@
  */
 namespace Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ExportExcel extends \Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist
 {
     /**
@@ -27,7 +29,7 @@ class ExportExcel extends \Magento\MultipleWishlist\Controller\Adminhtml\Report\
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }
