@@ -36,7 +36,7 @@ class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
      * @param ObjectManager $objectManager
      * @param CustomerAccountIndex $customerAccountIndex
      * @param OrderHistory $orderHistory
-     * @param string $orderStatus
+     * @param string $status
      * @return void
      */
     public function processAssert(
@@ -45,11 +45,11 @@ class AssertOrderNotVisibleOnMyAccount extends AbstractConstraint
         ObjectManager $objectManager,
         CustomerAccountIndex $customerAccountIndex,
         OrderHistory $orderHistory,
-        $orderStatus
+        $status
     ) {
         $filter = [
             'id' => $order->getId(),
-            'status' => $orderStatus,
+            'status' => $status,
         ];
         $customerLogin = $objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',

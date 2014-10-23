@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\Config;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +21,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * Filesystem
      *
-     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystem;
 
@@ -45,7 +47,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array('getDirectoryRead'),
             array(),
             '',
@@ -97,7 +99,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\Framework\App\Filesystem::CONFIG_DIR
+            DirectoryList::CONFIG
         )->will(
             $this->returnValue($directory)
         );
