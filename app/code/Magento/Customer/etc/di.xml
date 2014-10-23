@@ -22,7 +22,8 @@
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
     <preference for="Magento\Customer\Model\Data\CustomerSearchResultsInterface"
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
-
+    <preference for="Magento\Customer\Model\Data\AddressSearchResultsInterface"
+                type="Magento\Framework\Service\V1\Data\SearchResults" />
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
