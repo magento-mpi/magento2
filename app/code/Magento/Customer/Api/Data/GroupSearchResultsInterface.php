@@ -11,7 +11,7 @@ namespace Magento\Customer\Api\Data;
 /**
  * Interface for customer groups search results.
  */
-interface GroupSearchResultsInterface
+interface GroupSearchResultsInterface extends \Magento\Framework\Api\Data\SearchResultsInterface
 {
     /**
      * Get customer groups list.
@@ -19,18 +19,4 @@ interface GroupSearchResultsInterface
      * @return \Magento\Customer\Api\Data\GroupInterface[]
      */
     public function getItems();
-
-    /**
-     * Get search criteria.
-     *
-     * @return \Magento\Framework\Api\Data\SearchCriteriaInterface
-     */
-    public function getSearchCriteria();
-
-    /**
-     * Get total count.
-     *
-     * @return int
-     */
-    public function getTotalCount();
 }

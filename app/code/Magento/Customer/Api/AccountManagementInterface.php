@@ -49,7 +49,7 @@ interface AccountManagementInterface
      * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function createCustomerWithPasswordHash(
+    public function createAccountWithPasswordHash(
         \Magento\Customer\Api\Data\CustomerInterface $customer,
         $hash,
         $redirectUrl = ''
