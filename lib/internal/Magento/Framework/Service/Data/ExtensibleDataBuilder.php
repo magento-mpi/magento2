@@ -8,12 +8,12 @@
 
 namespace Magento\Framework\Service\Data;
 
-use Magento\Framework\Api\ExtensibleDataBuilderInterface;
+use Magento\Framework\Api\Data\ExtensibleDataBuilderInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 
 /**
- * Implementation for \Magento\Framework\Api\ExtensibleDataBuilderInterface.
+ * Implementation for \Magento\Framework\Api\Data\ExtensibleDataBuilderInterface.
  */
 class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
 {

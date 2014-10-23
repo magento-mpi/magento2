@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Api;
+namespace Magento\Framework\Api\Data;
 
 /**
  * Base builder interface for \Magento\Framework\Api\Data\ExtensibleDataInterface types.

@@ -11,7 +11,7 @@ namespace Magento\Customer\Api\Data;
 /**
  * Interface for customer search results.
  */
-interface CustomerSearchResultsInterface
+interface CustomerSearchResultsInterface extends \Magento\Framework\Api\Data\SearchResultsInterface
 {
     /**
      * Get customers list.
@@ -19,18 +19,4 @@ interface CustomerSearchResultsInterface
      * @return \Magento\Customer\Api\Data\CustomerInterface[]
      */
     public function getItems();
-
-    /**
-     * Get search criteria.
-     *
-     * @return \Magento\Framework\Api\Data\SearchCriteriaInterface
-     */
-    public function getSearchCriteria();
-
-    /**
-     * Get total count.
-     *
-     * @return int
-     */
-    public function getTotalCount();
 }

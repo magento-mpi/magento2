@@ -28,12 +28,13 @@ interface CustomerRepositoryInterface
     /**
      * Retrieve customer.
      *
-     * @param \Magento\Customer\Api\Data\IdentityInterface $customerId
+     * @param string $email
+     * @param int|null $websiteId
      * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get(\Magento\Customer\Api\Data\IdentityInterface $customerId);
+    public function get($email, $websiteId = null);
 
     /**
      * Retrieve customers which match a specified criteria.
