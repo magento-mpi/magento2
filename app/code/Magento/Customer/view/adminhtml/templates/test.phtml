@@ -642,7 +642,7 @@
                     "parentName": "form",
                     "config": {
                         "active": 1,
-                        "nodeTemplate": "customer_address",
+                        "itemTemplate": "form.addresses.customer_address",
                         "removeLabel": "Remove Address",
                         "addLabel": "Add New Address",
                         "title": "Edit Customer's Address",
@@ -656,67 +656,65 @@
                                 "suffix"
                             ]
                         }
+                    }
+                },
+                "customer_address": {
+                    "type": "template",
+                    "component": "Magento_Ui/js/form/components/collection/item",
+                    "childType": "group",
+                    "parentName": "form.addresses",
+                    "config": {
+                        "title": "New Customer Address"
                     },
                     "children": {
-                        "customer_address": {
-                            "type": "template",
-                            "component": "Magento_Ui/js/form/components/collection/item",
-                            "childType": "group",
-                            "parentName": "form.addresses",
-                            "config": {
-                                "title": "New Customer Address"
-                            },
+                        "0": {
                             "children": {
-                                "0": {
-                                    "children": {
-                                        "firstname": {
-                                            "template": "form.firstname",
-                                            "appendTo": "form"
-                                        }
-                                    }
-                                },
-                                "1": {
-                                    "children": {
-                                        "middle_name": {
-                                            "template": "form.middle_name",
-                                            "appendTo": "form"
-                                        }
-                                    }
-                                },
-                                "2": {
-                                    "children": {
-                                        "lastname": {
-                                            "template": "form.lastname",
-                                            "appendTo": "form"
-                                        }
-                                    }
-                                },
-                                "3": {
-                                    "children": {
-                                        "prefix": {
-                                            "template": "form.prefix",
-                                            "appendTo": "form"
-                                        }
-                                    }
-                                },
-                                "4": {
-                                    "children": {
-                                        "suffix": {
-                                            "template": "form.suffix",
-                                            "appendTo": "form"
-                                        }
-                                    }
-                                },
-                                "5": {
-                                    "children": {
-                                        "address": {
-                                            "type": "input",
-                                            "appendTo": "form",
-                                            "config": {
-                                                "index": "address",
-                                                "label": "Address"
-                                            }
-                                        }
+                                "firstname": {
+                                    "template": "form.firstname",
+                                    "appendTo": "form"
+                                }
+                            }
+                        },
+                        "1": {
+                            "children": {
+                                "middle_name": {
+                                    "template": "form.middle_name",
+                                    "appendTo": "form"
+                                }
+                            }
+                        },
+                        "2": {
+                            "children": {
+                                "lastname": {
+                                    "template": "form.lastname",
+                                    "appendTo": "form"
+                                }
+                            }
+                        },
+                        "3": {
+                            "children": {
+                                "prefix": {
+                                    "template": "form.prefix",
+                                    "appendTo": "form"
+                                }
+                            }
+                        },
+                        "4": {
+                            "children": {
+                                "suffix": {
+                                    "template": "form.suffix",
+                                    "appendTo": "form"
+                                }
+                            }
+                        },
+                        "5": {
+                            "children": {
+                                "address": {
+                                    "type": "input",
+                                    "appendTo": "form",
+                                    "config": {
+                                        "index": "address",
+                                        "label": "Address"
                                     }
                                 }
                             }

@@ -77,6 +77,8 @@ define([
         build: function(parent, node, name){
             var type;
 
+            node.index = node.name || name;
+
             type = getNodeType.apply(null, arguments);
             name = getNodeName.apply(null, arguments);
             node = mergeNode(node, this.types.get(type));
@@ -104,7 +106,7 @@ define([
                 registry.get(node.deps, function(){
 
                     require(source, function(constr){
-                        component = new constr(node.config, name);
+                        component = new constr(node.config, name, node.index);
 
                         registry.set(name, component);
                     });
