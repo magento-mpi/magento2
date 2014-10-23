@@ -30,9 +30,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     protected $generator;
 
     /**
-     * @var \Magento\Framework\Autoload\IncludePath | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Code\Generator\FileResolver | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $autoloaderMock;
+    protected $fileResolvererMock;
 
     /**
      * @var \Magento\Framework\Code\Generator\CodeGenerator\Zend | \PHPUnit_Framework_MockObject_MockObject
@@ -48,8 +48,8 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->autoloaderMock = $this->getMock(
-            'Magento\Framework\Autoload\IncludePath',
+        $this->fileResolvererMock = $this->getMock(
+            'Magento\Framework\Code\Generator\FileResolver',
             [],
             [],
             '',
@@ -71,7 +71,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'resultClassName' => self::RESULT_CLASS_NAME,
                 'ioObject' => $this->ioObjectMock,
                 'classGenerator' => $this->classGenerator,
-                'autoLoader' => $this->autoloaderMock
+                'fileResolver' => $this->fileResolvererMock
             ]
         );
     }
@@ -86,11 +86,11 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $resultFileName = self::OUTPUT_FILE_NAME;
 
         //Mocking _validateData call
-        $this->autoloaderMock->expects($this->at(0))
+        $this->fileResolvererMock->expects($this->at(0))
             ->method('getFile')
             ->with(self::SOURCE_CLASS_NAME)
             ->will($this->returnValue($sourceFileName));
-        $this->autoloaderMock->expects($this->at(1))
+        $this->fileResolvererMock->expects($this->at(1))
             ->method('getFile')
             ->with(self::RESULT_CLASS_NAME)
             ->will($this->returnValue(false));
