@@ -8,6 +8,7 @@
  */
 namespace Magento\Newsletter\Controller\Adminhtml\Subscriber;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportXml extends \Magento\Newsletter\Controller\Adminhtml\Subscriber
@@ -25,7 +26,7 @@ class ExportXml extends \Magento\Newsletter\Controller\Adminhtml\Subscriber
         return $this->_fileFactory->create(
             $fileName,
             $content->getExcelFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

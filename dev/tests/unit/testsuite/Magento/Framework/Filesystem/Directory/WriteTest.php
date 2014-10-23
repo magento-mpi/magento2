@@ -44,9 +44,9 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->write = new \Magento\Framework\Filesystem\Directory\Write(
-            array(),
             $this->fileFactory,
             $this->driver,
+            null,
             'cool-permissions'
         );
     }
