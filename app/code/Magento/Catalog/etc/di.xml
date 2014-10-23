@@ -224,7 +224,7 @@
         </arguments>
     </type>
     <type name="Magento\Eav\Model\Entity\Attribute\Set">
-        <plugin name="invalidateEavIndexerOnAttributeSetSave" type="\Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet" />
+        <plugin name="invalidateEavIndexerOnAttributeSetSave" type="Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet" />
     </type>
     <type name="Magento\CatalogRule\Model\Rule">
         <plugin name="reindexPriceOnRuleApply" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\CatalogRule" />
