@@ -317,7 +317,7 @@ return array(
     array(
         'cleanVarSubFolders',
         '',
-        '\Magento\Framework\App\Filesystem::getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR)::search())'
+        '\Magento\Framework\Filesystem::getDirectoryRead(\Magento\Framework\Filesystem::VAR_DIR)::search())'
     ),
     array('collectRoutes', 'Magento\Backend\App\Router'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),

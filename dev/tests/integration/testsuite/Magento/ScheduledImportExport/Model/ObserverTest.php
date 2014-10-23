@@ -33,7 +33,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         // Create export directory if not exist
         /** @var \Magento\Framework\Filesystem\Directory\Write $varDir */
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
+            'Magento\Framework\Filesystem'
         )->getDirectoryWrite(
                 'var'
             );
@@ -62,9 +62,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Config\ScopeConfigInterface'
         );
-        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Framework\App\Filesystem');
+            ->get('Magento\Framework\Filesystem');
 
         $observer = new \Magento\ScheduledImportExport\Model\Observer(
             $operationFactory,

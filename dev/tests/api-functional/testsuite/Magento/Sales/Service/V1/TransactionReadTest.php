@@ -162,12 +162,7 @@ class TransactionReadTest extends WebapiAbstract
 
         if (!is_null($transaction->getParentId())) {
             $expectedData['parent_id'] = (int)$transaction->getParentId();
-        } else {
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-                $expectedData['parent_id'] = null;
-            }
         }
-
         return $expectedData;
     }
 

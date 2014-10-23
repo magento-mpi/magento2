@@ -10,7 +10,7 @@ namespace Magento\Doc\Controller\Index;
 use Magento\Doc\App\Controller\AbstractAction;
 use Magento\Doc\Document\Content;
 use Magento\Framework\View\TemplateEnginePool;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 
 /**
