@@ -6,7 +6,8 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\Code;
-
+use \Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Filesystem;
 class Generator
 {
     const GENERATION_SUCCESS = 'success';
@@ -18,7 +19,7 @@ class Generator
     /**
      * @var \Magento\Framework\Autoload\IncludePath
      */
-    protected $_autoloader;
+    protected $fileResolver;
 
     /**
      * @var \Magento\Framework\Code\Generator\Io
@@ -31,19 +32,19 @@ class Generator
     protected $_generatedEntities;
 
     /**
-     * @param \Magento\Framework\Autoload\IncludePath $autoloader
+     * @param \Magento\Framework\Code\Generator\FileResolver $fileResolver
      * @param Generator\Io $ioObject
      * @param array $generatedEntities
      */
     public function __construct(
-        \Magento\Framework\Autoload\IncludePath $autoloader = null,
+        \Magento\Framework\Code\Generator\FileResolver $fileResolver,
         \Magento\Framework\Code\Generator\Io $ioObject = null,
         array $generatedEntities = array()
     ) {
-        $this->_autoloader = $autoloader ?: new \Magento\Framework\Autoload\IncludePath();
+        $this->fileResolver = $fileResolver;
         $this->_ioObject = $ioObject ?: new \Magento\Framework\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
-            $this->_autoloader
+            $this->fileResolver
         );
         $this->_generatedEntities = $generatedEntities;
     }
@@ -88,8 +89,7 @@ class Generator
         }
 
         // check if file already exists
-        $autoloader = $this->_autoloader;
-        if ($autoloader->getFile($className)) {
+        if ($this->fileResolver->getFile($className)) {
             return self::GENERATION_SKIP;
         }
 
