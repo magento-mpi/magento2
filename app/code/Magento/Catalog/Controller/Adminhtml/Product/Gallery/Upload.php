@@ -8,6 +8,8 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Gallery;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Upload extends \Magento\Backend\App\Action
 {
     /**
@@ -49,8 +51,8 @@ class Upload extends \Magento\Backend\App\Action
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
-            $mediaDirectory = $this->_objectManager->get('Magento\Framework\App\Filesystem')
-                ->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+            $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')
+                ->getDirectoryRead(DirectoryList::MEDIA);
             $config = $this->_objectManager->get('Magento\Catalog\Model\Product\Media\Config');
             $result = $uploader->save($mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath()));
 

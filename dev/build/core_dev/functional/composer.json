@@ -3,6 +3,10 @@
         {
             "type": "git",
             "url": "{{mtf_repository}}"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/giorgiosironi/phpunit-selenium.git"
         }
     ],
     "require": {
