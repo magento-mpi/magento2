@@ -11,6 +11,7 @@ namespace Magento\Customer\Model\Data;
  * Data Object for Address Region
  */
 class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+    implements \Magento\Customer\Api\Data\RegionInterface
 {
     /**#@+
      * Array keys
