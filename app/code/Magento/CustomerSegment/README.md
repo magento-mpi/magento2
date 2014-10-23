@@ -1,0 +1,3 @@
+Module Magento\CustomerSegment introduces an ability to segment customers by certain criteria based on specific characteristics from address information, order history, shopping cart contents, and more and to dynamically target different content and promotions to those groups.
+Various aspects of a website, such as promotions (Shopping Cart Price Rules) and Banners, can be personalized depending on existing customer segments. It is possible to generate reports and export list of customers from segments.
+Customer segment information constantly refreshes, so that customers can become associated and unassociated to a segment as their information changes.

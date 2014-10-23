@@ -1,0 +1,2 @@
+Module Magento\CustomerFinance implements feature to import/export store credit and reward customer data. It is implemented as separate module near to Magento\ScheduledImportExport to improve modularity and clarify dependencies.
+The module joins basic customer data with reward and customer balance information to be able to import/export customer data with the reward and store credit. It allows store administrators to both manually and automatically (via a scheduled import/export) import and export this data.
