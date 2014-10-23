@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -31,7 +31,7 @@ class MaintenanceMode
     /**
      * Maintenance flag dir
      */
-    const FLAG_DIR = Filesystem::VAR_DIR;
+    const FLAG_DIR = DirectoryList::VAR_DIR;
 
     /**
      * Path to store files
@@ -43,7 +43,7 @@ class MaintenanceMode
     /**
      * Constructor
      *
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
     {

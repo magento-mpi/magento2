@@ -11,6 +11,8 @@
  */
 namespace Magento\Logging\Model;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Archive extends \Magento\Framework\Object
 {
     /**
@@ -26,11 +28,11 @@ class Archive extends \Magento\Framework\Object
     protected $directory;
 
     /**
-     * @param \Magento\Framework\App\Filesystem $fileSystem
+     * @param \Magento\Framework\Filesystem $fileSystem
      */
-    public function __construct(\Magento\Framework\App\Filesystem $fileSystem)
+    public function __construct(\Magento\Framework\Filesystem $fileSystem)
     {
-        $this->directory = $fileSystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->directory = $fileSystem->getDirectoryWrite(DirectoryList::VAR_DIR);
     }
 
     /**

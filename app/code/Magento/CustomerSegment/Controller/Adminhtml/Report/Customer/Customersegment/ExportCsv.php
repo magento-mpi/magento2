@@ -8,6 +8,7 @@
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
 
 class ExportCsv extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment
@@ -26,7 +27,7 @@ class ExportCsv extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Cus
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getCsvFile($fileName),
-                \Magento\Framework\App\Filesystem::VAR_DIR
+                DirectoryList::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
