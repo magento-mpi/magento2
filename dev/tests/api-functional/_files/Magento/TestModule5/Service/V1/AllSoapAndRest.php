@@ -66,8 +66,11 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     /**
      * @inheritdoc
      */
-    public function nestedUpdate($firstId, $secondId, \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem)
-    {
+    public function nestedUpdate(
+        $parentId,
+        $entityId,
+        \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
+    ) {
         return $entityItem;
     }
 }

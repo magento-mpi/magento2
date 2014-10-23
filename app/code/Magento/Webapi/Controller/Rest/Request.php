@@ -10,6 +10,7 @@
 
 namespace Magento\Webapi\Controller\Rest;
 
+use Magento\Framework\Service\SimpleDataObjectConverter;
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class Request extends \Magento\Webapi\Controller\Request
@@ -186,9 +187,9 @@ class Request extends \Magento\Webapi\Controller\Request
     /**
      * Override request body identifier property with id passed in url path parameter
      *
-     * This method assumes that the Data Object uses 'id' as the entity identifier and path parameter ends with
-     * suffix as 'id' ex URI . /:firstId/nestedResource/:secondId. Here :secondId value will be used for overriding
-     * 'id' property in the body.
+     * This method assumes that webapi.xml url defines the substitution id parameter as camelCase to the actual
+     * snake case key described as part of the api contract. example: /:parentId/nestedResource/:entityId.
+     * Here :entityId value will be used for overriding 'entity_id' property in the body.
      *
      * @param array params url path parameters as array
      * @return array updated request body identifier value
@@ -197,7 +198,7 @@ class Request extends \Magento\Webapi\Controller\Request
     {
         $requestBodyParams = $this->getBodyParams();
         $urlIdParamValue = end($urlPathParams);
-        $idKey = lcfirst(substr(key($urlPathParams), -2));
+        $idKey = SimpleDataObjectConverter::camelCaseToSnakeCase(key($urlPathParams));
         $requestDataKey = key($requestBodyParams);
         if (isset($requestBodyParams[$requestDataKey][$idKey])) {
             $requestBodyParams[$requestDataKey][$idKey] = $urlIdParamValue;

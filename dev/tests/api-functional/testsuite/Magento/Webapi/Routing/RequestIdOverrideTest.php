@@ -59,12 +59,16 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
             ]
         ];
         $item = $this->itemBuilder
-            ->setId($incorrectItemId)
+            ->setEntityId($incorrectItemId)
             ->setName('test')
             ->create();
         $requestData = ['entityItem' => $item->__toArray()];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], 'Item overriding failed.');
+        $this->assertEquals(
+            $itemId,
+            $item[\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest::ID],
+            'Item overriding failed.'
+        );
     }
 
     public function testOverrideNested()
@@ -79,11 +83,15 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
             ]
         ];
         $item = $this->itemBuilder
-            ->setId($incorrectItemId)
+            ->setEntityId($incorrectItemId)
             ->setName('test')
             ->create();
         $requestData = ['entityItem' => $item->__toArray()];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($secondItemId, $item['id'], 'Item overriding failed for nested resource request.');
+        $this->assertEquals(
+            $secondItemId,
+            $item[\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest::ID],
+            'Item overriding failed for nested resource request.'
+        );
     }
 }
