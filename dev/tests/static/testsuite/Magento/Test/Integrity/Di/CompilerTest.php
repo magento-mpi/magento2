@@ -66,8 +66,12 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_generationDir = $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
 
-        (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-            array($basePath . '/app/code', $basePath . '/lib/internal', $this->_generationDir)
+        \Magento\Framework\Code\Generator\FileResolver::addIncludePath(
+            [
+                $basePath . '/app/code',
+                $basePath . '/lib/internal',
+                $this->_generationDir
+            ]
         );
 
         $this->_command = 'php ' . $basePath . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
@@ -303,14 +307,14 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorIntegrity()
     {
-        $autoloader = new \Magento\Framework\Autoload\IncludePath();
+        $fileResolver = new \Magento\Framework\Code\Generator\FileResolver();
         $generatorIo = new \Magento\Framework\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
-            $autoloader,
+            $fileResolver,
             $this->_generationDir
         );
         $generator = new \Magento\Framework\Code\Generator(
-            $autoloader,
+            $fileResolver,
             $generatorIo,
             array(
                 \Magento\Framework\Service\Code\Generator\SearchResultsBuilder::ENTITY_TYPE
@@ -329,8 +333,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                     => 'Magento\Framework\Service\Code\Generator\SearchResults'
             )
         );
-        $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
-        spl_autoload_register(array($autoloader, 'load'));
+        $fileResolver = new \Magento\Framework\Code\Generator\Autoloader($generator);
+        spl_autoload_register(array($fileResolver, 'load'));
 
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
@@ -339,7 +343,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             },
             $this->_phpClassesDataProvider()
         );
-        spl_autoload_unregister(array($autoloader, 'load'));
+        spl_autoload_unregister(array($fileResolver, 'load'));
     }
 
     /**
