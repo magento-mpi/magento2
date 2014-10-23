@@ -87,9 +87,14 @@ class UiComponentTest extends \PHPUnit_Framework_TestCase
         $this->helper->expects($this->any())->method('scheduleStructure')->with(
             $scheduleStructure,
             $this->element,
-            $this->element,
+            $this->element
+        )->willReturn($this->element->getAttribute('name'));
+
+        $this->helper->expects($this->any())->method('setStructureElementData')->with(
+            $this->element->getAttribute('name'),
             ['attributes' => ['group' => '', 'component' => 'listing']]
         );
+
         $this->model->process($this->context, $this->element, $this->element);
     }
 
