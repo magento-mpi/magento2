@@ -74,7 +74,11 @@ class Binder
             } else {
                 foreach($bindData as $bindKey => $bindValue) {
                     if (strpos($value, $bindKey) !== FALSE) {
-                        $data[$key] = str_replace($bindKey, $bindValue, $value);
+                        if (is_string($bindValue)) {
+                            $data[$key] = str_replace($bindKey, $bindValue, $value);
+                        } else {
+                            $data[$key] = $bindValue;
+                        }
                     }
                 }
             }
