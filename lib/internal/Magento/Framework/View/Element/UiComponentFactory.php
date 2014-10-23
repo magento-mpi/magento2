@@ -142,7 +142,9 @@ class UiComponentFactory extends Object
                 }
             } else {
                 $child = $view->getChildBlock($childAlias);
-                $this->prepare($child);
+                if ($child) {
+                    $this->prepare($child);
+                }
             }
         }
     }

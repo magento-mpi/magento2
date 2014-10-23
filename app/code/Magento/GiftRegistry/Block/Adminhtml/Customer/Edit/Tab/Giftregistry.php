@@ -52,6 +52,9 @@ class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\U
         $this->setTitle(__('Gift Registry'));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAjaxLoaded()
     {
         return true;

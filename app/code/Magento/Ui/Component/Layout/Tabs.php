@@ -135,6 +135,9 @@ class Tabs extends AbstractView
             if (!($childBlock instanceof TabInterface)) {
                 throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
             }
+            if (!$childBlock->canShowTab()) {
+                continue;
+            }
             $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childBlock->getNameInLayout();
             $areas['children'][$ns]['children'][$childBlock->getNameInLayout()] = [
                 'type' => 'tab',
@@ -238,14 +241,11 @@ class Tabs extends AbstractView
                 foreach ($childMeta as $key => $value) {
                     $itemTemplate['children'][$key] = $value;
                     $value['dataScope'] = $dataSource . '.' . $childName . '.' . $key;
-                    $itemTemplate['children'][$key] = [
-                        'type' => 'group',
-                        'children' => [
-                            $key => [
-                                'type' => $value['formElement'],
-                                'config' => $value
-                            ]
-                        ]
+                    $itemTemplate['children'][$key]['config'] = $value;
+                    $itemTemplate['children'][$key]['type'] = 'group';
+                    $itemTemplate['children'][$key]['children'][$key] = [
+                        'type' => $value['formElement'],
+                        'config' => $value
                     ];
                 }
                 $collection['children']['item_template'] = $itemTemplate;

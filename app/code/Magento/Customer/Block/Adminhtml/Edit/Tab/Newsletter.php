@@ -9,11 +9,12 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
  * Customer account form block
  */
-class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
+class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements TabInterface
 {
     /**
      * @var string
@@ -31,6 +32,13 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_customerAccountService;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
@@ -46,11 +54,83 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_subscriberFactory = $subscriberFactory;
         $this->_customerAccountService = $customerAccountService;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $registry, $formFactory, $data);
+    }
+
+    /**
+     * Return Tab label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return __('Newsletter');
+    }
+
+    /**
+     * Return Tab title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return __('Newsletter');
+    }
+
+    /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
+     * Return URL link to Tab content
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
+    }
+
+    /**
+     * Can show tab in tabs
+     *
+     * @return boolean
+     */
+    public function canShowTab()
+    {
+        return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+    }
+
+    /**
+     * Tab is hidden
+     *
+     * @return boolean
+     */
+    public function isHidden()
+    {
+        return false;
     }
 
     /**
@@ -60,6 +140,9 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function initForm()
     {
+        if (!$this->canShowTab()) {
+            return $this;
+        }
         /**@var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
@@ -131,6 +214,17 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
                 'newsletter.grid'
             )
         );
-        return parent::_prepareLayout();
+        parent::_prepareLayout();
+        $this->initForm();
+        return $this;
+    }
+
+    protected function _toHtml()
+    {
+        if ($this->canShowTab()) {
+            return parent::_toHtml();
+        } else {
+            return '';
+        }
     }
 }
