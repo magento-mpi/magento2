@@ -16,7 +16,8 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  * This class defines basic data structure of how custom attributes are stored in an ExtensibleModel.
  * Implementations may choose to process custom attributes as their persistence requires them to.
  */
-abstract class AbstractExtensibleModel extends AbstractModel implements \Magento\Framework\Api\ExtensibleDataInterface
+abstract class AbstractExtensibleModel extends AbstractModel
+    implements \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
@@ -45,7 +46,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements \Magento
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
-    ) {
+    ) {var_dump(get_class($this));
         $this->metadataService = $metadataService;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

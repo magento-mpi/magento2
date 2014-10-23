@@ -9,6 +9,7 @@ namespace Magento\Customer\Model;
 
 use \Magento\Customer\Model\Data\Address as AddressData;
 use \Magento\Customer\Model\Data\Region as RegionData;
+use Magento\Customer\Api\AddressMetadataInterface;
 
 /**
  * Customer address model
@@ -41,6 +42,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressBuilder;
 
     /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataProcessor;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
@@ -51,6 +57,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param CustomerFactory $customerFactory
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
      * @param \Magento\Customer\Model\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -66,10 +73,12 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         CustomerFactory $customerFactory,
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
         \Magento\Customer\Model\Data\AddressBuilder $addressBuilder,
+        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->dataProcessor = $dataProcessor;
         $this->_customerFactory = $customerFactory;
         $this->_addressMetadataService = $addressMetadataService;
         $this->_addressBuilder = $addressBuilder;
@@ -95,12 +104,21 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_init('Magento\Customer\Model\Resource\Address');
     }
 
+    /**
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     */
     public function updateData($address)
     {
         // Set all attributes
-        $attributes = AddressConverter::toFlatArray($address);
+        //$attributes = AddressConverter::toFlatArray($address);
+        $attributes = $this->dataProcessor
+            ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
+
         foreach ($attributes as $attributeCode => $attributeData) {
-            if (AddressData::KEY_REGION === $attributeCode && $address->getRegion() instanceof Region) {
+            if (
+                AddressData::KEY_REGION === $attributeCode
+                //&& $address->getRegion() instanceof \Magento\Customer\Api\Data\RegionInterface
+            ) {
                 $this->setDataUsingMethod(RegionData::KEY_REGION, $address->getRegion()->getRegion());
                 $this->setDataUsingMethod(RegionData::KEY_REGION_CODE, $address->getRegion()->getRegionCode());
                 $this->setDataUsingMethod(RegionData::KEY_REGION_ID, $address->getRegion()->getRegionId());
@@ -109,12 +127,12 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             }
         }
         // Set customer related data
-        $isBilling = $address->isDefaultBilling();
-        $this->setIsDefaultBilling($isBilling);
-        $this->setIsDefaultShipping($address->isDefaultShipping());
+        //$isBilling = $address->isDefaultBilling();
+        //$this->setIsDefaultBilling($isBilling);
+        //$this->setIsDefaultShipping($address->isDefaultShipping());
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
-            $this->setAttributeSetId(AddressMetadataServiceInterface::ATTRIBUTE_SET_ID_ADDRESS);
+            $this->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);
         }
     }
 
