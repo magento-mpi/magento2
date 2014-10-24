@@ -18,6 +18,11 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
     </orderStatusNew>
+    <orderStatusEdit>
+        <mca>sales/order_status/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusEdit</class>
+    </orderStatusEdit>
     <orderStatusAssign>
         <mca>sales/order_status/assign</mca>
         <area>adminhtml</area>
