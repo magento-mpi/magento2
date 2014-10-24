@@ -7,6 +7,9 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
+use Magento\GiftCard\Model\Giftcard as GiftcardModel;
+use Magento\Store\Model\ScopeInterface;
+
 class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -120,7 +123,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
             return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
-        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->getConfigValue($field);
     }
 
     /**
@@ -131,9 +134,9 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
     public function getCardTypes()
     {
         return array(
-            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL => __('Virtual'),
-            \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
-            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined')
+            GiftcardModel::TYPE_VIRTUAL => __('Virtual'),
+            GiftcardModel::TYPE_PHYSICAL => __('Physical'),
+            GiftcardModel::TYPE_COMBINED => __('Combined')
         );
     }
 
@@ -146,7 +149,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
     {
         $result = array();
         $template = $this->_templateOptions->create();
-        $template->setPath(\Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE);
+        $template->setPath(GiftcardModel::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);
         }
@@ -159,7 +162,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
      */
     public function getConfigValue($field)
     {
-        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue(GiftcardModel::XML_PATH . $field, ScopeInterface::SCOPE_STORE);
     }
 
     /**

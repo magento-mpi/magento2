@@ -32,7 +32,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         parent::__construct($resource);
-        $this->_searchQueryModel = $queryFactory->get();
+        $this->_searchQueryModel = $queryFactory->create();
     }
 
     /**

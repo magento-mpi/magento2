@@ -5,11 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Search\Model;
 
-/**
- * Adapter Factory
- */
 class AdapterFactory
 {
     /**
@@ -60,7 +57,7 @@ class AdapterFactory
      * Create Adapter instance
      *
      * @param array $data
-     * @return AdapterInterface
+     * @return \Magento\Framework\Search\AdapterInterface
      */
     public function create(array $data = array())
     {

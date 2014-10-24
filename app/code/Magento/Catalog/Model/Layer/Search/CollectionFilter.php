@@ -1,18 +1,17 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Layer\Search;
+namespace Magento\Catalog\Model\Layer\Search;
 
 use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\Product\Visibility;
+use Magento\Framework\DB\Select;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Search\Model\QueryFactory;
 
 class CollectionFilter implements CollectionFilterInterface
 {
@@ -20,11 +19,6 @@ class CollectionFilter implements CollectionFilterInterface
      * @var Config
      */
     protected $catalogConfig;
-
-    /**
-     * @var \Magento\Search\Model\QueryFactory
-     */
-    protected $queryFactory;
 
     /**
      * @var StoreManagerInterface
@@ -38,27 +32,25 @@ class CollectionFilter implements CollectionFilterInterface
 
     /**
      * @param Config $catalogConfig
-     * @param \Magento\Search\Model\QueryFactory $queryFactory
      * @param StoreManagerInterface $storeManager
      * @param Visibility $productVisibility
      */
     public function __construct(
         Config $catalogConfig,
-        QueryFactory $queryFactory,
         StoreManagerInterface $storeManager,
         Visibility $productVisibility
     ) {
         $this->catalogConfig = $catalogConfig;
-        $this->queryFactory = $queryFactory;
         $this->storeManager = $storeManager;
         $this->productVisibility = $productVisibility;
     }
 
     /**
+     * Filter product collection
+     *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\Catalog\Model\Category $category
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function filter(
         $collection,
@@ -66,13 +58,13 @@ class CollectionFilter implements CollectionFilterInterface
     ) {
         $collection
             ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
-            ->addSearchFilter($this->queryFactory->get()->getQueryText())
             ->setStore($this->storeManager->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility($this->productVisibility->getVisibleInSearchIds());
+            ->setVisibility($this->productVisibility->getVisibleInSearchIds())
+            ->setOrder('relevance', Select::SQL_ASC);
     }
 }
