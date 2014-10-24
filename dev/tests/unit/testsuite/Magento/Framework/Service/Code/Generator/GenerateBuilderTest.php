@@ -37,8 +37,9 @@ class GenerateBuilderTest extends \PHPUnit_Framework_TestCase
     public function testGenerate()
     {
         require_once __DIR__ . '/_files/Sample.php';
+        /** @var \Magento\Framework\Service\Code\Generator\Builder $model */
         $model = $this->getMock(
-            'Magento\Framework\Service\Code\Generator\Builder',
+            '\Magento\Framework\Service\Code\Generator\Builder',
             [
                 '_validateData'
             ],

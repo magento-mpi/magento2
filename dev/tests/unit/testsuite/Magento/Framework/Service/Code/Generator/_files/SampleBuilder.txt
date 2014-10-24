@@ -10,6 +10,6 @@ class SampleBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleOb
      */
     public function setMessages($messages)
     {
-        $this->_set(\Magento\Framework\Service\Code\Generator\Sample::MESSAGES, $messages);
+        return $this->_set(\Magento\Framework\Service\Code\Generator\Sample::MESSAGES, $messages);
     }
 }
