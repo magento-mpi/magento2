@@ -29,11 +29,19 @@
             <parameter name="template" xsi:type="select" required="true" visible="true">
                 <label>Template</label>
                 <options>
-                    <option name="default" value="widget/sku.phtml" selected="true">
+                    <option name="default_template" value="widget/sku.phtml" selected="true">
                         <label translate="true">Order by SKU Template</label>
                     </option>
                 </options>
             </parameter>
         </parameters>
+        <containers>
+            <container name="sidebar.main">
+                <template name="default" value="default_template" />
+            </container>
+            <container name="sidebar.additional">
+                <template name="default" value="default_template" />
+            </container>
+        </containers>
     </widget>
 </widgets>
