@@ -16,7 +16,7 @@ class Generator
     const GENERATION_SKIP = 'skip';
 
     /**
-     * @var \Magento\Framework\Autoload\IncludePath
+     * @var \Magento\Framework\Code\Generator\FileResolver
      */
     protected $fileResolver;
 

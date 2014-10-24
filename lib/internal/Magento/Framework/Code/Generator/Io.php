@@ -7,9 +7,6 @@
  */
 namespace Magento\Framework\Code\Generator;
 
-use \Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Filesystem;
-
 class Io
 {
     /**
