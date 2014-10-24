@@ -55,6 +55,6 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                 ]
             ],
         ];
-        return isset($presets[$name]) ? $presets[$name] : null;
+        return isset($presets[$name]) ? $presets[$name] : [];
     }
 }
