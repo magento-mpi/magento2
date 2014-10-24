@@ -71,4 +71,13 @@ interface PriceCurrencyInterface
      * @return float
      */
     public function round($price);
+
+    /**
+     * Get currency model
+     *
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param Currency|string|null $currency
+     * @return Currency
+     */
+    public function getCurrency($store = null, $currency = null);
 }
