@@ -96,6 +96,14 @@ class Totals extends Block
     protected $shippingPriceBlockSelector = '.totals.shipping.excl';
 
     /**
+     * Fpt block selector
+     *
+     * @var string
+     */
+    protected $fptBlock = './/tr[normalize-space(td)="FPT"]';
+
+
+    /**
      * Get Grand Total Text
      *
      * @return array|string
@@ -104,6 +112,19 @@ class Totals extends Block
     {
         $grandTotal = $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
         return $this->escapeCurrency($grandTotal);
+    }
+
+    /**
+     * Get block fpt totals
+     *
+     * @return \Magento\Weee\Test\Block\Cart\TotalsFpt
+     */
+    public function getFptBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Weee\Test\Block\Cart\TotalsFpt',
+            ['element' => $this->_rootElement->find($this->fptBlock, Locator::SELECTOR_XPATH)]
+        );
     }
 
     /**

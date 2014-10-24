@@ -34,6 +34,13 @@ class ListProduct extends Block
     protected $priceBlockClass = 'price-box';
 
     /**
+     * This member holds the class name for the fpt block found inside the product details.
+     *
+     * @var string
+     */
+    protected $fptBlockClass = '.price-box .weee [data-label="%s"]';
+
+    /**
      * This member contains the selector to find the product details for the named product.
      *
      * @var string
@@ -92,6 +99,23 @@ class ListProduct extends Block
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
             $this->getProductDetailsElement($productName)->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        );
+    }
+
+    /**
+     * This method returns the fpt box block for the named product.
+     *
+     * @param string $productName String containing the name of the product to find.
+     * @param string $fptLabel
+     * @return \Magento\Weee\Test\Block\Product\Fpt
+     */
+    public function getProductFptBlock($productName, $fptLabel)
+    {
+        $element = $this->getProductDetailsElement($productName)
+            ->find(sprintf($this->fptBlockClass, $fptLabel), Locator::SELECTOR_CSS);
+        return $this->blockFactory->create(
+            'Magento\Weee\Test\Block\Product\Fpt',
+            ['element' => $element]
         );
     }
 

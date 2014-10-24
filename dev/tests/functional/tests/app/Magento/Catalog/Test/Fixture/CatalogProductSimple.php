@@ -614,6 +614,16 @@ class CatalogProductSimple extends InjectableFixture
         'group' => 'advanced-pricing'
     ];
 
+    protected $fpt = [
+        'attribute_code' => 'fpt',
+        'backend_type' => 'decimal',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Fpt'
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -932,5 +942,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getRecurringPayment()
     {
         return $this->getData('recurring_payment');
+    }
+
+    public function getFptData()
+    {
+        return $this->getData('fpt');
     }
 }

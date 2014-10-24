@@ -123,6 +123,13 @@ class View extends AbstractConfigureBlock
     protected $priceBlock = '//*[@class="product-info-main"]//*[contains(@class,"price-box")]';
 
     /**
+     * Selector for fpt block
+     *
+     * @var string
+     */
+    protected $fptBlock = '.price-box .weee [data-label="%s"]';
+
+    /**
      * 'Add to Compare' button
      *
      * @var string
@@ -146,6 +153,20 @@ class View extends AbstractConfigureBlock
         return $this->blockFactory->create(
             'Magento\Catalog\Test\Block\Product\Price',
             ['element' => $this->_rootElement->find($this->priceBlock, Locator::SELECTOR_XPATH)]
+        );
+    }
+
+    /**
+     * Get block fpt
+     *
+     * @param string $fptLabel
+     * @return \Magento\Weee\Test\Block\Product\Fpt
+     */
+    public function getFptBlock($fptLabel)
+    {
+        return $this->blockFactory->create(
+            'Magento\Weee\Test\Block\Product\Fpt',
+            ['element' => $this->_rootElement->find(sprintf($this->fptBlock, $fptLabel), Locator::SELECTOR_CSS)]
         );
     }
 
