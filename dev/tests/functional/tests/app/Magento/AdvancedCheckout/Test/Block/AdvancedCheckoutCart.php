@@ -24,7 +24,7 @@ class AdvancedCheckoutCart extends Cart
      *
      * @var string
      */
-    protected $failedItem = '//*[@id="failed-products-table"]//tr[contains(@class,"info") and //div[contains(.,"%s")]]';
+    protected $failedItem = '//*[@class="cart item" and .//tr[contains(@class,"info") and .//div[contains(.,"%s")]]]';
 
     /**
      * Get failed item block
@@ -104,5 +104,29 @@ class AdvancedCheckoutCart extends Cart
         $failedItemBlock = $this->getFailedItemBlock($product);
 
         return $failedItemBlock->isMsrpNoticeDisplayed();
+    }
+
+    /**
+     * Delete product
+     *
+     * @param FixtureInterface $product
+     * @return void
+     */
+    public function deleteProduct(FixtureInterface $product)
+    {
+        $failedItemBlock = $this->getFailedItemBlock($product);
+        $failedItemBlock->deleteProduct();
+
+    }
+
+    /**
+     * Check that failed product block visible
+     *
+     * @param FixtureInterface $product
+     * @return bool
+     */
+    public function isFailedItemBlockVisible(FixtureInterface $product)
+    {
+        return $this->getFailedItemBlock($product)->isVisible();
     }
 }
