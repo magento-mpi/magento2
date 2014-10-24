@@ -12,7 +12,7 @@ namespace Magento\Catalog\Model;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensibleModel
 {
     /**
      * Attribute default values
@@ -71,12 +71,13 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataServiceInterface, $resource, $resourceCollection, $data);
     }
 
     /**

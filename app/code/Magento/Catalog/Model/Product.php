@@ -300,6 +300,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataServiceInterface,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -321,7 +322,15 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_productEavIndexerProcessor = $productEavIndexerProcessor;
-        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $metadataServiceInterface,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
