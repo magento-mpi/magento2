@@ -526,20 +526,19 @@ class Installer
      */
     private function cleanupDb()
     {
-        $errorMsg = 'No database connection defined - skipping database cleanup';
-        //stops cleanup if app/etc/local.xml does not exist
+        // stops cleanup if app/etc/local.xml does not exist
         if (!$this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('local.xml')) {
-            $this->log->log($errorMsg);
+            $this->log->log('No database connection defined - skipping database cleanup');
             return;
         }
         $config = $this->deploymentConfigFactory->create();
         $config->loadFromFile();
         $configData = $config->getConfigData();
         $adapter = $this->connectionFactory->create($configData);
-        $adapter->connect();
-        //stops cleanup if database connection info is wrong
-        if (!$adapter->getDriver()->getConnection()->isConnected()) {
-            $this->log->log($errorMsg);
+        try {
+            $adapter->connect();
+        } catch (\Exception $e) {
+            $this->log->log($e->getMessage() . ' - skipping database cleanup');
             return;
         }
         $dbName = $adapter->quoteIdentifier($configData[Config::KEY_DB_NAME]);
