@@ -75,11 +75,12 @@ try {
 
     $interceptorScanner = new Scanner\XmlInterceptorScanner();
     $entities['interceptors'] = $interceptorScanner->collectEntities($files['di']);
+    $fileResolver = new \Magento\Framework\Code\Generator\FileResolver();
 
     // 1.2 Generation of Factory and Additional Classes
     $generatorIo = new \Magento\Framework\Code\Generator\Io(
         new \Magento\Framework\Filesystem\Driver\File(),
-        new \Magento\Framework\Code\Generator\FileResolver(),
+        $fileResolver,
         $generationDir
     );
     $generator = new \Magento\Framework\Code\Generator(
@@ -98,7 +99,7 @@ try {
             SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
         )
     );
-    $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
+    $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
     spl_autoload_register(array($autoloader, 'load'));
     foreach (array('php', 'additional') as $type) {
         sort($entities[$type]);
