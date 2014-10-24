@@ -10,8 +10,10 @@ namespace Magento\Customer\Model;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\Customer as CustomerData;
+use Magento\Customer\Model\Data\CustomerBuilder;
+use Magento\Customer\Model\Data\Customer as CustomerData;
+use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Webapi\Model\DataObjectProcessor;
 
 /**
  * Customer model
@@ -194,6 +196,11 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     protected $_customerDataBuilder;
 
     /**
+     * @var DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Helper\Data $customerData
@@ -211,6 +218,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param CustomerBuilder $customerDataBuilder
+     * @param DataObjectProcessor $dataObjectProcessor
      * @param array $data
      */
     public function __construct(
@@ -231,6 +239,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         CustomerBuilder $customerDataBuilder,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
+        DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
@@ -246,6 +255,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
         $this->_customerDataBuilder = $customerDataBuilder;
+        $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -257,6 +267,69 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     public function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Customer');
+    }
+
+    /**
+     * Retrieve customer model with customer data
+     *
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     */
+    public function getDataModel()
+    {
+        $attributes = array();
+        foreach ($this->getAttributes() as $attribute) {
+            $attrCode = $attribute->getAttributeCode();
+            $value = $this->getDataUsingMethod($attrCode);
+            $value = $value ? $value : $this->getData($attrCode);
+            if (null !== $value) {
+                if ($attrCode == 'entity_id') {
+                    $attributes[CustomerData::ID] = $value;
+                } else {
+                    $attributes[$attrCode] = $value;
+                }
+            }
+        }
+
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
+        $customerBuilder = $this->_customerDataBuilder->populateWithArray($attributes);
+        $customerBuilder->setId($this->getId());
+        $customerBuilder->setFirstname($this->getFirstname());
+        $customerBuilder->setLastname($this->getLastname());
+        $customerBuilder->setEmail($this->getEmail());
+        return $customerBuilder->create();
+    }
+
+    /**
+     * Update customer data
+     *
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @return $this
+     */
+    public function updateData($customer)
+    {
+        $customerDataAttributes = $this->dataObjectProcessor->buildOutputDataArray(
+            $customer,
+            '\Magento\Customer\Api\Data\CustomerInterface'
+        );
+
+        foreach ($customerDataAttributes as $attributeCode => $attributeData) {
+            if ($attributeCode == 'password') {
+                continue;
+            }
+            $this->setDataUsingMethod($attributeCode, $attributeData);
+        }
+
+        $customerId = $customer->getId();
+        if ($customerId) {
+            $this->setId($customerId);
+        }
+
+        // Need to use attribute set or future updates can cause data loss
+        if (!$this->getAttributeSetId()) {
+            $this->setAttributeSetId(CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+        }
+
+        return $this;
     }
 
     /**
@@ -1298,75 +1371,5 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
         );
         return $types;
-    }
-
-    /**
-     * Creates a customer model from a customer entity.
-     *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
-     * @return $this
-     */
-    public function initFromDataObject(\Magento\Customer\Service\V1\Data\Customer $customer)
-    {
-        $attributes = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
-        foreach ($attributes as $attributeCode => $attributeValue) {
-            // avoid setting password through set attribute
-            if ($attributeCode == 'password') {
-                continue;
-            } else {
-                $this->setData($attributeCode, $attributeValue);
-            }
-        }
-
-        $customerId = $customer->getId();
-        if ($customerId) {
-            $this->setId($customerId);
-        }
-
-        // Need to use attribute set or future updates can cause data loss
-        if (!$this->getAttributeSetId()) {
-            $this->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Convert a customer model to a customer entity
-     *
-     * @return \Magento\Customer\Service\V1\Data\Customer
-     */
-    public function getDataObject()
-    {
-        $customerBuilder = $this->_populateBuilderWithAttributes($this);
-        $customerBuilder->setId($this->getId());
-        $customerBuilder->setFirstname($this->getFirstname());
-        $customerBuilder->setLastname($this->getLastname());
-        $customerBuilder->setEmail($this->getEmail());
-        return $customerBuilder->create();
-    }
-
-    /**
-     * Loads the values from a customer model
-     *
-     * @return \Magento\Customer\Service\V1\Data\CustomerBuilder
-     */
-    protected function _populateBuilderWithAttributes()
-    {
-        $attributes = array();
-        foreach ($this->getAttributes() as $attribute) {
-            $attrCode = $attribute->getAttributeCode();
-            $value = $this->getDataUsingMethod($attrCode);
-            $value = $value ? $value : $this->getData($attrCode);
-            if (null !== $value) {
-                if ($attrCode == 'entity_id') {
-                    $attributes[\Magento\Customer\Service\V1\Data\Customer::ID] = $value;
-                } else {
-                    $attributes[$attrCode] = $value;
-                }
-            }
-        }
-
-        return $this->_customerDataBuilder->populateWithArray($attributes);
     }
 }
