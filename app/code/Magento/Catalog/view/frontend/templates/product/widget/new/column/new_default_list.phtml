@@ -13,7 +13,6 @@
             <strong><?php echo __('New Products') ?></strong>
         </div>
         <div class="block-content">
-            <?php echo $this->getPagerHtml() ?>
             <?php $suffix = $this->getNameInLayout(); ?>
             <?php $iterator = 1; ?>
             <ol class="product-items" id="widget-new-products-<?php echo $suffix; ?>">
@@ -70,6 +69,7 @@
                     <?php echo ($iterator==count($_products->getItems())+1) ? '</li>' : '' ?>
                 <?php endforeach; ?>
             </ol>
+            <?php echo $this->getPagerHtml() ?>
         </div>
     </div>
 <?php endif; ?>

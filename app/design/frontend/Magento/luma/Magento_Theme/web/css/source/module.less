@@ -327,14 +327,9 @@ body {
         max-width: 100%;
     }
     .block-title {
-        strong {
-            font-size: @font-size-l;
-            font-weight: @font-weight-light;
-        }
-        margin: 0 0 @indent-base;
+        &:extend(.abstract-block-widget-title all);
     }
 }
-
 
 //
 //    Desktop

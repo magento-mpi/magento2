@@ -13,7 +13,6 @@
             <strong><?php echo __('New Products') ?></strong>
         </div>
         <div class="block-content">
-            <?php echo $this->getPagerHtml() ?>
             <?php $suffix = $this->getNameInLayout(); ?>
             <ol id="widget-new-products-<?php echo $suffix; ?>" class="product-items product-items-images">
                 <?php foreach ($_products->getItems() as $_product): ?>
@@ -26,6 +25,7 @@
                     </li>
                 <?php endforeach; ?>
             </ol>
+            <?php echo $this->getPagerHtml() ?>
         </div>
     </div>
 <?php endif; ?>

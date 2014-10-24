@@ -391,9 +391,6 @@
             font-size: 12px;
             white-space: nowrap;
         }
-        .subtitle {
-            &:extend(.abstract-no-display all);
-        }
         .minilist {
             .price {
                 display: inline;
@@ -406,6 +403,10 @@
         .action.tocart {
             &:extend(.abstract-revert-secondary-color all);
         }
+    }
+
+    .subtitle {
+        &:extend(.abstract-no-display all);
     }
 }
 
@@ -738,10 +739,10 @@ body.catalog-product-compare-index {
 }
 
 .block-compare {
-    .product-item {
-        position: relative;
+    .block-title {
+        &:extend(.abstract-block-widget-title all);
     }
-    .product-item-name {
+    .product-item .product-item-name {
         margin-left: 22px;
     }
     .action.delete {
@@ -751,13 +752,10 @@ body.catalog-product-compare-index {
         top: 0;
     }
     .counter {
-        color: @color-primary-lighter;
-        font-size: 12px;
-        white-space: nowrap;
+        &:extend(.abstract-block-items-counter all);
     }
     .actions-toolbar {
-        margin: 17px 0;
-        max-width: 178px;
+        margin: 17px 0 0;
     }
 }
 

@@ -301,7 +301,6 @@
         }
         .product-item-info {
             position: relative;
-            width: auto;
             .product-item-photo {
                 position: absolute;
                 left: 0;
@@ -332,9 +331,6 @@
             font-size: 12px;
             white-space: nowrap;
         }
-        .subtitle {
-            &:extend(.abstract-no-display all);
-        }
         .minilist {
             .price {
                 display: inline;
@@ -348,12 +344,13 @@
             &:extend(.abstract-revert-secondary-color all);
         }
     }
-}
+    .subtitle {
+        &:extend(.abstract-no-display all);
+    }
 
-//
-//    Product images only
-//--------------------------------------
-.sidebar {
+    //
+    //    Product images only
+    //--------------------------------------
     .product-items-images {
         &:extend(.abstract-add-clearfix all);
         margin-left: -@indent-xs-base;
@@ -365,12 +362,10 @@
             width: 50%;
         }
     }
-}
 
-//
-//    Product names only
-//--------------------------------------
-.sidebar {
+    //
+    //    Product names only
+    //--------------------------------------
     .product-items-names {
         .product-item {
             margin-bottom: @indent-s-base;
@@ -618,13 +613,10 @@ body.catalog-product-compare-index {
         top: 0;
     }
     .counter {
-        color: @color-primary-lighter;
-        font-size: 12px;
-        white-space: nowrap;
+        &:extend(.abstract-block-items-counter all);
     }
     .actions-toolbar {
-        margin: 17px 0;
-        max-width: 178px;
+        margin: 17px 0 0;
     }
 }
 

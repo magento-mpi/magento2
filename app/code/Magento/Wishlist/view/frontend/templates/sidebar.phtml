@@ -17,7 +17,7 @@ $wishlistHelper = $this->helper('Magento\Wishlist\Helper\Data');
         <div class="block-title">
             <strong><?php echo $this->getTitle(); ?></strong>
             <?php if($count > 0): ?>
-            <span class="counter"><?php echo ($count == 1) ? __('1 item') : __('%1 items',$count) ?></span>
+            <span class="counter"><?php echo ($count == 1) ? ('1 item') : ($count.' items') ?></span>
             <?php endif; ?>
         </div>
         <div class="block-content">

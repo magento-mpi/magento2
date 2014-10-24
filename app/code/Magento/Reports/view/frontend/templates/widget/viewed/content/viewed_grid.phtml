@@ -36,7 +36,6 @@ if ($exist = ($this->getRecentlyViewedProducts() && $this->getRecentlyViewedProd
             <strong><?php echo $title; ?></strong>
         </div>
         <div class="block-content">
-            <?php echo $this->getPagerHtml() ?>
             <?php echo '<!-- ' . $image . '-->' ?>
             <div class="products-<?php echo $mode; ?> <?php echo $mode; ?>">
                 <ol class="product-items <?php echo $type; ?>">
@@ -124,6 +123,7 @@ if ($exist = ($this->getRecentlyViewedProducts() && $this->getRecentlyViewedProd
                     <?php endforeach ?>
                 </ol>
             </div>
+            <?php echo $this->getPagerHtml() ?>
         </div>
     </div>
 <?php endif;?>
