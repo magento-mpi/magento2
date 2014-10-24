@@ -66,7 +66,6 @@
     .page-title {
         .title {
             display: inline-block;
-            margin-top: 0;
         }
     }
     .messages {
@@ -105,7 +104,7 @@
                     }
                 }
             }
-        } 
+        }
     }
 }
 
@@ -114,8 +113,10 @@
 //--------------------------------------
 .block {
     &:extend(.abstract-margin-for-blocks-and-widgets all);
-    &:last-child {
-        margin-bottom: 0;
+    .column.main & {
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
     .title {
         strong {
@@ -141,14 +142,37 @@
     }
 }
 
-.widget {
-    img {
-        max-width: 100%;
+.account {
+    .data.table-return-items {
+        .qty {
+            .input-text {
+                &:extend(.abstract-input-qty all);
+            }
+        }
     }
 }
 
 //
-//    Mobile
+//    Mobile @screen-s
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .account {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile-s all);
+            td {
+                &:first-child {
+                    padding-top: 15px;
+                }
+                &:last-child {
+                    padding-bottom: 15px;
+                }
+            }
+        }
+    }
+}
+
+//
+//    Mobile @screen-m
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
@@ -159,7 +183,6 @@
             margin-top: -21px;
         }
         .data.table {
-            &:extend(.abstract-table-vertical-mobile all);
             .col.actions {
                 padding-top: 9px;
                 padding-bottom: 15px;
@@ -169,11 +192,7 @@
             }
         }
         .toolbar {
-            .toolbar-amount,
-            .limiter,
-            .pages {
-                margin-bottom: 25px;
-            }
+            &:extend(.abstract-pager-toolbar-mobile all);
         }
     }
     .control.captcha-image {
@@ -260,26 +279,7 @@
             margin-bottom: 0;
         }
         .toolbar {
-            position: relative;
-            margin-bottom: @indent-base;
-            &:extend(.abstract-add-clearfix-desktop all);
-            .limiter {
-                float: right;
-                position: relative;
-                z-index: 1;
-            }
-            .toolbar-amount {
-                float: left;
-                line-height: normal;
-                padding: 7px 0 0;
-                position: relative;
-                z-index: 1;
-            }
-            .pages {
-                position: absolute;
-                z-index: 0;
-                width: 100%;
-            }
+            &:extend(.abstract-pager-toolbar all);
         }
     }
 
@@ -295,10 +295,6 @@
                 }
             }
         }
-    }
-
-    .widget {
-        clear: both;
     }
 
     //
