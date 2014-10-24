@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Model\Attribute\Data;
 
-use Magento\Eav\Model\Attribute\Data\AbstractData;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Logger;
@@ -18,7 +17,7 @@ use Magento\Directory\Helper\Data as DirectoryHelper;
  * Customer Address Postal/Zip Code Attribute Data Model
  * This Data Model Has to Be Set Up in additional EAV attribute table
  */
-class Postcode extends AbstractData
+class Postcode extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
      * @var \Magento\Directory\Helper\Data
