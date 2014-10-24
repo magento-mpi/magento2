@@ -41,7 +41,7 @@ class Build
     }
 
     /**
-     * @param $entityTypeId
+     * @param int $entityTypeId
      * @return $this
      */
     public function setEntityTypeId($entityTypeId)
@@ -51,7 +51,7 @@ class Build
     }
 
     /**
-     * @param $skeletonId
+     * @param int $skeletonId
      * @return $this
      */
     public function setSkeletonId($skeletonId)
@@ -61,7 +61,7 @@ class Build
     }
 
     /**
-     * @param $setName
+     * @param string $setName
      * @return $this
      */
     public function setName($setName)
@@ -105,4 +105,4 @@ class Build
             throw new \InvalidArgumentException();
         }
     }
-} 
+}
