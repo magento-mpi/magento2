@@ -20,6 +20,13 @@ namespace Mtf\Constraint;
 abstract class AbstractAssertForm extends AbstractConstraint
 {
     /**
+     * Notice message
+     *
+     * @var string
+     */
+    protected $notice = "\nForm data not equals to passed from fixture:\n";
+
+    /**
      * Skipped fields for verify data
      *
      * @var array
@@ -238,7 +245,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
         }
 
         if (null === $notice) {
-            $notice = "\nForm data not equals to passed from fixture:\n";
+            $notice = $this->notice;
         }
         return $notice . implode("\n", $result);
     }

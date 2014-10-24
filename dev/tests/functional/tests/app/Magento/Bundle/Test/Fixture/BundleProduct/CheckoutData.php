@@ -79,6 +79,25 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                     'subtotal' => 756
                 ]
             ],
+            'forUpdateMiniShoppingCart' => [
+                'options' => [
+                    'bundle_options' => [
+                        [
+                            'title' => 'Drop-down Option',
+                            'type' => 'Drop-down',
+                            'value' => [
+                                'name' => 'Simple Product'
+                            ]
+                        ]
+                    ],
+                ],
+                'qty' => 1,
+                'cartItem' => [
+                    'price' => 756,
+                    'qty' => 2,
+                    'subtotal' => 756
+                ]
+            ],
             'with_not_required_options' => [
                 'options' => [
                     'bundle_options' => [
