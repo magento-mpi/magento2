@@ -17,7 +17,7 @@ use Mtf\TestStep\TestStepInterface;
 class ConfigureProductsStep implements TestStepInterface
 {
     /**
-     * Products fixture.
+     * Products fixtures.
      *
      * @var array
      */

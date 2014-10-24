@@ -100,9 +100,9 @@ class AssertProductInItemsOrderedGrid extends AbstractAssertForm
     {
         $result = [];
         foreach ($actual as $key => $value) {
-            foreach ($expected as $actualValue) {
-                if ($value['name'] == $actualValue['name']) {
-                    $result[$key] = $actualValue;
+            foreach ($expected as $expectedValue) {
+                if ($value['name'] == $expectedValue['name']) {
+                    $result[$key] = $expectedValue;
                 }
             }
         }

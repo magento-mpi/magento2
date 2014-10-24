@@ -15,8 +15,8 @@ use Mtf\TestCase\Scenario;
  *
  * Preconditions:
  * 1. Create customer.
- * 2. Create Product.
- * 3. Open Product on Frontend.
+ * 2. Create product.
+ * 3. Open product on frontend.
  *
  * Steps:
  * 1. Open Customers > All Customers.

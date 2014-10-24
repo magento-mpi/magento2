@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedItems;
 use Mtf\Block\Block;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison;
@@ -88,7 +89,7 @@ class CustomerActivities extends Block
     /**
      * Get viewed products block.
      *
-     * @return LastOrderedItems
+     * @return RecentlyViewedItems
      */
     public function getRecentlyViewedItemsBlock()
     {

@@ -17,14 +17,14 @@ use Mtf\TestStep\TestStepInterface;
 class OpenProductsStep implements TestStepInterface
 {
     /**
-     * Products fixture.
+     * Products fixtures.
      *
      * @var array
      */
     protected $products = [];
 
     /**
-     * Interface Browser.
+     * Browser.
      *
      * @var Browser
      */
@@ -35,6 +35,7 @@ class OpenProductsStep implements TestStepInterface
      *
      * @constructor
      * @param array $products
+     * @param Browser $browser
      */
     public function __construct(array $products, Browser $browser)
     {
@@ -49,8 +50,8 @@ class OpenProductsStep implements TestStepInterface
      */
     public function run()
     {
-        foreach ($this->products as $productDataSet) {
-            $this->browser->open($_ENV['app_frontend_url'] . $productDataSet->getUrlKey() . '.html');
+        foreach ($this->products as $product) {
+            $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         }
     }
 }
