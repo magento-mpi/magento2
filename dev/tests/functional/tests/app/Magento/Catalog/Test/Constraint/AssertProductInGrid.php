@@ -26,6 +26,13 @@ class AssertProductInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
+     * Product fixture
+     *
+     * @var FixtureInterface $product
+     */
+    protected $product;
+
+    /**
      * Assert that product is present in products grid and can be found by sku, type, status and attribute set.
      *
      * @param FixtureInterface $product
@@ -34,35 +41,46 @@ class AssertProductInGrid extends AbstractConstraint
      */
     public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
     {
+        $this->product = $product;
         $productGrid->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $productGrid->getProductGrid()->isRowVisible($this->prepareFilter($product)),
-            'Product \'' . $product->getName() . '\' is absent in Products grid.'
+            $productGrid->getProductGrid()->isRowVisible($this->prepareFilter()),
+            'Product \'' . $this->product->getName() . '\' is absent in Products grid.'
         );
     }
 
     /**
      * Prepare filter for product grid.
      *
-     * @param FixtureInterface $product
      * @return array
      */
-    protected function prepareFilter(FixtureInterface $product)
+    protected function prepareFilter()
     {
-        $productStatus = ($product->getStatus() === null || $product->getStatus() === 'Product online')
+        $productStatus = ($this->product->getStatus() === null || $this->product->getStatus() === 'Product online')
             ? 'Enabled'
             : 'Disabled';
-        $config = $product->getDataConfig();
         $filter = [
-            'type' => ucfirst($config['type_id']) . ' Product',
-            'sku' => $product->getSku(),
+            'type' => $this->getProductType(),
+            'sku' => $this->product->getSku(),
             'status' => $productStatus,
         ];
-        if ($product->hasData('attribute_set_id')) {
-            $filter['set_name'] = $product->getAttributeSetId();
+        if ($this->product->hasData('attribute_set_id')) {
+            $filter['set_name'] = $this->product->getAttributeSetId();
         }
 
         return $filter;
+    }
+
+    /**
+     * Get product type
+     *
+     * @return string
+     */
+    protected function getProductType()
+    {
+        $config = $this->product->getDataConfig();
+
+        return ucfirst($config['type_id']) . ' Product';
     }
 
     /**
