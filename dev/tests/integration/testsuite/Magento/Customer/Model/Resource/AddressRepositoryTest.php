@@ -94,25 +94,20 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveNewAddress()
     {
+        $this->markTestSkipped('Should be fixed in scope of MAGETWO-29651');
         $this->_addressBuilder->populate($this->_expectedAddresses[1])->setId(null);
         $proposedAddress = $this->_addressBuilder->create();
         $customerId = 1;
-
-        var_dump($proposedAddress);
-
         $createdAddress = $this->_service->save($proposedAddress);
-
-        var_dump($createdAddress);
-
-//        $addresses = $this->_service->get($customerId);
-//        $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
-//        $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
-//        $expectedNewAddressBuilder->setId($addresses[1]->getId());
-//        $expectedNewAddress = $expectedNewAddressBuilder->create();
-//        $this->assertEquals(
-//            AddressConverter::toFlatArray($expectedNewAddress),
-//            AddressConverter::toFlatArray($addresses[1])
-//        );
+        $addresses = $this->_service->get($customerId);
+        $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
+        $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
+        $expectedNewAddressBuilder->setId($addresses[1]->getId());
+        $expectedNewAddress = $expectedNewAddressBuilder->create();
+        $this->assertEquals(
+            AddressConverter::toFlatArray($expectedNewAddress),
+            AddressConverter::toFlatArray($addresses[1])
+        );
     }
 
     /**
@@ -122,18 +117,16 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddress()
     {
-        $address = $this->_service->get(1);
-
-        var_dump($address);
-
-//        $addresses = $this->_service->get($customerId);
-//        $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
-//        $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
-//        $expectedNewAddressBuilder->setId($addresses[1]->getId());
-//        $expectedNewAddress = $expectedNewAddressBuilder->create();
-//        $this->assertEquals(
-//            AddressConverter::toFlatArray($expectedNewAddress),
-//            AddressConverter::toFlatArray($addresses[1])
-//        );
+        $this->markTestSkipped('Should be fixed in scope of MAGETWO-29651');
+        //$address = $this->_service->get(1);
+        //$addresses = $this->_service->get($customerId);
+        //$this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
+        //$expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
+        //$expectedNewAddressBuilder->setId($addresses[1]->getId());
+        //$expectedNewAddress = $expectedNewAddressBuilder->create();
+        //$this->assertEquals(
+        //    AddressConverter::toFlatArray($expectedNewAddress),
+        //    AddressConverter::toFlatArray($addresses[1])
+        //);
     }
 }
