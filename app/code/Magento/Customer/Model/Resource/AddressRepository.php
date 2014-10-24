@@ -9,8 +9,12 @@
  */
 namespace Magento\Customer\Model\Resource;
 
-use \Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SortOrder;
 use Magento\Customer\Model\Address as CustomerAddressModel;
+use Magento\Customer\Model\Resource\Address\Collection;
 
 class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterface
 {
@@ -42,24 +46,32 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     protected $addressResourceModel;
 
     /**
+     * @var \Magento\Framework\Service\V1\Data\SearchResultsDataBuilder
+     */
+    protected $addressSearchResultsBuilder;
+
+    /**
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Customer\Model\Resource\Address $addressResourceModel
      * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Framework\Service\V1\Data\SearchResultsDataBuilder $addressSearchResultsBuilder
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\AddressRegistry $addressRegistry,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Customer\Model\Resource\Address $addressResourceModel,
-        \Magento\Directory\Helper\Data $directoryData
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Framework\Service\V1\Data\SearchResultsDataBuilder $addressSearchResultsBuilder
     ) {
         $this->addressFactory = $addressFactory;
         $this->addressRegistry = $addressRegistry;
         $this->customerRegistry = $customerRegistry;
         $this->addressResource = $addressResourceModel;
         $this->directoryData = $directoryData;
+        $this->addressSearchResultsBuilder = $addressSearchResultsBuilder;
     }
 
     /**
@@ -116,7 +128,69 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      */
     public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria)
     {
-        //return new \Magento\Customer\Api\Data\AddressSearchResultsInterface();
+        $this->addressSearchResultsBuilder->setSearchCriteria($searchCriteria);
+
+        /** @var Collection $collection */
+        $collection = $this->addressFactory->create()->getCollection();
+        // Add filters from root filter group to the collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
+        $this->addressSearchResultsBuilder->setTotalCount($collection->getSize());
+        $sortOrders = $searchCriteria->getSortOrders();
+        /** @var SortOrder $sortOrder */
+        if ($sortOrders) {
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $field = $this->translateField($sortOrder->getField());
+                $collection->addOrder(
+                    $field,
+                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                );
+            }
+        }
+        $collection->setCurPage($searchCriteria->getCurrentPage());
+        $collection->setPageSize($searchCriteria->getPageSize());
+
+        $addresses = [];
+        /** @var CustomerAddressModel $customerAddressModel */
+        foreach ($collection as $customerAddressModel) {
+            $addresses[] = $customerAddressModel->getDataModel();
+        }
+        $this->addressSearchResultsBuilder->setItems($addresses);
+        return $this->addressSearchResultsBuilder->create();
+    }
+
+    /**
+     * Helper function that adds a FilterGroup to the collection.
+     *
+     * @param FilterGroup $filterGroup
+     * @param Collection $collection
+     * @return void
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
+    {
+        $fields = [];
+        $conditions = [];
+        foreach ($filterGroup->getFilters() as $filter) {
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $fields[] = $this->translateField($filter->getField());
+            $conditions[] = [$condition => $filter->getValue()];
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields, $conditions);
+        }
+    }
+
+    /**
+     * Translates a field name to a DB column name for use in collection queries.
+     *
+     * @param string $field a field name that should be translated to a DB column name.
+     * @return string
+     */
+    protected function translateField($field)
+    {
+        return $field;
     }
 
     /**
