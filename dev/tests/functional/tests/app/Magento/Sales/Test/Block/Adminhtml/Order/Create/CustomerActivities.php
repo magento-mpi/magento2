@@ -36,6 +36,13 @@ class CustomerActivities extends Block
     protected $reorderSidebar = '#order-sidebar_reorder';
 
     /**
+     * Recently Viewed css selector.
+     *
+     * @var string
+     */
+    protected $recentlyViewedSidebar = '#sidebar_data_pviewed';
+
+    /**
      * Order sidebar compared css selector
      *
      * @var string
@@ -75,6 +82,19 @@ class CustomerActivities extends Block
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems',
             ['element' => $this->_rootElement->find($this->reorderSidebar)]
+        );
+    }
+
+    /**
+     * Get viewed products block.
+     *
+     * @return LastOrderedItems
+     */
+    public function getRecentlyViewedItemsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedItems',
+            ['element' => $this->_rootElement->find($this->recentlyViewedSidebar)]
         );
     }
 

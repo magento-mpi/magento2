@@ -156,17 +156,17 @@ abstract class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
     }
 
     /**
-     * Login customer
+     * Login customer.
      *
      * @return void
      */
     protected function loginCustomer()
     {
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($this->customer);
-        }
+        $loginCustomerOnFrontendStep = $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $this->customer]
+        );
+        $loginCustomerOnFrontendStep->run();
     }
 
     /**

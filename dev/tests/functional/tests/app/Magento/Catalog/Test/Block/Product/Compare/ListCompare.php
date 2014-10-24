@@ -68,6 +68,13 @@ class ListCompare extends Block
     protected $removeButton = './/thead//td[%d]//a[contains(@class,"action delete")]';
 
     /**
+     * Magento success message.
+     *
+     * @var string
+     */
+    protected $successMessage = '[data-ui-id="global-messages-message-success"]';
+
+    /**
      * Selector for empty message
      *
      * @var string
@@ -150,14 +157,23 @@ class ListCompare extends Block
     }
 
     /**
-     * Remove all products from compare product list
+     * Remove all products from compare product list.
      *
      * @return void
      */
     public function removeAllProducts()
     {
+        $this->waitForElementVisible(sprintf($this->removeButton, 1), Locator::SELECTOR_XPATH);
+        $selector = $this->successMessage;
+        $browser = $this->browser;
         while ($this->isProductVisible()) {
             $this->removeProduct();
+            $browser->waitUntil(
+                function () use ($browser, $selector) {
+                    $productMessage = $browser->find($selector);
+                    return $productMessage->isVisible() ? true : null;
+                }
+            );
             $this->reinitRootElement();
         }
     }
