@@ -17,7 +17,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertProductsAbsentInShoppingCart extends AbstractConstraint
 {
     /**
-     * Constraint severeness
+     * Constraint severeness.
      *
      * @var string
      */

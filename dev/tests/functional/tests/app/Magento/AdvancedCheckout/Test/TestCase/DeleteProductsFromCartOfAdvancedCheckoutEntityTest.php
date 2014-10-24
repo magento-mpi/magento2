@@ -11,12 +11,10 @@ namespace Magento\AdvancedCheckout\Test\TestCase;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Test Creation for RemovingFromCartOfCheckoutEntity
- *
  * Test Flow:
  *
  * Preconditions:
- * 1. Product is created according to dataset
+ * 1. Product is created according to dataSet
  * 2. Clear shopping cart
  * 3. Create Customer
  * 4. Add to cart product by SKU
@@ -30,10 +28,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * @group Add_by_SKU_(CS)
  * @ZephyrId MAGETWO-29906
  */
-class RemovingProductsFromCartOfAdvancedCheckout extends AbstractAdvancedCheckoutEntityTest
+class DeleteProductsFromCartOfAdvancedCheckoutEntityTest extends AbstractAdvancedCheckoutEntityTest
 {
     /**
-     * Removing products from AdvancedCheckout.
+     * Delete products from AdvancedCheckout.
      *
      * @param CustomerInjectable $customer
      * @param string $products
