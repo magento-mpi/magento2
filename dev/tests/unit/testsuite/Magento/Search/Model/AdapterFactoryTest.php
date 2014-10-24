@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Search\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
 class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Search\AdapterFactory |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Search\Model\AdapterFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     private $adapterFactory;
 
@@ -39,7 +39,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->adapterFactory = $helper->getObject(
-            '\Magento\Framework\Search\AdapterFactory',
+            '\Magento\Search\Model\AdapterFactory',
             [
                 'objectManager' => $this->objectManager,
                 'scopeConfig' => $scopeConfig,

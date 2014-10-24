@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Search\Model;
+
+use Magento\Framework\Search\AdapterInterface;
+use Magento\Framework\Search\RequestInterface;
+use Magento\Framework\Search\SearchEngineInterface;
 
 /**
  * Search Engine
@@ -20,9 +24,8 @@ class SearchEngine implements SearchEngineInterface
     /**
      * @param AdapterFactory $adapterFactory
      */
-    public function __construct(
-        AdapterFactory $adapterFactory
-    ) {
+    public function __construct(AdapterFactory $adapterFactory)
+    {
         $this->adapter = $adapterFactory->create();
     }
 
