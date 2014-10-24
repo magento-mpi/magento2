@@ -69,7 +69,7 @@ try {
     exit($example);
 }
 
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath($generationDir);
+\Magento\Framework\Code\Generator\FileResolver::addIncludePath($generationDir);
 
 //reinit generator with correct generation path
 $io = new Io(new File(), null, $generationDir);

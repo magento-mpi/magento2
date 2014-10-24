@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-use Magento\Framework\Autoload\IncludePath;
 use Magento\Tools\Migration\System\Configuration\Formatter;
 use Magento\Tools\Migration\System\Configuration\Generator;
 use Magento\Tools\Migration\System\Configuration\Mapper\Field;
@@ -20,10 +19,10 @@ use Magento\Tools\Migration\System\Writer\Factory;
 use Magento\Tools\Migration\System\Configuration\Logger as Logger;
 
 $rootDir = realpath(__DIR__ . '../../../../../../');
+
 require __DIR__ . '/../../../../../app/autoload.php';
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
-$includePath->addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
+\Magento\Framework\Code\Generator\FileResolver::addIncludePath([$rootDir . '/lib', $rootDir . '/dev']);
+
 $defaultReportFile = 'report.log';
 
 try {

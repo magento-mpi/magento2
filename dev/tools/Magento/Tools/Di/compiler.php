@@ -6,8 +6,7 @@
  * @license    {license_link}
  */
 require __DIR__ . '/../../../bootstrap.php';
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
+
 $rootDir = realpath(__DIR__ . '/../../../../../');
 use Magento\Framework\ObjectManager\Code\Generator\Factory;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
@@ -39,7 +38,7 @@ try {
     $opt->parse();
 
     $generationDir = $opt->getOption('generation') ? $opt->getOption('generation') : $rootDir . '/var/generation';
-    (new \Magento\Framework\Autoload\IncludePath())->addIncludePath($generationDir);
+    \Magento\Framework\Code\Generator\FileResolver::addIncludePath($generationDir);
 
     $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . '/var/di';
     $compiledFile = $diDir . '/definitions.php';

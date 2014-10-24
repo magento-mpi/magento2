@@ -12,8 +12,7 @@ define('USAGE', "Usage: php -f uninstall.php -- [--bootstrap=<json>]\n");
 $opt = getopt('', ['bootstrap::']);
 
 require __DIR__ . '/../../app/bootstrap.php';
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
+
 try {
     $params = $_SERVER;
     if (isset($opt['bootstrap'])) {
