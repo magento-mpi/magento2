@@ -11,10 +11,10 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 use Mtf\Client\Element;
 use Magento\Widget\Test\Fixture\Widget;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\AbstractWidgetOptionsForm;
 
 /**
- * Class LayoutUpdates
+ * Class WidgetOptions
  * Widget options form
  */
 class WidgetOptions extends Tab
@@ -27,6 +27,13 @@ class WidgetOptions extends Tab
     protected $formSelector = '.fieldset-wide';
 
     /**
+     * Path for widget options tab
+     *
+     * @var string
+     */
+    protected $path = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
+
+    /**
      * Fill Widget options form
      *
      * @param array $fields
@@ -36,12 +43,11 @@ class WidgetOptions extends Tab
     public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields['widgetOptions']['value'] as $key => $field) {
-            $dataBlock = $this->optionNameConvert($field['name']);
+            $path = $this->prepareClassPath($field['name']);
             unset($field['name']);
-            $path = '\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
-            /** @var WidgetOptionsForm $widgetOptionsForm */
+            /** @var AbstractWidgetOptionsForm $widgetOptionsForm */
             $widgetOptionsForm = $this->blockFactory->create(
-                'Magento\\' . $dataBlock['module'] . $path . $dataBlock['name'],
+                $path,
                 [
                     'element' => $this->_rootElement->find($this->formSelector)
                 ]
@@ -52,17 +58,17 @@ class WidgetOptions extends Tab
     }
 
     /**
-     * Prepare class name
+     * Prepare class path
      *
      * @param string $widgetOptionsName
-     * @return array
+     * @return string
      */
-    protected function optionNameConvert($widgetOptionsName)
+    protected function prepareClassPath($widgetOptionsName)
     {
         if ($widgetOptionsName == 'recentlyComparedProducts' || $widgetOptionsName == 'recentlyViewedProducts') {
-            return ['module' => 'Widget', 'name' => 'RecentlyComparedProducts'];
+            return $this->path . 'RecentlyProducts';
         }
 
-        return ['module' => 'Widget', 'name' => ucfirst($widgetOptionsName)];
+        return $this->path . ucfirst($widgetOptionsName);
     }
 }

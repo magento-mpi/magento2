@@ -10,22 +10,17 @@ namespace Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Widget\Test\Fixture\Widget;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions as AbstractWidgetOptions;
 
 /**
  * Class LayoutUpdates
  * Widget options form
  */
-class WidgetOptions extends AbstractWidgetOptions
+class WidgetOptions extends \Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions
 {
     /**
-     * Prepare class name
+     * Path for widget options tab
      *
-     * @param string $widgetOptionsName
-     * @return array
+     * @var string
      */
-    protected function optionNameConvert($widgetOptionsName)
-    {
-        return ['module' => 'CatalogEvent', 'name' => ucfirst($widgetOptionsName)];
-    }
+    protected $path = 'Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
 }

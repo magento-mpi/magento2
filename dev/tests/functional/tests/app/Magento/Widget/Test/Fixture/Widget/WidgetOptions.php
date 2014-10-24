@@ -32,13 +32,20 @@ class WidgetOptions implements FixtureInterface
     protected $params;
 
     /**
+     * Entities
+     *
+     * @var array
+     */
+    protected $entities;
+
+    /**
      * Constructor
      *
+     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
-     * @param FixtureFactory $fixtureFactory
      */
-    public function __construct(array $params, FixtureFactory $fixtureFactory, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
         if (isset($data['preset'])) {
@@ -46,20 +53,13 @@ class WidgetOptions implements FixtureInterface
             $this->data[0]['name'] = $data['preset'];
             foreach ($this->data[0] as $key => $value) {
                 if ($key == 'entities') {
-                    $explodeValue = explode('::', $value);
                     unset($this->data[0]['entities']);
-                    if (!empty($explodeValue[2])) {
-                        for ($i = 0; $i < $explodeValue[2]; $i++) {
-                            $fixture = $fixtureFactory
-                                ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
-                            $fixture->persist();
-                            $this->data[0]['entities'][] = $fixture;
-                        }
-                    } else {
-                        $fixture = $fixtureFactory
-                            ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
+                    foreach ($value as $entity) {
+                        $explodeValue = explode('::', $entity);
+                        $fixture = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
                         $fixture->persist();
                         $this->data[0]['entities'][] = $fixture;
+                        $this->entities[] = $fixture;
                     }
                 }
             }
@@ -114,21 +114,21 @@ class WidgetOptions implements FixtureInterface
                 [
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
-                    'entities' => 'cmsPage::default',
+                    'entities' => ['cmsPage::default'],
                 ]
             ],
             'cmsStaticBlock' => [
                 [
                     'chooser_title' => '%title%',
                     'chooser_identifier' => '%identifier%',
-                    'entities' => 'cmsBlock::default',
+                    'entities' => ['cmsBlock::default'],
                 ]
             ],
             'catalogCategoryLink' => [
                 [
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
-                    'entities' => 'catalogCategory::default',
+                    'entities' => ['catalogCategory::default'],
                 ]
             ],
             'catalogNewProductList' => [
@@ -142,24 +142,19 @@ class WidgetOptions implements FixtureInterface
                 [
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
-                    'entities' => 'catalogProductSimple::default',
-                ]
-            ],
-            'giftRegistrySearch' => [
-                [
-                    'types' => 'All Forms',
+                    'entities' => ['catalogProductSimple::default'],
                 ]
             ],
             'recentlyComparedProducts' => [
                 [
                     'page_size' => '4',
-                    'entities' => 'catalogProductSimple::default::2'
+                    'entities' => ['catalogProductSimple::default', 'catalogProductSimple::default']
                 ]
             ],
             'recentlyViewedProducts' => [
                 [
                     'page_size' => '4',
-                    'entities' => 'catalogProductSimple::product_with_category'
+                    'entities' => ['catalogProductSimple::product_with_category']
                 ]
             ],
         ];
@@ -169,5 +164,15 @@ class WidgetOptions implements FixtureInterface
         }
 
         return $presets[$name];
+    }
+
+    /**
+     * Return entities
+     *
+     * @return array
+     */
+    public function getEntities()
+    {
+        return $this->entities;
     }
 }

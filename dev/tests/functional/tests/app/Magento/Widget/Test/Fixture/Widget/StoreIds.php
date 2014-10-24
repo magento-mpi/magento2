@@ -40,6 +40,8 @@ class StoreIds implements FixtureInterface
     protected $stores = [];
 
     /**
+     * Constructor
+     *
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
@@ -97,11 +99,11 @@ class StoreIds implements FixtureInterface
     }
 
     /**
-     * Return store
+     * Return stores
      *
      * @return Store
      */
-    public function getStore()
+    public function getStores()
     {
         return $this->stores;
     }

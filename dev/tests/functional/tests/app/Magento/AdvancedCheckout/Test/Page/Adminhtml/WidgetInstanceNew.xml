@@ -12,7 +12,7 @@
         <widgetForm>
             <renders>
                 <orderBySku>
-                    <class>Magento\AdvancedCheckout\Test\Block\Adminhtml\Widget\Instance\Edit\OrderBySkuWidgetForm</class>
+                    <class>Magento\AdvancedCheckout\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
                 </orderBySku>
             </renders>
         </widgetForm>

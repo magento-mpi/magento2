@@ -11,7 +11,6 @@ namespace Magento\Banner\Test\Constraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Widget\Test\Constraint\AssertWidgetOnProductPage;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Client\Browser;
 

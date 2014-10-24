@@ -38,11 +38,15 @@ class Curl extends AbstractCurl implements CatalogEventEntityInterface
             $data['catalogevent']['display_state']['product_page'] = 2;
         }
         $data['catalogevent']['display_state'] = array_values($data['catalogevent']['display_state']);
-        $categoryId = $fixture->getDataFieldConfig('category_id')['source']->getCategories()[0]->getId();
+        if ($fixture->getDataFieldConfig('category_id')['source']->getCategories() === null) {
+            $categoryId = $fixture->getCategoryId();
+        } else {
+            $categoryId = $fixture->getDataFieldConfig('category_id')['source']->getCategories()->getId();
+        }
         $url = $_ENV['app_backend_url'] . 'admin/catalog_event/save/category_id/'
             . $categoryId . '/category/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         preg_match(

@@ -9,6 +9,7 @@
 namespace Magento\Widget\Test\Constraint;
 
 use Magento\Catalog\Test\Constraint\AssertProductCompareSuccessAddMessage;
+use Magento\Catalog\Test\Constraint\AssertProductCompareSuccessRemoveMessage;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -20,7 +21,7 @@ use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class AssertProductInRecentlyComparedBlock
- * Check that widget with type Recently Compared Products is present on Home page
+ * Check that widget with type Recently Compared Products is present on Product Compare page
  */
 class AssertProductInRecentlyComparedBlock extends AbstractConstraint
 {
@@ -53,9 +54,10 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
     protected $cmsIndex;
 
     /**
-     * Assert that widget with type Recently Compared Products is present on Home page
+     * Assert that widget with type Recently Compared Products is present on Product Compare page
      *
      * @param AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
+     * @param AssertProductCompareSuccessRemoveMessage $assertProductCompareSuccessRemoveMessage
      * @param CatalogProductCompare $catalogProductCompare
      * @param CmsIndex $cmsIndex
      * @param CatalogProductView $catalogProductView
@@ -68,6 +70,7 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
 
     public function processAssert(
         AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage,
+        AssertProductCompareSuccessRemoveMessage $assertProductCompareSuccessRemoveMessage,
         CatalogProductCompare $catalogProductCompare,
         CmsIndex $cmsIndex,
         CatalogProductView $catalogProductView,
@@ -85,22 +88,19 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
         $this->browser = $browser;
         $this->cmsIndex = $cmsIndex;
         $products = [];
-        if (!($widget->getWidgetOptions()[0]['entities'] instanceof InjectableFixture)) {
-            foreach ($widget->getWidgetOptions()[0]['entities'] as $product) {
-                $products[] = $product;
-            }
-        } else {
-            $products[] = $widget->getWidgetOptions()[0]['entities'];
+
+        $entities = $widget->getDataFieldConfig('widgetOptions')['source']->getEntities();
+        foreach ($entities as $product) {
+            $products[] = $product;
         }
         $cmsIndex->open();
         $this->addProducts($products, $assertProductCompareSuccessAddMessage);
-        $this->removeCompareProduct($products);
+        $this->removeCompareProduct($products, $assertProductCompareSuccessRemoveMessage);
 
-        $cmsIndex->open();
         $widgetCode = $widget->getCode();
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, 'Recently Compared'),
-            'Widget is absent on Home page.'
+            $this->catalogProductCompare->getCompareProductsBlock()->isWidgetVisible($widgetCode, 'Recently Compared'),
+            'Widget is absent on Product Compare page.'
         );
     }
 
@@ -126,15 +126,18 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
      * Remove compare product
      *
      * @param array $products
-     *
+     * @param AbstractConstraint $assert
      * @return void
      */
-    protected function removeCompareProduct(array $products)
+    protected function removeCompareProduct(array $products, AbstractConstraint $assert = null)
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
-        for ($i = 1; $i <= count($products); $i++) {
+        foreach ($products as $itemProduct) {
             $this->catalogProductCompare->getCompareProductsBlock()->removeProduct();
+            if ($assert !== null) {
+                $assert->processAssert($this->catalogProductCompare, $itemProduct);
+            }
         }
     }
 
@@ -145,6 +148,6 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
      */
     public function toString()
     {
-        return "Widget with type Recently Compared Products is present on Home page";
+        return "Widget with type Recently Compared Products is present on Product Compare page";
     }
 }

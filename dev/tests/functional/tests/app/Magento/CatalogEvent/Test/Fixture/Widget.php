@@ -20,7 +20,7 @@ class Widget extends ParentWidget
         'attribute_code' => 'widgetOptions',
         'backend_type' => 'virtual',
         'source' => 'Magento\CatalogEvent\Test\Fixture\Widget\WidgetOptions',
-        'group' => 'widget_options',
+        'group' => 'catalog_event_widget_options',
     ];
 
     protected $layout = [

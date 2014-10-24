@@ -13,19 +13,26 @@ use Magento\Widget\Test\Fixture\Widget;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions as AbstractWidgetOptions;
 
 /**
- * Class LayoutUpdates
+ * Class WidgetOptions
  * Widget options form
  */
 class WidgetOptions extends AbstractWidgetOptions
 {
     /**
-     * Prepare class name
+     * Path for widget options tab
+     *
+     * @var string
+     */
+    protected $path = 'Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
+
+    /**
+     * Prepare class path
      *
      * @param string $widgetOptionsName
-     * @return array
+     * @return string
      */
-    protected function optionNameConvert($widgetOptionsName)
+    protected function prepareClassPath($widgetOptionsName)
     {
-        return ['module' => 'Banner', 'name' => 'BannerRotator'];
+        return $this->path . 'BannerRotator';
     }
 }

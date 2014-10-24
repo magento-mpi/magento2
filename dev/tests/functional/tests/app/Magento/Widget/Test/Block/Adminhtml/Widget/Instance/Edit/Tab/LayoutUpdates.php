@@ -11,7 +11,7 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\LayoutForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\AbstractLayoutForm;
 
 /**
  * Class LayoutUpdates
@@ -61,13 +61,12 @@ class LayoutUpdates extends Tab
         foreach ($fields['layout']['value'] as $key => $field) {
             $this->addLayoutUpdates();
             $this->_rootElement->find(sprintf($this->pageGroup, $key), Locator::SELECTOR_CSS, 'select')
-                ->setValue($field['page_group']);
+                ->setOptionGroupValue($field['page_group'][0], $field['page_group'][1]);
             $this->getTemplateBlock()->waitLoader();
-
-            /** @var LayoutForm $layoutForm */
+            $path = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\\';
+            /** @var AbstractLayoutForm $layoutForm */
             $layoutForm = $this->blockFactory->create(
-                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\\' . $this
-                    ->optionNameConvert($field['page_group']),
+                $path . str_replace(" ", "", $field['page_group'][0]),
                 [
                     'element' => $this->_rootElement->find($this->formSelector, Locator::SELECTOR_XPATH)
                 ]
@@ -85,25 +84,6 @@ class LayoutUpdates extends Tab
     protected function addLayoutUpdates()
     {
         $this->_rootElement->find($this->addLayoutUpdates)->click();
-    }
-
-    /**
-     * Prepare class name
-     *
-     * @param string $pageGroup
-     * @return string
-     */
-    protected function optionNameConvert($pageGroup)
-    {
-        $names = explode(' ', $pageGroup);
-        foreach ($names as $name) {
-            if ($name == 'Categories' || $name == 'Product' || $name == 'Gift' || $name == 'Page' || $name == 'Pages') {
-                if ($name == 'Gift' || $name == 'Page' || $name == 'Pages') {
-                    return $name = 'Page';
-                }
-                return $name;
-            }
-        }
     }
 
     /**

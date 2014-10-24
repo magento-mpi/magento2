@@ -26,9 +26,9 @@
     <assertWidgetCmsPageLink module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetCmsPageLink>
-    <assertWidgetCatalogLink module="Magento_Widget">
+    <assertWidgetCatalogCategoryLink module="Magento_Widget">
         <severeness>low</severeness>
-    </assertWidgetCatalogLink>
+    </assertWidgetCatalogCategoryLink>
     <assertWidgetProductLink module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetProductLink>
@@ -41,12 +41,6 @@
     <assertProductInRecentlyComparedBlock module="Magento_Widget">
         <severeness>low</severeness>
     </assertProductInRecentlyComparedBlock>
-    <assertWidgetCatalogCategoryLinkOnFrontendAllPages module="Magento_Widget">
-        <severeness>low</severeness>
-    </assertWidgetCatalogCategoryLinkOnFrontendAllPages>
-    <assertWidgetCmsPageLinkOnFrontendAllPages module="Magento_Widget">
-        <severeness>low</severeness>
-    </assertWidgetCmsPageLinkOnFrontendAllPages>
     <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetAbsentOnFrontendHome>

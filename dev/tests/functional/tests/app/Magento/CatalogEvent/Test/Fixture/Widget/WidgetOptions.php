@@ -8,13 +8,11 @@
 
 namespace Magento\CatalogEvent\Test\Fixture\Widget;
 
-use Magento\Widget\Test\Fixture\Widget\WidgetOptions as AbstractWidgetOptions;
-
 /**
  * Class WidgetOptions
  * Prepare Widget options for widget
  */
-class WidgetOptions extends AbstractWidgetOptions
+class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
 {
     /**
      * Preset for Widget options
@@ -29,7 +27,7 @@ class WidgetOptions extends AbstractWidgetOptions
                 [
                     'limit' => '6',
                     'scroll' => '3',
-                    'entities' => 'catalogEventEntity::default_event::2',
+                    'entities' => ['catalogEventEntity::default_event', 'catalogEventEntity::default_event'],
                 ]
             ],
         ];

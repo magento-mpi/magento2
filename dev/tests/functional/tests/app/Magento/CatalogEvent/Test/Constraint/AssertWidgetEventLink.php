@@ -46,7 +46,7 @@ class AssertWidgetEventLink extends AbstractConstraint
 
         $cmsIndex->open();
         $widgetCode = $widget->getCode();
-        $categoryName = $widget->getWidgetOptions()[0]['entities'][1]->getCategoryId()[0];
+        $categoryName = $widget->getWidgetOptions()[0]['entities'][1]->getCategoryId();
         $cmsIndex->getCmsPageBlock()->clickToWidget($widgetCode, 'Go To Sale');
         $pageTitle = $cmsIndex->getCmsPageBlock()->getPageTitle();
         \PHPUnit_Framework_Assert::assertEquals(

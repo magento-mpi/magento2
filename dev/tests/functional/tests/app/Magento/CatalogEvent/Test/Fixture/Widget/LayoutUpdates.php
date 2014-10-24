@@ -8,13 +8,11 @@
 
 namespace Magento\CatalogEvent\Test\Fixture\Widget;
 
-use Magento\Widget\Test\Fixture\Widget\LayoutUpdates as AbstractLayoutUpdates;
-
 /**
  * Class LayoutUpdates
  * Prepare Layout Updates for widget
  */
-class LayoutUpdates extends AbstractLayoutUpdates
+class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
 {
     /**
      * Preset for Layout Updates
@@ -27,7 +25,7 @@ class LayoutUpdates extends AbstractLayoutUpdates
         $presets = [
             'for_event_carousel' => [
                 [
-                    'page_group' => 'All Pages',
+                    'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                 ]
             ],

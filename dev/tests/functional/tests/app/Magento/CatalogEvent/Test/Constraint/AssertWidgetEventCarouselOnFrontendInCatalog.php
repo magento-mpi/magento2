@@ -48,7 +48,7 @@ class AssertWidgetEventCarouselOnFrontendInCatalog extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $categoryName = $widget->getWidgetOptions()[0]['entities'][0]->getCategoryId()[0];
+        $categoryName = $widget->getWidgetOptions()[0]['entities'][1]->getCategoryId();
         $widgetCode = $widget->getCode();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(

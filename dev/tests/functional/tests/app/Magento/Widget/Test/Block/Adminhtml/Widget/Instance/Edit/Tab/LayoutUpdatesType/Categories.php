@@ -14,7 +14,7 @@ use Mtf\Client\Element;
  * Class Categories
  * Filling Categories type layout
  */
-class Categories extends LayoutForm
+class Categories extends AbstractLayoutForm
 {
     /**
      * Filling layout form
@@ -27,19 +27,26 @@ class Categories extends LayoutForm
     {
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($widgetOptionsFields);
+        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
         if (isset($mapping['entities'])) {
-            $entities = $mapping['entities'];
-            unset($mapping['entities']);
+            $this->selectCategory($mapping['entities'], $element);
         }
-        $this->_fill($mapping, $element);
+    }
 
-        if (!empty($entities)) {
-            $this->_rootElement->find($this->chooser)->click();
-            $this->getTemplateBlock()->waitLoader();
-            $parentPath = $entities['value']['path'];
-            $entities['value'] = $parentPath . '/' . $entities['value']['name'];
-            $this->_fill([$entities], $element);
-            $this->getTemplateBlock()->waitLoader();
-        }
+    /**
+     * Select category on layout tab
+     *
+     * @param array $entities
+     * @param Element $element
+     * @return void
+     */
+    protected function selectCategory(array $entities, Element $element)
+    {
+        $this->_rootElement->find($this->chooser)->click();
+        $this->getTemplateBlock()->waitLoader();
+        $parentPath = $entities['value']['path'];
+        $entities['value'] = $parentPath . '/' . $entities['value']['name'];
+        $this->_fill([$entities], $element);
+        $this->getTemplateBlock()->waitLoader();
     }
 }

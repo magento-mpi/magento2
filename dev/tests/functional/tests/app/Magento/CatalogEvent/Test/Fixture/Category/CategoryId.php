@@ -44,9 +44,14 @@ class CategoryId extends CategoryIds
         array $data = []
     ) {
         $this->params = $params;
-
         if (!empty($data['presets'])) {
-            parent::__construct($fixtureFactory, $params, $data);
+            $preset = $data['presets'];
+            $category = $fixtureFactory->createByCode('catalogCategory', ['dataSet' => $preset]);
+            $category->persist();
+
+            /** @var CatalogCategory $category */
+            $this->data = $category->getName();
+            $this->categories = $category;
         } else {
             $this->data = $data[0];
         }

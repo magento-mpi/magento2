@@ -53,19 +53,19 @@ class View extends Block
     }
 
     /**
-     * Check that block Recently Viewed contains product
+     * Get products from Recently Viewed block
      *
-     * @param Widget $widget
-     * @return bool
+     * @return array
      */
-    public function checkProductInRecentlyViewedBlock(Widget $widget)
+    public function getProductsFromRecentlyViewedBlock()
     {
         $products = [];
+        $this->waitForElementVisible($this->recentlyViewedProducts, Locator::SELECTOR_XPATH);
         $productNames = $this->_rootElement->find($this->recentlyViewedProducts, Locator::SELECTOR_XPATH)
             ->getElements();
         foreach ($productNames as $productName) {
             $products[] = $productName->getText();
         }
-        return in_array($widget->getWidgetOptions()[0]['entities'][0]->getName(), $products);
+        return $products;
     }
 }

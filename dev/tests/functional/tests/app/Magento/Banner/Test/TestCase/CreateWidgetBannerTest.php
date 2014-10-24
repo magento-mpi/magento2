@@ -8,15 +8,22 @@
 
 namespace Magento\Banner\Test\TestCase;
 
-use Magento\Widget\Test\TestCase\CreateWidgetEntityTest;
+use Magento\Widget\Test\TestCase\AbstractCreateWidgetEntityTest;
 use Magento\Banner\Test\Fixture\Widget;
 
 /**
  * Class CreateWidgetBannerTest
  * Test Creation for New Instance of WidgetEntity Banner Rotator
  */
-class CreateWidgetBannerTest extends CreateWidgetEntityTest
+class CreateWidgetBannerTest extends AbstractCreateWidgetEntityTest
 {
+    /**
+     * Widget fixture
+     *
+     * @var Widget
+     */
+    protected $widget;
+
     /**
      * Creation for New Instance of WidgetEntity
      *
@@ -25,7 +32,12 @@ class CreateWidgetBannerTest extends CreateWidgetEntityTest
      */
     public function test(Widget $widget)
     {
-        parent::test($widget);
+        // Steps
+        $this->widget = $widget;
+        $this->widgetInstanceIndex->open();
+        $this->widgetInstanceIndex->getPageActionsBlock()->addNew();
+        $this->widgetInstanceNew->getWidgetForm()->fill($widget);
+        $this->widgetInstanceEdit->getPageActionsBlock()->save();
     }
 
     /**
@@ -36,20 +48,12 @@ class CreateWidgetBannerTest extends CreateWidgetEntityTest
     public function tearDown()
     {
         if ($this->widget !== null) {
-            $filter = ['title' => $this->widget->getTitle()];
-            $this->widgetInstanceIndex->open();
-            $this->widgetInstanceIndex->getWidgetGrid()->searchAndOpen($filter);
-            $this->widgetInstanceEdit->getPageActionsBlock()->delete();
-
+            $this->objectManager->create('Magento\Widget\Test\TestStep\DeleteAllWidgetsStep')->run();
             if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_catalog_rules'])) {
-                $deleteCatalogRule = $this->objectManager
-                    ->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep');
-                $deleteCatalogRule->run();
+                $this->objectManager->create('Magento\CatalogRule\Test\TestStep\DeleteAllCatalogRulesStep')->run();
             }
             if (isset($this->widget->getWidgetOptions()[0]['entities']['banner_sales_rules'])) {
-                $deleteSalesRule = $this->objectManager
-                    ->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep');
-                $deleteSalesRule->run();
+                $this->objectManager->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep')->run();
             }
         }
     }

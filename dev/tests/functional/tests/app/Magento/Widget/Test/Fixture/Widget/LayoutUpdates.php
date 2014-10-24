@@ -34,24 +34,21 @@ class LayoutUpdates implements FixtureInterface
     /**
      * Constructor
      *
+     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
-     * @param FixtureFactory $fixtureFactory
      */
-    public function __construct(array $params, FixtureFactory $fixtureFactory, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
         if (isset($data['preset'])) {
             $this->data = $this->getPreset($data['preset']);
             foreach ($this->data as $index => $layouts) {
-                foreach ($layouts as $key => $value) {
-                    if ($key == 'entities') {
-                        $explodeValue = explode('::', $value);
-                        $fixture = $fixtureFactory
-                            ->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
-                        $fixture->persist();
-                        $this->data[$index]['entities'] = $fixture->getData();
-                    }
+                if (isset($layouts['entities'])) {
+                    $explodeValue = explode('::', $layouts['entities']);
+                    $fixture = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
+                    $fixture->persist();
+                    $this->data[$index]['entities'] = $fixture->getData();
                 }
             }
         } else {
@@ -103,7 +100,7 @@ class LayoutUpdates implements FixtureInterface
         $presets = [
             'all_pages' => [
                 [
-                    'page_group' => 'All Pages',
+                    'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template',
                     'entities' => 'catalogCategory::default',
@@ -111,7 +108,7 @@ class LayoutUpdates implements FixtureInterface
             ],
             'on_category' => [
                 [
-                    'page_group' => 'Non-Anchor Categories',
+                    'page_group' => ['Categories', 'Non-Anchor Categories'],
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
@@ -120,7 +117,7 @@ class LayoutUpdates implements FixtureInterface
             ],
             'for_virtual_product' => [
                 [
-                    'page_group' => 'Virtual Product',
+                    'page_group' => ['Products', 'Virtual Product'],
                     'for' => 'Yes',
                     'entities' => 'catalogProductVirtual::default',
                     'block' => 'Main Content Area',
@@ -129,14 +126,14 @@ class LayoutUpdates implements FixtureInterface
             ],
             'for_category_link' => [
                 [
-                    'page_group' => 'All Pages',
+                    'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                     'template' => 'Category Link Block Template'
                 ]
             ],
             'on_product_link' => [
                 [
-                    'page_group' => 'Non-Anchor Categories',
+                    'page_group' => ['Categories', 'Non-Anchor Categories'],
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
@@ -145,19 +142,19 @@ class LayoutUpdates implements FixtureInterface
             ],
             'for_compared_products' => [
                 [
-                    'page_group' => 'All Pages',
+                    'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                 ]
             ],
             'for_viewed_products' => [
                 [
-                    'page_group' => 'All Pages',
+                    'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                 ]
             ],
             'for_cms_page_link' => [
                 [
-                    'page_group' => 'All Pages',
+                    'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                     'template' => 'CMS Page Link Block Template',
                     'entities' => 'catalogCategory::default',

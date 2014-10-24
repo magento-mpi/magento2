@@ -8,7 +8,6 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock;
 
-
 /**
  * Class Grid
  * Chooser block grid

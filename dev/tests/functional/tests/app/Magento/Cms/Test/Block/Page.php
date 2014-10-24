@@ -31,8 +31,13 @@ class Page extends Block
      */
     protected $cmsPageTitle = ".page-title";
 
+    /**
+     * Widgets selectors
+     *
+     * @var array
+     */
     protected $widgetSelectors = [
-        'Banner Rotator' => './/*/div[contains(@class,"widget banners") and contains(.,"%s")]',
+        'Banner Rotator' => './/div[contains(@class,"widget banners") and contains(.,"%s")]',
         'CMS Page Link' => './/*/a[contains(.,"%s")]',
         'Catalog Category Link' => './/*/a[contains(.,"%s")]',
         'Catalog Product Link' => './/*/a[contains(.,"%s")]',
@@ -40,6 +45,7 @@ class Page extends Block
         'Recently Viewed Products' => './/*/div[contains(@class,"block widget viewed grid") and contains(.,"%s")]',
         'Catalog New Products List' => './/*/div[contains(@class,"widget new") and contains(.,"%s")]',
         'CMS Static Block' => './/*/div[contains(@class,"widget static block") and contains(.,"%s")]',
+        'CMS Hierarchy Node Link' => './/*/a[contains(.,"%s")]',
         'Catalog Events Carousel' => '(//div[contains(@class,"widget")]//a/span[contains(.,"%s")])[last()]'
     ];
 

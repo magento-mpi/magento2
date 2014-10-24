@@ -12,7 +12,7 @@
         <widgetForm>
             <renders>
                 <catalogEventCarousel>
-                    <class>Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\CatalogEventWidgetForm</class>
+                    <class>Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
                 </catalogEventCarousel>
             </renders>
         </widgetForm>

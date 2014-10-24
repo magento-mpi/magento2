@@ -70,8 +70,8 @@
             <strategy>css selector</strategy>
         </titleBlock>
         <widgetBlock>
-            <class>Magento\Catalog\Test\Block\Widget\WidgetBlock</class>
-            <locator>.widget</locator>
+            <class>Magento\Widget\Test\Block\WidgetBlock</class>
+            <locator>.column.main .widget</locator>
             <strategy>css selector</strategy>
         </widgetBlock>
     </blocks>

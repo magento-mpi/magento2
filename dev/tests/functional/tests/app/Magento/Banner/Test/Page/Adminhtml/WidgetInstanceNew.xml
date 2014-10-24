@@ -12,14 +12,8 @@
         <widgetForm>
             <renders>
                 <bannerRotator>
-                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\BannerWidgetForm</class>
+                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
                 </bannerRotator>
-                <bannerRotatorShoppingCartRules>
-                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\BannerWidgetForm</class>
-                </bannerRotatorShoppingCartRules>
-                <bannerRotatorCatalogRules>
-                    <class>Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\BannerWidgetForm</class>
-                </bannerRotatorCatalogRules>
             </renders>
         </widgetForm>
     </blocks>

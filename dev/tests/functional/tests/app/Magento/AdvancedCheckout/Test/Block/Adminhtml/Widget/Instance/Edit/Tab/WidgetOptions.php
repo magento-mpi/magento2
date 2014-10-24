@@ -19,13 +19,9 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions a
 class WidgetOptions extends AbstractWidgetOptions
 {
     /**
-     * Prepare class name
+     * Path for widget options tab
      *
-     * @param string $widgetOptionsName
-     * @return array
+     * @var string
      */
-    protected function optionNameConvert($widgetOptionsName)
-    {
-        return ['module' => 'AdvancedCheckout', 'name' => ucfirst($widgetOptionsName)];
-    }
+    protected $path = 'Magento\AdvancedCheckout\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
 }

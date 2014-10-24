@@ -20,6 +20,6 @@ class Widget extends ParentWidget
         'attribute_code' => 'widgetOptions',
         'backend_type' => 'virtual',
         'source' => 'Magento\AdvancedCheckout\Test\Fixture\Widget\WidgetOptions',
-        'group' => 'widget_options',
+        'group' => 'order_by_sku_options',
     ];
 }

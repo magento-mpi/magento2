@@ -17,6 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertWidgetSuccessSaveMessage extends AbstractConstraint
 {
+    /**
+     * Text value to be checked
+     */
     const SUCCESS_MESSAGE = 'The widget instance has been saved.';
 
     /**

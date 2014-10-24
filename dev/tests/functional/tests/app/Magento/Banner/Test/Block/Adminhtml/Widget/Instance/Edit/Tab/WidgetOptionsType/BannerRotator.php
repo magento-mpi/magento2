@@ -10,13 +10,13 @@ namespace Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 
 use Mtf\Client\Element;
 use Magento\Banner\Test\Block\Adminhtml\Banner\Grid;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\AbstractWidgetOptionsForm;
 
 /**
  * Class BannerRotator
  * Filling Widget Options that have banner rotator type
  */
-class BannerRotator extends WidgetOptionsForm
+class BannerRotator extends AbstractWidgetOptionsForm
 {
     /**
      * Banner Rotator grid block
@@ -36,22 +36,28 @@ class BannerRotator extends WidgetOptionsForm
     {
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($widgetOptionsFields);
+        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
         if (isset($mapping['entities'])) {
-            $entities = $mapping['entities'];
-            unset($mapping['entities']);
+            $this->selectEntityInGrid($mapping['entities']);
         }
-        $this->_fill($mapping, $element);
+    }
 
-        if (!empty($entities)) {
-            /** @var Grid $bannerRotatorGrid */
-            $bannerRotatorGrid = $this->blockFactory->create(
-                'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
-                [
-                    'element' => $this->_rootElement
-                        ->find($this->bannerRotatorGrid)
-                ]
-            );
-            $bannerRotatorGrid->searchAndSelect(['banner' => $entities['value'][0]->getName()]);
-        }
+    /**
+     * Select node on widget options tab
+     *
+     * @param array $entities
+     * @return void
+     */
+    protected function selectEntityInGrid(array $entities)
+    {
+        /** @var Grid $bannerRotatorGrid */
+        $bannerRotatorGrid = $this->blockFactory->create(
+            'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
+            [
+                'element' => $this->_rootElement
+                    ->find($this->bannerRotatorGrid)
+            ]
+        );
+        $bannerRotatorGrid->searchAndSelect(['banner' => $entities['value'][0]->getName()]);
     }
 }

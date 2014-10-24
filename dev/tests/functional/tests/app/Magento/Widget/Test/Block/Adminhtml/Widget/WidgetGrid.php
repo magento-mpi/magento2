@@ -25,6 +25,13 @@ class WidgetGrid extends AbstractGrid
     protected $editLink = 'tbody tr td.col-title';
 
     /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-title")]][1]';
+
+    /**
      * Filters array mapping
      *
      * @var array

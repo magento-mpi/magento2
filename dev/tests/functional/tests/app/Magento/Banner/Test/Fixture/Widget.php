@@ -25,6 +25,6 @@ class Widget extends ParentWidget
         'attribute_code' => 'widgetOptions',
         'backend_type' => 'virtual',
         'source' => 'Magento\Banner\Test\Fixture\Widget\WidgetOptions',
-        'group' => 'widget_options',
+        'group' => 'banner_options',
     ];
 }
