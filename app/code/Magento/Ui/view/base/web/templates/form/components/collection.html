@@ -16,7 +16,7 @@
                 </button>
             </div>
             <address data-bind="text: label"></address>
-            <address data-bind="foreach: { data: element.displayed, as: 'element' }">
+            <address data-bind="foreach: { data: element.previewElements, as: 'element' }">
                 <!-- ko foreach: { data: element.elems, as: 'element' } -->
                     <!-- ko if: element.value -->
                     <span data-bind="text: element.value"></span><br>
