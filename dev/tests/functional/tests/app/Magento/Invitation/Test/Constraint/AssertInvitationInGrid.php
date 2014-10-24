@@ -33,21 +33,18 @@ class AssertInvitationInGrid extends AbstractConstraint
      * @param Invitation $invitation
      * @param CustomerInjectable $customer
      * @param string $status
-     * @param array|null $emails [optional]
      * @return void
      */
     public function processAssert(
         InvitationsIndex $invitationsIndex,
         Invitation $invitation,
         CustomerInjectable $customer,
-        $status,
-        array $emails = null
+        $status
     ) {
         $invitationsIndex->open();
-        $emails = isset($emails) ? $emails : $invitation->getEmail();
         $error = '';
         $invitationGrid = $invitationsIndex->getInvitationGrid();
-        foreach ($emails as $email) {
+        foreach ($invitation->getEmail() as $email) {
             $filter = [
                 'email' => $email,
                 'invitee_group' => $customer->getGroupId(),

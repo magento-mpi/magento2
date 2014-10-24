@@ -46,9 +46,8 @@ class MassActionCustomerInvitationBackendTest extends Injectable
      * @param InvitationsIndex $invitationsIndex
      * @return void
      */
-    public function __inject(
-        InvitationsIndex $invitationsIndex
-    ) {
+    public function __inject(InvitationsIndex $invitationsIndex)
+    {
         $this->invitationsIndex = $invitationsIndex;
     }
 
@@ -73,9 +72,6 @@ class MassActionCustomerInvitationBackendTest extends Injectable
         $acceptAlert = $action == 'Discard Selected' ? true : false;
         $this->invitationsIndex->getInvitationGrid()->massaction($invitationsToSelect, $action, $acceptAlert);
 
-        return [
-            'emails' => $invitation->getEmail(),
-            'invitation' => $invitation->getData()
-        ];
+        return ['invitation' => $invitation];
     }
 }

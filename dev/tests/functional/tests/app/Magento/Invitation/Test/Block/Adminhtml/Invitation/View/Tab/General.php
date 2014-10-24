@@ -12,56 +12,29 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Class General.
  * Tab for general invitation information.
- *
  */
 class General extends Tab
 {
     /**
-     * Locator for invitation information rows.
+     * Get data of tab
      *
-     * @var string
-     */
-    protected $invitationRows = '.invitation_information tr';
-
-    /**
-     * Locator for table row header cell.
-     *
-     * @var string
-     */
-    protected $invitationKey = 'tr th';
-
-    /**
-     * Locator for table row standard cell.
-     *
-     * @var string
-     */
-    protected $invitationValue = 'tr td';
-
-    /**
-     * Get Invitation information elements.
-     *
-     * @return Element[]
-     */
-    protected function getInvitationRows()
-    {
-        return $this->_rootElement->find($this->invitationRows)->getElements();
-    }
-
-    /**
-     * Get Invitation data.
-     *
+     * @param array|null $fields
+     * @param Element|null $element
      * @return array
      */
-    public function getInvitationData()
+    public function getDataFormTab($fields = null, Element $element = null)
     {
-        $rows = $this->getInvitationRows();
-        $data = [];
-        foreach ($rows as $row) {
-            $data[$row->find($this->invitationKey)->getText()] = $row->find($this->invitationValue)->getText();
+        $data = $this->dataMapping($fields);
+        $dataFields = [];
+        $context = ($element === null) ? $this->_rootElement : $element;
+        foreach ($data as $key => $field) {
+            $element = $this->getElement($context, $field);
+            if ($this->mappingMode || $element->isVisible()) {
+                $dataFields[$key] = $element->getText();
+            }
         }
 
-        return $data;
+        return $dataFields;
     }
 }

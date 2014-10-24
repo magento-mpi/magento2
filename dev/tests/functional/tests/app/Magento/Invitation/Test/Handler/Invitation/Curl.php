@@ -22,22 +22,6 @@ use Mtf\System\Config;
 class Curl extends AbstractCurl implements InvitationInterface
 {
     /**
-     * Data mapping.
-     *
-     * @var array
-     */
-    protected $mappingData = [
-        'store_id' => [
-            'Main Website/Main Website Store/Default Store View' => 1,
-        ],
-        'group_id' => [
-            'General' => 1,
-            'Wholesale' => 2,
-            'Retailer' => 3,
-        ]
-    ];
-
-    /**
      * Url to save invitation.
      *
      * @var string
@@ -74,6 +58,12 @@ class Curl extends AbstractCurl implements InvitationInterface
     protected function prepareData(FixtureInterface $fixture)
     {
         $data = $fixture->getData();
+        /** @var \Magento\Invitation\Test\Fixture\Invitation $fixture */
+        $store = $fixture->getDataFieldConfig('store_id')['source']->getStore()->getStoreId();
+        /** @var \Magento\Invitation\Test\Fixture\Invitation $fixture */
+        $group = $fixture->getDataFieldConfig('group_id')['source']->getCustomerGroup()->getCustomerGroupId();
+        $data['store_id'] = $store;
+        $data['group_id'] = $group;
         $data['email'] = implode("\n", $data['email']);
 
         return $data;

@@ -28,14 +28,14 @@ class Invitation extends AbstractRepository
         $this->_data['default'] = [
             'email' => 'test%isolation%@example.com',
             'message' => 'Wish list %isolation%',
-            'store_id' => 'Main Website/Main Website Store/Default Store View',
+            'store_id' => ['dataSet' => 'default'],
             'group_id' => ['dataSet' => 'General'],
         ];
 
         $this->_data['invitation_with_two_emails'] = [
             'email' => 'test%isolation%_1@example.com, test%isolation%_2@example.com',
             'message' => 'Wish list %isolation%',
-            'store_id' => 'Main Website/Main Website Store/Default Store View',
+            'store_id' => ['dataSet' => 'default'],
             'group_id' => ['dataSet' => 'General'],
         ];
     }

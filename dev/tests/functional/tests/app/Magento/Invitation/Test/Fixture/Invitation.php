@@ -95,6 +95,7 @@ class Invitation extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Invitation\Test\Fixture\Invitation\StoreId',
     ];
 
     protected $group_id = [

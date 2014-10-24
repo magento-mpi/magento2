@@ -8,7 +8,8 @@
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
+use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexView;
 
@@ -16,7 +17,7 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexView;
  * Class AssertInvitationForm.
  * Assert that Invitation form was filled correctly.
  */
-class AssertInvitationForm extends AbstractConstraint
+class AssertInvitationForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness.
@@ -30,36 +31,32 @@ class AssertInvitationForm extends AbstractConstraint
      *
      * @param InvitationsIndex $invitationsIndex
      * @param InvitationsIndexView $invitationsIndexView
-     * @param array $invitation
+     * @param Invitation $invitation
      * @param string $status
      * @return void
      */
     public function processAssert(
         InvitationsIndex $invitationsIndex,
         InvitationsIndexView $invitationsIndexView,
-        array $invitation,
+        Invitation $invitation,
         $status
     ) {
         $invitationsIndex->open();
-        foreach ($invitation['email'] as $email) {
+        foreach ($invitation->getEmail() as $email) {
             $filter = [
                 'email' => $email,
                 'status' => $status,
             ];
             $invitationsIndex->getInvitationGrid()->searchAndOpen($filter);
-            $expectedData = [
-                'Email' => $email,
-                'Invitation Message' => $invitation['message'],
-                'Status' => $status
+            $fixtureData = [
+                'email' => $email,
+                'message' => $invitation->getMessage(),
+                'status' => $status
             ];
-            $actualData = $invitationsIndexView->getGeneralTab()->getInvitationData();
-            $result = array_intersect($expectedData, $actualData);
-            \PHPUnit_Framework_Assert::assertEquals(
-                $expectedData,
-                $result,
-                "Expected result doesn't match actual."
-            );
-            $invitationsIndexView->getPageActions()->back();
+            $formData = $invitationsIndexView->getInvitationForm()->getData();
+            $error = $this->verifyData($fixtureData, $formData);
+            \PHPUnit_Framework_Assert::assertEmpty($error, $error);
+            $invitationsIndexView->getFormPageActions()->back();
         }
     }
 
