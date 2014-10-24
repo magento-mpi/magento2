@@ -60,7 +60,6 @@ class Curl extends AbstractCurl implements InvitationInterface
         $data = $fixture->getData();
         /** @var \Magento\Invitation\Test\Fixture\Invitation $fixture */
         $store = $fixture->getDataFieldConfig('store_id')['source']->getStore()->getStoreId();
-        /** @var \Magento\Invitation\Test\Fixture\Invitation $fixture */
         $group = $fixture->getDataFieldConfig('group_id')['source']->getCustomerGroup()->getCustomerGroupId();
         $data['store_id'] = $store;
         $data['group_id'] = $group;

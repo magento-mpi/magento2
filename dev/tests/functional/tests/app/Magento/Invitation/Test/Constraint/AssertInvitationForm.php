@@ -61,12 +61,12 @@ class AssertInvitationForm extends AbstractAssertForm
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Created invitation appears in invitation grid on backend.';
+        return 'Invitation data on View Invitation page on backend equals to passed from fixture.';
     }
 }
