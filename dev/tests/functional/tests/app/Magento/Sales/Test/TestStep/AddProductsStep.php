@@ -13,7 +13,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
  * Class AddProductsStep
- * Add Product Step
+ * Add Products Step
  */
 class AddProductsStep implements TestStepInterface
 {
@@ -25,7 +25,7 @@ class AddProductsStep implements TestStepInterface
     protected $orderCreateIndex;
 
     /**
-     * Catalog Product Simple
+     * Array products
      *
      * @var array
      */
@@ -49,6 +49,16 @@ class AddProductsStep implements TestStepInterface
      */
     public function run()
     {
-        $this->orderCreateIndex->getCreateBlock()->addProducts($this->products);
+        $createBlock = $this->orderCreateIndex->getCreateBlock();
+        $createBlock->getItemsBlock()->clickAddProducts();
+        foreach ($this->products as $product) {
+            $createBlock->getGridBlock()->searchAndSelect(['sku' => $product->getSku()]);
+            $createBlock->getTemplateBlock()->waitLoader();
+            if ($this->orderCreateIndex->getConfigureProductBlock()->isVisible()) {
+                $this->orderCreateIndex->getConfigureProductBlock()->configProduct($product);
+            }
+        }
+        $createBlock->addSelectedProductsToOrder();
+        $createBlock->getTemplateBlock()->waitLoader();
     }
 }

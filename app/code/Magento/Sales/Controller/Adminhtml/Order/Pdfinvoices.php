@@ -8,6 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 use \Magento\Backend\App\Action;
 
@@ -55,7 +56,7 @@ class Pdfinvoices extends \Magento\Sales\Controller\Adminhtml\Order
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\Framework\App\Filesystem::VAR_DIR,
+                    DirectoryList::VAR_DIR,
                     'application/pdf'
                 );
             } else {

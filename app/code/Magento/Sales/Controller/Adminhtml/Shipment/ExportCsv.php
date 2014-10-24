@@ -8,6 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Shipment;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportCsv extends \Magento\Backend\App\Action
@@ -50,7 +51,7 @@ class ExportCsv extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $grid->getCsvFile(),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }
