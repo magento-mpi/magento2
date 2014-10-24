@@ -7,17 +7,17 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Logger;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface as MagentoTimezone;
-use Magento\Framework\Stdlib\String as MagentoString;
 
 /**
  * Customer Address Postal/Zip Code Attribute Data Model
  */
-class Postcode extends Text
+class Postcode extends AbstractData
 {
     /**
      * @var DirectoryHelper
@@ -32,7 +32,6 @@ class Postcode extends Text
      * @param string $value
      * @param string $entityTypeCode
      * @param bool $isAjax
-     * @param MagentoString $stringHelper
      * @param DirectoryHelper $directoryHelper
      */
     public function __construct(
@@ -43,7 +42,6 @@ class Postcode extends Text
         $value,
         $entityTypeCode,
         $isAjax,
-        MagentoString $stringHelper,
         DirectoryHelper $directoryHelper
     ) {
         $this->directoryHelper = $directoryHelper;
@@ -54,8 +52,7 @@ class Postcode extends Text
             $localeResolver,
             $value,
             $entityTypeCode,
-            $isAjax,
-            $stringHelper
+            $isAjax
         );
     }
 
@@ -68,10 +65,53 @@ class Postcode extends Text
      */
     public function validateValue($value)
     {
+        $attribute = $this->getAttribute();
+        $label = __($attribute->getStoreLabel());
+
         $countryId = $this->getExtractedData('country_id');
         if ($this->directoryHelper->isZipCodeOptional($countryId)) {
             return true;
         }
-        return parent::validateValue($value);
+
+        $errors = [];
+        if (empty($value) && $value !== '0') {
+            $errors[] = __('"%1" is a required value.', $label);
+        }
+        if (count($errors) == 0) {
+            return true;
+        }
+        return $errors;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
+    {
+        return $this->_applyInputFilter($this->_getRequestValue($request));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function compactValue($value)
+    {
+        return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function restoreValue($value)
+    {
+        return $this->compactValue($value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function outputValue($format = ElementFactory::OUTPUT_FORMAT_TEXT)
+    {
+        return $this->_applyOutputFilter($this->_value);
     }
 }

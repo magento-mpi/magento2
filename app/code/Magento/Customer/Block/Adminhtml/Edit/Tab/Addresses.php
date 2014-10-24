@@ -339,7 +339,7 @@ class Addresses extends GenericMetadata
      */
     public function initAddressForm(Address $address)
     {
-        $form = $this->getForm();
+        $form = $this->initForm()->getForm();
 
         $postcode = $form->getElement('postcode');
         if ($postcode) {
