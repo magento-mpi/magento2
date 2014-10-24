@@ -333,7 +333,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                     => 'Magento\Framework\Service\Code\Generator\SearchResults'
             )
         );
-        $fileResolver = new \Magento\Framework\Code\Generator\Autoloader($generator);
+        $fileResolver = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
         spl_autoload_register(array($fileResolver, 'load'));
 
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
