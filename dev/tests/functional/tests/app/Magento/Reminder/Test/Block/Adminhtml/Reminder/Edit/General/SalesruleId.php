@@ -42,6 +42,7 @@ class SalesruleId extends \Mtf\Client\Driver\Selenium\Element
 
     /**
      * Set value.
+     *
      * @param string $value
      * @return void
      */
