@@ -136,17 +136,19 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                     }
                     if (!empty($attributeValue['from']) || !empty($attributeValue['to'])) {
                         if (!empty($attributeValue['from'])) {
-                            $this->requestBuilder->bind("{$attributeCode}_from", $attributeValue['from']);
+                            $this->requestBuilder->bind("{$attributeCode}.from", $attributeValue['from']);
                         }
                         if (!empty($attributeValue['to'])) {
-                            $this->requestBuilder->bind("{$attributeCode}_to", $attributeValue['to']);
+                            $this->requestBuilder->bind("{$attributeCode}.to", $attributeValue['to']);
                         }
                     } elseif (!is_array($attributeValue)) {
                         $this->requestBuilder->bind($attributeCode, $attributeValue);
-                    } else if (isset($attributeValue['like'])) {
+                    } elseif (isset($attributeValue['like'])) {
                         $this->requestBuilder->bind($attributeCode, trim($attributeValue['like'], '%'));
-                    } else {
+                    } elseif (isset($attributeValue['in'])) {
                         $this->requestBuilder->bind($attributeCode, $attributeValue['in']);
+                    } elseif (isset($attributeValue['in_set'])) {
+                        $this->requestBuilder->bind($attributeCode, implode('%', $attributeValue['in_set']));
                     }
                 }
             }

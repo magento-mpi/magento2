@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <checkoutAgreement module="Magento_CheckoutAgreements">
+        <type>flat</type>
+        <entity_type>checkout_agreement</entity_type>
+        <collection>Magento\CheckoutAgreements\Model\Resource\Agreement\Collection</collection>
+    </checkoutAgreement>
+</fixture>

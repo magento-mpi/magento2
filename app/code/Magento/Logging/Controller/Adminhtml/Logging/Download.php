@@ -8,6 +8,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml\Logging;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class Download extends \Magento\Logging\Controller\Adminhtml\Logging
@@ -24,7 +25,7 @@ class Download extends \Magento\Logging\Controller\Adminhtml\Logging
             return $this->_fileFactory->create(
                 $archive->getBaseName(),
                 $archive->getContents(),
-                \Magento\Framework\App\Filesystem::VAR_DIR,
+                DirectoryList::VAR_DIR,
                 $archive->getMimeType()
             );
         }

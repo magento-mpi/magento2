@@ -109,7 +109,7 @@ class CustomOptions extends Form
      *
      * @var string
      */
-    protected $optionByName = '//*[label//span[contains(.,"%s")]]';
+    protected $optionByName = '//*[label[contains(.,"%s")]]';
 
     /**
      * Get product options

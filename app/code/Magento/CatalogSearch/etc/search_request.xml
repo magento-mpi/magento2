@@ -14,7 +14,7 @@
             <dimension name="scope" value="default"/>
         </dimensions>
         <queries>
-            <query xsi:type="matchQuery" value="$search_term$" name="quick_search_container">
+            <query xsi:type="matchQuery" value="$search_term$*" name="quick_search_container">
                 <match field="name" boost="1"/>
                 <match field="description" boost="1"/>
                 <match field="short_description" boost="1"/>
@@ -41,7 +41,7 @@
         </queries>
         <filters>
             <filter xsi:type="wildcardFilter" name="sku_query_filter" field="sku" value="$sku$"/>
-            <filter xsi:type="rangeFilter" name="price_query_filter" field="price" from="$price_from$" to="$price_to$"/>
+            <filter xsi:type="rangeFilter" name="price_query_filter" field="price" from="$price.from$" to="$price.to$"/>
         </filters>
         <from>0</from>
         <size>10</size>
