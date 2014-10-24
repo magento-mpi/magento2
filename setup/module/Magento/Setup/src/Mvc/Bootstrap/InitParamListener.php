@@ -10,6 +10,7 @@ namespace Magento\Setup\Mvc\Bootstrap;
 
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Bootstrap as AppBootstrap;
+use Magento\Framework\App\State;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
@@ -18,12 +19,20 @@ use Zend\EventManager\ListenerAggregateInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Console\Request;
 use Zend\Stdlib\RequestInterface;
+use Magento\Framework\Shell\ComplexParameter;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * A listener that injects custom directory paths and initializes Filesystem component for Zend application
+ * A listener that injects relevant Magento initialization parameters and initializes Magento\Filesystem component
  */
-class DirectoriesListener implements ListenerAggregateInterface
+class InitParamListener implements ListenerAggregateInterface, FactoryInterface
 {
+    /**
+     * A CLI parameter for injecting bootstrap variables
+     */
+    const BOOTSTRAP_PARAM = 'magento_init_params';
+
     /**
      * List of ZF event listeners
      *
@@ -34,32 +43,38 @@ class DirectoriesListener implements ListenerAggregateInterface
     /**
      * Registers itself to every command in console routes
      *
-     * @param array &$config
-     * @return void
+     * @param array $config
+     * @return array
      */
-    public static function registerCliRoutes(&$config)
+    public static function attachToConsoleRoutes($config)
     {
         foreach ($config['console']['router']['routes'] as &$route) {
-            $route['options']['route'] .= ' [--' . AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS . '=]';
+            $route['options']['route'] .= ' [--' . self::BOOTSTRAP_PARAM . '=]';
         }
+        return $config;
     }
 
     /**
      * Adds itself to CLI usage instructions
      *
-     * @param $config
+     * @return array
      */
-    public static function registerCliUsage(&$config)
+    public static function getConsoleUsage()
     {
-        $config[] = '';
-        $config[] = [
-            '[--' . AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS . sprintf('=%s]', escapeshellarg('<query>')),
-            'Add to any command to customize Magento filesystem paths in bootstrap'
+        $result = [''];
+        $result[] = [
+            '[--' . self::BOOTSTRAP_PARAM . sprintf('=%s]', escapeshellarg('<query>')),
+            'Add to any command to customize Magento initialization parameters'
         ];
-        $config[] = [
-            '',
-            sprintf('For example: %s', escapeshellarg('base[path]=/var/www/example.com&cache[path]=/var/tmp/cache'))
+        $mode = State::PARAM_MODE;
+        $dirs = AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
+        $examples = [
+            "{$mode}=developer",
+            "{$dirs}[base][path]=/var/www/example.com",
+            "{$dirs}[cache][path]=/var/tmp/cache",
         ];
+        $result[] = ['', sprintf('For example: %s', escapeshellarg(implode('&', $examples)))];
+        return $result;
     }
 
     /**
@@ -97,7 +112,8 @@ class DirectoriesListener implements ListenerAggregateInterface
     {
         /** @var Application $application */
         $application = $e->getApplication();
-        $directoryList = $this->createDirectoryList($this->getDirectoryListConfig($application));
+        $initParams = $application->getServiceManager()->get(self::BOOTSTRAP_PARAM);
+        $directoryList = $this->createDirectoryList($initParams);
         $serviceManager = $application->getServiceManager();
         $serviceManager->setService('Magento\Framework\App\Filesystem\DirectoryList', $directoryList);
         $serviceManager->setService('Magento\Framework\Filesystem', $this->createFilesystem($directoryList));
@@ -105,7 +121,15 @@ class DirectoriesListener implements ListenerAggregateInterface
     }
 
     /**
-     * Collects DirectoryList configuration from multiple sources
+     * {@inheritdoc}
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this->extractInitParameters($serviceLocator->get('Application'));
+    }
+
+    /**
+     * Collects init params configuration from multiple sources
      *
      * Each next step overwrites previous, whenever data is available, in the following order:
      * 1: ZF application config
@@ -115,30 +139,20 @@ class DirectoriesListener implements ListenerAggregateInterface
      * @param Application $application
      * @return array
      */
-    private function getDirectoryListConfig(Application $application)
+    private function extractInitParameters(Application $application)
     {
-        $result = array_replace_recursive(
-            $this->extractInitParam($application->getConfig()),
-            $this->extractInitParam($_SERVER),
-            $this->extractFromCli($application->getRequest())
-        );
-        DirectoryList::validate($result);
-        return $result;
-    }
-
-    /**
-     * Extracts the directory paths init parameter from an array
-     *
-     * @param array $config
-     * @return array
-     */
-    private function extractInitParam($config)
-    {
-        $initKey = AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
-        if (isset($config[$initKey])) {
-            return $config[$initKey];
+        $result = [];
+        $config = $application->getConfig();
+        if (isset($config[self::BOOTSTRAP_PARAM])) {
+            $result = $config[self::BOOTSTRAP_PARAM];
         }
-        return [];
+        foreach ([State::PARAM_MODE, AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS] as $initKey) {
+            if (isset($_SERVER[$initKey])) {
+                $result[$initKey] = $_SERVER[$initKey];
+            }
+        }
+        $result = array_replace_recursive($result, $this->extractFromCli($application->getRequest()));
+        return $result;
     }
 
     /**
@@ -154,29 +168,29 @@ class DirectoriesListener implements ListenerAggregateInterface
         if (!($request instanceof Request)) {
             return [];
         }
-        $initKey = AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
-        $result = [];
+        $bootstrapParam = new ComplexParameter(self::BOOTSTRAP_PARAM);
         foreach ($request->getContent() as $paramStr) {
-            if (preg_match('/^\-\-' . preg_quote($initKey, '/') . '=(.+)$/', $paramStr, $matches)) {
-                parse_str($matches[1], $result);
+            $result = $bootstrapParam->getFromString($paramStr);
+            if (!empty($result)) {
+                return $result;
             }
         }
-        DirectoryList::validate($result);
-        return $result;
+        return [];
     }
 
     /**
      * Initializes DirectoryList service
      *
-     * @param array $config
+     * @param array $initParams
      * @return DirectoryList
      * @throws \LogicException
      */
-    public function createDirectoryList($config)
+    public function createDirectoryList($initParams)
     {
-        if (!isset($config[DirectoryList::ROOT])) {
+        if (!isset($initParams[AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS][DirectoryList::ROOT])) {
             throw new \LogicException('Magento root directory is not specified.');
         }
+        $config = $initParams[AppBootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS];
         $rootDir = $config[DirectoryList::ROOT][DirectoryList::PATH];
         return new DirectoryList($rootDir, $config);
     }

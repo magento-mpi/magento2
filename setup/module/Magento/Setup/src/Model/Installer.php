@@ -23,6 +23,8 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\MaintenanceMode;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -132,23 +134,32 @@ class Installer
     private $progress;
 
     /**
+     * Maintenance mode handler
+     *
      * @var MaintenanceMode
      */
     private $maintenanceMode;
-
-    /**
-     * Messages
-     *
-     * @var array
-     */
-    private $messages = array();
 
     /**
      * Magento filesystem
      *
      * @var Filesystem
      */
-    protected $filesystem;
+    private $filesystem;
+
+    /**
+     * Informational messages that may appear during installation routine
+     *
+     * @var array
+     */
+    private $messages = array();
+
+    /**
+     * A materialized string of initialization parameters to pass on any script that's run externally by this model
+     *
+     * @var string
+     */
+    private $execParams;
 
     /**
      * Constructor
@@ -164,6 +175,7 @@ class Installer
      * @param ConnectionFactory $connectionFactory
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
+     * @param ServiceLocatorInterface $serviceManager
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -176,7 +188,8 @@ class Installer
         Random $random,
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        ServiceLocatorInterface $serviceManager
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -191,6 +204,7 @@ class Installer
         $this->shell = new Shell($this->shellRenderer);
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
+        $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
     }
 
     /**
@@ -302,8 +316,8 @@ class Installer
     public function installDeploymentConfig($data)
     {
         $data[Config::KEY_DATE] = date('r');
-        if (empty($data[config::KEY_ENCRYPTION_KEY])) {
-            $data[config::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
+        if (empty($data[Config::KEY_ENCRYPTION_KEY])) {
+            $data[Config::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
         }
         $config = $this->deploymentConfigFactory->create((array)$data);
         $config->saveToFile();
@@ -343,7 +357,8 @@ class Installer
      */
     public function installDataFixtures()
     {
-        $this->exec('-f %s', [$this->directoryList->getRoot() . '/dev/shell/run_data_fixtures.php']);
+        $params = [$this->directoryList->getRoot() . '/dev/shell/run_data_fixtures.php', $this->execParams];
+        $this->exec('-f %s -- --bootstrap=%s', $params);
     }
 
     /**
@@ -443,8 +458,8 @@ class Installer
      */
     private function enableCaches()
     {
-        $args = [$this->directoryList->getRoot() . '/dev/shell/cache.php'];
-        $this->exec('-f %s -- --set=1', $args);
+        $args = [$this->directoryList->getRoot() . '/dev/shell/cache.php', $this->execParams];
+        $this->exec('-f %s -- --set=1 --bootstrap=%s', $args);
     }
 
     /**

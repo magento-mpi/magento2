@@ -8,6 +8,8 @@
 
 $autoload = __DIR__ . '/vendor/autoload.php';
 
+define('BP', dirname(__DIR__));
+
 if (!file_exists($autoload)) {
     if (PHP_SAPI == 'cli') {
         echo "Dependencies not installed. Please run 'composer install' under /setup directory.\n";
