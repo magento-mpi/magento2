@@ -38,35 +38,35 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class UpdateProductFromMiniShoppingCartEntityTest extends Injectable
 {
     /**
-     * Browser interface
+     * Browser interface.
      *
      * @var Browser
      */
     protected $browser;
 
     /**
-     * Catalog product view page
+     * Catalog product view page.
      *
      * @var CatalogProductView
      */
     protected $catalogProductView;
 
     /**
-     * Cms index page
+     * Cms index page.
      *
      * @var CmsIndex
      */
     protected $cmsIndex;
 
     /**
-     * Fixture factory
+     * Fixture factory.
      *
      * @var FixtureFactory
      */
     protected $fixtureFactory;
 
     /**
-     * Inject data
+     * Inject data.
      *
      * @param CmsIndex $cmsIndex
      * @param Browser $browser
@@ -87,7 +87,7 @@ class UpdateProductFromMiniShoppingCartEntityTest extends Injectable
     }
 
     /**
-     * Update product from mini shopping cart
+     * Update product from mini shopping cart.
      *
      * @param string $originalProduct
      * @param array $checkoutData
@@ -117,7 +117,7 @@ class UpdateProductFromMiniShoppingCartEntityTest extends Injectable
     }
 
     /**
-     * Create product
+     * Create product.
      *
      * @param string $product
      * @param array $data [optional]
@@ -125,15 +125,15 @@ class UpdateProductFromMiniShoppingCartEntityTest extends Injectable
      */
     protected function createProduct($product, array $data = [])
     {
-        $addToCartStep = $this->objectManager->create(
+        $createProductsStep = $this->objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $product, 'data' => $data]
         );
-        return $addToCartStep->run()['products'][0];
+        return $createProductsStep->run()['products'][0];
     }
 
     /**
-     * Add product to cart
+     * Add product to cart.
      *
      * @param FixtureInterface $product
      * @return void
@@ -148,7 +148,7 @@ class UpdateProductFromMiniShoppingCartEntityTest extends Injectable
     }
 
     /**
-     * Update product on mini shopping cart
+     * Update product on mini shopping cart.
      *
      * @param FixtureInterface $product
      * @return void

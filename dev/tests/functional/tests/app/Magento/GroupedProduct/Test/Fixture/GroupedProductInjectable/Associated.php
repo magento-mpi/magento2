@@ -55,9 +55,9 @@ class Associated implements FixtureInterface
                 list($fixture, $dataSet) = explode('::', $product);
                 /** @var $productFixture InjectableFixture */
                 $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-                if (!$product->hasData('id')) {
-                    $product->persist();
-                }
+            }
+            if (!$product->hasData('id')) {
+                $product->persist();
             }
             $this->data['products'][$key] = $product;
         }

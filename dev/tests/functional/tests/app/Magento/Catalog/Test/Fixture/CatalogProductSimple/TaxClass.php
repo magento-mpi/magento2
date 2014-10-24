@@ -51,7 +51,7 @@ class TaxClass implements FixtureInterface
      *
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array $data
+     * @param array|string $data
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
@@ -141,7 +141,7 @@ class TaxClass implements FixtureInterface
     /**
      * Return tax class fixture
      *
-     * @return \Magento\Tax\Test\Fixture\TaxClass
+     * @return FixtureTaxClass
      */
     public function getTaxClass()
     {

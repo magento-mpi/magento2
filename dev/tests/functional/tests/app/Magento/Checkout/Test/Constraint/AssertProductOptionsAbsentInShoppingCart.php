@@ -18,7 +18,7 @@ use Magento\Checkout\Test\Fixture\Cart;
 class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
 {
     /**
-     * Notice message
+     * Notice message.
      *
      * @var string
      */
@@ -35,8 +35,9 @@ class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
     {
         parent::processAssert($checkoutCart, $deletedCart);
     }
+
     /**
-     * Verify form data not contains in fixture data
+     * Verify form data not contains in fixture data.
      *
      * @param array $fixtureData
      * @param array $formData
@@ -92,7 +93,7 @@ class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */
