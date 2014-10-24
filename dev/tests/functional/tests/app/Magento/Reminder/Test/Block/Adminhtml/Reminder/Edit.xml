@@ -9,10 +9,14 @@
 -->
 <tabs>
     <rule_information>
-        <class>\Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\General</class>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#magento_reminder_rule_tabs_general_section</selector>
         <strategy>css selector</strategy>
         <fields>
+            <salesrule_id>
+                <selector>#salesrule_id + label</selector>
+                <class>\Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\General\SalesruleId</class>
+            </salesrule_id>
             <is_active>
                 <input>select</input>
             </is_active>

@@ -50,16 +50,11 @@ class CreateAutomatedEmailReminderRuleTest extends Injectable
     /**
      * Prepare data.
      *
-     * @param ReminderIndex $reminderIndex
-     * @param ReminderView $reminderView
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(ReminderIndex $reminderIndex, ReminderView $reminderView, FixtureFactory $fixtureFactory)
+    public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $this->reminderIndex = $reminderIndex;
-        $this->reminderView = $reminderView;
-
         $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
         $product->persist();
         return ['product' => $product];
@@ -68,15 +63,23 @@ class CreateAutomatedEmailReminderRuleTest extends Injectable
     /**
      * Inject data.
      *
+     * @param ReminderIndex $reminderIndex
+     * @param ReminderView $reminderView
      * @param CustomerInjectable $customer1
      * @param CustomerInjectable $customer2
      * @return array
      */
-    public function __inject(CustomerInjectable $customer1, CustomerInjectable $customer2)
-    {
+    public function __inject(
+        ReminderIndex $reminderIndex,
+        ReminderView $reminderView,
+        CustomerInjectable $customer1,
+        CustomerInjectable $customer2
+    ) {
+        $this->reminderIndex = $reminderIndex;
+        $this->reminderView = $reminderView;
+
         $customer1->persist();
         $customer2->persist();
-
         return [
             'customer1' => $customer1,
             'customer2' => $customer2

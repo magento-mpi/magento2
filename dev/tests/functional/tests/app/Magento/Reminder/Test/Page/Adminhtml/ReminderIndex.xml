@@ -21,7 +21,7 @@
         </pageActionsBlock>
         <remindersGrid>
             <class>Magento\Reminder\Test\Block\Adminhtml\Reminder\Grid</class>
-            <locator>[id="page:main-container"]</locator>
+            <locator>#reminderGrid</locator>
             <strategy>css selector</strategy>
         </remindersGrid>
     </blocks>

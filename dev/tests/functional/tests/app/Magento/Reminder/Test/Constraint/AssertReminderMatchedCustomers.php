@@ -48,13 +48,6 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
     protected $catalogProductView;
 
     /**
-     * Checkout cart page.
-     *
-     * @var CheckoutCart
-     */
-    protected $checkoutCart;
-
-    /**
      * Fixture product.
      *
      * @var CatalogProductSimple
@@ -154,7 +147,7 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
     }
 
     /**
-     * Add product to cart by some customer.
+     * Add product to cart by customer.
      *
      * @param CustomerInjectable $customer
      * @param int $productQty
@@ -171,8 +164,6 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
         $this->catalogProductView->getViewBlock()->fillOptions($this->product);
         $this->catalogProductView->getViewBlock()->setQty($productQty);
         $this->catalogProductView->getViewBlock()->clickAddToCart();
-
-        ObjectManager::getInstance()->create('\Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep')->run();
     }
 
     /**

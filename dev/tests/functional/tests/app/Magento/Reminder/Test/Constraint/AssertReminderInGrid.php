@@ -41,17 +41,14 @@ class AssertReminderInGrid extends AbstractConstraint
         $websiteIds = $reminder->getWebsiteIds();
         $filter = array_filter([
             'name' => $reminder->getName(),
-            'from_date_to' => $reminder->getFromDate(),
-            'to_date_to' => $reminder->getToDate(),
+            'from_date_to' => date('M d, Y', strtotime($reminder->getFromDate())),
+            'to_date_to' => date('M d, Y', strtotime($reminder->getToDate())),
             'status' => $reminder->getIsActive(),
             'website' => is_array($websiteIds) ? reset($websiteIds) : null
         ]);
 
         $reminderIndex->open();
         $reminderIndex->getRemindersGrid()->search($filter);
-
-        $filter['from_date_to'] = date('M d, Y', strtotime($filter['from_date_to']));
-        $filter['to_date_to'] = date('M d, Y', strtotime($filter['to_date_to']));
         \PHPUnit_Framework_Assert::assertTrue(
             $reminderIndex->getRemindersGrid()->isRowVisible($filter, false, false),
             'Reminder with name "' . $filter['name'] . '", is absent in grid.'

@@ -26,16 +26,20 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => 'input[name="name"]'
         ],
         'from_date_from' => [
-            'selector' => 'input[name="from_date[from]"]'
+            'selector' => 'input[name="from_date[from]"]',
+            'input' => 'datepicker'
         ],
         'from_date_to' => [
-            'selector' => 'input[name="from_date[to]"]'
+            'selector' => 'input[name="from_date[to]"]',
+            'input' => 'datepicker'
         ],
         'to_date_from' => [
-            'selector' => 'input[name="to_date[from]"]'
+            'selector' => 'input[name="to_date[from]"]',
+            'input' => 'datepicker'
         ],
         'to_date_to' => [
-            'selector' => 'input[name="to_date[to]"]'
+            'selector' => 'input[name="to_date[to]"]',
+            'input' => 'datepicker'
         ],
         'status' => [
             'selector' => 'select[name="is_active"]',
