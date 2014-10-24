@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search;
+namespace Magento\Search\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
 class SearchEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Search\SearchEngine
+     * @var SearchEngine
      */
     private $searchEngine;
 
@@ -25,7 +25,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new ObjectManager($this);
 
-        $adapterFactory = $this->getMockBuilder('Magento\Framework\Search\AdapterFactory')
+        $adapterFactory = $this->getMockBuilder('Magento\Search\Model\AdapterFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -36,7 +36,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
         $adapterFactory->expects($this->once())->method('create')->will($this->returnValue($this->adapter));
 
         $this->searchEngine = $helper->getObject(
-            'Magento\Framework\Search\SearchEngine',
+            'Magento\Search\Model\SearchEngine',
             [
                 'adapterFactory' => $adapterFactory,
             ]
