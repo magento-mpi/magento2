@@ -12,7 +12,7 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
 
 /**
- * Assert message present "You saved the reminder rule.".
+ * Assert that success message is present.
  */
 class AssertReminderSuccessSaveMessage extends AbstractConstraint
 {
@@ -29,7 +29,7 @@ class AssertReminderSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert message present "You saved the reminder rule.".
+     * Assert that success message is present.
      *
      * @param ReminderIndex $reminderIndex
      * @return void
@@ -41,8 +41,6 @@ class AssertReminderSuccessSaveMessage extends AbstractConstraint
             self::SUCCESS_SAVE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

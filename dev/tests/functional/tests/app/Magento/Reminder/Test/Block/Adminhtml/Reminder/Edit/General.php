@@ -22,7 +22,7 @@ class General extends \Magento\Backend\Test\Block\Widget\Tab
      *
      * @var string
      */
-    protected $selectRuleButton = './/button[contains(.,"Select Rule")]';
+    protected $selectRuleButton = '.field-choosersalesrule_id button';
 
     /**
      * Locator for loader.
@@ -98,7 +98,7 @@ class General extends \Magento\Backend\Test\Block\Widget\Tab
      */
     protected function selectRule()
     {
-        $this->_rootElement->find($this->selectRuleButton, Element\Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->selectRuleButton)->click();
     }
 
     /**

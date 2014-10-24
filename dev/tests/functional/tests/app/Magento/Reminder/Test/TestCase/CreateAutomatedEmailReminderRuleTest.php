@@ -55,12 +55,8 @@ class CreateAutomatedEmailReminderRuleTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(
-        ReminderIndex $reminderIndex,
-        ReminderView $reminderView,
-        FixtureFactory $fixtureFactory
-
-    ) {
+    public function __prepare(ReminderIndex $reminderIndex, ReminderView $reminderView, FixtureFactory $fixtureFactory)
+    {
         $this->reminderIndex = $reminderIndex;
         $this->reminderView = $reminderView;
 

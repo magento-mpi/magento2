@@ -46,14 +46,14 @@ class AssertReminderForm extends AbstractAssertForm
     public function processAssert(ReminderIndex $reminderIndex, ReminderView $reminderView, Reminder $reminder)
     {
         $reminderIndex->open();
-        $reminderIndex->getGrid()->searchAndOpen(['name' => $reminder->getName()]);
+        $reminderIndex->getRemindersGrid()->searchAndOpen(['name' => $reminder->getName()]);
 
         $fixtureData = $reminder->getData();
         $pageData = $reminderView->getReminderForm()->getData($reminder);
         \PHPUnit_Framework_Assert::assertEquals(
             $this->prepareData($fixtureData),
             $this->prepareData($pageData),
-            ''
+            'Reminder data on edit page does not equals passed from fixture.'
         );
     }
 
@@ -69,7 +69,7 @@ class AssertReminderForm extends AbstractAssertForm
             $data['from_date'] = date('m/d/Y', strtotime($data['from_date']));
         }
         if (isset($data['to_date'])) {
-            $data['to_date'] = date('m/d/Y', strtotime($data['from_date']));
+            $data['to_date'] = date('m/d/Y', strtotime($data['to_date']));
         }
         return array_diff_key($data, array_flip($this->skippedFields));
     }

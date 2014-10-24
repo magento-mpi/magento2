@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
- * Open created reminder and assert customer in  Matched Customers grid.
+ * Open created reminder and assert customer in Matched Customers grid.
  */
 class AssertReminderMatchedCustomers extends AbstractConstraint
 {
@@ -76,7 +76,7 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
     protected $unmatchedCustomer;
 
     /**
-     * Open created reminder and assert customer in  Matched Customers grid:
+     * Open created reminder and assert customer in Matched Customers grid:
      * - email
      * - coupon
      *
@@ -110,10 +110,10 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
         $this->unmatchedCustomer = $customer2;
 
         $salesRuleCoupon = $this->getSalesRuleCoupon($reminder);
-        $matchedCustomers = $this->prepareMatchedCustomers();
+        $matchedCustomers = $this->prepareCustomers();
 
         $reminderIndex->open();
-        $reminderIndex->getGrid()->searchAndOpen(['name' => $reminder->getName()]);
+        $reminderIndex->getRemindersGrid()->searchAndOpen(['name' => $reminder->getName()]);
         $reminderView->getPageMainActions()->runNow();
 
         /** @var TabMatchedCustomers $tabCustomers */
@@ -132,14 +132,14 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
     }
 
     /**
-     * Prepare matched customers.
+     * Prepare customers.
      *
      * @return array
      */
-    protected function prepareMatchedCustomers()
+    protected function prepareCustomers()
     {
-        $this->checkout($this->matchedCustomer, 2);
-        $this->checkout($this->unmatchedCustomer, 1);
+        $this->addProductToCart($this->matchedCustomer, 2);
+        $this->addProductToCart($this->unmatchedCustomer, 1);
 
         return [
             [
@@ -154,13 +154,13 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
     }
 
     /**
-     * Create checkout for some customer.
+     * Add product to cart by some customer.
      *
      * @param CustomerInjectable $customer
      * @param int $productQty
      * @return void
      */
-    protected function checkout(CustomerInjectable $customer, $productQty)
+    protected function addProductToCart(CustomerInjectable $customer, $productQty)
     {
         ObjectManager::getInstance()->create(
             '\Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',

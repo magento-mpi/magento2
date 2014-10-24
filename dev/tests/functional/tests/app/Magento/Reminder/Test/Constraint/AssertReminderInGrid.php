@@ -25,7 +25,7 @@ class AssertReminderInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert reminder present in grid:
+     * Assert reminder with following fields is present in grid:
      * - Rule
      * - Start on
      * - End on
@@ -48,15 +48,13 @@ class AssertReminderInGrid extends AbstractConstraint
         ]);
 
         $reminderIndex->open();
-        $reminderIndex->getGrid()->search($filter);
+        $reminderIndex->getRemindersGrid()->search($filter);
 
         $filter['from_date_to'] = date('M d, Y', strtotime($filter['from_date_to']));
         $filter['to_date_to'] = date('M d, Y', strtotime($filter['to_date_to']));
         \PHPUnit_Framework_Assert::assertTrue(
-            $reminderIndex->getGrid()->isRowVisible($filter, false, false),
-            'Reminder with '
-            . 'name \'' . $filter['name'] . '\', '
-            . 'is absent in grid.'
+            $reminderIndex->getRemindersGrid()->isRowVisible($filter, false, false),
+            'Reminder with name "' . $filter['name'] . '", is absent in grid.'
         );
     }
 

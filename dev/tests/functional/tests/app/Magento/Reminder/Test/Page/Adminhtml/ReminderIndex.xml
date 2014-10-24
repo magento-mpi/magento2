@@ -19,10 +19,10 @@
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </pageActionsBlock>
-        <grid>
+        <remindersGrid>
             <class>Magento\Reminder\Test\Block\Adminhtml\Reminder\Grid</class>
             <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
-        </grid>
+        </remindersGrid>
     </blocks>
 </page>
