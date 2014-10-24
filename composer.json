@@ -215,13 +215,13 @@
     },
     "autoload": {
         "psr-0": {
-            "Apache_": "lib/internal",
+            "Apache_": "lib/internal/",
             "Cm_": "lib/internal/",
             "Credis_": "lib/internal/",
             "Less_": "lib/internal/",
             "Symfony\\": "lib/internal/",
-            "Zend_Date": "app/code",
-            "Zend_Mime": "app/code",
+            "Zend_Date": "app/code/",
+            "Zend_Mime": "app/code/",
             "Zend_": "lib/internal/",
             "Zend\\": "lib/internal/"
         },
@@ -229,26 +229,22 @@
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
             "Magento\\": [
                 "app/code/Magento/",
-                "var/generation/Magento"
+                "var/generation/Magento/"
             ],
-            "Zend\\Soap\\": "app/code/Zend/Soap",
-            "Zend\\": "lib/internal/Zend"
+            "Zend\\Soap\\": "app/code/Zend/Soap/",
+            "Zend\\": "lib/internal/Zend/"
         }
     },
     "include-path": [
-        "/lib/internal",
-        "/app/code"
+        "/lib/internal/",
+        "/app/code/"
     ],
     "autoload-dev": {
         "psr-4": {
-            "Magento\\Tools\\": [
-                "dev/tools/Magento/Tools/"
-            ],
+            "Magento\\Tools\\": ["dev/tools/Magento/Tools/"],
             "Magento\\Tools\\License\\": ["dev/build/publication/license/"],
-            "Magento\\Tools\\Sanity\\": ["dev/build/publication/sanity/Magento/Tools/Sanity"],
-            "Magento\\TestFramework\\Inspection\\": [
-                "dev/tests/static/framework/Magento/TestFramework/Inspection"
-            ],
+            "Magento\\Tools\\Sanity\\": ["dev/build/publication/sanity/Magento/Tools/Sanity/"],
+            "Magento\\TestFramework\\Inspection\\": ["dev/tests/static/framework/Magento/TestFramework/Inspection/"],
             "Magento\\ToolkitFramework\\": ["dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/"]
         }
     }

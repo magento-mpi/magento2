@@ -64,7 +64,11 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             '_classGenerator',
             $this->_model
         );
-        $this->assertAttributeInstanceOf('Magento\Framework\Code\Generator\FileResolver', 'fileResolver', $this->_model);
+        $this->assertAttributeInstanceOf(
+            'Magento\Framework\Code\Generator\FileResolver',
+            'fileResolver',
+            $this->_model
+        );
 
         // with source class name
         $this->_model = $this->getMockForAbstractClass(
@@ -254,7 +258,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $fileresolver = $this->getMock('Magento\Framework\Code\Generator\FileResolver', array('getFile'), array(), '', false);
+        $fileresolver = $this->getMock('Magento\Framework\Code\Generator\FileResolver', ['getFile'], [], '', false);
 
         $ioObject->expects(
             $this->any()

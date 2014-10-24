@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Code\Generator;
 
+use \Magento\Framework\Code\Generator;
+
 class Autoloader
 {
     /**
@@ -40,10 +42,7 @@ class Autoloader
     public function load($className)
     {
         if (!class_exists($className)) {
-            if (\Magento\Framework\Code\Generator::GENERATION_SUCCESS === $this->_generator->generateClass(
-                    $className
-                )
-            ) {
+            if (Generator::GENERATION_SUCCESS === $this->_generator->generateClass($className)) {
                 $file = $this->fileResolver->getFile($className);
                 if ($file) {
                     include $file;

@@ -27,7 +27,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', array(), array(), '', false);
+        $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', [], [], '', false);
         $this->classGeneratorMock = $this->getMock(
             '\Magento\Framework\Code\Generator\CodeGenerator\CodeGeneratorInterface',
             array(),
@@ -35,7 +35,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->fileResolverMock = $this->getMock('Magento\Framework\Code\Generator\FileResolver', array(), array(), '', false);
+        $this->fileResolverMock = $this->getMock('Magento\Framework\Code\Generator\FileResolver', [], [], '', false);
     }
 
     public function testGetDefaultResultClassName()
