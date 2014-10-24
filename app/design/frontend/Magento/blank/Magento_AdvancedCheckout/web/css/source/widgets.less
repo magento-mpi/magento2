@@ -6,199 +6,77 @@
 //  * @license     {license_link}
 //  */
 
-.block-addbysku {
-    .fieldset {
-        margin: 0 0 @indent-s-base;
-        .fields {
-            position: relative;
-            .field {
-                display: inline-block;
-                margin-bottom: @indent-s-base;
-                vertical-align: top;
-                &.sku {
-                    &:extend(.abstract-add-box-sizing all);
-                }
-                &.qty {
-                    .qty {
-                        &:extend(.abstract-input-qty all);
-                    }
-                }
-                .note {
-                    font-size: @font-size-base;
-                    margin: 0 0 @indent-base;
-                }
-            }
-            .actions-toolbar {
-                position: absolute;
-                top: 26px;
-                right: 0;
-            }
-        }
-    }
-
-    .action {
-        &.add {
-            .button-icon(
-                @_icon-font-content: @icon-expand,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 18px
-            );
-            line-height: normal;
-            padding: 4px;
-            width: auto;
-        }
-        &.links {
-            display: inline-block;
-            margin: @indent-base 0 0;
-        }
-        &.reset {
-            margin: @indent-s-base 0;
-            display: block;
-        }
-    }
-
-    .form-addbysku {
-        .actions-toolbar {
-            margin-bottom: @indent-base;
-            .primary {
-                text-align: left;
-                .action {
-                    width: auto;
-                }
-            }
-            .secondary {
-                float: none;
-                text-align: left;
-
-            }
-        }
-    }
-
-    .fieldset {
-        .fields {
-            .sku {
-                margin-right: -85px;
-                padding-right: 90px;
-                width: 100%;
-            }
-        }
-        .field:not(.choice) {
-            .label {
-                float: none;
-                margin: 0 0 @indent-xs-base;
-                text-align: left;
-                padding: 0;
-                + .control {
-                    float: none;
-                    width: auto;
-                }
-            }
-        }
-    }
-}
-
-.column {
-    &:not(.sidebar) {
-        .block-content {
-            &:extend(.abstract-add-clearfix-desktop all);
-            .box {
-                &:extend(.abstract-blocks-2columns all);
-            }
-            .actions-toolbar {
-                clear: both;
-                &:extend(.abstract-reset-left-margin-desktop all);
-            }
-        }
-    }
-}
-
 .sidebar {
     .block-addbysku {
         .fieldset {
+            margin: 0;
             .fields {
-                .actions-toolbar {
-                    top: 29px;
-                }
-            }
-        }
-    }
-    .action {
-        &.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 28px
-            );
-            .icon-font-symbol(
-                @_icon-font-content: @icon-trash
-            );
-            .button-reset();
-        }
-    }
-}
-
-
-//
-//    Mobile @screen-s
-//--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
-    .column {
-        &:not(.sidebar) {
-            .action {
-                &.remove {
-                    .button-icon(
-                        @_icon-font-content: @icon-remove,
-                        @_icon-font-text-hide: true,
-                        @_icon-font-size: 28px
-                    );
-                    .icon-font-symbol(
-                        @_icon-font-content: @icon-trash
-                    );
-                    .button-reset();
-                }
-            }
-        }
-    }
-}
-
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
-    .column {
-        &:not(.sidebar) {
-            .block-content {
-                .box {
-                    &:nth-child(1) {
-                        width: 55%;
+                position: relative;
+                .field {
+                    display: inline-block;
+                    margin-bottom: @indent-s-base;
+                    vertical-align: top;
+                    &.sku {
+                        &:extend(.abstract-add-box-sizing all);
+                        margin-right: -85px;
+                        padding-right: 90px;
+                        width: 100%;
                     }
-                    &:nth-child(2) {
-                        width: 40%;
-                    }
-                }
-            }
-            .fields {
-                .sku {
-                    margin-right: -155px;
-                    padding-right: 160px;
-                    width: 100%;
-                }
-            }
-            .block-addbysku {
-                .action {
-                    &.remove {
-                        .button-reset();
-                        .button-as-link();
-                        margin-top: 4px;
-                    }
-                }
-                .fieldset {
-                    .field {
-                        .note {
-                            margin: 0;
+                    &.qty {
+                        .qty {
+                            &:extend(.abstract-input-qty all);
                         }
                     }
                 }
+                .actions-toolbar {
+                    position: absolute;
+                    top: 34px;
+                    right: 0;
+                }
+            }
+        }
+        .form-addbysku {
+            .actions-toolbar {
+                margin-bottom: @indent-base;
+                .primary {
+                    text-align: left;
+                    .action {
+                        width: auto;
+                    }
+                }
+                .secondary {
+                    float: none;
+                    text-align: left;
+
+                }
+            }
+        }
+        .action {
+            &.add {
+                .button-icon(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 31px
+                );
+                line-height: normal;
+                padding: 2px 0;
+                width: auto;
+            }
+            &.links {
+                display: inline-block;
+                margin: @indent-base 0 0;
+            }
+            &.reset {
+                margin: @indent-s-base 0;
+                display: block;
+            }
+            &.remove {
+                .button-icon(
+                @_icon-font-content: @icon-remove,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 28px
+                );
+                .button-reset();
             }
         }
     }
