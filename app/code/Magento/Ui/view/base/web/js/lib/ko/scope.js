@@ -60,6 +60,12 @@ define([
             return this;
         },
 
+        compute: function (path, defs) {
+            this[path] = ko.computed(defs);
+
+            return this;
+        },
+
         /**
          * Reads it's params from provider and stores it into its params object
          * @return {Object} reference to instance

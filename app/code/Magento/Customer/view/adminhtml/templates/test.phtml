@@ -366,7 +366,7 @@
                         "prefix": {
                             "type": "input",
                             "config": {
-                                "index": "prefix",
+                                "dataScope": "form.prefix",
                                 "label": "Prefix",
                                 "validation": {
                                     "required-entry": true,
@@ -377,7 +377,7 @@
                         "firstname": {
                             "type": "input",
                             "config": {
-                                "index": "firstname",
+                                "dataScope": "form.firstname",
                                 "label": "First Name",
                                 "validation": {
                                     "required-entry": true
@@ -387,7 +387,7 @@
                         "middle_name": {
                             "type": "input",
                             "config": {
-                                "index": "middle_name",
+                                "dataScope": "form.middle_name",
                                 "label": "Middle Name/Initial",
                                 "validation": {
                                     "required-entry": true
@@ -397,21 +397,21 @@
                         "lastname": {
                             "type": "input",
                             "config": {
-                                "index": "lastname",
+                                "dataScope": "form.lastname",
                                 "label": "Last Name"
                             }
                         },
                         "suffix": {
                             "type": "input",
                             "config": {
-                                "index": "suffix",
+                                "dataScope": "form.suffix",
                                 "label": "Suffix"
                             }
                         },
                         "email": {
                             "type": "input",
                             "config": {
-                                "index": "email",
+                                "dataScope": "form.email",
                                 "input_type": "email",
                                 "placeholder": "Enter your email here",
                                 "label": "Email Address",
@@ -427,13 +427,13 @@
                             "type": "textarea",
                             "config": {
                                 "label": "Comments",
-                                "index": "comments"
+                                "dataScope": "form.comments"
                             }
                         },
                         "send_email": {
                             "type": "checkbox",
                             "config": {
-                                "index": "send_email",
+                                "dataScope": "form.send_email",
                                 "label": "Welcome Email",
                                 "description": "Send Welcome Email"
                             }
@@ -442,7 +442,7 @@
                         "website": {
                             "type": "selectbox",
                             "config": {
-                                "index": "website",
+                                "dataScope": "form.website",
                                 "label": "Associate to Website",
                                 "caption": "Please select ...",
                                 "options": [
@@ -454,7 +454,7 @@
                         "gender": {
                             "type": "selectbox",
                             "config": {
-                                "index": "gender",
+                                "dataScope": "form.gender",
                                 "label": "Gender",
                                 "no_caption": true,
                                 "options": [
@@ -466,21 +466,21 @@
                         "subscribe": {
                             "type": "checkbox",
                             "config":{
-                                "index": "subscribe",
+                                "dataScope": "form.subscribe",
                                 "label": "Subscribed to Newsletter"
                             }
                         },
                         "image": {
                             "type": "media",
                             "config": {
-                                "index": "image",
+                                "dataScope": "form.image",
                                 "label": "Image"
                             }
                         },
                         "created": {
                             "type": "date",
                             "config": {
-                                "index": "created",
+                                "dataScope": "form.created",
                                 "label": "Created",
                                 "placeholder": "mm\/dd\/yyyy",
                                 "options": {
@@ -495,7 +495,7 @@
                         "general": {
                             "type": "selectbox",
                             "config": {
-                                "index": "general",
+                                "dataScope": "form.general",
                                 "label": "General",
                                 "options": [
                                     {"value":"0","label": "General"},
@@ -507,14 +507,14 @@
                         "disable_auto": {
                             "type": "checkbox",
                             "config": {
-                                "index": "disable_auto",
+                                "dataScope": "form.disable_auto",
                                 "description": "Disable Automatic Group"
                             }
                         },
                         "send_from": {
                             "type": "selectbox",
                             "config": {
-                                "input_type": "select",
+                                "dataScope": "form.send_from",
                                 "no_caption": true,
                                 "label": "Send From",
                                 "options": [
@@ -656,6 +656,7 @@
                     "parentName": "form.addresses",
                     "config": {
                         "previewElements": [
+                            "3",
                             "5"
                         ],
                         "label": {
