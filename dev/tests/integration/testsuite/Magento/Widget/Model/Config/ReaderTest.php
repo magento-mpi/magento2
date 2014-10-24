@@ -1,22 +1,20 @@
 <?php
-namespace Magento\Widget\Model\Config;
-
 /**
- * \Magento\Widget\Model\Config\Reader
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Widget\Model\Config;
+
+use Magento\Framework\App\Filesystem\DirectoryList;
+
+/**
+ * \Magento\Widget\Model\Config\Reader
  * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
  */
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Framework\App\Filesystem\DirectoryList
-     */
-    protected $directoryList;
-
     /**
      * @var \Magento\Widget\Model\Config\Reader
      */
@@ -25,23 +23,11 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
-        $this->directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
-        $dirPath = ltrim(
-            str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files',
-            '/'
-        );
-        $this->directoryList->addDirectory(
-            \Magento\Framework\App\Filesystem::MODULES_DIR,
-            array('path' => $dirPath . '/code')
-        );
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::CONFIG_DIR, array('path' => $dirPath));
-        $this->directoryList->addDirectory(\Magento\Framework\App\Filesystem::ROOT_DIR, array('path' => $dirPath));
-
-        $filesystem = $objectManager->create(
-            'Magento\Framework\App\Filesystem',
-            array('directoryList' => $this->directoryList)
-        );
+        /** @var \Magento\TestFramework\App\Filesystem $filesystem */
+        $filesystem = $objectManager->get('Magento\Framework\Filesystem');
+        $filesystem->overridePath(DirectoryList::MODULES, __DIR__ . '/_files/code');
+        $filesystem->overridePath(DirectoryList::ROOT, __DIR__ . '/_files');
+        $filesystem->overridePath(DirectoryList::CONFIG, __DIR__ . '/_files');
 
         /** @var \Magento\Framework\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(

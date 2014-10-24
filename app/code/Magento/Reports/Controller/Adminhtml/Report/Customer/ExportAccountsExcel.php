@@ -8,6 +8,7 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Customer;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 use \Magento\Backend\Block\Widget\Grid\ExportInterface;
 
@@ -27,7 +28,7 @@ class ExportAccountsExcel extends \Magento\Reports\Controller\Adminhtml\Report\C
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

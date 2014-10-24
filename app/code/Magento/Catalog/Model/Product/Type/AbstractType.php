@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\Product\Type;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * Abstract model for product type implementation
  */
@@ -86,7 +88,7 @@ abstract class AbstractType
     const OPTION_PREFIX = 'option_';
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
 
@@ -165,7 +167,7 @@ abstract class AbstractType
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param array $data
@@ -178,7 +180,7 @@ abstract class AbstractType
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
         array $data = array()
@@ -487,7 +489,7 @@ abstract class AbstractType
 
                         try {
                             $rootDir = $this->_filesystem->getDirectoryWrite(
-                                \Magento\Framework\App\Filesystem::ROOT_DIR
+                                DirectoryList::ROOT
                             );
                             $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {

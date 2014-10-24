@@ -8,6 +8,7 @@
 
 namespace Magento\Core\Model\Theme\Image;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**
@@ -40,16 +41,16 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
     /**
      * Initialize dependencies
      * 
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
-        $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->mediaDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $this->assetRepo = $assetRepo;
         $this->storeManager = $storeManager;
     }

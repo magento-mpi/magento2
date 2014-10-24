@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Session;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 /**
  * @magentoAppIsolation enabled
  */
@@ -51,12 +53,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultConfiguration()
     {
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\Filesystem'
+        );
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\App\Filesystem'
-            )->getPath(
-                'session'
-            ),
+            $filesystem->getDirectoryRead(DirectoryList::SESSION)->getAbsolutePath(),
             $this->_model->getSavePath()
         );
         $this->assertEquals(

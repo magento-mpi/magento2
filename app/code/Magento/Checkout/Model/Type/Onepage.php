@@ -638,7 +638,7 @@ class Onepage
             return array('error' => 1, 'message' => $validateRes);
         }
 
-        $this->getQuote()->collectTotals()->save();
+        $address->collectTotals()->save();
 
         $this->getCheckout()->setStepData('shipping', 'complete', true)->setStepData('shipping_method', 'allow', true);
 

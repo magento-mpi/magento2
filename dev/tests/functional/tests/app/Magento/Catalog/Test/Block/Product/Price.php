@@ -138,6 +138,20 @@ class Price extends Block
     }
 
     /**
+     * Price excluding tax
+     *
+     * @var string
+     */
+    protected $priceExcludingTax = '.price-excluding-tax span.price';
+
+    /**
+     * Price including tax
+     *
+     * @var string
+     */
+    protected $priceIncludingTax = '.price-including-tax span.price';
+
+    /**
      * Get price from
      *
      * @param string $currency
@@ -276,5 +290,27 @@ class Price extends Block
     protected function escape($price, $currency = '$')
     {
         return str_replace([',', $currency], '', $price);
+    }
+
+    /**
+     * Get price excluding tax
+     *
+     * @param string $currency
+     * @return string
+     */
+    public function getPriceExcludingTax($currency = '$')
+    {
+        return trim($this->_rootElement->find($this->priceExcludingTax)->getText(), $currency);
+    }
+
+    /**
+     * Get price including tax
+     *
+     * @param string $currency
+     * @return string
+     */
+    public function getPriceIncludingTax($currency = '$')
+    {
+        return trim($this->_rootElement->find($this->priceIncludingTax)->getText(), $currency);
     }
 }

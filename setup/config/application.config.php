@@ -9,7 +9,6 @@
 return [
     'modules' => [
         'Magento\Config',
-        'Magento\Filesystem',
         'Magento\Setup',
     ],
     'module_listener_options' => [
