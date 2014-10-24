@@ -10,8 +10,8 @@ namespace Magento\Customer\Model\Data;
 /**
  * Data Model implementing Address Region interface
  */
-class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject
-    implements \Magento\Customer\Api\Data\RegionInterface
+class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+    \Magento\Customer\Api\Data\RegionInterface
 {
     /**#@+
      * Array keys

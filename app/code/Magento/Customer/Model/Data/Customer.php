@@ -242,4 +242,4 @@ class Customer extends \Magento\Framework\Service\Data\AbstractExtensibleObject 
     {
         return $this->_get(self::KEY_ADDRESSES);
     }
-} 
+}

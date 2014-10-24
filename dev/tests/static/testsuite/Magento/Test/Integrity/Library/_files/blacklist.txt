@@ -72,10 +72,3 @@ lib/internal/Magento/Framework/Session/SidResolverInterface.php
 
 lib/internal/Magento/Framework/App/Filesystem/DirectoryList/Configuration.php
 lib/internal/Magento/Framework/Filesystem/Driver/Http.php
-
-app/code/Magento/Customer/Service/V1/Data/Customer.php
-app/code/Magento/Customer/Service/V1/Data/CustomerValidationResults.php
-app/code/Magento/Customer/Service/V1/Data/AddressBuilder.php
-app/code/Magento/Customer/Service/V1/Data/Address.php
-app/code/Magento/Customer/Service/V1/Data/Eav/AttributeMetadata.php
-lib/internal/Magento/Framework/Service/V1/Data/SearchResultsInterface.php

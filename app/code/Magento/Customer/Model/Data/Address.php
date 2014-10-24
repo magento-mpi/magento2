@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model\Data;
 
-class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject
-    implements \Magento\Customer\Api\Data\AddressInterface
+class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+    \Magento\Customer\Api\Data\AddressInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

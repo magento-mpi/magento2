@@ -11,8 +11,8 @@ namespace Magento\Customer\Model\Data;
 /**
  * Customer Group data model.
  */
-class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject
-    implements \Magento\Customer\Api\Data\GroupInterface
+class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+    \Magento\Customer\Api\Data\GroupInterface
 {
     /**#@+
      * Constants for keys of data array
@@ -61,5 +61,4 @@ class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     {
         return $this->_get(self::TAX_CLASS_NAME);
     }
-
 }
