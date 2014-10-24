@@ -8,6 +8,7 @@
  */
 namespace Magento\Invitation\Controller\Adminhtml\Report\Invitation;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
 
 class ExportCustomerCsv extends \Magento\Invitation\Controller\Adminhtml\Report\Invitation
@@ -26,7 +27,7 @@ class ExportCustomerCsv extends \Magento\Invitation\Controller\Adminhtml\Report\
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile(),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

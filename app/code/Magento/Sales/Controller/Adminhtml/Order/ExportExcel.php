@@ -8,6 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 use \Magento\Backend\App\Action;
 
@@ -27,7 +28,7 @@ class ExportExcel extends \Magento\Sales\Controller\Adminhtml\Order
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

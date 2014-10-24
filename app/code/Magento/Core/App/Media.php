@@ -9,6 +9,7 @@
  */
 namespace Magento\Core\App;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\State;
 use Magento\Framework\App;
 use Magento\Framework\AppInterface;
@@ -69,7 +70,7 @@ class Media implements AppInterface
     protected $_response;
 
     /**
-     * @var \Magento\Framework\App\Filesystem $filesystem
+     * @var \Magento\Framework\Filesystem $filesystem
      */
     protected $filesystem;
 
@@ -87,7 +88,7 @@ class Media implements AppInterface
      * @param string $mediaDirectory
      * @param string $configCacheFile
      * @param string $relativeFileName
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -98,7 +99,7 @@ class Media implements AppInterface
         $mediaDirectory,
         $configCacheFile,
         $relativeFileName,
-        \Magento\Framework\App\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_request = $request;
@@ -109,7 +110,7 @@ class Media implements AppInterface
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
         $this->filesystem = $filesystem;
-        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->directory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
     }
 
     /**

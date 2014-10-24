@@ -25,7 +25,7 @@ class Config
     /**
      * Filesystem
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -33,9 +33,9 @@ class Config
      * Constructor
      *
      * @param Config\Data $dataStorage
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
-    public function __construct(\Magento\Install\Model\Config\Data $dataStorage, \Magento\Framework\App\Filesystem $filesystem)
+    public function __construct(\Magento\Install\Model\Config\Data $dataStorage, \Magento\Framework\Filesystem $filesystem)
     {
         $this->_dataStorage = $dataStorage;
         $this->filesystem = $filesystem;
@@ -109,7 +109,7 @@ class Config
         ) ? $data['filesystem_prerequisites']['writables'] : array();
         foreach ($items as $nodeKey => $item) {
             $value = $item;
-            $value['path'] = $this->filesystem->getPath($nodeKey);
+            $value['path'] = $this->filesystem->getDirectoryWrite($nodeKey)->getAbsolutePath();
             $paths[$nodeKey] = $value;
         }
 

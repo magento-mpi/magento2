@@ -8,6 +8,7 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Product;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportLowstockExcel extends \Magento\Reports\Controller\Adminhtml\Report\Product
@@ -38,7 +39,7 @@ class ExportLowstockExcel extends \Magento\Reports\Controller\Adminhtml\Report\P
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile(),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }
