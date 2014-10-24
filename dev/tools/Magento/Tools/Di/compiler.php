@@ -84,7 +84,7 @@ try {
         $generationDir
     );
     $generator = new \Magento\Framework\Code\Generator(
-        null,
+        $fileResolver,
         $generatorIo,
         array(
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
