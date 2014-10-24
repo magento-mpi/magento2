@@ -21,7 +21,6 @@ use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerat
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 use Magento\Framework\ObjectManager\Profiler\Code\Generator as ProfilerGenerator;
-use Magento\TestFramework\Event\Magento;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
