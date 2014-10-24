@@ -16,7 +16,8 @@ namespace Magento\Customer\Model;
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
  */
-class Group extends \Magento\Framework\Model\AbstractModel
+class Group extends \Magento\Framework\Model\AbstractExtensibleModel
+    implements \Magento\Customer\Api\Data\GroupInterface
 {
     const NOT_LOGGED_IN_ID = 0;
 
@@ -43,35 +44,56 @@ class Group extends \Magento\Framework\Model\AbstractModel
     protected $_eventObject = 'object';
 
     /**
-     * @var array
-     */
-    protected static $_taxClassIds = array();
-
-    /**
      * @var \Magento\Store\Model\StoresConfig
      */
     protected $_storesConfig;
+
+    /**
+     * @var \Magento\Customer\Model\Data\GroupBuilder
+     */
+    protected $groupBuilder;
+
+    /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
+     * @var \Magento\Tax\Model\ClassModelFactory
+     */
+    protected $classModelFactory;
 
     /**
      * Constructor
      *
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param \Magento\Customer\Model\Data\GroupBuilder $groupBuilder
+     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+     * @param \Magento\Tax\Model\ClassModelFactory $classModelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
         \Magento\Store\Model\StoresConfig $storesConfig,
+        \Magento\Customer\Model\Data\GroupBuilder $groupBuilder,
+        \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
+        \Magento\Tax\Model\ClassModelFactory $classModelFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storesConfig = $storesConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->dataObjectProcessor = $dataObjectProcessor;
+        $this->groupBuilder = $groupBuilder;
+        $this->classModelFactory = $classModelFactory;
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -80,6 +102,40 @@ class Group extends \Magento\Framework\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Group');
+    }
+
+    /**
+     * Retrieve group model with group data
+     *
+     * @return \Magento\Customer\Api\Data\GroupInterface
+     */
+    public function getDataModel()
+    {
+        $this->groupBuilder->setId($this->getId());
+        $this->groupBuilder->setCode($this->getCode());
+        $this->groupBuilder->setTaxClassId($this->getTaxClassId());
+        $this->groupBuilder->setTaxClassName($this->getTaxClassName());
+        return $this->groupBuilder->create();
+    }
+
+    /**
+     * Update group data
+     *
+     * @param \Magento\Customer\Api\Data\GroupInterface $group
+     * @return $this
+     */
+    public function updateData($group)
+    {
+        $groupDataAttributes = $this->dataObjectProcessor->buildOutputDataArray(
+            $group,
+            '\Magento\Customer\Api\Data\GroupInterface'
+        );
+
+        foreach ($groupDataAttributes as $attributeCode => $attributeData) {
+            $this->setDataUsingMethod($attributeCode, $attributeData);
+        }
+
+        return $this;
     }
 
     /**
@@ -104,21 +160,31 @@ class Group extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get the tax class id for the specified group or this group if the groupId is null
+     * Get tax class id
      *
-     * @param int|null $groupId The id of the group whose tax class id is being sought
      * @return int
      */
-    public function getTaxClassId($groupId = null)
+    public function getTaxClassId()
     {
-        if (!is_null($groupId)) {
-            if (empty(self::$_taxClassIds[$groupId])) {
-                $this->load($groupId);
-                self::$_taxClassIds[$groupId] = $this->getData('tax_class_id');
-            }
-            $this->setData('tax_class_id', self::$_taxClassIds[$groupId]);
-        }
         return $this->getData('tax_class_id');
+    }
+
+    /**
+     * Get tax class name
+     *
+     * @return string
+     */
+    public function getTaxClassName()
+    {
+        $taxClassName = $this->getData('tax_class_name');
+        if ($taxClassName) {
+            return $taxClassName;
+        }
+        $classModel = $this->classModelFactory->create();
+        $classModel->load($this->getTaxClassId());
+        $taxClassName = $classModel->getClassName();
+        $this->setData('tax_class_name', $taxClassName);
+        return $taxClassName;
     }
 
     /**
