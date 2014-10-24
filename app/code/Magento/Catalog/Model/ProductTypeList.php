@@ -60,6 +60,7 @@ class ProductTypeList implements ProductTypeListInterface
                     'value' => $productTypeData['label']
                 ));
             }
+            $this->productTypes = $productTypes;
         }
         return $this->productTypes;
     }
