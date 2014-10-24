@@ -18,8 +18,10 @@ class Autoloader
      * @var \Magento\Framework\Code\Generator\FileResolver
      */
     protected $fileResolver;
+    
     /**
      * @param \Magento\Framework\Code\Generator $generator
+     * @param \Magento\Framework\Code\Generator\FileResolver $fileResolver
      */
     public function __construct(
         \Magento\Framework\Code\Generator $generator,
