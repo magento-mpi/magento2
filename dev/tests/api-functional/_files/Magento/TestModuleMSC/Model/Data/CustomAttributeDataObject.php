@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModuleMSC\Service\V1\Entity;
+namespace Magento\TestModuleMSC\Model\Data;
+
+use Magento\TestModuleMSC\Api\Data\CustomAttributeDataObjectInterface;
 
 class CustomAttributeDataObject extends \Magento\Framework\Model\AbstractExtensibleModel
     implements CustomAttributeDataObjectInterface

@@ -184,7 +184,8 @@ class ServiceArgsSerializer
         if (is_subclass_of($paramInstanceClassName, '\\' . DataObjectProcessor::BASE_MODEL_CLASS)) {
             // By convention, need to lookup the concrete class preference for the data interface type and
             // gets its builder.
-            return $this->_objectManager->create($paramInstanceClassName . "DataBuilder");
+            $builderClassName = str_replace('Interface', '', $className) . "DataBuilder";
+            return $this->_objectManager->create($builderClassName);
         }
         // By convention, for complex parameters that don't inherit from the data interface,
         // create the name of the builder type by appending Builder to the end

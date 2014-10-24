@@ -53,7 +53,7 @@ class DataBuilder extends EntityAbstract
                 'tags' => [['name' => 'param', 'description' => '\Magento\Framework\ObjectManager $objectManager']]
             ],
             'body' => "parent::__construct(\$objectManager, "
-            . "'" . $this->_getSourceClassName() . "Interface');"
+                . "'" . $this->_getSourceClassName() . "');"
         ];
 
         return $constructorDefinition;
@@ -110,7 +110,7 @@ class DataBuilder extends EntityAbstract
     {
         $propertyName = substr($method->getName(), 3);
 
-        $returnType = (new ClassReflection($this->_getSourceClassName() . 'Interface'))
+        $returnType = (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
             ->getDocBlock()
             ->getTag('return')
@@ -143,7 +143,7 @@ class DataBuilder extends EntityAbstract
             $sourceClassName = $this->_getSourceClassName();
             $resultClassName = $this->_getResultClassName();
 
-            if ($resultClassName !== $sourceClassName . ucfirst(self::ENTITY_TYPE)) {
+            if ($resultClassName !== str_replace('Interface', '', $sourceClassName) . ucfirst(self::ENTITY_TYPE)) {
                 $this->_addError(
                     'Invalid Builder class name [' . $resultClassName . ']. Use '
                     . $sourceClassName
@@ -173,5 +173,13 @@ class DataBuilder extends EntityAbstract
         )->setExtendedClass('\Magento\Framework\Service\Data\ExtensibleDataBuilder');
 
         return $this->_getGeneratedCode();
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getSourceClassName()
+    {
+        return parent::_getSourceClassName() . 'Interface';
     }
 }
