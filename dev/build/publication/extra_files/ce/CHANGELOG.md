@@ -1,3 +1,127 @@
+0.1.0-alpha101
+=============
+ * Framework improvements:
+  * [DOC] Shopping Cart Items Service (MAGEDOC-1817)
+  * [DOC] Shopping Cart Service (MAGEDOC-1818)
+  * [DOC] Shopping Cart Shipping and Billing Address Service (MAGEDOC-1823)
+  * [DOC] Shopping Cart Shipping Method Service(MAGEDOC-1827)
+  * [DOC] Shopping Cart Payment Method Service (MAGEDOC-1826)
+  * [DOC] Shopping Cart Coupon Code Service (MAGEDOC-1825)
+  * [DOC] Checkout Agreements Service (MAGEDOC-1824)
+  * [DOC] Shopping Cart Gift Message Service (MAGEDOC-1828)
+  * Updated Service infrastructure to support Module Service Contract based approach
+  * Added new base classes in Service infrastructure lib to support extensible Data Interfaces
+  * Updated WebApi framework serialization (for SOAP and REST) to process requests based on Data Interfaces and removed dependency on Data Objects
+  * Added base class for Data Interface based builders and implemented a code generator for the same
+  * File System Improvements (MAGETWO-28652)
+    * List of available application directories is finite now and defined in \Magento\Framework\Filesystem\DirectoryList and \Magento\Framework\App\Filesystem\DirectoryList classes. No more ability to extend the list in configuration
+    * Paths of directories are possible to change through environment/bootstrap
+    * Knowledge about necessary permissions (writable, readable) belongs to Setup Application, the Magento Application doesn't know about it and doesn't verify. Setup Application performs validation of the permissions
+    * Unnecessary writable permissions are validated by Setup Application after installation and corresponding message is displayed to the user
+ * Functional tests:
+  * Configure product in customer wishlist on backend (MTA-366)
+  * Configure product in customer wishlist on frontend (MTA-389)
+  * Create terms and conditions (MTA-435)
+  * Manage products stock (MTA-483)
+  * Move product from shopping card to wishlist (MTA-61)
+  * Unassign custom order status (MTA-101)
+  * Update terms and conditions (MTA-437)
+  * Updating URL rewrites after category moved/deleted (MTA-425)
+  * Update URL rewrites after change category assignment for product(MTA-426)
+  * View customer wishlist on backend (MTA-354)
+  * Tax calculation test. (MAGETWO-26552)
+  * Cross border trade setting. (MAGETWO-28537)
+ * Documentation:
+  * Added README.md for such modules:(MAGETWO-29200)
+    * Checkout
+    * GiftMessage
+    * Eav
+    * Multishipping
+    * CheckoutAgreement
+  * Added README.md for following modules:
+    * AdminGws 
+    * AdminNotification
+    * Authz
+    * Connect
+    * CurrencySymbol
+    * Directory
+    * Email
+    * Integration
+    * Service
+    * User
+    * Webapi
+    * WebsiteRestriction
+  * Added README.md for such modules:(MAGETWO-28199)
+    * Sales
+    * Taxes
+    * Weee
+  * Added README files for following components: (MAGETWO-24866)
+    * modules:
+      * Magento\Backend, 
+      * Magento\Backup, 
+      * Magento\Cron, 
+      * Magento\Log, 
+      * Magento\PageCache, 
+      * Magento\Store, 
+     libraries:
+      * Magento\Framework\App\Cache, 
+      * Magento\Framework\Archive, 
+      * Magento\Framework\Backup, 
+      * Magento\Framework\Convert, 
+      * Magento\Framework\Encryption, 
+      * Magento\Framework\File, 
+      * Magento\Framework\Filesystem, 
+      * Magento\Framework\Flag, 
+      * Magento\Framework\Image, 
+      * Magento\Framework\Math, 
+      * Magento\Framework\Option, 
+      * Magento\Framework\Profiler, 
+      * Magento\Framework\Shell, 
+      * Magento\Framework\Stdlib, 
+      * Magento\Framework\Validator
+ * Performance improvements:
+  * Reduce checkout response time by loading only current checkout step (MAGETWO-20225)
+  * Reduce number of AJAX calls on checkout steps (MAGETWO-27608)
+  * Reduce save billing address step on Checkout on 31.7% (MAGETWO-28022)
+  * Reduce save shipping address step on Checkout on 2.5% (MAGETWO-28023)
+  * Improvement > 10% in several areas by loading translation data from cache (MAGETWO-29191)
+  * Saving 32MB of memory per page request that requires translation data (MAGETWO-29191)
+  * Removed transactions from visitors logging (MAGETWO-28556)
+  * Fixed classmap generator to consider namespaces (MAGETWO-28566)
+  * Eliminated redundant query for category tree rendering (MAGETWO-28562)
+  * Optimized StoreManager and Storage performance (MAGETWO-28563)
+  * Optimized Object Manager (MAGETWO-28557)
+* Fixed bugs:
+  * Customer's tax details incorrect for partial invoices and partial credit memos (MAGETWO-28265)
+  * PHP fatal error occurs when logging in as a user on checkout page to order a product with FPT (MAGETWO-28279)
+  * FPT is not calculated in reorder (MAGETWO-19504)
+  * Duplicated Administrator role after installation (MAGETWO-28943)
+  * Disabled "Try Again" button after error during installation (MAGETWO-29416)
+  * In "developer" mode error "Application is not installed yet" instead of redirect to Installation Wizard (MAGETWO-29445)
+  * Exception "errno: 150 - Foreign key constraint is incorrectly formed" during installation with db_prefix option (MAGETWO-29519)
+  * SQL query not optimized for product searches('catalogsearch_query') (MAGETWO-25948)
+  * Info Success Saved Message wrong after change customer password on frontend (MAGETWO-29412)
+  * Newsletter preview lead to empty page without content (MAGETWO-28812)
+  * New Search Term is not showing in suggested results (MAGETWO-24058)
+  * No result of reports for Products Viewed (MAGETWO-15707)
+  * No result of reports for Coupons (MAGETWO-15706)
+  * Incremental Qty setting (MAGETWO-13232)
+  * Allowing importing of negative weight values (MAGETWO-5485)
+  * Inventory - Only X left Treshold is not dependent on Qty for Item's Status to Become Out of Stock (MAGETWO-5464)
+  * When reindex Catalog Search Index appears message "Catalog Search Index index was rebuilt." (MAGETWO-2396)
+ * Search module:
+  * Integrate Search library into advanced search functionality (MAGETWO-26060)
+    * Substitute old logic of EAV attributes search by Advanced Search (MAGETWO-29323)
+    * Introduce mappers for MySQL adapter (MAGETWO-29324)
+    * Restore functionality of currensy calculation (MAGETWO-29542)
+    * Fix sort by relevance in quick search and advanced search (MAGETWO-29636)
+  * Integrate Search library into search widget functionality (MAGETWO-27188)
+    * Remove dependency on catalogsearch_result table (MAGETWO-29320)
+    * Substitute old logic of EAV attributes by Quick search APIs (MAGETWO-29321)
+  * Modularity of Search (MAGETWO-29314)
+    * Remove circular dependency Catalog -> Catalog Search (MAGETWO-29316)
+    * Remove exceeded dependencies of Search module (MAGETWO-29318)
+
 0.1.0-alpha100
 =============
  * Added the following functional tests:
