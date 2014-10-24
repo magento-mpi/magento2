@@ -628,7 +628,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
         // FIXME: Are we using the proper template here?
-        $customerModel->sendPasswordResetNotificationEmail();
+        try {
+            $customerModel->sendPasswordResetNotificationEmail();
+        } catch (MailException $e) {
+            $this->logger->logException($e);
+        }
 
         return true;
     }
