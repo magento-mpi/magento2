@@ -24,6 +24,8 @@
             </xs:sequence>
             <xs:attribute type="required_attribute" name="name"/>
             <xs:attribute type="text_attribute" name="label"/>
+            <xs:attribute type="text_attribute" name="compositeLabel"/>
+            <xs:attribute type="text_attribute" name="previewElements"/>
             <xs:attribute type="xs:string" name="dataset"/>
         </xs:complexType>
     </xs:element>
@@ -95,7 +97,7 @@
             <xs:documentation>Any text value</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z_ -]+" />
+            <xs:pattern value="[A-Za-z,_ -]+" />
         </xs:restriction>
     </xs:simpleType>
     <!-- -->

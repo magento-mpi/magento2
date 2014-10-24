@@ -12,6 +12,8 @@
         <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward" name="customer_edit_tab_reward" template="customer/reward.phtml">
             <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management" name="reward_management" after="personal_info"/>
         </block>
-        <!--<block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" after="personal_info"/>-->
+    </referenceBlock>
+    <referenceBlock name="customer_edit_dashboard">
+        <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" after="personal_info"/>
     </referenceBlock>
 </page>

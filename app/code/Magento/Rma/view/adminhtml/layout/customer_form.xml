@@ -8,10 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="customer_edit_tabs">
-        <action method="addTab">
-            <argument name="tab" xsi:type="string">giftregistry</argument>
-            <argument name="content" xsi:type="string">Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab\Giftregistry</argument>
-        </action>
+    <referenceBlock name="form">
+        <block class="Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma" name="customer_edit_tab_rma" after="orders">
+            <block class="Magento\Rma\Block\Adminhtml\Rma" name="magento_rma"/>
+        </block>
     </referenceBlock>
 </page>

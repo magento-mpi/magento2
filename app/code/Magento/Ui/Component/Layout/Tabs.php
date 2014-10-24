@@ -90,7 +90,6 @@ class Tabs extends AbstractView
 
     public function prepare()
     {
-        $this->registerComponents();
         $ns = $this->getData('name');
         $tabs = [
             'type' => $ns,
@@ -124,45 +123,6 @@ class Tabs extends AbstractView
                 ]
             ]
         ];
-        $collections = [
-            'children' => [
-                $ns => []
-            ]
-        ];
-        //Add child blocks content
-        foreach ($this->getData('childBlocks') as $childBlock) {
-            /** @var TabInterface $childBlock */
-            if (!($childBlock instanceof TabInterface)) {
-                throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
-            }
-            if (!$childBlock->canShowTab()) {
-                continue;
-            }
-            $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childBlock->getNameInLayout();
-            $areas['children'][$ns]['children'][$childBlock->getNameInLayout()] = [
-                'type' => 'tab',
-                'config' => [
-                    'name' => $childBlock->getNameInLayout(),
-                    'label' => $childBlock->getTabTitle()
-                ],
-                'children' => ['fieldSets.' . $ns . '.additional_tabs.' . $childBlock->getNameInLayout()]
-            ];
-            if ($childBlock->isAjaxLoaded()) {
-                $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
-                    'type' => 'html_content',
-                    'config' => [
-                        'source' => $childBlock->getTabUrl()
-                    ]
-                ];
-            } else {
-                $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
-                    'type' => 'html_content',
-                    'config' => [
-                        'content' => $childBlock->toHtml()
-                    ]
-                ];
-            }
-        }
 
         $id = $this->renderContext->getRequestParam('id');
         foreach ($this->getData('dataSources') as $name => $dataSource) {
@@ -179,6 +139,9 @@ class Tabs extends AbstractView
             $fields['children'][$ns]['component'] = 'Magento_Ui/js/form';
 
             foreach ($meta as $key => $value) {
+                if (isset($value['visible']) && $value['visible'] == 'false') {
+                    continue;
+                }
                 if ($key != Metadata::CHILD_DATA_SOURCES) {
                     $fieldSets['children'][$ns]['children'][$dataSource]['children'][] = 'fields.' . $ns . '.' . $key;
                     $fields['children'][$ns]['children'][$key] = $value;
@@ -232,12 +195,17 @@ class Tabs extends AbstractView
                     'childType' => 'group',
                     'parentName' => 'fields.' . $ns . '.' . $childName,
                     'config' => [
-                        'title' => [
-                            'default' => 'New Customer Address',
-                            'composite_of' => ['prefix', 'firstname', 'lastname']
+                        'label' => [
+                            'default' => __('New ' . $childMeta->getLabel())
                         ]
                     ]
                 ];
+                if ($previewElements = $childMeta->getPreviewElements()) {
+                    $itemTemplate['config']['previewElements'] = explode(',', $previewElements);
+                }
+                if ($compositeLabel = $childMeta->getCompositeLabel()) {
+                    $itemTemplate['config']['label']['compositeOf'] = explode(',', $compositeLabel);
+                }
                 foreach ($childMeta as $key => $value) {
                     $itemTemplate['children'][$key] = $value;
                     $value['dataScope'] = $dataSource . '.' . $childName . '.' . $key;
@@ -247,6 +215,9 @@ class Tabs extends AbstractView
                         'type' => $value['formElement'],
                         'config' => $value
                     ];
+                    if (isset($value[''])) {
+
+                    }
                 }
                 $collection['children']['item_template'] = $itemTemplate;
                 $areas['children'][$ns]['children'][$childName] = [
@@ -256,26 +227,56 @@ class Tabs extends AbstractView
                     ],
                     'children' => ['fieldSets.' . $ns . '.' . $childName]
                 ];
-                //$collections['children'][$ns]['children'][$childName] = $collection;
                 $this->renderContext->getStorage()->addLayoutNode($childName, $collection);
             }
 
-            $this->renderContext->getStorage()->addLayoutNode('tabs', $tabs);
-            $this->renderContext->getStorage()->addLayoutNode('areas', $areas);
-            $this->renderContext->getStorage()->addLayoutNode('fieldSets', $fieldSets);
-            $this->renderContext->getStorage()->addLayoutNode('fields', $fields);
-
             $preparedData = [];
             $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
-            foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $preparedData[$key] = $value;
-                } else {
-                    $preparedData[$dataSource][$key] = $value;
-                }
+            foreach ($data[0] as $key => $value) {
+                $preparedData[$dataSource][$key] = $value;
             }
             $this->renderContext->getStorage()->addData($this->getData('name'), $preparedData);
         }
+
+        //Add child blocks content
+        foreach ($this->getData('childBlocks') as $childBlock) {
+            /** @var TabInterface $childBlock */
+            if (!($childBlock instanceof TabInterface)) {
+                throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
+            }
+            if (!$childBlock->canShowTab()) {
+                continue;
+            }
+            $tabs['children'][$ns]['children'][] = 'areas.' . $ns . '.' . $childBlock->getNameInLayout();
+            $areas['children'][$ns]['children'][$childBlock->getNameInLayout()] = [
+                'type' => 'tab',
+                'config' => [
+                    'name' => $childBlock->getNameInLayout(),
+                    'label' => $childBlock->getTabTitle()
+                ],
+                'children' => ['fieldSets.' . $ns . '.additional_tabs.' . $childBlock->getNameInLayout()]
+            ];
+            if ($childBlock->isAjaxLoaded()) {
+                $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
+                    'type' => 'html_content',
+                    'config' => [
+                        'source' => $childBlock->getTabUrl()
+                    ]
+                ];
+            } else {
+                $fieldSets['children'][$ns]['children']['additional_tabs']['children'][$childBlock->getNameInLayout()] = [
+                    'type' => 'html_content',
+                    'config' => [
+                        'content' => $childBlock->toHtml()
+                    ]
+                ];
+            }
+        }
+
+        $this->renderContext->getStorage()->addLayoutNode('tabs', $tabs);
+        $this->renderContext->getStorage()->addLayoutNode('areas', $areas);
+        $this->renderContext->getStorage()->addLayoutNode('fieldSets', $fieldSets);
+        $this->renderContext->getStorage()->addLayoutNode('fields', $fields);
 
         if ($this->getData('configuration/tabs_container_name')) {
             $navBlock = $this->factory->create('nav', [
@@ -284,38 +285,6 @@ class Tabs extends AbstractView
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
         }
-    }
-
-    public function registerComponents()
-    {
-        foreach ($this->getLayout()->getAllBlocks() as $block) {
-            if ($block instanceof \Magento\Framework\View\Element\UiComponentInterface) {
-                $config = (array)$block->getData('js_config');
-                if (!isset($config['extends'])) {
-                    $config['extends'] = $this->getData('name');
-                }
-                $this->renderContext->getStorage()->addComponent($block->getNameInLayout(), $config);
-            }
-        };
-    }
-
-    /**
-     * Compare sort order
-     *
-     * @param array $tabOne
-     * @param array $tabTwo
-     * @return int
-     */
-    public function compareSortOrder(array $tabOne, array $tabTwo)
-    {
-        if (!isset($tabOne['sort_order'])) {
-            $tabOne['sort_order'] = 0;
-        }
-        if (!isset($tabTwo['sort_order'])) {
-            $tabTwo['sort_order'] = 0;
-        }
-
-        return (int)$tabOne['sort_order'] - (int)$tabTwo['sort_order'];
     }
 
     /**
@@ -335,31 +304,27 @@ class Tabs extends AbstractView
      * @param array $tabs
      * @return void
      */
-    protected function setTabs(array $tabs)
+    protected function sortTabs(array $tabs)
     {
-        if (!empty($tabs)) {
-            $this->tabs = array_merge($this->tabs, $tabs);
-            usort($this->tabs, [$this, 'compareSortOrder']);
-        }
+        usort($tabs, [$this, 'compareSortOrder']);
     }
 
     /**
-     * Get configured tabs
+     * Compare sort order
      *
-     * @return array
+     * @param array $tabOne
+     * @param array $tabTwo
+     * @return int
      */
-    protected function getConfiguredTabs()
+    protected function compareSortOrder(array $tabOne, array $tabTwo)
     {
-        $tabs = [];
-        $tabsConfig = $this->hasData(static::OTHER_TABS_KEY) ? $this->getData('other_tabs') : [];
-        foreach ($tabsConfig as $name => $tab) {
-            $block = $this->getLayout()->getBlock($name);
-            if ($block !== false) {
-                $tab['elements'] = [$block];
-                $tabs[$name] = $tab;
-            }
+        if (!isset($tabOne['sort_order'])) {
+            $tabOne['sort_order'] = 0;
+        }
+        if (!isset($tabTwo['sort_order'])) {
+            $tabTwo['sort_order'] = 0;
         }
 
-        return $tabs;
+        return (int)$tabOne['sort_order'] - (int)$tabTwo['sort_order'];
     }
 }

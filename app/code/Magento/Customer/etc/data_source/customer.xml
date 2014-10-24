@@ -5,6 +5,7 @@
             dataset="Magento\Customer\Model\Resource\Customer\Collection"
     >
         <fields entityType="customer">
+            <field name="entity_id" dataType="text" visible="false" />
             <field name="website_code" dataType="number" formElement="select" source="option" label="Website">
                 <reference target="website"
                            referencedField="website_id"

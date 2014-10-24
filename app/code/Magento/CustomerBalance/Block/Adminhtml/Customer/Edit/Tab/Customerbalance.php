@@ -7,12 +7,16 @@
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
+use Magento\Backend\Block\Widget;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Customer account Store Credit tab
+ *
+ * @package Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab
  */
-class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Customerbalance extends Widget implements TabInterface
 {
     /**
      * Core registry
@@ -44,7 +48,6 @@ class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\
     {
         parent::_construct();
         $this->setId('customerbalance');
-        $this->setTitle(__('Store Credit'));
     }
 
     /**
@@ -54,7 +57,7 @@ class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\
      */
     public function getTabLabel()
     {
-        return $this->getTitle();
+        return __('Store Credit');
     }
 
     /**
@@ -64,7 +67,7 @@ class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\
      */
     public function getTabTitle()
     {
-        return $this->getTitle();
+        return $this->getTabLabel();
     }
 
     /**
@@ -129,5 +132,15 @@ class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\
     public function getTabUrl()
     {
         return $this->getUrl('adminhtml/customerbalance/form', array('_current' => true));
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return true;
     }
 }

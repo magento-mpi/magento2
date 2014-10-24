@@ -9,10 +9,25 @@
 
 namespace Magento\Ui\Component\Layout\Tabs;
 
-use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Text\ListText;
 
-class TabWrapper extends AbstractBlock implements  TabInterface
+class TabWrapper extends ListText implements TabInterface
 {
+    /**
+     * @var bool
+     */
+    protected $canShowTab = true;
+
+    /**
+     * @var bool
+     */
+    protected $isHidden = false;
+
+    /**
+     * @var bool
+     */
+    protected $isAjaxLoaded = false;
+
     /**
      * Return Tab label
      *
@@ -20,7 +35,7 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function getTabLabel()
     {
-        return $this->getData('tab_label');
+        return (string) $this->getData('tab_label');
     }
 
     /**
@@ -30,7 +45,7 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function getTabTitle()
     {
-        return $this->getData('tab_title');
+        return (string) $this->getTabLabel();
     }
 
     /**
@@ -40,7 +55,7 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function getTabClass()
     {
-        return $this->getData('tab_class');
+        return (string) $this->getData('tab_class');
     }
 
     /**
@@ -50,7 +65,7 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function getTabUrl()
     {
-        return $this->getData('tab_url');
+        return (string) $this->getData('tab_url');
     }
 
     /**
@@ -60,7 +75,8 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function isAjaxLoaded()
     {
-        return $this->getData('is_ajax_loaded');
+        $flag = $this->getData('is_ajax_loaded');
+        return !is_null($flag) ? (bool) $flag : $this->isAjaxLoaded;
     }
 
     /**
@@ -70,7 +86,8 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function canShowTab()
     {
-        return $this->getData('can_show_tab');
+        $flag = $this->getData('can_show_tab');
+        return !is_null($flag) ? (bool) $flag : $this->canShowTab;
     }
 
     /**
@@ -80,6 +97,7 @@ class TabWrapper extends AbstractBlock implements  TabInterface
      */
     public function isHidden()
     {
-        return $this->getData('is_hidden');
+        $flag = $this->getData('is_hidden');
+        return !is_null($flag) ? (bool) $flag : $this->isHidden;
     }
 }

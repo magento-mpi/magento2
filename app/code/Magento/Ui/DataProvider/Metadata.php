@@ -75,6 +75,26 @@ class Metadata implements \Iterator, \ArrayAccess
     }
 
     /**
+     * Comma separated list of fields which concatenated and form label
+     *
+     * @return string
+     */
+    public function getCompositeLabel()
+    {
+        return $this->config['compositeLabel'];
+    }
+
+    /**
+     * Comma separated list of fields to be displayed in form preview area
+     *
+     * @return string
+     */
+    public function getPreviewElements()
+    {
+        return $this->config['previewElements'];
+    }
+
+    /**
      * Reset the Collection to the first element
      *
      * @return mixed
@@ -97,7 +117,7 @@ class Metadata implements \Iterator, \ArrayAccess
                         $options = $attribute->getSource()->getAllOptions();
                     }
                     $this->attributes[$field['name']]['options'] = $options;
-                    $this->attributes[$field['name']]['required'] = $attribute->getRequired();
+                    $this->attributes[$field['name']]['is_required'] = $attribute->getIsRequired();
                 }
             }
         }
@@ -143,7 +163,7 @@ class Metadata implements \Iterator, \ArrayAccess
         $attributeCodes = [
             'options' => ['eav_map' => 'options', 'default' => $options],
             'dataType' => ['eav_map' => 'frontend_input', 'default' => 'text'],
-            'filterType' => ['eav_map' => 'input_filter'],
+            'filterType' => ['default' => 'input_filter'],
             'formElement' => ['default' => 'input'],
             'displayArea' => ['default' => 'body'],
             'visible' => ['eav_map' => 'is_visible', 'default' => true],

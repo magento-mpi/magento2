@@ -97,16 +97,8 @@ class Form extends AbstractView
      */
     public function prepare()
     {
-        $this->renderContext->getStorage()->addComponent(
-            $this->getData('name'),
-            [
-                'component' => 'Magento_Ui/js/form/component',
-                'config' => [
-                    'provider' => $this->getData('name')
-                ],
-                'deps' => [$this->getData('name')]
-            ]
-        );
+        $this->registerComponents();
+
         $layoutSettings = (array) $this->getData('layout');
         $data = [
             'name' => $this->getData('name'),
@@ -162,6 +154,34 @@ class Form extends AbstractView
         }
 
         return $type;
+    }
+
+    /**
+     * Register all UI Components configuration
+     *
+     * @return void
+     */
+    protected function registerComponents()
+    {
+        $this->renderContext->getStorage()->addComponent(
+            $this->getData('name'),
+            [
+                'component' => 'Magento_Ui/js/form/component',
+                'config' => [
+                    'provider' => $this->getData('name')
+                ],
+                'deps' => [$this->getData('name')]
+            ]
+        );
+        foreach ($this->getLayout()->getAllBlocks() as $block) {
+            if ($block instanceof \Magento\Framework\View\Element\UiComponentInterface) {
+                $config = (array)$block->getData('js_config');
+                if (!isset($config['extends'])) {
+                    $config['extends'] = $this->getData('name');
+                }
+                $this->renderContext->getStorage()->addComponent($block->getNameInLayout(), $config);
+            }
+        };
     }
 
     /**
