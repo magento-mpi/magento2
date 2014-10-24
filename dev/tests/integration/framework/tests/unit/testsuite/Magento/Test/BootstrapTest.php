@@ -24,8 +24,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_requiredSettings = array(
-        'TESTS_LOCAL_CONFIG_FILE' => 'etc/local-mysql.xml',
-        'TESTS_LOCAL_CONFIG_EXTRA_FILE' => 'etc/integration-tests-config.xml'
+        'TESTS_INSTALL_CONFIG_FILE' => 'etc/install-config-mysql.php',
     );
 
     /**

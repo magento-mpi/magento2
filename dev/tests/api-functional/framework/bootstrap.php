@@ -26,9 +26,8 @@ $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 );
 
 /* Bootstrap the application */
-$invariantSettings = array('TESTS_LOCAL_CONFIG_EXTRA_FILE' => '../integration/etc/integration-tests-config.xml');
 $bootstrap = new \Magento\TestFramework\Bootstrap(
-    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
+    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants()),
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Framework\Profiler\Driver\Standard()),

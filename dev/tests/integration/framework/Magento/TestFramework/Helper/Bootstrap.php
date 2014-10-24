@@ -100,16 +100,6 @@ class Bootstrap
     }
 
     /**
-     * Retrieve the database vendor name used by the bootstrap
-     *
-     * @return string
-     */
-    public function getDbVendorName()
-    {
-        return $this->_bootstrap->getDbVendorName();
-    }
-
-    /**
      * Reinitialize the application instance optionally passing parameters to be overridden.
      * Intended to be used for the tests isolation purposes.
      *

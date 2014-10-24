@@ -31,14 +31,9 @@ class Bootstrap
     private $_settings;
 
     /**
-     * @var string
+     * @var array
      */
-    private $_dbVendorName;
-
-    /**
-     * @var \Magento\Framework\Simplexml\Element
-     */
-    private $dbConfig;
+    private $installConfig;
 
     /**
      * @var \Magento\TestFramework\Application
@@ -75,9 +70,9 @@ class Bootstrap
     /**
      * Constructor
      *
-     * @param \Magento\TestFramework\Bootstrap\Settings $settings,
-     * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
-     * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
+     * @param \Magento\TestFramework\Bootstrap\Settings $settings
+     * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap
+     * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap
      * @param \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap
      * @param \Magento\Framework\Shell $shell
      * @param string $tmpDir
@@ -97,10 +92,7 @@ class Bootstrap
         $this->_shell = $shell;
         $this->_tmpDir = $tmpDir;
         $this->_application = $this->_createApplication(
-            array(
-                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_FILE'),
-                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE')
-            ),
+            $this->_settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
             $this->_settings->get('TESTS_GLOBAL_CONFIG_DIR'),
             $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
             $this->_settings->get('TESTS_MAGENTO_MODE')
@@ -118,23 +110,13 @@ class Bootstrap
     }
 
     /**
-     * Retrieve the database vendor name
-     *
-     * @return string
-     */
-    public function getDbVendorName()
-    {
-        return $this->_dbVendorName;
-    }
-
-    /**
      * Retrieve the database configuration
      *
-     * @return \Magento\Framework\Simplexml\Element
+     * @return array
      */
-    public function getDbConfig()
+    public function getInstallConfig()
     {
-        return $this->dbConfig;
+        return $this->installConfig;
     }
 
     /**
@@ -168,11 +150,10 @@ class Bootstrap
         if ($this->_settings->getAsBoolean('TESTS_CLEANUP')) {
             $this->_application->cleanup();
         }
-        if ($this->_application->isInstalled()) {
-            $this->_application->initialize();
-        } else {
-            $this->_application->install(self::ADMIN_NAME, self::ADMIN_PASSWORD, self::ADMIN_ROLE_NAME);
+        if (!$this->_application->isInstalled()) {
+            $this->_application->install(self::ADMIN_NAME, self::ADMIN_PASSWORD);
         }
+        $this->_application->initialize();
     }
 
     /**
@@ -196,90 +177,37 @@ class Bootstrap
     /**
      * Create and return new application instance
      *
-     * @param array $localConfigFiles
+     * @param string $installConfigFile
      * @param string $globalConfigDir
      * @param array $moduleConfigFiles
      * @param string $appMode
      * @return \Magento\TestFramework\Application
      */
     protected function _createApplication(
-        array $localConfigFiles,
+        $installConfigFile,
         $globalConfigDir,
         array $moduleConfigFiles,
         $appMode
     ) {
-        $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
-        $this->dbConfig = $localConfigXml->connection;
-        $this->_dbVendorName = $this->_determineDbVendorName($this->dbConfig);
-        $sandboxUniqueId = $this->_calcConfigFilesHash($localConfigFiles);
-        $installDir = "{$this->_tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
-        $dbClass = 'Magento\TestFramework\Db\\' . ucfirst($this->_dbVendorName);
-        /** @var $dbInstance \Magento\TestFramework\Db\AbstractDb */
-        $dbInstance = new $dbClass(
-            (string)$this->dbConfig->host,
-            (string)$this->dbConfig->username,
-            (string)$this->dbConfig->password,
-            (string)$this->dbConfig->dbName,
+        $this->installConfig = require $installConfigFile;
+        $sandboxUniqueId = sha1_file($installConfigFile);
+        $installDir = "{$this->_tmpDir}/sandbox-{$sandboxUniqueId}";
+        $dbInstance = new Db\Mysql(
+            $this->installConfig['db_host'],
+            $this->installConfig['db_user'],
+            $this->installConfig['db_pass'],
+            $this->installConfig['db_name'],
             $this->_tmpDir,
             $this->_shell
         );
         return new \Magento\TestFramework\Application(
             $dbInstance,
+            $this->_shell,
             $installDir,
-            $localConfigXml,
+            $this->installConfig,
             $globalConfigDir,
             $moduleConfigFiles,
             $appMode
         );
-    }
-
-    /**
-     * Calculate and return hash of config files' contents
-     *
-     * @param array $configFiles
-     * @return string
-     */
-    protected function _calcConfigFilesHash($configFiles)
-    {
-        $result = array();
-        foreach ($configFiles as $configFile) {
-            $result[] = sha1_file($configFile);
-        }
-        $result = md5(implode('_', $result));
-        return $result;
-    }
-
-    /**
-     * @param array $configFiles
-     * @return \Magento\Framework\Simplexml\Element
-     */
-    protected function _loadConfigFiles(array $configFiles)
-    {
-        /** @var $result \Magento\Framework\Simplexml\Element */
-        $result = simplexml_load_string('<config/>', 'Magento\Framework\Simplexml\Element');
-        foreach ($configFiles as $configFile) {
-            /** @var $configXml \Magento\Framework\Simplexml\Element */
-            $configXml = simplexml_load_file($configFile, 'Magento\Framework\Simplexml\Element');
-            $result->extend($configXml);
-        }
-        return $result;
-    }
-
-    /**
-     * Retrieve database vendor name from the database connection XML configuration
-     *
-     * @param \SimpleXMLElement $dbConfig
-     * @return string
-     * @throws \Magento\Framework\Exception
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _determineDbVendorName(\SimpleXMLElement $dbConfig)
-    {
-        $dbVendorAlias = 'mysql4';
-        $dbVendorMap = array('mysql4' => 'mysql');
-        if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new \Magento\Framework\Exception("Database vendor '{$dbVendorAlias}' is not supported.");
-        }
-        return $dbVendorMap[$dbVendorAlias];
     }
 }

@@ -7,14 +7,11 @@
  */
 namespace Magento\TestFramework;
 
-use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Encapsulates application installation, initialization and uninstall
- *
- * @todo Implement MAGETWO-1689: Standard Installation Method for Integration Tests
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -33,9 +30,14 @@ class Application
     protected $_db;
 
     /**
-     * @var \Magento\Framework\Simplexml\Element
+     * @var \Magento\Framework\Shell
      */
-    protected $_localXml;
+    protected $_shell;
+
+    /**
+     * @var array
+     */
+    protected $installConfig;
 
     /**
      * Application *.xml configuration files
@@ -102,22 +104,25 @@ class Application
      * Constructor
      *
      * @param \Magento\TestFramework\Db\AbstractDb $dbInstance
+     * @param \Magento\Framework\Shell $shell
      * @param string $installDir
-     * @param \Magento\Framework\Simplexml\Element $localXml
+     * @param array $installConfig
      * @param $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
         \Magento\TestFramework\Db\AbstractDb $dbInstance,
+        \Magento\Framework\Shell $shell,
         $installDir,
-        \Magento\Framework\Simplexml\Element $localXml,
+        $installConfig,
         $globalConfigDir,
         array $moduleEtcFiles,
         $appMode
     ) {
         $this->_db = $dbInstance;
-        $this->_localXml = $localXml;
+        $this->_shell = $shell;
+        $this->installConfig = $installConfig;
         $this->_globalConfigDir = realpath($globalConfigDir);
         $this->_moduleEtcFiles = $moduleEtcFiles;
         $this->_appMode = $appMode;
@@ -193,6 +198,9 @@ class Application
      */
     public function initialize($overriddenParams = array())
     {
+        /* @TODO implement */
+        // 'db_connection_adapter' => 'Magento\TestFramework\Db\ConnectionAdapter',
+
         $overriddenParams[\Magento\Framework\App\State::PARAM_MODE] = $this->_appMode;
         $overriddenParams = $this->_customizeParams($overriddenParams);
         $directories = isset($overriddenParams[\Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS])
@@ -284,18 +292,19 @@ class Application
      *
      * @param string $adminUserName
      * @param string $adminPassword
-     * @param string $adminRoleName
      * @throws \Magento\Framework\Exception
      */
-    public function install($adminUserName, $adminPassword, $adminRoleName)
+    public function install($adminUserName, $adminPassword)
     {
+        $dirs = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
         $this->_ensureDirExists($this->_installDir);
         $this->_ensureDirExists($this->_installEtcDir);
-        $this->_ensureDirExists($this->_installDir . '/media');
-        $this->_ensureDirExists($this->_installDir . '/static');
+        $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::MEDIA][DirectoryList::PATH]);
+        $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::STATIC_VIEW][DirectoryList::PATH]);
+        $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::VAR_DIR][DirectoryList::PATH]);
 
         // Copy configuration files
-        $globalConfigFiles = glob($this->_globalConfigDir . '/{*,*/*}.xml', GLOB_BRACE);
+        $globalConfigFiles = glob($this->_globalConfigDir . '/{*,*/*}.{xml,xml.template}', GLOB_BRACE);
         foreach ($globalConfigFiles as $file) {
             $targetFile = $this->_installEtcDir . str_replace($this->_globalConfigDir, '', $file);
             $this->_ensureDirExists(dirname($targetFile));
@@ -308,58 +317,56 @@ class Application
             copy($file, $targetModulesDir . '/' . basename($file));
         }
 
-        /* Make sure that local.xml does not contain an invalid installation date */
-        $installDate = (string)$this->_localXml->install->date;
-        if ($installDate && strtotime($installDate)) {
-            throw new \Magento\Framework\Exception('Local configuration must contain an invalid installation date.');
-        }
+        $installParams = $this->getInstallParams($adminUserName, $adminPassword);
 
-        /* Replace local.xml */
-        $targetLocalXml = $this->_installEtcDir . '/local.xml';
-        $this->_localXml->asNiceXml($targetLocalXml);
-
-        /* Initialize an application in non-installed mode */
-        $this->initialize();
-
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
-            ->getArea('install')->load(\Magento\Framework\App\Area::PART_CONFIG);
-
-        /* Run all install and data-install scripts */
-        /** @var $updater \Magento\Framework\Module\Updater */
-        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Module\Updater');
-        $updater->updateScheme();
-        $updater->updateData();
-
-        /* Enable configuration cache by default in order to improve tests performance */
-        /** @var $cacheState \Magento\Framework\App\Cache\StateInterface */
-        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Cache\StateInterface'
+        // run install script
+/* @TODO determine if any of other supported parameters are needed. In particular, the database cleanup may be useful */
+// [--cleanup_database]
+//--base_url= --language= --timezone= --currency= --admin_username=
+//--admin_password= --admin_email= --admin_firstname= --admin_lastname=
+//[--admin_use_security_key=] [--key=] [--use_rewrites=]
+//[--use_secure=] [--base_url_secure=] [--use_secure_admin=] [--admin_use_security_key=] [--sales_order_increment_prefix=]
+        $this->_shell->execute(
+            'php -f %s install ' . implode(' ', array_keys($installParams)),
+            array_merge([BP . '/setup/index.php'], array_values($installParams))
         );
-        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER, true);
-        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Layout::TYPE_IDENTIFIER, true);
-        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Translate::TYPE_IDENTIFIER, true);
-        $cacheState->setEnabled(\Magento\Eav\Model\Cache\Type::TYPE_IDENTIFIER, true);
-        $cacheState->persist();
 
-        /* Fill installation date in local.xml to indicate that application is installed */
-        $localXml = file_get_contents($targetLocalXml);
-        $localXml = str_replace($installDate, date('r'), $localXml, $replacementCount);
-        if ($replacementCount != 1) {
-            throw new \Magento\Framework\Exception(
-                "Unable to replace installation date properly in '{$targetLocalXml}' file."
-            );
+        // enable only specified list of caches
+        /* @TODO implement this using cache enabler CLI */
+//        /* Enable configuration cache by default in order to improve tests performance */
+//        /** @var $cacheState \Magento\Framework\App\Cache\StateInterface */
+//        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+//            'Magento\Framework\App\Cache\StateInterface'
+//        );
+//        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER, true);
+//        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Layout::TYPE_IDENTIFIER, true);
+//        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Translate::TYPE_IDENTIFIER, true);
+//        $cacheState->setEnabled(\Magento\Eav\Model\Cache\Type::TYPE_IDENTIFIER, true);
+//        $cacheState->persist();
+    }
+
+    private function getInstallParams($adminUserName, $adminPassword)
+    {
+        $dirsParam = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
+        $params = array_merge($this->installConfig, [
+            'base_url' => 'http://localhost/',
+            'language' => 'en_US',
+            'timezone' => 'America/Chicago',
+            'currency' => 'USD',
+            'admin_username' => $adminUserName,
+            'admin_password' => $adminPassword,
+            'admin_email' => 'admin@example.com',
+            'admin_firstname' => 'John',
+            'admin_lastname' => 'Doe',
+            $dirsParam => urldecode(http_build_query($this->_initParams[$dirsParam])),
+        ]);
+        $result = [];
+        foreach ($params as $key => $value) {
+            if (!empty($value)) {
+                $result["--{$key}=%s"] = $value;
+            }
         }
-        file_put_contents($targetLocalXml, $localXml, LOCK_EX);
-
-        /* Add predefined admin user to the system */
-        $this->_createAdminUser($adminUserName, $adminPassword, $adminRoleName);
-
-        /* Switch an application to installed mode */
-        $this->initialize();
-        //hot fix for \Magento\Catalog\Model\Product\Attribute\Backend\SkuTest::testGenerateUniqueLongSku
-        /** @var $appState \Magento\Framework\App\State */
-        $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State');
-        $appState->setInstallDate(date('r', strtotime('now')));
+        return $result;
     }
 
     /**
@@ -421,50 +428,6 @@ class Application
             $path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
         }
         rmdir($this->_installDir);
-    }
-
-    /**
-     * Creates predefined admin user to be used by tests, where admin session is required
-     *
-     * @param string $adminUserName
-     * @param string $adminPassword
-     * @param string $adminRoleName
-     */
-    protected function _createAdminUser($adminUserName, $adminPassword, $adminRoleName)
-    {
-        /** @var $user \Magento\User\Model\User */
-        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
-        $user->setData(
-            array(
-                'firstname' => 'firstname',
-                'lastname' => 'lastname',
-                'email' => 'admin@example.com',
-                'username' => $adminUserName,
-                'password' => $adminPassword,
-                'is_active' => 1
-            )
-        );
-        $user->save();
-
-        /** @var $roleAdmin \Magento\Authorization\Model\Role */
-        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Authorization\Model\Role');
-        $roleAdmin->load($adminRoleName, 'role_name');
-
-        /** @var $roleUser \Magento\Authorization\Model\Role */
-        $roleUser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Authorization\Model\Role');
-        $roleUser->setData(
-            array(
-                'parent_id' => $roleAdmin->getId(),
-                'tree_level' => $roleAdmin->getTreeLevel() + 1,
-                'role_type' => \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE,
-                'user_id' => $user->getId(),
-                'user_type' => UserContextInterface::USER_TYPE_ADMIN,
-                'role_name' => $user->getFirstname()
-            )
-        );
-        $roleUser->save();
     }
 
     /**

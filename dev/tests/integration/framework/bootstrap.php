@@ -35,14 +35,17 @@ function tool_autoloader($className)
 
 spl_autoload_register('tool_autoloader');
 
+$logWriter = new \Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new \Zend_Log($logWriter);
+
 /* Bootstrap the application */
-$invariantSettings = array('TESTS_LOCAL_CONFIG_EXTRA_FILE' => 'etc/integration-tests-config.xml');
 $bootstrap = new \Magento\TestFramework\Bootstrap(
-    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
+    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants()),
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\DocBlock("{$testsBaseDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Framework\Profiler\Driver\Standard()),
-    new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer()),
+    new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();

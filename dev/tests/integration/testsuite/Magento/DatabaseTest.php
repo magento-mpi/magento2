@@ -21,9 +21,9 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         }
         $checkerPath = PERCONA_TOOLKIT_BIN_DIR . '/pt-duplicate-key-checker';
 
-        $dbConfig = Bootstrap::getInstance()->getBootstrap()->getDbConfig();
-        $command = $checkerPath . ' -d ' . $dbConfig->dbName
-            . ' h=' . $dbConfig->host . ',u=' . $dbConfig->username . ',p=' . $dbConfig->password;
+        $installConfig = Bootstrap::getInstance()->getBootstrap()->getInstallConfig();
+        $command = $checkerPath . ' -d ' . $installConfig['db_name']
+            . ' h=' . $installConfig['db_host'] . ',u=' . $installConfig['db_user'] . ',p=' . $installConfig['db_pass'];
 
         exec($command, $output, $exitCode);
         $this->assertEquals(0, $exitCode);

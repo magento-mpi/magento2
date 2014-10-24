@@ -62,12 +62,12 @@
                 <isset property="app_mode"/>
             </not>
         </condition>
-        <copy file="${basedir}/dev/build/core_dev/api-functional/local-${db_vendor_name}.xml"
+        <copy file="${basedir}/dev/build/core_dev/api-functional/install-config-${db_vendor_name}.php"
               todir="${product_root_dir}/dev/tests/api-functional/etc" overwrite="true"/>
 
 
         <property name="db_config_file"
-                  value="${product_root_dir}/dev/tests/api-functional/etc/local-${db_vendor_name}.xml"/>
+                  value="${product_root_dir}/dev/tests/api-functional/etc/install-config-${db_vendor_name}.php"/>
         <antcall target="_database_credential_substitution"/>
 
         <replace file="${db_config_file}">
@@ -98,7 +98,7 @@
             <!--URL rewrites are disabled on agents thus 'index.php' should be used as entry point-->
             <replacefilter token="{{base_url}}" value="${magento_instance_base_url}/index.php"/>
             <replacefilter token="{{web_api_adapter}}" value="${env.web_api_adapter}"/>
-            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
+            <replacefilter token="{{local_config_file}}" value="etc/install-config-${db_vendor_name}.php"/>
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
             <replacefilter token="{{testsuite}}" value="${testsuite}"/>
         </replace>

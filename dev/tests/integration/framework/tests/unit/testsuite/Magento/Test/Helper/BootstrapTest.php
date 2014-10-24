@@ -164,12 +164,6 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_fixtureInitParams, $this->_object->getAppInitParams());
     }
 
-    public function testGetDbVendorName()
-    {
-        $this->_bootstrap->expects($this->once())->method('getDbVendorName')->will($this->returnValue('mysql'));
-        $this->assertEquals('mysql', $this->_object->getDbVendorName());
-    }
-
     public function testReinitialize()
     {
         $this->_application->expects($this->once())->method('reinitialize')->with($this->_fixtureInitParams);
