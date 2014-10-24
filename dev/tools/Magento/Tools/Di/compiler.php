@@ -79,7 +79,7 @@ try {
     // 1.2 Generation of Factory and Additional Classes
     $generatorIo = new \Magento\Framework\Code\Generator\Io(
         new \Magento\Framework\Filesystem\Driver\File(),
-        null,
+        new \Magento\Framework\Code\Generator\FileResolver(),
         $generationDir
     );
     $generator = new \Magento\Framework\Code\Generator(
