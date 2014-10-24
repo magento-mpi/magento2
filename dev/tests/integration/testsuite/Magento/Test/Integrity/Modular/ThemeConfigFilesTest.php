@@ -9,6 +9,8 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class ThemeConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfigFiles
 {
     /**
@@ -18,7 +20,7 @@ class ThemeConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfi
      */
     protected function getDirectoryConstant()
     {
-        return \Magento\Framework\App\Filesystem::LIB_INTERNAL;
+        return DirectoryList::LIB_INTERNAL;
     }
 
     /**
