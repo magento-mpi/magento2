@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\GiftCard\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 
 /**
- * Class AssertProductInGrid
- * Assert that product is present in products grid.
+ * Class AssertGiftCardInGrid
+ * Assert that gift card product is present in products grid.
  */
-class AssertProductInGrid extends AbstractConstraint
+class AssertGiftCardInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,35 +26,34 @@ class AssertProductInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that product is present in products grid and can be found by sku, type, status and attribute set.
+     * Assert that gift card is present in products grid and can be found by sku, type, status and attribute set.
      *
-     * @param FixtureInterface $product
+     * @param GiftCardProduct $product
      * @param CatalogProductIndex $productGrid
      * @return void
      */
-    public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
+    public function processAssert(GiftCardProduct $product, CatalogProductIndex $productGrid)
     {
         $productGrid->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $productGrid->getProductGrid()->isRowVisible($this->prepareFilter($product)),
-            'Product \'' . $product->getName() . '\' is absent in Products grid.'
+            'Gift card \'' . $product->getName() . '\' is absent in Products grid.'
         );
     }
 
     /**
      * Prepare filter for product grid.
      *
-     * @param FixtureInterface $product
+     * @param GiftCardProduct $product
      * @return array
      */
-    protected function prepareFilter(FixtureInterface $product)
+    protected function prepareFilter(GiftCardProduct $product)
     {
         $productStatus = ($product->getStatus() === null || $product->getStatus() === 'Product online')
             ? 'Enabled'
             : 'Disabled';
-        $config = $product->getDataConfig();
         $filter = [
-            'type' => ucfirst($config['type_id']) . ' Product',
+            'type' => 'Gift Card',
             'sku' => $product->getSku(),
             'status' => $productStatus,
         ];
@@ -72,6 +71,6 @@ class AssertProductInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product is present in products grid.';
+        return 'Gift card is present in products grid.';
     }
 }

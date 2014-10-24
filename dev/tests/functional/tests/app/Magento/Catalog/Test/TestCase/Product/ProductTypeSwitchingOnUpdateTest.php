@@ -35,17 +35,17 @@ use Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloada
  * @group Products_(MX)
  * @ZephyrId MAGETWO-29633
  */
-class ProductTypeSwitchingOnUpdatingTest extends Injectable
+class ProductTypeSwitchingOnUpdateTest extends Injectable
 {
     /**
-     * Product page with a grid
+     * Product page with a grid.
      *
      * @var CatalogProductIndex
      */
     protected $catalogProductIndex;
 
     /**
-     * Page to update a product
+     * Page to update a product.
      *
      * @var CatalogProductEdit
      */
@@ -59,7 +59,7 @@ class ProductTypeSwitchingOnUpdatingTest extends Injectable
     protected $fixtureFactory;
 
     /**
-     * Injection data
+     * Injection data.
      *
      * @param CatalogProductIndex $catalogProductIndex
      * @param CatalogProductEdit $catalogProductEdit
@@ -90,13 +90,12 @@ class ProductTypeSwitchingOnUpdatingTest extends Injectable
         list($fixtureClass, $dataSet) = explode('::', $productOrigin);
         $productOrigin = $this->fixtureFactory->createByCode(trim($fixtureClass), ['dataSet' => trim($dataSet)]);
         $productOrigin->persist();
+        list($fixtureClass, $dataSet) = explode('::', $product);
+        $product = $this->fixtureFactory->createByCode(trim($fixtureClass), ['dataSet' => trim($dataSet)]);
 
         // Steps
         $this->catalogProductIndex->open();
-        $filter = ['sku' => $productOrigin->getSku()];
-        $this->catalogProductIndex->getProductGrid()->searchAndOpen($filter);
-        list($fixtureClass, $dataSet) = explode('::', $product);
-        $product = $this->fixtureFactory->createByCode(trim($fixtureClass), ['dataSet' => trim($dataSet)]);
+        $this->catalogProductIndex->getProductGrid()->searchAndOpen(['sku' => $productOrigin->getSku()]);
         $this->catalogProductEdit->getProductForm()->fill($product);
         $this->performAction($actionName);
         $this->catalogProductEdit->getFormPageActions()->save($product);
@@ -107,22 +106,19 @@ class ProductTypeSwitchingOnUpdatingTest extends Injectable
     /**
      * Perform action.
      *
-     * @param $actionName
+     * @param string $actionName
      * @throws \Exception
      * @return void
      */
     protected function performAction($actionName)
     {
-        if ($actionName !== '-') {
-            if (!method_exists(__CLASS__, $actionName)) {
-                throw new \Exception('Method does not exist.');
-            }
+        if (method_exists(__CLASS__, $actionName)) {
             $this->$actionName();
         }
     }
 
     /**
-     * Delete variations.
+     * Delete attributes.
      *
      * @return void
      */
@@ -135,15 +131,15 @@ class ProductTypeSwitchingOnUpdatingTest extends Injectable
     }
 
     /**
-     * Delete links.
+     * Clear downloadable product data.
      *
      * @return void
      */
-    protected function deleteLinks()
+    protected function clearDownloadableData()
     {
         $this->catalogProductEdit->getProductForm()->openTab('downloadable_information');
         /** @var Downloadable $downloadableInfoTab */
         $downloadableInfoTab = $this->catalogProductEdit->getProductForm()->getTabElement('downloadable_information');
-        $downloadableInfoTab->getDownloadableBlock('Links')->deleteLinks();
+        $downloadableInfoTab->getDownloadableBlock('Links')->clearDownloadableData();
     }
 }

@@ -121,11 +121,11 @@ class Links extends Form
     }
 
     /**
-     * Delete all links and clear title
+     * Delete all links and clear title.
      *
      * @return void
      */
-    public function deleteLinks()
+    public function clearDownloadableData()
     {
         $this->_rootElement->find($this->title, Locator::SELECTOR_XPATH)->setValue('');
         $index = 1;
