@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-/* @var $this \Magento\Framework\Module\Setup */
+/* @var $this Magento\Setup\Module\SetupModule */
 $this->startSetup();
 
-/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
+/** @var $connection Magento\Setup\Framework\DB\Adapter\AdapterInterface */
 $connection = $this->getConnection();
 
 $connection->addIndex(

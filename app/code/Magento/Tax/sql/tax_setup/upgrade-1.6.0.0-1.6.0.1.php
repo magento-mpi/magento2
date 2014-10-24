@@ -6,8 +6,7 @@
  * @license     {license_link}
  */
 
-$installer = $this;
-/** @var $installer \Magento\Tax\Model\Resource\Setup */
+/** @var $installer Magento\Setup\Module\SetupModule */
 $installer = $this;
 $connection = $installer->getConnection();
 $connection->createTable(

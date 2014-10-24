@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /** @var \Magento\Cms\Model\Resource\Setup $this */
 
 $cookieRestriction = $this->createPage()->load('privacy-policy-cookie-restriction-mode', 'identifier');

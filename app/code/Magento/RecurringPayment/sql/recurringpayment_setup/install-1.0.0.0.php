@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this \Magento\Catalog\Model\Resource\Setup */
+
+/** @var $this Magento\Setup\Module\SetupModule */
 $this->startSetup();
 
 /**

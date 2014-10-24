@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var \Magento\Integration\Model\Resource\Setup $installer */
+/* @var Magento\Setup\Module\SetupModule $installer */
 $installer = $this;
 $installer->getConnection()->addColumn(
     $installer->getTable('integration'),

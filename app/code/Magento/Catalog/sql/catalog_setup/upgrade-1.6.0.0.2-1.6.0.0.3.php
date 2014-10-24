@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+/** @var $installer Magento\Setup\Module\SetupModule */
 $installer = $this;
 $tableName = $installer->getTable('catalog_product_index_eav_decimal');
 $indexName = $installer->getConnection()->getPrimaryKeyName($tableName);

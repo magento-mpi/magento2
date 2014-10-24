@@ -6,5 +6,5 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\SalesArchive\Model\Resource\Setup */
+/* @var $installer Magento\Setup\Module\SetupModule */
 $installer = $this;
