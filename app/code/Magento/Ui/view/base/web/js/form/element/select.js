@@ -15,17 +15,18 @@ define([
         caption: i18n('Select...'),
         multiple: false,
         disabled: false,
-        size: 10,
+        size: false,
         template: 'ui/form/element/select'
     };
 
     var __super__ = Abstract.prototype;
 
-    function parseValue(value, type){
-        return type === 'multiple_select' ?
-            (!Array.isArray(value) ? [value] : value) :
-            (Array.isArray(value) ? value[0] : value);
+    function hasLeafNode(nodes){
+        return _.some(nodes, function(node){
+            return typeof node.value === 'object'
+        });
     }
+
 
     return Abstract.extend({
 
@@ -38,18 +39,20 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.extendConfig();
+            this.formatInitialValue();
         },
 
-        extendConfig: function(){
-            if (this.type === 'multiple_select') {
-                this.multiple = true;
-                this.caption  = false;
-            } else {
-                this.size = false;
-            }
+        formatInitialValue: function() {
+            var value;
 
-            this.initialValue = JSON.stringify(this.value());
+            this.hasLeafNode = hasLeafNode(this.options);
+
+            if (this.hasLeafNode) {
+                value = [this.value()];
+
+                this.value(value);
+                this.initialValue = value;
+            }
 
             return this;
         },
@@ -60,14 +63,18 @@ define([
             }
         },
 
+        formatValue: function(value){
+            return Array.isArray(value) ? value[0] : value;
+        },
+
         /**
          * Stores element's value to registry by element's path value
          * @param  {*} changedValue - current value of form element
          */
-        store: function (changedValue) {
-            var storedValue = parseValue(changedValue, this.type);
+        store: function (value) {
+            value = this.formatValue(value)
 
-            this.provider.data.set(this.dataScope, storedValue);
+            this.provider.data.set(this.dataScope, value);
         },
 
         /**
@@ -75,9 +82,10 @@ define([
          * @return {Boolean}
          */
         hasChanged: function () {
-            var storedValue = parseValue(this.value(), this.type);
+            var value   = this.formatValue(this.value()),
+                initial = this.formatValue(this.initialValue);
 
-            return JSON.stringify(storedValue) !== this.initialValue;
+            return value !== initial;
         }
     });
 });
