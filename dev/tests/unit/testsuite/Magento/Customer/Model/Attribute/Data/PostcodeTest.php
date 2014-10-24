@@ -11,7 +11,7 @@ namespace Magento\Customer\Model\Attribute\Data;
 use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
-class PostcodeTest extends AbstractDataTestCase
+class PostcodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DirectoryHelper|\PHPUnit_Framework_MockObject_MockObject
@@ -25,12 +25,16 @@ class PostcodeTest extends AbstractDataTestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
+        $this->localeMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\TimezoneInterface')
+            ->getMock();
+        $this->localeResolverMock = $this->getMockBuilder('Magento\Framework\Locale\ResolverInterface')
+            ->getMock();
+        $this->loggerMock = $this->getMockBuilder('Magento\Framework\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->directoryHelperMock = $this->getMockBuilder('Magento\Directory\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-
         $this->attributeMock = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\AbstractAttribute')
             ->disableOriginalConstructor()
             ->setMethods(['getStoreLabel'])
