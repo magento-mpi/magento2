@@ -9,6 +9,7 @@
 namespace Magento\Framework\Model;
 
 use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\Data\ExtensibleDataInterface;
 
 /**
  * Abstract model with custom attributes support.
@@ -16,9 +17,7 @@ use Magento\Framework\Service\Data\MetadataServiceInterface;
  * This class defines basic data structure of how custom attributes are stored in an ExtensibleModel.
  * Implementations may choose to process custom attributes as their persistence requires them to.
  */
-abstract class AbstractExtensibleModel
-    extends AbstractModel
-    implements \Magento\Framework\Api\Data\ExtensibleDataInterface
+abstract class AbstractExtensibleModel extends AbstractModel implements ExtensibleDataInterface
 {
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
