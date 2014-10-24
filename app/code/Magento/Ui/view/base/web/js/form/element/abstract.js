@@ -17,7 +17,7 @@ define([
         required:           false,
         disabled:           false,
         module:             'ui',
-        type:               'input',
+        input_type:         'input',
         placeholder:        null,
         noticeid:           null,
         description:        '',
@@ -25,7 +25,8 @@ define([
         error:              '',
         addbefore:          null,
         addafter:           null,
-        notice:             null
+        notice:             null,
+        dataScope:          ''
     };
 
     var __super__ = Component.prototype;
@@ -42,7 +43,8 @@ define([
             __super__.initialize.apply(this, arguments);
 
             this.setUniqueId()
-                .initDisableStatus();
+                .initDisableStatus()
+                .initListeners()
 
             this.value.subscribe(this.onUpdate, this);
         },
@@ -64,7 +66,15 @@ define([
                 'disabled':      this.disabled,
                 'error':         this.error,
                 'focused':       false
-            });
+            });            
+
+            return this;
+        },
+
+        initListeners: function(){
+            var data = this.provider.data;
+
+            data.on('reset', this.reset.bind(this));
 
             return this;
         },
@@ -100,7 +110,7 @@ define([
                 });
             });
 
-            return self;
+            return this;
         },
 
         hasAddons: function () {
@@ -117,6 +127,10 @@ define([
          */
         store: function (value) {
             this.provider.data.set(this.dataScope, value);
+        },
+
+        reset: function(){
+            this.value(this.initialValue);
         },
 
         /**
@@ -142,6 +156,7 @@ define([
         hasChanged: function(){
             return this.value() !== this.initialValue;
         },
+
 
         /**
          * Validates itself by it's validation rules using validator object.

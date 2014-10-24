@@ -6,10 +6,14 @@
  */
 define([
     'Magento_Ui/js/form/component',
-    'ko',
-    'underscore'
-], function (Component, ko, _) {
+    'underscore',
+    'mage/utils'
+], function (Component, _, utils) {
     'use strict';
+
+    function compact() {
+        return _.compact.apply(_, arguments);
+    };
 
     var defaults = {
         active: false,
@@ -26,17 +30,23 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
-
-            this.initTitle();
         },
 
         initObservable: function () {
+            var previewIndexes  = this.previewElements || [],
+                previewCount    = previewIndexes.length;
+
             __super__.initObservable.apply(this, arguments);
 
+            this.labelConfig        = this.label || {};
+            this.previewIndexes     = previewIndexes;
+            this._previewElements   = utils.reserve([], previewCount.length);
+
             this.observe('active')
-                .observe('bodyElements', [])
-                .observe('headElements', [])
-                .observe('displayed', []);
+                .observe('bodyElements',    [])
+                .observe('headElements',    [])
+                .observe('previewElements', [])
+                .compute('label',           this.compositeLabel.bind(this));
 
             return this;
         },
@@ -48,14 +58,7 @@ define([
             __super__.initElement.apply(this, arguments);
 
             storage.push(element);
-            this.updateDisplayed(element);
-        },
-
-        initTitle: function () {
-            this.labelConfig = this.label || {};
-            this.label       = ko.computed(this.compositeLabel.bind(this));
-
-            return this;
+            this.addPreview(element);
         },
 
         compositeLabel: function () {
@@ -70,7 +73,7 @@ define([
 
             if (parts) {
                 elements    = parts.map(function (part) { return indexed[part] });
-                label       = _.compact(elements).map(getValues).join(separator).trim();
+                label       = compact(elements).map(getValues).join(separator).trim();
             }
 
             return label || defaultLabel;
@@ -82,13 +85,16 @@ define([
             return element.elems.map(getValue).join(separator);
         },
 
-        updateDisplayed: function (element) {
-            var config              = this.previewElements || [],
-                shouldBeDisplayed   = !!~config.indexOf(element.index);
+        addPreview: function (element) {
+            var previewIndexes  = this.previewIndexes,
+                previewElements = this._previewElements,
+                position        = previewIndexes.indexOf(element.index);
 
-            if (shouldBeDisplayed) {
-                this.displayed.push(element);
+            if (!!~position) {
+                previewElements.splice(position, 1, element);
             }
+
+            this.previewElements(compact(previewElements));
         }
     });
 });

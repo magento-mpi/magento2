@@ -5,13 +5,20 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/form/component'
-], function (Component) {
+    'Magento_Ui/js/form/component',
+    './form/adapter'
+], function (Component, adapter) {
     'use strict';
 
     var __super__ = Component.prototype;
 
     return Component.extend({
+
+        initialize: function(){
+            __super__.initialize.apply(this, arguments);
+
+            this.initAdapter();
+        },
 
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
@@ -19,11 +26,29 @@ define([
             this.observe('isValid', false);
         },
 
+        initAdapter: function(){
+            _.bindAll(this, 'reset', 'save');
+
+            adapter.on({
+                'reset':            this.reset,
+                'save':             this.save,
+                'saveAndContinue':  this.save
+            });
+
+            return this;
+        },
+
+
         /**
-         * Handler for submit action. Validates form and then, if form is valid,
-         *     invokes 'submit' method.
+         * Submits form
          */
-        onSubmit: function () {
+        submit: function () {},
+
+        reset: function(){
+            this.provider.data.trigger('reset');
+        },
+
+        save: function(){
             var isValid = this.validate();
 
             this.isValid(isValid);
@@ -32,11 +57,6 @@ define([
                 this.submit();
             }
         },
-
-        /**
-         * Submits form
-         */
-        submit: function () {},
 
         /**
          * Validates each element and returns true, if all elements are valid.

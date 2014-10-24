@@ -77,17 +77,15 @@ define([
         build: function(parent, node, name){
             var type;
 
-            node.index = node.name || name;
+            type    = getNodeType.apply(null, arguments);
+            node    = mergeNode(node, this.types.get(type));
 
-            type = getNodeType.apply(null, arguments);
-            name = getNodeName.apply(null, arguments);
-            node = mergeNode(node, this.types.get(type));
-
-            node.name = name;
+            node.index  = node.name || name;
+            node.name   = getNodeName.apply(null, arguments);
 
             delete node.type;
 
-            this.registry.set(name, node);
+            this.registry.set(node.name, node);
 
             if(type !== 'template'){
                 return node;
