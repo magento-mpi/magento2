@@ -12,7 +12,6 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Fixture\Cart;
 
 /**
- * Class AssertProductOptionsAbsentInShoppingCart
  * Assert that cart item options for product(s) not display with old options.
  */
 class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
@@ -22,7 +21,14 @@ class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
      *
      * @var string
      */
-    protected $notice = "\nForm data is equals to passed from fixture:\n";
+    protected $notice = "\nProduct options from shopping cart are equals to passed from fixture:\n";
+
+    /**
+     * Error message for verify options
+     *
+     * @var string
+     */
+    protected $errorMessage = '- %s: "%s" equals of "%s"';
 
     /**
      * Assert that cart item options for product(s) not display with old options.
@@ -37,59 +43,15 @@ class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
     }
 
     /**
-     * Verify form data not contains in fixture data.
+     * Check that params are equals.
      *
-     * @param array $fixtureData
-     * @param array $formData
-     * @param bool $isStrict [optional]
-     * @param bool $isPrepareError [optional]
-     * @return array|string
+     * @param mixed $expected
+     * @param mixed $actual
+     * @return bool
      */
-    protected function verifyContainsData(
-        array $fixtureData,
-        array $formData,
-        $isStrict = false,
-        $isPrepareError = true
-    ) {
-        $errors = [];
-
-        foreach ($fixtureData as $key => $value) {
-            if (in_array($key, $this->skippedFields)) {
-                continue;
-            }
-
-            $formValue = isset($formData[$key]) ? $formData[$key] : null;
-            if ($formValue && !is_array($formValue)) {
-                $formValue = trim($formValue, '. ');
-            }
-
-            if (is_array($value) && is_array($formValue)) {
-                $valueErrors = $this->verifyContainsData($value, $formValue, true, false);
-                if (!empty($valueErrors)) {
-                    $errors[$key] = $valueErrors;
-                }
-            } elseif (false !== strpos($fixtureData['value'], $formData['value'])) {
-                if (is_array($value)) {
-                    $value = $this->arrayToString($value);
-                }
-                if (is_array($formValue)) {
-                    $formValue = $this->arrayToString($formValue);
-                }
-                $errors[] = sprintf('- %s: "%s" equals of "%s"', $key, $formValue, $value);
-            }
-        }
-
-        if ($isStrict) {
-            $diffData = array_diff(array_keys($formData), array_keys($fixtureData));
-            if ($diffData) {
-                $errors[] = '- fields ' . implode(', ', $diffData) . ' is absent in fixture';
-            }
-        }
-
-        if ($isPrepareError) {
-            return $this->prepareErrors($errors);
-        }
-        return $errors;
+    protected function equals($expected, $actual)
+    {
+        return (false !== strpos($expected, $actual));
     }
 
     /**
@@ -99,6 +61,6 @@ class AssertProductOptionsAbsentInShoppingCart extends AssertCartItemsOptions
      */
     public function toString()
     {
-        return 'Product options are absent in shopping cart.';
+        return 'Product with options are absent in shopping cart.';
     }
 }
