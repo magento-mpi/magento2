@@ -59,7 +59,7 @@ define([
             rules = this.validation = this.validation || {};
 
             this.observe({
-                'value':         this.initialValue = this.provider.data.get(this.name),
+                'value':         this.initialValue = this.provider.data.get(this.dataScope),
                 'required':      rules['required-entry'],
                 'disabled':      this.disabled,
                 'error':         this.error,
