@@ -684,8 +684,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function addBlock($block, $name = '', $parent = '', $alias = '')
     {
         $this->build();
-        if (empty($name) && $block instanceof \Magento\Framework\View\Element\AbstractBlock) {
-            $name = $block->getNameInLayout();
+        if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
+            $name = $name ?: $block->getNameInLayout();
         } else {
             $block = $this->_createBlock($block, $name);
         }
@@ -694,6 +694,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             Element::TYPE_BLOCK,
             $name ?: get_class($block)
         );
+        $this->setBlock($name, $block);
+        $block->setNameInLayout($name);
         if ($parent) {
             $this->structure->setAsChild($name, $parent, $alias);
         }
