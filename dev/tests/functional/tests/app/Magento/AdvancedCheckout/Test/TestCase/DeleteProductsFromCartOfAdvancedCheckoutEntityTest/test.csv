@@ -3,4 +3,4 @@
 "catalogProductSimple::out_of_stock";"1";"-";"assertRequiringAttentionProductSuccessDeleteMessage, assertProductsAbsentInRequiringAttention, assertProductsAbsentInShoppingCart";""
 "configurableProductInjectable::default";"2";"-";"assertRequiringAttentionProductSuccessDeleteMessage, assertProductsAbsentInRequiringAttention, assertProductsAbsentInShoppingCart";"Bug: MAGETWO-29922"
 "bundleProduct::bundle_dynamic_product";"1";"-";"assertRequiringAttentionProductSuccessDeleteMessage, assertProductsAbsentInRequiringAttention, assertProductsAbsentInShoppingCart";"Bug: MAGETWO-29922"
-"-";"1";"-";"assertRequiringAttentionProductSuccessDeleteMessage, assertCartIsEmpty";""
+"-";"1";"nonExistentSku";"assertRequiringAttentionProductSuccessDeleteMessage, assertCartIsEmpty";""
