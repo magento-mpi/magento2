@@ -249,7 +249,7 @@
             "Magento\\TestFramework\\Inspection\\": [
                 "dev/tests/static/framework/Magento/TestFramework/Inspection"
             ],
-            "Magento\\ToolkitFramework\\": ["dev/tools/performance_toolkit/framework/Magento/ToolkitFramework/"]
+            "Magento\\ToolkitFramework\\": ["dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/"]
         }
     }
 }
