@@ -45,6 +45,8 @@ use Mtf\Fixture\InjectableFixture;
  *
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-28331
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
 {

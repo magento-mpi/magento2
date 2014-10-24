@@ -134,6 +134,19 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testGetAmountsCached()
+    {
+        $amount = [['website_value' => 5]];
+
+        $this->saleableMock->expects($this->once())
+            ->method('getGiftcardAmounts')
+            ->will($this->returnValue($amount));
+
+        $this->model->getAmounts();
+
+        $this->assertEquals([5], $this->model->getAmounts());
+    }
+
     /**
      * @param array $amounts
      * @param bool $expected

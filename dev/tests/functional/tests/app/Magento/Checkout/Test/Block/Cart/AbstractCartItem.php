@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Checkout\Test\Block\Cart;
 
 use Mtf\Block\Block;
@@ -31,6 +31,13 @@ class AbstractCartItem extends Block
     protected $price = './/td[@class="col price"]/*[@class="price-excluding-tax"]/span';
 
     /**
+     * Selector for unit price including tax
+     *
+     * @var string
+     */
+    protected $priceInclTax = './/td[@class="col price"]/*[@class="price-including-tax"]/span';
+
+    /**
      * Quantity input selector
      *
      * @var string
@@ -43,6 +50,15 @@ class AbstractCartItem extends Block
      * @var string
      */
     protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="price-excluding-tax"]//span[@class="price"]';
+
+    // @codingStandardsIgnoreStart
+    /**
+     * Cart item sub-total including tax xpath selector
+     *
+     * @var string
+     */
+    protected $subTotalPriceInclTax = '//td[@class="col subtotal"]//*[@class="price-including-tax"]//span[@class="price"]';
+    // @codingStandardsIgnoreEnd
 
     /**
      *  Selector for options block

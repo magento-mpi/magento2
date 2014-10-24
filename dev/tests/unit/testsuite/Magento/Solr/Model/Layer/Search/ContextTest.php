@@ -66,7 +66,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->collectionFilterMock = $this->getMock(
-            '\Magento\CatalogSearch\Model\Layer\Search\CollectionFilter',
+            '\Magento\Catalog\Model\Layer\Search\CollectionFilter',
             array(),
             array(),
             '',
