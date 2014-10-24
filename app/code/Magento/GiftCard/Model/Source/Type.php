@@ -107,6 +107,7 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      *
      * @param int $store
      * @return \Magento\Framework\DB\Select|null
+     * @codeCoverageIgnore
      */
     public function getFlatUpdateSelect($store)
     {

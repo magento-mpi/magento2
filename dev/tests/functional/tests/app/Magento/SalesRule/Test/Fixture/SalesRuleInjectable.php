@@ -31,7 +31,12 @@ class SalesRuleInjectable extends InjectableFixture
         'name' => 'Default price rule %isolation%',
         'is_active' => 'Active',
         'website_ids' => ['Main Website'],
-        'customer_group_ids' => ['NOT LOGGED IN'],
+        'customer_group_ids' => [
+            'NOT LOGGED IN',
+            'General',
+            'Wholesale',
+            'Retailer',
+        ],
         'coupon_type' => 'No Coupon',
         'simple_action' => 'Percent of product price discount',
         'discount_amount' => '50',
