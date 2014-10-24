@@ -112,9 +112,9 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
-        $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
+        $value = $this->getEntity()
+            ->getData($this->getAttribute()->getAttributeCode());
         $value = $this->_applyOutputFilter($value);
-
         return $value;
     }
 }
