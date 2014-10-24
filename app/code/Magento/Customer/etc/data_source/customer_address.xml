@@ -11,7 +11,7 @@
             <field name="prefix" source="eav"/>
             <field name="suffix" source="eav"/>
             <field name="city" source="eav"/>
-            <field name="region_id" source="eav"/>
+            <field name="region_id" source="eav" formElement="select"/>
             <field name="postcode" source="eav"/>
             <field name="default_billing" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Billing Address" />
             <field name="default_shipping" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Shipping Address" />
