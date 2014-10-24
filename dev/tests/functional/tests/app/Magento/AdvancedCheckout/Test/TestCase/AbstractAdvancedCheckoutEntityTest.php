@@ -115,6 +115,9 @@ abstract class AbstractAdvancedCheckoutEntityTest extends Injectable
      */
     protected function createProducts($products)
     {
+        if ($products === '-') {
+            return ['nonExistentProduct'];
+        }
         $createProductsStep = $this->objectManager->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $products]
@@ -141,18 +144,12 @@ abstract class AbstractAdvancedCheckoutEntityTest extends Injectable
         }
 
         foreach ($products as $key => $product) {
-            $productSku = $product->getSku();
-            switch ($orderOptions[$key]['sku']) {
-                case "simpleWithOptionCompoundSku":
-                    $orderOptions[$key]['sku'] = $productSku . '-'
-                        . $product->getCustomOptions()[0]['options'][0]['sku'];
-                    break;
-                case "nonExistentSku":
-                    $orderOptions[$key]['sku'] = 'nonExistentSku';
-                    break;
-                default:
-                    $orderOptions[$key]['sku'] = $productSku;
-            }
+            $productSku = $product === 'nonExistentProduct'
+                ? $productSku = 'nonExistentSku'
+                : $productSku = $product->getSku();
+            $orderOptions[$key]['sku'] = $orderOptions[$key]['sku'] === 'simpleWithOptionCompoundSku'
+                ? $productSku . '-' . $product->getCustomOptions()[0]['options'][0]['sku']
+                : $productSku;
         }
 
         return $orderOptions;

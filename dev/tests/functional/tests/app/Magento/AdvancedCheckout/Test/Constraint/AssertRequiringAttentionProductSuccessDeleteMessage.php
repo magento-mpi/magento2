@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Constraint;
+namespace Magento\AdvancedCheckout\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
@@ -14,7 +14,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 /**
  * Assert that success message is present after requiring attention product has been deleted from cart.
  */
-class AssertProductSuccessDeleteMessage extends AbstractConstraint
+class AssertRequiringAttentionProductSuccessDeleteMessage extends AbstractConstraint
 {
     /**
      * Success delete message.

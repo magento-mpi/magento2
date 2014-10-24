@@ -61,7 +61,7 @@ class DeleteProductsFromCartOfAdvancedCheckoutEntityTest extends AbstractAdvance
     }
 
     /**
-     * Delete requiring attention products
+     * Delete requiring attention products.
      *
      * @param array $products
      * @return void

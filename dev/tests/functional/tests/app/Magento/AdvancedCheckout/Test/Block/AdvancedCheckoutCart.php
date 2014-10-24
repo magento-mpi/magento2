@@ -29,12 +29,14 @@ class AdvancedCheckoutCart extends Cart
     /**
      * Get failed item block
      *
-     * @param FixtureInterface $product
+     * @param FixtureInterface|string $product
      * @return Info
      */
-    protected function getFailedItemBlock(FixtureInterface $product)
+    protected function getFailedItemBlock($product)
     {
-        $failedItemBlockSelector = sprintf($this->failedItem, $product->getSku());
+        $failedItemBlockSelector = $product instanceof FixtureInterface
+            ? sprintf($this->failedItem, $product->getSku())
+            : sprintf($this->failedItem, 'nonExistentSku');
 
         return $this->blockFactory->create(
             'Magento\AdvancedCheckout\Test\Block\Sku\Products\Info',
@@ -109,14 +111,13 @@ class AdvancedCheckoutCart extends Cart
     /**
      * Delete product
      *
-     * @param FixtureInterface $product
+     * @param FixtureInterface|string $product
      * @return void
      */
-    public function deleteProduct(FixtureInterface $product)
+    public function deleteProduct($product)
     {
         $failedItemBlock = $this->getFailedItemBlock($product);
         $failedItemBlock->deleteProduct();
-
     }
 
     /**

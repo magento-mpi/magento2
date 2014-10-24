@@ -11,8 +11,6 @@ namespace Magento\AdvancedCheckout\Test\TestCase;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Test Creation for AddingToCart AdvancedCheckoutEntity(from MyAccount)
- *
  * Test Flow:
  *
  * Preconditions:
@@ -67,7 +65,7 @@ class AddToCartAdvancedCheckoutEntityTest extends AbstractAdvancedCheckoutEntity
     }
 
     /**
-     * Clear shopping cart and set configuration after test
+     * Clear shopping cart and set configuration after test.
      *
      * @return void
      */
