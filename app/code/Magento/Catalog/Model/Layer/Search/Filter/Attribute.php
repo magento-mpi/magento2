@@ -7,7 +7,7 @@
  */
 
 /**
- * CatalogSearch layer attribute filter
+ * Layer attribute filter
  *
  */
 namespace Magento\Catalog\Model\Layer\Search\Filter;

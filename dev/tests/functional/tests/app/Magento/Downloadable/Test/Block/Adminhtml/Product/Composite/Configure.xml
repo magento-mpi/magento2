@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <qty />
+        <link>
+            <selector>//*[@id="downloadable-links-list"]/*[contains(.,"%link_name%")]//input</selector>
+            <strategy>xpath</strategy>
+            <input>checkbox</input>
+        </link>
+    </fields>
+</mapping>

@@ -139,24 +139,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Core/_files/design_change.php
-     */
-    public function testGetProcessedTemplateDesignChange()
-    {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\AreaList'
-        )->getArea(
-            \Magento\Framework\App\Area::AREA_FRONTEND
-        )->load();
-        $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
-        $this->assertStringEndsWith(
-            'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico',
-            $this->_model->getProcessedTemplate()
-        );
-    }
-
-    /**
-     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      */
     public function testGetProcessedTemplateSubject()

@@ -169,6 +169,19 @@
     }
 }
 
+.form-wishlist-search {
+    margin-bottom: @indent-l-base*2;
+}
+
+.block-wishlist-search-results {
+    .block-title {
+        &:extend(.abstract-block-title all);
+    }
+    .toolbar-wishlist-results {
+        text-align: center;
+    }
+}
+
 //
 //    Mobile
 //--------------------------------------
@@ -277,6 +290,16 @@
         .wishlist-dropdown {
             display: none;
         }
+    }
+
+    .block-wishlist-search-results {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile all);
+        }
+    }
+
+    .toolbar-wishlist-results {
+        &:extend(.abstract-pager-toolbar-mobile all);
     }
 }
 
@@ -395,5 +418,9 @@
                 }
             }
         }
+    }
+
+    .toolbar-wishlist-results {
+        &:extend(.abstract-pager-toolbar all);
     }
 }

@@ -9,7 +9,6 @@ namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
-use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -56,11 +55,12 @@ class Login extends Form
     /**
      * Select how to perform checkout whether guest or registered customer
      *
-     * @param Checkout $fixture
+     * @param FixtureInterface $fixture
      * @return void
      */
-    public function checkoutMethod(Checkout $fixture)
+    public function checkoutMethod(FixtureInterface $fixture)
     {
+        /** @var Checkout $fixture */
         if ($fixture->isRegisteredCustomer()) {
             $this->loginCustomer($fixture->getCustomer());
         } elseif ($fixture->getCustomer()) {

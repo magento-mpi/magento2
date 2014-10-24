@@ -171,10 +171,20 @@ class DirectoryList
      */
     protected function isAbsolute($path)
     {
-        $isUnixRoot = strpos($path, '/') === 0;
-        $isWindowsRoot = preg_match('#^\w{1}:/#', $path);
-        $isWindowsLetter = parse_url($path, PHP_URL_SCHEME) !== null;
-        return $isUnixRoot || $isWindowsRoot || $isWindowsLetter;
+        $path = strtr($path, '\\', '/');
+
+        if (strpos($path, '/') === 0) {
+            //is UnixRoot
+            return true;
+        } elseif (preg_match('#^\w{1}:/#', $path)) {
+            //is WindowsRoot
+            return true;
+        } elseif (parse_url($path, PHP_URL_SCHEME) !== null) {
+            //is WindowsLetter
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -57,7 +57,7 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $catalogProductView->getViewBlock()->addToWishlist();
+        $catalogProductView->getViewBlock()->clickAddToWishlist();
         $wishlistIndex->getGiftRegistryWishlistBlock()->addToGiftRegistry($giftRegistry->getTitle());
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,

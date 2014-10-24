@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
+/**
+ * Payment method read service interface.
+ */
 interface ReadServiceInterface
 {
     /**
-     * Get list of payment methods
+     * Returns the payment method for a specified shopping cart.
      *
-     * @param int $cartId
-     * @return \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @param int $cartId The cart ID.
+     * @return \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod  Payment method object.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
      */
     public function getPayment($cartId);
 
     /**
-     * Get the list of available payment methods for a shopping cart
+     * Lists available payment methods for a specified shopping cart.
      *
-     * @param int $cartId
-     * @return \Magento\Checkout\Service\V1\Data\PaymentMethod[]
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @param int $cartId The cart ID.
+     * @return \Magento\Checkout\Service\V1\Data\PaymentMethod[] Array of payment methods.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException The specified cart does not exist.
      */
     public function getList($cartId);
 }

@@ -17,7 +17,9 @@ angular.module('install', ['ngStorage'])
         };
 
         $scope.checkProgress = function () {
-            $scope.displayProgress();
+            if ($scope.isInProgress) {
+                $scope.displayProgress();
+            }
             progress.get(function (response) {
                 var log = '';
                 response.data.console.forEach(function (message) {
