@@ -13,6 +13,7 @@ use Magento\Payment\Block\Form;
 use Magento\Payment\Model\Info;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutFactory;
+use Magento\Framework\View\Layoutinterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Model\MethodInterface;
 
