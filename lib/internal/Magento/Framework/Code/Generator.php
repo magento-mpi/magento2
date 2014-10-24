@@ -6,8 +6,10 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\Code;
+
 use \Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Filesystem;
+
 class Generator
 {
     const GENERATION_SUCCESS = 'success';

@@ -40,9 +40,12 @@ class Autoloader
     public function load($className)
     {
         if (!class_exists($className)) {
-            if (\Magento\Framework\Code\Generator::GENERATION_SUCCESS === $this->_generator->generateClass($className)) {
+            if (\Magento\Framework\Code\Generator::GENERATION_SUCCESS === $this->_generator->generateClass(
+                    $className
+                )
+            ) {
                 $file = $this->fileResolver->getFile($className);
-                if($file) {
+                if ($file) {
                     include $file;
                 }
             }

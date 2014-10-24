@@ -10,7 +10,6 @@
 
 namespace Magento\Framework\Code\Generator;
 
-
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FileResolver
@@ -36,14 +35,14 @@ class FileResolver
      */
     public function getFilePath($class)
     {
-        return ltrim(str_replace(array('_', '\\'), '/', $class), '/') . '.php';
+        return ltrim(str_replace(['_', '\\'], '/', $class), '/') . '.php';
     }
 
     /**
      * Add specified path(s) to the current include_path
      *
      * @param string|array $path
-     * @param bool $prepend Whether to prepend paths or to append them
+     * @param bool         $prepend Whether to prepend paths or to append them
      * @return void
      */
     public static function addIncludePath($path, $prepend = true)
