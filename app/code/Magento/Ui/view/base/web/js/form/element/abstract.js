@@ -116,7 +116,7 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.provider.data.set(this.name, value);
+            this.provider.data.set(this.dataScope, value);
         },
 
         /**

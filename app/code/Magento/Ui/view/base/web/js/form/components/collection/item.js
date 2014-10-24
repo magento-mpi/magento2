@@ -15,7 +15,7 @@ define([
         active: false,
         template: 'ui/form/components/collection/item',
         defaultDisplayArea: 'body',
-        defaultTitle: '',
+        defaultLabel: '',
         separator: ' '
     };
 
@@ -35,7 +35,8 @@ define([
 
             this.observe('active')
                 .observe('bodyElements', [])
-                .observe('headElements', []);
+                .observe('headElements', [])
+                .observe('displayed', []);
 
             return this;
         },
@@ -47,33 +48,47 @@ define([
             __super__.initElement.apply(this, arguments);
 
             storage.push(element);
+            this.updateDisplayed(element);
         },
 
         initTitle: function () {
-            this.titleConfig = this.title || {};
-            this.title       = ko.computed(this.compositeTitle.bind(this));
+            this.labelConfig = this.label || {};
+            this.label       = ko.computed(this.compositeLabel.bind(this));
+
+            return this;
         },
 
-        compositeTitle: function () {
-            var config          = this.titleConfig,
-                defaultTitle    = config['default'] || this.defaultTitle,
-                separator       = config.separator  || this.separator,
-                elements        = [],
-                parts           = config.composite_of,
+        compositeLabel: function () {
+            var config          = this.labelConfig,
+                defaultLabel    = config['default'] || this.defaultLabel,
+                separator       = this.separator,
+                parts           = config.compositeOf,
                 indexed         = this.elems.indexBy('index'),
-                title           = '',
-                getValues       = this.getValues.bind(this, separator);
+                getValues       = this.getValues.bind(this, separator),
+                label           = '',
+                elements;
 
             if (parts) {
                 elements    = parts.map(function (part) { return indexed[part] });
-                title       = _.compact(elements).map(getValues).join(separator).trim();
+                label       = _.compact(elements).map(getValues).join(separator).trim();
             }
 
-            return title || defaultTitle;
+            return label || defaultLabel;
         },
 
         getValues: function (separator, element) {
-            return element.elems.map(function (element) { return element.value() }).join(separator);
+            var getValue = function (element) { return element.value() };
+
+            return element.elems.map(getValue).join(separator);
+        },
+
+        updateDisplayed: function (element) {
+            var config              = this.previewElements || [],
+                shouldBeDisplayed   = !!~config.indexOf(element.index);
+
+            if (shouldBeDisplayed) {
+                this.displayed.push(element);
+            }
         }
     });
 });

@@ -67,7 +67,7 @@ define([
         store: function (changedValue) {
             var storedValue = parseValue(changedValue, this.type);
 
-            this.provider.data.set(this.name, storedValue);
+            this.provider.data.set(this.dataScope, storedValue);
         },
 
         /**
