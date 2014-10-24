@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@color-remove-icon: #5d5d5d;
+
 .form-add-invitations {
     .fieldset {
         margin: 0 0 @indent-s-base;
@@ -30,14 +32,12 @@
                 text-align: left;
             }
         }
-
-        .control {
-            .input-text {
-                width: 70%;
-            }
+    }
+    .control {
+        .input-text {
+            width: 70%;
         }
     }
-
     .action {
         &.add {
             .button-icon(
@@ -60,18 +60,32 @@
     .table-wrapper.invitations {
         &:extend(.abstract-account-table-border all);
     }
-    .action {
-        &.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 20px,
-                @_icon-font-color: @color-remove-icon
-            );
-            .icon-font-symbol(
-                @_icon-font-content: @icon-trash
-            );
-            .button-reset();
+    .form-add-invitations {
+        .fieldset {
+            .fields {
+                .actions-toolbar {
+                    left: 92%;
+                }
+            }
+        }
+        .action {
+            &.remove {
+                .button-icon(
+                    @_icon-font-content: @icon-remove,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 20px,
+                    @_icon-font-color: @color-remove-icon
+                );
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-trash
+                );
+                .button-reset();
+            }
+        }
+        .control {
+            .input-text {
+                width: 90%;
+            }
         }
     }
 }
