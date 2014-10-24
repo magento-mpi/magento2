@@ -81,6 +81,8 @@ class Converter implements ConverterInterface
             $data[$datasource['@attributes']['name']] = [
                 'name' => $datasource['@attributes']['name'],
                 'label' => $datasource['@attributes']['label'],
+                'compositeLabel' => isset($datasource['@attributes']['compositeLabel']) ? $datasource['@attributes']['compositeLabel'] : '',
+                'previewElements' => isset($datasource['@attributes']['previewElements']) ? $datasource['@attributes']['previewElements'] : '',
                 'dataset' => $datasource['@attributes']['dataset'],
             ];
             $fields = [];
@@ -99,10 +101,9 @@ class Converter implements ConverterInterface
                 foreach ($field['@attributes'] as $key => $value) {
                     $fields[$field['@attributes']['name']][$key] = $value;
                 }
-                if (isset($field['@attributes']['source']))
-                {
+                if (isset($field['@attributes']['source'])) {
                     if (in_array($field['@attributes']['source'], ['lookup', 'option'])) {
-                        $fields[$field['@attributes']['name']]['reference'] =  [
+                        $fields[$field['@attributes']['name']]['reference'] = [
                             'target' => $field['reference']['@attributes']['target'],
                             'targetField' => $field['reference']['@attributes']['targetField'],
                             'referencedField' => $field['reference']['@attributes']['referencedField'],

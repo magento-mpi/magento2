@@ -81,7 +81,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function getCompositeLabel()
     {
-        return $this->config['compositeLabel'];
+        return isset($this->config['compositeLabel']) ? $this->config['compositeLabel'] : '';
     }
 
     /**
@@ -91,7 +91,7 @@ class Metadata implements \Iterator, \ArrayAccess
      */
     public function getPreviewElements()
     {
-        return $this->config['previewElements'];
+        return isset($this->config['previewElements']) ? $this->config['previewElements'] : '';
     }
 
     /**
