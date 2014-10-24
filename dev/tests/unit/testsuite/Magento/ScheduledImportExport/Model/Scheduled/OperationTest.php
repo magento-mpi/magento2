@@ -41,7 +41,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $registryMock;
 
     /**
-     * @var \Magento\Framework\App\Filesystem | Mock
+     * @var \Magento\Framework\Filesystem | Mock
      */
     protected $filesystemMock;
 
@@ -108,7 +108,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->registryMock = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
+        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
@@ -245,7 +245,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
         $filesystem =
-            $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
+            $this->getMockBuilder('Magento\Framework\Filesystem')->disableOriginalConstructor()->getMock();
         $filesystem->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directory));
 
         $params = array('operationFactory' => $operationFactory, 'filesystem' => $filesystem);

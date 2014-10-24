@@ -56,7 +56,7 @@ class CartItem extends AbstractCartItem
      *
      * @var string
      */
-    protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
+    protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="price-excluding-tax"]//span[@class="price"]';
 
     /**
      * Get product name
@@ -76,6 +76,17 @@ class CartItem extends AbstractCartItem
     public function getPrice()
     {
         $cartProductPrice = $this->_rootElement->find($this->price, Locator::SELECTOR_XPATH)->getText();
+        return str_replace(',', '', $this->escapeCurrency($cartProductPrice));
+    }
+
+    /**
+     * Get product price including tax
+     *
+     * @return string
+     */
+    public function getPriceInclTax()
+    {
+        $cartProductPrice = $this->_rootElement->find($this->priceInclTax, Locator::SELECTOR_XPATH)->getText();
         return str_replace(',', '', $this->escapeCurrency($cartProductPrice));
     }
 
@@ -108,6 +119,17 @@ class CartItem extends AbstractCartItem
     public function getSubtotalPrice()
     {
         $price = $this->_rootElement->find($this->subtotalPrice, Locator::SELECTOR_XPATH)->getText();
+        return str_replace(',', '', $this->escapeCurrency($price));
+    }
+
+    /**
+     * Get sub-total including tax for the specified item in the cart
+     *
+     * @return string
+     */
+    public function getSubtotalPriceInclTax()
+    {
+        $price = $this->_rootElement->find($this->subTotalPriceInclTax, Locator::SELECTOR_XPATH)->getText();
         return str_replace(',', '', $this->escapeCurrency($price));
     }
 

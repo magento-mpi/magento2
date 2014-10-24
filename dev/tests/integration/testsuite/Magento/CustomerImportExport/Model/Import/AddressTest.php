@@ -11,6 +11,8 @@
  */
 namespace Magento\CustomerImportExport\Model\Import;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -392,9 +394,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $filesystem = $objectManager->create('Magento\Framework\App\Filesystem');
+        $filesystem = $objectManager->create('Magento\Framework\Filesystem');
 
-        $directoryWrite = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $directoryWrite = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
 
         $result = $this->_entityAdapter->setSource(
             \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryWrite)
@@ -488,8 +490,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $filesystem = $objectManager->create('Magento\Framework\App\Filesystem');
-        $directoryWrite = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $filesystem = $objectManager->create('Magento\Framework\Filesystem');
+        $directoryWrite = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
         $result = $this->_entityAdapter->setSource(
             \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryWrite)
         )->isDataValid();

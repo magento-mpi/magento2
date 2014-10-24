@@ -12,7 +12,7 @@ use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
-use Magento\Cms\Test\Page\AdminHtml\CmsIndex;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\VersionsCms\Test\Fixture\Revision;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;

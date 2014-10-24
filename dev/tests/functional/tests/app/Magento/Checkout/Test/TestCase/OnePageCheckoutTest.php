@@ -8,11 +8,9 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Mtf\TestCase\Scenario;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
-use Mtf\ObjectManager;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\TestCase\Scenario;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 
 /**
@@ -46,110 +44,6 @@ use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 class OnePageCheckoutTest extends Scenario
 {
     /**
-     * Steps for scenario
-     *
-     * @var array
-     */
-    protected $scenario = [
-        'OnePageCheckoutTest' => [
-            'methods' => [
-                'test' => [
-                    'scenario' => [
-                        'createRewardExchangeRates' => [
-                            'module' => 'Magento_Reward',
-                            'arguments' => [
-                                'rewardRates' => ['rate_points_to_currency', 'rate_currency_to_points'],
-                            ],
-                            'next' => 'createProducts'
-                        ],
-                        'createProducts' => [
-                            'module' => 'Magento_Catalog',
-                            'next' => 'createCustomer'
-                        ],
-                        'createCustomer' => [
-                            'module' => 'Magento_Customer',
-                            'next' => 'applyRewardPointsToCustomer'
-                        ],
-                        'applyRewardPointsToCustomer' => [
-                            'module' => 'Magento_Reward',
-                            'next' => 'applyCustomerBalanceToCustomer'
-                        ],
-                        'applyCustomerBalanceToCustomer' => [
-                            'module' => 'Magento_CustomerBalance',
-                            'next' => 'createGiftCardAccount'
-                        ],
-                        'createGiftCardAccount' => [
-                            'module' => 'Magento_GiftCardAccount',
-                            'next' => 'createSalesRule'
-                        ],
-                        'createSalesRule' => [
-                            'module' => 'Magento_SalesRule',
-                            'next' => 'addProductsToTheCart'
-                        ],
-                        'addProductsToTheCart' => [
-                            'module' => 'Magento_Checkout',
-                            'next' => 'applyGiftCard',
-                        ],
-                        'applyGiftCard' => [
-                            'module' => 'Magento_GiftCardAccount',
-                            'next' => 'applySalesRuleOnFrontend',
-                        ],
-                        'applySalesRuleOnFrontend' => [
-                            'module' => 'Magento_SalesRule',
-                            'next' => 'proceedToCheckout',
-                        ],
-                        'proceedToCheckout' => [
-                            'module' => 'Magento_Checkout',
-                            'next' => 'selectCheckoutMethod',
-                        ],
-                        'selectCheckoutMethod' => [
-                            'module' => 'Magento_Checkout',
-                            'next' => 'fillBillingInformation',
-                        ],
-                        'fillBillingInformation' => [
-                            'module' => 'Magento_Checkout',
-                            'next' => 'fillShippingMethod',
-                        ],
-                        'fillShippingMethod' => [
-                            'module' => 'Magento_Checkout',
-                            'next' => 'selectRewardPoints',
-                        ],
-                        'selectRewardPoints' => [
-                            'module' => 'Magento_Reward',
-                            'next' => 'selectStoreCredit',
-                        ],
-                        'selectStoreCredit' => [
-                            'module' => 'Magento_CustomerBalance',
-                            'next' => 'selectPaymentMethod',
-                        ],
-                        'selectPaymentMethod' => [
-                            'module' => 'Magento_Checkout',
-                            'next' => 'placeOrder',
-                        ],
-                        'placeOrder' => [
-                            'module' => 'Magento_Checkout',
-                        ],
-                    ]
-                ]
-            ]
-        ]
-    ];
-
-    /**
-     * Factory for Fixtures
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * Configuration data set name
-     *
-     * @var string
-     */
-    protected $configuration;
-
-    /**
      * Customer logout page
      *
      * @var CustomerAccountLogout
@@ -173,19 +67,16 @@ class OnePageCheckoutTest extends Scenario
     /**
      * Preparing configuration for test
      *
-     * @param FixtureFactory $fixtureFactory
      * @param CustomerAccountLogout $customerAccountLogout
      * @param RewardRateIndex $rewardRateIndexPage
      * @param RewardRateNew $rewardRateNewPage
      * @return void
      */
     public function __prepare(
-        FixtureFactory $fixtureFactory,
         CustomerAccountLogout $customerAccountLogout,
         RewardRateIndex $rewardRateIndexPage,
         RewardRateNew $rewardRateNewPage
     ) {
-        $this->fixtureFactory = $fixtureFactory;
         $this->customerAccountLogout = $customerAccountLogout;
         $this->rewardRateIndexPage = $rewardRateIndexPage;
         $this->rewardRateNewPage = $rewardRateNewPage;
@@ -194,16 +85,11 @@ class OnePageCheckoutTest extends Scenario
     /**
      * Runs one page checkout test
      *
-     * @param string $config
      * @return void
      */
-    public function test($config)
+    public function test()
     {
-        $this->configuration = $config;
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration();
-        }
-        $this->executeScenario($this->scenario);
+        $this->executeScenario();
     }
 
     /**
@@ -213,33 +99,17 @@ class OnePageCheckoutTest extends Scenario
      */
     public function tearDown()
     {
+        $setConfigStep = $this->objectManager->create(
+            'Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
+        );
+        $setConfigStep->run();
         $this->customerAccountLogout->open();
-        if ($this->configuration !== '-') {
-            $this->setupConfiguration(true);
-        }
-
         // Deleting exchange rates
         $this->rewardRateIndexPage->open();
         while ($this->rewardRateIndexPage->getRewardRateGrid()->isFirstRowVisible()) {
             $this->rewardRateIndexPage->getRewardRateGrid()->openFirstRow();
             $this->rewardRateNewPage->getFormPageActions()->delete();
-        }
-    }
-
-    /**
-     * Setup configuration
-     *
-     * @param bool $rollback
-     * @return void
-     */
-    protected function setupConfiguration($rollback = false)
-    {
-        $prefix = ($rollback == false) ? '' : '_rollback';
-        $dataSets = explode(',', $this->configuration);
-        foreach ($dataSets as $dataSet) {
-            $dataSet = trim($dataSet) . $prefix;
-            $configuration = $this->fixtureFactory->createByCode('configData', ['dataSet' => $dataSet]);
-            $configuration->persist();
         }
     }
 }

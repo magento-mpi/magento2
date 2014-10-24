@@ -63,6 +63,11 @@ class Giftwrapping extends AbstractTotal
     protected $_giftWrappingData = null;
 
     /**
+     * @var int
+     */
+    protected $counter = 0;
+
+    /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      */
     public function __construct(
@@ -228,5 +233,16 @@ class Giftwrapping extends AbstractTotal
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         return $this;
+    }
+
+    /**
+     * Increment and return counter. This function is intended to be used to generate temporary
+     * id for an item.
+     *
+     * @return int
+     */
+    protected function getNextIncrement()
+    {
+        return ++$this->counter;
     }
 }
