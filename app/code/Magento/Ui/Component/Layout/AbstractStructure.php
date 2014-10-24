@@ -260,7 +260,6 @@ class AbstractStructure extends AbstractView
             'type' => 'template',
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
-            'parentName' => 'toRemove',
             'config' => [
                 'label' => [
                     'default' => __('New ' . $childMeta->getLabel())
@@ -290,7 +289,7 @@ class AbstractStructure extends AbstractView
                 'removeLabel' => __('Remove ' . $childMeta->getLabel()),
                 'removeMessage' => __('Are you sure you want to delete this item?'),
                 'addLabel' => __('Add New ' . $childMeta->getLabel()),
-                'itemTemplate' => 'toRemove.item_template',
+                'itemTemplate' => 'item_template',
                 'dataScope' => "{$dataSource}.{$childName}"
             ]);
         $this->addTemplateToCollection($childName.'Collection', 'item_template', $itemTemplate);
