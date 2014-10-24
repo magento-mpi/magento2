@@ -284,27 +284,4 @@ class Observer
 
         return $this;
     }
-
-    /**
-     * Create catalog rule relations for imported products
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function createCatalogRulesRelations(EventObserver $observer)
-    {
-        $adapter = $observer->getEvent()->getAdapter();
-        $affectedEntityIds = $adapter->getAffectedEntityIds();
-
-        if (empty($affectedEntityIds)) {
-            return;
-        }
-
-        $rules = $this->_ruleCollectionFactory->create()->addFieldToFilter('is_active', 1);
-
-        foreach ($rules as $rule) {
-            $rule->setProductsFilter($affectedEntityIds);
-            $this->_resourceRule->updateRuleProductData($rule);
-        }
-    }
 }

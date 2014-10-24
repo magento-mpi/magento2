@@ -11,10 +11,4 @@
     <event name="catalog_product_get_final_price">
         <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="processAdminFinalPrice" />
     </event>
-    <event name="catalog_product_import_finish_before">
-        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="createCatalogRulesRelations" />
-    </event>
-    <event name="catalog_product_import_after">
-        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="applyAllRules" />
-    </event>
 </config>

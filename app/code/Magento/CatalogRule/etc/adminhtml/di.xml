@@ -15,7 +15,6 @@
                 <item name="fullPageCache" xsi:type="string">full_page</item>
             </argument>
         </arguments>
-        <plugin name="reindexPriceOnRuleApply" type="Magento\CatalogRule\Plugin\Indexer\CatalogRule" />
     </type>
     <type name="Magento\Catalog\Model\Product">
         <plugin name="apply_catalog_rules_after_product_save" type="Magento\CatalogRule\Plugin\Indexer\Product\Save\ApplyRules"/>
