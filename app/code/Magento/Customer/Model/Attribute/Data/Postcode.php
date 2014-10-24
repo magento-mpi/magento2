@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Model\Attribute\Data;
 
+use Magento\Eav\Model\AttributeDataFactory;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Logger;
@@ -110,7 +111,7 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()
             ->getData($this->getAttribute()->getAttributeCode());
