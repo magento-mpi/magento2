@@ -38,8 +38,6 @@
     * Eav
     * Multishipping
     * CheckoutAgreement
-  * Added README.md for following modules:
-    * AdminGws
     * AdminNotification
     * Authz
     * Connect
@@ -50,11 +48,10 @@
     * Service
     * User
     * Webapi
-    * WebsiteRestriction
     * Sales
-    * Taxes
+    * Tax
     * Weee
-  * Added README files with component description for following framework components:
+  * Added README files with component description for the following framework components:
     * Magento\Framework\App\Cache
     * Magento\Framework\Archive
     * Magento\Framework\Backup
@@ -85,14 +82,14 @@
   * Fixed an issue where a PHP fatal error occurred when logging in during checkout to order a product with FPT 
   * Fixed an issue where FPT was not calculated in reorders 
   * Fixed an issue where there was a duplicated Administrator role after installation 
-  * Fixed an issue where  the Try Again button was disabled after entering the incorrect data during installation 
+  * Fixed an issue where the Try Again button was disabled after entering the incorrect data during installation 
   * Fixed an issue where the "Application is not installed yet" error was thrown instead of redirecting to the Installation Wizard in the developer mode
   * Fixed an issue where an error was thrown during installation with db_prefix option 
-  * Fixed an issue where the SQL query was not optimized for product search('catalogsearch_query')
+  * Fixed an issue where the SQL query was not optimized for product search ('catalogsearch_query')
   * Fixed an issue where the wrong message was displayed after changing customer password on the storefront 
-  * Fixed an issue where Newsletter preview lad to an empty page 
+  * Fixed an issue where Newsletter preview led to an empty page 
   * Fixed an issue where a new search term was not displayed in suggested results 
-  * Fixed an issue where no results were found for for Products Viewed report 
+  * Fixed an issue where no results were found for the Products Viewed report 
   * Fixed an issue where no results were found for Coupons reports 
   * Fixed an issue with incremental Qty setting 
   * Fixed an issue with allowing importing of negative weight values 
