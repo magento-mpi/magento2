@@ -50,7 +50,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <container name="bundle.options.container" label="invisible" htmlTag="div" htmlClass="bundle-options-container" after="product.info.main"/>
+        <container name="bundle.options.container" htmlTag="div" htmlClass="bundle-options-container" after="product.info.main"/>
         <move element="product.info" destination="bundle.options.container" before="-"/>
     </referenceContainer>
     <referenceContainer name="product.info.type">
