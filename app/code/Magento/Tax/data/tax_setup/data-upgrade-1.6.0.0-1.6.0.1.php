@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /** @var $installer \Magento\Tax\Model\Resource\Setup */
 $installer = $this;
 

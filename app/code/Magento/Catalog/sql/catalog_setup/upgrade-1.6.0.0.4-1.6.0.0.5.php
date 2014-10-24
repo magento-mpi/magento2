@@ -6,8 +6,9 @@
  * @license     {license_link}
  */
 
+/** @var $installer Magento\Setup\Module\SetupModule */
 $installer = $this;
-/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+
 $installer->getConnection()->modifyColumn(
     $installer->getTable('catalog_category_product_index'),
     'position',

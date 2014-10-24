@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Eav\Model\Entity\Setup */
+/** @var $this Magento\Setup\Module\SetupModule */
 
 $this->getConnection()->changeColumn(
     $this->getTable('cataloginventory_stock_item'),

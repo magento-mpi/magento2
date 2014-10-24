@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /** @var \Magento\Cms\Model\Resource\Setup $this */
 
 $cmsPages = array(
