@@ -44,11 +44,11 @@
                 </item>
             </argument>
         </arguments>
-        <block class="Magento\Ui\Component\Layout\Tabs\TabWrapper" name="customer_edit_dashboard">
+        <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View" name="customer_edit_tab_view" template="tab/view.phtml">
             <arguments>
                 <argument name="tab_label" xsi:type="string">Customer View</argument>
             </arguments>
-            <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance" name="reward.points.balance" after="personal_info"/>
+            <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View\PersonalInfo" name="personal_info" template="tab/view/personal_info.phtml"/>
         </block>
     </referenceBlock>
 </page>

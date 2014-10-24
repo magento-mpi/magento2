@@ -8,10 +8,7 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="customer_edit_tabs">
-        <action method="addTab">
-            <argument name="name" xsi:type="string">customer_edit_tab_agreements</argument>
-            <argument name="block" xsi:type="string">Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab\Agreement</argument>
-        </action>
+    <referenceBlock name="customer_edit_tab_view">
+        <block class="Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab\Agreement" name="customer_edit_tab_agreements" />
     </referenceBlock>
 </page>

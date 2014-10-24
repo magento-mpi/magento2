@@ -215,9 +215,6 @@ class Tabs extends AbstractView
                         'type' => $value['formElement'],
                         'config' => $value
                     ];
-                    if (isset($value[''])) {
-
-                    }
                 }
                 $collection['children']['item_template'] = $itemTemplate;
                 $areas['children'][$ns]['children'][$childName] = [
@@ -230,10 +227,14 @@ class Tabs extends AbstractView
                 $this->renderContext->getStorage()->addLayoutNode($childName, $collection);
             }
 
-            $preparedData = [];
+            $preparedData = [
+                $dataSource => []
+            ];
             $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
-            foreach ($data[0] as $key => $value) {
-                $preparedData[$dataSource][$key] = $value;
+            if ($data) {
+                foreach ($data[0] as $key => $value) {
+                    $preparedData[$dataSource][$key] = $value;
+                }
             }
             $this->renderContext->getStorage()->addData($this->getData('name'), $preparedData);
         }
