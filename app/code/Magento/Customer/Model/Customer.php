@@ -216,9 +216,9 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param CustomerBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataObjectProcessor
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -238,8 +238,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         CustomerBuilder $customerDataBuilder,
-        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         DataObjectProcessor $dataObjectProcessor,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
