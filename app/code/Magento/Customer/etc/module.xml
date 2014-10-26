@@ -30,6 +30,7 @@
             <module name="Magento_Tax"/>
             <module name="Magento_PageCache"/>
             <module name="Magento_Integration"/>
+            <module name="Magento_Webapi"/>
         </depends>
     </module>
 </config>
