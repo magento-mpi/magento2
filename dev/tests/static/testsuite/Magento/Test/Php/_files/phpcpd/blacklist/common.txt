@@ -54,6 +54,7 @@ Magento/Customer/Block/Account/Dashboard
 Magento/Customer/Model/Config/Backend/Show
 Magento/Customer/Model/Metadata
 Magento/Customer/Service/V1
+Magento/Framework/Service/V1
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Magento/DesignEditor/Model/Url
