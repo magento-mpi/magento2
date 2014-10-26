@@ -7,6 +7,9 @@
  */
 namespace Magento\Customer\Model;
 
+use \Magento\Framework\Model\AbstractExtensibleModel;
+use \Magento\Customer\Api\Data\GroupInterface;
+
 /**
  * Customer group model
  *
@@ -16,8 +19,7 @@ namespace Magento\Customer\Model;
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
  */
-class Group extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Customer\Api\Data\GroupInterface
+class Group extends AbstractExtensibleModel implements GroupInterface
 {
     const NOT_LOGGED_IN_ID = 0;
 
