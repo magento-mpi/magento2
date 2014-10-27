@@ -19,7 +19,7 @@ $usage = 'Usage: php -f cache.php -- [--' . ManagerApp::KEY_SET . '=1|0]'
     . ' [--' . ManagerApp::KEY_CLEAN . ']'
     . ' [--' . ManagerApp::KEY_FLUSH . ']'
     . ' [--' . ManagerApp::KEY_TYPES . '=<type1>,<type2>,...]'
-    . ' [--bootstrap=INIT_PARAM=foo&ANOTHER_PARAM[key]=bar]
+    . ' [--bootstrap='. escapeshellarg('INIT_PARAM=foo&ANOTHER_PARAM[key]=bar') . ']
     --' . ManagerApp::KEY_TYPES . ' - list of cache types, comma-separated. If omitted, all caches will be affected
     --' . ManagerApp::KEY_SET . ' - enable or disable the specified cache types
     --' . ManagerApp::KEY_CLEAN . ' - clean data of the specified cache types
