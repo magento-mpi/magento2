@@ -56,7 +56,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem)
     {
@@ -64,7 +64,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function nestedUpdate(
         $parentId,

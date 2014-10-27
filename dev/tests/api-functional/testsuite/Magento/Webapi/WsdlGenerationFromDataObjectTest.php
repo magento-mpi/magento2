@@ -160,7 +160,7 @@ RESPONSE_ELEMENT;
         <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
-        <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
+        <xsd:element name="entityId" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
