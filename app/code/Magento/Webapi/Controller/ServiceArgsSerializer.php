@@ -40,9 +40,6 @@ class ServiceArgsSerializer
     /** @var AttributeValueBuilder */
     protected $attributeValueBuilder;
 
-    /** @var \Magento\Framework\ObjectManager\Config */
-    protected $objectManagerConfig;
-
     /**
      * Initialize dependencies.
      *
@@ -50,20 +47,17 @@ class ServiceArgsSerializer
      * @param ObjectManager $objectManager
      * @param ServiceConfigReader $serviceConfigReader
      * @param AttributeValueBuilder $attributeValueBuilder
-     * @param ObjectManagerConfig $objectManagerConfig
      */
     public function __construct(
         TypeProcessor $typeProcessor,
         ObjectManager $objectManager,
         ServiceConfigReader $serviceConfigReader,
-        AttributeValueBuilder $attributeValueBuilder,
-        ObjectManagerConfig $objectManagerConfig
+        AttributeValueBuilder $attributeValueBuilder
     ) {
         $this->_typeProcessor = $typeProcessor;
         $this->_objectManager = $objectManager;
         $this->serviceConfigReader = $serviceConfigReader;
         $this->attributeValueBuilder = $attributeValueBuilder;
-        $this->objectManagerConfig = $objectManagerConfig;
     }
 
     /**
@@ -180,16 +174,14 @@ class ServiceArgsSerializer
      */
     protected function getBuilder($className)
     {
-        $paramInstanceClassName = $this->objectManagerConfig->getPreference($className);
-        if (is_subclass_of($paramInstanceClassName, '\\' . DataObjectProcessor::BASE_MODEL_CLASS)) {
-            // By convention, need to lookup the concrete class preference for the data interface type and
-            // gets its builder.
-            $builderClassName = str_replace('Interface', '', $className) . "DataBuilder";
-            return $this->_objectManager->create($builderClassName);
+        $builderClassName = '';
+        $interfaceSuffix = 'Interface';
+        if (substr($className, -strlen($interfaceSuffix)) === $interfaceSuffix) {
+            /** If class name ends with Interface, replace it with Data suffix */
+            $builderClassName = substr($className, 0, -strlen($interfaceSuffix)) . 'Data';
         }
-        // By convention, for complex parameters that don't inherit from the data interface,
-        // create the name of the builder type by appending Builder to the end
-        return $this->_objectManager->create($className . "Builder");
+        $builderClassName .= 'Builder';
+        return $this->_objectManager->create($builderClassName);
     }
 
     /**

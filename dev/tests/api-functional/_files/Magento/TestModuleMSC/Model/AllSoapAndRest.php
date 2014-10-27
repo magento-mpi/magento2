@@ -102,14 +102,9 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Api\AllSoapAndRestInterfa
      */
     public function getPreconfiguredItem()
     {
-        $customAttributeIntAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_int')
-            ->setValue(1)
-            ->create();
-
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute($customAttributeIntAttributeValue)
+            ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
