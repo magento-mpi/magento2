@@ -16,6 +16,9 @@
                 <argument name="path" xsi:type="string">rma/returns/history/</argument>
             </action>
         </referenceBlock>
+        <referenceContainer name="page.main.title">
+            <block class="Magento\Rma\Block\Returns\View" name="return.status" template="return/return_status.phtml" />
+        </referenceContainer>
         <referenceContainer name="content">
             <block class="Magento\Rma\Block\Returns\View" name="rma.returns.history" cacheable="false">
                 <container name="rma.returns.history.info" as="info" label="Customer My Account Return View"/>
