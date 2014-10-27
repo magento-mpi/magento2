@@ -89,14 +89,14 @@ try {
         [
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
-            SearchResultsBuilder::ENTITY_TYPE                                       => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
-            Proxy::ENTITY_TYPE                                                      => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-            Factory::ENTITY_TYPE                                                    => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-            Builder::ENTITY_TYPE                                                    => 'Magento\Framework\Service\Code\Generator\Builder',
-            Mapper::ENTITY_TYPE                                                     => 'Magento\Framework\Service\Code\Generator\Mapper',
-            Repository::ENTITY_TYPE                                                 => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
-            Converter::ENTITY_TYPE                                                  => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
-            SearchResults::ENTITY_TYPE                                              => 'Magento\Framework\Service\Code\Generator\SearchResults',
+            SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
+            Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
+            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
+            Builder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Builder',
+            Mapper::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Mapper',
+            Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
+            Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
+            SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
         ]
     );
     $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
