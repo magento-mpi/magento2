@@ -24,6 +24,8 @@ define([
             __super__.initObservable.apply(this, arguments);
 
             this.observe('isValid', false);
+
+            return this;
         },
 
         initAdapter: function(){

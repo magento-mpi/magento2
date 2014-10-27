@@ -18,6 +18,8 @@ define([
 
             this.initialValue = !(this.value() === undefined);
             this.value(this.initialValue);
+
+            return this;
         }
     });
 });

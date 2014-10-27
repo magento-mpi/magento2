@@ -40,7 +40,8 @@ define([
             this._elems     = [];
             this.provider   = registry.get(this.provider);
 
-            this.initObservable();
+            this.initObservable()
+                .initListeners();
         },
 
         initObservable: function(){
