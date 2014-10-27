@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModuleMSC\Service\V1\Entity;
 
-interface ItemInterface extends \Magento\Framework\Api\ExtensibleDataInterface
+interface ItemInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
     /**
      * @return int

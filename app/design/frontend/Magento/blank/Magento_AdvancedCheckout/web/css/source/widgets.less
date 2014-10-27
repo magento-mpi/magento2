@@ -6,57 +6,64 @@
 //  * @license     {license_link}
 //  */
 
-.widget.addbysku {
-    .sidebar-main &,
-    .sidebar-additional & {
-        .fieldset {
-            margin-bottom: 0;
-            > .fields .field {
-                display: inline-block;
-                vertical-align: top;
-                margin-bottom: @indent-s-base;
-                &.sku {
-                    width: 100%;
-                    &:extend(.abstract-add-box-sizing all);
-                    padding-right: 84px;
-                    margin-right: -84px;
-                }
-                &.qty {
-                    .qty {
-                        &:extend(.abstract-input-qty all);
-                    }
-                }
+.block-addbysku {
+    .fieldset {
+        .fields .field {
+            display: inline-block;
+            margin-bottom: @indent-s-base;
+            vertical-align: top;
+            &.sku {
+                &:extend(.abstract-add-box-sizing all);
+                margin-right: -75px;
+                padding-right: 80px;
+                width: 100%;
             }
-            > .fields {
-                position: relative;
-            }
-            .label {
-                font-weight: normal;
+            &.qty {
+                .qty {
+                    &:extend(.abstract-input-qty all);
+                }
             }
         }
-        .action.remove {
+        .fields {
+            position: relative;
+        }
+    }
+    .action {
+        &.remove {
             .button-icon(
                 @_icon-font-content: @icon-remove,
                 @_icon-font-text-hide: true,
                 @_icon-font-size: 26px
             );
             .button-reset();
-            line-height: normal;
+        }
+        &.add {
+            .button-icon(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 31px
+            );
             position: absolute;
-            right: 0;
-            top: 29px;
+            top: 0;
+            left: 0;
+            padding: 2px 0;
             width: auto;
         }
+        &.links {
+            display: inline-block;
+            margin: @indent-base 0 0;
+        }
     }
-}
-
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
-    .widget.block.addbysku {
-        .sidebar-main &,
-        .sidebar-additional & {
+    .form-addbysku > .actions-toolbar {
+        position: relative;
+        padding-top: 45px;
+    }
+    .fields {
+        position: relative;
+        .actions-toolbar {
+            position: absolute;
+            right: 0;
+            top: 34px;
         }
     }
 }
