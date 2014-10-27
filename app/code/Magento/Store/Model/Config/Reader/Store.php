@@ -78,43 +78,36 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
      *
      * @param string $code
      * @return array
+     * @throws NoSuchEntityException
      */
     public function read($code = null)
     {
-        if ($this->_appState->isInstalled()) {
-            if (empty($code)) {
-                $store = $this->_storeManager->getStore();
-            } elseif (($code == \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT)) {
-                $store = $this->_storeManager->getDefaultStoreView();
-            } else {
-                $store = $this->_storeFactory->create();
-                $store->load($code);
-            }
-
-            if (!$store->getCode()) {
-                throw NoSuchEntityException::singleField('storeCode', $code);
-            }
-            $websiteConfig = $this->_scopePool->getScope(
-                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
-                $store->getWebsite()->getCode()
-            )->getSource();
-            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
-
-            $collection = $this->_collectionFactory->create(
-                array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_STORES, 'scopeId' => $store->getId())
-            );
-            $dbStoreConfig = array();
-            foreach ($collection as $item) {
-                $dbStoreConfig[$item->getPath()] = $item->getValue();
-            }
-            $config = $this->_converter->convert($dbStoreConfig, $config);
+        if (empty($code)) {
+            $store = $this->_storeManager->getStore();
+        } elseif (($code == \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT)) {
+            $store = $this->_storeManager->getDefaultStoreView();
         } else {
-            $websiteConfig = $this->_scopePool->getScope(
-                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
-                \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
-            )->getSource();
-            $config = $this->_converter->convert($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
+            $store = $this->_storeFactory->create();
+            $store->load($code);
         }
+
+        if (!$store->getCode()) {
+            throw NoSuchEntityException::singleField('storeCode', $code);
+        }
+        $websiteConfig = $this->_scopePool->getScope(
+            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
+            $store->getWebsite()->getCode()
+        )->getSource();
+        $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
+
+        $collection = $this->_collectionFactory->create(
+            array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_STORES, 'scopeId' => $store->getId())
+        );
+        $dbStoreConfig = array();
+        foreach ($collection as $item) {
+            $dbStoreConfig[$item->getPath()] = $item->getValue();
+        }
+        $config = $this->_converter->convert($dbStoreConfig, $config);
         return $config;
     }
 }

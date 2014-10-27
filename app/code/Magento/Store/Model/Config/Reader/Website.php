@@ -76,22 +76,21 @@ class Website implements \Magento\Framework\App\Config\Scope\ReaderInterface
             $this->_initialConfig->getData("websites|{$code}")
         );
 
-        if ($this->_appState->isInstalled()) {
-            $website = $this->_websiteFactory->create();
-            $website->load($code);
-            $collection = $this->_collectionFactory->create(
-                array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES, 'scopeId' => $website->getId())
-            );
-            $dbWebsiteConfig = array();
-            foreach ($collection as $configValue) {
-                $dbWebsiteConfig[$configValue->getPath()] = $configValue->getValue();
-            }
-            $dbWebsiteConfig = $this->_converter->convert($dbWebsiteConfig);
-
-            if (count($dbWebsiteConfig)) {
-                $config = array_replace_recursive($config, $dbWebsiteConfig);
-            }
+        $website = $this->_websiteFactory->create();
+        $website->load($code);
+        $collection = $this->_collectionFactory->create(
+            array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES, 'scopeId' => $website->getId())
+        );
+        $dbWebsiteConfig = array();
+        foreach ($collection as $configValue) {
+            $dbWebsiteConfig[$configValue->getPath()] = $configValue->getValue();
         }
+        $dbWebsiteConfig = $this->_converter->convert($dbWebsiteConfig);
+
+        if (count($dbWebsiteConfig)) {
+            $config = array_replace_recursive($config, $dbWebsiteConfig);
+        }
+
         return $config;
     }
 }

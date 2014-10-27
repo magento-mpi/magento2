@@ -118,8 +118,7 @@ class StorageFactory
      */
     public function get(array $arguments = array())
     {
-        $className =
-            $this->_appState->isInstalled() ? $this->_installedStorageClassName : $this->_defaultStorageClassName;
+        $className = $this->_installedStorageClassName;
 
         if (false == isset($this->_cache[$className])) {
             /** @var $storage \Magento\Framework\StoreManagerInterface */
