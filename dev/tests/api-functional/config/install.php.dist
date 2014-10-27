@@ -2,7 +2,6 @@
 /**
  * Magento console installer options for Web API functional tests. Are used in functional tests bootstrap.
  *
- * @see \Magento\Install\Model\Installer\Console::_installOptions
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,7 +10,6 @@
 return array(
     /**
      * Console installer options
-     * @see \Magento\Install\Model\Installer\Console::installParameters
      */
     'install_options' => array(
         'license_agreement_accepted' => 'yes',
