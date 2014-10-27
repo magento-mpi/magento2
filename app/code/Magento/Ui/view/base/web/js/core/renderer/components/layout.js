@@ -104,7 +104,10 @@ define([
                 registry.get(node.deps, function(){
 
                     require(source, function(constr){
-                        component = new constr(node.config, name, node.index);
+                        component = new constr(node.config, {
+                            name: name,
+                            index: node.index
+                        });
 
                         registry.set(name, component);
                     });

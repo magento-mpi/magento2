@@ -46,6 +46,8 @@ define([
                 elementIndex    = element.index,
                 activeElement;
 
+            element.setDataScope(this.dataScope);
+
             activeElement = activeDefined
                 ? (activeExists ? (elementIndex == activeIndex) && element : element)
                 : (elementIndex == 0) && element
@@ -65,16 +67,15 @@ define([
             this.childTemplate = {
                 template: this.name + '.' + this.itemTemplate,
                 appendTo: this.name,
-                parentName: this.name,
-                config: {}
+                parentName: this.name
             };
 
             return this;
         },
 
         initChildren: function () {
-            var children = this.provider.data.get(this.name);
-
+            var children = this.provider.data.get(this.dataScope);
+            
             _.each(children, this.initChild.bind(this));
         },
 
@@ -91,10 +92,7 @@ define([
 
         createChild: function (index) {
             _.extend(this.childTemplate, {
-                name: index,
-                config: {
-                    index: index
-                }
+                name: index
             });
 
             this.renderer.render({

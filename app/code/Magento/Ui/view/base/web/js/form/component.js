@@ -34,15 +34,14 @@ define([
     }
 
     return Scope.extend({
-        initialize: function(config, name, index){
-            _.extend(this, config);
+        initialize: function(config, additional){
+            _.extend(this, config, additional);
 
             this._elems     = [];
-            this.name       = name;
-            this.index      = index;
             this.provider   = registry.get(this.provider);
 
-            this.initObservable();
+            this.initObservable()
+                .initListeners();
         },
 
         initObservable: function(){
@@ -61,6 +60,10 @@ define([
                 containers.push(this);
             }
 
+            return this;
+        },
+
+        initListeners: function(){
             return this;
         },
 
@@ -97,12 +100,35 @@ define([
             return this;
         },
 
+        delegate: function(name, iterator){
+            var method = this[name],
+                args = _.toArray(arguments),
+                result;
+
+            if(typeof method === 'function'){
+                result = method.apply(this, args.splice(1));
+            }
+            else{
+                iterator = iterator || 'forEach';
+
+                this.elems()[iterator](function(elem){
+                    return (result = elem.delegate.apply(elem, args));
+                });
+            }
+
+            return result;
+        },
+
         getTemplate: function(){
             return this.template || 'ui/collection';
         },
 
-        hasChanged: function(){
-            return false;
-        }
+        setDataScope: function (dataScope) {
+            this.dataScope = dataScope + '.' + this.index;
+
+            this.elems.each(function (element) {
+                element.setDataScope(this.dataScope);
+            }, this);
+        },
     }, EventsBus);
 });
