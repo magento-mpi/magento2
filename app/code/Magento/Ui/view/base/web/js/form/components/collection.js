@@ -46,6 +46,8 @@ define([
                 elementIndex    = element.index,
                 activeElement;
 
+            element.setDataScope(this.dataScope);
+
             activeElement = activeDefined
                 ? (activeExists ? (elementIndex == activeIndex) && element : element)
                 : (elementIndex == 0) && element
@@ -73,8 +75,8 @@ define([
         },
 
         initChildren: function () {
-            var children = this.provider.data.get(this.name);
-
+            var children = this.provider.data.get(this.dataScope);
+            
             _.each(children, this.initChild.bind(this));
         },
 
