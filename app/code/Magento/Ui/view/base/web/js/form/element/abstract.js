@@ -26,7 +26,8 @@ define([
         addbefore:          null,
         addafter:           null,
         notice:             null,
-        dataScope:          ''
+        dataScope:          '',
+        shouldUpdate:       true
     };
 
     var __super__ = Component.prototype;
@@ -52,14 +53,15 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            var rules;
+            var rules,
+                data = this.provider.data;
 
             __super__.initObservable.apply(this, arguments);
 
             rules = this.validation = this.validation || {};
 
             this.observe({
-                'value':         this.initialValue = this.provider.data.get(this.dataScope),
+                'value':         this.initialValue = data.get(this.dataScope),
                 'required':      rules['required-entry'],
                 'disabled':      this.disabled,
                 'error':         this.error,
@@ -77,6 +79,21 @@ define([
             this.value.subscribe(this.onUpdate, this);
 
             return this;
+        },
+
+        setDataScope: function (dataScope) {
+            this.store(undefined);
+
+            this.dataScope = dataScope;
+
+            this.pull();
+        },
+
+        pull: function () {
+            var value = this.provider.data.get(this.dataScope);
+
+            this.initialValue = value;
+            this.value(value);
         },
 
         /**
@@ -127,6 +144,8 @@ define([
          */
         store: function (value) {
             this.provider.data.set(this.dataScope, value);
+
+            return this;
         },
 
         reset: function(){
@@ -145,8 +164,8 @@ define([
          * Is being called when value is updated
          */
         onUpdate: function (value) {
-            this.validate();
             this.store(value);
+            this.validate();
         },
 
         /**

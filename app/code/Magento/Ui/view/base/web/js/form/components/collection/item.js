@@ -57,6 +57,7 @@ define([
 
             __super__.initElement.apply(this, arguments);
 
+            element.setDataScope(this.dataScope + '.' + this.index);
             storage.push(element);
             this.addPreview(element);
         },
