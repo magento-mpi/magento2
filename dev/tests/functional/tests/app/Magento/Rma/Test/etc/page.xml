@@ -24,19 +24,19 @@
         <class>Magento\Rma\Test\Page\Adminhtml\RmaView</class>
     </rmaView>
     <customerAccountRmaIndex>
-        <mca>rma/returns/history/</mca>
+        <mca>rma/returns/history</mca>
         <class>Magento\Rma\Test\Page\CustomerAccountRmaIndex</class>
     </customerAccountRmaIndex>
     <customerAccountRmaView>
-        <mca>rma/returns/view/</mca>
+        <mca>rma/returns/view</mca>
         <class>Magento\Rma\Test\Page\CustomerAccountRmaView</class>
     </customerAccountRmaView>
     <rmaGuestIndex>
-        <mca>rma/guest/returns/</mca>
+        <mca>rma/guest/returns</mca>
         <class>Magento\Rma\Test\Page\RmaGuestIndex</class>
     </rmaGuestIndex>
     <rmaGuestView>
-        <mca>rma/guest/view/</mca>
+        <mca>rma/guest/view</mca>
         <class>Magento\Rma\Test\Page\RmaGuestView</class>
     </rmaGuestView>
 </page>

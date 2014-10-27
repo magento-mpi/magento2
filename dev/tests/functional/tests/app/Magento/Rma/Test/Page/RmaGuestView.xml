@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="rma/guest/view/" module="Magento_Rma">
+<page mca="rma/guest/view" module="Magento_Rma">
     <blocks>
         <rmaView>
             <class>Magento\Rma\Test\Block\Returns\View</class>

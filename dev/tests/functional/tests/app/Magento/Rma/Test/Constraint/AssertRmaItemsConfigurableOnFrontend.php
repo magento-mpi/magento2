@@ -8,16 +8,12 @@
 
 namespace Magento\Rma\Test\Constraint;
 
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\ObjectManager;
-
 use Magento\Rma\Test\Fixture\Rma;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
- * Class AssertRmaItemsConfigurableOnFrontend
  * Assert customer can vew return request on Frontend and verify.
  */
 class AssertRmaItemsConfigurableOnFrontend extends AssertRmaItemsOnFrontend

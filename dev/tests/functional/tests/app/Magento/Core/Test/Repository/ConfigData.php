@@ -11,13 +11,12 @@ namespace Magento\Core\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class ConfigData
- * Data for creation Config settings
+ * Data for creation Config settings.
  */
 class ConfigData extends AbstractRepository
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @constructor
      * @param array $defaultConfig [optional]

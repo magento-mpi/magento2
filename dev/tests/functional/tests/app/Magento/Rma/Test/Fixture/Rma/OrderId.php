@@ -13,27 +13,26 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Class OrderId
- * Source rma order id
+ * Source rma order id.
  */
 class OrderId implements FixtureInterface
 {
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var integer
      */
     protected $data = null;
 
     /**
-     * Order source
+     * Order source.
      *
      * @var OrderInjectable
      */
@@ -43,7 +42,7 @@ class OrderId implements FixtureInterface
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array $data
+     * @param array $data [optional]
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
@@ -67,7 +66,7 @@ class OrderId implements FixtureInterface
     }
 
     /**
-     * Persist custom selections products
+     * Persist custom selections products.
      *
      * @return void
      */
@@ -77,7 +76,7 @@ class OrderId implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string $key [optional]
      * @return mixed
@@ -90,7 +89,7 @@ class OrderId implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return string
      */
@@ -100,9 +99,9 @@ class OrderId implements FixtureInterface
     }
 
     /**
-     * Get order source
+     * Return order source.
      *
-     * @return OrderInjectable
+     * @return OrderInjectable|null
      */
     public function getOrder()
     {

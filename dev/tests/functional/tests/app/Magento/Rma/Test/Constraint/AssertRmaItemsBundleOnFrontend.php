@@ -10,11 +10,10 @@ namespace Magento\Rma\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Rma\Test\Fixture\Rma;
-use Magento\Rma\Test\Fixture\Rma\OrderId;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
- * Class AssertRmaItemsBundleOnFrontend
  * Assert customer can vew return request on Frontend and verify.
  */
 class AssertRmaItemsBundleOnFrontend extends AssertRmaItemsOnFrontend
@@ -28,9 +27,8 @@ class AssertRmaItemsBundleOnFrontend extends AssertRmaItemsOnFrontend
     protected function getRmaItems(Rma $rma)
     {
         $rmaItems = $rma->getItems();
-        /** @var OrderId $sourceOrderId */
-        $sourceOrderId = $rma->getDataFieldConfig('order_id')['source'];
-        $order = $sourceOrderId->getOrder();
+        /** @var OrderInjectable $order */
+        $order = $rma->getDataFieldConfig('order_id')['source']->getOrder();
         $orderItems = $order->getEntityId();
         $result = [];
 

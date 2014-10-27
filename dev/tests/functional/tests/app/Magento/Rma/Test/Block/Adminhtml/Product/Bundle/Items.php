@@ -12,7 +12,6 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Items
  * Popup block for choose items of returned bundle product.
  */
 class Items extends Block

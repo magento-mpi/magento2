@@ -16,8 +16,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Orders and Returns form search block
- *
+ * Orders and Returns form search block.
  */
 class Form extends \Mtf\Block\Form
 {
@@ -61,6 +60,8 @@ class Form extends \Mtf\Block\Form
 
     /**
      * Submit search form.
+     *
+     * @return void
      */
     public function submit()
     {

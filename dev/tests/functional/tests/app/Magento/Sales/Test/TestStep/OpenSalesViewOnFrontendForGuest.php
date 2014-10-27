@@ -13,6 +13,9 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Sales\Test\Page\SalesGuestForm;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
+/**
+ * Open sales view page on frontend for guest.
+ */
 class OpenSalesViewOnFrontendForGuest implements TestStepInterface
 {
     /**

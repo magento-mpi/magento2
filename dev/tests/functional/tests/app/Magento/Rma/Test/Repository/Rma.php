@@ -11,8 +11,7 @@ namespace Magento\Rma\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class Rma
- * Repository rma entity
+ * Repository rma entity.
  */
 class Rma extends AbstractRepository
 {

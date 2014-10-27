@@ -12,7 +12,6 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class RmaRow
  * Rma row in table.
  */
 class RmaRow extends Block
@@ -24,16 +23,20 @@ class RmaRow extends Block
      */
     protected $fields = [
         'entity_id' => [
-            'selector' => '.col.id'
+            'selector' => '.col.id',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'date' => [
-            'selector' => '.col.date'
+            'selector' => '.col.date',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'ship_from' => [
-            'selector' => '.col.shipping'
+            'selector' => '.col.shipping',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'status' => [
-            'selector' => '.col.status'
+            'selector' => '.col.status',
+            'strategy' => Locator::SELECTOR_CSS
         ]
     ];
 
@@ -54,10 +57,7 @@ class RmaRow extends Block
         $data = [];
 
         foreach ($this->fields as $name => $locator) {
-            $data[$name] = $this->_rootElement->find(
-                $locator['selector'],
-                isset($locator['strategy']) ? $locator['strategy'] : Locator::SELECTOR_CSS
-            )->getText();
+            $data[$name] = $this->_rootElement->find($locator['selector'], $locator['strategy'])->getText();
         }
 
         return $data;

@@ -14,7 +14,6 @@ use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
- * Class Curl
  * Create new bundle product via curl.
  */
 class Curl extends ProductCurl implements BundleProductInterface
@@ -27,8 +26,7 @@ class Curl extends ProductCurl implements BundleProductInterface
     protected $fixture;
 
     /**
-     * Constructor.
-     *
+     * @constructor
      * @param Config $configuration
      */
     public function __construct(Config $configuration)

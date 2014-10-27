@@ -11,11 +11,10 @@ namespace Magento\Rma\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
 use Magento\Rma\Test\Fixture\Rma;
-use Magento\Rma\Test\Fixture\Rma\OrderId;
-use Magento\Sales\Test\Fixture\OrderInjectable\CustomerId;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Class AssertRmaInGrid
  * Assert that return request displayed in Returns grid.
  */
 class AssertRmaInGrid extends AbstractConstraint
@@ -39,24 +38,22 @@ class AssertRmaInGrid extends AbstractConstraint
      */
     public function processAssert(Rma $rma, RmaIndex $rmaIndex)
     {
-        /** @var OrderId $sourceOrderId */
-        $sourceOrderId = $rma->getDataFieldConfig('order_id')['source'];
-        $order = $sourceOrderId->getOrder();
+        /** @var OrderInjectable $order*/
+        $order = $rma->getDataFieldConfig('order_id')['source']->getOrder();
+        /** @var CustomerInjectable $customer */
+        $customer = $order->getDataFieldConfig('customer_id')['source']->getCustomer();
         $orderId = $rma->getOrderId();
-        /** @var CustomerId $sourceCustomerId */
-        $sourceCustomerId = $order->getDataFieldConfig('customer_id')['source'];
-        $customer = $sourceCustomerId->getCustomer();
         $filter = [
             'order_id_from' => $orderId,
             'order_id_to' => $orderId,
             'customer' => sprintf('%s %s', $customer->getFirstname(), $customer->getLastname()),
-            'status' => 'Pending'
+            'status' => $rma->getStatus()
         ];
 
         $rmaIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $rmaIndex->getRmaGrid()->isRowVisible($filter),
-            'Rma for order' . $order->getId() . ' absent in grid'
+            'Rma for order' . $orderId . ' is absent in grid.'
         );
     }
 
@@ -67,6 +64,6 @@ class AssertRmaInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Rma present in grid';
+        return 'Rma is present in grid';
     }
 }

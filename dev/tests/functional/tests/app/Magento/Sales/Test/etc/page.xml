@@ -81,7 +81,7 @@
         <class>Magento\Sales\Test\Page\Adminhtml\SalesInvoiceView</class>
     </salesInvoiceView>
     <salesGuestForm>
-        <mca>sales/guest/form/</mca>
+        <mca>sales/guest/form</mca>
         <class>Magento\Sales\Test\Page\SalesGuestForm</class>
     </salesGuestForm>
 </page>

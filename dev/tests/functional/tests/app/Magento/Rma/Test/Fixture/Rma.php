@@ -11,8 +11,7 @@ namespace Magento\Rma\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Rma
- * Fixture rma entity
+ * Fixture rma entity.
  */
 class Rma extends InjectableFixture
 {

@@ -9,6 +9,16 @@
 -->
 <page mca="admin/rma/view" module="Magento_Rma">
     <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <pageActions>
+            <class>Magento\Rma\Test\Block\Adminhtml\Rma\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActions>
         <rmaForm>
             <class>Magento\Rma\Test\Block\Adminhtml\Rma\RmaForm</class>
             <locator>[id="page:main-container"]</locator>

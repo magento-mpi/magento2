@@ -8,11 +8,10 @@
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
 use Mtf\Client\Element\Locator;
+use Magento\Rma\Test\Fixture\ReturnItem;
 
 /**
- * Class Items
  * Return Items block.
- *
  */
 class Items extends \Magento\Backend\Test\Block\Widget\Tab
 {
@@ -42,59 +41,61 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
      *
      * @var array
      */
-    protected $productField = array(
+    protected $productField = [
         'quantity' => "//td[contains(@class, 'col-qty col-qty_requested')]",
         'reason' => "//td[contains(@class, 'col-reason col-reason')]",
         'condition' => "//td[contains(@class, 'col-condition col-condition')]",
         'resolution' => "//td[contains(@class, 'col-resolution col-resolution')]"
-    );
+    ];
 
     /**
      * Product actions.
      *
      * @var array
      */
-    protected $productActions = array(
+    protected $productActions = [
         'AUTHORIZE_QTY' => 'AUTHORIZE_QTY',
         'RETURN_QTY' => 'RETURN_QTY',
         'APPROVE_QTY' => 'APPROVE_QTY'
-    );
+    ];
 
     /**
      * Product quantity fields.
      *
      * @var array
      */
-    protected $productQuantities = array(
+    protected $productQuantities = [
         'AUTHORIZE_QTY' => "//input[contains(@name,'qty_authorized')]",
         'RETURN_QTY' => "//input[contains(@name,'qty_returned')]",
         'APPROVE_QTY' => "//input[contains(@name,'qty_approved')]"
-    );
+    ];
 
     /**
      * Product status values.
      *
      * @var array
      */
-    protected $productStatus = array(
+    protected $productStatus = [
         'AUTHORIZE_QTY' => 'Authorize',
         'RETURN_QTY' => 'Return Received',
         'APPROVE_QTY' => 'Approved'
-    );
+    ];
 
     /**
-     * {@inheritdoc}
+     * Filters array mapping.
+     *
+     * @var array
      */
-    protected $filters = array(
-        'id' => array(
+    protected $filters = [
+        'id' => [
             'selector' => '#order_rma_filter_increment_id_to'
-        ),
-    );
+        ],
+    ];
 
     /**
      * Fill form fields.
      *
-     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItemFixture
+     * @param ReturnItem $returnItemFixture
      * @param string $fillFields
      * @return null
      */
@@ -121,8 +122,9 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
      * Checks if all products from the order are in the return grid.
      *
      * @param array $products
-     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItem
+     * @param ReturnItem $returnItem
      * @return bool
+     * @throws \Exception
      */
     public function assertProducts($products, $returnItem)
     {

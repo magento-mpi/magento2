@@ -11,12 +11,10 @@ namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Rma\Test\Fixture\ReturnItem;
 use Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\Grid as OrderItemsGrid;
 use Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Grid as ItemsGrid;
 
 /**
- * Class Items
  * Items product tab.
  */
 class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
@@ -50,86 +48,25 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected $orderItemsGrid = '#select-order-items-block';
 
     /**
-     * Magento loader.
+     * Locator for grid loader.
      *
      * @var string
      */
-    protected $loader = './/ancestor::body/div[@class="loading-mask"]';
+    protected $gridLoader = './/ancestor::body/div[@class="loading-mask"]';
 
     /**
-     * Row containing product name.
+     * Locator for main loader.
      *
      * @var string
      */
-    protected $productRow = "//tr[contains(normalize-space(td/text()),'%s')]";
+    protected $mainLoader = './/ancestor::body/div[@id="loading-mask"]';
 
     /**
-     * Product name field.
+     * Locator for rma items grid.
      *
      * @var string
      */
-    protected $productNameField = "//td[contains(@class, 'col-product col-product_admin_name')]";
-
-    /**
-     * Status Field.
-     *
-     * @var string
-     */
-    protected $statusField = "//select[contains(@name,'status')]";
-
-    /**
-     * Product fields.
-     *
-     * @var array
-     */
-    protected $productField = array(
-        'quantity' => "//td[contains(@class, 'col-qty col-qty_requested')]",
-        'reason' => "//td[contains(@class, 'col-reason col-reason')]",
-        'condition' => "//td[contains(@class, 'col-condition col-condition')]",
-        'resolution' => "//td[contains(@class, 'col-resolution col-resolution')]"
-    );
-
-    /**
-     * Product actions.
-     *
-     * @var array
-     */
-    protected $productActions = array(
-        'AUTHORIZE_QTY' => 'AUTHORIZE_QTY',
-        'RETURN_QTY' => 'RETURN_QTY',
-        'APPROVE_QTY' => 'APPROVE_QTY'
-    );
-
-    /**
-     * Product quantity fields.
-     *
-     * @var array
-     */
-    protected $productQuantities = array(
-        'AUTHORIZE_QTY' => "//input[contains(@name,'qty_authorized')]",
-        'RETURN_QTY' => "//input[contains(@name,'qty_returned')]",
-        'APPROVE_QTY' => "//input[contains(@name,'qty_approved')]"
-    );
-
-    /**
-     * Product status values.
-     *
-     * @var array
-     */
-    protected $productStatus = array(
-        'AUTHORIZE_QTY' => 'Authorize',
-        'RETURN_QTY' => 'Return Received',
-        'APPROVE_QTY' => 'Approved'
-    );
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $filters = array(
-        'id' => array(
-            'selector' => '#order_rma_filter_increment_id_to'
-        ),
-    );
+    protected $rmaItemsGrid = '#rma_items_grid';
 
     /**
      * Fill data to fields on tab.
@@ -144,13 +81,11 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
 
         if (!empty($items)) {
             $this->clickAddProducts();
-            $this->waitForElementVisible($this->orderItemsGrid);
             foreach ($items as $item) {
                 $this->getOrderItemsGrid()->selectItem($item['product']);
             }
 
             $this->clickAddSelectedProducts();
-            $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
             foreach ($items as $item) {
                 $this->fillItem($item);
             }
@@ -169,21 +104,23 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected function clickAddProducts()
     {
         $this->_rootElement->find($this->addProducts)->click();
+        $this->waitForElementVisible($this->orderItemsGrid);
     }
 
     /**
-     * Click "Add Selected Product(s) to returns" button
+     * Click "Add Selected Product(s) to returns" button.
      *
      * @return void.
      */
     protected function clickAddSelectedProducts()
     {
         $this->_rootElement->find($this->addSelectedProducts)->click();
-        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->gridLoader, Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->mainLoader, Locator::SELECTOR_XPATH);
     }
 
     /**
-     * Return product grid.
+     * Return chooser order items grid.
      *
      * @return OrderItemsGrid
      */
@@ -191,12 +128,12 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     {
         return $this->blockFactory->create(
             'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\Grid',
-            ['element' => $this->_rootElement]
+            ['element' => $this->_rootElement->find($this->orderItemsGrid)]
         );
     }
 
     /**
-     * Return product grid.
+     * Return items rma grid.
      *
      * @return ItemsGrid
      */
@@ -204,19 +141,20 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     {
         return $this->blockFactory->create(
             'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Grid',
-            ['element' => $this->_rootElement]
+            ['element' => $this->_rootElement->find($this->rmaItemsGrid)]
         );
     }
 
     /**
-     * Fill item in rma items grid
+     * Fill item product in rma items grid.
      *
      * @param array $itemData
      * @return void
      */
     protected function fillItem(array $itemData)
     {
-        /** @var CatalogProductSimple $product */        $product = $itemData['product'];
+        /** @var CatalogProductSimple $product */
+        $product = $itemData['product'];
         $productConfig = $product->getDataConfig();
         $productType = isset($productConfig['type_id']) ? ucfirst($productConfig['type_id']) : '';
         $productItemsClass = 'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\\' . $productType . 'Items';
@@ -230,69 +168,5 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
             $itemRow = $this->getItemsGrid()->getItemRow($product);
             $this->_fill($fields, $itemRow);
         }
-    }
-
-    /**
-     * Fill form fields.
-     *
-     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItemFixture
-     * @param string $fillFields
-     * @return null
-     */
-    public function fillCustom($returnItemFixture, $fillFields)
-    {
-        $products = $returnItemFixture->getProductNames();
-        foreach ($products as $product) {
-            $quantity = $returnItemFixture->getQuantity();
-            if (isset($this->productActions[$fillFields])) {
-                $quantitySearchString = $this->productRow . $this->productQuantities[$fillFields];
-                $status = $this->productStatus[$fillFields];
-            } else {
-                return null;
-            }
-            $quantitySearchString = sprintf($quantitySearchString, $product);
-            $statusSearchString = $this->productRow . $this->statusField;
-            $statusSearchString = sprintf($statusSearchString, $product);
-            $this->_rootElement->find($quantitySearchString, Locator::SELECTOR_XPATH)->setValue($quantity);
-            $this->_rootElement->find($statusSearchString, Locator::SELECTOR_XPATH, 'select')->setValue($status);
-        }
-    }
-
-    /**
-     * Checks if all products from the order are in the return grid.
-     *
-     * @param array $products
-     * @param ReturnItem $returnItem
-     * @return bool
-     * @throws \Exception
-     */
-    public function assertProducts($products, $returnItem)
-    {
-        $result = true;
-        foreach ($products as $product) {
-            $productName = $product->getName();
-
-            $productSearchString = $this->productRow . $this->productNameField;
-            $productSearchString = sprintf($productSearchString, $productName);
-            $gridProductName = $this->_rootElement->find($productSearchString, Locator::SELECTOR_XPATH)->getText();
-            if (strpos($gridProductName, $productName) === false) {
-                $result = false;
-            }
-
-            $returnItemFields = $returnItem->getData('fields');
-
-            foreach ($returnItemFields as $returnItemField => $returnItemValue) {
-                if (isset($this->productField[$returnItemField])) {
-                    $searchString = sprintf($this->productRow . $this->productField[$returnItemField], $productName);
-                    $itemValue = $this->_rootElement->find($searchString, Locator::SELECTOR_XPATH)->getText();
-                    if (strpos($itemValue, $returnItemValue) === false) {
-                        $result = false;
-                    }
-                } else {
-                    throw new \Exception('Product not found: ' . $productName);
-                }
-            }
-        }
-        return $result;
     }
 }

@@ -12,7 +12,6 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class Grid
  * Grid for choose order item.
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid

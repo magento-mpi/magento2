@@ -9,11 +9,10 @@
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items;
 
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class Grid
  * Grid create rma items.
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
@@ -33,9 +32,6 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getItemRow(FixtureInterface $product)
     {
-        return $this->_rootElement->find(
-            sprintf($this->rowByName, $product->getName()),
-            Element\Locator::SELECTOR_XPATH
-        );
+        return $this->_rootElement->find(sprintf($this->rowByName, $product->getName()), Locator::SELECTOR_XPATH);
     }
 }

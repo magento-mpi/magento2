@@ -14,8 +14,7 @@ use Magento\Rma\Test\Block\Returns\History\RmaTable\RmaRow;
 use Magento\Rma\Test\Fixture\Rma;
 
 /**
- * Class RmaTable
- * Rma table.
+ * Rma grid on frontend history rma page.
  */
 class RmaTable extends Block
 {

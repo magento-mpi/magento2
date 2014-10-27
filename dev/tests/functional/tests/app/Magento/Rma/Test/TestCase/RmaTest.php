@@ -63,28 +63,28 @@ class RmaTest extends Functional
 
         // Step 12: Open the Returns page, navigate to Return Items tab
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
-        $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
-        $rmaPage->getFormTabsBlock()->openTab('return_items');
+        $rmaPage = Factory::getPageFactory()->getAdminRmaView();
+        $rmaPage->getRmaForm()->openTab('items');
         $this->assertTrue(
-            $rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
+            $rmaPage->getRmaForm()->getItemsGrid()->assertProducts($products, $returnItem),
             'Product lists does not match items returned list'
         );
 
         // Step 13: Authorize Simple and Configurable Product
-        $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'AUTHORIZE_QTY');
-        $rmaPage->getRmaActionsBlock()->saveAndEdit();
+        $rmaPage->getRmaForm()->getItemsGrid()->fillCustom($returnItem, 'AUTHORIZE_QTY');
+        $rmaPage->getPageActions()->saveAndContinue();
         $rmaPage->getMessagesBlock()->waitSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
-        $rmaPage->getFormTabsBlock()->openTab('return_items');
-        $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'RETURN_QTY');
-        $rmaPage->getRmaActionsBlock()->saveAndEdit();
+        $rmaPage->getRmaForm()->openTab('items');
+        $rmaPage->getRmaForm()->getItemsGrid()->fillCustom($returnItem, 'RETURN_QTY');
+        $rmaPage->getPageActions()->saveAndContinue();
         $rmaPage->getMessagesBlock()->waitSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
-        $rmaPage->getFormTabsBlock()->openTab('return_items');
-        $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'APPROVE_QTY');
-        $rmaPage->getRmaActionsBlock()->saveAndEdit();
+        $rmaPage->getRmaForm()->openTab('items');
+        $rmaPage->getRmaForm()->getItemsGrid()->fillCustom($returnItem, 'APPROVE_QTY');
+        $rmaPage->getPageActions()->saveAndContinue();
         $rmaPage->getMessagesBlock()->waitSuccessMessage();
     }
 

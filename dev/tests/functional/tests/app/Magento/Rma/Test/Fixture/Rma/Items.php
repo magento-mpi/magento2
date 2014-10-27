@@ -13,20 +13,19 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Class Items
- * Source rma items
+ * Source rma items.
  */
 class Items implements FixtureInterface
 {
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var integer
      */
@@ -49,7 +48,7 @@ class Items implements FixtureInterface
     }
 
     /**
-     * Persist custom selections products
+     * Persist custom selections products.
      *
      * @return void
      */
@@ -59,7 +58,7 @@ class Items implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string $key [optional]
      * @return mixed
@@ -72,7 +71,7 @@ class Items implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return string
      */
@@ -82,7 +81,7 @@ class Items implements FixtureInterface
     }
 
     /**
-     * Return array preset
+     * Return array preset.
      *
      * @param string $name
      * @return array

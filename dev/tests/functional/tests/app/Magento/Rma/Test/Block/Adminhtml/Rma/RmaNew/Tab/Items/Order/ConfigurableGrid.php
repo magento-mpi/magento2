@@ -10,11 +10,9 @@ namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Bundle\Test\Fixture\BundleProduct;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
- * Class ConfigurableGrid
  * Grid for choose order item(configurable product).
  */
 class ConfigurableGrid extends Grid

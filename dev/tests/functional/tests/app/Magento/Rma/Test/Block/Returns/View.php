@@ -12,8 +12,7 @@ use Mtf\Block\Block;
 use Magento\Rma\Test\Block\Returns\View\RmaItems;
 
 /**
- * Class View
- * Rma view block
+ * Rma view block on frontend.
  */
 class View extends Block
 {

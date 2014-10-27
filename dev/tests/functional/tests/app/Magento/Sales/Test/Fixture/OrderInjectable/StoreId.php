@@ -13,34 +13,33 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Store\Test\Fixture\Store;
 
 /**
- * Class StoreId
- * Prepare StoreId for Store Group
+ * Prepare StoreId for Store Group.
  */
 class StoreId implements FixtureInterface
 {
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Store fixture
+     * Store fixture.
      *
      * @var Store
      */
     public $store;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param FixtureFactory $fixtureFactory
      * @param array $data
@@ -57,7 +56,7 @@ class StoreId implements FixtureInterface
 
         if ($storeData) {
             $store = $fixtureFactory->createByCode('store', $storeData);
-            /** @var Store $website */
+            /** @var Store $store */
             if (!$store->getStoreId()) {
                 $store->persist();
             }
@@ -67,7 +66,7 @@ class StoreId implements FixtureInterface
     }
 
     /**
-     * Persist attribute options
+     * Persist attribute options.
      *
      * @return void
      */
@@ -77,7 +76,7 @@ class StoreId implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string|null $key [optional]
      * @return mixed
@@ -90,7 +89,7 @@ class StoreId implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return array
      */
@@ -100,7 +99,7 @@ class StoreId implements FixtureInterface
     }
 
     /**
-     * Return Store fixture
+     * Return Store fixture.
      *
      * @return Store
      */

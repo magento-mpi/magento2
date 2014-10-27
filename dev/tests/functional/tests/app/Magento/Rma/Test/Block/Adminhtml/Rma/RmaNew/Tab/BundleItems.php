@@ -11,13 +11,12 @@ namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
- * Class BundleItems
  * Rma items tab for bundle product.
  */
 class BundleItems extends Items
 {
     /**
-     * Fill item in rma items grid.
+     * Fill item product in rma items grid.
      *
      * @param array $itemData
      * @return void

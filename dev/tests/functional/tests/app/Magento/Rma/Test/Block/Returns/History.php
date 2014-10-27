@@ -12,8 +12,7 @@ use Mtf\Block\Block;
 use \Magento\Rma\Test\Block\Returns\History\RmaTable;
 
 /**
- * Class History
- * Created rma view block.
+ * Rma of order grid block.
  */
 class History extends Block
 {
@@ -25,7 +24,7 @@ class History extends Block
     protected $rmaTable = '.returns';
 
     /**
-     * Ger rma table
+     * Return rma table.
      *
      * @return RmaTable
      */

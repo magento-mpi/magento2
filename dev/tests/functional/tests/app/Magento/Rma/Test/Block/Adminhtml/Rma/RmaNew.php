@@ -17,7 +17,6 @@ use Magento\Rma\Test\Fixture\Rma\OrderId;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class RmaNew
  * Rma new page tabs.
  */
 class RmaNew extends FormTabs

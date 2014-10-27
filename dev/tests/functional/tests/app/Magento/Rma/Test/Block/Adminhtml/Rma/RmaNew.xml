@@ -34,9 +34,7 @@
         <selector>#rma_info_tabs_items_section</selector>
         <strategy>css selector</strategy>
         <fields>
-            <items>
-
-            </items>
+            <items/>
         </fields>
     </items>
 </tabs>

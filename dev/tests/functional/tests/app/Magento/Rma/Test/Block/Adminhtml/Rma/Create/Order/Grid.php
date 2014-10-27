@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Create\Order;
 
 /**
- * Class Grid
  * Choose order grid for create rma.
 */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid

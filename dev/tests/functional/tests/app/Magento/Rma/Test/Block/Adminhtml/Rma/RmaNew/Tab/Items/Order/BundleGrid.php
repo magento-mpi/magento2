@@ -12,10 +12,8 @@ use Mtf\Client\Element\Locator;
 use Magento\Rma\Test\Block\Adminhtml\Product\Bundle\Items as BundleItems;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Bundle\Test\Fixture\BundleProduct;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class BundleGrid
  * Grid for choose order item(bundle product).
  */
 class BundleGrid extends Grid
@@ -47,11 +45,19 @@ class BundleGrid extends Grid
         }
 
         $this->searchAndSelect(['sku' => $product->getSku()]);
-        /** @var BundleItems $bundleItems */
-        $bundleItems = $this->blockFactory->create(
+        $this->getSelectItemsBlock()->fill($labels);
+    }
+
+    /**
+     * Return popup select bundle items block.
+     *
+     * @return BundleItems
+     */
+    protected function getSelectItemsBlock()
+    {
+        return $this->blockFactory->create(
             'Magento\Rma\Test\Block\Adminhtml\Product\Bundle\Items',
             ['element' => $this->_rootElement->find($this->bundleItemsPopup, Locator::SELECTOR_XPATH)]
         );
-        $bundleItems->fill($labels);
     }
 }

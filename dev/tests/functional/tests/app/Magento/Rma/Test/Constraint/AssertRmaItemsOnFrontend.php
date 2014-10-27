@@ -9,20 +9,16 @@
 namespace Magento\Rma\Test\Constraint;
 
 use Mtf\Constraint\AbstractAssertForm;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\ObjectManager;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Rma\Test\Page\CustomerAccountRmaIndex;
 use Magento\Rma\Test\Page\CustomerAccountRmaView;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Rma\Test\Fixture\Rma;
-use Magento\Rma\Test\Fixture\Rma\OrderId;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Sales\Test\Fixture\OrderInjectable\CustomerId;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class AssertRmaItemsOnFrontend
  * Assert customer can vew return request on Frontend and verify.
  */
 class AssertRmaItemsOnFrontend extends AbstractAssertForm
@@ -41,9 +37,9 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
      * - conditions
      * - resolution
      * - requested qty
+     * - qty
      * - status
      *
-     * @param ObjectManager $objectManager
      * @param Rma $rma
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountIndex $customerAccountIndex
@@ -52,25 +48,18 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
      * @return void
      */
     public function processAssert(
-        ObjectManager $objectManager,
         Rma $rma,
         CmsIndex $cmsIndex,
         CustomerAccountIndex $customerAccountIndex,
         CustomerAccountRmaIndex $customerAccountRmaIndex,
         CustomerAccountRmaView $customerAccountRmaView
     ) {
-        /** @var OrderId $sourceOrderId */
-        $sourceOrderId = $rma->getDataFieldConfig('order_id')['source'];
-        $order = $sourceOrderId->getOrder();
-        /** @var CustomerId $sourceCustomerId */
-        $sourceCustomerId = $order->getDataFieldConfig('customer_id')['source'];
-        $customer = $sourceCustomerId->getCustomer();
+        /** @var OrderInjectable $order */
+        $order = $rma->getDataFieldConfig('order_id')['source']->getOrder();
+        /** @var CustomerInjectable $customer */
+        $customer = $order->getDataFieldConfig('customer_id')['source']->getCustomer();
 
-        $objectManager->create(
-            '\Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
-            ['customer' => $customer]
-        )->run();
-
+        $this->login($customer);
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Returns');
         $customerAccountRmaIndex->getRmaHistory()->getRmaTable()->getRmaRow($rma)->clickView();
@@ -83,9 +72,21 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
             '::sku'
         );
 
-        $objectManager->create('\Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep')->run();
-
         \PHPUnit_Framework_Assert::assertEquals($fixtureItemsData, $pageItemsData);
+    }
+
+    /**
+     * Login customer.
+     *
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    protected function login(CustomerInjectable $customer)
+    {
+        $this->objectManager->create(
+            '\Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        )->run();
     }
 
     /**
@@ -97,9 +98,8 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
     protected function getRmaItems(Rma $rma)
     {
         $rmaItems = $rma->getItems();
-        /** @var OrderId $sourceOrderId */
-        $sourceOrderId = $rma->getDataFieldConfig('order_id')['source'];
-        $order = $sourceOrderId->getOrder();
+        /** @var OrderInjectable $order */
+        $order = $rma->getDataFieldConfig('order_id')['source']->getOrder();
         $orderItems = $order->getEntityId();
 
         foreach ($rmaItems as $productKey => $productData) {
@@ -124,7 +124,7 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
      * Return product sku.
      *
      * @param FixtureInterface $product
-     * @return mixed
+     * @return string
      */
     protected function prepareProductSku(FixtureInterface $product)
     {
@@ -138,6 +138,6 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
      */
     public function toString()
     {
-        return 'Return request is present on frontend and verify.';
+        return 'Correct return request is present on frontend.';
     }
 }

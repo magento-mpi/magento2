@@ -8,12 +8,10 @@
 
 namespace Magento\Rma\Test\Block\Returns;
 
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
-/***
- * Class Returns
- * Order view block/
+/**
+ * Returns of order view block.
  */
 class Returns extends History
 {

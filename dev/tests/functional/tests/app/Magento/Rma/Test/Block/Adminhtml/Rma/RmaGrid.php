@@ -9,8 +9,7 @@
 namespace Magento\Rma\Test\Block\Adminhtml\Rma;
 
 /**
- * Class RmaGrid
- * Rma grid.
+ * Grid on backend rma index page.
  */
 class RmaGrid extends \Magento\Backend\Test\Block\Widget\Grid
 {

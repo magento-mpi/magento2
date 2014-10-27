@@ -16,7 +16,6 @@ use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
- * Class CreateProduct
  * Create new simple product via curl.
  */
 class Curl extends AbstractCurl implements CatalogProductSimpleInterface
@@ -129,7 +128,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     protected $selectOptions = ['Drop-down', 'Radio Buttons', 'Checkbox', 'Multiple Select'];
 
     /**
-     * Post request for creating simple product
+     * Post request for creating simple product.
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return array

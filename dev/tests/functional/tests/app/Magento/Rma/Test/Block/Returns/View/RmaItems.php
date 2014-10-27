@@ -12,8 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class RmaItems
- * Rma items
+ * Rma items.
  */
 class RmaItems extends Block
 {
@@ -24,22 +23,28 @@ class RmaItems extends Block
      */
     protected $rowFields = [
         'sku' => [
-          'selector' => '.col.sku'
+            'selector' => '.col.sku',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'condition' => [
-            'selector' => '.col.condition'
+            'selector' => '.col.condition',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'resolution' => [
-            'selector' => '.col.resolution'
+            'selector' => '.col.resolution',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'qty_requested' => [
-            'selector' => '.col.qty.request'
+            'selector' => '.col.qty.request',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'qty' => [
-            'selector' => '.col.qty'
+            'selector' => '.col.qty',
+            'strategy' => Locator::SELECTOR_CSS
         ],
         'status' => [
-            'selector' => '.col.status'
+            'selector' => '.col.status',
+            'strategy' => Locator::SELECTOR_CSS
         ],
     ];
 
@@ -51,7 +56,7 @@ class RmaItems extends Block
     protected $itemRow = 'tbody tr';
 
     /**
-     * Get data of rma items
+     * Get data of rma items.
      *
      * @return array
      */
@@ -62,10 +67,7 @@ class RmaItems extends Block
 
         foreach ($items as $key => $item) {
             foreach ($this->rowFields as $name => $locator) {
-                $value = $item->find(
-                    $locator['selector'],
-                    isset($locator['strategy']) ? $locator['strategy'] : Locator::SELECTOR_CSS
-                )->getText();
+                $value = $item->find($locator['selector'], $locator['strategy'])->getText();
                 $data[$key][$name] = trim($value);
             }
         }

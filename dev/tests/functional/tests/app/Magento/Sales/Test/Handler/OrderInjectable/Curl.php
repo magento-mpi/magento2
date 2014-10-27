@@ -20,20 +20,19 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
- * Class Curl
- * Create new order via curl
+ * Create new order via curl.
  */
 class Curl extends AbstractCurl implements OrderInjectableInterface
 {
     /**
-     * Customer fixture
+     * Customer fixture.
      *
      * @var CustomerInjectable
      */
     protected $customer;
 
     /**
-     * Customer fixture
+     * Customer fixture.
      *
      * @var OrderInjectable
      */
@@ -54,7 +53,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     ];
 
     /**
-     * Steps for create order on backend
+     * Steps for create order on backend.
      *
      * @var array
      */
@@ -68,7 +67,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     ];
 
     /**
-     * Post request for creating order
+     * Post request for creating order.
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return array
@@ -82,7 +81,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare POST data for creating product request
+     * Prepare POST data for creating product request.
      *
      * @param FixtureInterface $fixture
      * @return array
@@ -111,7 +110,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare coupon data
+     * Prepare coupon data.
      *
      * @param SalesRuleInjectable $data
      * @return array
@@ -122,7 +121,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare shipping data
+     * Prepare shipping data.
      *
      * @param array $data
      * @return array
@@ -141,7 +140,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare products data
+     * Prepare products data.
      *
      * @param array $data
      * @return array
@@ -163,7 +162,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for configurable product
+     * Prepare data for configurable product.
      *
      * @param FixtureInterface $product
      * @return array
@@ -189,7 +188,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for configurable product
+     * Prepare data for configurable product.
      *
      * @param FixtureInterface $product
      * @return array
@@ -235,7 +234,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for downloadable product
+     * Prepare data for downloadable product.
      *
      * @param FixtureInterface $product
      * @return array
@@ -253,7 +252,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for simple product
+     * Prepare data for simple product.
      *
      * @param FixtureInterface $product
      * @return array
@@ -264,7 +263,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare order data
+     * Prepare order data.
      *
      * @param array $data
      * @return array
@@ -295,7 +294,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare customer data
+     * Prepare customer data.
      *
      * @param array $data
      * @return array
@@ -311,7 +310,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare order products data
+     * Prepare order products data.
      *
      * @param array $data
      * @return array
@@ -329,7 +328,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare billing address data
+     * Prepare billing address data.
      *
      * @param array $data
      * @return array
@@ -344,7 +343,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Create product via curl
+     * Create product via curl.
      *
      * @param array $data
      * @return int|null

@@ -12,15 +12,17 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
 
 /**
- * Class AssertRmaSuccessSaveMessage
  * Assert success message appears after submitting new return request.
  */
 class AssertRmaSuccessSaveMessage extends AbstractConstraint
 {
+    /**
+     * Rma success save message.
+     */
     const SUCCESS_SAVE_MESSAGE = 'You submitted the RMA request.';
 
     /**
-     * Constraint severeness
+     * Constraint severeness.
      *
      * @var string
      */

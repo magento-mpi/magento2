@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/guest/form/" module="Magento_Sales">
+<page mca="sales/guest/form" module="Magento_Sales">
     <blocks>
         <searchForm>
             <class>Magento\Sales\Test\Block\Widget\Guest\Form</class>
