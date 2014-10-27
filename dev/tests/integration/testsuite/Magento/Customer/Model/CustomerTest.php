@@ -30,7 +30,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetDataModel()
+    public function testUpdateDataSetDataOnEmptyModel()
     {
         /** @var \Magento\Customer\Model\Data\Customer $customerData */
         $customerData = $this->customerBuilder
@@ -39,11 +39,37 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->setLastname('Doe')
             ->setDefaultBilling(1)
             ->create();
-        $updatedCustomerData = $this->customerModel->updateData($customerData)->getDataModel();
+        $customerData = $this->customerModel->updateData($customerData)->getDataModel();
 
-        $this->assertEquals(1, $updatedCustomerData->getId());
-        $this->assertEquals('John', $updatedCustomerData->getFirstname());
-        $this->assertEquals('Doe', $updatedCustomerData->getLastname());
-        $this->assertEquals(1, $updatedCustomerData->getDefaultBilling());
+        $this->assertEquals(1, $customerData->getId());
+        $this->assertEquals('John', $customerData->getFirstname());
+        $this->assertEquals('Doe', $customerData->getLastname());
+        $this->assertEquals(1, $customerData->getDefaultBilling());
+    }
+
+    public function testUpdateDataOverrideExistingData()
+    {
+        /** @var \Magento\Customer\Model\Data\Customer $customerData */
+        $customerData = $this->customerBuilder
+            ->setId(2)
+            ->setFirstname('John')
+            ->setLastname('Doe')
+            ->setDefaultBilling(1)
+            ->create();
+        $this->customerModel->updateData($customerData);
+
+        /** @var \Magento\Customer\Model\Data\Customer $customerData */
+        $updatedCustomerData = $this->customerBuilder
+            ->setId(3)
+            ->setFirstname('Jane')
+            ->setLastname('Smith')
+            ->setDefaultBilling(0)
+            ->create();
+        $updatedCustomerData = $this->customerModel->updateData($updatedCustomerData)->getDataModel();
+
+        $this->assertEquals(3, $updatedCustomerData->getId());
+        $this->assertEquals('Jane', $updatedCustomerData->getFirstname());
+        $this->assertEquals('Smith', $updatedCustomerData->getLastname());
+        $this->assertEquals(0, $updatedCustomerData->getDefaultBilling());
     }
 }

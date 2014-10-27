@@ -37,7 +37,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $crud->testCrud();
     }
 
-    public function testGetDataModel()
+    public function testUpdateDataSetDataOnEmptyModel()
     {
         /** @var \Magento\Customer\Model\Data\Group $groupData */
         $groupData = $this->groupBuilder
@@ -46,11 +46,37 @@ class GroupTest extends \PHPUnit_Framework_TestCase
             ->setTaxClassId(1)
             ->setTaxClassName('bar')
             ->create();
-        $updatedGroupData = $this->groupModel->updateData($groupData)->getDataModel();
+        $groupData = $this->groupModel->updateData($groupData)->getDataModel();
 
-        $this->assertEquals(1, $updatedGroupData->getId());
-        $this->assertEquals('foo', $updatedGroupData->getCode());
-        $this->assertEquals(1, $updatedGroupData->getTaxClassId());
-        $this->assertEquals('bar', $updatedGroupData->getTaxClassName());
+        $this->assertEquals(1, $groupData->getId());
+        $this->assertEquals('foo', $groupData->getCode());
+        $this->assertEquals(1, $groupData->getTaxClassId());
+        $this->assertEquals('bar', $groupData->getTaxClassName());
+    }
+
+    public function testUpdateDataOverrideExistingData()
+    {
+        /** @var \Magento\Customer\Model\Data\Group $groupData */
+        $groupData = $this->groupBuilder
+            ->setId(2)
+            ->setCode('foo')
+            ->setTaxClassId(2)
+            ->setTaxClassName('bar')
+            ->create();
+        $this->groupModel->updateData($groupData);
+
+        /** @var \Magento\Customer\Model\Data\Group $groupData */
+        $updatedGroupData = $this->groupBuilder
+            ->setId(3)
+            ->setCode('baz')
+            ->setTaxClassId(4)
+            ->setTaxClassName('qux')
+            ->create();
+        $updatedGroupData = $this->groupModel->updateData($updatedGroupData)->getDataModel();
+
+        $this->assertEquals(3, $updatedGroupData->getId());
+        $this->assertEquals('baz', $updatedGroupData->getCode());
+        $this->assertEquals(4, $updatedGroupData->getTaxClassId());
+        $this->assertEquals('qux', $updatedGroupData->getTaxClassName());
     }
 }

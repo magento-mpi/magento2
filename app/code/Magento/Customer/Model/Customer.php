@@ -32,7 +32,7 @@ use Magento\Webapi\Model\DataObjectProcessor;
  * @method string getPasswordHash()
  * @method string getConfirmation()
  */
-class Customer extends \Magento\Framework\Model\AbstractModel
+class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
 {
     /**
      * Configuration paths for email templates and identities
@@ -203,6 +203,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
@@ -224,6 +225,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
@@ -256,7 +258,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         $this->dateTime = $dateTime;
         $this->_customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**

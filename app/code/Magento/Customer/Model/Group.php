@@ -7,9 +7,6 @@
  */
 namespace Magento\Customer\Model;
 
-use \Magento\Framework\Model\AbstractExtensibleModel;
-use \Magento\Customer\Api\Data\GroupInterface;
-
 /**
  * Customer group model
  *
@@ -19,7 +16,7 @@ use \Magento\Customer\Api\Data\GroupInterface;
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
  */
-class Group extends AbstractExtensibleModel implements GroupInterface
+class Group extends \Magento\Framework\Model\AbstractExtensibleModel
 {
     const NOT_LOGGED_IN_ID = 0;
 
@@ -72,11 +69,11 @@ class Group extends AbstractExtensibleModel implements GroupInterface
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Store\Model\StoresConfig $storesConfig
-     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
-     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Customer\Model\Data\GroupBuilder $groupBuilder
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Tax\Model\ClassModelFactory $classModelFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -159,16 +156,6 @@ class Group extends AbstractExtensibleModel implements GroupInterface
     public function getCode()
     {
         return $this->getCustomerGroupCode();
-    }
-
-    /**
-     * Get tax class id
-     *
-     * @return int
-     */
-    public function getTaxClassId()
-    {
-        return $this->getData('tax_class_id');
     }
 
     /**
