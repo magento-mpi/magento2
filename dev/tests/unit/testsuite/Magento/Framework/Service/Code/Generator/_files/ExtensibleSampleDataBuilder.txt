@@ -1,7 +1,8 @@
 namespace Magento\Framework\Service\Code\Generator;
 
 /**
- * DataBuilder class for \Magento\Framework\Service\Code\Generator\ExtensibleSample
+ * DataBuilder class for
+ * \Magento\Framework\Service\Code\Generator\ExtensibleSampleInterface
  */
 class ExtensibleSampleDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
