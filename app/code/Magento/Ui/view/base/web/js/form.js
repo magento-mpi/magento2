@@ -38,7 +38,6 @@ define([
             return this;
         },
 
-
         /**
          * Submits form
          */

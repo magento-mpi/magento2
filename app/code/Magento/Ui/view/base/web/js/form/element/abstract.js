@@ -44,9 +44,7 @@ define([
 
             this.setUniqueId()
                 .initDisableStatus()
-                .initListeners()
-
-            this.value.subscribe(this.onUpdate, this);
+                .initListeners();
         },
 
         /**
@@ -75,6 +73,8 @@ define([
             var data = this.provider.data;
 
             data.on('reset', this.reset.bind(this));
+
+            this.value.subscribe(this.onUpdate, this);
 
             return this;
         },
@@ -181,17 +181,13 @@ define([
                 return isValid;
             }, this);
 
-            if (isAllValid) {
-                this.error('');
-            }
+            isAllValid ? this.error('') : this.focused(showErrors);
 
             this.trigger('update', this, {
                 value:          value,
                 isValid:        isAllValid,
                 makeVisible:    showErrors
             });
-
-            this.focused(showErrors);
 
             return isAllValid;
         }
