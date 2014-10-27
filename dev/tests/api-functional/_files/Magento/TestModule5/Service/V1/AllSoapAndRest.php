@@ -30,7 +30,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     public function item($id)
     {
         return $this->builder
-            ->setId($id)
+            ->setEntityId($id)
             ->setName('testItemName')
             ->setIsEnabled(true)
             ->setHasOrders(true)
@@ -42,8 +42,8 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
      */
     public function items()
     {
-        $allSoapAndRest1 = $this->builder->setId(1)->setName('testProduct1')->create();
-        $allSoapAndRest2 = $this->builder->setId(2)->setName('testProduct2')->create();
+        $allSoapAndRest1 = $this->builder->setEntityId(1)->setName('testProduct1')->create();
+        $allSoapAndRest2 = $this->builder->setEntityId(2)->setName('testProduct2')->create();
         return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
