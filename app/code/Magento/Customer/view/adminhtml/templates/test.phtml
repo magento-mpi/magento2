@@ -17,6 +17,7 @@
                         "general": "0",
                         "comments": "Some commentary",
                         "created": 1412244384313,
+                        "multiselect": ["0", "2"],
                         "addresses": {
                             "0": {
                                 "0": {
@@ -92,6 +93,14 @@
                     "component": "Magento_Ui/js/form/element/select",
                     "config": {
                         "input_type": "select"
+                    }
+                },
+                "multiselect": {
+                    "extends": "base",
+                    "component": "Magento_Ui/js/form/element/multiselect",
+                    "config": {
+                        "input_type": "multiselect",
+                        "template": "ui/form/element/multiselect"
                     }
                 },
                 "media": {
@@ -318,7 +327,8 @@
                                 "groups.send_from",
                                 "groups.comments",
                                 "groups.created",
-                                "groups.image"
+                                "groups.image",
+                                "groups.multiselect"
                             ]
                         },
                         "newsletter_info": {
@@ -450,6 +460,23 @@
                                 "label": "Image"
                             }
                         },
+                        "multiselect": {
+                            "type": "multiselect",
+                            "config": {
+                                "dataScope": "form.multiselect",
+                                "label": "General",
+                                "options": [
+                                    {"value":"0","label": "General"},
+                                    {"value":"1","label": "Wholesale"},
+                                    {"value":"2","label": "Retailer"},
+                                    {"value":"2","label": "Retailer"},
+                                    {"value":"2","label": "Retailer"},
+                                    {"value":"2","label": "Retailer"},
+                                    {"value":"2","label": "Retailer"},
+                                    {"value":"2","label": "Retailer"}
+                                ]
+                            }
+                        },
                         "created": {
                             "type": "date",
                             "config": {
@@ -521,6 +548,11 @@
                         "prefix":{
                             "children": [
                                 "form.prefix"
+                            ]
+                        },
+                        "multiselect": {
+                            "children": [
+                                "form.multiselect"
                             ]
                         },
                         "firstname": {

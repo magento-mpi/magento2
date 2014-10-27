@@ -65,8 +65,7 @@ define([
             this.childTemplate = {
                 template: this.name + '.' + this.itemTemplate,
                 appendTo: this.name,
-                parentName: this.name,
-                config: {}
+                parentName: this.name
             };
 
             return this;
@@ -91,10 +90,7 @@ define([
 
         createChild: function (index) {
             _.extend(this.childTemplate, {
-                name: index,
-                config: {
-                    index: index
-                }
+                name: index
             });
 
             this.renderer.render({

@@ -13,9 +13,7 @@ define([
 
     var defaults = {
         caption: i18n('Select...'),
-        multiple: false,
         disabled: false,
-        size: false,
         template: 'ui/form/element/select'
     };
 
@@ -23,10 +21,9 @@ define([
 
     function hasLeafNode(nodes){
         return _.some(nodes, function(node){
-            return typeof node.value === 'object'
+            return typeof node.value === 'object';
         });
     }
-
 
     return Abstract.extend({
 
@@ -45,8 +42,8 @@ define([
         formatInitialValue: function() {
             var value;
 
-            this.hasLeafNode = hasLeafNode(this.options);
-
+            this.hasLeafNode = hasLeafNode(this.options)
+            
             if (this.hasLeafNode) {
                 value = [this.value()];
 
@@ -72,9 +69,9 @@ define([
          * @param  {*} changedValue - current value of form element
          */
         store: function (value) {
-            value = this.formatValue(value)
+            value = this.formatValue(value);
 
-            this.provider.data.set(this.dataScope, value);
+            return __super__.store.call(this, value);
         },
 
         /**
