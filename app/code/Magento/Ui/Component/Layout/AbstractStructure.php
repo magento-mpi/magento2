@@ -209,7 +209,7 @@ class AbstractStructure extends AbstractView
             ]);
 
         foreach ($meta as $key => $value) {
-            if (isset($value['visible']) && $value['visible'] == 'false') {
+            if (isset($value['visible']) && $value['visible'] === 'false') {
                 continue;
             }
             if ($key != Metadata::CHILD_DATA_SOURCES) {

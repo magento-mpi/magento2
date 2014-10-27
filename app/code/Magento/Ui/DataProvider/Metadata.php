@@ -146,7 +146,7 @@ class Metadata implements \Iterator, \ArrayAccess
                     $this->config['fields'][$this->key()]['reference']['target']
                 );
                 $options[] = [
-                    'label' => null,
+                    'label' => __('Please, select...'),
                     'value' => null
                 ];
                 foreach ($rawOptions as $rawOption) {
@@ -157,7 +157,7 @@ class Metadata implements \Iterator, \ArrayAccess
                     ];
                 }
             } else {
-                //
+                // read from "options" data source node
             }
         }
         $attributeCodes = [
@@ -170,7 +170,8 @@ class Metadata implements \Iterator, \ArrayAccess
             'required' => ['eav_map' => 'is_required', 'default' => false],
             'label' => ['eav_map' => 'frontend_label'],
             'sortOrder' => ['eav_map' => 'sort_order'],
-            'notice' => ['eav_map' => 'note']
+            'notice' => ['eav_map' => 'note'],
+            'default' => ['eav_map' => 'default_value']
         ];
 
         foreach ($attributeCodes as  $code => $info) {
