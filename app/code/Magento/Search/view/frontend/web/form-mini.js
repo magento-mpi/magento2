@@ -205,6 +205,5 @@ define([
             }
         }
     });
-    
-    return $.mage.catalogSearch;
+
 });

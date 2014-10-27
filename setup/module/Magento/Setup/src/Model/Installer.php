@@ -439,7 +439,7 @@ class Installer
                 . ' Please set $PATH environment variable to include the full path of the PHP executable'
             );
         }
-        $command = '"'.$phpPath . '" ' . $command;
+        $command = $phpPath . ' ' . $command;
         $actualCommand = $this->shellRenderer->render($command, $args);
         $this->log->log($actualCommand);
         $output = $this->shell->execute($command, $args);

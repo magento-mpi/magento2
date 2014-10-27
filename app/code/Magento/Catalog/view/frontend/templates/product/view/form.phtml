@@ -18,19 +18,10 @@
 <script type="text/javascript">
 require([
     "jquery",
-    "mage/mage",
-    "Magento_Catalog/js/price-option"
+    "mage/mage"
 ], function($){
     $(document).ready(function() {
         $('#product_addtocart_form').mage('priceOption', {"priceConfig":<?php echo $this->getJsonConfig() ?>});
-
-//        $('#product_addtocart_form').mage('priceOption');
-//        $('#product_addtocart_form').priceOption();
-//        $('#product_addtocart_form').priceOptionNew();
-//        $('#product_addtocart_form').priceOptionNew();
-        $('.price-box').each(function(){
-            $(this).priceBox({"priceConfig":<?php echo $this->getJsonConfig() ?>});
-        });
     });
 });
 </script>
