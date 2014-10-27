@@ -204,7 +204,7 @@ class DataBuilder extends EntityAbstract
             $sourceClassName = $this->_getSourceClassName();
             $resultClassName = $this->_getResultClassName();
 
-            if ($resultClassName !== str_replace('Interface', '', $sourceClassName) . ucfirst(self::ENTITY_TYPE)) {
+            if ($resultClassName !== str_replace('Interface', ucfirst(self::ENTITY_TYPE), $sourceClassName)) {
                 $this->_addError(
                     'Invalid Builder class name [' . $resultClassName . ']. Use '
                     . $sourceClassName
