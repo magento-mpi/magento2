@@ -23,8 +23,6 @@ define([
                 params      = this.provider.params,
                 invalid;
 
-            params.set('invalidElement', null);
-
             this.elems().forEach(function(elem){
                 elem.delegate('validate');
                 invalid = params.get('invalidElement');
