@@ -35,6 +35,12 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     private $storeManagerMock;
 
+    /**
+     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $filesystemMock;
+
+
     protected function setUp()
     {
         $this->requestMock = $this->getMock(
@@ -61,6 +67,11 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
+        $this->filesystemMock = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
+        $dirMock = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
+        $this->filesystemMock->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($dirMock));
     }
 
     public function testSetCookiePathNonDefault()
@@ -91,7 +102,8 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
                 'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
                 'frontNameResolver' => $mockFrontNameResolver,
-                'storeManager' => $this->storeManagerMock
+                'storeManager' => $this->storeManagerMock,
+                'filesystem' => $this->filesystemMock,
             ]
         );
 
@@ -125,7 +137,8 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
                 'validatorFactory' => $this->validatorFactory,
                 'request' => $this->requestMock,
                 'sessionName' => $sessionName,
-                'storeManager' => $this->storeManagerMock
+                'storeManager' => $this->storeManagerMock,
+                'filesystem' => $this->filesystemMock,
             ]
         );
         $this->assertSame($sessionName, $adminConfig->getName());

@@ -13,24 +13,27 @@
     <div class="actions">
         <?php echo($this->getChildHtml('wishlist.rss.link'));?>
     </div>
-    <table class="data table wishlist info">
-        <tbody>
-        <tr>
-            <th class="col owner"><?php echo __('Owner');?></th>
-            <td class="col owner"><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></td>
-        </tr>
-        <tr>
-            <th class="col name"><?php echo __('Name');?></th>
-            <td class="col name"><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></td>
-        </tr>
-        <tr>
-            <th class="col updated"><?php echo __('Updated at');?></th>
-            <td class="col updated">
-                <?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);?>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="data table wishlist info">
+            <caption class="table-caption"><?php echo __('Wish List') ?></caption>
+            <tbody>
+            <tr>
+                <th class="col owner" scope="row"><?php echo __('Owner');?></th>
+                <td class="col owner"><?php echo $this->escapeHtml($this->getWishlistOwner()->getName());?></td>
+            </tr>
+            <tr>
+                <th class="col name" scope="row"><?php echo __('Name');?></th>
+                <td class="col name"><?php echo $this->escapeHtml($this->getWishlistInstance()->getName());?></td>
+            </tr>
+            <tr>
+                <th class="col updated" scope="row"><?php echo __('Updated at');?></th>
+                <td class="col updated">
+                    <?php echo $this->formatDate($this->getWishlistInstance()->getUpdatedAt(), \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="title">
         <strong><?php echo __('Wish List Items') ?></strong>
     </div>

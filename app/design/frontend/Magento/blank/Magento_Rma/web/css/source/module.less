@@ -1,0 +1,149 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form-create-return {
+    &:extend(.abstract-add-fields all);
+    .field {
+        &.id,
+        &.name,
+        &.email,
+        &.address {
+            .control {
+                padding-top: @form-field-type-inline-label-padding-top;
+            }
+        }
+    }
+    .additional {
+        &:first-child {
+            margin-top: 0;
+        }
+        .field:nth-last-child(2) {
+            margin-bottom: 0;
+        }
+        .field:last-child {
+            margin-top: @form-field-vertical-indent;
+        }
+    }
+    .field.comment {
+        margin-top: 55px;
+    }
+}
+
+.block-returns-comments {
+    .returns-comments {
+        dt,
+        dd {
+            margin: 0;
+        }
+        dt {
+            font-weight: @font-weight-base;
+        }
+        dd {
+            margin-bottom: 15px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .fieldset {
+        margin-bottom: 20px;
+    }
+}
+
+.return-status {
+    &:extend(.abstract-status all);
+}
+
+.magento-rma-returns-returns,
+.magento-rma-guest-returns,
+.magento-rma-returns-view {
+    .page-title {
+        .title {
+            margin-right: 25px;
+        }
+    }
+}
+
+//
+//    Guest return view page
+//--------------------------------------
+.magento-rma-guest-returns {
+    .column.main {
+        .block:not(.widget) {
+            &:extend(.abstract-account-blocks all);
+        }
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .form-create-return {
+        .fieldset {
+            > .actions-toolbar {
+                &:extend(.abstract-add-clearfix-mobile-m all);
+            }
+        }
+    }
+    .account {
+        .column.main {
+            .returns-details-items {
+                .block-returns-tracking {
+                    .block-title {
+                        > .action.track {
+                            float: none;
+                            display: block;
+                            margin: @indent-s-base 0 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .form-create-return {
+        &:extend(.abstract-add-fields-desktop all);
+        .additional {
+            .field:last-child {
+                margin-top: @form-field-vertical-indent-desktop;
+            }
+        }
+    }
+    //
+    //    Guest return view page
+    //--------------------------------------
+    .magento-rma-guest-returns  {
+        .column.main {
+            .block:not(.widget) {
+                .block-content {
+                    &:extend(.abstract-add-clearfix-desktop all);
+                    .box {
+                        &:extend(.abstract-blocks-2columns all);
+                        margin-bottom: @indent-base;
+                    }
+                }
+            }
+        }
+    }
+    .block-returns-tracking {
+        .block-title {
+            .action {
+                margin: 12px 0 0 30px;
+                &.track {
+                    float: right;
+                }
+            }
+        }
+    }
+}
