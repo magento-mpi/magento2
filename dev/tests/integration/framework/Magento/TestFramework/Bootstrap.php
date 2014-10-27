@@ -127,4 +127,3 @@ class Bootstrap
         $this->_docBlockBootstrap->registerAnnotations($this->_application);
     }
 }
-
