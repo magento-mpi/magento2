@@ -54,7 +54,7 @@ try {
         $generationDir = $opt->getOption('g');
     }
 } catch (\Zend_Console_Getopt_Exception $e) {
-    $generator = new Generator();
+    $generator = new Generator(new \Magento\Framework\Code\Generator\FileResolver());
     $entities = $generator->getGeneratedEntities();
 
     $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
