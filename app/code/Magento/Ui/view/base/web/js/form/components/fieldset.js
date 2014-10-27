@@ -23,6 +23,12 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
+        initListeners: function () {
+            __super__.initListeners.apply(this, arguments);
+
+            this.provider.params.on('update:invalidElement', this.onInvalidUpdate.bind(this));
+        },
+
         initElement: function(elem){
             __super__.initElement.apply(this, arguments);
 
@@ -35,6 +41,14 @@ define([
             var changed = this.delegate('hasChanged', 'some');
 
             this.trigger('update', changed);
+        },
+
+        onInvalidUpdate: function (invalidElement) {
+            var containsInvalid = this.delegate('contains', 'some', invalidElement);
+
+            if (containsInvalid) {
+                this.opened(true);
+            }
         }
     });
 });
