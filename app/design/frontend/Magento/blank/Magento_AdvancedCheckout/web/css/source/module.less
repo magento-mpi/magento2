@@ -5,3 +5,23 @@
 //  * @copyright   {copyright}
 //  * @license     {license_link}
 //  */
+
+.block-cart-failed {
+    margin-top: @indent-xl-base;
+    &:extend(.abstract-shopping-cart-items all);
+    .block-title {
+        .font-size(@h2-font-size);
+        strong {
+            font-weight: @h2-font-weight;
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .block-cart-failed {
+        &:extend(.abstract-shopping-cart-items-desktop all);
+    }
+}
