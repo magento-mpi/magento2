@@ -227,7 +227,7 @@
         },
         "psr-4": {
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
-            "Magento\\": ["app/code/Magento/"],
+            "Magento\\": ["app/code/Magento/", "var/generation/Magento/"],
             "Zend\\Soap\\": "app/code/Zend/Soap/",
             "Zend\\": "lib/internal/Zend/"
         },
@@ -245,5 +245,9 @@
             "Magento\\TestFramework\\Inspection\\": ["dev/tests/static/framework/Magento/TestFramework/Inspection/"],
             "Magento\\ToolkitFramework\\": ["dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/"]
         }
+    },
+    "scripts": {
+        "pre-install-cmd": "php -f dev/tools/Magento/Tools/Composer/make-generation-directory.php"
     }
+
 }

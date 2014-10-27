@@ -204,5 +204,5 @@ try {
     exit(1);
 } catch (Exception $e) {
     fwrite(STDERR, "Compiler failed with exception: " . $e->getMessage());
-    exit(1);
+    throw($e);
 }
