@@ -23,17 +23,17 @@ use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 
-$filePatterns = array('php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/');
+$filePatterns = ['php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/'];
 $codeScanDir = realpath($rootDir . '/app');
 try {
     $opt = new Zend_Console_Getopt(
-        array(
+        [
             'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
             'verbose|v' => 'output report after tool run',
             'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
             'generation=s' => 'absolute path to generated classes, <magento_root>/var/generation by default',
             'di=s' => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
-        )
+        ]
     );
     $opt->parse();
 
@@ -45,7 +45,7 @@ try {
     $relationsFile = $diDir . '/relations.php';
     $pluginDefFile = $diDir . '/plugins.php';
 
-    $compilationDirs = array($rootDir . '/app/code', $rootDir . '/lib/internal/Magento');
+    $compilationDirs = [$rootDir . '/app/code', $rootDir . '/lib/internal/Magento'];
 
     /** @var Writer\WriterInterface $logWriter Writer model for success messages */
     $logWriter = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
@@ -64,8 +64,8 @@ try {
     // 1.1 Code scan
     $directoryScanner = new Scanner\DirectoryScanner();
     $files = $directoryScanner->scan($codeScanDir, $filePatterns);
-    $files['additional'] = array($opt->getOption('extra-classes-file'));
-    $entities = array();
+    $files['additional'] = [$opt->getOption('extra-classes-file')];
+    $entities = [];
 
     $scanner = new Scanner\CompositeScanner();
     $scanner->addChild(new Scanner\PhpScanner($log), 'php');
@@ -86,7 +86,7 @@ try {
     $generator = new \Magento\Framework\Code\Generator(
         $fileResolver,
         $generatorIo,
-        array(
+        [
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
@@ -97,16 +97,20 @@ try {
             Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
             Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
             SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
-        )
+        ]
     );
     $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
-    spl_autoload_register(array($autoloader, 'load'));
-    foreach (array('php', 'additional') as $type) {
+    spl_autoload_register([$autoloader, 'load']);
+    foreach (['php', 'additional'] as $type) {
         sort($entities[$type]);
         foreach ($entities[$type] as $entityName) {
             switch ($generator->generateClass($entityName)) {
                 case \Magento\Framework\Code\Generator::GENERATION_SUCCESS:
                     $log->add(Log::GENERATION_SUCCESS, $entityName);
+                    $file = $fileResolver->getFile($entityName);
+                    if($file) {
+                        include_once $file;
+                    }
                     break;
 
                 case \Magento\Framework\Code\Generator::GENERATION_ERROR:
@@ -137,11 +141,15 @@ try {
     );
 
     // 2.1.1 Generation of Proxy and Interceptor Classes
-    foreach (array('interceptors', 'di') as $type) {
+    foreach (['interceptors', 'di'] as $type) {
         foreach ($entities[$type] as $entityName) {
             switch ($generator->generateClass($entityName)) {
                 case \Magento\Framework\Code\Generator::GENERATION_SUCCESS:
                     $log->add(Log::GENERATION_SUCCESS, $entityName);
+                    $file = $fileResolver->getFile($entityName);
+                    if($file) {
+                        include_once $file;
+                    }
                     break;
 
                 case \Magento\Framework\Code\Generator::GENERATION_ERROR:
@@ -175,7 +183,7 @@ try {
     // 3. Plugin Definition Compilation
     $pluginScanner = new Scanner\CompositeScanner();
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
-    $pluginDefinitions = array();
+    $pluginDefinitions = [];
     $pluginList = $pluginScanner->collectEntities($files);
     $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
     foreach ($pluginList as $type => $entityList) {
