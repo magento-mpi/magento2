@@ -247,7 +247,7 @@
         }
     },
     "scripts": {
-        "pre-install-cmd": "php -f dev/tools/Magento/Tools/Composer/make-generation-directory.php"
+        "pre-install-cmd": "php -f dev/tools/Magento/Tools/Composer/make-generation-directory.php",
+        "pre-autoload-dump": "php -f dev/tools/Magento/Tools/Composer/make-generation-directory.php"
     }
-
 }
