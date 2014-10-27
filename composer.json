@@ -227,13 +227,11 @@
         },
         "psr-4": {
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
-            "Magento\\": [
-                "app/code/Magento/",
-                "var/generation/Magento/"
-            ],
+            "Magento\\": ["app/code/Magento/"],
             "Zend\\Soap\\": "app/code/Zend/Soap/",
             "Zend\\": "lib/internal/Zend/"
-        }
+        },
+        "classmap" : ["var/generation/"]
     },
     "include-path": [
         "/lib/internal/",
