@@ -10,6 +10,7 @@
 @import "toolbar.less";
 
 @product-info-price: #575757;
+@product-h1-margin-bottom-desktop: @indent-s-base + @indent-xs-base;
 
 //
 //    Category view
@@ -137,7 +138,6 @@
     margin-bottom: 30px;
     .table.additional.attributes {
         width: auto;
-        .table-caption(true);
         .table-resize(
             @_th-padding-left: 0,
             @_th-padding-right: @indent-l-base,
@@ -148,11 +148,6 @@
 }
 
 .product-info-main {
-    .page-title {
-        h1 {
-            margin-bottom: @indent-xs-base;
-        }
-    }
     .product-info-price {
         border-bottom: 1px #c1c1c1 solid;
         display: table;
@@ -328,7 +323,7 @@
 }
 
 .prices-tier {
-    &:extend(.reset-list all);
+    &:extend(.abstract-reset-list all);
     margin-bottom: @indent-s-base + @indent-xs-base;
     .item {
         margin-bottom: @indent-s-base;
@@ -382,7 +377,7 @@
     .product-info-main {
         .page-title {
             h1 {
-                margin-bottom: @indent-s-base + @indent-xs-base;
+                .css(margin-bottom, @product-h1-margin-bottom-desktop);
             }
         }
         .product-add-form {
