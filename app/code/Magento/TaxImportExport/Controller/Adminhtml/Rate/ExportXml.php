@@ -8,6 +8,7 @@
  */
 namespace Magento\TaxImportExport\Controller\Adminhtml\Rate;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportXml extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
@@ -24,7 +25,7 @@ class ExportXml extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
         return $this->fileFactory->create(
             'rates.xml',
             $content->getExcelFile(),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

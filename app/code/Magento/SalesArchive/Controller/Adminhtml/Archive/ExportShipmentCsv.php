@@ -8,6 +8,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Archive;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportShipmentCsv extends \Magento\SalesArchive\Controller\Adminhtml\Archive
@@ -23,6 +24,6 @@ class ExportShipmentCsv extends \Magento\SalesArchive\Controller\Adminhtml\Archi
         $fileName = 'shipment_archive.csv';
         $grid = $this->_view->getLayout()->getChildBlock('sales.shipment.grid', 'grid.export');
         $csvFile = $grid->getCsvFile();
-        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $csvFile, DirectoryList::VAR_DIR);
     }
 }

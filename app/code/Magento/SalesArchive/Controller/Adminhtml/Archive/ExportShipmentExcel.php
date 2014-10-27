@@ -8,6 +8,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Archive;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\App\ResponseInterface;
 
 class ExportShipmentExcel extends \Magento\SalesArchive\Controller\Adminhtml\Archive
@@ -25,7 +26,7 @@ class ExportShipmentExcel extends \Magento\SalesArchive\Controller\Adminhtml\Arc
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Framework\App\Filesystem::VAR_DIR
+            DirectoryList::VAR_DIR
         );
     }
 }

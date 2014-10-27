@@ -177,7 +177,6 @@ class MoveToAnotherWishlistTest extends Injectable
     {
         $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $wishlistViewBlock = $this->catalogProductView->getMultipleWishlistViewBlock();
-        $wishlistViewBlock->fillOptions($product);
-        $wishlistViewBlock->addToWishlist();
+        $wishlistViewBlock->addToWishlist($product);
     }
 }
