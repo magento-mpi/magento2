@@ -64,14 +64,6 @@ define([
             return this;
         },
 
-        setDataScope: function (dataScope) {
-            this.dataScope = dataScope;
-
-            this.elems.each(function (element) {
-                element.setDataScope(this.dataScope + '.' + element.index);
-            }, this);
-        },
-
         /**
          * Pushes invalid element to invalids array. Triggers update method on
          *     itself.
