@@ -21,6 +21,7 @@ use Magento\Framework\Service\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\Service\Code\Generator\DataBuilder;
 
 $filePatterns = array('php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/');
 $codeScanDir = realpath($rootDir . '/app');
@@ -85,6 +86,7 @@ try {
         null,
         $generatorIo,
         array(
+            DataBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\DataBuilder',
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
