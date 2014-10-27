@@ -121,6 +121,14 @@ define([
 
         getTemplate: function(){
             return this.template || 'ui/collection';
-        }
+        },
+
+        setDataScope: function (dataScope) {
+            this.dataScope = dataScope + '.' + this.index;
+
+            this.elems.each(function (element) {
+                element.setDataScope(this.dataScope);
+            }, this);
+        },
     }, EventsBus);
 });

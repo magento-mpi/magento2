@@ -12,6 +12,10 @@ define([
         var selector    = buttons[action],
             elem        = $(selector)[0];
 
+        if (!elem) {
+            return;
+        }
+
         if(elem.onclick){
             elem.onclick = null;
         }
