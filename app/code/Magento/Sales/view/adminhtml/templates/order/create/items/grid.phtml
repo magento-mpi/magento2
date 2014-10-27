@@ -138,13 +138,15 @@
                     </tr>
                     <tr>
                         <td colspan="100">
-                            <?php if($_item->getMessage(false)): ?>
-                                <?php foreach ($_item->getMessage(false) as $message): ?>
-                                    <div class="message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-                                        <?php echo $this->escapeHtml($message); ?>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                            <?php foreach ($_item->getMessage(false) as $message):
+                                if (empty($message)) {
+                                    continue;
+                                }
+                                ?>
+                                <div class="message <?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
+                                    <?php echo $this->escapeHtml($message); ?>
+                                </div>
+                            <?php endforeach; ?>
                         </td>
                     </tr>
                     <?php echo $this->getItemExtraInfo($_item)->toHtml(); ?>
