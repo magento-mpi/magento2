@@ -65,6 +65,7 @@ class DirectoryList
      * Validates format and contents of given configuration
      *
      * @param array $config
+     * @return void
      * @throws \InvalidArgumentException
      */
     public static function validate($config)
@@ -94,6 +95,7 @@ class DirectoryList
      */
     public function __construct($root, array $config = array())
     {
+        static::validate($config);
         $this->root = $this->filterPath($root);
         $this->directories = static::getDefaultConfig();
         $this->directories[self::SYS_TMP] = [self::PATH => sys_get_temp_dir()];

@@ -6,6 +6,8 @@
  * @license   {license_link}
  */
 
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+
 return [
     'modules' => [
         'Magento\Setup',
@@ -19,5 +21,10 @@ return [
             __DIR__ . '/autoload/{,*.}{global,local}.php',
         ),
     ],
-    'listeners' => ['Magento\Setup\Mvc\Bootstrap\DirectoriesListener'],
+    'listeners' => ['Magento\Setup\Mvc\Bootstrap\InitParamListener'],
+    'service_manager' => [
+        'factories' => [
+            InitParamListener::BOOTSTRAP_PARAM => 'Magento\Setup\Mvc\Bootstrap\InitParamListener',
+        ]
+    ],
 ];

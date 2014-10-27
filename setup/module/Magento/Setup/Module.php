@@ -18,7 +18,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;
 use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
 use Magento\Setup\Controller\ConsoleController;
-use Magento\Setup\Mvc\Bootstrap\DirectoriesListener;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 
 class Module implements
     BootstrapListenerInterface,
@@ -66,7 +66,7 @@ class Module implements
             include __DIR__ . '/config/states.config.php',
             include __DIR__ . '/config/languages.config.php'
         );
-        DirectoriesListener::registerCliRoutes($result);
+        $result = InitParamListener::attachToConsoleRoutes($result);
         return $result;
     }
 
@@ -85,8 +85,6 @@ class Module implements
      */
     public function getConsoleUsage(AdapterInterface $console)
     {
-        $result = ConsoleController::getConsoleUsage();
-        DirectoriesListener::registerCliUsage($result);
-        return $result;
+        return array_merge(ConsoleController::getConsoleUsage(), InitParamListener::getConsoleUsage());
     }
 }

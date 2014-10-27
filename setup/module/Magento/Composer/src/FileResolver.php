@@ -16,16 +16,22 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class FileResolver implements FileResolverInterface
 {
     /**
+     * File iterator factory
+     *
      * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
+     * Magento application's DirectoryList
+     *
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
     private $directoryList;
 
     /**
+     * Constructor
+     *
      * @param FileIteratorFactory $iteratorFactory
      * @param DirectoryList $directoryList
      */

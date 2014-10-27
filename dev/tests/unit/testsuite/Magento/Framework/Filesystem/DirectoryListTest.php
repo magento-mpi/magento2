@@ -41,14 +41,20 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetters()
     {
-        $customDirs = [
-            'foo' => [DirectoryList::PATH => '/foo/dir'],
-            DirectoryList::SYS_TMP => [DirectoryList::PATH => '/bar/dir', DirectoryList::URL_PATH => 'bar']
-        ];
+        $customDirs = [DirectoryList::SYS_TMP => [DirectoryList::PATH => '/bar/dir', DirectoryList::URL_PATH => 'bar']];
         $object = new DirectoryList('/root/dir', $customDirs);
         $this->assertEquals('/bar/dir', $object->getPath(DirectoryList::SYS_TMP));
         $this->assertEquals('bar', $object->getUrlPath(DirectoryList::SYS_TMP));
         $this->assertEquals('/root/dir', $object->getRoot());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unknown type: foo
+     */
+    public function testUnknownType()
+    {
+        new DirectoryList('/root/dir', ['foo' => [DirectoryList::PATH => '/foo/dir']]);
     }
 
     /**
