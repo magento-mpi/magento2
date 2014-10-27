@@ -56,9 +56,20 @@ define([
         initElement: function(element){
             __super__.initElement.apply(this, arguments);
 
+            if (this.dataScope) {
+                element.setDataScope(this.dataScope + '.' + element.dataScope);
+            }
             element.on('update', this.onUpdate.bind(this));
 
             return this;
+        },
+
+        setDataScope: function (dataScope) {
+            this.dataScope = dataScope;
+
+            this.elems.each(function (element) {
+                element.setDataScope(this.dataScope + '.' + element.index);
+            }, this);
         },
 
         /**
