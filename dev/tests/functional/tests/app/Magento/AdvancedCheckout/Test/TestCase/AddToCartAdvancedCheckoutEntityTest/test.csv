@@ -17,5 +17,5 @@
 "Product, for which Recurring profile is configured";"catalogProductSimple::default, catalogProductSimple::with_recurring_payment";"cart, required_attention";"-, -";"1, 1";"-";"assertProductRequiredAttentionFailMessage, assertProductsAddBySkuSuccessMessage, assertProductWithPaymentAgreementsOrderFailMessage, assertProductPresentInShoppingCart";""
 "Simple product with tier price and qty > than available";"catalogProductSimple::simple_with_tier_price_and_qty";"required_attention";"-";"26";"-";"assertProductRequiredAttentionFailMessage, assertProductTierPriceMessage, assertCartIsEmpty";"Bug: MAGETWO-29544"
 "Product with displaying prices considering MAP settings";"catalogProductSimple::with_msrp";"required_attention";"-";"26";"msrp";"assertProductRequiredAttentionFailMessage, assertMsrpNotice, assertCartIsEmpty";"Bug: MAGETWO-29604"
-"Nonexistent product";"catalogProductSimple::default";"required_attention";"nonExistentSku";"1";"-";"assertProductRequiredAttentionFailMessage, assertCartIsEmpty";""
+"Nonexistent product";"-";"required_attention";"nonExistentSku";"1";"-";"assertProductRequiredAttentionFailMessage, assertCartIsEmpty";""
 "Product with not valid qty";"catalogProductSimple::default";"required_attention";"-";"abc";"-";"assertCartIsEmpty";""

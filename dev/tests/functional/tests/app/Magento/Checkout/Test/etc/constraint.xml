@@ -50,4 +50,10 @@
     <assertProductIsNotEditable module="Magento_Checkout">
         <severeness>low</severeness>
     </assertProductIsNotEditable>
+    <assertProductsAbsentInShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductsAbsentInShoppingCart>
+    <assertProductOptionsAbsentInShoppingCart module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertProductOptionsAbsentInShoppingCart>
 </constraint>

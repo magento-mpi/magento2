@@ -11,10 +11,21 @@ namespace Magento\Invitation\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Invitation
+ * Class Invitation.
+ * Fixture for Invitation.
  */
 class Invitation extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\Invitation\Test\Repository\Invitation';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Invitation\Test\Handler\Invitation\InvitationInterface';
+
     protected $defaultDataSet = [
         'email' => 'test@example.com',
         'message' => 'test message',
@@ -84,6 +95,7 @@ class Invitation extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Invitation\Test\Fixture\Invitation\StoreId',
     ];
 
     protected $group_id = [
@@ -92,6 +104,7 @@ class Invitation extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Invitation\Test\Fixture\Invitation\GroupId'
     ];
 
     protected $message = [
