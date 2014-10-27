@@ -25,12 +25,12 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function item($id)
+    public function item($entityId)
     {
         return $this->builder
-            ->setEntityId($id)
+            ->setEntityId($entityId)
             ->setName('testItemName')
             ->setIsEnabled(true)
             ->setHasOrders(true)
@@ -38,7 +38,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function items()
     {
@@ -48,7 +48,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item)
     {

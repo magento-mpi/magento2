@@ -12,11 +12,11 @@ interface AllSoapAndRestInterface
     /**
      * Retrieve an item.
      *
-     * @param int $id
+     * @param int $entityId
      * @return \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest
      * @throws \Magento\Webapi\Exception
      */
-    public function item($id);
+    public function item($entityId);
 
     /**
      * Retrieve all items.
