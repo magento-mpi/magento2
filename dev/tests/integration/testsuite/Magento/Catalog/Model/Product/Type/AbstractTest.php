@@ -20,7 +20,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $catalogProductOption = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Catalog\Model\Product\Option'
         );
-        $eavConfig = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $catalogProductType = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
         $eventManager = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
@@ -39,7 +38,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array(
                 $productFactory,
                 $catalogProductOption,
-                $eavConfig,
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Eav\Model\Config'),
                 $catalogProductType,
                 $eventManager,
                 $coreData,
@@ -292,7 +291,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave()
     {
-        $this->markTestIncomplete('MAGETWO-9199');
         /** @var $product \Magento\Catalog\Model\Product */
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
