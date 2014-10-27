@@ -69,7 +69,7 @@ define([
         },
 
         hasData: function(){
-            return this.content();
+            return !!this.content();
         },
 
         shouldLoad: function(){

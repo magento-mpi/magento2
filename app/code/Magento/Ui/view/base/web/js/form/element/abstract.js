@@ -16,17 +16,14 @@ define([
         tooltip:            null,
         required:           false,
         disabled:           false,
-        module:             'ui',
+        tmpPath:            'ui/form/element/',
         input_type:         'input',
         placeholder:        null,
         noticeid:           null,
         description:        '',
         label:              '',
         error:              '',
-        addbefore:          null,
-        addafter:           null,
-        notice:             null,
-        dataScope:          ''
+        notice:             null
     };
 
     var __super__ = Component.prototype;
@@ -42,9 +39,11 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.setUniqueId()
+            this.initTemplate()
+                .initListeners()
                 .initDisableStatus()
-                .initListeners();
+                .setUniqueId()
+                .setNoticeId();
         },
 
         /**
@@ -69,12 +68,30 @@ define([
             return this;
         },
 
+        initTemplate: function(){
+            this.template =  this.template || (this.tmpPath + this.input_type);
+
+            return this;
+        },
+
         initListeners: function(){
             var data = this.provider.data;
 
             data.on('reset', this.reset.bind(this));
 
             this.value.subscribe(this.onUpdate, this);
+
+            return this;
+        },
+
+        initDisableStatus: function() {
+            var self = this;
+
+            _.each(this.disable_rules, function(triggeredValue, path){
+                self.provider.data.on('update:' + path, function(changedValue){
+                    self.disabled(triggeredValue === changedValue);
+                });
+            });
 
             return this;
         },
@@ -95,30 +112,14 @@ define([
          */
         setNoticeId: function () {
             if (this.notice) {
-                this.noticeid = 'notice-' + this.uid;
+                this.noticeId = 'notice-' + this.uid;
             }
 
             return this;
         },
 
-        initDisableStatus: function() {
-            var self = this;
-
-            _.each(this.disable_rules, function(triggeredValue, path){
-                self.provider.data.on('update:' + path, function(changedValue){
-                    self.disabled(triggeredValue === changedValue);
-                });
-            });
-
-            return this;
-        },
-
         hasAddons: function () {
-            return (this.addbefore !== null) || (this.addafter !== null);
-        },
-
-        getNoticeId: function () {
-            return 'notice-' + this.uid;
+            return this.addbefore || this.addafter;
         },
 
         /**
@@ -127,6 +128,8 @@ define([
          */
         store: function (value) {
             this.provider.data.set(this.dataScope, value);
+
+            return this;
         },
 
         reset: function(){
@@ -134,19 +137,12 @@ define([
         },
 
         /**
-         * Returns string path for element's template
-         * @return {String}
-         */
-        getTemplate: function () {
-            return this.template || (this.module + '/form/element/' + this.input_type);
-        },
-
-        /**
          * Is being called when value is updated
          */
-        onUpdate: function (value) {
-            this.validate();
-            this.store(value);
+        onUpdate: function (value) {            
+            this.store(value)
+                .trigger('update')
+                .validate();
         },
 
         /**
@@ -168,10 +164,10 @@ define([
         validate: function (showErrors) {
             var value       = this.value(),
                 rules       = this.validation,
-                isValid     = true,
-                isAllValid  = true;
+                params      = this.provider.params,
+                isValid     = true;
 
-            isAllValid = _.every(rules, function (params, rule) {
+             _.every(rules, function (params, rule) {
                 isValid = validator.validate(rule, value, params);
 
                 if (!isValid) {
@@ -181,15 +177,19 @@ define([
                 return isValid;
             }, this);
 
-            isAllValid ? this.error('') : this.focused(showErrors);
+            if(!isValid){
 
-            this.trigger('update', this, {
-                value:          value,
-                isValid:        isAllValid,
-                makeVisible:    showErrors
-            });
+                if(params.get('formValid')){
+                    params.set('formValid', false);
 
-            return isAllValid;
+                    this.focused(true);
+                }
+            }
+            else{
+                this.error('');
+            }
+
+            return isValid;
         }
     });
 });

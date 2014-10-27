@@ -36,18 +36,6 @@ define([
         },
 
         /**
-         * Initializes observable properties of instance.
-         * @return {Object} - reference to instance
-         */
-        initObservable: function () {
-            __super__.initObservable.apply(this, arguments);
-
-            this.observe('invalids', []);
-
-            return this;
-        },
-
-        /**
          * Assignes onUpdate callback to update event of incoming element.
          * Calls extractData method.
          * @param  {Object} element
@@ -56,37 +44,9 @@ define([
         initElement: function(element){
             __super__.initElement.apply(this, arguments);
 
-            element.on('update', this.onUpdate.bind(this));
+            element.on('update', this.trigger.bind(this, 'update'));
 
             return this;
-        },
-
-        /**
-         * Pushes invalid element to invalids array. Triggers update method on
-         *     itself.
-         * @param  {Object} element
-         * @param  {Object} settings
-         */
-        onUpdate: function (element, settings) {
-            var isValid = settings.isValid;
-
-            if (!isValid && this.invalids.hasNo(element)) {
-                this.invalids.push(element);
-            }
-
-            settings.element = element;
-            this.trigger('update', this, settings);
-        },
-
-        /**
-         * Returns true, if at least one of elements' value has changed.
-         * 
-         * @return {Boolean}
-         */
-        hasChanged: function(){
-            return this.elems().some(function(elem){
-                return elem.hasChanged();
-            });
         },
 
         /**
