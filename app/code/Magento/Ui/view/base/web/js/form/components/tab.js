@@ -20,15 +20,20 @@ define([
 
         onValidate: function(){
             var formValid   = true,
-                params      = this.provider.params;
+                params      = this.provider.params,
+                invalid;
+
+            params.set('invalidElement', null);
 
             this.elems().forEach(function(elem){
                 elem.delegate('validate');
+                invalid = params.get('invalidElement');
 
-                if(formValid && !params.get('formValid')){
+                if(formValid && invalid){
                     formValid = false;
 
                     elem.setActive();
+                    invalid.focused(true);
                 }
             }, this);
         }

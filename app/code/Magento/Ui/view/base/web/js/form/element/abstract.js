@@ -195,10 +195,8 @@ define([
 
             if(!isValid){
 
-                if(params.get('formValid')){
-                    params.set('formValid', false);
-
-                    this.focused(true);
+                if(!params.get('invalidElement')){
+                    params.set('invalidElement', this);
                 }
             }
             else{
