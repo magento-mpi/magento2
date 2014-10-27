@@ -162,6 +162,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected $_payments;
+    protected $_currentPayment;
 
     /**
      * Different groups of error infos
@@ -1577,7 +1578,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getPayment()
     {
-        foreach ($this->getPaymentsCollection() as $payment) {
+        if (null === $this->_currentPayment || !$this->_currentPayment) {
+            $this->_currentPayment = $this->_quotePaymentCollectionFactory->create()
+                ->setQuoteFilter($this->getId())
+                ->fetchItem();
+        }
+        if ($payment = $this->_currentPayment) {
+            $payment->setQuote($this);
             if (!$payment->isDeleted()) {
                 return $payment;
             }

@@ -684,11 +684,6 @@ class Onepage
         }
         $quote = $this->getQuote();
 
-        // shipping totals may be affected by payment method
-        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
-            $quote->getShippingAddress()->setCollectShippingRates(true);
-        }
-
         $data['checks'] = array(
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
@@ -700,7 +695,7 @@ class Onepage
         $payment = $quote->getPayment();
         $payment->importData($data);
 
-        $quote->save();
+        $payment->save();
 
         $this->getCheckout()->setStepData('payment', 'complete', true)->setStepData('review', 'allow', true);
 
