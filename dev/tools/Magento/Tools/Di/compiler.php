@@ -8,31 +8,31 @@
 require __DIR__ . '/../../../bootstrap.php';
 
 $rootDir = realpath(__DIR__ . '/../../../../../');
+use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\ObjectManager\Code\Generator\Factory;
-use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\ObjectManager\Code\Generator\Proxy;
-use Magento\Tools\Di\Compiler\Log\Log;
-use Magento\Tools\Di\Compiler\Log\Writer;
-use Magento\Tools\Di\Compiler\Directory;
-use Magento\Tools\Di\Code\Scanner;
-use Magento\Tools\Di\Definition\Compressor;
-use Magento\Tools\Di\Definition\Serializer;
+use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\Service\Code\Generator\Builder;
 use Magento\Framework\Service\Code\Generator\Mapper;
-use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
+use Magento\Tools\Di\Code\Scanner;
+use Magento\Tools\Di\Compiler\Directory;
+use Magento\Tools\Di\Compiler\Log\Log;
+use Magento\Tools\Di\Compiler\Log\Writer;
+use Magento\Tools\Di\Definition\Compressor;
+use Magento\Tools\Di\Definition\Serializer;
 
 $filePatterns = ['php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/'];
 $codeScanDir = realpath($rootDir . '/app');
 try {
     $opt = new Zend_Console_Getopt(
         [
-            'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
-            'verbose|v' => 'output report after tool run',
+            'serializer=w'         => 'serializer function that should be used (serialize|binary) default = serialize',
+            'verbose|v'            => 'output report after tool run',
             'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
-            'generation=s' => 'absolute path to generated classes, <magento_root>/var/generation by default',
-            'di=s' => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
+            'generation=s'         => 'absolute path to generated classes, <magento_root>/var/generation by default',
+            'di=s'                 => 'absolute path to DI definitions directory, <magento_root>/var/di by default'
         ]
     );
     $opt->parse();
@@ -89,14 +89,14 @@ try {
         [
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
-            SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
-            Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-            Builder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Builder',
-            Mapper::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Mapper',
-            Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
-            Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
-            SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
+            SearchResultsBuilder::ENTITY_TYPE                                       => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
+            Proxy::ENTITY_TYPE                                                      => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
+            Factory::ENTITY_TYPE                                                    => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
+            Builder::ENTITY_TYPE                                                    => 'Magento\Framework\Service\Code\Generator\Builder',
+            Mapper::ENTITY_TYPE                                                     => 'Magento\Framework\Service\Code\Generator\Mapper',
+            Repository::ENTITY_TYPE                                                 => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
+            Converter::ENTITY_TYPE                                                  => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
+            SearchResults::ENTITY_TYPE                                              => 'Magento\Framework\Service\Code\Generator\SearchResults',
         ]
     );
     $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
@@ -108,7 +108,7 @@ try {
                 case \Magento\Framework\Code\Generator::GENERATION_SUCCESS:
                     $log->add(Log::GENERATION_SUCCESS, $entityName);
                     $file = $fileResolver->getFile($entityName);
-                    if($file) {
+                    if ($file) {
                         include_once $file;
                     }
                     break;
@@ -147,7 +147,7 @@ try {
                 case \Magento\Framework\Code\Generator::GENERATION_SUCCESS:
                     $log->add(Log::GENERATION_SUCCESS, $entityName);
                     $file = $fileResolver->getFile($entityName);
-                    if($file) {
+                    if ($file) {
                         include_once $file;
                     }
                     break;
