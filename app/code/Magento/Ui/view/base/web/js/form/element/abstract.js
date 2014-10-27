@@ -17,7 +17,7 @@ define([
         required:           false,
         disabled:           false,
         module:             'ui',
-        type:               'input',
+        input_type:         'input',
         placeholder:        null,
         noticeid:           null,
         description:        '',
@@ -44,9 +44,8 @@ define([
             __super__.initialize.apply(this, arguments);
 
             this.setUniqueId()
-                .initDisableStatus();
-
-            this.value.subscribe(this.onUpdate, this);
+                .initDisableStatus()
+                .initListeners();
         },
 
         /**
@@ -67,7 +66,17 @@ define([
                 'disabled':      this.disabled,
                 'error':         this.error,
                 'focused':       false
-            });
+            });            
+
+            return this;
+        },
+
+        initListeners: function(){
+            var data = this.provider.data;
+
+            data.on('reset', this.reset.bind(this));
+
+            this.value.subscribe(this.onUpdate, this);
 
             return this;
         },
@@ -118,7 +127,7 @@ define([
                 });
             });
 
-            return self;
+            return this;
         },
 
         hasAddons: function () {
@@ -137,6 +146,10 @@ define([
             this.provider.data.set(this.dataScope, value);
 
             return this;
+        },
+
+        reset: function(){
+            this.value(this.initialValue);
         },
 
         /**
@@ -163,6 +176,7 @@ define([
             return this.value() !== this.initialValue;
         },
 
+
         /**
          * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
@@ -186,17 +200,13 @@ define([
                 return isValid;
             }, this);
 
-            if (isAllValid) {
-                this.error('');
-            }
+            isAllValid ? this.error('') : this.focused(showErrors);
 
             this.trigger('update', this, {
                 value:          value,
                 isValid:        isAllValid,
                 makeVisible:    showErrors
             });
-
-            this.focused(showErrors);
 
             return isAllValid;
         }

@@ -3,35 +3,7 @@
         "providers": {
             "customer_form_data": {
                 "path": "Magento_Ui/js/form/provider/provider",
-                "meta": {
-                    "customer": {
-                        "currencies": {
-                            "index": "currencies",
-                            "input_type": "multiple_select",
-                            "label": "Currencies",
-                            "options": [
-                                {"value":[
-                                    {"value":"dut","label": "Dutch money"},
-                                    {"value":"ua-1","label": "Ukraine money"},
-                                    {"value":"usa-2","label": "USA money"}
-                                ],"label": "Dutch money"},
-                                {"value":"ua","label": "Ukraine money"},
-                                {"value":[
-                                    {"value":"yo-2","label": "Yo money"},
-                                    {"value":"sup-2","label": "Sup money"},
-                                    {"value":[
-                                        {"value":"yo-3","label": "Yo money"},
-                                        {"value":"sup-3","label": "Sup money"},
-                                        {"value":"wow-3","label": "Wow money"}
-                                    ],"label": "Wow money"}
-                                ],"label": "USA money"},
-                                {"value":"yo","label": "Yo money"},
-                                {"value":"sup","label": "Sup money"},
-                                {"value":"wow","label": "Wow money"}
-                            ]
-                        }
-                    }
-                },
+                "meta": {},
                 "data": {
                     "form": {
                         "prefix": "Mr.",
@@ -115,7 +87,7 @@
                         "input_type": "checkbox"
                     }
                 },
-                "selectbox": {
+                "select": {
                     "extends": "base",
                     "component": "Magento_Ui/js/form/element/select",
                     "config": {
@@ -361,6 +333,7 @@
                     }
                 },
                 "form": {
+                    "type": "base",
                     "component": "Magento_Ui/js/form",
                     "children": {
                         "prefix": {
@@ -440,7 +413,7 @@
                          
                         },
                         "website": {
-                            "type": "selectbox",
+                            "type": "select",
                             "config": {
                                 "dataScope": "form.website",
                                 "label": "Associate to Website",
@@ -452,7 +425,7 @@
                             }
                         },
                         "gender": {
-                            "type": "selectbox",
+                            "type": "select",
                             "config": {
                                 "dataScope": "form.gender",
                                 "label": "Gender",
@@ -493,7 +466,7 @@
                             }
                         },
                         "general": {
-                            "type": "selectbox",
+                            "type": "select",
                             "config": {
                                 "dataScope": "form.general",
                                 "label": "General",
@@ -512,7 +485,7 @@
                             }
                         },
                         "send_from": {
-                            "type": "selectbox",
+                            "type": "select",
                             "config": {
                                 "dataScope": "form.send_from",
                                 "no_caption": true,
@@ -642,101 +615,102 @@
                     "parentName": "form",
                     "config": {
                         "active": 1,
-                        "itemTemplate": "form.addresses.customer_address",
+                        "itemTemplate": "customer_address",
                         "removeLabel": "Remove Address",
                         "addLabel": "Add New Address",
                         "label": "Edit Customer's Address",
                         "removeMessage": "Are you sure you want to delete this address?"
-                    }
-                },
-                "customer_address": {
-                    "type": "template",
-                    "component": "Magento_Ui/js/form/components/collection/item",
-                    "childType": "group",
-                    "parentName": "form.addresses",
-                    "config": {
-                        "previewElements": [
-                            "3",
-                            "5"
-                        ],
-                        "label": {
-                            "default": "New Customer Address",
-                            "compositeOf": [
-                                "3",
-                                "0",
-                                "1",
-                                "2",
-                                "4"
-                            ]
-                        }
                     },
                     "children": {
-                        "0": {
-                            "children": {
-                                "firstname": {
-                                    "template": "form.firstname",
-                                    "appendTo": "form"
+                        "customer_address": {
+                            "type": "template",
+                            "component": "Magento_Ui/js/form/components/collection/item",
+                            "childType": "group",
+                            "config": {
+                                "previewElements": [
+                                    "3",
+                                    "5"
+                                ],
+                                "label": {
+                                    "default": "New Customer Address",
+                                    "compositeOf": [
+                                        "3",
+                                        "0",
+                                        "1",
+                                        "2",
+                                        "4"
+                                    ]
                                 }
-                            }
-                        },
-                        "1": {
+                            },
                             "children": {
-                                "middle_name": {
-                                    "template": "form.middle_name",
-                                    "appendTo": "form"
-                                }
-                            }
-                        },
-                        "2": {
-                            "children": {
-                                "lastname": {
-                                    "template": "form.lastname",
-                                    "appendTo": "form"
-                                }
-                            }
-                        },
-                        "3": {
-                            "children": {
-                                "prefix": {
-                                    "template": "form.prefix",
-                                    "appendTo": "form"
-                                }
-                            }
-                        },
-                        "4": {
-                            "children": {
-                                "suffix": {
-                                    "template": "form.suffix",
-                                    "appendTo": "form"
-                                }
-                            }
-                        },
-                        "5": {
-                            "children": {
-                                "address": {
-                                    "type": "input",
-                                    "appendTo": "form",
+                                "0": {
+                                    "children": {
+                                        "firstname": {
+                                            "template": "form.firstname",
+                                            "appendTo": "form"
+                                        }
+                                    }
+                                },
+                                "1": {
+                                    "children": {
+                                        "middle_name": {
+                                            "template": "form.middle_name",
+                                            "appendTo": "form"
+                                        }
+                                    }
+                                },
+                                "2": {
+                                    "children": {
+                                        "lastname": {
+                                            "template": "form.lastname",
+                                            "appendTo": "form"
+                                        }
+                                    }
+                                },
+                                "3": {
+                                    "children": {
+                                        "prefix": {
+                                            "template": "form.prefix",
+                                            "appendTo": "form"
+                                        }
+                                    }
+                                },
+                                "4": {
+                                    "children": {
+                                        "suffix": {
+                                            "template": "form.suffix",
+                                            "appendTo": "form"
+                                        }
+                                    }
+                                },
+                                "5": {
+                                    "children": {
+                                        "address": {
+                                            "type": "input",
+                                            "appendTo": "form",
+                                            "config": {
+                                                "index": "address",
+                                                "label": "Address"
+                                            }
+                                        }
+                                    }
+                                },
+                                "default_billing": {
+                                    "type": "checkbox",
                                     "config": {
-                                        "index": "address",
-                                        "label": "Address"
+                                        "index": "default_billing",
+                                        "displayArea": "head",
+                                        "description": "Default Billing Address"
+                                    }
+                                },
+                                "default_shipping": {
+                                    "type": "checkbox",
+                                    "config": {
+                                        "index": "default_shipping",
+                                        "displayArea": "head",
+                                        "description": "Default Shipping Address"
                                     }
                                 }
-                            }
-                        },
-                        "default_billing": {
-                            "type": "checkbox",
-                            "config": {
-                                "index": "default_billing",
-                                "displayArea": "head",
-                                "description": "Default Billing Address"
-                            }
-                        },
-                        "default_shipping": {
-                            "type": "checkbox",
-                            "config": {
-                                "index": "default_shipping",
-                                "displayArea": "head",
-                                "description": "Default Shipping Address"
                             }
                         }
                     }
@@ -818,7 +792,6 @@
 </script>
 
 <div data-bind="scope: 'form'">
-    <button data-bind="click: onSubmit">Validate</button>
     <div class="messages" style="display: none" data-bind="visible: isValid"><div class="message success"><div data-ui-id="messages-message-success">The form is valid!</div></div></div>
 </div>
 <div data-bind="scope: 'areas'" class="entry-edit form-inline">
