@@ -16,11 +16,11 @@ interface ProductAttributeRepositoryInterface
     /**
      * Retrieve all attributes for entity type
      *
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAllAttributeMetadata
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Retrieve specific attribute
@@ -32,10 +32,10 @@ interface ProductAttributeRepositoryInterface
     public function get($attributeCode);
 
     /**
-     * Create attribute data
+     * Save attribute data
      *
      * @param \Magento\Catalog\Api\Data\ProductAttributeInterface $attribute
-     * @return string
+     * @return \Magento\Catalog\Api\Data\ProductAttributeInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
@@ -51,7 +51,8 @@ interface ProductAttributeRepositoryInterface
 
     /**
      * Delete Attribute by id
-     * @param $attributeCode
+     *
+     * @param string $attributeCode
      * @return true
      */
     public function deleteById($attributeCode);

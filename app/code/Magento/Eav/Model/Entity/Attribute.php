@@ -68,13 +68,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
+     * @param TypeFactory $eavTypeFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -91,6 +92,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -104,6 +106,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             $storeManager,
             $resourceHelper,
             $universalFactory,
+            $metadataService,
             $resource,
             $resourceCollection,
             $data
@@ -463,7 +466,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * {@inheritdoc}
      */
-    public function isUnique()
+    public function getIsUnique()
     {
         return $this->getData(self::IS_UNIQUE);
     }
@@ -511,7 +514,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * {@inheritdoc}
      */
-    public function isRequired()
+    public function getIsRequired()
     {
         return $this->getData(self::IS_REQUIRED);
     }
@@ -527,7 +530,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * {@inheritdoc}
      */
-    public function isUserDefined()
+    public function getIsUserDefined()
     {
         return $this->getData(self::IS_USER_DEFINED);
     }
@@ -545,14 +548,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getStoreFrontendLabels()
     {
-        $data = [];
-        $data[0] = $this->getFrontendLabel();
-        if (is_array($this->getStoreLabels())) {
-            foreach ($this->getStoreLabels() as $storeId => $label) {
-                $data[$storeId] = $label;
-            }
-        }
-        return $data;
+        return $this->getData(self::STORE_FRONTEND_LABELS);
     }
 
     /**

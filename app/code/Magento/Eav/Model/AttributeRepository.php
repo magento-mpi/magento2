@@ -32,7 +32,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $attributeCollectionFactory;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder
+     * @var \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
@@ -42,24 +42,32 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $attributeFactory;
 
     /**
+     * @var \Magento\Eav\Model\Entity\Attribute\IdentifierFactory
+     */
+    protected $attributeIdentifierFactory;
+
+    /**
      * @param Config $eavConfig
      * @param Resource\Entity\Attribute $eavResource
      * @param Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
+     * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
      * @param Entity\AttributeFactory $attributeFactory
+     * @param Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute $eavResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder,
-        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
     ) {
         $this->eavConfig = $eavConfig;
         $this->eavResource = $eavResource;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->attributeFactory = $attributeFactory;
+        $this->attributeIdentifierFactory = $attributeIdentifierFactory;
     }
 
     /**
@@ -74,26 +82,15 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria, $entityTypeCode)
     {
-        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
-        /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
-        $attributeCollection = $this->attributeCollectionFactory->create();
-        $entityTypeCode = null;
-
-        foreach ($searchCriteria->getFilterGroups() as $group) {
-            foreach ($group->getFilters() as $filter) {
-                if ($filter->getField() == 'entity_type_code') {
-                    $entityTypeCode = $filter->getValue();
-                    break 2;
-                }
-            }
-        }
-
         if (!$entityTypeCode) {
             throw InputException::requiredField('entity_type_code');
         }
 
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
+        /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
+        $attributeCollection = $this->attributeCollectionFactory->create();
         $attributeCollection->addFieldToFilter('entity_type_code', ['eq' => $entityTypeCode]);
         $attributeCollection->join(
             array('entity_type' => $attributeCollection->getTable('eav_entity_type')),
@@ -132,7 +129,11 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
         $attributes = [];
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         foreach ($attributeCollection as $attribute) {
-            $attributes[] = $this->get($entityTypeCode, $attribute->getAttributeCode());
+            $identifier = $this->attributeIdentifierFactory->create([
+                'attributeCode' => $attribute->getAttributeCode(),
+                'entityTypeCode' => $entityTypeCode
+            ]);
+            $attributes[] = $this->get($identifier);
         }
         $this->searchResultsBuilder->setItems($attributes);
         $this->searchResultsBuilder->setTotalCount($totalCount);
@@ -146,11 +147,13 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     {
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         $attribute = $this->eavConfig->getAttribute($identifier->getEntityTypeCode(), $identifier->getAttributeCode());
-        if ($attribute->getAttributeId()) {
-            return $attribute;
+        if (!$attribute->getAttributeId()) {
+            throw new NoSuchEntityException(sprintf(
+                'Attribute with attributeCode "%s" does not exist.',
+                $identifier->getAttributeCode()
+            ));
         }
-        $entityException = new NoSuchEntityException('entityType', [$identifier->getEntityTypeCode()]);
-        throw $entityException->singleField('attributeCode', $identifier->getAttributeCode());
+        return $attribute;
     }
 
     /**
@@ -182,14 +185,16 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param FilterGroupInterface $filterGroup
+     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
      * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
-    private function addFilterGroupToCollection(FilterGroupInterface $filterGroup, Collection $collection)
-    {
-        /** @var \Magento\Framework\Data\Search\FilterInterface $filter */
+    private function addFilterGroupToCollection(
+        \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+        Collection $collection
+    ) {
+        /** @var \Magento\Framework\Service\V1\Data\Search\FilterGroup $filter */
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $collection->addFieldToFilter(

@@ -8,7 +8,7 @@
  */
 namespace Magento\Eav\Api\Data;
 
-interface AttributeInterface
+interface AttributeInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
     const ATTRIBUTE_ID = 'attribute_id';
 
@@ -29,6 +29,8 @@ interface AttributeInterface
     const IS_USER_DEFINED = 'is_user_defined';
 
     const FRONTEND_LABEL = 'frontend_label';
+
+    const STORE_FRONTEND_LABELS = 'store_frontend_labels';
 
     const NOTE = 'note';
 
@@ -75,7 +77,7 @@ interface AttributeInterface
      *
      * @return bool|null
      */
-    public function isRequired();
+    public function getIsRequired();
 
     /**
      * Return options of the attribute (key => value pairs for select)
@@ -89,19 +91,19 @@ interface AttributeInterface
      *
      * @return bool|null
      */
-    public function isUserDefined();
+    public function getIsUserDefined();
 
     /**
      * Get label which supposed to be displayed on frontend.
      *
-     * @return string|null
+     * @return mixed
      */
     public function getFrontendLabel();
 
     /**
      * Return frontend label for each store
      *
-     * @return array
+     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]
      */
     public function getStoreFrontendLabels();
 
@@ -145,7 +147,7 @@ interface AttributeInterface
      *
      * @return string|null
      */
-    public function isUnique();
+    public function getIsUnique();
 
     /**
      * Retrieve attribute scope

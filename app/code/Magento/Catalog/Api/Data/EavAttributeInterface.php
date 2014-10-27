@@ -10,19 +10,49 @@ namespace Magento\Catalog\Api\Data;
 
 interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
 {
+    const IS_WYSIWYG_ENABLED = 'is_wysiwyg_enabled';
+
+    const IS_HTML_ALLOWED_ON_FRONT = 'is_html_allowed_on_front';
+
+    const USED_FOR_SORT_BY = 'used_for_sort_by';
+
+    const IS_FILTERABLE = 'is_filterable';
+
+    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
+
+    const POSITION = 'position';
+
+    const APPLY_TO = 'apply_to';
+
+    const IS_CONFIGURABLE = 'is_configurable';
+
+    const IS_SEARCHABLE = 'is_searchable';
+
+    const IS_VISIBLE_IN_ADVANCED_SEARCH = 'is_visible_in_advanced_search';
+
+    const IS_COMPARABLE = 'is_comparable';
+
+    const IS_USED_FOR_PROMO_RULES = 'is_used_for_promo_rules';
+
+    const IS_VISIBLE_ON_FRONT = 'is_visible_on_front';
+
+    const USED_IN_PRODUCT_LISTING = 'used_in_product_listing';
+
+    const IS_VISIBLE = 'is_visible';
+
     /**
      * Enable WYSIWYG flag
      *
      * @return bool|null
      */
-    public function isWysiwygEnabled();
+    public function getIsWysiwygEnabled();
 
     /**
      * Whether the HTML tags are allowed on the frontend
      *
      * @return bool|null
      */
-    public function isHtmlAllowedOnFront();
+    public function getIsHtmlAllowedOnFront();
 
     /**
      * Whether it is used for sorting in product listing
@@ -36,14 +66,14 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      *
      * @return bool|null
      */
-    public function isFilterable();
+    public function getIsFilterable();
 
     /**
      * Whether it is used in search results layered navigation
      *
      * @return bool|null
      */
-    public function isFilterableInSearch();
+    public function getIsFilterableInSearch();
 
     /**
      * Get position
@@ -73,39 +103,39 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      *
      * @return string|null
      */
-    public function isConfigurable();
+    public function getIsConfigurable();
     /**
      * Whether the attribute can be used in Quick Search
      *
      * @return string|null
      */
-    public function isSearchable();
+    public function getIsSearchable();
     /**
      * Whether the attribute can be used in Advanced Search
      *
      * @return string|null
      */
-    public function isVisibleInAdvancedSearch();
+    public function getIsVisibleInAdvancedSearch();
 
     /**
      * Whether the attribute can be compared on the frontend
      *
      * @return string|null
      */
-    public function isComparable();
+    public function getIsComparable();
 
     /**
      * Whether the attribute can be used for promo rules
      *
      * @return string|null
      */
-    public function isUsedForPromoRules();
+    public function getIsUsedForPromoRules();
     /**
      * Whether the attribute is visible on the frontend
      *
      * @return string|null
      */
-    public function isVisibleOnFront();
+    public function getIsVisibleOnFront();
     /**
      * Whether the attribute can be used in product listing
      *
@@ -118,5 +148,5 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      *
      * @return bool|null
      */
-    public function isVisible();
+    public function getIsVisible();
 }

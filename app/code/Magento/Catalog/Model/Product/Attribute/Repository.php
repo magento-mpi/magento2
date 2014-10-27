@@ -14,14 +14,9 @@ use \Magento\Framework\Exception\NoSuchEntityException;
 class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInterface
 {
     /**
-     * @var \Magento\Catalog\Model\Resource\Eav\Attribute
+     * @var \Magento\Catalog\Model\Resource\Attribute
      */
     protected $attributeResource;
-
-    /**
-     * @var \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder
-     */
-    protected $searchResultsBuilder;
 
     /**
      * @var \Magento\Eav\Model\AttributeRepository
@@ -29,22 +24,12 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $eavAttributeRepository;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder
-     */
-    protected $searchCriteriaBuilder;
-
-    /**
-     * @var \Magento\Framework\Data\Search\FilterInterfaceBuilder
-     */
-    protected $filterBuilder;
-
-    /**
      * @var \Magento\Eav\Model\Entity\Attribute\IdentifierFactory
      */
     protected $attributeIdentifierFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Entity\AttributeBuilder
+     * @var \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder
      */
     protected $attributeBuilder;
 
@@ -70,11 +55,8 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
 
     /**
      * @param \Magento\Catalog\Model\Resource\Attribute $attributeResource
-     * @param \Magento\Catalog\Model\Entity\AttributeBuilder $attributeBuilder
+     * @param \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder
      * @param \Magento\Catalog\Helper\Product $productHelper
-     * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Data\Search\FilterInterfaceBuilder $filterBuilder
      * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Eav\Model\AttributeRepository $eavAttributeRepository
      * @param \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
@@ -83,11 +65,8 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Attribute $attributeResource,
-        \Magento\Catalog\Model\Entity\AttributeBuilder $attributeBuilder,
+        \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder,
         \Magento\Catalog\Helper\Product $productHelper,
-        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder,
-        \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Data\Search\FilterInterfaceBuilder $filterBuilder,
         \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Eav\Model\AttributeRepository $eavAttributeRepository,
         \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory,
@@ -97,9 +76,6 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         $this->attributeResource = $attributeResource;
         $this->attributeBuilder = $attributeBuilder;
         $this->productHelper = $productHelper;
-        $this->searchResultsBuilder = $searchResultsBuilder;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
         $this->filterManager = $filterManager;
         $this->eavAttributeRepository = $eavAttributeRepository;
         $this->attributeIdentifierFactory = $attributeIdentifierFactory;
@@ -122,18 +98,12 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
-        $this->searchCriteriaBuilder->setFilterGroups($searchCriteria->getFilterGroups());
-        $this->searchCriteriaBuilder->setSortOrders($searchCriteria->getSortOrders());
-        $this->searchCriteriaBuilder->setPageSize($searchCriteria->getPageSize());
-        $this->searchCriteriaBuilder->setCurrentPage($searchCriteria->getCurrentPage());
-
-        $this->filterBuilder->setField('entityTypeCode');
-        $this->filterBuilder->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE);
-        $this->searchCriteriaBuilder->addFilter([$this->filterBuilder->create()]);
-
-        return $this->eavAttributeRepository->getList($this->searchCriteriaBuilder->create());
+        return $this->eavAttributeRepository->getList(
+            $searchCriteria,
+            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
+        );
     }
 
     /**
@@ -141,7 +111,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function save(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute)
     {
-        $attributeData = $this->attributeBuilder->populate($attribute);
+        $attributeData = $this->attributeBuilder->populateWithArray($attribute->getData());
 
         if ($attribute->getAttributeId()) {
             $existingModel = $this->get($attribute->getAttributeCode());
@@ -151,39 +121,35 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             }
 
             $attributeData->setAttributeId($existingModel->getAttributeId());
-            $attributeData->setIsUserDefined($existingModel->isUserDefined());
+            $attributeData->setIsUserDefined($existingModel->getIsUserDefined());
             $attributeData->setFrontendInput($existingModel->getFrontendInput());
 
-            if ($attribute->getFrontendLabel() && is_array($attribute->getFrontendLabel())) {
+            if ($attribute->getStoreFrontendLabels() && is_array($attribute->getStoreFrontendLabels())) {
                 $frontendLabel[0] = $existingModel->getFrontendLabel();
-                foreach ($attribute->getFrontendLabel() as $item) {
-                    if (isset($item['store_id'], $item['label'])) {
-                        $frontendLabel[$item['store_id']] = $item['label'];
-                    }
+                foreach ($attribute->getStoreFrontendLabels() as $item) {
+                    $frontendLabel[$item->getStoreId()] = $item->getLabel();
                 }
                 $attributeData->setFrontendLabel($frontendLabel);
             }
-
-            if (!$attribute->isUserDefined()) {
+            if (!$attribute->getIsUserDefined()) {
                 // Unset attribute field for system attributes
                 $attributeData->setApplyTo(null);
             }
-
         } else {
             $attributeData->setAttributeId(null);
 
-            if (!$attribute->getFrontendLabel()) {
+            if (!$attribute->getStoreFrontendLabels()) {
                 throw InputException::requiredField('frontend_label');
             }
             $frontendLabels = [];
-            foreach ($attribute->getFrontendLabel() as $label) {
+            foreach ($attribute->getStoreFrontendLabels() as $label) {
                 $frontendLabels[$label->getStoreId()] = $label->getLabel();
             }
             if (!isset($frontendLabels[0]) || !$frontendLabels[0]) {
                 throw InputException::invalidFieldValue('frontend_label', null);
             }
 
-            $attributeData->setFronendLabel($frontendLabels);
+            $attributeData->setFrontendLabel($frontendLabels);
             $attributeData->setAttributeCode(
                 $attribute->getAttributeCode() ?: $this->generateCode($frontendLabels[0])
             );
@@ -199,15 +165,14 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $attributeData->setBackendModel(
                 $this->productHelper->getAttributeBackendModelByInputType($attribute->getFrontendInput())
             );
-
             $attributeData->setEntityTypeId($this->eavConfig
                 ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)->getId()
             );
             $attributeData->setIsUserDefined(1);
         }
-
-        $this->attributeResource->save($attributeData->create());
-        return $attributeData;
+        $attribute = $attributeData->create();
+        $this->attributeResource->save($attribute);
+        return $attribute;
     }
 
     /**
@@ -215,6 +180,15 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function delete(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute)
     {
+        $model = $this->eavConfig->getAttribute(
+            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
+            $attribute->getAttributeId()
+        );
+
+        if (!$model || !$model->getId()) {
+            throw NoSuchEntityException::singleField('attribute_code', $attribute->getAttributeId());
+        }
+
         $this->attributeResource->delete($attribute);
         return true;
     }
@@ -239,7 +213,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected function generateCode($label)
     {
         $code = substr(preg_replace('/[^a-z_0-9]/', '_', $this->filterManager->translitUrl($label)), 0, 30);
-        $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,29}[a-z0-9]$/'));
+        $validatorAttrCode = new \Zend_Validate_Regex(['pattern' => '/^[a-z][a-z_0-9]{0,29}[a-z0-9]$/']);
         if (!$validatorAttrCode->isValid($code)) {
             $code = 'attr_' . ($code ?: substr(md5(time()), 0, 8));
         }
@@ -255,7 +229,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     protected function validateCode($code)
     {
-        $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,30}$/'));
+        $validatorAttrCode = new \Zend_Validate_Regex(['pattern' => '/^[a-z][a-z_0-9]{0,30}$/']);
         if (!$validatorAttrCode->isValid($code)) {
             throw InputException::invalidFieldValue('attribute_code', $code);
         }
