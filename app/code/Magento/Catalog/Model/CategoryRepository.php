@@ -56,14 +56,13 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category)
+    public function save(\Magento\Catalog\Api\Data\CategoryDetailsInterface $category)
     {
         try {
             $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
             $parentCategory = $this->get($parentId);
             /** @var  $category Category */
             $category->setPath($parentCategory->getPath());
-
             $this->validateCategory($category);
             $this->categoryResource->save($category);
         } catch (\Exception $e) {
@@ -90,7 +89,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Catalog\Api\Data\CategoryInterface $category)
+    public function delete(\Magento\Catalog\Api\Data\CategoryDetailsInterface $category)
     {
         try {
             $this->categoryResource->delete($category);

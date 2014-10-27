@@ -1,6 +1,5 @@
 <?php
 /**
- * Category data interface
  *
  * {license_notice}
  *
@@ -10,78 +9,53 @@
 
 namespace Magento\Catalog\Api\Data;
 
-/**
- * Created from @see \Magento\Catalog\Service\V1\Data\Category
- */
-interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
+
+interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
+    const CATEGORY_ID = 'category_id';
+    const PARENT_ID = 'parent_id';
+    const NAME = 'name';
+    const ACTIVE = 'active';
+    const POSITION = 'position';
+    const LEVEL = 'level';
 
     /**
-     * Category id
-     *
      * @return int|null
      */
-    public function getId();
+    public function getCategoryId();
 
     /**
-     * Category parent id
+     * Get parent category ID
      *
-     * @return int|null
+     * @return int
      */
     public function getParentId();
 
     /**
-     * Path of the category
+     * Get category name
      *
-     * @return string|null
-     */
-    public function getPath();
-
-    /**
-     * Position of the category
-     *
-     * @return int|null
-     */
-    public function getPosition();
-
-    /**
-     * Category level
-     *
-     * @return int|null
-     */
-    public function getLevel();
-
-    /**
-     * Category children count
-     *
-     * @return int|null
-     */
-    public function getChildrenCount();
-    /**
-     * Category created date
-     *
-     * @return string|null
-     */
-    public function getCreatedAt();
-
-    /**
-     * Category updated date
-     *
-     * @return string|null
-     */
-    public function getUpdatedAt();
-
-    /**
-     * Name of the created category
-     *
-     * @return string|null
+     * @return string
      */
     public function getName();
 
     /**
-     * Defines whether the category will be visible in the frontend
+     * Check whether category is active
      *
-     * @return bool|null
+     * @return bool
      */
-    public function isActive();
+    public function getIsActive();
+
+    /**
+     * Get category position
+     *
+     * @return int
+     */
+    public function getPosition();
+
+    /**
+     * Get category level
+     *
+     * @return int
+     */
+    public function getLevel();
 }

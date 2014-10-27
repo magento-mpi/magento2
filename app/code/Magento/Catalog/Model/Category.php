@@ -21,14 +21,13 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
  * @method int getMovedCategoryId()
  * @method Category setAffectedCategoryIds(array $categoryIds)
  * @method array getAffectedCategoryIds()
- * @method string getUrlKey()
  * @method Category setUrlKey(string $urlKey)
  * @method Category setUrlPath(string $urlPath)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Category extends \Magento\Catalog\Model\AbstractModel
-    implements \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryInterface,
+    implements \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryDetailsInterface,
     \Magento\Catalog\Api\Data\CategoryTreeInterface
 {
     /**
@@ -214,7 +213,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataServiceInterface,
+        \Magento\Catalog\Service\V1\Category\MetadataService $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -1067,7 +1066,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * @return string|null
      */
     public function getPath()
     {
@@ -1075,7 +1074,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * @return int|null
      */
     public function getPosition()
     {
@@ -1083,7 +1082,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getChildrenCount()
     {
@@ -1091,7 +1090,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * @return string|null
      */
     public function getCreatedAt()
     {
@@ -1099,7 +1098,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * @return string|null
      */
     public function getUpdatedAt()
     {
@@ -1107,25 +1106,50 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool|null
      */
-    public function isActive()
+    public function getIsActive()
     {
-        $this->getData('is_active');
+        return $this->getData('is_active');
     }
 
-    public function getCustomAttribute($attribute)
+    /**
+     * @return int|null
+     */
+    public function getCategoryId()
     {
-
+        return $this->getId();
     }
 
-    public function getCustomAttributes()
+    /**
+     * @return string|null
+     */
+    public function getDisplayMode()
     {
-
+        return $this->getData('display_mode');
     }
 
-    public function __toArray()
+    /**
+     * @return bool|null
+     */
+    public function getIncludeInMenu()
     {
+        return $this->getData('include_in_menu');
+    }
 
+    /**
+     * @return string|null
+     */
+    public function getUrlKey()
+    {
+        return $this->getData('url_key');
+    }
+
+    /**
+     * @return \Magento\Catalog\Api\Data\CategoryTreeInterface[]|null
+     */
+    public function getChildrenData()
+    {
+        return $this->getData('children');
     }
 }

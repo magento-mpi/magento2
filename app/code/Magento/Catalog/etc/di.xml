@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Service\V1\MetadataServiceInterface" type="Magento\Catalog\Service\V1\MetadataService" />
     <preference for="Magento\Catalog\Service\V1\Product\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Product\MetadataService" />
-    <preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />
+    <!--<preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />-->
     <preference for="Magento\Catalog\Api\Data\ProductInterface" type="Magento\Catalog\Model\Product" />
     <preference for="Magento\Catalog\Api\ProductRepositoryInterface" type="Magento\Catalog\Model\ProductRepository" />
     <preference for="Magento\Catalog\Api\CategoryAttributeRepositoryInterface" type="Magento\Catalog\Model\Category\AttributeRepository" />
@@ -55,7 +55,7 @@
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Composite" />
     <preference for="Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite" />
     <preference for="Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite" />
-    <preference for="Magento\Catalog\Api\Data\CategoryInterface" type="Magento\Catalog\Model\Category" />
+    <preference for="Magento\Catalog\Api\Data\CategoryDetailsInterface" type="Magento\Catalog\Model\Category" />
     <preference for="Magento\Catalog\Api\CategoryManagementInterface" type="Magento\Catalog\Model\CategoryManagement" />
     <preference for="Magento\Catalog\Api\CategoryRepositoryInterface" type="Magento\Catalog\Model\CategoryRepository" />
     <preference for="Magento\Catalog\Api\Data\CategoryTreeInterface" type="Magento\Catalog\Model\Category" />

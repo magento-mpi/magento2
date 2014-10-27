@@ -30,26 +30,26 @@ class Tree
     protected $categoryCollection;
 
     /**
-     * @var \Magento\Catalog\Api\Data\CategoryTreeInterfaceBuilder
+     * @var \Magento\Catalog\Api\Data\CategoryTreeInterfaceDataBuilder
      */
-    protected $treeBuilderFactory;
+    protected $treeBuilder;
 
     /**
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection
-     * @param \Magento\Catalog\Api\Data\CategoryTreeInterfaceBuilder $treeBuilderFactory
+     * @param \Magento\Catalog\Api\Data\CategoryTreeInterfaceDataBuilder $treeBuilderFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection,
-        \Magento\Catalog\Api\Data\CategoryTreeInterfaceBuilderFactory $treeBuilderFactory
+        \Magento\Catalog\Api\Data\CategoryTreeInterfaceDataBuilder $treeBuilder
     ) {
         $this->categoryTree = $categoryTree;
         $this->storeManager = $storeManager;
         $this->categoryCollection = $categoryCollection;
-        $this->treeBuilderFactory = $treeBuilderFactory;
+        $this->treeBuilder = $treeBuilder;
     }
 
     /**
@@ -113,15 +113,14 @@ class Tree
      */
     public function getTree($node, $depth = null, $currentLevel = 0)
     {
-        $builder = $this->treeBuilderFactory->create();
-        $builder->setId($node->getId())
+        $this->treeBuilder->setCategoryId($node->getId())
             ->setParentId($node->getParentId())
             ->setName($node->getName())
             ->setPosition($node->getPosition())
             ->setLevel($node->getLevel())
-            ->setActive($node->getIsActive())
+            ->setIsActive($node->getIsActive())
             ->setProductCount($node->getProductCount())
-            ->setChildren([]);
+            ->setChildrenData([]);
 
         if ($node->hasChildren()) {
             $children = array();
@@ -131,8 +130,8 @@ class Tree
                 }
                 $children[] = $this->getTree($child, $depth, $currentLevel + 1);
             }
-            $builder->setChildren($children);
+            $this->treeBuilder->setChildrenData($children);
         }
-        return $builder->create();
+        return $this->treeBuilder->create();
     }
 }
