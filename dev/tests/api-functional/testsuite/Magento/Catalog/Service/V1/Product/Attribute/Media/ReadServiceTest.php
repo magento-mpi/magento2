@@ -106,7 +106,7 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testTypes()
     {
-        $attributeSet = $this->getAttributeSetByName('custom attribute set 531'); // from fixture
+        $attributeSet = $this->getAttributeSetByName('attribute_set_with_media_attribute'); // from fixture
         $this->assertNotEmpty($attributeSet, 'Fixture failed to create attribute set');
 
         $serviceInfo = [

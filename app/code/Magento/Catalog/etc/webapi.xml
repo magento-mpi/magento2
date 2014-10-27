@@ -189,8 +189,8 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
-    <route url="/V1/products/media/types/:attributeSetId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="types"/>
+    <route url="/V1/products/media/types/:attributeSetName" method="GET">
+        <service class="Magento\Catalog\Api\ProductMediaAttributeManagementInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

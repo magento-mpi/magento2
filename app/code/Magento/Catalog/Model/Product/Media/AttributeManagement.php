@@ -40,6 +40,7 @@ class AttributeManagement implements ProductMediaAttributeManagementInterface
      */
     public function getList($attributeSetName)
     {
+        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
         $collection = $this->collectionFactory->create();
         $collection->setAttributeSetFilterBySetName($attributeSetName, Product::ENTITY);
         $collection->setFrontendInputTypeFilter('media_image');
