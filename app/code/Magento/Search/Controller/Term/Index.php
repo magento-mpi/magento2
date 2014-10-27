@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reports\Controller\Adminhtml\Index;
+namespace Magento\Search\Controller\Term;
 
-class Search extends \Magento\Reports\Controller\Adminhtml\Index
+class Index extends \Magento\Reports\Controller\Adminhtml\Index
 {
     /**
      * Add reports to breadcrumb
