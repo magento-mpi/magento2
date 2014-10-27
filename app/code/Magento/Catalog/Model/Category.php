@@ -214,6 +214,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -231,7 +232,15 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->flatIndexer = $flatIndexer;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->urlFinder = $urlFinder;
-        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $metadataServiceInterface,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
