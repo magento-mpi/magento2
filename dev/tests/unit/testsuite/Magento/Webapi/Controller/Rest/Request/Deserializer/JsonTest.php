@@ -50,6 +50,12 @@ class JsonTest extends \PHPUnit_Framework_TestCase
         $this->_jsonDeserializer->deserialize(false);
     }
 
+    public function testDeserializerOauthInputException()
+    {
+        $this->setExpectedException('\Magento\Framework\Oauth\OauthInputException', 'Request body is expected.');
+        $this->_jsonDeserializer->deserialize('');
+    }
+
     public function testDeserialize()
     {
         /** Prepare mocks for SUT constructor. */
