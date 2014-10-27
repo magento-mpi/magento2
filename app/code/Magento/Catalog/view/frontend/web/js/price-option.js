@@ -5,13 +5,152 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
+/*global Handlebars*/
 define([
     "jquery",
+    "underscore",
+    "handlebars",
     "jquery/ui",
     "jquery/template"
-], function($){
+], function($,_){
     "use strict";
+    jQuery.migrateMute = true;
 
+    var hbs = Handlebars.compile;
+    var priceCache = {};
+
+    /*********** price-option.js */
+    $.widget('mage.priceOptionNew',{
+        options: {
+            productCustomSelector: '.product-custom-option'
+        },
+        _create:initPriceOption
+    });
+
+    function initPriceOption() {
+        var form = this.element;
+        var options = $('select, input', form);
+        var priceBox;
+        var productId;
+
+        options.on('change', function(){
+            var option = $(this);
+            priceBox.trigger('changePrice', option.val(), productId);
+        });
+        console.log('initPriceOption:  ', this);
+    }
+
+    /*********** price-box.js */
+    $.widget('mage.priceBox',{
+        options:{
+            productId: null,
+            priceTemplate: '<span class="price">{{formatted}}</span>',
+            priceBoxTemplate: '{{price}}',
+            priceConfig: null,
+            currencyFormat: {},
+            prices: {},
+            finalPrice: {}
+        },
+        _create:initPriceBox,
+        priceUpdate: updatePrice,
+        getPrice: getPrice
+    });
+
+
+    function initPriceBox() {
+        var x, finalPrice;
+        if(this.options.priceConfig) {
+            x  = this.options.priceConfig;
+            // final
+            // regular
+            // special
+            this.options.prices['regular'] = {
+                'amount': x.productOldPrice ? x.productOldPrice : x.productPrice,
+                'adjustment': {
+                    tax: x.inclTaxPrice - x.exclTaxPrice - x.plusDisposition,
+                    fpt: x.plusDisposition
+                }
+            };
+            this.options.prices['special'] = {
+                'amount': x.productOldPrice ? x.productPrice : 0
+            };
+            if(this.options.prices['special']['amount']) {
+                finalPrice = this.options.prices['special'];
+            } else {
+                finalPrice = this.options.prices['regular'];
+            }
+
+
+            this.options.productId = x.productId;
+            this.options.currencyFormat = x.priceFormat;
+        }
+
+
+        var box = this.element;
+        var productId = this.options.productId || box.data('productId');
+        var prices = this.options.prices || {};
+        var initial = this.initialPrices = deepClone(this.options.prices);
+
+        var priceTemplate = this.priceTemplate = hbs(this.options.priceTemplate);
+        var priceBoxTemplate = this.priceBoxTemplate = hbs(this.options.priceBoxTemplate);
+
+        prices.final = prices.regular;
+
+
+        box.on('reloadPrice', updatePrice.bind(this)).trigger('reloadPrice');
+
+        if(prices.special) {
+            prices.final = prices.special;
+            box.trigger('reloadPrice');
+        }
+
+        _.each(prices, function(price, priceCode){
+            var html = priceTemplate({'formatted': formatPrice(price.amount)});
+//            $('[data-price-' + priceCode + '][data-product-id=' + productId + ']').html(html);
+            console.log(html, '[data-product-id=' + productId + '] > [data-price-' + priceCode + ']');
+        });
+
+    }
+
+    function updatePrice(updates) {
+        var finalPrice = this.options.finalPrice;
+        var prices = this.options.prices;
+
+        if(!updates) {
+            return;
+        }
+
+        _.each(finalPrice, function(priceValue, priceCode){
+            if(updates[priceCode]) {
+                finalPrice[priceCode] = prices[priceCode] + updates[priceCode];
+            }
+        });
+    }
+
+    function reDrawPrice() { }
+
+    function getPrice() { }
+
+    /*********** price-utils.js */
+    var globalPriceFormat = {};
+    function formatPrice (amount, format, isShowSign) {
+        format = format || globalPriceFormat;
+        isShowSign = !!isShowSign;
+
+        return '' + amount;
+    }
+    function deepClone (obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+
+
+
+
+
+
+
+
+    /*--------------- old price-option.js*/
     $.widget('mage.priceOption', {
         options: {
             productCustomSelector: '.product-custom-option',
@@ -58,11 +197,10 @@ define([
             var j = i.length > groupLength ? i.length % groupLength : 0,
                 re = new RegExp("(\\d{" + groupLength + "})(?=\\d)", "g");
 
-            /**
-             * replace(/-/, 0) is only for fixing Safari bug which appears
-             * when Math.abs(0).toFixed() executed on "0" number.
-             * Result is "0.-0" :(
-             */
+
+            // replace(/-/, 0) is only for fixing Safari bug which appears
+            // when Math.abs(0).toFixed() executed on "0" number.
+            // Result is "0.-0" :(
             var r = (j ? i.substr(0, j) + groupSymbol : "") + i.substr(j).replace(re, "$1" + groupSymbol) +
                     (precision ? decimalSymbol + Math.abs(price - i).toFixed(precision).replace(/-/, 0).slice(2) : ""),
                 pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
@@ -82,8 +220,7 @@ define([
                 inclTaxPrice += parseFloat(pair.inclTaxPrice);
                 exclTaxPrice += parseFloat(pair.exclTaxPrice);
             });
-            var result = [price, oldPrice, inclTaxPrice, exclTaxPrice];
-            return result;
+            return [price, oldPrice, inclTaxPrice, exclTaxPrice];
         },
         reloadPrice: function() {
             if (this.options.priceConfig) {
@@ -227,4 +364,6 @@ define([
             }
         }
     });
+    
+    return $.mage.priceOption;
 });
