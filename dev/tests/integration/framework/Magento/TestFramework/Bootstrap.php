@@ -31,11 +31,6 @@ class Bootstrap
     private $_settings;
 
     /**
-     * @var array
-     */
-    private $installConfig;
-
-    /**
      * @var \Magento\TestFramework\Application
      */
     private $_application;
@@ -61,11 +56,9 @@ class Bootstrap
     private $_shell;
 
     /**
-     * Temporary directory to be used to host the application installation sandbox
-     *
-     * @var string
+     * @var \Magento\TestFramework\Bootstrap\MemoryFactory
      */
-    private $_tmpDir;
+    private $memoryFactory;
 
     /**
      * Constructor
@@ -83,40 +76,26 @@ class Bootstrap
         \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
         \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap,
         \Magento\Framework\Shell $shell,
-        $tmpDir
+        \Magento\TestFramework\Application $application,
+        \Magento\TestFramework\Bootstrap\MemoryFactory $memoryFactory
     ) {
         $this->_settings = $settings;
         $this->_envBootstrap = $envBootstrap;
         $this->_docBlockBootstrap = $docBlockBootstrap;
         $this->_profilerBootstrap = $profilerBootstrap;
         $this->_shell = $shell;
-        $this->_tmpDir = $tmpDir;
-        $this->_application = $this->_createApplication(
-            $this->_settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
-            $this->_settings->get('TESTS_GLOBAL_CONFIG_DIR'),
-            $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
-            $this->_settings->get('TESTS_MAGENTO_MODE')
-        );
+        $this->_application = $application;
+        $this->memoryFactory = $memoryFactory;
     }
 
     /**
      * Retrieve the application instance
      *
-     * @return \Magento\TestFramework\Application
+     * @return Application
      */
     public function getApplication()
     {
         return $this->_application;
-    }
-
-    /**
-     * Retrieve the database configuration
-     *
-     * @return array
-     */
-    public function getInstallConfig()
-    {
-        return $this->installConfig;
     }
 
     /**
@@ -132,13 +111,13 @@ class Bootstrap
             $this->_profilerBootstrap->registerFileProfiler($profilerOutputFile);
         }
 
-        $profilerOutputFile = $this->_settings->getAsFile('TESTS_BAMBOO_PROFILER_FILE');
-        $profilerMetricsFile = $this->_settings->getAsFile('TESTS_BAMBOO_PROFILER_METRICS_FILE');
-        if ($profilerOutputFile && $profilerMetricsFile) {
-            $this->_profilerBootstrap->registerBambooProfiler($profilerOutputFile, $profilerMetricsFile);
+        $profilerBambooOutputFile = $this->_settings->getAsFile('TESTS_BAMBOO_PROFILER_FILE');
+        $profilerBambooMetricsFile = $this->_settings->getAsFile('TESTS_BAMBOO_PROFILER_METRICS_FILE');
+        if ($profilerBambooOutputFile && $profilerBambooMetricsFile) {
+            $this->_profilerBootstrap->registerBambooProfiler($profilerBambooOutputFile, $profilerBambooMetricsFile);
         }
 
-        $memoryBootstrap = $this->_createMemoryBootstrap(
+        $memoryBootstrap = $this->memoryFactory->create(
             $this->_settings->get('TESTS_MEM_USAGE_LIMIT', 0),
             $this->_settings->get('TESTS_MEM_LEAK_LIMIT', 0)
         );
@@ -146,68 +125,6 @@ class Bootstrap
         $memoryBootstrap->activateLimitValidation();
 
         $this->_docBlockBootstrap->registerAnnotations($this->_application);
-
-        if ($this->_settings->getAsBoolean('TESTS_CLEANUP')) {
-            $this->_application->cleanup();
-        }
-        if (!$this->_application->isInstalled()) {
-            $this->_application->install(self::ADMIN_NAME, self::ADMIN_PASSWORD);
-        }
-        $this->_application->initialize();
-    }
-
-    /**
-     * Create and return new memory bootstrap instance
-     *
-     * @param int $memUsageLimit
-     * @param int $memLeakLimit
-     * @return \Magento\TestFramework\Bootstrap\Memory
-     */
-    protected function _createMemoryBootstrap($memUsageLimit, $memLeakLimit)
-    {
-        return new \Magento\TestFramework\Bootstrap\Memory(
-            new \Magento\TestFramework\MemoryLimit(
-                $memUsageLimit,
-                $memLeakLimit,
-                new \Magento\TestFramework\Helper\Memory($this->_shell)
-            )
-        );
-    }
-
-    /**
-     * Create and return new application instance
-     *
-     * @param string $installConfigFile
-     * @param string $globalConfigDir
-     * @param array $moduleConfigFiles
-     * @param string $appMode
-     * @return \Magento\TestFramework\Application
-     */
-    protected function _createApplication(
-        $installConfigFile,
-        $globalConfigDir,
-        array $moduleConfigFiles,
-        $appMode
-    ) {
-        $this->installConfig = require $installConfigFile;
-        $sandboxUniqueId = sha1_file($installConfigFile);
-        $installDir = "{$this->_tmpDir}/sandbox-{$sandboxUniqueId}";
-        $dbInstance = new Db\Mysql(
-            $this->installConfig['db_host'],
-            $this->installConfig['db_user'],
-            $this->installConfig['db_pass'],
-            $this->installConfig['db_name'],
-            $this->_tmpDir,
-            $this->_shell
-        );
-        return new \Magento\TestFramework\Application(
-            $dbInstance,
-            $this->_shell,
-            $installDir,
-            $this->installConfig,
-            $globalConfigDir,
-            $moduleConfigFiles,
-            $appMode
-        );
     }
 }
+

@@ -107,6 +107,43 @@ abstract class AbstractDb
     abstract public function restoreFromDbDump();
 
     /**
+     * @return string
+     */
+    abstract public function getVendorName();
+
+    /**
+     * @return string
+     */
+    public function getSchema()
+    {
+        return $this->_schema;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->_host;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUser()
+    {
+        return $this->_user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->_password;
+    }
+
+    /**
      * Create file with sql script content.
      * Utility method that is used in children classes
      *

@@ -84,9 +84,9 @@ class Bootstrap
      *
      * @return string
      */
-    public function getAppInstallDir()
+    public function getAppTempDir()
     {
-        return $this->_bootstrap->getApplication()->getInstallDir();
+        return $this->_bootstrap->getApplication()->getTempDir();
     }
 
     /**

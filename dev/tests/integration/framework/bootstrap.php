@@ -40,19 +40,42 @@ $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
 
 /* Bootstrap the application */
+$settings = new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants());
+$shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger);
+
+$application = \Magento\TestFramework\Application::getInstance(
+    $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
+    $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
+    $settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
+    $settings->get('TESTS_MAGENTO_MODE'),
+    $testsTmpDir,
+    $shell
+);
+
 $bootstrap = new \Magento\TestFramework\Bootstrap(
-    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants()),
+    $settings,
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\DocBlock("{$testsBaseDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Framework\Profiler\Driver\Standard()),
-    new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger),
-    $testsTmpDir
+    $shell,
+    $application,
+    new \Magento\TestFramework\Bootstrap\MemoryFactory($shell)
 );
 $bootstrap->runBootstrap();
+if ($settings->getAsBoolean('TESTS_CLEANUP')) {
+    $application->cleanup();
+}
+if (!$application->isInstalled()) {
+    $application->install(
+        \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+        \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+    );
+}
+$application->initialize();
 
 \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
 
 Magento\TestFramework\Utility\Files::setInstance(new Magento\TestFramework\Utility\Files($magentoBaseDir));
 
 /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
-unset($bootstrap);
+unset($bootstrap, $application, $settings, $shell);

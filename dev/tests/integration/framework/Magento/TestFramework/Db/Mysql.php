@@ -94,6 +94,14 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getVendorName()
+    {
+        return 'mysql';
+    }
+
+    /**
      * Get defaults extra file name
      *
      * @return string

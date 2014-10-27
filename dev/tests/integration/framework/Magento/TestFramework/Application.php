@@ -35,6 +35,11 @@ class Application
     protected $_shell;
 
     /**
+     * @var string
+     */
+    private $installConfigFile;
+
+    /**
      * @var array
      */
     protected $installConfig;
@@ -58,14 +63,14 @@ class Application
      *
      * @var string
      */
-    protected $_installDir;
+    protected $_tmpDir;
 
     /**
      * Installation destination directory with configuration files
      *
      * @var string
      */
-    protected $_installEtcDir;
+    protected $_configDir;
 
     /**
      * Application initialization parameters
@@ -101,56 +106,74 @@ class Application
     protected $_factory;
 
     /**
+     * @param string $installConfigFile
+     * @param string $globalConfigDir
+     * @param array $moduleConfigFiles
+     * @param string $appMode
+     * @param string $tmpDir
+     * @param \Magento\Framework\Shell $shell
+     * @return Application
+     */
+    public static function getInstance(
+        $installConfigFile,
+        $globalConfigDir,
+        array $moduleConfigFiles,
+        $appMode,
+        $tmpDir,
+        \Magento\Framework\Shell $shell
+    ) {
+        if (!file_exists($installConfigFile)) {
+            $installConfigFile = $installConfigFile . '.dist';
+        }
+        $sandboxUniqueId = md5(sha1_file($installConfigFile));
+        $installDir = "{$tmpDir}/sandbox-{$sandboxUniqueId}";
+        return new \Magento\TestFramework\Application(
+            $shell,
+            $installDir,
+            $installConfigFile,
+            $globalConfigDir,
+            $moduleConfigFiles,
+            $appMode
+        );
+    }
+
+    /**
      * Constructor
      *
-     * @param \Magento\TestFramework\Db\AbstractDb $dbInstance
      * @param \Magento\Framework\Shell $shell
-     * @param string $installDir
-     * @param array $installConfig
+     * @param string $tmpDir
+     * @param array $installConfigFile
      * @param $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
-        \Magento\TestFramework\Db\AbstractDb $dbInstance,
         \Magento\Framework\Shell $shell,
-        $installDir,
-        $installConfig,
+        $tmpDir,
+        $installConfigFile,
         $globalConfigDir,
         array $moduleEtcFiles,
         $appMode
     ) {
-        $this->_db = $dbInstance;
         $this->_shell = $shell;
-        $this->installConfig = $installConfig;
+        $this->installConfigFile = $installConfigFile;
         $this->_globalConfigDir = realpath($globalConfigDir);
         $this->_moduleEtcFiles = $moduleEtcFiles;
         $this->_appMode = $appMode;
 
-        $this->_installDir = $installDir;
-        $this->_installEtcDir = "{$installDir}/etc";
+        $this->_tmpDir = $tmpDir;
 
-        $generationDir = "{$installDir}/generation";
-        $customDirs = array(
-            DirectoryList::CONFIG => array(DirectoryList::PATH => $this->_installEtcDir),
-            DirectoryList::VAR_DIR => array(DirectoryList::PATH => $installDir),
-            DirectoryList::MEDIA => array(DirectoryList::PATH => "{$installDir}/media"),
-            DirectoryList::STATIC_VIEW => array(DirectoryList::PATH => "{$installDir}/pub_static"),
-            DirectoryList::GENERATION => array(DirectoryList::PATH => $generationDir),
-            DirectoryList::CACHE => array(DirectoryList::PATH => $installDir . '/cache'),
-            DirectoryList::LOG => array(DirectoryList::PATH => $installDir . '/log'),
-            DirectoryList::THEMES => array(DirectoryList::PATH => BP . '/app/design'),
-            DirectoryList::SESSION => array(DirectoryList::PATH => $installDir . '/session'),
-            DirectoryList::TMP => array(DirectoryList::PATH => $installDir . '/tmp'),
-            DirectoryList::UPLOAD => array(DirectoryList::PATH => $installDir . '/upload'),
-        );
+        $customDirs = $this->getCustomDirs();
+        $dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
+
         $this->_initParams = array(
             \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => $customDirs,
             \Magento\Framework\App\State::PARAM_MODE => $appMode
         );
-        $dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
         $driverPool = new \Magento\Framework\Filesystem\DriverPool;
         $this->_factory = new \Magento\TestFramework\ObjectManagerFactory($dirList, $driverPool);
+
+        $this->_configDir = $dirList->getPath(DirectoryList::CONFIG);
     }
 
     /**
@@ -160,15 +183,58 @@ class Application
      */
     public function getDbInstance()
     {
+        if (null === $this->_db) {
+            if ($this->isInstalled()) {
+                $localConfigFile = $this->getLocalConfig();
+                $localConfig = simplexml_load_file($localConfigFile);
+                $host = (string)$localConfig->connection->host;
+                $user = (string)$localConfig->connection->username;
+                $password = (string)$localConfig->connection->password;
+                $dbName = (string)$localConfig->connection->dbName;
+            } else {
+                $installConfig = $this->getInstallConfig();
+                $host = $installConfig['db_host'];
+                $user = $installConfig['db_user'];
+                $password = $installConfig['db_pass'];
+                $dbName = $installConfig['db_name'];
+            }
+            $this->_db = new Db\Mysql(
+                $host,
+                $user,
+                $password,
+                $dbName,
+                $this->getTempDir(),
+                $this->_shell
+            );
+        }
         return $this->_db;
     }
 
     /**
-     * Get directory path with application instance custom data (cache, temporary directory, etc...)
+     * @return array
      */
-    public function getInstallDir()
+    protected function getInstallConfig()
     {
-        return $this->_installDir;
+        if (null === $this->installConfig) {
+            $this->installConfig = include $this->installConfigFile;
+        }
+        return $this->installConfig;
+    }
+
+    /**
+     * @return string
+     */
+    private function getLocalConfig()
+    {
+        return $this->_configDir . '/local.xml';
+    }
+
+    /**
+     * Get path to temporary directory
+     */
+    public function getTempDir()
+    {
+        return $this->_tmpDir;
     }
 
     /**
@@ -188,7 +254,7 @@ class Application
      */
     public function isInstalled()
     {
-        return is_file($this->_installEtcDir . '/local.xml');
+        return is_file($this->getLocalConfig());
     }
 
     /**
@@ -283,7 +349,7 @@ class Application
      */
     public function cleanup()
     {
-        $this->_db->cleanup();
+        $this->getDbInstance()->cleanup();
         $this->_cleanupFilesystem();
     }
 
@@ -297,8 +363,8 @@ class Application
     public function install($adminUserName, $adminPassword)
     {
         $dirs = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
-        $this->_ensureDirExists($this->_installDir);
-        $this->_ensureDirExists($this->_installEtcDir);
+        $this->_ensureDirExists($this->_tmpDir);
+        $this->_ensureDirExists($this->_configDir);
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::MEDIA][DirectoryList::PATH]);
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::STATIC_VIEW][DirectoryList::PATH]);
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::VAR_DIR][DirectoryList::PATH]);
@@ -306,13 +372,13 @@ class Application
         // Copy configuration files
         $globalConfigFiles = glob($this->_globalConfigDir . '/{*,*/*}.{xml,xml.template}', GLOB_BRACE);
         foreach ($globalConfigFiles as $file) {
-            $targetFile = $this->_installEtcDir . str_replace($this->_globalConfigDir, '', $file);
+            $targetFile = $this->_configDir . str_replace($this->_globalConfigDir, '', $file);
             $this->_ensureDirExists(dirname($targetFile));
             copy($file, $targetFile);
         }
 
         foreach ($this->_moduleEtcFiles as $file) {
-            $targetModulesDir = $this->_installEtcDir . '/modules';
+            $targetModulesDir = $this->_configDir . '/modules';
             $this->_ensureDirExists($targetModulesDir);
             copy($file, $targetModulesDir . '/' . basename($file));
         }
@@ -348,7 +414,7 @@ class Application
     private function getInstallParams($adminUserName, $adminPassword)
     {
         $dirsParam = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
-        $params = array_merge($this->installConfig, [
+        $params = array_merge($this->getInstallConfig(), [
             'base_url' => 'http://localhost/',
             'language' => 'en_US',
             'timezone' => 'America/Chicago',
@@ -375,7 +441,7 @@ class Application
      * @param array $params
      * @return array
      */
-    private function _customizeParams($params)
+    public function _customizeParams($params)
     {
         return array_replace_recursive($this->_initParams, $params);
     }
@@ -417,17 +483,17 @@ class Application
      */
     protected function _cleanupFilesystem()
     {
-        if (!is_dir($this->_installDir)) {
+        if (!is_dir($this->_tmpDir)) {
             return;
         }
         $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($this->_installDir, \FilesystemIterator::SKIP_DOTS),
+            new \RecursiveDirectoryIterator($this->_tmpDir, \FilesystemIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST
         );
         foreach ($iterator as $path) {
             $path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
         }
-        rmdir($this->_installDir);
+        rmdir($this->_tmpDir);
     }
 
     /**
@@ -463,5 +529,27 @@ class Application
         } else {
             \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($areaCode);
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCustomDirs()
+    {
+        $generationDir = "{$this->_tmpDir}/generation";
+        $customDirs = array(
+            DirectoryList::CONFIG => array(DirectoryList::PATH => "{$this->_tmpDir}/etc"),
+            DirectoryList::VAR_DIR => array(DirectoryList::PATH => $this->_tmpDir),
+            DirectoryList::MEDIA => array(DirectoryList::PATH => "{$this->_tmpDir}/media"),
+            DirectoryList::STATIC_VIEW => array(DirectoryList::PATH => "{$this->_tmpDir}/pub_static"),
+            DirectoryList::GENERATION => array(DirectoryList::PATH => $generationDir),
+            DirectoryList::CACHE => array(DirectoryList::PATH => $this->_tmpDir . '/cache'),
+            DirectoryList::LOG => array(DirectoryList::PATH => $this->_tmpDir . '/log'),
+            DirectoryList::THEMES => array(DirectoryList::PATH => BP . '/app/design'),
+            DirectoryList::SESSION => array(DirectoryList::PATH => $this->_tmpDir . '/session'),
+            DirectoryList::TMP => array(DirectoryList::PATH => $this->_tmpDir . '/tmp'),
+            DirectoryList::UPLOAD => array(DirectoryList::PATH => $this->_tmpDir . '/upload'),
+        );
+        return $customDirs;
     }
 }
