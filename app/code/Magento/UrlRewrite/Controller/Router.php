@@ -83,17 +83,28 @@ class Router implements \Magento\Framework\App\RouterInterface
             return null;
         }
 
-        $redirectType = $rewrite->getRedirectType();
-        if ($redirectType) {
-            $target = $rewrite->getTargetPath();
-            if ($rewrite->getEntityType() !== Rewrite::ENTITY_TYPE_CUSTOM) {
-                $target = $this->url->getUrl('', array('_direct' => $target));
-            }
-            return $this->redirect($request, $target, $redirectType);
+        if ($rewrite->getRedirectType()) {
+            return $this->processRedirect($request, $rewrite);
         }
 
         $request->setPathInfo('/' . $rewrite->getTargetPath());
         return $this->actionFactory->create('Magento\Framework\App\Action\Forward', array('request' => $request));
+    }
+
+    /**
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param UrlRewrite $rewrite
+     * @return \Magento\Framework\App\ActionInterface|null
+     */
+    protected function processRedirect($request, $rewrite)
+    {
+        $target = $rewrite->getTargetPath();
+        if ($rewrite->getEntityType() !== Rewrite::ENTITY_TYPE_CUSTOM
+            || ($prefix = substr($target, 0, 6)) !== 'http:/' && $prefix !== 'https:'
+        ) {
+            $target = $this->url->getUrl('', array('_direct' => $target));
+        }
+        return $this->redirect($request, $target, $rewrite->getRedirectType());
     }
 
     /**

@@ -197,7 +197,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->router->match($this->request);
     }
 
-    public function testMatchWithCustomRedirect()
+    public function testMatchWithCustomInternalRedirect()
     {
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
         $urlRewrite = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite')
@@ -206,13 +206,46 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $urlRewrite->expects($this->any())->method('getRedirectType')->will($this->returnValue('redirect-code'));
         $urlRewrite->expects($this->any())->method('getTargetPath')->will($this->returnValue('target-path'));
         $this->urlFinder->expects($this->any())->method('findOneByData')->will($this->returnValue($urlRewrite));
-        $this->response->expects($this->once())->method('setRedirect')->with('target-path', 'redirect-code');
+        $this->response->expects($this->once())->method('setRedirect')->with('a', 'redirect-code');
+        $this->url->expects($this->once())->method('getUrl')->with('', ['_direct' => 'target-path'])->willReturn('a');
+        $this->request->expects($this->once())->method('setDispatched')->with(true);
+        $this->actionFactory->expects($this->once())->method('create')
+            ->with('Magento\Framework\App\Action\Redirect', ['request' => $this->request]);
+
+        $this->router->match($this->request);
+    }
+
+    /**
+     * @param string $targetPath
+     * @dataProvider externalRedirectTargetPathDataProvider
+     */
+    public function testMatchWithCustomExternalRedirect($targetPath)
+    {
+        $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
+        $urlRewrite = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite')
+            ->disableOriginalConstructor()->getMock();
+        $urlRewrite->expects($this->any())->method('getEntityType')->will($this->returnValue('custom'));
+        $urlRewrite->expects($this->any())->method('getRedirectType')->will($this->returnValue('redirect-code'));
+        $urlRewrite->expects($this->any())->method('getTargetPath')->will($this->returnValue($targetPath));
+        $this->urlFinder->expects($this->any())->method('findOneByData')->will($this->returnValue($urlRewrite));
+        $this->response->expects($this->once())->method('setRedirect')->with($targetPath, 'redirect-code');
         $this->url->expects($this->never())->method('getUrl');
         $this->request->expects($this->once())->method('setDispatched')->with(true);
         $this->actionFactory->expects($this->once())->method('create')
             ->with('Magento\Framework\App\Action\Redirect', ['request' => $this->request]);
 
         $this->router->match($this->request);
+    }
+
+    /**
+     * @return array
+     */
+    public function externalRedirectTargetPathDataProvider()
+    {
+        return [
+            ['http://example.com'],
+            ['https://example.com'],
+        ];
     }
 
     public function testMatch()
