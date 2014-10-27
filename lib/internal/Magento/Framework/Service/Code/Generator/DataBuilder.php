@@ -69,13 +69,8 @@ class DataBuilder extends EntityAbstract
         $methods = [];
         $className = $this->_getSourceClassName();
         $reflectionClass = new \ReflectionClass($className);
-        $lowerCaseClassName = strtolower($className);
         $publicMethods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
-            //since methods are sorted - lowest inheritance first, no need to loop through everything
-            if ($lowerCaseClassName !== strtolower($method->class)) {
-                break;
-            }
             if ($this->canUseMethodForGeneration($method)) {
                 $methods[] = $this->_getMethodInfo($method);
             }
