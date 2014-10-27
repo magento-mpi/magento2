@@ -103,7 +103,7 @@ class Layout
             'messageManager' => $objectManager->get('Magento\Framework\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\Framework\View\Design\Theme\ResolverInterface'),
             'pageConfigStructure' => $objectManager->create('Magento\Framework\View\Page\Config\Structure'),
-            'reader' => $objectManager->get('Magento\Framework\View\Layout\Reader\Pool'),
+            'reader' => $objectManager->get('commonRenderPool'),
             'generatorPool' => $objectManager->get('Magento\Framework\View\Layout\GeneratorPool'),
         ];
     }
