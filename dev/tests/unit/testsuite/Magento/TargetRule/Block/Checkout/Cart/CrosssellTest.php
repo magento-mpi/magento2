@@ -90,7 +90,10 @@ class CrosssellTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetLinkCollection()
+    /**
+     * @covers Magento\TargetRule\Block\Checkout\Cart\Crosssell::_getTargetLinkCollection
+     */
+    public function testGetTargetLinkCollection()
     {
         $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->storeManager->expects($this->any())->method('getStore')->willReturn($store);
@@ -118,6 +121,6 @@ class CrosssellTest extends \PHPUnit_Framework_TestCase
         $select = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
         $productCollection->expects($this->once())->method('getSelect')->willReturn($select);
 
-        $this->assertEquals($productCollection, $this->crosssell->getLinkCollection());
+        $this->assertSame($productCollection, $this->crosssell->getLinkCollection());
     }
 }
