@@ -232,7 +232,7 @@ class AbstractStructure extends AbstractView
         ];
         $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
         if ($data) {
-            foreach ($data[0] as $key => $value) {
+            foreach (array_shift($data) as $key => $value) {
                 $preparedData[$dataSource][$key] = $value;
             }
         }

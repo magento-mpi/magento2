@@ -106,7 +106,7 @@ class Manager
                     $row[$name] = $this->getData($name, $filter);
                 }
             }
-            $rows[] = $row;
+            $rows[$item->getId()] = $row;
         }
         return $rows;
     }
