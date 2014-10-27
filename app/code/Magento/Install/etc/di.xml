@@ -101,16 +101,6 @@
             <argument name="session" xsi:type="object">Magento\Install\Model\Session</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\App\AreaList">
-        <arguments>
-            <argument name="areas" xsi:type="array">
-                <item name="install" xsi:type="array">
-                    <item name="frontName" xsi:type="string">install</item>
-                    <item name="router" xsi:type="string">install</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\Backend\Model\Url\ScopeResolver" shared="false">
         <arguments>
             <argument name="areaCode" xsi:type="string">adminhtml</argument>
