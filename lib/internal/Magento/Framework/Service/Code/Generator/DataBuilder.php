@@ -160,7 +160,6 @@ class DataBuilder extends EntityAbstract
     protected function _getMethodInfo(\ReflectionMethod $method)
     {
         $propertyName = substr($method->getName(), 3);
-
         $returnType = (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
             ->getDocBlock()
@@ -168,17 +167,14 @@ class DataBuilder extends EntityAbstract
             ->getType();
 
         $setterBody = '';
+        $fieldName = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName));
         if ($this->getDataType() == self::TYPE_DATA_OBJECT) {
-            $setterBody = "\$this->_set("
-                . '\\' . $method->getDeclaringClass()->getName() . "::"
-                . strtoupper(preg_replace('/(.)([A-Z])/', "$1_$2", substr($method->getName(), 3)))
-                . ", \$" . lcfirst(substr($method->getName(), 3)) . ");" . PHP_EOL . "return \$this;";
+            $setterBody = "\$this->_set('{$fieldName}', \$" . lcfirst($propertyName) . ");"
+                . PHP_EOL . "return \$this;";
         } else if ($this->getDataType() == self::TYPE_DATA_MODEL) {
             $setterBody = "\$this->" . self::DATA_PROPERTY_NAME . "['"
-                . strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName))
-                . "'] = \$" . lcfirst($propertyName) . ";" . PHP_EOL . "return \$this;";
+                . $fieldName . "'] = \$" . lcfirst($propertyName) . ";" . PHP_EOL . "return \$this;";
         }
-
         $methodInfo = [
             'name' => 'set' . $propertyName,
             'parameters' => [
@@ -187,7 +183,6 @@ class DataBuilder extends EntityAbstract
             'body' => $setterBody,
             'docblock' => array('shortDescription' => '@param ' . $returnType . " \$" . lcfirst($propertyName))
         ];
-
         return $methodInfo;
     }
 
@@ -265,7 +260,7 @@ class DataBuilder extends EntityAbstract
                 $this->currentDataType = self::TYPE_DATA_MODEL;
             } else {
                 throw new \LogicException('Preference of ' . $this->_getSourceClassName()
-                    . ' must implement AbstractSimpleObject or AbstractExtensibleModel');
+                    . ' must extend from AbstractSimpleObject or AbstractExtensibleModel');
             }
         }
         return $this->currentDataType;
