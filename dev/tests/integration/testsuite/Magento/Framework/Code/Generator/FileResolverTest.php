@@ -12,6 +12,17 @@ namespace Magento\Framework\Code\Generator;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase {
+
+    /**
+     * Path to add to include path
+     */
+    const FIRST_PATH = '/path/to/code/1/';
+
+    /**
+     * Path to add to include path
+     */
+    const SECOND_PATH = '/path/to/code/2/';
+
     /**
      * @var \Magento\Framework\Code\Generator\FileResolver
      */
@@ -26,15 +37,13 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase {
     {
         $originalIncludePath = get_include_path();
         set_include_path('/pre/existing/paths/');
-        $firstPathToAdd = '/path/to/code/1/';
-        $secondPathToAdd = '/path/to/code/2/';
 
-        $this->model->addIncludePath($firstPathToAdd);
-        $this->model->addIncludePath($secondPathToAdd);
+        $this->model->addIncludePath(self::FIRST_PATH);
+        $this->model->addIncludePath(self::SECOND_PATH);
 
         $postIncludePath = get_include_path();
         $this->assertStringStartsWith(
-            $secondPathToAdd,
+            self::SECOND_PATH,
             $postIncludePath
         );
 
@@ -45,15 +54,13 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase {
     {
         $originalIncludePath = get_include_path();
         set_include_path('/pre/existing/paths/');
-        $firstPathToAdd = '/path/to/code/1/';
-        $secondPathToAdd = '/path/to/code/2/';
 
-        $this->model->addIncludePath($firstPathToAdd, false);
-        $this->model->addIncludePath($secondPathToAdd, false);
+        $this->model->addIncludePath(self::FIRST_PATH, false);
+        $this->model->addIncludePath(self::SECOND_PATH, false);
 
         $postIncludePath = get_include_path();
         $this->assertStringEndsWith(
-            $secondPathToAdd,
+            self::SECOND_PATH,
             $postIncludePath
         );
 
