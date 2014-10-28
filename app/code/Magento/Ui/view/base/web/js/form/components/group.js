@@ -67,6 +67,10 @@ define([
          */
         isSingle: function () {
             return this.elems.getLength() === 1;
+        },
+
+        contains: function (ignored, element) {
+            return this.elems.contains(element);
         }
     });
 });
