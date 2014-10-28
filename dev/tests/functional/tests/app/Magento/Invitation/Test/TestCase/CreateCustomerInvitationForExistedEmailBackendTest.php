@@ -74,7 +74,7 @@ class CreateCustomerInvitationForExistedEmailBackendTest extends Injectable
     }
 
     /**
-     * Create customer invitation for existed email on backend test
+     * Create customer invitation for existed email on backend test.
      *
      * @param CustomerInjectable $customer
      * @param Invitation $invitation

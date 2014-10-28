@@ -59,7 +59,7 @@ class CreateCustomerInvitationBackendEntityTest extends Injectable
     }
 
     /**
-     * Create customer invitation backend entity test
+     * Create customer invitation backend entity test.
      *
      * @param Invitation $invitation
      * @return void
