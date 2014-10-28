@@ -36,7 +36,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
             ['create'],
             [],
             '',
-            false);
+            false
+        );
         $this->categoryResourceMock = $this->getMock('\Magento\Catalog\Model\Resource\Category', [], [], '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
 
@@ -50,7 +51,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $categoryId = 5;
-        $categoryMock = $this->getMock('Magento\Catalog\Api\Data\CategoryInterface');
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects(
             $this->once()
         )->method('getId')->willReturn(
@@ -64,7 +65,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->categoryResourceMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock, $categoryId
+            $categoryMock,
+            $categoryId
         );
 
         $this->assertEquals($categoryMock, $this->model->get($categoryId));
@@ -77,7 +79,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetWhenCategoryDoesNotExist()
     {
         $categoryId = 5;
-        $categoryMock = $this->getMock('Magento\Catalog\Api\Data\CategoryInterface');
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects(
             $this->once()
         )->method('getId')->willReturn(null);
@@ -89,7 +91,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->categoryResourceMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock, $categoryId
+            $categoryMock,
+            $categoryId
         );
 
         $this->assertEquals($categoryMock, $this->model->get($categoryId));
@@ -98,7 +101,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSave()
     {
         $categoryId = 5;
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
         $categoryMock->expects(
             $this->atLeastOnce()
         )->method('getId')->willReturn($categoryId);
@@ -114,13 +117,13 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedExceptionMessage Could not save category
      */
     public function testSaveWithException()
     {
         $categoryId = 5;
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
         $categoryMock->expects(
             $this->atLeastOnce()
         )->method('getId')->willReturn($categoryId);
@@ -131,12 +134,38 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $categoryMock->expects($this->once())->method('validate')->willReturn(false);
         $categoryMock->expects($this->once())->method('getParentId')->willReturn(3);
-        $this->assertEquals($categoryId, $this->model->save($categoryMock));
+        $this->model->save($categoryMock);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedExceptionMessage Could not save category: Attribute "ValidateCategoryTest" is required.
+     */
+    public function testSaveWithValidateCategoryException()
+    {
+        $categoryId = 5;
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
+        $objectMock = $this->getMock('\Magento\Framework\Object', ['getFrontend', 'getLabel'], [], '', false);
+        $categoryMock->expects(
+            $this->atLeastOnce()
+        )->method('getId')->willReturn($categoryId);
+        $this->categoryFactoryMock->expects(
+            $this->once()
+        )->method('create')->willReturn(
+            $categoryMock
+        );
+        $objectMock->expects($this->any())->method('getFrontend')->willReturn($objectMock);
+        $objectMock->expects($this->any())->method('getLabel')->willReturn('ValidateCategoryTest');
+        $categoryMock->expects($this->once())->method('getParentId')->willReturn(3);
+        $categoryMock->expects($this->once())->method('validate')->willReturn([42 => true]);
+        $this->categoryResourceMock->expects($this->once())->method('getAttribute')->with(42)->willReturn($objectMock);
+        $categoryMock->expects($this->never())->method('unsetData');
+        $this->model->save($categoryMock);
     }
 
     public function testDelete()
     {
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
         $this->assertTrue($this->model->delete($categoryMock));
     }
 
@@ -147,7 +176,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteWithException()
     {
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
         $this->categoryResourceMock->expects($this->once())->method('delete')->willThrowException(new \Exception());
         $this->model->delete($categoryMock);
     }
@@ -155,7 +184,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testDeleteByIdentifier()
     {
         $categoryId = 5;
-        $categoryMock = $this->getMock('Magento\Catalog\Api\Data\CategoryInterface');
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects(
             $this->once()
         )->method('getId')->willReturn(
@@ -169,7 +198,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->categoryResourceMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock, $categoryId
+            $categoryMock,
+            $categoryId
         );
         $this->assertTrue($this->model->deleteByIdentifier($categoryId));
     }
@@ -181,7 +211,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testDeleteByIdentifierWithException()
     {
         $categoryId = 5;
-        $categoryMock = $this->getMock('Magento\Catalog\Api\Data\CategoryInterface');
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects(
             $this->once()
         )->method('getId')->willReturn(null);
@@ -193,42 +223,9 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->categoryResourceMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock, $categoryId
+            $categoryMock,
+            $categoryId
         );
         $this->model->deleteByIdentifier($categoryId);
-    }
-
-    public function testValidateCategory()
-    {
-        $reflection = new \ReflectionClass(get_class($this->model));
-        $method = $reflection->getMethod('validateCategory');
-        $method->setAccessible(true);
-
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
-        $categoryMock->expects($this->atLeastOnce())->method('getData')->willReturn(true);
-        $categoryMock->expects($this->once())->method('setData')->with('use_post_data_config', []);
-        $categoryMock->expects($this->once())->method('validate')->willReturn(true);
-        $categoryMock->expects($this->once())->method('unsetData')->with('use_post_data_config');
-
-        $method->invokeArgs($this->model, [$categoryMock]);
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Model\Exception
-     * @expectedExceptionMessage Something went wrong.
-     */
-    public function testValidateCategoryWithException()
-    {
-        $reflection = new \ReflectionClass(get_class($this->model));
-        $method = $reflection->getMethod('validateCategory');
-        $method->setAccessible(true);
-
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
-        $categoryMock->expects($this->atLeastOnce())->method('getData')->willReturn(true);
-        $categoryMock->expects($this->once())->method('setData')->with('use_post_data_config', []);
-        $categoryMock->expects($this->once())->method('validate')->willReturn([0 => 'Something went wrong.']);
-        $categoryMock->expects($this->never())->method('unsetData');
-
-        $method->invokeArgs($this->model, [$categoryMock]);
     }
 }

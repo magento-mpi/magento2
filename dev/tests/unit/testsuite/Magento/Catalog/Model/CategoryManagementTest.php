@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model;
 
-class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
+class CategoryManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\CategoryManagement
@@ -26,7 +26,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->categoryRepositoryMock = $this->getMock('\Magento\Catalog\Model\CategoryRepository', [], [], '', false);
+        $this->categoryRepositoryMock = $this->getMock('\Magento\Catalog\Api\CategoryRepositoryInterface');
         $this->categoryTreeMock = $this->getMock('\Magento\Catalog\Model\Category\Tree', [], [], '', false);
         $this->model = new \Magento\Catalog\Model\CategoryManagement(
             $this->categoryRepositoryMock,
@@ -38,23 +38,39 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $rootCategoryId = 1;
         $depth = 2;
-        $category = $this->categoryRepositoryMock->get($rootCategoryId);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
+        $nodeMock = $this->getMock('\Magento\Framework\Data\Tree\Node', [], [], '', false);
 
-        $this->categoryRepositoryMock->expects($this->once())->method('get')->with($rootCategoryId);
-        $this->categoryTreeMock->expects($this->once())->method('getRootNode')->with($category);
-        $this->categoryTreeMock->expects($this->once())->method('getTree')->with($category, $depth);
-        $this->model->getTree($rootCategoryId, $depth);
+        $this->categoryRepositoryMock
+            ->expects($this->once())
+            ->method('get')
+            ->with($rootCategoryId)
+            ->willReturn($categoryMock);
+        $this->categoryTreeMock
+            ->expects($this->once())
+            ->method('getRootNode')
+            ->with($categoryMock)
+            ->willReturn($nodeMock);
+        $this->categoryTreeMock->expects($this->exactly(2))->method('getTree')->with($nodeMock, $depth);
+        $this->assertEquals(
+            $this->categoryTreeMock->getTree($nodeMock, $depth),
+            $this->model->getTree($rootCategoryId, $depth)
+        );
     }
 
     public function testGetTreeWithNullArguments()
     {
         $rootCategoryId = null;
         $depth = null;
-        $category = $this->categoryRepositoryMock->get($rootCategoryId);
+        $category = null;
 
+        $this->categoryRepositoryMock->expects($this->never())->method('get');
         $this->categoryTreeMock->expects($this->once())->method('getRootNode')->with($category)->willReturn(null);
-        $this->categoryTreeMock->expects($this->once())->method('getTree')->with($category, $depth);
-        $this->model->getTree($rootCategoryId, $depth);
+        $this->categoryTreeMock->expects($this->exactly(2))->method('getTree')->with($category, $depth);
+        $this->assertEquals(
+            $this->model->getTree($rootCategoryId, $depth),
+            $this->categoryTreeMock->getTree(null, null)
+        );
     }
 
     public function testMove()
@@ -62,15 +78,29 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $categoryId = 2;
         $parentId = 1;
         $afterId = null;
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], 'categoryMock', false);
+        $parentCategoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Category',
+            [],
+            [],
+            'parentCategoryMock',
+            false
+        );
 
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
-
-        $this->categoryRepositoryMock->expects($this->exactly(2))->method('get')->with($this->equalTo($categoryId) || $this->equalTo($parentId))->willReturn($categoryMock);
-        $categoryMock->expects($this->once())->method('hasChildren')->willReturn(true);
-        $categoryMock->expects($this->once())->method('getChildren');
-        $categoryMock->expects($this->exactly(2))->method('getPath');
-        $categoryMock->expects($this->exactly(1))->method('move')->with($parentId, $afterId);
-
+        $this->categoryRepositoryMock
+            ->expects($this->exactly(2))
+            ->method('get')
+            ->will($this->returnValueMap(
+                [
+                    [$categoryId, $categoryMock],
+                    [$parentId, $parentCategoryMock]
+                ]
+            ));
+        $parentCategoryMock->expects($this->once())->method('hasChildren')->willReturn(true);
+        $parentCategoryMock->expects($this->once())->method('getChildren')->willReturn('5,6,7');
+        $categoryMock->expects($this->once())->method('getPath');
+        $parentCategoryMock->expects($this->once())->method('getPath');
+        $categoryMock->expects($this->once())->method('move')->with($parentId, '7');
         $this->assertTrue($this->model->move($categoryId, $parentId, $afterId));
     }
 
@@ -83,15 +113,29 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $categoryId = 2;
         $parentId = 1;
         $afterId = null;
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], 'categoryMock', false);
+        $parentCategoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Category',
+            [],
+            [],
+            'parentCategoryMock',
+            false
+        );
 
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
-        $this->categoryRepositoryMock->expects($this->exactly(2))
+        $this->categoryRepositoryMock
+            ->expects($this->exactly(2))
             ->method('get')
-            ->with($this->equalTo($categoryId) || $this->equalTo($parentId))
-            ->willReturn($categoryMock);
-        $categoryMock->expects($this->exactly(2))->method('getPath')->willReturn('test');
+            ->will($this->returnValueMap(
+                [
+                    [$categoryId, $categoryMock],
+                    [$parentId, $parentCategoryMock]
+                ]
+            ));
+        $categoryMock->expects($this->once())->method('getPath')->willReturn('test');
+        $parentCategoryMock->expects($this->once())->method('getPath')->willReturn('test');
         $this->model->move($categoryId, $parentId, $afterId);
     }
+
     /**
      * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Could not move category
@@ -101,13 +145,28 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $categoryId = 2;
         $parentId = 1;
         $afterId = null;
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], 'categoryMock', false);
+        $parentCategoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Category',
+            [],
+            [],
+            'parentCategoryMock',
+            false
+        );
 
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false, true, true);
-        $this->categoryRepositoryMock->expects($this->exactly(2))
+        $this->categoryRepositoryMock
+            ->expects($this->exactly(2))
             ->method('get')
-            ->with($this->equalTo($categoryId) || $this->equalTo($parentId))
-            ->willReturn($categoryMock);
-        $categoryMock->expects($this->exactly(1))->method('move')->with($parentId, $afterId)->willThrowException(new \Magento\Framework\Model\Exception);
+            ->will($this->returnValueMap(
+                [
+                    [$categoryId, $categoryMock],
+                    [$parentId, $parentCategoryMock]
+                ]
+            ));
+        $categoryMock->expects($this->once())
+            ->method('move')
+            ->with($parentId, $afterId)
+            ->willThrowException(new \Magento\Framework\Model\Exception);
         $this->model->move($categoryId, $parentId, $afterId);
     }
 }
