@@ -49,15 +49,18 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param UrlFinderInterface $urlFinder
+     * @param \Magento\Catalog\Model\Resource\AbstractResource $entityResource
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         UrlFinderInterface $urlFinder,
+        \Magento\Catalog\Model\Resource\AbstractResource $entityResource,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->urlFinder = $urlFinder;
+        $this->_entityResource = $entityResource;
     }
 
     /**

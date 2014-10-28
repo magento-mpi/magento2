@@ -479,6 +479,16 @@
     <type name="Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock">
         <plugin name="showOutOfStockValueChanged" type="\Magento\Catalog\Model\Plugin\ShowOutOfStockConfig"/>
     </type>
+    <virtualType name="Magento\Catalog\Block\Category\Widget\Link" type="Magento\Catalog\Block\Widget\Link">
+        <arguments>
+            <argument name="entityResource" xsi:type="object">Magento\Catalog\Model\Resource\Category</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Block\Product\Widget\Link" type="Magento\Catalog\Block\Widget\Link">
+        <arguments>
+            <argument name="entityResource" xsi:type="object">Magento\Catalog\Model\Resource\Product</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Framework\App\Rss\RssManagerInterface">
         <arguments>
             <argument name="dataProviders" xsi:type="array">
