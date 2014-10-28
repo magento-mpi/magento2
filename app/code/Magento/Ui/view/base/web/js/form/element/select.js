@@ -22,7 +22,7 @@ define([
          * Extends instance with defaults, extends config with formatted values
          *     and options, and invokes initialize method of AbstractElement class.
          */
-        initialize: function (config) {
+        initialize: function () {
             _.extend(this, defaults);
             
             __super__.initialize.apply(this, arguments);

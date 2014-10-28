@@ -414,6 +414,7 @@ class AbstractStructure extends AbstractView
         $this->structure['elements']['children'][$elementName]['type'] = 'group';
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
+            'name' => $config['name'],
             'config' => $config
         ];
         return "{$this->ns}.elements.{$elementName}";

@@ -41,7 +41,6 @@ define([
             __super__.initialize.apply(this, arguments);
 
             this.initTemplate()
-                .initListeners()
                 .initDisableStatus()
                 .setUniqueId()
                 .setNoticeId();
