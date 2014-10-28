@@ -6,15 +6,13 @@
 //  * @license     {license_link}
 //  */
 
-@color-remove-icon: #5d5d5d;
-
 .form-add-invitations {
     .fieldset {
         margin: 0 0 @indent-s-base;
-
         .fields {
             position: relative;
             .field {
+                margin: 0 0 @indent-s-base;
                 > .label {
                     &:extend(.abstract-visually-hidden all);
                 }
@@ -25,7 +23,6 @@
                 top: 0;
             }
         }
-
         > .actions-toolbar {
             margin: 0 0 @indent-base;
             .secondary {
@@ -71,13 +68,10 @@
         .action {
             &.remove {
                 .button-icon(
-                    @_icon-font-content: @icon-remove,
+                    @_icon-font-content: @icon-trash,
                     @_icon-font-text-hide: true,
-                    @_icon-font-size: 20px,
-                    @_icon-font-color: @color-remove-icon
-                );
-                .icon-font-symbol(
-                    @_icon-font-content: @icon-trash
+                    @_icon-font-size: 18px,
+                    @_icon-font-color: @minicart-icons-color
                 );
                 .button-reset();
             }

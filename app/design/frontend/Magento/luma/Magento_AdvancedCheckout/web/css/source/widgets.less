@@ -6,8 +6,6 @@
 //  * @license     {license_link}
 //  */
 
-@color-remove-icon: #5d5d5d;
-
 .sidebar {
     .block-addbysku {
         .fieldset {
@@ -32,7 +30,7 @@
                 }
                 .actions-toolbar {
                     position: absolute;
-                    top: 33px;
+                    top: 39px;
                     right: 0;
                 }
             }
@@ -58,7 +56,7 @@
                 .button-icon(
                     @_icon-font-content: @icon-expand,
                     @_icon-font-text-hide: true,
-                    @_icon-font-size: 20px
+                    @_icon-font-size: 18px
                 );
                 line-height: normal;
                 padding: 4px;
@@ -74,10 +72,10 @@
             }
             &.remove {
                 .button-icon(
-                    @_icon-font-content: @icon-trash,
+                    @_icon-font-content: @icon-remove,
                     @_icon-font-text-hide: true,
-                    @_icon-font-size: 20px,
-                    @_icon-font-color: @color-remove-icon
+                    @_icon-font-size: 12px,
+                    @_icon-font-color: #999
                 );
                 .button-reset();
             }

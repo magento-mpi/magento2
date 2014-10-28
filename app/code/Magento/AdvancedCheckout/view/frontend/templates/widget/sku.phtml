@@ -24,7 +24,7 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
             data-mage-init='{"validation":{}}'
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
-            <div class="box">
+            <div class="box box-items">
                 <fieldset class="fieldset" data-container="items"></fieldset>
                 <div class="actions-toolbar">
                     <div class="secondary">
@@ -37,7 +37,7 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
             </div>
 
             <?php if ($this->getChildHtml()): ?>
-                <div class="box">
+                <div class="box box-upload">
                     <fieldset class="fieldset">
                         <?php echo $this->getChildHtml(); ?>
                     </fieldset>
