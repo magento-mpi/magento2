@@ -6,43 +6,32 @@
  */
 define([
     'underscore',
-    './abstract',
-    'i18n'
-], function (_, Abstract, i18n) {
+    './abstract_select'
+], function (_, Select) {
     'use strict';
 
     var defaults = {
-        caption: i18n('Select...'),
-        disabled: false,
         template: 'ui/form/element/select'
     };
 
-    var __super__ = Abstract.prototype;
+    var __super__ = Select.prototype;
 
-    function hasLeafNode(nodes){
-        return _.some(nodes, function(node){
-            return typeof node.value === 'object';
-        });
-    }
-
-    return Abstract.extend({
+    return Select.extend({
 
         /**
          * Extends instance with defaults, extends config with formatted values
          *     and options, and invokes initialize method of AbstractElement class.
          */
-        initialize: function () {
+        initialize: function (config) {
             _.extend(this, defaults);
-
+            
             __super__.initialize.apply(this, arguments);
-
-            this.formatInitialValue();
         },
 
         formatInitialValue: function() {
             var value;
 
-            this.hasLeafNode = hasLeafNode(this.options)
+            __super__.formatInitialValue.apply(this, arguments);
             
             if (this.hasLeafNode) {
                 value = [this.value()];
@@ -52,12 +41,6 @@ define([
             }
 
             return this;
-        },
-
-        getCaption: function(){
-            if(!this.no_caption){
-                return this.caption; 
-            }
         },
 
         formatValue: function(value){

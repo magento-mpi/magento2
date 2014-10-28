@@ -12,6 +12,18 @@ define([
     var __super__ = Collapsible.prototype;
 
     return Collapsible.extend({
+        initElement: function(elem){
+            var params = this.provider.params;
+
+            __super__.initElement.apply(this, arguments);
+            
+            if(!params.get('activeArea')){
+                elem.setActive();
+            }
+
+            return this;
+        },
+
         initListeners: function(){
             this.provider.data.on('validate', this.onValidate.bind(this));
             

@@ -7,21 +7,18 @@
 define([
     'underscore',
     'mage/utils',
-    './abstract',
-    'i18n'
-], function (_, utils, Abstract, i18n) {
+    './abstract_select'
+], function (_, utils, Select) {
     'use strict';
 
     var defaults = {
-        caption: i18n('Select...'),
-        disabled: false,
         size: 5,
         template: 'ui/form/element/multiselect'
     };
 
-    var __super__ = Abstract.prototype;
+    var __super__ = Select.prototype;
 
-    return Abstract.extend({
+    return Select.extend({
 
         /**
          * Extends instance with defaults, extends config with formatted values
@@ -29,10 +26,8 @@ define([
          */
         initialize: function () {
             _.extend(this, defaults);
-
+            
             __super__.initialize.apply(this, arguments);
-
-            this.formatInitialValue();
         },
 
         formatInitialValue: function() {
@@ -41,12 +36,6 @@ define([
             this.value(this.initialValue);
 
             return this;
-        },
-
-        getCaption: function(){
-            if(!this.no_caption){
-                return this.caption; 
-            }
         },
 
         /**
