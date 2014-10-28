@@ -6,3 +6,36 @@
 //  * @license     {license_link}
 //  */
 
+.block-cart-failed {
+    margin-top: @indent-xl-base;
+    &:extend(.abstract-shopping-cart-items all);
+    .block-title {
+        .font-size(@h2-font-size);
+        strong {
+            font-weight: @h2-font-weight;
+        }
+    }
+    .actions.secondary {
+        text-align: center;
+        .action {
+            display: block;
+            margin: 0 auto @indent-s-base;
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .block-cart-failed {
+        &:extend(.abstract-shopping-cart-items-desktop all);
+        .actions.secondary {
+            text-align: right;
+            .action {
+                display: inline-block;
+                margin: 0 0 0 @indent-s-base;
+            }
+        }
+    }
+}

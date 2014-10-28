@@ -27,13 +27,7 @@
     // Cart container
     &-container {
         .form-cart {
-            margin-bottom: 20px;
-            .actions.main {
-                .continue,
-                .clear {
-                    display: none;
-                }
-            }
+            &:extend(.abstract-shopping-cart-items all);
         }
     }
 
@@ -336,9 +330,13 @@
         }
         //  Product options
         .item-options {
-            margin: 20px 0 0;
+            margin-bottom: 0;
             &:extend(.abstract-product-options-list all);
             &:extend(.abstract-add-clearfix all);
+        }
+
+        .product-item-name + .item-options {
+            margin-top: @indent-base;
         }
 
         .cart-tax-total {
@@ -500,10 +498,7 @@
         &-container {
             &:extend(.abstract-add-clearfix-desktop all);
             .form-cart {
-                .layout-column(2, 1, @layout-column-checkout-main-width);
-                &:extend(.abstract-add-box-sizing-desktop all);
-                padding-right: 4%;
-                position: relative;
+                &:extend(.abstract-shopping-cart-items-desktop all);
                 .actions.main {
                     text-align: right;
                 }

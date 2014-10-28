@@ -1217,3 +1217,25 @@
         }
     }
 }
+
+//
+//    Shopping cart items
+//--------------------------------------
+.abstract-shopping-cart-items {
+    margin-bottom: 20px;
+    .actions.main {
+        .continue,
+        .clear {
+            display: none;
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-shopping-cart-items-desktop {
+        .layout-column(2, 1, @layout-column-checkout-main-width);
+        &:extend(.abstract-add-box-sizing-desktop all);
+        padding-right: 4%;
+        position: relative;
+    }
+}

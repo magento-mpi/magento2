@@ -14,7 +14,10 @@
 $_item = $this->getItem();
 $escapedSku = $this->escapeHtml($_item->getSku());
 ?>
-<div class="product attibute sku"><strong class="type"><?php echo __('Sku')?></strong><div class="value"><?php echo $escapedSku ?></div></div>
+<dl class="item-options product-attibute-sku">
+    <dt><?php echo __('Sku')?></dt>
+    <dd><?php echo $escapedSku ?></dd>
+</dl>
 <?php echo $this->getProductTierPriceHtml(); ?>
 <div class="message error item"><div><?php echo $this->getMessage(); ?></div></div>
 <?php echo $this->getLink(); ?>

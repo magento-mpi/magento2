@@ -18,14 +18,14 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
 <tbody class="cart item">
 <tr class="item info item-info">
     <td data-th="<?php echo $this->escapeHtml(__('Item')); ?>" class="col item">
-        <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo product-item-photo">
+        <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-item-photo">
             <?php else:?>
-            <span class="product photo product-item-photo">
+            <span class="product-item-photo">
         <?php endif;?>
         <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($this->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
             <?php if ($this->hasProductUrl()):?></a><?php else: ?></span><?php endif; ?>
-        <div class="product details product-item-details">
-            <strong class="product name product-item-name">
+        <div class="product-item-details">
+            <strong class="product-item-name">
                 <?php if ($this->hasProductUrl()):?>
                     <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
                 <?php else: ?>
@@ -77,12 +77,10 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
             <?php $cols++; ?>
         </td>
     <?php else: ?>
-
-    <td class="col price" data-th="<?php echo $this->escapeHtml(__('Price')); ?>">
-        <?php echo $this->getUnitPriceHtml($_item); ?>
-        <?php $cols++; ?>
-    </td>
-
+        <td class="col price" data-th="<?php echo $this->escapeHtml(__('Price')); ?>">
+            <?php echo $this->getUnitPriceHtml($_item); ?>
+            <?php $cols++; ?>
+        </td>
     <?php endif; ?>
     <td class="col qty" data-th="<?php echo $this->escapeHtml(__('Qty')); ?>">
         <div class="field qty">
@@ -104,7 +102,6 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         <?php endif; ?>
         <?php $cols++; ?>
     </td>
-
 </tr>
 <tr class="item actions item-actions">
     <td colspan="<?php echo $cols;?>">

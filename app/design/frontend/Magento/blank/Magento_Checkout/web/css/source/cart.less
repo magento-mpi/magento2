@@ -267,11 +267,15 @@
         // Product options
         .item-options {
             font-size: @font-size-s;
-            margin-top: @indent-s-base;
             margin-bottom: @indent-s-base;
             &:extend(.abstract-product-options-list all);
             &:extend(.abstract-add-clearfix all);
         }
+
+        .product-item-name + .item-options {
+            margin-top: @indent-s-base;
+        }
+
         .product-image-wrapper {
             &:extend(.abstract-reset-image-wrapper all);
         }
