@@ -190,6 +190,9 @@ class Request extends \Magento\Webapi\Controller\Request
      * This method assumes that webapi.xml url defines the substitution id parameter as camelCase to the actual
      * snake case key described as part of the api contract. example: /:parentId/nestedResource/:entityId.
      * Here :entityId value will be used for overriding 'entity_id' property in the body.
+     * Since Webapi framework allows both camelCase and snakeCase, either of them will be substituted for now.
+     * If the request body is missing resource identifier passed as path parameter, it will be added to the body.
+     * This method works only for resource identifiers located at the first level of a nested request body.
      *
      * @param array $urlPathParams url path parameters as array
      * @return array
@@ -197,12 +200,35 @@ class Request extends \Magento\Webapi\Controller\Request
     protected function overrideRequestBodyIdWithPathParam($urlPathParams)
     {
         $requestBodyParams = $this->getBodyParams();
-        $urlIdParamValue = end($urlPathParams);
-        $idKey = SimpleDataObjectConverter::camelCaseToSnakeCase(key($urlPathParams));
-        $requestDataKey = key($requestBodyParams);
-        if (isset($requestBodyParams[$requestDataKey][$idKey])) {
-            $requestBodyParams[$requestDataKey][$idKey] = $urlIdParamValue;
+        $pathParamValue = end($urlPathParams);
+        $pathParamKey = key($urlPathParams);
+        // Check if the request data is a top level object of body
+        if (is_array($requestBodyParams) && count($requestBodyParams) == 1) {
+            $requestDataKey = key($requestBodyParams);
+            $this->substituteParameters($requestBodyParams[$requestDataKey], $pathParamKey, $pathParamValue);
+        } else { // Else parameters passed as scalar values in body will be overridden
+            $this->substituteParameters($requestBodyParams, $pathParamKey, $pathParamValue);
         }
+
         return $requestBodyParams;
+    }
+
+    /**
+     * Check presence for both camelCase and snake_case keys in array and substitute if either is present
+     *
+     * @param array $requestData
+     * @param string $key
+     * @param string $value
+     */
+    protected function substituteParameters(&$requestData, $key, $value)
+    {
+        $snakeCaseKey = SimpleDataObjectConverter::camelCaseToSnakeCase($key);
+        $camelCaseKey = SimpleDataObjectConverter::snakeCaseToCamelCase($key);
+
+        if (isset($requestData[$camelCaseKey])) {
+            $requestData[$camelCaseKey] = $value;
+        } else {
+            $requestData[$snakeCaseKey] = $value;
+        }
     }
 }
