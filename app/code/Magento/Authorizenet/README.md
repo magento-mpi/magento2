@@ -1,2 +1,1 @@
-Module Magento\Authorizenet provides integration with Authorize.Net payment gateway and makes it available as payment method in Magento.
-Authorize.Net is a payment gateway that gives merchants the ability to accept credit card and electronic check payments quickly and inexpensively.
+The Magento_Authorizenet module implements the integration with the Authorize.Net payment gateway and makes the latter available as a payment method in Magento.

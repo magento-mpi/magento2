@@ -1,2 +1,2 @@
-Module Magento\Pci provides sophisticated encryption model and additional encryption for store administrator passwords. Moreover it allows to change system encryption key which is used to protect passwords and other sensitive data.
-This module implements hashes upgrading for customer passwords and feature which allows to set lifetime for admin passwords, lock them when expired or specified numbers of failures occurred. It allows to prevent password brute force for system backend.
+The Magento_Pci module provides an advanced encryption model to protect passwords and other sensitive data.
+For customer passwords, the module implements upgrading hashes. For admin passwords, it enables setting lifetimes and locking them when expired or when a specified numbers of failures have occurred. It allows preventing password brute force attacks for system backend.

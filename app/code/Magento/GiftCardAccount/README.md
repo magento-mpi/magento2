@@ -1,2 +1,1 @@
-Module Magento\GiftCardAccount allows store administrator to create pull of gift card codes and then send gift cards by email to selected recipients. Gift card account will be created for each gift card that is purchased.
-The value of the gift card can then be applied toward the purchase of a product in the store. Also module is responsible for retrieving information on a gift card and redeem gift card amount.
+The Magento_GiftCardAccount module is responsible for gift card balances, for both gift cards created by a store administrator and gift cards sold as gift card products.

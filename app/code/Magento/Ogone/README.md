@@ -1,1 +1,1 @@
-Module Magento\Ogone implements integration with Ogone Payment Services which is a leading European Payment Service Provider that offers payment services to more than thirty-five countries.
+The Magento_Ogone module implements the integration with the Ogone payment service provider.

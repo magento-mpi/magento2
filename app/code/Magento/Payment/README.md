@@ -1,2 +1,2 @@
-Module Magento\Payment provides abstraction level for all payment methods - any logic that should be used by payment methods for integration into system checkout process. This logic contains configuration models, separate models for payment data verification and etc.
-For example, Magento\Payment\Model\Method\AbstractMethod is an abstract model which should be extended by concrete payment methods.
+The Magento_Payment module provides the abstraction level for all payment methods, and all logic that should be used when adding a new payment method. This logic includes configuration models, separate models for payment data verification and so on.
+For example, Magento\Payment\Model\Method\AbstractMethod is an abstract model which should be extended by particular payment methods.

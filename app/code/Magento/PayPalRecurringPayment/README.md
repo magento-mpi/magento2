@@ -1,2 +1,2 @@
-Module Magento\PayPalRecurringPayment provides default recurring payments implementation with PayPal.
-Currently, Magento supports purchasing items with recurring payments only for the PayPal payment system and only through the Express Checkout method.
+The Magento_PayPalRecurringPayment module enables recurring payments with PayPal payment system.
+Currently PayPal recurring payments in Magento are only available for the PayPal Express Checkout payment method.
