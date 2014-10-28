@@ -32,6 +32,7 @@ class Curl extends AbstractCurl
         ],
         'code' => [
             'CMS Page Link' => 'cms_page_link',
+            'Order by SKU' => 'order_by_sku'
         ],
     ];
 

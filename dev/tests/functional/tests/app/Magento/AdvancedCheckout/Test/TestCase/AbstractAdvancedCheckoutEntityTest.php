@@ -14,6 +14,8 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 
 /**
  * Abstract class for AdvancedCheckoutEntity tests.
@@ -56,6 +58,20 @@ abstract class AbstractAdvancedCheckoutEntityTest extends Injectable
     protected $configuration;
 
     /**
+     * Widget instance page.
+     *
+     * @var WidgetInstanceIndex
+     */
+    protected static $widgetInstanceIndex;
+
+    /**
+     * Widget instance edit page.
+     *
+     * @var WidgetInstanceEdit
+     */
+    protected static $widgetInstanceEdit;
+
+    /**
      * Create customer.
      *
      * @param CustomerInjectable $customer
@@ -75,18 +91,24 @@ abstract class AbstractAdvancedCheckoutEntityTest extends Injectable
      * @param CustomerAccountIndex $customerAccountIndex
      * @param CustomerOrderSku $customerOrderSku
      * @param CheckoutCart $checkoutCart
+     * @param WidgetInstanceIndex $widgetInstanceIndex
+     * @param WidgetInstanceEdit $widgetInstanceEdit
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerAccountIndex $customerAccountIndex,
         CustomerOrderSku $customerOrderSku,
-        CheckoutCart $checkoutCart
+        CheckoutCart $checkoutCart,
+        WidgetInstanceIndex $widgetInstanceIndex,
+        WidgetInstanceEdit $widgetInstanceEdit
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->customerOrderSku = $customerOrderSku;
         $this->checkoutCart = $checkoutCart;
+        self::$widgetInstanceIndex = $widgetInstanceIndex;
+        self::$widgetInstanceEdit = $widgetInstanceEdit;
     }
 
     /**

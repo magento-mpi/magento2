@@ -43,7 +43,7 @@ class Widget extends AbstractRepository
             'parameters' => [
                 'display_mode' => 'catalogrule'
             ],
-            'theme_id' => '2'
+            'theme_id' => 'Magento Blank'
         ];
 
         $this->_data['cms_page_link'] = [
@@ -65,7 +65,30 @@ class Widget extends AbstractRepository
                 'display_mode' => 'fixed',
                 'anchor_text' => 'text',
                 'title' => 'anchor title',
+            ],
+            'page_id' => ['dataSet' => 'default'],
+            'theme_id' => 'Magento Blank'
+        ];
 
+        $this->_data['order_by_sku'] = [
+            'code' => 'Order by SKU',
+            'title' => 'Order by SKU %isolation%',
+            'store_ids' => ['dataSet' => 'All Store Views'],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'all_pages',
+                    'all_pages' => [
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'sidebar.additional',
+                        'template' => 'widget/sku.phtml'
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'display_mode' => 'fixed',
+                'anchor_text' => 'text',
+                'title' => 'anchor title',
             ],
             'page_id' => ['dataSet' => 'default'],
             'theme_id' => 'Magento Blank'
