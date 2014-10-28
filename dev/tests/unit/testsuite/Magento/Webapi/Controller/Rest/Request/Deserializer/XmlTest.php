@@ -47,7 +47,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
 
     public function testDeserializerOauthInputException()
     {
-        $this->setExpectedException('\Magento\Framework\Oauth\OauthInputException', 'Request body is expected.');
+        $this->setExpectedException('\Magento\Webapi\Exception', 'Request body is expected.');
         $this->_xmlDeserializer->deserialize('');
     }
 
