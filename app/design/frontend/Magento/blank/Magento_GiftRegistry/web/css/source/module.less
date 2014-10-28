@@ -8,7 +8,7 @@
 
 .form-giftregistry-share,
 .form-giftregistry-edit {
-    &:extend(.abstract-add-recipients all);
+    &:extend(.abstract-add-fields all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
     }
@@ -36,10 +36,9 @@
 
 .form.giftregistry .fieldset {
     .cart-summary & {
-        margin: 15px 0 25px;
+        margin: 15px 0 @indent-m-base;
         .field {
-            margin: 0 0 10px;
-
+            margin: 0 0 @indent-s-base;
             .control {
                 float: none;
                 width: auto;
@@ -48,6 +47,64 @@
         .action.primary {
             &:extend(.abstract-revert-secondary-color all);
             &:extend(.abstract-revert-secondary-size all);
+        }
+    }
+}
+
+.form-giftregistry-search {
+    margin-bottom: @indent-l-base*2;
+    .legend {
+        &:extend(.abstract-account-title all);
+    }
+}
+
+.block-giftregistry-results {
+    .block-title {
+        &:extend(.abstract-block-title all);
+    }
+
+    .toolbar-giftregistry-results {
+        text-align: center;
+    }
+}
+
+.block-giftregistry-shared {
+    .item-options {
+        .item-value {
+            margin: 0 0 @indent-m-base;
+        }
+    }
+}
+
+.block-giftregistry-shared-items {
+    .block-title {
+        &:extend(.abstract-block-title all);
+    }
+
+    .qty {
+        .qty {
+            &:extend(.abstract-input-qty all);
+        }
+    }
+
+    .product {
+        .item-options {
+            &:extend(.abstract-product-options-list all);
+        }
+        &-item-photo {
+            display: table-cell;
+            padding-right: @indent-base;
+            vertical-align: top;
+            width: 1%;
+        }
+        &-item-details {
+            display: table-cell;
+            vertical-align: top;
+            word-break: normal;
+            width: 99%;
+        }
+        &-item-name {
+            margin-top: 0;
         }
     }
 }
@@ -68,6 +125,22 @@
             display: inline-block;
         }
     }
+    .form-giftregistry-search {
+        .fieldset {
+            margin-bottom: 15px;
+        }
+    }
+
+    .block-giftregistry-results,
+    .block-giftregistry-shared-items {
+        .data.table {
+            &:extend(.abstract-table-vertical-mobile-s all);
+        }
+    }
+
+    .toolbar-giftregistry-results {
+        &:extend(.abstract-pager-toolbar-mobile-s all);
+    }
 }
 
 //
@@ -76,6 +149,31 @@
 .responsive(@break) when (@break = @screen-m) {
     .form-giftregistry-share,
     .form-giftregistry-edit {
-        &:extend(.abstract-add-recipients-desktop all);
+        &:extend(.abstract-add-fields-desktop all);
+    }
+
+    .form-giftregistry-search {
+        .fieldset {
+            margin-bottom: @form-field-vertical-indent-desktop;
+        }
+    }
+
+    .toolbar-giftregistry-results {
+        &:extend(.abstract-pager-toolbar all);
+    }
+
+    .block-giftregistry-shared {
+        .item-options {
+            &:extend(.abstract-product-options-list-desktop all);
+            &:extend(.abstract-add-clearfix-desktop all);
+        }
+    }
+
+    .block-giftregistry-shared-items {
+        .column.main & {
+            .actions-toolbar {
+                &:extend(.abstract-reset-left-margin-desktop all);
+            }
+        }
     }
 }

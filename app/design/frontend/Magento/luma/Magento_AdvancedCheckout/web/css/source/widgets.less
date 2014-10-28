@@ -1,0 +1,70 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.block-addbysku {
+    .fieldset {
+        .fields .field {
+            display: inline-block;
+            margin-bottom: @indent-s-base;
+            vertical-align: top;
+            &.sku {
+                &:extend(.abstract-add-box-sizing all);
+                margin-right: -75px;
+                padding-right: 80px;
+                width: 100%;
+            }
+            &.qty {
+                .qty {
+                    &:extend(.abstract-input-qty all);
+                }
+            }
+        }
+        .fields {
+            position: relative;
+        }
+    }
+    .action {
+        &.remove {
+            .button-icon(
+                @_icon-font-content: @icon-remove,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 12px
+            );
+            .button-reset();
+        }
+        &.add {
+            .button-icon(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 18px
+            );
+            line-height: normal;
+            padding: 4px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: auto;
+        }
+        &.links {
+            display: inline-block;
+            margin: @indent-base 0 0;
+        }
+    }
+    .form-addbysku > .actions-toolbar {
+        position: relative;
+        padding-top: 45px;
+    }
+    .fields {
+        position: relative;
+        .actions-toolbar {
+            position: absolute;
+            right: 0;
+            top: 40px;
+        }
+    }
+}
