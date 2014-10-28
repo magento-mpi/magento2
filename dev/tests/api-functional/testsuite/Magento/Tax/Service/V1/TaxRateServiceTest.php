@@ -282,9 +282,9 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $result = $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
         $expectedRateData = [
-            'id' => '2',
+            'id' => 2,
             'country_id' => 'US',
-            'region_id' => '43',
+            'region_id' => 43,
             'postcode' => '*',
             'code' => 'US-NY-*-Rate 1',
             'percentage_rate' => 8.375,
@@ -422,9 +422,9 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $expectedRuleData = [
             [
-                'id' => $rates['codeUs12']->getId(),
+                'id' => (int)$rates['codeUs12']->getId(),
                 'country_id' => $rates['codeUs12']->getTaxCountryId(),
-                'region_id' => $rates['codeUs12']->getTaxRegionId(),
+                'region_id' => (int)$rates['codeUs12']->getTaxRegionId(),
                 'region_name' => 'CA',
                 'postcode' => $rates['codeUs12']->getTaxPostcode(),
                 'code' =>  $rates['codeUs12']->getCode(),
@@ -473,23 +473,21 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $expectedRuleData = [
             [
-                'id' => $rates['codeCz2']->getId(),
+                'id' => (int)$rates['codeCz2']->getId(),
                 'country_id' => $rates['codeCz2']->getTaxCountryId(),
                 'postcode' => $rates['codeCz2']->getTaxPostcode(),
                 'code' =>  $rates['codeCz2']->getCode(),
                 'percentage_rate' =>  ((float) $rates['codeCz2']->getRate()),
-                'region_id' => '0',
-                'region_name' => null,
+                'region_id' => 0,
                 'titles' => [],
             ],
             [
-                'id' => $rates['codeCz1']->getId(),
+                'id' => (int)$rates['codeCz1']->getId(),
                 'country_id' => $rates['codeCz1']->getTaxCountryId(),
                 'postcode' => $rates['codeCz1']->getTaxPostcode(),
                 'code' => $rates['codeCz1']->getCode(),
                 'percentage_rate' => ((float) $rates['codeCz1']->getRate()),
-                'region_id' => '0',
-                'region_name' => null,
+                'region_id' => 0,
                 'titles' => [],
             ]
         ];

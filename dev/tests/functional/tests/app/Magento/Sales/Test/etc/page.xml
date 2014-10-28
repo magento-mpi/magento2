@@ -18,6 +18,11 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
     </orderStatusNew>
+    <orderStatusEdit>
+        <mca>sales/order_status/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusEdit</class>
+    </orderStatusEdit>
     <orderStatusAssign>
         <mca>sales/order_status/assign</mca>
         <area>adminhtml</area>
@@ -84,4 +89,9 @@
         <mca>sales/guest/form</mca>
         <class>Magento\Sales\Test\Page\SalesGuestForm</class>
     </salesGuestForm>
+    <orderCreateIndex>
+        <mca>sales/order_create/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex</class>
+    </orderCreateIndex>
 </page>

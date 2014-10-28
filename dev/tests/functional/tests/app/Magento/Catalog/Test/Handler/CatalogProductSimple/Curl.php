@@ -115,7 +115,8 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'name' => 'cust_group',
             'data' => [
                 'ALL GROUPS' => 32000,
-                'NOT LOGGED IN' => 0
+                'NOT LOGGED IN' => 0,
+                'General' => 1
             ]
         ]
     ];
@@ -209,6 +210,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $fields = $prefix ? [$prefix => $fields] : $fields;
         if ($isCustomOptions) {
             $fields['affect_product_custom_options'] = 1;
+        }
+
+        if (isset($fields['product']['weight'])) {
+            unset($fields['product']['is_virtual']);
         }
 
         return $fields;

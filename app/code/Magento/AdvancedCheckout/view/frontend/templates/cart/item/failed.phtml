@@ -31,7 +31,7 @@ $qtyDisabled = !$this->hasProductUrl() ||
 ?>
 <tbody class="cart item" data-mage-init='{"orderBySkuFailure":{}}'>
     <tr class="item info">
-        <td class="col item">
+        <td data-th="<?php echo $this->escapeHtml(__('Item')); ?>" class="col item">
             <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo">
             <?php else:?>
                 <span class="product photo">
@@ -53,13 +53,13 @@ $qtyDisabled = !$this->hasProductUrl() ||
         </td>
         <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
             <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
-            <td class="col price"><?php echo $this->convertPrice($priceExcludingTax, true);?></td>
+            <td data-th="<?php echo $this->escapeHtml(__('Unit Price')); ?>" class="col price"><?php echo $this->convertPrice($priceExcludingTax, true);?></td>
         <?php endif;?>
         <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
             <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
-            <td class="col price"><?php echo $this->convertPrice($priceIncludingTax, true);?></td>
+            <td data-th="<?php echo $this->escapeHtml(__('Unit Price')); ?>" class="col price"><?php echo $this->convertPrice($priceIncludingTax, true);?></td>
         <?php endif;?>
-        <td class="col qty">
+        <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>" class="col qty">
             <?php $validateItemQuantityCheck = false; ?>
             <div class="control qty">
             <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"

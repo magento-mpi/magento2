@@ -101,6 +101,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
+     * @codeCoverageIgnore
      */
     public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {

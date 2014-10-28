@@ -8,6 +8,7 @@
 
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
@@ -36,10 +37,10 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $writeInterface = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface');
-        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with($this->equalTo(\Magento\Framework\App\Filesystem::VAR_DIR))
+            ->with($this->equalTo(DirectoryList::VAR_DIR))
             ->will($this->returnValue($writeInterface));
 
         $this->contextMock = $this->getMock('Magento\Backend\Block\Template\Context', [], [], '', false);
