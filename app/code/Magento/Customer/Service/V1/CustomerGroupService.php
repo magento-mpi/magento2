@@ -239,7 +239,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         try {
             return $this->getGroup($id);
         } catch (NoSuchEntityException $e) {
-            throw NoSuchEntityException::doubleField('groupId', $id, 'storeId', $storeId);
+            throw NoSuchEntityException::doubleField(CustomerGroup::ID, $id, 'storeId', $storeId);
         }
     }
 
