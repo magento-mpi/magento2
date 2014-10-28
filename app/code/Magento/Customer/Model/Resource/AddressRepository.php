@@ -51,12 +51,18 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     protected $addressSearchResultsBuilder;
 
     /**
+     * @var \Magento\Customer\Model\Resource\Address\CollectionFactory
+     */
+    protected $addressCollectionFactory;
+
+    /**
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Customer\Model\Resource\Address $addressResourceModel
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder
+     * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressCollectionFactory
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -64,7 +70,8 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Customer\Model\Resource\Address $addressResourceModel,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder
+        \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder,
+        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressCollectionFactory
     ) {
         $this->addressFactory = $addressFactory;
         $this->addressRegistry = $addressRegistry;
@@ -72,6 +79,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $this->addressResource = $addressResourceModel;
         $this->directoryData = $directoryData;
         $this->addressSearchResultsBuilder = $addressSearchResultsBuilder;
+        $this->addressCollectionFactory = $addressCollectionFactory;
     }
 
     /**
@@ -133,7 +141,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $this->addressSearchResultsBuilder->setSearchCriteria($searchCriteria);
 
         /** @var Collection $collection */
-        $collection = $this->addressFactory->create()->getCollection();
+        $collection = $this->addressCollectionFactory->create();
         // Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
@@ -153,10 +161,12 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
+        /** @var AddressInterface[] $addresses */
         $addresses = [];
         /** @var CustomerAddressModel $customerAddressModel */
-        foreach ($collection as $customerAddressModel) {
-            $addresses[] = $customerAddressModel->getDataModel();
+        $addressIds = $collection->getAllIds();
+        foreach ($addressIds as $addressId) {
+            $addresses[] = $this->get($addressId);
         }
         $this->addressSearchResultsBuilder->setItems($addresses);
         return $this->addressSearchResultsBuilder->create();
