@@ -183,8 +183,8 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
      *
      * @param mixed $elementValue
      * @param mixed $modelBlockId
-     * @param integer $expectedBlockFactoryCreateCalls ...if ($element->getValue())
-     * @param integer $expectedChooserSetLabelCalls ...if ($block->getId())
+     * @param integer $expectedBlockFactoryCreateCalls
+     * @param integer $expectedChooserSetLabelCalls
      *
      * @dataProvider prepareElementHtmlDataProvider
      */
