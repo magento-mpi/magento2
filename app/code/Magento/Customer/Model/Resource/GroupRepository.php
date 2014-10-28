@@ -247,11 +247,12 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
      */
     public function deleteById($groupId)
     {
-        if (!$this->canDelete($groupId)) {
+        $groupModel = $this->groupRegistry->retrieve($groupId);
+
+        if ($groupId <= 0 || $groupModel->usesAsDefault()) {
             throw new \Magento\Framework\Exception\StateException('Cannot delete group.');
         }
 
-        $groupModel = $this->groupRegistry->retrieve($groupId);
         $groupModel->delete();
         $this->groupRegistry->remove($groupId);
         return true;
@@ -299,15 +300,4 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }
-
-    /**
-     * TODO: remove this once the GroupManagementInterface has been implemented
-     */
-    private function canDelete($groupId)
-    {
-        $customerGroup = $this->groupRegistry->retrieve($groupId);
-        return $groupId > 0 && !$customerGroup->usesAsDefault();
-    }
-
-
 }
