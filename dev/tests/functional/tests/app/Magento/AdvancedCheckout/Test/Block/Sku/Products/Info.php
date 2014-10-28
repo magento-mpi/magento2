@@ -45,6 +45,13 @@ class Info extends Block
     protected $msrp = '.pricing.msrp';
 
     /**
+     * Delete button selector
+     *
+     * @var string
+     */
+    protected $deleteButton = '.action.delete';
+
+    /**
      * Get error message
      *
      * @return string
@@ -98,5 +105,15 @@ class Info extends Block
     public function isMsrpNoticeDisplayed()
     {
         return $this->_rootElement->find($this->msrp)->isVisible();
+    }
+
+    /**
+     * Click delete button
+     *
+     * @return void
+     */
+    public function deleteProduct()
+    {
+        $this->_rootElement->find($this->deleteButton)->click();
     }
 }

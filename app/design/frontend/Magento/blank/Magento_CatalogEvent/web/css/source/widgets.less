@@ -6,4 +6,146 @@
 //  * @license     {license_link}
 //  */
 
-.block.widget.event {}
+.block-event {
+    .columns & {
+        position: relative;
+        z-index: 2;
+    }
+    .block-content {
+        position: relative;
+        >  .action {
+            cursor: pointer;
+            margin-top: -6px;
+            position: absolute;
+            top: 50%;
+            z-index: 3;
+            &.backward,
+            &.forward  {
+                opacity: 0.5;
+                overflow: hidden;
+                width: 20px;
+                .icon-font(
+                    @_icon-font-content: @icon-prev,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 55px,
+                    @_icon-font-line-height: 30px
+                );
+                &:before {
+                    margin-left: -15px;
+                }
+            }
+            &.backward {
+                left: 0;
+            }
+            &.forward {
+                right: 0;
+                .icon-font-symbol(@icon-next);
+            }
+            &.inactive {
+                cursor: default;
+                display: none;
+            }
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+    .slider-panel {
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
+        .slider {
+            &:extend(.abstract-reset-list all);
+            white-space: nowrap;
+            .item {
+                background: @catalog-event-bg;
+                display: inline-block;
+                text-align: center;
+                white-space: normal;
+                vertical-align: top;
+                width: 16.35%;
+                .sidebar-main &,
+                .sidebar-additional & {
+                    width: 100%;
+                }
+                img {
+                    max-width: 100%;
+                }
+                .category-name {
+                    display: inline-block;
+                    .font-size(18);
+                    padding-top: 15px;
+                }
+                .ticker {
+                    .list-reset-styles();
+                    li {
+                        display: none;
+                        margin: 0 5px;
+                    }
+                    .value {
+                        .font-size(26);
+                        font-weight: @font-weight-light;
+                    }
+                    .label {
+                        display: block;
+                        .font-size(13);
+                    }
+                }
+                .dates {
+                    font-weight: @font-weight-light;
+                    .start,
+                    .end,
+                    .date {
+                        display: block;
+                    }
+                    .start {
+                        &:after {
+                            content: "\2013";
+                            .font-size(18);
+                            display: block;
+                        }
+                    }
+                    .date {
+                        .font-size(18);
+                        font-weight: @font-weight-light;
+                    }
+                    .time {
+                        .font-size(13);
+                    }
+                }
+                .box-event {
+                    .box-content {
+                        padding: 5px 0 @indent-s-base;
+                    }
+                    .box-title {
+                        font-weight: @font-weight-light;
+                        display: block;
+                        margin: @indent-s-base 0 0;
+                    }
+                }
+                .action {
+                    &.show {
+                        &:extend(.abstract-add-box-sizing all);
+                        display: block;
+                        padding: 0;
+                        .category.name {
+                            display: inline-block;
+                            padding: 30px 10px 0;
+                        }
+                        img {
+                            display: block;
+                        }
+                    }
+                    &.event {
+                        .button-primary();
+                        &:extend(.abstract-action-link-button all);
+                        margin-top: 15px;
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="invitation/index" module="Magento_Invitation">
+    <blocks>
+        <invitationsBlock>
+            <class>Magento\Invitation\Test\Block\Customer\ListCustomer</class>
+            <locator>.invitations</locator>
+            <strategy>css selector</strategy>
+        </invitationsBlock>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+    </blocks>
+</page>
