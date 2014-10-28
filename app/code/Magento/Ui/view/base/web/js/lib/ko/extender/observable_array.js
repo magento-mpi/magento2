@@ -62,6 +62,10 @@ define([
             return _.without.apply(_, args);
         },
 
+        first: function () {
+            return _.first(this());
+        },
+
         last: function () {
             return _.last(this());
         },

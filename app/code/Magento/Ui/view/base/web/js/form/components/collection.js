@@ -39,22 +39,22 @@ define([
         },
 
         initElement: function (element) {
+            element.setDataScope(this.dataScope);
+            this.setActiveElement();
+        },
+
+        setActiveElement: function (element) {
             var indexed         = this.elems.indexBy('index'),
                 activeIndex     = this.active(),
-                activeExists    = indexed[activeIndex],
                 activeDefined   = activeIndex !== null,
-                elementIndex    = element.index,
+                activeExist     = indexed[activeIndex] !== undefined,
                 activeElement;
 
-            element.setDataScope(this.dataScope);
-
             activeElement = activeDefined
-                ? (activeExists ? (elementIndex == activeIndex) && element : element)
-                : (elementIndex == 0) && element
+                ? (activeExist ? indexed[activeIndex] : this.elems.last())
+                : this.elems.first();
 
-            if (activeElement) {
-                this._setActive(activeElement);
-            }
+            this.activate(activeElement);
         },
 
         initRenderer: function () {
@@ -81,6 +81,7 @@ define([
 
         initChild: function (item, index) {
             this.lastIndex++;
+
             this.createChild(index);
         },
 
@@ -109,31 +110,24 @@ define([
 
             if (shouldRemove) {
                 this.remove(element);
+                this.setActiveElement();
             }
         },
 
-        setActive: function (element) {
-            return this._setActive.bind(this, element);
+        toggleActiveElement: function (element) {
+            return this.activate.bind(this, element);
         },
 
-        _setActive: function (element) {
-            var index = element.index;
+        activate: function (element) {
+            this.active(element.index);
 
-            this.active(index);
-            this.activate(element);
-            this.deactivate(this.elems.without(element));
-        },
+            element.active(true);
 
-        deactivate: function (elements) {
-            elements.each(function (element) {
+            this.elems.without(element).each(function (element) {
                 element.active(false);
             });
 
             return this;
-        },
-
-        activate: function (element) {
-            element.active(true);
         }
     });
 });
