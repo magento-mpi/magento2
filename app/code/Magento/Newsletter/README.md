@@ -1,0 +1,1 @@
+Magento_Newsletter module allows clients to subscribe and receive an information about new promotions and discounts from one hand and allows the store administrators to send newsletters to clients who are subscribed to them from other hand.
