@@ -157,7 +157,15 @@ abstract class AbstractSimpleObjectBuilder
      */
     protected function _getDataObjectType()
     {
-        return substr(get_class($this), 0, -7);
+        $currentClass = get_class($this);
+        $dataBuilderSuffix = 'DataBuilder';
+        if (substr($currentClass, -strlen($dataBuilderSuffix)) === $dataBuilderSuffix) {
+            $dataObjectType = substr($currentClass, 0, -strlen($dataBuilderSuffix)) . 'Interface';
+        } else {
+            $builderSuffix = 'Builder';
+            $dataObjectType = substr($currentClass, 0, -strlen($builderSuffix));
+        }
+        return $dataObjectType;
     }
 
     /**

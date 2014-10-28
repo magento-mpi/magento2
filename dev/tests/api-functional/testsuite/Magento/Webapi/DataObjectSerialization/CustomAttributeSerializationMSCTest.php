@@ -9,7 +9,7 @@
 namespace Magento\Webapi\DataObjectSerialization;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder;
+use Magento\TestModuleMSC\Api\Data\ItemDataBuilder;
 use Magento\Webapi\Model\DataObjectProcessor;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
@@ -43,12 +43,12 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
     protected $itemDataBuilder;
 
     /**
-     * @var \Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeNestedDataObjectDataBuilder
+     * @var \Magento\TestModuleMSC\Api\Data\CustomAttributeNestedDataObjectDataBuilder
      */
     protected $customAttributeNestedDataObjectDataBuilder;
 
     /**
-     * @var \Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObjectDataBuilder
+     * @var \Magento\TestModuleMSC\Api\Data\CustomAttributeDataObjectDataBuilder
      */
     protected $customAttributeDataObjectDataBuilder;
 
@@ -76,15 +76,15 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         );
 
         $this->itemDataBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\TestModuleMSC\Service\V1\Entity\ItemDataBuilder'
+            'Magento\TestModuleMSC\Api\Data\ItemDataBuilder'
         );
 
         $this->customAttributeNestedDataObjectDataBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeNestedDataObjectDataBuilder'
+            'Magento\TestModuleMSC\Api\Data\CustomAttributeNestedDataObjectDataBuilder'
         );
 
         $this->customAttributeDataObjectDataBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\TestModuleMSC\Service\V1\Entity\CustomAttributeDataObjectDataBuilder'
+            'Magento\TestModuleMSC\Api\Data\CustomAttributeDataObjectDataBuilder'
         );
 
         $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
@@ -137,7 +137,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
                 ],
         ];
 
-        //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
+        //\Magento\TestModuleMSC\Api\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
 
@@ -145,7 +145,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
     {
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute($this->valueBuilder->setAttributeCode('custom_attribute_int')->setValue(1)->create())
+            ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
@@ -177,10 +177,10 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface',
+            '\Magento\TestModuleMSC\Api\AllSoapAndRestInterface',
             'itemAnyType'
         );
-        //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
+        //\Magento\TestModuleMSC\Api\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
 
@@ -196,14 +196,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
         $result = $this->_webApiCall($serviceInfo, []);
 
-        $customAttributeIntAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_int')
-            ->setValue(1)
-            ->create();
-
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute($customAttributeIntAttributeValue)
+            ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
@@ -225,7 +220,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface',
+            '\Magento\TestModuleMSC\Api\AllSoapAndRestInterface',
             'getPreconfiguredItem'
         );
         $this->assertEquals($expectedResponse, $result);
@@ -237,20 +232,10 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setName('nestedNameValue')
             ->create();
 
-        $customAttributeNestedDataObjectAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_nested')
-            ->setValue($customAttributeNestedDataObject)
-            ->create();
-
-        $customAttributeIntAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_int')
-            ->setValue(1)
-            ->create();
-
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute($customAttributeNestedDataObjectAttributeValue)
-            ->setCustomAttribute($customAttributeIntAttributeValue)
+            ->setCustomAttribute('custom_attribute_nested', $customAttributeNestedDataObject)
+            ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
@@ -279,16 +264,16 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         ];
         $requestData = $this->dataObjectProcessor->buildOutputDataArray(
             $item,
-            '\Magento\TestModuleMSC\Service\V1\Entity\ItemInterface'
+            '\Magento\TestModuleMSC\Api\Data\ItemInterface'
         );
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
 
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
             $item,
-            '\Magento\TestModuleMSC\Service\V1\AllSoapAndRestInterface',
+            '\Magento\TestModuleMSC\Api\AllSoapAndRestInterface',
             'itemAnyType'
         );
-        //\Magento\TestModuleMSC\Service\V1\AllSoapAndRest::itemAnyType just return the input data back as response
+        //\Magento\TestModuleMSC\Api\AllSoapAndRest::itemAnyType just return the input data back as response
         $this->assertEquals($expectedResponse, $result);
     }
 }

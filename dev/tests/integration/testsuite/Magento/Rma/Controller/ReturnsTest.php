@@ -59,8 +59,8 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/returns/addlabel', '<td class="col carrier">CarrierTitle</td>'),
-            array('rma/returns/dellabel', '<td class="col carrier">CarrierTitle</td>')
+            array('rma/returns/addlabel', 'class="col carrier">CarrierTitle</td>'),
+            array('rma/returns/dellabel', 'class="col carrier">CarrierTitle</td>')
         );
     }
 }

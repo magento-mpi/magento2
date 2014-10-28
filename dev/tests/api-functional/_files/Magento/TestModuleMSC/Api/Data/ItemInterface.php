@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModuleMSC\Service\V1\Entity;
+namespace Magento\TestModuleMSC\Api\Data;
 
 interface ItemInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
 {

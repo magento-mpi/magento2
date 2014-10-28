@@ -5,9 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModuleMSC\Service\V1\Entity;
+namespace Magento\TestModuleMSC\Model\Data;
 
-class CustomAttributeDataObject extends \Magento\Framework\Model\AbstractExtensibleModel
+use Magento\TestModuleMSC\Api\Data\CustomAttributeDataObjectInterface;
+
+class CustomAttributeDataObject extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     implements CustomAttributeDataObjectInterface
 {
     /**

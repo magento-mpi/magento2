@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModuleMSC\Service\V1\Entity;
+namespace Magento\TestModuleMSC\Api\Data;
 
-interface CustomAttributeDataObjectInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface CustomAttributeNestedDataObjectInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
     /**
      * @return string

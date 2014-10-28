@@ -13,6 +13,8 @@ use Magento\Framework\Code\Generator\EntityAbstract;
 
 /**
  * Class Builder
+ *
+ * @deprecated Use DataBuilder instead
  */
 class Builder extends EntityAbstract
 {

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModuleMSC\Service\V1\Entity\Eav;
+namespace Magento\TestModuleMSC\Model\Data\Eav;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;

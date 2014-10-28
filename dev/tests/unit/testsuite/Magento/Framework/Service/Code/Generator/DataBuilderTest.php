@@ -98,7 +98,7 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
         //Mocking _validateData call
         $this->autoloaderMock->expects($this->at(0))
             ->method('getFile')
-            ->with(self::SOURCE_CLASS_NAME)
+            ->with(self::SOURCE_CLASS_NAME . "Interface")
             ->will($this->returnValue($sourceFileName));
         $this->autoloaderMock->expects($this->at(1))
             ->method('getFile')
