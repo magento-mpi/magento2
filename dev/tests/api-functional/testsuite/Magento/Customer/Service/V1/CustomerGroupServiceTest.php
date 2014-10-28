@@ -8,7 +8,8 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\GroupRegistry;
-use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Model\Resource\GroupRepository;
+use Magento\Customer\Model\Data\Group as CustomerGroup;
 use Magento\Customer\Service\V1\CustomerGroupService;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -34,6 +35,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     private $groupRegistry;
 
     /**
+     * @var GroupRepository
+     */
+    private $groupRepository;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
@@ -44,6 +50,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'Magento\Customer\Service\V1\CustomerGroupServiceInterface',
             ['groupRegistry' => $this->groupRegistry]
         );
+        $this->groupRepository = $objectManager->get('Magento\Customer\Model\Resource\GroupRepository');
     }
 
     /**
@@ -109,6 +116,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 0,
                     CustomerGroup::CODE => 'NOT LOGGED IN',
                     CustomerGroup::TAX_CLASS_ID => 3,
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
                 ]
             ],
             'General' => [
@@ -116,6 +124,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
                 ]
             ],
             'Wholesale' => [
@@ -123,6 +132,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 2,
                     CustomerGroup::CODE => 'Wholesale',
                     CustomerGroup::TAX_CLASS_ID => 3,
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
                 ]
             ],
             'Retailer' => [
@@ -130,6 +140,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 3,
                     CustomerGroup::CODE => 'Retailer',
                     CustomerGroup::TAX_CLASS_ID => 3,
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
                 ]
             ],
         ];
@@ -227,6 +238,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
                 ]
             ],
             'base' => [
@@ -235,6 +247,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                     CustomerGroup::ID => 1,
                     CustomerGroup::CODE => 'General',
                     CustomerGroup::TAX_CLASS_ID => 3,
+                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
                 ]
             ]
         ];
@@ -394,7 +407,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupService->getGroup($groupId);
+        $newGroup = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
@@ -409,7 +422,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function testCreateGroupDuplicateGroupRest()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Api\Data\GroupDataBuilder');
         $this->_markTestAsRestOnly();
 
         $duplicateGroupCode = 'Duplicate Group Code REST';
@@ -474,7 +487,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupService->getGroup($groupId);
+        $newGroup = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
@@ -511,7 +524,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             // @codingStandardsIgnoreStart
             $this->assertContains(
-                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":null}',
+                '{"message":"%fieldName is a required field.","parameters":{"fieldName":"code"}}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -581,7 +594,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $this->assertContains(
-                "ID is not expected for this request.",
+                '{"message":"No such entity with %fieldName = %fieldValue","parameters":{"fieldName":"groupId","fieldValue":88}}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -628,7 +641,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testUpdateGroupRest()
     {
         $this->_markTestAsRestOnly();
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Api\Data\GroupDataBuilder');
         $groupId = $this->createGroup(
             $builder->populateWithArray([
                 CustomerGroup::ID => null,
@@ -651,9 +664,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $this->assertEquals($groupId, $this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupService->getGroup($groupId);
+        $group = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData[CustomerGroup::TAX_CLASS_ID],
@@ -690,7 +703,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
-             . '"parameters":{"fieldName":"id","fieldValue":"9999"}';
+             . '"parameters":{"fieldName":"groupId","fieldValue":"9999"}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -724,7 +737,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupService->getGroup($groupId);
+        $newGroup = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
@@ -740,7 +753,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testCreateGroupDuplicateGroupSoap()
     {
         $this->_markTestAsSoapOnly();
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Api\Data\GroupDataBuilder');
         $duplicateGroupCode = 'Duplicate Group Code SOAP';
 
         $this->createGroup(
@@ -805,7 +818,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupService->getGroup($groupId);
+        $newGroup = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
@@ -895,7 +908,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testUpdateGroupSoap()
     {
         $this->_markTestAsSoapOnly();
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Api\Data\GroupDataBuilder');
         $groupId = $this->createGroup(
             $builder->populateWithArray([
                     CustomerGroup::ID => null,
@@ -921,7 +934,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupService->getGroup($groupId);
+        $group = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'],
@@ -972,7 +985,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function testDeleteGroupExists()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Api\Data\GroupDataBuilder');
         $groupId = $this->createGroup(
             $builder->populateWithArray([
                 CustomerGroup::ID => null,
@@ -998,7 +1011,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertTrue($response, 'Expected response should be true.');
 
         try {
-            $this->groupService->getGroup($groupId);
+            $this->groupRegistry->retrieve($groupId);
             $this->fail('An expected NoSuchEntityException was not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals(
@@ -1083,7 +1096,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             );
         }
 
-        $this->assertNotNull($this->groupService->getGroup($groupIdAssignedDefault));
+        $this->assertNotNull($this->groupRegistry->retrieve($groupIdAssignedDefault));
     }
 
     /**
@@ -1094,10 +1107,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     private function createGroup($group)
     {
-        $groupId = $this->groupService->createGroup($group);
+        $groupId = $this->groupRepository->save($group);
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupService->getGroup($groupId);
+        $newGroup = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($group->getCode(), $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(

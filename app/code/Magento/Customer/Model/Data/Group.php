@@ -14,14 +14,6 @@ namespace Magento\Customer\Model\Data;
 class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\GroupInterface
 {
-    /**#@+
-     * Constants for keys of data array
-     */
-    const ID = 'id';
-    const CODE = 'code';
-    const TAX_CLASS_ID = 'tax_class_id';
-    const TAX_CLASS_NAME = 'tax_class_name';
-
     /**
      * Get ID
      *

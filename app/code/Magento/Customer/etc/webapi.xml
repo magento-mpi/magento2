@@ -11,7 +11,7 @@
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <!-- Customer Group Service-->
     <route url="/V1/customerGroups/:groupId" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="getGroup"/>
+        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
@@ -53,19 +53,19 @@
         </resources>
     </route>
     <route url="/V1/customerGroups" method="POST">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="createGroup"/>
+        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
     <route url="/V1/customerGroups/:groupId" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="updateGroup"/>
+        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
     <route url="/V1/customerGroups/:groupId" method="DELETE">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="deleteGroup"/>
+        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
