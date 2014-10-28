@@ -16,7 +16,7 @@ $count = $_helper->getItemCount();
     <div class="block-title">
         <strong><?php echo __('Compare Products') ?></strong>
         <?php if($count > 0): ?>
-        <span class="counter"><?php echo ($count == 1) ? ('1 item') : ($count.' items') ?></span>
+        <span class="counter qty"><?php echo ($count == 1) ? __('1 item') : __('%1 items',$count) ?></span>
         <?php endif; ?>
     </div>
     <div class="block-content">
