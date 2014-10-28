@@ -71,7 +71,7 @@ class RouteConfigFilesTest extends \PHPUnit_Framework_TestCase
             $errors = array();
             $mergedConfig->validate($this->_mergedSchemaFile, $errors);
         } catch (\Exception $e) {
-            $this->fail('Merged routes config is invalid: ' . "\n" . implode("\n", $errors));
+            $this->fail('Merged routes config is invalid: ' . "\n" . implode("\n", $errors) . $e.getMessage());
         }
     }
 }
