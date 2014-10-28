@@ -64,13 +64,19 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
         foreach ($storage->getData() as $key => $data) {
             $result['providers'][$key] = [
                 'path' => "Magento_Ui/js/form/provider/provider",
-                'data' => $data
+                'data' => $data,
+                'config' => [
+                    'submit_url' => 'bla'
+                ]
             ];
         }
         $result['renderer']= [
             'types' => $storage->getComponents(),
-            'layout' => $storage->getLayoutNodes()
+            'layout' => $storage->getLayoutStructure()
         ];
+        //ob_clean();
+        //var_dump($result['renderer']['types']['nav']);
+        //var_dump($storage->getLayoutStructure()['customer_form']['children']);dd();
         return json_encode($result);
     }
 }

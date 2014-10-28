@@ -67,58 +67,24 @@ class ConfigurationStorage implements ConfigStorageInterface
     /**
      * @var array
      */
-    protected $layoutNodes = [];
+    protected $layoutStructure = [];
 
     /**
-     * @param string $name
-     * @param array $value
-     */
-    public function addLayoutNode($name, array $value)
-    {
-        $this->layoutNodes[$name] = $value;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLayoutNodes()
-    {
-        return $this->layoutNodes;
-    }
-
-    /**
-     * @param string $name
-     * @param mixed $default
-     * @return array
-     */
-    public function getLayoutNode($name, $default = null)
-    {
-        if (strpos($name, '.') !== false) {
-            $nameParts = explode('.', $name);
-            $firstChunk = array_shift($nameParts);
-            $node = isset($this->layoutNodes[$firstChunk]) ? $this->layoutNodes[$firstChunk] : [];
-            foreach ($nameParts as $nodeName) {
-                if (isset($node['children'][$nodeName])) {
-                    $node = $node['children'][$nodeName];
-                } else {
-                    $node = $default;
-                    break;
-                }
-            }
-        } else {
-            $node = isset($this->layoutNodes[$name]) ? $this->layoutNodes[$name] : [];
-        }
-        return $node;
-    }
-
-    /**
-     * @param string $name
-     * @param array $data
-     * @return mixed
+     * @inheritdoc
      */
     public function addComponent($name, $data)
     {
         $this->components[$name] = $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addComponentsData(ConfigInterface $config)
+    {
+        if (!isset($this->componentStorage[$config->getName()])) {
+            $this->componentStorage[$config->getName()] = $config;
+        }
     }
 
     /**
@@ -138,23 +104,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add components configuration
-     *
-     * @param ConfigInterface $config
-     * @return void
-     */
-    public function addComponentsData(ConfigInterface $config)
-    {
-        if (!isset($this->componentStorage[$config->getName()])) {
-            $this->componentStorage[$config->getName()] = $config;
-        }
-    }
-
-    /**
-     * Remove components configuration
-     *
-     * @param ConfigInterface $configuration
-     * @return void
+     * @inheritdoc
      */
     public function removeComponentsData(ConfigInterface $configuration)
     {
@@ -162,10 +112,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get components configuration
-     *
-     * @param string|null $name
-     * @return ConfigInterface|null|array
+     * @inheritdoc
      */
     public function getComponentsData($name = null)
     {
@@ -176,11 +123,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function addData($key, array $data)
     {
@@ -190,10 +133,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove data in storage
-     *
-     * @param string $key
-     * @return void
+     * @inheritdoc
      */
     public function removeData($key)
     {
@@ -201,10 +141,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get data from storage
-     *
-     * @param string|null $key
-     * @return array|null
+     * @inheritdoc
      */
     public function getData($key = null)
     {
@@ -215,11 +152,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Update data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function updateData($key, array $data)
     {
@@ -229,11 +162,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add meta data
-     *
-     * @param string $key
-     * @param array $data
-     * @return mixed
+     * @inheritdoc
      */
     public function addMeta($key, array $data)
     {
@@ -243,10 +172,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove meta data
-     *
-     * @param string $key
-     * @return array
+     * @inheritdoc
      */
     public function removeMeta($key)
     {
@@ -254,10 +180,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get meta data
-     *
-     * @param string|null $key
-     * @return array
+     * @inheritdoc
      */
     public function getMeta($key = null)
     {
@@ -268,11 +191,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Update meta data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function updateMeta($key, array $data)
     {
@@ -282,11 +201,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Set data collection
-     *
-     * @param string $key
-     * @param DataCollection $dataCollection
-     * @return void
+     * @inheritdoc
      */
     public function addDataCollection($key, DataCollection $dataCollection)
     {
@@ -296,10 +211,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get data collection
-     *
-     * @param string|null $key
-     * @return DataCollection|null
+     * @inheritdoc
      */
     public function getDataCollection($key = null)
     {
@@ -310,11 +222,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Update data collection in storage
-     *
-     * @param string $key
-     * @param DataCollection $dataCollection
-     * @return mixed
+     * @inheritdoc
      */
     public function updateDataCollection($key, DataCollection $dataCollection)
     {
@@ -324,11 +232,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add cloud data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function addGlobalData($key, array $data)
     {
@@ -338,10 +242,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove cloud data in storage
-     *
-     * @param string $key
-     * @return void
+     * @inheritdoc
      */
     public function removeGlobalData($key)
     {
@@ -349,10 +250,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get cloud data from storage
-     *
-     * @param string|null $key
-     * @return array|null
+     * @inheritdoc
      */
     public function getGlobalData($key = null)
     {
@@ -363,9 +261,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * @param string $key
-     * @param DataProviderInterface $dataProvider
-     * @return void
+     * @inheritdoc
      */
     public function addDataProvider($key, DataProviderInterface $dataProvider)
     {
@@ -375,8 +271,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * @param string $key
-     * @return void
+     * @inheritdoc
      */
     public function removeDataProvider($key)
     {
@@ -386,8 +281,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * @param null $key
-     * @return DataProviderInterface[]|DataProviderInterface|null
+     * @inheritdoc
      */
     public function getDataProvider($key = null)
     {
@@ -398,14 +292,51 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * @param string $key
-     * @param DataProviderInterface $dataProvider
-     * @return void
+     * @inheritdoc
      */
     public function updateDataProvider($key, DataProviderInterface $dataProvider)
     {
         if (isset($this->dataProviderStorage[$key])) {
             $this->dataProviderStorage[$key] = $dataProvider;
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addLayoutStructure($dataScope, array $structure)
+    {
+        $this->layoutStructure[$dataScope] = $structure;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLayoutStructure()
+    {
+        return $this->layoutStructure;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLayoutNode($name, $default = null)
+    {
+        if (strpos($name, '.') !== false) {
+            $nameParts = explode('.', $name);
+            $firstChunk = array_shift($nameParts);
+            $node = isset($this->layoutStructure[$firstChunk]) ? $this->layoutStructure[$firstChunk] : [];
+            foreach ($nameParts as $nodeName) {
+                if (isset($node['children'][$nodeName])) {
+                    $node = $node['children'][$nodeName];
+                } else {
+                    $node = $default;
+                    break;
+                }
+            }
+        } else {
+            $node = isset($this->layoutStructure[$name]) ? $this->layoutStructure[$name] : [];
+        }
+        return $node;
     }
 }

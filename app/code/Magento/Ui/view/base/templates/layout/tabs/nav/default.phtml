@@ -9,33 +9,6 @@
  * @var \Magento\Ui\Component\Layout\Tabs\Nav $this
  */
 ?>
-<?php if (true): ?>
-    <div data-bind="scope: 'tabs' " class="ui-tabs">
-        <!-- ko template: getTemplate() --><!-- /ko -->
-    </div>
-<?php else: ?>
-    <div data-bind="scope: 'tabs' " class="ui-tabs">
-        <div class="block tab-nav" >
-            <?php $index = 0; foreach ($this->getTabs() as $tab): ++$index; ?>
-                <div class="block-title" data-bind="css: { 'ui-accordion-header': collapsible, 'ui-accordion-header-active': opened() && collapsible }, click: toggle, click: onClick, keyboard: { 13: onClick }">
-                    <strong tabindex="<?php echo $index; ?>" data-bind="text: label, keyboard: { 13: toggle }"><?php echo $tab['config']['label']; ?></strong>
-                </div>
-                <ul class="tab-nav-items items" data-bind="visible: opened">
-                    <?php if (isset($tab['children'])): ?>
-                        <?php foreach ($tab['children'] as $childTabName): ++$index; ?>
-                            <li class="tab-nav-item" tabindex="<?php echo $index; ?>" data-bind="css: { 'ui-state-active': active, 'ui-tabs-loading': loading }, click: setActive, keyboard: { 13: setActive }">
-                                <a class="tab-nav-item-link" href="#" data-bind="text: label, css: { changed: changed }">
-                                    <span>
-                                        <?php $tabElement = $this->getLayoutElement($childTabName); ?>
-                                        <?php echo $tabElement['config']['label']; ?>
-                                        <span class="loader" title="Loading..."></span>
-                                    </span>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif;?>
-                </ul>
-            <?php endforeach; ?>
-        </div>
-    </div>
-<?php endif; ?>
+<div data-bind="scope: '<?php echo $this->getDataScope(); ?>.sections' " class="ui-tabs">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>

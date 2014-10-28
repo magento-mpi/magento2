@@ -198,7 +198,6 @@ abstract class AbstractView extends Template implements UiComponentInterface
         $element->update($arguments);
         $result = $element->renderLabel();
         $element->setData($prevData);
-
         return $result;
     }
 

@@ -11,17 +11,10 @@ use Magento\Framework\View\Element\Template;
 
 /**
  * Class Tabs
+ *
+ * @package Magento\Ui\Component\Layout
  */
 class Tabs extends AbstractStructure
 {
-    /**
-     * Get tabs
-     *
-     * @return array
-     */
-    public function getTabs()
-    {
-        $tabs = $this->renderContext->getStorage()->getLayoutNode('sections');
-        return isset($tabs['children']) ? $tabs['children'] : [];
-    }
+    const NAME = 'tabs';
 }
