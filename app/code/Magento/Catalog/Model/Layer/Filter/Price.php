@@ -10,6 +10,7 @@ namespace Magento\Catalog\Model\Layer\Filter;
 /**
  * Layer price filter
  *
+ * @method null|array getInterval()
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
@@ -82,6 +83,11 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $priceCurrency;
 
     /**
+     * @var Dynamic\AlgorithmFactory
+     */
+    private $algorithmFactory;
+
+    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -91,6 +97,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param Dynamic\AlgorithmFactory $algorithmFactory
      * @param array $data
      */
     public function __construct(
@@ -103,6 +110,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
         array $data = array()
     ) {
         $this->priceCurrency = $priceCurrency;
@@ -113,6 +121,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'price';
+        $this->algorithmFactory = $algorithmFactory;
     }
 
     /**
@@ -312,37 +321,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getItemsData()
     {
-        if ($this->_scopeConfig->getValue(
-            self::XML_PATH_RANGE_CALCULATION,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) == self::RANGE_CALCULATION_IMPROVED
-        ) {
-            return $this->_getCalculatedItemsData();
-        } elseif ($this->getInterval()) {
-            return array();
-        }
+        $algorithm = $this->algorithmFactory->create();
 
-        $range = $this->getPriceRange();
-        $dbRanges = $this->getRangeItemCounts($range);
-        $data = array();
-
-        if (!empty($dbRanges)) {
-            $lastIndex = array_keys($dbRanges);
-            $lastIndex = $lastIndex[count($lastIndex) - 1];
-
-            foreach ($dbRanges as $index => $count) {
-                $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
-                $toPrice = $index == $lastIndex ? '' : $index * $range;
-
-                $data[] = array(
-                    'label' => $this->_renderRangeLabel($fromPrice, $toPrice),
-                    'value' => $fromPrice . '-' . $toPrice,
-                    'count' => $count
-                );
-            }
-        }
-
-        return $data;
+        return $algorithm->getItemsData((array)$this->getInterval(), $this->_getAdditionalRequestData());
     }
 
     /**
