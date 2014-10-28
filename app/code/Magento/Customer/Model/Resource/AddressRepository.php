@@ -83,12 +83,12 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      */
     public function save(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
         $addressModel = null;
+        $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
         if ($address->getId()) {
-            $addressModel = $customerModel->getAddressItemById($address->getId());
-            // is there set address by id
+            $addressModel = $this->addressRegistry->retrieve($address->getId());
         }
+
         if (is_null($addressModel)) {
             $addressModel = $this->addressFactory->create();
             $addressModel->updateData($address);
@@ -97,13 +97,15 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
             $addressModel->updateData($address);
         }
 
-        $inputException = $this->_validate($addressModel); //move out validation
+        $inputException = $this->_validate($addressModel);
         if ($inputException->wasErrorAdded()) {
             throw $inputException;
         }
-        $this->addressResource->save($addressModel); // move before/after save from model to resource model
-        $this->addressRegistry->push($addressModel); // customer set by id
-        return $addressModel->getDataModel(true, true); // remove parameters
+        $this->addressResource->save($addressModel);
+        $this->addressRegistry->push($addressModel);
+        $customerModel->getAddressesCollection()->clear();
+
+        return $addressModel->getDataModel();
     }
 
     /**
@@ -116,7 +118,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     public function get($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
-        return $address->getDataModel(true, true);
+        return $address->getDataModel();
     }
 
     /**
@@ -203,6 +205,8 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     public function delete(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         $address = $this->addressRegistry->retrieve($address->getId());
+        $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
+        $customerModel->getAddressesCollection()->clear();
         $this->addressResource->delete($address);
         $this->addressRegistry->remove($address->getId());
         return true;
@@ -219,6 +223,8 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     public function deleteById($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
+        $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
+        $customerModel->getAddressesCollection()->clear();
         $this->addressResource->delete($address);
         $this->addressRegistry->remove($addressId);
         return true;

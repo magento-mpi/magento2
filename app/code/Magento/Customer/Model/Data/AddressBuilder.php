@@ -12,7 +12,6 @@ use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Framework\Service\Data\AbstractExtensibleObject as ExtensibleObject;
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Customer\Service\V1\Data\RegionBuilder;
 
 /**
  * Builder for the Address Service Data Object

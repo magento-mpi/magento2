@@ -22,28 +22,34 @@ class FormPost extends \Magento\Customer\Controller\Address
         $addressId = $this->getRequest()->getParam('id');
         $existingAddressData = array();
         if ($addressId) {
-            $existingAddress = $this->_addressService->getAddress($addressId);
-            if ($existingAddress->getId()) {
-                $existingAddressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray(
-                    $existingAddress
-                );
-            }
+            $existingAddress = $this->_addressRepository->get($addressId);
+
+            $existingAddressData = $this->_dataProcessor
+                ->buildOutputDataArray($existingAddress, '\Magento\Customer\Api\Data\AddressInterface');
+
+            $region = $existingAddress->getRegion()->getRegion();
+            $existingAddressData['region_code'] = $existingAddress->getRegion()->getRegionCode();
+            $existingAddressData['region_id'] = $existingAddress->getRegion()->getRegionId();
+            $existingAddressData['region'] = $region;
         }
 
         /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
         $addressForm = $this->_formFactory->create('customer_address', 'customer_address_edit', $existingAddressData);
         $addressData = $addressForm->extractData($this->getRequest());
         $attributeValues = $addressForm->compactData($addressData);
-        $region = array('region_id' => $attributeValues['region_id'], 'region' => $attributeValues['region']);
+
+        $region = [
+            'region_id' => $attributeValues['region_id'],
+            'region' => $attributeValues['region'],
+            'region_code' => $attributeValues['region_code']
+        ];
         unset($attributeValues['region'], $attributeValues['region_id']);
         $attributeValues['region'] = $region;
-        return $this->_addressBuilder->populateWithArray(
-            array_merge($existingAddressData, $attributeValues)
-        )->setDefaultBilling(
-            $this->getRequest()->getParam('default_billing', false)
-        )->setDefaultShipping(
-            $this->getRequest()->getParam('default_shipping', false)
-        )->create();
+
+        return $this->_addressDataBuilder
+            ->populateWithArray(array_merge($existingAddressData, $attributeValues))
+            ->setCustomerId($this->_getSession()->getCustomerId())
+            ->create();
     }
 
     /**
@@ -63,10 +69,10 @@ class FormPost extends \Magento\Customer\Controller\Address
             $this->getResponse()->setRedirect($this->_redirect->error($this->_buildUrl('*/*/edit')));
             return;
         }
-        $customerId = $this->_getSession()->getCustomerId();
+
         try {
             $address = $this->_extractAddress();
-            $this->_addressService->saveAddresses($customerId, array($address));
+            $this->_addressRepository->save($address);
             $this->messageManager->addSuccess(__('The address has been saved.'));
             $url = $this->_buildUrl('*/*/index', array('_secure' => true));
             $this->getResponse()->setRedirect($this->_redirect->success($url));

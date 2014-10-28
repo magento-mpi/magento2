@@ -105,20 +105,20 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
+     * Update Model with the data from Data Interface
+     *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return $this
+     * @deprecated Use Api/RepositoryInterface for the operations in the Data Interfaces. Don't rely on Address Model
      */
-    public function updateData($address)
+    public function updateData(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         // Set all attributes
         $attributes = $this->dataProcessor
             ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
 
         foreach ($attributes as $attributeCode => $attributeData) {
-            if (
-                AddressData::KEY_REGION === $attributeCode
-                && $address->getRegion() instanceof \Magento\Customer\Api\Data\RegionInterface
-            ) {
+            if (AddressData::KEY_REGION === $attributeCode) {
                 $this->setDataUsingMethod(RegionData::REGION, $address->getRegion()->getRegion());
                 $this->setDataUsingMethod(RegionData::REGION_CODE, $address->getRegion()->getRegionCode());
                 $this->setDataUsingMethod(RegionData::REGION_ID, $address->getRegion()->getRegionId());
@@ -137,6 +137,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Retrieve Data Model with the Address data
      *
      * @return \Magento\Customer\Api\Data\AddressInterface
+     * @deprecated Use Api/Data/AddressInterface as a result of service operations. Don't rely on the model to provide
+     * the instance of Api/Data/AddressInterface
      */
     public function getDataModel()
     {

@@ -38,9 +38,9 @@ interface AddressInterface extends ExtensibleDataInterface
     public function getRegion();
 
     /**
-     * Get country id
+     * Two-letter country code in ISO_3166-2 format
      *
-     * @return int|null
+     * @return string|null
      */
     public function getCountryId();
 
