@@ -76,8 +76,10 @@ class WebApiApplication extends Application
                     }
                     continue;
                 }
-                $installCmd .= " --$optionName=%s";
-                $installArgs[] = $optionValue;
+                if (!empty($optionValue)) {
+                    $installCmd .= " --$optionName=%s";
+                    $installArgs[] = $optionValue;
+                }
             }
             $this->_shell->execute($installCmd, $installArgs);
         }
