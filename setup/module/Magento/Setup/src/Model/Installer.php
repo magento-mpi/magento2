@@ -387,23 +387,19 @@ class Installer
 
         // get entity_type_id for order
         $select = $dbConnection->select()
-            ->from($setup->getTable('eav_entity_type'))
+            ->from($setup->getTable('eav_entity_type'), 'entity_type_id')
             ->where('entity_type_code = \'order\'');
-        $sql = new Sql($dbConnection);
-        $selectString = $sql->getSqlStringForSqlObject($select, $dbConnection->getPlatform());
-        $statement = $dbConnection->getDriver()->createStatement($selectString);
-        $selectResult = $statement->execute();
-        $entityTypeId = $selectResult->current()['entity_type_id'];
+        $entityTypeId = $dbConnection->fetchOne($select);
 
         // See if row already exists
-        $resultSet = $dbConnection->query(
+        $incrementRow = $dbConnection->fetchRow(
             'SELECT * FROM ' . $setup->getTable('eav_entity_store') . ' WHERE entity_type_id = ? AND store_id = ?',
             [$entityTypeId, Store::DISTRO_STORE_ID]
         );
 
-        if ($resultSet->count() > 0) {
+        if (!empty($incrementRow)) {
             // row exists, update it
-            $entityStoreId = $resultSet->current()->entity_store_id;
+            $entityStoreId = $incrementRow['entity_store_id'];
             $dbConnection->update(
                 $setup->getTable('eav_entity_store'),
                 ['increment_prefix' => $orderIncrementPrefix],
@@ -516,8 +512,8 @@ class Installer
             Config::KEY_DB_USER => $dbUser,
             Config::KEY_DB_PASS => $dbPass
         ]);
-        $adapter->connect();
-        if (!$adapter->getDriver()->getConnection()->isConnected()) {
+        $adapter->getConnection();
+        if (!$adapter->isConnected()) {
             throw new \Exception('Database connection failure.');
         }
         return true;
@@ -551,7 +547,7 @@ class Installer
         $configData = $config->getConfigData();
         $adapter = $this->connectionFactory->create($configData);
         try {
-            $adapter->connect();
+            $adapter->getConnection();
         } catch (\Exception $e) {
             $this->log->log($e->getMessage() . ' - skipping database cleanup');
             return;
