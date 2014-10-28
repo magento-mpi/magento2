@@ -19,11 +19,11 @@
     <preference for="Magento\Customer\Api\Data\GroupInterface" type="Magento\Customer\Model\Data\Group" />
     <preference for="Magento\Customer\Api\Data\ValidationResultsInterface"
                 type="Magento\Customer\Model\Data\ValidationResults" />
-    <preference for="Magento\Customer\Model\Data\GroupSearchResultsInterface"
+    <preference for="Magento\Customer\Api\Data\GroupSearchResultsInterface"
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
-    <preference for="Magento\Customer\Model\Data\CustomerSearchResultsInterface"
+    <preference for="Magento\Customer\Api\Data\CustomerSearchResultsInterface"
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
-    <preference for="Magento\Customer\Model\Data\AddressSearchResultsInterface"
+    <preference for="Magento\Customer\Api\Data\AddressSearchResultsInterface"
                 type="Magento\Framework\Service\V1\Data\SearchResults" />
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
