@@ -185,14 +185,16 @@ class Request extends \Magento\Webapi\Controller\Request
     }
 
     /**
-     * Override request body identifier property with id passed in url path parameter
+     * Override request body property value with matching url path parameter value
      *
-     * This method assumes that webapi.xml url defines the substitution id parameter as camelCase to the actual
+     * This method assumes that webapi.xml url defines the substitution parameter as camelCase to the actual
      * snake case key described as part of the api contract. example: /:parentId/nestedResource/:entityId.
      * Here :entityId value will be used for overriding 'entity_id' property in the body.
      * Since Webapi framework allows both camelCase and snakeCase, either of them will be substituted for now.
-     * If the request body is missing resource identifier passed as path parameter, it will be added to the body.
-     * This method works only for resource identifiers located at the first level of a nested request body.
+     * If the request body is missing url path parameter as property, it will be added to the body.
+     * This method works only requests with scalar properties at top level or properties of single object embedded
+     * in the request body.
+     * Only the last path parameter value will be substituted from the url in case of multiple parameters.
      *
      * @param array $urlPathParams url path parameters as array
      * @return array
