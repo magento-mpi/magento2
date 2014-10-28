@@ -277,7 +277,8 @@ class AbstractStructure extends AbstractView
         $this->addToArea($childName, $referenceChildGroupName);
 
         $itemTemplate = [
-            'type' => 'template',
+            'type' => $this->ns,
+            'isTemplate' => true,
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
             'config' => [
