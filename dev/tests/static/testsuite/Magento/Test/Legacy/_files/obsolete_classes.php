@@ -2825,4 +2825,7 @@ return array(
     ['Magento\Framework\Filesystem\DriverFactory', 'Magento\Framework\Filesystem\DriverPool'],
     ['Magento\Framework\Filesystem\WrapperFactory'],
     ['Magento\Framework\Filesystem\WrapperInterface'],
+    ['Magento\Install'],
+    ['dev/tests/integration/testsuite/Magento/Test/Integrity/InstallWizardConfigFilesTest'],
+    ['Magento\Install\Model\Resource\Resource', 'Magento\Framework\Module\Resource'],
 );
