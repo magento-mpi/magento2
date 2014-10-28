@@ -26,6 +26,12 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
     protected $_layout;
 
     /**
+     * Base name for hidden elements
+     * @var string
+     */
+    protected $elementName = 'rule';
+
+    /**
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param array $data
@@ -246,7 +252,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
             'action:' . $this->getId() . ':type',
             'hidden',
             array(
-                'name' => 'rule[actions][' . $this->getId() . '][type]',
+                'name' => $this->elementName . '[actions][' . $this->getId() . '][type]',
                 'value' => $this->getType(),
                 'no_span' => true
             )
@@ -262,7 +268,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
             'action:' . $this->getId() . ':attribute',
             'select',
             array(
-                'name' => 'rule[actions][' . $this->getId() . '][attribute]',
+                'name' => $this->elementName . '[actions][' . $this->getId() . '][attribute]',
                 'values' => $this->getAttributeSelectOptions(),
                 'value' => $this->getAttribute(),
                 'value_name' => $this->getAttributeName()
@@ -281,7 +287,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
             'action:' . $this->getId() . ':operator',
             'select',
             array(
-                'name' => 'rule[actions][' . $this->getId() . '][operator]',
+                'name' => $this->elementName . '[actions][' . $this->getId() . '][operator]',
                 'values' => $this->getOperatorSelectOptions(),
                 'value' => $this->getOperator(),
                 'value_name' => $this->getOperatorName()
@@ -300,7 +306,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
             'action:' . $this->getId() . ':value',
             'text',
             array(
-                'name' => 'rule[actions][' . $this->getId() . '][value]',
+                'name' => $this->elementName . '[actions][' . $this->getId() . '][value]',
                 'value' => $this->getValue(),
                 'value_name' => $this->getValueName()
             )

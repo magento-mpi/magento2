@@ -60,6 +60,12 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     protected $_layout;
 
     /**
+     * Base name for hidden elements
+     * @var string
+     */
+    protected $elementName = 'rule';
+
+    /**
      * @param Context $context
      * @param array $data
      */
@@ -488,7 +494,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
             $this->getPrefix() . '__' . $this->getId() . '__type',
             'hidden',
             array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][type]',
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][type]',
                 'value' => $this->getType(),
                 'no_span' => true,
                 'class' => 'hidden'
@@ -519,7 +525,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
             $this->getPrefix() . '__' . $this->getId() . '__attribute',
             'select',
             array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][attribute]',
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][attribute]',
                 'values' => $this->getAttributeSelectOptions(),
                 'value' => $this->getAttribute(),
                 'value_name' => $this->getAttributeName()
@@ -554,7 +560,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
         }
 
         $elementId = sprintf('%s__%s__operator', $this->getPrefix(), $this->getId());
-        $elementName = sprintf('rule[%s][%s][operator]', $this->getPrefix(), $this->getId());
+        $elementName = sprintf($this->elementName . '[%s][%s][operator]', $this->getPrefix(), $this->getId());
         $element = $this->getForm()->addField(
             $elementId,
             'select',
@@ -606,7 +612,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     public function getValueElement()
     {
         $elementParams = array(
-            'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][value]',
+            'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][value]',
             'value' => $this->getValue(),
             'values' => $this->getValueSelectOptions(),
             'value_name' => $this->getValueName(),

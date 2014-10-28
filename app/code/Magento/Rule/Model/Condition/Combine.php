@@ -134,7 +134,7 @@ class Combine extends AbstractCondition
             $this->getPrefix() . '__' . $this->getId() . '__aggregator',
             'select',
             array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][aggregator]',
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][aggregator]',
                 'values' => $this->getAggregatorSelectOptions(),
                 'value' => $this->getAggregator(),
                 'value_name' => $this->getAggregatorName()
@@ -307,7 +307,7 @@ class Combine extends AbstractCondition
             $this->getPrefix() . '__' . $this->getId() . '__new_child',
             'select',
             array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
                 'values' => $this->getNewChildSelectOptions(),
                 'value_name' => $this->getNewChildName()
             )
