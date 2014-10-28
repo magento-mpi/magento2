@@ -8,12 +8,10 @@
 
 namespace Magento\AdvancedCheckout\Test\Block\Widget;
 
-use Magento\AdvancedCheckout\Test\Block\Sku\AbstractSku;
-
 /**
  * Order By SKU widget form.
  */
-class Sku extends AbstractSku
+class Sku extends \Magento\AdvancedCheckout\Test\Block\Sku\AbstractSku
 {
     //
 }

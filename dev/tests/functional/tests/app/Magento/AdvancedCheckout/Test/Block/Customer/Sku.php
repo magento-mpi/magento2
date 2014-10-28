@@ -8,12 +8,10 @@
 
 namespace Magento\AdvancedCheckout\Test\Block\Customer;
 
-use Magento\AdvancedCheckout\Test\Block\Sku\AbstractSku;
-
 /**
  * Customer Order By SKU form.
  */
-class Sku extends AbstractSku
+class Sku extends \Magento\AdvancedCheckout\Test\Block\Sku\AbstractSku
 {
     //
 }

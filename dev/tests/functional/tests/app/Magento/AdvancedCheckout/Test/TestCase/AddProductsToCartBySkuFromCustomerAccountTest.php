@@ -30,7 +30,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 class AddToCartAdvancedCheckoutEntityTest extends AbstractAdvancedCheckoutEntityTest
 {
     /**
-     * Adding to cart AdvancedCheckoutEntity(from MyAccount)
+     * Adding to cart AdvancedCheckoutEntity(from MyAccount).
      *
      * @param CustomerInjectable $customer
      * @param string $products
