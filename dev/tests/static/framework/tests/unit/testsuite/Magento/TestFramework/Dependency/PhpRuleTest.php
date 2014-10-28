@@ -135,6 +135,7 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
                 '$this->getLayout()->getBlock(\'block.name\');',
                 array(
                     array(
+                        'module' => 'Magento\SomeModule',
                         'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
                         'source' => 'getBlock(\'block.name\')'
                     )
