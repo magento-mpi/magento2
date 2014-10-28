@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Integration
  * Integration data fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Integration extends InjectableFixture
 {

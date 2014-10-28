@@ -8,7 +8,6 @@
 
 namespace Magento\Invitation\Test\Fixture\Invitation;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -32,11 +31,10 @@ class Email implements FixtureInterface
     protected $params;
 
     /**
-     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param string $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, $data)
+    public function __construct(array $params, $data)
     {
         $this->params = $params;
         $emails = explode(',', $data);

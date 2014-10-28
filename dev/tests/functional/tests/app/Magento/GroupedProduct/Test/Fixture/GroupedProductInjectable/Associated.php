@@ -40,6 +40,8 @@ class Associated implements FixtureInterface
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
