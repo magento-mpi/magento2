@@ -13,42 +13,51 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
- * Backend sales rule grid
+ * Backend sales rule grid.
  */
 class Grid extends AbstractGrid
 {
     /**
-     * Id of a row selector
+     * Id of a row selector.
      *
      * @var string
      */
     protected $rowIdSelector = 'td.col-rule_id';
     
     /**
+     * Locator for promo quote form.
+     *
      * @var string
      */
     protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
     
     /**
-     * Filters array mapping
+     * Filters array mapping.
      *
      * @var array
      */
     protected $filters = [
         'name' => [
-            'selector' => '#promo_quote_grid_filter_name',
+            'selector' => 'input[name="name"]',
         ]
     ];
 
     /**
-     * Locator value for link in sales rule name column
+     * Locator value for link in sales rule name column.
      *
      * @var string
      */
     protected $editLink = 'td[class*=col-name]';
 
     /**
-     * Return the id of the row that matched the search filter
+     * An element locator which allows to select entities in grid.
+     *
+     * @var string
+     */
+    protected $selectItem = 'tbody tr .col-name';
+
+    /**
+     * Return the id of the row that matched the search filter.
      *
      * @param $filter
      * @param bool $isSearchable
