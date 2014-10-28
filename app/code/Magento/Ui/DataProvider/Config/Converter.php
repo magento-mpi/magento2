@@ -53,14 +53,21 @@ class Converter implements ConverterInterface
                 if ($child->nodeType == XML_TEXT_NODE || $child->nodeType == XML_COMMENT_NODE) {
                     continue;
                 }
-                if (!isset($result[$child->nodeName])) {
-                    $result[$child->nodeName] = $this->toArray($child);
-                } else {
+                if ($child->nodeName == 'constraint') {
                     if (!isset($groups[$child->nodeName])) {
-                        $result[$child->nodeName] = [$result[$child->nodeName]];
-                        $groups[$child->nodeName] = 1;
+                        $result[$child->nodeName] = [];
                     }
                     $result[$child->nodeName][] = $this->toArray($child);
+                } else {
+                    if (isset($result[$child->nodeName])) {
+                        if (!isset($groups[$child->nodeName])) {
+                            $result[$child->nodeName] = [$result[$child->nodeName]];
+                            $groups[$child->nodeName] = 1;
+                        }
+                        $result[$child->nodeName][] = $this->toArray($child);
+                    } else {
+                        $result[$child->nodeName] = $this->toArray($child);
+                    }
                 }
             }
         }
@@ -111,6 +118,13 @@ class Converter implements ConverterInterface
                         ];
                     }
                 }
+                if (isset($field['constraint'])) {
+                    foreach ($field['constraint'] as $constraint) {
+                        $fields[$field['@attributes']['name']]['validation'][$constraint['@attributes']['name']] =
+                            isset($constraint['@attribute']['value'])
+                                ? $constraint['@attribute']['value'] : true;
+                    }
+                }
             }
             $data[$datasource['@attributes']['name']]['fields'] = $fields;
             if (!empty($datasource['references'])) {
@@ -122,7 +136,6 @@ class Converter implements ConverterInterface
                 }
             }
         }
-
         return $data;
     }
 }

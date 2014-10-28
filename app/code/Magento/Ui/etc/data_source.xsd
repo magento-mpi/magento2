@@ -41,9 +41,10 @@
     <!-- -->
     <xs:element name="field">
         <xs:complexType>
-            <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
                 <xs:element name="reference" maxOccurs="1" minOccurs="0" type="field_reference"/>
-            </xs:sequence>
+                <xs:element name="constraint" maxOccurs="unbounded" minOccurs="0" type="field_constraint"/>
+            </xs:choice>
             <xs:attribute type="required_attribute" name="name" use="required"/>
             <xs:attribute type="required_attribute" name="dataType" use="optional"/>
             <xs:attribute type="required_attribute" name="formElement" use="optional"/>
@@ -84,6 +85,15 @@
         </xs:simpleContent>
     </xs:complexType>
     <!-- -->
+    <xs:complexType name="field_constraint">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="required_attribute" name="name" use="required"/>
+                <xs:attribute type="text_attribute" name="value" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <!-- -->
     <xs:simpleType name="visible_attribute">
         <xs:annotation>
             <xs:documentation>The value should only be {true|false}.</xs:documentation>
@@ -98,7 +108,7 @@
             <xs:documentation>Any text value</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z,_. -]+" />
+            <xs:pattern value="[A-Za-z0-9,_. -]+" />
         </xs:restriction>
     </xs:simpleType>
     <!-- -->

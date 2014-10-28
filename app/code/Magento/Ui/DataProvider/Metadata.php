@@ -171,7 +171,8 @@ class Metadata implements \Iterator, \ArrayAccess
             'label' => ['eav_map' => 'frontend_label'],
             'sortOrder' => ['eav_map' => 'sort_order'],
             'notice' => ['eav_map' => 'note'],
-            'default' => ['eav_map' => 'default_value']
+            'default' => ['eav_map' => 'default_value'],
+            'validation' => []
         ];
 
         foreach ($attributeCodes as  $code => $info) {

@@ -7,6 +7,7 @@
         <fields entityType="customer">
             <field name="entity_id" dataType="text" visible="false" />
             <field name="website_code" dataType="number" formElement="select" source="option" label="Website">
+                <constraint name="required-entry" />
                 <reference target="website"
                            referencedField="website_id"
                            targetField="website_id"
@@ -22,11 +23,17 @@
                            neededField="customer_group_code"
                         />
             </field>
-            <field name="firstname" source="eav" dataType="text"/>
+            <field name="firstname" source="eav" dataType="text">
+                <constraint name="required-entry" />
+            </field>
             <field name="middlename" source="eav" dataType="text"/>
-            <field name="lastname" source="eav" dataType="text"/>
+            <field name="lastname" source="eav" dataType="text">
+                <constraint name="required-entry" />
+            </field>
             <field name="suffix" source="eav" dataType="text" />
-            <field name="email" source="eav" />
+            <field name="email" source="eav">
+                <constraint name="required-entry" />
+            </field>
             <field name="gender" source="eav" dataType="text" />
             <field name="sendemail" dataType="boolean" formElement="checkbox" label="Welcome Email" />
         </fields>
