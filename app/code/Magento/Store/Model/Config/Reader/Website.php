@@ -35,32 +35,24 @@ class Website implements \Magento\Framework\App\Config\Scope\ReaderInterface
     protected $_websiteFactory;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @param \Magento\Framework\App\Config\Initial $initialConfig
      * @param \Magento\Framework\App\Config\ScopePool $scopePool
      * @param \Magento\Framework\App\Config\Scope\Converter $converter
      * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
-     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
         \Magento\Framework\App\Config\Initial $initialConfig,
         \Magento\Framework\App\Config\ScopePool $scopePool,
         \Magento\Framework\App\Config\Scope\Converter $converter,
         \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
-        \Magento\Store\Model\WebsiteFactory $websiteFactory,
-        \Magento\Framework\App\State $appState
+        \Magento\Store\Model\WebsiteFactory $websiteFactory
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_scopePool = $scopePool;
         $this->_converter = $converter;
         $this->_collectionFactory = $collectionFactory;
         $this->_websiteFactory = $websiteFactory;
-        $this->_appState = $appState;
     }
 
     /**

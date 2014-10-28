@@ -27,26 +27,18 @@ class DefaultReader implements \Magento\Framework\App\Config\Scope\ReaderInterfa
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @param \Magento\Framework\App\Config\Initial $initialConfig
      * @param \Magento\Framework\App\Config\Scope\Converter $converter
      * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
-     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
         \Magento\Framework\App\Config\Initial $initialConfig,
         \Magento\Framework\App\Config\Scope\Converter $converter,
-        \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
-        \Magento\Framework\App\State $appState
+        \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_converter = $converter;
         $this->_collectionFactory = $collectionFactory;
-        $this->_appState = $appState;
     }
 
     /**

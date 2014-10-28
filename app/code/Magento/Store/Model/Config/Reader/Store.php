@@ -37,11 +37,6 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
@@ -52,7 +47,6 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
      * @param \Magento\Store\Model\Config\Converter $converter
      * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -61,7 +55,6 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
         \Magento\Store\Model\Config\Converter $converter,
         \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Framework\App\State $appState,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_initialConfig = $initialConfig;
@@ -69,7 +62,6 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
         $this->_converter = $converter;
         $this->_collectionFactory = $collectionFactory;
         $this->_storeFactory = $storeFactory;
-        $this->_appState = $appState;
         $this->_storeManager = $storeManager;
     }
 
