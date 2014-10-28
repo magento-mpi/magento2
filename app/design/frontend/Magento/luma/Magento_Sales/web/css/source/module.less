@@ -280,12 +280,16 @@
 }
 
 .block-reorder {
+    .block-title {
+        &:extend(.abstract-block-widget-title all);
+    }
+
     .actions-toolbar {
         margin: 17px 0;
     }
 
-    .block-title {
-        &:extend(.abstract-block-widget-title all);
+    .product-item-name {
+        display: inline-block;
     }
 }
 

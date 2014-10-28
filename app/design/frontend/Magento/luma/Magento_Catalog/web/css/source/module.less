@@ -409,10 +409,11 @@
                 right: 0;
                 top: 0;
             }
-            &.tocart {
-                &:extend(.abstract-revert-to-action-secondary  all);
-            }
         }
+    }
+
+    .action.tocart {
+        border-radius: 0;
     }
 
     .subtitle {
@@ -800,6 +801,10 @@ body.catalog-product-compare-index {
     }
     .actions-toolbar {
         margin: 17px 0 0;
+    }
+
+    .action.primary {
+        &:extend(.abstract-revert-to-action-secondary all);
     }
 }
 
