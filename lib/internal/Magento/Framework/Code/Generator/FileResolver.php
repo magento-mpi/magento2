@@ -7,10 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\Code\Generator;
-
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FileResolver
 {
