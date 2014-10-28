@@ -57,7 +57,11 @@ define([
             action.apply(this, arguments);
         },
 
-        process: function(parent, node) {
+        process: function(parent, node, name) {
+            if(!parent && node.parent){
+                return this.waitParent(node, name);
+            }
+
             if(node.template){
                 return this.waitTemplate.apply(this, arguments);      
             }
@@ -77,8 +81,8 @@ define([
         build: function(parent, node, name){
             var type;
 
-            type    = getNodeType.apply(null, arguments);
-            node    = mergeNode(node, this.types.get(type));
+            type = getNodeType.apply(null, arguments);
+            node = mergeNode(node, this.types.get(type));
 
             node.index  = node.name || name;
             node.name   = getNodeName.apply(null, arguments);
@@ -87,9 +91,7 @@ define([
 
             this.registry.set(node.name, node);
 
-            if(type !== 'template'){
-                return node;
-            }
+            return node.isTemplate ? (node.isTemplate = false) : node;
         },
 
         initComponent: function(node){
@@ -125,6 +127,14 @@ define([
             this.registry.get(node.template, callback);
         },
 
+        waitParent: function(node, name){
+            this.registry.get(node.parent, function(parent){
+                this.process(parent, node, name);
+            }.bind(this));
+
+            return this;
+        },
+
         applyTemplate: function(parent, node, name){
             var templates = _.toArray(arguments).slice(3),
                 result = {};
@@ -138,7 +148,7 @@ define([
             delete result.template;
 
             this.process(parent, result, name);
-        },
+        }
     });
 
     _.extend(Layout.prototype, {
