@@ -22,11 +22,11 @@ class CategoryManagement implements \Magento\Catalog\Api\CategoryManagementInter
     protected $categoryTree;
 
     /**
-     * @param CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      * @param Category\Tree $categoryTree
      */
     public function __construct(
-        CategoryRepository $categoryRepository,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Catalog\Model\Category\Tree $categoryTree
     ) {
         $this->categoryRepository = $categoryRepository;
