@@ -176,7 +176,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $this->translateField($filter->getField());
+            $fields[] = ['attribute' => $this->translateField($filter->getField()), $condition => $filter->getValue()];
             $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
