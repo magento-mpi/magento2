@@ -264,9 +264,6 @@ class Application
      */
     public function initialize($overriddenParams = array())
     {
-        /* @TODO implement */
-        // 'db_connection_adapter' => 'Magento\TestFramework\Db\ConnectionAdapter',
-
         $overriddenParams[\Magento\Framework\App\State::PARAM_MODE] = $this->_appMode;
         $overriddenParams = $this->_customizeParams($overriddenParams);
         $directories = isset($overriddenParams[\Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS])
@@ -349,18 +346,21 @@ class Application
      */
     public function cleanup()
     {
-        $this->getDbInstance()->cleanup();
-        $this->_cleanupFilesystem();
+        /**
+         * @see \Magento\Setup\Mvc\Bootstrap\InitParamListener::BOOTSTRAP_PARAM
+         */
+        $this->_shell->execute(
+            'php -f %s uninstall --magento_init_params=%s',
+            [BP . '/setup/index.php', $this->getInitParamsQuery()]
+        );
     }
 
     /**
      * Install an application
      *
-     * @param string $adminUserName
-     * @param string $adminPassword
      * @throws \Magento\Framework\Exception
      */
-    public function install($adminUserName, $adminPassword)
+    public function install()
     {
         $dirs = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
         $this->_ensureDirExists($this->_tmpDir);
@@ -369,8 +369,47 @@ class Application
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::STATIC_VIEW][DirectoryList::PATH]);
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::VAR_DIR][DirectoryList::PATH]);
 
-        // Copy configuration files
-        $globalConfigFiles = glob($this->_globalConfigDir . '/{*,*/*}.{xml,xml.template}', GLOB_BRACE);
+        $this->copyAppConfigFiles();
+
+        $installParams = $this->getInstallCliParams();
+
+        // performance optimization: restore DB from last good dump to make installation on top of it (much faster)
+        $db = $this->getDbInstance();
+        if ($db->isDbDumpExists()) {
+            $db->restoreFromDbDump();
+        }
+
+        // run install script
+        $this->_shell->execute(
+            'php -f %s install ' . implode(' ', array_keys($installParams)),
+            array_merge([BP . '/setup/index.php'], array_values($installParams))
+        );
+
+        // enable only specified list of caches
+        $cacheScript = BP . '/dev/shell/cache.php';
+        $this->_shell->execute('php -f %s -- --set=0', [$cacheScript]);
+        $cacheTypes = [
+            \Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER,
+            \Magento\Framework\App\Cache\Type\Layout::TYPE_IDENTIFIER,
+            \Magento\Framework\App\Cache\Type\Translate::TYPE_IDENTIFIER,
+            \Magento\Eav\Model\Cache\Type::TYPE_IDENTIFIER,
+        ];
+        $this->_shell->execute('php -f %s -- --set=1 --types=%s', [$cacheScript, implode(',', $cacheTypes)]);
+
+        // right after a clean installation, store DB dump for future reuse in tests or running the test suite again
+        if (!$db->isDbDumpExists()) {
+            $this->getDbInstance()->storeDbDump();
+        }
+    }
+
+    /**
+     * Copies configuration files from the main code base, so the installation could proceed in the tests directory
+     *
+     * @return void
+     */
+    private function copyAppConfigFiles()
+    {
+        $globalConfigFiles = glob($this->_globalConfigDir . '/{di.xml,local.xml.template,*/*.xml}', GLOB_BRACE);
         foreach ($globalConfigFiles as $file) {
             $targetFile = $this->_configDir . str_replace($this->_globalConfigDir, '', $file);
             $this->_ensureDirExists(dirname($targetFile));
@@ -382,50 +421,21 @@ class Application
             $this->_ensureDirExists($targetModulesDir);
             copy($file, $targetModulesDir . '/' . basename($file));
         }
-
-        $installParams = $this->getInstallParams($adminUserName, $adminPassword);
-
-        // run install script
-/* @TODO determine if any of other supported parameters are needed. In particular, the database cleanup may be useful */
-// [--cleanup_database]
-//--base_url= --language= --timezone= --currency= --admin_username=
-//--admin_password= --admin_email= --admin_firstname= --admin_lastname=
-//[--admin_use_security_key=] [--key=] [--use_rewrites=]
-//[--use_secure=] [--base_url_secure=] [--use_secure_admin=] [--admin_use_security_key=] [--sales_order_increment_prefix=]
-        $this->_shell->execute(
-            'php -f %s install ' . implode(' ', array_keys($installParams)),
-            array_merge([BP . '/setup/index.php'], array_values($installParams))
-        );
-
-        // enable only specified list of caches
-        /* @TODO implement this using cache enabler CLI */
-//        /* Enable configuration cache by default in order to improve tests performance */
-//        /** @var $cacheState \Magento\Framework\App\Cache\StateInterface */
-//        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-//            'Magento\Framework\App\Cache\StateInterface'
-//        );
-//        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Config::TYPE_IDENTIFIER, true);
-//        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Layout::TYPE_IDENTIFIER, true);
-//        $cacheState->setEnabled(\Magento\Framework\App\Cache\Type\Translate::TYPE_IDENTIFIER, true);
-//        $cacheState->setEnabled(\Magento\Eav\Model\Cache\Type::TYPE_IDENTIFIER, true);
-//        $cacheState->persist();
     }
 
-    private function getInstallParams($adminUserName, $adminPassword)
+    /**
+     * Gets a list of CLI params for installation
+     *
+     * @return array
+     */
+    private function getInstallCliParams()
     {
-        $dirsParam = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
-        $params = array_merge($this->getInstallConfig(), [
-            'base_url' => 'http://localhost/',
-            'language' => 'en_US',
-            'timezone' => 'America/Chicago',
-            'currency' => 'USD',
-            'admin_username' => $adminUserName,
-            'admin_password' => $adminPassword,
-            'admin_email' => 'admin@example.com',
-            'admin_firstname' => 'John',
-            'admin_lastname' => 'Doe',
-            $dirsParam => urldecode(http_build_query($this->_initParams[$dirsParam])),
-        ]);
+        $params = $this->getInstallConfig();
+        /**
+         * Literal value is used instead of constant, because autoloader is not integrated with Magento Setup app
+         * @see \Magento\Setup\Mvc\Bootstrap\InitParamListener::BOOTSTRAP_PARAM
+         */
+        $params['magento_init_params'] = $this->getInitParamsQuery();
         $result = [];
         foreach ($params as $key => $value) {
             if (!empty($value)) {
@@ -433,6 +443,16 @@ class Application
             }
         }
         return $result;
+    }
+
+    /**
+     * Encodes init params into a query string
+     *
+     * @return string
+     */
+    private function getInitParamsQuery()
+    {
+        return urldecode(http_build_query($this->_initParams));
     }
 
     /**
@@ -479,24 +499,6 @@ class Application
     }
 
     /**
-     * Remove temporary files and directories from the filesystem
-     */
-    protected function _cleanupFilesystem()
-    {
-        if (!is_dir($this->_tmpDir)) {
-            return;
-        }
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($this->_tmpDir, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
-        );
-        foreach ($iterator as $path) {
-            $path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
-        }
-        rmdir($this->_tmpDir);
-    }
-
-    /**
      * Ge current application area
      *
      * @return string
@@ -536,19 +538,20 @@ class Application
      */
     protected function getCustomDirs()
     {
-        $generationDir = "{$this->_tmpDir}/generation";
+        $path = DirectoryList::PATH;
+        $var = "{$this->_tmpDir}/var";
         $customDirs = array(
-            DirectoryList::CONFIG => array(DirectoryList::PATH => "{$this->_tmpDir}/etc"),
-            DirectoryList::VAR_DIR => array(DirectoryList::PATH => $this->_tmpDir),
-            DirectoryList::MEDIA => array(DirectoryList::PATH => "{$this->_tmpDir}/media"),
-            DirectoryList::STATIC_VIEW => array(DirectoryList::PATH => "{$this->_tmpDir}/pub_static"),
-            DirectoryList::GENERATION => array(DirectoryList::PATH => $generationDir),
-            DirectoryList::CACHE => array(DirectoryList::PATH => $this->_tmpDir . '/cache'),
-            DirectoryList::LOG => array(DirectoryList::PATH => $this->_tmpDir . '/log'),
-            DirectoryList::THEMES => array(DirectoryList::PATH => BP . '/app/design'),
-            DirectoryList::SESSION => array(DirectoryList::PATH => $this->_tmpDir . '/session'),
-            DirectoryList::TMP => array(DirectoryList::PATH => $this->_tmpDir . '/tmp'),
-            DirectoryList::UPLOAD => array(DirectoryList::PATH => $this->_tmpDir . '/upload'),
+            DirectoryList::CONFIG => array($path => "{$this->_tmpDir}/etc"),
+            DirectoryList::VAR_DIR => array($path => $var),
+            DirectoryList::MEDIA => array($path => "{$this->_tmpDir}/media"),
+            DirectoryList::STATIC_VIEW => array($path => "{$this->_tmpDir}/pub_static"),
+            DirectoryList::GENERATION => array($path => "{$var}/generation"),
+            DirectoryList::CACHE => array($path => "{$var}/cache"),
+            DirectoryList::LOG => array($path => "{$var}/log"),
+            DirectoryList::THEMES => array($path => BP . '/app/design'),
+            DirectoryList::SESSION => array($path => "{$var}/session"),
+            DirectoryList::TMP => array($path => "{$var}/tmp"),
+            DirectoryList::UPLOAD => array($path => "{$var}/upload"),
         );
         return $customDirs;
     }

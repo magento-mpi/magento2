@@ -572,6 +572,10 @@ class Installer
     {
         $dir = $this->filesystem->getDirectoryWrite($type);
         $dirPath = $dir->getAbsolutePath();
+        if (!$dir->isExist()) {
+            $this->log->log("The directory '{$dirPath}' doesn't exist - skipping cleanup");
+            return;
+        }
         foreach ($dir->read() as $path) {
             if (preg_match('/^\./', $path)) {
                 continue;

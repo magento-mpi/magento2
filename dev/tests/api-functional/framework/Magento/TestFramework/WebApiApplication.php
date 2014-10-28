@@ -59,19 +59,9 @@ class WebApiApplication extends Application
     }
 
     /**
-     * Uninstall application
-     *
      * {@inheritdoc}
      */
-    public function cleanup()
-    {
-        $this->_shell->execute('php -f %s uninstall', [BP . '/setup/index.php']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function install($adminUserName, $adminPassword)
+    public function install()
     {
         $installOptions = $this->getInstallConfig();
 

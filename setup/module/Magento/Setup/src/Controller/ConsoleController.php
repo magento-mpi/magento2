@@ -291,13 +291,9 @@ class ConsoleController extends AbstractActionController
      */
     public function installAction()
     {
-        try {
-            /** @var \Zend\Console\Request $request */
-            $request = $this->getRequest();
-            $this->installer->install($request->getParams());
-        } catch (\Exception $e) {
-            $this->log->logError($e);
-        }
+        /** @var \Zend\Console\Request $request */
+        $request = $this->getRequest();
+        $this->installer->install($request->getParams());
     }
 
     /**
@@ -382,11 +378,7 @@ class ConsoleController extends AbstractActionController
      */
     public function uninstallAction()
     {
-        try {
-            $this->installer->uninstall();
-        } catch (\Exception $e) {
-            $this->log->logError($e);
-        }
+        $this->installer->uninstall();
     }
 
     /**

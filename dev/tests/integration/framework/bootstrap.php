@@ -66,10 +66,7 @@ if ($settings->getAsBoolean('TESTS_CLEANUP')) {
     $application->cleanup();
 }
 if (!$application->isInstalled()) {
-    $application->install(
-        \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-        \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-    );
+    $application->install();
 }
 $application->initialize();
 
@@ -78,4 +75,4 @@ $application->initialize();
 Magento\TestFramework\Utility\Files::setInstance(new Magento\TestFramework\Utility\Files($magentoBaseDir));
 
 /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
-unset($bootstrap, $application, $settings, $shell);
+unset($testsBaseDir, $testsTmpDir, $magentoBaseDir, $logWriter, $logger, $settings, $shell, $application, $bootstrap);
