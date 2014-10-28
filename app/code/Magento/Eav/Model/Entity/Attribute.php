@@ -64,6 +64,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     protected $_localeResolver;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     */
+    protected $attributeCollection;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
@@ -76,6 +81,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -93,6 +99,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -114,6 +121,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         $this->_localeDate = $localeDate;
         $this->_localeResolver = $localeResolver;
         $this->reservedAttributeList = $reservedAttributeList;
+        $this->attributeCollection = $attributeCollection;
     }
 
     /**
@@ -184,7 +192,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     public function loadEntityAttributeIdBySet()
     {
         // load attributes collection filtered by attribute_id and attribute_set_id
-        $filteredAttributes = $this->getResourceCollection()->setAttributeSetFilter(
+        $filteredAttributes = $this->attributeCollection->setAttributeSetFilter(
             $this->getAttributeSetId()
         )->addFieldToFilter(
             'entity_attribute.attribute_id',
@@ -474,14 +482,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * {@inheritdoc}
      */
-    public function getScope()
-    {
-        return $this->isScopeGlobal() ? 'global' : ($this->isScopeWebsite() ? 'website' : 'store');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFrontendClass()
     {
         return $this->getData(self::FRONTEND_CLASS);
@@ -524,7 +524,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getOptions()
     {
-        return $this->usesSource() ? $this->getSource()->getAllOptions() : array();
+        $options = $this->getData(self::OPTIONS);
+        if (!$options) {
+            return $this->usesSource() ? $this->getSource()->getAllOptions() : array();
+        }
+        return $options;
     }
 
     /**

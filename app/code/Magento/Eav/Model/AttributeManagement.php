@@ -30,7 +30,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
     protected $eavConfig;
 
     /**
-     * @var \Magento\Eav\Api\Data\AttributeInterfaceBuilder
+     * @var \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder
      */
     protected $attributeBuilder;
 
@@ -61,7 +61,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
 
     /**
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository
-     * @param \Magento\Eav\Api\Data\AttributeInterfaceBuilder $attributeBuilder
+     * @param \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder $attributeBuilder
      * @param Resource\Entity\Attribute\Collection $attributeCollection
      * @param Config $eavConfig
      * @param ConfigFactory $entityTypeFactory
@@ -72,7 +72,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
      */
     public function __construct(
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
-        \Magento\Eav\Api\Data\AttributeInterfaceBuilder $attributeBuilder,
+        \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder $attributeBuilder,
         \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\ConfigFactory $entityTypeFactory,
@@ -149,6 +149,8 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
             'attributeCode' => $attributeCode,
             'entityTypeCode' => $setEntityType->getEntityTypeCode()
         ]);
+        
+        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
         $attribute = $this->attributeRepository->get($attributeIdentifier);
 
         if (!$attribute->getAttributeId()) {
@@ -156,11 +158,13 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         }
 
         // check if attribute is in set
-        $attribute->setAttributeSetId($attributeSet->getId())->loadEntityAttributeIdBySet();
+        $attribute->setAttributeSetId($attributeSet->getId());
+        $attribute->loadEntityAttributeIdBySet();
+
         if (!$attribute->getEntityAttributeId()) {
             throw  new InputException('Requested attribute is not in requested attribute set.');
         }
-        if (!$attribute->isUserDefined()) {
+        if (!$attribute->getIsUserDefined()) {
             throw new StateException('System attribute can not be deleted');
         }
         $attribute->deleteEntity();
@@ -178,20 +182,12 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         if (!$attributeSet->getId() || $attributeSet->getEntityTypeId() != $requiredEntityTypeId) {
             throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
         }
-        $attributeCollection = $this->attributeCollection->setAttributeSetFilter($attributeSet->getId())->load();
 
+        $attributeCollection = $this->attributeCollection->setAttributeSetFilter($attributeSet->getId())->load();
         $attributes = [];
         /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         foreach ($attributeCollection as $attribute) {
-            $attributes[] = $this->attributeBuilder
-                ->setAttributeId($attribute->getAttributeId())
-                ->setCode($attribute->getAttributeCode())
-                ->setFrontendLabel($attribute->getData('frontend_label'))
-                ->setDefaultValue($attribute->getDefaultValue())
-                ->setIsRequired((boolean)$attribute->getData('is_required'))
-                ->setIsUserDefined((boolean)$attribute->getData('is_user_defined'))
-                ->setFrontendInput($attribute->getData('frontend_input'))
-                ->create();
+            $attributes[] = $this->attributeBuilder->populateWithArray($attribute->getData())->create();
         }
         return $attributes;
     }

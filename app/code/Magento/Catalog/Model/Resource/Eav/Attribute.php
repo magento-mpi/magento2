@@ -129,6 +129,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper,
         LockValidatorInterface $lockValidator,
         \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -150,6 +151,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $reservedAttributeList,
             $localeResolver,
             $metadataService,
+            $attributeCollection,
             $resource,
             $resourceCollection,
             $data
@@ -588,5 +590,13 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     public function getIsVisible()
     {
         return $this->getData(self::IS_VISIBLE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScope()
+    {
+        return $this->isScopeGlobal() ? 'global' : ($this->isScopeWebsite() ? 'website' : 'store');
     }
 }

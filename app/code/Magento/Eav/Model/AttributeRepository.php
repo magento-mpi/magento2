@@ -82,7 +82,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria, $entityTypeCode)
+    public function getList($entityTypeCode, \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         if (!$entityTypeCode) {
             throw InputException::requiredField('entity_type_code');

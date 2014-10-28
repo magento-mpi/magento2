@@ -66,6 +66,8 @@
     <preference for="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" type="Magento\Catalog\Model\Product\Gallery\GalleryManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface" type="Magento\Catalog\Model\Product\Gallery\Entry" />
     <preference for="Magento\Catalog\Api\ProductMediaAttributeManagementInterface" type="Magento\Catalog\Model\Product\Media\AttributeManagement" />
+    <preference for="Magento\Catalog\Api\ProductAttributeTypesListInterface" type="Magento\Catalog\Model\Product\Attribute\TypesList" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeTypeInterface" type="Magento\Catalog\Model\Product\Attribute\Type" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>

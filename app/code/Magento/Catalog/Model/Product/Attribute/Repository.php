@@ -101,8 +101,8 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         return $this->eavAttributeRepository->getList(
-            $searchCriteria,
-            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
+            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
+            $searchCriteria
         );
     }
 

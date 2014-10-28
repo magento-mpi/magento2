@@ -6,13 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Attribute;
+namespace Magento\Catalog\Model\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\InputtypeFactory;
 use Magento\Catalog\Model\Product\Attribute\MetadataServiceInterface;
 use Magento\Catalog\Model\Product\Attribute\TypeBuilder;
 
-class TypesList implements \Magento\Catalog\Api\AttributeTypesListInterface
+class TypesList implements \Magento\Catalog\Api\ProductAttributeTypesListInterface
 {
     /**
      * @var \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory
@@ -20,17 +20,17 @@ class TypesList implements \Magento\Catalog\Api\AttributeTypesListInterface
     private $inputTypeFactory;
 
     /**
-     * @var \Magento\Catalog\Api\Data\AttributeTypeBuilder
+     * @var \Magento\Catalog\Api\Data\ProductAttributeTypeInterfaceDataBuilder
      */
     private $attributeTypeBuilder;
 
     /**
-     * @param \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory $inputTypeFactory
-     * @param \Magento\Catalog\Api\Data\AttributeTypeBuilder $attributeTypeBuilder
+     * @param Source\InputtypeFactory $inputTypeFactory
+     * @param \Magento\Catalog\Api\Data\ProductAttributeTypeInterfaceDataBuilder $attributeTypeBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory $inputTypeFactory,
-        \Magento\Catalog\Api\Data\AttributeTypeInterfaceBuilder $attributeTypeBuilder
+        \Magento\Catalog\Api\Data\ProductAttributeTypeInterfaceDataBuilder $attributeTypeBuilder
     ) {
         $this->inputTypeFactory = $inputTypeFactory;
         $this->attributeTypeBuilder = $attributeTypeBuilder;

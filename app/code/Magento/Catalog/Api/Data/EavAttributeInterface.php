@@ -149,4 +149,11 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      * @return bool|null
      */
     public function getIsVisible();
+
+    /**
+     * Retrieve attribute scope
+     *
+     * @return string|null
+     */
+    public function getScope();
 }

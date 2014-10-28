@@ -82,7 +82,7 @@ interface AttributeInterface extends \Magento\Framework\Api\Data\ExtensibleDataI
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]|null
+     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
      */
     public function getOptions();
 
@@ -148,13 +148,6 @@ interface AttributeInterface extends \Magento\Framework\Api\Data\ExtensibleDataI
      * @return string|null
      */
     public function getIsUnique();
-
-    /**
-     * Retrieve attribute scope
-     *
-     * @return string|null
-     */
-    public function getScope();
 
     /**
      * Retrieve frontend class of attribute

@@ -40,7 +40,7 @@ interface AttributeManagementInterface
      * @param string $entityTypeCode
      * @param string $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
-     * @return \Magento\Catalog\Api\Data\AttributeInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeInterface[]
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getAttributeList
      */
     public function getAttributes($entityTypeCode, $attributeSetId);

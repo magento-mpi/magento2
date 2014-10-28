@@ -18,7 +18,7 @@ interface ReadServiceInterface
      *
      * @return \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type[]
      * @deprecated
-     * @see \Magento\Catalog\Api\Product\Attribute\AttributeListInterface::getItems
+     * @see \Magento\Catalog\Api\AttributeTypesListInterface::getItems
      */
     public function types();
 

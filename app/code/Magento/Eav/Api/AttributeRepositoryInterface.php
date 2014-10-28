@@ -13,12 +13,12 @@ interface AttributeRepositoryInterface
     /**
      * Retrieve all attributes for entity type
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @param string $entityTypeCode
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAllAttributeMetadata
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria, $entityTypeCode);
+    public function getList($entityTypeCode, \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Retrieve specific attribute

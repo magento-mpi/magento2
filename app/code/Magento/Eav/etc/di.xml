@@ -18,6 +18,7 @@
     <preference for="Magento\Eav\Api\Data\AttributeSetInterface" type="Magento\Eav\Model\Entity\Attribute\Set" />
     <preference for="Magento\Eav\Api\AttributeManagementInterface" type="Magento\Eav\Model\AttributeManagement" />
     <preference for="Magento\Eav\Api\Data\AttributeFrontendLabelInterface" type="Magento\Eav\Model\Entity\Attribute\FrontendLabel" />
+    <preference for="Magento\Eav\Api\Data\AttributeOptionInterface" type="Magento\Eav\Model\Entity\Attribute\Option" />
     <type name="Magento\Eav\Model\Entity\Attribute\Config">
         <arguments>
             <argument name="reader" xsi:type="object">Magento\Eav\Model\Entity\Attribute\Config\Reader\Proxy</argument>

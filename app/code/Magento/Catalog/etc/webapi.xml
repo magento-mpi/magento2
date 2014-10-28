@@ -40,7 +40,7 @@
         </resources>
     </route>
     <route url="/V1/products/attributes/types" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" method="types"/>
+        <service class="Magento\Catalog\Api\ProductAttributeTypesListInterface" method="getItems"/>
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
@@ -129,20 +129,20 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/attributes" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getAttributeList"/>
+    <route url="/V1/products/attribute-sets/:entityTypeCode/:attributeSetId/attributes" method="GET">
+        <service class="Magento\Eav\Api\AttributeManagementInterface" method="getAttributes"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId/attributes" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface" method="addAttribute"/>
+        <service class="Magento\Eav\Api\AttributeManagementInterface" method="assign"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/attributes/:attributeId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface" method="deleteAttribute"/>
+    <route url="/V1/products/attribute-sets/:attributeSetId/attributes/:attributeCode" method="DELETE">
+        <service class="Magento\Eav\Api\AttributeManagementInterface" method="unassign"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
