@@ -15,6 +15,8 @@ Athletic
 Sports",,activity_general,1,,0,,,0,1,0,0,1,1,0,,1,1,1,0,0,"Top
 Bottom
 Gear
+Sprite Stasis Ball
+Sprite Yoga Strap
 Downloadable"
 Activity,multiselect,0,"Gym
 Hiking
@@ -60,7 +62,9 @@ Rubber
 Synthetic
 Stainless Steel
 Suede
-Silicone",,material_gear,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,Gear
+Silicone",,material_gear,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,"Gear
+Sprite Stasis Ball
+Sprite Yoga Strap"
 Color,select,,"Black
 Blue
 Brown
@@ -75,7 +79,9 @@ White
 Yellow",,color,1,,0,,,0,1,0,0,,1,0,,1,1,0,0,0,"Top
 Bottom
 Bag
-Gear"
+Gear
+Sprite Stasis Ball
+Sprite Yoga Strap"
 Strap/Handle,multiselect,0,"Adjustable
 Cross Body
 Detachable
@@ -99,10 +105,20 @@ Gender,select,0,"Men
 Women
 Boys
 Girls
-Unisex",,gender,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,Gear
+Unisex",,gender,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,"Gear
+Sprite Stasis Ball
+Sprite Yoga Strap"
 Category,multiselect,0,"Cardio
 Electronic
 Exercise
 Fashion
 Hydration
-Timepiece",,category_gear,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,Gear
+Timepiece",,category_gear,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,"Gear
+Sprite Stasis Ball
+Sprite Yoga Strap"
+Size,select,0,"55 cm
+65 cm
+75 cm",,size_ball,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,"Sprite Stasis Ball"
+Size,select,0,"6 foot
+8 foot
+10 foot",,size_strap,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,"Sprite Yoga Strap"

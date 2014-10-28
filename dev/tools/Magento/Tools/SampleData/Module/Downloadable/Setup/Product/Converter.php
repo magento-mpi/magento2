@@ -87,21 +87,19 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     {
         $sampleItems = array(
             'sample_item_title',
-            'sample_item_url'
+            'sample_item_file'
         );
         foreach ($sampleItems as $csvRow) {
             $sampleData[$csvRow] = isset($sampleData[$csvRow]) ? $sampleData[$csvRow] : '';
         }
-        $sample =
-            [
-                'is_delete' => '',
-                'sample_id' => '0',
-                'title' => $sampleData['sample_item_title'],
-                'sample_url' => $sampleData['sample_item_url'],
-                'file' => '[]',
-                'type' => 'url',
-                'sort_order' => ''
-            ];
+        $sample = [
+            'is_delete' => '',
+            'sample_id' => '0',
+            'title' => $sampleData['sample_item_title'],
+            'file' => json_encode(array(array('file' => $sampleData['sample_item_file'], 'status' => 'old'))),
+            'type' => 'file',
+            'sort_order' => ''
+        ];
 
         return $sample;
     }
@@ -117,32 +115,28 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         $linkItems = array(
             'link_item_title',
             'link_item_price',
-            'link_item_sample_url',
-            'link_item_url'
+            'link_item_sample_file',
+            'link_item_file'
         );
         foreach ($linkItems as $csvRow) {
             $linkData[$csvRow] = isset($linkData[$csvRow]) ? $linkData[$csvRow] : '';
         }
 
-        $link =
-            [
-                'is_delete' => '',
-                'link_id' => '0',
-                'title' => $linkData['link_item_title'],
-                'price' => $linkData['link_item_price'],
-                'number_of_downloads' => '0',
-                'is_shareable' => '2',
-                'sample' =>
-                    [
-                        'file' => '[]',
-                        'type' => 'url',
-                        'url' => $linkData['link_item_sample_url']
-                    ],
-                'file' => '[]',
-                'type' => 'url',
-                'link_url' => $linkData['link_item_url'],
-                'sort_order' => ''
-            ];
+        $link = [
+            'is_delete' => '',
+            'link_id' => '0',
+            'title' => $linkData['link_item_title'],
+            'price' => $linkData['link_item_price'],
+            'number_of_downloads' => '0',
+            'is_shareable' => '2',
+            'sample' => [
+                'type' => 'file',
+                'file' => json_encode(array(array('file' => $linkData['link_item_sample_file'], 'status' => 'old')))
+            ],
+            'type' => 'file',
+            'file' => json_encode(array(array('file' => $linkData['link_item_file'], 'status' => 'old'))),
+            'sort_order' => ''
+        ];
 
         return $link;
     }

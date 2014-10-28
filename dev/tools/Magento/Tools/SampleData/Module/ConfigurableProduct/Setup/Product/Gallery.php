@@ -20,7 +20,8 @@ class Gallery extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gal
         'ConfigurableProduct/images_men_bottoms.csv',
         'ConfigurableProduct/images_men_tops.csv',
         'ConfigurableProduct/images_women_bottoms.csv',
-        'ConfigurableProduct/images_women_tops.csv'
+        'ConfigurableProduct/images_women_tops.csv',
+        'ConfigurableProduct/images_gear_fitness_equipment.csv'
     ];
 
     /**

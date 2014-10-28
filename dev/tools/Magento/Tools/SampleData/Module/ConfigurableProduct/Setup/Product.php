@@ -32,6 +32,11 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
     protected $eavConfig;
 
     /**
+     * @var string
+     */
+    protected $attributeSet;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
@@ -55,7 +60,9 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             'ConfigurableProduct/products_men_tops.csv',
             'ConfigurableProduct/products_men_bottoms.csv',
             'ConfigurableProduct/products_women_tops.csv',
-            'ConfigurableProduct/products_women_bottoms.csv'
+            'ConfigurableProduct/products_women_bottoms.csv',
+            'ConfigurableProduct/products_gear_fitness_equipment_ball.csv',
+            'ConfigurableProduct/products_gear_fitness_equipment_strap.csv'
         )
     ) {
         $this->eavConfig = $eavConfig;
@@ -85,8 +92,16 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      */
     protected function prepareProduct($product, $data)
     {
-        $simpleIds = $this->configurableProductType
-            ->generateSimpleProducts($product, $data['variations_matrix']);
+        if ($this->attributeSet !== $data['attribute_set']) {
+            $this->attributeSet = $data['attribute_set'];
+            $this->eavConfig->clear();
+        }
+        if (empty($data['associated_product_ids'])) {
+            $simpleIds = $this->configurableProductType
+                ->generateSimpleProducts($product, $data['variations_matrix']);
+        } else {
+            $simpleIds = $data['associated_product_ids'];
+        }
         $product->setAssociatedProductIds($simpleIds);
         $product->setCanSaveConfigurableAttributes(true);
         return $this;
