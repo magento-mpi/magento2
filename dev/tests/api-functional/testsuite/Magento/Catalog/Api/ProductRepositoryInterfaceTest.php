@@ -52,7 +52,8 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productData[ProductInterface::SKU]]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['id' => $productData[ProductInterface::SKU]])
+            : $this->_webApiCall($serviceInfo);
         foreach ([ProductInterface::SKU, ProductInterface::NAME, ProductInterface::PRICE] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
