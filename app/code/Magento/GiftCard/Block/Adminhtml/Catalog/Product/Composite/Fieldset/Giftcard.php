@@ -28,6 +28,7 @@ class Giftcard extends \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcar
      *
      * @param null|string|bool|int|\Magento\Store\Model\Store $storeId $storeId
      * @return string
+     * @codeCoverageIgnore
      */
     public function getCurrentCurrencyCode($storeId)
     {

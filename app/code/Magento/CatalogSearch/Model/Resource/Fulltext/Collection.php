@@ -7,10 +7,10 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
+use Magento\Framework\DB\Select;
+
 /**
  * Fulltext Collection
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
@@ -27,6 +27,19 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @var \Magento\CatalogSearch\Model\Fulltext
      */
     protected $_catalogSearchFulltext;
+
+    /**
+     * @var \Magento\Framework\Search\Request\Builder
+     */
+    private $requestBuilder;
+
+    /**
+     * @var \Magento\Search\Model\SearchEngine
+     */
+    private $searchEngine;
+
+    /** @var  string */
+    private $queryText;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -49,8 +62,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
+     * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
-     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -74,6 +88,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\Framework\Search\Request\Builder $requestBuilder,
+        \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
@@ -99,16 +115,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $dateTime,
             $connection
         );
-    }
-
-    /**
-     * Retrieve query model object
-     *
-     * @return \Magento\Search\Model\Query
-     */
-    protected function _getQuery()
-    {
-        return $this->queryFactory->get();
+        $this->requestBuilder = $requestBuilder;
+        $this->searchEngine = $searchEngine;
     }
 
     /**
@@ -119,18 +127,37 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addSearchFilter($query)
     {
-        $this->_catalogSearchFulltext->prepareResult();
-
-        $this->getSelect()->joinInner(
-            array('search_result' => $this->getTable('catalogsearch_result')),
-            $this->getConnection()->quoteInto(
-                'search_result.product_id=e.entity_id AND search_result.query_id=?',
-                $this->_getQuery()->getId()
-            ),
-            array('relevance' => 'relevance')
-        );
-
+        $this->queryText = trim($this->queryText .' ' . $query);
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _renderFiltersBefore()
+    {
+        if ($this->queryText) {
+            $this->requestBuilder->bindDimension('scope', $this->getStoreId());
+            $this->requestBuilder->bind('search_term', $this->queryText);
+            $this->requestBuilder->setRequestName('quick_search_container');
+            $queryRequest = $this->requestBuilder->create();
+
+            $queryResponse = $this->searchEngine->search($queryRequest);
+            $ids = [0];
+            /** @var \Magento\Framework\Search\Document $document */
+            foreach ($queryResponse as $document) {
+                $ids[] = $document->getId();
+            }
+            $this->addIdFilter($ids);
+
+            $this->getSelect()
+                ->columns(
+                    [
+                        'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
+                    ]
+                );
+        }
+        return parent::_renderFiltersBefore();
     }
 
     /**
@@ -140,7 +167,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param string $dir
      * @return $this
      */
-    public function setOrder($attribute, $dir = 'desc')
+    public function setOrder($attribute, $dir = Select::SQL_DESC)
     {
         if ($attribute == 'relevance') {
             $this->getSelect()->order("relevance {$dir}");
