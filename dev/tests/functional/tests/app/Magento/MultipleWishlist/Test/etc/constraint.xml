@@ -41,4 +41,7 @@
     <assertProductAbsentInDefaultWishlist module="Magento_MultipleWishlist">
         <severeness>low</severeness>
     </assertProductAbsentInDefaultWishlist>
+    <assertBundleProductDetailsInMultipleWishlist module="Magento_MultipleWishlist">
+        <severeness>low</severeness>
+    </assertBundleProductDetailsInMultipleWishlist>
 </constraint>

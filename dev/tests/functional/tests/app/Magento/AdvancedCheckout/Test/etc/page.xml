@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_AdvancedCheckout">
+    <customerOrderSku>
+        <mca>customer_order/sku</mca>
+        <class>Magento\AdvancedCheckout\Test\Page\CustomerOrderSku</class>
+    </customerOrderSku>
+</page>

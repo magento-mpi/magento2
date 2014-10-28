@@ -47,7 +47,6 @@
             <arg line="-f ${dir.build_directory}/dev/build/publication/edition.php --
                 --dir=${dir.build_directory}
                 --edition=ce
-                --build
                 "/>
         </exec>
     </target>

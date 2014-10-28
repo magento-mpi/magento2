@@ -12,19 +12,30 @@
  * @var $this \Magento\CatalogEvent\Block\Event\Lister
  */
 ?>
-<div class="block widget event">
-    <div id="<?php echo $this->getHtmlId(); ?>" data-mage-init='{"carousel": {"pageSize": <?php echo $this->getPageSize(); ?>, "scrollSize": <?php echo $this->getScrollSize() ?>, "toggleInit": true}}' class="events slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
-        <div data-slide-button="slide-button" class="action slider backward" title="<?php echo __('Previous') ?>"><span>&lt;</span></div>
-        <div data-slider-panel="slider-panel" class="panel"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
+<div class="block widget block-event">
+    <div id="<?php echo $this->getHtmlId(); ?>" data-mage-init='{"carousel": {"pageSize": <?php echo $this->getPageSize(); ?>, "scrollSize": <?php echo $this->getScrollSize() ?>, "toggleInit": true}}' class="block-content"<?php if ($this->hasWidth()): ?> style="width: <?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
+        <div data-slide-button="slide-button" class="action backward" title="<?php echo __('Previous') ?>"><span>&lt;</span></div>
+        <div data-slider-panel="slider-panel" class="slider-panel"<?php if ($this->hasWidth()): ?> style="width: <?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
             <ul data-slider="slider" class="slider">
                 <?php foreach ($this->getEvents() as $_event): ?>
                     <?php $_category = $_event->getCategory(); ?>
                     <li data-slider-item="slider-item" class="item">
-                        <div class="event <?php echo $_event->getStatus()?>">
-                            <div class="content">
-                                <strong class="subtitle">
-                                    <span><?php echo $this->getStatusText($_event); ?></span>
-                                </strong>
+                        <a class="action show" href="<?php echo $this->getCategoryUrl($_category); ?>"
+                           title="<?php echo $this->escapeHtml($_category->getName()) ?>">
+                            <?php if ($this->getEventImageUrl($_event)): ?>
+                                <img src="<?php echo $this->getEventImageUrl($_event); ?>"
+                                     title="<?php echo $this->escapeHtml($_category->getName()) ?>"
+                                     alt="<?php echo $this->escapeHtml($_category->getName()) ?>"/>
+                            <?php else: ?>
+                                <span
+                                    class="category-name"><?php echo $this->escapeHtml($_category->getName()) ?></span>
+                            <?php endif; ?>
+                        </a>
+                        <div class="box box-event <?php echo $_event->getStatus()?>">
+                            <strong class="box-title">
+                                <span><?php echo $this->getStatusText($_event); ?></span>
+                            </strong>
+                            <div class="box-content">
                                 <?php switch ($_event->getStatus()):
                                     case 'upcoming': ?>
                                         <div class="dates">
@@ -74,25 +85,14 @@
                                             </div>
                                         </div>
                                         <a class="action event" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo __('View Sale') ?></span></a>
-                                        <?php break; ?>
-                                    <?php endswitch; ?>
+                                    <?php break; ?>
+                                <?php endswitch; ?>
                             </div>
                         </div>
-                        <a class="action show" href="<?php echo $this->getCategoryUrl($_category); ?>"
-                           title="<?php echo $this->escapeHtml($_category->getName()) ?>">
-                            <?php if ($this->getEventImageUrl($_event)): ?>
-                                <img src="<?php echo $this->getEventImageUrl($_event); ?>"
-                                     title="<?php echo $this->escapeHtml($_category->getName()) ?>"
-                                     alt="<?php echo $this->escapeHtml($_category->getName()) ?>"/>
-                            <?php else: ?>
-                                <span
-                                    class="category name"><?php echo $this->escapeHtml($_category->getName()) ?></span>
-                            <?php endif; ?>
-                        </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
         </div>
-        <div data-slide-button="slide-button" class="action slider forward" title="<?php echo __('Next') ?>"><span>&gt;</span></div>
+        <div data-slide-button="slide-button" class="action forward" title="<?php echo __('Next') ?>"><span>&gt;</span></div>
     </div>
 </div>
