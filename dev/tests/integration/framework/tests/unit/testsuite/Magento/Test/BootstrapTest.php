@@ -88,13 +88,6 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         );
         $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
         $this->application = $this->getMock('\Magento\TestFramework\Application', [], [], '', false);
-        $memoryBootstrap = $this->getMock(
-            'Magento\TestFramework\Bootstrap\Memory',
-            array('activateStatsDisplaying', 'activateLimitValidation'),
-            array(),
-            '',
-            false
-        );
         $this->memoryFactory = $this->getMock('\Magento\TestFramework\Bootstrap\MemoryFactory', [], [], '', false);
         $this->_object = new \Magento\TestFramework\Bootstrap(
             $this->_settings,
