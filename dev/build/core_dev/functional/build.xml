@@ -155,6 +155,7 @@
                 --bootstrap config/bootstrap.php
                  ${env.bamboo_executer_options}
                 "/>
+            <env key="module_filter" value="${env.bamboo_module_filter}"/>
         </exec>
     </target>
 
