@@ -18,22 +18,26 @@ define([
             return this;
         },
 
-        onValidate: function(){
-            var formValid   = true,
-                params      = this.provider.params,
+        validate: function(elem){
+            var params = this.provider.params,
                 invalid;
 
-            this.elems().forEach(function(elem){
-                elem.delegate('validate');
-                invalid = params.get('invalidElement');
+            elem.delegate('validate');
 
-                if(formValid && invalid){
-                    formValid = false;
+            invalid = params.get('invalidElement');
 
-                    elem.setActive();
-                    invalid.focused(true);
-                }
-            }, this);
+            if(this.formValid && invalid){
+                this.formValid = false;
+
+                elem.setActive();
+                invalid.focused(true);
+            }
+        },
+
+        onValidate: function(){
+            this.formValid = true;
+            
+            this.elems().forEach(this.validate, this);
         }
     });
 });

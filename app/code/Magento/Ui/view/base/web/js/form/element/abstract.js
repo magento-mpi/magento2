@@ -177,33 +177,24 @@ define([
          *     
          * @return {Boolean} - true, if element is valid
          */
-        validate: function (showErrors) {
+        validate: function () {
             var value       = this.value(),
-                rules       = this.validation,
                 params      = this.provider.params,
-                isValid     = true;
+                errorMsg    = '';
 
-             _.every(rules, function (params, rule) {
-                isValid = validator.validate(rule, value, params);
+            _.some(this.validation, function (params, rule) {
+                errorMsg = validator.validate(rule, value, params);
 
-                if (!isValid) {
-                    this.error(validator.messageFor(rule));
-                }
-
-                return isValid;
+                return !!errorMsg;
             }, this);
 
-            if(!isValid){
-
-                if(!params.get('invalidElement')){
-                    params.set('invalidElement', this);
-                }
-            }
-            else{
-                this.error('');
+            if(errorMsg && !params.get('invalidElement')){
+                params.set('invalidElement', this);
             }
 
-            return isValid;
+            this.error(errorMsg);
+
+            return !!errorMsg;
         }
     });
 });
