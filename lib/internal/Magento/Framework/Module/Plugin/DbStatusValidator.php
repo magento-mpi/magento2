@@ -10,8 +10,6 @@
 namespace Magento\Framework\Module\Plugin;
 
 use Magento\Framework\Cache\FrontendInterface;
-use Magento\Framework\Module\Updater;
-use Magento\Framework\App\State;
 
 class DbStatusValidator
 {
