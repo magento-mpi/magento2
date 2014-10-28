@@ -82,6 +82,7 @@ dev/tests/functional/tests/app/Magento/Payment
 dev/tests/functional/tests/app/Magento/Paypal
 dev/tests/functional/tests/app/Magento/Pci
 dev/tests/functional/tests/app/Magento/RecurringPayment
+dev/tests/functional/tests/app/Magento/Reminder
 dev/tests/functional/tests/app/Magento/Reward
 dev/tests/functional/tests/app/Magento/Rma
 dev/tests/functional/tests/app/Magento/Sales

@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Fixture Reminder
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Reminder extends InjectableFixture
 {
