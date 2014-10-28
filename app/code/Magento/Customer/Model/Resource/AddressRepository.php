@@ -46,7 +46,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     protected $addressResourceModel;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchResultsDataBuilder
+     * @var \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder
      */
     protected $addressSearchResultsBuilder;
 
@@ -56,7 +56,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Customer\Model\Resource\Address $addressResourceModel
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Framework\Service\V1\Data\SearchResultsDataBuilder $addressSearchResultsBuilder
+     * @param \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -64,7 +64,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Customer\Model\Resource\Address $addressResourceModel,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Framework\Service\V1\Data\SearchResultsDataBuilder $addressSearchResultsBuilder
+        \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder
     ) {
         $this->addressFactory = $addressFactory;
         $this->addressRegistry = $addressRegistry;
