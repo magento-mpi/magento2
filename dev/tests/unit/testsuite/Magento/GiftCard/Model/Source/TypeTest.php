@@ -48,4 +48,47 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('comment', $result, 'FlatColumns must have "comment" column');
         }
     }
+
+    /**
+     * @param int $value
+     * @param string $result
+     * @dataProvider getOptionTextDataProvider
+     */
+    public function testGetOptionText($value, $result)
+    {
+        $this->assertEquals($result, $this->_model->getOptionText($value));
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptionTextDataProvider()
+    {
+        return [
+            [0, 'Virtual'],
+            [1, 'Physical'],
+            [2, 'Combined'],
+            [3, null]
+        ];
+    }
+
+    public function testGetAllOptions()
+    {
+        $result = [
+            [
+                'value' => 0,
+                'label' => 'Virtual'
+            ],
+            [
+                'value' => 1,
+                'label' => 'Physical'
+            ],
+            [
+                'value' => 2,
+                'label' => 'Combined'
+            ]
+        ];
+
+        $this->assertEquals($result, $this->_model->getAllOptions());
+    }
 }

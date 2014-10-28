@@ -10,6 +10,17 @@ namespace Magento\GiftCard\Model\Catalog\Product\Price;
 class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\GiftCard\Model\Catalog\Product\Price\Giftcard
+     */
+    protected $model;
+
+    public function setUp()
+    {
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject('Magento\GiftCard\Model\Catalog\Product\Price\Giftcard');
+    }
+
+    /**
      * @param array $amounts
      * @param bool $withCustomOptions
      * @param float $expectedPrice
@@ -30,9 +41,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap([['price', null, null], ['giftcard_amounts', null, $amounts]])
         );
 
-        $giftCard = (new \Magento\TestFramework\Helper\ObjectManager($this))
-            ->getObject('Magento\GiftCard\Model\Catalog\Product\Price\Giftcard');
-        $this->assertEquals($expectedPrice, $giftCard->getPrice($product));
+        $this->assertEquals($expectedPrice, $this->model->getPrice($product));
     }
 
     /**
@@ -53,4 +62,54 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    public function testGetPriceWithFixedAmount()
+    {
+        $price = 3;
+
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $product->expects($this->exactly(2))->method('getData')->with('price')->will($this->returnValue($price));
+
+        $this->assertEquals($price, $this->model->getPrice($product));
+    }
+
+    public function testGetFinalPrice()
+    {
+        $productPrice = 5;
+        $optionPrice = 3;
+
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $customOption = $this->getMockBuilder('Magento\Catalog\Model\Product\Configuration\Item\Option')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $product->expects($this->once())->method('getPrice')->will($this->returnValue($productPrice));
+        $product->expects($this->once())->method('hasCustomOptions')->will($this->returnValue(true));
+        $product->expects($this->at(2))
+            ->method('getCustomOption')
+            ->with('giftcard_amount')
+            ->will($this->returnValue($customOption));
+        $customOption->expects($this->once())->method('getValue')->will($this->returnValue($optionPrice));
+        $product->expects($this->at(3))
+            ->method('getCustomOption')
+            ->with('option_ids')
+            ->will($this->returnValue(null));
+        $product->expects($this->once())
+            ->method('setData')
+            ->with('final_price', $productPrice + $optionPrice)
+            ->will($this->returnSelf());
+        $product->expects($this->once())
+            ->method('getData')
+            ->with('final_price')
+            ->will($this->returnValue($productPrice + $optionPrice));
+
+        $this->assertEquals($productPrice + $optionPrice, $this->model->getFinalPrice(5, $product));
+    }
+
 }
