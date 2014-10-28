@@ -201,9 +201,13 @@ class Request extends \Magento\Webapi\Controller\Request
     {
         $requestBodyParams = $this->getBodyParams();
         $pathParamValue = end($urlPathParams);
+        // Self apis should not be overridden
+        if ($pathParamValue === 'me') {
+            return $requestBodyParams;
+        }
         $pathParamKey = key($urlPathParams);
         // Check if the request data is a top level object of body
-        if (is_array($requestBodyParams) && count($requestBodyParams) == 1) {
+        if (count($requestBodyParams) == 1 && is_array(end($requestBodyParams))) {
             $requestDataKey = key($requestBodyParams);
             $this->substituteParameters($requestBodyParams[$requestDataKey], $pathParamKey, $pathParamValue);
         } else { // Else parameters passed as scalar values in body will be overridden
