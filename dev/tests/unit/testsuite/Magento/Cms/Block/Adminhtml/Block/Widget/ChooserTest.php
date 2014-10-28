@@ -53,6 +53,11 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
     protected $filesystemMock;
 
     /**
+     * @var \Magento\Cms\Model\Block|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $modelBlockMock;
+
+    /**
      * @var \Magento\Framework\View\Element\BlockInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $chooserMock;
@@ -74,7 +79,9 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
         );
         $this->blockFactoryMock = $this->getMock(
             'Magento\Cms\Model\BlockFactory',
-            [],
+            [
+                'create'
+            ],
             [],
             '',
             false
@@ -92,7 +99,8 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Data\Form\Element\AbstractElement',
             [
                 'getId',
-                'setData'
+                'setData',
+                'getValue'
             ],
             [],
             '',
@@ -119,6 +127,17 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->modelBlockMock = $this->getMock(
+            'Magento\Cms\Model\Block',
+            [
+                'load',
+                'getId',
+                'getTitle'
+            ],
+            [],
+            '',
+            false
+        );
         $this->chooserMock = $this->getMock(
             'Magento\Framework\View\Element\BlockInterface',
             [
@@ -127,7 +146,8 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
                 'setFieldsetId',
                 'setSourceUrl',
                 'setUniqId',
-                'toHtml'
+                'toHtml',
+                'setLabel'
             ],
             [],
             '',
@@ -160,83 +180,137 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Cms\Block\Adminhtml\Block\Widget\Chooser::prepareElementHtml
+     *
+     * @param mixed $elementValue
+     * @param mixed $modelBlockId
+     * @param integer $expectedBlockFactoryCreateCalls ...if ($element->getValue())
+     * @param integer $expectedChooserSetLabelCalls ...if ($block->getId())
+     *
      * @dataProvider prepareElementHtmlDataProvider
      */
-    public function testPrepareElementHtml($value)
-    {
-        $elementId = 1; //assumed
-        $uniqId = '126hj4h3j73hk7b347jhkl37gb34'; //assumed
-        $baseUrl = 'cms/block_widget/chooser';
-        $sourceUrl = 'cms/block_widget/chooser/126hj4h3j73hk7b347jhkl37gb34'; //assumed
-        $blockClass = 'Magento\Widget\Block\Adminhtml\Widget\Chooser';
-        $config = ['key1' => 'value1']; //assumed
-        $fieldsetId = 2; //assumed
-        $html = 'some html'; //assumed
-        $dataKey = 'after_element_html';
+    public function testPrepareElementHtml(
+        $elementValue,
+        $modelBlockId,
+        $expectedBlockFactoryCreateCalls,
+        $expectedChooserSetLabelCalls
+    ) {
+        $elementId = 1;
+        $uniqId = '126hj4h3j73hk7b347jhkl37gb34';
+        $sourceUrl = 'cms/block_widget/chooser/126hj4h3j73hk7b347jhkl37gb34';
+        $config = ['key1' => 'value1'];
+        $fieldsetId = 2;
+        $html = 'some html';
+        $title = 'some title';
+
+        $this->chooser->setConfig($config); //$this->getConfig()
+        $this->chooser->setFieldsetId($fieldsetId); //$this->getFieldsetId()
+
+        //$uniqId = $this->mathRandom->getUniqueHash($element->getId());
         $this->elementMock
             ->expects($this->once())
             ->method('getId')
             ->willReturn($elementId);
+        //$uniqId = $this->mathRandom->getUniqueHash($element->getId());
         $this->mathRandomMock
             ->expects($this->once())
             ->method('getUniqueHash')
             ->with($elementId)
             ->willReturn($uniqId);
+        //$sourceUrl = $this->getUrl('cms/block_widget/chooser', array('uniq_id' => $uniqId));
         $this->urlBuilderMock
             ->expects($this->once())
             ->method('getUrl')
-            ->with($baseUrl, array('uniq_id' => $uniqId))
+            ->with('cms/block_widget/chooser', array('uniq_id' => $uniqId))
             ->willReturn($sourceUrl);
+        //$chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
         $this->layoutMock
             ->expects($this->once())
             ->method('createBlock')
-            ->with($blockClass)
+            ->with('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->willReturn($this->chooserMock);
+        //...->setElement($element)
         $this->chooserMock
             ->expects($this->once())
             ->method('setElement')
             ->with($this->elementMock)
             ->willReturnSelf();
-        $this->chooser->setConfig($config);
+        //...->setConfig($this->getConfig())
         $this->chooserMock
             ->expects($this->once())
             ->method('setConfig')
             ->with($config)
             ->willReturnSelf();
-        $this->chooser->setFieldsetId($fieldsetId);
+        //...->setFieldsetId($this->getFieldsetId())
         $this->chooserMock
             ->expects($this->once())
             ->method('setFieldsetId')
             ->with($fieldsetId)
             ->willReturnSelf();
+        //...->setSourceUrl($sourceUrl)
         $this->chooserMock
             ->expects($this->once())
             ->method('setSourceUrl')
             ->with($sourceUrl)
             ->willReturnSelf();
+        //...->setUniqId($uniqId)
         $this->chooserMock
             ->expects($this->once())
             ->method('setUniqId')
             ->with($uniqId)
             ->willReturnSelf();
+        //if ($element->getValue())
+        $this->elementMock
+            ->expects($this->any())
+            ->method('getValue')
+            ->willReturn($elementValue);
+        //$block = $this->_blockFactory->create()->load($element->getValue());
+        $this->blockFactoryMock
+            ->expects($this->exactly($expectedBlockFactoryCreateCalls)) //if ($element->getValue())
+            ->method('create')
+            ->willReturn($this->modelBlockMock);
+        //$block = $this->_blockFactory->create()->load($element->getValue());
+        $this->modelBlockMock
+            ->expects($this->exactly($expectedBlockFactoryCreateCalls)) //if ($element->getValue())
+            ->method('load')
+            ->with($elementValue)
+            ->willReturnSelf();
+        //if ($block->getId())
+        $this->modelBlockMock
+            ->expects($this->exactly($expectedBlockFactoryCreateCalls)) //if ($element->getValue())
+            ->method('getId')
+            ->willReturn($modelBlockId);
+        //$chooser->setLabel($block->getTitle());
+        $this->modelBlockMock
+            ->expects($this->exactly($expectedChooserSetLabelCalls)) //if ($block->getId())
+            ->method('getTitle')
+            ->willReturn($title);
+        //$chooser->setLabel($block->getTitle());
+        $this->chooserMock
+            ->expects($this->exactly($expectedChooserSetLabelCalls)) //if ($block->getId())
+            ->method('setLabel')
+            ->with($title)
+            ->willReturnSelf();
+        //$element->setData('after_element_html', $chooser->toHtml());
         $this->chooserMock
             ->expects($this->once())
             ->method('toHtml')
             ->willReturn($html);
+        //$element->setData('after_element_html', $chooser->toHtml());
         $this->elementMock
             ->expects($this->once())
             ->method('setData')
-            ->with($dataKey, $html)
+            ->with('after_element_html', $html)
             ->willReturnSelf();
-
+        
         $this->assertEquals($this->elementMock, $this->chooser->prepareElementHtml($this->elementMock));
     }
 
     public function prepareElementHtmlDataProvider()
     {
         return [
-          [0],
-          [1]
+          ['123', '333', 1, 1],
+          ['123', '', 1, 0],
+          ['', '', 0, 0]
         ];
     }
 
