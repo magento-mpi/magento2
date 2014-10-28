@@ -43,7 +43,7 @@ class Items extends Block
      *
      * @var string
      */
-    protected $loader = '//ancestor::body/div[@id="loading-mask"]';
+    protected $loader = '//ancestor::body/div[@data-role="loader"]';
 
     /**
      * Click 'Add Products' button

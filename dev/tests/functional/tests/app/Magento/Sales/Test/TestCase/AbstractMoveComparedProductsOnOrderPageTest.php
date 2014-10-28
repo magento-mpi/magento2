@@ -162,11 +162,10 @@ abstract class AbstractMoveComparedProductsOnOrderPageTest extends Injectable
      */
     protected function loginCustomer()
     {
-        $loginCustomerOnFrontendStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $this->customer]
-        );
-        $loginCustomerOnFrontendStep->run();
+        )->run();
     }
 
     /**

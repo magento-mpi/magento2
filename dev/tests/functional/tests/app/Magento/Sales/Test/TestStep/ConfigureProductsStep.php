@@ -12,7 +12,7 @@ use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Configure products.
+ * Configure products options on backend order.
  */
 class ConfigureProductsStep implements TestStepInterface
 {
@@ -42,7 +42,7 @@ class ConfigureProductsStep implements TestStepInterface
     }
 
     /**
-     * Add Recently Viewed Products to cart.
+     * Configure products options on backend order.
      *
      * @return void
      */

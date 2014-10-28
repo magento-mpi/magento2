@@ -12,7 +12,7 @@ use Mtf\Client\Browser;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Open products.
+ * Open products on frontend via url.
  */
 class OpenProductsStep implements TestStepInterface
 {
@@ -44,7 +44,7 @@ class OpenProductsStep implements TestStepInterface
     }
 
     /**
-     * Open products.
+     * Open products on frontend via url.
      *
      * @return void
      */

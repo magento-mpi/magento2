@@ -92,21 +92,23 @@ class AssertProductInItemsOrderedGrid extends AbstractAssertForm
     /**
      * Sort of array.
      *
-     * @param array $actual
-     * @param array $expected
+     * @param array $fixtureData
+     * @param array $pageData
      * @return array
      */
-    protected function arraySort(array $actual, array $expected)
+    protected function arraySort(array $fixtureData, array $pageData)
     {
         $result = [];
-        foreach ($actual as $key => $value) {
-            foreach ($expected as $expectedValue) {
-                if ($value['name'] == $expectedValue['name']) {
-                    $result[$key] = $expectedValue;
+        foreach ($fixtureData as $key => $value) {
+            foreach ($pageData as $pageDataKey => $pageDataValue) {
+                if ($value['name'] == $pageDataValue['name']) {
+                    $result[$key] = $pageDataValue;
+                    unset($pageData[$pageDataKey]);
+                    break;
                 }
             }
         }
-        return $result;
+        return array_merge($result, $pageData);
     }
 
     /**

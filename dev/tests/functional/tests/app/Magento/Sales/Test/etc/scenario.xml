@@ -101,7 +101,7 @@
                     <step name="createCustomer" module="Magento_Customer">
                         <arguments>
                             <items name="customer">
-                                <item name="dataSet">johndoe_with_addresses</item>
+                                <item name="dataSet">default</item>
                             </items>
                         </arguments>
                         <next>loginCustomerOnFrontend</next>
