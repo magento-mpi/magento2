@@ -39,7 +39,6 @@ define([
         },
 
         initElement: function (element) {
-            element.setDataScope(this.dataScope);
             this.setActiveElement();
         },
 
