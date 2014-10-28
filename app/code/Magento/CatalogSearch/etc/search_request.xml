@@ -14,14 +14,18 @@
             <dimension name="scope" value="default"/>
         </dimensions>
         <queries>
-            <query xsi:type="matchQuery" value="$search_term$*" name="quick_search_container">
+            <query xsi:type="boolQuery" name="quick_search_container" boost="1">
+                <queryReference clause="should" ref="search" />
+            </query>
+            <query xsi:type="matchQuery" value="$search_term$*" name="search">
                 <match field="name" boost="1"/>
-                <match field="description" boost="1"/>
-                <match field="short_description" boost="1"/>
             </query>
         </queries>
+        <aggregations>
+            <bucket name="price" field="price" xsi:type="dynamicBucket" method="simple"></bucket>
+        </aggregations>
         <from>0</from>
-        <size>10</size>
+        <size>10000</size>
     </request>
     <request query="advanced_search_container" index="catalogsearch_fulltext">
         <dimensions>

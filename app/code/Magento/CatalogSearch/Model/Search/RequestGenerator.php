@@ -47,12 +47,43 @@ class RequestGenerator
     {
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
+            if ($attribute->getIsFilterable()) {
+                $queryName = $attribute->getAttributeCode() . '_query';
+                $request['queries']['quick_search_container']['queryReference'][] = [
+                    'clause' => 'should',
+                    'ref' => $queryName,
+                ];
+                $filterName = $attribute->getAttributeCode() . '_filter';
+                $request['queries'][$queryName] = [
+                    'name' => $queryName,
+                    'type' => 'filteredQuery',
+                    'filterReference' => [['ref' => $filterName]]
+                ];
+                $request['filters'][$filterName] = [
+                    'type' => 'termFilter',
+                    'name' => $filterName,
+                    'field' => $attribute->getAttributeCode(),
+                    'value' => '$' . $attribute->getAttributeCode() . '$',
+                ];
+
+                if (!in_array($attribute->getAttributeCode(), ['price', 'catagory_ids'])) {
+                    $bucketName = $attribute->getAttributeCode() . '_bucket';
+                    $request['aggregations'][$bucketName] = [
+                        'type' => 'termBucket',
+                        'name' => $bucketName,
+                        'field' => $attribute->getAttributeCode(),
+                        [["type" => "count"]],
+                    ];
+                }
+            }
             /** @var $attribute Attribute */
-            if (in_array($attribute->getAttributeCode(), ['price', 'sku'])) {
+            if (in_array($attribute->getAttributeCode(), ['price', 'sku'])
+                || !$attribute->getIsSearchable()
+            ) {
                 //same fields have special semantics
                 continue;
             }
-            $request['queries']['quick_search_container']['match'][] = [
+            $request['queries']['search']['match'][] = [
                 'field' => $attribute->getAttributeCode(),
                 'boost' => $attribute->getSearchWeight() ?: 1,
             ];
@@ -69,7 +100,10 @@ class RequestGenerator
     {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $productAttributes */
         $productAttributes = $this->productAttributeCollectionFactory->create();
-        $productAttributes->addFieldToFilter(['is_searchable', 'is_visible_in_advanced_search'], [1, 1]);
+        $productAttributes->addFieldToFilter(
+            ['is_searchable', 'is_visible_in_advanced_search', 'is_filterable'],
+            [1, 1, 1]
+        );
 
         return $productAttributes;
     }
