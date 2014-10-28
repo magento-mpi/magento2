@@ -1001,8 +1001,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->groupService->getGroup($groupId);
             $this->fail('An expected NoSuchEntityException was not thrown.');
         } catch (NoSuchEntityException $e) {
+            $exception = NoSuchEntityException::singleField(CustomerGroup::ID, $groupId);
             $this->assertEquals(
-                "No such entity with groupId = $groupId",
+                $exception->getMessage(),
                 $e->getMessage(),
                 'Exception message does not match expected message.'
             );
