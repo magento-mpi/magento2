@@ -202,106 +202,105 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
         $html = 'some html';
         $title = 'some title';
 
-        $this->chooser->setConfig($config); //$this->getConfig()
-        $this->chooser->setFieldsetId($fieldsetId); //$this->getFieldsetId()
+        $this->chooser->setConfig($config);
+        $this->chooser->setFieldsetId($fieldsetId);
 
-        //$uniqId = $this->mathRandom->getUniqueHash($element->getId());
         $this->elementMock
             ->expects($this->once())
             ->method('getId')
             ->willReturn($elementId);
-        //$uniqId = $this->mathRandom->getUniqueHash($element->getId());
+
         $this->mathRandomMock
             ->expects($this->once())
             ->method('getUniqueHash')
             ->with($elementId)
             ->willReturn($uniqId);
-        //$sourceUrl = $this->getUrl('cms/block_widget/chooser', array('uniq_id' => $uniqId));
+
         $this->urlBuilderMock
             ->expects($this->once())
             ->method('getUrl')
             ->with('cms/block_widget/chooser', array('uniq_id' => $uniqId))
             ->willReturn($sourceUrl);
-        //$chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
+
         $this->layoutMock
             ->expects($this->once())
             ->method('createBlock')
             ->with('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->willReturn($this->chooserMock);
-        //...->setElement($element)
+
         $this->chooserMock
             ->expects($this->once())
             ->method('setElement')
             ->with($this->elementMock)
             ->willReturnSelf();
-        //...->setConfig($this->getConfig())
+
         $this->chooserMock
             ->expects($this->once())
             ->method('setConfig')
             ->with($config)
             ->willReturnSelf();
-        //...->setFieldsetId($this->getFieldsetId())
+
         $this->chooserMock
             ->expects($this->once())
             ->method('setFieldsetId')
             ->with($fieldsetId)
             ->willReturnSelf();
-        //...->setSourceUrl($sourceUrl)
+
         $this->chooserMock
             ->expects($this->once())
             ->method('setSourceUrl')
             ->with($sourceUrl)
             ->willReturnSelf();
-        //...->setUniqId($uniqId)
+
         $this->chooserMock
             ->expects($this->once())
             ->method('setUniqId')
             ->with($uniqId)
             ->willReturnSelf();
-        //if ($element->getValue())
+
         $this->elementMock
             ->expects($this->any())
             ->method('getValue')
             ->willReturn($elementValue);
-        //$block = $this->_blockFactory->create()->load($element->getValue());
+
         $this->blockFactoryMock
-            ->expects($this->exactly($expectedBlockFactoryCreateCalls)) //if ($element->getValue())
+            ->expects($this->exactly($expectedBlockFactoryCreateCalls))
             ->method('create')
             ->willReturn($this->modelBlockMock);
-        //$block = $this->_blockFactory->create()->load($element->getValue());
+
         $this->modelBlockMock
-            ->expects($this->exactly($expectedBlockFactoryCreateCalls)) //if ($element->getValue())
+            ->expects($this->exactly($expectedBlockFactoryCreateCalls))
             ->method('load')
             ->with($elementValue)
             ->willReturnSelf();
-        //if ($block->getId())
+
         $this->modelBlockMock
-            ->expects($this->exactly($expectedBlockFactoryCreateCalls)) //if ($element->getValue())
+            ->expects($this->exactly($expectedBlockFactoryCreateCalls))
             ->method('getId')
             ->willReturn($modelBlockId);
-        //$chooser->setLabel($block->getTitle());
+
         $this->modelBlockMock
-            ->expects($this->exactly($expectedChooserSetLabelCalls)) //if ($block->getId())
+            ->expects($this->exactly($expectedChooserSetLabelCalls))
             ->method('getTitle')
             ->willReturn($title);
-        //$chooser->setLabel($block->getTitle());
+
         $this->chooserMock
-            ->expects($this->exactly($expectedChooserSetLabelCalls)) //if ($block->getId())
+            ->expects($this->exactly($expectedChooserSetLabelCalls))
             ->method('setLabel')
             ->with($title)
             ->willReturnSelf();
-        //$element->setData('after_element_html', $chooser->toHtml());
+
         $this->chooserMock
             ->expects($this->once())
             ->method('toHtml')
             ->willReturn($html);
-        //$element->setData('after_element_html', $chooser->toHtml());
+
         $this->elementMock
             ->expects($this->once())
             ->method('setData')
             ->with('after_element_html', $html)
             ->willReturnSelf();
-        
+
         $this->assertEquals($this->elementMock, $this->chooser->prepareElementHtml($this->elementMock));
     }
 
