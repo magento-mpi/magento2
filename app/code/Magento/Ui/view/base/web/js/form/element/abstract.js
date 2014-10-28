@@ -169,6 +169,15 @@ define([
             return this.value() !== this.initialValue;
         },
 
+        validateRule: function (value, params, rule) {
+            var isValid = validator.validate(rule, value, params);
+
+            if (!isValid) {
+                this.error(validator.messageFor(rule));
+            }
+
+            return isValid;
+        },
 
         /**
          * Validates itself by it's validation rules using validator object.
@@ -178,30 +187,17 @@ define([
          * @return {Boolean} - true, if element is valid
          */
         validate: function (showErrors) {
-            var value       = this.value(),
-                rules       = this.validation,
-                params      = this.provider.params,
-                isValid     = true;
+            var value           = this.value(),
+                rules           = this.validation,
+                params          = this.provider.params,
+                validateRule    = this.validateRule.bind(this, value),
+                isValid         = true;
 
-             _.every(rules, function (params, rule) {
-                isValid = validator.validate(rule, value, params);
+            isValid = _.every(rules, validateRule);
 
-                if (!isValid) {
-                    this.error(validator.messageFor(rule));
-                }
-
-                return isValid;
-            }, this);
-
-            if(!isValid){
-
-                if(!params.get('invalidElement')){
-                    params.set('invalidElement', this);
-                }
-            }
-            else{
-                this.error('');
-            }
+            isValid
+                ? this.error('')
+                : !params.get('invalidElement') && params.set('invalidElement', this);
 
             return isValid;
         }
