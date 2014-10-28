@@ -13,6 +13,8 @@ namespace Magento\Customer\Api;
  */
 interface GroupManagementInterface
 {
+    const XML_PATH_DEFAULT_ID = 'customer/create_account/default_group';
+
     /**
      * Check if customer group can be deleted.
      *
