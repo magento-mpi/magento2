@@ -219,6 +219,7 @@ class Request extends \Magento\Webapi\Controller\Request
      * @param array $requestData
      * @param string $key
      * @param string $value
+     * @return void
      */
     protected function substituteParameters(&$requestData, $key, $value)
     {
