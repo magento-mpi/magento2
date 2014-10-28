@@ -1,0 +1,180 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Ui\Component;
+
+use Magento\Backend\Helper\Data;
+use Magento\Ui\DataProvider\Manager;
+use Magento\Framework\View\Element\Template;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\Component\Filter\FilterAbstract;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
+
+/**
+ * Class FilterPool
+ */
+class FilterPool extends AbstractView
+{
+    /**
+     * Data helper
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $dataHelper;
+
+    /**
+     * Filters pool
+     *
+     * @var FilterPoolProvider
+     */
+    protected $filterPool;
+
+    /**
+     * Constructor
+     *
+     * @param TemplateContext $context
+     * @param Context $renderContext
+     * @param ContentTypeFactory $contentTypeFactory
+     * @param ConfigFactory $configFactory
+     * @param ConfigBuilderInterface $configBuilder
+     * @param Data $dataHelper
+     * @param FilterPoolProvider $filterPool
+     * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
+     * @param array $data
+     */
+    public function __construct(
+        TemplateContext $context,
+        Context $renderContext,
+        ContentTypeFactory $contentTypeFactory,
+        ConfigFactory $configFactory,
+        ConfigBuilderInterface $configBuilder,
+        Data $dataHelper,
+        FilterPoolProvider $filterPool,
+        DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
+        array $data = []
+    ) {
+        $this->dataHelper = $dataHelper;
+        $this->filterPool = $filterPool;
+        parent::__construct(
+            $context,
+            $renderContext,
+            $contentTypeFactory,
+            $configFactory,
+            $configBuilder,
+            $dataProviderFactory,
+            $dataProviderManager,
+            $data
+        );
+    }
+
+    /**
+     * Prepare component data
+     *
+     * @return void
+     */
+    public function prepare()
+    {
+        $configData = $this->getDefaultConfiguration();
+        if ($this->hasData('config')) {
+            $configData = array_merge($configData, $this->getData('config'));
+        }
+        $this->prepareConfiguration($configData);
+        $this->updateDataCollection();
+    }
+
+    /**
+     * Update data collection
+     *
+     * @return void
+     */
+    protected function updateDataCollection()
+    {
+        $collection = $this->renderContext->getStorage()->getDataCollection($this->getParentName());
+
+        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
+        $metaData = $metaData['fields'];
+        $filterData = $this->dataHelper->prepareFilterString(
+            $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
+        );
+        foreach ($filterData as $field => $value) {
+            if (!isset($metaData[$field]['filter_type'])) {
+                continue;
+            }
+            $condition = $this->filterPool->getFilter($metaData[$field]['filter_type'])->getCondition($value);
+            if ($condition !== null) {
+                $collection->addFieldToFilter($field, $condition);
+            }
+        }
+    }
+
+    /**
+     * Get list of required filters
+     *
+     * @return array
+     */
+    protected function getListOfRequiredFilters()
+    {
+        $result = [];
+        foreach ($this->getFields() as $field) {
+            $result[] = isset($field['filter_type']) ? $field['filter_type'] : $field['input_type'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get fields
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        $meta = $this->renderContext->getStorage()->getMeta($this->getParentName());
+        $fields = [];
+        if (isset($meta['fields'])) {
+            foreach ($meta['fields'] as $name => $config) {
+                if (isset($config['filterable']) && $config['filterable'] === false) {
+                    continue;
+                }
+                $fields[$name] = $config;
+            }
+        }
+        return $fields;
+    }
+
+    /**
+     * Get active filters
+     *
+     * @return array
+     */
+    public function getActiveFilters()
+    {
+        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
+        $metaData = $metaData['fields'];
+        $filters = [];
+        $filterData = $this->dataHelper->prepareFilterString(
+            $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
+        );
+        foreach ($filterData as $field => $value) {
+            if (isset($metaData[$field]['filter_type'])) {
+                $filters[$field] = [
+                    'label' => $metaData[$field]['label'],
+                    'current_display_value' => $value
+                ];
+            }
+        }
+
+        return $filters;
+    }
+}

@@ -46,11 +46,6 @@ class UiComponentFactory extends Object
     protected $layout;
 
     /**
-     * @var boolean
-     */
-    protected $layoutLoaded;
-
-    /**
      * Constructor
      *
      * @param RenderContext $renderContext
@@ -107,34 +102,23 @@ class UiComponentFactory extends Object
      * @param array $arguments
      * @return UiComponentInterface
      */
-    public function createUiComponent($componentName, $handleName = '', array $arguments = [])
+    public function createUiComponent($componentName, $handleName, array $arguments = [])
     {
-        $root = false;
-        if (!$this->renderContext->getNamespace()) {
-            $root = true;
-            if ($handleName) {
-                $this->renderContext->setNamespace($handleName);
-            }
-        }
+        $this->renderContext->setNamespace($handleName);
 
-        if ($root && $handleName) {
-            if (!$this->layoutLoaded) {
-                $this->layoutLoaded = true;
-                $this->layout = $this->layoutFactory->create();
-                $this->layout->getUpdate()->addHandle('ui_components');
-                $this->layout->getUpdate()->addHandle($handleName);
-                $this->loadLayout();
-            }
+        if (!$this->layout) {
+            $this->layout = $this->layoutFactory->create();
+            $this->renderContext->setLayout($this->layout);
+            $this->layout->getUpdate()->addHandle('ui_components');
+            $this->layout->getUpdate()->addHandle($handleName);
+            $this->loadLayout();
         }
 
         $view = $this->getUiElementView($componentName);
 
         $view->update($arguments);
-        if ($root) {
-            // data should be prepared starting from the root element
-            $this->prepare($view);
-            $this->renderContext->setNamespace(null);
-        }
+        $this->prepare($view);
+
         return $view;
     }
 
@@ -158,7 +142,9 @@ class UiComponentFactory extends Object
                 }
             } else {
                 $child = $view->getChildBlock($childAlias);
-                $this->prepare($child);
+                if ($child) {
+                    $this->prepare($child);
+                }
             }
         }
     }
@@ -170,7 +156,7 @@ class UiComponentFactory extends Object
      * @return UiComponentInterface
      * @throws \InvalidArgumentException
      */
-    protected function getUiElementView($uiElementName)
+    public function getUiElementView($uiElementName)
     {
         /** @var UiComponentInterface $view */
         $view = $this->layout->getBlock($uiElementName);

@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Form\Element\DataType\Email $this
+ */
+?>
+<span>
+    <?php $config = $this->getData('field_config');?>
+    <?php $config['type'] = 'email';?>
+    <?php $config['data-bind'] = "hasFocus: focused,
+                        value: value,
+                        attr: {
+                            placeholder: placeholder,
+                            'aria-describedby': noticeid,
+                            id: uid,
+                            disabled: disabled
+                        }"?>
+    <?php ?>
+    <?php echo $this->renderElement($this->getData('field_config/formElement'), $config); ?>
+</span>

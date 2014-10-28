@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Form\Element\Input $this
+ */
+?>
+
+<input name="<?php echo $this->getData('index'); ?>" data-bind="<?php echo $this->getData('data-bind') ?>" class="control-text"
+       type="<?php echo $this->getType(); ?>" value="<?php echo $this->getValue(); ?>"/>
+<?php if ($this->getData('description')): ?>
+<label class="label" data-bind="checked: value, attr: { for: uid }">
+    <span data-bind="text: description"><?php echo $this->getData('description') ?></span>
+</label>
+<?php endif; ?>
+<?php if ($this->getData('notice')): ?>
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"><?php echo $this->getData('notice') ?></span></div>
+<?php endif; ?>

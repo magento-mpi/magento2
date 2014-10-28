@@ -49,7 +49,7 @@ class Json implements ContentTypeInterface
     public function render(UiComponentInterface $view, $template = '')
     {
         return $view->getRenderContext()
-            ->getConfigurationBuilder()
+            ->getConfigBuilder()
             ->toJson($view->getRenderContext()->getStorage(), $view->getName());
     }
 }

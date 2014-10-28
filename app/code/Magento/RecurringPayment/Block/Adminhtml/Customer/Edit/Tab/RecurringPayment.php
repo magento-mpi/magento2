@@ -9,7 +9,7 @@ namespace Magento\RecurringPayment\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\RecurringPayment\Block\Adminhtml\Payment\Grid as PaymentGrid;
-use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
  * Adminhtml customer recurring profiles tab
@@ -144,5 +144,35 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     public function getGridUrl()
     {
         return $this->getUrl('sales/recurringPayment/customerGrid', array('_current' => true));
+    }
+
+    /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
+     * Return URL link to Tab content
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
     }
 }

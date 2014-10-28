@@ -7,13 +7,14 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
+
 /**
  * Customer Account Payment Profiles form block
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
-    \Magento\Backend\Block\Widget\Tab\TabInterface
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements TabInterface
 {
     /**
      * Block template
@@ -118,6 +119,37 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
         }
         return true;
     }
+
+    /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
+     * Return URL link to Tab content
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
+    }
+
 
     /**
      * Check if payment profiles enabled

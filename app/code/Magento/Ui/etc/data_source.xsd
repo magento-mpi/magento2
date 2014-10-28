@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="datasource" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- -->
+    <xs:element name="datasource">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="fields" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="references" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute type="required_attribute" name="name"/>
+            <xs:attribute type="text_attribute" name="label"/>
+            <xs:attribute type="text_attribute" name="compositeLabel"/>
+            <xs:attribute type="text_attribute" name="previewElements"/>
+            <xs:attribute type="xs:string" name="dataset"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- -->
+    <xs:element name="fields">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="field" maxOccurs="unbounded" minOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute type="required_attribute" name="entityType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- -->
+    <xs:element name="field">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reference" maxOccurs="1" minOccurs="0" type="field_reference"/>
+            </xs:sequence>
+            <xs:attribute type="required_attribute" name="name" use="required"/>
+            <xs:attribute type="required_attribute" name="dataType" use="optional"/>
+            <xs:attribute type="required_attribute" name="formElement" use="optional"/>
+            <xs:attribute type="required_attribute" name="displayArea" use="optional"/>
+            <xs:attribute type="required_attribute" name="source" use="optional"/>
+            <xs:attribute type="text_attribute" name="default_value" use="optional"/>
+            <xs:attribute type="text_attribute" name="label" use="optional"/>
+            <xs:attribute type="visible_attribute" name="visible" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <!-- -->
+    <xs:element name="references">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reference" maxOccurs="unbounded" minOccurs="1" type="reference"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!-- -->
+    <xs:complexType name="reference">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="required_attribute" name="target" use="required"/>
+                <xs:attribute type="required_attribute" name="referencedField" use="required"/>
+                <xs:attribute type="required_attribute" name="targetField" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <!-- -->
+    <xs:complexType name="field_reference">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="required_attribute" name="target" use="required"/>
+                <xs:attribute type="required_attribute" name="referencedField" use="required"/>
+                <xs:attribute type="required_attribute" name="targetField" use="required"/>
+                <xs:attribute type="required_attribute" name="neededField" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <!-- -->
+    <xs:simpleType name="visible_attribute">
+        <xs:annotation>
+            <xs:documentation>The value should only be {true|false}.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:boolean">
+            <xs:pattern value="true|false" />
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- -->
+    <xs:simpleType name="text_attribute">
+        <xs:annotation>
+            <xs:documentation>Any text value</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z,_. -]+" />
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- -->
+    <xs:simpleType name="required_attribute">
+        <xs:annotation>
+            <xs:documentation>The value should only be {[a-z_-]+}.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z_-]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

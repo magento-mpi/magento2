@@ -113,7 +113,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var \Magento\Framework\Data\Structure
      */
-    protected $_structure;
+    public  $_structure;
 
     /**
      * An increment to generate names
@@ -1489,7 +1489,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if ($block && is_string($block)) {
             try {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
-            } catch (\ReflectionException $e) {
+            } catch (\ReflectionException $e) {echo $e;ddd();
                 $this->_logger->log($e->getMessage());
             }
         }

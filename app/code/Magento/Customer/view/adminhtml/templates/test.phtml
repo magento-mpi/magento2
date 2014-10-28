@@ -816,6 +816,10 @@
     var allowLocalCache = false;
 </script>
 
+<div data-bind="scope: 'form'">
+    <div class="messages" style="display: none" data-bind="visible: isValid"><div class="message success"><div data-ui-id="messages-message-success">The form is valid!</div></div></div>
+</div>
+
 <div data-bind="scope: 'areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>

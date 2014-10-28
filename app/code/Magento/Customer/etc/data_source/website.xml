@@ -1,0 +1,8 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
+    <datasource name="website" label="Website" dataset="Magento\Store\Model\Resource\Website\Collection">
+        <fields>
+            <field name="website_id" dataType="number" visible="false"/>
+            <field name="name" dataType="text"/>
+        </fields>
+    </datasource>
+</config>

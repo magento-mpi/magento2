@@ -1,0 +1,27 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
+    <datasource name="customer_address"
+                label="Customer Address"
+                compositeLabel="prefix,firstname"
+                previewElements="prefix,firstname,lastname,postcode,city,region_id"
+                dataset="Magento\Customer\Model\Resource\Address\Collection">
+        <fields>
+            <field name="firstname" source="eav"/>
+            <field name="middlename" source="eav"/>
+            <field name="lastname" source="eav"/>
+            <field name="prefix" source="eav"/>
+            <field name="suffix" source="eav"/>
+            <field name="city" source="eav"/>
+            <field name="region_id" source="eav" formElement="select"/>
+            <field name="postcode" source="eav"/>
+            <field name="default_billing" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Billing Address" />
+            <field name="default_shipping" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Shipping Address" />
+            <field name="street" dataType="text" formElement="multiline" source="eav"/>
+        </fields>
+        <references>
+            <reference target="customer"
+               referencedField="parent_id"
+               targetField="entity_id"
+            />
+        </references>
+    </datasource>
+</config>

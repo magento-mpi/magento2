@@ -8,6 +8,7 @@
 namespace Magento\Framework\View\Element\UiComponent;
 
 use Magento\Framework\Data\Collection as DataCollection;
+use Magento\Ui\DataProvider\DataProviderInterface;
 
 /**
  * Class ConfigurationStorageInterface
@@ -15,12 +16,21 @@ use Magento\Framework\Data\Collection as DataCollection;
 interface ConfigStorageInterface
 {
     /**
+     * Register component
+     *
+     * @param string $name
+     * @param array $data
+     * @return mixed
+     */
+    public function addComponent($name, $data);
+
+    /**
      * Add components configuration
      *
-     * @param ConfigInterface $configuration
+     * @param ConfigInterface $config
      * @return void
      */
-    public function addComponentsData(ConfigInterface $configuration);
+    public function addComponentsData(ConfigInterface $config);
 
     /**
      * Remove components configuration
@@ -37,6 +47,11 @@ interface ConfigStorageInterface
      * @return ConfigInterface|null|array
      */
     public function getComponentsData($name = null);
+
+    /**
+     * @return array
+     */
+    public function getComponents();
 
     /**
      * Add data in storage
@@ -107,6 +122,11 @@ interface ConfigStorageInterface
     public function updateMeta($key, array $data);
 
     /**
+     * @return array
+     */
+    public function getMetaKeys();
+
+    /**
      * Set data collection
      *
      * @param string $key
@@ -156,4 +176,49 @@ interface ConfigStorageInterface
      * @return array|null
      */
     public function getGlobalData($key = null);
+
+    /**
+     * @param string $key
+     * @param DataProviderInterface $dataProvider
+     * @return void
+     */
+    public function addDataProvider($key, DataProviderInterface $dataProvider);
+
+    /**
+     * @param string $key
+     * @return void
+     */
+    public function removeDataProvider($key);
+
+    /**
+     * @param null|string $key
+     * @return DataProviderInterface[]|DataProviderInterface|null
+     */
+    public function getDataProvider($key = null);
+
+    /**
+     * @param string $key
+     * @param DataProviderInterface $dataProvider
+     * @return void
+     */
+    public function updateDataProvider($key, DataProviderInterface $dataProvider);
+
+    /**
+     * @param string $dataScope
+     * @param array $structure
+     * @return void
+     */
+    public function addLayoutStructure($dataScope, array $structure);
+
+    /**
+     * @return array
+     */
+    public function getLayoutStructure();
+
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return array
+     */
+    public function getLayoutNode($name, $default = null);
 }

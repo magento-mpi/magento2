@@ -6,9 +6,21 @@
  * @license     {license_link}
  */
 /**
- * @var \Magento\Ui\DataType\Date $this
+ * @var \Magento\Ui\Component\Form\Element\DataType\Date $this
  */
 ?>
-<span data-bind="datepicker: { storage: from, options: config }, attr: {placeholder: $t('From')}">
-    <?php echo $this->getDataObjectValue(); ?>
+<span>
+    <?php $config = $this->getData('field_config');?>
+    <?php $config['data-bind'] = "
+                hasFocus: focused,
+                datepicker: { storage: value, options: options },
+                attr: {
+                    value: value,
+                    placeholder: placeholder,
+                    'aria-describedby': noticeid,
+                    id: uid,
+                    disabled: disabled
+                }"?>
+    <?php ?>
+    <?php echo $this->renderElement($this->getData('field_config/formElement'), $config); ?>
 </span>

@@ -7,10 +7,11 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 /**
  * Order RMA Grid
  */
-class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements TabInterface
 {
     /**
      * Core registry
@@ -165,6 +166,36 @@ class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Back
      * @return boolean
      */
     public function isHidden()
+    {
+        return false;
+    }
+
+    /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
+     * Return URL link to Tab content
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
     {
         return false;
     }

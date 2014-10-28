@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Form\Element\Radio $this
+ */
+?>
+<input type="radio" value="<?php echo $this->getValue(); ?>" checked="<?php echo $this->getChecked(); ?>" />
+<?php if ($this->getData('description')): ?>
+    <label class="label" data-bind="checked: value, attr: { for: uid }">
+        <span data-bind="text: description"><?php echo $this->getData('description') ?></span>
+    </label>
+<?php endif; ?>
+<?php if ($this->getData('notice')): ?>
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"><?php echo $this->getData('notice') ?></span></div>
+<?php endif; ?>
