@@ -38,7 +38,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array(
                 $productFactory,
                 $catalogProductOption,
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Eav\Model\Config'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config'),
                 $catalogProductType,
                 $eventManager,
                 $coreData,
@@ -288,6 +288,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_attribute_with_invalid_apply_to.php
      */
     public function testBeforeSave()
     {
@@ -297,11 +298,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $product->load(1);
         // fixture
-        $product->setData('links_purchased_separately', 'value');
+        $product->setData('attribute_with_invalid_applyto', 'value');
         // this attribute is applicable only for downloadable
         $this->_model->beforeSave($product);
         $this->assertTrue($product->canAffectOptions());
-        $this->assertFalse($product->hasData('links_purchased_separately'));
+        $this->assertFalse($product->hasData('attribute_with_invalid_applyto'));
     }
 
     /**
