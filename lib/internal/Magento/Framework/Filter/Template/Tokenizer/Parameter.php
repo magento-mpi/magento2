@@ -62,7 +62,6 @@ class Parameter extends \Magento\Framework\Filter\Template\Tokenizer\AbstractTok
             } elseif ($breakSymbol && $this->char() == $breakSymbol) {
                 break;
             } elseif ($this->char() == '\\') {
-                $this->next();
                 $value .= $this->char();
             } else {
                 $value .= $this->char();
