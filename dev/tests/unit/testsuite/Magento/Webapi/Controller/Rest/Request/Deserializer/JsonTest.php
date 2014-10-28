@@ -52,7 +52,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
     public function testDeserializerOauthInputException()
     {
-        $this->setExpectedException('\Magento\Webapi\Exception', 'Request body is expected.');
+        $this->setExpectedException('\Magento\Webapi\Exception', 'Request body should not be empty.');
         $this->_jsonDeserializer->deserialize('');
     }
 

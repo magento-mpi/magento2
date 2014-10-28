@@ -40,9 +40,9 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             )
         );
-        $expectedMessage = 'Request body is expected.';
+        $expectedMessage = 'Request body should not be empty.';
         try {
-            $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, '');
         } catch (\Exception $e) {
             $this->assertContains(
                 $expectedMessage,
@@ -65,9 +65,9 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             )
         );
-        $expectedMessage = 'Request body is expected.';
+        $expectedMessage = 'Request body should not be empty.';
         try {
-            $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, '');
         } catch (\Exception $e) {
             $this->assertContains(
                 $expectedMessage,

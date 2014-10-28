@@ -53,7 +53,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterfa
                 sprintf('"%s" data type is invalid. String is expected.', gettype($xmlRequestBody))
             );
         }
-        if (isset($encodedBody)) {
+        if (empty($xmlRequestBody)) {
             throw new \Magento\Webapi\Exception(__('Request body is expected.'));
         }
         /** Disable external entity loading to prevent possible vulnerability */

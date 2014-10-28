@@ -48,11 +48,11 @@ class Json implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterf
                 sprintf('"%s" data type is invalid. String is expected.', gettype($encodedBody))
             );
         }
-        if (isset($encodedBody)) {
-            throw new \Magento\Webapi\Exception(__('Request body is expected.'));
-        }
         try {
             $decodedBody = $this->_helper->jsonDecode($encodedBody);
+            if (empty($decodedBody)) {
+                throw new \Magento\Webapi\Exception(__('Request body should not be empty.'));
+            }
         } catch (\Zend_Json_Exception $e) {
             if ($this->_appState->getMode() !== State::MODE_DEVELOPER) {
                 throw new \Magento\Webapi\Exception(__('Decoding error.'));
