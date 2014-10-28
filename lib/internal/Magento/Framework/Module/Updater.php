@@ -9,8 +9,6 @@
  */
 namespace Magento\Framework\Module;
 
-use Magento\Framework\App\State;
-
 class Updater
 {
     /**
