@@ -13,18 +13,19 @@ use Magento\Framework\Exception\CouldNotSaveException;
 
 class PriceModifier
 {
-
     /**
      * @var \Magento\Catalog\Model\ProductRepository
      */
     protected $productRepository;
 
+    /**
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository
     ) {
         $this->productRepository = $productRepository;
     }
-
 
     /**
      * @param \Magento\Catalog\Model\Product $product

@@ -11,6 +11,7 @@ namespace Magento\Catalog\Model\Product;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceManagementInterface
 {
@@ -20,7 +21,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     protected $productRepository;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductGroupPriceBuilder
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $groupPriceBuilder;
 
@@ -40,39 +41,45 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     protected $config;
 
     /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceBuilder $groupPriceBuilder
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceDataBuilder $groupPriceBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceBuilder $groupPriceBuilder,
+        \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceDataBuilder $groupPriceBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
-        \Magento\Framework\App\Config\ScopeConfigInterface $config
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
         $this->customerGroupService = $customerGroupService;
         $this->priceModifier = $priceModifier;
         $this->config = $config;
-        $this->productRepository = $productRepository;
+        $this->storeManager = $storeManager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add($productSku, $customerGroupId, $price, $websiteId = null)
+    public function add($productSku, $customerGroupId, $price)
     {
         $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
-        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
+        $product = $this->productRepository->get($productSku, true);
         $groupPrices = $product->getData('group_price');
         $websiteIdentifier = 0;
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
-            $websiteIdentifier = $websiteId;
+            $websiteIdentifier = $this->storeManager->getWebsite()->getId();
         }
         $found = false;
         foreach ($groupPrices as &$currentPrice) {
@@ -111,12 +118,12 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     /**
      * {@inheritdoc}
      */
-    public function remove($productSku, $customerGroupId, $websiteId = null)
+    public function remove($productSku, $customerGroupId)
     {
-        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
+        $product = $this->productRepository->get($productSku, true);
         $websiteIdentifier = 0;
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
-            $websiteIdentifier = $websiteId;
+            $websiteIdentifier = $this->storeManager->getWebsite()->getId();
         }
         $this->priceModifier->removeGroupPrice($product, $customerGroupId, $websiteIdentifier);
         return true;
@@ -127,7 +134,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
      */
     public function getList($productSku, $websiteId = null)
     {
-        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
+        $product = $this->productRepository->get($productSku, true);
         $priceKey = 'website_price';
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $priceKey = 'price';
@@ -135,9 +142,6 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
 
         $prices = array();
         foreach ($product->getData('group_price') as $price) {
-            if (isset($websiteId) && $price['website_id'] != $websiteId) {
-                break;
-            }
             $this->groupPriceBuilder->populateWithArray(array(
                 'customer_group_id' => $price['all_groups'] ? 'all' : $price['cust_group'],
                 'value' => $price[$priceKey],

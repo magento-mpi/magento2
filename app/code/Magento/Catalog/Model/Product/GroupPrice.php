@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model\Product;
 
 
-class GroupPrice extends \Magento\Framework\Service\Data\AbstractSimpleObject
+class GroupPrice extends  \Magento\Framework\Model\AbstractExtensibleModel
     implements \Magento\Catalog\Api\Data\ProductGroupPriceInterface
 {
     /**
@@ -20,7 +20,7 @@ class GroupPrice extends \Magento\Framework\Service\Data\AbstractSimpleObject
      */
     public function getCustomerGroupId()
     {
-        return $this->_get(self::CUSTOMER_GROUP_ID);
+        return $this->getData(self::CUSTOMER_GROUP_ID);
     }
 
     /**
@@ -30,6 +30,6 @@ class GroupPrice extends \Magento\Framework\Service\Data\AbstractSimpleObject
      */
     public function getValue()
     {
-        return $this->_get(self::VALUE);
+        return $this->getData(self::VALUE);
     }
 }
