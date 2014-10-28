@@ -14,7 +14,6 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexView;
 
 /**
- * Class AssertInvitationForm.
  * Assert that Invitation form was filled correctly.
  */
 class AssertInvitationForm extends AbstractAssertForm
@@ -42,14 +41,26 @@ class AssertInvitationForm extends AbstractAssertForm
         $status
     ) {
         $invitationsIndex->open();
+        $invitationGrid = $invitationsIndex->getInvitationGrid();
+        $invitations = [];
         foreach ($invitation->getEmail() as $email) {
+            $invitationGrid->search(['email' => $email]);
+            $rowsData = $invitationGrid->getRowsData(['id', 'email']);
+            foreach ($rowsData as $rowData) {
+                $invitations[] = $rowData;
+            }
+        }
+        $invitations = array_unique($invitations, SORT_REGULAR);
+
+        foreach ($invitations as $invitationData) {
             $filter = [
-                'email' => $email,
+                'id' => $invitationData['id'],
+                'email' => $invitationData['email'],
                 'status' => $status,
             ];
             $invitationsIndex->getInvitationGrid()->searchAndOpen($filter);
             $fixtureData = [
-                'email' => $email,
+                'email' => $invitationData['email'],
                 'message' => $invitation->getMessage(),
                 'status' => $status
             ];

@@ -1,0 +1,2 @@
+"description";"customer/dataSet";"invitation/data/email";"invitation/data/message";"data/store_id/dataSet";"data/group_id/dataSet";"countNotSent";"totalInvitations";"constraint"
+"create invitations for existed email and new email";"default";"testemail%isolation%@example.com";"textMessage %isolation%";"default";"General";"1";"2";"assertInvitationSuccessSentBackendMessage, assertInvitationNoticeMessage, assertInvitationErrorMessage"

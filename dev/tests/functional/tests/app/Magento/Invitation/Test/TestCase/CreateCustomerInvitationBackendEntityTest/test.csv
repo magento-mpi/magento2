@@ -1,0 +1,3 @@
+"description";"invitation/data/email";"invitation/data/message";"invitation/data/store_id/dataSet";"invitation/data/group_id/dataSet";"status";"constraint"
+"create invitations with two emails";"email%isolation%_1@example.com, email%isolation%_2@example.com";"textMessage %isolation%";"default";"General";"Sent";"assertInvitationSuccessSentBackendMessage, assertInvitationInGrid, assertInvitationForm"
+"create invitations for same email";"testemail%isolation%@example.com, testemail%isolation%@example.com";"textMessage %isolation%";"default";"General";"Sent";"assertInvitationSuccessSentBackendMessage, assertInvitationInGrid, assertInvitationForm"
