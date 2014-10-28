@@ -236,10 +236,11 @@ class Customer extends \Magento\Framework\Service\Data\AbstractExtensibleObject 
     /**
      * Get addresses
      *
-     * @return \Magento\Customer\Service\V1\Data\Address[]|null
+     * @return \Magento\Customer\Service\V1\Data\Address[]
      */
     public function getAddresses()
     {
-        return $this->_get(self::KEY_ADDRESSES);
+        $addresses = $this->_get(self::KEY_ADDRESSES);
+        return $addresses ?: [];
     }
 }

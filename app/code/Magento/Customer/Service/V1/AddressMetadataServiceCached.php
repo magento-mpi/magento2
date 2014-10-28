@@ -11,7 +11,8 @@ namespace Magento\Customer\Service\V1;
 /**
  * Cached customer address attribute metadata service
  */
-class AddressMetadataServiceCached extends MetadataServiceCached implements AddressMetadataServiceInterface
+class AddressMetadataServiceCached extends MetadataServiceCached
+    implements AddressMetadataServiceInterface, \Magento\Customer\Api\AddressMetadataInterface
 {
     /**
      * Initialize dependencies.
