@@ -28,45 +28,9 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_formattedOptionValue = null;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
-     */
-    protected $_filesystem;
-
-    /**
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_rootDirectory;
-
-    /**
-     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
-     */
-    protected $_mediaDirectory;
-
-    /**
-     * Relative path for main destination folder
-     *
-     * @var string
-     */
-    protected $_path = '/custom_options';
-
-    /**
-     * Relative path for quote folder
-     *
-     * @var string
-     */
-    protected $_quotePath = '/custom_options/quote';
-
-    /**
-     * Relative path for order folder
-     *
-     * @var string
-     */
-    protected $_orderPath = '/custom_options/order';
-
-    /**
-     * @var \Magento\Framework\File\Size
-     */
-    protected $_fileSize;
 
     /**
      * Core file storage database
@@ -95,6 +59,16 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_itemOptionFactory;
 
     /**
+     * @var File\ValidatorInfo
+     */
+    protected $validatorInfo;
+
+    /**
+     * @var File\ValidatorFile
+     */
+    protected $validatorFile;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
@@ -102,29 +76,30 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Framework\File\Size $fileSize
+     * @param File\ValidatorInfo\Proxy $validatorInfo
+     * @param File\ValidatorFile\Proxy $validatorFile
      * @param array $data
+     * @throws \Magento\Framework\Filesystem\FilesystemException
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
-        \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder,
-        \Magento\Framework\Escaper $escaper,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Catalog\Model\Product\Option\Type\File\ValidatorInfo\Proxy $validatorInfo,
+        \Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile\Proxy $validatorFile,
+        \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Framework\File\Size $fileSize,
+        \Magento\Framework\Escaper $escaper,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_urlBuilder = $urlBuilder;
         $this->_escaper = $escaper;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
-        $this->_filesystem = $filesystem;
-        $this->_rootDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
-        $this->_mediaDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-        $this->_fileSize = $fileSize;
-        $this->_data = $data;
+        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->validatorInfo = $validatorInfo;
+        $this->validatorFile = $validatorFile;
         parent::__construct($checkoutSession, $scopeConfig, $data);
     }
 
@@ -232,316 +207,45 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             $fileInfo = $this->_getCurrentConfigFileInfo();
         }
         if ($fileInfo !== null) {
-            if (is_array($fileInfo) && $this->_validateFile($fileInfo)) {
-                $value = $fileInfo;
-            } else {
-                $value = null;
+            try {
+                $value = $this->validatorInfo->validate($fileInfo, $option) ? $fileInfo : null;
+                $this->setUserValue($value);
+                return $this;
+            } catch (Exception $exception) {
+                $this->setIsValid(false);
+                throw $exception;
             }
-            $this->setUserValue($value);
-            return $this;
         }
 
         // Process new uploaded file
         try {
-            $this->_validateUploadedFile();
+            $value = $this->validatorFile->validate($this->_getProcessingParams(), $option);
+            $this->setUserValue($value);
+        } catch (File\LargeSizeException $largeSizeException) {
+            $this->setIsValid(false);
+            throw new Exception($largeSizeException->getMessage());
+        } catch (File\OptionRequiredException $e) {
+            switch ($this->getProcessMode()) {
+                case \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL:
+                    throw new Exception(__('Please specify the product\'s required option(s).'));
+                    break;
+                default:
+                    $this->setUserValue(null);
+                    break;
+            }
+        } catch (File\RunValidationException $e) {
+            $this->setUserValue(null);
+        } catch (File\Exception $e) {
+            $this->setIsValid(false);
+            throw new Exception($e->getMessage());
         } catch (\Exception $e) {
             if ($this->getSkipCheckRequiredOption()) {
                 $this->setUserValue(null);
-                return $this;
             } else {
                 throw new Exception($e->getMessage());
             }
         }
         return $this;
-    }
-
-    /**
-     * Validate uploaded file
-     *
-     * @return $this
-     * @throws \Magento\Framework\Model\Exception
-     */
-    protected function _validateUploadedFile()
-    {
-        $option = $this->getOption();
-        $processingParams = $this->_getProcessingParams();
-
-        /**
-         * Upload init
-         */
-        $upload = new \Zend_File_Transfer_Adapter_Http();
-        $file = $processingParams->getFilesPrefix() . 'options_' . $option->getId() . '_file';
-        $maxFileSize = $this->getFileSizeService()->getMaxFileSize();
-        try {
-            $runValidation = $option->getIsRequire() || $upload->isUploaded($file);
-            if (!$runValidation) {
-                $this->setUserValue(null);
-                return $this;
-            }
-
-            $fileInfo = $upload->getFileInfo($file);
-            $fileInfo = $fileInfo[$file];
-            $fileInfo['title'] = $fileInfo['name'];
-        } catch (\Exception $e) {
-            // when file exceeds the upload_max_filesize, $_FILES is empty
-            if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $maxFileSize) {
-                $this->setIsValid(false);
-                $value = $this->getFileSizeService()->getMaxFileSizeInMb();
-                throw new Exception(__("The file you uploaded is larger than %1 Megabytes allowed by server", $value));
-            } else {
-                switch ($this->getProcessMode()) {
-                    case \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL:
-                        throw new Exception(__('Please specify the product\'s required option(s).'));
-                        break;
-                    default:
-                        $this->setUserValue(null);
-                        break;
-                }
-                return $this;
-            }
-        }
-
-        /**
-         * Option Validations
-         */
-
-        // Image dimensions
-        $_dimentions = array();
-        if ($option->getImageSizeX() > 0) {
-            $_dimentions['maxwidth'] = $option->getImageSizeX();
-        }
-        if ($option->getImageSizeY() > 0) {
-            $_dimentions['maxheight'] = $option->getImageSizeY();
-        }
-        if (count($_dimentions) > 0) {
-            $upload->addValidator('ImageSize', false, $_dimentions);
-        }
-
-        // File extension
-        $_allowed = $this->_parseExtensionsString($option->getFileExtension());
-        if ($_allowed !== null) {
-            $upload->addValidator('Extension', false, $_allowed);
-        } else {
-            $_forbidden = $this->_parseExtensionsString($this->getConfigData('forbidden_extensions'));
-            if ($_forbidden !== null) {
-                $upload->addValidator('ExcludeExtension', false, $_forbidden);
-            }
-        }
-
-        // Maximum filesize
-        $upload->addValidator('FilesSize', false, array('max' => $maxFileSize));
-
-        /**
-         * Upload process
-         */
-
-        $this->_initFilesystem();
-
-        if ($upload->isUploaded($file) && $upload->isValid($file)) {
-
-            $extension = pathinfo(strtolower($fileInfo['name']), PATHINFO_EXTENSION);
-
-            $fileName = \Magento\Core\Model\File\Uploader::getCorrectFileName($fileInfo['name']);
-            $dispersion = \Magento\Core\Model\File\Uploader::getDispretionPath($fileName);
-
-            $filePath = $dispersion;
-
-            $tmpDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
-            $fileHash = md5($tmpDirectory->readFile($tmpDirectory->getRelativePath($fileInfo['tmp_name'])));
-            $filePath .= '/' . $fileHash . '.' . $extension;
-            $fileFullPath = $this->_mediaDirectory->getAbsolutePath($this->_quotePath . $filePath);
-
-            $upload->addFilter('Rename', array('target' => $fileFullPath, 'overwrite' => true));
-
-            $this->getProduct()->getTypeInstance()->addFileQueue(
-                array(
-                    'operation' => 'receive_uploaded_file',
-                    'src_name' => $file,
-                    'dst_name' => $fileFullPath,
-                    'uploader' => $upload,
-                    'option' => $this
-                )
-            );
-
-            $_width = 0;
-            $_height = 0;
-
-            if ($tmpDirectory->isReadable($tmpDirectory->getRelativePath($fileInfo['tmp_name']))) {
-                $_imageSize = getimagesize($fileInfo['tmp_name']);
-                if ($_imageSize) {
-                    $_width = $_imageSize[0];
-                    $_height = $_imageSize[1];
-                }
-            }
-            $uri = $this->_filesystem->getUri(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-            $this->setUserValue(
-                array(
-                    'type' => $fileInfo['type'],
-                    'title' => $fileInfo['name'],
-                    'quote_path' => $uri . $this->_quotePath . $filePath,
-                    'order_path' => $uri . $this->_orderPath . $filePath,
-                    'fullpath' => $fileFullPath,
-                    'size' => $fileInfo['size'],
-                    'width' => $_width,
-                    'height' => $_height,
-                    'secret_key' => substr($fileHash, 0, 20)
-                )
-            );
-        } elseif ($upload->getErrors()) {
-            $errors = $this->_getValidatorErrors($upload->getErrors(), $fileInfo);
-
-            if (count($errors) > 0) {
-                $this->setIsValid(false);
-                throw new Exception(implode("\n", $errors));
-            }
-        } else {
-            $this->setIsValid(false);
-            throw new Exception(__('Please specify the product\'s required option(s).'));
-        }
-        return $this;
-    }
-
-    /**
-     * Validate file
-     *
-     * @param array $optionValue
-     * @return bool|void
-     * @throws \Magento\Framework\Model\Exception
-     */
-    protected function _validateFile($optionValue)
-    {
-        $option = $this->getOption();
-        /**
-         * @see \Magento\Catalog\Model\Product\Option\Type\File::_validateUploadFile()
-         *              There setUserValue() sets correct fileFullPath only for
-         *              quote_path. So we must form both full paths manually and
-         *              check them.
-         */
-        $checkPaths = array();
-        if (isset($optionValue['quote_path'])) {
-            $checkPaths[] = $optionValue['quote_path'];
-        }
-        if (isset($optionValue['order_path']) && !$this->getUseQuotePath()) {
-            $checkPaths[] = $optionValue['order_path'];
-        }
-        $fileFullPath = null;
-        $fileRelativePath = null;
-        foreach ($checkPaths as $path) {
-            if (!$this->_rootDirectory->isFile($path)) {
-                if (!$this->_coreFileStorageDatabase->saveFileToFilesystem($fileFullPath)) {
-                    continue;
-                }
-            }
-            $fileFullPath = $this->_rootDirectory->getAbsolutePath($path);
-            $fileRelativePath = $path;
-            break;
-        }
-
-        if ($fileFullPath === null) {
-            return false;
-        }
-
-        $validatorChain = new \Zend_Validate();
-
-        $_dimentions = array();
-
-        if ($option->getImageSizeX() > 0) {
-            $_dimentions['maxwidth'] = $option->getImageSizeX();
-        }
-        if ($option->getImageSizeY() > 0) {
-            $_dimentions['maxheight'] = $option->getImageSizeY();
-        }
-        if (count($_dimentions) > 0 && !$this->_isImage($fileFullPath)) {
-            return false;
-        }
-        if (count($_dimentions) > 0) {
-            $validatorChain->addValidator(new \Zend_Validate_File_ImageSize($_dimentions));
-        }
-
-        // File extension
-        $_allowed = $this->_parseExtensionsString($option->getFileExtension());
-        if ($_allowed !== null) {
-            $validatorChain->addValidator(new \Zend_Validate_File_Extension($_allowed));
-        } else {
-            $_forbidden = $this->_parseExtensionsString($this->getConfigData('forbidden_extensions'));
-            if ($_forbidden !== null) {
-                $validatorChain->addValidator(new \Zend_Validate_File_ExcludeExtension($_forbidden));
-            }
-        }
-
-        // Maximum file size
-        $maxFileSize = $this->getFileSizeService()->getMaxFileSize();
-        $validatorChain->addValidator(new \Zend_Validate_File_FilesSize(array('max' => $maxFileSize)));
-
-
-        if ($validatorChain->isValid($fileFullPath)) {
-            $ok = $this->_rootDirectory->isReadable(
-                $fileRelativePath
-            ) && isset(
-                $optionValue['secret_key']
-            ) && substr(
-                md5($this->_rootDirectory->readFile($fileRelativePath)),
-                0,
-                20
-            ) == $optionValue['secret_key'];
-
-            return $ok;
-        } elseif ($validatorChain->getErrors()) {
-            $errors = $this->_getValidatorErrors($validatorChain->getErrors(), $optionValue);
-
-            if (count($errors) > 0) {
-                $this->setIsValid(false);
-                throw new Exception(implode("\n", $errors));
-            }
-        } else {
-            $this->setIsValid(false);
-            throw new Exception(__('Please specify the product\'s required option(s).'));
-        }
-    }
-
-    /**
-     * Get Error messages for validator Errors
-     *
-     * @param string[] $errors Array of validation failure message codes @see \Zend_Validate::getErrors()
-     * @param array $fileInfo File info
-     * @return string[] Array of error messages
-     */
-    protected function _getValidatorErrors($errors, $fileInfo)
-    {
-        $option = $this->getOption();
-        $result = array();
-        foreach ($errors as $errorCode) {
-            if ($errorCode == \Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
-                $result[] = __(
-                    "The file '%1' for '%2' has an invalid extension.",
-                    $fileInfo['title'],
-                    $option->getTitle()
-                );
-            } elseif ($errorCode == \Zend_Validate_File_Extension::FALSE_EXTENSION) {
-                $result[] = __(
-                    "The file '%1' for '%2' has an invalid extension.",
-                    $fileInfo['title'],
-                    $option->getTitle()
-                );
-            } elseif ($errorCode == \Zend_Validate_File_ImageSize::WIDTH_TOO_BIG ||
-                $errorCode == \Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG
-            ) {
-                $result[] = __(
-                    "Maximum allowed image size for '%1' is %2x%3 px.",
-                    $option->getTitle(),
-                    $option->getImageSizeX(),
-                    $option->getImageSizeY()
-                );
-            } elseif ($errorCode == \Zend_Validate_File_FilesSize::TOO_BIG) {
-                $maxFileSize = $this->getFileSizeService()->getMaxFileSizeInMb();
-                $result[] = __(
-                    "The file '%1' you uploaded is larger than the %2 megabytes allowed by our server.",
-                    $fileInfo['title'],
-                    $maxFileSize
-                );
-            }
-        }
-        return $result;
     }
 
     /**
@@ -781,24 +485,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     }
 
     /**
-     * Directory structure initializing
-     *
-     * @return void
-     */
-    protected function _initFilesystem()
-    {
-        $this->_mediaDirectory->create($this->_path);
-        $this->_mediaDirectory->create($this->_quotePath);
-        $this->_mediaDirectory->create($this->_orderPath);
-
-        // Directory listing and hotlink secure
-        $path = $this->_path . '/.htaccess';
-        if (!$this->_mediaDirectory->isFile($path)) {
-            $this->_mediaDirectory->writeFile($path, "Order deny,allow\nDeny from all");
-        }
-    }
-
-    /**
      * Return URL for option file download
      *
      * @param string|null $route
@@ -808,54 +494,5 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected function _getOptionDownloadUrl($route, $params)
     {
         return $this->_urlBuilder->getUrl($route, $params);
-    }
-
-    /**
-     * Parse file extensions string with various separators
-     *
-     * @param string $extensions String to parse
-     * @return array|null
-     */
-    protected function _parseExtensionsString($extensions)
-    {
-        preg_match_all('/[a-z0-9]+/si', strtolower($extensions), $matches);
-        if (isset($matches[0]) && is_array($matches[0]) && count($matches[0]) > 0) {
-            return $matches[0];
-        }
-        return null;
-    }
-
-    /**
-     * Simple check if file is image
-     *
-     * @param array|string $fileInfo - either file data from \Zend_File_Transfer or file path
-     * @return boolean
-     */
-    protected function _isImage($fileInfo)
-    {
-        // Maybe array with file info came in
-        if (is_array($fileInfo)) {
-            return strstr($fileInfo['type'], 'image/');
-        }
-
-        // File path came in - check the physical file
-        if (!$this->_rootDirectory->isReadable($this->_rootDirectory->getRelativePath($fileInfo))) {
-            return false;
-        }
-        $imageInfo = getimagesize($fileInfo);
-        if (!$imageInfo) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Get file storage helper
-     *
-     * @return \Magento\Framework\File\Size
-     */
-    public function getFileSizeService()
-    {
-        return $this->_fileSize;
     }
 }
