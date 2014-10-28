@@ -23,7 +23,8 @@ define([
         description:        '',
         label:              '',
         error:              '',
-        notice:             null
+        notice:             null,
+        shouldValidate:     true
     };
 
     var __super__ = Component.prototype;
@@ -102,7 +103,14 @@ define([
 
             this.dataScope = dataScope;
 
-            this.pull();
+            this.pullSilently();
+        },
+
+        pullSilently: function () {
+            this.shouldValidate = false;
+
+            this.pull()
+                .shouldValidate = true;
         },
 
         pull: function () {
@@ -110,6 +118,8 @@ define([
 
             this.initialValue = value;
             this.value(value);
+
+            return this;
         },
 
         /**
@@ -157,8 +167,11 @@ define([
          */
         onUpdate: function (value) {            
             this.store(value)
-                .trigger('update')
-                .validate();
+                .trigger('update');
+
+            if (this.shouldValidate) {
+                this.validate();
+            }
         },
 
         /**
