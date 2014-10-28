@@ -19,7 +19,7 @@ return [
     'currency' => 'USD',
     'admin_username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
     'admin_password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
-    'admin_email' => 'admin@example.com',
-    'admin_firstname' => 'John',
-    'admin_lastname' => 'Doe',
+    'admin_email' => \Magento\TestFramework\Bootstrap::ADMIN_EMAIL,
+    'admin_firstname' => \Magento\TestFramework\Bootstrap::ADMIN_FIRSTNAME,
+    'admin_lastname' => \Magento\TestFramework\Bootstrap::ADMIN_LASTNAME,
 ];

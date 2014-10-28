@@ -13,12 +13,15 @@ namespace Magento\TestFramework;
 
 class Bootstrap
 {
-    /**
+    /**#@+
      * Predefined admin user credentials
      */
     const ADMIN_NAME = 'user';
-
     const ADMIN_PASSWORD = 'password1';
+    const ADMIN_EMAIL = 'admin@example.com';
+    const ADMIN_FIRSTNAME = 'firstname';
+    const ADMIN_LASTNAME = 'lastname';
+    /**#@- */
 
     /**
      * Predefined admin user role name
