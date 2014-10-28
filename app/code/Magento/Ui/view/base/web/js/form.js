@@ -24,6 +24,8 @@ define([
             __super__.initObservable.apply(this, arguments);
 
             this.observe('isValid', false);
+
+            return this;
         },
 
         initAdapter: function(){
@@ -41,14 +43,21 @@ define([
         /**
          * Submits form
          */
-        submit: function () {},
+        submit: function () {
+            console.log('submit');
+        },
 
         reset: function(){
             this.provider.data.trigger('reset');
         },
 
         save: function(){
-            var isValid = this.validate();
+            var params = this.provider.params,
+                isValid;
+
+            this.validate();
+
+            isValid = !params.get('invalidElement');
 
             this.isValid(isValid);
 
@@ -63,26 +72,10 @@ define([
          * @return {Boolean}
          */
         validate: function () {
-            var isInvalidShown = false,
-                isElementValid = true,
-                isFormValid    = true;
+            var provider = this.provider;
 
-            this.elems.each(function (element) {
-                if (!isInvalidShown) {
-                    isElementValid = element.validate(true);
-                    if (!isElementValid) {
-                        isInvalidShown = true;      
-                    }
-                } else {
-                    isElementValid = element.validate();
-                }
-
-                if (isFormValid && !isElementValid) {
-                    isFormValid = false;
-                }
-            });
-
-            return isFormValid;
+            provider.params.set('invalidElement', null);
+            provider.data.trigger('validate');
         }
     });
 });

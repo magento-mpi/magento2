@@ -30,8 +30,7 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initListeners()
-                .pushParams();
+            this.pushParams();
         },
 
         /**
@@ -119,16 +118,8 @@ define([
          *     set to true.
          * 
          * @param  {Boolean} changed
-         * @param  {Object} element
-         * @param  {Object} settings
          */
-        onChildrenUpdate: function(changed, element, settings){
-            var params  = this.provider.params;
-
-            if (settings.makeVisible) {
-                this.setActive();
-            }
-
+        onChildrenUpdate: function(changed){
             this.changed(changed);
         },
 

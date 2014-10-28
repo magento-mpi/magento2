@@ -11,9 +11,7 @@ define([
     'use strict';
     
     var defaults = {
-        template: 'ui/fieldset/fieldset',
-        hasData: true,
-        loading: false
+        template: 'ui/fieldset/fieldset'
     };
 
     var __super__ = Collapsible.prototype;
@@ -25,10 +23,10 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
-        initObservable: function(){
-            __super__.initObservable.apply(this, arguments);
+        initListeners: function () {
+            __super__.initListeners.apply(this, arguments);
 
-            this.observe('loading');
+            this.provider.params.on('update:invalidElement', this.onInvalidUpdate.bind(this));
         },
 
         initElement: function(elem){
@@ -39,34 +37,18 @@ define([
             return this;
         },
 
-        toggle: function(){
-            __super__.toggle.apply(this, arguments);
+        onElementUpdate: function(){
+            var changed = this.delegate('hasChanged', 'some');
 
-            if(this.opened() && !this.hasData){
-                this.requestData();
+            this.trigger('update', changed);
+        },
+
+        onInvalidUpdate: function (invalidElement) {
+            var containsInvalid = this.delegate('contains', 'some', invalidElement);
+
+            if (containsInvalid) {
+                this.opened(true);
             }
-
-            return this;
-        },
-
-        requestData: function(){
-            this.loading(true);
-
-            this.provider.get(this.source, this.onDataLoaded.bind(this));
-        },
-
-        onDataLoaded: function(){
-            this.loading(false);
-        },
-
-        onElementUpdate: function(element, settings){
-            var changed;
-
-            this.elems().some(function(elem){
-                return (changed = elem.hasChanged());
-            });
-
-            this.trigger('update', changed, this, settings);
         }
     });
 });

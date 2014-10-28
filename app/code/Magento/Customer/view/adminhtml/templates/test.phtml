@@ -17,6 +17,7 @@
                         "general": "0",
                         "comments": "Some commentary",
                         "created": 1412244384313,
+                        "multiselect": ["0", "2"],
                         "addresses": {
                             "0": {
                                 "0": {
@@ -61,7 +62,8 @@
                     }
                 },
                 "tab": {
-                    "component": "Magento_Ui/js/form/collapsible",
+                    "extends": "base",
+                    "component": "Magento_Ui/js/form/components/tab",
                     "config": {
                         "template": "ui/tab"
                     }
@@ -92,6 +94,14 @@
                     "component": "Magento_Ui/js/form/element/select",
                     "config": {
                         "input_type": "select"
+                    }
+                },
+                "multiselect": {
+                    "extends": "base",
+                    "component": "Magento_Ui/js/form/element/multiselect",
+                    "config": {
+                        "input_type": "multiselect",
+                        "template": "ui/form/element/multiselect"
                     }
                 },
                 "media": {
@@ -318,7 +328,8 @@
                                 "groups.send_from",
                                 "groups.comments",
                                 "groups.created",
-                                "groups.image"
+                                "groups.image",
+                                "groups.multiselect"
                             ]
                         },
                         "newsletter_info": {
@@ -450,6 +461,18 @@
                                 "label": "Image"
                             }
                         },
+                        "multiselect": {
+                            "type": "multiselect",
+                            "config": {
+                                "dataScope": "form.multiselect",
+                                "label": "General",
+                                "options": [
+                                    {"value":"0","label": "General"},
+                                    {"value":"1","label": "Wholesale"},
+                                    {"value":"2","label": "Retailer"}
+                                ]
+                            }
+                        },
                         "created": {
                             "type": "date",
                             "config": {
@@ -521,6 +544,11 @@
                         "prefix":{
                             "children": [
                                 "form.prefix"
+                            ]
+                        },
+                        "multiselect": {
+                            "children": [
+                                "form.multiselect"
                             ]
                         },
                         "firstname": {
@@ -790,9 +818,11 @@
 <script>
     var allowLocalCache = false;
 </script>
+
 <div data-bind="scope: 'form'">
     <div class="messages" style="display: none" data-bind="visible: isValid"><div class="message success"><div data-ui-id="messages-message-success">The form is valid!</div></div></div>
 </div>
+
 <div data-bind="scope: 'areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>

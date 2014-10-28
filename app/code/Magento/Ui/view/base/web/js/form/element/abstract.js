@@ -16,18 +16,15 @@ define([
         tooltip:            null,
         required:           false,
         disabled:           false,
-        module:             'ui',
+        tmpPath:            'ui/form/element/',
         input_type:         'input',
         placeholder:        null,
         noticeid:           null,
         description:        '',
         label:              '',
         error:              '',
-        addbefore:          null,
-        addafter:           null,
         notice:             null,
-        dataScope:          '',
-        shouldUpdate:       true
+        shouldValidate:     true
     };
 
     var __super__ = Component.prototype;
@@ -43,9 +40,11 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.setUniqueId()
+            this.initTemplate()
+                .initListeners()
                 .initDisableStatus()
-                .initListeners();
+                .setUniqueId()
+                .setNoticeId();
         },
 
         /**
@@ -71,6 +70,12 @@ define([
             return this;
         },
 
+        initTemplate: function(){
+            this.template =  this.template || (this.tmpPath + this.input_type);
+
+            return this;
+        },
+
         initListeners: function(){
             var data = this.provider.data;
 
@@ -81,12 +86,31 @@ define([
             return this;
         },
 
+        initDisableStatus: function() {
+            var self = this;
+
+            _.each(this.disable_rules, function(triggeredValue, path){
+                self.provider.data.on('update:' + path, function(changedValue){
+                    self.disabled(triggeredValue === changedValue);
+                });
+            });
+
+            return this;
+        },
+
         setDataScope: function (dataScope) {
             this.store(undefined);
 
             this.dataScope = dataScope;
 
-            this.pull();
+            this.pullSilently();
+        },
+
+        pullSilently: function () {
+            this.shouldValidate = false;
+
+            this.pull()
+                .shouldValidate = true;
         },
 
         pull: function () {
@@ -94,6 +118,8 @@ define([
 
             this.initialValue = value;
             this.value(value);
+
+            return this;
         },
 
         /**
@@ -112,30 +138,14 @@ define([
          */
         setNoticeId: function () {
             if (this.notice) {
-                this.noticeid = 'notice-' + this.uid;
+                this.noticeId = 'notice-' + this.uid;
             }
 
             return this;
         },
 
-        initDisableStatus: function() {
-            var self = this;
-
-            _.each(this.disable_rules, function(triggeredValue, path){
-                self.provider.data.on('update:' + path, function(changedValue){
-                    self.disabled(triggeredValue === changedValue);
-                });
-            });
-
-            return this;
-        },
-
         hasAddons: function () {
-            return (this.addbefore !== null) || (this.addafter !== null);
-        },
-
-        getNoticeId: function () {
-            return 'notice-' + this.uid;
+            return this.addbefore || this.addafter;
         },
 
         /**
@@ -153,19 +163,15 @@ define([
         },
 
         /**
-         * Returns string path for element's template
-         * @return {String}
-         */
-        getTemplate: function () {
-            return this.template || (this.module + '/form/element/' + this.input_type);
-        },
-
-        /**
          * Is being called when value is updated
          */
-        onUpdate: function (value) {
-            this.store(value);
-            this.validate();
+        onUpdate: function (value) {            
+            this.store(value)
+                .trigger('update');
+
+            if (this.shouldValidate) {
+                this.validate();
+            }
         },
 
         /**
@@ -176,6 +182,15 @@ define([
             return this.value() !== this.initialValue;
         },
 
+        validateRule: function (value, params, rule) {
+            var isValid = validator.validate(rule, value, params);
+
+            if (!isValid) {
+                this.error(validator.messageFor(rule));
+            }
+
+            return isValid;
+        },
 
         /**
          * Validates itself by it's validation rules using validator object.
@@ -185,30 +200,19 @@ define([
          * @return {Boolean} - true, if element is valid
          */
         validate: function (showErrors) {
-            var value       = this.value(),
-                rules       = this.validation,
-                isValid     = true,
-                isAllValid  = true;
+            var value           = this.value(),
+                rules           = this.validation,
+                params          = this.provider.params,
+                validateRule    = this.validateRule.bind(this, value),
+                isValid         = true;
 
-            isAllValid = _.every(rules, function (params, rule) {
-                isValid = validator.validate(rule, value, params);
+            isValid = _.every(rules, validateRule);
 
-                if (!isValid) {
-                    this.error(validator.messageFor(rule));
-                }
+            isValid
+                ? this.error('')
+                : !params.get('invalidElement') && params.set('invalidElement', this);
 
-                return isValid;
-            }, this);
-
-            isAllValid ? this.error('') : this.focused(showErrors);
-
-            this.trigger('update', this, {
-                value:          value,
-                isValid:        isAllValid,
-                makeVisible:    showErrors
-            });
-
-            return isAllValid;
+            return isValid;
         }
     });
 });
