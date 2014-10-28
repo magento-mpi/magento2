@@ -28,22 +28,12 @@ class AbstractStructure extends AbstractView
     /**
      * @var array
      */
-    protected $sections = [];
-
-    /**
-     * @var array
-     */
-    protected $areas = [];
-
-    /**
-     * @var array
-     */
-    protected $groups = [];
-
-    /**
-     * @var array
-     */
-    protected $elements = [];
+    protected $structure = [
+        'sections' => [],
+        'areas' => [],
+        'groups' => [],
+        'elements' => []
+    ];
 
     /**
      * @var UiElementFactory
@@ -94,78 +84,18 @@ class AbstractStructure extends AbstractView
         );
     }
 
-    protected function initSections()
-    {
-        $this->sections = [
-            'type' => $this->ns,
-            'children' => [
-                $this->ns => [
-                    'type' => 'nav',
-                    'config' => [
-                        'label' => $this->getData('label')
-                    ],
-                    'children' => []
-                ]
-            ]
-        ];
-    }
-
-    protected function initAreas()
-    {
-        $this->areas = [
-            'type' => $this->ns,
-            'children' => [
-                $this->ns => [
-                    'type' => $this->ns,
-                    'childType' => 'tab',
-                    'children' => []
-                ]
-            ]
-        ];
-    }
-
-    protected function initGroups()
-    {
-        $this->groups = [
-            'type' => $this->ns,
-            'children' => [
-                $this->ns => [
-                    'childType' => 'fieldset',
-                    'children' => []
-                ]
-            ]
-        ];
-    }
-
-    protected function initElements()
-    {
-        $this->elements = [
-            'type' => $this->ns,
-            'childType' => 'group',
-            'children' => [
-                $this->ns => [
-                    'component' => 'Magento_Ui/js/form',
-                    'children' => []
-                ]
-            ]
-        ];
-    }
-
     /**
-     * @return array
-     */
-    protected function getDataSources()
-    {
-        return $this->getData('dataSources');
-    }
-
-    /**
-     * @throws \Exception
-     * @return void
+     * @inheritdoc
      */
     public function prepare()
     {
         $this->ns = $this->getData('name');
+
+        $this->structure['form'] = [
+            'type' => 'form',
+            'children' => []
+        ];
+
         $this->initSections();
         $this->initAreas();
         $this->initGroups();
@@ -177,18 +107,96 @@ class AbstractStructure extends AbstractView
 
         $this->processChildBLocks();
 
-        $this->renderContext->getStorage()->addLayoutNode('tabs', $this->sections);
-        $this->renderContext->getStorage()->addLayoutNode('areas', $this->areas);
-        $this->renderContext->getStorage()->addLayoutNode('groups', $this->groups);
-        $this->renderContext->getStorage()->addLayoutNode('elements', $this->elements);
+        $this->renderContext->getStorage()->addLayoutStructure(
+            $this->getDataScope(),
+            [
+                'children' => $this->structure
+            ]
+        );
 
         if ($this->getData('configuration/tabs_container_name')) {
-            $navBlock = $this->factory->create('nav', [
+            $navBlock = $this->factory->create(
+                \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
+                [
                     'data_scope' => $this->ns
-                ]);
+                ]
+            );
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDataScope()
+    {
+        return $this->ns;
+    }
+
+    /**
+     * Prepare initial structure for sections
+     *
+     * @return void
+     */
+    protected function initSections()
+    {
+        $this->structure['sections'] = [
+            'type' => \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
+            'config' => [
+                'label' => $this->getData('label')
+            ],
+            'children' => []
+        ];
+    }
+
+    /**
+     * Prepare initial structure for areas
+     *
+     * @return void
+     */
+    protected function initAreas()
+    {
+        $this->structure['areas'] = [
+            'type' => $this->ns,
+            'children' => []
+        ];
+    }
+
+    /**
+     * Prepare initial structure for groups
+     *
+     * @return void
+     */
+    protected function initGroups()
+    {
+        $this->structure['groups'] = [
+            'type' => $this->ns,
+            'children' => []
+        ];
+    }
+
+    /**
+     * Prepare initial structure for elements
+     *
+     * @return void
+     */
+    protected function initElements()
+    {
+        $this->structure['elements'] = [
+            'type' => $this->ns,
+            'children' => []
+        ];
+    }
+
+    /**
+     * Get registered Data Sources
+     *
+     * @return array
+     */
+    protected function getDataSources()
+    {
+        return $this->getData('data_sources');
     }
 
     /**
@@ -201,12 +209,18 @@ class AbstractStructure extends AbstractView
 
         $meta = $this->dataManager->getMetadata($dataSource);
 
-        $referenceAreaName = $this->addArea($dataSource, [
+        $referenceAreaName = $this->addArea(
+            $dataSource,
+            [
                 'label' => $meta->getLabel()
-            ]);
-        $referenceGroupName = $this->addGroup($dataSource, [
+            ]
+        );
+        $referenceGroupName = $this->addGroup(
+            $dataSource,
+            [
                 'label' => $meta->getLabel()
-            ]);
+            ]
+        );
 
         foreach ($meta as $key => $value) {
             if (isset($value['visible']) && $value['visible'] === 'false') {
@@ -247,13 +261,19 @@ class AbstractStructure extends AbstractView
     {
         $childMeta = $this->dataManager->getMetadata($childName);
 
-        $referenceChildAreaName = $this->addArea($childName, [
+        $referenceChildAreaName = $this->addArea(
+            $childName,
+            [
                 'label' => $childMeta->getLabel()
-            ]);
+            ]
+        );
         $this->addToSection($referenceChildAreaName);
-        $referenceChildGroupName = $this->addGroup($childName, [
+        $referenceChildGroupName = $this->addGroup(
+            $childName,
+            [
                 'label' => $childMeta->getLabel()
-            ]);
+            ]
+        );
         $this->addToArea($childName, $referenceChildGroupName);
 
         $itemTemplate = [
@@ -283,7 +303,9 @@ class AbstractStructure extends AbstractView
             ];
         }
 
-        $referenceCollectionName = $this->addCollection($childName.'Collection', [
+        $referenceCollectionName = $this->addCollection(
+            $childName . 'Collection',
+            [
                 'active' => 1,
                 'label' => $childMeta->getLabel(),
                 'removeLabel' => __('Remove ' . $childMeta->getLabel()),
@@ -291,8 +313,9 @@ class AbstractStructure extends AbstractView
                 'addLabel' => __('Add New ' . $childMeta->getLabel()),
                 'itemTemplate' => 'item_template',
                 'dataScope' => "{$dataSource}.{$childName}"
-            ]);
-        $this->addTemplateToCollection($childName.'Collection', 'item_template', $itemTemplate);
+            ]
+        );
+        $this->addTemplateToCollection($childName . 'Collection', 'item_template', $itemTemplate);
 
         $this->addToGroup($childName, $referenceCollectionName);
     }
@@ -303,15 +326,15 @@ class AbstractStructure extends AbstractView
     protected function processChildBlocks()
     {
         //Add child blocks content
-        foreach ($this->getData('childBlocks') as $childBlock) {
+        foreach ($this->getData('child_blocks') as $blockName => $childBlock) {
             /** @var TabInterface $childBlock */
             if (!($childBlock instanceof TabInterface)) {
-                throw new \Exception($childBlock->getNameInLayout() . 'should implement TabInterface');
+                throw new \Exception(__('"%s" tab should implement TabInterface', $blockName));
             }
             if (!$childBlock->canShowTab()) {
                 continue;
             }
-            $referenceAreaName = $this->addArea($childBlock->getNameInLayout(), ['label' => $childBlock->getTabTitle()]);
+            $referenceAreaName = $this->addArea($blockName, ['label' => $childBlock->getTabTitle()]);
             $this->addToSection($referenceAreaName);
             $config = [
                 'label' => $childBlock->getTabTitle()
@@ -321,10 +344,8 @@ class AbstractStructure extends AbstractView
             } else {
                 $config['content'] = $childBlock->toHtml();
             }
-            $referenceGroupName = $this->addGroup($childBlock->getNameInLayout(), $config, 'html_content');
-            $this->addToArea($childBlock->getNameInLayout(), $referenceGroupName);
-
-
+            $referenceGroupName = $this->addGroup($blockName, $config, 'html_content');
+            $this->addToArea($blockName, $referenceGroupName);
         }
     }
 
@@ -333,7 +354,7 @@ class AbstractStructure extends AbstractView
      */
     protected function addToSection($itemName)
     {
-        $this->sections['children'][$this->ns]['children'][] = $itemName;
+        $this->structure['sections']['children'][] = $itemName;
     }
 
     /**
@@ -343,10 +364,11 @@ class AbstractStructure extends AbstractView
      */
     protected function addArea($areaName, array $config = [])
     {
-        $this->areas['children'][$this->ns]['children'][$areaName] = [
+        $this->structure['areas']['children'][$areaName] = [
+            'type' => 'tab',
             'config' => $config
         ];
-        return "areas.{$this->ns}.{$areaName}";
+        return "{$this->ns}.areas.{$areaName}";
     }
 
     /**
@@ -355,7 +377,7 @@ class AbstractStructure extends AbstractView
      */
     protected function addToArea($areaName, $itemName)
     {
-        $this->areas['children'][$this->ns]['children'][$areaName]['children'][] = $itemName;
+        $this->structure['areas']['children'][$areaName]['children'][] = $itemName;
     }
 
     /**
@@ -366,11 +388,11 @@ class AbstractStructure extends AbstractView
      */
     protected function addGroup($groupName, array $config = [], $type = 'fieldset')
     {
-        $this->groups['children'][$this->ns]['children'][$groupName] = [
+        $this->structure['groups']['children'][$groupName] = [
             'type' => $type,
             'config' => $config
         ];
-        return "groups.{$this->ns}.{$groupName}";
+        return "{$this->ns}.groups.{$groupName}";
     }
 
     /**
@@ -379,7 +401,7 @@ class AbstractStructure extends AbstractView
      */
     protected function addToGroup($groupName, $itemName)
     {
-        $this->groups['children'][$this->ns]['children'][$groupName]['children'][] = $itemName;
+        $this->structure['groups']['children'][$groupName]['children'][] = $itemName;
     }
 
     /**
@@ -389,12 +411,12 @@ class AbstractStructure extends AbstractView
      */
     protected function addElement($elementName, array $config = [])
     {
-        $this->elements['children'][$this->ns]['children'][$elementName]['type'] = 'group';
-        $this->elements['children'][$this->ns]['children'][$elementName]['children'][] =  [
+        $this->structure['elements']['children'][$elementName]['type'] = 'group';
+        $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
             'config' => $config
         ];
-        return "elements.{$this->ns}.{$elementName}";
+        return "{$this->ns}.elements.{$elementName}";
     }
 
     /**
@@ -404,11 +426,11 @@ class AbstractStructure extends AbstractView
      */
     protected function addCollection($collectionName, array $config = [])
     {
-        $this->groups['children'][$this->ns]['children'][$collectionName] = [
+        $this->structure['groups']['children'][$collectionName] = [
             'type' => 'collection',
             'config' => $config
         ];
-        return "groups.{$this->ns}.{$collectionName}";
+        return "{$this->ns}.groups.{$collectionName}";
     }
 
     /**
@@ -418,18 +440,7 @@ class AbstractStructure extends AbstractView
      */
     protected function addTemplateToCollection($collectionName, $templateName, $template)
     {
-        $this->groups['children'][$this->ns]['children'][$collectionName]['children'][$templateName] = $template;
-    }
-
-    /**
-     * Get Sections
-     *
-     * @return array
-     */
-    public function getSections()
-    {
-        $this->sections = $this->renderContext->getStorage()->getLayoutNode('sections');
-        return isset($this->sections['children']) ? $this->sections['children'] : [];
+        $this->structure['groups']['children'][$collectionName]['children'][$templateName] = $template;
     }
 
     /**

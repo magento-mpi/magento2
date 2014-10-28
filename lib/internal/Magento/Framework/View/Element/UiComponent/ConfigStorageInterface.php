@@ -16,6 +16,15 @@ use Magento\Ui\DataProvider\DataProviderInterface;
 interface ConfigStorageInterface
 {
     /**
+     * Register component
+     *
+     * @param string $name
+     * @param array $data
+     * @return mixed
+     */
+    public function addComponent($name, $data);
+
+    /**
      * Add components configuration
      *
      * @param ConfigInterface $config
@@ -38,6 +47,11 @@ interface ConfigStorageInterface
      * @return ConfigInterface|null|array
      */
     public function getComponentsData($name = null);
+
+    /**
+     * @return array
+     */
+    public function getComponents();
 
     /**
      * Add data in storage
@@ -106,6 +120,11 @@ interface ConfigStorageInterface
      * @return void
      */
     public function updateMeta($key, array $data);
+
+    /**
+     * @return array
+     */
+    public function getMetaKeys();
 
     /**
      * Set data collection
@@ -183,4 +202,23 @@ interface ConfigStorageInterface
      * @return void
      */
     public function updateDataProvider($key, DataProviderInterface $dataProvider);
+
+    /**
+     * @param string $dataScope
+     * @param array $structure
+     * @return void
+     */
+    public function addLayoutStructure($dataScope, array $structure);
+
+    /**
+     * @return array
+     */
+    public function getLayoutStructure();
+
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return array
+     */
+    public function getLayoutNode($name, $default = null);
 }

@@ -9,55 +9,17 @@
  * @var \Magento\Ui\Component\Form $this
  */
 ?>
-<?php if (true): ?>
+
 <script data-mage-init='{ "Magento_Ui/js/core/app": "" }' type="application/json">
     <?php echo $this->getRenderContext()->getConfigBuilder()->toJsonNew($this->getRenderContext()->getStorage()); ?>
 </script>
 <script>
     var allowLocalCache = false;
 </script>
-<div data-bind="scope: '<?php echo $this->getFormComponentScope(); ?>'">
+<div data-bind="scope: '<?php echo $this->getDataScope(); ?>.form'">
     <button data-bind="click: onSubmit">Validate</button>
     <div class="messages" style="display: none" data-bind="visible: isValid"><div class="message success"><div data-ui-id="messages-message-success">The form is valid!</div></div></div>
 </div>
-<div data-bind="scope: 'areas'" class="entry-edit form-inline">
+<div data-bind="scope: '<?php echo $this->getDataScope(); ?>.areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
-<?php else:?>
-<div class="form">
-    <form id="demo_form" class="default-form" action="<?php echo $this->getSaveAction(); ?>" method="post">
-        <?php foreach ($this->getElements() as $element):?>
-            <?php echo $element->render(); ?>
-        <?php endforeach; ?>
-        <input type="hidden" name="component" value="form"/>
-        <input type="hidden" name="name" value="<?php echo $this->getData('name')?>"/>
-        <button type="submit">Submit</button>
-        <button id="validate" type="button" data-url="<?php echo $this->getValidateAction(); ?>">Validate</button>
-    </form>
-</div>
-<script type="text/javascript">
-(function($){
-    $('#demo_form').submit(function(){
-        $(this).append(
-            '<input type="hidden" name="form_key" value="' + FORM_KEY + '">'
-        );
-        return true;
-    });
-    $('#validate').click(function() {
-        var data = $('#demo_form').serializeArray();
-        data.push({name: "form_key", value: FORM_KEY});
-        console.log(data);
-        console.log($(this).data("url"));
-        var ajaxSettings = {
-            url: $(this).data("url"),
-            showLoader: true,
-            data: data,
-            success: function(data, textStatus, transport) {
-                alert(data);
-            }
-        };
-        jQuery.ajax(ajaxSettings);
-    });
-})(jQuery);
-</script>
-<?php endif; ?>

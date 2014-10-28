@@ -9,27 +9,6 @@
  * @var \Magento\Ui\Component\Layout\Tabs $this
  */
 ?>
-<?php if (false): ?>
-    <div data-bind="scope: 'tabs' " class="ui-tabs">
-        <!-- ko template: getTemplate() --><!-- /ko -->
-    </div>
-<?php else: ?>
-<div data-bind="scope: 'areas'" class="entry-edit form-inline">
-    <?php foreach ($this->getTabs() as $tab): ?>
-    <?php if (isset($tab['children'])): ?>
-        <?php foreach ($tab['children'] as $childTabName): ?>
-            <?php $tabElement = $this->getLayoutElement($childTabName);?>
-            <div class="fieldset-wrapper <?php echo $tabElement['config']['name']; ?>">
-            <?php if (isset($tabElement['children'])): ?>
-                <?php foreach ($tabElement['children'] as $fieldSetName): ?>
-                    <?php $fieldSetElement = $this->getLayoutElement($fieldSetName); ?>
-                    <?php echo $this->renderElement('fieldset', $fieldSetElement); ?>
-                <?php endforeach; ?>
-            <?php endif;?>
-            </div>
-        <?php endforeach; ?>
-    <?php endif;?>
-    <?php endforeach; ?>
+<div data-bind="scope: '<?php echo $this->getDataScope(); ?>.sections' " class="ui-tabs">
+    <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
-<div style="clear: both"></div>
-<?php endif; ?>

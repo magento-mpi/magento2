@@ -16,12 +16,5 @@ use Magento\Ui\DataProvider\Metadata;
  */
 class Nav extends AbstractView
 {
-    /**
-     * @return array
-     */
-    public function getTabs()
-    {
-        $tabs = $this->getLayoutElement('tabs', []);
-        return isset($tabs['children']) ? $tabs['children'] : [];
-    }
+    const NAME = 'nav';
 }
