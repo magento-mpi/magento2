@@ -40,7 +40,7 @@ class AttributeSetId implements FixtureInterface
      * @param array $params
      * @param array $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
         $this->params = $params;
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
@@ -50,8 +50,12 @@ class AttributeSetId implements FixtureInterface
             $attributeSet = $data['attribute_set'];
         }
         /** @var CatalogAttributeSet $attributeSet */
-        $this->data = $attributeSet->getAttributeSetName();
-        $this->attributeSet = $attributeSet;
+        if (!isset($data['dataSet']) && !isset($data['attribute_set'])) {
+            $this->data = $data;
+        } else {
+            $this->data = $attributeSet->getAttributeSetName();
+            $this->attributeSet = $attributeSet;
+        }
     }
 
     /**
