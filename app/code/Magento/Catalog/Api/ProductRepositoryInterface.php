@@ -18,9 +18,10 @@ interface ProductRepositoryInterface
      * Create product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @return int
+     * @return \Magento\Catalog\Api\Data\ProductInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function save(ProductInterface $product);
 
@@ -39,11 +40,17 @@ interface ProductRepositoryInterface
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
      * @return bool Will returned True if deleted
-     * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function delete(ProductInterface $product);
+
+    /**
+     * @param string $productSku
+     * @return bool Will returned True if deleted
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function deleteBySku($productSku);
 
     /**
      * Get product list

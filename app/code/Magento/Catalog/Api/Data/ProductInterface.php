@@ -15,6 +15,32 @@ namespace Magento\Catalog\Api\Data;
  */
 interface ProductInterface
 {
+    /**#@+
+     * Constants defined for keys of  data array
+     */
+    const SKU = 'sku';
+
+    const NAME = 'name';
+
+    const PRICE = 'price';
+
+    const WEIGHT = 'weight';
+
+    const STATUS = 'status';
+
+    const VISIBILITY = 'visibility';
+
+    const ATTRIBUTE_SET_ID = 'attribute_set_id';
+
+    const TYPE_ID = 'type_id';
+
+    const CREATED_AT = 'created_at';
+
+    const UPDATED_AT = 'updated_at';
+
+    const STORE_ID = 'store_id';
+    /**#@-*/
+
     /**
      * Product sku
      *

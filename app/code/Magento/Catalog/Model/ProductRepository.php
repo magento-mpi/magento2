@@ -33,17 +33,17 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $initializationHelper;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsBuilder
+     * @var \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder
      */
     protected $searchResultsBuilder;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchCriteriaBuilder
+     * @var \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Data\Search\FilterBuilder
+     * @var \Magento\Framework\Data\Search\FilterInterfaceBuilder
      */
     protected $filterBuilder;
 
@@ -107,9 +107,11 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      */
     public function save(\Magento\Catalog\Api\Data\ProductInterface $product)
     {
+        $this->initializationHelper->initialize($product);
+        if (!$this->resourceModel->validate($product)) {
+            throw new \Magento\Framework\Exception\CouldNotSaveException('Invalid product data');
+        }
         try {
-            $this->initializationHelper->initialize($product);
-            $this->resourceModel->validate($product);
             $this->resourceModel->save($product);
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
             throw \Magento\Framework\Exception\InputException::invalidFieldValue(
@@ -140,6 +142,15 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             unset($this->instances[$productSku]);
         }
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteBySku($productSku)
+    {
+        $product = $this->get($productSku);
+        return $this->delete($product);
     }
 
     /**
