@@ -7,7 +7,7 @@
  */
 
 /** @var Magento\Setup\Module\SetupModule $this */
-/** @var Magento\Setup\Framework\DB\Adapter\AdapterInterface $connection */
+/** @var Magento\Framework\DB\Adapter\Pdo\Mysql $connection */
 $connection = $this->getConnection();
 
 $connection->dropForeignKey(

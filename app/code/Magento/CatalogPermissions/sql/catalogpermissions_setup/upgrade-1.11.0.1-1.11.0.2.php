@@ -9,7 +9,7 @@
 /* @var $this Magento\Setup\Module\SetupModule */
 $this->startSetup();
 
-/** @var $connection Magento\Setup\Framework\DB\Adapter\AdapterInterface */
+/** @var $connection Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $this->getConnection();
 
 $connection->addIndex(
