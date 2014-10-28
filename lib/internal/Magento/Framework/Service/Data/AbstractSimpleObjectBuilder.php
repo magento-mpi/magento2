@@ -42,7 +42,7 @@ abstract class AbstractSimpleObjectBuilder
     public function populate(AbstractSimpleObject $prototype)
     {
         $objectType = $this->_getDataObjectType();
-        if (get_class($prototype) != $objectType) {
+        if (!($prototype instanceof $objectType)) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
         }
         return $this->populateWithArray($prototype->__toArray());

@@ -11,6 +11,7 @@ namespace Magento\Customer\Model\Resource;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Api\Data\SearchCriteriaInterface;
 
 /**
  * Customer repository.
@@ -58,6 +59,11 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     protected $customerBuilder;
 
     /**
+     * @var \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder
+     */
+    protected $searchResultsBuilder;
+
+    /**
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
@@ -66,6 +72,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      * @param \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder
      */
     public function __construct(
         \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
@@ -75,7 +82,8 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         \Magento\Customer\Model\Resource\Customer $customerResourceModel,
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
-        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->customerFactory = $customerFactory;
@@ -85,6 +93,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $this->customerMetadata = $customerMetadata;
         $this->addressBuilder = $addressBuilder;
         $this->customerBuilder = $customerBuilder;
+        $this->searchResultsBuilder = $searchResultsDataBuilder;
     }
 
     /**
@@ -102,6 +111,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
                 )
             ]
         );
+        $customerModel->setId($customer->getId());
         /** Prevent addresses being processed by resource model */
         $customerModel->unsAddresses();
         $this->customerResourceModel->save($customerModel);
@@ -123,18 +133,53 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     public function get($email, $websiteId = null)
     {
         $customerModel = $this->customerRegistry->retrieveByEmail($email, $websiteId);
-        return $this->customerBuilder
-            ->populateWithArray($customerModel->getData())
-            ->setId($customerModel->getId())
-            ->create();
+        return $this->convertCustomerModelIntoDataObject($customerModel);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria)
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        // TODO: Implement getList() method.
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
+        /** @var \Magento\Customer\Model\Resource\Customer\Collection $collection */
+        $collection = $this->customerFactory->create()->getCollection();
+        // This is needed to make sure all the attributes are properly loaded
+        foreach ($this->customerMetadata->getAllAttributesMetadata() as $metadata) {
+            $collection->addAttributeToSelect($metadata->getAttributeCode());
+        }
+        // Needed to enable filtering on name as a whole
+        $collection->addNameToSelect();
+        // Needed to enable filtering based on billing address attributes
+        $collection->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
+            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
+            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
+            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
+            ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left');
+        //Add filters from root filter group to the collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
+        $this->searchResultsBuilder->setTotalCount($collection->getSize());
+        $sortOrders = $searchCriteria->getSortOrders();
+        if ($sortOrders) {
+            foreach ($searchCriteria->getSortOrders() as $sortOrder) {
+                $collection->addOrder(
+                    $sortOrder->getField(),
+                    ($sortOrder->getDirection() == SearchCriteriaInterface::SORT_ASC) ? 'ASC' : 'DESC'
+                );
+            }
+        }
+        $collection->setCurPage($searchCriteria->getCurrentPage());
+        $collection->setPageSize($searchCriteria->getPageSize());
+        $customers = [];
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        foreach ($collection as $customerModel) {
+            $customers[] = $this->convertCustomerModelIntoDataObject($customerModel);
+        }
+        $this->searchResultsBuilder->setItems($customers);
+        return $this->searchResultsBuilder->create();
     }
 
     /**
@@ -142,7 +187,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      */
     public function delete(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
-        // TODO: Implement delete() method.
+        return $this->deleteById($customer->getId());
     }
 
     /**
@@ -150,7 +195,10 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      */
     public function deleteById($customerId)
     {
-        // TODO: Implement deleteById() method.
+        $customerModel = $this->customerRegistry->retrieve($customerId);
+        $customerModel->delete();
+        $this->customerRegistry->remove($customerId);
+        return true;
     }
 
     /**
@@ -218,6 +266,43 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
             return $this->customerMetadata->getAttributeMetadata($attributeCode);
         } catch (NoSuchEntityException $e) {
             return null;
+        }
+    }
+
+    /**
+     * Create a new data object having customer model.
+     *
+     * @param \Magento\Customer\Model\Customer $customerModel
+     * @return \Magento\Framework\Service\Data\AbstractSimpleObject
+     */
+    protected function convertCustomerModelIntoDataObject($customerModel)
+    {
+        return $this->customerBuilder
+            ->populateWithArray($customerModel->getData())
+            ->setId($customerModel->getId())
+            ->create();
+    }
+
+    /**
+     * Helper function that adds a FilterGroup to the collection.
+     *
+     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup
+     * @param \Magento\Customer\Model\Resource\Customer\Collection $collection
+     * @return void
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function addFilterGroupToCollection(
+        \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+        \Magento\Customer\Model\Resource\Customer\Collection $collection
+    ) {
+        $fields = [];
+        $conditions = [];
+        foreach ($filterGroup->getFilters() as $filter) {
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields, $conditions);
         }
     }
 }

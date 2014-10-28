@@ -68,6 +68,7 @@
     <preference for="Magento\Framework\Stdlib\CookieManager" type="Magento\Framework\Stdlib\Cookie\PhpCookieManager" />
     <preference for="Magento\Framework\View\Page\FaviconInterface" type="Magento\Theme\Model\Favicon\Favicon" />
     <preference for="Magento\Framework\Service\V1\Data\SearchResultsInterface" type="Magento\Framework\Service\V1\Data\SearchResults" />
+    <preference for="Magento\Framework\Api\Data\SearchCriteriaInterface" type="Magento\Framework\Service\V1\Data\SearchCriteria" />
     <preference for="Magento\Framework\Api\Data\AttributeInterface" type="Magento\Framework\Service\Data\AttributeValue" />
     <type name="Magento\Framework\App\DefaultPath\DefaultPath">
         <arguments>
