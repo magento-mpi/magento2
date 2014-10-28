@@ -7,6 +7,9 @@
  */
 namespace Magento\Framework\Less\File\Collector;
 
+use Magento\Framework\App\Bootstrap;
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class AggregatedTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,12 +26,12 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\Framework\App\Filesystem::LIB_WEB => array(
-                        'path' => dirname(dirname(__DIR__)) . '/_files/lib/web'
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
+                    DirectoryList::LIB_WEB => array(
+                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/lib/web'
                     ),
-                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
-                        'path' => dirname(dirname(__DIR__)) . '/_files/design'
+                    DirectoryList::THEMES => array(
+                        DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design'
                     )
                 )
             )
@@ -38,18 +41,18 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->objectManager->create(
-            'Magento\Framework\App\Filesystem',
+            'Magento\Framework\Filesystem',
             array(
                 'directoryList' => $this->objectManager->create(
-                    'Magento\Framework\Filesystem\DirectoryList',
+                    'Magento\Framework\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
-                        'directories' => array(
-                            \Magento\Framework\App\Filesystem::MODULES_DIR => array(
-                                'path' => dirname(dirname(__DIR__)) . '/_files/code'
+                        'config' => array(
+                            DirectoryList::MODULES => array(
+                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/code'
                             ),
-                            \Magento\Framework\App\Filesystem::THEMES_DIR => array(
-                                'path' => dirname(dirname(__DIR__)) . '/_files/design'
+                            DirectoryList::THEMES => array(
+                                DirectoryList::PATH => dirname(dirname(__DIR__)) . '/_files/design'
                             ),
                         )
                     )

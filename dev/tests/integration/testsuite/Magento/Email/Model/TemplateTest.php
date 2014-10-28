@@ -38,7 +38,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Framework\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Store\Model\StoreManager'),
-                $objectManager->create('Magento\Framework\App\Filesystem'),
+                $objectManager->create('Magento\Framework\Filesystem'),
                 $objectManager->create('Magento\Framework\View\Asset\Repository'),
                 $objectManager->create('Magento\Framework\View\FileSystem'),
                 $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface'),

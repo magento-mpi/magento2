@@ -929,12 +929,12 @@ class ConfigData extends AbstractRepository
                     'path' => 'wishlist/general/multiple_wishlist_number',
                     'scope' => 'wishlist',
                     'scope_id' => 1,
-                    'value' => 3,
+                    'value' => 10,
                 ],
             ]
         ];
 
-        $this->_data['disabled_multiple_wishlist_default'] = [
+        $this->_data['multiple_wishlist_default_rollback'] = [
             'section' => [
                 [
                     'path' => 'wishlist/general/multiple_enabled',

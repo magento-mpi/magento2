@@ -10,7 +10,7 @@
 <form action="<?php echo $this->getActionUrl() ?>"
       method="get"
       id="wishlist-search-form"
-      class="form wishlist find"
+      class="form form-wishlist-search"
       data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset" data-hasrequired="* <?php echo __('Required Fields') ?>">
         <legend class="legend"><span><?php echo __('Search Options') ?></span></legend><br>
@@ -26,7 +26,7 @@
                 <input name="params[lastname]" id="params_lastname" type="text" value="<?php echo $this->getFormData('lastname') ?>" class="input-text required-entry">
             </div>
         </div>
-        <div class="actions">
+        <div class="actions-toolbar">
             <input type="hidden" name="params[search]" value="type">
             <button type="submit" class="action search"><span><?php echo __('Search') ?></span></button>
         </div>
@@ -36,7 +36,7 @@
 <form action="<?php echo $this->getActionUrl() ?>"
       method="get"
       id="wishlist-search-email-form"
-      class="form wishlist find"
+      class="form form-wishlist-search"
       data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset" data-hasrequired="* <?php echo __('Required Fields') ?>">
         <div class="field email required">
@@ -45,7 +45,7 @@
                 <input name="params[email]" id="params_email" type="text" value="<?php echo $this->getFormData('email') ?>" class="input-text required-entry validate-email">
             </div>
         </div>
-        <div class="actions">
+        <div class="actions-toolbar">
             <input type="hidden" name="params[search]" value="email">
             <button type="submit" class="action search"><span><?php echo __('Search') ?></span></button>
         </div>

@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\Arguments\FileResolver;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class PrimaryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -18,7 +20,7 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
     public function testGet(array $fileList, $scope, $filename)
     {
         $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array('search'), array(), '', false);
-        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryRead'), array(), '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false);
         $iteratorFactory = $this->getMock(
             'Magento\Framework\Config\FileIteratorFactory',
             array('create'),
@@ -32,7 +34,7 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\Framework\App\Filesystem::CONFIG_DIR
+            DirectoryList::CONFIG
         )->will(
             $this->returnValue($directory)
         );
