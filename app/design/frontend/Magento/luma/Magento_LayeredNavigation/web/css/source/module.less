@@ -8,9 +8,6 @@
 
 
 .filter {
-    *[data-role="title"]:focus {
-        outline: none
-    }
     &.block {
         margin-bottom: 0;
     }
@@ -70,10 +67,6 @@
             display: block;
             border: none;
             padding-bottom: @indent-s-base;
-            &:focus {
-                outline:0;
-            }
-
         }
         .action.remove {
             &:extend(.remove-button-for-blocks all);
