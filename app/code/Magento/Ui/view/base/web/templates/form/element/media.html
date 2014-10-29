@@ -6,4 +6,13 @@
  * @license     {license_link}
  */
 -->
-<input class="control-file" type="file" data-bind="value: value, attr: { id: uid, 'aria-describedby': noticeid, disabled: disabled }, hasFocus: focused">
+<input class="control-file" type="file" data-bind="
+    value: value,
+    attr: {
+        name: name,
+        id: uid,
+        'aria-describedby': noticeid,
+        disabled: disabled 
+    },
+    hasFocus: focused"
+>

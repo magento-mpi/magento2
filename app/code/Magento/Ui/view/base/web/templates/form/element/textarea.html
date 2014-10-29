@@ -6,13 +6,15 @@
  * @license     {license_link}
  */
 -->
-<textarea class="control-textarea"
-          data-bind="value: value,
-                     hasFocus: focused,
-                     attr: {
-                            cols: cols,
-                            rows: rows,
-                            'aria-describedby': noticeid,
-                            placeholder: placeholder,
-                            id: uid
-                        }"  />
+<textarea class="control-textarea" data-bind="
+    value: value,
+    hasFocus: focused,
+    attr: {
+        name: name,
+        cols: cols,
+        rows: rows,
+        'aria-describedby': noticeid,
+        placeholder: placeholder,
+        id: uid
+    }"
+/>

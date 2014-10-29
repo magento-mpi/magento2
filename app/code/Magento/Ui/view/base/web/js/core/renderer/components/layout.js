@@ -31,6 +31,17 @@ define([
         return node.type || (parent && parent.childType);
     }
 
+    function getDataScope(parent, node){
+        var dataScope   = node.dataScope || '',
+            parentScope = parent && parent.dataScope;
+
+        return parentScope ?
+                ( dataScope ?
+                    (parentScope + '.' + dataScope) :
+                    parentScope ) :
+                dataScope;
+    }
+
     function mergeNode(node, config){
         return $.extend(true, {}, config, node);
     }
@@ -84,8 +95,11 @@ define([
             type = getNodeType.apply(null, arguments);
             node = mergeNode(node, this.types.get(type));
 
-            node.index  = node.name || name;
-            node.name   = getNodeName.apply(null, arguments);
+            node.index      = node.name || name;
+            node.name       = getNodeName(parent, node, name);
+            node.dataScope  = getDataScope(parent, node);
+
+            console.log(node.dataScope);
 
             delete node.type;
 
@@ -107,8 +121,9 @@ define([
 
                     require(source, function(constr){
                         component = new constr(node.config, {
-                            name: name,
-                            index: node.index
+                            name:       name,
+                            index:      node.index,
+                            dataScope:  node.dataScope
                         });
 
                         registry.set(name, component);

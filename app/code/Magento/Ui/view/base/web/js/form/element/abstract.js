@@ -40,7 +40,8 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initTemplate()
+            this.initName()
+                .initTemplate()
                 .initDisableStatus()
                 .setUniqueId()
                 .setNoticeId();
@@ -69,18 +70,24 @@ define([
             return this;
         },
 
-        initTemplate: function(){
-            this.template =  this.template || (this.tmpPath + this.input_type);
-
-            return this;
-        },
-
         initListeners: function(){
             var data = this.provider.data;
 
             data.on('reset', this.reset.bind(this));
 
             this.value.subscribe(this.onUpdate, this);
+
+            return this;
+        },
+        
+        initName: function(){
+            this.name = utils.serializeName(this.dataScope);
+            
+            return this;
+        },
+
+        initTemplate: function(){
+            this.template =  this.template || (this.tmpPath + this.input_type);
 
             return this;
         },
