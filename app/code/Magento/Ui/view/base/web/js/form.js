@@ -17,6 +17,10 @@ define([
         initialize: function(){
             __super__.initialize.apply(this, arguments);
 
+            if(this.formId){
+                this.initForm();
+            }
+
             this.initAdapter();
         },
 
@@ -25,6 +29,17 @@ define([
 
             this.observe('isValid', false);
 
+            return this;
+        },
+
+        initForm: function(){
+            var form = document.getElementById(this.formId);
+
+            form.setAttribute('method', 'POST');
+            form.setAttribute('action', this.provider.submit_url);
+
+            this.form = form;
+            
             return this;
         },
 
@@ -40,13 +55,6 @@ define([
             return this;
         },
 
-        /**
-         * Submits form
-         */
-        submit: function () {
-            console.log('submit');
-        },
-
         reset: function(){
             this.provider.data.trigger('reset');
         },
@@ -59,10 +67,17 @@ define([
 
             isValid = !params.get('invalidElement');
 
-            this.isValid(isValid);
-
             if (isValid) {
                 this.submit();
+            }
+        },
+
+        /**
+         * Submits form
+         */
+        submit: function () {
+            if(this.form){
+                this.form.submit()
             }
         },
 

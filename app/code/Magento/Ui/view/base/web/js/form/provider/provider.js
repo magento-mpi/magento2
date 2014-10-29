@@ -24,9 +24,7 @@ define([
          * @param {Object} settings - Settings to initialize object with.
          */
         initialize: function(settings) {
-            _.extend(this, defaults, settings);
-
-            this.global = registry.get('globalStorage');
+            _.extend(this, defaults, settings, settings.config || {});
 
             this.initStorages();
         },
@@ -47,12 +45,6 @@ define([
             }, this);
 
             return this;
-        },
-
-        get: function(source){
-            var global = this.global;
-
-            global.get.apply(global, arguments);
         }
     }, EventsBus);
 

@@ -91,7 +91,8 @@ define([
 
         createChild: function (index) {
             _.extend(this.childTemplate, {
-                name: index
+                name: index,
+                dataScope: index
             });
 
             this.renderer.render({

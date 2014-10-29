@@ -91,11 +91,6 @@ class AbstractStructure extends AbstractView
     {
         $this->ns = $this->getData('name');
 
-        $this->structure['form'] = [
-            'type' => 'form',
-            'children' => []
-        ];
-
         $this->initSections();
         $this->initAreas();
         $this->initGroups();
@@ -158,7 +153,7 @@ class AbstractStructure extends AbstractView
     protected function initAreas()
     {
         $this->structure['areas'] = [
-            'type' => $this->ns,
+            'type' => 'form',
             'children' => []
         ];
     }

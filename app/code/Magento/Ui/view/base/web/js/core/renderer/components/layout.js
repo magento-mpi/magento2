@@ -99,8 +99,6 @@ define([
             node.name       = getNodeName(parent, node, name);
             node.dataScope  = getDataScope(parent, node);
 
-            console.log(node.dataScope);
-
             delete node.type;
 
             this.registry.set(node.name, node);
