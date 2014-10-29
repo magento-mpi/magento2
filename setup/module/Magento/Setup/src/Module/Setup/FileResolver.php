@@ -9,19 +9,13 @@
 namespace Magento\Setup\Module\Setup;
 
 use Zend\Stdlib\Glob;
-use Magento\Config\FileIteratorFactory;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FileResolver
 {
     /**
-     * File Iterator Factory
+     * Magento application's DirectoryList
      *
-     * @var FileIteratorFactory
-     */
-    protected $iteratorFactory;
-
-    /**
      * @var DirectoryList
      */
     private $directoryList;
@@ -29,14 +23,10 @@ class FileResolver
     /**
      * Default Constructor
      *
-     * @param FileIteratorFactory $iteratorFactory
      * @param DirectoryList $directoryList
      */
-    public function __construct(
-        FileIteratorFactory $iteratorFactory,
-        DirectoryList $directoryList
-    ) {
-        $this->iteratorFactory = $iteratorFactory;
+    public function __construct(DirectoryList $directoryList)
+    {
         $this->directoryList = $directoryList;
     }
 

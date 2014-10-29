@@ -10,36 +10,25 @@ namespace Magento\Composer;
 
 use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
-use Magento\Config\FileIteratorFactory;
+use Magento\Config\FileIterator;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FileResolver implements FileResolverInterface
 {
     /**
-     * File iterator factory
-     *
-     * @var \Magento\Config\FileIteratorFactory
-     */
-    protected $iteratorFactory;
-
-    /**
      * Magento application's DirectoryList
      *
-     * @var \Magento\Framework\App\Filesystem\DirectoryList
+     * @var DirectoryList
      */
     private $directoryList;
 
     /**
      * Constructor
      *
-     * @param FileIteratorFactory $iteratorFactory
      * @param DirectoryList $directoryList
      */
-    public function __construct(
-        FileIteratorFactory $iteratorFactory,
-        DirectoryList $directoryList
-    ) {
-        $this->iteratorFactory = $iteratorFactory;
+    public function __construct(DirectoryList $directoryList)
+    {
         $this->directoryList = $directoryList;
     }
 
@@ -47,16 +36,11 @@ class FileResolver implements FileResolverInterface
      * Collect files and wrap them into an Iterator object
      *
      * @param string $filename
-     * @return array
+     * @return FileIterator
      */
     public function get($filename)
     {
-        $result = [];
-        $root = $this->directoryList->getRoot();
         $pattern = $this->directoryList->getPath(DirectoryList::MODULES) . '/*/*/' . $filename;
-        foreach (Glob::glob($pattern) as $file) {
-            $result[] = substr($file, strlen($root));
-        }
-        return $this->iteratorFactory->create($root, $result);
+        return new FileIterator(Glob::glob($pattern));
     }
 }

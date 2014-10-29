@@ -10,54 +10,50 @@ namespace Magento\Setup\Module;
 
 use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
-use Magento\Config\FileIteratorFactory;
+use Magento\Config\FileIterator;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class FileResolver implements FileResolverInterface
 {
     /**
-     * @var FileIteratorFactory
-     */
-    protected $iteratorFactory;
-
-    /**
-     * @var \Magento\Framework\App\Filesystem\DirectoryList
+     * Magento application's DirectoryList
+     *
+     * @var DirectoryList
      */
     private $directoryList;
 
     /**
-     * @param FileIteratorFactory $iteratorFactory
+     * Constructor
+     *
      * @param DirectoryList $directoryList
      */
-    public function __construct(
-        FileIteratorFactory $iteratorFactory,
-        DirectoryList $directoryList
-    ) {
-        $this->iteratorFactory = $iteratorFactory;
+    public function __construct(DirectoryList $directoryList)
+    {
         $this->directoryList = $directoryList;
     }
 
     /**
+     * Collect files and wrap them into an Iterator object
+     *
      * @param string $filename
-     * @return array
+     * @return FileIterator
      */
     public function get($filename)
     {
-        $paths = [];
-        $root = $this->directoryList->getRoot();
+        $result = [];
 
         // Collect files by /app/code/*/*/etc/{filename} pattern
         $pattern = $this->directoryList->getPath(DirectoryList::MODULES) . '/*/*/etc/' . $filename;
         foreach (Glob::glob($pattern) as $file) {
-            $paths[] = substr($file, strlen($root));
+            $result[] = $file;
         }
 
         // Collect files by /app/etc/*/{filename} pattern
         $pattern = $this->directoryList->getPath(DirectoryList::CONFIG) . '/*/' . $filename;
         foreach (Glob::glob($pattern) as $file) {
-            $paths[] = substr($file, strlen($root));
+            $result[] = $file;
         }
 
-        return $this->iteratorFactory->create($root, $paths);
+        return new FileIterator($result);
     }
 }
