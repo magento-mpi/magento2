@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento\Setup\Module\SetupModule */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
 /* adding new field = static attribute to rma_item_entity table */

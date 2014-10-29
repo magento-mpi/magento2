@@ -14,7 +14,7 @@ $installer->startSetup();
 $tableName = $installer->getTable('authorization_rule');
 
 if ($tableName) {
-    /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
+    /** @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
     $connection = $installer->getConnection();
     $remove = array('Magento_Rma::rma_manage');
     $connection->delete($tableName, array('resource_id IN (?)' => $remove));

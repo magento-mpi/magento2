@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento\Setup\Module\SetupModule */
+/* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
-/* @var $connection Magento\Framework\DB\Adapter\Pdo\Mysql */
+/* @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 
 $oauthTokenTable = $installer->getTable('oauth_token');

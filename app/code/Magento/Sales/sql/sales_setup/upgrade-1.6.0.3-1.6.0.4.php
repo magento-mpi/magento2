@@ -10,7 +10,7 @@
  * Create aggregation tables for updated_at fields
  */
 
-/** @var $installer Magento\Setup\Module\SetupModule */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $connection = $installer->getConnection();
 $connection->createTable(

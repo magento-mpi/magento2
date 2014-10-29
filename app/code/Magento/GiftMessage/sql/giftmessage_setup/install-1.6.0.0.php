@@ -7,7 +7,7 @@
  */
 
 
-/** @var $installer Magento\Setup\Module\SetupModule */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $installer->startSetup();
 

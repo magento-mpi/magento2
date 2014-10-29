@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento\Setup\Module\SetupModule */
+/** @var $this \Magento\Setup\Module\SetupModule */
 
 $this->getConnection()->changeColumn(
     $this->getTable('cataloginventory_stock_item'),

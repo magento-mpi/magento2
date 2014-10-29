@@ -10,7 +10,7 @@
 $installer = $this;
 
 $tableName = $installer->getTable('authorization_rule');
-/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
+/** @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
 $connection = $installer->getConnection();
 $condition = $connection->prepareSqlCondition(
     'resource_id',

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var Magento\Setup\Module\SetupModule $installer */
+/* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $installer->startSetup();
 
