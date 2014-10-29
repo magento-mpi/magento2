@@ -7,9 +7,10 @@
  */
 namespace Mtf\Util\Generate;
 
+use Magento\Framework\App;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Magento\Framework\App;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class TestCaseClass
@@ -24,14 +25,43 @@ class TestCase extends AbstractGenerate
      *
      * @var array
      */
-    protected $config = array(
-        'username' => '_metrics-api',
-        'password' => 'm3tric5ap1',
-        'url' => 'http://jira.corp.x.com/rest/api/2/',
-    );
+    protected $config = [];
+
+    /**
+     * Default path to Jira configuration file
+     *
+     * @var string
+     */
+    protected $jiraConfigFile = 'config/jira.yml';
+
+    /**
+     * @constructor
+     * @param ObjectManager $objectManager
+     */
+    public function __construct(ObjectManager $objectManager)
+    {
+        parent::__construct($objectManager);
+
+        $config = $objectManager->create('Mtf\System\Config', ['filePath' => $this->getJiraConfigPath()]);
+        $this->config = $config->getParamByPath('jira');
+    }
+
+    /**
+     * Get jira config file path
+     *
+     * @return string
+     */
+    protected function getJiraConfigPath()
+    {
+        return file_exists(MTF_BP . '/' . $this->jiraConfigFile)
+            ? $this->jiraConfigFile
+            : $this->jiraConfigFile . '.dist';
+    }
 
     /**
      * Generate test cases
+     *
+     * @retun void
      */
     public function launch()
     {
@@ -41,6 +71,8 @@ class TestCase extends AbstractGenerate
 
     /**
      * Generate TestCase XML
+     *
+     * @retun void
      */
     public function generateXml()
     {
@@ -110,9 +142,7 @@ class TestCase extends AbstractGenerate
         $ticketData['ticketId'] = $jiraTicket['id'];
         // Get ticket name
         $stringRemove = [
-            'Cover ',
             'Test Creation for ',
-            'with functional test designed for automation'
         ];
 
         $ticketData['name'] = str_replace(' ', '', ucwords(str_replace($stringRemove, '', $issue['fields']['summary'])))
