@@ -6,15 +6,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reports\Controller\Adminhtml\Index;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
-class ExportSearchExcel extends \Magento\Reports\Controller\Adminhtml\Index
+class ExportSearchCsv extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
-     * Export search report to Excel XML format
+     * Export search report grid to CSV format
      *
      * @return ResponseInterface
      */
@@ -22,6 +22,6 @@ class ExportSearchExcel extends \Magento\Reports\Controller\Adminhtml\Index
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        return $this->_fileFactory->create('search.xml', $content->getExcelFile(), DirectoryList::VAR_DIR);
+        return $this->_fileFactory->create('search.csv', $content->getCsvFile(), DirectoryList::VAR_DIR);
     }
 }

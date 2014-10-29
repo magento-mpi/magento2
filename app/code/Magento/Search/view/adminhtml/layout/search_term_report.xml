@@ -8,8 +8,8 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <update handle="reports_index_search_block"/>
+    <update handle="search_term_report_block"/>
     <referenceContainer name="content">
-        <block class="Magento\Reports\Block\Adminhtml\Search" name="report.search.grid.container"/>
+        <block class="Magento\Search\Block\Adminhtml\Reports\Search" name="report.search.grid.container"/>
     </referenceContainer>
 </page>
