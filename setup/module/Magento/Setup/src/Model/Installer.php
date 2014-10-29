@@ -264,7 +264,7 @@ class Installer
     {
         $results = $this->filePermissions->getUnnecessaryWritableDirectoriesForApplication();
         if ($results) {
-            $errorMsg = 'Unnecessary writing permissions to the following directories: ';
+            $errorMsg = 'For security, remove write permissions from these directories: ';
             foreach ($results as $result) {
                 $errorMsg .= '\'' . $result . '\' ';
             }
