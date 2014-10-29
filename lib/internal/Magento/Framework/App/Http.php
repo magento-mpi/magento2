@@ -112,8 +112,9 @@ class Http implements \Magento\Framework\AppInterface
         $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
         $this->_state->setAreaCode($areaCode);
         $this->_objectManager->configure($this->_configLoader->load($areaCode));
-        $result = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface')
-            ->dispatch($this->_request);
+        /** @var \Magento\Framework\App\FrontControllerInterface $frontController */
+        $frontController = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface');
+        $result = $frontController->dispatch($this->_request);
         // TODO: Temporary solution till all controllers are returned not ResultInterface (MAGETWO-28359)
         if ($result instanceof ResultInterface) {
             $result->renderResult($this->_response);

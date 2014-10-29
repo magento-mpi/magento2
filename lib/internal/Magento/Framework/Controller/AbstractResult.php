@@ -23,6 +23,8 @@ abstract class AbstractResult implements ResultInterface
     protected $headers = [];
 
     /**
+     * Set response code to result
+     *
      * @param int $httpCode
      * @return $this
      */
@@ -78,6 +80,8 @@ abstract class AbstractResult implements ResultInterface
     abstract protected function render(ResponseInterface $response);
 
     /**
+     * Render content
+     *
      * @param ResponseInterface $response
      * @return $this
      */
