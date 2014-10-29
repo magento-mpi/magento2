@@ -86,7 +86,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
 
-            $title = __('Recurring Payment #%1', $payment->getReferenceId());
+            $title = __('Recurring Payment # %1', $payment->getReferenceId());
             $this->_view->getPage()->getConfig()->setTitle($title);
 
             $this->_view->renderLayout();

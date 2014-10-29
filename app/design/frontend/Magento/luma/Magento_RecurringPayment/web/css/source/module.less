@@ -19,7 +19,7 @@
     .item {
         line-height: @tab-control-height;
         margin: 0 0 -1px;
-        span {
+        strong {
             background: @tab-control-bg-active;
             border: @border-width-base solid @border-color-base;
             display: block;
@@ -65,6 +65,18 @@
 //
 //    Mobile
 //--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-xs) {
+    .table-recurring-payments {
+        td {
+            &:first-child {
+                span {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.recurring-payments {
         &:extend(.abstract-account-table-border all);
@@ -75,7 +87,11 @@
                 .table-resize(
                     @_td-padding-left: 0,
                     @_td-padding-right: 0
-                )
+                );
+                td:before,
+                th:before {
+                    padding-right: 0;
+                }
             }
         }
     }
@@ -94,6 +110,9 @@
                 border-bottom: 0;
                 margin-bottom: -1px;
                 padding: @tab-control-padding-top @tab-control-padding-right @tab-control-padding-bottom+1 @tab-control-padding-left;
+            }
+            a {
+                padding: 1px 35px;
             }
         }
     }

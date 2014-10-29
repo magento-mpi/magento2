@@ -43,17 +43,34 @@
 //
 //    Mobile
 //--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-xs) {
+    .table-recurring-payments {
+        td {
+            &:first-child {
+                span {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.recurring-payments {
         &:extend(.abstract-account-table-border all);
     }
     .order-recurring-details {
         .order-recurring-details-item {
+            padding: 10px 0;
             .table.data {
                 .table-resize(
                     @_td-padding-left: 0,
                     @_td-padding-right: 0
-                )
+                );
+                td:before,
+                th:before {
+                    padding-right: 0;
+                }
             }
         }
     }

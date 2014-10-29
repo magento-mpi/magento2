@@ -48,7 +48,7 @@
             <?php if (!$block) continue; ?>
             <?php if ($this->getObjectData($block, 'is_view_current')): ?>
                 <li class="item current">
-                    <span><?php echo $this->escapeHtml($this->getObjectData($block, 'view_label')) ?></span>
+                    <strong><?php echo $this->escapeHtml($this->getObjectData($block, 'view_label')) ?></strong>
                 </li>
             <?php else: ?>
                 <li class="item">
