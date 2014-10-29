@@ -1,0 +1,3 @@
+"products";"constraint"
+"configurableProductInjectable::default";"assertProductInItemsOrderedGrid"
+"bundleProduct::bundle_fixed_product";"assertProductInItemsOrderedGrid"
