@@ -287,6 +287,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoDataFixture Magento/Catalog/_files/product_attribute_with_invalid_apply_to.php
      */
