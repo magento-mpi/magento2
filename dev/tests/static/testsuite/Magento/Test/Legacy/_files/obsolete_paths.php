@@ -226,7 +226,8 @@ return [
     ['/downloader'],
     ['/app/code/Magento/Install'],
     ['/dev/tests/integration/testsuite/Magento/Install'],
-    ['dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Install'],
-    ['dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Install'],
-    ['dev/tests/unit/testsuite/Magento/Install'],
+    ['/dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Install'],
+    ['/dev/tests/integration/testsuite/Magento/Test/Integrity/Modular'],
+    ['/dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Install'],
+    ['/dev/tests/unit/testsuite/Magento/Install'],
 ];
