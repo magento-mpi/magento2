@@ -11,7 +11,8 @@ namespace Magento\Framework\Code\Generator;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-class FileResolverTest extends \PHPUnit_Framework_TestCase {
+class FileResolverTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Path to add to include path

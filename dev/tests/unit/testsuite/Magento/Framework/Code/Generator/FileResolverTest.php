@@ -13,7 +13,8 @@ namespace Magento\Framework\Code\Generator;
 
 use \Magento\TestFramework\Helper\ObjectManager;
 
-class FileResolverTest extends \PHPUnit_Framework_TestCase {
+class FileResolverTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var \Magento\Framework\Code\Generator\FileResolver
