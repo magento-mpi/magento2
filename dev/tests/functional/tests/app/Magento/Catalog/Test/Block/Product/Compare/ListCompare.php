@@ -75,6 +75,13 @@ class ListCompare extends Block
     protected $isEmpty = 'p.empty';
 
     /**
+     * Selector for message block
+     *
+     * @var string
+     */
+    protected $messageBlock = '#messages';
+
+    /**
      * Get product info
      *
      * @param int $index
@@ -160,7 +167,7 @@ class ListCompare extends Block
         /** @var \Magento\Core\Test\Block\Messages $messageBlock */
         $messageBlock = $this->blockFactory->create(
             'Magento\Core\Test\Block\Messages',
-            ['element' => $this->_rootElement]
+            ['element' => $this->browser->find($this->messageBlock)]
         );
 
         while ($this->isProductVisible()) {
