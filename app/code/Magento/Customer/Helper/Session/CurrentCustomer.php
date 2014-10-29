@@ -9,7 +9,7 @@ namespace Magento\Customer\Helper\Session;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Module\Manager as ModuleManager;
@@ -31,7 +31,7 @@ class CurrentCustomer
     protected $layout;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -58,7 +58,7 @@ class CurrentCustomer
     /**
      * @param CustomerSession $customerSession
      * @param LayoutInterface $layout
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param RequestInterface $request
      * @param ModuleManager $moduleManager
@@ -67,7 +67,7 @@ class CurrentCustomer
     public function __construct(
         CustomerSession $customerSession,
         LayoutInterface $layout,
-        CustomerBuilder $customerBuilder,
+        CustomerDataBuilder $customerBuilder,
         CustomerAccountServiceInterface $customerAccountService,
         RequestInterface $request,
         ModuleManager $moduleManager,

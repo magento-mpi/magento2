@@ -12,7 +12,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer builder mock
      *
-     * @var CustomerBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customerBuilderMock;
 
@@ -45,7 +45,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_customerBuilderMock = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\CustomerBuilder'
+            '\Magento\Customer\Api\Data\CustomerDataBuilder'
         )->disableOriginalConstructor()->getMock();
         $this->_addressBuilderMock = $this->getMockBuilder(
             '\Magento\Customer\Service\V1\Data\AddressBuilder'

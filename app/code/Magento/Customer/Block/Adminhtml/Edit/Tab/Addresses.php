@@ -14,7 +14,7 @@ use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 
@@ -65,7 +65,7 @@ class Addresses extends GenericMetadata
     /** @var  AddressBuilder */
     protected $_addressBuilder;
 
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     protected $_customerBuilder;
 
     /** @var  AttributeMetadataBuilder */
@@ -85,7 +85,7 @@ class Addresses extends GenericMetadata
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param AddressMetadataServiceInterface $addressMetadataService
      * @param AddressBuilder $addressBuilder
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param AttributeMetadataBuilder $attributeMetadataBuilder
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
@@ -106,7 +106,7 @@ class Addresses extends GenericMetadata
         CustomerAccountServiceInterface $customerAccountService,
         AddressMetadataServiceInterface $addressMetadataService,
         AddressBuilder $addressBuilder,
-        CustomerBuilder $customerBuilder,
+        CustomerDataBuilder $customerBuilder,
         AttributeMetadataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
         array $data = array()

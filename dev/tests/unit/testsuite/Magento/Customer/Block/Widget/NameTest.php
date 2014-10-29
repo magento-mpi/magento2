@@ -213,7 +213,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added some padding so that the trim() call on Customer::getPrefix() will remove it. Also added
          * special characters so that the escapeHtml() method returns a htmlspecialchars translated value.
          */
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
             ->setPrefix('  <' . self::PREFIX . '>  ')->create();
 
         $this->_block->setObject($customer);
@@ -238,7 +238,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrefixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
             ->setPrefix(self::PREFIX)->create();
         $this->_block->setObject($customer);
 
@@ -259,7 +259,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added padding and special characters to show that trim() works on Customer::getSuffix() and that
          * a properly htmlspecialchars translated value is returned.
          */
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
             ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
@@ -283,7 +283,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSuffixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
             ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
@@ -425,7 +425,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     private function _setUpShowAttribute(array $data)
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
             ->populateWithArray($data)->create();
 
         /**

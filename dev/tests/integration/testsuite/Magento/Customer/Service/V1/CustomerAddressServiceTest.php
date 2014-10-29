@@ -33,7 +33,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     private $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder */
     private $_customerBuilder;
 
     protected function setUp()
@@ -42,7 +42,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
 
         $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
         $region = $builder

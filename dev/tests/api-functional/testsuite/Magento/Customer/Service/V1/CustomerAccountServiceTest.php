@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -46,7 +46,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     /** @var AddressBuilder */
     private $addressBuilder;
 
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     private $customerBuilder;
 
     /** @var CustomerDetailsBuilder */
@@ -96,7 +96,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Customer\Service\V1\Data\AddressBuilder'
         );
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder'
+            'Magento\Customer\Api\Data\CustomerDataBuilder'
         );
         $this->customerDetailsBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'

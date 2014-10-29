@@ -41,7 +41,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     private $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder */
     private $_customerBuilder;
 
     /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder */
@@ -56,7 +56,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $this->_customerDetailsBuilder =
             $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
 

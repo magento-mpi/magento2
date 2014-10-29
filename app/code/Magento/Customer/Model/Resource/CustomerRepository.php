@@ -133,7 +133,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     public function get($email, $websiteId = null)
     {
         $customerModel = $this->customerRegistry->retrieveByEmail($email, $websiteId);
-        return $this->convertCustomerModelIntoDataObject($customerModel);
+        return $customerModel->getDataModel();
     }
 
     /**
@@ -176,7 +176,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $customers = [];
         /** @var \Magento\Customer\Model\Customer $customerModel */
         foreach ($collection as $customerModel) {
-            $customers[] = $this->convertCustomerModelIntoDataObject($customerModel);
+            $customers[] = $customerModel->getDataModel();
         }
         $this->searchResultsBuilder->setItems($customers);
         return $this->searchResultsBuilder->create();
@@ -267,20 +267,6 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         } catch (NoSuchEntityException $e) {
             return null;
         }
-    }
-
-    /**
-     * Create a new data object having customer model.
-     *
-     * @param \Magento\Customer\Model\Customer $customerModel
-     * @return \Magento\Framework\Service\Data\AbstractSimpleObject
-     */
-    protected function convertCustomerModelIntoDataObject($customerModel)
-    {
-        return $this->customerBuilder
-            ->populateWithArray($customerModel->getData())
-            ->setId($customerModel->getId())
-            ->create();
     }
 
     /**

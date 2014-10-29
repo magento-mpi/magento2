@@ -86,8 +86,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function getCustomerNameDataProvider()
     {
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         return array(
             'With disabled prefix, middle name, suffix' => array(
                 $customerBuilder->setPrefix(

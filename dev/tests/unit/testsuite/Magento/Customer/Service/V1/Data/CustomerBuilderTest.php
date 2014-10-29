@@ -14,7 +14,7 @@ use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_TestCase */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_TestCase */
     protected $_customerBuilder;
 
     /** @var \Magento\TestFramework\Helper\ObjectManager */
@@ -71,7 +71,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Service\Data\AttributeValueBuilder'
         );
         $this->_customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'metadataService' => $this->_customerMetadataService
@@ -181,14 +181,14 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'test@example.com';
         $customerBuilder1 = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'metadataService' => $this->_customerMetadataService
             ]
         );
         $customerBuilder2 = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'metadataService' => $this->_customerMetadataService

@@ -9,7 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -31,7 +31,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
     /** @var CustomerAccountServiceInterface */
     private $customerAccountService;
 
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     private $customerBuilder;
 
     /** @var CustomerDetailsBuilder */
@@ -66,7 +66,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
             ['customerRegistry' => $this->customerRegistry]
         );
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder'
+            'Magento\Customer\Api\Data\CustomerDataBuilder'
         );
         $this->customerDetailsBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'

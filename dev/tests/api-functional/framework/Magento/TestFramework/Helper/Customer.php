@@ -13,7 +13,7 @@ use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerService;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 
 class Customer extends WebapiAbstract
 {
@@ -51,7 +51,7 @@ class Customer extends WebapiAbstract
     /** @var CustomerDetailsBuilder */
     private $customerDetailsBuilder;
 
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     private $customerBuilder;
 
     public function __construct($name = NULL, array $data = array(), $dataName = '')
@@ -67,7 +67,7 @@ class Customer extends WebapiAbstract
         );
 
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder'
+            'Magento\Customer\Api\Data\CustomerDataBuilder'
         );
     }
 

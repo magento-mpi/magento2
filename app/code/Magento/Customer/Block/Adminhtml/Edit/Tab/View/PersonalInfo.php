@@ -40,7 +40,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     protected $groupService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -66,7 +66,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Registry $registry
@@ -77,7 +77,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Registry $registry,

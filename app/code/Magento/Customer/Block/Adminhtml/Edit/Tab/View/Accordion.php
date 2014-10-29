@@ -40,7 +40,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /** @var CustomerAccountServiceInterface  */
     protected $_customerAccountService;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder  */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder  */
     protected $_customerBuilder;
 
     /**
@@ -50,7 +50,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

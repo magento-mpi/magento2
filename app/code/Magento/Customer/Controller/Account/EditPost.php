@@ -11,7 +11,7 @@ namespace Magento\Customer\Controller\Account;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Core\App\Action\FormKeyValidator;
 use Magento\Customer\Model\CustomerExtractor;
@@ -26,7 +26,7 @@ class EditPost extends \Magento\Customer\Controller\Account
     /** @var CustomerAccountServiceInterface  */
     protected $customerAccountService;
 
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     protected $customerBuilder;
 
     /** @var CustomerDetailsBuilder */
@@ -44,7 +44,7 @@ class EditPost extends \Magento\Customer\Controller\Account
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param FormKeyValidator $formKeyValidator
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param CustomerExtractor $customerExtractor
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -53,7 +53,7 @@ class EditPost extends \Magento\Customer\Controller\Account
         Context $context,
         Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
-        CustomerBuilder $customerBuilder,
+        CustomerDataBuilder $customerBuilder,
         CustomerDetailsBuilder $customerDetailsBuilder,
         FormKeyValidator $formKeyValidator,
         CustomerExtractor $customerExtractor

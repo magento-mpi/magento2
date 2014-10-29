@@ -410,7 +410,7 @@ class ResetPasswordTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $customerBuilder = $this->getMock('\Magento\Customer\Service\V1\Data\CustomerBuilder', [], [], '', false);
+        $customerBuilder = $this->getMock('\Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
         $data = [
             'id' => $customerId,
             'email' => $email,

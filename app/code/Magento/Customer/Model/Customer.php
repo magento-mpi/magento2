@@ -10,7 +10,7 @@ namespace Magento\Customer\Model;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Customer\Model\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Webapi\Model\DataObjectProcessor;
@@ -191,9 +191,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $dateTime;
 
     /**
-     * @var CustomerBuilder
+     * @var CustomerDataBuilder
      */
-    protected $_customerDataBuilder;
+    protected $customerDataBuilder;
 
     /**
      * @var DataObjectProcessor
@@ -217,7 +217,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param CustomerBuilder $customerDataBuilder
+     * @param CustomerDataBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -239,7 +239,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        CustomerBuilder $customerDataBuilder,
+        CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -256,7 +256,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
-        $this->_customerDataBuilder = $customerDataBuilder;
+        $this->customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
@@ -278,27 +278,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getDataModel()
     {
-        $attributes = array();
-        foreach ($this->getAttributes() as $attribute) {
-            $attrCode = $attribute->getAttributeCode();
-            $value = $this->getDataUsingMethod($attrCode);
-            $value = $value ? $value : $this->getData($attrCode);
-            if (null !== $value) {
-                if ($attrCode == 'entity_id') {
-                    $attributes[CustomerData::ID] = $value;
-                } else {
-                    $attributes[$attrCode] = $value;
-                }
-            }
-        }
-
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = $this->_customerDataBuilder->populateWithArray($attributes);
-        $customerBuilder->setId($this->getId());
-        $customerBuilder->setFirstname($this->getFirstname());
-        $customerBuilder->setLastname($this->getLastname());
-        $customerBuilder->setEmail($this->getEmail());
-        return $customerBuilder->create();
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $this->customerDataBuilder->populateWithArray($this->getData());
+        $this->customerDataBuilder->setId($this->getId());
+        return $this->customerDataBuilder->create();
     }
 
     /**
@@ -412,10 +395,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $customerData = (array)$this->getData();
         $customerData[CustomerData::ID] = $this->getId();
-        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[CustomerData::ID] = $this->getId();
-        $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
+        $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)

@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model;
 
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -41,7 +41,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerMetadataService'
         );
         $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'metadataService' => $customerMetadataService
             ]
@@ -66,7 +66,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerMetadataService'
         );
         $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'metadataService' => $customerMetadataService
             ]
@@ -94,8 +94,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomerGroupFromCustomer()
     {
         /** Preconditions */
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $customerGroupId = 3;
         $customerData = $customerBuilder->setId(1)->setGroupId($customerGroupId)->create();
         /** @var \Magento\Sales\Model\Quote $quote */

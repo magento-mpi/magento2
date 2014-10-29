@@ -53,7 +53,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $customerFactory;
 
     /**
-     * @var Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     private $customerBuilder;
 
@@ -144,7 +144,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder
@@ -167,7 +167,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         Data\CustomerDetailsBuilder $customerDetailsBuilder,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder,

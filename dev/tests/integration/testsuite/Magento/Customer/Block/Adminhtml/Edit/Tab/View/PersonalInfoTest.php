@@ -11,7 +11,7 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -27,7 +27,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Framework\Registry */
     private $_coreRegistry;
 
-    /** @var  CustomerBuilder */
+    /** @var  CustomerDataBuilder */
     private $_customerBuilder;
 
     /** @var  CustomerAccountServiceInterface */
@@ -60,7 +60,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
             array('storeManager' => $this->_storeManager)
         );
 
-        $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
         $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_customerAccountService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'

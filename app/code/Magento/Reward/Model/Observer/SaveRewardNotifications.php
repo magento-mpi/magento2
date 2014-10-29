@@ -39,7 +39,7 @@ class SaveRewardNotifications
         }
 
         $request = $subject->getEvent()->getRequest();
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customer */
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customer */
         $customerBuilder = $subject->getEvent()->getCustomer();
 
         /*

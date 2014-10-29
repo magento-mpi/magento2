@@ -69,7 +69,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $customer->expects($this->any())->method('getStoreId')->will($this->returnValue(1));
 
         $customerData = array('account' => ['id' => 1, 'store_id' => 1]);
-        $customerBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\CustomerBuilder')
+        $customerBuilder = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerDataBuilder')
             ->setMethods(['populateWithArray', 'create'])
             ->disableOriginalConstructor()
             ->getMock();

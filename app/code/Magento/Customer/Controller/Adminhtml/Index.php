@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -47,7 +47,7 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $_customerFactory = null;
 
-    /** @var  CustomerBuilder */
+    /** @var  CustomerDataBuilder */
     protected $_customerBuilder;
 
     /** @var  CustomerDetailsBuilder */
@@ -94,7 +94,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerAddressServiceInterface $addressService
@@ -113,7 +113,7 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerBuilder $customerBuilder,
+        CustomerDataBuilder $customerBuilder,
         CustomerDetailsBuilder $customerDetailsBuilder,
         AddressBuilder $addressBuilder,
         CustomerAddressServiceInterface $addressService,

@@ -51,7 +51,7 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
 
         /** Update customer */
         $this->customerBuilder->populate($customer);
-        $newCustomerFirstname = 'Tested';
+        $newCustomerFirstname = 'New First Name';
         $this->customerBuilder->setFirstname($newCustomerFirstname);
         $updatedCustomer = $this->customerBuilder->create();
         $this->service->save($updatedCustomer);

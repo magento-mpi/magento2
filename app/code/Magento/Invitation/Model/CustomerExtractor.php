@@ -15,7 +15,7 @@ use Magento\Framework\App\RequestInterface;
 class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
 {
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
      */
     protected $customerBuilder;
 
@@ -31,7 +31,7 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
 
     /**
      * @param Metadata\FormFactory $formFactory
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param CustomerGroupServiceInterface $groupService
      * @param \Magento\Framework\Registry $registry
@@ -39,7 +39,7 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
      */
     public function __construct(
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         CustomerGroupServiceInterface $groupService,
         \Magento\Framework\Registry $registry,

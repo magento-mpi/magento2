@@ -62,7 +62,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $attributes = [];
         $attributesFormCollection = $this->attributeMetadataDataProvider->loadAttributesCollection(
-            self::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             $formCode
         );
         foreach ($attributesFormCollection as $attribute) {
@@ -82,7 +82,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getAttributeMetadata($attributeCode)
     {
         /** @var AbstractAttribute $attribute */
-        $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE_CUSTOMER, $attributeCode);
+        $attribute = $this->attributeMetadataDataProvider->getAttribute(
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+            $attributeCode
+        );
         if ($attribute && ($attributeCode === 'id' || !is_null($attribute->getId()))) {
             $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
             return $attributeMetadata;
@@ -91,7 +94,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
                     'fieldName' => 'entityType',
-                    'fieldValue' => self::ENTITY_TYPE_CUSTOMER,
+                    'fieldValue' => \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                     'field2Name' => 'attributeCode',
                     'field2Value' => $attributeCode,
                 ]
@@ -106,8 +109,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
-            self::ENTITY_TYPE_CUSTOMER,
-            self::ATTRIBUTE_SET_ID_CUSTOMER
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Api\CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
         );
 
         $attributesMetadata = [];

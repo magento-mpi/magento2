@@ -29,7 +29,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer builder
      *
-     * @var CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     private $_customerBuilder;
 
@@ -44,7 +44,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_builder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
     }
 

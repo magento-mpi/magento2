@@ -13,7 +13,7 @@ use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
@@ -76,7 +76,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_websiteMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     private $_customerBuilder;
 
@@ -248,7 +248,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
 
         $this->_customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['metadataService' => $this->_customerMetadataService]
         );
 

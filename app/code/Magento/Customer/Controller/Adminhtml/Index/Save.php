@@ -36,7 +36,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             $customerData = $customerHelper->extractCustomerData(
                 $this->getRequest(),
                 'adminhtml_customer',
-                CustomerMetadata::ENTITY_TYPE_CUSTOMER,
+                \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                 $serviceAttributes,
                 'account'
             );

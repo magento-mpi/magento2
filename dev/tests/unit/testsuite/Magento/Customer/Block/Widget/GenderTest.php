@@ -160,7 +160,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $data = [
             'firstname' => 'John', 'lastname' => 'Doe'
         ];
-        $builder = $this->getMock('\Magento\Customer\Service\V1\Data\CustomerBuilder', [], [], '', false);
+        $builder = $this->getMock('\Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
         $builder->expects($this->any())->method('getData')->will($this->returnValue($data));
         $customerData = new \Magento\Customer\Service\V1\Data\Customer($builder);
 

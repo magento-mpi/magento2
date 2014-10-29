@@ -129,9 +129,9 @@ class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
         $metadataService->expects($this->any())
             ->method('getCustomAttributesMetadata')
             ->will($this->returnValue([]));
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
         $customerBuilder = $objectManager->getObject(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['metadataService' => $metadataService]
         );
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
