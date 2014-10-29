@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model\Product;
 
 
-class TierPrice extends \Magento\Framework\Service\Data\AbstractSimpleObject
+class TierPrice extends \Magento\Framework\Model\AbstractExtensibleModel
     implements \Magento\Catalog\Api\Data\ProductTierPriceInterface
 {
     /**
@@ -20,7 +20,7 @@ class TierPrice extends \Magento\Framework\Service\Data\AbstractSimpleObject
      */
     public function getQty()
     {
-        return $this->_get(self::QTY);
+        return $this->getData(self::QTY);
     }
 
     /**
@@ -30,6 +30,6 @@ class TierPrice extends \Magento\Framework\Service\Data\AbstractSimpleObject
      */
     public function getValue()
     {
-        return $this->_get(self::VALUE);
+        return $this->getData(self::VALUE);
     }
 }

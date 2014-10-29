@@ -249,19 +249,13 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers/websiteId/:websiteId" method="GET">
-        <service class="\Magento\Catalog\Api\ProductTierPriceManagementInterface" method="getList"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers/:qty/price/:price/websiteId/:websiteId" method="POST">
+    <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers/:qty/price/:price" method="POST">
         <service class="\Magento\Catalog\Api\ProductTierPriceManagementInterface" method="add"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers/:qty/websiteId/:websiteId" method="DELETE">
+    <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers/:qty" method="DELETE">
         <service class="\Magento\Catalog\Api\ProductTierPriceManagementInterface" method="remove"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>

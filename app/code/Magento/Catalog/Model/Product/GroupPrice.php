@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model\Product;
 
 
-class GroupPrice extends  \Magento\Framework\Model\AbstractExtensibleModel
+class GroupPrice extends \Magento\Framework\Model\AbstractExtensibleModel
     implements \Magento\Catalog\Api\Data\ProductGroupPriceInterface
 {
     /**

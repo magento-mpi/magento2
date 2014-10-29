@@ -13,7 +13,7 @@ use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 
-class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagementInterface
+class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManagementInterface
 {
     /**
      * @var \Magento\Catalog\Model\ProductRepository
@@ -21,7 +21,7 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
     protected $productRepository;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductTierPriceBuilder
+     * @var \Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder
      */
     protected $priceBuilder;
 
@@ -47,7 +47,7 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
 
     /**
      * @param ProductRepository $productRepository
-     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterfaceBuilder $priceBuilder
+     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder $priceBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
@@ -55,7 +55,7 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
      */
     public function __construct(
         ProductRepository $productRepository,
-        \Magento\Catalog\Api\Data\ProductTierPriceInterfaceBuilder $priceBuilder,
+        \Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder $priceBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
@@ -74,14 +74,14 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function add($productSku, $customerGroupId, $price, $qty, $websiteId = null)
+    public function add($productSku, $customerGroupId, $price, $qty)
     {
         $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
 
         $tierPrices = $product->getData('tier_price');
         $websiteIdentifier = 0;
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
-            $websiteIdentifier = $websiteId;
+            $websiteIdentifier = $this->storeManager->getWebsite()->getId();
         }
         $found = false;
 
@@ -131,12 +131,12 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
     /**
      * {@inheritdoc}
      */
-    public function remove($productSku, $customerGroupId, $qty, $websiteId = null)
+    public function remove($productSku, $customerGroupId, $qty)
     {
         $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
         $websiteIdentifier = 0;
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
-            $websiteIdentifier = $websiteId;
+            $websiteIdentifier = $this->storeManager->getWebsite()->getId();
         }
         $this->priceModifier->removeTierPrice($product, $customerGroupId, $qty, $websiteIdentifier);
         return true;
@@ -145,7 +145,7 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
     /**
      * {@inheritdoc}
      */
-    public function getList($productSku, $customerGroupId, $websiteId = null)
+    public function getList($productSku, $customerGroupId)
     {
         $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
 
@@ -156,9 +156,6 @@ class TierPriceManager implements \Magento\Catalog\Api\ProductTierPriceManagemen
 
         $prices = array();
         foreach ($product->getData('tier_price') as $price) {
-            if (isset($websiteId) && $price['website_id'] != $websiteId) {
-                break;
-            }
             if ((is_numeric($customerGroupId) && intval($price['cust_group']) === intval($customerGroupId))
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
