@@ -14,6 +14,7 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\Config\MetadataConfig;
 use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Customer\Api\AddressMetadataInterface;
 
 /**
  * Service to fetch customer address related custom attributes
@@ -62,7 +63,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     {
         $attributes = [];
         $attributesFormCollection = $this->attributeMetadataDataProvider->loadAttributesCollection(
-            self::ENTITY_TYPE_ADDRESS,
+            AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
             $formCode
         );
         foreach ($attributesFormCollection as $attribute) {
@@ -81,7 +82,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     public function getAttributeMetadata($attributeCode)
     {
         /** @var AbstractAttribute $attribute */
-        $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE_ADDRESS, $attributeCode);
+        $attribute = $this->attributeMetadataDataProvider->getAttribute(AddressMetadataInterface::ENTITY_TYPE_ADDRESS, $attributeCode);
         if ($attribute && ($attributeCode === 'id' || !is_null($attribute->getId()))) {
             $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
             return $attributeMetadata;
@@ -90,7 +91,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
                 NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
                     'fieldName' => 'entityType',
-                    'fieldValue' => self::ENTITY_TYPE_ADDRESS,
+                    'fieldValue' => AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
                     'field2Name' => 'attributeCode',
                     'field2Value' => $attributeCode,
                 ]
@@ -105,8 +106,8 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     {
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
-            self::ENTITY_TYPE_ADDRESS,
-            self::ATTRIBUTE_SET_ID_ADDRESS
+            AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
+            AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS
         );
 
         $allAttributesMetadata = [];
@@ -125,7 +126,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME)
+    public function getCustomAttributesMetadata($dataObjectClassName = AddressMetadataInterface::DATA_OBJECT_CLASS_NAME)
     {
         $customAttributes = [];
         if (!$this->addressDataObjectMethods) {

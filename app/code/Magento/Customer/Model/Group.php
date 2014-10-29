@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Api\Data\GroupDataBuilder;
+
 /**
  * Customer group model
  *
@@ -49,7 +51,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $_storesConfig;
 
     /**
-     * @var \Magento\Customer\Model\Data\GroupBuilder
+     * @var GroupDataBuilder
      */
     protected $groupBuilder;
 
@@ -70,7 +72,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Store\Model\StoresConfig $storesConfig
-     * @param \Magento\Customer\Model\Data\GroupBuilder $groupBuilder
+     * @param GroupDataBuilder $groupBuilder
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Tax\Model\ClassModelFactory $classModelFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -82,7 +84,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
         \Magento\Store\Model\StoresConfig $storesConfig,
-        \Magento\Customer\Model\Data\GroupBuilder $groupBuilder,
+        GroupDataBuilder $groupBuilder,
         \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
         \Magento\Tax\Model\ClassModelFactory $classModelFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

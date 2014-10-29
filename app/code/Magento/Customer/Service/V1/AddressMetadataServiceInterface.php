@@ -13,9 +13,9 @@ namespace Magento\Customer\Service\V1;
  */
 interface AddressMetadataServiceInterface extends MetadataServiceInterface
 {
-    const ATTRIBUTE_SET_ID_ADDRESS = 2;
+    //const ATTRIBUTE_SET_ID_ADDRESS = 2;
 
-    const ENTITY_TYPE_ADDRESS = 'customer_address';
+    //const ENTITY_TYPE_ADDRESS = 'customer_address';
 
-    const DATA_OBJECT_CLASS_NAME = 'Magento\Customer\Service\V1\Data\Address';
+    //const DATA_OBJECT_CLASS_NAME = 'Magento\Customer\Service\V1\Data\Address';
 }

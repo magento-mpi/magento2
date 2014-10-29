@@ -8,8 +8,6 @@
 namespace Magento\Sales\Model\AdminOrder;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
@@ -1232,7 +1230,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $data = isset($data['region']) && is_array($data['region']) ? array_merge($data, $data['region']) : $data;
 
         $addressForm = $this->_metadataFormFactory->create(
-            AddressMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
+            \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
             'adminhtml_customer_address',
             $data,
             $isAjax,

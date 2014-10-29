@@ -16,7 +16,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     protected $groupModel;
 
     /**
-     * @var \Magento\Customer\Model\Data\GroupBuilder
+     * @var \Magento\Customer\Api\Data\GroupDataBuilder
      */
     protected $groupBuilder;
 
@@ -26,7 +26,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\Group'
         );
         $this->groupBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Model\Data\GroupBuilder'
+            'Magento\Customer\Api\Data\GroupDataBuilder'
         );
     }
 

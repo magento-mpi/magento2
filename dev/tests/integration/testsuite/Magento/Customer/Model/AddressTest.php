@@ -16,7 +16,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $addressModel;
 
     /**
-     * @var \Magento\Customer\Model\Data\AddressBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $addressBuilder;
 
@@ -26,7 +26,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\Address'
         );
         $this->addressBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Model\Data\AddressBuilder'
+            'Magento\Customer\Api\Data\AddressDataBuilder'
         );
     }
 

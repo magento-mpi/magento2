@@ -7,9 +7,10 @@
  */
 namespace Magento\Customer\Model;
 
-use \Magento\Customer\Model\Data\Address as AddressData;
-use \Magento\Customer\Model\Data\Region as RegionData;
+use Magento\Customer\Model\Data\Address as AddressData;
+use Magento\Customer\Model\Data\Region as RegionData;
 use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\Data\AddressDataBuilder;
 
 /**
  * Customer address model
@@ -37,7 +38,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressMetadataService;
 
     /**
-     * @var Data\AddressBuilder
+     * @var AddressDataBuilder
      */
     protected $_addressBuilder;
 
@@ -56,7 +57,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param CustomerFactory $customerFactory
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
-     * @param \Magento\Customer\Model\Data\AddressBuilder $addressBuilder
+     * @param AddressDataBuilder $addressBuilder
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -72,7 +73,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Model\CountryFactory $countryFactory,
         CustomerFactory $customerFactory,
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
-        \Magento\Customer\Model\Data\AddressBuilder $addressBuilder,
+        AddressDataBuilder $addressBuilder,
         \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
