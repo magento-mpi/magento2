@@ -183,7 +183,7 @@
         <var name="new_products_images_only_widget:ratio">1</var>
         <var name="new_products_images_only_widget:height">78</var>
 
-        <var name="cart_page_product_thumbnail:type">thumbnail</var>
+        <var name="cart_page_product_thumbnail:type">small_image</var>
         <var name="cart_page_product_thumbnail:width">165</var>
         <var name="cart_page_product_thumbnail:ratio">1</var>
         <var name="cart_page_product_thumbnail:height">165</var>
