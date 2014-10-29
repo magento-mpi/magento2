@@ -25,7 +25,8 @@ define([
 
     $.widget('mage.priceBox',{
         options: globalOptions,
-        _create: initPriceBox
+        _create: initPriceBox,
+        updatePrice: updatePrice
     });
 
     return $.mage.priceBox;
@@ -47,8 +48,56 @@ define([
         var boxTemplate = this.boxTemplate = hbs(this.options.boxTemplate);
         var priceFormat = this.options.priceConfig.priceFormat;
 
-        box.on('updatePrice', updatePrice.bind(this));
-        box.on('reloadPrice', reloadPrice.bind(this));
+        box.on('updatePrice', onUpdatePrice.bind(this)).trigger('updatePrice');
+        box.on('reloadPrice', reloadPrice.bind(this)).trigger('reloadPrice');
+
+        _.each(prices, function(price, priceCode){
+            var html,
+                finalPrice = price.amount;
+            _.each(price.adjustments, function(taxAmount){
+                finalPrice += taxAmount;
+            });
+
+            prices[priceCode]['final'] = finalPrice;
+            prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
+            html = priceTemplate(prices[priceCode]);
+
+//            $('[data-product-id=' + productId + '] > [data-price-' + priceCode + ']').html(html);
+//            $('[data-price-' + priceCode + ']', box).html(html);
+        });
+    }
+
+    /**
+     * Call on event updatePrice. Proxy to updatePrice method.
+     * @param {Event} event
+     * @param {Object} prices
+     * @param {Boolean} isReplace
+     * @return {Function}
+     */
+    function onUpdatePrice (event, prices, isReplace) {
+        return updatePrice.call(this, prices, isReplace);
+    }
+
+    /**
+     * Updates price via new (or additional values)
+     * @param {Object} newPrices
+     * @param {Boolean} isReplace
+     */
+    function updatePrice(newPrices, isReplace) {
+        var prices = this.options.prices;
+        if(!!isReplace) {
+            $.extend(true, prices, newPrices);
+        } else {
+            _.map(newPrices, function(priceValue, priceCode){
+                var origin = this.initialPrices[priceCode];
+                var option = newPrices[priceCode];
+                var final = prices[priceCode];
+                final.amount = 0 + origin.amount + (option.amount || 0);
+                _.map(option.adjustments, function(pa, paCode){
+                    final.adjustments[paCode] = 0 + origin.adjustments[paCode] + (option.adjustments[paCode] || 0);
+                });
+            }.bind(this));
+        }
 
         if(prices.special) {
             prices.final = prices.special;
@@ -56,34 +105,10 @@ define([
             prices.final = prices.regular;
         }
 
-
-        _.each(prices, function(price, priceCode){
-            var finalPrice = price.amount;
-            _.each(price.adjustments, function(taxAmount){
-                finalPrice += taxAmount;
-            });
-            var formatted = prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
-            var html = priceTemplate({'formatted': formatted});
-//            $('[data-product-id=' + productId + '] > [data-price-' + priceCode + ']').html(html);
-//            $('[data-price-' + priceCode + ']', box).html(html);
-        });
-    }
-
-    /**
-     * Updates price via new (or additional values)
-     * @param {Object} prices
-     * @param {Boolean} toReplace
-     */
-    function updatePrice(prices, toReplace) {
-        if(!!toReplace) {
-            this.options.prices = prices;
-        } else {
-            _.extend(this.options.prices, prices);
-        }
     }
 
     function reloadPrice() {
-
+        console.log('reloadPrice:   ', this, arguments);
     }
 
 
