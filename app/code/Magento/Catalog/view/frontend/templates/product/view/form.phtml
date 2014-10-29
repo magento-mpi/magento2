@@ -19,10 +19,13 @@
 require([
     "jquery",
     "mage/mage",
-    'Magento_Catalog/js/price-box'
+    'Magento_Catalog/js/price-box',
+    'Magento_Catalog/js/price-options'
 ], function($){
     $(document).ready(function() {
-        $('#product_addtocart_form').mage('priceOption', {"priceConfig":<?php echo $this->getJsonConfig() ?>});
+        $('#product_addtocart_form')
+            .mage('priceOption', {"priceConfig":<?php echo $this->getJsonConfig() ?>})
+            .priceOptions({"priceConfig":<?php echo $this->getJsonConfig() ?>});
         $('.price-box').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
     });
 });

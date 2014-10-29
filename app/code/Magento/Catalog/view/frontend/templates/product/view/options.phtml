@@ -12,14 +12,21 @@
 <?php if (count($_options)):?>
     <script type="text/javascript">
 require([
-    "jquery",
-    "mage/mage"
+    'jquery',
+    'mage/mage',
+    'Magento_Catalog/js/price-options'
 ], function($){
 
-    $('#product_addtocart_form').mage('priceOption', {
-        'optionConfig':<?php echo $this->getJsonConfig()?>,
-        'controlContainer': '.field'
-    }).trigger('reloadPrice');
+    $('#product_addtocart_form')
+        .mage('priceOption', {
+            'optionConfig':<?php echo $this->getJsonConfig()?>,
+            'controlContainer': '.field'
+        })
+        .priceOptions({
+            'optionConfig':<?php echo $this->getJsonConfig()?>,
+            'controlContainer': '.field'
+        })
+        .trigger('reloadPrice');
     
 });
 </script>

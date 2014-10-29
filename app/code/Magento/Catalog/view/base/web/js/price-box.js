@@ -27,7 +27,8 @@ define([
     $.widget('mage.priceBox',{
         options: globalOptions,
         _create: initPriceBox,
-        updatePrice: updatePrice
+        updatePrice: updatePrice,
+        reloadPrice: reloadPrice
     });
 
     return $.mage.priceBox;
@@ -45,27 +46,10 @@ define([
         var prices = this.options.prices || {};
         var initial = this.initialPrices = utils.deepClone(this.options.prices);
 
-        var priceTemplate = this.priceTemplate = hbs(this.options.priceTemplate);
-        var boxTemplate = this.boxTemplate = hbs(this.options.boxTemplate);
-        var priceFormat = this.options.priceConfig.priceFormat;
-
         box.on('updatePrice', onUpdatePrice.bind(this)).trigger('updatePrice');
         box.on('reloadPrice', reloadPrice.bind(this)).trigger('reloadPrice');
 
-        _.each(prices, function(price, priceCode){
-            var html,
-                finalPrice = price.amount;
-            _.each(price.adjustments, function(taxAmount){
-                finalPrice += taxAmount;
-            });
 
-            prices[priceCode]['final'] = finalPrice;
-            prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
-            html = priceTemplate(prices[priceCode]);
-
-//            $('[data-product-id=' + productId + '] > [data-price-' + priceCode + ']').html(html);
-//            $('[data-price-' + priceCode + ']', box).html(html);
-        });
     }
 
     /**
@@ -100,16 +84,37 @@ define([
             }.bind(this));
         }
 
+        this.element.trigger('reloadPrice');
+    }
+
+    function reloadPrice() {
+        var prices = this.options.prices;
+        var priceFormat = this.options.priceConfig.priceFormat;
+
+        var priceTemplate = this.priceTemplate = hbs(this.options.priceTemplate);
+        var boxTemplate = this.boxTemplate = hbs(this.options.boxTemplate);
+
+        _.each(prices, function(price, priceCode){
+            var html,
+                finalPrice = price.amount;
+            _.each(price.adjustments, function(adjustmentAmount){
+                finalPrice += adjustmentAmount;
+            });
+
+            prices[priceCode]['final'] = finalPrice;
+            prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
+            html = priceTemplate(prices[priceCode]);
+
+//            $('[data-product-id=' + productId + '] > [data-price-' + priceCode + ']').html(html);
+//            $('[data-price-' + priceCode + ']', box).html(html);
+            console.log('To render ', priceCode,': ', finalPrice, prices[priceCode]['formatted']);
+        });
+
         if(prices.special) {
             prices.final = prices.special;
         } else if(prices.regular) {
             prices.final = prices.regular;
         }
-
-    }
-
-    function reloadPrice() {
-        console.log('reloadPrice:   ', this, arguments);
     }
 
 
@@ -126,7 +131,6 @@ define([
             if(+config.productId !== +this.options.productId) {
                 return;
             }
-            console.log('Config:    ', config);
             if(config.inclTaxPrice === config.productOldPrice) {
                 this.options.prices['regular'] = {
                     'amount': config.productOldPrice * (1 - config.currentTax / 100),
