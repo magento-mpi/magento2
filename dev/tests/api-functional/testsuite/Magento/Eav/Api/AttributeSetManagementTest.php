@@ -8,7 +8,8 @@
 namespace Magento\Eav\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+    Magento\Webapi\Model\Rest\Config as RestConfig,
+    Magento\TestFramework\Helper\Bootstrap;
 
 class AttributeSetManagementTest extends WebapiAbstract
 {
@@ -58,7 +59,6 @@ class AttributeSetManagementTest extends WebapiAbstract
 
         // Clean up database
         $attributeSet->delete();
-
     }
 
     /**
@@ -195,7 +195,7 @@ class AttributeSetManagementTest extends WebapiAbstract
      */
     protected function getAttributeSetByName($attributeSetName)
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
         $attributeSet = $objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
             ->load($attributeSetName, 'attribute_set_name');
