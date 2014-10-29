@@ -16,6 +16,27 @@ use Magento\Framework\Api\Data\ExtensibleDataInterface;
  */
 interface AddressInterface extends ExtensibleDataInterface
 {
+    /**#@+
+     * Constants for keys of data array
+     */
+    const ID = 'id';
+    const CUSTOMER_ID = 'customer_id';
+    const REGION = 'region';
+    const COUNTRY_ID = 'country_id';
+    const STREET = 'street';
+    const COMPANY = 'company';
+    const TELEPHONE = 'telephone';
+    const FAX = 'fax';
+    const POSTCODE = 'postcode';
+    const CITY = 'city';
+    const FIRSTNAME = 'firstname';
+    const LASTNAME = 'lastname';
+    const MIDDLENAME = 'middlename';
+    const PREFIX = 'prefix';
+    const SUFFIX = 'suffix';
+    const VAT_ID = 'vat_id';
+    /**#@-*/
+
     /**
      * Get ID
      *

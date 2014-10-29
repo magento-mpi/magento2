@@ -9,6 +9,7 @@
 namespace Magento\Customer\Controller\Address;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Customer\Api\Data\RegionInterface;
 
 class FormPost extends \Magento\Customer\Controller\Address
 {
@@ -39,9 +40,9 @@ class FormPost extends \Magento\Customer\Controller\Address
         $attributeValues = $addressForm->compactData($addressData);
 
         $region = [
-            'region_id' => $attributeValues['region_id'],
-            'region' => $attributeValues['region'],
-            'region_code' => $attributeValues['region_code']
+            RegionInterface::REGION_ID => $attributeValues['region_id'],
+            RegionInterface::REGION => $attributeValues['region'],
+            RegionInterface::REGION_CODE => $attributeValues['region_code']
         ];
         unset($attributeValues['region'], $attributeValues['region_id']);
         $attributeValues['region'] = $region;
