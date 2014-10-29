@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Framework\Module\Setup */
+
+/** @var $installer \Magento\Enterprise\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -74,7 +75,7 @@ $map = array(
 $tableName = $installer->getTable('authorization_rule');
 
 if ($tableName) {
-    /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
+    /** @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
     $connection = $installer->getConnection();
 
     $select = $connection->select();

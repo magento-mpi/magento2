@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Install\Model\Resource;
+namespace Magento\Framework\Module;
 
 /**
  * Resource Resource Model
