@@ -48,13 +48,19 @@ class AttributeSetManagement implements AttributeSetManagementInterface
         if ($skeletonId == 0) {
             throw InputException::invalidFieldValue('skeletonId', $skeletonId);
         }
-        $attributeSet->setEntityTypeId($this->eavConfig->getEntityType($entityTypeCode)->getId());
-        $attributeSet->validate();
-        $this->repository->save($attributeSet);
-
         // Make sure that skeleton attribute set is valid (try to load it)
         $this->repository->get($skeletonId);
+
+        try {
+            $attributeSet->setEntityTypeId($this->eavConfig->getEntityType($entityTypeCode)->getId());
+            $attributeSet->validate();
+        } catch (\Exception $exception) {
+            throw new InputException($exception->getMessage());
+        }
+
+        $this->repository->save($attributeSet);
         $attributeSet->initFromSkeleton($skeletonId);
+
         return $this->repository->save($attributeSet);
     }
 }
