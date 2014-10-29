@@ -21,7 +21,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $rmaItems = '.returns.items';
+    protected $rmaItems = '.block-returns-items';
 
     /**
      * Get rma items.

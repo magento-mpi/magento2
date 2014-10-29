@@ -20,8 +20,8 @@
             <strategy>css selector</strategy>
         </gridPageActions>
         <rmaGrid>
-            <class>Magento\Rma\Test\Block\Adminhtml\Rma\RmaGrid</class>
-            <locator>[id="page:main-container"]</locator>
+            <class>Magento\Rma\Test\Block\Adminhtml\Rma\Grid</class>
+            <locator>#rmaGrid</locator>
             <strategy>css selector</strategy>
         </rmaGrid>
     </blocks>

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab;
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab;
 
 use Magento\Bundle\Test\Fixture\BundleProduct;
 

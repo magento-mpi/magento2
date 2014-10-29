@@ -48,7 +48,7 @@ class OrderId implements FixtureInterface
     {
         $this->params = $params;
 
-        $preset =  isset($data['preset']) ? $data['preset'] : '';
+        $preset = isset($data['preset']) ? $data['preset'] : '';
         $data =  isset($data['data']) ? $data['data'] : [];
         if ($data) {
             $this->order = $fixtureFactory->createByCode(

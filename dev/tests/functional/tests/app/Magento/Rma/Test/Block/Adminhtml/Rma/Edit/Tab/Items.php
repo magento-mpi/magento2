@@ -7,8 +7,8 @@
  */
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Rma\Test\Fixture\ReturnItem;
 
 /**
  * Return Items block.
@@ -16,143 +16,117 @@ use Magento\Rma\Test\Fixture\ReturnItem;
 class Items extends \Magento\Backend\Test\Block\Widget\Tab
 {
     /**
-     * Row containing product name.
+     * Locator for item row in grid.
      *
      * @var string
      */
-    protected $productRow = "//tr[contains(normalize-space(td/text()),'%s')]";
+    protected $rowItem = './/*[@id="magento_rma_item_edit_grid_table"]/tbody/tr';
 
     /**
-     * Product name field.
+     * Locator for search item row by name.
      *
      * @var string
      */
-    protected $productNameField = "//td[contains(@class, 'col-product col-product_admin_name')]";
+    protected $rowItemByName = "//tr[contains(normalize-space(td/text()),'%s')]";
 
     /**
-     * Status Field.
+     * Fill data to fields on tab.
      *
-     * @var string
+     * @param array $fields
+     * @param Element|null $element
+     * @return $this
      */
-    protected $statusField = "//select[contains(@name,'status')]";
-
-    /**
-     * Product fields.
-     *
-     * @var array
-     */
-    protected $productField = [
-        'quantity' => "//td[contains(@class, 'col-qty col-qty_requested')]",
-        'reason' => "//td[contains(@class, 'col-reason col-reason')]",
-        'condition' => "//td[contains(@class, 'col-condition col-condition')]",
-        'resolution' => "//td[contains(@class, 'col-resolution col-resolution')]"
-    ];
-
-    /**
-     * Product actions.
-     *
-     * @var array
-     */
-    protected $productActions = [
-        'AUTHORIZE_QTY' => 'AUTHORIZE_QTY',
-        'RETURN_QTY' => 'RETURN_QTY',
-        'APPROVE_QTY' => 'APPROVE_QTY'
-    ];
-
-    /**
-     * Product quantity fields.
-     *
-     * @var array
-     */
-    protected $productQuantities = [
-        'AUTHORIZE_QTY' => "//input[contains(@name,'qty_authorized')]",
-        'RETURN_QTY' => "//input[contains(@name,'qty_returned')]",
-        'APPROVE_QTY' => "//input[contains(@name,'qty_approved')]"
-    ];
-
-    /**
-     * Product status values.
-     *
-     * @var array
-     */
-    protected $productStatus = [
-        'AUTHORIZE_QTY' => 'Authorize',
-        'RETURN_QTY' => 'Return Received',
-        'APPROVE_QTY' => 'Approved'
-    ];
-
-    /**
-     * Filters array mapping.
-     *
-     * @var array
-     */
-    protected $filters = [
-        'id' => [
-            'selector' => '#order_rma_filter_increment_id_to'
-        ],
-    ];
-
-    /**
-     * Fill form fields.
-     *
-     * @param ReturnItem $returnItemFixture
-     * @param string $fillFields
-     * @return null
-     */
-    public function fillCustom($returnItemFixture, $fillFields)
+    public function fillFormTab(array $fields, Element $element = null)
     {
-        $products = $returnItemFixture->getProductNames();
-        foreach ($products as $product) {
-            $quantity = $returnItemFixture->getQuantity();
-            if (isset($this->productActions[$fillFields])) {
-                $quantitySearchString = $this->productRow . $this->productQuantities[$fillFields];
-                $status = $this->productStatus[$fillFields];
-            } else {
-                return null;
+        $items = isset($fields['items']['value']) ? $fields['items']['value'] : [];
+        $context = $element ? $element : $this->_rootElement;
+
+        foreach ($items as $item) {
+            $item = $this->dataMapping($item);
+            $this->fillItemRow($item, $context);
+        }
+
+        $this->setFields['items'] = $fields['items']['value'];
+        return $this;
+    }
+
+    /**
+     * Fill data to item row.
+     *
+     * @param array $fields
+     * @param Element $context
+     * @return void
+     */
+    protected function fillItemRow(array $fields, Element $context)
+    {
+        $itemRow = $context->find(sprintf($this->rowItemByName, $fields['product']['value']), Locator::SELECTOR_XPATH);
+
+        foreach ($fields as $field) {
+            $elementType = isset($field['input']) ? $field['input'] : 'input';
+            $element = $itemRow->find(
+                $field['selector']. ' ' . $elementType,
+                $field['strategy'],
+                $field['input']
+            );
+
+            if ($element->isVisible()) {
+                $element->setValue($field['value']);
             }
-            $quantitySearchString = sprintf($quantitySearchString, $product);
-            $statusSearchString = $this->productRow . $this->statusField;
-            $statusSearchString = sprintf($statusSearchString, $product);
-            $this->_rootElement->find($quantitySearchString, Locator::SELECTOR_XPATH)->setValue($quantity);
-            $this->_rootElement->find($statusSearchString, Locator::SELECTOR_XPATH, 'select')->setValue($status);
         }
     }
 
     /**
-     * Checks if all products from the order are in the return grid.
+     * Get data of tab.
      *
-     * @param array $products
-     * @param ReturnItem $returnItem
-     * @return bool
-     * @throws \Exception
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
      */
-    public function assertProducts($products, $returnItem)
+    public function getDataFormTab($fields = null, Element $element = null)
     {
-        $result = true;
-        foreach ($products as $product) {
-            $productName = $product->getName();
+        if (null === $fields || isset($fields['items'])) {
+            $mapping = $this->dataMapping();
+            $data = [];
 
-            $productSearchString = $this->productRow . $this->productNameField;
-            $productSearchString = sprintf($productSearchString, $productName);
-            $gridProductName = $this->_rootElement->find($productSearchString, Locator::SELECTOR_XPATH)->getText();
-            if (strpos($gridProductName, $productName) === false) {
-                $result = false;
+            $rows = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_XPATH)->getElements();
+            foreach ($rows as $row) {
+                $data[] = $this->getItemRowData($mapping, $row);
             }
 
-            $returnItemFields = $returnItem->getData('fields');
-
-            foreach ($returnItemFields as $returnItemField => $returnItemValue) {
-                if (isset($this->productField[$returnItemField])) {
-                    $searchString = sprintf($this->productRow . $this->productField[$returnItemField], $productName);
-                    $itemValue = $this->_rootElement->find($searchString, Locator::SELECTOR_XPATH)->getText();
-                    if (strpos($itemValue, $returnItemValue) === false) {
-                        $result = false;
-                    }
-                } else {
-                    throw new \Exception('Product not found: ' . $productName);
-                }
-            }
+            return ['items' => $data];
         }
-        return $result;
+        return [];
+    }
+
+    /**
+     * Return item row data.
+     *
+     * @param array $mapping
+     * @param Element $row
+     * @return array
+     */
+    protected function getItemRowData(array $mapping, Element $row)
+    {
+        $data = [];
+
+        foreach ($mapping as $columnName => $locator) {
+            $elementType = isset($locator['input']) ? $locator['input'] : 'input';
+            $element = $row->find(
+                $locator['selector']. ' ' . $elementType,
+                $locator['strategy'],
+                $locator['input']
+            );
+            $value = null;
+
+            if ($element->isVisible()) {
+                $value = $element->getValue();
+            } else {
+                $value = $row->find($locator['selector'], $locator['strategy'])->getText();
+            }
+
+            $data[$columnName] = trim($value);
+        }
+
+        return $data;
     }
 }

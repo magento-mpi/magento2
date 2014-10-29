@@ -14,22 +14,22 @@
     <assertRmaInGrid module="Magento_Rma">
         <severeness>low</severeness>
     </assertRmaInGrid>
-    <assertRmaStatusOnFrontend module="Magento_Rma">
-        <severeness>low</severeness>
-    </assertRmaStatusOnFrontend>
-    <assertRmaStatusOnFrontendForGuest module="Magento_Rma">
-        <severeness>low</severeness>
-    </assertRmaStatusOnFrontendForGuest>
-    <assertRmaItemsOnFrontend module="Magento_Rma">
-        <severeness>high</severeness>
-    </assertRmaItemsOnFrontend>
-    <assertRmaItemsConfigurableOnFrontend module="Magento_Rma">
+    <assertRmaForm module="Magento_Rma">
         <severeness>middle</severeness>
-    </assertRmaItemsConfigurableOnFrontend>
-    <assertRmaItemsBundleOnFrontend module="Magento_Rma">
+    </assertRmaForm>
+    <assertRmaConfigurableForm module="Magento_Rma">
         <severeness>middle</severeness>
-    </assertRmaItemsBundleOnFrontend>
-    <assertRmaItemsOnFrontendForGuest module="Magento_Rma">
+    </assertRmaConfigurableForm>
+    <assertRmaOnFrontend module="Magento_Rma">
         <severeness>high</severeness>
-    </assertRmaItemsOnFrontendForGuest>
+    </assertRmaOnFrontend>
+    <assertRmaBundleOnFrontend module="Magento_Rma">
+        <severeness>middle</severeness>
+    </assertRmaBundleOnFrontend>
+    <assertRmaConfigurableOnFrontend module="Magento_Rma">
+        <severeness>middle</severeness>
+    </assertRmaConfigurableOnFrontend>
+    <assertRmaOnFrontendForGuest module="Magento_Rma">
+        <severeness>high</severeness>
+    </assertRmaOnFrontendForGuest>
 </constraint>

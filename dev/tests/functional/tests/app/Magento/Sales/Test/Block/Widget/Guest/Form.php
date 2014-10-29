@@ -32,21 +32,27 @@ class Form extends \Mtf\Block\Form
      *
      * @param FixtureInterface $fixture
      * @param Element|null $element
+     * @param bool $isSearchByEmail [optional]
      * @return $this
      */
-    public function fill(FixtureInterface $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null, $isSearchByEmail = true)
     {
         if ($fixture instanceof InjectableFixture) {
             /** @var OrderInjectable $fixture */
             /** @var CustomerInjectable $customer */
             $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomer();
-
             $data = [
                 'order_id' => $fixture->getId(),
                 'billing_last_name' => $customer->getLastname(),
-                'find_order_by' => 'Email Address',
-                'email_address' => $customer->getEmail(),
             ];
+
+            if ($isSearchByEmail) {
+                $data['find_order_by'] = 'Email Address';
+                $data['email_address'] = $customer->getEmail();
+            } else {
+                $data['find_order_by'] = 'ZIP Code';
+                $data['billing_zip_code'] = $fixture->getDataFieldConfig('billing_address_id')['source']->getPostcode();
+            }
         } else {
             $data = $fixture->getData();
         }

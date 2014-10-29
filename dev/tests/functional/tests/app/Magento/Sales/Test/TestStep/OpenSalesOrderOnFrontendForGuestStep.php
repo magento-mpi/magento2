@@ -12,12 +12,20 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Sales\Test\Page\SalesGuestForm;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
- * Open sales view page on frontend for guest.
+ * Open sales order page on frontend for guest.
  */
-class OpenSalesViewOnFrontendForGuest implements TestStepInterface
+class OpenSalesOrderOnFrontendForGuestStep implements TestStepInterface
 {
+    /**
+     * Customer log out page.
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
     /**
      * Cms index page.
      *
@@ -41,12 +49,18 @@ class OpenSalesViewOnFrontendForGuest implements TestStepInterface
 
     /**
      * @constructor
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param CmsIndex $cmsIndex
      * @param SalesGuestForm $salesGuestForm
      * @param OrderInjectable $order
      */
-    public function __construct(CmsIndex $cmsIndex, SalesGuestForm $salesGuestForm, OrderInjectable $order)
-    {
+    public function __construct(
+        CustomerAccountLogout $customerAccountLogout,
+        CmsIndex $cmsIndex,
+        SalesGuestForm $salesGuestForm,
+        OrderInjectable $order
+    ) {
+        $this->customerAccountLogout = $customerAccountLogout;
         $this->cmsIndex = $cmsIndex;
         $this->salesGuestForm = $salesGuestForm;
         $this->order = $order;
@@ -59,7 +73,7 @@ class OpenSalesViewOnFrontendForGuest implements TestStepInterface
      */
     public function run()
     {
-        $this->cmsIndex->open();
+        $this->customerAccountLogout->open();
         $this->cmsIndex->getFooterBlock()->clickLink('Orders and Returns');
         $this->salesGuestForm->getSearchForm()->fill($this->order);
         $this->salesGuestForm->getSearchForm()->submit();

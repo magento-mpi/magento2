@@ -30,11 +30,11 @@
         </fields>
     </general>
     <items>
-        <class>\Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items</class>
+        <class>\Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items</class>
         <selector>#rma_info_tabs_items_section</selector>
         <strategy>css selector</strategy>
         <fields>
-            <items/>
+            <items />
         </fields>
     </items>
 </tabs>

@@ -14,7 +14,7 @@ use Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items;
 /**
  * Rma tabs on view page.
  */
-class RmaForm extends FormTabs
+class Edit extends FormTabs
 {
     /**
      * Locator for rma items grid.

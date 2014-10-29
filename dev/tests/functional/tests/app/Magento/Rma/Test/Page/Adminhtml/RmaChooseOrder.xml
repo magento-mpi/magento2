@@ -11,7 +11,7 @@
     <blocks>
         <orderGrid>
             <class>Magento\Rma\Test\Block\Adminhtml\Rma\Create\Order\Grid</class>
-            <locator>[id="page:main-container"]</locator>
+            <locator>#magento_rma_rma_create_order_grid</locator>
             <strategy>css selector</strategy>
         </orderGrid>
     </blocks>

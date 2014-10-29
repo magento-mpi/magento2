@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
  
-namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order;
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -38,7 +38,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
         /** @var CatalogProductSimple $product */
         $productConfig = $product->getDataConfig();
         $productType = isset($productConfig['type_id']) ? ucfirst($productConfig['type_id']) : '';
-        $productGridClass = 'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\\' . $productType . 'Grid';
+        $productGridClass = 'Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\\' . $productType . 'Grid';
 
         if (class_exists($productGridClass)) {
             $productGrid = $this->blockFactory->create($productGridClass, ['element' => $this->_rootElement]);

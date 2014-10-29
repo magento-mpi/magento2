@@ -20,7 +20,7 @@
             <strategy>css selector</strategy>
         </pageActions>
         <rmaForm>
-            <class>Magento\Rma\Test\Block\Adminhtml\Rma\RmaForm</class>
+            <class>Magento\Rma\Test\Block\Adminhtml\Rma\Edit</class>
             <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
         </rmaForm>

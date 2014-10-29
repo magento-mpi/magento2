@@ -6,27 +6,36 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Constraint;
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 use Mtf\Fixture\FixtureInterface;
-use Magento\Rma\Test\Fixture\Rma;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
- * Assert customer can vew return request on Frontend and verify.
+ * Grid for choose order item(configurable product).
  */
-class AssertRmaItemsConfigurableOnFrontend extends AssertRmaItemsOnFrontend
+class ConfigurableGrid extends Grid
 {
     /**
-     * Prepare product sku.
+     * Select order item.
      *
      * @param FixtureInterface $product
+     * @return void
+     */
+    public function selectItem(FixtureInterface $product)
+    {
+        $this->searchAndSelect(['sku' => $this->prepareSku($product)]);
+    }
+
+    /**
+     * Prepare configurable product sku.
+     *
+     * @param ConfigurableProductInjectable $product
      * @return string
      */
-    public function prepareProductSku(FixtureInterface $product)
+    public function prepareSku(ConfigurableProductInjectable $product)
     {
-        /** @var ConfigurableProductInjectable $product */
         $checkoutData = $product->getCheckoutData();
         $checkoutOptions = isset($checkoutData['options']['configurable_options'])
             ? $checkoutData['options']['configurable_options']

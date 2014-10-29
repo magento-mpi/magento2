@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order;
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 use Mtf\Client\Element\Locator;
 use Magento\Rma\Test\Block\Adminhtml\Product\Bundle\Items as BundleItems;

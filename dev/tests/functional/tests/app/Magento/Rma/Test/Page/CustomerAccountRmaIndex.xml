@@ -11,7 +11,7 @@
     <blocks>
         <rmaHistory>
             <class>Magento\Rma\Test\Block\Returns\History</class>
-            <locator>.column.main</locator>
+            <locator>#my-returns-table</locator>
             <strategy>css selector</strategy>
         </rmaHistory>
     </blocks>

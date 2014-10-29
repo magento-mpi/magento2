@@ -8,28 +8,10 @@
 
 namespace Magento\Rma\Test\Block\Returns;
 
-use Mtf\Client\Element\Locator;
-
 /**
  * Returns of order view block.
  */
 class Returns extends History
 {
-    /**
-     * Row selector.
-     *
-     * @var string
-     */
-    protected $rowSelector = '//td[contains(text(), "%s")]';
-
-    /**
-     * Verify specific return.
-     *
-     * @param int $returnId
-     * @return bool
-     */
-    public function isRowVisible($returnId)
-    {
-        return $this->_rootElement->find(sprintf($this->rowSelector, $returnId), Locator::SELECTOR_XPATH)->isVisible();
-    }
+    //
 }

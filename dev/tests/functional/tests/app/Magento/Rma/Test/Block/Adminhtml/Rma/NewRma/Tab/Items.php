@@ -6,13 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab;
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\Grid as OrderItemsGrid;
-use Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Grid as ItemsGrid;
+use Magento\Backend\Test\Block\Template;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Grid as ItemsGrid;
+use Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid as OrderItemsGrid;
 
 /**
  * Items product tab.
@@ -24,21 +25,21 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
      *
      * @var string
      */
-    protected $addProducts = '[title="Add Products"]';
+    protected $addProducts = '#rma-items-block .add';
 
     /**
      * Selector for "Add Selected Product(s) to returns" button.
      *
      * @var string
      */
-    protected $addSelectedProducts = '[title="Add Selected Product(s) to returns"]';
+    protected $addSelectedProducts = '#select-order-items-block .add';
 
     /**
      * Locator item row by name.
      *
      * @var string
      */
-    protected $rowByName = './/tbody/tr[./td[contains(@class,"col-product_name") and contains(.,"%s")]]';
+    protected $rowByName = './/tbody/tr[./td[contains(.,"%s")]]';
 
     /**
      * Locator for order items grid.
@@ -48,25 +49,18 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected $orderItemsGrid = '#select-order-items-block';
 
     /**
-     * Locator for grid loader.
-     *
-     * @var string
-     */
-    protected $gridLoader = './/ancestor::body/div[@class="loading-mask"]';
-
-    /**
-     * Locator for main loader.
-     *
-     * @var string
-     */
-    protected $mainLoader = './/ancestor::body/div[@id="loading-mask"]';
-
-    /**
      * Locator for rma items grid.
      *
      * @var string
      */
     protected $rmaItemsGrid = '#rma_items_grid';
+
+    /**
+     * Locator for template block.
+     *
+     * @var string
+     */
+    protected $templateBlock = './/ancestor::body';
 
     /**
      * Fill data to fields on tab.
@@ -104,7 +98,7 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected function clickAddProducts()
     {
         $this->_rootElement->find($this->addProducts)->click();
-        $this->waitForElementVisible($this->orderItemsGrid);
+        $this->getTemplateBlock()->waitLoader();
     }
 
     /**
@@ -115,8 +109,8 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected function clickAddSelectedProducts()
     {
         $this->_rootElement->find($this->addSelectedProducts)->click();
-        $this->waitForElementNotVisible($this->gridLoader, Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->mainLoader, Locator::SELECTOR_XPATH);
+        $this->getTemplateBlock()->waitLoader();
+        $this->getTemplateBlock()->waitLoader();
     }
 
     /**
@@ -127,7 +121,7 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected function getOrderItemsGrid()
     {
         return $this->blockFactory->create(
-            'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Order\Grid',
+            'Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid',
             ['element' => $this->_rootElement->find($this->orderItemsGrid)]
         );
     }
@@ -140,7 +134,7 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected function getItemsGrid()
     {
         return $this->blockFactory->create(
-            'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\Items\Grid',
+            'Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Grid',
             ['element' => $this->_rootElement->find($this->rmaItemsGrid)]
         );
     }
@@ -157,7 +151,7 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
         $product = $itemData['product'];
         $productConfig = $product->getDataConfig();
         $productType = isset($productConfig['type_id']) ? ucfirst($productConfig['type_id']) : '';
-        $productItemsClass = 'Magento\Rma\Test\Block\Adminhtml\Rma\RmaNew\Tab\\' . $productType . 'Items';
+        $productItemsClass = 'Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\\' . $productType . 'Items';
 
         if (class_exists($productItemsClass)) {
             $productGrid = $this->blockFactory->create($productItemsClass, ['element' => $this->_rootElement]);
@@ -168,5 +162,18 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
             $itemRow = $this->getItemsGrid()->getItemRow($product);
             $this->_fill($fields, $itemRow);
         }
+    }
+
+    /**
+     * Return template block.
+     *
+     * @return Template
+     */
+    protected function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            '\Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock), Locator::SELECTOR_XPATH]
+        );
     }
 }

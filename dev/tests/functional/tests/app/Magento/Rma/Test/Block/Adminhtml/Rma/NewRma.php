@@ -19,7 +19,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Rma new page tabs.
  */
-class RmaNew extends FormTabs
+class NewRma extends FormTabs
 {
     /**
      * Fill form with tabs.

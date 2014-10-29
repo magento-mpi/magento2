@@ -41,7 +41,7 @@ class Items implements FixtureInterface
     {
         $this->params = $params;
 
-        $this->data =  isset($data['presets']) ? $this->getPreset($data['presets']) : [];
+        $this->data = isset($data['presets']) ? $this->getPreset($data['presets']) : [];
         if (isset($data['data'])) {
             $this->data = array_replace_recursive($this->data, $data['data']);
         }
@@ -88,7 +88,16 @@ class Items implements FixtureInterface
      */
     protected function getPreset($name)
     {
-        $presets = [];
+        $presets = [
+            'default' => [
+                [
+                    'qty_requested' => 1,
+                    'reason' => 'Wrong size',
+                    'condition' => 'Damaged',
+                    'resolution' => 'Exchange',
+                ]
+            ]
+        ];
 
         return isset($presets[$name]) ? $presets[$name] : [];
     }

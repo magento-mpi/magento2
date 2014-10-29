@@ -14,9 +14,9 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
- * Assert customer can vew return request on Frontend and verify.
+ * Assert that rma with item as bundle product is correct display on frontend (MyAccount - My Returns).
  */
-class AssertRmaItemsBundleOnFrontend extends AssertRmaItemsOnFrontend
+class AssertRmaBundleOnFrontend extends AssertRmaOnFrontend
 {
     /**
      * Get items of rma.

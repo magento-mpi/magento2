@@ -25,10 +25,7 @@ class Rma extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\Rma\Test\Handler\Rma\RmaInterface';
 
-    protected $defaultDataSet = [
-        'is_active' => null,
-        'date_requested' => null,
-    ];
+    protected $defaultDataSet = [];
 
     protected $entity_id = [
         'attribute_code' => 'entity_id',

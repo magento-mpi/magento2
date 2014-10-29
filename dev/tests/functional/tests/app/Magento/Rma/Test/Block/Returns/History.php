@@ -9,7 +9,9 @@
 namespace Magento\Rma\Test\Block\Returns;
 
 use Mtf\Block\Block;
-use \Magento\Rma\Test\Block\Returns\History\RmaTable;
+use Mtf\Client\Element\Locator;
+use Magento\Rma\Test\Fixture\Rma;
+use Magento\Rma\Test\Block\Returns\History\RmaRow;
 
 /**
  * Rma of order grid block.
@@ -17,22 +19,40 @@ use \Magento\Rma\Test\Block\Returns\History\RmaTable;
 class History extends Block
 {
     /**
-     * Locator for rma table.
+     * Selector for rma row.
      *
      * @var string
      */
-    protected $rmaTable = '.returns';
+    protected $rmaRow = './/tbody/tr[./*[contains(@class,"col id") and normalize-space(.)="%s"]]';
 
     /**
-     * Return rma table.
+     * Get rma row.
      *
-     * @return RmaTable
+     * @param Rma $rma
+     * @return RmaRow
      */
-    public function getRmaTable()
+    public function getRmaRow(Rma $rma)
     {
+        $locator = sprintf($this->rmaRow, $rma->getEntityId());
         return $this->blockFactory->create(
-            '\Magento\Rma\Test\Block\Returns\History\RmaTable',
-            ['element' => $this->_rootElement->find($this->rmaTable)]
+            '\Magento\Rma\Test\Block\Returns\History\RmaRow',
+            ['element' => $this->_rootElement->find($locator, Locator::SELECTOR_XPATH)]
+        );
+    }
+
+    // TODO: Remove function after refactoring functional test
+    /**
+     * Get rma row by id.
+     *
+     * @param string $rmaId
+     * @return RmaRow
+     */
+    public function getRmaRowById($rmaId)
+    {
+        $locator = sprintf($this->rmaRow, $rmaId);
+        return $this->blockFactory->create(
+            '\Magento\Rma\Test\Block\Returns\History\RmaRow',
+            ['element' => $this->_rootElement->find($locator, Locator::SELECTOR_XPATH)]
         );
     }
 }

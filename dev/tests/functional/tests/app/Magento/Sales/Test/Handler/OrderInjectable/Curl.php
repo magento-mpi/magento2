@@ -8,16 +8,18 @@
 
 namespace Magento\Sales\Test\Handler\OrderInjectable;
 
-use Magento\Bundle\Test\Fixture\BundleProduct;
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
+use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Create new order via curl.
@@ -164,10 +166,10 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     /**
      * Prepare data for configurable product.
      *
-     * @param FixtureInterface $product
+     * @param ConfigurableProductInjectable $product
      * @return array
      */
-    protected function prepareConfigurableData(FixtureInterface $product)
+    protected function prepareConfigurableData(ConfigurableProductInjectable $product)
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
@@ -188,14 +190,13 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for configurable product.
+     * Prepare data for bundle product.
      *
-     * @param FixtureInterface $product
+     * @param BundleProduct $product
      * @return array
      */
-    protected function prepareBundleData(FixtureInterface $product)
+    protected function prepareBundleData(BundleProduct $product)
     {
-        /** @var BundleProduct $product */
         $result = [];
         $checkoutData = $product->getCheckoutData();
         $bundleOptions = isset($checkoutData['options']['bundle_options'])
@@ -236,10 +237,10 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     /**
      * Prepare data for downloadable product.
      *
-     * @param FixtureInterface $product
+     * @param DownloadableProductInjectable $product
      * @return array
      */
-    protected function prepareDownloadableData(FixtureInterface $product)
+    protected function prepareDownloadableData(DownloadableProductInjectable $product)
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();

@@ -23,7 +23,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * 1. Enable RMA on Frontend (Configuration - Sales - RMA Settings).
  * 2. Create product.
  * 3. Create Order.
- * 4. Create invoice and Shipping.
+ * 4. Create invoice and shipping.
  *
  * Steps:
  * 1. Login to the backend.
@@ -36,7 +36,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  * @group RMA_(CS)
  * @ZephyrId MAGETWO-28571
  */
-class CreateRmaEntityTest extends Injectable
+class CreateRmaEntityOnBackendTest extends Injectable
 {
     /**
      * Fixture factory.

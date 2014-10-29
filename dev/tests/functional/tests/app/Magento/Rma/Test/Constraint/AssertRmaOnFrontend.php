@@ -19,9 +19,9 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Assert customer can vew return request on Frontend and verify.
+ * Assert that rma is correct display on frontend (MyAccount - My Returns).
  */
-class AssertRmaItemsOnFrontend extends AbstractAssertForm
+class AssertRmaOnFrontend extends AbstractAssertForm
 {
     /**
      * Constraint severeness.
@@ -31,14 +31,9 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
     protected $severeness = 'middle';
 
     /**
-     * Assert customer can vew return request on Frontend (MyAccount - My Returns) and verify:
-     * - product name
-     * - product sku
-     * - conditions
-     * - resolution
-     * - requested qty
-     * - qty
-     * - status
+     * Assert that rma is correct display on frontend (MyAccount - My Returns):
+     * - status on rma history page
+     * - details and items on rma view page
      *
      * @param Rma $rma
      * @param CmsIndex $cmsIndex
@@ -62,7 +57,18 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
         $this->login($customer);
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Returns');
-        $customerAccountRmaIndex->getRmaHistory()->getRmaTable()->getRmaRow($rma)->clickView();
+
+        $fixtureRmaStatus = $rma->getStatus();
+        $pageRmaData = $customerAccountRmaIndex->getRmaHistory()->getRmaRow($rma)->getData();
+        \PHPUnit_Framework_Assert::assertEquals(
+            $fixtureRmaStatus,
+            $pageRmaData['status'],
+            "\nWrong display status of rma."
+            . "\nExpected: " . $fixtureRmaStatus
+            . "\nActual: " . $pageRmaData['status']
+        );
+
+        $customerAccountRmaIndex->getRmaHistory()->getRmaRow($rma)->clickView();
         $pageItemsData = $this->sortDataByPath(
             $customerAccountRmaView->getRmaView()->getRmaItems()->getData(),
             '::sku'
@@ -71,7 +77,6 @@ class AssertRmaItemsOnFrontend extends AbstractAssertForm
             $this->getRmaItems($rma),
             '::sku'
         );
-
         \PHPUnit_Framework_Assert::assertEquals($fixtureItemsData, $pageItemsData);
     }
 
