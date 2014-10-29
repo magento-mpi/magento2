@@ -38,7 +38,7 @@
     <!-- PHP INI settings and constants definition -->
     <php>
         <includePath>./testsuite</includePath>
-
+        <const name="TESTS_INSTALL_CONFIG_FILE" value="config/install-config-mysql.php"/>
         <!-- WebSerivice Type. Possible values: soap, rest -->
         <const name="TESTS_WEB_API_ADAPTER" value="rest"/>
         <!-- Webserver URL -->

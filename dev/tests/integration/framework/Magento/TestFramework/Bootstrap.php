@@ -71,7 +71,9 @@ class Bootstrap
      * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap
      * @param \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap
      * @param \Magento\Framework\Shell $shell
-     * @param string $tmpDir
+     * @param Application $application
+     * @param Bootstrap\MemoryFactory $memoryFactory
+     * @internal param string $tmpDir
      */
     public function __construct(
         \Magento\TestFramework\Bootstrap\Settings $settings,

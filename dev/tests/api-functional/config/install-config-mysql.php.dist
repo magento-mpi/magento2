@@ -16,7 +16,7 @@ return [
     'db_user'                      => 'root',
     'db_pass'                      => '',
     'backend_frontname'            => 'backend',
-    'base_url'                     => 'http://127.0.0.1/magento/',
+    'base_url'                     => 'http://localhost/',
     'use_secure'                   => '0',
     'use_rewrites'                 => '0',
     'admin_lastname'               => 'Admin',
