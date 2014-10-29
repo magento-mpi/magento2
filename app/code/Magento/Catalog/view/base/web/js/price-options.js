@@ -12,6 +12,7 @@ define([
     "handlebars",
     "jquery/ui"
 ], function($,_){
+    "use strict";
 
     var globalOptions = {
         productId: null,

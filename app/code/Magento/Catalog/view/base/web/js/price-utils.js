@@ -9,6 +9,7 @@
 define([
     'underscore'
 ], function (_) {
+    "use strict";
 
     var globalPriceFormat = {
         requiredPrecision: 2,
@@ -25,6 +26,13 @@ define([
     };
 
 
+    /**
+     * Formatter for price amount
+     * @param  {Number}  amount
+     * @param  {Object}  format
+     * @param  {Boolean} isShowSign
+     * @return {string}              Formatted value
+     */
     function formatPrice(amount, format, isShowSign) {
         format = _.extend(globalPriceFormat, format);
 
@@ -64,10 +72,21 @@ define([
 
     }
 
+    /**
+     * Repeats {string} {times} times
+     * @param {String} string
+     * @param {Number} times
+     * @return {string}
+     */
     function stringPad(string, times) {
         return (new Array(times + 1)).join(string);
     }
 
+    /**
+     * Deep clone of Object. Doesn't support functions.
+     * @param {Object} obj
+     * @return {Object}
+     */
     function objectDeepClone(obj) {
         return JSON.parse(JSON.stringify(obj));
     }
