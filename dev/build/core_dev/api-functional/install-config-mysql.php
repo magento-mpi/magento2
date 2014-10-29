@@ -18,4 +18,5 @@ return [
     'admin_email' => \Magento\TestFramework\Bootstrap::ADMIN_EMAIL,
     'admin_firstname' => \Magento\TestFramework\Bootstrap::ADMIN_FIRSTNAME,
     'admin_lastname' => \Magento\TestFramework\Bootstrap::ADMIN_LASTNAME,
+    'use_rewrites' => '0',
 ];
