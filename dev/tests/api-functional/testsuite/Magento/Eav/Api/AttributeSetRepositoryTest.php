@@ -7,8 +7,8 @@
  */
 namespace Magento\Eav\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class AttributeSetRepositoryTest extends WebapiAbstract
 {

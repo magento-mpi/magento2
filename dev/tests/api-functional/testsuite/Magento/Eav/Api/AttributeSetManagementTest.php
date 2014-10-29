@@ -7,9 +7,9 @@
  */
 namespace Magento\Eav\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig,
-    Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class AttributeSetManagementTest extends WebapiAbstract
 {
