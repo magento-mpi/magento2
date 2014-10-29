@@ -148,25 +148,25 @@
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId/groups" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface" method="getList"/>
+        <service class="Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/groups" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface" method="create"/>
+    <route url="/V1/products/attribute-sets/groups" method="POST">
+        <service class="Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId/groups" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface" method="update"/>
+        <service class="Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/groups/:groupId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface" method="delete"/>
+    <route url="/V1/products/attribute-sets/groups/:groupId" method="DELETE">
+        <service class="Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
