@@ -9,7 +9,15 @@
 namespace Magento\AdvancedCheckout\Test\TestCase;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Widget\Test\Fixture\Widget;
+use Magento\AdvancedCheckout\Test\Fixture\Widget;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test Flow:
@@ -32,6 +40,20 @@ use Magento\Widget\Test\Fixture\Widget;
 class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntityTest
 {
     /**
+     * Widget instance page.
+     *
+     * @var WidgetInstanceIndex
+     */
+    protected static $widgetInstanceIndex;
+
+    /**
+     * Widget instance edit page.
+     *
+     * @var WidgetInstanceEdit
+     */
+    protected static $widgetInstanceEdit;
+
+    /**
      * Order by SKU widget.
      *
      * @var Widget
@@ -39,18 +61,48 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
     protected static $widget;
 
     /**
+     * Injection data.
+     *
+     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountIndex $customerAccountIndex
+     * @param CustomerOrderSku $customerOrderSku
+     * @param CheckoutCart $checkoutCart
+     * @param WidgetInstanceIndex $widgetInstanceIndex
+     * @param WidgetInstanceEdit $widgetInstanceEdit
+     * @return void
+     */
+    public function __inject(
+        CmsIndex $cmsIndex,
+        CustomerAccountIndex $customerAccountIndex,
+        CustomerOrderSku $customerOrderSku,
+        CheckoutCart $checkoutCart,
+        WidgetInstanceIndex $widgetInstanceIndex,
+        WidgetInstanceEdit $widgetInstanceEdit
+    ) {
+        $this->cmsIndex = $cmsIndex;
+        $this->customerAccountIndex = $customerAccountIndex;
+        $this->customerOrderSku = $customerOrderSku;
+        $this->checkoutCart = $checkoutCart;
+        self::$widgetInstanceIndex = $widgetInstanceIndex;
+        self::$widgetInstanceEdit = $widgetInstanceEdit;
+    }
+
+    /**
      * Create customer and widget.
      *
      * @param CustomerInjectable $customer
+     * @param FixtureFactory $fixtureFactory
+     * @param AdminCache $adminCache
      * @return array
      */
-    public function __prepare(CustomerInjectable $customer)
+    public function __prepare(CustomerInjectable $customer, FixtureFactory $fixtureFactory, AdminCache $adminCache)
     {
         $customer->persist();
-        $fixtureFactory = $this->objectManager->create('\Mtf\Fixture\FixtureFactory');
-        self::$widget = $fixtureFactory->createByCode('widget', ['dataSet' => 'order_by_sku']);
+        self::$widget = $fixtureFactory->create(
+            '\Magento\AdvancedCheckout\Test\Fixture\Widget',
+            ['dataSet' => 'order_by_sku']
+        );
         self::$widget->persist();
-        $adminCache = $this->objectManager->create('\Magento\Backend\Test\Page\Adminhtml\AdminCache');
         $adminCache->open();
         $adminCache->getActionsBlock()->flushMagentoCache();
         $adminCache->getMessagesBlock()->waitSuccessMessage();
@@ -59,7 +111,7 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
     }
 
     /**
-     * Adding to cart AdvancedCheckoutEntity(from Widget).
+     * Add product to cart by sku from widget.
      *
      * @param CustomerInjectable $customer
      * @param string $products

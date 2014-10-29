@@ -9,6 +9,10 @@
 namespace Magento\AdvancedCheckout\Test\TestCase;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Cms\Test\Page\CmsIndex;
 
 /**
  * Test Flow:
@@ -27,8 +31,42 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  * @group Add_by_SKU_(CS)
  * @ZephyrId MAGETWO-28259
  */
-class AddToCartAdvancedCheckoutEntityTest extends AbstractAdvancedCheckoutEntityTest
+class AddProductsToCartBySkuFromCustomerAccountTest extends AbstractAdvancedCheckoutEntityTest
 {
+    /**
+     * Injection data.
+     *
+     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountIndex $customerAccountIndex
+     * @param CustomerOrderSku $customerOrderSku
+     * @param CheckoutCart $checkoutCart
+     * @return void
+     */
+    public function __inject(
+        CmsIndex $cmsIndex,
+        CustomerAccountIndex $customerAccountIndex,
+        CustomerOrderSku $customerOrderSku,
+        CheckoutCart $checkoutCart
+    ) {
+        $this->cmsIndex = $cmsIndex;
+        $this->customerAccountIndex = $customerAccountIndex;
+        $this->customerOrderSku = $customerOrderSku;
+        $this->checkoutCart = $checkoutCart;
+    }
+
+    /**
+     * Create customer.
+     *
+     * @param CustomerInjectable $customer
+     * @return array
+     */
+    public function __prepare(CustomerInjectable $customer)
+    {
+        $customer->persist();
+
+        return ['customer' => $customer];
+    }
+
     /**
      * Adding to cart AdvancedCheckoutEntity(from MyAccount).
      *
