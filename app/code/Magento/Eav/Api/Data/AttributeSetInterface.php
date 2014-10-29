@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,7 +10,7 @@ namespace Magento\Eav\Api\Data;
 interface AttributeSetInterface
 {
     /**
-     * Get attribute set id
+     * Get attribute set ID
      *
      * @return int
      */

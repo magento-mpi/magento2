@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/attribute-sets" method="GET">
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
+    <route url="/V1/attribute-sets/:attributeSetId" method="GET">
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
+    <route url="/V1/attribute-sets/:attributeSetId" method="DELETE">
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
+    <route url="/V1/attribute-sets" method="POST">
+        <service class="Magento\Eav\Api\AttributeSetManagementInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
+    <route url="/V1/attribute-sets" method="PUT">
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
+</routes>

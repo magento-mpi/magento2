@@ -14,7 +14,9 @@ use \Magento\Eav\Model\Resource\Entity\Attribute\Set as AttributeSetResource;
 use \Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 use \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory;
 use \Magento\Eav\Model\Config as EavConfig;
+use Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Framework\Exception\CouldNotDeleteException;
 use \Magento\Framework\Data\Search\SearchCriteriaInterface;
 use \Magento\Framework\Data\Search\SearchResultsBuilderInterface;
 
@@ -56,29 +58,33 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
         AttributeSetResource $attributeSetResource,
         AttributeSetFactory $attributeSetFactory,
         CollectionFactory $collectionFactory,
-        EavConfig $eavConfig,
-        SearchResultsBuilderInterface $searchResultBuilder
+        EavConfig $eavConfig//,
+        //SearchResultsBuilderInterface $searchResultBuilder
     ) {
         $this->attributeSetResource = $attributeSetResource;
         $this->attributeSetFactory = $attributeSetFactory;
         $this->collectionFactory = $collectionFactory;
         $this->eavConfig = $eavConfig;
-        $this->searchResultBuilder = $searchResultBuilder;
+        //$this->searchResultBuilder = $searchResultBuilder;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save(AttributeSetInterface $attributeSet, array $arguments = [])
+    public function save(AttributeSetInterface $attributeSet)
     {
-        $this->attributeSetResource->save($attributeSet);
+        try {
+            $this->attributeSetResource->save($attributeSet);
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException('There was an error saving attribute set.');
+        }
         return $attributeSet;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getList(SearchCriteriaInterface $searchCriteria, array $arguments = [])
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $collection */
@@ -123,7 +129,7 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function get($attributeSetId, array $arguments = [])
+    public function get($attributeSetId)
     {
         /** @var AttributeSet $attributeSet */
         $attributeSet = $this->attributeSetFactory->create();
@@ -138,12 +144,24 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function delete(AttributeSetInterface $attributeSet, array $arguments = [])
+    public function delete(AttributeSetInterface $attributeSet)
     {
         /**
          * @todo default attribute set must not be deleted. Corresponding logic have to be moved to resource model.
          */
-        $this->attributeSetResource->delete($attributeSet);
+        try {
+            $this->attributeSetResource->delete($attributeSet);
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException('There was an error deleting attribute set.');
+        }
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteById($attributeSetId)
+    {
+        return $this->delete($this->get($attributeSetId));
     }
 }

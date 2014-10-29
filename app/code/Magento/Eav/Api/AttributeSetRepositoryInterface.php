@@ -16,45 +16,52 @@ interface AttributeSetRepositoryInterface
      * Save attribute set data
      *
      * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
-     * @param array $arguments
-     * @return int attribute set ID
+     * @return \Magento\Eav\Api\Data\AttributeSetInterface saved attribute set
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
      */
-    public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet, array $arguments = []);
+    public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
 
     /**
      * Retrieve list of Attribute Sets
      *
      * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
-     * @param array $arguments
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getList
      */
-    public function getList(SearchCriteriaInterface $searchCriteria, array $arguments = []);
+    public function getList(SearchCriteriaInterface $searchCriteria);
 
     /**
      * Retrieve attribute set information based on given ID
      *
      * @param int $attributeSetId
-     * @param array $arguments
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Eav\Api\Data\AttributeSetInterface
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getInfo
      */
-    public function get($attributeSetId, array $arguments = []);
+    public function get($attributeSetId);
 
     /**
-     * Remove attribute set by id
+     * Remove given attribute set
      *
      * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
-     * @param array $arguments
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\InputException
      * @return bool
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::remove
      */
-    public function delete(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet, array $arguments = []);
+    public function delete(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
+
+    /**
+     * Remove attribute set by given ID
+     *
+     * @param int $attributeSetId
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return bool
+     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::remove
+     */
+    public function deleteById($attributeSetId);
 }

@@ -13,7 +13,7 @@ interface AttributeSetManagementInterface
     /**
      * Create attribute set from data
      *
-     * @param string $entityType
+     * @param string $entityTypeCode
      * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
      * @param int $skeletonId
      * @return \Magento\Eav\Api\Data\AttributeSetInterface
@@ -22,7 +22,7 @@ interface AttributeSetManagementInterface
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
      */
     public function create(
-        $entityType,
+        $entityTypeCode,
         \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet,
         $skeletonId
     );
