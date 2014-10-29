@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="OnePageCheckoutTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createGiftCardAccount" module="Magento_GiftCardAccount">
+                        <next>applyGiftCard</next>
+                    </step>
+                    <step name="applyGiftCard" module="Magento_GiftCardAccount">
+                        <next>proceedToCheckout</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="OnePageCheckoutTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createRewardExchangeRates" module="Magento_Reward">
+                        <arguments>
+                            <items name="rewardRates">
+                                <item name="rate_0">rate_points_to_currency</item>
+                                <item name="rate_1">rate_currency_to_points</item>
+                            </items>
+                        </arguments>
+                        <next>addProductsToTheCart</next>
+                    </step>
+                    <step name="applyRewardPointsToCustomer" module="Magento_Reward">
+                        <prev>createCustomer</prev>
+                        <next>selectRewardPoints</next>
+                    </step>
+                    <step name="selectRewardPoints" module="Magento_Reward">
+                        <next>selectPaymentMethod</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderFromCustomerPageTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createRewardExchangeRates" module="Magento_Reward">
+                        <arguments>
+                            <items name="rewardRates">
+                                <item name="rate_0">rate_points_to_currency</item>
+                                <item name="rate_1">rate_currency_to_points</item>
+                            </items>
+                        </arguments>
+                        <next>createCustomer</next>
+                    </step>
+                    <step name="applyRewardPointsToCustomer" module="Magento_Reward">
+                        <prev>createCustomer</prev>
+                        <next>openCustomerOnBackend</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>

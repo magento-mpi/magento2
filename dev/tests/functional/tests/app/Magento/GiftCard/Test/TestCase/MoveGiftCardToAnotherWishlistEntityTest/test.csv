@@ -1,0 +1,2 @@
+"description";"product";"qty";"qtyToAction";"constraint"
+"Move one product - zero left";"giftCardProduct::default";"1";"1";"assertProductAbsentInDefaultWishlist, assertProductInCustomWishlist"

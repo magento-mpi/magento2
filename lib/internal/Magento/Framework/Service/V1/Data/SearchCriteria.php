@@ -9,15 +9,13 @@
 namespace Magento\Framework\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\Data\SearchCriteriaInterface;
 
 /**
  * Data Object for SearchCriteria
  */
-class SearchCriteria extends AbstractExtensibleObject
+class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaInterface
 {
-    const SORT_ASC = 1;
-    const SORT_DESC = -1;
-
     /**#@+
      * Constants for Data Object keys
      */
@@ -27,7 +25,7 @@ class SearchCriteria extends AbstractExtensibleObject
     const CURRENT_PAGE = 'current_page';
 
     /**
-     * Returns a list of filter groups
+     * Get a list of filter groups.
      *
      * @return \Magento\Framework\Service\V1\Data\Search\FilterGroup[]
      */
@@ -37,7 +35,7 @@ class SearchCriteria extends AbstractExtensibleObject
     }
 
     /**
-     * Get sort order
+     * Get sort order.
      *
      * @return \Magento\Framework\Service\V1\Data\SortOrder[]|null
      */
@@ -47,7 +45,7 @@ class SearchCriteria extends AbstractExtensibleObject
     }
 
     /**
-     * Get page size
+     * Get page size.
      *
      * @return int|null
      */
@@ -57,7 +55,7 @@ class SearchCriteria extends AbstractExtensibleObject
     }
 
     /**
-     * Get current page
+     * Get current page.
      *
      * @return int|null
      */

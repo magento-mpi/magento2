@@ -8,56 +8,66 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td class="col photo"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
-    <td class="col product">
-        <strong class="product name">
-        <?php if ($this->hasProductUrl()):?>
-            <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
-        <?php else: ?>
-            <?php echo $this->escapeHtml($this->getProductName()) ?>
-        <?php endif; ?>
-        </strong>
-        <?php if ($_options = $this->getOptionList()):?>
-
-        <dl class="product options list">
-            <?php foreach ($_options as $_option) : ?>
-            <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
-            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="tooltip wrapper"<?php endif; ?>>
-                <?php echo $_formatedOptionValue['value'] ?>
-                <?php if (isset($_formatedOptionValue['full_view'])): ?>
-                <div class="tooltip content">
-                    <dl class="product options list">
-                        <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-                        <dd><?php echo $this->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
-                    </dl>
-                </div>
+    <td class="col product" data-th="<?php echo $this->escapeHtml(__('Product Name')); ?>">
+    <?php if ($this->hasProductUrl()): ?>
+        <a href="<?php echo $this->getProductUrl() ?>" class="product photo product-item-photo" title="<?php echo $this->escapeHtml($this->getProductName()) ?>">
+    <?php else: ?>
+        <span class="product photo product-item-photo">
+    <?php endif; ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($this->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
+    <?php if ($this->hasProductUrl()): ?>
+        </a>
+    <?php else: ?>
+        </span>
+    <?php endif; ?>
+        <div class="product details product-item-details">
+            <strong class="product name product-item-name">
+                <?php if ($this->hasProductUrl()):?>
+                    <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
+                <?php else: ?>
+                    <?php echo $this->escapeHtml($this->getProductName()) ?>
                 <?php endif; ?>
-            </dd>
-            <?php endforeach; ?>
-        </dl>
+            </strong>
+        <?php if ($_options = $this->getOptionList()):?>
+            <dl class="item-options">
+                <?php foreach ($_options as $_option) : ?>
+                    <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
+                    <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                    <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="tooltip wrapper"<?php endif; ?>>
+                        <?php echo $_formatedOptionValue['value'] ?>
+                        <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                            <div class="tooltip content">
+                                <dl class="item options">
+                                    <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                                    <dd><?php echo $this->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
+                                </dl>
+                            </div>
+                        <?php endif; ?>
+                    </dd>
+                <?php endforeach; ?>
+            </dl>
         <?php endif;?>
+        </div>
+
         <?php if ($messages = $this->getMessages()): ?>
         <?php foreach ($messages as $message): ?>
             <p class="item message <?php echo $message['type'] ?>"><?php echo $message['text'] ?></p>
         <?php endforeach; ?>
         <?php endif; ?>
     </td>
-    <td class="col registered">
+    <td class="col registered" data-th="<?php echo $this->escapeHtml(__('Requested')); ?>">
         <?php echo $_item->getQty()*1 ?>
     </td>
-    <td class="col fulfilled">
+    <td class="col fulfilled" data-th="<?php echo $this->escapeHtml(__('Fulfilled')); ?>">
         <?php echo $_item->getQtyFulfilled()*1 ?>
     </td>
-    <td class="col remaining">
+    <td class="col remaining" data-th="<?php echo $this->escapeHtml(__('Remaining')); ?>">
         <?php echo ($_item->getRemainingQty())*1 ?>
     </td>
-    <td class="col price">
-        <span class="cart-price">
-            <?php echo $this->getProductPriceHtml($_item->getProduct());?>
-        </span>
+    <td class="col price" data-th="<?php echo $this->escapeHtml(__('Unit Price')); ?>">
+        <?php echo $this->getProductPriceHtml($_item->getProduct());?>
     </td>
-    <td class="col qty">
+    <td class="col qty" data-th="<?php echo $this->escapeHtml(__('Qty')); ?>">
         <?php if ($_item->getRemainingQty() < 1):?>
             <?php echo __('Fulfilled')?>
         <?php else:?>
