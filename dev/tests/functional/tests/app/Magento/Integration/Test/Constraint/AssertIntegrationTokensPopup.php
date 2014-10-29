@@ -30,7 +30,7 @@ class AssertIntegrationTokensPopup extends AbstractConstraint
      * @var array
      */
     protected $fields = [
-        'consumer_key',
+        'key',
         'consumer_secret',
         'token',
         'token_secret',

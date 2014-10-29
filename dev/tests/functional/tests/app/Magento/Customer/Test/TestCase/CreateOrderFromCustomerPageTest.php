@@ -8,9 +8,9 @@
 
 namespace Magento\Customer\Test\TestCase;
 
+use Mtf\TestCase\Scenario;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
-use Mtf\TestCase\Scenario;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
@@ -41,13 +41,6 @@ use Magento\Customer\Test\Page\CustomerAccountLogout;
 class CreateOrderFromCustomerPageTest extends Scenario
 {
     /**
-     * Configuration data set name
-     *
-     * @var string
-     */
-    protected $configuration;
-
-    /**
      * Customer logout page
      *
      * @var CustomerAccountLogout
@@ -67,80 +60,6 @@ class CreateOrderFromCustomerPageTest extends Scenario
      * @var RewardRateNew
      */
     protected $rewardRateNewPage;
-
-    /**
-     * Steps for scenario
-     *
-     * @var array
-     */
-    protected $scenario = [
-        'CreateOrderFromCustomerPageTest' => [
-            'methods' => [
-                'test' => [
-                    'scenario' => [
-                        'createCustomer' => [
-                            'module' => 'Magento_Customer',
-                            'next' => 'createRewardExchangeRates'
-                        ],
-                        'createRewardExchangeRates' => [
-                            'module' => 'Magento_Reward',
-                            'arguments' => [
-                                'rewardRates' => ['rate_points_to_currency', 'rate_currency_to_points'],
-                            ],
-                            'next' => 'createProducts'
-                        ],
-                        'applyRewardPointsToCustomer' => [
-                            'module' => 'Magento_Reward',
-                            'next' => 'createProducts'
-                        ],
-                        'createProducts' => [
-                            'module' => 'Magento_Catalog',
-                            'next' => 'createSalesRule'
-                        ],
-                        'createSalesRule' => [
-                            'module' => 'Magento_SalesRule',
-                            'next' => 'openCustomerOnBackend'
-                        ],
-                        'openCustomerOnBackend' => [
-                            'module' => 'Magento_Customer',
-                            'next' => 'createOrderFromCustomerAccount'
-                        ],
-                        'createOrderFromCustomerAccount' => [
-                            'module' => 'Magento_Customer',
-                            'next' => 'addProducts'
-                        ],
-                        'addProducts' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'updateProductsData'
-                        ],
-                        'updateProductsData' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'applySalesRuleOnBackend'
-                        ],
-                        'applySalesRuleOnBackend' => [
-                            'module' => 'Magento_SalesRule',
-                            'next' => 'fillBillingAddress',
-                        ],
-                        'fillBillingAddress' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectPaymentMethodForOrder'
-                        ],
-                        'selectPaymentMethodForOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectShippingMethodForOrder'
-                        ],
-                        'selectShippingMethodForOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'submitOrder'
-                        ],
-                        'submitOrder' => [
-                            'module' => 'Magento_Sales',
-                        ],
-                    ]
-                ]
-            ]
-        ]
-    ];
 
     /**
      * Preparing configuration for test
@@ -163,13 +82,11 @@ class CreateOrderFromCustomerPageTest extends Scenario
     /**
      * Runs sales order on backend
      *
-     * @param string $configData
      * @return void
      */
-    public function test($configData)
+    public function test()
     {
-        $this->configuration = $configData;
-        $this->executeScenario($this->scenario);
+        $this->executeScenario();
     }
 
     /**
@@ -181,7 +98,7 @@ class CreateOrderFromCustomerPageTest extends Scenario
     {
         $setConfigStep = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => $this->configuration, 'rollback' => true]
+            ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
         );
         $setConfigStep->run();
         $this->customerAccountLogout->open();
