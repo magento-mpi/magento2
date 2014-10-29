@@ -8,6 +8,7 @@
 
 namespace Magento\Webapi;
 
+use Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
@@ -42,7 +43,7 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         );
         $expectedMessage = 'Request body should not be empty.';
         try {
-            $this->_webApiCall($serviceInfo, 'Empty body');
+            $this->_webApiCall($serviceInfo, CurlClient::EMPTY_REQUEST_BODY);
         } catch (\Exception $e) {
             $this->assertContains(
                 $expectedMessage,
@@ -67,7 +68,7 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         );
         $expectedMessage = 'Request body should not be empty.';
         try {
-            $this->_webApiCall($serviceInfo, 'Empty body');
+            $this->_webApiCall($serviceInfo, CurlClient::EMPTY_REQUEST_BODY);
         } catch (\Exception $e) {
             $this->assertContains(
                 $expectedMessage,
