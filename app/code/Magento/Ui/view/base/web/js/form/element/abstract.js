@@ -23,8 +23,7 @@ define([
         description:        '',
         label:              '',
         error:              '',
-        notice:             null,
-        shouldValidate:     true
+        notice:             null
     };
 
     var __super__ = Component.prototype;
@@ -97,30 +96,6 @@ define([
             return this;
         },
 
-        setDataScope: function (dataScope) {
-            this.store(undefined);
-
-            this.dataScope = dataScope;
-
-            this.pullSilently();
-        },
-
-        pullSilently: function () {
-            this.shouldValidate = false;
-
-            this.pull()
-                .shouldValidate = true;
-        },
-
-        pull: function () {
-            var value = this.provider.data.get(this.dataScope);
-
-            this.initialValue = value;
-            this.value(value);
-
-            return this;
-        },
-
         /**
          * Sets unique id for element
          * @return {Object} - reference to instance
@@ -166,11 +141,8 @@ define([
          */
         onUpdate: function (value) {            
             this.store(value)
-                .trigger('update');
-
-            if (this.shouldValidate) {
-                this.validate();
-            }
+                .trigger('update')
+                .validate();
         },
 
         /**

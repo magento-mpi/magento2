@@ -56,10 +56,6 @@ define([
                 storage = this[showAt + 'Elements'];
 
             __super__.initElement.apply(this, arguments);
-
-            if (this.dataScope) {
-                element.setDataScope(this.dataScope + '.' + this.index);    
-            }
             
             storage.push(element);
             this.addPreview(element);
