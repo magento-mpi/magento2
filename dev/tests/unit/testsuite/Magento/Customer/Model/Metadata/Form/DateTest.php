@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Service\V1\Data\Eav\ValidationRule;
-use Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder;
+use Magento\Customer\Model\Data\ValidationRule;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 class DateTest extends AbstractFormTestCase
 {
@@ -75,7 +75,7 @@ class DateTest extends AbstractFormTestCase
     {
         $validationRules = array();
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $ruleBuilder = $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
+        $ruleBuilder = $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder');
         $ruleBuilder->populateWithArray(array('name' => 'input_validation', 'value' => 'date'));
         $validationRules[] = new ValidationRule($ruleBuilder);
         if (is_array($validation)) {

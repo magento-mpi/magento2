@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Service\V1\Data\Eav\ValidationRule;
-use Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder;
+use Magento\Customer\Model\Data\ValidationRule;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 class AbstractDataTest extends \PHPUnit_Framework_TestCase
 {
@@ -218,7 +218,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(
                 array(
                     new ValidationRule(
-                        $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                        $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                             ->populateWithArray(
                                 array(
                                     'name'  => 'input_validation',

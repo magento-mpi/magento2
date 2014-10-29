@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data\Eav;
+
+namespace Magento\Customer\Model\Data;
 
 /**
  * Class Option
  */
-class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+    \Magento\Customer\Api\Data\OptionInterface
 {
-    /**
-     * Constants used as keys into $_data
+    /**#@+
+     * Constants for keys of data array
      */
     const LABEL = 'label';
 
@@ -24,9 +26,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     const OPTIONS = 'options';
 
     /**
-     * Get option label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -34,9 +34,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Get option value
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -44,9 +42,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
     }
 
     /**
-     * Get nested options
-     *
-     * @return \Magento\Customer\Service\V1\Data\Eav\Option[]|null
+     * {@inheritdoc}
      */
     public function getOptions()
     {

@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Service\V1\Data\Eav\Option;
-use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
+use Magento\Customer\Model\Data\Option;
+use Magento\Customer\Api\Data\OptionDataBuilder;
 
 /**
  * test Magento\Customer\Model\Metadata\Form\Select
@@ -105,11 +105,11 @@ class SelectTest extends AbstractFormTestCase
         )->will(
             $this->returnValue(
                 array(
-                    $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder')
+                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
                         ->setValue('14')->setLabel('fourteen')->create(),
-                    $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder')
+                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
                         ->setValue('some key')->setLabel('some string')->create(),
-                    $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder')
+                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
                         ->setValue('true')->setLabel('True')->create()
                 )
             )

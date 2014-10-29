@@ -8,8 +8,8 @@
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\Eav\ValidationRule;
-use Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder;
+use Magento\Customer\Model\Data\ValidationRule;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 class DobTest extends \PHPUnit_Framework_TestCase
 {
@@ -332,7 +332,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     new ValidationRule(
-                        $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                        $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                             ->populateWithArray(
                                 array(
                                     'name' => Dob::MIN_DATE_RANGE_KEY,
@@ -346,7 +346,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     new ValidationRule(
-                        $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                        $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                     )
                 ),
                 null
@@ -398,7 +398,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     new ValidationRule(
-                        $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                        $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                             ->populateWithArray(
                                 array(
                                     'name' => Dob::MAX_DATE_RANGE_KEY,
@@ -412,7 +412,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     new ValidationRule(
-                        $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                        $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                     )
                 ),
                 null

@@ -10,7 +10,7 @@
 namespace Magento\Customer\Model\Metadata\Form;
 
 use Magento\Customer\Model\Metadata\ElementFactory;
-use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
+use Magento\Customer\Api\Data\OptionDataBuilder;
 
 class MultiselectTest extends AbstractFormTestCase
 {
@@ -197,9 +197,9 @@ class MultiselectTest extends AbstractFormTestCase
         )->will(
             $this->returnValue(
                 array(
-                    $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder')
+                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
                         ->setValue('14')->setLabel('fourteen')->create(),
-                    $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder')
+                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
                         ->setValue('some key')->setLabel('some string')->create()
                 )
             )

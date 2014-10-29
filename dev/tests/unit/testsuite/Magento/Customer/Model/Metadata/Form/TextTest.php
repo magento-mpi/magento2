@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Service\V1\Data\Eav\ValidationRule;
-use Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder;
+use Magento\Customer\Model\Data\ValidationRule;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 class TextTest extends AbstractFormTestCase
 {
@@ -111,11 +111,11 @@ class TextTest extends AbstractFormTestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $validationRules = array(
             'min_text_length' => new ValidationRule(
-                $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                     ->populateWithArray(array('name' => 'min_text_length', 'value' => 4))
             ),
             'max_text_length' => new ValidationRule(
-                    $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder')
+                    $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
                         ->populateWithArray(array('name' => 'max_text_length', 'value' => 8))
             )
         );

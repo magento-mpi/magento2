@@ -96,7 +96,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     /**
      * Retrieve validation rules.
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\ValidationRule[]
+     * @return \Magento\Customer\Model\Data\ValidationRule[]
      */
     public function getValidationRules()
     {
@@ -146,7 +146,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     /**
      * Return options of the attribute (key => value pairs)
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\Option[]
+     * @return \Magento\Customer\Model\Data\Option[]
      */
     public function getOptions()
     {

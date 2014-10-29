@@ -5,21 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data\Eav;
+namespace Magento\Customer\Model\Data;
 
-class ValidationRule extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class ValidationRule extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+    \Magento\Customer\Api\Data\ValidationRuleInterface
 {
-    /**
-     * Constants used as keys into $_data
+    /**#@+
+     * Constants for keys of data array
      */
     const NAME = 'name';
 
     const VALUE = 'value';
 
     /**
-     * Get validation rule name
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -27,9 +26,7 @@ class ValidationRule extends \Magento\Framework\Service\Data\AbstractExtensibleO
     }
 
     /**
-     * Get validation rule value
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getValue()
     {

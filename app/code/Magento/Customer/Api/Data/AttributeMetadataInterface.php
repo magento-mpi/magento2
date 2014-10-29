@@ -44,7 +44,7 @@ interface AttributeMetadataInterface
     /**
      * Retrieve validation rules.
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\ValidationRule[]
+     * @return \Magento\Customer\Api\Data\ValidationRuleInterface[]
      */
     public function getValidationRules();
 
@@ -79,7 +79,7 @@ interface AttributeMetadataInterface
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\Option[]
+     * @return \Magento\Customer\Api\Data\OptionInterface[]
      */
     public function getOptions();
 
