@@ -86,7 +86,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function setProductLinks($productSku, $linkType, array $items)
+    public function setProductLinks($productSku, $linkType, array $linkedProducts)
     {
         /** @var \Magento\Catalog\Api\Data\ProductLinkInterface[] $linkedProducts */
         $linkedSkuList = [];

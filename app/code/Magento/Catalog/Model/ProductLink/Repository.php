@@ -31,6 +31,22 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
     protected $linkInitializer;
 
     /**
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param CollectionProvider $entityCollectionProvider
+     * @param LinksInitializer $linkInitializer
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider,
+        \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linkInitializer
+    ) {
+        $this->productRepository = $productRepository;
+        $this->entityCollectionProvider = $entityCollectionProvider;
+        $this->linkInitializer = $linkInitializer;
+
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function save(\Magento\Catalog\Api\Data\ProductLinkInterface $entity)
