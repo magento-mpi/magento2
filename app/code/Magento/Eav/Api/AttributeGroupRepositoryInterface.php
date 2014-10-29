@@ -15,6 +15,8 @@ interface AttributeGroupRepositoryInterface
      *
      * @param \Magento\Eav\Api\Data\AttributeGroupInterface $group
      * @return \Magento\Eav\Api\Data\AttributeGroupInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::update
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::create
      */
@@ -35,6 +37,7 @@ interface AttributeGroupRepositoryInterface
      *
      * @param int $groupId
      * @return \Magento\Eav\Api\Data\AttributeGroupInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function get($groupId);
 
@@ -43,6 +46,8 @@ interface AttributeGroupRepositoryInterface
      *
      * @param \Magento\Eav\Api\Data\AttributeGroupInterface $group
      * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::delete
      */
     public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
@@ -52,6 +57,8 @@ interface AttributeGroupRepositoryInterface
      *
      * @param int $groupId
      * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function deleteById($groupId);
 }
