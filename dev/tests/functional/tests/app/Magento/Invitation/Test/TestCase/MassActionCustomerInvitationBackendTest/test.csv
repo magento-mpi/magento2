@@ -1,0 +1,3 @@
+"description";"invitation/dataSet";"action";"emailsCount";"status";"constraint"
+"send two invitation";"invitation_with_two_emails";"Send Selected";"2";"Sent";"assertInvitationSuccessSentMessage, assertInvitationInGrid, assertInvitationForm"
+"discard invitations";"default";"Discard Selected";"1";"Discarded";"assertInvitationSuccessDiscardMessage, assertInvitationInGrid, assertInvitationForm"

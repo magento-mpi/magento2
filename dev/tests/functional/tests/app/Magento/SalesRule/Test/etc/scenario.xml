@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="OnePageCheckoutTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createSalesRule" module="Magento_SalesRule">
+                        <next>applySalesRuleOnFrontend</next>
+                    </step>
+                    <step name="applySalesRuleOnFrontend" module="Magento_SalesRule">
+                        <next>proceedToCheckout</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="ReorderOrderEntityTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createSalesRule" module="Magento_SalesRule">
+                        <next>applySalesRuleOnBackend</next>
+                    </step>
+                    <step name="applySalesRuleOnBackend" module="Magento_SalesRule">
+                        <next>fillBillingAddress</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderBackendTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createSalesRule" module="Magento_SalesRule">
+                        <next>applySalesRuleOnBackend</next>
+                    </step>
+                    <step name="applySalesRuleOnBackend" module="Magento_SalesRule">
+                        <next>fillBillingAddress</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateOrderFromCustomerPageTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createSalesRule" module="Magento_SalesRule">
+                        <next>openCustomerOnBackend</next>
+                    </step>
+                    <step name="applySalesRuleOnBackend" module="Magento_SalesRule">
+                        <next>fillBillingAddress</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>

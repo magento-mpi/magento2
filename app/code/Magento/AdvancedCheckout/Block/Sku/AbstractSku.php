@@ -89,7 +89,7 @@ abstract class AbstractSku extends \Magento\Framework\View\Element\Template
             return '';
         }
 
-        return '<a href="' . $helper->getAccountSkuUrl() . '">' . $this->escapeHtml($data['link_text']) . '</a>';
+        return '<a href="' . $helper->getAccountSkuUrl() . '" class="action links">' . $this->escapeHtml($data['link_text']) . '</a>';
     }
 
     /**

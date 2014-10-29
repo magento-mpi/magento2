@@ -110,6 +110,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
     const ERROR_MEDIA_DATA_INCOMPLETE = 'mediaDataIsIncomplete';
 
+    const ERROR_INVALID_WEIGHT = 'invalidWeight';
+
     /**
      * Pairs of attribute set ID-to-name.
      *
@@ -197,7 +199,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         self::ERROR_TIER_DATA_INCOMPLETE => 'Tier Price data is incomplete',
         self::ERROR_SKU_NOT_FOUND_FOR_DELETE => 'Product with specified SKU not found',
         self::ERROR_SUPER_PRODUCTS_SKU_NOT_FOUND => 'Product with specified super products SKU not found',
-        self::ERROR_MEDIA_DATA_INCOMPLETE => 'Media data is incomplete'
+        self::ERROR_MEDIA_DATA_INCOMPLETE => 'Media data is incomplete',
+        self::ERROR_INVALID_WEIGHT => 'Product weight is invalid',
     );
 
     /**
@@ -1930,6 +1933,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_isGroupPriceValid($rowData, $rowNum);
         $this->_isSuperProductsSkuValid($rowData, $rowNum);
         $this->_isMediaValid($rowData, $rowNum);
+        $this->isWeightValid($rowData, $rowNum);
 
         if (self::SCOPE_DEFAULT == $rowScope) {
             // SKU is specified, row is SCOPE_DEFAULT, new product block begins
@@ -2047,5 +2051,21 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
         }
         return $productIds;
+    }
+
+    /**
+     * Check weight data
+     *
+     * @param array $rowData
+     * @param int $rowNum
+     * @return bool
+     */
+    protected function isWeightValid($rowData, $rowNum)
+    {
+        if (!empty($rowData['weight']) && (!is_numeric($rowData['weight']) || $rowData['weight'] < 0)) {
+            $this->addRowError(self::ERROR_INVALID_WEIGHT, $rowNum);
+            return false;
+        }
+        return true;
     }
 }

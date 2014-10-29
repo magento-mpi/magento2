@@ -297,7 +297,7 @@ define([
                 $('#' + this.options.btnRemove + '0').hide();
             }
             //Binding template-wide events handlers
-            this.element.on('click', 'a, input:checkbox', $.proxy(this._handleClick, this))
+            this.element.on('click', 'button, input:checkbox', $.proxy(this._handleClick, this))
                 .on('change', 'select', $.proxy(this._handleChange, this));
 
             return li;
