@@ -45,11 +45,10 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryAddSelect $giftRegistryAddSelect
     ) {
-        $loginCustomerOnFrontendStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $customer]
-        );
-        $loginCustomerOnFrontendStep->run();
+        )->run();
 
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
         $giftRegistryIndex->getActionsToolbar()->addNew();

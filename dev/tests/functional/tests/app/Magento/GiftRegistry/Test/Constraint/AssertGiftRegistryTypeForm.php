@@ -27,13 +27,6 @@ class AssertGiftRegistryTypeForm extends AbstractAssertForm
     protected $severeness = 'low';
 
     /**
-     * Skipped fields for verify data
-     *
-     * @var array
-     */
-    protected $skippedFields = ['is_deleted'];
-
-    /**
      * Assert that GiftRegistryType form filled correctly
      *
      * @param GiftRegistryType $giftRegistryType

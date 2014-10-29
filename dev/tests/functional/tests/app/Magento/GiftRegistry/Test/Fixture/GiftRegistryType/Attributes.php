@@ -98,7 +98,6 @@ class Attributes implements FixtureInterface
                     'label' => 'text_%isolation%',
                     'is_required' => 'Yes',
                     'sort_order' => '10',
-                    'is_deleted' => ''
                 ]
             ],
             'select' => [
@@ -109,25 +108,21 @@ class Attributes implements FixtureInterface
                     'label' => 'select_%isolation%',
                     'is_required' => 'Yes',
                     'sort_order' => '20',
-                    'is_deleted' => '',
                     'options' => [
                         [
                             'code' => 'code1_%isolation%',
                             'label' => 'label1_%isolation%',
                             'is_default' => 'Yes',
-                            'is_deleted' => ''
                         ],
                         [
                             'code' => 'code2_%isolation%',
                             'label' => 'label2_%isolation%',
                             'is_default' => 'No',
-                            'is_deleted' => ''
                         ],
                         [
                             'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
                             'is_default' => 'No',
-                            'is_deleted' => ''
                         ]
                     ],
                 ]
@@ -141,7 +136,6 @@ class Attributes implements FixtureInterface
                     'is_required' => 'Yes',
                     'sort_order' => '30',
                     'date_format' => 'Full',
-                    'is_deleted' => ''
                 ]
             ],
             'country' => [
@@ -153,7 +147,6 @@ class Attributes implements FixtureInterface
                     'is_required' => 'No',
                     'sort_order' => '40',
                     'show_region' => 'Yes',
-                    'is_deleted' => ''
                 ]
             ],
             'event_date' => [
@@ -165,7 +158,6 @@ class Attributes implements FixtureInterface
                     'is_searcheable' => 'Yes',
                     'is_listed' => 'No',
                     'date_format' => 'Medium',
-                    'is_deleted' => ''
                 ]
             ],
             'event_country' => [
@@ -177,7 +169,6 @@ class Attributes implements FixtureInterface
                     'is_searcheable' => 'Yes',
                     'is_listed' => 'No',
                     'show_region' => 'No',
-                    'is_deleted' => ''
                 ]
             ],
             'event_location' => [
@@ -188,7 +179,6 @@ class Attributes implements FixtureInterface
                     'sort_order' => '70',
                     'is_searcheable' => 'No',
                     'is_listed' => 'No',
-                    'is_deleted' => ''
                 ]
             ],
             'role' => [
@@ -199,25 +189,21 @@ class Attributes implements FixtureInterface
                     'sort_order' => '80',
                     'is_searcheable' => 'No',
                     'is_listed' => 'No',
-                    'is_deleted' => '',
                     'options' => [
                         [
                             'code' => 'code1_%isolation%',
                             'label' => 'label1_%isolation%',
                             'is_default' => 'Yes',
-                            'is_deleted' => ''
                         ],
                         [
                             'code' => 'code2_%isolation%',
                             'label' => 'label2_%isolation%',
                             'is_default' => 'No',
-                            'is_deleted' => ''
                         ],
                         [
                             'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
                             'is_default' => 'No',
-                            'is_deleted' => ''
                         ]
                     ],
                 ]

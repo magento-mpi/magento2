@@ -117,6 +117,12 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
     {
         $attribute['frontend']['is_required'] = $attribute['is_required'];
         unset ($attribute['is_required']);
+        $attribute['is_deleted'] = '';
+        if (isset($attribute['options'])) {
+            foreach ($attribute['options'] as $key => $option) {
+                $attribute['options'][$key]['is_deleted'] = '';
+            }
+        }
         return $attribute;
     }
 }
