@@ -57,6 +57,7 @@ class ValidatorFile extends Validator
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\File\Size $fileSize
+     * @param \Magento\Framework\HTTP\Adapter\FileTransferFactory $httpFactory
      * @throws \Magento\Framework\Filesystem\FilesystemException
      */
     public function __construct(
@@ -90,9 +91,6 @@ class ValidatorFile extends Validator
      */
     public function validate($processingParams, $option)
     {
-        /**
-         * Upload init
-         */
         $upload = $this->httpFactory->create();
         $file = $processingParams->getFilesPrefix() . 'options_' . $option->getId() . '_file';
         try {

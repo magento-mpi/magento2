@@ -208,7 +208,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         }
         if ($fileInfo !== null) {
             try {
-                $value = $this->validatorInfo->validate($fileInfo, $option) ? $fileInfo : null;
+                $value = $this->validatorInfo->setUseQuotePath($this->getUseQuotePath())
+                    ->validate($fileInfo, $option) ? $fileInfo : null;
                 $this->setUserValue($value);
                 return $this;
             } catch (Exception $exception) {
@@ -219,7 +220,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         // Process new uploaded file
         try {
-            $value = $this->validatorFile->validate($this->_getProcessingParams(), $option);
+            $value = $this->validatorFile->setProduct($this->getProduct())
+                ->validate($this->_getProcessingParams(), $option);
             $this->setUserValue($value);
         } catch (File\LargeSizeException $largeSizeException) {
             $this->setIsValid(false);
@@ -327,18 +329,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     {
         $value = $this->_unserializeValue($optionValue);
         try {
-            if (isset(
-                $value
-            ) && isset(
-                $value['width']
-            ) && isset(
-                $value['height']
-            ) && $value['width'] > 0 && $value['height'] > 0
-            ) {
-                $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . __('px.');
-            } else {
-                $sizes = '';
-            }
+            $sizes = $this->prepareSize($value);
 
             $urlRoute = !empty($value['url']['route']) ? $value['url']['route'] : '';
             $urlParams = !empty($value['url']['params']) ? $value['url']['params'] : '';
@@ -494,5 +485,19 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected function _getOptionDownloadUrl($route, $params)
     {
         return $this->_urlBuilder->getUrl($route, $params);
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    protected function prepareSize($value)
+    {
+        $sizes = '';
+        if (!empty($value['width']) && !empty($value['height']) && $value['width'] > 0 && $value['height'] > 0) {
+            $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . __('px.');
+            return array($value, $sizes);
+        }
+        return $sizes;
     }
 }

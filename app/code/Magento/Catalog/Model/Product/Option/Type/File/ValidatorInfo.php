@@ -16,19 +16,42 @@ class ValidatorInfo extends Validator
     protected $coreFileStorageDatabase;
 
     /**
+     * @var ValidateFactory
+     */
+    protected $validateFactory;
+
+    protected $useQuotePath;
+
+    protected $fileFullPath;
+    protected $fileRelativePath;
+
+    /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\File\Size $fileSize
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param ValidateFactory $validateFactory
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\File\Size $fileSize,
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Catalog\Model\Product\Option\Type\File\ValidateFactory $validateFactory
     ) {
         $this->coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->validateFactory = $validateFactory;
         parent::__construct($scopeConfig, $filesystem, $fileSize);
+    }
+
+    /**
+     * @param mixed $useQuotePath
+     * @return $this
+     */
+    public function setUseQuotePath($useQuotePath)
+    {
+        $this->useQuotePath = $useQuotePath;
+        return $this;
     }
 
     /**
@@ -42,48 +65,27 @@ class ValidatorInfo extends Validator
         if (!is_array($optionValue)) {
             return false;
         }
-        /**
-         * @see \Magento\Catalog\Model\Product\Option\Type\File::_validateUploadFile()
-         *              There setUserValue() sets correct fileFullPath only for
-         *              quote_path. So we must form both full paths manually and
-         *              check them.
-         */
-        $checkPaths = array();
-        if (isset($optionValue['quote_path'])) {
-            $checkPaths[] = $optionValue['quote_path'];
-        }
-        if (isset($optionValue['order_path']) && !$this->getUseQuotePath()) { // TODO: getUseQuotePath
-            $checkPaths[] = $optionValue['order_path'];
-        }
-        $fileFullPath = null;
-        $fileRelativePath = null;
-        foreach ($checkPaths as $path) {
-            if (!$this->rootDirectory->isFile($path)) {
-                if (!$this->coreFileStorageDatabase->saveFileToFilesystem($fileFullPath)) {
-                    continue;
-                }
-            }
-            $fileFullPath = $this->rootDirectory->getAbsolutePath($path);
-            $fileRelativePath = $path;
-            break;
-        }
 
-        if ($fileFullPath === null) {
+        $this->fileFullPath = null;
+        $this->fileRelativePath = null;
+        $this->initFilePath($optionValue);
+
+        if ($this->fileFullPath === null) {
             return false;
         }
 
+        $validatorChain = $this->validateFactory->create();
         try {
-            $validatorChain = new \Zend_Validate();
-            $validatorChain = $this->buildImageValidator($validatorChain, $option, $fileFullPath);
+            $validatorChain = $this->buildImageValidator($validatorChain, $option, $this->fileFullPath);
         } catch (NotImageException $notImage) {
             return false;
         }
 
         $result = false;
-        if ($validatorChain->isValid($fileFullPath)) {
-            $result = $this->rootDirectory->isReadable($fileRelativePath)
+        if ($validatorChain->isValid($this->fileFullPath)) {
+            $result = $this->rootDirectory->isReadable($this->fileRelativePath)
                 && isset($optionValue['secret_key'])
-                && $this->buildSecretKey($fileRelativePath) == $optionValue['secret_key'];
+                && $this->buildSecretKey($this->fileRelativePath) == $optionValue['secret_key'];
 
         } elseif ($validatorChain->getErrors()) {
             $errors = $this->getValidatorErrors($validatorChain->getErrors(), $optionValue, $option);
@@ -104,5 +106,37 @@ class ValidatorInfo extends Validator
     protected function buildSecretKey($fileRelativePath)
     {
         return substr(md5($this->rootDirectory->readFile($fileRelativePath)), 0, 20);
+    }
+
+    /**
+     * @param array $optionValue
+     * @return void
+     */
+    protected function initFilePath($optionValue)
+    {
+        /**
+         * @see \Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile::validate
+         *              There setUserValue() sets correct fileFullPath only for
+         *              quote_path. So we must form both full paths manually and
+         *              check them.
+         */
+        $checkPaths = array();
+        if (isset($optionValue['quote_path'])) {
+            $checkPaths[] = $optionValue['quote_path'];
+        }
+        if (isset($optionValue['order_path']) && !$this->useQuotePath) {
+            $checkPaths[] = $optionValue['order_path'];
+        }
+
+        foreach ($checkPaths as $path) {
+            if (!$this->rootDirectory->isFile($path)) {
+                if (!$this->coreFileStorageDatabase->saveFileToFilesystem($this->fileFullPath)) {
+                    continue;
+                }
+            }
+            $this->fileFullPath = $this->rootDirectory->getAbsolutePath($path);
+            $this->fileRelativePath = $path;
+            break;
+        }
     }
 }

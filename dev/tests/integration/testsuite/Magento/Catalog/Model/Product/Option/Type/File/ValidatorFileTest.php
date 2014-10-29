@@ -160,9 +160,10 @@ class ValidatorFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $options
      * @return \Magento\Catalog\Model\Product\Option
      */
-    protected function getProductOption($options = [])
+    protected function getProductOption(array $options = [])
     {
         $data = [
             'option_id' => '1',
