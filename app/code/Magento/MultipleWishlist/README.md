@@ -1,2 +1,2 @@
-Module Magento\MultipleWishlist implements such feature as multiple wish lists. It is personalized lists of products from the website customer would like to buy. Customers can save products to multiple wish lists and copy or move items from list to list.
-They can make their wish lists public so they are searchable by anyone and merchants can review them to learn about their customers wants and needs.
+The Magento_MultipleWishlist module implements the multiple wishlists functionality.
+These are lists of products from a store a customer would like to buy. Customers can save products to multiple wish lists and copy or move items from list to list.
