@@ -42,32 +42,24 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $attributeFactory;
 
     /**
-     * @var \Magento\Eav\Model\Entity\Attribute\IdentifierFactory
-     */
-    protected $attributeIdentifierFactory;
-
-    /**
      * @param Config $eavConfig
      * @param Resource\Entity\Attribute $eavResource
      * @param Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
      * @param Entity\AttributeFactory $attributeFactory
-     * @param Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute $eavResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
-        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
-        \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
     ) {
         $this->eavConfig = $eavConfig;
         $this->eavResource = $eavResource;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->attributeFactory = $attributeFactory;
-        $this->attributeIdentifierFactory = $attributeIdentifierFactory;
     }
 
     /**
@@ -129,11 +121,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
         $attributes = [];
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         foreach ($attributeCollection as $attribute) {
-            $identifier = $this->attributeIdentifierFactory->create([
-                'attributeCode' => $attribute->getAttributeCode(),
-                'entityTypeCode' => $entityTypeCode
-            ]);
-            $attributes[] = $this->get($identifier);
+            $attributes[] = $this->get($entityTypeCode, $attribute->getAttributeCode());
         }
         $this->searchResultsBuilder->setItems($attributes);
         $this->searchResultsBuilder->setTotalCount($totalCount);
@@ -143,14 +131,14 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function get(\Magento\Eav\Model\Entity\Attribute\Identifier $identifier)
+    public function get($entityTypeCode, $attributeCode)
     {
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
-        $attribute = $this->eavConfig->getAttribute($identifier->getEntityTypeCode(), $identifier->getAttributeCode());
+        $attribute = $this->eavConfig->getAttribute($entityTypeCode, $attributeCode);
         if (!$attribute->getAttributeId()) {
             throw new NoSuchEntityException(sprintf(
                 'Attribute with attributeCode "%s" does not exist.',
-                $identifier->getAttributeCode()
+                $attributeCode
             ));
         }
         return $attribute;

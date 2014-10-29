@@ -22,7 +22,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
      */
     public function testGet()
     {
-        $attributeCode = 'dob';
+        $attributeCode = 'test_attribute_code_333';
         $attribute = $this->getAttribute($attributeCode);
 
         $this->assertTrue(is_array($attribute));

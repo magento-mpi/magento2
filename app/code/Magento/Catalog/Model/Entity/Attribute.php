@@ -100,7 +100,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
         \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -119,7 +118,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $reservedAttributeList,
             $localeResolver,
             $metadataService,
-            $attributeCollection,
             $resource,
             $resourceCollection,
             $data

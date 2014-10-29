@@ -40,7 +40,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
     protected $entityTypeFactory;
 
     /**
-     * @var Attribute\GroupRepository
+     * @var \Magento\Eav\Api\AttributeGroupRepositoryInterface
      */
     protected $groupRepository;
 
@@ -55,20 +55,14 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
     protected $attributeResource;
 
     /**
-     * @var Entity\Attribute\IdentifierFactory
-     */
-    protected $attributeIdentifierFactory;
-
-    /**
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository
      * @param \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder $attributeBuilder
      * @param Resource\Entity\Attribute\Collection $attributeCollection
      * @param Config $eavConfig
      * @param ConfigFactory $entityTypeFactory
-     * @param Attribute\GroupRepository $groupRepository
+     * @param \Magento\Eav\Api\AttributeGroupRepositoryInterface $groupRepository
      * @param AttributeRepository $attributeRepository
      * @param Resource\Entity\Attribute $attributeResource
-     * @param Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
      */
     public function __construct(
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
@@ -76,10 +70,9 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\ConfigFactory $entityTypeFactory,
-        \Magento\Eav\Model\Attribute\GroupRepository $groupRepository,
-        \Magento\Eav\Model\AttributeRepository $attributeRepository,
-        \Magento\Eav\Model\Resource\Entity\Attribute $attributeResource,
-        \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
+        \Magento\Eav\Api\AttributeGroupRepositoryInterface $groupRepository,
+        \Magento\Eav\Api\AttributeRepositoryInterface $attributeRepository,
+        \Magento\Eav\Model\Resource\Entity\Attribute $attributeResource
     ) {
         $this->setRepository = $setRepository;
         $this->attributeBuilder = $attributeBuilder;
@@ -89,7 +82,6 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         $this->groupRepository = $groupRepository;
         $this->attributeRepository = $attributeRepository;
         $this->attributeResource = $attributeResource;
-        $this->attributeIdentifierFactory = $attributeIdentifierFactory;
     }
 
     /**
@@ -98,40 +90,28 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
     public function assign($entityTypeCode, $attributeSetId, $attributeGroupId, $attributeCode, $sortOrder)
     {
         $attributeSet = $this->setRepository->get($attributeSetId);
-        if (!$attributeSet->getId()) {
-            throw new InputException('Attribute set does not exist');
-        }
         $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
         if ($setEntityType->getEntityTypeCode() != $entityTypeCode) {
             throw new InputException('Wrong attribute set id provided');
         }
-        if (!$this->groupRepository->get($attributeGroupId)->getId()) {
-            throw new InputException('Attribute group does not exist');
-        }
+        //Check if group exists. If not - expected exception
+        $this->groupRepository->get($attributeGroupId);
 
-        $attributeIdentifier = $this->attributeIdentifierFactory->create([
-            'attributeCode' => $attributeCode,
-            'entityTypeCode' => $entityTypeCode
-        ]);
-
-        $attribute = $this->attributeRepository->get($attributeIdentifier);
+        /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
+        $attribute = $this->attributeRepository->get($entityTypeCode, $attributeCode);
         if (!$attribute->getAttributeId()) {
             throw new InputException('Attribute does not exist');
         }
-
-        $attribute->setId($attribute->getAttributeId());
-        $attribute->setEntityTypeId($attributeSet->getEntityTypeId());
-        $attribute->setAttributeSetId($attributeSetId);
-        $attribute->setAttributeGroupId($attributeGroupId);
-        $attribute->setSortOrder($sortOrder);
 
         $this->attributeResource->saveInSetIncluding(
             $attribute,
             $attribute->getAttributeId(),
             $attributeSetId,
-            $attributeGroupId
+            $attributeGroupId,
+            $sortOrder
         );
-        return $attribute->getAttributeId();
+        $attribute->setAttributeSetId($attributeSetId);
+        return $attribute->loadEntityAttributeIdBySet()->getData('entity_attribute_id');
     }
 
     /**
@@ -145,13 +125,8 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         }
         $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
 
-        $attributeIdentifier = $this->attributeIdentifierFactory->create([
-            'attributeCode' => $attributeCode,
-            'entityTypeCode' => $setEntityType->getEntityTypeCode()
-        ]);
-        
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
-        $attribute = $this->attributeRepository->get($attributeIdentifier);
+        $attribute = $this->attributeRepository->get($setEntityType->getEntityTypeCode(), $attributeCode);
 
         if (!$attribute->getAttributeId()) {
             throw NoSuchEntityException::singleField('attributeId', $attribute->getAttributeId());

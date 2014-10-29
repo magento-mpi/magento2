@@ -23,11 +23,12 @@ interface AttributeRepositoryInterface
     /**
      * Retrieve specific attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\Identifier $identifier
+     * @param string $entityTypeCode
+     * @param string $attributeCode
      * @return \Magento\Eav\Api\Data\AttributeInterface
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
-    public function get(\Magento\Eav\Model\Entity\Attribute\Identifier $identifier);
+    public function get($entityTypeCode, $attributeCode);
 
     /**
      * Create attribute data

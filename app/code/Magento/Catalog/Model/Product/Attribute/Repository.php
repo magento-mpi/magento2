@@ -24,11 +24,6 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $eavAttributeRepository;
 
     /**
-     * @var \Magento\Eav\Model\Entity\Attribute\IdentifierFactory
-     */
-    protected $attributeIdentifierFactory;
-
-    /**
      * @var \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder
      */
     protected $attributeBuilder;
@@ -59,7 +54,6 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Eav\Model\AttributeRepository $eavAttributeRepository
-     * @param \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory
      */
@@ -69,7 +63,6 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Eav\Model\AttributeRepository $eavAttributeRepository,
-        \Magento\Eav\Model\Entity\Attribute\IdentifierFactory $attributeIdentifierFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory
     ) {
@@ -78,7 +71,6 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         $this->productHelper = $productHelper;
         $this->filterManager = $filterManager;
         $this->eavAttributeRepository = $eavAttributeRepository;
-        $this->attributeIdentifierFactory = $attributeIdentifierFactory;
         $this->eavConfig = $eavConfig;
         $this->inputtypeValidatorFactory = $validatorFactory;
     }
@@ -88,11 +80,10 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function get($attributeCode)
     {
-        $identifier = $this->attributeIdentifierFactory->create([
-            'attributeCode' => $attributeCode,
-            'entityTypeCode' => \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
-        ]);
-        return $this->eavAttributeRepository->get($identifier);
+        return $this->eavAttributeRepository->get(
+            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
+            $attributeCode
+        );
     }
 
     /**

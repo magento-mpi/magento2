@@ -135,7 +135,7 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/attributes" method="POST">
+    <route url="/V1/products/attribute-sets/attributes" method="POST">
         <service class="Magento\Eav\Api\AttributeManagementInterface" method="assign"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>

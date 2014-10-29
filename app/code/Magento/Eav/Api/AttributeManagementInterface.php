@@ -11,11 +11,11 @@ namespace Magento\Eav\Api;
 interface AttributeManagementInterface 
 {
     /**
-     * @param $entityTypeCode
-     * @param $attributeSetId
-     * @param $attributeGroupId
-     * @param $attributeCode
-     * @param $sortOrder
+     * @param string $entityTypeCode
+     * @param int $attributeSetId
+     * @param int $attributeGroupId
+     * @param string $attributeCode
+     * @param int $sortOrder
      * @return int
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface::addAttribute
      */

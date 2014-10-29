@@ -542,4 +542,7 @@
     <preference for="Magento\Catalog\Api\ProductTierPriceManagementInterface" type="\Magento\Catalog\Model\Product\TierPriceManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductTierPriceInterface" type="Magento\Catalog\Model\Product\TierPrice" />
     <preference for="Magento\Catalog\Api\Data\CategoryProductLinkInterface" type="Magento\Catalog\Model\CategoryProductLink" />
+
+    <virtualType name="Magento\Catalog\Model\Resource\Attribute\Collection" type="Magento\Eav\Model\Resource\Entity\Attribute\Collection">
+    </virtualType>
 </config>
