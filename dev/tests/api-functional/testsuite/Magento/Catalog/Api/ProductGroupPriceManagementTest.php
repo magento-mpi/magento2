@@ -28,9 +28,7 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
                 // @todo fix this configuration after SOAP test framework is functional
             ],
         ];
-
-            $groupPriceList = $this->_webApiCall($serviceInfo);
-
+        $groupPriceList = $this->_webApiCall($serviceInfo);
         $this->assertCount(2, $groupPriceList);
         $this->assertEquals(9, $groupPriceList[0]['value']);
         $this->assertEquals(7, $groupPriceList[1]['value']);
@@ -73,12 +71,7 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
                 // @todo fix this configuration after SOAP test framework is functional
             ]
         ];
-        $price = ['value' => 10, 'customer_group_id' => 1];
-
-            $this->_webApiCall($serviceInfo);
-//        } else {
-//            $this->_webApiCall($serviceInfo, ['price' => $price]);
-//        }
+        $this->_webApiCall($serviceInfo);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductGroupPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductGroupPriceManagementInterface');
@@ -104,9 +97,7 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
                 // @todo fix this configuration after SOAP test framework is functional
             ],
         ];
-        $price = ['value' => 10, 'customer_group_id' => 1];
-
-            $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'price' => $price]);
+        $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductGroupPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductGroupPriceManagementInterface');
