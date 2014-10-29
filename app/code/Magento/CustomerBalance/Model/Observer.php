@@ -64,6 +64,7 @@ class Observer
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Converter $customerConverter
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Checkout\Model\Type\Onepage $onePageCheckout,
