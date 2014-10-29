@@ -300,7 +300,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $product->load(1);
         // fixture
         $product->setData('attribute_with_invalid_applyto', 'value');
-        // this attribute is applicable only for downloadable
         $this->_model->beforeSave($product);
         $this->assertTrue($product->canAffectOptions());
         $this->assertFalse($product->hasData('attribute_with_invalid_applyto'));
