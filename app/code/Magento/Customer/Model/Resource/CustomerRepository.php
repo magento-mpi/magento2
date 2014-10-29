@@ -64,6 +64,16 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     protected $searchResultsBuilder;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
@@ -73,6 +83,8 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
@@ -83,7 +95,9 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
-        \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder
+        \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->customerFactory = $customerFactory;
@@ -94,6 +108,8 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $this->addressBuilder = $addressBuilder;
         $this->customerBuilder = $customerBuilder;
         $this->searchResultsBuilder = $searchResultsDataBuilder;
+        $this->eventManager = $eventManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -111,20 +127,29 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
                 )
             ]
         );
+        $storeId = $customerModel->getStoreId();
+        if ($storeId === null) {
+            $customerModel->setStoreId($this->storeManager->getStore()->getId());
+        }
+        $customerModel->getGroupId();
         $customerModel->setId($customer->getId());
         /** Prevent addresses being processed by resource model */
         $customerModel->unsAddresses();
         $this->customerResourceModel->save($customerModel);
+        $this->customerRegistry->push($customerModel);
         $customerId = $customerModel->getId();
-        /** Clear the customer from registry so that the updated one can be retrieved next time */
-        $this->customerRegistry->remove($customerId);
         foreach ($customer->getAddresses() as $address) {
             if ($isNewCustomer) {
                 $address = $this->addressBuilder->populate($address)->setCustomerId($customerId)->create();
             }
             $this->addressRepository->save($address);
         }
-        return $this->get($customer->getEmail(), $customer->getWebsiteId());
+        $savedCustomer = $this->get($customer->getEmail(), $customer->getWebsiteId());
+        $this->eventManager->dispatch(
+            'customer_save_after_data_object',
+            ['customer_data_object' => $savedCustomer, 'orig_customer_data_object' => $customer]
+        );
+        return $savedCustomer;
     }
 
     /**

@@ -169,4 +169,18 @@ class CustomerRegistry
     {
         return $customerEmail . self::REGISTRY_SEPARATOR . $websiteId;
     }
+
+    /**
+     * Replace existing customer model with a new one.
+     *
+     * @param Customer $customer
+     * @return $this
+     */
+    public function push(Customer $customer)
+    {
+        $this->customerRegistryById[$customer->getId()] = $customer;
+        $emailKey = $this->getEmailKey($customer->getEmail(), $customer->getWebsiteId());
+        $this->customerRegistryByEmail[$emailKey] = $customer;
+        return $this;
+    }
 }

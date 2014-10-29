@@ -70,7 +70,7 @@ class AddressRegistry
      * Replace existing Address Model with a new one
      *
      * @param Address $address
-     * @return $this;
+     * @return $this
      */
     public function push(Address $address)
     {

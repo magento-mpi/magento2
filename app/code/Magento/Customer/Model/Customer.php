@@ -278,10 +278,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getDataModel()
     {
-        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
-        $this->customerDataBuilder->populateWithArray($this->getData());
-        $this->customerDataBuilder->setId($this->getId());
-        return $this->customerDataBuilder->create();
+        return $this->customerDataBuilder->populateWithArray($this->getData())->setId($this->getId())->create();
     }
 
     /**
@@ -368,42 +365,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $this->_getResource()->loadByEmail($this, $customerEmail);
         return $this;
-    }
-
-    /**
-     * Processing object before save data
-     *
-     * @return $this
-     */
-    protected function _beforeSave()
-    {
-        parent::_beforeSave();
-
-        $storeId = $this->getStoreId();
-        if ($storeId === null) {
-            $this->setStoreId($this->_storeManager->getStore()->getId());
-        }
-
-        $this->getGroupId();
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _afterSave()
-    {
-        $customerData = (array)$this->getData();
-        $customerData[CustomerData::ID] = $this->getId();
-        $dataObject = $this->customerDataBuilder->populateWithArray($customerData)->create();
-        $customerOrigData = (array)$this->getOrigData();
-        $customerOrigData[CustomerData::ID] = $this->getId();
-        $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
-        $this->_eventManager->dispatch(
-            'customer_save_after_data_object',
-            array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
-        );
-        return parent::_afterSave();
     }
 
     /**
