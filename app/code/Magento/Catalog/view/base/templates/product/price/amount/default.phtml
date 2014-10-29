@@ -15,6 +15,7 @@
     <?php endif; ?>
     <span<?php if ($this->getPriceId()): ?> id="<?php echo $this->getPriceId() ?>"<?php endif;?>
         <?php echo ($this->getPriceDisplayLabel()) ? 'data-label="' . $this->getPriceDisplayLabel() . $this->getPriceDisplayInclExclTaxes() . '"' : '' ?>
+        data-price-amount="<?php echo $this->getAmount()->getValue(); ?>"
         class="price-wrapper <?php echo $this->getPriceWrapperCss(); ?>">
         <?php echo $this->convertAndFormatCurrency($this->getDisplayValue(), (bool)$this->getIncludeContainer()) ?>
     </span>

@@ -35,6 +35,7 @@ define([
             decimalSymbol = format.decimalSymbol === undefined ? ',' : format.decimalSymbol,
             groupSymbol = format.groupSymbol === undefined ? '.' : format.groupSymbol,
             groupLength = format.groupLength === undefined ? 3 : format.groupLength,
+            pattern = format.pattern  || '%s',
             s = '';
 
         if (isShowSign === undefined || isShowSign === true) {
@@ -42,6 +43,8 @@ define([
         } else if (isShowSign === false) {
             s = '';
         }
+        pattern = pattern.indexOf('{sign}') < 0 ? s + pattern : pattern.replace('{sign}', s);
+
         var i = parseInt(amount = Math.abs(+amount || 0).toFixed(precision), 10) + '',
             pad = (i.length < integerRequired) ? (integerRequired - i.length) : 0;
 
@@ -56,8 +59,7 @@ define([
         // Result is '0.-0' :(
         var r = (j ? i.substr(0, j) + groupSymbol : '') +
                 i.substr(j).replace(re, '$1' + groupSymbol) +
-                (precision ? decimalSymbol + Math.abs(amount - i).toFixed(precision).replace(/-/, 0).slice(2) : ''),
-            pattern = format.pattern.indexOf('{sign}') < 0 ? s + format.pattern : format.pattern.replace('{sign}', s);
+                (precision ? decimalSymbol + Math.abs(amount - i).toFixed(precision).replace(/-/, 0).slice(2) : '');
         return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 
     }
