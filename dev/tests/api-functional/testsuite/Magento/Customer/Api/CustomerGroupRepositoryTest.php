@@ -5,29 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Api;
 
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\GroupRepository;
 use Magento\Customer\Model\Data\Group as CustomerGroup;
-use Magento\Customer\Service\V1\CustomerGroupService;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
- * Class CustomerGroupServiceTest
+ * Class CustomerGroupRepositoryTest
  */
-class CustomerGroupServiceTest extends WebapiAbstract
+class CustomerGroupRepositoryTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerGroupServiceV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/customerGroups";
-
-    /**
-     * @var CustomerGroupServiceInterface
-     */
-    private $groupService;
 
     /**
      * @var GroupRegistry
@@ -46,10 +40,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->groupRegistry = $objectManager->get('Magento\Customer\Model\GroupRegistry');
-        $this->groupService = $objectManager->get(
-            'Magento\Customer\Service\V1\CustomerGroupServiceInterface',
-            ['groupRegistry' => $this->groupRegistry]
-        );
         $this->groupRepository = $objectManager->get('Magento\Customer\Model\Resource\GroupRepository');
     }
 
@@ -58,7 +48,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function tearDown()
     {
-        unset($this->groupService);
     }
 
     /**
@@ -66,14 +55,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public static function tearDownAfterClass()
     {
-        /** @var CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        foreach ($groupService->getGroups() as $group) {
-            if ($group->getId() > 3) {
-                $groupService->deleteGroup($group->getId());
-            }
-        }
     }
 
     /**
@@ -491,7 +472,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
-            CustomerGroupService::DEFAULT_TAX_CLASS_ID,
+            GroupRepository::DEFAULT_TAX_CLASS_ID,
             $newGroup->getTaxClassId(),
             'The group tax class id does not match.'
         );
@@ -703,7 +684,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
-             . '"parameters":{"fieldName":"groupId","fieldValue":"9999"}';
+             . '"parameters":{"fieldName":"groupId","fieldValue":9999}}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -822,7 +803,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
-            CustomerGroupService::DEFAULT_TAX_CLASS_ID,
+            GroupRepository::DEFAULT_TAX_CLASS_ID,
             $newGroup->getTaxClassId(),
             "The group tax class id does not match."
         );
@@ -1107,7 +1088,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     private function createGroup($group)
     {
-        $groupId = $this->groupRepository->save($group);
+        $groupId = $this->groupRepository->save($group); //->getId();
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);

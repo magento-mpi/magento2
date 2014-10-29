@@ -109,6 +109,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * Retrieve group model with group data
      *
+     * @deprecated
      * @return \Magento\Customer\Api\Data\GroupInterface
      */
     public function getDataModel()
@@ -123,6 +124,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * Update group data
      *
+     * @deprecated
      * @param \Magento\Customer\Api\Data\GroupInterface $group
      * @return $this
      */

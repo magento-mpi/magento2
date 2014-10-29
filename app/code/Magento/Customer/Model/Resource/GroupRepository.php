@@ -38,6 +38,16 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     protected $groupFactory;
 
     /**
+     * @var \Magento\Customer\Api\Data\GroupDataBuilder
+     */
+    protected $groupBuilder;
+
+    /**
+     * @var \Magento\Customer\Model\Resource\Group
+     */
+    protected $groupResourceModel;
+
+    /**
      * @var \Magento\Webapi\Model\DataObjectProcessor
      */
     protected $dataObjectProcessor;
@@ -55,6 +65,8 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     /**
      * @param \Magento\Customer\Model\GroupRegistry $groupRegistry
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder
+     * @param \Magento\Customer\Model\Resource\Group $groupResourceModel
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor
      * @param CustomerGroupSearchResultsBuilder $searchResultsBuilder
      * @param TaxClassServiceInterface $taxClassService
@@ -62,27 +74,23 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     public function __construct(
         \Magento\Customer\Model\GroupRegistry $groupRegistry,
         \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder,
+        \Magento\Customer\Model\Resource\Group $groupResourceModel,
         \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
         CustomerGroupSearchResultsBuilder $searchResultsBuilder,
         TaxClassServiceInterface $taxClassServiceInterface
     ) {
         $this->groupRegistry = $groupRegistry;
         $this->groupFactory = $groupFactory;
+        $this->groupBuilder = $groupBuilder;
+        $this->groupResourceModel = $groupResourceModel;
         $this->dataObjectProcessor = $dataObjectProcessor;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->taxClassService = $taxClassServiceInterface;
     }
 
     /**
-     * Save customer group.
-     *
-     * @param \Magento\Customer\Api\Data\GroupInterface $group
-     * @return \Magento\Customer\Api\Data\GroupInterface
-     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If a group ID is sent but the group does not exist
-     * @throws \Magento\Framework\Exception\State\InvalidTransitionException
-     *      If saving customer group with customer group code that is used by an existing customer group
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * {@inheritdoc}
      */
     public function save(\Magento\Customer\Api\Data\GroupInterface $group)
     {
@@ -92,31 +100,33 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
         $groupModel = null;
         if ($group->getId()) {
             $groupModel = $this->groupRegistry->retrieve($group->getId());
-            $groupModel->updateData($group);
+            $groupDataAttributes = $this->dataObjectProcessor->buildOutputDataArray(
+                $group,
+                '\Magento\Customer\Api\Data\GroupInterface'
+            );
+            foreach ($groupDataAttributes as $attributeCode => $attributeData) {
+                $groupModel->setDataUsingMethod($attributeCode, $attributeData);
+            }
         } else {
             $groupModel = $this->groupFactory->create();
             $groupModel->setCode($group->getCode());
 
-            $taxClassId = $group->getTaxClassId();
-            if (!$taxClassId) {
-                $taxClassId = self::DEFAULT_TAX_CLASS_ID;
-            }
+            $taxClassId = $group->getTaxClassId() ? : self::DEFAULT_TAX_CLASS_ID;
             $this->_verifyTaxClassModel($taxClassId, $group);
-
             $groupModel->setTaxClassId($taxClassId);
+        }
 
-            try {
-                $groupModel->save();
-            } catch (\Magento\Framework\Model\Exception $e) {
-                /**
-                 * Would like a better way to determine this error condition but
-                 *  difficult to do without imposing more database calls
-                 */
-                if ($e->getMessage() === __('Customer Group already exists.')) {
-                    throw new InvalidTransitionException('Customer Group already exists.');
-                }
-                throw $e;
+        try {
+            $this->groupResourceModel->save($groupModel);
+        } catch (\Magento\Framework\Model\Exception $e) {
+            /**
+             * Would like a better way to determine this error condition but
+             *  difficult to do without imposing more database calls
+             */
+            if ($e->getMessage() === __('Customer Group already exists.')) {
+                throw new InvalidTransitionException('Customer Group already exists.');
             }
+            throw $e;
         }
 
         $this->groupRegistry->remove($groupModel->getId());
@@ -124,28 +134,19 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     }
 
     /**
-     * Get customer group by group ID.
-     *
-     * @param int $groupId
-     * @return \Magento\Customer\Api\Data\GroupInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If $groupId is not found
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * {@inheritdoc}
      */
     public function get($groupId)
     {
         $groupModel = $this->groupRegistry->retrieve($groupId);
-        return $groupModel->getDataModel();
+        return $this->groupBuilder
+            ->populateWithArray($groupModel->getData())
+            ->setId($groupModel->getId())
+            ->create();
     }
 
     /**
-     * Retrieve customer groups.
-     *
-     * The list of groups can be filtered to exclude the NOT_LOGGED_IN group using the first parameter and/or it can
-     * be filtered by tax class.
-     *
-     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Customer\Api\Data\GroupSearchResultsInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * {@inheritdoc}
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
