@@ -48,12 +48,8 @@
             width: auto;
         }
         &.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 28px
-            );
             .button-reset();
+            .button-as-link();
         }
     }
 }
@@ -74,6 +70,7 @@
             .fields {
                 .actions-toolbar {
                     top: 30px;
+                    left: 74%;
                 }
             }
         }
