@@ -41,12 +41,12 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
     public function attributesProvider()
     {
         return [
-            [[0, 0, 0], 'sku', 'static'],
-            [[0, 0, 0], 'price', 'static'],
-            [[1, 2, 0], 'name', 'text'],
+            [[2, 0, 0], 'sku', 'static'],
+            [[2, 0, 0], 'price', 'static'],
+            [[3, 2, 0], 'name', 'text'],
             [[1, 0, 0], 'name2', 'text', false],
-            [[1, 2, 1], 'date', 'decimal'],
-            [[1, 2, 1], 'attr_int', 'int'],
+            [[3, 2, 1], 'date', 'decimal'],
+            [[3, 2, 1], 'attr_int', 'int'],
         ];
     }
 
@@ -99,7 +99,9 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
                     'getBackendType',
                     'getIsVisibleInAdvancedSearch',
                     'getSearchWeight',
-                    'getFrontendInput'
+                    'getFrontendInput',
+                    'getIsFilterable',
+                    'getIsSearchable'
                 ]
             )
             ->getMock();
@@ -120,6 +122,15 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
         $attribute->expects($this->any())
             ->method('getIsVisibleInAdvancedSearch')
             ->willReturn($visibleInAdvanced);
+
+        $attribute->expects($this->any())
+            ->method('getIsFilterable')
+            ->willReturn($visibleInAdvanced);
+
+        $attribute->expects($this->any())
+            ->method('getIsSearchable')
+            ->willReturn(1);
+
         return $attribute;
     }
 
