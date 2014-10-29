@@ -55,6 +55,10 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
             'Static Types/Event Location' => 'event_location',
             'Static Types/Role' => 'role',
         ],
+        'is_required' => [
+            'Yes' => 1,
+            'No' => 0,
+        ]
     ];
 
     /**
