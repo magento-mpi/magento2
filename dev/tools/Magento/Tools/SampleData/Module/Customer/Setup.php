@@ -9,7 +9,6 @@ namespace Magento\Tools\SampleData\Module\Customer;
 
 use Magento\Tools\SampleData\SetupInterface;
 
-
 /**
  * Class Setup
  */

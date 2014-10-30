@@ -11,12 +11,21 @@ use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
-
 /**
  * Class Customer
  */
 class Customer implements SetupInterface
 {
+    /**
+     * @var FixtureHelper
+     */
+    protected $fixtureHelper;
+
+    /**
+     * @var CsvReaderFactory
+     */
+    protected $csvReaderFactory;
+
     /**
      * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
@@ -35,7 +44,7 @@ class Customer implements SetupInterface
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $customerAccountServiceInterface;
+    protected $customerAccount;
 
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -50,49 +59,47 @@ class Customer implements SetupInterface
     /**
      * @var array $customerDataProfile
      */
-    protected $customerDataProfile =
-        [
-            'website_id' => '1',
-            'group_id' => '1',
-            'disable_auto_group_change' => '0',
-            'prefix',
-            'firstname' => '',
-            'middlename' => '',
-            'lastname' => '',
-            'suffix' => '',
-            'email' => '',
-            'dob' => '',
-            'taxvat' => '',
-            'gender' => '',
-            'confirmation' => false,
-            'sendemail' => false
+    protected $customerDataProfile = [
+        'website_id' => '1',
+        'group_id' => '1',
+        'disable_auto_group_change' => '0',
+        'prefix',
+        'firstname' => '',
+        'middlename' => '',
+        'lastname' => '',
+        'suffix' => '',
+        'email' => '',
+        'dob' => '',
+        'taxvat' => '',
+        'gender' => '',
+        'confirmation' => false,
+        'sendemail' => false
     ];
 
     /**
      * @var array $customerDataAddress
      */
-    protected $customerDataAddress =
-        [
-            'prefix' => '',
-            'firstname' => '',
-            'middlename' => '',
-            'lastname' => '',
-            'suffix' => '',
-            'company' => '',
-            'street' => [
-                0 => '',
-                1 => ''
-            ],
-            'city' => '',
-            'country_id' => '',
-            'region' => '',
-            'postcode' => '',
-            'telephone' => '',
-            'fax' => '',
-            'vat_id' => '',
-            'default_billing' => true,
-            'default_shipping' => true
-        ];
+    protected $customerDataAddress = [
+        'prefix' => '',
+        'firstname' => '',
+        'middlename' => '',
+        'lastname' => '',
+        'suffix' => '',
+        'company' => '',
+        'street' => [
+            0 => '',
+            1 => ''
+        ],
+        'city' => '',
+        'country_id' => '',
+        'region' => '',
+        'postcode' => '',
+        'telephone' => '',
+        'fax' => '',
+        'vat_id' => '',
+        'default_billing' => true,
+        'default_shipping' => true
+    ];
 
     /**
      * @param FixtureHelper $fixtureHelper
@@ -100,18 +107,18 @@ class Customer implements SetupInterface
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param array $fixtures
      */
-    function __construct(
+    public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         $fixtures = [
@@ -123,7 +130,7 @@ class Customer implements SetupInterface
         $this->customerBuilder = $customerBuilder;
         $this->addressBuilder = $addressBuilder;
         $this->customerDetailsBuilder = $customerDetailsBuilder;
-        $this->customerAccountService = $customerAccountService;
+        $this->customerAccount = $customerAccount;
         $this->customerFactory = $customerFactory;
         $this->countryFactory = $countryFactory;
         $this->fixtures = $fixtures;
@@ -135,7 +142,6 @@ class Customer implements SetupInterface
     public function run()
     {
         foreach ($this->fixtures as $file) {
-
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
@@ -152,11 +158,13 @@ class Customer implements SetupInterface
                     ->setAddresses($addresses)
                     ->create();
                 // Save customer
-                if ($this->customerAccountService->isEmailAvailable($customerProfile->getEmail(), $customerProfile->getWebsiteId())) {
-                    $customer = $this->customerAccountService->createCustomer($customerDetails);
+                $emailAvailable = $this->customerAccount
+                    ->isEmailAvailable($customerProfile->getEmail(), $customerProfile->getWebsiteId());
+                if ($emailAvailable) {
+                    $customer = $this->customerAccount->createCustomer($customerDetails);
                     $customerId = $customer->getId();
                 } else {
-                    $customerId = $this->customerAccountService->getCustomerByEmail($customerProfile->getEmail())->getId();
+                    $customerId = $this->customerAccount->getCustomerByEmail($customerProfile->getEmail())->getId();
                 }
                 $this->updateCustomerPassword($customerId, $row['password']);
                 echo '.';
@@ -166,8 +174,8 @@ class Customer implements SetupInterface
     }
 
     /**
-     * @param $row
-     * @param $data
+     * @param array $row
+     * @param array $data
      * @return array $data
      */
     protected function convertRowData($row, $data)
@@ -178,8 +186,7 @@ class Customer implements SetupInterface
                     $data[$field] = unserialize($value);
                     continue;
                 }
-                if ($field == 'password')
-                {
+                if ($field == 'password') {
                     continue;
                 }
                 $data[$field] = $value;
@@ -189,7 +196,7 @@ class Customer implements SetupInterface
     }
 
     /**
-     * @param $address
+     * @param array $address
      * @return mixed
      */
     protected function getRegionId($address)
@@ -199,12 +206,13 @@ class Customer implements SetupInterface
     }
 
     /**
-     * @param $customerId
-     * @param $password
+     * @param string $customerId
+     * @param string $password
+     * @return $this
      */
     protected function updateCustomerPassword($customerId, $password)
     {
-        $customerAccountData = $this->customerAccountService->getCustomer($customerId);
+        $customerAccountData = $this->customerAccount->getCustomer($customerId);
         $customerModel = $this->customerFactory->create()->setWebsiteId($customerAccountData->getWebsiteId());
         $customerModel->loadByEmail($customerAccountData->getEmail())->setPassword($password)->save();
     }
