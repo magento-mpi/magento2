@@ -208,7 +208,7 @@ class Customer implements SetupInterface
     /**
      * @param string $customerId
      * @param string $password
-     * @return $this
+     * @return void
      */
     protected function updateCustomerPassword($customerId, $password)
     {
