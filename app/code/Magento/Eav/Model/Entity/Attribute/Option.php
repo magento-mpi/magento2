@@ -8,6 +8,7 @@
 namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Eav\Api\Data\AttributeOptionInterface;
+use Magento\Framework\Model\AbstractExtensibleModel;
 /**
  * Emtity attribute option model
  *
@@ -19,7 +20,7 @@ use Magento\Eav\Api\Data\AttributeOptionInterface;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends \Magento\Framework\Model\AbstractModel implements AttributeOptionInterface
+class Option extends AbstractExtensibleModel implements AttributeOptionInterface
 {
     /**
      * Resource initialization
@@ -32,7 +33,7 @@ class Option extends \Magento\Framework\Model\AbstractModel implements Attribute
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getLabel()
     {
@@ -40,7 +41,7 @@ class Option extends \Magento\Framework\Model\AbstractModel implements Attribute
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getValue()
     {
@@ -48,7 +49,7 @@ class Option extends \Magento\Framework\Model\AbstractModel implements Attribute
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function getSortOrder()
     {
@@ -56,7 +57,7 @@ class Option extends \Magento\Framework\Model\AbstractModel implements Attribute
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function getIsDefault()
     {
@@ -64,7 +65,7 @@ class Option extends \Magento\Framework\Model\AbstractModel implements Attribute
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option\Label[]
      */
     public function getStoreLabels()
     {

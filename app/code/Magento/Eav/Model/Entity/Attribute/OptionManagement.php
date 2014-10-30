@@ -10,6 +10,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\InputException;
 
 class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInterface
 {
@@ -36,8 +37,12 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
     /**
      * {@inheritdoc}
      */
-    public function add($attributeCode, $entityType, $option)
+    public function add($entityType, $attributeCode, $option)
     {
+        if (empty($attributeCode)) {
+            throw new InputException('Empty attribute code');
+        }
+
         $attribute = $this->loadAttribute($entityType, $attributeCode);
         if (!$attribute->usesSource()) {
             throw new StateException(sprintf('Attribute %s doesn\'t work with options', $attributeCode));
@@ -71,14 +76,17 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
     /**
      * {@inheritdoc}
      */
-    public function delete($entityType, $attributeCode, $option)
+    public function delete($entityType, $attributeCode, $optionId)
     {
+        if (empty($attributeCode)) {
+            throw new InputException('Empty attribute code');
+        }
+
         $attribute = $this->loadAttribute($entityType, $attributeCode);
         if (!$attribute->usesSource()) {
             throw new StateException(sprintf('Attribute %s doesn\'t have any option', $attributeCode));
         }
 
-        $optionId = $option->getId();
         if (!$attribute->getSource()->getOptionText($optionId)) {
             throw new NoSuchEntityException(
                 sprintf('Attribute %s does not contain option with Id %s', $attribute->getId(), $optionId)
@@ -107,6 +115,9 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
      */
     public function getItems($entityType, $attributeCode)
     {
+        if (empty($attributeCode)) {
+            throw new InputException('Empty attribute code');
+        }
         $attribute = $this->loadAttribute($entityType, $attributeCode);
 
         try {

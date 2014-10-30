@@ -171,20 +171,20 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attributes/:id/options" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Option\ReadServiceInterface" method="options"/>
+    <route url="/V1/products/attributes/:attributeCode/options" method="GET">
+        <service class="Magento\Catalog\Api\ProductAttributeOptionManagementInterface" method="getItems"/>
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
-    <route url="/V1/products/attributes/:id/options" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface" method="addOption" />
+    <route url="/V1/products/attributes/:attributeCode/options" method="POST">
+        <service class="Magento\Catalog\Api\ProductAttributeOptionManagementInterface" method="add" />
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
-    <route url="/V1/products/attributes/:id/options/:optionId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface" method="removeOption" />
+    <route url="/V1/products/attributes/:attributeCode/options/:optionId" method="DELETE">
+        <service class="Magento\Catalog\Api\ProductAttributeOptionManagementInterface" method="delete" />
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>

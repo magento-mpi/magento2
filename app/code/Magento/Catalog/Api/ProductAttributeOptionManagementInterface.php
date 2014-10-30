@@ -1,0 +1,51 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Catalog\Api;
+
+interface ProductAttributeOptionManagementInterface
+{
+    /**
+     * Retrieve list of attribute options
+     *
+     *
+     *
+     * @param string $attributeCode
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
+     */
+    public function getItems($attributeCode);
+
+    /**
+     * Add option to attribute
+     *
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::addOption
+     *
+     * @param string $attributeCode
+     * @param \Magento\Eav\Api\Data\AttributeOptionInterface $option
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return bool
+     */
+    public function add($attributeCode, $option);
+
+    /**
+     * Delete option from attribute
+     *
+     * @see \Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface::removeOption
+     *
+     * @param string $attributeCode
+     * @param string $optionId
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return bool
+     */
+    public function delete($attributeCode, $optionId);
+}

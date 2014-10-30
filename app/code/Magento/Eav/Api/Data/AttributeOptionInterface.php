@@ -38,28 +38,28 @@ interface AttributeOptionInterface
     /**
      * Get option value
      *
-     * @return string|null
+     * @return string
      */
     public function getValue();
 
     /**
      * Get option order
      *
-     * @return int|null
+     * @return int
      */
     public function getSortOrder();
 
     /**
      * is default
      *
-     * @return bool|null
+     * @return bool
      */
     public function getIsDefault();
 
     /**
      * Set option label for store scopes
      *
-     * @return \Magento\Eav\Api\Data\AttributeOptionLabelInterface[]|null
+     * @return \Magento\Eav\Api\Data\AttributeOptionLabelInterface[]
      */
     public function getStoreLabels();
 }
