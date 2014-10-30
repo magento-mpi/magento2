@@ -14,6 +14,7 @@ use Magento\Catalog\Model\Resource\Layer\Filter\Price;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\Search\Dynamic\Algorithm;
+use Magento\Store\Model\ScopeInterface;
 
 class Manual implements AlgorithmInterface
 {
@@ -97,7 +98,7 @@ class Manual implements AlgorithmInterface
     {
         return (int)$this->scopeConfig->getValue(
             self::XML_PATH_RANGE_MAX_INTERVALS,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ScopeInterface::SCOPE_STORE
         );
     }
 }
