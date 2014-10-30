@@ -62,12 +62,6 @@
             <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>
         </arguments>
     </type>
-    <virtualType name="categoryFilterList" type="Magento\Solr\Model\Layer\Category\FilterList"/>
-    <virtualType name="categorySearchList" type="Magento\Solr\Model\Layer\Search\FilterList">
-        <arguments>
-            <argument name="filterableAttributes" xsi:type="object">Magento\Solr\Model\Layer\Search\FilterableAttributeList</argument>
-        </arguments>
-    </virtualType>
     <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
         <plugin name="search" type="Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
     </type>

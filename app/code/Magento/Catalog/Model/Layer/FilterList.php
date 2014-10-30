@@ -85,12 +85,29 @@ class FilterList
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param \Magento\Catalog\Model\Layer $layer
-     * @return mixed
+     * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function createAttributeFilter(
         \Magento\Catalog\Model\Resource\Eav\Attribute $attribute,
         \Magento\Catalog\Model\Layer $layer
     ) {
+        $filterClassName = $this->getAttributeFilterClass($attribute);
+
+        $filter = $this->objectManager->create(
+            $filterClassName,
+            array('data' => array('attribute_model' => $attribute), 'layer' => $layer)
+        );
+        return $filter;
+    }
+
+    /**
+     * Get Attribute Filter Class Name
+     *
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return string
+     */
+    protected function getAttributeFilterClass(\Magento\Catalog\Model\Resource\Eav\Attribute $attribute)
+    {
         $filterClassName = $this->filterTypes[self::ATTRIBUTE_FILTER];
 
         if ($attribute->getAttributeCode() == 'price') {
@@ -99,10 +116,16 @@ class FilterList
             $filterClassName = $this->filterTypes[self::DECIMAL_FILTER];
         }
 
-        $filter = $this->objectManager->create(
-            $filterClassName,
-            array('data' => array('attribute_model' => $attribute), 'layer' => $layer)
-        );
-        return $filter;
+        return $filterClassName;
+    }
+
+    /**
+     * Prepare Filters
+     *
+     * @return void
+     */
+    public function prepareFilters()
+    {
+        return;
     }
 }

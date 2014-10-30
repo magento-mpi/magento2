@@ -80,6 +80,12 @@ class Preprocessor implements PreprocessorInterface
             $query = str_replace('price', 'min_price', $query);
             $select->from(['main_table' => $this->resource->getTableName('catalog_product_index_price')], 'entity_id')
                 ->where($query);
+        } elseif ($filter->getField() == 'category_ids') {
+            $query = str_replace('category_ids', 'category_id', $query);
+            $select->from(
+                    ['main_table' => $this->resource->getTableName('catalog_category_product_index')],
+                    'product_id as entity_id'
+                )->where($query);
         } else {
             if ($attribute->isStatic()) {
                 $select->from(['main_table' => $table], 'entity_id')

@@ -29,6 +29,7 @@
                 </div>
             <?php endif; ?>
             <?php $wrapOptions = false; ?>
+            <?php $this->prepareFilters(); ?>
             <?php foreach ($this->getFilters() as $filter): ?>
                 <?php if(!$wrapOptions): ?>
                     <strong class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
