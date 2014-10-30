@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Downloadable\Model\Resource\Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 /**
  * Add attributes to the eav/attribute table
@@ -13,7 +13,7 @@ $installer = $this;
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'links_purchased_separately',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -33,13 +33,13 @@ $installer->addAttribute(
         'unique' => false,
         'apply_to' => 'downloadable',
         'used_in_product_listing' => true
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'samples_title',
-    array(
+    [
         'type' => 'varchar',
         'backend' => '',
         'frontend' => '',
@@ -58,13 +58,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'downloadable'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'links_title',
-    array(
+    [
         'type' => 'varchar',
         'backend' => '',
         'frontend' => '',
@@ -83,13 +83,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'downloadable'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'links_exist',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -109,18 +109,20 @@ $installer->addAttribute(
         'unique' => false,
         'apply_to' => 'downloadable',
         'used_in_product_listing' => 1
-    )
+    ]
 );
 
-$fieldList = array(
+$fieldList = [
     'price',
     'special_price',
     'special_from_date',
     'special_to_date',
     'minimal_price',
     'cost',
-    'tier_price'
-);
+    'tier_price',
+    'group_price',
+    'weight'
+];
 
 // make these attributes applicable to downloadable products
 foreach ($fieldList as $field) {
