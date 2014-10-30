@@ -145,13 +145,12 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         /** Prevent addresses being processed by resource model */
         $customerModel->unsAddresses();
         // Populate model with secure data
-        $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
-        if ($customerSecure) {
+        if ($customer->getId()) {
             /*
              * TODO: Check \Magento\Customer\Model\Resource\Customer::changeResetPasswordLinkToken setAttribute
              * and make sure its consistent
              */
-
+            $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
             $customerModel->setRpToken($customerSecure->getRpToken());
             $customerModel->setRpTokenCreatedAt($customerSecure->getRpTokenCreatedAt());
             $customerModel->setPasswordHash($customerSecure->getPasswordHash());
