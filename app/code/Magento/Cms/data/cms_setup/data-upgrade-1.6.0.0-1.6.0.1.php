@@ -226,7 +226,6 @@ $privacyPageData = array(
     'sort_order' => 0
 );
 
-/** @var $page \Magento\Cms\Model\Page */
 $this->createPage()->setData($privacyPageData)->save();
 
 $footerLinksBlock = $this->createPage()->load('footer_links', 'identifier');

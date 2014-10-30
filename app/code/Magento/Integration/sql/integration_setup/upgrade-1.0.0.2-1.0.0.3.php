@@ -10,8 +10,6 @@
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
-
-/* @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 
 $oauthTokenTable = $installer->getTable('oauth_token');

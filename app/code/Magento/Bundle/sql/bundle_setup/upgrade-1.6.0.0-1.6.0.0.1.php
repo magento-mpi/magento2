@@ -8,7 +8,6 @@
 
 /** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
-/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 
 $priceIndexerTables = array('catalog_product_index_price_bundle_idx', 'catalog_product_index_price_bundle_tmp');

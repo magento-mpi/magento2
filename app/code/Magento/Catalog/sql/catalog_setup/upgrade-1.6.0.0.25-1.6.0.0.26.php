@@ -6,10 +6,9 @@
  * @license   {license_link}
  */
 
-/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
+/** @var $this \Magento\Setup\Module\SetupModule */
 $connection = $this->getConnection();
 
-/** @var $this \Magento\Catalog\Model\Resource\Setup */
 $connection->dropForeignKey(
     $this->getTable('catalog_category_product_index'),
     $this->getFkName('catalog_category_product_index', 'category_id', 'catalog_category_entity', 'entity_id')

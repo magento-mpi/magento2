@@ -75,7 +75,6 @@ $map = array(
 $tableName = $installer->getTable('authorization_rule');
 
 if ($tableName) {
-    /** @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
     $connection = $installer->getConnection();
 
     $select = $connection->select();
