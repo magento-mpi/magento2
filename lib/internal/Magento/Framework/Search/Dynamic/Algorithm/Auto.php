@@ -33,7 +33,7 @@ class Auto implements AlgorithmInterface
             if (!$range) {
                 $range = $this->getRange($entityIds);
                 $dbRanges = $this->dataProvider->getCount($range, $entityIds);
-                $data = $this->prepareData($range, $dbRanges);
+                $data = $this->dataProvider->prepareData($range, $dbRanges);
             }
         }
 
@@ -80,31 +80,5 @@ class Auto implements AlgorithmInterface
         $options = $this->dataProvider->getOptions();
 
         return $options['min_range_power'];
-    }
-
-    /**
-     * @param int $range
-     * @param array $dbRanges
-     * @return array
-     */
-    private function prepareData($range, array $dbRanges)
-    {
-        $data = [];
-        if (!empty($dbRanges)) {
-            $lastIndex = array_keys($dbRanges);
-            $lastIndex = $lastIndex[count($lastIndex) - 1];
-
-            foreach ($dbRanges as $index => $count) {
-                $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
-                $toPrice = $index == $lastIndex ? '' : $index * $range;
-
-                $data[] = [
-                    'from' => $fromPrice,
-                    'to' => $toPrice,
-                    'count' => $count
-                ];
-            }
-        }
-        return $data;
     }
 }

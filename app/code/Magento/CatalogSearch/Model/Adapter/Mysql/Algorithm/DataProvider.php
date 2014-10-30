@@ -19,6 +19,7 @@ class DataProvider implements DataProviderInterface
 {
     const XML_PATH_INTERVAL_DIVISION_LIMIT = 'catalog/layered_navigation/interval_division_limit';
     const XML_PATH_RANGE_STEP = 'catalog/layered_navigation/price_range_step';
+    const XML_PATH_RANGE_MAX_INTERVALS = 'catalog/layered_navigation/price_range_max_intervals';
 
     /**
      * @var Resource|Resource
@@ -87,6 +88,10 @@ class DataProvider implements DataProviderInterface
                 ScopeInterface::SCOPE_STORE
             ),
             'min_range_power' => 10,
+            'max_intervals_number' => (int)$this->scopeConfig->getValue(
+                self::XML_PATH_RANGE_MAX_INTERVALS,
+                ScopeInterface::SCOPE_STORE
+            )
         ];
     }
 
@@ -107,6 +112,30 @@ class DataProvider implements DataProviderInterface
 
         return $this->getConnection()
             ->fetchPairs($select);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepareData($range, array $dbRanges)
+    {
+        $data = [];
+        if (!empty($dbRanges)) {
+            $lastIndex = array_keys($dbRanges);
+            $lastIndex = $lastIndex[count($lastIndex) - 1];
+
+            foreach ($dbRanges as $index => $count) {
+                $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
+                $toPrice = $index == $lastIndex ? '' : $index * $range;
+
+                $data[] = [
+                    'from' => $fromPrice,
+                    'to' => $toPrice,
+                    'count' => $count
+                ];
+            }
+        }
+        return $data;
     }
 
     /**

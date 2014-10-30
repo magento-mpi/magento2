@@ -30,6 +30,13 @@ interface DataProviderInterface
     public function getCount($range, array $entityIds);
 
     /**
+     * @param int $range
+     * @param array $dbRanges
+     * @return array
+     */
+    public function prepareData($range, array $dbRanges);
+
+    /**
      * Get range
      *
      * @return int
