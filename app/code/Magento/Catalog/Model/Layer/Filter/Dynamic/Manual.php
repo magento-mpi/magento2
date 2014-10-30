@@ -67,6 +67,10 @@ class Manual implements AlgorithmInterface
         return $data;
     }
 
+    /**
+     * @param array $items
+     * @return array
+     */
     private function processRange($items)
     {
         $i = 0;
