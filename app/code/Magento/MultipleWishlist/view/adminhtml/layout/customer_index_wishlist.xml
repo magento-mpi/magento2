@@ -8,19 +8,21 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="customer.wishlist.edit.tab">
-        <arguments>
-            <argument name="dataSource" xsi:type="object">
-                <updater>Magento\MultipleWishlist\Model\Resource\Item\Collection\Updater</updater>
-            </argument>
-        </arguments>
-        <referenceBlock name="customer.wishlist.edit.tab.columnSet">
-            <block class="Magento\Backend\Block\Widget\Grid\Column" as="wishlist_name" before="-">
-                <arguments>
-                    <argument name="header" xsi:type="string" translate="true">Wishlist</argument>
-                    <argument name="index" xsi:type="string">wishlist_name</argument>
-                </arguments>
-            </block>
+    <body>
+        <referenceBlock name="customer.wishlist.edit.tab">
+            <arguments>
+                <argument name="dataSource" xsi:type="object">
+                    <updater>Magento\MultipleWishlist\Model\Resource\Item\Collection\Updater</updater>
+                </argument>
+            </arguments>
+            <referenceBlock name="customer.wishlist.edit.tab.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="wishlist_name" before="-">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Wishlist</argument>
+                        <argument name="index" xsi:type="string">wishlist_name</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
         </referenceBlock>
-    </referenceBlock>
+    </body>
 </page>

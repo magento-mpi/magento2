@@ -8,10 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="product_tabs">
-        <action method="addTab">
-            <argument name="name" xsi:type="string">giftcard_info</argument>
-            <argument name="block" xsi:type="string">Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard</argument>
-        </action>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="product_tabs">
+            <action method="addTab">
+                <argument name="name" xsi:type="string">giftcard_info</argument>
+                <argument name="block" xsi:type="string">Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard</argument>
+            </action>
+        </referenceBlock>
+    </body>
 </page>
