@@ -45,17 +45,17 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
             $data
         );
         $this->assertNotNull($result);
-        $this->assertTrue($result[0] instanceof NestedData);
+        $this->assertTrue($result[0] instanceof Nested);
         /** @var array $result */
         $this->assertEquals(1, count($result));
         $this->assertNotEmpty($result[0]);
         /** @var NestedData $arg */
         $arg = $result[0];
-        $this->assertTrue($arg instanceof NestedData);
+        $this->assertTrue($arg instanceof Nested);
         /** @var SimpleData $details */
         $details = $arg->getDetails();
         $this->assertNotNull($details);
-        $this->assertTrue($details instanceof SimpleData);
+        $this->assertTrue($details instanceof Simple);
         $this->assertEquals(15, $details->getEntityId());
         $this->assertEquals('Test', $details->getName());
     }
@@ -119,10 +119,10 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $first = $dataObjects[0];
         /** @var SimpleData $second */
         $second = $dataObjects[1];
-        $this->assertTrue($first instanceof SimpleData);
+        $this->assertTrue($first instanceof Simple);
         $this->assertEquals(14, $first->getEntityId());
         $this->assertEquals('First', $first->getName());
-        $this->assertTrue($second instanceof SimpleData);
+        $this->assertTrue($second instanceof Simple);
         $this->assertEquals(15, $second->getEntityId());
         $this->assertEquals('Second', $second->getName());
     }
@@ -140,7 +140,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($result));
         /** @var SimpleArrayData $dataObject */
         $dataObject = $result[0];
-        $this->assertTrue($dataObject instanceof SimpleArrayData);
+        $this->assertTrue($dataObject instanceof SimpleArray);
         /** @var array $ids */
         $ids = $dataObject->getIds();
         $this->assertNotNull($ids);
@@ -163,7 +163,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($result));
         /** @var AssociativeArrayData $dataObject */
         $dataObject = $result[0];
-        $this->assertTrue($dataObject instanceof AssociativeArrayData);
+        $this->assertTrue($dataObject instanceof AssociativeArray);
         /** @var array $associativeArray */
         $associativeArray = $dataObject->getAssociativeArray();
         $this->assertNotNull($associativeArray);
@@ -188,7 +188,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($result));
         /** @var DataArrayData $dataObjects */
         $dataObjects = $result[0];
-        $this->assertTrue($dataObjects instanceof DataArrayData);
+        $this->assertTrue($dataObjects instanceof DataArray);
         /** @var array $items */
         $items = $dataObjects->getItems();
         $this->assertEquals(2, count($items));
@@ -196,10 +196,10 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $first = $items[0];
         /** @var SimpleData $second */
         $second = $items[1];
-        $this->assertTrue($first instanceof SimpleData);
+        $this->assertTrue($first instanceof Simple);
         $this->assertEquals(1, $first->getEntityId());
         $this->assertEquals('First', $first->getName());
-        $this->assertTrue($second instanceof SimpleData);
+        $this->assertTrue($second instanceof Simple);
         $this->assertEquals(2, $second->getEntityId());
         $this->assertEquals('Second', $second->getName());
     }

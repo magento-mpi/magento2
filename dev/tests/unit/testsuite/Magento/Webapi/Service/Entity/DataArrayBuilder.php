@@ -9,10 +9,10 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class DataArrayDataBuilder extends AbstractExtensibleObjectBuilder
+class DataArrayBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
-     * @param \Magento\Webapi\Service\Entity\SimpleData[] $items
+     * @param \Magento\Webapi\Service\Entity\Simple[] $items
      * @return $this
      */
     public function setItems($items)

@@ -9,7 +9,7 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class NestedDataBuilder extends AbstractExtensibleObjectBuilder
+class NestedBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @param string $details

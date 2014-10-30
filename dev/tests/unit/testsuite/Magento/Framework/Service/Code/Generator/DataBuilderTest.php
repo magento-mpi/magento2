@@ -44,6 +44,9 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
      */
     protected $classGenerator;
 
+    /** @var \Magento\Framework\App\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    protected $objectManagerMock;
+
     protected function setUp()
     {
         require_once __DIR__ . '/_files/ExtensibleSampleInterface.php';
@@ -72,6 +75,20 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        \Magento\Framework\App\ObjectManager::setInstance($this->objectManagerMock);
+
+        $objectManagerConfig = $this->getMock('Magento\Framework\ObjectManager\Config', [], [], '', false);
+
+        $this->objectManagerMock->expects($this->once())
+            ->method('get')
+            ->with('Magento\Framework\ObjectManager\Config')
+            ->will($this->returnValue($objectManagerConfig));
+
+        $objectManagerConfig->expects($this->once())
+            ->method('getPreference')
+            ->with(self::SOURCE_CLASS_NAME . "Interface")
+            ->will($this->returnValue(self::SOURCE_CLASS_NAME));
 
         $this->generator = $objectManager->getObject(
             self::GENERATOR_CLASS_NAME,
