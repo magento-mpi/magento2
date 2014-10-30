@@ -13,6 +13,11 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 {
     /**
+     * @var \Magento\Framework\Search\Request\Builder
+     */
+    private $requestBuilder;
+
+    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -50,5 +55,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $priceCurrency,
             $data
         );
+        $this->requestBuilder = $requestBuilder;
     }
 }

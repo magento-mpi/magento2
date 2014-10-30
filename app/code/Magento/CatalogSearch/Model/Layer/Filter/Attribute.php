@@ -13,6 +13,11 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
+     * @var \Magento\Framework\Search\Request\Builder
+     */
+    private $requestBuilder;
+
+    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -35,15 +40,16 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         parent::__construct(
             $filterItemFactory, $storeManager, $layer, $filterAttributeFactory, $string, $tagFilter, $data
         );
+        $this->requestBuilder = $requestBuilder;
     }
 
     /**
      * Apply attribute option filter to product collection
      *
-     * @param   \Zend_Controller_Request_Abstract $request
+     * @param   \Magento\Framework\App\Request\Http $request
      * @return  $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(\Magento\Framework\App\Request\Http $request)
     {
         $attributeValue = $request->getParam($this->_requestVar);
         if (empty($attributeValue)) {

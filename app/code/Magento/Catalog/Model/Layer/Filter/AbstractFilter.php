@@ -117,10 +117,10 @@ abstract class AbstractFilter extends \Magento\Framework\Object
     /**
      * Apply filter to collection
      *
-     * @param \Zend_Controller_Request_Abstract $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @return $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(\Magento\Framework\App\Request\Http $request)
     {
         return $this;
     }

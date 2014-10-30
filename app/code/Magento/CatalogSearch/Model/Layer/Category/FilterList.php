@@ -57,8 +57,10 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
         \Magento\Catalog\Model\Resource\Eav\Attribute $attribute,
         \Magento\Catalog\Model\Layer $layer
     ) {
-        $filterClassName = $this->getAttributeFilterClass($attribute);
+        $curCategoryId = $layer->getCurrentCategory()->getId();
+        $this->requestBuilder->bind('category_ids', $curCategoryId);
 
+        $filterClassName = $this->getAttributeFilterClass($attribute);
         $filter = $this->objectManager->create(
             $filterClassName,
             array(
@@ -77,7 +79,6 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
      */
     public function prepareFilters()
     {
-        $this->requestBuilder->bind('category_ids', array(3));
         $queryRequest = $this->requestBuilder->create();
         $queryResponse = $this->searchEngine->search($queryRequest);
         $ids = [0];

@@ -13,6 +13,11 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
 {
     /**
+     * @var \Magento\Framework\Search\Request\Builder
+     */
+    private $requestBuilder;
+
+    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -31,5 +36,6 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         array $data = array()
     ) {
         parent::__construct($filterItemFactory, $storeManager, $layer, $filterDecimalFactory, $priceCurrency, $data);
+        $this->requestBuilder = $requestBuilder;
     }
 }

@@ -13,6 +13,11 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
+     * @var \Magento\Framework\Search\Request\Builder
+     */
+    private $requestBuilder;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -35,5 +40,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         parent::__construct(
             $filterItemFactory, $storeManager, $layer, $categoryFactory, $escaper, $coreRegistry, $data
         );
+        $this->requestBuilder = $requestBuilder;
     }
 }

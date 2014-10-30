@@ -380,10 +380,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Apply price range filter
      *
-     * @param \Zend_Controller_Request_Abstract $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @return $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(\Magento\Framework\App\Request\Http $request)
     {
         /**
          * Filter must be string: $fromPrice-$toPrice
