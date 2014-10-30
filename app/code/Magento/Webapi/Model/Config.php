@@ -28,7 +28,6 @@ class Config
 
     const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Api(\\\\.+)Interface$/';
 
-
     /**
      * @var WebapiCache
      */
