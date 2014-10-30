@@ -31,10 +31,21 @@ interface CustomerRepositoryInterface
      * @param string $email
      * @param int|null $websiteId
      * @return \Magento\Customer\Api\Data\CustomerInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified email does not exist.
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($email, $websiteId = null);
+
+    /**
+     * Retrieve customer.
+     *
+     * @param string $customerId
+     * @param int|null $websiteId
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getById($customerId, $websiteId = null);
 
     /**
      * Retrieve customers which match a specified criteria.

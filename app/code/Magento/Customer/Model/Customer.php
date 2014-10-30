@@ -331,6 +331,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
+     * @deprecated Use \Magento\Customer\Service\V1\AccountManagement::authenticate
      */
     public function authenticate($login, $password)
     {
@@ -765,6 +766,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
+     * @deprecated Maybe this needs to be moved to helper
      */
     public function isConfirmationRequired()
     {
@@ -862,6 +864,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Send email to when password is resetting
      *
      * @return $this
+     * @deprecated
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -1187,7 +1190,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return bool
      */
-    public function canSkipConfirmation()
+    protected function canSkipConfirmation()
     {
         if (!$this->getId()) {
             return false;
@@ -1287,6 +1290,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if current reset password link token is expired
      *
      * @return boolean
+     * @deprecated
      */
     public function isResetPasswordLinkTokenExpired()
     {

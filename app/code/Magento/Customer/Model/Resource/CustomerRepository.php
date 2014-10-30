@@ -9,6 +9,7 @@
 namespace Magento\Customer\Model\Resource;
 
 use Magento\Customer\Model\Address as CustomerAddressModel;
+use Magento\Customer\Model\Data\CustomerSecure;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\Data\SearchCriteriaInterface;
@@ -27,6 +28,11 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Data\CustomerSecureFactory
+     */
+    protected $customerSecureFactory;
 
     /**
      * @var \Magento\Customer\Model\CustomerRegistry
@@ -76,6 +82,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     /**
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      * @param \Magento\Customer\Model\Resource\AddressRepository $addressRepository
      * @param \Magento\Customer\Model\Resource\Customer $customerResourceModel
@@ -89,6 +96,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     public function __construct(
         \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
         \Magento\Customer\Model\Resource\AddressRepository $addressRepository,
         \Magento\Customer\Model\Resource\Customer $customerResourceModel,
@@ -101,6 +109,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->customerFactory = $customerFactory;
+        $this->customerSecureFactory = $customerSecureFactory;
         $this->customerRegistry = $customerRegistry;
         $this->addressRepository = $addressRepository;
         $this->customerResourceModel = $customerResourceModel;
@@ -135,6 +144,18 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $customerModel->setId($customer->getId());
         /** Prevent addresses being processed by resource model */
         $customerModel->unsAddresses();
+        // Populate model with secure data
+        $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
+        if ($customerSecure) {
+            /*
+             * TODO: Check \Magento\Customer\Model\Resource\Customer::changeResetPasswordLinkToken setAttribute
+             * and make sure its consistent
+             */
+
+            $customerModel->setRpToken($customerSecure->getRpToken());
+            $customerModel->setRpTokenCreatedAt($customerSecure->getRpTokenCreatedAt());
+            $customerModel->setPasswordHash($customerSecure->getPasswordHash());
+        }
         $this->customerResourceModel->save($customerModel);
         $this->customerRegistry->push($customerModel);
         $customerId = $customerModel->getId();
@@ -158,6 +179,15 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     public function get($email, $websiteId = null)
     {
         $customerModel = $this->customerRegistry->retrieveByEmail($email, $websiteId);
+        return $customerModel->getDataModel();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getById($customerId, $websiteId = null)
+    {
+        $customerModel = $this->customerRegistry->retrieve($customerId, $websiteId);
         return $customerModel->getDataModel();
     }
 
