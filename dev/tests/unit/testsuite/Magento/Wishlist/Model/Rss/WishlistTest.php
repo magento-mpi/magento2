@@ -135,7 +135,8 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $productUrl = 'http://product.url/';
         $productName = 'Product name';
 
-        $customer = $this->getMockBuilder('Magento\Customer\Model\Customer')->setMethods(['getName', '__wakeup', 'load'])
+        $customer = $this->getMockBuilder('Magento\Customer\Model\Customer')
+            ->setMethods(['getName', '__wakeup', 'load'])
             ->disableOriginalConstructor()->getMock();
         $customer->expects($this->once())->method('load')->will($this->returnSelf());
         $customer->expects($this->once())->method('getName')->will($this->returnValue('Customer Name'));
