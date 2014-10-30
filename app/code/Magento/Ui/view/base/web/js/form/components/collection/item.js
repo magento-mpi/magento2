@@ -16,11 +16,11 @@ define([
     };
 
     var defaults = {
-        active: false,
-        template: 'ui/form/components/collection/item',
+        active:             false,
+        template:           'ui/form/components/collection/item',
         defaultDisplayArea: 'body',
-        defaultLabel: '',
-        separator: ' '
+        defaultLabel:       '',
+        separator:          ' '
     };
 
     var __super__ = Component.prototype;
@@ -43,10 +43,12 @@ define([
             this._previewElements   = utils.reserve([], previewCount.length);
 
             this.observe('active')
-                .observe('bodyElements',    [])
-                .observe('headElements',    [])
-                .observe('previewElements', [])
-                .compute('label',           this.compositeLabel.bind(this));
+                .observe({
+                    'bodyElements':     [],
+                    'headElements':     [],
+                    'previewElements':  []
+                })
+                .compute('label', this.compositeLabel.bind(this));
 
             return this;
         },
@@ -59,6 +61,36 @@ define([
             
             storage.push(element);
             this.addPreview(element);
+        },
+
+        initListeners: function() {
+            var params = this.provider.params;
+
+            params.on('update:activeCollectionItem', this.updateState.bind(this));
+
+            return this;
+        },
+
+        updateState: function(item) {
+            var active = item === this.name;
+
+            this.active(active);
+                
+            return this;
+        },
+
+        setActive: function(){
+            this.active(true);
+
+            this.pushParams();
+        },
+
+        pushParams: function(){
+            var params = this.provider.params;
+
+            if(this.active()){
+                params.set('activeCollectionItem', this.name);
+            }
         },
 
         compositeLabel: function () {

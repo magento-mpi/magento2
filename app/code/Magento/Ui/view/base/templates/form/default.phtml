@@ -13,9 +13,6 @@
 <script data-mage-init='{ "Magento_Ui/js/core/app": "" }' type="application/json">
     <?php echo $this->getRenderContext()->getConfigBuilder()->toJsonNew($this->getRenderContext()->getStorage()); ?>
 </script>
-<script>
-    var allowLocalCache = false;
-</script>
 <div data-bind="scope: '<?php echo $this->getDataScope(); ?>.areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>

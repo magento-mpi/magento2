@@ -47,6 +47,19 @@ define([
             return Array.isArray(value) ? value[0] : value;
         },
 
+        setPreview: function(value){
+            var option  = _.indexBy(this.options, 'value')[value],
+                preview = '';
+
+            if(option){
+                preview = option.label;
+            }
+
+            this.preview(preview);
+
+            return this;
+        },
+
         /**
          * Stores element's value to registry by element's path value
          * @param  {*} changedValue - current value of form element

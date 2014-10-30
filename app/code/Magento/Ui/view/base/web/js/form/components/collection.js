@@ -15,7 +15,6 @@ define([
 
     var defaults = {
         lastIndex: 0,
-        active: null,
         template: 'ui/form/components/collection'
     };
 
@@ -30,30 +29,10 @@ define([
                 .initChildren();
         },
 
-        initObservable: function () {
-            __super__.initObservable.apply(this, arguments);
+        initElement: function (elem) {
+            __super__.initElement.apply(this, arguments);
 
-            this.observe('active');
-
-            return this;
-        },
-
-        initElement: function (element) {
-            this.setActiveElement();
-        },
-
-        setActiveElement: function (element) {
-            var indexed         = this.elems.indexBy('index'),
-                activeIndex     = this.active(),
-                activeDefined   = activeIndex !== null,
-                activeExist     = indexed[activeIndex] !== undefined,
-                activeElement;
-
-            activeElement = activeDefined
-                ? (activeExist ? indexed[activeIndex] : this.elems.last())
-                : this.elems.first();
-
-            this.activate(activeElement);
+            elem.setActive();
         },
 
         initRenderer: function () {
@@ -109,24 +88,7 @@ define([
 
             if (shouldRemove) {
                 this.remove(element);
-                this.setActiveElement();
             }
-        },
-
-        toggleActiveElement: function (element) {
-            return this.activate.bind(this, element);
-        },
-
-        activate: function (element) {
-            this.active(element.index);
-
-            element.active(true);
-
-            this.elems.without(element).each(function (element) {
-                element.active(false);
-            });
-
-            return this;
         }
     });
 });

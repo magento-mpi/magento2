@@ -13,6 +13,7 @@ define([
     'use strict';
 
     var defaults = {
+        preview:            '',
         focused:            false,
         tooltip:            null,
         required:           false,
@@ -61,7 +62,7 @@ define([
 
             this.initialValue = value;
 
-            this.observe('error disabled focused')
+            this.observe('error disabled focused preview')
                 .observe({
                     'value':    value,
                     'required': rules['required-entry']
@@ -108,10 +109,10 @@ define([
             var data = this.provider.data,
                 value;
 
-            if(typeof this.value !== 'undefined'){
+            if(_.has(this, 'value')){
                 value = this.value;
             }
-            else if(typeof this.default !== 'undefined'){
+            else if(_.has(this, 'default') && this.default != null){
                 value = this.default;
             }
             else{
@@ -143,6 +144,12 @@ define([
             return this;
         },
 
+        setPreview: function(value){
+            this.preview(value);
+
+            return this;
+        },
+
         hasAddons: function () {
             return this.addbefore || this.addafter;
         },
@@ -153,6 +160,8 @@ define([
          */
         store: function (value) {
             this.provider.data.set(this.dataScope, value);
+
+            this.setPreview(value);
 
             return this;
         },

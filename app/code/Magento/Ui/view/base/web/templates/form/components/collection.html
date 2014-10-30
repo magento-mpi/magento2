@@ -9,7 +9,7 @@
 <div class="ui-tabs">
     <ul class="address-list ui-tabs-nav">
         <!-- ko foreach: { data: element.elems, as: 'element' } -->
-        <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: $parent.toggleActiveElement(element)">
+        <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: setActive">
             <div class="address-list-item-actions">
                 <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeElement(element)">
                     <span data-bind="text: element.removeLabel"></span>
@@ -19,7 +19,7 @@
             <address data-bind="foreach: { data: element.previewElements, as: 'element' }">
                 <!-- ko foreach: { data: element.elems, as: 'element' } -->
                     <!-- ko if: element.value -->
-                    <span data-bind="text: element.value"></span><br>
+                    <span data-bind="text: element.preview"></span><br>
                     <!-- /ko -->
                 <!-- /ko -->
             </address>
