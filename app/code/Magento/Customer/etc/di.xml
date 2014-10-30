@@ -15,7 +15,7 @@
     <preference for="Magento\Customer\Api\GroupRepositoryInterface"
                 type="Magento\Customer\Model\Resource\GroupRepository" />
     <preference for="Magento\Customer\Api\Data\CustomerInterface" type="Magento\Customer\Model\Data\Customer" />
-    <preference for="Magento\Customer\Api\Data\AddressInterface" type="Magento\Customer\Model\Data\Address" />
+    <preference for="Magento\Customer\Api\Data\AddressInterface" type="Magento\Customer\Model\Address" />
     <preference for="Magento\Customer\Api\Data\AttributeMetadataInterface"
                 type="Magento\Customer\Model\Data\AttributeMetadata" />
     <preference for="Magento\Customer\Api\Data\GroupInterface" type="Magento\Customer\Model\Data\Group" />

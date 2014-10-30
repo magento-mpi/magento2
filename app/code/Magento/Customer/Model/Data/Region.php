@@ -13,17 +13,6 @@ namespace Magento\Customer\Model\Data;
 class Region extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\RegionInterface
 {
-    /**#@+
-     * Array keys
-     */
-    const REGION_CODE = 'region_code';
-
-    const REGION = 'region';
-
-    const REGION_ID = 'region_id';
-
-    /**#@-*/
-
     /**
      * Get region code
      *

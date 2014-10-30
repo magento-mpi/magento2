@@ -37,7 +37,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_service = $this->_objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 
-        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Model\Data\AddressBuilder');
+        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\AddressDataBuilder');
 
         $builder = $this->_objectManager->create('Magento\Customer\Model\Data\RegionBuilder');
         var_dump(get_class($builder));
@@ -108,25 +108,5 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             AddressConverter::toFlatArray($expectedNewAddress),
             AddressConverter::toFlatArray($addresses[1])
         );
-    }
-
-    /**
-     * @magentoDataFixture  Magento/Customer/_files/customer.php
-     * @magentoDataFixture  Magento/Customer/_files/customer_address.php
-     * @magentoAppIsolation enabled
-     */
-    public function testGetAddress()
-    {
-        $this->markTestSkipped('Should be fixed in scope of MAGETWO-29651');
-        //$address = $this->_service->get(1);
-        //$addresses = $this->_service->get($customerId);
-        //$this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
-        //$expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
-        //$expectedNewAddressBuilder->setId($addresses[1]->getId());
-        //$expectedNewAddress = $expectedNewAddressBuilder->create();
-        //$this->assertEquals(
-        //    AddressConverter::toFlatArray($expectedNewAddress),
-        //    AddressConverter::toFlatArray($addresses[1])
-        //);
     }
 }

@@ -11,6 +11,7 @@ use Magento\Customer\Model\Data\Address as AddressData;
 use Magento\Customer\Model\Data\Region as RegionData;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\RegionInterface;
 
 /**
  * Customer address model
@@ -119,10 +120,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
 
         foreach ($attributes as $attributeCode => $attributeData) {
-            if (AddressData::KEY_REGION === $attributeCode) {
-                $this->setDataUsingMethod(RegionData::REGION, $address->getRegion()->getRegion());
-                $this->setDataUsingMethod(RegionData::REGION_CODE, $address->getRegion()->getRegionCode());
-                $this->setDataUsingMethod(RegionData::REGION_ID, $address->getRegion()->getRegionId());
+            if (AddressInterface::REGION === $attributeCode) {
+                $this->setRegion($address->getRegion()->getRegion());
+                $this->setRegionCode($address->getRegion()->getRegionCode());
+                $this->setRegionId($address->getRegion()->getRegionId());
             } else {
                 $this->setDataUsingMethod($attributeCode, $attributeData);
             }
@@ -160,9 +161,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
                 array(
                     AddressData::KEY_STREET => $this->getStreet(),
                     AddressData::KEY_REGION => array(
-                        RegionData::REGION => $this->getRegion(),
-                        RegionData::REGION_ID => $this->getRegionId(),
-                        RegionData::REGION_CODE => $this->getRegionCode()
+                        RegionInterface::REGION => $this->getRegion(),
+                        RegionInterface::REGION_ID => $this->getRegionId(),
+                        RegionInterface::REGION_CODE => $this->getRegionCode()
                     )
                 )
             )

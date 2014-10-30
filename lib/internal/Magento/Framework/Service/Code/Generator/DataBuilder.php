@@ -181,7 +181,10 @@ class DataBuilder extends EntityAbstract
                 ['name' => lcfirst($propertyName)]
             ],
             'body' => $setterBody,
-            'docblock' => array('shortDescription' => '@param ' . $returnType . " \$" . lcfirst($propertyName))
+            'docblock' => array('shortDescription' =>
+                '@param ' . $returnType . " \$" . lcfirst($propertyName)
+                . "\n@return \$this"
+            )
         ];
         return $methodInfo;
     }

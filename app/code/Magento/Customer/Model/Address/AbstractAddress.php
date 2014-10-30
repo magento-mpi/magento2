@@ -21,7 +21,7 @@ namespace Magento\Customer\Model\Address;
  * @method string getPostcode()
  * @method bool getShouldIgnoreValidation()
  */
-class AbstractAddress extends \Magento\Framework\Model\AbstractModel
+class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
 {
     /**
      * Possible customer address types
