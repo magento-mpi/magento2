@@ -125,11 +125,13 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]);
                 unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
-                $addresses = array();
+                $addressesOldFormat = array();
+                $addresses = [];
                 foreach ($addressesData as $addressData) {
-                    $addresses[] = $this->_addressBuilder->populateWithArray($addressData)->create();
+                    $addressesOldFormat[] = $this->_addressBuilder->populateWithArray($addressData)->create();
+                    $addresses[] = $this->_addressDataBuilder->populateWithArray($addressData)->create();
                 }
-
+                $customerBuilder->setAddresses($addresses);
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_prepare_save',
                     array('customer' => $customerBuilder, 'request' => $request)
@@ -137,11 +139,12 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $customer = $customerBuilder->create();
 
                 // Save customer
-                $customerDetails = $this->_customerDetailsBuilder->setCustomer(
-                    $customer
-                )->setAddresses($addresses)->create();
+                $customerDetails = $this->_customerDetailsBuilder
+                    ->setCustomer($customer)
+                    ->setAddresses($addressesOldFormat)
+                    ->create();
                 if ($isExistingCustomer) {
-                    $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
+                    $this->_customerRepository->save($customer);
                 } else {
                     $customer = $this->_customerAccountService->createCustomer($customerDetails);
                     $customerId = $customer->getId();

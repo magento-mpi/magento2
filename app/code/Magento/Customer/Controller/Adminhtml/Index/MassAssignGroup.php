@@ -24,10 +24,7 @@ class MassAssignGroup extends \Magento\Customer\Controller\Adminhtml\Index
                 $customer = $this->_customerAccountService->getCustomer($customerId);
                 $this->_customerBuilder->populate($customer);
                 $customer = $this->_customerBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
-                $customerDetails = $this->_customerDetailsBuilder
-                    ->setCustomer($customer)
-                    ->create();
-                $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
+                $this->_customerRepository->save($customer);
             },
             $customerIds
         );
