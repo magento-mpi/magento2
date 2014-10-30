@@ -99,9 +99,6 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
 
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         $attribute = $this->attributeRepository->get($entityTypeCode, $attributeCode);
-        if (!$attribute->getAttributeId()) {
-            throw new InputException('Attribute does not exist');
-        }
 
         $this->attributeResource->saveInSetIncluding(
             $attribute,
@@ -120,19 +117,12 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
     public function unassign($attributeSetId, $attributeCode)
     {
         $attributeSet = $this->setRepository->get($attributeSetId);
-        if (!$attributeSet->getId()) {
-            throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
-        }
         $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
 
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
         $attribute = $this->attributeRepository->get($setEntityType->getEntityTypeCode(), $attributeCode);
 
-        if (!$attribute->getAttributeId()) {
-            throw NoSuchEntityException::singleField('attributeId', $attribute->getAttributeId());
-        }
-
-        // check if attribute is in set
+        // Check if attribute is in set
         $attribute->setAttributeSetId($attributeSet->getId());
         $attribute->loadEntityAttributeIdBySet();
 

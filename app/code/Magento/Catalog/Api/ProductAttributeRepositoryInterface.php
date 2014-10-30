@@ -27,6 +27,7 @@ interface ProductAttributeRepositoryInterface
      *
      * @param string $attributeCode
      * @return \Magento\Catalog\Api\Data\ProductAttributeInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
     public function get($attributeCode);
@@ -36,8 +37,9 @@ interface ProductAttributeRepositoryInterface
      *
      * @param \Magento\Catalog\Api\Data\ProductAttributeInterface $attribute
      * @return \Magento\Catalog\Api\Data\ProductAttributeInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Eav\Exception from validate()
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function save(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute);
 
@@ -46,6 +48,8 @@ interface ProductAttributeRepositoryInterface
      *
      * @param \Magento\Catalog\Api\Data\ProductAttributeInterface $attribute
      * @return bool True if the entity was deleted (always true)
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function delete(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute);
 
@@ -54,6 +58,8 @@ interface ProductAttributeRepositoryInterface
      *
      * @param string $attributeCode
      * @return true
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function deleteById($attributeCode);
 }

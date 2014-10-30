@@ -10,6 +10,7 @@ namespace Magento\Catalog\Api;
 
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
 use \Magento\Webapi\Exception as HTTPExceptionCodes;
+use \Magento\TestFramework\Helper\Bootstrap;
 
 class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -43,7 +44,12 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
 
     public function testAssignAttribute()
     {
-        $this->assertNotNull($this->_webApiCall($this->getAssignServiceInfo(), $this->getAttributeData()));
+        $this->assertNotNull(
+            $this->_webApiCall(
+                $this->getAssignServiceInfo(),
+                $this->getAttributeData()
+            )
+        );
     }
 
     public function testAssignAttributeWrongAttributeSet()
@@ -113,18 +119,28 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
         }
     }
 
-    /**
-     * @magentoApiDataFixture Magento/Catalog/_files/product_attribute.php
-     */
-    public function testUnussignAttribute()
+    public function testUnassignAttribute()
     {
-        $this->markTestIncomplete('In progress.');
-        $attributeSetId = \Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID;
-        $attributeCode = 'test_attribute_code_333';
+        $payload = $this->getAttributeData();
+
+        //Assign attribute to attribute set
+        /** @var \Magento\Eav\Model\AttributeManagement $attributeManagement */
+        $attributeManagement = Bootstrap::getObjectManager()->get('\Magento\Eav\Model\AttributeManagement');
+        $attributeManagement->assign(
+            $payload['entityTypeCode'],
+            $payload['attributeSetId'],
+            $payload['attributeGroupId'],
+            $payload['attributeCode'],
+            $payload['sortOrder']
+        );
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $attributeSetId . '/attributes' . '/' . $attributeCode,
+                'resourcePath' =>
+                    self::RESOURCE_PATH .
+                    '/' . $payload['attributeSetId'] .
+                    '/attributes/' .
+                    $payload['attributeCode'],
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -133,7 +149,7 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
                 'operation' => self::SERVICE_NAME . 'GetAttributes'
             ],
         ];
-        $attributes = $this->_webApiCall($serviceInfo);
+        $this->assertTrue($this->_webApiCall($serviceInfo));
     }
 
     protected function getAttributeData()

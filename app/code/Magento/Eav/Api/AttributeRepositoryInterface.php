@@ -26,6 +26,7 @@ interface AttributeRepositoryInterface
      * @param string $entityTypeCode
      * @param string $attributeCode
      * @return \Magento\Eav\Api\Data\AttributeInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
     public function get($entityTypeCode, $attributeCode);
@@ -35,8 +36,7 @@ interface AttributeRepositoryInterface
      *
      * @param \Magento\Eav\Api\Data\AttributeInterface $attribute
      * @return string
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Eav\Exception from validate()
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute);
 
@@ -45,6 +45,7 @@ interface AttributeRepositoryInterface
      *
      * @param Data\AttributeInterface $attribute
      * @return bool True if the entity was deleted
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function delete(Data\AttributeInterface $attribute);
 
@@ -53,6 +54,8 @@ interface AttributeRepositoryInterface
      *
      * @param $attributeId
      * @return bool True if the entity was deleted
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function deleteById($attributeId);
 }

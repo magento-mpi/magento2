@@ -17,6 +17,8 @@ interface AttributeManagementInterface
      * @param string $attributeCode
      * @param int $sortOrder
      * @return int
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @see \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface::addAttribute
      */
     public function assign($entityTypeCode, $attributeSetId, $attributeGroupId, $attributeCode, $sortOrder);

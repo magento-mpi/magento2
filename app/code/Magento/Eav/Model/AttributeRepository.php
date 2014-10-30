@@ -11,8 +11,8 @@ namespace Magento\Eav\Model;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Data\Search\SearchCriteriaInterface;
-use \Magento\Framework\Data\Search\FilterGroupInterface;
 use \Magento\Eav\Model\Resource\Entity\Attribute\Collection;
+use \Magento\Framework\Exception\StateException;
 
 class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterface
 {
@@ -67,7 +67,11 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
      */
     public function save(\Magento\Eav\Api\Data\AttributeInterface $attribute)
     {
-        $this->eavResource->save($attribute);
+        try {
+            $this->eavResource->save($attribute);
+        } catch (\Exception $e) {
+            throw new StateException('Cannot save attribute');
+        }
         return $attribute;
     }
 
@@ -149,7 +153,11 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
      */
     public function delete(\Magento\Eav\Api\Data\AttributeInterface $attribute)
     {
-        $this->eavResource->delete($attribute);
+        try {
+            $this->eavResource->delete($attribute);
+        } catch (\Exception $e) {
+            throw new StateException('Cannot delete attribute.');
+        }
         return true;
     }
 
