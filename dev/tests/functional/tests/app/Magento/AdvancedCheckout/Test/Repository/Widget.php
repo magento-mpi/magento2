@@ -26,15 +26,16 @@ class Widget extends AbstractRepository
     {
         $this->_data['order_by_sku'] = [
             'code' => 'Order by SKU',
+            'theme_id' => 'Magento Blank',
             'title' => 'Order by SKU %isolation%',
             'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
-                    'page_group' => 'all_pages',
+                    'page_group' => 'All Pages',
                     'all_pages' => [
                         'layout_handle' => 'default',
                         'for' => 'all',
-                        'block' => 'sidebar.additional',
+                        'block' => 'Sidebar Additional',
                         'template' => 'widget/sku.phtml'
                     ]
                 ]
@@ -45,7 +46,6 @@ class Widget extends AbstractRepository
                 'title' => 'anchor title',
             ],
             'page_id' => ['dataSet' => 'default'],
-            'theme_id' => 'Magento Blank'
         ];
     }
 }

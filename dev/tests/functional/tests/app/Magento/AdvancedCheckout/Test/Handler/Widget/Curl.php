@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,5 +25,14 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
         'code' => [
             'Order by SKU' => 'order_by_sku'
         ],
+        'page_group' => [
+            'All Pages' => 'all_pages',
+            'Specified Page' => 'pages',
+            'Page Layouts' => 'page_layouts'
+        ],
+        'block' => [
+            'Sidebar Additional' => 'sidebar.additional',
+            'Sidebar Main' => 'sidebar.main'
+        ]
     ];
 }
