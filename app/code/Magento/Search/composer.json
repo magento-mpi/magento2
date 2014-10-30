@@ -6,6 +6,7 @@
         "magento/framework": "0.1.0-alpha100",
         "magento/module-backend": "0.1.0-alpha100",
         "magento/module-store": "0.1.0-alpha100",
+        "magento/module-reports": "0.1.0-alpha100",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
