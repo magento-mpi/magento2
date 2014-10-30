@@ -4,7 +4,6 @@
     "require": {
         "php": "~5.4.11|~5.5.0",
         "magento/module-cms": "0.1.0-alpha101",
-        "magento/module-install": "0.1.0-alpha101",
         "magento/module-backend": "0.1.0-alpha101",
         "magento/module-catalog-event": "0.1.0-alpha101",
         "magento/module-catalog-permissions": "0.1.0-alpha101",
