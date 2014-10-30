@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Widget;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Model\Data\Option;
+use Magento\Customer\Api\Data\OptionInterface;
 
 /**
  * Block to render customer's gender attribute
@@ -91,7 +91,7 @@ class Gender extends AbstractWidget
 
     /**
      * Returns options from gender attribute
-     * @return Option[]
+     * @return OptionInterface[]
      */
     public function getGenderOptions()
     {

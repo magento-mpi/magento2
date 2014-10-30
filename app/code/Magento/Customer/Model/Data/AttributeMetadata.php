@@ -54,9 +54,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     /**#@-*/
 
     /**
-     * Retrieve code of the attribute.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getAttributeCode()
     {
@@ -64,9 +62,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Frontend HTML for input element.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getFrontendInput()
     {
@@ -74,9 +70,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get template used for input (e.g. "date")
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getInputFilter()
     {
@@ -84,9 +78,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get label of the store.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getStoreLabel()
     {
@@ -94,9 +86,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Retrieve validation rules.
-     *
-     * @return \Magento\Customer\Model\Data\ValidationRule[]
+     * {@inheritdoc}
      */
     public function getValidationRules()
     {
@@ -104,9 +94,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Number of lines of the attribute value.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getMultilineCount()
     {
@@ -114,9 +102,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Whether attribute is visible on frontend.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isVisible()
     {
@@ -124,9 +110,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Whether attribute is required.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isRequired()
     {
@@ -134,9 +118,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get data model for attribute.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getDataModel()
     {
@@ -144,9 +126,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Return options of the attribute (key => value pairs)
-     *
-     * @return \Magento\Customer\Model\Data\Option[]
+     * {@inheritdoc}
      */
     public function getOptions()
     {
@@ -154,9 +134,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get class which is used to display the attribute on frontend.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getFrontendClass()
     {
@@ -164,9 +142,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Whether current attribute has been defined by a user.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isUserDefined()
     {
@@ -174,9 +150,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get attributes sort order.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getSortOrder()
     {
@@ -184,9 +158,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get label which supposed to be displayed on frontend.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getFrontendLabel()
     {
@@ -194,9 +166,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get the note attribute for the element.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getNote()
     {
@@ -204,9 +174,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Whether this is a system attribute.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSystem()
     {
@@ -214,9 +182,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensib
     }
 
     /**
-     * Get backend type.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getBackendType()
     {
