@@ -16,7 +16,7 @@ use Magento\Bundle\Test\Fixture\BundleProduct;
 /**
  * Assert that rma with item as bundle product is correct display on frontend (MyAccount - My Returns).
  */
-class AssertRmaBundleOnFrontend extends AssertRmaOnFrontend
+class AssertRmaBundleOnFrontendForCustomer extends AssertRmaOnFrontendForCustomer
 {
     /**
      * Get items of rma.

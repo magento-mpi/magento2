@@ -19,7 +19,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 /**
  * Assert that rma is correct display on frontend (MyAccount - My Returns).
  */
-class AssertRmaOnFrontend extends AbstractAssertRmaOnFrontend
+class AssertRmaOnFrontendForCustomer extends AbstractAssertRmaOnFrontend
 {
     /**
      * Constraint severeness.

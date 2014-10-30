@@ -20,15 +20,15 @@
     <assertRmaConfigurableForm module="Magento_Rma">
         <severeness>middle</severeness>
     </assertRmaConfigurableForm>
-    <assertRmaOnFrontend module="Magento_Rma">
+    <assertRmaOnFrontendForCustomer module="Magento_Rma">
         <severeness>high</severeness>
-    </assertRmaOnFrontend>
-    <assertRmaBundleOnFrontend module="Magento_Rma">
+    </assertRmaOnFrontendForCustomer>
+    <assertRmaBundleOnFrontendForCustomer module="Magento_Rma">
         <severeness>middle</severeness>
-    </assertRmaBundleOnFrontend>
-    <assertRmaConfigurableOnFrontend module="Magento_Rma">
+    </assertRmaBundleOnFrontendForCustomer>
+    <assertRmaConfigurableOnFrontendForCustomer module="Magento_Rma">
         <severeness>middle</severeness>
-    </assertRmaConfigurableOnFrontend>
+    </assertRmaConfigurableOnFrontendForCustomer>
     <assertRmaOnFrontendForGuest module="Magento_Rma">
         <severeness>high</severeness>
     </assertRmaOnFrontendForGuest>

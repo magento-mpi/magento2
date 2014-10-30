@@ -16,7 +16,7 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 /**
  * Assert that rma with item as configurable product is correct display on frontend (MyAccount - My Returns).
  */
-class AssertRmaConfigurableOnFrontend extends AssertRmaOnFrontend
+class AssertRmaConfigurableOnFrontendForCustomer extends AssertRmaOnFrontendForCustomer
 {
     /**
      * Prepare product sku.
