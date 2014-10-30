@@ -23,7 +23,8 @@ define([
 
     $.widget('mage.priceOptions',{
         options: globalOptions,
-        _create: initPriceOptions
+        _create: initPriceOptions,
+        _setOptions: setOptions
     });
 
     return $.mage.priceOptions;
@@ -34,9 +35,10 @@ define([
 
         var form = this.element;
         var options = $(this.options.optionsSelector, form);
-        this.additionalPriceObject = {};
+        this._additionalPriceObject = {};
 
         options.on('change', onOptionChanged.bind(this));
+        form.on('changeOption', onFormChanged.bind(this));
     }
 
     function onOptionChanged(event) {
@@ -44,12 +46,22 @@ define([
 
         var valueId = $(event.target).val();
         var optionId = findOptionId(event.target);
+        var optionName = $(event.target).prop('name');
         var overhead = this.options.optionConfig[optionId][valueId];
+        var changes = {};
+
+        changes[ optionId + '##' + optionName + '##' + valueId] = setOptionConfig(overhead);
+
+        $(this.element).trigger('changeOption', changes);
+    }
+
+    function onFormChanged(event, priceChanges) {
         var additionalPrice = this.additionalPrice = {};
+        if(priceChanges) {
+            $.extend(this._additionalPriceObject, priceChanges);
+        }
 
-        this.additionalPriceObject[ optionId + '##' + valueId] = setOptionConfig(overhead);
-
-        _.each(this.additionalPriceObject, function(prices){
+        _.each(this._additionalPriceObject, function(prices){
             _.each(prices, function(priceValue, priceCode){
                 additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount':0, 'adjustments': {}};
                 if(priceValue.amount)
@@ -62,9 +74,25 @@ define([
         });
 
         $(this.options.priceHolderSelector).trigger('updatePrice', additionalPrice);
-
-        console.log(this);
     }
+
+    /**
+     * Custom behavior on getting options:
+     * now widget able to deep merge of accepted configuration.
+     * @param  {Object}  options
+     * @return {mage.priceBox}
+     */
+    function setOptions(options) {
+        $.extend(true, this.options, options);
+
+        if('disabled' in options) {
+            this._setOption('disabled', options['disabled']);
+        }
+        return this;
+    }
+
+
+
 
     function findOptionId(element) {
         var name = $(element).attr('name');
@@ -92,6 +120,10 @@ define([
         rightObj.regular.adjustments.tax = config.inclTaxPrice - config.exclTaxPrice;
 
         rightObj.special = rightObj.regular;
+
+        if(config.oldPrice  !== config.price) {
+            rightObj.regular = {amount: config.oldPrice};
+        }
 
         return rightObj;
     }

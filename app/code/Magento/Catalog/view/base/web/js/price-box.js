@@ -50,7 +50,6 @@ define([
         box.on('updatePrice', onUpdatePrice.bind(this)).trigger('updatePrice');
         box.on('reloadPrice', reloadPrice.bind(this)).trigger('reloadPrice');
 
-
     }
 
     /**
