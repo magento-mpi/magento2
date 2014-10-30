@@ -8,7 +8,7 @@
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-$attributes = array(
+$attributes = [
     'country_of_manufacture',
     'group_price',
     'minimal_price',
@@ -18,7 +18,7 @@ $attributes = array(
     'special_to_date',
     'tier_price',
     'weight'
-);
+];
 foreach ($attributes as $attributeCode) {
     $relatedProductTypes = explode(
         ',',
