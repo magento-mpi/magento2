@@ -107,42 +107,6 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
     }
 
     /**
-     * Retrieve group model with group data
-     *
-     * @deprecated
-     * @return \Magento\Customer\Api\Data\GroupInterface
-     */
-    public function getDataModel()
-    {
-        $this->groupBuilder->setId($this->getId());
-        $this->groupBuilder->setCode($this->getCode());
-        $this->groupBuilder->setTaxClassId($this->getTaxClassId());
-        $this->groupBuilder->setTaxClassName($this->getTaxClassName());
-        return $this->groupBuilder->create();
-    }
-
-    /**
-     * Update group data
-     *
-     * @deprecated
-     * @param \Magento\Customer\Api\Data\GroupInterface $group
-     * @return $this
-     */
-    public function updateData($group)
-    {
-        $groupDataAttributes = $this->dataObjectProcessor->buildOutputDataArray(
-            $group,
-            '\Magento\Customer\Api\Data\GroupInterface'
-        );
-
-        foreach ($groupDataAttributes as $attributeCode => $attributeData) {
-            $this->setDataUsingMethod($attributeCode, $attributeData);
-        }
-
-        return $this;
-    }
-
-    /**
      * Alias for setCustomerGroupCode
      *
      * @param string $value
