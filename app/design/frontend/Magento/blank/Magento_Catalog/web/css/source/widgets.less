@@ -33,6 +33,9 @@ div.widget.category.link {
         .pages-item-next {
             position: relative;
         }
+        .items {
+            white-space: nowrap;
+        }
     }
 }
 
@@ -58,6 +61,23 @@ div.widget.category.link {
         padding: 0;
         &:nth-child(4n+1) {
             margin-left: 0;
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .sidebar .block.widget .pager {
+        .item:not(.pages-item-next):not(.pages-item-previous) {
+            display: none;
+        }
+        .pages-item-next {
+            padding: 0;
+            .action {
+                margin: 0;
+            }
         }
     }
 }
