@@ -385,7 +385,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);
@@ -465,7 +465,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);
@@ -645,7 +645,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $this->assertEquals($groupId, $this->_webApiCall($serviceInfo, $requestData));
+        $this->assertEquals($groupId, $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID]);
 
         $group = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
@@ -1088,7 +1088,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
      */
     private function createGroup($group)
     {
-        $groupId = $this->groupRepository->save($group); //->getId();
+        $groupId = $this->groupRepository->save($group)->getId();
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);

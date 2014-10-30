@@ -131,7 +131,12 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
         }
 
         $this->groupRegistry->remove($groupModel->getId());
-        return $groupModel->getId();
+
+        $this->groupBuilder->setId($groupModel->getId());
+        $this->groupBuilder->setCode($groupModel->getCode());
+        $this->groupBuilder->setTaxClassId($groupModel->getTaxClassId());
+        $this->groupBuilder->setTaxClassName($groupModel->getTaxClassName());
+        return $this->groupBuilder->create();
     }
 
     /**
@@ -181,7 +186,11 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
         $groups = array();
         /** @var \Magento\Customer\Model\Group $group */
         foreach ($collection as $group) {
-            $groups[] = $group->getDataModel();
+            $this->groupBuilder->setId($group->getId());
+            $this->groupBuilder->setCode($group->getCode());
+            $this->groupBuilder->setTaxClassId($group->getTaxClassId());
+            $this->groupBuilder->setTaxClassName($group->getTaxClassName());
+            $groups[] = $this->groupBuilder->create();
         }
         return $this->searchResultsBuilder->setItems($groups)->create();
     }
