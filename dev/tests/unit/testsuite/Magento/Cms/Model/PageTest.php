@@ -18,6 +18,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
     protected $thisMock;
 
     /**
+     * @var \Magento\Backend\Block\Template\Context
+     */
+    protected $context;
+
+    /**
      * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
@@ -29,34 +34,62 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->eventManagerMock = $this
-            ->getMockBuilder('Magento\Framework\Event\ManagerInterface')
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->resourcePageMock = $this
-            ->getMockBuilder('Magento\Cms\Model\Resource\Page')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $v=get_class_methods(get_class($this->resourcePageMock));
-        $this->thisMock = $this
-            ->getMockBuilder('Magento\Cms\Model\Page')
+        $this->context = $objectManager->getObject(
+            'Magento\Framework\Model\Context',
+            [
+                'eventDispatcher' => $this->eventManagerMock
+            ]
+        );
+        $this->resourcePageMock = $this->getMockBuilder('Magento\Cms\Model\Resource\Page')
             ->disableOriginalConstructor()
             ->setMethods(
                 [
-                    '_getResource'
+                    'getIdFieldName',
+                    'checkIdentifier'
+                ]
+            )
+            ->getMock();
+        $this->thisMock = $this->getMockBuilder('Magento\Cms\Model\Page')
+            ->setConstructorArgs(
+                [
+                    $this->context,
+                    $this->getMockBuilder('Magento\Framework\Registry')
+                        ->disableOriginalConstructor()
+                        ->getMock(),
+                    $this->getMockBuilder('Magento\Framework\Model\Resource\AbstractResource')
+                        ->disableOriginalConstructor()
+                        ->setMethods(
+                            [
+                                '_construct',
+                                '_getReadAdapter',
+                                '_getWriteAdapter'
+                            ]
+                        )
+                        ->getMock(),
+                    $this->getMockBuilder('Magento\Framework\Data\Collection\Db')
+                        ->disableOriginalConstructor()
+                        ->getMock()
+                ]
+            )
+            ->setMethods(
+                [
+                    '_construct',
+                    '_getResource',
+                    'load'
                 ]
             )
             ->getMock();
 
-        $this->thisMock
-            ->expects($this->any())
+        $this->thisMock->expects($this->any())
             ->method('_getResource')
             ->willReturn($this->resourcePageMock);
-
-        $reflection = new \ReflectionClass($this->thisMock);
-        $mathRandomProperty = $reflection->getProperty('_eventManager');
-        $mathRandomProperty->setAccessible(true);
-        $mathRandomProperty->setValue($this->thisMock, $this->eventManagerMock);
+        $this->thisMock->expects($this->any())
+            ->method('load')
+            ->willReturnSelf();
     }
 
     /**
@@ -76,8 +109,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $storeId = 2;
         $fetchOneResult = 'some result';
 
-        $this->resourcePageMock
-            ->expects($this->atLeastOnce())
+        $this->resourcePageMock->expects($this->atLeastOnce())
             ->method('checkIdentifier')
             ->with($identifier, $storeId)
             ->willReturn($fetchOneResult);
