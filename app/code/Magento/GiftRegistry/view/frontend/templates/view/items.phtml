@@ -16,38 +16,41 @@
 <?php
     $_itemsCount = count($this->getItems());
 ?>
-<div class="block giftregistry shared items">
-    <div class="title"><strong><?php echo __('Gift Registry Items') ?></strong></div>
-    <form action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry">
-        <table id="shopping-cart-table" class="data table giftregistry cart">
-            <thead>
-                <tr>
-                    <th class="col photo">&nbsp;</th>
-                    <th class="col product"><?php echo __('Product Name') ?></th>
-                    <th class="col registered"><?php echo __('Requested') ?></th>
-                    <th class="col fulfilled"><?php echo __('Fulfilled') ?></th>
-                    <th class="col remaining"><?php echo __('Remaining') ?></th>
-                    <th class="col price"><?php echo __('Unit Price') ?></th>
-                    <th class="col qty"><?php echo __('Qty') ?></th>
-                </tr>
-            </thead>
-            <?php if ($_itemsCount): ?>
-            <tfoot>
-                <tr>
-                    <td colspan="7">
-                        <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></button>
-                    </td>
-                </tr>
-            </tfoot>
-            <?php endif; ?>
-            <tbody>
-                <?php foreach($this->getItems() as $_item): ?>
-                    <?php echo $this->getItemHtml($_item) ?>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    </form>
-    <?php if (!$_itemsCount): ?>
-        <p><?php echo __('This gift registry has no items.') ?></p>
-    <?php endif; ?>
+<div class="block block-giftregistry-shared-items">
+    <div class="block-title"><strong><?php echo __('Gift Registry Items') ?></strong></div>
+    <div class="block-content">
+        <?php if (!$_itemsCount): ?>
+            <div class="message info empty"><span><?php echo __('This gift registry has no items.') ?></span></div>
+        <?php else:?>
+            <form action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry">
+                <div class="table-wrapper">
+                    <table id="shopping-cart-table" class="data table giftregistry">
+                        <caption class="table-caption"><?php echo __('Gift Registry Items') ?></caption>
+                        <thead>
+                        <tr>
+                            <th class="col product" scope="col"><?php echo __('Product Name') ?></th>
+                            <th class="col registered" scope="col"><?php echo __('Requested') ?></th>
+                            <th class="col fulfilled" scope="col"><?php echo __('Fulfilled') ?></th>
+                            <th class="col remaining" scope="col"><?php echo __('Remaining') ?></th>
+                            <th class="col price" scope="col"><?php echo __('Unit Price') ?></th>
+                            <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($this->getItems() as $_item): ?>
+                            <?php echo $this->getItemHtml($_item) ?>
+                        <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit"
+                                title="<?php echo __('Add to Cart') ?>"
+                                class="action primary"><span><?php echo __('Add to Cart') ?></span></button>
+                    </div>
+                </div>
+            </form>
+        <?php endif; ?>
+    </div>
 </div>

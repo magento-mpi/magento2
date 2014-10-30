@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertReminderSuccessSaveMessage module="Magento_Reminder">
+        <severeness>low</severeness>
+    </assertReminderSuccessSaveMessage>
+    <assertReminderInGrid module="Magento_Reminder">
+        <severeness>low</severeness>
+    </assertReminderInGrid>
+    <assertReminderForm module="Magento_Reminder">
+        <severeness>medium</severeness>
+    </assertReminderForm>
+    <assertReminderMatchedCustomers module="Magento_Reminder">
+        <severeness>low</severeness>
+    </assertReminderMatchedCustomers>
+</constraint>

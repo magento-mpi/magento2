@@ -15,12 +15,12 @@
 $uniqueSuffix = '_' . $this->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
 ?>
-<div class="widget block addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
+<div class="widget block block-addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
     <?php if (!$this->getIsTitleHidden()): ?>
-        <div class="title"><strong><?php echo __('Order by SKU') ?></strong></div>
+        <div class="block-title"><strong><?php echo __('Order by SKU') ?></strong></div>
     <?php endif ?>
-    <div class="content">
-        <form id="<?php echo $skuFormId; ?>" class="form addbysku" action="<?php echo $this->getFormAction(); ?>" method="post"
+    <div class="block-content">
+        <form id="<?php echo $skuFormId; ?>" class="form form-addbysku" action="<?php echo $this->getFormAction(); ?>" method="post"
             data-mage-init='{"validation":{}}'
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <fieldset class="fieldset" data-container="items"></fieldset>
@@ -53,7 +53,7 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
             <div class="fields additional deletableItem" data-mage-init='{"deletableItem":{}}'>
                 <div class="actions-toolbar">
                     <div class="secondary">
-                        <div class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></div>
+                        <button type="button" class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
                     </div>
                 </div>
                 <div class="field sku required">
