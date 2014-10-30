@@ -55,7 +55,7 @@ class Dimensions
         $field = $dimension->getName();
         $value = $dimension->getValue();
 
-        if (Dimension::SCOPE === $field) {
+        if ('scope' === $field) {
             $field = self::STORE_FIELD_NAME;
             $value = $this->scopeResolver->getScope($value)->getId();
         }

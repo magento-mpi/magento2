@@ -99,6 +99,9 @@ class Auto implements AlgorithmInterface
         return $data;
     }
 
+    /**
+     * @return number
+     */
     private function getRange()
     {
         $maxPrice = $this->getMaxPriceInt();

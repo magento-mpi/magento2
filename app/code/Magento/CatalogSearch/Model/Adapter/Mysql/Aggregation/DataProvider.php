@@ -14,6 +14,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
+use Magento\Framework\Search\Request\Dimension;
 use Magento\Framework\Search\RequestInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Store\Model\Store;
@@ -50,9 +51,9 @@ class DataProvider implements DataProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getDataSet(BucketInterface $bucket, RequestInterface $request)
+    public function getDataSet(BucketInterface $bucket, array $dimensions)
     {
-        $currentStore = $request->getScopeDimension()->getValue();
+        $currentStore = $dimensions['scope']->getValue();
         $currentStoreId = $this->storeManager->getStore($currentStore)->getId();
         $attribute = $this->eavConfig->getAttribute(Product::ENTITY, $bucket->getField());
         $table = $attribute->getBackendTable();
@@ -71,6 +72,14 @@ class DataProvider implements DataProviderInterface
             ->where('main_table.store_id = ?', Store::DEFAULT_STORE_ID);
 
         return $select;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(Select $select)
+    {
+        return $this->getConnection()->fetchAssoc($select);
     }
 
     /**
