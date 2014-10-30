@@ -100,9 +100,5 @@
             <fileset dir="${product_root_dir}/dev/tests/api-functional/_files/Magento" includes="TestModule*/**"/>
         </copy>
 
-        <!--Ensure that tmp directory fore tests is writable-->
-        <chmod perm="a+w">
-            <dirset dir="${product_root_dir}/dev/tests/api-functional/tmp"/>
-        </chmod>
     </target>
 </project>

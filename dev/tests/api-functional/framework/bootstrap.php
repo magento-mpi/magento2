@@ -42,7 +42,7 @@ if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'ena
     if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
         $application->cleanup();
     }
-    $application->install($testsBaseDir . '/config/install.php', \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+    $application->install();
 }
 
 $bootstrap = new \Magento\TestFramework\Bootstrap(
