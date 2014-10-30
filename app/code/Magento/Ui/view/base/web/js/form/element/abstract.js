@@ -13,6 +13,7 @@ define([
     'use strict';
 
     var defaults = {
+        focused:            false,
         tooltip:            null,
         required:           false,
         disabled:           false,
@@ -51,20 +52,20 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            var rules,
-                data = this.provider.data;
+            var value = this.getInititalValue(), 
+                rules;
 
             __super__.initObservable.apply(this, arguments);
 
             rules = this.validation = this.validation || {};
 
-            this.observe({
-                'value':         this.initialValue = data.get(this.dataScope),
-                'required':      rules['required-entry'],
-                'disabled':      this.disabled,
-                'error':         this.error,
-                'focused':       false
-            });            
+            this.initialValue = value;
+
+            this.observe('error disabled focused')
+                .observe({
+                    'value':    value,
+                    'required': rules['required-entry']
+                });        
 
             return this;
         },
@@ -101,6 +102,23 @@ define([
             });
 
             return this;
+        },
+
+        getInititalValue: function(){
+            var data = this.provider.data,
+                value;
+
+            if(typeof this.value !== 'undefined'){
+                value = this.value;
+            }
+            else if(typeof this.default !== 'undefined'){
+                value = this.default;
+            }
+            else{
+                value = data.get(this.dataScope);
+            }
+
+            return value;
         },
 
         /**

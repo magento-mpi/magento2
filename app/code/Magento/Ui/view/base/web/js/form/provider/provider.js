@@ -10,8 +10,8 @@ define([
     './component',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, storages, Component, Class, EventsBus, registry){
+    'mage/utils'
+], function(_, storages, Component, Class, EventsBus, utils){
     'use strict';
     
     var defaults = {
@@ -45,6 +45,15 @@ define([
             }, this);
 
             return this;
+        },
+
+        save: function(){
+            var data = this.data.get();
+            
+            utils.submit({
+                url: this.submit_url,
+                data: data
+            });
         }
     }, EventsBus);
 
