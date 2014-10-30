@@ -9,13 +9,13 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class NestedData extends AbstractExtensibleObject
+class DataArray extends AbstractExtensibleObject
 {
     /**
-     * @return \Magento\Webapi\Service\Entity\SimpleData
+     * @return \Magento\Webapi\Service\Entity\Simple[]|null
      */
-    public function getDetails()
+    public function getItems()
     {
-        return $this->_get('details');
+        return $this->_get('items');
     }
 }
