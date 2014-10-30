@@ -38,7 +38,8 @@ class Improved implements AlgorithmInterface
     {
         $aggregations = $this->dataProvider->getAggregations($entityIds);
 
-        if ($intervals && ($aggregations['count'] <= $this->dataProvider->getIntervalDivisionLimit()
+        $options = $this->dataProvider->getOptions();
+        if ($intervals && ($aggregations['count'] <= $options['interval_division_limit']
                 || $intervals[0] == $intervals[1] || $intervals[1] === '0') || $aggregations['count'] <= 0
         ) {
             return [];

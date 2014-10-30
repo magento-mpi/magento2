@@ -22,7 +22,7 @@
             </query>
         </queries>
         <aggregations>
-            <bucket name="price" field="price" xsi:type="dynamicBucket" method="improved"/>
+            <bucket name="price" field="price" xsi:type="dynamicBucket" method="auto"/>
         </aggregations>
         <from>0</from>
         <size>10000</size>

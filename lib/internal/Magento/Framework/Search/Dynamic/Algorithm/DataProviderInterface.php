@@ -16,9 +16,23 @@ interface DataProviderInterface
     public function getAggregations(array $entityIds);
 
     /**
-     * Get interval division limit
+     * Get all options
+     *
+     * @return array
+     */
+    public function getOptions();
+
+    /**
+     * @param int $range
+     * @param int[] $entityIds
+     * @return array
+     */
+    public function getCount($range, array $entityIds);
+
+    /**
+     * Get range
      *
      * @return int
      */
-    public function getIntervalDivisionLimit();
+    public function getRange();
 }

@@ -44,6 +44,9 @@ class Range
         $this->layer = $layer;
     }
 
+    /**
+     * @return array
+     */
     public function getPriceRange()
     {
         $currentCategory = $this->registry->registry('current_category_filter');
