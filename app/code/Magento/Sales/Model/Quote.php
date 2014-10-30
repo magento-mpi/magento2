@@ -1583,12 +1583,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 ->setQuoteFilter($this->getId())
                 ->fetchItem();
         }
-        if ($this->_currentPayment) {
-            $this->_currentPayment->setQuote($this);
-            if (!$this->_currentPayment->isDeleted()) {
-                return $this->_currentPayment;
+        if ($payment = $this->_currentPayment) {
+            $payment->setQuote($this);
+            if (!$payment->isDeleted()) {
+                return $payment;
             }
         }
+
         $payment = $this->_quotePaymentFactory->create();
         $this->addPayment($payment);
         return $payment;

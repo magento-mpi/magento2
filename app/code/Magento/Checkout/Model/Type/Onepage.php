@@ -695,7 +695,7 @@ class Onepage
         $payment = $quote->getPayment();
         $payment->importData($data);
 
-        $payment->save();
+        $quote->save();
 
         $this->getCheckout()->setStepData('payment', 'complete', true)->setStepData('review', 'allow', true);
 
