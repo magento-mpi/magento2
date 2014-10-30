@@ -145,28 +145,7 @@ class Rule implements SetupInterface
                 }
                 $targetCategory['value_type'] = TargetRuleActionAttributes::VALUE_TYPE_CONSTANT;
 
-                $combineCondition = [
-                    'aggregator' => 'all',
-                    'value' => '1',
-                    'new_child' => ''
-                ];
-                $ruleConditions = [
-                    'conditions' => [
-                        1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Rule\Condition\Combine'],
-                        '1--1' => $sourceCategory
-                    ],
-                    'actions' => [
-                        1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Actions\Condition\Combine'],
-                        '1--1' => $targetCategory
-                    ]
-                ];
-                if (!empty($row['conditions'])) {
-                    $index = 2;
-                    foreach (array_filter(explode("\n", $row['conditions'])) as $condition) {
-                        $ruleConditions['actions']['1--' . $index] = unserialize($condition);
-                        $index++;
-                    }
-                }
+                $ruleConditions = $this->createConditions($sourceCategory, $targetCategory);
 
                 $rule->setName($row['name'])
                     ->setApplyTo($linkTypeId)
@@ -179,5 +158,37 @@ class Rule implements SetupInterface
             }
         }
         echo "\n";
+    }
+
+    /**
+     * @param string $sourceCategory
+     * @param string $targetCategory
+     * @return array
+     */
+    protected function createConditions($sourceCategory, $targetCategory)
+    {
+        $combineCondition = [
+            'aggregator' => 'all',
+            'value' => '1',
+            'new_child' => ''
+        ];
+        $ruleConditions = [
+            'conditions' => [
+                1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Rule\Condition\Combine'],
+                '1--1' => $sourceCategory
+            ],
+            'actions' => [
+                1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Actions\Condition\Combine'],
+                '1--1' => $targetCategory
+            ]
+        ];
+        if (!empty($row['conditions'])) {
+            $index = 2;
+            foreach (array_filter(explode("\n", $row['conditions'])) as $condition) {
+                $ruleConditions['actions']['1--' . $index] = unserialize($condition);
+                $index++;
+            }
+        }
+        return $ruleConditions;
     }
 }

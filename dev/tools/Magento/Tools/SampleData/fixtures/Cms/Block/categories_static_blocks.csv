@@ -173,16 +173,6 @@ Training Block,training-block,"<div class=""blocks-promo"">
     </div>
 
 </div>"
-Giftcard Block,giftcard-block,"<div class=""blocks-promo"">
-    <a href=""{{category url=""gift-cards""}}"" class=""block-promo giftcard-main"">
-        <span class=""content"">
-            <span class=""info"">Women’s Deals</span>
-            <strong class=""title"">Pristine prices on pants, tanks and bras.</strong>
-            <span class=""action more icon"">Shop Women’s Deals</span>
-        </span>
-        <span class=""image""><img src=""{{media url=""wysiwyg/giftcards/giftcard.jpg""}}"" alt="""" /></span>
-    </a>
-</div>",gift-cards
 Men Block,men-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""men""}}"" class=""block-promo mens-main"">
         <img src=""{{media url=""wysiwyg/mens/mens-main.jpg""}}"" alt="""" />

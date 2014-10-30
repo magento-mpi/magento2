@@ -48,7 +48,7 @@ class Page implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $fixtures = array(
-            'Cms/page.csv',
+            'Cms/Page/pages.csv',
         )
     ) {
         $this->fixtureHelper = $fixtureHelper;
