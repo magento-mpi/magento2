@@ -113,7 +113,7 @@ class Tree
      */
     public function getTree($node, $depth = null, $currentLevel = 0)
     {
-        $this->treeBuilder->setCategoryId($node->getId())
+        $this->treeBuilder->setId($node->getId())
             ->setParentId($node->getParentId())
             ->setName($node->getName())
             ->setPosition($node->getPosition())

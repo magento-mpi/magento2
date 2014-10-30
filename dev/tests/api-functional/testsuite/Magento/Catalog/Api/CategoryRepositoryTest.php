@@ -32,7 +32,7 @@ class CategoryRepositoryTest extends WebapiAbstract
             'include_in_menu' => true,
             'name' => 'Category 1',
             'url_key' => 'category-1',
-            'category_id' => 333,
+            'id' => 333,
             'is_active' => true,
             'children' => null
         ];
@@ -143,24 +143,13 @@ class CategoryRepositoryTest extends WebapiAbstract
     {
         $categoryId = 333;
         $categoryData = [
-            'custom_attributes' => [
-                [
-                    'attribute_code' => 'name',
-                    'value' => "Update Category Test"
-                ],
-                [
-                    'attribute_code' => 'description',
-                    'value' => "Update Category Description Test"
-                ]
-            ]
+            'name' => "Update Category Test"
         ];
-        $this->assertTrue($this->updateCategory($categoryId, $categoryData));
-        /** @var \Magento\Catalog\Model\Category $model */
-        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
-        $model->load($categoryId);
-        foreach ($categoryData['custom_attributes'] as $attribute) {
-            $this->assertEquals($attribute['value'], $model->getData($attribute['attribute_code']));
-        }
+        $this->assertEquals($categoryId, $this->updateCategory($categoryId, $categoryData));
+        /** @var \Magento\Catalog\Model\CategoryRepository $model */
+        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\CategoryRepository');
+        $category = $model->get($categoryId);
+        $this->assertEquals("Update Category Test", $category->getName());
     }
 
     protected function getSimpleCategoryData($categoryData = array())
@@ -171,7 +160,6 @@ class CategoryRepositoryTest extends WebapiAbstract
             'name' => isset($categoryData['name'])
                 ? $categoryData['name'] : uniqid('Category-', true),
             'is_active' => '0',
-            'include_in_menu' => 1,
             'custom_attributes' => [
                 ['attribute_code' => 'url_key', 'value' => ''],
                 ['attribute_code' => 'description', 'value' => ''],
@@ -242,7 +230,7 @@ class CategoryRepositoryTest extends WebapiAbstract
                     // @todo fix this configuration after SOAP test framework is functional
                 ]
             ];
-        return $this->_webApiCall($serviceInfo, ['categoryId' => $id, 'category' => $data]);
+        return $this->_webApiCall($serviceInfo, ['category' => $data]);
     }
 
 }

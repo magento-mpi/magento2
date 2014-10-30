@@ -38,6 +38,11 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     protected $useConfigFields = ['available_sort_by', 'default_sort_by', 'filter_price_range'];
 
     /**
+     * @var \Magento\Catalog\Api\Data\CategoryInterfaceDataBuilder
+     */
+    protected $categoryBuilder;
+
+    /**
      * @param CategoryFactory $categoryFactory
      * @param Resource\Category $categoryResource
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -45,20 +50,43 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     public function __construct(
         CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Api\Data\CategoryInterfaceDataBuilder $dataBuilder
 
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryResource = $categoryResource;
         $this->storeManager = $storeManager;
+        $this->categoryBuilder = $dataBuilder;
     }
 
     /**
-     * {@inheritdoc}
+     * Create category service
+     *
+     * @param \Magento\Catalog\Api\Data\CategoryInterface $category
+     * @return int
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(\Magento\Catalog\Api\Data\CategoryDetailsInterface $category)
+    public function save(\Magento\Catalog\Api\Data\CategoryInterface $category)
     {
+        if ($category->getId()) {
+            $existingCategory = $this->get($category->getId());
+            $existingData = $category->getData();
+            $customAttributes = $category->getCustomAttributes();
+            if (isset($existingData['image']) && is_array($existingData['image'])) {
+                $existingData['image_additional_data'] = $existingData['image'];
+                unset($existingData['image']);
+            }
+            $existingData['id'] = $existingCategory->getId();
+            $existingData['parent_id'] = $existingCategory->getParentId();
+            $existingData['path'] = $existingCategory->getPath();
+            $existingData['is_active'] = $existingCategory->getIsActive();
+            $existingData['include_in_menu'] =
+                isset($existingData['include_in_menu']) ? (bool)$existingData['include_in_menu'] : false;
+            $category->addData($existingData);
+        }
         try {
+
             $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
             $parentCategory = $this->get($parentId);
             /** @var  $category Category */
@@ -72,7 +100,11 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     }
 
     /**
-     * {@inheritdoc}
+     * Get info about category by category id
+     *
+     * @param int $categoryId
+     * @return \Magento\Catalog\Api\Data\CategoryInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function get($categoryId)
     {
@@ -87,9 +119,15 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     }
 
     /**
-     * {@inheritdoc}
+     * Delete category by identifier
+     *
+     * @param \Magento\Catalog\Api\Data\CategoryInterface $category category which will deleted
+     * @return bool Will returned True if deleted
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function delete(\Magento\Catalog\Api\Data\CategoryDetailsInterface $category)
+    public function delete(\Magento\Catalog\Api\Data\CategoryInterface $category)
     {
         try {
             $this->categoryResource->delete($category);
@@ -101,7 +139,13 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     }
 
     /**
-     * {@inheritdoc}
+     * Delete category by identifier
+     *
+     * @param int $categoryId
+     * @return bool Will returned True if deleted
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function deleteByIdentifier($categoryId)
     {

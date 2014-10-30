@@ -27,7 +27,7 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Category extends \Magento\Catalog\Model\AbstractModel
-    implements \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryDetailsInterface,
+    implements \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryInterface,
     \Magento\Catalog\Api\Data\CategoryTreeInterface
 {
     /**
@@ -1106,7 +1106,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
     public function getIsActive()
     {
@@ -1118,7 +1118,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function getCategoryId()
     {
-        return $this->getId();
+        return $this->getData('category_id');
     }
 
     /**
@@ -1150,6 +1150,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function getChildrenData()
     {
-        return $this->getData('children');
+        return $this->getData('children_data');
     }
 }
