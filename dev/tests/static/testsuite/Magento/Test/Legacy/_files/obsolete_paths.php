@@ -232,4 +232,5 @@ return [
     ['/dev/tests/unit/testsuite/Magento/Install'],
     ['/dev/shell/install.php'],
     ['/dev/shell/uninstall.php'],
+    [' app/design/install',]
 ];
