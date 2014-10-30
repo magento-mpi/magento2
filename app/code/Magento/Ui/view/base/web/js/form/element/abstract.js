@@ -150,6 +150,10 @@ define([
             return this;
         },
 
+        getPreview: function(){
+            return this.preview();
+        },
+
         hasAddons: function () {
             return this.addbefore || this.addafter;
         },

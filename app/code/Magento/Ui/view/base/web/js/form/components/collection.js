@@ -32,7 +32,7 @@ define([
         initElement: function (elem) {
             __super__.initElement.apply(this, arguments);
 
-            elem.setActive();
+            elem.activate();
         },
 
         initRenderer: function () {
@@ -42,52 +42,68 @@ define([
         },
 
         initChildTemplate: function () {
+            var template = this.name + '.' + this.itemTemplate;
+
             this.childTemplate = {
-                template: this.name + '.' + this.itemTemplate,
-                parent: this.name
+                template:   template,
+                parent:     this.name
             };
 
             return this;
         },
 
         initChildren: function () {
-            var children = this.provider.data.get(this.dataScope);
+            var data     = this.provider.data,
+                children = data.get(this.dataScope);
             
-            _.each(children, this.initChild.bind(this));
+            _.each(children, function(item, index){
+                this.addChild(index);
+            }, this);
+
+            return this;
         },
 
-        initChild: function (item, index) {
-            this.lastIndex++;
+        addChild: function(index){
+            var indexType   = typeof index,
+                hasIndex    = type !== 'undefined' && type !== 'object';
 
-            this.createChild(index);
-        },
+            if(!hasIndex){
+                index = 'new_' + this.lastIndex;
+            }
 
-        addEmptyChild: function () {
-            var index = 'new_' + this.lastIndex++;
-                
-            this.createChild(index);
-        },
-
-        createChild: function (index) {
             _.extend(this.childTemplate, {
-                name: index,
-                dataScope: index
+                name:       index,
+                dataScope:  index
             });
 
             this.renderer.render({
                 layout: [this.childTemplate]
             });
+
+            this.lastIndex++;
         },
 
-        removeElement: function (element) {
-            return this._removeElement.bind(this, element);
+        removeChild: function (element) {
+            return function(){
+                var shouldRemove = window.confirm(this.removeMessage);
+
+                if(shouldRemove){
+                    this._removeChild(element);
+                }
+
+            }.bind(this);
         },
 
-        _removeElement: function (element) {
-            var shouldRemove = confirm(this.removeMessage);
+        _removeChild: function (elem) {
+            var isActive = elem.active(),
+                first;
 
-            if (shouldRemove) {
-                this.remove(element);
+            this.remove(elem);
+
+            first = this.elems()[0];
+
+            if(first && isActive){
+                first.activate();
             }
         }
     });

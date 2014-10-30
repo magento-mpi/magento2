@@ -6,20 +6,20 @@
  */
 define([
     'underscore',
-    '../component'
-], function(_, Component) {
+    './tab'
+], function(_, Tab) {
     'use strict';
 
     var defaults = {
         template:   'ui/area',
-        active:     false,
+        storeAs:    'activeArea',
         changed:    false,
         loading:    false
     };
 
-    var __super__ = Component.prototype;
+    var __super__ = Tab.prototype;
 
-    return Component.extend({
+    return Tab.extend({
 
         /**
          * Extends instance with defaults. Invokes parent initialize method.
@@ -29,8 +29,6 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
-
-            this.pushParams();
         },
 
         /**
@@ -41,19 +39,7 @@ define([
         initObservable: function() {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('active changed loading');
-
-            return this;
-        },
-
-        /**
-         * Assignes updateState callback to update:activeArea event.
-         * @return {Object} - reference to instance
-         */
-        initListeners: function() {
-            var params  = this.provider.params;
-
-            params.on('update:activeArea', this.updateState.bind(this));
+            this.observe('changed loading');
 
             return this;
         },
@@ -68,47 +54,12 @@ define([
             __super__.initElement.apply(this, arguments);
 
             elem.on({
-                update:     this.onChildrenUpdate.bind(this),
-                loading:    this.onContentLoading.bind(this, true),
-                loaded:     this.onContentLoading.bind(this, false)
+                'update':     this.onChildrenUpdate.bind(this),
+                'loading':    this.onContentLoading.bind(this, true),
+                'loaded':     this.onContentLoading.bind(this, false)
             });
 
             return this;
-        },
-
-        /**
-         * Checks active state of instance and if true, sets activeArea
-         *     property of params storage to name of instance.
-         */
-        pushParams: function() {
-            var params = this.provider.params;
-
-            if(this.active()){
-                params.set('activeArea', this.name);
-            }
-        },
-
-        /**
-         * Triggers 'active' event with current active state identifier.
-         * @param  {String} area - area to compare instance's name to
-         * @return {Object} - reference to instance
-         */
-        updateState: function(area) {
-            var active = area === this.name;
-
-            this.trigger('active', active)
-                .active(active);
-                
-            return this;
-        },
-        
-        /**
-         * Sets active property to true, then invokes pushParams method.
-         */
-        setActive: function(){
-            this.active(true);
-
-            this.pushParams();
         },
 
         /**

@@ -277,16 +277,14 @@ class AbstractStructure extends AbstractView
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
             'config' => [
-                'label' => [
-                    'default' => __('New ' . $childMeta->getLabel())
-                ]
+                'label' => __('New ' . $childMeta->getLabel())
             ]
         ];
         if ($previewElements = $childMeta->getPreviewElements()) {
-            $itemTemplate['config']['previewElements'] = explode(',', $previewElements);
+            $itemTemplate['config']['previewParts'] = explode(',', $previewElements);
         }
         if ($compositeLabel = $childMeta->getCompositeLabel()) {
-            $itemTemplate['config']['label']['compositeOf'] = explode(',', $compositeLabel);
+            $itemTemplate['config']['labelParts'] = explode(',', $compositeLabel);
         }
         foreach ($childMeta as $key => $value) {
             $itemTemplate['children'][$key] = $value;
