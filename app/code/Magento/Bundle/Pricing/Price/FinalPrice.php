@@ -49,7 +49,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getMaxAmount($this->basePrice->getValue(), $this->product);
+        return $this->calculator->getMaxAmount($this->getBasePrice()->getValue(), $this->product);
     }
 
     /**
