@@ -91,6 +91,17 @@ class Curl extends AbstractCurl
         $data = $this->replaceMappingData($widget->getData());
         $data = $this->replaceStoreIds($data);
 
+        return $this->prepareWidgetInstance($data);
+    }
+
+    /**
+     * Prepare Widget Instance data.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareWidgetInstance($data)
+    {
         foreach ($data['widget_instance'] as $key => $widgetInstance) {
             $pageGroup = $widgetInstance['page_group'];
 
@@ -100,7 +111,6 @@ class Curl extends AbstractCurl
             if ('notanchor_categories' == $pageGroup) {
                 $widgetInstance[$pageGroup]['is_anchor_only'] = 0;
             }
-
             $data['widget_instance'][$key] = $widgetInstance;
         }
 

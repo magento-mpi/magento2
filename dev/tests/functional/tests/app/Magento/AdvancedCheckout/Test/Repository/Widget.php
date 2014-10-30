@@ -33,10 +33,7 @@ class Widget extends AbstractRepository
                 '0' => [
                     'page_group' => 'All Pages',
                     'all_pages' => [
-                        'layout_handle' => 'default',
-                        'for' => 'all',
                         'block' => 'Sidebar Additional',
-                        'template' => 'widget/sku.phtml'
                     ]
                 ]
             ],
