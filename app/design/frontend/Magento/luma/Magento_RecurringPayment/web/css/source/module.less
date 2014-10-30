@@ -88,9 +88,11 @@
                     @_td-padding-left: 0,
                     @_td-padding-right: 0
                 );
-                td:before,
-                th:before {
-                    padding-right: 0;
+                th,
+                td {
+                    &:before {
+                        padding-right: 0;
+                    }
                 }
             }
         }
