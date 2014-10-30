@@ -64,10 +64,9 @@ define([
         },
 
         addChild: function(index){
-            var indexType   = typeof index,
-                hasIndex    = type !== 'undefined' && type !== 'object';
-
-            if(!hasIndex){
+            var setIndex = _.isObject(index) || _.isUndefined(index);
+            
+            if(setIndex){
                 index = 'new_' + this.lastIndex;
             }
 
