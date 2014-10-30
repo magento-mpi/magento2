@@ -35,7 +35,6 @@ $application = \Magento\TestFramework\WebApiApplication::getInstance(
     BP . '/app/etc/',
     glob(BP . '/app/etc/*/module.xml'),
     $settings->get('TESTS_MAGENTO_MODE'),
-    BP . '/var/',
     $shell
 );
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
