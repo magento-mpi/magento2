@@ -12,6 +12,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 /**
  * Class for SQL SELECT generation and results.
  *
+ * @method \Magento\Framework\DB\Select from($name, $cols = '*', $schema = null)
  * @method \Magento\Framework\DB\Select join($name, $cond, $cols = '*', $schema = null)
  * @method \Magento\Framework\DB\Select joinInner($name, $cond, $cols = '*', $schema = null)
  * @method \Magento\Framework\DB\Select joinLeft($name, $cond, $cols = '*', $schema = null)
