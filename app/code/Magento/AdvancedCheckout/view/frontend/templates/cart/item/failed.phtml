@@ -53,7 +53,7 @@ $qtyDisabled = !$this->hasProductUrl() ||
                 <?php endif;?>
             </div>
         </td>
-        <td data-th="<?php echo $this->escapeHtml(__('Unit Price')); ?>" class="col price">
+        <td data-th="<?php echo $this->escapeHtml(__('Price')); ?>" class="col price">
             <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
                 <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true); ?>
                 <span class="price-including-tax" data-label="<?php echo $this->escapeHtml(__('Incl. Tax')); ?>"><span
