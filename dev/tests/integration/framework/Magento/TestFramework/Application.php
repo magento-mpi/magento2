@@ -30,16 +30,22 @@ class Application
     protected $_db;
 
     /**
+     * Shell command executor
+     *
      * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
     /**
+     * Configuration file that contains installation parameters
+     *
      * @var string
      */
     private $installConfigFile;
 
     /**
+     * The loaded installation parameters
+     *
      * @var array
      */
     protected $installConfig;
@@ -101,11 +107,15 @@ class Application
     protected $_primaryConfigData = array();
 
     /**
+     * Object manager factory
+     *
      * @var \Magento\TestFramework\ObjectManagerFactory
      */
     protected $_factory;
 
     /**
+     * A factory method
+     *
      * @param string $installConfigFile
      * @param string $globalConfigDir
      * @param array $moduleConfigFiles
@@ -143,7 +153,7 @@ class Application
      * @param \Magento\Framework\Shell $shell
      * @param string $tmpDir
      * @param array $installConfigFile
-     * @param $globalConfigDir
+     * @param string $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
@@ -211,6 +221,8 @@ class Application
     }
 
     /**
+     * Gets installation parameters
+     *
      * @return array
      */
     protected function getInstallConfig()
@@ -222,6 +234,8 @@ class Application
     }
 
     /**
+     * Gets deployment configuration path
+     *
      * @return string
      */
     private function getLocalConfig()
@@ -231,6 +245,8 @@ class Application
 
     /**
      * Get path to temporary directory
+     *
+     * @return string
      */
     public function getTempDir()
     {
@@ -261,6 +277,7 @@ class Application
      * Initialize application
      *
      * @param array $overriddenParams
+     * @return void
      */
     public function initialize($overriddenParams = array())
     {
@@ -322,6 +339,7 @@ class Application
      * Reset and initialize again an already installed application
      *
      * @param array $overriddenParams
+     * @return void
      */
     public function reinitialize(array $overriddenParams = array())
     {
@@ -331,6 +349,8 @@ class Application
 
     /**
      * Run application normally, but with encapsulated initialization options
+     *
+     * @return void
      */
     public function run()
     {
@@ -343,6 +363,8 @@ class Application
 
     /**
      * Cleanup both the database and the file system
+     *
+     * @return void
      */
     public function cleanup()
     {
@@ -358,6 +380,7 @@ class Application
     /**
      * Install an application
      *
+     * @return void
      * @throws \Magento\Framework\Exception
      */
     public function install()
@@ -488,8 +511,9 @@ class Application
     /**
      * Create a directory with write permissions or don't touch existing one
      *
-     * @throws \Magento\Framework\Exception
      * @param string $dir
+     * @return void
+     * @throws \Magento\Framework\Exception
      */
     protected function _ensureDirExists($dir)
     {
@@ -515,7 +539,8 @@ class Application
     /**
      * Load application area
      *
-     * @param $areaCode
+     * @param string $areaCode
+     * @return void
      */
     public function loadArea($areaCode)
     {
@@ -538,6 +563,8 @@ class Application
     }
 
     /**
+     * Gets customized directory paths
+     *
      * @return array
      */
     protected function getCustomDirs()
