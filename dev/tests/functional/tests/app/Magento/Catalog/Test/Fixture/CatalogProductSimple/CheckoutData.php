@@ -46,7 +46,7 @@ class CheckoutData implements FixtureInterface
             $preset = $this->getPreset($data['preset']);
             unset($data['preset']);
         }
-        $this->data = !empty($preset) ? array_replace_recursive($preset, $data) : $data;
+        $this->data = empty($preset) ? $data : array_replace_recursive($preset, $data);
     }
 
     /**

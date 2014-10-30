@@ -751,20 +751,16 @@ class ConfigurableAttributesData implements FixtureInterface
                 /** @var CatalogProductSimple $product */
                 $product = $this->products[$key];
                 $quantityAndStockStatus = $product->getQuantityAndStockStatus();
-
-                $this->variationsMatrix[$key] = array_replace_recursive(
-                    $this->variationsMatrix[$key],
-                    [
-                        'configurable_attribute' => $product->getId(),
-                        'name' => $product->getName(),
-                        'sku' => $product->getSku(),
-                        'quantity_and_stock_status' => [
-                            'qty' => $quantityAndStockStatus['qty']
-                        ],
-                        'weight' => $product->getWeight()
-                    ]
-                );
-
+                $productData = [
+                    'configurable_attribute' => $product->getId(),
+                    'name' => $product->getName(),
+                    'sku' => $product->getSku(),
+                    'quantity_and_stock_status' => [
+                        'qty' => $quantityAndStockStatus['qty']
+                    ],
+                    'weight' => $product->getWeight()
+                ];
+                $this->variationsMatrix[$key] = array_replace_recursive($this->variationsMatrix[$key], $productData);
             } else {
                 $this->variationsMatrix[$key] = array_replace_recursive(
                     $this->variationsMatrix[$key],

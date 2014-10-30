@@ -79,7 +79,7 @@ class Matrix extends Form
     // @codingStandardsIgnoreEnd
 
     /**
-     * Variations matrix css selector.
+     * Title of variation matrix css selector.
      *
      * @var string
      */

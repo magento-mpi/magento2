@@ -141,7 +141,7 @@ class Attribute extends Form
 
             if (!$isExistAttribute && empty($attribute['attribute_id'])) {
                 $this->createNewVariationSet($attribute);
-                $this->waiter($this->newAttributeFrame);
+                $this->waitBlock($this->newAttributeFrame);
                 $this->fillOptions($attribute);
             } else {
                 if (!$isExistAttribute) {
@@ -178,7 +178,7 @@ class Attribute extends Form
      * @param string $strategy [optional]
      * @return mixed
      */
-    protected function waiter($selector, $browser = null, $strategy = Locator::SELECTOR_CSS)
+    protected function waitBlock($selector, $browser = null, $strategy = Locator::SELECTOR_CSS)
     {
         $browser = ($browser != null) ? $browser : $this->browser;
         return $browser->waitUntil(
