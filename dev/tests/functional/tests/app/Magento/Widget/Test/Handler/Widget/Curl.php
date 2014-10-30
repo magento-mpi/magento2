@@ -33,6 +33,17 @@ class Curl extends AbstractCurl
         'code' => [
             'CMS Page Link' => 'cms_page_link',
         ],
+        'block' => [
+            'Main Content Area' => 'content'
+        ],
+        'page_group' => [
+            'All Pages' => 'all_pages',
+            'Specified Page' => 'pages',
+            'Page Layouts' => 'page_layouts'
+        ],
+        'template' => [
+            'CMS Page Link Block Template' => 'widget/link/link_block.phtml'
+        ],
     ];
 
     /**
@@ -43,6 +54,13 @@ class Curl extends AbstractCurl
     protected $mappingStoreIds = [
         'All Store Views' => 0
     ];
+
+    /**
+     * Widget Instance Template.
+     *
+     * @var string
+     */
+    protected $widgetInstanceTemplate = 'widget/block.phtml';
 
     /**
      * Post request for creating widget instance
@@ -108,8 +126,15 @@ class Curl extends AbstractCurl
             if (!isset($widgetInstance[$pageGroup]['page_id'])) {
                 $widgetInstance[$pageGroup]['page_id'] = 0;
             }
-            if ('notanchor_categories' == $pageGroup) {
+            if ($pageGroup === 'notanchor_categories') {
                 $widgetInstance[$pageGroup]['is_anchor_only'] = 0;
+            }
+            if ($pageGroup === 'all_pages') {
+                $widgetInstance[$pageGroup]['layout_handle'] = 'default';
+                $widgetInstance[$pageGroup]['for'] = 'all';
+                if (!isset($widgetInstance[$pageGroup]['template'])) {
+                    $widgetInstance[$pageGroup]['template'] = $this->widgetInstanceTemplate;
+                }
             }
             $data['widget_instance'][$key] = $widgetInstance;
         }
