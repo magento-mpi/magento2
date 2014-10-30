@@ -8,12 +8,10 @@
  
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Rma\Test\Page\CustomerAccountRmaIndex;
 use Magento\Rma\Test\Page\CustomerAccountRmaView;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Rma\Test\Fixture\Rma;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -21,7 +19,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 /**
  * Assert that rma is correct display on frontend (MyAccount - My Returns).
  */
-class AssertRmaOnFrontend extends AbstractAssertForm
+class AssertRmaOnFrontend extends AbstractAssertRmaOnFrontend
 {
     /**
      * Constraint severeness.
@@ -95,54 +93,12 @@ class AssertRmaOnFrontend extends AbstractAssertForm
     }
 
     /**
-     * Get rma items.
-     *
-     * @param Rma $rma
-     * @return array
-     */
-    protected function getRmaItems(Rma $rma)
-    {
-        $rmaItems = $rma->getItems();
-        /** @var OrderInjectable $order */
-        $order = $rma->getDataFieldConfig('order_id')['source']->getOrder();
-        $orderItems = $order->getEntityId();
-
-        foreach ($rmaItems as $productKey => $productData) {
-            $key = str_replace('product_key_', '', $productKey);
-            $product = $orderItems[$key];
-
-            $productData['sku'] = $this->prepareProductSku($product);
-            $productData['qty'] = $productData['qty_requested'];
-            if (!isset($productData['status'])) {
-                $productData['status'] = 'Pending';
-            }
-            unset($productData['reason']);
-            unset($productData['reason_other']);
-
-            $rmaItems[$productKey] = $productData;
-        }
-
-        return $rmaItems;
-    }
-
-    /**
-     * Return product sku.
-     *
-     * @param FixtureInterface $product
-     * @return string
-     */
-    protected function prepareProductSku(FixtureInterface $product)
-    {
-        return $product->getSku();
-    }
-
-    /**
      * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Correct return request is present on frontend.';
+        return 'Correct return request is present on frontend (MyAccount - My Returns).';
     }
 }

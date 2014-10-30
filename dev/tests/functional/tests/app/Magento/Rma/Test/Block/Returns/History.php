@@ -40,12 +40,13 @@ class History extends Block
         );
     }
 
-    // TODO: Remove function after refactoring functional test
+    // TODO: Remove function after refactoring functional Magento\Rma\Test\TestCase\RmaTest test
     /**
      * Get rma row by id.
      *
      * @param string $rmaId
      * @return RmaRow
+     * @deprecated
      */
     public function getRmaRowById($rmaId)
     {

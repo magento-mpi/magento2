@@ -9,41 +9,12 @@
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 
 /**
  * General information tab on rma edit page(backend).
  */
 class General extends \Magento\Backend\Test\Block\Widget\Tab
 {
-    /**
-     * Mapping for request details fields.
-     *
-     * @var array
-     */
-    protected $requestDetails = [
-        'entity_id' => [
-            'selector' => './/*[@class="rma-request-details"]//tr[1]/td[1]',
-            'strategy' => Locator::SELECTOR_XPATH
-        ],
-        'order_id' => [
-            'selector' => './/*[@class="rma-request-details"]//tr[2]/td[1]',
-            'strategy' => Locator::SELECTOR_XPATH
-        ],
-        'customer_name' => [
-            'selector' => './/*[@class="rma-request-details"]//tr[3]/td[1]',
-            'strategy' => Locator::SELECTOR_XPATH
-        ],
-        'customer_email' => [
-            'selector' => './/*[@class="rma-request-details"]//tr[4]/td[1]',
-            'strategy' => Locator::SELECTOR_XPATH
-        ],
-        'contact_email' => [
-            'selector' => './/*[@class="rma-request-details"]//tr[5]/td[1]',
-            'strategy' => Locator::SELECTOR_XPATH
-        ]
-    ];
-
     /**
      * Locator for comment list.
      *
@@ -68,13 +39,7 @@ class General extends \Magento\Backend\Test\Block\Widget\Tab
     public function getDataFormTab($fields = null, Element $element = null)
     {
         $context = $element ? $element : $this->_rootElement;
-        $data = $this->dataMapping($fields);
-
-        return array_merge(
-            $this->_getData($data, $context),
-            $this->getRequestDetails($context),
-            ['comment' => $this->getCommentData()]
-        );
+        return array_merge($this->getRequestDetails($context), ['comment' => $this->getCommentData()]);
     }
 
     /**
@@ -85,9 +50,12 @@ class General extends \Magento\Backend\Test\Block\Widget\Tab
      */
     protected function getRequestDetails(Element $context)
     {
+        $mapping = $this->dataMapping();
+        $mappingDetails = $mapping['details']['value'];
         $data = [];
 
-        foreach ($this->requestDetails as $fieldName => $locator) {
+        unset($mappingDetails['composite']);
+        foreach ($mappingDetails as $fieldName => $locator) {
             $element = $context->find($locator['selector'], $locator['strategy']);
             if ($element->isVisible()) {
                 $data[$fieldName] = trim($element->getText());

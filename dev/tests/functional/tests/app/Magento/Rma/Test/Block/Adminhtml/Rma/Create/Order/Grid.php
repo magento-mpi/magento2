@@ -10,7 +10,7 @@ namespace Magento\Rma\Test\Block\Adminhtml\Rma\Create\Order;
 
 /**
  * Choose order grid for create rma.
-*/
+ */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**

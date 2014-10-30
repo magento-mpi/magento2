@@ -28,6 +28,13 @@ class Form extends \Mtf\Block\Form
     protected $searchButtonSelector = '.action.submit';
 
     /**
+     * Selector for loads form.
+     *
+     * @var string
+     */
+    protected $loadsForm = 'div[id*=oar] input';
+
+    /**
      * Fill the form.
      *
      * @param FixtureInterface $fixture
@@ -56,12 +63,36 @@ class Form extends \Mtf\Block\Form
         } else {
             $data = $fixture->getData();
         }
-
         $fields = isset($data['fields']) ? $data['fields'] : $data;
         $mapping = $this->dataMapping($fields);
+
+        $this->waitLoadForm();
         $this->_fill($mapping, $element);
 
         return $this;
+    }
+
+    /**
+     * Wait while form is loading
+     *
+     * @return void
+     */
+    protected function waitLoadForm()
+    {
+        $browser = $this->browser;
+        $selector = $this->loadsForm;
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                $inputs = $browser->find($selector)->getElements();
+                $i = 0;
+                foreach ($inputs as $input) {
+                    if ($input->isVisible()) {
+                        ++$i;
+                    }
+                }
+                return $i == 1 ? true : null;
+            }
+        );
     }
 
     /**

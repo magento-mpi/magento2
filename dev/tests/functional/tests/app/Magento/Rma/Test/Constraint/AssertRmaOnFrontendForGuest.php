@@ -9,7 +9,6 @@
 namespace Magento\Rma\Test\Constraint;
 
 use Magento\Rma\Test\Fixture\Rma;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Rma\Test\Page\RmaGuestView;
 use Magento\Rma\Test\Page\RmaGuestIndex;
 use Magento\Sales\Test\Page\SalesGuestView;
@@ -18,7 +17,7 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 /**
  * Assert that rma is correct display for guest on frontend (Orders and Returns).
  */
-class AssertRmaOnFrontendForGuest extends AbstractAssertForm
+class AssertRmaOnFrontendForGuest extends AbstractAssertRmaOnFrontend
 {
     /**
      * Constraint severeness.
@@ -69,43 +68,12 @@ class AssertRmaOnFrontendForGuest extends AbstractAssertForm
     }
 
     /**
-     * Get rma items.
-     *
-     * @param Rma $rma
-     * @return array
-     */
-    protected function getRmaItems(Rma $rma)
-    {
-        $rmaItems = $rma->getItems();
-        /** @var OrderInjectable $order */
-        $order = $rma->getDataFieldConfig('order_id')['source']->getOrder();
-        $orderItems = $order->getEntityId();
-
-        foreach ($rmaItems as $productKey => $productData) {
-            $key = str_replace('product_key_', '', $productKey);
-            $product = $orderItems[$key];
-
-            $productData['sku'] = $product->getSku();
-            $productData['qty'] = $productData['qty_requested'];
-            if (!isset($productData['status'])) {
-                $productData['status'] = 'Pending';
-            }
-            unset($productData['reason']);
-            unset($productData['reason_other']);
-
-            $rmaItems[$productKey] = $productData;
-        }
-
-        return $rmaItems;
-    }
-
-    /**
      * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return "Correct guest's request is present on frontend.";
+        return "Correct guest's return request is present on frontend (Orders and Returns).";
     }
 }

@@ -5,13 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items\Item;
 
 /**
- * Return Items block.
+ * Items block on edit rma backend page.
  */
 class Items extends \Magento\Backend\Test\Block\Widget\Tab
 {
@@ -42,37 +44,12 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
         $context = $element ? $element : $this->_rootElement;
 
         foreach ($items as $item) {
-            $item = $this->dataMapping($item);
-            $this->fillItemRow($item, $context);
+            $itemElement = $context->find(sprintf($this->rowItemByName, $item['product']));
+            $this->getItemRow($itemElement)->fillRow($item);
         }
 
         $this->setFields['items'] = $fields['items']['value'];
         return $this;
-    }
-
-    /**
-     * Fill data to item row.
-     *
-     * @param array $fields
-     * @param Element $context
-     * @return void
-     */
-    protected function fillItemRow(array $fields, Element $context)
-    {
-        $itemRow = $context->find(sprintf($this->rowItemByName, $fields['product']['value']), Locator::SELECTOR_XPATH);
-
-        foreach ($fields as $field) {
-            $elementType = isset($field['input']) ? $field['input'] : 'input';
-            $element = $itemRow->find(
-                $field['selector']. ' ' . $elementType,
-                $field['strategy'],
-                $field['input']
-            );
-
-            if ($element->isVisible()) {
-                $element->setValue($field['value']);
-            }
-        }
     }
 
     /**
@@ -85,12 +62,11 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
     public function getDataFormTab($fields = null, Element $element = null)
     {
         if (null === $fields || isset($fields['items'])) {
-            $mapping = $this->dataMapping();
+            $rows = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_XPATH)->getElements();
             $data = [];
 
-            $rows = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_XPATH)->getElements();
             foreach ($rows as $row) {
-                $data[] = $this->getItemRowData($mapping, $row);
+                $data[] = $this->getItemRow($row)->getRowData();
             }
 
             return ['items' => $data];
@@ -99,34 +75,16 @@ class Items extends \Magento\Backend\Test\Block\Widget\Tab
     }
 
     /**
-     * Return item row data.
+     * Return item row form.
      *
-     * @param array $mapping
-     * @param Element $row
-     * @return array
+     * @param Element $element
+     * @return Item
      */
-    protected function getItemRowData(array $mapping, Element $row)
+    protected function getItemRow(Element $element)
     {
-        $data = [];
-
-        foreach ($mapping as $columnName => $locator) {
-            $elementType = isset($locator['input']) ? $locator['input'] : 'input';
-            $element = $row->find(
-                $locator['selector']. ' ' . $elementType,
-                $locator['strategy'],
-                $locator['input']
-            );
-            $value = null;
-
-            if ($element->isVisible()) {
-                $value = $element->getValue();
-            } else {
-                $value = $row->find($locator['selector'], $locator['strategy'])->getText();
-            }
-
-            $data[$columnName] = trim($value);
-        }
-
-        return $data;
+        return $this->blockFactory->create(
+            'Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items\Item',
+            ['element' => $element]
+        );
     }
 }
