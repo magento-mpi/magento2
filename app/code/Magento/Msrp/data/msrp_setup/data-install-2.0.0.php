@@ -21,7 +21,7 @@ $productTypes = join(',', $productTypes);
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'msrp',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
         'frontend' => '',
@@ -37,13 +37,13 @@ $installer->addAttribute(
         'frontend_input_renderer' => 'Magento\Msrp\Block\Adminhtml\Product\Helper\Form\Type',
         'visible_on_front' => false,
         'used_in_product_listing' => true
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'msrp_display_actual_price_type',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
         'frontend' => '',
@@ -62,5 +62,5 @@ $installer->addAttribute(
         'frontend_input_renderer' => 'Magento\Msrp\Block\Adminhtml\Product\Helper\Form\Type\Price',
         'visible_on_front' => false,
         'used_in_product_listing' => true
-    )
+    ]
 );
