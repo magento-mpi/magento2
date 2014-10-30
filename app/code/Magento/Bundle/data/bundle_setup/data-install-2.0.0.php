@@ -9,7 +9,7 @@
 $installer = $this;
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 
-$fieldList = array(
+$fieldList = [
     'price',
     'special_price',
     'special_from_date',
@@ -17,8 +17,9 @@ $fieldList = array(
     'minimal_price',
     'cost',
     'tier_price',
-    'weight'
-);
+    'weight',
+    'group_price'
+];
 foreach ($fieldList as $field) {
     $applyTo = explode(',', $installer->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $field, 'apply_to'));
     if (!in_array('bundle', $applyTo)) {
@@ -42,7 +43,7 @@ $installer->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, 'cost', 'app
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'price_type',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -62,13 +63,13 @@ $installer->addAttribute(
         'used_in_product_listing' => true,
         'unique' => false,
         'apply_to' => 'bundle'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'sku_type',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -87,13 +88,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'bundle'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'weight_type',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -113,13 +114,13 @@ $installer->addAttribute(
         'used_in_product_listing' => true,
         'unique' => false,
         'apply_to' => 'bundle'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'price_view',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -140,13 +141,13 @@ $installer->addAttribute(
         'used_in_product_listing' => true,
         'unique' => false,
         'apply_to' => 'bundle'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'shipment_type',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -166,5 +167,5 @@ $installer->addAttribute(
         'used_in_product_listing' => true,
         'unique' => false,
         'apply_to' => 'bundle'
-    )
+    ]
 );
