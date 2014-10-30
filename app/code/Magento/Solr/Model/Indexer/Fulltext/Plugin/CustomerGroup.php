@@ -9,6 +9,7 @@ namespace Magento\Solr\Model\Indexer\Fulltext\Plugin;
 
 use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin;
 use Magento\Solr\Helper\Data;
+use Magento\CatalogSearch\Model\Indexer\Fulltext;
 
 class CustomerGroup extends AbstractPlugin
 {

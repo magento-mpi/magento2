@@ -8,6 +8,7 @@
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Store;
 
 use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin;
+use Magento\CatalogSearch\Model\Indexer\Fulltext;
 
 class View extends AbstractPlugin
 {

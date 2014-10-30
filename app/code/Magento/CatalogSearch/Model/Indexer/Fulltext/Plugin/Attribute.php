@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin;
 
+use Magento\CatalogSearch\Model\Indexer\Fulltext;
+
 class Attribute extends AbstractPlugin
 {
     /**
