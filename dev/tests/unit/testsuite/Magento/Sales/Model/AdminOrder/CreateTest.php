@@ -148,7 +148,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->getMock('Magento\Framework\App\RequestInterface'))
         );
 
-        $customerMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
         $customerMock->expects(
             $this->any()
         )->method(

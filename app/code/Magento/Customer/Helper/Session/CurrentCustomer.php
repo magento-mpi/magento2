@@ -85,7 +85,7 @@ class CurrentCustomer
     /**
      * Returns customer Data with customer group only
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function getDepersonalizedCustomer()
     {
@@ -95,7 +95,7 @@ class CurrentCustomer
     /**
      * Returns customer Data from service
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function getCustomerFromService()
     {
@@ -105,7 +105,7 @@ class CurrentCustomer
     /**
      * Returns current customer according to session and context
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {

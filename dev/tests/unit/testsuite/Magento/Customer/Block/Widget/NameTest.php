@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -119,7 +119,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowPrefix()
     {
-        $this->_setUpShowAttribute([Customer::PREFIX => self::PREFIX]);
+        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::PREFIX => self::PREFIX]);
         $this->assertTrue($this->_block->showPrefix());
 
         $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
@@ -185,7 +185,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(Customer::MIDDLENAME => self::MIDDLENAME));
+        $this->_setUpShowAttribute(array(\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME));
         $this->assertTrue($this->_block->showMiddlename());
     }
 
@@ -197,7 +197,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowSuffix()
     {
-        $this->_setUpShowAttribute([Customer::SUFFIX => self::SUFFIX]);
+        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::SUFFIX => self::SUFFIX]);
         $this->assertTrue($this->_block->showSuffix());
     }
 

@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\AddressConverter;
@@ -147,7 +147,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
      */
     protected function setupExistingCustomerData()
     {
-        /** @var Customer $customer */
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->_customerData = array(
             'customer_id' => $customer->getId(),

@@ -79,10 +79,10 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Set customer
      *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return $this
      */
-    public function setCustomer(Customer $customer)
+    public function setCustomer(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
         return $this->_set(CustomerDetails::KEY_CUSTOMER, $customer);
     }

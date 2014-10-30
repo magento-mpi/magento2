@@ -11,7 +11,7 @@ namespace Magento\Wishlist\Helper;
 class Rss extends \Magento\Wishlist\Helper\Data
 {
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $_customer;
 
@@ -87,7 +87,7 @@ class Rss extends \Magento\Wishlist\Helper\Data
     /**
      * Retrieve Customer instance
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {

@@ -1,0 +1,6 @@
+"description";"product";"qty";"qtyToAction";"constraint"
+"Copy one simple product from two existed";"catalogProductSimple::100_dollar_product";"2";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist"
+"Copy one downloadable product";"downloadableProductInjectable::with_two_separately_links";"-";"-";"assertProductInDefaultWishlist, assertProductInCustomWishlist"
+"Copy one grouped product";"groupedProductInjectable::three_simple_products";"-";"-";"assertProductInDefaultWishlist, assertProductInCustomWishlist"
+"Copy one configurable product";"configurableProductInjectable::default";"1";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist"
+"Copy one bundle product from two existed";"bundleProduct::bundle_fixed_product";"2";"1";"assertProductInDefaultWishlist, assertProductInCustomWishlist"

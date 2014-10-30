@@ -1720,7 +1720,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerDetails()
     {
-        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
@@ -1754,7 +1754,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerDetailsWithException()
     {
-        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
@@ -1822,7 +1822,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testIsEmailAvailableDefaultWebsite()
     {
         $customerMock = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\Customer'
+            '\Magento\Customer\Api\Data\CustomerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_converter = $this->getMockBuilder(
             '\Magento\Customer\Model\Converter'
@@ -1872,7 +1872,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('logException')
             ->with($exception);
 
-        $mockCustomer = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
+        $mockCustomer = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -1915,7 +1915,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_customerModelMock));
 
         $customerDataMock = $this->getMockBuilder(
-            'Magento\Customer\Service\V1\Data\Customer'
+            'Magento\Customer\Api\Data\CustomerInterface'
         )->setMethods(['getId', 'getFirstname', 'getLastname', 'getEmail'])
             ->disableOriginalConstructor()->getMock();
 
@@ -1951,7 +1951,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_converter = $this->getMockBuilder('Magento\Customer\Model\Converter')
             ->disableOriginalConstructor()->getMock();
 
-        $customerDataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
+        $customerDataMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()->getMock();
 
         $addressMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Address')

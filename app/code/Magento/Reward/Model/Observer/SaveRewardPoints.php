@@ -73,7 +73,7 @@ class SaveRewardPoints
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {

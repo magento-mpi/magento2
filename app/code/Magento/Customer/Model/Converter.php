@@ -9,7 +9,7 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerDataObjectBuilder;
 use Magento\Framework\Service\ExtensibleDataObjectConverter;
 use Magento\Framework\StoreManagerInterface;
@@ -207,7 +207,7 @@ class Converter
             $value = $value ? $value : $customerModel->getData($attrCode);
             if (null !== $value) {
                 if ($attrCode == 'entity_id') {
-                    $attributes[CustomerDataObject::ID] = $value;
+                    $attributes[\Magento\Customer\Model\Data\Customer::ID] = $value;
                 } else {
                     $attributes[$attrCode] = $value;
                 }

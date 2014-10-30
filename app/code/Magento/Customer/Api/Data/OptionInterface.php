@@ -31,7 +31,7 @@ interface OptionInterface
     /**
      * Get nested options
      *
-     * @return \Magento\Customer\Model\Data\Option[]|null
+     * @return \Magento\Customer\Api\Data\OptionInterface[]|null
      */
     public function getOptions();
 }

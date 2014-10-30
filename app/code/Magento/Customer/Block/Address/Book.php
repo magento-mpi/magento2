@@ -150,7 +150,7 @@ class Book extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     * @return \Magento\Customer\Api\Data\CustomerInterface|null
      */
     public function getCustomer()
     {
