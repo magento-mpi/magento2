@@ -9,7 +9,7 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
-class SimpleArrayDataBuilder extends AbstractExtensibleObjectBuilder
+class SimpleArrayBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
      * @param array $ids

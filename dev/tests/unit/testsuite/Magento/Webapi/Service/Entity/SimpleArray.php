@@ -9,13 +9,13 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
-class AssociativeArrayData extends AbstractExtensibleObject
+class SimpleArray extends AbstractExtensibleObject
 {
     /**
-     * @return string[]
+     * @return int[]
      */
-    public function getAssociativeArray()
+    public function getIds()
     {
-        return $this->_get('associativeArray');
+        return $this->_get('ids');
     }
 }
