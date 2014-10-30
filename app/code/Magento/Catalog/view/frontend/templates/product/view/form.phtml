@@ -24,7 +24,7 @@ require([
 ], function($){
     $(document).ready(function() {
         $('#product_addtocart_form')
-            .mage('priceOption', {"priceConfig":<?php echo $this->getJsonConfig() ?>})
+            .mage('priceOption', {"optionConfig":<?php echo $this->getJsonConfig() ?>})
             .priceOptions({"priceConfig":<?php echo $this->getJsonConfig() ?>});
         $('.price-box').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
     });
