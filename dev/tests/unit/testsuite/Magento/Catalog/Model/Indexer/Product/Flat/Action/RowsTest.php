@@ -68,7 +68,9 @@ class RowsTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue('store_id_1'));
-        $this->_storeManager->expects($this->any())->method('getStores')->will($this->returnValue(array($this->_store)));
+        $this->_storeManager->expects($this->any())->method('getStores')->will(
+            $this->returnValue(array($this->_store))
+        );
         $this->_productIndexerHelper = $this->getMock(
             'Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false
         );
