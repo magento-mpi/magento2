@@ -43,11 +43,8 @@ class AssertGiftRegistryTypeForm extends AbstractAssertForm
         $giftRegistryIndex->getGiftRegistryGrid()->searchAndOpen($filter);
         $formData = $giftRegistryNew->getGiftRegistryForm()->getData($giftRegistryType);
         $fixtureData = $giftRegistryType->getData();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $fixtureData,
-            $formData,
-            'Form data is not equal to fixture data.'
-        );
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**
