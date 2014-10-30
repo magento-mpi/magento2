@@ -91,6 +91,30 @@
                         text-align: center;
                     }
                 }
+                .legend.payments-title {
+                    &:extend(.abstract-visually-hidden all);
+                }
+            }
+            .methods-shipping {
+                .item-content {
+                    .fieldset {
+                        > .legend {
+                            &:extend(.abstract-visually-hidden all);
+                        }
+                        > .legend + br {
+                            &:extend(.abstract-no-display all);
+                        }
+                        > .field {
+                            margin-bottom: 15px;
+                            &:before {
+                                display: none;
+                            }
+                            .control {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
             }
             .form {
                 .form-hasrequired(bottom);

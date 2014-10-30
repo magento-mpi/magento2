@@ -93,6 +93,15 @@
                     }
                 }
             }
+
+            .fieldset.estimate {
+                >.legend {
+                    &:extend(.abstract-visually-hidden all);
+                }
+                >.legend + br {
+                    &:extend(.abstract-no-display all);
+                }
+            }
         }
 
         .page.main & {
