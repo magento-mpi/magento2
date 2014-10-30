@@ -12,7 +12,7 @@ use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Customer\Service\V1\Data\Customer as CustomerData;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerData;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 

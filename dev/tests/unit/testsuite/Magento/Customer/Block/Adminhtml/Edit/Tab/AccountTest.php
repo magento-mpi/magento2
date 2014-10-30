@@ -118,7 +118,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $storeManagerMock->expects($this->any())->method('isSingleStoreMode')
             ->will($this->returnValue($isSingleStoreMode));
 
-        $customerObject = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
+        $customerObject = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
             ->setMethods(['__toArray', 'getId'])
             ->disableOriginalConstructor()
             ->getMock();

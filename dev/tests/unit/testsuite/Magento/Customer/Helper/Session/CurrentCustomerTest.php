@@ -30,7 +30,7 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
     protected $customerDataBuilderMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerDataMock;
 
@@ -79,7 +79,7 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerDataMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Customer',
+            'Magento\Customer\Api\Data\CustomerInterface',
             array(),
             array(),
             '',

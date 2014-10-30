@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Controller\RegistryConstants;
@@ -143,7 +143,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * Get customer data from session or service.
      *
      * @param int|null $customerId possible customer ID from DB
-     * @return Customer
+     * @return CustomerInterface
      * @throws NoSuchEntityException
      */
     protected function getCustomer($customerId)

@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
 use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
 use Magento\Sales\Model\Quote\Item;

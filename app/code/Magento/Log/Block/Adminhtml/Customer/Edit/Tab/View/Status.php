@@ -16,7 +16,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 class Status extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $customer;
 
@@ -76,7 +76,7 @@ class Status extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {

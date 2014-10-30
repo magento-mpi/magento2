@@ -30,7 +30,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customerData
      * @param string $expectedCustomerName
      * @param bool $isPrefixAllowed
      * @param bool $isMiddleNameAllowed
