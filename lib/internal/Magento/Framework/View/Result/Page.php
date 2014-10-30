@@ -122,11 +122,12 @@ class Page extends Layout
     {
         if ($this->getConfig()->getPageLayout()) {
             $config = $this->getConfig();
-
             $this->addDefaultBodyClasses();
+            $addBlock = $this->_layout->getBlock('head.additional'); // todo
             $this->assign([
                 'requireJs' => $this->_layout->getBlock('require.js')->toHtml(),
                 'headContent' => $this->pageConfigRenderer->renderHeadContent(),
+                'headAdditional' => $addBlock ? $addBlock->toHtml() : '',
                 'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
                 'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),
                 'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY)
