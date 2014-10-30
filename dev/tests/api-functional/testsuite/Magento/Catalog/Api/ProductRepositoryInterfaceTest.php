@@ -51,9 +51,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             ]
         ];
 
-        $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productData[ProductInterface::SKU]])
-            : $this->_webApiCall($serviceInfo);
+        $response = $this->_webApiCall($serviceInfo, ['id' => $productData[ProductInterface::SKU]]);
         foreach ([ProductInterface::SKU, ProductInterface::NAME, ProductInterface::PRICE] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
@@ -77,11 +75,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $expectedMessage = 'Requested product doesn\'t exist';
 
         try {
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['id' => $invalidSku]);
-            } else {
-                $this->_webApiCall($serviceInfo);
-            }
+            $this->_webApiCall($serviceInfo, ['id' => $invalidSku]);
             $this->fail("Expected throwing exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
@@ -120,6 +114,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
     {
         $response = $this->saveProduct($product);
         $this->assertArrayHasKey(ProductInterface::SKU, $response);
+        $this->deleteProduct($product[ProductInterface::SKU]);
     }
 
     /**
@@ -158,29 +153,6 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
     {
         $response = $this->deleteProduct('simple');
         $this->assertTrue($response);
-    }
-
-    /**
-     * Remove test store
-     */
-    public static function tearDownAfterClass()
-    {
-        parent::tearDownAfterClass();
-        /** @var \Magento\Framework\Registry $registry */
-        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
-
-        $registry->unregister('isSecureArea');
-        $registry->register('isSecureArea', true);
-
-        /** @var $store \Magento\Store\Model\Store */
-        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
-        $store->load('fixturestore');
-        if ($store->getId()) {
-            $store->delete();
-        }
-
-        $registry->unregister('isSecureArea');
-        $registry->register('isSecureArea', false);
     }
 
     /**

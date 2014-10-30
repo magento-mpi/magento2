@@ -50,7 +50,7 @@ interface ProductRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function deleteBySku($productSku);
+    public function deleteById($productSku);
 
     /**
      * Get product list

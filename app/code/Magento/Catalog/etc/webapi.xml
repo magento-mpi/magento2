@@ -22,7 +22,7 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku" method="DELETE">
-        <service class="Magento\Catalog\Api\ProductRepositoryInterface" method="deleteBySku"/>
+        <service class="Magento\Catalog\Api\ProductRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>

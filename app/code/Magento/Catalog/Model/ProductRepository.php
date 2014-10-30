@@ -109,8 +109,11 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     public function save(\Magento\Catalog\Api\Data\ProductInterface $product)
     {
         $this->initializationHelper->initialize($product);
-        if (!$this->resourceModel->validate($product)) {
-            throw new \Magento\Framework\Exception\CouldNotSaveException('Invalid product data');
+        $validationResult = $this->resourceModel->validate($product);
+        if (true !== $validationResult) {
+            throw new \Magento\Framework\Exception\CouldNotSaveException(
+                sprintf('Invalid product data: %s', implode(',', $validationResult))
+            );
         }
         try {
             $this->resourceModel->save($product);
@@ -147,7 +150,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function deleteBySku($productSku)
+    public function deleteById($productSku)
     {
         $product = $this->get($productSku);
         return $this->delete($product);
