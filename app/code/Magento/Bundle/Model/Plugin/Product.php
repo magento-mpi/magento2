@@ -27,7 +27,6 @@ class Product
     }
 
     /**
-     *
      * @param CatalogProduct $product
      * @param callable $proceed
      * @return string[]
