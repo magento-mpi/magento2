@@ -150,6 +150,10 @@
             }
         ]]></script>
 
+        <condition property="env.bamboo_module_filter" value="">
+            <not><isset property="env.bamboo_module_filter"/></not>
+        </condition>
+
         <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap.php
