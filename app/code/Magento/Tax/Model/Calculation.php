@@ -9,7 +9,7 @@ namespace Magento\Tax\Model;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;

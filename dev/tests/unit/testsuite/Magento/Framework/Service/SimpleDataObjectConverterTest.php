@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service;
 
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 
 /**
  * Class implements tests for SimpleDataObjectConverter class.

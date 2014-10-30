@@ -74,7 +74,7 @@ class Carts extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCustomer()
     {

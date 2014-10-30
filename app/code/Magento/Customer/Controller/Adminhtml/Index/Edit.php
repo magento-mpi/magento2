@@ -8,7 +8,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Service\ExtensibleDataObjectConverter;
@@ -99,12 +99,12 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                         $this->_addressBuilder->setCustomerId($customerId);
                     }
                     $this->_addressBuilder->setDefaultBilling(
-                        !empty($data['account'][Customer::DEFAULT_BILLING]) &&
-                        $data['account'][Customer::DEFAULT_BILLING] == $addressId
+                        !empty($data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]) &&
+                        $data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] == $addressId
                     );
                     $this->_addressBuilder->setDefaultShipping(
-                        !empty($data['account'][Customer::DEFAULT_SHIPPING]) &&
-                        $data['account'][Customer::DEFAULT_SHIPPING] == $addressId
+                        !empty($data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]) &&
+                        $data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] == $addressId
                     );
                     $address = $this->_addressBuilder->create();
                     $requestScope = sprintf('address/%s', $addressId);

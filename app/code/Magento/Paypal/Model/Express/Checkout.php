@@ -9,7 +9,7 @@ namespace Magento\Paypal\Model\Express;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Sales\Model\Quote\Address;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Paypal\Model\Config as PaypalConfig;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 

@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 
@@ -58,8 +58,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     public function getAttributeMetadataDataProvider()
     {
         return [
-            Customer::FIRSTNAME => [
-                Customer::FIRSTNAME,
+            \Magento\Customer\Model\Data\Customer::FIRSTNAME => [
+                \Magento\Customer\Model\Data\Customer::FIRSTNAME,
                 [
                     AttributeMetadata::ATTRIBUTE_CODE   => 'firstname',
                     AttributeMetadata::FRONTEND_INPUT   => 'text',
@@ -83,8 +83,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::SORT_ORDER       => 40
                 ]
             ],
-            Customer::GENDER => [
-                Customer::GENDER,
+            \Magento\Customer\Model\Data\Customer::GENDER => [
+                \Magento\Customer\Model\Data\Customer::GENDER,
                 [
                     AttributeMetadata::ATTRIBUTE_CODE   => 'gender',
                     AttributeMetadata::FRONTEND_INPUT   => 'select',
@@ -133,7 +133,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $this->assertCount(23, $attributeMetadata);
 
-        $firstName = $this->getAttributeMetadataDataProvider()[Customer::FIRSTNAME][1];
+        $firstName = $this->getAttributeMetadataDataProvider()[\Magento\Customer\Model\Data\Customer::FIRSTNAME][1];
         $validationResult = $this->checkMultipleAttributesValidationRules($firstName, $attributeMetadata);
         list($firstName, $attributeMetadata) = $validationResult;
         $this->assertContains($firstName, $attributeMetadata);
@@ -174,11 +174,11 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         return [
             [
                 'adminhtml_customer',
-                $attributeMetadata[Customer::FIRSTNAME][1]
+                $attributeMetadata[\Magento\Customer\Model\Data\Customer::FIRSTNAME][1]
             ],
             [
                 'adminhtml_customer',
-                $attributeMetadata[Customer::GENDER][1]
+                $attributeMetadata[\Magento\Customer\Model\Data\Customer::GENDER][1]
             ]
         ];
     }

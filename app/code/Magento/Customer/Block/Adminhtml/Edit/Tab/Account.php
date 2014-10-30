@@ -64,7 +64,7 @@ class Account extends GenericMetadata
     protected $_customerForm;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $_customerDataObject;
 
@@ -217,7 +217,7 @@ class Account extends GenericMetadata
     /**
      * Obtain customer data from session and create customer object
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCustomerDataObject()
     {

@@ -16,6 +16,13 @@ use Mtf\Fixture\InjectableFixture;
  */
 class GiftMessage extends InjectableFixture
 {
+    /**
+     * Path to GiftMessage repository
+     *
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\GiftMessage\Test\Repository\GiftMessage';
+
     protected $defaultDataSet = [
         'allow_gift_options' => 'Yes',
         'allow_gift_messages_for_order' => 'Yes',
@@ -79,6 +86,12 @@ class GiftMessage extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $items = [
+        'attribute_code' => 'items',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\GiftMessage\Test\Fixture\GiftMessage\Items',
+    ];
+
     public function getGiftMessageId()
     {
         return $this->getData('gift_message_id');
@@ -117,5 +130,10 @@ class GiftMessage extends InjectableFixture
     public function getAllowGiftOptions()
     {
         return $this->getData('allow_gift_options');
+    }
+
+    public function getItems()
+    {
+        return $this->getData('items');
     }
 }

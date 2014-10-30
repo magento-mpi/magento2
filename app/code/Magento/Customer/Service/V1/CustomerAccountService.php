@@ -431,11 +431,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Send either confirmation or welcome email after an account creation
      *
      * @param CustomerModel $customerModel
-     * @param Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @param string $redirectUrl
      * @return void
      */
-    protected function _sendEmailConfirmation(CustomerModel $customerModel, Data\Customer $customer, $redirectUrl)
+    protected function _sendEmailConfirmation(
+        CustomerModel $customerModel,
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
+        $redirectUrl
+    )
     {
         try {
             if ($customerModel->isConfirmationRequired()) {
@@ -578,14 +582,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Create or update customer information
      *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @param string $hash Hashed password ready to be saved
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @return int customer ID
      */
     protected function saveCustomer(
-        \Magento\Customer\Service\V1\Data\Customer $customer,
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
         $hash
     ) {
         $customerModel = $this->converter->createCustomerModel($customer);
@@ -666,7 +670,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Data\Customer $customer, array $attributes = [])
+    public function validateCustomerData(\Magento\Customer\Api\Data\CustomerInterface $customer, array $attributes = [])
     {
         $customerErrors = $this->validator->validateData(
             \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer),

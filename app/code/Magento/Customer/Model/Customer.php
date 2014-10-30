@@ -368,6 +368,42 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     }
 
     /**
+     * Processing object before save data
+     *
+     * @return $this
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        $storeId = $this->getStoreId();
+        if ($storeId === null) {
+            $this->setStoreId($this->_storeManager->getStore()->getId());
+        }
+
+        $this->getGroupId();
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _afterSave()
+    {
+        $customerData = (array)$this->getData();
+        $customerData[CustomerData::ID] = $this->getId();
+        $dataObject = $this->customerDataBuilder->populateWithArray($customerData)->create();
+        $customerOrigData = (array)$this->getOrigData();
+        $customerOrigData[CustomerData::ID] = $this->getId();
+        $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
+        $this->_eventManager->dispatch(
+            'customer_save_after_data_object',
+            array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
+        );
+        return parent::_afterSave();
+    }
+
+    /**
      * Change customer password
      *
      * @param   string $newPassword
@@ -1312,8 +1348,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
          * 'confirmation' email with confirmation link
          */
         $types = array(
-            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
-            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
+            'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
+            'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
         );
         return $types;

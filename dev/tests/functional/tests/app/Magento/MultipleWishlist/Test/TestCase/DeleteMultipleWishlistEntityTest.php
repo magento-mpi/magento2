@@ -50,18 +50,4 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         $this->wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
         $this->wishlistIndex->getManagementBlock()->removeWishlist();
     }
-
-    /**
-     * Disable multiple wish list in config
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass()
-    {
-        $config = ObjectManager::getInstance()->create(
-            'Magento\Core\Test\Fixture\ConfigData',
-            ['dataSet' => 'disabled_multiple_wishlist_default']
-        );
-        $config->persist();
-    }
 }

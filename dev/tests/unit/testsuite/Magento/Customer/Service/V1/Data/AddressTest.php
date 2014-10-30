@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
@@ -274,7 +275,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
 
         foreach ($address->getCustomAttributes() as $customAttribute) {
-                $attributes[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()] = [
+                $attributes[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()] = [
                     AttributeValue::ATTRIBUTE_CODE => $customAttribute->getAttributeCode(),
                     AttributeValue::VALUE => $customAttribute->getValue()
                 ];
@@ -309,6 +310,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
         $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
-        $this->assertEquals($customerAttributes, $address->__toArray()[Customer::CUSTOM_ATTRIBUTES_KEY]);
+        $this->assertEquals($customerAttributes, $address->__toArray()[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY]);
     }
 }

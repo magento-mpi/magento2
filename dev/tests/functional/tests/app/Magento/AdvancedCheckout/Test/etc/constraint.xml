@@ -47,4 +47,10 @@
     <assertMsrpNotice module="Magento_AdvancedCheckout">
         <severeness>low</severeness>
     </assertMsrpNotice>
+    <assertProductsAbsentInRequiringAttention module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertProductsAbsentInRequiringAttention>
+    <assertRequiringAttentionProductSuccessDeleteMessage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertRequiringAttentionProductSuccessDeleteMessage>
 </constraint>
