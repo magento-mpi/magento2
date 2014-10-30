@@ -7,14 +7,11 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
 
 class Improved implements AlgorithmInterface
 {
-    /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
 
     /**
      * @var Algorithm
@@ -23,22 +20,20 @@ class Improved implements AlgorithmInterface
 
     /**
      * @param Algorithm $algorithm
-     * @param DataProviderInterface $dataProvider
      */
-    public function __construct(Algorithm $algorithm, DataProviderInterface $dataProvider)
+    public function __construct(Algorithm $algorithm)
     {
-        $this->dataProvider = $dataProvider;
         $this->algorithm = $algorithm;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getItems(array $entityIds, array $intervals)
+    public function getItems(DataProviderInterface $dataProvider, array $entityIds, array $intervals)
     {
-        $aggregations = $this->dataProvider->getAggregations($entityIds);
+        $aggregations = $dataProvider->getAggregations($entityIds);
 
-        $options = $this->dataProvider->getOptions();
+        $options = $dataProvider->getOptions();
         if ($intervals && ($aggregations['count'] <= $options['interval_division_limit']
                 || $intervals[0] == $intervals[1] || $intervals[1] === '0') || $aggregations['count'] <= 0
         ) {

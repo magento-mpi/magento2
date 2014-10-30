@@ -7,35 +7,24 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+
 class Manual implements AlgorithmInterface
 {
     /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
-
-    /**
-     * @param DataProviderInterface $dataProvider
-     */
-    public function __construct(DataProviderInterface $dataProvider)
-    {
-        $this->dataProvider = $dataProvider;
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function getItems(array $entityIds, array $intervals)
+    public function getItems(DataProviderInterface $dataProvider, array $entityIds, array $intervals)
     {
         $data = [];
         if (empty($intervals)) {
-            $range = $this->dataProvider->getRange();
+            $range = $dataProvider->getRange();
             if (!$range) {
-                $options = $this->dataProvider->getOptions();
+                $options = $dataProvider->getOptions();
                 $range = $options['range_step'];
-                $dbRanges = $this->dataProvider->getCount($range, $entityIds);
+                $dbRanges = $dataProvider->getCount($range, $entityIds);
                 $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
-                $data = $this->dataProvider->prepareData($range, $dbRanges);
+                $data = $dataProvider->prepareData($range, $dbRanges);
             }
         }
 
