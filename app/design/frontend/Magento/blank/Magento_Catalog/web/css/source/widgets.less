@@ -71,7 +71,7 @@ div.widget.category.link {
 .responsive(@break) when (@break = @screen-m) {
     .sidebar .block.widget .pager {
         .item:not(.pages-item-next):not(.pages-item-previous) {
-            display: none;
+            &:extend(.abstract-no-display-desktop all);
         }
         .pages-item-next {
             padding: 0;
