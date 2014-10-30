@@ -10,6 +10,7 @@ require_once __DIR__ . '/../../app/autoload.php';
     array(
         BP . '/app/code',
         BP . '/lib/internal',
+        BP . '/dev/tools/Magento/Tools/AnnotationsDefecator/'
     )
 );
 
