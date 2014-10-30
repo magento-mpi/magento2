@@ -1001,7 +1001,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected function _prepareStatisticsData()
     {
         $select = clone $this->getSelect();
-        $selectStringBefore = (string)$select;
         $priceExpression = $this->getPriceExpression($select) . ' ' . $this->getAdditionalPriceExpression($select);
         $sqlEndPart = ') * ' . $this->getCurrencyRate() . ', 2)';
         $select = $this->_getSelectCountSql($select, false);
@@ -1013,7 +1012,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             )
         );
         $select->where($this->getPriceExpression($select) . ' IS NOT NULL');
-        $selectStringAfter = (string)$select;
         $row = $this->getConnection()->fetchRow($select, $this->_bindParams, \Zend_Db::FETCH_NUM);
         $this->_pricesCount = (int)$row[0];
         $this->_maxPrice = (double)$row[1];
