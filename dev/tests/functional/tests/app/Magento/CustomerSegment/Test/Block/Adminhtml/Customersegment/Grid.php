@@ -29,7 +29,7 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $firstRowSelector = '[data-role="row"] td[data-column="grid_segment_id"]';
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-grid_segment_name")]][1]';
 
     /**
      * Filters array mapping
@@ -49,24 +49,4 @@ class Grid extends AbstractGrid
             'input' => 'select',
         ],
     ];
-
-    /**
-     * Check whether first row is visible
-     *
-     * @return bool
-     */
-    public function isFirstRowVisible()
-    {
-        return $this->_rootElement->find($this->firstRowSelector)->isVisible();
-    }
-
-    /**
-     * Open first item in grid
-     *
-     * @return void
-     */
-    public function openFirstRow()
-    {
-        $this->_rootElement->find($this->firstRowSelector)->click();
-    }
 }

@@ -23,7 +23,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $variationsTabTrigger = '[data-panel="product-variations"] .title';
+    protected $variationsTabTrigger = '[data-panel="product-variations"] .title span';
 
     /**
      * Selector for content "Variations" tab
@@ -45,6 +45,41 @@ class Config extends Tab
      * @var string
      */
     protected $variationsMatrix = '[data-role="product-variations-matrix"]';
+
+    /**
+     * Selector for variations matrix row
+     *
+     * @var string
+     */
+    protected $variationsMatrixRow = '[data-role="product-variations-matrix"] [data-role="row"]';
+
+    /**
+     * Selector for variations tab wrapper
+     *
+     * @var string
+     */
+    protected $variationsTabWrapper = '#super_config-wrapper';
+
+    /**
+     * Attribute element selector
+     *
+     * @var string
+     */
+    protected $attributeElement = '.entry-edit.have-price';
+
+    /**
+     * Delete variation button selector
+     *
+     * @var string
+     */
+    protected $deleteVariationButton = '.action-delete';
+
+    /**
+     * Variations content selector
+     *
+     * @var string
+     */
+    protected $variationsContent = '#product_info_tabs_super_config_content';
 
     /**
      * Fill variations fieldset
@@ -81,6 +116,7 @@ class Config extends Tab
     {
         $content = $this->_rootElement->find($this->variationsTabContent);
         if (!$content->isVisible()) {
+            $this->_rootElement->find($this->variationsTabWrapper)->click();
             $this->_rootElement->find($this->variationsTabTrigger)->click();
             $this->waitForElementVisible($this->variationsTabContent);
         }
@@ -94,7 +130,7 @@ class Config extends Tab
     public function generateVariations()
     {
         $this->_rootElement->find($this->generateVariations)->click();
-        $this->waitForElementVisible($this->variationsMatrix);
+        $this->waitForElementVisible($this->variationsMatrixRow);
     }
 
     /**
@@ -139,5 +175,19 @@ class Config extends Tab
         $data['matrix'] = $this->getVariationsBlock()->getVariationsData();
 
         return ['configurable_attributes_data' => $data];
+    }
+
+    /**
+     * Delete all attributes
+     *
+     * @return void
+     */
+    public function deleteAttributes()
+    {
+        $attributeElements = $this->_rootElement->find($this->attributeElement)->getElements();
+        $this->_rootElement->find($this->variationsContent)->click();
+        foreach ($attributeElements as $element) {
+            $element->find($this->deleteVariationButton)->click();
+        }
     }
 }

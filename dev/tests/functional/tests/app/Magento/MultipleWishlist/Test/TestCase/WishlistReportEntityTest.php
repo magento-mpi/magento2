@@ -151,7 +151,6 @@ class WishlistReportEntityTest extends Injectable
      */
     public function test(MultipleWishlist $multipleWishlist, Browser $browser, array $products, array $wishlist)
     {
-        $this->markTestIncomplete('MAGETWO-28924');
         // Precondition
         $multipleWishlist->persist();
         $customer = $multipleWishlist->getDataFieldConfig('customer_id')['source']->getCustomer();
@@ -160,9 +159,7 @@ class WishlistReportEntityTest extends Injectable
         $this->loginCustomer($customer);
         foreach ($products as $key => $product) {
             $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-            $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist(
-                $multipleWishlist->getName()
-            );
+            $this->catalogProductView->getMultipleWishlistViewBlock()->addToMultipleWishlist($multipleWishlist);
             $this->wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)
                 ->fillProduct($wishlist[$key]);
             $this->wishlistIndex->getWishlistBlock()->clickUpdateWishlist();
@@ -201,10 +198,9 @@ class WishlistReportEntityTest extends Injectable
      */
     public static function tearDownAfterClass()
     {
-        $config = ObjectManager::getInstance()->create(
-            'Magento\Core\Test\Fixture\ConfigData',
-            ['dataSet' => 'disabled_multiple_wishlist_default']
-        );
-        $config->persist();
+        ObjectManager::getInstance()->create(
+            '\Magento\Core\Test\TestStep\SetupConfigurationStep',
+            ['configData' => 'multiple_wishlist_default', 'rollback' => true]
+        )->run();
     }
 }

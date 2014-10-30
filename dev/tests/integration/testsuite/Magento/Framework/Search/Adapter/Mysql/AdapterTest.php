@@ -131,9 +131,9 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testMatchQueryFilters()
     {
         $this->requestBuilder->bind('fulltext_search_query', 'socks');
-        $this->requestBuilder->bind('pidm_from', 1);
-        $this->requestBuilder->bind('pidm_to', 3);
-        $this->requestBuilder->bind('pidsh', 4);
+        $this->requestBuilder->bind('pidm_from', 11);
+        $this->requestBuilder->bind('pidm_to', 17);
+        $this->requestBuilder->bind('pidsh', 18);
         $this->requestBuilder->setRequestName('one_match_filters');
 
         $queryResponse = $this->executeQuery();
@@ -151,8 +151,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithAllFields()
     {
-        $this->requestBuilder->bind('range_filter_from', 1);
-        $this->requestBuilder->bind('range_filter_to', 3);
+        $this->requestBuilder->bind('range_filter_from', 11);
+        $this->requestBuilder->bind('range_filter_to', 16);
         $this->requestBuilder->setRequestName('range_filter');
 
         $queryResponse = $this->executeQuery();
@@ -170,7 +170,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithoutFromField()
     {
-        $this->requestBuilder->bind('range_filter_to', 4);
+        $this->requestBuilder->bind('range_filter_to', 18);
         $this->requestBuilder->setRequestName('range_filter_without_from_field');
 
         $queryResponse = $this->executeQuery();
@@ -188,7 +188,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeFilterWithoutToField()
     {
-        $this->requestBuilder->bind('range_filter_from', 2);
+        $this->requestBuilder->bind('range_filter_from', 14);
         $this->requestBuilder->setRequestName('range_filter_without_to_field');
 
         $queryResponse = $this->executeQuery();
@@ -206,14 +206,12 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testTermFilter()
     {
-        $id = 4;
-
-        $this->requestBuilder->bind('request.product_id', $id);
+        $this->requestBuilder->bind('request.price', 18);
         $this->requestBuilder->setRequestName('term_filter');
 
         $queryResponse = $this->executeQuery();
         $this->assertEquals(1, $queryResponse->count());
-        $this->assertEquals($id, $queryResponse->getIterator()->offsetGet(0)->getId());
+        $this->assertEquals(4, $queryResponse->getIterator()->offsetGet(0)->getId());
     }
 
     /**
@@ -227,7 +225,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testTermFilterArray()
     {
-        $this->requestBuilder->bind('request.product_id', [3, 4]);
+        $this->requestBuilder->bind('request.price', [16, 18]);
         $this->requestBuilder->setRequestName('term_filter');
 
         $queryResponse = $this->executeQuery();
@@ -249,7 +247,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->requestBuilder->setRequestName('one_wildcard');
 
         $queryResponse = $this->executeQuery();
-        $this->assertEquals(4, $queryResponse->count());
+        $this->assertEquals(3, $queryResponse->count());
     }
 
     /**
@@ -264,14 +262,14 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testBoolFilter()
     {
         $expectedIds = [2, 3];
-        $this->requestBuilder->bind('must_range_filter1_from', 1);
-        $this->requestBuilder->bind('must_range_filter1_to', 6);
-        $this->requestBuilder->bind('should_term_filter1', 1);
-        $this->requestBuilder->bind('should_term_filter2', 2);
-        $this->requestBuilder->bind('should_term_filter3', 3);
-        $this->requestBuilder->bind('should_term_filter4', 4);
-        $this->requestBuilder->bind('not_term_filter1', 1);
-        $this->requestBuilder->bind('not_term_filter2', 4);
+        $this->requestBuilder->bind('must_range_filter1_from', 12);
+        $this->requestBuilder->bind('must_range_filter1_to', 22);
+        $this->requestBuilder->bind('should_term_filter1', 12);
+        $this->requestBuilder->bind('should_term_filter2', 14);
+        $this->requestBuilder->bind('should_term_filter3', 16);
+        $this->requestBuilder->bind('should_term_filter4', 18);
+        $this->requestBuilder->bind('not_term_filter1', 12);
+        $this->requestBuilder->bind('not_term_filter2', 18);
         $this->requestBuilder->setRequestName('bool_filter');
 
         $queryResponse = $this->executeQuery();
@@ -296,9 +294,9 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testBoolFilterWithNestedNegativeBoolFilter()
     {
         $expectedIds = [1];
-        $this->requestBuilder->bind('not_range_filter_from', 2);
-        $this->requestBuilder->bind('not_range_filter_to', 5);
-        $this->requestBuilder->bind('nested_not_term_filter', 1);
+        $this->requestBuilder->bind('not_range_filter_from', 14);
+        $this->requestBuilder->bind('not_range_filter_to', 20);
+        $this->requestBuilder->bind('nested_not_term_filter', 12);
         $this->requestBuilder->setRequestName('bool_filter_with_nested_bool_filter');
 
         $queryResponse = $this->executeQuery();
@@ -323,8 +321,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testBoolFilterWithNestedRangeInNegativeBoolFilter()
     {
         $expectedIds = [1, 4, 5];
-        $this->requestBuilder->bind('nested_must_range_filter_from', 2);
-        $this->requestBuilder->bind('nested_must_range_filter_to', 4);
+        $this->requestBuilder->bind('nested_must_range_filter_from', 14);
+        $this->requestBuilder->bind('nested_must_range_filter_to', 18);
         $this->requestBuilder->setRequestName('bool_filter_with_range_in_nested_negative_filter');
 
         $queryResponse = $this->executeQuery();
@@ -351,15 +349,13 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testSimpleAdvancedSearch(
         $nameQuery,
         $descriptionQuery,
-        $storeFilter,
         $rangeFilter,
         $expectedRecordsCount
     ) {
         $this->requestBuilder->bind('name_query', $nameQuery);
         $this->requestBuilder->bind('description_query', $descriptionQuery);
-        $this->requestBuilder->bind('store_filter', $storeFilter);
-        $this->requestBuilder->bind('request.from_product_id', $rangeFilter['from']);
-        $this->requestBuilder->bind('request.to_product_id', $rangeFilter['to']);
+        $this->requestBuilder->bind('request.from_price', $rangeFilter['from']);
+        $this->requestBuilder->bind('request.to_price', $rangeFilter['to']);
         $this->requestBuilder->setRequestName('advanced_search_test');
 
         $queryResponse = $this->executeQuery();
@@ -372,11 +368,10 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function advancedSearchDataProvider()
     {
         return array(
-            ['white', 'shorts', '1', ['from' => '3', 'to' => '4'], 0],
-            ['white', 'shorts', '1', ['from' => '1', 'to' => '4'], 1],
-            ['white', 'shorts', '5', ['from' => '1', 'to' => '4'], 0],
-            ['black', 'tshirts', '1', ['from' => '1', 'to' => '5'], 0],
-            ['peoples', 'green', '1', ['from' => '1', 'to' => '6'], 2],
+            ['white', 'shorts', ['from' => '16', 'to' => '18'], 0],
+            ['white', 'shorts',['from' => '12', 'to' => '18'], 1],
+            ['black', 'tshirts', ['from' => '12', 'to' => '20'], 0],
+            ['peoples', 'green', ['from' => '12', 'to' => '22'], 2],
         );
     }
 }

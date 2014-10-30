@@ -41,7 +41,6 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      */
     public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer, $isCreateMultipleWishlist)
     {
-        $this->markTestIncomplete('MAGETWO-28924');
         // Steps
         if ($isCreateMultipleWishlist == 'No') {
             return;
@@ -50,19 +49,5 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         $this->openWishlistPage($customer);
         $this->wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
         $this->wishlistIndex->getManagementBlock()->removeWishlist();
-    }
-
-    /**
-     * Disable multiple wish list in config
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass()
-    {
-        $config = ObjectManager::getInstance()->create(
-            'Magento\Core\Test\Fixture\ConfigData',
-            ['dataSet' => 'disabled_multiple_wishlist_default']
-        );
-        $config->persist();
     }
 }

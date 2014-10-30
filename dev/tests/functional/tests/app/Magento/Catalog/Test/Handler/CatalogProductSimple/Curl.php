@@ -83,7 +83,21 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'is_require' => [
             'Yes' => 1,
             'No' => 0
-        ]
+        ],
+        'is_recurring' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'msrp_display_actual_price_type' => [
+            'Use config' => 0,
+            'On Gesture' => 1,
+            'In Cart' => 2,
+            'Before Order Confirmation' => 3
+        ],
+        'enable_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
     ];
 
     /**
@@ -102,7 +116,8 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'name' => 'cust_group',
             'data' => [
                 'ALL GROUPS' => 32000,
-                'NOT LOGGED IN' => 0
+                'NOT LOGGED IN' => 0,
+                'General' => 1
             ]
         ]
     ];
@@ -196,6 +211,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $fields = $prefix ? [$prefix => $fields] : $fields;
         if ($isCustomOptions) {
             $fields['affect_product_custom_options'] = 1;
+        }
+
+        if (isset($fields['product']['weight'])) {
+            unset($fields['product']['is_virtual']);
         }
 
         return $fields;

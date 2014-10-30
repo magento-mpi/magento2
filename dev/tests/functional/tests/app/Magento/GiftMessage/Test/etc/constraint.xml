@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGiftMessageInFrontendOrderItems module="Magento_GiftMessage">
+        <severeness>high</severeness>
+    </assertGiftMessageInFrontendOrderItems>
+    <assertGiftMessageInFrontendOrder module="Magento_GiftMessage">
+        <severeness>high</severeness>
+    </assertGiftMessageInFrontendOrder>
+    <assertGiftMessageInBackendOrder module="Magento_GiftMessage">
+        <severeness>high</severeness>
+    </assertGiftMessageInBackendOrder>
+</constraint>

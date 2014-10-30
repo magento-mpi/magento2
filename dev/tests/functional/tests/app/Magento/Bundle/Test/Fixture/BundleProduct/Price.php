@@ -46,9 +46,11 @@ class Price implements FixtureInterface
      * @param array $params
      * @param array $data [optional]
      */
-    public function __construct(array $params, array $data = [])
+    public function __construct(array $params, $data = [])
     {
         $this->params = $params;
+        $this->data = (!isset($data['value']) && !isset($data['preset'])) ? $data : [];
+
         $this->data = (isset($data['value']) && $data['value'] != '-') ? $data['value'] : null;
         if (isset($data['preset'])) {
             $this->currentPreset = $data['preset'];
@@ -154,10 +156,10 @@ class Price implements FixtureInterface
                 'price_to' => '120.00',
                 'cart_price' => '317.00'
             ],
-            'fixed-126' => [
+            'fixed-159' => [
                 'price_from' => '115.00',
                 'price_to' => '120.00',
-                'cart_price' => '126.00'
+                'cart_price' => '159.00'
             ],
             'fixed-15' => [
                 'price_from' => '15.00',

@@ -75,20 +75,11 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      *
      * @param MultipleWishlist $multipleWishlist
      * @param CustomerInjectable $customer
-     * @param WidgetInstanceEdit $widgetInstanceEdit
-     * @param Browser $browser
      * @return void
      */
-    public function test(
-        MultipleWishlist $multipleWishlist,
-        CustomerInjectable $customer,
-        WidgetInstanceEdit $widgetInstanceEdit,
-        Browser $browser
-    ) {
-        $this->markTestIncomplete('MAGETWO-28924');
+    public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer)
+    {
         //Steps
-        self::$widgetInstanceEdit = $widgetInstanceEdit;
-        self::$browser = $browser;
         $this->openWishlistPage($customer);
         $this->wishlistIndex->getManagementBlock()->clickCreateNewWishlist();
         $this->wishlistIndex->getBehaviourBlock()->fill($multipleWishlist);
@@ -102,11 +93,7 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      */
     public static function tearDownAfterClass()
     {
-        $config = ObjectManager::getInstance()->create(
-            'Magento\Core\Test\Fixture\ConfigData',
-            ['dataSet' => 'disabled_multiple_wishlist_default']
-        );
-        $config->persist();
+        parent::tearDownAfterClass();
         self::$browser->open(
             $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
             . self::$wishlistId . '/code/wishlist_search/'

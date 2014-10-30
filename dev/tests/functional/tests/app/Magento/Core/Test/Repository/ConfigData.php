@@ -929,12 +929,12 @@ class ConfigData extends AbstractRepository
                     'path' => 'wishlist/general/multiple_wishlist_number',
                     'scope' => 'wishlist',
                     'scope_id' => 1,
-                    'value' => 3,
+                    'value' => 10,
                 ],
             ]
         ];
 
-        $this->_data['disabled_multiple_wishlist_default'] = [
+        $this->_data['multiple_wishlist_default_rollback'] = [
             'section' => [
                 [
                     'path' => 'wishlist/general/multiple_enabled',
@@ -996,5 +996,410 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        // Gift Messages
+        $this->_data['enableGiftMessages'] = [
+            'section' => [
+                [
+                    'path' => 'sales/gift_options/allow_order',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/gift_options/allow_items',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['display_out_of_stock'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/options/show_out_of_stock',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['backorders_allow_qty_below'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/item_options/backorders',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['display_out_of_stock_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/options/show_out_of_stock',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['backorders_allow_qty_below_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'cataloginventory/item_options/backorders',
+                    'scope' => 'cataloginventory',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+
+        $this->_data['checkout_term_condition'] = [
+            'section' => [
+                [
+                    'path' => 'checkout/options/enable_agreements',
+                    'scope' => 'checkout',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $this->_data['checkout_term_condition_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'checkout/options/enable_agreements',
+                    'scope' => 'checkout',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
+        // MSRP
+        $this->_data['msrp'] = [
+            'section' => [
+                [
+                    'path' => 'sales/msrp/enabled',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/msrp/display_price_type',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 3,
+                ],
+            ]
+        ];
+
+        $this->_data['msrp_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'sales/msrp/enabled',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+                [
+                    'path' => 'sales/msrp/display_price_type',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+            ]
+        ];
+
+        $taxCalculationConf = [
+            'section' => [
+                [
+                    'path' => 'tax/calculation/algorithm',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => 'UNIT_BASE_CALCULATION',
+                ],
+                [
+                    'path' => 'tax/calculation/price_includes_tax',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/calculation/shipping_includes_tax',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/calculation/apply_after_discount',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/calculation/discount_tax',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ],
+                [
+                    'path' => 'tax/display/type',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/display/shipping',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/price',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/subtotal',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/shipping',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '3'
+                ],
+                [
+                    'path' => 'tax/cart_display/grandtotal',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1'
+                ],
+                [
+                    'path' => 'tax/cart_display/full_summary',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
+                [
+                    'path' => 'tax/calculation/cross_border_trade_enabled',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
+            ]
+        ];
+        $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'ROW_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['row_cat_excl_ship_incl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'ROW_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_excl_ship_incl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['row_cat_incl_ship_excl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'ROW_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['unit_cat_incl_ship_incl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'UNIT_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_excl_ship_incl_before_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['unit_cat_excl_ship_excl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'UNIT_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_incl_ship_excl_before_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '1'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['total_cat_excl_ship_incl_after_disc_on_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1']
+                    ]
+                ]
+            );
+
+        $this->_data['unit_cat_excl_ship_incl_after_disc_on_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'UNIT_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['default_tax_configuration'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '0'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '1'],
+                        ['value' => '0']
+                    ]
+                ]
+            );
+
+        $this->_data['cross_border_enabled_price_incl_tax'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '1'], //tax/calculation/price_includes_tax
+                        ['value' => '1'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '1'], //tax/calculation/discount_tax
+                        ['value' => '2'], //tax/display/type
+                        ['value' => '2'], //tax/display/shipping
+                        ['value' => '2'], //tax/cart_display/price
+                        ['value' => '2'], //tax/cart_display/subtotal
+                        ['value' => '2'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '1'], //tax/calculation/cross_border_trade_enabled
+                    ]
+                ]
+            );
+
+        $this->_data['cross_border_enabled_price_excl_tax'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '2'], //tax/display/type
+                        ['value' => '2'], //tax/display/shipping
+                        ['value' => '2'], //tax/cart_display/price
+                        ['value' => '2'], //tax/cart_display/subtotal
+                        ['value' => '2'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '1'], //tax/calculation/cross_border_trade_enabled
+                    ]
+                ]
+            );
     }
 }

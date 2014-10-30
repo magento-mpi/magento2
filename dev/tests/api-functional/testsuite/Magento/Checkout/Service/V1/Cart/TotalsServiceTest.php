@@ -85,9 +85,7 @@ class TotalsServiceTest extends WebapiAbstract
 
         $requestData = ['cartId' => $cartId];
 
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $data = $this->formatTotalsData($data);
-        }
+        $data = $this->formatTotalsData($data);
 
         $this->assertEquals($data, $this->_webApiCall($this->getServiceInfoForTotalsService($cartId), $requestData));
     }

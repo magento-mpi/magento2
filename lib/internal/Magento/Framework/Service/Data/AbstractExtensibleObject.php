@@ -7,11 +7,13 @@
  */
 namespace Magento\Framework\Service\Data;
 
+use Magento\Framework\Api\Data\ExtensibleDataInterface;
+
 /**
  * Base Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractExtensibleObject extends AbstractSimpleObject
+abstract class AbstractExtensibleObject extends AbstractSimpleObject implements ExtensibleDataInterface
 {
     /**
      * Array key for custom attributes
@@ -22,7 +24,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\AttributeValue|null The value. Null if the attribute has not been set
+     * @return \Magento\Framework\Service\Data\AttributeValue|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -33,7 +35,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject
     }
 
     /**
-     * Retrieve custom attributes values as an associative array.
+     * Retrieve custom attributes values.
      *
      * @return \Magento\Framework\Service\Data\AttributeValue[]|null
      */

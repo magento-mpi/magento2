@@ -31,7 +31,8 @@ class ImageTest extends FileTest
                 $isAjax,
                 $this->coreDataMock,
                 $this->fileValidatorMock,
-                $this->fileSystemMock
+                $this->fileSystemMock,
+                $this->uploaderFactoryMock
             )
         );
         return $imageForm;

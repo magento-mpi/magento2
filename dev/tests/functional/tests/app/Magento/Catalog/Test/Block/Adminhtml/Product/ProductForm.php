@@ -97,6 +97,13 @@ class ProductForm extends FormTabs
     protected $createCategoryButton = '//button[contains(@class,"action-create")]';
 
     /**
+     * Tabs title css selector
+     *
+     * @var string
+     */
+    protected $tabsTitle = '#product_info_tabs-basic [data-role="title"]';
+
+    /**
      * Fill the product form
      *
      * @param FixtureInterface $product
@@ -124,7 +131,7 @@ class ProductForm extends FormTabs
                 $category = reset($categories);
             }
             if ($category) {
-                $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
+                $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture)
                     ? $category->getName()
                     : $category->getCategoryName();
             }
@@ -160,6 +167,7 @@ class ProductForm extends FormTabs
             $this->_rootElement->find($this->advancedSettingTrigger)->click();
             $this->waitForElementVisible($this->advancedSettingContent);
         }
+        $this->_rootElement->find($this->tabsTitle)->click();
     }
 
     /**

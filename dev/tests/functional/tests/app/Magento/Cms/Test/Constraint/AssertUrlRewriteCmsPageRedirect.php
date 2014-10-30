@@ -28,13 +28,6 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * URL for CMS Page
-     *
-     * @var string
-     */
-    protected $url = 'cms/page/view/page_id/';
-
-    /**
      * Assert that created CMS Page URL Rewrite lead to appropriate page in frontend
      *
      * @param UrlRewrite $urlRewrite
@@ -54,13 +47,13 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
             $store = explode('/', $urlRewrite->getStoreId());
             $systemVariableNew->getFormPageActions()->selectStoreView($store[2]);
         }
-        $url = $urlRewrite->getOptions() == 'No'
+        $url = $urlRewrite->getRedirectType() == 'No'
             ? $urlRewrite->getRequestPath()
-            : $this->url . $cmsPage->getPageId();
+            : $cmsPage->getTitle();
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $browser->getUrl(),
             $_ENV['app_frontend_url'] . $url,
+            $browser->getUrl(),
             'URL rewrite CMS Page redirect false.'
         );
     }

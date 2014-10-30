@@ -43,4 +43,7 @@
             <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
         </require>
     </assertTargetRuleForm>
+    <assertCrossSellsProductsSectionForCustomerSegment module="Magento_TargetRule">
+        <severeness>medium</severeness>
+    </assertCrossSellsProductsSectionForCustomerSegment>
 </constraint>
