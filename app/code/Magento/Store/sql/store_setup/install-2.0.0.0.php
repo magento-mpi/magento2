@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 use Magento\Framework\DB\Ddl\Table;
 
 /* @var $installer \Magento\Setup\Module\SetupModule */

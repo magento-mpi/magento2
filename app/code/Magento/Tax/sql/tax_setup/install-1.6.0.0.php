@@ -9,7 +9,7 @@
 /** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $installer->startSetup();
-//
+
 /**
  * Create table 'tax/class'
  */
