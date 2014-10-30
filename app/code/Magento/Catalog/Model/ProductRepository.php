@@ -120,9 +120,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
                 $product->getData($exception->getAttributeCode()),
                 $exception
             );
-        }
-        if (!$product->getId()) {
-            throw new \Magento\Framework\Exception\StateException('Unable to save product');
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\CouldNotSaveException('Unable to save product');
         }
         $this->instances[$product->getSku()] = $product;
         return $product;
