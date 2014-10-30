@@ -299,6 +299,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testIndexerAfterDeleteCommitProduct()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->categoryIndexerMock->expects($this->once())->method('reindexRow');
         $this->productFlatProcessor->expects($this->once())->method('reindexRow');
         $this->productPriceProcessor->expects($this->once())->method('reindexRow');
@@ -307,6 +308,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testReindex()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->categoryIndexerMock->expects($this->once())->method('reindexRow');
         $this->productFlatProcessor->expects($this->once())->method('reindexRow');
         $this->assertNull($this->model->reindex());

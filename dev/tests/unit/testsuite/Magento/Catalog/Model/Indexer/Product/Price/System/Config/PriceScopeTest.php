@@ -57,6 +57,7 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessValue()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->_indexerMock->expects($this->once())->method('invalidate');
         $this->_model->setValue('1');
         $this->_model->processValue();
@@ -64,6 +65,7 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessValueNotChanged()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->_indexerMock->expects($this->never())->method('invalidate');
         $this->_model->processValue();
     }

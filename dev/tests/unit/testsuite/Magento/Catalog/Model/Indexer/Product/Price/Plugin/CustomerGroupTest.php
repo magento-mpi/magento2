@@ -26,6 +26,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_subjectMock = $this->getMock(

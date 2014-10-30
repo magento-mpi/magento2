@@ -82,6 +82,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarkIndexerAsInvalid()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->_stateMock->expects($this->once())->method('isFlatEnabled')->will($this->returnValue(true));
         $this->_indexerMock->expects($this->once())->method('invalidate');
         $this->_model->markIndexerAsInvalid();

@@ -24,19 +24,22 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      */
     protected $rowsActionFactory;
 
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
+
     /**
      * @param Category\Action\FullFactory $fullActionFactory
      * @param Category\Action\RowsFactory $rowsActionFactory
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      */
     public function __construct(
         Category\Action\FullFactory $fullActionFactory,
         Category\Action\RowsFactory $rowsActionFactory,
-        \Magento\Indexer\Model\IndexerInterface $indexer
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
     ) {
         $this->fullActionFactory = $fullActionFactory;
         $this->rowsActionFactory = $rowsActionFactory;
-        $this->indexer = $indexer;
+        $this->indexerRegistry = $indexerRegistry;
     }
 
     /**
@@ -91,11 +94,10 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
     protected function executeAction($ids)
     {
         $ids = array_unique($ids);
-        $this->indexer->load(static::INDEXER_ID);
 
         /** @var Category\Action\Rows $action */
         $action = $this->rowsActionFactory->create();
-        if ($this->indexer->isWorking()) {
+        if ($this->indexerRegistry->get(static::INDEXER_ID)->isWorking()) {
             $action->execute($ids, true);
         }
         $action->execute($ids);

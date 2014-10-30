@@ -29,6 +29,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->configMock = $this->getMockBuilder('Magento\CatalogPermissions\App\ConfigInterface')->getMock();
         $this->subject = $this->getMockBuilder('Magento\ImportExport\Model\Import')

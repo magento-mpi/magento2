@@ -184,6 +184,7 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         $this->indexerMock->expects($this->exactly(2))->method('load')->will($this->returnValueMap($map));
         $this->indexerMock->expects($this->exactly(2))->method('setScheduled')->with(false);
 
+        $this->markTestIncomplete('MAGETWO-28043');
         $this->model->processValue();
     }
 }

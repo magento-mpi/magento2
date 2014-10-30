@@ -274,4 +274,9 @@ return array(
         'Magento\Solr\Model\Layer\Category\Filter\Price',
         'Magento\Solr\Model\Price\Interval::loadNext'
     ],
+    ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\AbstractProduct'],
+    ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\Category'],
+    ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData'],
+    ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1'],
+    ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\Store\AbstractPlugin'],
 );

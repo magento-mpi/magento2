@@ -108,6 +108,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateAttributes()
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $productIds = [1, 2, 2, 4];
         $productIdsUnique = [0 => 1, 1 => 2, 3 => 4];
         $attrData = [1];
@@ -156,6 +157,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateWebsites($type, $methodName)
     {
+        $this->markTestIncomplete('MAGETWO-28043');
         $productIds = [1, 2, 2, 4];
         $productIdsUnique = [0 => 1, 1 => 2, 3 => 4];
         $websiteIds = [1];

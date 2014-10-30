@@ -9,30 +9,15 @@ namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
 class StoreGroup
 {
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      */
-    public function __construct(\Magento\Indexer\Model\IndexerInterface $indexer)
+    public function __construct(\Magento\Indexer\Model\IndexerRegistry $indexerRegistry)
     {
-        $this->indexer = $indexer;
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID);
-        }
-        return $this->indexer;
+        $this->indexerRegistry = $indexerRegistry;
     }
 
     /**
@@ -49,7 +34,7 @@ class StoreGroup
         $needInvalidating = $this->validate($group);
         $objectResource = $proceed($group);
         if ($needInvalidating) {
-            $this->getIndexer()->invalidate();
+            $this->indexerRegistry->get(\Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID)->invalidate();
         }
 
         return $objectResource;
