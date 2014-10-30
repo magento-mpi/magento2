@@ -11,7 +11,6 @@ $fileCollection = $this->createThemeFactory();
 $fileCollection->addDefaultPattern('*');
 $fileCollection->setItemObjectClass('Magento\Core\Model\Theme\Data');
 
-/** @var $themeDbCollection \Magento\Core\Model\Resource\Theme\Collection */
 $themeDbCollection = $this->createThemeResourceFactory();
 $themeDbCollection->setItemObjectClass('Magento\Core\Model\Theme\Data');
 

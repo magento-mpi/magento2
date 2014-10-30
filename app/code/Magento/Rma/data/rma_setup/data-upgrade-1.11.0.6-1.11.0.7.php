@@ -8,7 +8,6 @@
 
 /** @var $this \Magento\Rma\Model\Resource\Setup */
 // Add Product's Attribute
-/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable');
