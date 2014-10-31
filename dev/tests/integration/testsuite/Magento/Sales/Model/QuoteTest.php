@@ -53,8 +53,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $customerDataSet->__toArray());
         $quote->setCustomerData($customerDataSet);
 
-        $customerDataRetrieved = $quote->getCustomerData();
-        $this->assertEquals($expected, $customerDataRetrieved->__toArray());
+        $customer = $quote->getCustomer();
+        $this->assertEquals($expected, $customer->__toArray());
         $this->assertEquals('qa@example.com', $quote->getCustomerEmail());
     }
 
@@ -83,8 +83,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customerDataUpdated = $customerBuilder->create();
 
         $quote->updateCustomerData($customerDataUpdated);
-        $customerDataRetrieved = $quote->getCustomerData();
-        $this->assertEquals($expected, $customerDataRetrieved->__toArray());
+        $customer = $quote->getCustomer();
+        $this->assertEquals($expected, $customer->__toArray());
         $this->assertEquals('test@example.com', $quote->getCustomerEmail());
     }
 

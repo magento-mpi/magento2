@@ -59,13 +59,14 @@ class CollectTotals
     {
         /** @var \Magento\Sales\Model\Quote\Address $quoteAddress */
         $quoteAddress = $observer->getQuoteAddress();
+
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $quoteAddress->getQuote();
-        $customerData = $quote->getCustomerData();
-        $storeId = $customerData->getStoreId();
+        $customer = $quote->getCustomer();
+        $storeId = $customer->getStoreId();
 
-        if (($customerData->getCustomAttribute('disable_auto_group_change')
-                && $customerData->getCustomAttribute('disable_auto_group_change')->getValue())
+        if (($customer->getCustomAttribute('disable_auto_group_change')
+                && $customer->getCustomAttribute('disable_auto_group_change')->getValue())
             || false == $this->vatValidator->isEnabled($quoteAddress, $storeId)
         ) {
             return;
@@ -75,7 +76,7 @@ class CollectTotals
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
         if (empty($customerVatNumber) || false == $this->customerHelper->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerData->getId() ? $this->customerHelper->getDefaultCustomerGroupId(
+            $groupId = $customer->getId() ? $this->customerHelper->getDefaultCustomerGroupId(
                 $storeId
             ) : \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
         } else {
@@ -90,11 +91,8 @@ class CollectTotals
         if ($groupId) {
             $quoteAddress->setPrevQuoteCustomerGroupId($quote->getCustomerGroupId());
             $quote->setCustomerGroupId($groupId);
-            $customerData = $this->customerBuilder->mergeDataObjectWithArray(
-                $customerData,
-                array('group_id' => $groupId)
-            );
-            $quote->setCustomerData($customerData);
+            $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, ['group_id' => $groupId]);
+            $quote->setCustomerData($customer);
         }
     }
 }

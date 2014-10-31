@@ -143,10 +143,10 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getBillingAddress();
                 if (!$this->_address->getFirstname()) {
-                    $this->_address->setFirstname($this->getQuote()->getCustomerData()->getFirstname());
+                    $this->_address->setFirstname($this->getQuote()->getCustomer()->getFirstname());
                 }
                 if (!$this->_address->getLastname()) {
-                    $this->_address->setLastname($this->getQuote()->getCustomerData()->getLastname());
+                    $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
                 $this->_address = $this->_addressFactory->create();

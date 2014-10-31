@@ -118,7 +118,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_serviceQuote->getQuote()->setCustomerData($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         $this->_serviceQuote->submitOrderWithDataObject();
-        $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
+        $customerId = $this->_serviceQuote->getQuote()->getCustomer()->getId();
         $this->assertNotNull($customerId);
         //Make sure no new customer is created
         $this->assertEquals($existingCustomerId, $customerId);
@@ -136,7 +136,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
         $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
         $this->_serviceQuote->submitOrderWithDataObject();
-        $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
+        $customerId = $this->_serviceQuote->getQuote()->getCustomer()->getId();
         $this->assertNotNull($customerId);
         foreach ($this->_serviceQuote->getQuote()->getCustomer()->getAddresses() as $address) {
             $this->assertNotNull($address->getId());

@@ -398,8 +398,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     protected function _isDefaultShippingNullOrSameAsBillingAddress()
     {
-        $customerData = $this->getQuote()->getCustomerData();
-        $customerId = $customerData->getId();
+        $customer = $this->getQuote()->getCustomer();
+        $customerId = $customer->getId();
         $defaultBillingAddress = null;
         $defaultShippingAddress = null;
 
@@ -409,8 +409,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $defaultShippingAddress = $this->_customerAdressService->getDefaultShippingAddress($customerId);
         } else {
             /* we should load data from the quote if customer is not saved yet */
-            $defaultBillingAddress = $customerData->getDefaultBilling();
-            $defaultShippingAddress = $customerData->getDefaultShipping();
+            $defaultBillingAddress = $customer->getDefaultBilling();
+            $defaultShippingAddress = $customer->getDefaultShipping();
         }
 
         return !$defaultShippingAddress ||
@@ -480,7 +480,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         }
         $quote = $this->getQuote();
         if ($address->getCustomerId() && (!empty($quote) && $address->getCustomerId() == $quote->getCustomerId())) {
-            $customer = $quote->getCustomerData();
+            $customer = $quote->getCustomer();
             $this->setEmail($customer->getEmail());
         }
         return $this;
@@ -498,7 +498,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             'to_customer_address',
             $this
         );
-        $customerAddressDataWithRegion = array();
+        $customerAddressDataWithRegion = [];
         $customerAddressDataWithRegion['region']['region'] = $customerAddressData['region'];
         if (isset($customerAddressData['region_code'])) {
             $customerAddressDataWithRegion['region']['region_code'] = $customerAddressData['region_code'];

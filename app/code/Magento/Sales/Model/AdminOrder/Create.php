@@ -7,17 +7,16 @@
  */
 namespace Magento\Sales\Model\AdminOrder;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
+use Magento\Sales\Model\Quote\Item;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
-use Magento\Sales\Model\Quote\Item;
+use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
 
 /**
  * Order create model
@@ -80,7 +79,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Quote associated with the model
@@ -1472,7 +1471,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      */
     public function setAccountData($accountData)
     {
-        $customer = $this->getQuote()->getCustomerData();
+        $customer = $this->getQuote()->getCustomer();
         $form = $this->_createCustomerForm($customer);
 
         // emulate request
@@ -1609,54 +1608,40 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         /** @var $store \Magento\Store\Model\Store */
         $store = $this->getSession()->getStore();
-        $customerDataObject = $this->getQuote()->getCustomerData();
-        if ($customerDataObject->getId() && !$this->_customerIsInStore($store)) {
+        $customer = $this->getQuote()->getCustomer();
+        if ($customer->getId() && !$this->_customerIsInStore($store)) {
             /** Create a new customer record if it is not available in the specified store */
-            $customerDataObject = $this->_customerBuilder->populate(
-                $customerDataObject
-                /** Unset customer ID to ensure that new customer will be created */
-            )->setId(
-                null
-            )->setStoreId(
-                $store->getId()
-            )->setWebsiteId(
-                $store->getWebsiteId()
-            )->setCreatedAt(
-                null
-            )->create();
-            $customerDataObject = $this->_validateCustomerData($customerDataObject);
-        } else if (!$customerDataObject->getId()) {
+            /** Unset customer ID to ensure that new customer will be created */
+            $customer = $this->_customerBuilder->populate($customer)
+                ->setId(null)
+                ->setStoreId($store->getId())
+                ->setWebsiteId($store->getWebsiteId())
+                ->setCreatedAt(null)->create();
+            $customer = $this->_validateCustomerData($customer);
+        } else if (!$customer->getId()) {
             /** Create new customer */
             $customerBillingAddressDataObject = $this->getBillingAddress()->exportCustomerAddressData();
-            $customerDataObject = $this->_customerBuilder->populate(
-                $customerDataObject
-            )->setSuffix(
-                $customerBillingAddressDataObject->getSuffix()
-            )->setFirstname(
-                $customerBillingAddressDataObject->getFirstname()
-            )->setLastname(
-                $customerBillingAddressDataObject->getLastname()
-            )->setMiddlename(
-                $customerBillingAddressDataObject->getMiddlename()
-            )->setPrefix(
-                $customerBillingAddressDataObject->getPrefix()
-            )->setStoreId(
-                $store->getId()
-            )->setEmail(
-                $this->_getNewCustomerEmail()
-            )->create();
-            $customerDataObject = $this->_validateCustomerData($customerDataObject);
+            $customer = $this->_customerBuilder->populate($customer)
+                ->setSuffix($customerBillingAddressDataObject->getSuffix())
+                ->setFirstname($customerBillingAddressDataObject->getFirstname())
+                ->setLastname($customerBillingAddressDataObject->getLastname())
+                ->setMiddlename($customerBillingAddressDataObject->getMiddlename())
+                ->setPrefix($customerBillingAddressDataObject->getPrefix())
+                ->setStoreId($store->getId())
+                ->setEmail($this->_getNewCustomerEmail())
+                ->create();
+            $customer = $this->_validateCustomerData($customer);
         }
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customerDataObject, $this->getBillingAddress());
+            $this->_prepareCustomerAddress($customer, $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customerDataObject, $this->getShippingAddress());
+            $this->_prepareCustomerAddress($customer, $this->getShippingAddress());
         }
-        $this->getQuote()->updateCustomerData($customerDataObject);
+        $this->getQuote()->updateCustomerData($customer);
 
-        $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerDataObject);
-        foreach ($this->_createCustomerForm($customerDataObject)->getUserAttributes() as $attribute) {
+        $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
+        foreach ($this->_createCustomerForm($customer)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
                 $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
@@ -1668,15 +1653,15 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     /**
      * Create customerAddressDataObject and save it in the Model\Quote so that it can be used to persist later.
      *
-     * @param CustomerDataObject $customerDataObject
+     * @param CustomerDataObject $customer
      * @param \Magento\Sales\Model\Quote\Address $quoteCustomerAddress
      * @return void
      * @throws \InvalidArgumentException
      */
-    protected function _prepareCustomerAddress($customerDataObject, $quoteCustomerAddress)
+    protected function _prepareCustomerAddress($customer, $quoteCustomerAddress)
     {
         // Possible that customerId is null for new customers
-        $customerId = $customerDataObject->getId();
+        $customerId = $customer->getId();
         $quoteCustomerAddress->setCustomerId($customerId);
         $customerAddressDataObject = $quoteCustomerAddress->exportCustomerAddressData();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
@@ -1708,7 +1693,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
 
         switch ($addressType) {
             case CustomerAddressDataObject::ADDRESS_TYPE_BILLING:
-                if (is_null($customerDataObject->getDefaultBilling())) {
+                if (is_null($customer->getDefaultBilling())) {
                     $customerAddressDataObject = $this->_customerAddressBuilder->populate(
                         $customerAddressDataObject
                     )->setDefaultBilling(
@@ -1717,7 +1702,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 }
                 break;
             case CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING:
-                if (is_null($customerDataObject->getDefaultShipping())) {
+                if (is_null($customer->getDefaultShipping())) {
                     $customerAddressDataObject = $this->_customerAddressBuilder->populate(
                         $customerAddressDataObject
                     )->setDefaultShipping(

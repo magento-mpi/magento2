@@ -495,7 +495,7 @@ class Onepage
     {
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
-        $customer = $quote->getCustomerData();
+        $customer = $quote->getCustomer();
         $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
 
         /** @var Form $customerForm */
@@ -757,7 +757,7 @@ class Onepage
         $billing = $quote->getBillingAddress();
         $shipping = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customerData = $quote->getCustomerData();
+        $customer = $quote->getCustomer();
         $customerBillingData = $billing->exportCustomerAddressData();
         $customerBillingData = $this->_addressBuilder->populate(
             $customerBillingData
@@ -794,8 +794,8 @@ class Onepage
         $billing->setCustomerAddressData($customerBillingData);
 
         $dataArray = $this->_objectCopyService->getDataFromFieldset('checkout_onepage_quote', 'to_customer', $quote);
-        $customerData = $this->_customerBuilder->mergeDataObjectWithArray($customerData, $dataArray);
-        $quote->setCustomerData($customerData)->setCustomerId(true);
+        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $dataArray);
+        $quote->setCustomerData($customer)->setCustomerId(true);
         // TODO : Eventually need to remove this legacy hack
         // Add billing address to quote since customer Data Object does not hold address information
         $quote->addCustomerAddressData($customerBillingData);
@@ -856,7 +856,7 @@ class Onepage
      */
     protected function _involveNewCustomer()
     {
-        $customer = $this->getQuote()->getCustomerData();
+        $customer = $this->getQuote()->getCustomer();
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());

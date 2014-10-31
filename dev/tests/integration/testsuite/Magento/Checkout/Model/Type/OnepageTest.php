@@ -166,7 +166,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->_model->initCheckout();
         $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         $this->assertFalse($this->_model->getCheckout()->getSteps()['billing']['allow']);
-        $this->assertNull($this->_model->getQuote()->getCustomerData()->getEmail());
+        $this->assertNull($this->_model->getQuote()->getCustomer()->getEmail());
     }
 
     /**
@@ -197,7 +197,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         //When the user is logged in and for Step billing - allow is not reset to true
         $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
-        $this->assertEquals($emailFromFixture, $this->_model->getQuote()->getCustomerData()->getEmail());
+        $this->assertEquals($emailFromFixture, $this->_model->getQuote()->getCustomer()->getEmail());
     }
 
     /**
