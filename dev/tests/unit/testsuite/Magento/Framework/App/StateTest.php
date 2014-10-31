@@ -27,7 +27,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->model = new \Magento\Framework\App\State($this->scopeMock, '0');
+        $this->model = new \Magento\Framework\App\State($this->scopeMock);
     }
 
     public function testSetGetUpdateMode()

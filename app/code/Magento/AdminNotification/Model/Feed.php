@@ -46,11 +46,11 @@ class Feed extends \Magento\Framework\Model\AbstractModel
     protected $curlFactory;
 
     /**
-     * Application install date
+     * Application arguments
      *
-     * @var string
+     * @var \Magento\Framework\App\Arguments
      */
-    protected $_installDate;
+    protected $_args;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -78,7 +78,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
         $this->_backendConfig = $backendConfig;
         $this->_inboxFactory = $inboxFactory;
         $this->curlFactory = $curlFactory;
-        $this->_installDate = $args->get('install_date');
+        $this->_args = $args;
     }
 
     /**
@@ -119,7 +119,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
 
         $feedXml = $this->getFeedData();
 
-        $installDate = $this->_installDate;
+        $installDate = strtotime($this->_args->get('install_date'));
 
         if ($feedXml && $feedXml->channel && $feedXml->channel->item) {
             foreach ($feedXml->channel->item as $item) {
