@@ -28,24 +28,18 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $initializationHelperMock;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $resourceModelMock;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productFactoryMock;
 
     protected function setUp()
     {
-        $this->productFactoryMock = $this->getMock(
-            'Magento\Catalog\Model\ProductFactory',
-            array('create'),
-            [],
-            '',
-            false
-        );
+        $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->initializationHelperMock = $this->getMock(
             '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
@@ -70,12 +64,13 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage Requested product doesn't exist
      */
-    public function testCreateThrowsExceptionIfNoSuchProduct()
+    public function testGetAbsentProduct()
     {
         $this->productFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->productMock));
         $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue(null));
+        $this->productFactoryMock->expects($this->never())->method('setData');
         $this->model->get('test_sku');
     }
 
@@ -86,11 +81,10 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('load')->with('test_id');
-        $this->assertSame($this->productMock, $this->model->get('test_sku'));
-        $this->assertSame($this->productMock, $this->model->get('test_sku'));
+        $this->assertEquals($this->productMock, $this->model->get('test_sku'));
     }
 
-    public function testCreateCreatesProductInEditMode()
+    public function testGetProductInEditMode()
     {
         $this->productFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->productMock));
@@ -98,7 +92,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('setData')->with('_edit_mode', true);
         $this->productMock->expects($this->once())->method('load')->with('test_id');
-        $this->assertSame($this->productMock, $this->model->get('test_sku', ['edit_mode' => true]));
+        $this->assertSame($this->productMock, $this->model->get('test_sku', true));
     }
 
     public function testSave()
@@ -107,12 +101,11 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
         $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)->willReturn(true);
-        $this->productMock->expects($this->once())->method('getId')->willReturn(42);
         $this->assertEquals($this->productMock, $this->model->save($this->productMock));
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
      * @expectedExceptionMessage Unable to save product
      */
     public function testSaveUnableToSaveException()
@@ -120,8 +113,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
-        $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)->willReturn(true);
-        $this->productMock->expects($this->once())->method('getId')->willReturn(false);
+        $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)
+            ->willThrowException(new \Exception);
         $this->model->save($this->productMock);
     }
 
@@ -142,13 +135,13 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\CouldNotSaveException
-     * @expectedExceptionMessage Invalid product data
+     * @expectedExceptionMessage Invalid product data: error1,error2
      */
     public function testSaveInvalidProductException()
     {
         $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
-            ->willReturn(false);
+            ->willReturn(['error1', 'error2']);
         $this->productMock->expects($this->never())->method('getId');
         $this->model->save($this->productMock);
     }
