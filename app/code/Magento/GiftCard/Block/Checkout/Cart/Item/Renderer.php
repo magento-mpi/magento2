@@ -27,6 +27,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur
+     * @param \Magento\Msrp\Helper\Data $msrpHelper
      * @param array $data
      */
     public function __construct(
@@ -38,6 +39,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
+        \Magento\Msrp\Helper\Data $msrpHelper,
         array $data = array()
     ) {
         $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
@@ -49,6 +51,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
             $urlHelper,
             $messageManager,
             $priceCurrency,
+            $msrpHelper,
             $data
         );
     }

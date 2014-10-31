@@ -33,6 +33,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
+     * @param \Magento\Msrp\Helper\Data $msrpHelper
      * @param array $data
      */
     public function __construct(
@@ -44,6 +45,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
+        \Magento\Msrp\Helper\Data $msrpHelper,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
@@ -55,6 +57,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
             $urlHelper,
             $messageManager,
             $priceCurrency,
+            $msrpHelper,
             $data
         );
     }

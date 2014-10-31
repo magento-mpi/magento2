@@ -38,6 +38,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param Configuration $bundleProdConfigur
+     * @param \Magento\Msrp\Helper\Data $msrpHelper
      * @param array $data
      */
     public function __construct(
@@ -49,6 +50,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
         Configuration $bundleProdConfigur,
+        \Magento\Msrp\Helper\Data $msrpHelper,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;
@@ -60,6 +62,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
             $urlHelper,
             $messageManager,
             $priceCurrency,
+            $msrpHelper,
             $data
         );
         $this->_isScopePrivate = true;
