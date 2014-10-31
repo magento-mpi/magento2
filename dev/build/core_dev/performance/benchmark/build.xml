@@ -122,6 +122,13 @@
             </or>
             <then>
                 <antcall target="install-clean-magento"/>
+
+                <sshexec host="${env.webnode_initial}"
+                         username="${env.webnode_login}"
+                         password="${env.webnode_password}"
+                         trust="yes"
+                         command="cd ${env.magento_dir}/dev/tools/performance-toolkit/fixtures/; cp tax_rates.csv temp.csv; head -5 temp.csv > tax_rates.csv;"/>
+
                 <sshexec host="${env.webnode_initial}"
                      username="${env.webnode_login}"
                      password="${env.webnode_password}"
