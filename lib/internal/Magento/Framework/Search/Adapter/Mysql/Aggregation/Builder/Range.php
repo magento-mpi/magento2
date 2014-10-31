@@ -89,9 +89,9 @@ class Range implements BucketInterface
                     $casesResults,
                     ["`{$field}` BETWEEN {$from} AND {$to}" => "'{$from}_{$to}'"]
                 );
-            } elseif ($from && !$to) {
+            } elseif ($from) {
                 $casesResults = array_merge($casesResults, ["`{$field}` >= {$from}" => "'{$from}_*'"]);
-            } elseif (!$from && $to) {
+            } elseif ($to) {
                 $casesResults = array_merge($casesResults, ["`{$field}` < {$to}" => "'*_{$to}'"]);
             }
         }
