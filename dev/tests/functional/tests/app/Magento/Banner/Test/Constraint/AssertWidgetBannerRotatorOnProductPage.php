@@ -49,13 +49,12 @@ class AssertWidgetBannerRotatorOnProductPage extends AssertWidgetOnProductPage
 
         $urlKey = $widget->getLayout()[0]['entities']['url_key'];
         $browser->open($_ENV['app_frontend_url'] . $urlKey . '.html');
-        $widgetCode = $widget->getCode();
-        $widgetText = $widget->getWidgetOptions()[0]['entities']['store_contents']['value_0'];
-
+        $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getStoreContents()['value_0'];
         \PHPUnit_Framework_Assert::assertTrue(
-            $productView->getWidgetBlock()->isWidgetVisible($widgetCode, $widgetText),
+            $productView->getWidgetView()->isWidgetVisible($widget, $widgetText),
             'Widget is absent on Product page.'
         );
+        $t = 0;
     }
 
     /**

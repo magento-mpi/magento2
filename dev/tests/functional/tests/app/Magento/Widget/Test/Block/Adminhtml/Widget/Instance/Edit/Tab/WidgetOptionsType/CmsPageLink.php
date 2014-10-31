@@ -16,16 +16,14 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsTy
  * Class CmsPageLink
  * Filling Widget Options that have cms page link type
  */
-class CmsPageLink extends AbstractWidgetOptionsForm
+class CmsPageLink extends WidgetOptionsForm
 {
     /**
      * Cms Page Link grid block
      *
      * @var string
      */
-    // @codingStandardsIgnoreStart
-    protected $cmsPageLinkGrid = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
-    // @codingStandardsIgnoreEnd
+    protected $cmsPageLinkGrid = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
 
     /**
      * Filling widget options form
@@ -52,16 +50,18 @@ class CmsPageLink extends AbstractWidgetOptionsForm
      */
     protected function selectEntityInGrid(array $entities)
     {
-        $this->_rootElement->find($this->selectPage)->click();
+        foreach ($entities['value'] as $entity) {
+            $this->_rootElement->find($this->selectPage)->click();
 
-        /** @var Grid $cmsPageLinkGrid */
-        $cmsPageLinkGrid = $this->blockFactory->create(
-            'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid',
-            [
-                'element' => $this->_rootElement
-                    ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
-            ]
-        );
-        $cmsPageLinkGrid->searchAndSelect(['title' => $entities['value'][0]->getTitle()]);
+            /** @var Grid $cmsPageLinkGrid */
+            $cmsPageLinkGrid = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
+                ]
+            );
+            $cmsPageLinkGrid->searchAndSelect(['title' => $entity->getTitle()]);
+        }
     }
 }

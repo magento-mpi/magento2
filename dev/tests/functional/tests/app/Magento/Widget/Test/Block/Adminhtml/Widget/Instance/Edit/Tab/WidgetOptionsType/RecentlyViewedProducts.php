@@ -11,10 +11,9 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 use Mtf\Client\Element;
 
 /**
- * Class RecentlyProducts
- * Filling Widget Options that have recently compared and recently viewed products type
+ * Filling Widget Options that have recently viewed products type
  */
-class RecentlyProducts extends AbstractWidgetOptionsForm
+class RecentlyViewedProducts extends WidgetOptionsForm
 {
     //
 }

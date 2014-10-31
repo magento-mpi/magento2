@@ -27,4 +27,11 @@ class Widget extends ParentWidget
         'source' => 'Magento\Banner\Test\Fixture\Widget\WidgetOptions',
         'group' => 'banner_options',
     ];
+
+    protected $layout = [
+        'attribute_code' => 'layout',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Banner\Test\Fixture\Widget\LayoutUpdates',
+        'group' => 'layout_updates',
+    ];
 }

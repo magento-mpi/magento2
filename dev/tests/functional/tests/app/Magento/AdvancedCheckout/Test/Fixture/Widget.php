@@ -22,4 +22,11 @@ class Widget extends ParentWidget
         'source' => 'Magento\AdvancedCheckout\Test\Fixture\Widget\WidgetOptions',
         'group' => 'order_by_sku_options',
     ];
+
+    protected $layout = [
+        'attribute_code' => 'layout',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\AdvancedCheckout\Test\Fixture\Widget\LayoutUpdates',
+        'group' => 'layout_updates',
+    ];
 }

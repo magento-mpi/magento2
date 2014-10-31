@@ -16,7 +16,7 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesTy
  * Class CmsStaticBlock
  * Filling Widget Options that have cms static block type
  */
-class CmsStaticBlock extends AbstractWidgetOptionsForm
+class CmsStaticBlock extends WidgetOptionsForm
 {
     /**
      * Select page button
@@ -30,9 +30,7 @@ class CmsStaticBlock extends AbstractWidgetOptionsForm
      *
      * @var string
      */
-    // @codingStandardsIgnoreStart
-    protected $cmsStaticLinkGrid = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
-    // @codingStandardsIgnoreEnd
+    protected $cmsStaticLinkGrid = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
 
     /**
      * Filling widget options form
@@ -59,19 +57,21 @@ class CmsStaticBlock extends AbstractWidgetOptionsForm
      */
     protected function selectEntityInGrid(array $entities)
     {
-        $this->_rootElement->find($this->selectBlock)->click();
-        /** @var Grid $cmsPageLinkGrid */
-        $cmsPageLinkGrid = $this->blockFactory->create(
-            'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock\Grid',
-            [
-                'element' => $this->_rootElement->find($this->cmsStaticLinkGrid, Locator::SELECTOR_XPATH)
-            ]
-        );
-        $cmsPageLinkGrid->searchAndSelect(
-            [
-                'title' => $entities['value'][0]->getTitle(),
-                'identifier' => $entities['value'][0]->getIdentifier()
-            ]
-        );
+        foreach ($entities['value'] as $entity) {
+            $this->_rootElement->find($this->selectBlock)->click();
+            /** @var Grid $cmsPageLinkGrid */
+            $cmsPageLinkGrid = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock\Grid',
+                [
+                    'element' => $this->_rootElement->find($this->cmsStaticLinkGrid, Locator::SELECTOR_XPATH)
+                ]
+            );
+            $cmsPageLinkGrid->searchAndSelect(
+                [
+                    'title' => $entity->getTitle(),
+                    'identifier' => $entity->getIdentifier()
+                ]
+            );
+        }
     }
 }

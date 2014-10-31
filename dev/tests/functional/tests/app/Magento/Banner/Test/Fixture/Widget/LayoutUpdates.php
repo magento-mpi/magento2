@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\VersionsCms\Test\Fixture\Widget;
+namespace Magento\Banner\Test\Fixture\Widget;
 
 /**
  * Class LayoutUpdates
@@ -23,10 +23,21 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
     protected function getPreset($name)
     {
         $presets = [
-            'for_cms_hierarchy' => [
+            'banner_on_all_pages' => [
                 [
                     'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
+                    'template' => 'Banner Block Template',
+                    'entities' => 'catalogCategory::default',
+                ]
+            ],
+            'for_virtual_product' => [
+                [
+                    'page_group' => ['Products', 'Virtual Product'],
+                    'for' => 'Yes',
+                    'entities' => 'catalogProductVirtual::default',
+                    'block' => 'Main Content Area',
+                    'template' => 'Banner Block Template'
                 ]
             ],
         ];

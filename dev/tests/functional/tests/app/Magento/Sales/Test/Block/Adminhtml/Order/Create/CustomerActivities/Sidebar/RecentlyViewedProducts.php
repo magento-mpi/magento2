@@ -23,14 +23,14 @@ class RecentlyViewedProducts extends Sidebar
      *
      * @var string
      */
-    protected $recentlyViewedProducts = './/*[contains(@class,"create-order-sidebar-block")]//tbody/tr/td[1]';
+    protected $recentlyViewedProducts = './/tbody/tr/td[1]';
 
     /**
      * Get products from Recently Viewed block
      *
      * @return array
      */
-    public function getProductsFromRecentlyViewedBlock()
+    public function getProducts()
     {
         $products = [];
         $productNames = $this->_rootElement->find($this->recentlyViewedProducts, Locator::SELECTOR_XPATH)

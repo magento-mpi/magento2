@@ -27,7 +27,7 @@ class WidgetForm extends FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $widgetOptionName = $fixture->getWidgetOptions()[0]['name'];
+        $widgetOptionName = $fixture->getWidgetOptions()[0]['type_id'];
         if ($this->hasRender($widgetOptionName)) {
             $this->callRender($widgetOptionName, 'fill', ['fixture' => $fixture, 'element' => $element]);
         } else {

@@ -16,7 +16,7 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesTy
  * Class Products
  * Filling Product type layout
  */
-class Products extends AbstractLayoutForm
+class Products extends LayoutForm
 {
     /**
      * Product grid block

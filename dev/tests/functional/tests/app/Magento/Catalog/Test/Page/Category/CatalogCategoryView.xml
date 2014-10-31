@@ -44,10 +44,10 @@
             <locator>#maincontent</locator>
             <strategy>css selector</strategy>
         </viewBlock>
-        <widgetBlock>
-            <class>Magento\Widget\Test\Block\WidgetBlock</class>
-            <locator>.column.main .widget</locator>
+        <widgetView>
+            <class>Magento\Widget\Test\Block\WidgetView</class>
+            <locator>.widget</locator>
             <strategy>css selector</strategy>
-        </widgetBlock>
+        </widgetView>
     </blocks>
 </page>

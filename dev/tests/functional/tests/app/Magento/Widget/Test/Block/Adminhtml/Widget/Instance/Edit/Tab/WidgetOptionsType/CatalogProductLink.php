@@ -16,7 +16,7 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsTy
  * Class CatalogProductLink
  * Filling Widget Options that have catalog product link type
  */
-class CatalogProductLink extends AbstractWidgetOptionsForm
+class CatalogProductLink extends WidgetOptionsForm
 {
     /**
      * Select page button
@@ -31,7 +31,7 @@ class CatalogProductLink extends AbstractWidgetOptionsForm
      * @var string
      */
     // @codingStandardsIgnoreStart
-    protected $catalogProductLinkGrid = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "options_fieldset")]//div[contains(@class, "main-col")]';
+    protected $catalogProductLinkGrid = './ancestor::body//*[contains(@id, "options_fieldset")]//div[contains(@class, "main-col")]';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -59,16 +59,19 @@ class CatalogProductLink extends AbstractWidgetOptionsForm
      */
     protected function selectEntityInGrid(array $entities)
     {
-        $this->_rootElement->find($this->selectBlock)->click();
-
-        /** @var Grid $catalogProductLinkGrid */
-        $catalogProductLinkGrid = $this->blockFactory->create(
-            'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid',
-            [
-                'element' => $this->_rootElement
-                    ->find($this->catalogProductLinkGrid, Locator::SELECTOR_XPATH)
-            ]
-        );
-        $catalogProductLinkGrid->searchAndSelect(['name' => $entities['value'][0]->getName()]);
+        foreach ($entities['value'] as $entity) {
+            $this->_rootElement->find($this->selectBlock)->click();
+            // @codingStandardsIgnoreStart
+            /** @var Grid $catalogProductLinkGrid */
+            $catalogProductLinkGrid = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->catalogProductLinkGrid, Locator::SELECTOR_XPATH)
+                ]
+            );
+            // @codingStandardsIgnoreEnd
+            $catalogProductLinkGrid->searchAndSelect(['name' => $entity->getName()]);
+        }
     }
 }

@@ -31,6 +31,7 @@ class CmsHierarchy extends InjectableFixture
         'menu_brief' => 'Yes',
         'nodes_data' => ['preset' => 'nodeWithOnePage'],
         'top_menu_visibility' => 'Yes',
+        'pager_visibility' => 'Yes',
     ];
 
     protected $node_id = [

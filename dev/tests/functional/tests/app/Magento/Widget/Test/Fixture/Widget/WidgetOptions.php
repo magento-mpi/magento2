@@ -32,7 +32,7 @@ class WidgetOptions implements FixtureInterface
     protected $params;
 
     /**
-     * Entities
+     * Widget option entities
      *
      * @var array
      */
@@ -50,15 +50,14 @@ class WidgetOptions implements FixtureInterface
         $this->params = $params;
         if (isset($data['preset'])) {
             $this->data = $this->getPreset($data['preset']);
-            $this->data[0]['name'] = $data['preset'];
+            $this->data[0]['type_id'] = $data['preset'];
             foreach ($this->data[0] as $key => $value) {
                 if ($key == 'entities') {
-                    unset($this->data[0]['entities']);
-                    foreach ($value as $entity) {
+                    foreach ($value as $index => $entity) {
                         $explodeValue = explode('::', $entity);
                         $fixture = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
                         $fixture->persist();
-                        $this->data[0]['entities'][] = $fixture;
+                        $this->data[0]['entities'][$index] = $fixture;
                         $this->entities[] = $fixture;
                     }
                 }

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Test\Constraint;
+namespace Magento\AdvancedCheckout\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
@@ -14,11 +14,12 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
 
+;
+
 /**
- * Class AssertWidgetEventCarouselOnFrontendInCatalog
- * Check that created widget event carousel displayed on frontent in Catalog
+ * Class AssertWidgetOrderBySkuOnCategoryPage
  */
-class AssertWidgetEventCarouselOnFrontendInCatalog extends AbstractConstraint
+class AssertWidgetOrderBySkuOnCategoryPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,7 +29,7 @@ class AssertWidgetEventCarouselOnFrontendInCatalog extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created widget event carousel displayed on frontent in Catalog
+     * Assert that created widget displayed on frontent in Catalog
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
@@ -48,11 +49,15 @@ class AssertWidgetEventCarouselOnFrontendInCatalog extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $categoryName = $widget->getWidgetOptions()[0]['entities'][1]->getCategoryId();
-        $widgetCode = $widget->getCode();
+        if (isset($widget->getLayout()[0]['entities'])) {
+            $categoryName = $widget->getLayout()[0]['entities']['name'];
+        } else {
+            $categoryName = $widget->getWidgetOptions()[0]['entities']['category_id'][0];
+        }
+        $widgetText = $widget->getWidgetOptions()[0]['link_text'];
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogCategoryView->getWidgetBlock()->isWidgetVisible($widgetCode, $categoryName),
+            $catalogCategoryView->getWidgetView()->isWidgetVisible($widget, $widgetText),
             'Widget is absent on Category page.'
         );
     }

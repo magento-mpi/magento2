@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Client\Browser;
 
 /**
  * Class AssertCatalogEventStatus
@@ -64,9 +65,17 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
     protected $catalogProductView;
 
     /**
+     * Browser
+     *
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
      * Assert that Event block has $eventStatus
      *
      * @param CmsIndex $cmsIndex
+     * @param Browser $browser
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $product
@@ -74,6 +83,7 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      */
     public function processAssert(
         CmsIndex $cmsIndex,
+        Browser $browser,
         CatalogCategoryView $catalogCategoryView,
         CatalogEventEntity $catalogEvent,
         CatalogProductSimple $product,
@@ -83,6 +93,7 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
         $this->cmsIndex = $cmsIndex;
         $this->product = $product;
         $this->catalogProductView = $catalogProductView;
+        $this->browser = $browser;
 
         $pageEvent = $catalogEvent->getDisplayState();
         if ($pageEvent['category_page'] == "Yes") {
@@ -119,10 +130,8 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      */
     protected function checkEventStatusOnProductPage()
     {
-        $categoryName = $this->product->getCategoryIds()[0];
-        $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->product->getName());
+        $urlKey = $this->product->getUrlKey();
+        $this->browser->open($_ENV['app_frontend_url'] . $urlKey . '.html');
         \PHPUnit_Framework_Assert::assertEquals(
             $this->eventStatus,
             $this->catalogProductView->getEventBlock()->getEventStatus(),

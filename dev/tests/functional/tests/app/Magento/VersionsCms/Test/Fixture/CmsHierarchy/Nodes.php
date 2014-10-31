@@ -9,7 +9,6 @@
 namespace Magento\VersionsCms\Test\Fixture\CmsHierarchy;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class Nodes
@@ -41,11 +40,10 @@ class Nodes implements FixtureInterface
     /**
      * Constructor
      *
-     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
+    public function __construct(array $params, array $data = [])
     {
         $this->params = $params;
         if (isset($data['preset'])) {
@@ -96,6 +94,7 @@ class Nodes implements FixtureInterface
      */
     protected function getPreset($name)
     {
+        //ToDo Currently it is impossible to make data for UI because the module is not stable now
         $presets = [
             'nodeWithOnePage' => [
                 '0' => [

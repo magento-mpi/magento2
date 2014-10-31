@@ -14,5 +14,12 @@
             <locator>.top-container</locator>
             <strategy>css selector</strategy>
         </eventBlock>
+        <widgetView>
+            <renders>
+                <catalogEventCarousel>
+                    <class>Magento\CatalogEvent\Test\Block\WidgetView</class>
+                </catalogEventCarousel>
+            </renders>
+        </widgetView>
     </blocks>
 </page>

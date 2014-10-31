@@ -20,10 +20,9 @@ use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class AssertProductInRecentlyComparedBlock
  * Check that widget with type Recently Compared Products is present on Product Compare page
  */
-class AssertProductInRecentlyComparedBlock extends AbstractConstraint
+class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
 {
     /**
      * Browser
@@ -97,9 +96,8 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
         $this->addProducts($products, $assertProductCompareSuccessAddMessage);
         $this->removeCompareProduct($products, $assertProductCompareSuccessRemoveMessage);
 
-        $widgetCode = $widget->getCode();
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->catalogProductCompare->getCompareProductsBlock()->isWidgetVisible($widgetCode, 'Recently Compared'),
+            $this->catalogProductCompare->getWidgetView()->isWidgetVisible($widget, 'Recently Compared'),
             'Widget is absent on Product Compare page.'
         );
     }
@@ -111,14 +109,12 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
      * @param AbstractConstraint $assert
      * @return void
      */
-    protected function addProducts(array $products, AbstractConstraint $assert = null)
+    protected function addProducts(array $products, AbstractConstraint $assert)
     {
         foreach ($products as $itemProduct) {
             $this->browser->open($_ENV['app_frontend_url'] . $itemProduct->getUrlKey() . '.html');
             $this->catalogProductView->getViewBlock()->clickAddToCompare();
-            if ($assert !== null) {
-                $assert->processAssert($this->catalogProductView, $itemProduct);
-            }
+            $assert->processAssert($this->catalogProductView, $itemProduct);
         }
     }
 
@@ -129,15 +125,13 @@ class AssertProductInRecentlyComparedBlock extends AbstractConstraint
      * @param AbstractConstraint $assert
      * @return void
      */
-    protected function removeCompareProduct(array $products, AbstractConstraint $assert = null)
+    protected function removeCompareProduct(array $products, AbstractConstraint $assert)
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
         foreach ($products as $itemProduct) {
             $this->catalogProductCompare->getCompareProductsBlock()->removeProduct();
-            if ($assert !== null) {
-                $assert->processAssert($this->catalogProductCompare, $itemProduct);
-            }
+            $assert->processAssert($this->catalogProductCompare, $itemProduct);
         }
     }
 

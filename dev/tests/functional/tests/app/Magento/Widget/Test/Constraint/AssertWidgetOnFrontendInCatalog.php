@@ -53,15 +53,14 @@ class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
         } else {
             $categoryName = $widget->getWidgetOptions()[0]['entities']['category_id'][0];
         }
-        $widgetCode = $widget->getCode();
-        if ($widget->getWidgetOptions()[0]['name'] == 'cmsStaticBlock') {
+        if ($widget->getWidgetOptions()[0]['type_id'] == 'cmsStaticBlock') {
             $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getContent();
         } else {
             $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getName();
         }
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogCategoryView->getWidgetBlock()->isWidgetVisible($widgetCode, $widgetText),
+            $catalogCategoryView->getWidgetView()->isWidgetVisible($widget, $widgetText),
             'Widget is absent on Category page.'
         );
     }

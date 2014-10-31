@@ -102,8 +102,6 @@ class LayoutUpdates implements FixtureInterface
                 [
                     'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
-                    'template' => 'Banner Block Template',
-                    'entities' => 'catalogCategory::default',
                 ]
             ],
             'on_category' => [
@@ -111,15 +109,6 @@ class LayoutUpdates implements FixtureInterface
                     'page_group' => ['Categories', 'Non-Anchor Categories'],
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
-                    'block' => 'Main Content Area',
-                    'template' => 'Banner Block Template'
-                ]
-            ],
-            'for_virtual_product' => [
-                [
-                    'page_group' => ['Products', 'Virtual Product'],
-                    'for' => 'Yes',
-                    'entities' => 'catalogProductVirtual::default',
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template'
                 ]

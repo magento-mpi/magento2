@@ -1,2 +1,2 @@
 "widget/data/widgetOptions/preset";"widget/data/code";"widget/data/theme_id";"widget/data/title";"widget/data/store_ids/dataSet";"widget/data/layout/preset";"constraint"
-"orderBySku";"Order by SKU";"Magento Blank";"Title_%isolation%";"All Store Views";"for_virtual_product";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetOnProductPage"
+"orderBySku";"Order by SKU";"Magento Blank";"Title_%isolation%";"All Store Views";"order_by_sku_on_all_pages";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetOrderBySkuOnCategoryPage"

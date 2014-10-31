@@ -11,7 +11,7 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 use Mtf\Client\Element;
 use Magento\Widget\Test\Fixture\Widget;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\AbstractWidgetOptionsForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
 
 /**
  * Class WidgetOptions
@@ -43,9 +43,9 @@ class WidgetOptions extends Tab
     public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields['widgetOptions']['value'] as $key => $field) {
-            $path = $this->prepareClassPath($field['name']);
+            $path = $this->path . ucfirst($field['type_id']);
             unset($field['name']);
-            /** @var AbstractWidgetOptionsForm $widgetOptionsForm */
+            /** @var WidgetOptionsForm $widgetOptionsForm */
             $widgetOptionsForm = $this->blockFactory->create(
                 $path,
                 [
@@ -55,20 +55,5 @@ class WidgetOptions extends Tab
             $widgetOptionsForm->fillForm($field);
         }
         return $this;
-    }
-
-    /**
-     * Prepare class path
-     *
-     * @param string $widgetOptionsName
-     * @return string
-     */
-    protected function prepareClassPath($widgetOptionsName)
-    {
-        if ($widgetOptionsName == 'recentlyComparedProducts' || $widgetOptionsName == 'recentlyViewedProducts') {
-            return $this->path . 'RecentlyProducts';
-        }
-
-        return $this->path . ucfirst($widgetOptionsName);
     }
 }

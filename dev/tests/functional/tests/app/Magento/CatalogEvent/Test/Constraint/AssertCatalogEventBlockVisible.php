@@ -9,6 +9,7 @@
 namespace Magento\CatalogEvent\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
@@ -57,16 +58,24 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
     protected $categoryName;
 
     /**
-     * Product Name
+     * Product fixture
      *
-     * @var string
+     * @var CatalogProductSimple
      */
-    protected $productName;
+    protected $product;
+
+    /**
+     * Browser
+     *
+     * @var Browser
+     */
+    protected $browser;
 
     /**
      * Assert that Event block is visible/invisible on page according to fixture(catalog page/product pages)
      *
      * @param CmsIndex $cmsIndex
+     * @param Browser $browser
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $product
@@ -77,6 +86,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      */
     public function processAssert(
         CmsIndex $cmsIndex,
+        Browser $browser,
         CatalogEventEntity $catalogEvent,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $product,
@@ -86,9 +96,10 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->catalogCategoryView = $catalogCategoryView;
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
+        $this->browser = $browser;
 
         $this->categoryName = $product->getCategoryIds()[0];
-        $this->productName = $product->getName();
+        $this->product = $product;
 
         $catalogEventData = ($catalogEventOriginal !== null)
             ? array_merge($catalogEventOriginal->getData(), $catalogEvent->getData())
@@ -152,9 +163,8 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      */
     protected function checkEventBlockOnProductPagePresent()
     {
-        $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
+        $urlKey = $this->product->getUrlKey();
+        $this->browser->open($_ENV['app_frontend_url'] . $urlKey . '.html');
         \PHPUnit_Framework_Assert::assertTrue(
             $this->catalogProductView->getEventBlock()->isVisible(),
             "EventBlock is absent on Product page."
@@ -168,9 +178,8 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      */
     protected function checkEventBlockOnProductPageAbsent()
     {
-        $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
+        $urlKey = $this->product->getUrlKey();
+        $this->browser->open($_ENV['app_frontend_url'] . $urlKey . '.html');
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogProductView->getEventBlock()->isVisible(),
             "EventBlock is present on Product page."

@@ -14,7 +14,7 @@ use Mtf\Client\Element;
  * Class Categories
  * Filling Categories type layout
  */
-class Categories extends AbstractLayoutForm
+class Categories extends LayoutForm
 {
     /**
      * Filling layout form

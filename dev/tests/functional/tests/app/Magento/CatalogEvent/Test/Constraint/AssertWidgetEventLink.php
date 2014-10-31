@@ -10,6 +10,7 @@ namespace Magento\CatalogEvent\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 
@@ -31,12 +32,14 @@ class AssertWidgetEventLink extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget
+     * @param CatalogCategoryView $catalogCategoryView
      * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         Widget $widget,
+        CatalogCategoryView $catalogCategoryView,
         AdminCache $adminCache
     ) {
         // Flush cache
@@ -45,9 +48,14 @@ class AssertWidgetEventLink extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $widgetCode = $widget->getCode();
         $categoryName = $widget->getWidgetOptions()[0]['entities'][1]->getCategoryId();
-        $cmsIndex->getCmsPageBlock()->clickToWidget($widgetCode, 'Go To Sale');
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $catalogCategoryView->getWidgetView()->isWidgetVisible($widget, $categoryName),
+            'Widget is absent on Category page.'
+        );
+
+        $cmsIndex->getWidgetView()->clickToWidget($widget, 'Go To Sale');
         $pageTitle = $cmsIndex->getCmsPageBlock()->getPageTitle();
         \PHPUnit_Framework_Assert::assertEquals(
             $categoryName,

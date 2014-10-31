@@ -10,13 +10,13 @@ namespace Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 
 use Mtf\Client\Element;
 use Magento\Banner\Test\Block\Adminhtml\Banner\Grid;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\AbstractWidgetOptionsForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
 
 /**
  * Class BannerRotator
  * Filling Widget Options that have banner rotator type
  */
-class BannerRotator extends AbstractWidgetOptionsForm
+class BannerRotator extends WidgetOptionsForm
 {
     /**
      * Banner Rotator grid block
@@ -50,14 +50,13 @@ class BannerRotator extends AbstractWidgetOptionsForm
      */
     protected function selectEntityInGrid(array $entities)
     {
-        /** @var Grid $bannerRotatorGrid */
-        $bannerRotatorGrid = $this->blockFactory->create(
-            'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
-            [
-                'element' => $this->_rootElement
-                    ->find($this->bannerRotatorGrid)
-            ]
-        );
-        $bannerRotatorGrid->searchAndSelect(['banner' => $entities['value'][0]->getName()]);
+        foreach ($entities['value'] as $entity) {
+            /** @var Grid $bannerRotatorGrid */
+            $bannerRotatorGrid = $this->blockFactory->create(
+                'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
+                ['element' => $this->_rootElement->find($this->bannerRotatorGrid)]
+            );
+            $bannerRotatorGrid->searchAndSelect(['banner' => $entity->getName()]);
+        }
     }
 }

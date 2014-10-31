@@ -33,6 +33,9 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
         'top_menu_visibility' => [
             'Yes' => 1,
         ],
+        'pager_visibility' => [
+            'Yes' => 2,
+        ],
     ];
 
     /**
@@ -45,7 +48,6 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $this->replaceMappingData($fixture->getData());
-        $data['pager_visibility'] = 2;
         if (isset($data['nodes_data'])) {
             $data['nodes_data'] = $this->prepareNodes($data['nodes_data']);
             $data['nodes_data'] = json_encode($data['nodes_data']);

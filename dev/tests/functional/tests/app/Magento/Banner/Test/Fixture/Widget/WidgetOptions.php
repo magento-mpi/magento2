@@ -27,7 +27,7 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
     {
         parent::__construct($fixtureFactory, $params, $data);
 
-        $this->data[0]['name'] = 'bannerRotator';
+        $this->data[0]['type_id'] = 'bannerRotator';
     }
 
     /**

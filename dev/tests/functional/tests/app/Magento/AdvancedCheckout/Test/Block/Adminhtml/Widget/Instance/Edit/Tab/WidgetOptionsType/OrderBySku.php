@@ -9,13 +9,13 @@
 namespace Magento\AdvancedCheckout\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
 
 use Mtf\Client\Element;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\AbstractWidgetOptionsForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
 
 /**
  * Class OrderBySku
  * Filling Widget Options that have order by sku type
  */
-class OrderBySku extends AbstractWidgetOptionsForm
+class OrderBySku extends WidgetOptionsForm
 {
     //
 }

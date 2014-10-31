@@ -12,6 +12,7 @@ use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 
 /**
  * Class AssertWidgetBannerRotatorOnFrontendAllPages
@@ -30,12 +31,14 @@ class AssertWidgetBannerRotatorOnFrontendAllPages extends AbstractConstraint
      * Assert that created widget displayed on frontent on Home page and on Advanced Search
      *
      * @param CmsIndex $cmsIndex
+     * @param AdvancedSearch $advancedSearch
      * @param Widget $widget
      * @param AdminCache $adminCache
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
+        AdvancedSearch $advancedSearch,
         Widget $widget,
         AdminCache $adminCache
     ) {
@@ -45,16 +48,15 @@ class AssertWidgetBannerRotatorOnFrontendAllPages extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $widgetCode = $widget->getCode();
         $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getStoreContents()['value_0'];
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, $widgetText),
-            'Widget with type ' . $widgetCode . ' is absent on Home page.'
+            $cmsIndex->getWidgetView()->isWidgetVisible($widget, $widgetText),
+            'Widget with type ' . $widget->getCode() . ' is absent on Home page.'
         );
         $cmsIndex->getSearchBlock()->clickAdvancedSearchButton();
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, $widgetText),
-            'Widget with type ' . $widgetCode . ' is absent on Home page.'
+            $advancedSearch->getWidgetView()->isWidgetVisible($widget, $widgetText),
+            'Widget with type ' . $widget->getCode() . ' is absent on Advanced Search page.'
         );
     }
 

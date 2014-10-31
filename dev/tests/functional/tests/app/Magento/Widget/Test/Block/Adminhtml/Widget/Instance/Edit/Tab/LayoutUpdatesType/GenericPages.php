@@ -14,7 +14,7 @@ use Mtf\Client\Element;
  * Class GenericPages
  * Filling Generic Pages type layout
  */
-class GenericPages extends AbstractLayoutForm
+class GenericPages extends LayoutForm
 {
     //
 }

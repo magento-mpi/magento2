@@ -13,10 +13,10 @@ use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class AbstractLayoutForm
+ * Class LayoutForm
  * Responds for filling layout form
  */
-abstract class AbstractLayoutForm extends Form
+class LayoutForm extends Form
 {
     /**
      * Widget option chooser button

@@ -72,7 +72,7 @@ class DeleteCatalogEventEntityTest extends Injectable
             'catalogEventEntity',
             [
                 'dataSet' => 'default_event',
-                'data' => ['category_id' => [$sourceCategories->getCategories()[0]->getId()]],
+                'data' => ['category_id' => $sourceCategories->getCategories()[0]->getId()],
             ]
         );
         $catalogEventEntity->persist();

@@ -17,9 +17,6 @@
     <assertWidgetOnFrontendInCatalog module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetOnFrontendInCatalog>
-    <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
-        <severeness>low</severeness>
-    </assertWidgetAbsentOnFrontendHome>
     <assertWidgetOnProductPage module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetOnProductPage>
@@ -32,15 +29,15 @@
     <assertWidgetProductLink module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetProductLink>
-    <assertProductInRecentlyViewedBlock module="Magento_Widget">
+    <assertWidgetRecentlyViewedProducts module="Magento_Widget">
         <severeness>low</severeness>
-    </assertProductInRecentlyViewedBlock>
+    </assertWidgetRecentlyViewedProducts>
     <assertWidgetSuccessDeleteMessage module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetSuccessDeleteMessage>
-    <assertProductInRecentlyComparedBlock module="Magento_Widget">
+    <assertWidgetRecentlyComparedProducts module="Magento_Widget">
         <severeness>low</severeness>
-    </assertProductInRecentlyComparedBlock>
+    </assertWidgetRecentlyComparedProducts>
     <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetAbsentOnFrontendHome>

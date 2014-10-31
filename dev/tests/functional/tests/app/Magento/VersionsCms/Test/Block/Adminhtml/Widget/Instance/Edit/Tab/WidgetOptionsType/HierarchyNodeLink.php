@@ -10,14 +10,14 @@ namespace Magento\VersionsCms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\Widg
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\AbstractWidgetOptionsForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
 use Magento\VersionsCms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\HierarchyNodeLinkForm\Form;
 
 /**
  * Class HierarchyNodeLink
  * Filling Widget Options that have hierarchy node link type
  */
-class HierarchyNodeLink extends AbstractWidgetOptionsForm
+class HierarchyNodeLink extends WidgetOptionsForm
 {
     /**
      * Backend abstract block
@@ -31,9 +31,7 @@ class HierarchyNodeLink extends AbstractWidgetOptionsForm
      *
      * @var string
      */
-    // @codingStandardsIgnoreStart
-    protected $hierarchyNodeLinkForm = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
-    // @codingStandardsIgnoreEnd
+    protected $hierarchyNodeLinkForm = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
 
     /**
      * Filling widget options form
@@ -60,22 +58,26 @@ class HierarchyNodeLink extends AbstractWidgetOptionsForm
      */
     protected function selectNode(array $entities)
     {
-        $this->_rootElement->find($this->selectPage)->click();
-        $this->getTemplateBlock()->waitLoader();
+        foreach ($entities['value'] as $entity) {
+            $this->_rootElement->find($this->selectPage)->click();
+            $this->getTemplateBlock()->waitLoader();
 
-        /** @var Form $hierarchyNodeLinkForm  */
-        $hierarchyNodeLinkForm = $this->blockFactory->create(
-            __NAMESPACE__ . '\HierarchyNodeLinkForm\Form',
-            [
-                'element' => $this->_rootElement
-                    ->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH)
-            ]
-        );
-        $elementNew = $this->_rootElement->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH);
-        $entities['value'] = $entities['value'][0]->getIdentifier();
-        $hierarchyFields['entities'] = $entities;
-        $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
-        $this->getTemplateBlock()->waitLoader();
+            // @codingStandardsIgnoreStart
+            /** @var Form $hierarchyNodeLinkForm */
+            $hierarchyNodeLinkForm = $this->blockFactory->create(
+                'Magento\VersionsCms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\HierarchyNodeLinkForm\Form',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH)
+                ]
+            );
+            // @codingStandardsIgnoreEnd
+            $elementNew = $this->_rootElement->find($this->hierarchyNodeLinkForm, Locator::SELECTOR_XPATH);
+            $entities['value'] = $entity->getIdentifier();
+            $hierarchyFields['entities'] = $entities;
+            $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
+            $this->getTemplateBlock()->waitLoader();
+        }
     }
 
     /**

@@ -13,8 +13,7 @@ use Magento\Widget\Test\Fixture\Widget;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions as AbstractWidgetOptions;
 
 /**
- * Class WidgetOptions
- * Widget options form
+ * Widget options form for banner widget type
  */
 class WidgetOptions extends AbstractWidgetOptions
 {

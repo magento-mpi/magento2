@@ -16,7 +16,7 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsTy
  * Class CatalogCategoryLink
  * Filling Widget Options that have catalog category link type
  */
-class CatalogCategoryLink extends AbstractWidgetOptionsForm
+class CatalogCategoryLink extends WidgetOptionsForm
 {
     /**
      * Backend abstract block
@@ -30,9 +30,7 @@ class CatalogCategoryLink extends AbstractWidgetOptionsForm
      *
      * @var string
      */
-    // @codingStandardsIgnoreStart
-    protected $cmsCategoryLink = '//*[@class="page-wrapper"]/ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
-    // @codingStandardsIgnoreEnd
+    protected $cmsCategoryLink = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
 
     /**
      * Filling widget options form
@@ -59,22 +57,25 @@ class CatalogCategoryLink extends AbstractWidgetOptionsForm
      */
     protected function selectCategory(array $entities)
     {
-        $this->_rootElement->find($this->selectPage)->click();
-        $this->getTemplateBlock()->waitLoader();
-
-        /** @var Form $catalogCategoryLinkForm */
-        $catalogCategoryLinkForm = $this->blockFactory->create(
-            'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogCategoryLink\Form',
-            [
-                'element' => $this->_rootElement
-                    ->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH)
-            ]
-        );
-        $elementNew = $this->_rootElement->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH);
-        $entities['value'] = $entities['value'][0]->getPath() . '/' . $entities['value'][0]->getName();
-        $categoryFields['entities'] = $entities;
-        $catalogCategoryLinkForm->_fill($categoryFields, $elementNew);
-        $this->getTemplateBlock()->waitLoader();
+        foreach ($entities['value'] as $entity) {
+            $this->_rootElement->find($this->selectPage)->click();
+            $this->getTemplateBlock()->waitLoader();
+            // @codingStandardsIgnoreStart
+            /** @var Form $catalogCategoryLinkForm */
+            $catalogCategoryLinkForm = $this->blockFactory->create(
+                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogCategoryLink\Form',
+                [
+                    'element' => $this->_rootElement
+                        ->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH)
+                ]
+            );
+            // @codingStandardsIgnoreEnd
+            $elementNew = $this->_rootElement->find($this->cmsCategoryLink, Locator::SELECTOR_XPATH);
+            $entities['value'] = $entity->getPath() . '/' . $entity->getName();
+            $categoryFields['entities'] = $entities;
+            $catalogCategoryLinkForm->_fill($categoryFields, $elementNew);
+            $this->getTemplateBlock()->waitLoader();
+        }
     }
 
     /**

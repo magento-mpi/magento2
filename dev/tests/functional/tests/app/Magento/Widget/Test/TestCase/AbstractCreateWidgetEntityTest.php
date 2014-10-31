@@ -45,51 +45,21 @@ abstract class AbstractCreateWidgetEntityTest extends Injectable
     protected $widgetInstanceEdit;
 
     /**
-     * Page CatalogRuleIndex
-     *
-     * @var CatalogRuleIndex
-     */
-    protected $catalogRuleIndex;
-
-    /**
-     * Page CatalogRuleNew
-     *
-     * @var CatalogRuleNew
-     */
-    protected $catalogRuleNew;
-
-    /**
-     * Page PromoQuoteEdit
-     *
-     * @var PromoQuoteEdit
-     */
-    protected $promoQuoteEdit;
-
-    /**
      * Injection data
      *
      * @param WidgetInstanceIndex $widgetInstanceIndex
      * @param WidgetInstanceNew $widgetInstanceNew
      * @param WidgetInstanceEdit $widgetInstanceEdit
-     * @param CatalogRuleIndex $catalogRuleIndex
-     * @param CatalogRuleNew $catalogRuleNew
-     * @param PromoQuoteEdit $promoQuoteEdit
      * @return void
      */
     public function __inject(
         WidgetInstanceIndex $widgetInstanceIndex,
         WidgetInstanceNew $widgetInstanceNew,
-        WidgetInstanceEdit $widgetInstanceEdit,
-        CatalogRuleIndex $catalogRuleIndex,
-        CatalogRuleNew $catalogRuleNew,
-        PromoQuoteEdit $promoQuoteEdit
+        WidgetInstanceEdit $widgetInstanceEdit
     ) {
         $this->widgetInstanceIndex = $widgetInstanceIndex;
         $this->widgetInstanceNew = $widgetInstanceNew;
         $this->widgetInstanceEdit = $widgetInstanceEdit;
-        $this->catalogRuleIndex = $catalogRuleIndex;
-        $this->catalogRuleNew = $catalogRuleNew;
-        $this->promoQuoteEdit = $promoQuoteEdit;
     }
 
     /**

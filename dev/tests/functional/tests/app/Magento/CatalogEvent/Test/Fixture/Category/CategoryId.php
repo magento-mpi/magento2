@@ -28,20 +28,20 @@ class CategoryId extends CategoryIds
     /**
      * Fixtures of category
      *
-     * @var array
+     * @var CatalogCategory
      */
-    protected $categories;
+    protected $category;
 
     /**
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array $data
+     * @param int|string $data
      */
     public function __construct(
         FixtureFactory $fixtureFactory,
         array $params,
-        array $data = []
+        $data
     ) {
         $this->params = $params;
         if (!empty($data['presets'])) {
@@ -51,9 +51,19 @@ class CategoryId extends CategoryIds
 
             /** @var CatalogCategory $category */
             $this->data = $category->getName();
-            $this->categories = $category;
+            $this->category = $category;
         } else {
-            $this->data = $data[0];
+            $this->data = $data;
         }
+    }
+
+    /**
+     * Return category
+     *
+     * @return CatalogCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

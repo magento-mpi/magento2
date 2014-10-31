@@ -59,13 +59,6 @@ class CustomerActivities extends Block
     protected $recentlyComparedSidebar = '#order-sidebar_pcompared';
 
     /**
-     * Order sidebar viewed css selector
-     *
-     * @var string
-     */
-    protected $recentlyViewedSidebar = '#order-sidebar_pviewed';
-
-    /**
      * Shopping cart sidebar selector
      * Shopping cart sidebar selector
      *

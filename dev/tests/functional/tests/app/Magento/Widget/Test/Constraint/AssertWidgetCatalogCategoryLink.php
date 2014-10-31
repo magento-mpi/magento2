@@ -15,7 +15,6 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class AssertWidgetCatalogCategoryLink
  * Check that created widget displayed on frontend on Home page and on Advanced Search and
  * after click on widget link on frontend system redirects you to catalog page
  */
@@ -50,9 +49,14 @@ class AssertWidgetCatalogCategoryLink extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $widgetCode = $widget->getCode();
         $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getName();
-        $cmsIndex->getCmsPageBlock()->clickToWidget($widgetCode, $widgetText);
+
+        \PHPUnit_Framework_Assert::assertTrue(
+            $cmsIndex->getWidgetView()->isWidgetVisible($widget, $widgetText),
+            'Widget with type catalog category link is absent on Home page.'
+        );
+
+        $cmsIndex->getWidgetView()->clickToWidget($widget, $widgetText);
         $title = $categoryView->getTitleBlock()->getTitle();
         \PHPUnit_Framework_Assert::assertEquals(
             $widgetText,
@@ -60,14 +64,9 @@ class AssertWidgetCatalogCategoryLink extends AbstractConstraint
             'Wrong category title.'
         );
 
-        $cmsIndex->open();
-        \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, $widgetText),
-            'Widget with type catalog category link is absent on Home page.'
-        );
         $cmsIndex->getSearchBlock()->clickAdvancedSearchButton();
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode, $widgetText),
+            $cmsIndex->getWidgetView()->isWidgetVisible($widget, $widgetText),
             'Widget with type catalog category link is absent on Advanced Search page.'
         );
     }

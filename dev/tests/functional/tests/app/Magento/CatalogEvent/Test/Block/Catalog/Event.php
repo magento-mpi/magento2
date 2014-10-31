@@ -20,7 +20,7 @@ class Event extends Block
      *
      * @var string
      */
-    protected $eventStatus = '.subtitle';
+    protected $eventStatus = '.block-title';
 
     /**
      * Get Event Status on the Frontend

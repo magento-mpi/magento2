@@ -12,10 +12,9 @@ use Mtf\Client\Element;
 use Mtf\Block\Form;
 
 /**
- * Class AbstractWidgetOptionsForm
  * Responds for filling widget options form
  */
-abstract class AbstractWidgetOptionsForm extends Form
+class WidgetOptionsForm extends Form
 {
     /**
      * Select page button
