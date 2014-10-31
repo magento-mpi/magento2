@@ -223,7 +223,7 @@ class WriteServiceTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => "/V1/products/attribute-sets",
+                'resourcePath' => "/V1/products/attribute-sets/" . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ),
             'soap' => array(
@@ -252,7 +252,7 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @expectedException \Exception
      */
-    public function testUpdateThrowsExceptionIfAttributeSetIdIsNotSpecified()
+    public function atestUpdateThrowsExceptionIfAttributeSetIdIsNotSpecified()
     {
         $serviceInfo = array(
             'soap' => array(
@@ -277,7 +277,7 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @expectedException \Exception
      */
-    public function testUpdateThrowsExceptionIfAttributeSetIdIsNotValid()
+    public function atestUpdateThrowsExceptionIfAttributeSetIdIsNotValid()
     {
         $serviceInfo = array(
             'soap' => array(
