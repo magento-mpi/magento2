@@ -1,3 +1,53 @@
+0.1.0-alpha102
+=============
+* Fixed bugs:
+	* Fixed Tree categories to be shown by click on tree categories label in Create Catogory pop-up (MAGETWO-8362)
+	* Fixed "Template" field on "New Email Template" page to be displayed as not required one (MAGETWO-17823)
+	* Minor UI fixes for Multiple Addresses Checkout on Desktop (MAGETWO-24379)
+	* Minor UI fixes for Widgets on frontend (MAGETWO-24426)
+	* Minor UI fixes for Print pages on frontend (MAGETWO-26305)
+	* Minor UI fixes for item Gift message on Order View frontend page (MAGETWO-26306)
+	* No message on backend after adding product to cart Qty > than available (MAGETWO-28187)
+* Framework improvements:
+	* Scope attribute and caption tag added to frontend tables (MAGETWO-18182)
+	* Added customer module interfaces (MAGETWO-29374)
+	* Created possibility to generate API documentation (MAGETWO-28795)
+* Added the following functional tests:
+	* Create gift message on backend (MTA-393)
+	* Delete term (MTA-650)
+	* Product type switching on editing (MTA-428)
+	* Re-authorize tokens for the Integration (MTA-444)
+	* Revoke all access tokens for admin without tokens (MTA-493)
+	* Update custom order status (MTA-102)
+	* Update product from mini shopping cart (MTA-498)
+* WebApi Framework improvements:
+	* Added Web API support to add / override matching identifier parameter in the body from URL
+* Documentation:
+	* Added README files with module description for the following modules:
+		* Authorizenet
+		* Centinel
+		* Customer
+		* CustomerImportExport
+		* Dhl
+		* Fedex
+		* OfflinePayments
+		* OfflineShipping
+		* Ogone
+		* PayPalRecurringPayment
+		* Payment
+		* Paypal
+		* ProductAlert
+		* RecurringPayment
+		* Sendfriend
+		* Shipping
+		* Ups
+		* Usps
+		* Wishlist
+* Split responsibility of View\Layout to three classes (PageLayout, PageConfig, GenericLayout)
+	* Refactor controller actions to new ResultInterface:
+		* Catalog
+		* Backend
+
 0.1.0-alpha101
 =============
  * Framework improvements:
