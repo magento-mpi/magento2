@@ -192,6 +192,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
+     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -213,7 +214,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
-        \Magento\Catalog\Service\V1\Category\MetadataService $metadataServiceInterface,
+        \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

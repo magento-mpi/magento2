@@ -57,20 +57,14 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
-    <route url="/V1/categories/attributes/:id/options" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" method="options" />
+    <route url="/V1/categories/attributes/:attributeCode" method="GET">
+        <service class="Magento\Catalog\Api\CategoryAttributeRepositoryInterface" method="get" />
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
-    <route url="/V1/categories/attributes/:id" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" method="info" />
-        <resources>
-            <resource ref="Magento_Catalog::attributes_attributes" />
-        </resources>
-    </route>
-    <route url="/V1/categories/attributes" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" method="search" />
+    <route url="/V1/categories/attributes" method="PUT">
+        <service class="Magento\Catalog\Api\CategoryAttributeRepositoryInterface" method="getList" />
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>

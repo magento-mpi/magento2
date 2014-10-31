@@ -8,99 +8,51 @@
 namespace Magento\Catalog\Model\Category;
 
 use Magento\Catalog\Api\CategoryAttributeRepositoryInterface;
-use Magento\Framework\Data\Search\SearchCriteriaInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Catalog\Api\Data\CategoryAttributeInterface;
-use Magento\Framework\Data\Search\FilterGroupInterface;
-use Magento\Eav\Model\Resource\Entity\Attribute\Collection as AttributeCollection;
 
 class AttributeRepository implements CategoryAttributeRepositoryInterface
 {
     /**
-     * @var \Magento\Eav\Model\Config
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
      */
-    protected $eavConfig;
+    protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsBuilderInterface
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
      */
-    protected $searchResultsBuilder;
+    protected $filterBuilder;
 
     /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory
+     * @var \Magento\Eav\Api\AttributeRepositoryInterface
      */
-    protected $attributeCollectionFactory;
+    protected $eavAttributeRepository;
 
     /**
-     * @var \Magento\Framework\Data\Search\SortOrderInterface
-     */
-    protected $sortOrder;
-
-    /**
-     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataConfig
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
      */
     public function __construct(
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Framework\Data\Search\SearchResultsBuilderInterface $searchResultsBuilder,
-        \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Framework\Data\Search\SortOrderInterface $sortOrder
+        \Magento\Framework\Service\Config\MetadataConfig $metadataConfig,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
     ) {
-        $this->eavConfig = $eavConfig;
-        $this->searchResultsBuilder = $searchResultsBuilder;
-        $this->attributeCollectionFactory = $attributeCollectionFactory;
-        $this->sortOrder = $sortOrder;
+        $this->metadataConfig = $metadataConfig;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
+        $this->eavAttributeRepository = $eavAttributeRepository;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
-        $categoryEntityType = CategoryAttributeInterface::ENTITY_TYPE_CODE;
-
-        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
-        /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
-        $attributeCollection = $this->attributeCollectionFactory->create();
-        $attributeCollection->join(
-            array('entity_type' => $attributeCollection->getTable('eav_entity_type')),
-            'main_table.entity_type_id = entity_type.entity_type_id',
-            []
+        return $this->eavAttributeRepository->getList(
+            \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,
+            $searchCriteria
         );
-        $attributeCollection->addFieldToFilter('entity_type_code', ['eq' => $categoryEntityType]);
-        $attributeCollection->join(
-            ['eav_entity_attribute' => $attributeCollection->getTable('eav_entity_attribute')],
-            'main_table.attribute_id = eav_entity_attribute.attribute_id',
-            []
-        );
-        $attributeCollection->join(
-            array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
-            'main_table.attribute_id = additional_table.attribute_id',
-            []
-        );
-        //Add filters from root filter group to the collection
-        foreach ($searchCriteria->getFilterGroups() as $group) {
-            $this->addFilterGroupToCollection($group, $attributeCollection);
-        }
-        /** @var \Magento\Framework\Data\Search\SortOrderInterface $sortOrder */
-        foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
-            $attributeCollection->addOrder(
-                $sortOrder->getField(),
-                ($sortOrder->getDirection() == SearchCriteriaInterface::SORT_ASC) ? 'ASC' : 'DESC'
-            );
-        }
-
-        $totalCount = $attributeCollection->getSize();
-
-        // Group attributes by id to prevent duplicates with different attribute sets
-        $attributeCollection->addAttributeGrouping();
-
-        $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
-        $attributeCollection->setPageSize($searchCriteria->getPageSize());
-
-        $this->searchResultsBuilder->setItems($attributeCollection->getItems());
-        $this->searchResultsBuilder->setTotalCount($totalCount);
-        return $this->searchResultsBuilder->create();
     }
 
     /**
@@ -108,30 +60,32 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
      */
     public function get($attributeCode)
     {
-        $categoryEntityType = CategoryAttributeInterface::ENTITY_TYPE_CODE;
-        /** @var AbstractAttribute $attribute */
-        $attribute = $this->eavConfig->getAttribute($categoryEntityType, $attributeCode);
-        if (!$attribute) {
-            throw (new NoSuchEntityException('entityType', array($categoryEntityType)))
-                ->singleField('attributeCode', $attributeCode);
-        }
-        return $attribute;
+        return $this->eavAttributeRepository->get(
+            \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,
+            $attributeCode
+        );
     }
 
     /**
-     * Add FilterGroup to collection
-     *
-     * @param FilterGroupInterface $filterGroup
-     * @param AttributeCollection $collection
+     * {@inheritdoc}
      */
-    protected function addFilterGroupToCollection(FilterGroupInterface $filterGroup, AttributeCollection $collection)
+    public function getCustomAttributesMetadata($dataObjectClassName = null)
     {
-        foreach ($filterGroup->getFilters() as $filter) {
-            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $collection->addFieldToFilter(
-                $filter->getField(),
-                [$condition => $filter->getValue()]
-            );
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+            [
+                $this->filterBuilder
+                    ->setField('attribute_set_id')
+                    ->setValue(\Magento\Catalog\Api\Data\CategoryAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
+                    ->create()
+            ]
+        );
+
+        $customAttributes = [];
+        $entityAttributes = $this->getList($searchCriteria->create())->getItems();
+
+        foreach ($entityAttributes as $attributeMetadata) {
+            $customAttributes[] = $attributeMetadata;
         }
+        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata($dataObjectClassName));
     }
 }

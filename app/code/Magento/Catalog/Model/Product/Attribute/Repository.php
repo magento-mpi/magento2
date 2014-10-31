@@ -68,7 +68,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      * @param \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Framework\Filter\FilterManager $filterManager
-     * @param \Magento\Eav\Model\AttributeRepository $eavAttributeRepository
+     * @param \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory
      * @param \Magento\Framework\Service\Config\MetadataConfig $metadataConfig
@@ -80,7 +80,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Framework\Filter\FilterManager $filterManager,
-        \Magento\Eav\Model\AttributeRepository $eavAttributeRepository,
+        \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory,
         \Magento\Framework\Service\Config\MetadataConfig $metadataConfig,
