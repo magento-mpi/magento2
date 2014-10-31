@@ -27,14 +27,30 @@ class Dynamic implements BucketInterface
     {
         $this->algorithmRepository = $algorithmRepository;
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function build(DataProviderInterface $dataProvider, array $dimensions, RequestBucketInterface $bucket, array $entityIds)
-    {
+    public function build(
+        DataProviderInterface $dataProvider,
+        array $dimensions,
+        RequestBucketInterface $bucket,
+        array $entityIds
+    ) {
         /** @var DynamicBucket $bucket */
         $algorithm = $this->algorithmRepository->get($bucket->getMethod());
-        return $algorithm->getItems($dataProvider, $entityIds, []);
+        $data = $algorithm->getItems($dataProvider, $entityIds, []);
+
+        $resultData = [];
+        foreach ($data as $value) {
+            $from = $value['from'] ?: '*';
+            $to = $value['to'] ?: '*';
+            unset($value['from'], $value['to']);
+
+            $q = "{$from}_{$to}";
+            $resultData[$q] = array_merge(['value' => $q], $value);
+        }
+
+        return $resultData;
     }
 }

@@ -61,8 +61,6 @@ class Range implements BucketInterface
         $fullQuery->columns($metrics);
         $fullQuery->group(new \Zend_Db_Expr('1'));
 
-        $queryString = $fullQuery->assemble();
-
         return $dataProvider->execute($fullQuery);
     }
 
