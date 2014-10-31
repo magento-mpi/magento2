@@ -240,7 +240,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         /** @var \Magento\Tax\Model\Calculation $calculator */
         $calculator = $this->_calculationFactory->create();
 
-        if ($shipping) {
+        if ($shipping && $shipping->getCountryId()) {
             $customerTaxClass = $shipping->getQuote()->getCustomerTaxClassId();
         } else {
             // if customer logged use it default shipping and billing address
