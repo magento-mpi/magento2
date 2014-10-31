@@ -117,12 +117,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @dataProvider dataProviderForTestisAllowedGuestCheckout
+     * @dataProvider dataProviderForTestisAllowedGuestCheckoutConfigSetToTrue
      *
      * @param $productType
      * @param $isAllowed
      */
-    public function testIsAllowedGuestCheckout($productType, $isAllowed)
+    public function testIsAllowedGuestCheckoutConfigSetToTrue($productType, $isAllowed)
     {
 
         $result = $this->getMockBuilder('\Magento\Framework\Object')
@@ -211,7 +211,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function dataProviderForTestisAllowedGuestCheckout()
+    public function dataProviderForTestisAllowedGuestCheckoutConfigSetToTrue()
     {
         return [
             1 => [Type::TYPE_DOWNLOADABLE, true],
