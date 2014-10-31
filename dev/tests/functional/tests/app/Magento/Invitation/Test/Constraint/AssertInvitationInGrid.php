@@ -14,7 +14,6 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 
 /**
- * Class AssertInvitationInGrid.
  * Assert created invitation appears in Invitation grid on backend.
  */
 class AssertInvitationInGrid extends AbstractConstraint
@@ -42,19 +41,35 @@ class AssertInvitationInGrid extends AbstractConstraint
         $status
     ) {
         $invitationsIndex->open();
-        $error = '';
         $invitationGrid = $invitationsIndex->getInvitationGrid();
-        foreach ($invitation->getEmail() as $email) {
+        $invitations = [];
+        $uniqueEmails = array_unique($invitation->getEmail());
+        foreach ($uniqueEmails as $email) {
+            $invitationGrid->search(['email' => $email]);
+            $rowsData = $invitationGrid->getRowsData(['id', 'email']);
+            foreach ($rowsData as $rowData) {
+                $invitations[] = $rowData;
+            }
+        }
+
+        $result = [];
+        foreach ($invitations as $invitationData) {
             $filter = [
-                'email' => $email,
+                'id' => $invitationData['id'],
+                'email' => $invitationData['email'],
                 'invitee_group' => $customer->getGroupId(),
                 'status' => $status
             ];
-            if (!$invitationGrid->isRowVisible($filter)) {
-                $error .= "Email: {$email} with status: {$status} is not available in invitation grid.\n";
-            }
+
+            $invitationGrid->search($filter);
+            $data = $invitationGrid->getRowsData(['id', 'email']);
+            $result[] = array_shift($data);
         }
-        \PHPUnit_Framework_Assert::assertEmpty($error, $error);
+
+        foreach ($result as $key => $value) {
+            $result[$key] = $value['email'];
+        }
+        \PHPUnit_Framework_Assert::assertEquals(array_values($invitation->getEmail()), $result);
     }
 
     /**
