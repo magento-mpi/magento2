@@ -7,28 +7,28 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Eav\Model\AttributeDataFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Order history block
+ * Class Info
  */
 class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * Customer service
      *
-     * @var CustomerMetadataServiceInterface
+     * @var \Magento\Customer\Api\MetadataInterface
      */
-    protected $_customerMetadataService;
+    protected $metadata;
 
     /**
      * Group service
      *
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
-    protected $_groupService;
+    protected $groupRepository;
 
     /**
      * Metadata element factory
@@ -38,11 +38,13 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected $_metadataElementFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param CustomerMetadataServiceInterface $customerMetadataService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $metadata
      * @param \Magento\Customer\Model\Metadata\ElementFactory $elementFactory
      * @param array $data
      */
@@ -50,13 +52,13 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        CustomerMetadataServiceInterface $customerMetadataService,
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
+        \Magento\Customer\Api\GroupRepositoryInterface $metadata,
         \Magento\Customer\Model\Metadata\ElementFactory $elementFactory,
-        array $data = array()
+        array $data = []
     ) {
-        $this->_groupService = $groupService;
-        $this->_customerMetadataService = $customerMetadataService;
+        $this->groupRepository = $groupRepository;
+        $this->metadata = $metadata;
         $this->_metadataElementFactory = $elementFactory;
         parent::__construct($context, $registry, $adminHelper, $data);
     }
@@ -64,6 +66,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     /**
      * Retrieve required options from parent
      *
+     * @throws \Magento\Framework\Model\Exception
      * @return void
      */
     protected function _beforeToHtml()
@@ -73,8 +76,8 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
-        foreach ($this->getParentBlock()->getOrderInfoData() as $k => $v) {
-            $this->setDataUsingMethod($k, $v);
+        foreach ($this->getParentBlock()->getOrderInfoData() as $key => $value) {
+            $this->setDataUsingMethod($key, $value);
         }
 
         parent::_beforeToHtml();
@@ -94,9 +97,10 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
                 return nl2br($this->getOrder()->getStoreName()) . $deleted;
             }
             $store = $this->_storeManager->getStore($storeId);
-            $name = array($store->getWebsite()->getName(), $store->getGroup()->getName(), $store->getName());
+            $name = [$store->getWebsite()->getName(), $store->getGroup()->getName(), $store->getName()];
             return implode('<br/>', $name);
         }
+
         return null;
     }
 
@@ -111,12 +115,13 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             $customerGroupId = $this->getOrder()->getCustomerGroupId();
             try {
                 if (!is_null($customerGroupId)) {
-                    return $this->_groupService->getGroup($customerGroupId)->getCode();
+                    return $this->groupRepository->get($customerGroupId)->getCode();
                 }
             } catch (NoSuchEntityException $e) {
                 return '';
             }
         }
+
         return '';
     }
 
@@ -130,7 +135,8 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         if ($this->getOrder()->getCustomerIsGuest() || !$this->getOrder()->getCustomerId()) {
             return '';
         }
-        return $this->getUrl('customer/index/edit', array('id' => $this->getOrder()->getCustomerId()));
+
+        return $this->getUrl('customer/index/edit', ['id' => $this->getOrder()->getCustomerId()]);
     }
 
     /**
@@ -141,7 +147,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $orderId));
+        return $this->getUrl('sales/order/view', ['order_id' => $orderId]);
     }
 
     /**
@@ -157,6 +163,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         if (isset($data[$sortOrder])) {
             return $this->_prepareAccountDataSortOrder($data, $sortOrder + 1);
         }
+
         return $sortOrder;
     }
 
@@ -168,11 +175,11 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getCustomerAccountData()
     {
-        $accountData = array();
+        $accountData = [];
         $entityType = 'customer';
 
-        foreach ($this->_customerMetadataService->getAllAttributesMetadata($entityType) as $attribute) {
-            /* @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
+        /* @var \Magento\Customer\Api\Data\AttributeMetadataInterface $attribute */
+        foreach ($this->metadata->getAllAttributesMetadata($entityType) as $attribute) {
             if (!$attribute->isVisible() || $attribute->isSystem()) {
                 continue;
             }
@@ -183,13 +190,12 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
                 $value = $metadataElement->outputValue(AttributeDataFactory::OUTPUT_FORMAT_HTML);
                 $sortOrder = $attribute->getSortOrder() + $attribute->isUserDefined() ? 200 : 0;
                 $sortOrder = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
-                $accountData[$sortOrder] = array(
+                $accountData[$sortOrder] = [
                     'label' => $attribute->getFrontendLabel(),
-                    'value' => $this->escapeHtml($value, array('br'))
-                );
+                    'value' => $this->escapeHtml($value, ['br'])
+                ];
             }
         }
-
         ksort($accountData, SORT_NUMERIC);
 
         return $accountData;
@@ -208,9 +214,10 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             if (empty($label)) {
                 $label = __('Edit');
             }
-            $url = $this->getUrl('sales/order/address', array('address_id' => $address->getId()));
+            $url = $this->getUrl('sales/order/address', ['address_id' => $address->getId()]);
             return '<a href="' . $url . '">' . $label . '</a>';
         }
+
         return '';
     }
 

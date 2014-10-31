@@ -7,7 +7,6 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
@@ -16,9 +15,11 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 class Header extends AbstractCreate
 {
     /**
-     * @var CustomerAccountServiceInterface
+     * Customer repository
+     *
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
      * Customer view helper
@@ -28,11 +29,13 @@ class Header extends AbstractCreate
     protected $_customerViewHelper;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param array $data
      */
@@ -41,11 +44,11 @@ class Header extends AbstractCreate
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
-        CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Helper\View $customerViewHelper,
-        array $data = array()
+        array $data = []
     ) {
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
         $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
@@ -89,18 +92,20 @@ class Header extends AbstractCreate
             $out .= __('Create New Order for New Customer');
             return $out;
         }
+
         return $out;
     }
 
     /**
-     * Get customer name by his ID.
+     * Get customer name by his ID
      *
      * @param int $customerId
      * @return string
      */
     protected function _getCustomerName($customerId)
     {
-        $customerData = $this->_customerAccountService->getCustomer($customerId);
+        // TODO to change email on id
+        $customerData = $this->customerRepository->get($customerId);
         return $this->_customerViewHelper->getCustomerName($customerData);
     }
 }

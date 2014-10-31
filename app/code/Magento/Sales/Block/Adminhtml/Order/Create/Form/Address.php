@@ -8,8 +8,8 @@
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 /**
  * Order create address form
@@ -161,16 +161,17 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             [\Magento\Customer\Api\Data\AddressInterface::KEY_COUNTRY_ID => $defaultCountryId]
         );
         $data = [0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON)];
-        foreach ($this->getAddressCollection() as $addressData) {
+        foreach ($this->getAddressCollection() as $address) {
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                AddressConverter::toFlatArray($addressData)
+                ExtensibleDataObjectConverter::toFlatArray($address)
             );
-            $data[$addressData->getId()] = $addressForm->outputData(
+            $data[$address->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }
+
         return $this->_jsonEncoder->encode($data);
     }
 
@@ -220,7 +221,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
                 }
             }
         }
-
 
         $regionElement = $this->_form->getElement('region_id');
         if ($regionElement) {
@@ -284,16 +284,17 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Represent customer address in 'online' format.
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $addressData
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return string
      */
-    public function getAddressAsString($addressData)
+    public function getAddressAsString(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
+            $result = $formatTypeRenderer->renderArray(ExtensibleDataObjectConverter::toFlatArray($address));
         }
+
         return $this->escapeHtml($result);
     }
 }
