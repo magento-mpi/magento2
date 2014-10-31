@@ -44,7 +44,7 @@
                 </item>
             </argument>
         </arguments>
-        <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View" name="customer_edit_tab_view" template="tab/view.phtml">
+        <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View" name="customer_edit_tab_view" template="tab/view.phtml" sort_order="10">
             <arguments>
                 <argument name="tab_label" xsi:type="string">Customer View</argument>
             </arguments>

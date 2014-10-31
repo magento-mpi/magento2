@@ -48,6 +48,11 @@ class AbstractStructure extends AbstractView
     protected $ns;
 
     /**
+     * @var int
+     */
+    protected $sortInc = 10;
+
+    /**
      * Constructor
      *
      * @param TemplateContext $context
@@ -103,7 +108,7 @@ class AbstractStructure extends AbstractView
         $this->processChildBLocks();
 
 
-        //$this->sortTabs($this->structure['sections']); // todo
+        //$this->sortTabs($this->structure['sections']['children']); // todo
 
         $this->renderContext->getStorage()->addLayoutStructure(
             $this->getDataScope(),
@@ -212,7 +217,14 @@ class AbstractStructure extends AbstractView
         $referenceAreaName = $this->addArea(
             $dataSource,
             [
-                'label' => $meta->getLabel()
+                'insert' => [
+                    'sections' => [
+                        'position' => $this->getNextSortInc()
+                    ]
+                ],
+                'config' => [
+                    'label' => $meta->getLabel()
+                ]
             ]
         );
         $referenceGroupName = $this->addGroup(
@@ -263,7 +275,14 @@ class AbstractStructure extends AbstractView
         $referenceChildAreaName = $this->addArea(
             $childName,
             [
-                'label' => $childMeta->getLabel()
+                'insert' => [
+                    'sections' => [
+                        'position' => $this->getNextSortInc()
+                    ]
+                ],
+                'config' => [
+                    'label' => $childMeta->getLabel()
+                ]
             ]
         );
         $this->addToSection($referenceChildAreaName);
@@ -332,8 +351,19 @@ class AbstractStructure extends AbstractView
             if (!$childBlock->canShowTab()) {
                 continue;
             }
-            $referenceAreaName = $this->addArea($blockName, ['label' => $childBlock->getTabTitle()]);
-            $this->addToSection($referenceAreaName);
+            $sortOrder = $childBlock->hasSortOrder() ? $childBlock->getSortOrder() : $this->getNextSortInc();
+            $referenceChildAreaName = $this->addArea($blockName, [
+                'insert' => [
+                    'sections' => [
+                        'position' => $sortOrder
+                    ]
+                ],
+                'config' => [
+                    'label' => $childBlock->getTabTitle()
+                ]
+            ]);
+            $this->addToSection($referenceChildAreaName);
+
             $config = [
                 'label' => $childBlock->getTabTitle()
             ];
@@ -356,17 +386,15 @@ class AbstractStructure extends AbstractView
     }
 
     /**
-     * @param string $areaName
+     * @param string $name
      * @param array $config
      * @return string
      */
-    protected function addArea($areaName, array $config = [])
+    protected function addArea($name, array $config = [])
     {
-        $this->structure['areas']['children'][$areaName] = [
-            'type' => 'tab',
-            'config' => $config
-        ];
-        return "{$this->ns}.areas.{$areaName}";
+        $config['type'] = 'tab';
+        $this->structure['areas']['children'][$name] = $config;
+        return "{$this->ns}.areas.{$name}";
     }
 
     /**
@@ -473,5 +501,13 @@ class AbstractStructure extends AbstractView
             $two['sort_order'] = 0;
         }
         return (int)$one['sort_order'] - (int)$two['sort_order'];
+    }
+
+    /**
+     * @return int
+     */
+    protected function getNextSortInc()
+    {
+        return 10 + $this->sortInc;
     }
 }
