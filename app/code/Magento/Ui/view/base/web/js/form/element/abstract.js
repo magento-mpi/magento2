@@ -45,7 +45,8 @@ define([
                 .initTemplate()
                 .initDisableStatus()
                 .setUniqueId()
-                .setNoticeId();
+                .setNoticeId()
+                .store(this.value());
         },
 
         /**

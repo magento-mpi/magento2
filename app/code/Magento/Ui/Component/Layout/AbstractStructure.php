@@ -159,6 +159,9 @@ class AbstractStructure extends AbstractView
     {
         $this->structure['areas'] = [
             'type' => 'form',
+            'config' => [
+                'namespace' => $this->ns
+            ],
             'children' => []
         ];
     }

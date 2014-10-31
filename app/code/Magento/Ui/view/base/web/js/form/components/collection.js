@@ -63,10 +63,10 @@ define([
             return this;
         },
 
-        addChild: function(index){
+        addChild: function(index) {
             var setIndex = _.isObject(index) || _.isUndefined(index);
-            
-            if(setIndex){
+
+            if (setIndex) {
                 index = 'new_' + this.lastIndex;
             }
 
@@ -82,18 +82,16 @@ define([
             this.lastIndex++;
         },
 
-        removeChild: function (element) {
-            return function(){
-                var shouldRemove = window.confirm(this.removeMessage);
-
-                if(shouldRemove){
-                    this._removeChild(element);
+        removeChild: function(elem) {
+            return function() {
+                if (confirm(this.removeMessage)) {
+                    this._removeChild(elem);
                 }
 
             }.bind(this);
         },
 
-        _removeChild: function (elem) {
+        _removeChild: function(elem) {
             var isActive = elem.active(),
                 first;
 
@@ -101,7 +99,7 @@ define([
 
             first = this.elems()[0];
 
-            if(first && isActive){
+            if (first && isActive) {
                 first.activate();
             }
         }
