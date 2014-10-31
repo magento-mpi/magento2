@@ -60,7 +60,7 @@ if ($exist = $this->getRecentlyComparedProducts()) {
                         <?php if($_product->isSaleable()): ?>
                             <div class="actions-primary">
                             <?php if ($_product->getTypeInstance()->hasRequiredOptions($_product)): ?>
-                                <button class="action tocart"
+                                <button class="action tocart primary"
                                         data-mage-init='{"redirectUrl": {"url": "<?php echo $this->getAddToCartUrl($_product) ?>"}}'
                                         type="button" title="<?php echo __('Add to Cart') ?>">
                                     <span><?php echo __('Add to Cart') ?></span>
@@ -70,7 +70,7 @@ if ($exist = $this->getRecentlyComparedProducts()) {
                                 $postDataHelper = $this->helper('Magento\Core\Helper\PostData');
                                 $postData = $postDataHelper->getPostData($this->getAddToCartUrl($_product), ['product' => $_product->getEntityId()])
                                 ?>
-                                <button class="action tocart"
+                                <button class="action tocart primary"
                                         data-post='<?php echo $postData; ?>'
                                         type="button" title="<?php echo __('Add to Cart') ?>">
                                     <span><?php echo __('Add to Cart') ?></span>
