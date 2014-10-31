@@ -20,9 +20,11 @@
         <link src="Magento_Doc::jumly/coffee-script.js"/>
         <link src="Magento_Doc::jumly/jumly.min.js"/>
     </head>
-    <referenceContainer name="after.body.start">
-        <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml">
-            <block class="Magento\Framework\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
-        </block>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml">
+                <block class="Magento\Framework\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

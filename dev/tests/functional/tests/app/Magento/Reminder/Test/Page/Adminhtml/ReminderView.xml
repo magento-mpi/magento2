@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/reminder/view" module="Magento_Reminder">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <pageMainActions>
+            <class>Magento\Reminder\Test\Block\Adminhtml\Reminder\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageMainActions>
+        <reminderForm>
+            <class>Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit</class>
+            <locator>[id="page:main-container"]</locator>
+            <strategy>css selector</strategy>
+        </reminderForm>
+    </blocks>
+</page>

@@ -8,20 +8,20 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Form\Renderer\Fieldset\Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
-    <referenceContainer name="page.main.actions">
-        <block class="Magento\Backend\Block\Store\Switcher"
-               name="website_switcher"
-               template="Magento_Backend::store/switcher.phtml">
-            <action method="setStoreVarName">
-                <argument name="value" xsi:type="string">website</argument>
-            </action>
-            <arguments>
-                <argument name="switch_websites" xsi:type="string">1</argument>
-                <argument name="switch_store_groups" xsi:type="string">0</argument>
-                <argument name="switch_store_views" xsi:type="string">0</argument>
-                <argument name="default_selection_name" xsi:type="string" translate="true">Default Values</argument>
-            </arguments>
-        </block>
-    </referenceContainer>
+    <body>
+        <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Form\Renderer\Fieldset\Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="website_switcher" template="Magento_Backend::store/switcher.phtml">
+                <action method="setStoreVarName">
+                    <argument name="value" xsi:type="string">website</argument>
+                </action>
+                <arguments>
+                    <argument name="switch_websites" xsi:type="string">1</argument>
+                    <argument name="switch_store_groups" xsi:type="string">0</argument>
+                    <argument name="switch_store_views" xsi:type="string">0</argument>
+                    <argument name="default_selection_name" xsi:type="string" translate="true">Default Values</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
 </page>
