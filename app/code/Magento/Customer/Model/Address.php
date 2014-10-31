@@ -8,10 +8,10 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\Data\Address as AddressData;
-use Magento\Customer\Model\Data\Region as RegionData;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 
 /**
  * Customer address model
@@ -60,7 +60,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
      * @param AddressDataBuilder $addressBuilder
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
-     * @param \Magento\Customer\Api\AddressMetadataInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -77,7 +76,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
         AddressDataBuilder $addressBuilder,
         \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
-        \Magento\Customer\Api\AddressMetadataInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -94,7 +92,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $addressConfig,
             $regionFactory,
             $countryFactory,
-            $metadataService,
             $resource,
             $resourceCollection,
             $data
