@@ -490,4 +490,10 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product\Option\Type\File">
+        <arguments>
+            <argument name="validatorInfo" xsi:type="object">Magento\Catalog\Model\Product\Option\Type\File\ValidatorInfo\Proxy</argument>
+            <argument name="validatorFile" xsi:type="object">Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile\Proxy</argument>
+        </arguments>
+    </type>
 </config>

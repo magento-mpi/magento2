@@ -76,8 +76,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param File\ValidatorInfo\Proxy $validatorInfo
-     * @param File\ValidatorFile\Proxy $validatorFile
+     * @param File\ValidatorInfo $validatorInfo
+     * @param File\ValidatorFile $validatorFile
      * @param array $data
      * @throws \Magento\Framework\Filesystem\FilesystemException
      */
@@ -86,8 +86,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        \Magento\Catalog\Model\Product\Option\Type\File\ValidatorInfo\Proxy $validatorInfo,
-        \Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile\Proxy $validatorFile,
+        \Magento\Catalog\Model\Product\Option\Type\File\ValidatorInfo $validatorInfo,
+        \Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile $validatorFile,
         \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Escaper $escaper,
