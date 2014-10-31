@@ -66,7 +66,7 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
                 'path' => "Magento_Ui/js/form/provider/provider",
                 'data' => $data,
                 'config' => [
-                    'submit_url' => 'bla'
+                    'submit_url' => ''
                 ]
             ];
         }
@@ -74,9 +74,6 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
             'types' => $storage->getComponents(),
             'layout' => $storage->getLayoutStructure()
         ];
-        //ob_clean();
-        //var_dump($result['renderer']['types']['nav']);
-        //var_dump($storage->getLayoutStructure()['customer_form']['children']);dd();
         return json_encode($result);
     }
 }

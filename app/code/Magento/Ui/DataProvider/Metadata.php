@@ -145,10 +145,10 @@ class Metadata implements \Iterator, \ArrayAccess
                 $rawOptions = $this->manager->getData(
                     $this->config['fields'][$this->key()]['reference']['target']
                 );
-                $options[] = [
-                    'label' => __('Please, select...'),
-                    'value' => null
-                ];
+//                $options[] = [
+//                    'label' => __('Please, select...'),
+//                    'value' => null
+//                ];
                 foreach ($rawOptions as $rawOption) {
                     $options[] = [
                         'label' => $rawOption[$this->config['fields'][$this->key()]['reference']['neededField']],

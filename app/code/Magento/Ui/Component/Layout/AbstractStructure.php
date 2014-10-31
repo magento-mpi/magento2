@@ -102,6 +102,9 @@ class AbstractStructure extends AbstractView
 
         $this->processChildBLocks();
 
+
+        //$this->sortTabs($this->structure['sections']); // todo
+
         $this->renderContext->getStorage()->addLayoutStructure(
             $this->getDataScope(),
             [
@@ -118,6 +121,8 @@ class AbstractStructure extends AbstractView
             );
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
+        } else {
+            // todo fallback to content container
         }
     }
 
@@ -222,8 +227,7 @@ class AbstractStructure extends AbstractView
                 continue;
             }
             if ($key != Metadata::CHILD_DATA_SOURCES) {
-                $value['dataScope'] = $dataSource . '.' . $key;
-                $referenceElementName = $this->addElement($key, $value);
+                $referenceElementName = $this->addElement($key, $dataSource . '.' . $key, $value);
                 $this->addToGroup($dataSource, $referenceElementName);
             }
         }
@@ -288,9 +292,9 @@ class AbstractStructure extends AbstractView
         }
         foreach ($childMeta as $key => $value) {
             $itemTemplate['children'][$key] = $value;
-            $value['dataScope'] = $dataSource . '.' . $childName . '.' . $key;
             $itemTemplate['children'][$key]['config'] = $value;
             $itemTemplate['children'][$key]['type'] = 'group';
+            $itemTemplate['children'][$key]['dataScope'] = $key;
             $itemTemplate['children'][$key]['children'][$key] = [
                 'type' => $value['formElement'],
                 'config' => $value
@@ -299,14 +303,14 @@ class AbstractStructure extends AbstractView
 
         $referenceCollectionName = $this->addCollection(
             $childName . 'Collection',
+            "{$dataSource}.{$childName}",
             [
                 'active' => 1,
                 'label' => $childMeta->getLabel(),
                 'removeLabel' => __('Remove ' . $childMeta->getLabel()),
                 'removeMessage' => __('Are you sure you want to delete this item?'),
                 'addLabel' => __('Add New ' . $childMeta->getLabel()),
-                'itemTemplate' => 'item_template',
-                'dataScope' => "{$dataSource}.{$childName}"
+                'itemTemplate' => 'item_template'
             ]
         );
         $this->addTemplateToCollection($childName . 'Collection', 'item_template', $itemTemplate);
@@ -400,15 +404,17 @@ class AbstractStructure extends AbstractView
 
     /**
      * @param string $elementName
+     * @param string $dataScope
      * @param array $config
      * @return string
      */
-    protected function addElement($elementName, array $config = [])
+    protected function addElement($elementName, $dataScope, array $config = [])
     {
         $this->structure['elements']['children'][$elementName]['type'] = 'group';
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
             'name' => $config['name'],
+            'dataScope' => $dataScope,
             'config' => $config
         ];
         return "{$this->ns}.elements.{$elementName}";
@@ -416,13 +422,15 @@ class AbstractStructure extends AbstractView
 
     /**
      * @param string $collectionName
+     * @param string $dataScope
      * @param array $config
      * @return string
      */
-    protected function addCollection($collectionName, array $config = [])
+    protected function addCollection($collectionName, $dataScope, array $config = [])
     {
         $this->structure['groups']['children'][$collectionName] = [
             'type' => 'collection',
+            'dataScope' => $dataScope,
             'config' => $config
         ];
         return "{$this->ns}.groups.{$collectionName}";
@@ -444,7 +452,7 @@ class AbstractStructure extends AbstractView
      * @param array $items
      * @return void
      */
-    protected function sortTabs(array $items)
+    protected function sortTabs(array & $items)
     {
         usort($items, [$this, 'compareSortOrder']);
     }
