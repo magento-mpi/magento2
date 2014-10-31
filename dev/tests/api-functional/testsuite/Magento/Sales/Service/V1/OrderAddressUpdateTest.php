@@ -72,7 +72,8 @@ class OrderAddressUpdateTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'addressUpdate'
             ]
         ];
-        $this->_webApiCall($serviceInfo, $requestData);
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
         /** @var \Magento\Sales\Model\Order $actualOrder */
         $actualOrder = $objectManager->get('Magento\Sales\Model\Order')->load($order->getId());
         $billingAddress = $actualOrder->getBillingAddress();
