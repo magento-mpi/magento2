@@ -72,7 +72,7 @@ define([
 
             offset      = getOffset(this.reserved, offset);
             callback    = this.insertAt.bind(this, offset);
-
+            
             this.reserved += elems.length;
              
             loadEach(elems, callback);
