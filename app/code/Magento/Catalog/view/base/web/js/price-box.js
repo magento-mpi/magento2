@@ -27,6 +27,7 @@ define([
     $.widget('mage.priceBox',{
         options: globalOptions,
         _create: initPriceBox,
+        _setOptions: setOptions,
         updatePrice: updatePrice,
         reloadPrice: reloadPrice
     });
@@ -48,7 +49,6 @@ define([
 
         box.on('updatePrice', onUpdatePrice.bind(this)).trigger('updatePrice');
         box.on('reloadPrice', reloadPrice.bind(this)).trigger('reloadPrice');
-
 
     }
 
@@ -115,6 +115,21 @@ define([
         } else if(prices.regular) {
             prices.final = prices.regular;
         }
+    }
+
+    /**
+     * Custom behavior on getting options:
+     * now widget able to deep merge of accepted configuration.
+     * @param  {Object}  options
+     * @return {mage.priceBox}
+     */
+    function setOptions(options) {
+        $.extend(true, this.options, options);
+
+        if('disabled' in options) {
+            this._setOption('disabled', options['disabled']);
+        }
+        return this;
     }
 
 
