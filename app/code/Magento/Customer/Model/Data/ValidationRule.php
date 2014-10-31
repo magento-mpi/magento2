@@ -10,13 +10,6 @@ namespace Magento\Customer\Model\Data;
 class ValidationRule extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\ValidationRuleInterface
 {
-    /**#@+
-     * Constants for keys of data array
-     */
-    const NAME = 'name';
-
-    const VALUE = 'value';
-
     /**
      * {@inheritdoc}
      */

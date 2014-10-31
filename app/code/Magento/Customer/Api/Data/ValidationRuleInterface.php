@@ -14,6 +14,13 @@ namespace Magento\Customer\Api\Data;
  */
 interface ValidationRuleInterface
 {
+    /**#@+
+     * Constants for keys of data array
+     */
+    const NAME = 'name';
+    const VALUE = 'value';
+    /**#@-*/
+
     /**
      * Get validation rule name
      *

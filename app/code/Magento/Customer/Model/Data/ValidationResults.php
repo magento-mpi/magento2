@@ -15,12 +15,6 @@ namespace Magento\Customer\Model\Data;
 class ValidationResults extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\ValidationResultsInterface
 {
-    /**#@+
-     * Constants for keys of data array
-     */
-    const VALID = 'valid';
-    const MESSAGES = 'messages';
-
     /**
      * {@inheritdoc}
      */

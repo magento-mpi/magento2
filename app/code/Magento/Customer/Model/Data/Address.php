@@ -12,43 +12,6 @@ namespace Magento\Customer\Model\Data;
 class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\AddressInterface
 {
-    /**#@+
-     * Constants defined for keys of array, makes typos less likely
-     */
-    const KEY_COUNTRY_ID = 'country_id';
-
-    const KEY_ID = 'id';
-
-    const KEY_CUSTOMER_ID = 'customer_id';
-
-    const KEY_REGION = 'region';
-
-    const KEY_STREET = 'street';
-
-    const KEY_COMPANY = 'company';
-
-    const KEY_TELEPHONE = 'telephone';
-
-    const KEY_FAX = 'fax';
-
-    const KEY_POSTCODE = 'postcode';
-
-    const KEY_CITY = 'city';
-
-    const KEY_FIRSTNAME = 'firstname';
-
-    const KEY_LASTNAME = 'lastname';
-
-    const KEY_MIDDLENAME = 'middlename';
-
-    const KEY_PREFIX = 'prefix';
-
-    const KEY_SUFFIX = 'suffix';
-
-    const KEY_VAT_ID = 'vat_id';
-
-    /**#@-*/
-
     /**
      * Get id
      *
@@ -56,7 +19,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getId()
     {
-        return $this->_get(self::KEY_ID);
+        return $this->_get(self::ID);
     }
 
     /**
@@ -66,7 +29,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getRegion()
     {
-        return $this->_get(self::KEY_REGION);
+        return $this->_get(self::REGION);
     }
 
     /**
@@ -76,7 +39,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getCountryId()
     {
-        return $this->_get(self::KEY_COUNTRY_ID);
+        return $this->_get(self::COUNTRY_ID);
     }
 
     /**
@@ -86,7 +49,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getStreet()
     {
-        return $this->_get(self::KEY_STREET);
+        return $this->_get(self::STREET);
     }
 
     /**
@@ -96,7 +59,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getCompany()
     {
-        return $this->_get(self::KEY_COMPANY);
+        return $this->_get(self::COMPANY);
     }
 
     /**
@@ -106,7 +69,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getTelephone()
     {
-        return $this->_get(self::KEY_TELEPHONE);
+        return $this->_get(self::TELEPHONE);
     }
 
     /**
@@ -116,7 +79,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getFax()
     {
-        return $this->_get(self::KEY_FAX);
+        return $this->_get(self::FAX);
     }
 
     /**
@@ -126,7 +89,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getPostcode()
     {
-        return $this->_get(self::KEY_POSTCODE);
+        return $this->_get(self::POSTCODE);
     }
 
     /**
@@ -136,7 +99,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getCity()
     {
-        return $this->_get(self::KEY_CITY);
+        return $this->_get(self::CITY);
     }
 
     /**
@@ -146,7 +109,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getFirstname()
     {
-        return $this->_get(self::KEY_FIRSTNAME);
+        return $this->_get(self::FIRSTNAME);
     }
 
     /**
@@ -156,7 +119,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getLastname()
     {
-        return $this->_get(self::KEY_LASTNAME);
+        return $this->_get(self::LASTNAME);
     }
 
     /**
@@ -166,7 +129,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getMiddlename()
     {
-        return $this->_get(self::KEY_MIDDLENAME);
+        return $this->_get(self::MIDDLENAME);
     }
 
     /**
@@ -176,7 +139,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getPrefix()
     {
-        return $this->_get(self::KEY_PREFIX);
+        return $this->_get(self::PREFIX);
     }
 
     /**
@@ -186,7 +149,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getSuffix()
     {
-        return $this->_get(self::KEY_SUFFIX);
+        return $this->_get(self::SUFFIX);
     }
 
     /**
@@ -196,7 +159,7 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getVatId()
     {
-        return $this->_get(self::KEY_VAT_ID);
+        return $this->_get(self::VAT_ID);
     }
 
     /**
@@ -206,6 +169,6 @@ class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject i
      */
     public function getCustomerId()
     {
-        return $this->_get(self::KEY_CUSTOMER_ID);
+        return $this->_get(self::CUSTOMER_ID);
     }
 }

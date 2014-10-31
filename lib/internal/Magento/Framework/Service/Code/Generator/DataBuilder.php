@@ -97,7 +97,7 @@ class DataBuilder extends EntityAbstract
                 'parameters' => [
                     ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
                     ['name' => 'metadataService', 'type' => '\Magento\Framework\Service\Data\MetadataServiceInterface'],
-                    ['name' => 'valueBuilder', 'type' => '\Magento\Framework\Api\Data\AttributeInterfaceBuilder'],
+                    ['name' => 'valueBuilder', 'type' => '\Magento\Framework\Data\AttributeDataBuilder'],
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',

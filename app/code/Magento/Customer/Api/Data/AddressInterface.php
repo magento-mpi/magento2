@@ -17,7 +17,7 @@ use Magento\Framework\Data\ExtensibleDataInterface;
 interface AddressInterface extends ExtensibleDataInterface
 {
     /**#@+
-     * Constants for keys of data array
+     * Constants for keys of data array. Identical to the name of the getter in snake case
      */
     const ID = 'id';
     const CUSTOMER_ID = 'customer_id';

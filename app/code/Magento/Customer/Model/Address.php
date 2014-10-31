@@ -8,10 +8,10 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\Data\Address as AddressData;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionInterface;
-use Magento\Customer\Api\Data\AddressInterface;
 
 /**
  * Customer address model
@@ -159,8 +159,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             array_merge(
                 $addressData,
                 array(
-                    AddressData::KEY_STREET => $this->getStreet(),
-                    AddressData::KEY_REGION => array(
+                    AddressInterface::STREET => $this->getStreet(),
+                    AddressInterface::REGION => array(
                         RegionInterface::REGION => $this->getRegion(),
                         RegionInterface::REGION_ID => $this->getRegionId(),
                         RegionInterface::REGION_CODE => $this->getRegionCode()

@@ -43,7 +43,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     protected $customAttributesCodes = null;
 
     /**
-     * @var \Magento\Framework\Api\Data\AttributeInterfaceBuilder
+     * @var \Magento\Framework\Data\AttributeDataBuilder
      */
     protected $valueBuilder;
 
@@ -52,13 +52,13 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      *
      * @param ObjectManager $objectManager
      * @param MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\Api\Data\AttributeInterfaceBuilder $valueBuilder
+     * @param \Magento\Framework\Data\AttributeDataBuilder $valueBuilder
      * @param string $modelClassInterface
      */
     public function __construct(
         ObjectManager $objectManager,
         MetadataServiceInterface $metadataService,
-        \Magento\Framework\Api\Data\AttributeInterfaceBuilder $valueBuilder,
+        \Magento\Framework\Data\AttributeDataBuilder $valueBuilder,
         $modelClassInterface
     ) {
         $this->objectManager = $objectManager;

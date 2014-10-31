@@ -14,6 +14,14 @@ namespace Magento\Customer\Api\Data;
  */
 interface OptionInterface
 {
+    /**#@+
+     * Constants for keys of data array
+     */
+    const LABEL = 'label';
+    const VALUE = 'value';
+    const OPTIONS = 'options';
+    /**#@-*/
+
     /**
      * Get option label
      *

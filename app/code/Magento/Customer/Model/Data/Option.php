@@ -16,15 +16,6 @@ namespace Magento\Customer\Model\Data;
 class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\OptionInterface
 {
-    /**#@+
-     * Constants for keys of data array
-     */
-    const LABEL = 'label';
-
-    const VALUE = 'value';
-
-    const OPTIONS = 'options';
-
     /**
      * {@inheritdoc}
      */

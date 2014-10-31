@@ -16,7 +16,7 @@ use Magento\Framework\Data\ExtensibleDataInterface;
 interface RegionInterface extends ExtensibleDataInterface
 {
     /**#@+
-     * Constants for keys of data array
+     * Constants for keys of data array. Identical to the getters in snake case
      */
     const REGION_CODE = 'region_code';
     const REGION = 'region';
