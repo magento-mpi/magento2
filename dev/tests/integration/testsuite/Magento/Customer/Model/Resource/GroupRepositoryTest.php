@@ -27,7 +27,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
     /** @var \Magento\Customer\Model\Data\GroupBuilder */
     private $groupBuilder;
 
-    /** @var  \Magento\Framework\Api\Data\SearchCriteriaDataBuilder */
+    /** @var  \Magento\Framework\Data\SearchCriteriaDataBuilder */
     private $searchCriteriaBuilder;
 
 
@@ -36,7 +36,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->groupRepository = $this->objectManager->create('Magento\Customer\Api\GroupRepositoryInterface');
         $this->groupBuilder = $this->objectManager->create('Magento\Customer\Api\Data\GroupDataBuilder');
-        $this->searchCriteriaBuilder = $this->objectManager->create('Magento\Framework\Api\Data\SearchCriteriaDataBuilder');
+        $this->searchCriteriaBuilder = $this->objectManager->create('Magento\Framework\Data\SearchCriteriaDataBuilder');
     }
 
     protected function tearDown()

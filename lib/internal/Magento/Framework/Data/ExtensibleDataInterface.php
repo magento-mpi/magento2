@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Api\Data;
+namespace Magento\Framework\Data;
 
 /**
  * Interface for entities which can be extended with custom attributes.
@@ -17,14 +17,14 @@ interface ExtensibleDataInterface
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Api\Data\AttributeInterface|null null if the attribute has not been set
+     * @return \Magento\Framework\Data\AttributeInterface|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode);
 
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Api\Data\AttributeInterface[]
+     * @return \Magento\Framework\Data\AttributeInterface[]
      */
     public function getCustomAttributes();
 }

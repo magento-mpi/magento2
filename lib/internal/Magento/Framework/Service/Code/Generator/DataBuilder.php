@@ -279,7 +279,7 @@ class DataBuilder extends EntityAbstract
     protected function getExtensibleInterfaceMethods()
     {
         if ($this->extensibleInterfaceMethods === null) {
-            $interfaceReflection = new ClassReflection('Magento\Framework\Api\Data\ExtensibleDataInterface');
+            $interfaceReflection = new ClassReflection('Magento\Framework\Data\ExtensibleDataInterface');
             $methodsReflection = $interfaceReflection->getMethods();
             $this->extensibleInterfaceMethods = [];
             foreach ($methodsReflection as $methodReflection) {
