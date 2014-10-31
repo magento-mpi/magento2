@@ -18,16 +18,6 @@ class CombineTest extends \PHPUnit_Framework_TestCase
     private $combine;
 
     /**
-     * @var ObjectManagerHelper
-     */
-    private $objectManagerHelper;
-
-    /**
-     * @var \Magento\Rule\Model\Condition\Context | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $contextMock;
-
-    /**
      * @var \Magento\Rule\Model\ConditionFactory | \PHPUnit_Framework_MockObject_MockObject
      */
     private $conditionFactoryMock;
