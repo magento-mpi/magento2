@@ -59,7 +59,9 @@ class Range implements BucketInterface
         $fullQuery->from(['main_table' => $select], null);
         $fullQuery = $this->generateCase($fullQuery, $bucket->getRanges());
         $fullQuery->columns($metrics);
-        $fullQuery->group(RequestBucketInterface::FIELD_VALUE);
+        $fullQuery->group(new \Zend_Db_Expr('1'));
+
+        $queryString = $fullQuery->assemble();
 
         return $dataProvider->execute($fullQuery);
     }
