@@ -14,25 +14,23 @@ class Manual implements AlgorithmInterface
     /**
      * {@inheritdoc}
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds, array $intervals)
+    public function getItems(DataProviderInterface $dataProvider, array $entityIds)
     {
         $data = [];
-        if (empty($intervals)) {
-            $range = $dataProvider->getRange();
-            if (!$range) {
-                $options = $dataProvider->getOptions();
-                $range = $options['range_step'];
-                $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
-                $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
-                $data = $dataProvider->prepareData($range, $dbRanges);
-            }
+        $range = $dataProvider->getRange();
+        if (!$range) {
+            $options = $dataProvider->getOptions();
+            $range = $options['range_step'];
+            $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
+            $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
+            $data = $dataProvider->prepareData($range, $dbRanges);
         }
 
         return $data;
     }
 
     /**
-     * @param array $items\
+     * @param array $items \
      * @param $maxIntervalsNumber
      * @return array
      */
@@ -49,6 +47,7 @@ class Manual implements AlgorithmInterface
                 $lastIndex = $k;
             }
         }
+
         return $items;
     }
 }

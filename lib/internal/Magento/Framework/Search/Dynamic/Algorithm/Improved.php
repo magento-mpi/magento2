@@ -29,14 +29,12 @@ class Improved implements AlgorithmInterface
     /**
      * {@inheritdoc}
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds, array $intervals)
+    public function getItems(DataProviderInterface $dataProvider, array $entityIds)
     {
         $aggregations = $dataProvider->getAggregations($entityIds);
 
         $options = $dataProvider->getOptions();
-        if ($intervals && ($aggregations['count'] <= $options['interval_division_limit']
-                || $intervals[0] == $intervals[1] || $intervals[1] === '0') || $aggregations['count'] <= 0
-        ) {
+        if ($aggregations['count'] <= $options['interval_division_limit']) {
             return [];
         }
 

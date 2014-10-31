@@ -15,16 +15,14 @@ class Auto implements AlgorithmInterface
     /**
      * {@inheritdoc}
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds, array $intervals)
+    public function getItems(DataProviderInterface $dataProvider, array $entityIds)
     {
         $data = [];
-        if (empty($intervals)) {
-            $range = $dataProvider->getRange();
-            if (!$range) {
-                $range = $this->getRange($dataProvider, $entityIds);
-                $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
-                $data = $dataProvider->prepareData($range, $dbRanges);
-            }
+        $range = $dataProvider->getRange();
+        if (!$range) {
+            $range = $this->getRange($dataProvider, $entityIds);
+            $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
+            $data = $dataProvider->prepareData($range, $dbRanges);
         }
 
         return $data;

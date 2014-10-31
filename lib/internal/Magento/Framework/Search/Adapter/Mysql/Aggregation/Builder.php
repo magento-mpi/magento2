@@ -76,6 +76,7 @@ class Builder
         foreach ($documents as $document) {
             $entityIds[] = $document[$fieldName];
         }
+
         return $entityIds;
     }
 
@@ -91,8 +92,14 @@ class Builder
         $dataProvider = $this->dataProviderContainer->get($request->getIndex());
         foreach ($buckets as $bucket) {
             $aggregationBuilder = $this->aggregationContainer->get($bucket->getType());
-            $aggregations[$bucket->getName()] = $aggregationBuilder->build($dataProvider, $request->getDimensions(), $bucket, $entityIds);
+            $aggregations[$bucket->getName()] = $aggregationBuilder->build(
+                $dataProvider,
+                $request->getDimensions(),
+                $bucket,
+                $entityIds
+            );
         }
+
         return $aggregations;
     }
 }

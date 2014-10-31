@@ -14,9 +14,8 @@ interface AlgorithmInterface
     /**
      * @param DataProviderInterface $dataProvider
      * @param int[] $entityIds
-     * @param int[] $intervals
      * @return mixed
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds, array $intervals);
+    public function getItems(DataProviderInterface $dataProvider, array $entityIds);
 }
  
