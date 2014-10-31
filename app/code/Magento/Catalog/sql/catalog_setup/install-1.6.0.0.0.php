@@ -2342,6 +2342,12 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Is Used For Promo Rules'
+)->addColumn(
+    'is_required_in_admin_store',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Is Required In Admin Store'
 )->addIndex(
     $installer->getIdxName('catalog_eav_attribute', array('used_for_sort_by')),
     array('used_for_sort_by')
@@ -2469,7 +2475,7 @@ $table = $installer->getConnection()->newTable(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false, 'primary' => true),
+    array('nullable' => false, 'primary' => false),
     'Value'
 )->addIndex(
     $installer->getIdxName('catalog_product_index_eav_decimal', array('attribute_id')),
@@ -2556,6 +2562,9 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_index_price', array('min_price')),
     array('min_price')
+)->addIndex(
+    $installer->getIdxName('catalog_product_index_price', array('website_id', 'customer_group_id', 'min_price')),
+    array('website_id', 'customer_group_id', 'min_price')
 )->addForeignKey(
     $installer->getFkName('catalog_product_index_price', 'customer_group_id', 'customer_group', 'customer_group_id'),
     'customer_group_id',
@@ -3452,7 +3461,7 @@ $table = $installer->getConnection()->newTable(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false, 'primary' => true),
+    array('nullable' => false, 'primary' => false),
     'Value'
 )->addIndex(
     $installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('attribute_id')),
