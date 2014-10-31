@@ -47,31 +47,29 @@ $wishlistHelper = $this->helper('Magento\Wishlist\Helper\Data');
                                     );
                                 ?>
                                 <div class="product-item-actions">
-                                <?php if ($product->isSaleable() && $product->isVisibleInSiteVisibility()): ?>
+                                    <?php if ($product->isSaleable() && $product->isVisibleInSiteVisibility()): ?>
                                     <div class="actions-primary">
                                     <?php if ($product->getTypeInstance()->hasRequiredOptions($product)): ?>
-                                    <a href="<?php echo $this->getItemAddToCartUrl($item) ?>"
-                                       class="action tocart primary"><span><?php echo __('Add to Cart') ?></span></a>
+                                        <a href="<?php echo $this->getItemAddToCartUrl($item) ?>"
+                                           class="action tocart primary"><span><?php echo __('Add to Cart') ?></span></a>
                                     <?php else: ?>
                                         <?php
                                             $postDataHelper = $this->helper('Magento\Core\Helper\PostData');
                                             $postData = $postDataHelper->getPostData($this->getItemAddToCartUrl($item), ['product' => $product->getEntityId()])
                                         ?>
-                                        <button type="button" class="action tocart primary"
-                                                data-post='<?php echo $postData; ?>'>
-                                            <span><?php echo __('Add to Cart') ?></span>
-                                        </button>
+                                            <button type="button" class="action tocart primary" data-post='<?php echo $postData; ?>'><span><?php echo __('Add to Cart') ?></span></button>
+                                        <?php endif; ?>
+                                    </div>
                                     <?php endif; ?>
-                                <?php endif; ?>
-                                </div>
-                                <div class="actions-secondary">
-                                    <a href="#" data-post='<?php echo $this->getItemRemoveParams($item) ?>'
-                                       title="<?php echo __('Remove This Item') ?>" class="btn-remove action delete">
-                                        <span><?php echo __('Remove This Item') ?></span>
-                                    </a>
+                                    <div class="actions-secondary">
+                                        <a href="#" data-post='<?php echo $this->getItemRemoveParams($item) ?>'
+                                           title="<?php echo __('Remove This Item') ?>"
+                                           class="btn-remove action delete">
+                                            <span><?php echo __('Remove This Item') ?></span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                         <?php echo ($iterator == count($this->getWishlistItems()) + 1) ? '</li>' : '' ?>
                     <?php endforeach; ?>
