@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Fixture rma entity.
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Rma extends InjectableFixture
 {

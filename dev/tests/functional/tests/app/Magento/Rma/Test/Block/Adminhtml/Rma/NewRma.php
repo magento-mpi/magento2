@@ -58,6 +58,8 @@ class NewRma extends FormTabs
      * @param array $orderItems
      * @param array $items
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareItems(array $orderItems, array $items)
     {

@@ -113,7 +113,7 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
      * @param array $attribute
      * @return array
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareAttributes(array $attribute)
     {
