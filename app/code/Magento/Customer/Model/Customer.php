@@ -308,7 +308,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
 
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
-            $this->setAttributeSetId(CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+            $this->setAttributeSetId(
+                \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
+            );
         }
 
         return $this;
