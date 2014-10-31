@@ -31,8 +31,8 @@ class Deployer
     /** @var Version\StorageInterface */
     private $versionStorage;
 
-    /** @var Version\GeneratorInterface */
-    private $versionGenerator;
+    /** @var \Magento\Framework\Stdlib\DateTime */
+    private $dateTime;
 
     /** @var \Magento\Framework\View\Asset\Repository */
     private $assetRepo;
@@ -52,21 +52,21 @@ class Deployer
     /**
      * @param Files $filesUtil
      * @param Deployer\Log $logger
+     * @param Version\StorageInterface $versionStorage
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param bool $isDryRun
-     * @param \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage
-     * @param \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      */
     public function __construct(
         Files $filesUtil,
         Deployer\Log $logger,
         Version\StorageInterface $versionStorage,
-        Version\GeneratorInterface $versionGenerator,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $isDryRun = false
     ) {
         $this->filesUtil = $filesUtil;
         $this->logger = $logger;
         $this->versionStorage = $versionStorage;
-        $this->versionGenerator = $versionGenerator;
+        $this->dateTime = $dateTime;
         $this->isDryRun = $isDryRun;
     }
 
@@ -105,7 +105,7 @@ class Deployer
                 }
             }
         }
-        $version = $this->versionGenerator->generate();
+        $version = $this->dateTime->toTimestamp(true);
         $this->logger->logMessage("New version of deployed files: {$version}");
         if (!$this->isDryRun) {
             $this->versionStorage->save($version);

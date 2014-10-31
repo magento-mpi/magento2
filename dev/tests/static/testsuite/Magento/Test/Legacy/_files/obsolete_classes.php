@@ -2825,4 +2825,6 @@ return array(
     ['Magento\Framework\Filesystem\DriverFactory', 'Magento\Framework\Filesystem\DriverPool'],
     ['Magento\Framework\Filesystem\WrapperFactory'],
     ['Magento\Framework\Filesystem\WrapperInterface'],
+    ['Magento\Framework\App\View\Deployment\Version\Generator\Timestamp', 'Magento\Framework\Stdlib\DateTime'],
+    ['Magento\Framework\App\View\Deployment\Version\GeneratorInterface'],
 );
