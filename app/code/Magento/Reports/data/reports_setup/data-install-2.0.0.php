@@ -15,26 +15,27 @@ $installer->startSetup();
 /*
  * Report Event Types default data
  */
-$eventTypeData = array(
-    array('event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, 'event_name' => 'catalog_product_view'),
-    array('event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_SEND, 'event_name' => 'sendfriend_product'),
-    array(
+$eventTypeData = [
+    ['event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, 'event_name' => 'catalog_product_view'],
+    ['event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_SEND, 'event_name' => 'sendfriend_product'],
+    [
         'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
         'event_name' => 'catalog_product_compare_add_product'
-    ),
-    array(
+    ],
+    [
         'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_TO_CART,
         'event_name' => 'checkout_cart_add_product'
-    ),
-    array(
+    ],
+    [
         'event_type_id' => \Magento\Reports\Model\Event::EVENT_PRODUCT_TO_WISHLIST,
         'event_name' => 'wishlist_add_product'
-    ),
-    array('event_type_id' => \Magento\Reports\Model\Event::EVENT_WISHLIST_SHARE, 'event_name' => 'wishlist_share')
-);
+    ],
+    ['event_type_id' => \Magento\Reports\Model\Event::EVENT_WISHLIST_SHARE, 'event_name' => 'wishlist_share']
+];
 
 foreach ($eventTypeData as $row) {
-    $installer->getConnection()->insertForce($installer->getTable('report_event_types'), $row);
+    $installer->getConnection()
+        ->insertForce($installer->getTable('report_event_types'), $row);
 }
 
 /**
@@ -46,7 +47,8 @@ $installer->endSetup();
  * Cms Page  with 'home' identifier page modification for report pages
  */
 /** @var $cms \Magento\Cms\Model\Page */
-$cms = $installer->getPage()->load('home', 'identifier');
+$cms = $installer->getPage()
+    ->load('home', 'identifier');
 
 $reportLayoutUpdate = '<!--
     <referenceContainer name="right">
@@ -57,4 +59,5 @@ $reportLayoutUpdate = '<!--
 /*
  * Merge and save old layout update data with report layout data
  */
-$cms->setLayoutUpdateXml($cms->getLayoutUpdateXml() . $reportLayoutUpdate)->save();
+$cms->setLayoutUpdateXml($cms->getLayoutUpdateXml() . $reportLayoutUpdate)
+    ->save();
