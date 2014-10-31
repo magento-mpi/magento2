@@ -8,9 +8,7 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\GroupInterface;
 
 /**
  * Quote model
@@ -168,7 +166,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_errorInfoGroups = array();
+    protected $_errorInfoGroups = [];
 
     /**
      * Whether quote should not be saved
@@ -219,9 +217,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @var CustomerGroupServiceInterface
+     * Group repository
+     *
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
-    protected $_customerGroupService;
+    protected $groupRepository;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
@@ -305,6 +305,16 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $objectFactory;
 
     /**
+     * @var \Magento\Customer\Api\Data\AddressInterfaceInterfaceBuilder
+     */
+    protected $addressBuilder;
+
+    /**
+     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     */
+    protected $customerBuilder;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -314,7 +324,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
      * @param Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\Message\Factory $messageFactory
@@ -345,7 +355,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\Factory $messageFactory,
@@ -362,6 +372,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Customer\Api\Data\AddressInterfaceInterfaceBuilder $addressBuilder,
+        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
@@ -373,7 +385,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_config = $config;
         $this->_quoteAddressFactory = $quoteAddressFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_customerGroupService = $customerGroupService;
+        $this->groupRepository = $groupRepository;
         $this->_quoteItemCollectionFactory = $quoteItemCollectionFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageFactory = $messageFactory;
@@ -389,6 +401,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->stockItemService = $stockItemService;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
+        $this->addressBuilder = $addressBuilder;
+        $this->customerBuilder = $customerBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -601,7 +615,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         Address $shippingAddress = null
     ) {
         if ($customer->getId()) {
-            $this->setCustomerData($customer);
+            $this->setCustomer($customer);
 
             if (null !== $billingAddress) {
                 $this->setBillingAddress($billingAddress);
@@ -679,45 +693,16 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Retrieve customer data object
-     *
-     * @return CustomerDataObject
-     */
-    public function getCustomerData()
-    {
-        /* @TODO: remove this code in favor of setCustomerData usage MAGETWO-19930 */
-        $customerModel = $this->getCustomer();
-        return $this->_converter->createCustomerFromModel($customerModel);
-    }
-
-    /**
-     * Set customer data object
-     *
-     * @param CustomerDataObject $customerData
-     * @return $this
-     */
-    public function setCustomerData(CustomerDataObject $customerData)
-    {
-        /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
-        $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerData));
-        $customer->setId($customerData->getId());
-        $this->setCustomer($customer);
-        return $this;
-    }
-
-    /**
      * Substitute customer addresses
      *
-     * @param AddressDataObject[] $addresses
+     * @param \Magento\Customer\Api\Data\AddressInterface[] $addresses
      * @return $this
      */
     public function setCustomerAddressData(array $addresses)
     {
-        $this->getCustomer()->getAddresses();
         foreach ($addresses as $address) {
             $this->addressRepository->delete($address);
-            $this->addCustomerAddressData($address);
+            $this->addCustomerAddress($address);
         }
 
         return $this;
@@ -728,40 +713,28 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * TODO refactor in scope of MAGETWO-19930
      *
-     * @param AddressDataObject $address
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return $this
      */
-    public function addCustomerAddressData(AddressDataObject $address)
+    public function addCustomerAddress(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $this->getCustomer()->addAddress($this->_addressConverter->createAddressModel($address));
+        $this->addressBuilder->mergeDataObjectWithArray(
+            $address,
+            [\Magento\Customer\Api\Data\AddressInterface::KEY_CUSTOMER_ID => $this->getCustomer()->getId()]
+        );
 
         return $this;
     }
 
     /**
-     * Get Data Object addresses of the customer
-     *
-     * TODO: Refactor to use addressDataObject property is used instead of customer model MAGETWO-19930
-     *
-     * @return \Magento\Customer\Api\Data\AddressInterface[]
-     */
-    public function getCustomerAddressData()
-    {
-        return $this->getCustomer()->getAddresses();
-    }
-
-    /**
      * Update customer data object
      *
-     * @param CustomerDataObject $customerData
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return $this
      */
-    public function updateCustomerData(CustomerDataObject $customerData)
+    public function updateCustomerData(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
-        $customer = $this->getCustomer();
-        /* @TODO: remove this code in favor of customer Data Object usage MAGETWO-19930 */
-        $this->_converter->updateCustomerModel($customer, $customerData);
-        $this->setCustomer($customer);
+        $this->setCustomer($this->customerBuilder->mergeDataObjects($this->getCustomer(), $customer));
         return $this;
     }
 
@@ -777,7 +750,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         } elseif ($this->getCustomerId()) {
             return $this->getCustomer()->getGroupId();
         } else {
-            return CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+            return GroupInterface::NOT_LOGGED_IN_ID;
         }
     }
 
@@ -795,7 +768,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
         $groupId = $this->getCustomerGroupId();
         if (!is_null($groupId)) {
-            $taxClassId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
+            $taxClassId = $this->groupRepository->get($this->getCustomerGroupId())->getTaxClassId();
             $this->setCustomerTaxClassId($taxClassId);
         }
 
@@ -865,7 +838,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getAllShippingAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         foreach ($this->getAddressesCollection() as $address) {
             if ($address->getAddressType() == Address::TYPE_SHIPPING && !$address->isDeleted()) {
                 $addresses[] = $address;
@@ -961,7 +934,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function removeAllAddresses()
     {
-        $addressByType = array();
+        $addressByType = [];
         $addressesCollection = $this->getAddressesCollection();
 
         // mark all addresses as deleted
@@ -1076,7 +1049,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getAllItems()
     {
-        $items = array();
+        $items = [];
         foreach ($this->getItemsCollection() as $item) {
             if (!$item->isDeleted()) {
                 $items[] = $item;
@@ -1092,7 +1065,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getAllVisibleItems()
     {
-        $items = array();
+        $items = [];
         foreach ($this->getItemsCollection() as $item) {
             if (!$item->isDeleted() && !$item->getParentItemId()) {
                 $items[] = $item;
@@ -1168,7 +1141,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $this->removeItem($item->getId());
         } else {
             $quoteItems = $this->getItemsCollection();
-            $items = array($item);
+            $items = [$item];
             if ($item->getHasChildren()) {
                 foreach ($item->getChildren() as $child) {
                     $items[] = $child;
@@ -1214,7 +1187,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 $parent->isDeleted(true);
             }
 
-            $this->_eventManager->dispatch('sales_quote_remove_item', array('quote_item' => $item));
+            $this->_eventManager->dispatch('sales_quote_remove_item', ['quote_item' => $item]);
         }
 
         return $this;
@@ -1265,7 +1238,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $item->setQuote($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
-            $this->_eventManager->dispatch('sales_quote_add_item', array('quote_item' => $item));
+            $this->_eventManager->dispatch('sales_quote_add_item', ['quote_item' => $item]);
         }
         return $this;
     }
@@ -1310,13 +1283,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
          * If prepare process return one object
          */
         if (!is_array($cartCandidates)) {
-            $cartCandidates = array($cartCandidates);
+            $cartCandidates = [$cartCandidates];
         }
 
         $parentItem = null;
-        $errors = array();
+        $errors = [];
         $item = null;
-        $items = array();
+        $items = [];
         foreach ($cartCandidates as $candidate) {
             // Child items can be sticked together only within their parent
             $stickWithinParent = $candidate->getParentProductId() ? $parentItem : null;
@@ -1650,7 +1623,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         }
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_collect_totals_before',
-            array($this->_eventObject => $this)
+            [$this->_eventObject => $this]
         );
 
         $this->_collectItemsQtys();
@@ -1695,7 +1668,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_collect_totals_after',
-            array($this->_eventObject => $this)
+            [$this->_eventObject => $this]
         );
 
         $this->setTotalsCollectedFlag(true);
@@ -1769,7 +1742,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             }
         }
 
-        $sortedTotals = array();
+        $sortedTotals = [];
         foreach ($this->getBillingAddress()->getTotalCollector()->getRetrievers() as $total) {
             /* @var $total Address\Total\AbstractTotal */
             if (isset($totals[$total->getCode()])) {
@@ -1788,7 +1761,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $messages = $this->getData('messages');
         if (null === $messages) {
-            $messages = array();
+            $messages = [];
         }
 
         if (isset($messages[$index])) {
@@ -1813,7 +1786,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $messages = $this->getData('messages');
         if (null === $messages) {
-            $messages = array();
+            $messages = [];
             $this->setData('messages', $messages);
         }
         return $messages;
@@ -1826,7 +1799,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getErrors()
     {
-        $errors = array();
+        $errors = [];
         foreach ($this->getMessages() as $message) {
             /* @var $error \Magento\Framework\Message\AbstractMessage */
             if ($message->getType() == \Magento\Framework\Message\MessageInterface::TYPE_ERROR) {
@@ -1875,7 +1848,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     protected function _clearErrorInfo()
     {
-        $this->_errorInfoGroups = array();
+        $this->_errorInfoGroups = [];
         $this->_setHasError(false);
         return $this;
     }
@@ -1927,7 +1900,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             return $this;
         }
 
-        $errorLists = array();
+        $errorLists = [];
         if ($type) {
             $errorLists[] = $this->_errorInfoGroups[$type];
         } else {
@@ -1968,7 +1941,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $messages = $this->getData('messages');
         if (null === $messages) {
-            $messages = array();
+            $messages = [];
         }
 
         if (!isset($messages[$type])) {
@@ -2136,7 +2109,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_merge_before',
-            array($this->_eventObject => $this, 'source' => $quote)
+            [$this->_eventObject => $this, 'source' => $quote]
         );
 
         foreach ($quote->getAllVisibleItems() as $item) {
@@ -2176,7 +2149,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_merge_after',
-            array($this->_eventObject => $this, 'source' => $quote)
+            [$this->_eventObject => $this, 'source' => $quote]
         );
 
         return $this;

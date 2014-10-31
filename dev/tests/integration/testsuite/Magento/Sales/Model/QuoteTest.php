@@ -51,7 +51,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $customerDataSet = $customerBuilder->create();
         $this->assertEquals($expected, $customerDataSet->__toArray());
-        $quote->setCustomerData($customerDataSet);
+        $quote->setCustomer($customerDataSet);
 
         $customer = $quote->getCustomer();
         $this->assertEquals($expected, $customer->__toArray());
@@ -76,7 +76,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
         $this->assertEquals($expected, $customerDataSet->__toArray());
-        $quote->setCustomerData($customerDataSet);
+        $quote->setCustomer($customerDataSet);
 
         $expected[Customer::EMAIL] = 'test@example.com';
         $customerBuilder->populateWithArray($expected);
@@ -100,7 +100,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customerData = $customerBuilder->setId(1)->setGroupId($customerGroupId)->create();
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        $quote->setCustomerData($customerData);
+        $quote->setCustomer($customerData);
         $quote->unsetData('customer_group_id');
 
         /** Execute SUT */

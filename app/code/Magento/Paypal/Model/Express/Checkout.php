@@ -108,7 +108,7 @@ class Checkout
      *
      * @var array
      */
-    protected $_giropayUrls = array();
+    protected $_giropayUrls = [];
 
     /**
      * Create Billing Agreement flag
@@ -331,7 +331,7 @@ class Checkout
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         OrderSender $orderSender,
-        $params = array()
+        $params = []
     ) {
         $this->_customerData = $customerData;
         $this->_taxData = $taxData;
@@ -419,7 +419,7 @@ class Checkout
      */
     public function prepareGiropayUrls($successUrl, $cancelUrl, $pendingUrl)
     {
-        $this->_giropayUrls = array($successUrl, $cancelUrl, $pendingUrl);
+        $this->_giropayUrls = [$successUrl, $cancelUrl, $pendingUrl];
         return $this;
     }
 
@@ -559,7 +559,7 @@ class Checkout
 
         // add line items
         /** @var $cart \Magento\Payment\Model\Cart */
-        $cart = $this->_cartFactory->create(array('salesModel' => $this->_quote));
+        $cart = $this->_cartFactory->create(['salesModel' => $this->_quote]);
         $this->_api->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_config->getConfigValue('lineItemsEnabled'));
 
@@ -732,8 +732,8 @@ class Checkout
     public function getShippingOptionsCallbackResponse(array $request)
     {
         // prepare debug data
-        $logger = $this->_logFactory->create(array('fileName' => 'payment_' . $this->_methodType . '.log'));
-        $debugData = array('request' => $request, 'response' => array());
+        $logger = $this->_logFactory->create(['fileName' => 'payment_' . $this->_methodType . '.log']);
+        $debugData = ['request' => $request, 'response' => []];
 
         try {
             // obtain addresses
@@ -742,7 +742,7 @@ class Checkout
             $quoteAddress = $this->_quote->getShippingAddress();
 
             // compare addresses, calculate shipping rates and prepare response
-            $options = array();
+            $options = [];
             if ($address && $quoteAddress && !$this->_quote->getIsVirtual()) {
                 foreach ($address->getExportedKeys() as $key) {
                     $quoteAddress->setDataUsingMethod($key, $address->getData($key));
@@ -809,7 +809,7 @@ class Checkout
 
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
-        $parameters = array('quote' => $this->_quote);
+        $parameters = ['quote' => $this->_quote];
         $service = $this->_serviceQuoteFactory->create($parameters);
         $service->submitAllWithDataObject();
         $this->_quote->save();
@@ -1005,7 +1005,7 @@ class Checkout
      */
     protected function _prepareShippingOptions(Address $address, $mayReturnEmpty = false, $calculateTax = false)
     {
-        $options = array();
+        $options = [];
         $i = 0;
         $iMin = false;
         $min = false;
@@ -1063,7 +1063,7 @@ class Checkout
 
         // Magento will transfer only first 10 cheapest shipping options if there are more than 10 available.
         if (count($options) > 10) {
-            usort($options, array(get_class($this), 'cmpShippingOptions'));
+            usort($options, [get_class($this), 'cmpShippingOptions']);
             array_splice($options, 10);
             // User selected option will be always included in options list
             if (!is_null($userSelectedOption) && !in_array($userSelectedOption, $options)) {
@@ -1192,10 +1192,10 @@ class Checkout
         $customer->setLastname($quote->getCustomerLastname());
         $customer->setSuffix($quote->getCustomerSuffix());
 
-        $quote->setCustomerData($customer->create())->addCustomerAddressData($customerBilling);
+        $quote->setCustomer($customer->create())->addCustomerAddress($customerBilling);
 
         if (isset($customerShipping)) {
-            $quote->addCustomerAddressData($customerShipping);
+            $quote->addCustomerAddress($customerShipping);
         }
     }
 
@@ -1239,7 +1239,7 @@ class Checkout
                 ->setDefaultBilling(false)
                 ->setDefaultShipping(true)
                 ->create();
-            $quote->addCustomerAddressData($shippingAddress);
+            $quote->addCustomerAddress($shippingAddress);
         } else if (!$customer->getDefaultShipping()) {
             $isBillingAddressDefaultShipping = true;
         }
@@ -1252,9 +1252,9 @@ class Checkout
                 ->setDefaultBilling($isBillingAddressDefaultBilling)
                 ->setDefaultShipping($isBillingAddressDefaultShipping)
                 ->create();
-            $quote->addCustomerAddressData($billingAddress);
+            $quote->addCustomerAddress($billingAddress);
         }
-        $quote->setCustomerData($customer);
+        $quote->setCustomer($customer);
     }
 
     /**

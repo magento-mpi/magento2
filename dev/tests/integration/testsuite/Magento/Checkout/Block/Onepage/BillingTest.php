@@ -51,7 +51,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $quoteCollection = $objectManager->get('Magento\Sales\Model\Resource\Quote\Collection');
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $quoteCollection->getLastItem();
-        $quote->setCustomerData($customerData);
+        $quote->setCustomer($customerData);
         /** @var $quoteAddressFactory \Magento\Sales\Model\Quote\AddressFactory */
         $this->_quoteAddressFactory = $objectManager->get('Magento\Sales\Model\Quote\AddressFactory');
         $billingAddress = $this->_quoteAddressFactory->create()->importCustomerAddressData($address);
@@ -132,7 +132,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         )->setLastname(
             self::SAMPLE_LAST_NAME
         )->create();
-        $this->_block->getQuote()->setCustomerData($customerData);
+        $this->_block->getQuote()->setCustomer($customerData);
         $this->_block->getQuote()->save();
 
         $this->assertEquals(self::SAMPLE_FIRST_NAME, $this->_block->getFirstname());

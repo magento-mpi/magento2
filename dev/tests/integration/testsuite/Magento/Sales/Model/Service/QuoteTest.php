@@ -115,7 +115,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             [CustomerInterface::EMAIL => 'new@example.com']
         );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerData);
+        $this->_serviceQuote->getQuote()->setCustomer($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomer()->getId();
@@ -133,7 +133,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testSubmitOrderNewCustomer()
     {
         $this->_prepareQuote(false);
-        $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
+        $this->_serviceQuote->getQuote()->setCustomer($this->getSampleCustomerEntity());
         $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
         $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomer()->getId();

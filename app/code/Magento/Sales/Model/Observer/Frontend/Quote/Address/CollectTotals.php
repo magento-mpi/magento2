@@ -7,6 +7,9 @@
  */
 namespace Magento\Sales\Model\Observer\Frontend\Quote\Address;
 
+/**
+ * Class CollectTotals
+ */
 class CollectTotals
 {
     /**
@@ -92,7 +95,7 @@ class CollectTotals
             $quoteAddress->setPrevQuoteCustomerGroupId($quote->getCustomerGroupId());
             $quote->setCustomerGroupId($groupId);
             $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, ['group_id' => $groupId]);
-            $quote->setCustomerData($customer);
+            $quote->setCustomer($customer);
         }
     }
 }

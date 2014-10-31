@@ -238,7 +238,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
@@ -312,11 +312,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_coreRegistry->register(
             'rule_data',
             new \Magento\Framework\Object(
-                array(
+                [
                     'store_id' => $this->_session->getStore()->getId(),
                     'website_id' => $this->_session->getStore()->getWebsiteId(),
                     'customer_group_id' => $this->getCustomerGroupId()
-                )
+                ]
             )
         );
         return $this;
@@ -472,7 +472,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
 
         $this->_objectCopyService->copyFieldsetToTarget('sales_copy_order', 'to_edit', $order, $quote);
 
-        $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('sales_convert_order_to_quote', ['order' => $order, 'quote' => $quote]);
 
         if (!$order->getCustomerId()) {
             $quote->setCustomerIsGuest(true);
@@ -572,18 +572,18 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(
                     new \Magento\Framework\Object(
-                        array(
+                        [
                             'product' => $item->getProduct(),
                             'code' => 'additional_options',
                             'value' => serialize($additionalOptions)
-                        )
+                        ]
                     )
                 );
             }
 
             $this->_eventManager->dispatch(
                 'sales_convert_order_item_to_quote_item',
-                array('order_item' => $orderItem, 'quote_item' => $item)
+                ['order_item' => $orderItem, 'quote_item' => $item]
             );
             return $item;
         }
@@ -735,11 +735,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                             $info->setOptions($this->_prepareOptionsForRequest($item));
                         } else {
                             $info = new \Magento\Framework\Object(
-                                array(
+                                [
                                     'product_id' => $product->getId(),
                                     'qty' => $qty,
                                     'options' => $this->_prepareOptionsForRequest($item)
-                                )
+                                ]
                             );
                         }
 
@@ -847,7 +847,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         if (isset($data['add'])) {
             foreach ($data['add'] as $productId => $qty) {
-                $this->addProduct($productId, array('qty' => $qty));
+                $this->addProduct($productId, ['qty' => $qty]);
             }
         }
         if (isset($data['remove'])) {
@@ -921,7 +921,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     public function addProduct($product, $config = 1)
     {
         if (!is_array($config) && !$config instanceof \Magento\Framework\Object) {
-            $config = array('qty' => $config);
+            $config = ['qty' => $config];
         }
         $config = new \Magento\Framework\Object($config);
 
@@ -1032,8 +1032,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $item->getProduct()
         )->getProductOptions();
 
-        $newOptions = array();
-        $newAdditionalOptions = array();
+        $newOptions = [];
+        $newAdditionalOptions = [];
 
         foreach (explode("\n", $additionalOptions) as $_additionalOption) {
             if (strlen(trim($_additionalOption))) {
@@ -1070,15 +1070,15 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                     if ($parsedValue !== null) {
                         $newOptions[$optionId] = $parsedValue;
                     } else {
-                        $newAdditionalOptions[] = array('label' => $label, 'value' => $value);
+                        $newAdditionalOptions[] = ['label' => $label, 'value' => $value];
                     }
                 } else {
-                    $newAdditionalOptions[] = array('label' => $label, 'value' => $value);
+                    $newAdditionalOptions[] = ['label' => $label, 'value' => $value];
                 }
             }
         }
 
-        return array('options' => $newOptions, 'additional_options' => $newAdditionalOptions);
+        return ['options' => $newOptions, 'additional_options' => $newAdditionalOptions];
     }
 
     /**
@@ -1104,22 +1104,22 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         if (!empty($options['options'])) {
             $item->addOption(
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'product' => $item->getProduct(),
                         'code' => 'option_ids',
                         'value' => implode(',', array_keys($options['options']))
-                    )
+                    ]
                 )
             );
 
             foreach ($options['options'] as $optionId => $optionValue) {
                 $item->addOption(
                     new \Magento\Framework\Object(
-                        array(
+                        [
                             'product' => $item->getProduct(),
                             'code' => 'option_' . $optionId,
                             'value' => $optionValue
-                        )
+                        ]
                     )
                 );
             }
@@ -1127,11 +1127,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         if (!empty($options['additional_options'])) {
             $item->addOption(
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'product' => $item->getProduct(),
                         'code' => 'additional_options',
                         'value' => serialize($options['additional_options'])
-                    )
+                    ]
                 )
             );
         }
@@ -1147,7 +1147,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      */
     protected function _prepareOptionsForRequest($item)
     {
-        $newInfoOptions = array();
+        $newInfoOptions = [];
         $optionIds = $item->getOptionByCode('option_ids');
         if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
@@ -1236,16 +1236,16 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $data,
             $isAjax,
             CustomerForm::DONT_IGNORE_INVISIBLE,
-            array()
+            []
         );
 
         // prepare request
         // save original request structure for files
         if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING) {
-            $requestData = array('order' => array('shipping_address' => $data));
+            $requestData = ['order' => ['shipping_address' => $data]];
             $requestScope = 'order/shipping_address';
         } else {
-            $requestData = array('order' => array('billing_address' => $data));
+            $requestData = ['order' => ['billing_address' => $data]];
             $requestScope = 'order/billing_address';
         }
         $request = $addressForm->prepareRequest($requestData);
@@ -1480,7 +1480,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $data = $form->restoreData($data);
         $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data);
         $this->getQuote()->updateCustomerData($customer);
-        $data = array();
+        $data = [];
 
         $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
@@ -1573,7 +1573,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     {
         $form = $this->_createCustomerForm($customerDataObject);
         // emulate request
-        $request = $form->prepareRequest(array('order' => $this->getData()));
+        $request = $form->prepareRequest(['order' => $this->getData()]);
         $data = $form->extractData($request, 'order/account');
         if ($this->getIsValidate()) {
             $errors = $form->validateData($data);
@@ -1713,7 +1713,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
-        $this->getQuote()->addCustomerAddressData($customerAddressDataObject);
+        $this->getQuote()->addCustomerAddress($customerAddressDataObject);
     }
 
     /**
@@ -1724,7 +1724,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected function _prepareQuoteItems()
     {
         foreach ($this->getQuote()->getAllItems() as $item) {
-            $options = array();
+            $options = [];
             $productOptions = $item->getProduct()->getTypeInstance()->getOrderOptions($item->getProduct());
             if ($productOptions) {
                 $productOptions['info_buyRequest']['options'] = $this->_prepareOptionsForRequest($item);
@@ -1752,20 +1752,20 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_prepareQuoteItems();
 
         /** @var $service \Magento\Sales\Model\Service\Quote */
-        $service = $this->_objectManager->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
+        $service = $this->_objectManager->create('Magento\Sales\Model\Service\Quote', ['quote' => $quote]);
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
             $originalId = $oldOrder->getOriginalIncrementId();
             if (!$originalId) {
                 $originalId = $oldOrder->getIncrementId();
             }
-            $orderData = array(
+            $orderData = [
                 'original_increment_id' => $originalId,
                 'relation_parent_id' => $oldOrder->getId(),
                 'relation_parent_real_id' => $oldOrder->getIncrementId(),
                 'edit_increment' => $oldOrder->getEditIncrement() + 1,
                 'increment_id' => $originalId . '-' . ($oldOrder->getEditIncrement() + 1)
-            );
+            ];
             $quote->setReservedOrderId($orderData['increment_id']);
             $service->setOrderData($orderData);
         }
@@ -1783,7 +1783,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->emailSender->send($order);
         }
 
-        $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('checkout_submit_all_after', ['order' => $order, 'quote' => $quote]);
 
         return $order;
     }

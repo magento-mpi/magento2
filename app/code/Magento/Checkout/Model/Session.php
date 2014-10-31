@@ -8,9 +8,11 @@
 namespace Magento\Checkout\Model;
 
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Sales\Model\Quote;
 
+/**
+ * Class Session
+ */
 class Session extends \Magento\Framework\Session\SessionManager
 {
     /**
@@ -218,9 +220,9 @@ class Session extends \Magento\Framework\Session\SessionManager
 
             if ($this->getQuoteId()) {
                 if ($this->_customer) {
-                    $quote->setCustomerData($this->_customer);
+                    $quote->setCustomer($this->_customer);
                 } else if ($this->_customerSession->isLoggedIn()) {
-                    $quote->setCustomerData($this->_customerSession->getCustomerDataObject());
+                    $quote->setCustomer($this->_customerSession->getCustomerDataObject());
                 }
             }
 
@@ -228,11 +230,13 @@ class Session extends \Magento\Framework\Session\SessionManager
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = $this->_remoteAddress->getRemoteAddress()) {
+        $remoteAddr = $this->_remoteAddress->getRemoteAddress();
+        if ($remoteAddr) {
             $this->_quote->setRemoteIp($remoteAddr);
             $xForwardIp = $this->request->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
         }
+
         return $this->_quote;
     }
 
@@ -272,7 +276,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             return $this;
         }
 
-        $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
+        $this->_eventManager->dispatch('load_customer_quote_before', ['checkout_session' => $this]);
 
         $customerQuote = $this->_quoteFactory->create()->setStoreId(
             $this->_storeManager->getStore()->getId()
@@ -294,11 +298,10 @@ class Session extends \Magento\Framework\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomerData(
-                $this->_customerSession->getCustomerDataObject()
-            )->setTotalsCollectedFlag(
-                false
-            )->collectTotals()->save();
+            $this->getQuote()->setCustomer($this->_customerSession->getCustomerDataObject())
+                ->setTotalsCollectedFlag(false)
+                ->collectTotals()
+                ->save();
         }
         return $this;
     }
@@ -360,7 +363,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function clearQuote()
     {
-        $this->_eventManager->dispatch('checkout_quote_destroy', array('quote' => $this->getQuote()));
+        $this->_eventManager->dispatch('checkout_quote_destroy', ['quote' => $this->getQuote()]);
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);
@@ -442,7 +445,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             if ($quote->getId()) {
                 $quote->setIsActive(1)->setReservedOrderId(null)->save();
                 $this->replaceQuote($quote)->unsLastRealOrderId();
-                $this->_eventManager->dispatch('restore_quote', array('order' => $order, 'quote' => $quote));
+                $this->_eventManager->dispatch('restore_quote', ['order' => $order, 'quote' => $quote]);
                 return true;
             }
         }
