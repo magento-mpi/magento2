@@ -17,8 +17,6 @@ interface AttributeGroupRepositoryInterface
      * @return \Magento\Eav\Api\Data\AttributeGroupInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
-     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::update
-     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::create
      */
     public function save(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
 
@@ -28,7 +26,6 @@ interface AttributeGroupRepositoryInterface
      * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Eav\Api\Data\AttributeGroupInterface[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface::getList
      */
     public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria);
 
@@ -48,7 +45,6 @@ interface AttributeGroupRepositoryInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
-     * @see \Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface::delete
      */
     public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
 

@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Model;
 
 use \Magento\Framework\Exception\StateException;
+use \Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductAttributeGroupRepository implements \Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface
 {
@@ -18,7 +19,7 @@ class ProductAttributeGroupRepository implements \Magento\Catalog\Api\ProductAtt
     protected $groupRepository;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Attribute\Group
+     * @var \Magento\Catalog\Model\Product\Attribute\GroupFactory
      */
     protected $groupFactory;
 
@@ -63,7 +64,13 @@ class ProductAttributeGroupRepository implements \Magento\Catalog\Api\ProductAtt
      */
     public function get($groupId)
     {
-        return $this->groupRepository->get($groupId);
+        /** @var \Magento\Catalog\Model\Product\Attribute\Group $group */
+        $group = $this->groupFactory->create();
+        $this->groupResource->load($group, $groupId);
+        if (!$group->getId()) {
+            throw new NoSuchEntityException(sprintf('Group with id "%s" does not exist.', $groupId));
+        }
+        return $group;
     }
 
     /**
@@ -82,11 +89,8 @@ class ProductAttributeGroupRepository implements \Magento\Catalog\Api\ProductAtt
      */
     public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group)
     {
-        /** @var \Magento\Catalog\Model\Product\Attribute\Group $attributeGroup */
-        $attributeGroup = $this->groupFactory->create();
-        $this->groupResource->load($attributeGroup, $group->getId());
-
-        if ($attributeGroup->hasSystemAttributes()) {
+        /** @var \Magento\Catalog\Model\Product\Attribute\Group $group */
+        if ($group->hasSystemAttributes()) {
             throw new StateException('Attribute group that contains system attributes can not be deleted');
         }
         return $this->groupRepository->delete($group);
