@@ -66,14 +66,16 @@ class AlgorithmFactory
         $calculationType = $this->scopeConfig->getValue(self::XML_PATH_RANGE_CALCULATION, ScopeInterface::SCOPE_STORE);
 
         if (!isset($this->algorithms[$calculationType])) {
-            throw new Exception($calculationType . ' doesn\'t found in algorithms');
+            throw new Exception($calculationType . ' was not found in algorithms');
         }
 
         $className = $this->algorithms[$calculationType];
         $model = $this->objectManager->create($className, $data);
 
         if (!$model instanceof AlgorithmInterface) {
-            throw new Exception($className . ' doesn\'t extends \Magento\Framework\Model\Exception');
+            throw new Exception(
+                $className . ' doesn\'t extends \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmInterface'
+            );
         }
 
         return $model;
