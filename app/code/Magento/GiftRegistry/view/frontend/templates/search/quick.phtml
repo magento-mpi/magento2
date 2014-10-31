@@ -8,10 +8,10 @@
 ?>
 
 <?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
-<div class="block giftregistry search">
-    <div class="title"> <strong><?php echo __('Gift Registry Search') ?></strong></div>
-    <div class="content">
-        <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry search">
+<div class="block block-giftregistry-search">
+    <div class="block-title"> <strong><?php echo __('Gift Registry Search') ?></strong></div>
+    <div class="block-content">
+        <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form form-giftregistry-search">
             <div class="field name required">
                 <?php echo $this->getBlockHtml('formkey')?>
                 <label for="params-firstname" class="label"><span><?php echo __('First Name') ?></span></label>
@@ -30,14 +30,13 @@
                 <label class="label"><span><?php echo __('Type') ?></span></label>
                 <div class="control"><?php echo $this->getTypeSelectHtml() ?></div>
             </div>
-            <div class="actions">
+            <div class="actions-toolbar">
                 <input type="hidden" name="params[search]" value="type">
                 <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
 
-        <form id="gr-quick-search-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry search">
-
+        <form id="gr-quick-search-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form form-giftregistry-search">
             <div class="field email required">
                 <?php echo $this->getBlockHtml('formkey')?>
                 <label for="params_email" class="label"><span><?php echo __('Recipient Email') ?></span></label>
@@ -46,13 +45,13 @@
                 </div>
             </div>
 
-            <div class="actions">
+            <div class="actions-toolbar">
                 <input type="hidden" name="params[search]" value="email">
                 <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
 
-        <form id="gr-quick-search-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form giftregistry search">
+        <form id="gr-quick-search-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="form form-giftregistry-search">
             <div class="field id required">
                 <?php echo $this->getBlockHtml('formkey')?>
                 <label for="params_id" class="label"><span><?php echo __('Gift Registry ID') ?></span></label>
@@ -60,9 +59,9 @@
                     <input type="text" class="input-text required-entry" id="params_id" name="params[id]" />
                 </div>
             </div>
-            <div class="actions">
+            <div class="actions-toolbar">
                 <input type="hidden" name="params[search]" value="id">
-                <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
+                <button type="submit" title="<?php echo __('Go') ?>" class="action primary search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
     </div>

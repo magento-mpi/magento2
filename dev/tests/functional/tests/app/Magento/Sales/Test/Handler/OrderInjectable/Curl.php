@@ -197,7 +197,6 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['qty'];
         foreach ($checkoutData['options']['links'] as $link) {
             $result['links'][] = $link['id'];
         }
@@ -273,9 +272,9 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         foreach ($data['products'] as $value) {
-            $result[$value->getId()] = [
-                'qty' => ['qty' => $value->getCheckoutData()['qty']],
-            ];
+            if (isset($value->getCheckoutData()['qty'])) {
+                $result[$value->getId()] = ['qty' => ['qty' => $value->getCheckoutData()['qty']]];
+            }
         }
 
         return $result;

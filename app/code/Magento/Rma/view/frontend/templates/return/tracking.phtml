@@ -19,8 +19,8 @@
 <?php endif ?>
 <?php foreach ($this->getTrackingNumbers() as $number): ?>
 <tr>
-    <td class="col carrier"><?php echo $this->escapeHtml($number->getCarrierTitle()) ?></td>
-    <td class="col id">
+    <td data-th="<?php echo $this->escapeHtml(__('Carrier')) ?>" class="col carrier"><?php echo $this->escapeHtml($number->getCarrierTitle()) ?></td>
+    <td data-th="<?php echo $this->escapeHtml(__('Number')) ?>" class="col id">
         <a href="#" data-mage-init='{"popupWindow": {
             "windowURL":"<?php echo $this->helper('Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($number) ?>",
             "windowName":"trackshipment",
@@ -29,7 +29,7 @@
             <span><?php echo $this->escapeHtml($number->getTrackNumber()) ?></span>
         </a>
     </td>
-    <td class="col actions">
+    <td data-th="<?php echo $this->escapeHtml(__('Action')) ?>" class="col actions">
         <?php if(!$number->getIsAdmin() && $this->isPrintShippingLabelAllowed()): ?>
             <a href="#" data-entity-id="<?php echo $number->getEntityId()?>" class="action delete" title="<?php echo __('Delete') ?>">
                 <span><?php echo __('Delete') ?></span>
