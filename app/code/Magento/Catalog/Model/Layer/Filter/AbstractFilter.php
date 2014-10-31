@@ -149,6 +149,18 @@ abstract class AbstractFilter extends \Magento\Framework\Object
     }
 
     /**
+     * Set all filter items
+     *
+     * @param array $items
+     * @return $this
+     */
+    public function setItems(array $items)
+    {
+        $this->_items = $items;
+        return $this;
+    }
+
+    /**
      * Get data array for building filter items
      *
      * Result array should have next structure:

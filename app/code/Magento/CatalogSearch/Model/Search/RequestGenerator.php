@@ -72,7 +72,7 @@ class RequestGenerator
                         'type' => 'termBucket',
                         'name' => $bucketName,
                         'field' => $attribute->getAttributeCode(),
-                        [["type" => "count"]],
+                        'metric' => [["type" => "count"]],
                     ];
                 }
             }

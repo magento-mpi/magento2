@@ -80,11 +80,22 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
     public function prepareFilters()
     {
         $queryRequest = $this->requestBuilder->create();
+        /** @var \Magento\Framework\Search\Response\QueryResponse $queryResponse */
         $queryResponse = $this->searchEngine->search($queryRequest);
-        $ids = [0];
-        /** @var \Magento\Framework\Search\Document $document */
-        foreach ($queryResponse as $document) {
-            $ids[] = $document->getId();
-        }
+        $aggregations = $queryResponse->getAggregations();
+        /*
+        foreach ($this->filters as $filter) {
+            try {
+                $attribute = $filter->getAttributeModel();
+            } catch (\Exception $e) {
+                continue;
+            }
+            $filterAttributeCode = $attribute->getAttributeCode();
+            $values = array();
+            foreach($aggregations->getBucket($filterAttributeCode . '_bucket')->getValues() as $value) {
+                $values[] = $value->getMetrics();
+            }
+            $filter->setItems($values);
+        }*/
     }
 }
