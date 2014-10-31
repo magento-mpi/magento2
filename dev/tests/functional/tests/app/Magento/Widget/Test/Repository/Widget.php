@@ -24,23 +24,6 @@ class Widget extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = [
-            'title' => 'Test Frontend App',
-            'store_ids' => ['dataSet' => 'All Store Views'],
-            'widget_instance' => [
-                '0' => [
-                    'page_group' => 'All Pages',
-                    'all_pages' => [
-                        'block' => 'Main Content Area',
-                    ]
-                ]
-            ],
-            'parameters' => [
-                'display_mode' => 'catalogrule'
-            ],
-            'theme_id' => 'Magento Blank'
-        ];
-
         $this->_data['cms_page_link'] = [
             'code' => 'CMS Page Link',
             'title' => 'Cms Page Link %isolation%',

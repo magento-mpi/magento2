@@ -28,13 +28,15 @@ class Curl extends AbstractCurl
      */
     protected $mappingData = [
         'theme_id' => [
-            'Magento Blank' => 2,
+            'Magento Blank' => 3,
         ],
         'code' => [
             'CMS Page Link' => 'cms_page_link',
         ],
         'block' => [
-            'Main Content Area' => 'content'
+            'Main Content Area' => 'content',
+            'Sidebar Additional' => 'sidebar.additional',
+            'Sidebar Main' => 'sidebar.main'
         ],
         'page_group' => [
             'All Pages' => 'all_pages',
@@ -60,7 +62,7 @@ class Curl extends AbstractCurl
      *
      * @var string
      */
-    protected $widgetInstanceTemplate = 'widget/block.phtml';
+    protected $widgetInstanceTemplate = '';
 
     /**
      * Post request for creating widget instance
@@ -126,20 +128,46 @@ class Curl extends AbstractCurl
             if (!isset($widgetInstance[$pageGroup]['page_id'])) {
                 $widgetInstance[$pageGroup]['page_id'] = 0;
             }
-            if ($pageGroup === 'notanchor_categories') {
-                $widgetInstance[$pageGroup]['is_anchor_only'] = 0;
-            }
-            if ($pageGroup === 'all_pages') {
-                $widgetInstance[$pageGroup]['layout_handle'] = 'default';
-                $widgetInstance[$pageGroup]['for'] = 'all';
-                if (!isset($widgetInstance[$pageGroup]['template'])) {
-                    $widgetInstance[$pageGroup]['template'] = $this->widgetInstanceTemplate;
-                }
+            switch ($pageGroup) {
+                case 'notanchor_categories':
+                    $widgetInstance[$pageGroup] = $this->prepareNonAnchorCategoriesGroup($widgetInstance[$pageGroup]);
+                    break;
+                case 'all_pages':
+                    $widgetInstance[$pageGroup] = $this->prepareAllPagesGroup($widgetInstance[$pageGroup]);
+                    break;
             }
             $data['widget_instance'][$key] = $widgetInstance;
         }
 
         return $data;
+    }
+
+    /**
+     * Prepare All Page Group.
+     *
+     * @param array $widgetInstancePageGroup
+     * @return array
+     */
+    protected function prepareAllPagesGroup(array $widgetInstancePageGroup)
+    {
+        $widgetInstancePageGroup['layout_handle'] = 'default';
+        $widgetInstancePageGroup['for'] = 'all';
+        if (!isset($group['template'])) {
+            $widgetInstancePageGroup['template'] = $this->widgetInstanceTemplate;
+        }
+
+        return $widgetInstancePageGroup;
+    }
+
+    /**
+     * Prepare Non-Anchor Categories Page Group.
+     *
+     * @param array $widgetInstancePageGroup
+     * @return array
+     */
+    protected function prepareNonAnchorCategoriesGroup(array $widgetInstancePageGroup)
+    {
+        return $widgetInstancePageGroup['is_anchor_only'] = 0;
     }
 
     /**
