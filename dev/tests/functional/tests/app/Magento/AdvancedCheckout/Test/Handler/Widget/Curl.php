@@ -32,10 +32,7 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
     protected $widgetInstanceTemplate = 'widget/sku.phtml';
 
     /**
-     * Constructor
-     *
      * @constructor
-     *
      */
     public function __construct()
     {

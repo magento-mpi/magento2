@@ -119,9 +119,9 @@ class Curl extends AbstractCurl
             if (!isset($widgetInstance[$pageGroup]['page_id'])) {
                 $widgetInstance[$pageGroup]['page_id'] = 0;
             }
-            $method = $this->prepareMethodName($pageGroup);
+            $method = 'prepare' . str_replace(' ', '', ucwords(str_replace('_', ' ', $pageGroup))) . 'Group';
             if (!method_exists(__CLASS__, $method)) {
-                throw new \Exception('Method ' . $method . ' is not exist.');
+                throw new \Exception('Method for prepare page group "' . $method . '" is not exist.');
             }
             $widgetInstance[$pageGroup] = $this->$method($widgetInstance[$pageGroup]);
             $data['widget_instance'][$key] = $widgetInstance;
@@ -156,23 +156,5 @@ class Curl extends AbstractCurl
     protected function prepareNotanchorCategoriesGroup(array $widgetInstancePageGroup)
     {
         return $widgetInstancePageGroup['is_anchor_only'] = 0;
-    }
-
-    /**
-     * Prepare method name.
-     *
-     * @param string $pageGroup
-     * @return string
-     */
-    protected function prepareMethodName($pageGroup)
-    {
-        $methodName = 'prepare%sGroup';
-        $pieces = explode('_', $pageGroup);
-        $groupName = '';
-        foreach ($pieces as $piece) {
-            $groupName .= ucfirst($piece);
-        }
-
-        return sprintf($methodName, $groupName);
     }
 }
