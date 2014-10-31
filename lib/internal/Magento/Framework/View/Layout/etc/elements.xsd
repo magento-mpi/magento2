@@ -235,6 +235,7 @@
         <xs:attribute type="xs:string" name="group" use="optional" />
         <xs:attribute type="xs:boolean" name="cacheable" default="true" use="optional"/>
         <xs:attribute type="xs:int" name="ttl" use="optional"/>
+        <xs:attribute type="xs:int" name="sort_order" use="optional"/>
     </xs:complexType>
 
     <xs:complexType name="uiComponentType" mixed="true">

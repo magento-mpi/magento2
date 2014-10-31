@@ -102,6 +102,9 @@ class AbstractStructure extends AbstractView
 
         $this->processChildBLocks();
 
+
+        //$this->sortTabs($this->structure['sections']); // todo
+
         $this->renderContext->getStorage()->addLayoutStructure(
             $this->getDataScope(),
             [
@@ -118,6 +121,8 @@ class AbstractStructure extends AbstractView
             );
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
+        } else {
+            // todo fallback to content container
         }
     }
 
@@ -222,8 +227,7 @@ class AbstractStructure extends AbstractView
                 continue;
             }
             if ($key != Metadata::CHILD_DATA_SOURCES) {
-                $value['dataScope'] = $dataSource . '.' . $key;
-                $referenceElementName = $this->addElement($key, $value);
+                $referenceElementName = $this->addElement($key, $dataSource . '.' . $key, $value);
                 $this->addToGroup($dataSource, $referenceElementName);
             }
         }
@@ -272,7 +276,8 @@ class AbstractStructure extends AbstractView
         $this->addToArea($childName, $referenceChildGroupName);
 
         $itemTemplate = [
-            'type' => 'template',
+            'type' => $this->ns,
+            'isTemplate' => true,
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
             'config' => [
@@ -287,9 +292,9 @@ class AbstractStructure extends AbstractView
         }
         foreach ($childMeta as $key => $value) {
             $itemTemplate['children'][$key] = $value;
-            $value['dataScope'] = $key;
             $itemTemplate['children'][$key]['config'] = $value;
             $itemTemplate['children'][$key]['type'] = 'group';
+            $itemTemplate['children'][$key]['dataScope'] = $key;
             $itemTemplate['children'][$key]['children'][$key] = [
                 'type' => $value['formElement'],
                 'config' => $value
@@ -399,15 +404,17 @@ class AbstractStructure extends AbstractView
 
     /**
      * @param string $elementName
+     * @param string $dataScope
      * @param array $config
      * @return string
      */
-    protected function addElement($elementName, array $config = [])
+    protected function addElement($elementName, $dataScope, array $config = [])
     {
         $this->structure['elements']['children'][$elementName]['type'] = 'group';
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
             'name' => $config['name'],
+            'dataScope' => $dataScope,
             'config' => $config
         ];
         return "{$this->ns}.elements.{$elementName}";
@@ -445,7 +452,7 @@ class AbstractStructure extends AbstractView
      * @param array $items
      * @return void
      */
-    protected function sortTabs(array $items)
+    protected function sortTabs(array & $items)
     {
         usort($items, [$this, 'compareSortOrder']);
     }
