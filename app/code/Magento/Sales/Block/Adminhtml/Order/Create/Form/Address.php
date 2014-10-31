@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
-use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Order create address form
@@ -47,9 +47,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Address service
      *
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
-    protected $_addressService;
+    protected $addressService;
 
     /**
      * Address helper
@@ -59,6 +59,22 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_addressHelper;
 
     /**
+     * Search criteria builder
+     *
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected $criteriaBuilder;
+
+    /**
+     * Filter builder
+     *
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -68,8 +84,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -84,16 +101,21 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
-        array $data = array()
+        \Magento\Customer\Api\AddressRepositoryInterface $addressService,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        array $data = []
     ) {
         $this->_customerHelper = $customerHelper;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
-        $this->_addressService = $addressService;
         $this->_addressHelper = $addressHelper;
+        $this->addressService = $addressService;
+        $this->criteriaBuilder = $criteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
+
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
     }
 
@@ -111,14 +133,18 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Retrieve current customer address DATA collection.
      *
-     * @return \Magento\Customer\Service\V1\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
      */
     public function getAddressCollection()
     {
         if ($this->getCustomerId()) {
-            return $this->_addressService->getAddresses($this->getCustomerId());
+            $this->criteriaBuilder->addFilter(
+                ['eq' => $this->filterBuilder->setField('parent_id')->setValue($this->getCustomerId())->create()]
+            );
+            $criteria = $this->criteriaBuilder->create();
+            return $this->addressService->getList($criteria)->getItems();
         }
-        return array();
+        return [];
     }
 
     /**
@@ -132,9 +158,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $emptyAddressForm = $this->_customerFormFactory->create(
             'customer_address',
             'adminhtml_customer_address',
-            array(\Magento\Customer\Service\V1\Data\Address::KEY_COUNTRY_ID => $defaultCountryId)
+            [\Magento\Customer\Api\Data\AddressInterface::KEY_COUNTRY_ID => $defaultCountryId]
         );
-        $data = array(0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON));
+        $data = [0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON)];
         foreach ($this->getAddressCollection() as $addressData) {
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
@@ -152,12 +178,13 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * Prepare Form and add elements to form
      *
      * @return $this
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _prepareForm()
     {
-        $fieldset = $this->_form->addFieldset('main', array('no_container' => true));
+        $fieldset = $this->_form->addFieldset('main', ['no_container' => true]);
 
         $addressForm = $this->_customerFormFactory->create('customer_address', 'adminhtml_customer_address');
         $attributes = $addressForm->getAttributes();

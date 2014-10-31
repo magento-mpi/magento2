@@ -15,7 +15,9 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
  */
 class Header extends AbstractCreate
 {
-    /** @var CustomerAccountServiceInterface */
+    /**
+     * @var CustomerAccountServiceInterface
+     */
     protected $_customerAccountService;
 
     /**

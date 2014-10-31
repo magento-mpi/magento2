@@ -7,6 +7,7 @@
  */
 namespace Magento\Paypal\Model\Express;
 
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
@@ -236,9 +237,9 @@ class Checkout
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\AccountManagementInterface
      */
-    protected $_customerAccountService;
+    protected $accountManagement;
 
     /**
      * @var \Magento\Customer\Service\V1\Data\AddressBuilderFactory
@@ -320,10 +321,13 @@ class Checkout
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
+
         \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilderFactory,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
+
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         OrderSender $orderSender,
@@ -346,7 +350,7 @@ class Checkout
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
-        $this->_customerAccountService = $customerAccountService;
+        $this->accountManagement = $accountManagement;
         $this->_addressBuilderFactory = $addressBuilderFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
@@ -1206,7 +1210,10 @@ class Checkout
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
+        // TODO Correct loading of the customer by email only - FIXME
         $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
+
+
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
             $billingAddress = $billing->exportCustomerAddressData();
             $billing->setCustomerAddressData($billingAddress);
@@ -1257,9 +1264,9 @@ class Checkout
      */
     protected function _involveNewCustomer()
     {
-        $customer = $this->_quote->getCustomerData();
-        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
-        if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
+        $customer = $this->_quote->getCustomer();
+        $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
+        if ($confirmationStatus === AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->_messageManager->addSuccess(
             // @codingStandardsIgnoreStart

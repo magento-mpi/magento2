@@ -8,9 +8,9 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Quote model
@@ -264,24 +264,30 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
-     * @var CustomerDataObject
-     */
-    protected $_customerData;
-
-    /**
      * @var \Magento\Customer\Model\Converter
      */
     protected $_converter;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressService
+     * Address repository
+     *
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
-    protected $_addressService;
+    protected $addressRepository;
 
     /**
-     * @var \Magento\Customer\Model\Address\Converter
+     * Search criteria builder
+     *
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
      */
-    protected $_addressConverter;
+    protected $criteriaBuilder;
+
+    /**
+     * Filter builder
+     *
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $filterBuilder;
 
     /**
      * @var \Magento\CatalogInventory\Service\V1\StockItemService
@@ -318,11 +324,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -347,14 +355,16 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Customer\Model\Converter $converter,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_salesData = $salesData;
         $this->_catalogProduct = $catalogProduct;
@@ -373,8 +383,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_converter = $converter;
-        $this->_addressService = $addressService;
-        $this->_addressConverter = $addressConverter;
+        $this->addressRepository = $addressRepository;
+        $this->criteriaBuilder = $criteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         $this->stockItemService = $stockItemService;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
@@ -568,33 +579,27 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return $this
      */
-    public function assignCustomer($customer)
+    public function assignCustomer(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
-        /* @TODO: refactor input type hint after external usages of assignCustomer are refactored in MAGETWO-19930 */
         return $this->assignCustomerWithAddressChange($customer);
     }
 
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  CustomerDataObject|\Magento\Customer\Model\Customer $customer
-     * @param  Address $billingAddress Quote billing address
-     * @param  Address $shippingAddress Quote shipping address
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param Address $billingAddress Quote billing address
+     * @param Address $shippingAddress Quote shipping address
      * @return $this
      */
     public function assignCustomerWithAddressChange(
-        $customer,
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
         Address $billingAddress = null,
         Address $shippingAddress = null
     ) {
-        /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19930 */
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
-            $customer = $this->_converter->createCustomerFromModel($customer);
-        }
-        /** @var CustomerDataObject $customer */
         if ($customer->getId()) {
             $this->setCustomerData($customer);
 
@@ -602,8 +607,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 $this->setBillingAddress($billingAddress);
             } else {
                 try {
-                    $defaultBillingAddress = $this->_addressService->getDefaultBillingAddress($customer->getId());
+                    $defaultBillingAddress = $this->addressRepository->get($customer->getDefaultBilling());
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    //
                 }
                 if (isset($defaultBillingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
@@ -615,8 +621,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
             if (null === $shippingAddress) {
                 try {
-                    $defaultShippingAddress = $this->_addressService->getDefaultShippingAddress($customer->getId());
+                    $defaultShippingAddress = $this->addressRepository->get($customer->getDefaultShipping());
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    //
                 }
                 if (isset($defaultShippingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
@@ -635,10 +642,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Define customer object
      *
-     * @param   \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return $this
      */
-    public function setCustomer(\Magento\Customer\Model\Customer $customer)
+    public function setCustomer(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
         /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
         $this->_customer = $customer;
@@ -650,7 +657,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve customer model object
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {
@@ -707,8 +714,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function setCustomerAddressData(array $addresses)
     {
-        $this->getCustomer()->getAddressesCollection()->removeAllItems();
+        $this->getCustomer()->getAddresses();
         foreach ($addresses as $address) {
+            $this->addressRepository->delete($address);
             $this->addCustomerAddressData($address);
         }
 
@@ -735,21 +743,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * TODO: Refactor to use addressDataObject property is used instead of customer model MAGETWO-19930
      *
-     * @return AddressDataObject[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
      */
     public function getCustomerAddressData()
     {
-        $customer = $this->getCustomerData();
-        $addresses = $this->getCustomer()->getAddresses();
-        $addressDataObjects = array();
-        foreach ($addresses as $address) {
-            $addressDataObjects[] = $this->_addressConverter->createAddressFromModel(
-                $address,
-                $customer->getDefaultBilling(),
-                $customer->getDefaultShipping()
-            );
-        }
-        return $addressDataObjects;
+        return $this->getCustomer()->getAddresses();
     }
 
     /**
@@ -777,7 +775,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         if ($this->hasData('customer_group_id')) {
             return $this->getData('customer_group_id');
         } elseif ($this->getCustomerId()) {
-            return $this->getCustomerData()->getGroupId();
+            return $this->getCustomer()->getGroupId();
         } else {
             return CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
         }

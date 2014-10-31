@@ -7,10 +7,10 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
+ * Class Form
  * Adminhtml sales order create form block
  */
 class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -32,9 +32,23 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Address service
      *
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
-    protected $_addressService;
+    protected $addressService;
+
+    /**
+     * Search criteria builder
+     *
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected $criteriaBuilder;
+
+    /**
+     * Filter builder
+     *
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $filterBuilder;
 
     /**
      * @var \Magento\Framework\Locale\CurrencyInterface
@@ -42,13 +56,17 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_localeCurrency;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
@@ -59,13 +77,17 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressService,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
-        $this->_addressService = $addressService;
+        $this->addressService = $addressService;
+        $this->criteriaBuilder = $criteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
@@ -152,18 +174,24 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getOrderDataJson()
     {
-        $data = array();
+        $data = [];
         if ($this->getCustomerId()) {
             $data['customer_id'] = $this->getCustomerId();
-            $data['addresses'] = array();
-            $addresses = $this->_addressService->getAddresses($this->getCustomerId());
-            foreach ($addresses as $addressData) {
+            $data['addresses'] = [];
+
+            $this->criteriaBuilder->addFilter(
+                ['eq' => $this->filterBuilder->setField('parent_id')->setValue($this->getCustomerId())->create()]
+            );
+            $criteria = $this->criteriaBuilder->create();
+            $addresses = $this->addressService->getList($criteria)->getItems();
+
+            foreach ($addresses as $addressModel) {
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
-                    AddressConverter::toFlatArray($addressData)
+                    $addressModel->getData()
                 );
-                $data['addresses'][$addressData->getId()] = $addressForm->outputData(
+                $data['addresses'][$addressModel->getId()] = $addressForm->outputData(
                     \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
                 );
             }
@@ -176,6 +204,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();
             $data['payment_method'] = $this->getQuote()->getPayment()->getMethod();
         }
+
         return $this->_jsonEncoder->encode($data);
     }
 }

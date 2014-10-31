@@ -14,6 +14,24 @@ namespace Magento\Customer\Api;
  */
 interface AccountManagementInterface
 {
+    // Constants for confirmation statuses
+    const ACCOUNT_CONFIRMED = 'account_confirmed';
+
+    const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
+
+    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
+
+    /**
+     * Constants for types of emails to send out.
+     * pdl:
+     * forgot, remind, reset email templates
+     */
+    const EMAIL_REMINDER = 'email_reminder';
+
+    const EMAIL_RESET = 'email_reset';
+
+    const MIN_PASSWORD_LENGTH = 6;
+
     const DEFAULT_PASSWORD_LENGTH = 6;
 
     /**

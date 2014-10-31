@@ -7,11 +7,11 @@
  */
 namespace Magento\Sales\Model\Service;
 
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
@@ -112,7 +112,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $existingCustomerId = $customerData->getId();
         $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
-            array(CustomerData::EMAIL => 'new@example.com')
+            [CustomerInterface::EMAIL => 'new@example.com']
         );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
         $this->_serviceQuote->getQuote()->setCustomerData($customerData);
@@ -138,7 +138,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
         $this->assertNotNull($customerId);
-        foreach ($this->_serviceQuote->getQuote()->getCustomerAddressData() as $address) {
+        foreach ($this->_serviceQuote->getQuote()->getCustomer()->getAddresses() as $address) {
             $this->assertNotNull($address->getId());
             $this->assertEquals($customerId, $address->getCustomerId());
         }
@@ -155,7 +155,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $quoteFixture->setCustomerEmail('admin@example.com');
         $this->_serviceQuote = Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Service\Quote',
-            array('quote' => $quoteFixture)
+            ['quote' => $quoteFixture]
         );
     }
 
@@ -225,7 +225,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         )->setRegion(
             $regionBuilder->setRegion('Alabama')->setRegionId(1)->setRegionCode('AL')->create()
         )->setStreet(
-            array('Green str, 67')
+            ['Green str, 67']
         )->setTelephone(
             '3468676'
         )->setCity(
@@ -248,7 +248,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         )->setRegion(
             $regionBuilder->setRegion('Alabama')->setRegionId(1)->setRegionCode('AL')->create()
         )->setStreet(
-            array('Black str, 48')
+            ['Black str, 48']
         )->setCity(
             'CityX'
         )->setTelephone(
@@ -260,6 +260,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         );
         $address2 = $this->_customerAddressBuilder->create();
 
-        return array($address1, $address2);
+        return [$address1, $address2];
     }
 }

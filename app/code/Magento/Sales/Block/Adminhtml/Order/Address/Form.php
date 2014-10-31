@@ -29,6 +29,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     protected $_coreRegistry = null;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -38,10 +40,13 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Registry $registry
      * @param array $data
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -54,12 +59,15 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressService,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
+
         parent::__construct(
             $context,
             $sessionQuote,
@@ -71,7 +79,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $customerFormFactory,
             $customerHelper,
             $addressService,
-            $addressHelper,
+            $criteriaBuilder,
+            $filterBuilder,
             $data
         );
     }

@@ -10,10 +10,12 @@ namespace Magento\Sales\Model\Service;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 
+use Magento\Customer\Model\Address\Converter as AddressConverter;
+
 /**
+ * Class Quote
  * Quote submit service model
  */
 class Quote
@@ -182,24 +184,21 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
 
-        $customerData = null;
+        $customer = null;
         if (!$quote->getCustomerIsGuest()) {
-            $customerData = $quote->getCustomerData();
-            $addresses = $quote->getCustomerAddressData();
-            $customerDetails = $this->_customerDetailsBuilder
-                ->setCustomer($customerData)
+            $customer = $quote->getCustomer();
+            $addresses = $customer->getAddresses();
+            $customerDetails = $this->_customerDetailsBuilder->setCustomer($customer)
                 ->setAddresses($addresses)
                 ->create();
-            if ($customerData->getId()) {
-                $this->_customerAccountService->updateCustomer($customerData->getId(), $customerDetails);
+            if ($customer->getId()) {
+                $this->_customerAccountService->updateCustomer($customer->getId(), $customerDetails);
             } else { //for new customers
-                $customerData = $this->_customerAccountService->createCustomerWithPasswordHash(
+                $customer = $this->_customerAccountService->createCustomerWithPasswordHash(
                     $customerDetails,
                     $quote->getPasswordHash()
                 );
-                $addresses = $this->_customerAddressService->getAddresses(
-                    $customerData->getId()
-                );
+                $addresses = $this->_customerAddressService->getAddresses($customer->getId());
                 //Update quote address information
                 foreach ($addresses as $address) {
                     if ($address->isDefaultBilling()) {
@@ -217,7 +216,7 @@ class Quote
                 }
             }
 
-            $quote->setCustomerData($customerData)->setCustomerAddressData($addresses);
+            $quote->setCustomer($customerData)->setCustomerAddressData($addresses);
         }
         $transaction->addObject($quote);
 
