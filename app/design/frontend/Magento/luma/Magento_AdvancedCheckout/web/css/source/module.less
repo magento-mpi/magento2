@@ -71,21 +71,22 @@
             margin: 0 0 @indent-s-base;
         }
     }
-    .block-cart-failed {
-        margin-top: @indent-xl-base;
-        &:extend(.abstract-shopping-cart-items all);
-        .block-title {
-            .font-size(@h2-font-size);
-            strong {
-                font-weight: @h2-font-weight;
-            }
+}
+
+.block-cart-failed {
+    margin-top: @indent-xl-base;
+    &:extend(.abstract-shopping-cart-items all);
+    .block-title {
+        .font-size(@h2-font-size);
+        strong {
+            font-weight: @h2-font-weight;
         }
-        .actions.secondary {
-            text-align: center;
-            .action {
-                display: block;
-                margin: 0 auto @indent-s-base;
-            }
+    }
+    .actions.secondary {
+        text-align: center;
+        .action {
+            display: block;
+            margin: 0 auto @indent-s-base;
         }
     }
 }
