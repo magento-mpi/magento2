@@ -15,27 +15,32 @@ class CombineTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Rule\Model\Condition\Combine | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $combine;
+    private $combine;
 
     /**
      * @var ObjectManagerHelper
      */
-    protected $objectManagerHelper;
+    private $objectManagerHelper;
 
     /**
      * @var \Magento\Rule\Model\Condition\Context | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $contextMock;
+    private $contextMock;
 
     /**
      * @var \Magento\Rule\Model\ConditionFactory | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $conditionFactoryMock;
+    private $conditionFactoryMock;
 
     /**
      * @var \Magento\Framework\Logger | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $loggerMock;
+    private $loggerMock;
+
+    /**
+     * @var  \Magento\SalesRule\Model\Rule\Condition\Product | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $conditionObjectMock;
 
     /**
      * Sets up the Mocks.
@@ -53,25 +58,16 @@ class CombineTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
-        $this->contextMock = $this->getMockBuilder('\Magento\Rule\Model\Condition\Context')
+        $this->conditionObjectMock = $this->getMockBuilder('\Magento\SalesRule\Model\Rule\Condition\Product')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->contextMock
-            ->expects($this->once())
-            ->method('getConditionFactory')
-            ->will($this->returnValue($this->conditionFactoryMock));
-
-        $this->contextMock
-            ->expects($this->once())
-            ->method('getLogger')
-            ->will($this->returnValue($this->loggerMock));
-
         $this->combine = (new ObjectManagerHelper($this))->getObject(
             '\Magento\Rule\Model\Condition\Combine',
             [
-                "context"    => $this->contextMock,
+                "conditionFactory"    => $this->conditionFactoryMock,
+                "logger"    => $this->loggerMock,
             ]
         );
     }
@@ -118,19 +114,14 @@ class CombineTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $objectMock = $this->getMockBuilder('\Magento\SalesRule\Model\Rule\Condition\Product')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
-
-        $objectMock->expects($this->once())
+        $this->conditionObjectMock->expects($this->once())
             ->method('loadArray')
             ->with($array['conditions'][0], 'conditions');
 
         $this->conditionFactoryMock->expects($this->once())
             ->method('create')
             ->with($array['conditions'][0]['type'])
-            ->willReturn($objectMock);
+            ->willReturn($this->conditionObjectMock);
 
         $this->loggerMock->expects($this->never())
             ->method('logException');
@@ -151,12 +142,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $objectMock = $this->getMockBuilder('\Magento\SalesRule\Model\Rule\Condition\Product')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
-
-        $objectMock->expects($this->never())
+        $this->conditionObjectMock->expects($this->never())
             ->method('loadArray');
 
         $this->conditionFactoryMock->expects($this->once())

@@ -341,8 +341,10 @@ class Observer
      */
     public function isAllowedGuestCheckout(\Magento\Framework\Event\Observer $observer)
     {
-        /* @var $quote \Magento\Sales\Model\Quote */
         $store = $observer->getEvent()->getStore();
+        $result = $observer->getEvent()->getResult();
+
+        $result->setIsAllowed(true);
 
         if (!$this->_scopeConfig->isSetFlag(
             self::XML_PATH_DISABLE_GUEST_CHECKOUT,
@@ -352,16 +354,14 @@ class Observer
             return $this;
         }
 
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
-        $result = $observer->getEvent()->getResult();
-
-        $result->setIsAllowed(false);
 
         foreach ($quote->getAllItems() as $item) {
             if (($product = $item->getProduct())
                 && $product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
             ) {
-                $result->setIsAllowed(true);
+                $result->setIsAllowed(false);
                 break;
             }
         }
