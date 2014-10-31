@@ -311,6 +311,7 @@ class AccountManagement implements AccountManagementInterface
 
         try {
             $this->sendNewAccountEmail(
+                $customer,
                 self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
                 $redirectUrl,
                 $this->storeManager->getStore()->getId()
@@ -342,7 +343,7 @@ class AccountManagement implements AccountManagementInterface
 
         $customer = $this->customerDataBuilder->populateWithArray($customer)->setConfirmation(null)->create();
         $this->customerRepository->save($customer);
-        $this->sendNewAccountEmail('confirmed', '', $this->storeManager->getStore()->getId());
+        $this->sendNewAccountEmail($customer, 'confirmed', '', $this->storeManager->getStore()->getId());
         return $customer;
     }
 
@@ -364,7 +365,7 @@ class AccountManagement implements AccountManagementInterface
         }
         $this->eventManager->dispatch(
             'customer_customer_authenticated',
-            array('model' => $this, 'password' => $password)
+            array('model' => $this->getFullCustomerObject($customer), 'password' => $password)
         );
 
         $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customer));
@@ -397,10 +398,10 @@ class AccountManagement implements AccountManagementInterface
 
         try {
             switch ($template) {
-                case CustomerAccountServiceInterface::EMAIL_REMINDER:
+                case AccountManagement::EMAIL_REMINDER:
                     $this->sendPasswordReminderEmail($customer, $newPasswordToken);
                     break;
-                case CustomerAccountServiceInterface::EMAIL_RESET:
+                case AccountManagement::EMAIL_RESET:
                     $this->sendPasswordResetConfirmationEmail($customer);
                     break;
                 default:
@@ -483,6 +484,7 @@ class AccountManagement implements AccountManagementInterface
             if ($this->isCustomerInStore($websiteId, $customer->getStoreId())) {
                 throw new InputException('Customer already exists in this store.');
             }
+            // Existing password hash will be used from secured customer data registry when saving customer
         }
         // Make sure we have a storeId to associate this customer with.
         if (!$customer->getStoreId()) {
@@ -498,8 +500,8 @@ class AccountManagement implements AccountManagementInterface
         }
 
         try {
-            // If customer exists existing has will be used by Repository
-            $customerId = $this->customerRepository->save($customer);
+            // If customer exists existing hash will be used by Repository
+            $customer = $this->customerRepository->save($customer, $hash);
         } catch (\Magento\Customer\Exception $e) {
             if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
                 throw new InputMismatchException('Customer with the same email already exists in associated website.');
@@ -508,9 +510,9 @@ class AccountManagement implements AccountManagementInterface
         }
 
         foreach ($customer->getAddresses() as $address) {
-            $this->addressRepository->save($customerId, $address);
+            $this->addressRepository->save($address);
         }
-        $customer = $this->customerRepository->getById($customerId);
+        $customer = $this->customerRepository->getById($customer->getId());
         $newLinkToken = $this->mathRandom->getUniqueHash();
         $this->changeResetPasswordLinkToken($customer, $newLinkToken);
         $this->sendEmailConfirmation($customer, $redirectUrl);
@@ -530,12 +532,14 @@ class AccountManagement implements AccountManagementInterface
         try {
             if ($this->isConfirmationRequired($customer)) {
                 $this->sendNewAccountEmail(
+                    $customer,
                     self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
                     $redirectUrl,
                     $customer->getStoreId()
                 );
             } else {
                 $this->sendNewAccountEmail(
+                    $customer,
                     self::NEW_ACCOUNT_EMAIL_REGISTERED,
                     $redirectUrl,
                     $customer->getStoreId()
@@ -751,7 +755,7 @@ class AccountManagement implements AccountManagementInterface
 
         $store = $this->storeManager->getStore($customer->getStoreId());
 
-        $customerEmailData = $this->getCustomerEmailDataObject($customer);
+        $customerEmailData = $this->getFullCustomerObject($customer);
 
         $this->sendEmailTemplate(
             $customer,
@@ -785,7 +789,7 @@ class AccountManagement implements AccountManagementInterface
         )->setTemplateOptions(
             array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            array('customer' => $customer, 'store' => $this->storeManager->getStore())
+            array('customer' => $customer, 'store' => $this->storeManager->getStore($storeId))
         )->setFrom(
             $this->scopeConfig->getValue(
                 self::XML_PATH_FORGOT_EMAIL_IDENTITY,
@@ -880,13 +884,13 @@ class AccountManagement implements AccountManagementInterface
             $name .= $customer->getPrefix() . ' ';
         }
         $name .= $customer->getFirstname();
-        if ($this->customerMetadataService->getAttributeMetadata('customer', 'middlename')->isVisible()
+        if ($this->customerMetadataService->getAttributeMetadata('middlename')->isVisible()
             && $customer->getMiddlename()
         ) {
             $name .= ' ' . $customer->getMiddlename();
         }
         $name .= ' ' . $customer->getLastname();
-        if ($this->customerMetadataService->getAttributeMetadata('customer', 'suffix')->isVisible()
+        if ($this->customerMetadataService->getAttributeMetadata('suffix')->isVisible()
             && $customer->getSuffix()
         ) {
             $name .= ' ' . $customer->getSuffix();
@@ -1014,7 +1018,7 @@ class AccountManagement implements AccountManagementInterface
             ]
         );
 
-        $customerEmailData = $this->getCustomerEmailDataObject($customer);
+        $customerEmailData = $this->getFullCustomerObject($customer);
         $customerEmailData->setResetPasswordUrl($resetUrl);
 
         $this->sendEmailTemplate(
@@ -1041,13 +1045,13 @@ class AccountManagement implements AccountManagementInterface
             $storeId = $this->getWebsiteStoreId($customer);
         }
 
-        $customerEmailData = $this->getCustomerEmailDataObject($customer);
+        $customerEmailData = $this->getFullCustomerObject($customer);
 
         $this->sendEmailTemplate(
             $customer,
             self::XML_PATH_FORGOT_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $customerEmailData, 'store' => $customer->getStore()),
+            array('customer' => $customerEmailData, 'store' => $this->storeManager->getStore($storeId)),
             $storeId
         );
 
@@ -1060,13 +1064,14 @@ class AccountManagement implements AccountManagementInterface
      * @param CustomerInterface $customer
      * @return Data\CustomerSecure
      */
-    protected function getCustomerEmailDataObject($customer)
+    protected function getFullCustomerObject($customer)
     {
-        $customerEmailData = $this->customerRegistry->retrieveSecureData($customer->getId());
+        // TODO: Fix flattening of custom attribute codes
+        $mergedCustomerData = $this->customerRegistry->retrieveSecureData($customer->getId());
         $customerData = $this->dataProcessor
             ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');
-        $customerEmailData->addData($customerData);
-        $customerEmailData->setData('name', $this->getName($customer));
-        return $customerEmailData;
+        $mergedCustomerData->addData($customerData);
+        $mergedCustomerData->setData('name', $this->getName($customer));
+        return $mergedCustomerData;
     }
 }

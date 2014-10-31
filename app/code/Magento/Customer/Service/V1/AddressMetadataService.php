@@ -126,7 +126,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata($dataObjectClassName = AddressMetadataInterface::DATA_OBJECT_CLASS_NAME)
+    public function getCustomAttributesMetadata($dataObjectClassName = AddressMetadataInterface::DATA_INTERFACE_NAME)
     {
         $customAttributes = [];
         if (!$this->addressDataObjectMethods) {

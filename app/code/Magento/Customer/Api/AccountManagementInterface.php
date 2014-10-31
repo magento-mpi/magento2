@@ -23,7 +23,11 @@ interface AccountManagementInterface
      * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function createAccount(\Magento\Customer\Api\Data\CustomerInterface $customer, $password, $redirectUrl = '');
+    public function createAccount(
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
+        $password = null,
+        $redirectUrl = ''
+    );
 
     /**
      * Create customer account using provided hashed password. Should not be exposed as a webapi.

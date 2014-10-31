@@ -154,6 +154,7 @@ class CustomerRegistry
         $customerSecure = $this->customerSecureFactory->create();
         $customerSecure->setPasswordHash($customer->getPasswordHash());
         $customerSecure->setRpToken($customer->getRpToken());
+        $customerSecure->setRpToken($customer->getRpTokenCreatedAt());
         $customerSecure->setDeleteable($customer->isDeleteable());
         $this->customerSecureRegistryById[$customer->getId()] = $customerSecure;
 

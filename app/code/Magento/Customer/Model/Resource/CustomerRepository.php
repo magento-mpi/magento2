@@ -124,7 +124,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Customer\Api\Data\CustomerInterface $customer)
+    public function save(\Magento\Customer\Api\Data\CustomerInterface $customer, $passwordHash = null)
     {
         $isNewCustomer = $customer->getId() ? false : true;
         $this->validate($customer);
@@ -154,6 +154,10 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
             $customerModel->setRpToken($customerSecure->getRpToken());
             $customerModel->setRpTokenCreatedAt($customerSecure->getRpTokenCreatedAt());
             $customerModel->setPasswordHash($customerSecure->getPasswordHash());
+        } else {
+            if ($passwordHash) {
+                $customerModel->setPasswordHash($passwordHash);
+            }
         }
         $this->customerResourceModel->save($customerModel);
         $this->customerRegistry->push($customerModel);
