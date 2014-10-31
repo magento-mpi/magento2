@@ -7,6 +7,10 @@
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
+use Magento\Catalog\Model\Layer\Filter\Price;
+use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\ObjectManager;
+
 /**
  * Suppress coupling warning, because it is rather issue of the class tested, than the test itself
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -58,13 +62,16 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * SetUP method
+     */
     public function setUp()
     {
-        $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManager = $this->getMock(
             '\Magento\Framework\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -72,12 +79,12 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_productCollection = $this->getMock(
             '\Magento\Solr\Model\Resource\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer\Category', array(), array(), '', false);
+        $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer\Category', [], [], '', false);
         $this->_layer->expects(
             $this->any()
         )->method(
@@ -88,33 +95,36 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceEngine = $this->getMock(
             'Magento\Solr\Model\Resource\Solr\Engine',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
-        $this->_cache = $this->getMock('\Magento\Framework\App\CacheInterface', array(), array(), '', false);
+        $this->_cache = $this->getMock('\Magento\Framework\App\CacheInterface', [], [], '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_priceFilterItem = $this->getMockBuilder('Magento\Catalog\Model\Resource\Layer\Filter\Price')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new ObjectManager($this);
         $this->_model = $objectManager->getObject(
             'Magento\Solr\Model\Layer\Category\Filter\Price',
-            array(
+            [
                 'storeManager' => $this->_storeManager,
                 'layer' => $this->_layer,
                 'filterPrice' => $this->_priceFilterItem,
                 'resourceEngine' => $this->_resourceEngine,
                 'cache' => $this->_cache,
                 'scopeConfig' => $this->_scopeConfig
-            )
+            ]
         );
     }
 
+    /**
+     * Test for method "getMaxPriceIntCached"
+     */
     public function testGetMaxPriceIntCached()
     {
         $this->_productCollection->expects(
@@ -122,7 +132,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getExtendedSearchParams'
         )->will(
-            $this->returnValue(array('param1' => 'value1'))
+            $this->returnValue(['param1' => 'value1'])
         );
 
         $this->_cache->expects($this->once())->method('load')->will($this->returnValue(143));
@@ -132,6 +142,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(143, $result);
     }
 
+    /**
+     * Test for method "addFacetConditionImprovedAndCached"
+     */
     public function testAddFacetConditionImprovedAndCached()
     {
         $this->_scopeConfig->expects(
@@ -139,10 +152,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->with(
-            \Magento\Catalog\Model\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            Price::XML_PATH_RANGE_CALCULATION,
+            ScopeInterface::SCOPE_STORE
         )->will(
-            $this->returnValue(\Magento\Catalog\Model\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED)
+            $this->returnValue(Price::RANGE_CALCULATION_IMPROVED)
         );
 
         $separators = '*-9,9-19';
@@ -158,7 +171,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('price_field')
         );
 
-        $expectedFacets = array(array('from' => '*', 'to' => 8.999), array('from' => 8.999, 'to' => 18.999));
+        $expectedFacets = [['from' => '*', 'to' => 8.999], ['from' => 8.999, 'to' => 18.999]];
         $this->_productCollection->expects(
             $this->at(1)
         )->method(
@@ -172,7 +185,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getExtendedSearchParams'
         )->will(
-            $this->returnValue(array('param1' => 'value1'))
+            $this->returnValue(['param1' => 'value1'])
         );
 
         $this->_model->setData('currency_rate', 1);

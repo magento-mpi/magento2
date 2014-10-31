@@ -77,6 +77,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags,
+        \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
@@ -92,6 +93,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $coreRegistry,
             $scopeConfig,
             $priceCurrency,
+            $algorithmFactory,
             $data
         );
     }
