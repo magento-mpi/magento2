@@ -43,11 +43,11 @@
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
     <preference for="Magento\Customer\Api\CustomerMetadataInterface"
-                type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
+                type="Magento\Customer\Model\Metadata\CustomerCachedMetadata" />
     <preference for="Magento\Customer\Service\V1\AddressMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\AddressMetadataServiceCached" />
     <preference for="Magento\Customer\Api\AddressMetadataInterface"
-                type="Magento\Customer\Service\V1\AddressMetadataServiceCached" />
+                type="Magento\Customer\Model\Metadata\AddressCachedMetadata" />
     <type name="Magento\Customer\Model\Session">
         <arguments>
             <argument name="configShare" xsi:type="object">Magento\Customer\Model\Config\Share\Proxy</argument>
@@ -65,7 +65,12 @@
     </type>
     <type name="Magento\Customer\Api\Data\CustomerDataBuilder" shared="false">
         <arguments>
-            <argument name="metadataService" xsi:type="object">\Magento\Customer\Service\V1\CustomerMetadataServiceInterface</argument>
+            <argument name="metadataService" xsi:type="object">\Magento\Customer\Api\CustomerMetadataInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Api\Data\AddressDataBuilder" shared="false">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">\Magento\Customer\Api\AddressMetadataInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Customer\Helper\Address">
