@@ -47,8 +47,9 @@ define([
         var option = $(event.target);
         var optionType = option.prop('type');
         var changes;
-        var handler = this.options.optionHandlers[optionType];
+        var handler = this.options.optionHandlers[option.data('role')];
         option.data('optionContainer', option.closest(this.options.controlContainer));
+
         if(handler && handler instanceof Function) {
             changes = handler(option);
         } else {

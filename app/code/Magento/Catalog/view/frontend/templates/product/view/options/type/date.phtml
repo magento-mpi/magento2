@@ -9,7 +9,8 @@
 <?php $_option = $this->getOption() ?>
 <?php $_optionId = $_option->getId() ?>
 <?php $class = ($_option->getIsRequire()) ? ' required' : ''; ?>
-<div class="field date<?php echo $class; ?>">
+<div class="field date<?php echo $class; ?>"
+     data-mage-init='{"priceOptionDate":{"fromSelector":"#product_addtocart_form"}}'>
     <label class="label">
         <span><?php echo  $this->escapeHtml($_option->getTitle()) ?></span>
         <?php echo $this->getFormatedPrice() ?>
@@ -19,25 +20,6 @@
             || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE): ?>
 
             <?php echo $this->getDateHtml() ?>
-
-            <?php if (!$this->useCalendar()): ?>
-                <script type="text/javascript">
-require([
-    "jquery",
-    "mage/mage"
-], function($){
-
-    //<![CDATA[
-        $('#product_addtocart_form').mage('dateOption', {
-            'datepickerFieldSelector': 'select.datetime-picker',
-            'monthSelector': '#options_<?php echo $_optionId ?>_month',
-            'yearSelector': '#options_<?php echo $_optionId ?>_year'
-        });
-    //]]>
-                
-});
-</script>
-            <?php endif; ?>
 
         <?php endif; ?>
 
@@ -59,16 +41,14 @@ require([
                    value=""
                    data-validate="{'validate-optional-datetime':<?php echo $_optionId?>}"/>
         <?php endif; ?>
-        <script type="text/javascript">
-require(['jquery', "mage/mage"], function($){
-
-    //<![CDATA[
-        var addtocartForm = $('#product_addtocart_form');
-        addtocartForm.mage('validation', {
-            ignore: ':hidden:not(input[name^="validate_datetime_"])'
-        });
-    //]]>
-        
+<script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+    $('#product_addtocart_form').mage('validation', {
+        ignore: ':hidden:not(input[name^="validate_datetime_"])'
+    });
 });
 </script>
     </div>
