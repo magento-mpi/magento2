@@ -33,7 +33,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -41,7 +41,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -49,7 +49,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getSortOrder()
     {
@@ -57,7 +57,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function getIsDefault()
     {
@@ -65,7 +65,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     }
 
     /**
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Option\Label[]
+     * {@inheritdoc}
      */
     public function getStoreLabels()
     {
