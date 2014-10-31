@@ -100,7 +100,7 @@ class Observer
         /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
-        /* @var $customer \Magento\Customer\Api\Data\CustomerInterface */
+        /* @var $customer \Magento\Customer\Service\V1\Data\Customer */
         $customer = $observer->getCustomer();
         $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
         if ($data) {

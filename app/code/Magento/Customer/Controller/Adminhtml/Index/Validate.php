@@ -8,7 +8,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
-use Magento\Customer\Api\Data\CustomerInterface;
+use \Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Message\Error;
 
 class Validate extends \Magento\Customer\Controller\Adminhtml\Index
@@ -17,7 +17,7 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
      * Customer validation
      *
      * @param \Magento\Framework\Object $response
-     * @return CustomerInterface|null
+     * @return Customer|null
      */
     protected function _validateCustomer($response)
     {
@@ -25,7 +25,7 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
         $errors = null;
 
         try {
-            /** @var CustomerInterface $customer */
+            /** @var Customer $customer */
             $customer = $this->_customerBuilder->create();
 
             $customerForm = $this->_formFactory->create(

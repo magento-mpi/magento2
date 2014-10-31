@@ -11,27 +11,27 @@ namespace Magento\Customer\Controller\Account;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 class Edit extends \Magento\Customer\Controller\Account
 {
     /** @var CustomerAccountServiceInterface  */
     protected $customerAccountService;
 
-    /** @var CustomerDataBuilder */
+    /** @var CustomerBuilder */
     protected $customerBuilder;
 
     /**
      * @param Context $context
      * @param Session $customerSession
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param CustomerDataBuilder $customerBuilder
+     * @param CustomerBuilder $customerBuilder
      */
     public function __construct(
         Context $context,
         Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
-        CustomerDataBuilder $customerBuilder
+        CustomerBuilder $customerBuilder
     ) {
         $this->customerAccountService = $customerAccountService;
         $this->customerBuilder = $customerBuilder;

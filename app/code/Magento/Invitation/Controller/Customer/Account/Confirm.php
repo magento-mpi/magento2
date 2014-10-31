@@ -17,13 +17,13 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
      * Load customer by id (try/catch in case if it throws exceptions)
      *
      * @param int $customerId
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Exception
      */
     protected function _loadCustomerById($customerId)
     {
         try {
-            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
             return $this->customerAccountService->getCustomer($customerId);
         } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
@@ -31,7 +31,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
     }
 
     /**
-     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @param mixed $key
      * @return bool|null
      * @throws \Exception

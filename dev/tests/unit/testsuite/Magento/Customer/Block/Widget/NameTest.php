@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -119,7 +119,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowPrefix()
     {
-        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::PREFIX => self::PREFIX]);
+        $this->_setUpShowAttribute([Customer::PREFIX => self::PREFIX]);
         $this->assertTrue($this->_block->showPrefix());
 
         $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
@@ -185,7 +185,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME));
+        $this->_setUpShowAttribute(array(Customer::MIDDLENAME => self::MIDDLENAME));
         $this->assertTrue($this->_block->showMiddlename());
     }
 
@@ -197,7 +197,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowSuffix()
     {
-        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::SUFFIX => self::SUFFIX]);
+        $this->_setUpShowAttribute([Customer::SUFFIX => self::SUFFIX]);
         $this->assertTrue($this->_block->showSuffix());
     }
 
@@ -213,7 +213,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added some padding so that the trim() call on Customer::getPrefix() will remove it. Also added
          * special characters so that the escapeHtml() method returns a htmlspecialchars translated value.
          */
-        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
             ->setPrefix('  <' . self::PREFIX . '>  ')->create();
 
         $this->_block->setObject($customer);
@@ -238,7 +238,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrefixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
             ->setPrefix(self::PREFIX)->create();
         $this->_block->setObject($customer);
 
@@ -259,7 +259,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added padding and special characters to show that trim() works on Customer::getSuffix() and that
          * a properly htmlspecialchars translated value is returned.
          */
-        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
             ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
@@ -283,7 +283,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSuffixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
             ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
@@ -425,7 +425,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     private function _setUpShowAttribute(array $data)
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Api\Data\CustomerDataBuilder')
+        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
             ->populateWithArray($data)->create();
 
         /**

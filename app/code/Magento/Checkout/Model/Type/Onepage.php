@@ -11,7 +11,7 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
@@ -120,7 +120,7 @@ class Onepage
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
-    /** @var CustomerDataBuilder */
+    /** @var CustomerBuilder */
     protected $_customerBuilder;
 
     /** @var AddressBuilder */
@@ -158,7 +158,7 @@ class Onepage
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param CustomerDataBuilder $customerBuilder
+     * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
@@ -182,7 +182,7 @@ class Onepage
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        CustomerDataBuilder $customerBuilder,
+        CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
@@ -500,7 +500,7 @@ class Onepage
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
-            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+            CustomerMetadata::ENTITY_TYPE_CUSTOMER,
             'checkout_register',
             $customerData,
             $this->_request->isAjax(),

@@ -7,7 +7,7 @@
  */
 namespace Magento\Reward\Model\Observer;
 
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
@@ -49,10 +49,10 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param CustomerInterface $customer
+     * @param Customer $customer
      * @param mixed $pointsDelta
      */
-    protected function _saveRewardPoints(CustomerInterface $customer, $pointsDelta = '')
+    protected function _saveRewardPoints(Customer $customer, $pointsDelta = '')
     {
         $reward = array('points_delta' => $pointsDelta);
 

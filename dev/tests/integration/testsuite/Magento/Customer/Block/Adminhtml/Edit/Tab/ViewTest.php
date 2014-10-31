@@ -10,8 +10,8 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -27,7 +27,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Framework\Registry */
     private $_coreRegistry;
 
-    /** @var  CustomerDataBuilder */
+    /** @var  CustomerBuilder */
     private $_customerBuilder;
 
     /** @var  CustomerAccountServiceInterface */
@@ -52,7 +52,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             array('storeManager' => $this->_storeManager)
         );
 
-        $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
+        $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_customerAccountService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
@@ -116,11 +116,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return Customer
      */
     private function _createCustomer()
     {
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerBuilder->setFirstname(
             'firstname'
         )->setLastname(
@@ -134,7 +134,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return Customer
      */
     private function _loadCustomer()
     {

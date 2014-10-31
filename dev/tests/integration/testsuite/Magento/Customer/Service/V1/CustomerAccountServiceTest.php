@@ -41,7 +41,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     private $_addressBuilder;
 
-    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
     /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder */
@@ -56,7 +56,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_customerDetailsBuilder =
             $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
 
@@ -1405,7 +1405,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerByEmail($email, $websiteId)
     {
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
 
         // All these expected values come from _files/customer.php fixture
@@ -1435,7 +1435,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Store\Model\Website $website */
         $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\Website');
         $websiteId = $website->load('newwebsite')->getId();
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
 
         // All these expected values come from _files/customer.php fixture
@@ -1467,7 +1467,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerDetailsByEmailWithNonDefaultWebsiteId()
     {
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $email = 'customer2@example.com';
         /** @var \Magento\Store\Model\Website $website */
         $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\Website');

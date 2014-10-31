@@ -60,7 +60,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
     protected $customerAccountServiceMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerServiceDataMock;
 
@@ -113,7 +113,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
         $this->customerAccountServiceMock =
             $this->getMockForAbstractClass('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->customerServiceDataMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterface', [], [], '', false
+            'Magento\Customer\Service\V1\Data\Customer', [], [], '', false
         );
 
         $this->messageManagerMock = $this->getMock('Magento\Framework\Message\Manager', [], [], '', false);

@@ -8,8 +8,8 @@
 namespace Magento\Weee\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer_sample.php
@@ -47,7 +47,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerMetadataService'
         );
         $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $customerMetadataService]
         );
         $expected = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray(

@@ -51,7 +51,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Service\Data\V1\Product' => [
                 'stock_item' => 'Magento\CatalogInventory\Service\Data\V1\StockItem'
             ],
-            'Magento\Customer\Api\Data\CustomerInterface' => [
+            'Magento\Customer\Service\V1\Data\Customer' => [
                 'custom_1' => 'Magento\Customer\Service\V1\Data\CustomerCustom',
                 'custom_2' => 'Magento\CustomerExtra\Service\V1\Data\CustomerCustom2'
             ],

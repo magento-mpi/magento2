@@ -12,5 +12,9 @@ namespace Magento\Customer\Service\V1;
  */
 interface CustomerMetadataServiceInterface extends MetadataServiceInterface
 {
-    const DATA_OBJECT_CLASS_NAME = 'Magento\Customer\Api\Data\CustomerInterface';
+    const ATTRIBUTE_SET_ID_CUSTOMER = 1;
+
+    const ENTITY_TYPE_CUSTOMER = 'customer';
+
+    const DATA_OBJECT_CLASS_NAME = 'Magento\Customer\Service\V1\Data\Customer';
 }

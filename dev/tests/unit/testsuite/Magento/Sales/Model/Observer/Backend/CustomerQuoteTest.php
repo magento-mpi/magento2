@@ -72,13 +72,13 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchNoCustomerGroupChange()
     {
-        $customerDataObjectMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $customerDataObjectMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $customerDataObjectMock->expects($this->any())
             ->method('getGroupId')
             ->will($this->returnValue(1));
-        $origCustomerDataObjectMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $origCustomerDataObjectMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $origCustomerDataObjectMock->expects($this->any())
@@ -107,7 +107,7 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
         $this->configMock->expects($this->once())
             ->method('isWebsiteScope')
             ->will($this->returnValue($isWebsiteScope));
-        $customerDataObjectMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $customerDataObjectMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $customerDataObjectMock->expects($this->any())
@@ -127,7 +127,7 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
                 ->method('getWebsites')
                 ->will($this->returnValue($websites));
         }
-        $origCustomerDataObjectMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $origCustomerDataObjectMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $origCustomerDataObjectMock->expects($this->any())

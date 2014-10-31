@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Address;
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -317,7 +317,7 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Retrieve the Customer Data using the customer Id from the customer session.
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return Customer
      */
     public function getCustomer()
     {

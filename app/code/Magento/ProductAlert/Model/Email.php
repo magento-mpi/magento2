@@ -37,7 +37,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
     /**
      * Customer model
      *
-     * @var \Magento\Customer\Api\Data\CustomerInterface
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
@@ -206,7 +206,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
     /**
      * Set customer model
      *
-     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return $this
      */
     public function setCustomerData($customer)
