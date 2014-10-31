@@ -92,7 +92,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('setData')->with('_edit_mode', true);
         $this->productMock->expects($this->once())->method('load')->with('test_id');
-        $this->assertSame($this->productMock, $this->model->get('test_sku', true));
+        $this->assertEquals($this->productMock, $this->model->get('test_sku', true));
     }
 
     public function testSave()
