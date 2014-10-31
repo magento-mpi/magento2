@@ -11,14 +11,16 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Api\Data\CustomerInterfaceBuilder as CustomerBuilder;
+use Magento\Customer\Api\Data\AddressInterfaceBuilder as AddressBuilder;
+use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Customer\Model\Metadata\Form;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Api\AddressRepositoryInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
+use Magento\Customer\Api\CustomerMetadataInterface as CustomerMetadata;
+use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
@@ -134,13 +136,18 @@ class Onepage
     /** @var AddressRepositoryInterface */
     protected $addressRepository;
 
-    /** @var CustomerAccountServiceInterface */
-    protected $_customerAccountService;
+    /** @var AccountManagementInterface */
+    protected $accountManagement;
 
     /**
      * @var OrderSender
      */
     protected $orderSender;
+
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    protected $customerRepository;
 
     /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -158,7 +165,7 @@ class Onepage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param CustomerAccountServiceInterface $accountService
+     * @param AccountManagementInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
@@ -166,6 +173,7 @@ class Onepage
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param AddressRepositoryInterface $customerAddressService
      * @param OrderSender $orderSender
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -189,8 +197,9 @@ class Onepage
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         AddressRepositoryInterface $customerAddressService,
-        CustomerAccountServiceInterface $accountService,
-        OrderSender $orderSender
+        AccountManagementInterface $accountService,
+        OrderSender $orderSender,
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -213,8 +222,9 @@ class Onepage
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
         $this->addressRepository = $customerAddressService;
-        $this->_customerAccountService = $accountService;
+        $this->accountManagement = $accountService;
         $this->orderSender = $orderSender;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -349,7 +359,7 @@ class Onepage
 
         $address = $this->getQuote()->getBillingAddress();
         $addressForm = $this->_formFactory->create(
-            \Magento\Customer\Service\V1\AddressMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
+            AddressMetadata::ENTITY_TYPE_ADDRESS,
             'customer_address_edit',
             [],
             $this->_request->isAjax(),
@@ -359,7 +369,7 @@ class Onepage
 
         if ($customerAddressId) {
             try {
-                $customerAddress = $this->addressRepository->getAddress($customerAddressId);
+                $customerAddress = $this->addressRepository->get($customerAddressId);
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return ['error' => 1, 'message' => __('The customer address is not valid.')];
                 }
@@ -537,18 +547,18 @@ class Onepage
                     'message' => __('Password and password confirmation are not equal.')
                 ];
             }
-            $quote->setPasswordHash($this->_customerAccountService->getPasswordHash($password));
+            $quote->setPasswordHash($this->accountManagement->getPasswordHash($password));
         } else {
             // set NOT LOGGED IN group id explicitly,
             // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
             $this->_customerBuilder->populate($customer);
-            $this->_customerBuilder->setGroupId(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
+            $this->_customerBuilder->setGroupId(GroupInterface::NOT_LOGGED_IN_ID);
             $customer = $this->_customerBuilder->create();
         }
 
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
-        $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
+        $result = $this->accountManagement->validate($customer);
         if (!$result->isValid()) {
             return [
                 'error' => -1,
@@ -736,15 +746,10 @@ class Onepage
     protected function _prepareGuestQuote()
     {
         $quote = $this->getQuote();
-        $quote->setCustomerId(
-            null
-        )->setCustomerEmail(
-            $quote->getBillingAddress()->getEmail()
-        )->setCustomerIsGuest(
-            true
-        )->setCustomerGroupId(
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
-        );
+        $quote->setCustomerId(null)
+            ->setCustomerEmail($quote->getBillingAddress()->getEmail())
+            ->setCustomerIsGuest(true)
+            ->setCustomerGroupId(GroupInterface::NOT_LOGGED_IN_ID);
         return $this;
     }
 
@@ -814,7 +819,7 @@ class Onepage
         $billing = $quote->getBillingAddress();
         $shipping = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
+        $customer = $this->customerRepository->getById($this->getCustomerSession()->getCustomerId());
         $hasDefaultBilling = (bool) $customer->getDefaultBilling();
         $hasDefaultShipping = (bool) $customer->getDefaultShipping();
 
@@ -859,8 +864,8 @@ class Onepage
     protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomer();
-        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
-        if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
+        $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
+        if ($confirmationStatus === AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 // @codingStandardsIgnoreStart
@@ -965,7 +970,7 @@ class Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        return !$this->_customerAccountService->isEmailAvailable($email, $websiteId);
+        return !$this->accountManagement->isEmailAvailable($email, $websiteId);
     }
 
     /**

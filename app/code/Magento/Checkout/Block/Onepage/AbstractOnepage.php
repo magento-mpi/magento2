@@ -254,9 +254,9 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             if (empty($addressId)) {
                 try {
                     if ($type == 'billing') {
-                        $addressId = $this->_getCustomer()->getDefaultBilling();
+                        $addressId = $this->_getCustomer()->getDefaultBilling()->getId();
                     } else {
-                        $addressId = $this->_getCustomer()->getDefaultShipping();
+                        $addressId = $this->_getCustomer()->getDefaultShipping()->getId();
                     }
                 } catch (NoSuchEntityException $e) {
                     // Do nothing
