@@ -2544,6 +2544,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->addIndex(
     $installer->getIdxName('catalog_product_index_price', array('customer_group_id')),
     array('customer_group_id')
@@ -2721,6 +2727,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setComment(
     'Catalog Product Price Indexer Config Option Aggregate Index Table'
 );
@@ -2767,6 +2779,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setOption(
     'type',
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
@@ -2816,6 +2834,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setComment(
     'Catalog Product Price Indexer Config Option Index Table'
 );
@@ -2862,6 +2886,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setOption(
     'type',
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
@@ -2935,6 +2965,18 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Base Tier'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
+)->addColumn(
+    'base_group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Base Group Price'
 )->setComment(
     'Catalog Product Price Indexer Final Index Table'
 );
@@ -3005,6 +3047,18 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Base Tier'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
+)->addColumn(
+    'base_group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Base Group Price'
 )->setOption(
     'type',
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
@@ -3054,6 +3108,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setComment(
     'Catalog Product Price Indexer Option Index Table'
 );
@@ -3100,6 +3160,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setOption(
     'type',
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
@@ -3155,6 +3221,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setComment(
     'Catalog Product Price Indexer Option Aggregate Index Table'
 );
@@ -3207,6 +3279,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->setOption(
     'type',
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
@@ -3452,6 +3530,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->addIndex(
     $installer->getIdxName('catalog_product_index_price_idx', array('customer_group_id')),
     array('customer_group_id')
@@ -3525,6 +3609,12 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->addColumn(
+    'group_price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Group price'
 )->addIndex(
     $installer->getIdxName('catalog_product_index_price_tmp', array('customer_group_id')),
     array('customer_group_id')
@@ -3592,6 +3682,159 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Category Product Indexer Temp Table'
+);
+$installer->getConnection()->createTable($table);
+
+/**
+ * Create table 'catalog_product_entity_group_price'
+ */
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('catalog_product_entity_group_price')
+)->addColumn(
+    'value_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('identity' => true, 'nullable' => false, 'primary' => true),
+    'Value ID'
+)->addColumn(
+    'entity_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Entity ID'
+)->addColumn(
+    'all_groups',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '1'),
+    'Is Applicable To All Customer Groups'
+)->addColumn(
+    'customer_group_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer Group ID'
+)->addColumn(
+    'value',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array('nullable' => false, 'default' => '0.0000'),
+    'Value'
+)->addColumn(
+    'website_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Website ID'
+)->addIndex(
+    $installer->getIdxName(
+        'catalog_product_entity_group_price',
+        array('entity_id', 'all_groups', 'customer_group_id', 'website_id'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('entity_id', 'all_groups', 'customer_group_id', 'website_id'),
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+)->addIndex(
+    $installer->getIdxName('catalog_product_entity_group_price', array('customer_group_id')),
+    array('customer_group_id')
+)->addIndex(
+    $installer->getIdxName('catalog_product_entity_group_price', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName(
+        'catalog_product_entity_group_price',
+        'customer_group_id',
+        'customer_group',
+        'customer_group_id'
+    ),
+    'customer_group_id',
+    $installer->getTable('customer_group'),
+    'customer_group_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('catalog_product_entity_group_price', 'entity_id', 'catalog_product_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('catalog_product_entity_group_price', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Catalog Product Group Price Attribute Backend Table'
+);
+$installer->getConnection()->createTable($table);
+
+/**
+ * Create table 'catalog_product_index_group_price'
+ */
+
+$table = $installer->getConnection()->newTable(
+    $installer->getTable('catalog_product_index_group_price')
+)->addColumn(
+    'entity_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Entity ID'
+)->addColumn(
+    'customer_group_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Customer Group ID'
+)->addColumn(
+    'website_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    'Website ID'
+)->addColumn(
+    'price',
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+    '12,4',
+    array(),
+    'Min Price'
+)->addIndex(
+    $installer->getIdxName('catalog_product_index_group_price', array('customer_group_id')),
+    array('customer_group_id')
+)->addIndex(
+    $installer->getIdxName('catalog_product_index_group_price', array('website_id')),
+    array('website_id')
+)->addForeignKey(
+    $installer->getFkName(
+        'catalog_product_index_group_price',
+        'customer_group_id',
+        'customer_group',
+        'customer_group_id'
+    ),
+    'customer_group_id',
+    $installer->getTable('customer_group'),
+    'customer_group_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('catalog_product_index_group_price', 'entity_id', 'catalog_product_entity', 'entity_id'),
+    'entity_id',
+    $installer->getTable('catalog_product_entity'),
+    'entity_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addForeignKey(
+    $installer->getFkName('catalog_product_index_group_price', 'website_id', 'store_website', 'website_id'),
+    'website_id',
+    $installer->getTable('store_website'),
+    'website_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->setComment(
+    'Catalog Product Group Price Index Table'
 );
 $installer->getConnection()->createTable($table);
 
