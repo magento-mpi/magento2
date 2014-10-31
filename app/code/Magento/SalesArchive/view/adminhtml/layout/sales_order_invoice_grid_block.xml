@@ -8,11 +8,13 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="sales.order_invoice.grid">
-        <arguments>
-            <argument name="dataSource" xsi:type="object">
-                <updater>Magento\SalesArchive\Model\Order\Invoice\CollectionUpdater</updater>
-            </argument>
-        </arguments>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="sales.order_invoice.grid">
+            <arguments>
+                <argument name="dataSource" xsi:type="object">
+                    <updater>Magento\SalesArchive\Model\Order\Invoice\CollectionUpdater</updater>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
 </page>

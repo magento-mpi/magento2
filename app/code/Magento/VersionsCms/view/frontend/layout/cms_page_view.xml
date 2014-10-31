@@ -8,10 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="content">
-        <block class="Magento\VersionsCms\Block\Hierarchy\Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
-    </referenceContainer>
-    <referenceContainer name="after.body.start">
-        <block class="Magento\VersionsCms\Block\Hierarchy\Head" name="magento_versionscms_hierarchy_head"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\VersionsCms\Block\Hierarchy\Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\VersionsCms\Block\Hierarchy\Head" name="magento_versionscms_hierarchy_head"/>
+        </referenceContainer>
+    </body>
 </page>
