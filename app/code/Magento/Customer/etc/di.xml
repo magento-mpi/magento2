@@ -16,6 +16,7 @@
                 type="Magento\Customer\Model\Resource\GroupRepository" />
     <preference for="Magento\Customer\Api\Data\CustomerInterface" type="Magento\Customer\Model\Data\Customer" />
     <preference for="Magento\Customer\Api\Data\AddressInterface" type="Magento\Customer\Model\Data\Address" />
+    <preference for="Magento\Customer\Api\Data\RegionInterface" type="Magento\Customer\Model\Data\Region" />
     <preference for="Magento\Customer\Api\Data\AttributeMetadataInterface"
                 type="Magento\Customer\Model\Data\AttributeMetadata" />
     <preference for="Magento\Customer\Api\Data\GroupInterface" type="Magento\Customer\Model\Data\Group" />
@@ -36,6 +37,8 @@
                 type="Magento\Customer\Service\V1\CustomerGroupService" />
     <preference for="Magento\Customer\Service\V1\CustomerAccountServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAccountService" />
+    <preference for="Magento\Customer\Api\AccountManagementInterface"
+                type="Magento\Customer\Model\AccountManagement" />
 
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />

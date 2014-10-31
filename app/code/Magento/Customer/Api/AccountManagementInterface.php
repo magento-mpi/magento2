@@ -14,18 +14,6 @@ namespace Magento\Customer\Api;
  */
 interface AccountManagementInterface
 {
-    const DEFAULT_PASSWORD_LENGTH = 6;
-
-    /**
-     * Constants for the type of new account email to be sent
-     */
-    const NEW_ACCOUNT_EMAIL_REGISTERED = 'registered';
-
-    /**
-     * Welcome email, when confirmation is enabled
-     */
-    const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation';
-
     /**
      * Create customer account. Perform necessary business operations like sending email.
      *

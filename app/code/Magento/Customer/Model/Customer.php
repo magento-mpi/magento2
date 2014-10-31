@@ -331,7 +331,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
-     * @deprecated Use \Magento\Customer\Service\V1\AccountManagement::authenticate
+     * @deprecated Use \Magento\Customer\Model\Api\AccountManagement::authenticate
      */
     public function authenticate($login, $password)
     {

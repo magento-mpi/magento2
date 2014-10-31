@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
@@ -14,11 +14,11 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Helper\Data as CustomerDataHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
-use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
@@ -109,6 +109,12 @@ class AccountManagement implements AccountManagementInterface
      * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     private $customerDataBuilder;
+
+    /**
+     * @var \Magento\Customer\Api\Data\ValidationResultsDataBuilder
+     */
+    private $validationResultsDataBuilder;
+
 
     /**
      * @var ManagerInterface
@@ -209,13 +215,18 @@ class AccountManagement implements AccountManagementInterface
     protected $dateTime;
 
     /**
+     * @var \Magento\Framework\ObjectFactory
+     */
+    protected $objectFactory;
+
+    /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder
+     * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
      * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param CustomerRegistry $customerRegistry
@@ -232,6 +243,7 @@ class AccountManagement implements AccountManagementInterface
      * @param \Magento\Framework\Registry $registry
      * @param CustomerDataHelper $customerDataHelper
      * @param DateTime $dateTime
+     * @param \Magento\Framework\ObjectFactory $objectFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -242,7 +254,7 @@ class AccountManagement implements AccountManagementInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder,
+        \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
         CustomerMetadataServiceInterface $customerMetadataService,
         CustomerRegistry $customerRegistry,
@@ -258,7 +270,8 @@ class AccountManagement implements AccountManagementInterface
         DataObjectProcessor $dataProcessor,
         \Magento\Framework\Registry $registry,
         CustomerDataHelper $customerDataHelper,
-        DateTime $dateTime
+        DateTime $dateTime,
+        \Magento\Framework\ObjectFactory $objectFactory
     ) {
         $this->customerFactory = $customerFactory;
         $this->eventManager = $eventManager;
@@ -266,7 +279,7 @@ class AccountManagement implements AccountManagementInterface
         $this->mathRandom = $mathRandom;
         $this->converter = $converter;
         $this->validator = $validator;
-        $this->customerValidationResultsBuilder = $customerValidationResultsBuilder;
+        $this->validationResultsDataBuilder = $validationResultsDataBuilder;
         $this->addressRepository = $addressRepository;
         $this->customerMetadataService = $customerMetadataService;
         $this->customerRegistry = $customerRegistry;
@@ -283,6 +296,7 @@ class AccountManagement implements AccountManagementInterface
         $this->registry = $registry;
         $this->customerDataHelper = $customerDataHelper;
         $this->dateTime = $dateTime;
+        $this->objectFactory = $objectFactory;
     }
 
     /**
@@ -427,12 +441,12 @@ class AccountManagement implements AccountManagementInterface
         // load customer by id
         $customer = $this->customerRepository->getById($customerId);
         if (!$customer->getConfirmation()) {
-            return CustomerAccountServiceInterface::ACCOUNT_CONFIRMED;
+            return self::ACCOUNT_CONFIRMED;
         }
         if ($this->isConfirmationRequired($customer)) {
-            return CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED;
+            return self::ACCOUNT_CONFIRMATION_REQUIRED;
         }
-        return CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED;
+        return self::ACCOUNT_CONFIRMATION_NOT_REQUIRED;
     }
 
     /**
@@ -603,7 +617,7 @@ class AccountManagement implements AccountManagementInterface
         );
 
         if ($customerErrors !== true) {
-            return $this->customerValidationResultsBuilder
+            return $this->validationResultsDataBuilder
                 ->setIsValid(false)
                 ->setMessages($this->validator->getMessages())
                 ->create();
@@ -613,12 +627,12 @@ class AccountManagement implements AccountManagementInterface
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
-            return $this->customerValidationResultsBuilder
+            return $this->validationResultsDataBuilder
                 ->setIsValid(false)
                 ->setMessages($result)
                 ->create();
         }
-        return $this->customerValidationResultsBuilder
+        return $this->validationResultsDataBuilder
             ->setIsValid(true)
             ->setMessages([])
             ->create();
@@ -703,7 +717,7 @@ class AccountManagement implements AccountManagementInterface
     public function isReadonly($customerId)
     {
         $customer = $this->customerRegistry->retrieveSecureData($customerId);
-        return $customer->isDeleteable();
+        return $customer->getDeleteable();
     }
 
 
@@ -723,7 +737,7 @@ class AccountManagement implements AccountManagementInterface
         $type = 'registered',
         $backUrl = '',
         $storeId = '0',
-        $sendemailStoreId
+        $sendemailStoreId = null
     ) {
         $types = $this->getTemplateTypes();
 
@@ -737,11 +751,13 @@ class AccountManagement implements AccountManagementInterface
 
         $store = $this->storeManager->getStore($customer->getStoreId());
 
+        $customerEmailData = $this->getCustomerEmailDataObject($customer);
+
         $this->sendEmailTemplate(
+            $customer,
             $types[$type],
             self::XML_PATH_REGISTER_EMAIL_IDENTITY,
-            //TODO : Fix how template is built. Maybe Framework Object?
-            array('customer' => $customer, 'back_url' => $backUrl, 'store' => $store),
+            array('customer' => $customerEmailData, 'back_url' => $backUrl, 'store' => $store),
             $storeId
         );
 
@@ -998,10 +1014,14 @@ class AccountManagement implements AccountManagementInterface
             ]
         );
 
+        $customerEmailData = $this->getCustomerEmailDataObject($customer);
+        $customerEmailData->setResetPasswordUrl($resetUrl);
+
         $this->sendEmailTemplate(
+            $customer,
             self::XML_PATH_REMIND_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $customer, 'store' => $this->storeManager->getStore($customer->getStoreId())),
+            array('customer' => $customerEmailData, 'store' => $this->storeManager->getStore($customer->getStoreId())),
             $customer->getStoreId()
         );
 
@@ -1020,14 +1040,33 @@ class AccountManagement implements AccountManagementInterface
         if (!$storeId) {
             $storeId = $this->getWebsiteStoreId($customer);
         }
-        //TODO : Fix how template is built. Maybe Framework Object or create new Email template data model?
+
+        $customerEmailData = $this->getCustomerEmailDataObject($customer);
+
         $this->sendEmailTemplate(
+            $customer,
             self::XML_PATH_FORGOT_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $customer, 'store' => $customer->getStore()),
+            array('customer' => $customerEmailData, 'store' => $customer->getStore()),
             $storeId
         );
 
         return $this;
+    }
+
+    /**
+     * Create an object with data merged from Customer and CustomerSecure
+     *
+     * @param CustomerInterface $customer
+     * @return Data\CustomerSecure
+     */
+    protected function getCustomerEmailDataObject($customer)
+    {
+        $customerEmailData = $this->customerRegistry->retrieveSecureData($customer->getId());
+        $customerData = $this->dataProcessor
+            ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');
+        $customerEmailData->addData($customerData);
+        $customerEmailData->setData('name', $this->getName($customer));
+        return $customerEmailData;
     }
 }
