@@ -15,22 +15,24 @@ use Magento\Framework\Exception\InputException;
 class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInterface
 {
     /**
-     * @var \Magento\Eav\Model\Entity\AttributeFactory
+     * @var \Magento\Eav\Model\AttributeRepository
      */
-    protected $attributeFactory;
+    protected $attributeRepository;
 
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute
      */
     protected $resourceModel;
+
     /**
-     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Eav\Model\AttributeRepository $attributeRepository
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute $resourceModel
      */
     public function __construct(
-        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\AttributeRepository $attributeRepository,
         \Magento\Eav\Model\Resource\Entity\Attribute $resourceModel
     ) {
-        $this->attributeFactory = $attributeFactory;
+        $this->attributeRepository = $attributeRepository;
         $this->resourceModel = $resourceModel;
     }
 
@@ -43,7 +45,7 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
             throw new InputException('Empty attribute code');
         }
 
-        $attribute = $this->loadAttribute($entityType, $attributeCode);
+        $attribute = $this->attributeRepository->get($entityType, $attributeCode);
         if (!$attribute->usesSource()) {
             throw new StateException(sprintf('Attribute %s doesn\'t work with options', $attributeCode));
         }
@@ -82,7 +84,7 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
             throw new InputException('Empty attribute code');
         }
 
-        $attribute = $this->loadAttribute($entityType, $attributeCode);
+        $attribute = $this->attributeRepository->get($entityType, $attributeCode);
         if (!$attribute->usesSource()) {
             throw new StateException(sprintf('Attribute %s doesn\'t have any option', $attributeCode));
         }
@@ -118,7 +120,7 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
         if (empty($attributeCode)) {
             throw new InputException('Empty attribute code');
         }
-        $attribute = $this->loadAttribute($entityType, $attributeCode);
+        $attribute = $this->attributeRepository->get($entityType, $attributeCode);
 
         try {
             $options = $attribute->getOptions();
@@ -127,21 +129,5 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
         }
 
         return $options;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadAttribute($entityType, $attributeCode)
-    {
-        /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
-        $attribute = $this->attributeFactory->create();
-        try {
-            $attribute->loadByCode($entityType, $attributeCode);
-        } catch (\Exception $e) {
-            throw new NoSuchEntityException(sprintf('Cannot load attribute %s', $attributeCode));
-        }
-
-        return $attribute;
     }
 }

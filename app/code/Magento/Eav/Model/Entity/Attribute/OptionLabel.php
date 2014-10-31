@@ -16,7 +16,7 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 class OptionLabel extends AbstractExtensibleModel implements AttributeOptionLabelInterface
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -24,7 +24,7 @@ class OptionLabel extends AbstractExtensibleModel implements AttributeOptionLabe
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getStoreId()
     {
