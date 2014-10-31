@@ -277,8 +277,7 @@ class AbstractStructure extends AbstractView
         $this->addToArea($childName, $referenceChildGroupName);
 
         $itemTemplate = [
-            'type' => $this->ns,
-            'isTemplate' => true,
+            'type' => 'template',
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
             'config' => [
@@ -295,7 +294,7 @@ class AbstractStructure extends AbstractView
         }
         foreach ($childMeta as $key => $value) {
             $itemTemplate['children'][$key] = $value;
-            $value['dataScope'] = $dataSource . '.' . $childName . '.' . $key;
+            $value['dataScope'] = $key;
             $itemTemplate['children'][$key]['config'] = $value;
             $itemTemplate['children'][$key]['type'] = 'group';
             $itemTemplate['children'][$key]['children'][$key] = [
@@ -306,14 +305,14 @@ class AbstractStructure extends AbstractView
 
         $referenceCollectionName = $this->addCollection(
             $childName . 'Collection',
+            "{$dataSource}.{$childName}",
             [
                 'active' => 1,
                 'label' => $childMeta->getLabel(),
                 'removeLabel' => __('Remove ' . $childMeta->getLabel()),
                 'removeMessage' => __('Are you sure you want to delete this item?'),
                 'addLabel' => __('Add New ' . $childMeta->getLabel()),
-                'itemTemplate' => 'item_template',
-                'dataScope' => "{$dataSource}.{$childName}"
+                'itemTemplate' => 'item_template'
             ]
         );
         $this->addTemplateToCollection($childName . 'Collection', 'item_template', $itemTemplate);
@@ -422,13 +421,15 @@ class AbstractStructure extends AbstractView
 
     /**
      * @param string $collectionName
+     * @param string $dataScope
      * @param array $config
      * @return string
      */
-    protected function addCollection($collectionName, array $config = [])
+    protected function addCollection($collectionName, $dataScope, array $config = [])
     {
         $this->structure['groups']['children'][$collectionName] = [
             'type' => 'collection',
+            'dataScope' => $dataScope,
             'config' => $config
         ];
         return "{$this->ns}.groups.{$collectionName}";
