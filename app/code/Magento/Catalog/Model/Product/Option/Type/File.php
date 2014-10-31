@@ -488,7 +488,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     }
 
     /**
-     * @param $value
+     * @param array $value
      * @return string
      */
     protected function prepareSize($value)

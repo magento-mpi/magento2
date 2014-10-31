@@ -7,9 +7,11 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type\File;
 
+/**
+ * @magentoDataFixture Magento/Catalog/_files/validate_image_info.php
+ */
 class ValidatorInfoTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ValidatorInfo
      */
@@ -65,11 +67,9 @@ class ValidatorInfoTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($validateMock));
 
-        $this->assertTrue(
-            $this->model->validate(
-                $this->getOptionValue(),
-                $this->getProductOption()
-            )
+        $this->model->validate(
+            $this->getOptionValue(),
+            $this->getProductOption()
         );
     }
 
@@ -90,11 +90,9 @@ class ValidatorInfoTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($validateMock));
 
-        $this->assertTrue(
-            $this->model->validate(
-                $this->getOptionValue(),
-                $this->getProductOption()
-            )
+        $this->model->validate(
+            $this->getOptionValue(),
+            $this->getProductOption()
         );
     }
 
@@ -158,12 +156,19 @@ class ValidatorInfoTest extends \PHPUnit_Framework_TestCase
      */
     protected function getOptionValue()
     {
-        $file = __DIR__ . '/../../../../../_files/magento_small_image.jpg';
+        $file     = 'magento_small_image.jpg';
+        $tmpPath = 'var/tmp/' . $file;
+
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        $filesystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
+        $tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);
+        $filePath = $tmpDirectory->getAbsolutePath($file);
+
         return [
             'title'      => 'test.jpg',
-            'quote_path' => $file,
-            'order_path' => $file,
-            'secret_key' => substr(md5(file_get_contents($file)), 0, 20),
+            'quote_path' => $tmpPath,
+            'order_path' => $tmpPath,
+            'secret_key' => substr(md5(file_get_contents($filePath)), 0, 20),
         ];
     }
 }

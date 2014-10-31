@@ -7,9 +7,11 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type\File;
 
+/**
+ * @magentoDataFixture Magento/Catalog/_files/validate_image.php
+ */
 class ValidatorFileTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ValidatorFile
      */
@@ -201,10 +203,17 @@ class ValidatorFileTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareEnv()
     {
+        $file     = 'magento_small_image.jpg';
+
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        $filesystem = $this->objectManager->get('Magento\Framework\App\Filesystem');
+        $tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
+        $filePath = $tmpDirectory->getAbsolutePath($file);
+
         $_FILES['options_1_file'] = [
             'name' => 'test.jpg',
             'type' => 'image/jpeg',
-            'tmp_name' => __DIR__ . '/../../../../../_files/magento_small_image.jpg',
+            'tmp_name' => $filePath,
             'error' => 0,
             'size' => 12500,
         ];
@@ -217,7 +226,7 @@ class ValidatorFileTest extends \PHPUnit_Framework_TestCase
     protected function expectedValidate()
     {
         return [
-            'type' => 'application/octet-stream',
+            'type' => 'image/jpeg',
             'title' => 'test.jpg',
             'quote_path' => 'pub/media/custom_options/quote/t/e/9c198b6663f1e032365b8cfedfe7ad77.jpg',
             'order_path' => 'pub/media/custom_options/order/t/e/9c198b6663f1e032365b8cfedfe7ad77.jpg',

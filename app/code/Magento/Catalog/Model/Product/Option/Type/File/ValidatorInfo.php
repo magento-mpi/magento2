@@ -20,9 +20,19 @@ class ValidatorInfo extends Validator
      */
     protected $validateFactory;
 
+    /**
+     * @var mixed
+     */
     protected $useQuotePath;
 
+    /**
+     * @var string
+     */
     protected $fileFullPath;
+
+    /**
+     * @var string
+     */
     protected $fileRelativePath;
 
     /**
