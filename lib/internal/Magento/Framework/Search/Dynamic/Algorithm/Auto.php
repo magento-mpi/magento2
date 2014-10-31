@@ -22,7 +22,7 @@ class Auto implements AlgorithmInterface
             $range = $dataProvider->getRange();
             if (!$range) {
                 $range = $this->getRange($dataProvider, $entityIds);
-                $dbRanges = $dataProvider->getCount($range, $entityIds);
+                $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
                 $data = $dataProvider->prepareData($range, $dbRanges);
             }
         }
@@ -41,7 +41,7 @@ class Auto implements AlgorithmInterface
         $index = 1;
         do {
             $range = pow(10, strlen(floor($maxPrice)) - $index);
-            $items = $dataProvider->getCount($range, $entityIds);
+            $items = $dataProvider->getAggregation($range, $entityIds, 'count');
             $index++;
         } while ($range > $this->getMinRangePower($dataProvider) && count($items) < 2);
 

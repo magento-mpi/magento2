@@ -44,9 +44,10 @@ interface DataProviderInterface
     /**
      * @param int $range
      * @param int[] $entityIds
+     * @param $aggregationType
      * @return array
      */
-    public function getCount($range, array $entityIds);
+    public function getAggregation($range, array $entityIds, $aggregationType);
 
     /**
      * @param int $range

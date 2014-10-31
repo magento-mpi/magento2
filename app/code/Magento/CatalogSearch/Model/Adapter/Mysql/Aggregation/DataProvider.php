@@ -9,13 +9,16 @@ namespace Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation;
 
 use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\Config;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
+use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Catalog\Model\Layer\Filter\Price\Range;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
 
 class DataProvider implements DataProviderInterface
@@ -45,21 +48,30 @@ class DataProvider implements DataProviderInterface
     private $range;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @param Config $eavConfig
      * @param Resource|Resource $resource
      * @param StoreManagerInterface $storeManager
+     * @param ScopeConfigInterface $scopeConfig
      * @param Range $range
+     * @internal param Range $range
      */
     public function __construct(
         Config $eavConfig,
         Resource $resource,
         StoreManagerInterface $storeManager,
+        ScopeConfigInterface $scopeConfig,
         Range $range
     ) {
         $this->eavConfig = $eavConfig;
         $this->resource = $resource;
         $this->storeManager = $storeManager;
         $this->range = $range;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -148,7 +160,7 @@ class DataProvider implements DataProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getCount($range, array $entityIds)
+    public function getAggregation($range, array $entityIds, $aggregationType)
     {
         $select = $this->getSelect();
 

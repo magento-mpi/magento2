@@ -22,7 +22,7 @@ class Manual implements AlgorithmInterface
             if (!$range) {
                 $options = $dataProvider->getOptions();
                 $range = $options['range_step'];
-                $dbRanges = $dataProvider->getCount($range, $entityIds);
+                $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
                 $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
                 $data = $dataProvider->prepareData($range, $dbRanges);
             }
@@ -32,7 +32,7 @@ class Manual implements AlgorithmInterface
     }
 
     /**
-     * @param array $items
+     * @param array $items\
      * @param $maxIntervalsNumber
      * @return array
      */
