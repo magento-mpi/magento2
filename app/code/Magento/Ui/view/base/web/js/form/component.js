@@ -92,10 +92,10 @@ define([
 
         remove: function (elem) {
             var _elems   = this._elems,
-                position = _elems.indexOf(element);
+                position = _elems.indexOf(elem);
 
             _elems.splice(position, 1);
-            this.elems.remove(element);
+            this.elems.remove(elem);
 
             return this;
         },
