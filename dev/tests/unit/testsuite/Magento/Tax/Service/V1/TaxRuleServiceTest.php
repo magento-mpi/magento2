@@ -14,7 +14,7 @@ use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 
 /**
  * Class TaxRuleServiceTest
@@ -54,7 +54,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     protected $filterBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaBuilderMock;
 
@@ -101,7 +101,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->searchCriteriaBuilderMock = $this->getMockBuilder(
-            '\Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            '\Magento\Framework\Data\SearchCriteriaBuilder'
         )
             ->disableOriginalConstructor()
             ->getMock();
@@ -444,8 +444,8 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     public function testSearchTaxRulesEmptyResult()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject |
-         * \Magento\Framework\Service\V1\Data\SearchCriteria $mockSearchCriteria */
-        $mockSearchCriteria = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
+         * \Magento\Framework\Data\SearchCriteria $mockSearchCriteria */
+        $mockSearchCriteria = $this->getMockBuilder('\Magento\Framework\Data\SearchCriteria')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -506,9 +506,9 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 
         $filterGroupBuilder = $this->objectManager
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
-        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder */
+        /** @var \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->getObject(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
         $sortOrderBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\SortOrderBuilder');
@@ -612,7 +612,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->logicalOr([$filterOne], [$filterTwo]))
             ->will($this->returnSelf());
 
-        $searchCriteria = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
+        $searchCriteria = $this->getMockBuilder('\Magento\Framework\Data\SearchCriteria')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -30,7 +30,7 @@ class SearchResults extends \Magento\Framework\Service\Data\AbstractExtensibleOb
     /**
      * Get search criteria
      *
-     * @return \Magento\Framework\Service\V1\Data\SearchCriteria
+     * @return \Magento\Framework\Data\SearchCriteria
      */
     public function getSearchCriteria()
     {

@@ -15,8 +15,8 @@ use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\SortOrder;
 use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -102,7 +102,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Data\SearchCriteriaBuilder'
         );
         $this->sortOrderBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SortOrderBuilder'

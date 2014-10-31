@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SearchResults;
 
 /**

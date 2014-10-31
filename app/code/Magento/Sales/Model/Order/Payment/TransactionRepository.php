@@ -10,7 +10,7 @@ namespace Magento\Sales\Model\Order\Payment;
 
 use Magento\Sales\Model\Resource\Order\Payment\Transaction as TransactionResource;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 
 /**
  * Repository class for \Magento\Sales\Model\Order\Payment\Transaction
@@ -44,7 +44,7 @@ class TransactionRepository
     private $filterBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Data\SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
@@ -110,10 +110,10 @@ class TransactionRepository
     /**
      * Find entities by criteria
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria  $criteria
+     * @param \Magento\Framework\Data\SearchCriteria  $criteria
      * @return Transaction[]
      */
-    public function find(\Magento\Framework\Service\V1\Data\SearchCriteria $criteria)
+    public function find(\Magento\Framework\Data\SearchCriteria $criteria)
     {
         /** @var TransactionResource\Collection $collection */
         $collection = $this->transactionCollectionFactory->create();

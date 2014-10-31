@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Product;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
@@ -147,9 +147,9 @@ class ProductServiceTest extends WebapiAbstract
         if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
         }
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Data\SearchCriteriaBuilder'
         );
         /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
         $filterBuilder = Bootstrap::getObjectManager()->create(

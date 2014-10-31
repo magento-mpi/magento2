@@ -10,7 +10,7 @@ namespace Magento\Sales\Service\V1\Action;
 use Magento\Sales\Model\Order\InvoiceRepository;
 use Magento\Sales\Service\V1\Data\InvoiceMapper;
 use Magento\Sales\Service\V1\Data\InvoiceSearchResultsBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 
 /**
  * Class InvoiceList

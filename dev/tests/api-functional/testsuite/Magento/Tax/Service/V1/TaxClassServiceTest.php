@@ -10,7 +10,7 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\Data\TaxClassBuilder;
@@ -50,7 +50,7 @@ class TaxClassServiceTest extends WebapiAbstract
     public function setUp()
     {
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Data\SearchCriteriaBuilder'
         );
         $this->filterBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'

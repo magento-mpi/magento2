@@ -503,9 +503,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
         foreach ($filters as $filter) {
             $searchBuilder->addFilter([$filter]);
         }

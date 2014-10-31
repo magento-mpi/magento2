@@ -9,7 +9,7 @@ namespace Magento\Sales\Service\V1\Action;
 
 use Magento\Sales\Model\Order\Status\HistoryRepository;
 use Magento\Sales\Service\V1\Data\OrderStatusHistoryMapper;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Sales\Service\V1\Data\OrderStatusHistorySearchResultsBuilder;
 

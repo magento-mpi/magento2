@@ -9,7 +9,7 @@ namespace Magento\GiftWrapping\Model\System\Config\Source\TaxClass;
 
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
 use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use \Magento\Framework\Service\V1\Data\FilterBuilder;
 
 class Product implements \Magento\Framework\Option\ArrayInterface

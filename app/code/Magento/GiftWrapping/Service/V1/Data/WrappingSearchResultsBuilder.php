@@ -9,7 +9,7 @@
 namespace Magento\GiftWrapping\Service\V1\Data;
 
 use Magento\Framework\Service\Data\ObjectFactory;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;

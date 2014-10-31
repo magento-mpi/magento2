@@ -19,7 +19,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
 use Magento\Framework\Service\V1\Data\SortOrder;

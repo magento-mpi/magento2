@@ -108,11 +108,11 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve customers which match a specified criteria
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Framework\Exception\InputException if there is a problem with the input
      * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerDetails
      */
-    public function searchCustomers(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function searchCustomers(\Magento\Framework\Data\SearchCriteria $searchCriteria);
 
     /**
      * Login a customer account using username and password

@@ -1171,7 +1171,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
     {
         $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
         $filter = $filterBuilder
                     ->setField($filterField)
                     ->setValue($filterValue)
@@ -1219,7 +1219,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $this->_markTestAsRestOnly('SOAP is covered in ');
         $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
         $filter = $filterBuilder
             ->setField($filterField)
             ->setValue($filterValue)

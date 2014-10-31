@@ -11,6 +11,6 @@ namespace Magento\Framework\Data;
 /**
  * TODO: Temporary search criteria builder builder
  */
-class SearchCriteriaDataBuilder extends \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+class SearchCriteriaDataBuilder extends \Magento\Framework\Data\SearchCriteriaBuilder
 {
 }

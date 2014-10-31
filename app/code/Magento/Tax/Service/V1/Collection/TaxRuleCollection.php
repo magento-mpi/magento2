@@ -11,7 +11,7 @@ namespace Magento\Tax\Service\V1\Collection;
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Service\AbstractServiceCollection;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Service\V1\TaxRuleServiceInterface;
 use Magento\Tax\Service\V1\Data\TaxRule;
