@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder;
 
-use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm\Repository;
 use Magento\Framework\Search\Request\Aggregation\DynamicBucket;
@@ -39,16 +38,29 @@ class Dynamic implements BucketInterface
     ) {
         /** @var DynamicBucket $bucket */
         $algorithm = $this->algorithmRepository->get($bucket->getMethod());
-        $data = $algorithm->getItems($dataProvider, $entityIds, []);
+        $data = $algorithm->getItems($dataProvider,$entityIds,[]);
 
+        $resultData = $this->prepareData($data);
+
+        return $resultData;
+    }
+
+    /**
+     * Prepare result data
+     *
+     * @param array $data
+     * @return array
+     */
+    private function prepareData($data)
+    {
         $resultData = [];
         foreach ($data as $value) {
             $from = $value['from'] ?: '*';
             $to = $value['to'] ?: '*';
             unset($value['from'], $value['to']);
 
-            $q = "{$from}_{$to}";
-            $resultData[$q] = array_merge(['value' => $q], $value);
+            $rangeName = "{$from}_{$to}";
+            $resultData[$rangeName] = array_merge(['value' => $rangeName], $value);
         }
 
         return $resultData;
