@@ -14,17 +14,6 @@ namespace Magento\AdvancedCheckout\Test\Handler\Widget;
 class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
 {
     /**
-     * Constructor
-     *
-     * @constructor
-     *
-     */
-    public function __construct()
-    {
-        $this->mappingData = array_merge($this->mappingData, $this->additionalMappingData);
-    }
-
-    /**
      * Mapping values for data.
      *
      * @var array
@@ -41,4 +30,15 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
      * @var string
      */
     protected $widgetInstanceTemplate = 'widget/sku.phtml';
+
+    /**
+     * Constructor
+     *
+     * @constructor
+     *
+     */
+    public function __construct()
+    {
+        $this->mappingData = array_merge($this->mappingData, $this->additionalMappingData);
+    }
 }

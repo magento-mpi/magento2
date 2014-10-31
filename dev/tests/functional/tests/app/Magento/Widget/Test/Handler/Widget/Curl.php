@@ -17,7 +17,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Curl handler for creating widgetInstance/frontendApp
+ * Curl handler for creating widgetInstance/frontendApp.
  */
 class Curl extends AbstractCurl
 {
@@ -28,7 +28,7 @@ class Curl extends AbstractCurl
      */
     protected $mappingData = [
         'theme_id' => [
-            'Magento Blank' => 3,
+            'Magento Blank' => 2,
         ],
         'code' => [
             'CMS Page Link' => 'cms_page_link',
@@ -49,15 +49,6 @@ class Curl extends AbstractCurl
     ];
 
     /**
-     * Mapping store ids values for data.
-     *
-     * @var array
-     */
-    protected $mappingStoreIds = [
-        'All Store Views' => 0
-    ];
-
-    /**
      * Widget Instance Template.
      *
      * @var string
@@ -65,7 +56,7 @@ class Curl extends AbstractCurl
     protected $widgetInstanceTemplate = '';
 
     /**
-     * Post request for creating widget instance
+     * Post request for creating widget instance.
      *
      * @param FixtureInterface $fixture [optional]
      * @throws \Exception
@@ -101,7 +92,7 @@ class Curl extends AbstractCurl
     }
 
     /**
-     * Prepare data for create widget
+     * Prepare data for create widget.
      *
      * @param FixtureInterface $widget
      * @return array
@@ -109,7 +100,6 @@ class Curl extends AbstractCurl
     protected function prepareData(FixtureInterface $widget)
     {
         $data = $this->replaceMappingData($widget->getData());
-        $data = $this->replaceStoreIds($data);
 
         return $this->prepareWidgetInstance($data);
     }
@@ -118,6 +108,7 @@ class Curl extends AbstractCurl
      * Prepare Widget Instance data.
      *
      * @param array $data
+     * @throws \Exception
      * @return array
      */
     protected function prepareWidgetInstance($data)
@@ -128,14 +119,11 @@ class Curl extends AbstractCurl
             if (!isset($widgetInstance[$pageGroup]['page_id'])) {
                 $widgetInstance[$pageGroup]['page_id'] = 0;
             }
-            switch ($pageGroup) {
-                case 'notanchor_categories':
-                    $widgetInstance[$pageGroup] = $this->prepareNonAnchorCategoriesGroup($widgetInstance[$pageGroup]);
-                    break;
-                case 'all_pages':
-                    $widgetInstance[$pageGroup] = $this->prepareAllPagesGroup($widgetInstance[$pageGroup]);
-                    break;
+            $method = $this->prepareMethodName($pageGroup);
+            if (!method_exists(__CLASS__, $method)) {
+                throw new \Exception('Method ' . $method . ' is not exist.');
             }
+            $widgetInstance[$pageGroup] = $this->$method($widgetInstance[$pageGroup]);
             $data['widget_instance'][$key] = $widgetInstance;
         }
 
@@ -165,27 +153,26 @@ class Curl extends AbstractCurl
      * @param array $widgetInstancePageGroup
      * @return array
      */
-    protected function prepareNonAnchorCategoriesGroup(array $widgetInstancePageGroup)
+    protected function prepareNotanchorCategoriesGroup(array $widgetInstancePageGroup)
     {
         return $widgetInstancePageGroup['is_anchor_only'] = 0;
     }
 
     /**
-     * Replace store ids labels to values
+     * Prepare method name.
      *
-     * @param array $data
-     * @return array
+     * @param string $pageGroup
+     * @return string
      */
-    protected function replaceStoreIds(array $data)
+    protected function prepareMethodName($pageGroup)
     {
-        if (isset($data['store_ids'])) {
-            foreach ($data['store_ids'] as $key => $storeId) {
-                if (isset($this->mappingStoreIds[$storeId])) {
-                    $data['store_ids'][$key] = $this->mappingStoreIds[$storeId];
-                }
-            }
+        $methodName = 'prepare%sGroup';
+        $pieces = explode('_', $pageGroup);
+        $groupName = '';
+        foreach ($pieces as $piece) {
+            $groupName .= ucfirst($piece);
         }
 
-        return $data;
+        return sprintf($methodName, $groupName);
     }
 }
