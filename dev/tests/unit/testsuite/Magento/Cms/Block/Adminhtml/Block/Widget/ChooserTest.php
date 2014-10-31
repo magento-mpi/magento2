@@ -157,7 +157,7 @@ class ChooserTest extends \PHPUnit_Framework_TestCase
             ->willReturn($uniqId);
         $this->urlBuilderMock->expects($this->atLeastOnce())
             ->method('getUrl')
-            ->with('cms/block_widget/chooser', array('uniq_id' => $uniqId))
+            ->with('cms/block_widget/chooser', ['uniq_id' => $uniqId])
             ->willReturn($sourceUrl);
         $this->layoutMock->expects($this->atLeastOnce())
             ->method('createBlock')

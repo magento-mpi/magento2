@@ -62,7 +62,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     public function testToOptionArray()
     {
-        $resultOptions = array('val1' => 'val2');
+        $resultOptions = ['val1' => 'val2'];
 
         $this->pageCollectionFactory
             ->expects($this->atLeastOnce())
