@@ -9,7 +9,7 @@
 $this->addAttribute(
     \Magento\Catalog\Model\Category::ENTITY,
     'url_key',
-    array(
+    [
         'type' => 'varchar',
         'label' => 'URL Key',
         'input' => 'text',
@@ -17,26 +17,26 @@ $this->addAttribute(
         'sort_order' => 3,
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'group' => 'General Information',
-    )
+    ]
 );
 
 $this->addAttribute(
     \Magento\Catalog\Model\Category::ENTITY,
     'url_path',
-    array(
+    [
         'type' => 'varchar',
         'required' => false,
         'sort_order' => 17,
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible' => false,
         'group' => 'General Information',
-    )
+    ]
 );
 
 $this->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'url_key',
-    array(
+    [
         'type' => 'varchar',
         'label' => 'URL Key',
         'input' => 'text',
@@ -45,17 +45,17 @@ $this->addAttribute(
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'used_in_product_listing' => true,
         'group' => 'Search Engine Optimization',
-    )
+    ]
 );
 
 $this->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'url_path',
-    array(
+    [
         'type' => 'varchar',
         'required' => false,
         'sort_order' => 11,
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
         'visible' => false,
-    )
+    ]
 );
