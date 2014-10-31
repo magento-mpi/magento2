@@ -31,7 +31,7 @@ class Manual implements AlgorithmInterface
 
     /**
      * @param array $items \
-     * @param $maxIntervalsNumber
+     * @param int $maxIntervalsNumber
      * @return array
      */
     private function processRange($items, $maxIntervalsNumber)
@@ -51,4 +51,3 @@ class Manual implements AlgorithmInterface
         return $items;
     }
 }
- 

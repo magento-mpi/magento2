@@ -50,6 +50,7 @@ class Range
     public function getPriceRange()
     {
         $currentCategory = $this->registry->registry('current_category_filter') ?: $this->layer->getCurrentCategory();
+
         return $currentCategory->getFilterPriceRange();
     }
 
@@ -61,4 +62,3 @@ class Range
         return (double)$this->scopeConfig->getValue(self::XML_PATH_RANGE_STEP, ScopeInterface::SCOPE_STORE);
     }
 }
- 

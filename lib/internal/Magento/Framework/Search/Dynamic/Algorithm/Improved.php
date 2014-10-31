@@ -52,4 +52,3 @@ class Improved implements AlgorithmInterface
         return $this->algorithm->calculateSeparators();
     }
 }
- 

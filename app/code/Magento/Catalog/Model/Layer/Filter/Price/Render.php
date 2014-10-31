@@ -45,13 +45,13 @@ class Render
     public function renderRangeLabel($fromPrice, $toPrice)
     {
         $formattedFromPrice = $this->priceCurrency->format($fromPrice);
+        $priceInterval = $this->scopeConfig->getValue(
+            self::XML_PATH_ONE_PRICE_INTERVAL,
+            ScopeInterface::SCOPE_STORE
+        );
         if ($toPrice === '') {
             return __('%1 and above', $formattedFromPrice);
-        } elseif ($fromPrice == $toPrice && $this->scopeConfig->getValue(
-                self::XML_PATH_ONE_PRICE_INTERVAL,
-                ScopeInterface::SCOPE_STORE
-            )
-        ) {
+        } elseif ($fromPrice == $toPrice && $priceInterval) {
             return $formattedFromPrice;
         } else {
             if ($fromPrice != $toPrice) {
@@ -62,9 +62,14 @@ class Render
         }
     }
 
+    /**
+     * @param int $range
+     * @param int[] $dbRanges
+     * @return array
+     */
     public function renderRangeData($range, $dbRanges)
     {
-        $data = array();
+        $data = [];
 
         if (!empty($dbRanges)) {
             $lastIndex = array_keys($dbRanges);
@@ -74,15 +79,14 @@ class Render
                 $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
                 $toPrice = $index == $lastIndex ? '' : $index * $range;
 
-                $data[] = array(
+                $data[] = [
                     'label' => $this->renderRangeLabel($fromPrice, $toPrice),
                     'value' => $fromPrice . '-' . $toPrice,
                     'count' => $count
-                );
+                ];
             }
         }
 
         return $data;
     }
 }
- 

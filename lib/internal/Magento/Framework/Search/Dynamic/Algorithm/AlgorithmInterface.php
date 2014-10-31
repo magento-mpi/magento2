@@ -18,4 +18,3 @@ interface AlgorithmInterface
      */
     public function getItems(DataProviderInterface $dataProvider, array $entityIds);
 }
- 

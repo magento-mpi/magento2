@@ -68,4 +68,3 @@ class Repository
         return $this->instances[$algorithmType];
     }
 }
- 
