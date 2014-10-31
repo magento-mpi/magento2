@@ -1157,7 +1157,7 @@ $table = $installer->getConnection()->newTable(
     'position',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    array('unsigned' => false, 'nullable' => true, 'default' => null,),
     'Position'
 )->addColumn(
     'is_parent',
@@ -2767,6 +2767,9 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product Price Indexer Config Option Aggregate Temp Table'
 );
@@ -2859,6 +2862,9 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product Price Indexer Config Option Temp Table'
 );
@@ -2999,6 +3005,9 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Base Tier'
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product Price Indexer Final Temp Table'
 );
@@ -3091,6 +3100,9 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product Price Indexer Option Temp Table'
 );
@@ -3195,6 +3207,9 @@ $table = $installer->getConnection()->newTable(
     '12,4',
     array(),
     'Tier Price'
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product Price Indexer Option Aggregate Temp Table'
 );
@@ -3281,6 +3296,9 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_index_eav_tmp', array('value')),
     array('value')
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product EAV Indexer Temp Table'
 );
@@ -3367,6 +3385,9 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_index_eav_decimal_tmp', array('value')),
     array('value')
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product EAV Decimal Indexer Temp Table'
 );
@@ -3513,6 +3534,9 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_index_price_tmp', array('min_price')),
     array('min_price')
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Product Price Indexer Temp Table'
 );
@@ -3563,6 +3587,9 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_category_product_index_tmp', array('product_id', 'category_id', 'store_id')),
     array('product_id', 'category_id', 'store_id')
+)->setOption(
+    'type',
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 )->setComment(
     'Catalog Category Product Indexer Temp Table'
 );
