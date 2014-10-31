@@ -34,8 +34,8 @@ $defaults = [
     'license' => ['OSL-3.0', 'AFL-3.0'],
 ];
 $skeletonDefaults = [
-    'name' => 'magento/product-community-edition',
-    'description' => 'eCommerce Platform for Growth (Community Edition)',
+    'name' => 'magento/skeleton',
+    'description' => 'Magento Skeleton',
     'type' => 'magento2-component',
 ];
 $opt = getopt('', ['skeleton', 'wildcard', 'source-dir::', 'target-file::', 'set::']);
@@ -78,7 +78,7 @@ try {
     $replaceFilter = new ReplaceFilter($source);
     $replaceFilter->removeMissing($package, $isSkeleton);
     if ($isSkeleton) {
-        $replaceFilter->moveMagentoComponentsToRequire($package, isset($opt['wildcard']));
+        $replaceFilter->removeMagentoComponentsFromReplace($package);
     }
 
     // marshaling mapping (for skeleton)
@@ -87,6 +87,10 @@ try {
         $package->set('extra->map', $reader->getRootMappingPatterns());
     }
 
+    if ($isSkeleton) {
+        $key = 'magento/magento-composer-installer';
+        $package->set("require->{$key}", '*');
+    }
     // output
     $output = $package->getJson();
     if (isset($opt['target-file'])) {

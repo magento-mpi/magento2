@@ -206,6 +206,9 @@ class Reader
         $excludes[] = $this->rootDir . '/.idea';
         $excludes[] = $this->rootDir . '/.git';
         $excludes[] = $this->rootDir . '/app/etc/vendor_path.php';
+        $excludes[] = $this->rootDir . '/composer.json';
+        $excludes[] = $this->rootDir . '/README.md';
+        $excludes[] = $this->rootDir . '/.gitignore';
 
         return $excludes;
     }

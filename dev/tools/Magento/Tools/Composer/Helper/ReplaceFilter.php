@@ -84,6 +84,21 @@ class ReplaceFilter
     }
 
     /**
+     * Go through the "replace section" and remove Magento components under "replace" section
+     *
+     * @param Package $package
+     * @return void
+     */
+    public function removeMagentoComponentsFromReplace(Package $package)
+    {
+        foreach ($package->get('replace') as $key => $value) {
+            if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
+                $package->unsetProperty("replace->{$key}");
+            }
+        }
+    }
+
+    /**
      * Whether the specified component name is a component of Magento system
      *
      * @param string $name
