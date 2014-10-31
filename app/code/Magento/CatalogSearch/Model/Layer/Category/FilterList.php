@@ -83,7 +83,6 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
         /** @var \Magento\Framework\Search\Response\QueryResponse $queryResponse */
         $queryResponse = $this->searchEngine->search($queryRequest);
         $aggregations = $queryResponse->getAggregations();
-        /*
         foreach ($this->filters as $filter) {
             try {
                 $attribute = $filter->getAttributeModel();
@@ -91,11 +90,14 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
                 continue;
             }
             $filterAttributeCode = $attribute->getAttributeCode();
+            if ($filterAttributeCode == 'price') {
+                continue;
+            }
             $values = array();
             foreach($aggregations->getBucket($filterAttributeCode . '_bucket')->getValues() as $value) {
                 $values[] = $value->getMetrics();
             }
-            $filter->setItems($values);
-        }*/
+            //$filter->setItems($values);
+        }
     }
 }

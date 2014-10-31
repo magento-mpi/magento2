@@ -50,22 +50,32 @@ abstract class AbstractFilter extends \Magento\Framework\Object
     protected $_filterItemFactory;
 
     /**
+     * Item Data Builder
+     *
+     * @var \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder
+     */
+    protected $itemDataBuilder;
+
+    /**
      * Constructor
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         array $data = array()
     ) {
         $this->_filterItemFactory = $filterItemFactory;
         $this->_storeManager = $storeManager;
         $this->_catalogLayer = $layer;
+        $this->itemDataBuilder = $itemDataBuilder;
         parent::__construct($data);
         if ($this->hasAttributeModel()) {
             $this->_requestVar = $this->getAttributeModel()->getAttributeCode();
@@ -117,10 +127,10 @@ abstract class AbstractFilter extends \Magento\Framework\Object
     /**
      * Apply filter to collection
      *
-     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return $this
      */
-    public function apply(\Magento\Framework\App\Request\Http $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         return $this;
     }

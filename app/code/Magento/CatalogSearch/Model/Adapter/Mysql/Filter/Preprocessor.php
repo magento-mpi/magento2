@@ -84,7 +84,7 @@ class Preprocessor implements PreprocessorInterface
             $query = str_replace('category_ids', 'category_id', $query);
             $select->from(
                     ['main_table' => $this->resource->getTableName('catalog_category_product_index')],
-                    'product_id as entity_id'
+                    ['entity_id' => 'product_id']
                 )->where($query);
         } else {
             if ($attribute->isStatic()) {

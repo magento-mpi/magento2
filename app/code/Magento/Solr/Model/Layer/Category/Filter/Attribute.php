@@ -23,6 +23,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Filter\StripTags $tagFilter
@@ -33,6 +34,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
@@ -44,6 +46,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             $filterItemFactory,
             $storeManager,
             $layer,
+            $itemDataBuilder,
             $filterAttributeFactory,
             $string,
             $tagFilter,
@@ -67,7 +70,6 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         $optionsFacetedData = $productCollection->getFacetedData($fieldName);
         $options = $attribute->getSource()->getAllOptions(false);
 
-        $data = array();
         foreach ($options as $option) {
             $optionId = $option['value'];
             // Check filter type
@@ -76,15 +78,15 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             ) != \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS ||
                 !empty($optionsFacetedData[$optionId])
             ) {
-                $data[] = array(
-                    'label' => $this->tagFilter->filter($option['label']),
-                    'value' => $option['label'],
-                    'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0
+                $this->itemDataBuilder->addItemData(
+                    $this->tagFilter->filter($option['label']),
+                    $option['label'],
+                    isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0
                 );
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**

@@ -21,6 +21,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
@@ -31,6 +32,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
@@ -38,7 +40,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         array $data = array()
     ) {
         parent::__construct(
-            $filterItemFactory, $storeManager, $layer, $categoryFactory, $escaper, $coreRegistry, $data
+            $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
+            $categoryFactory, $escaper, $coreRegistry, $data
         );
         $this->requestBuilder = $requestBuilder;
     }

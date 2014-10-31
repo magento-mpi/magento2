@@ -21,6 +21,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Filter\StripTags $tagFilter
@@ -31,6 +32,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
@@ -38,7 +40,8 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         array $data = array()
     ) {
         parent::__construct(
-            $filterItemFactory, $storeManager, $layer, $filterAttributeFactory, $string, $tagFilter, $data
+            $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
+            $filterAttributeFactory, $string, $tagFilter, $data
         );
         $this->requestBuilder = $requestBuilder;
     }
@@ -46,10 +49,10 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     /**
      * Apply attribute option filter to product collection
      *
-     * @param   \Magento\Framework\App\Request\Http $request
+     * @param   \Magento\Framework\App\RequestInterface $request
      * @return  $this
      */
-    public function apply(\Magento\Framework\App\Request\Http $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         $attributeValue = $request->getParam($this->_requestVar);
         if (empty($attributeValue)) {

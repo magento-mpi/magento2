@@ -34,6 +34,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param array $data
@@ -42,6 +43,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         array $data = array()
@@ -49,7 +51,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_resource = $filterDecimalFactory->create();
         $this->_requestVar = 'decimal';
         $this->priceCurrency = $priceCurrency;
-        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
     }
 
     /**
@@ -65,10 +67,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Apply decimal range filter to product collection
      *
-     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return $this
      */
-    public function apply(\Magento\Framework\App\Request\Http $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         parent::apply($request);
 
@@ -203,18 +205,17 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getItemsData()
     {
-        $data = array();
         $range = $this->getRange();
         $dbRanges = $this->getRangeItemCounts($range);
 
         foreach ($dbRanges as $index => $count) {
-            $data[] = array(
-                'label' => $this->_renderItemLabel($range, $index),
-                'value' => $index . ',' . $range,
-                'count' => $count
+            $this->itemDataBuilder->addItemData(
+                $this->_renderItemLabel($range, $index),
+                $index . ',' . $range,
+                $count
             );
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 }

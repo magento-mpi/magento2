@@ -85,6 +85,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm
@@ -97,6 +98,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm,
@@ -111,7 +113,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_priceAlgorithm = $priceAlgorithm;
         $this->_coreRegistry = $coreRegistry;
         $this->_scopeConfig = $scopeConfig;
-        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
         $this->_requestVar = 'price';
     }
 
@@ -292,17 +294,16 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
             $this->_priceAlgorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
         }
 
-        $items = array();
         foreach ($this->_priceAlgorithm->calculateSeparators() as $separator) {
-            $items[] = array(
-                'label' => $this->_renderRangeLabel($separator['from'], $separator['to']),
-                'value' => ($separator['from'] ==
-                0 ? '' : $separator['from']) . '-' . $separator['to'] . $this->_getAdditionalRequestData(),
-                'count' => $separator['count']
+            $this->itemDataBuilder->addItemData(
+                $this->_renderRangeLabel($separator['from'], $separator['to']),
+                ($separator['from'] == 0 ? '' : $separator['from'])
+                    . '-' . $separator['to'] . $this->_getAdditionalRequestData(),
+                $separator['count']
             );
         }
 
-        return $items;
+        return $this->itemDataBuilder->build();
     }
 
     /**
@@ -324,7 +325,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
         $range = $this->getPriceRange();
         $dbRanges = $this->getRangeItemCounts($range);
-        $data = array();
 
         if (!empty($dbRanges)) {
             $lastIndex = array_keys($dbRanges);
@@ -334,15 +334,15 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                 $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
                 $toPrice = $index == $lastIndex ? '' : $index * $range;
 
-                $data[] = array(
-                    'label' => $this->_renderRangeLabel($fromPrice, $toPrice),
-                    'value' => $fromPrice . '-' . $toPrice,
-                    'count' => $count
+                $this->itemDataBuilder->addItemData(
+                    $this->_renderRangeLabel($fromPrice, $toPrice),
+                    $fromPrice . '-' . $toPrice,
+                    $count
                 );
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**
@@ -380,10 +380,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Apply price range filter
      *
-     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return $this
      */
-    public function apply(\Magento\Framework\App\Request\Http $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         /**
          * Filter must be string: $fromPrice-$toPrice

@@ -25,23 +25,22 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         $attribute_code = $this->getAttributeModel()->getAttributeCode();
         $facets = $this->getLayer()->getProductCollection()->getFacetedData('attr_decimal_' . $attribute_code);
 
-        $data = array();
         if (!empty($facets)) {
             foreach ($facets as $key => $count) {
                 preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
                 $rangeKey = $rangeKey[1] / $range;
                 if ($count > 0) {
                     $rangeKey = round($rangeKey);
-                    $data[] = array(
-                        'label' => $this->_renderItemLabel($range, $rangeKey),
-                        'value' => $rangeKey . ',' . $range,
-                        'count' => $count
+                    $this->itemDataBuilder->addItemData(
+                        $this->_renderItemLabel($range, $rangeKey),
+                        $rangeKey . ',' . $range,
+                        $count
                     );
                 }
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**

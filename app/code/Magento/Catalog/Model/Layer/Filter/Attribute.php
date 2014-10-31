@@ -39,6 +39,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Filter\StripTags $tagFilter
@@ -48,6 +49,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
@@ -57,7 +59,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->string = $string;
         $this->_requestVar = 'attribute';
         $this->tagFilter = $tagFilter;
-        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
     }
 
     /**
@@ -84,10 +86,10 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Apply attribute option filter to product collection
      *
-     * @param   \Magento\Framework\App\Request\Http $request
+     * @param   \Magento\Framework\App\RequestInterface $request
      * @return  $this
      */
-    public function apply(\Magento\Framework\App\Request\Http $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -125,7 +127,6 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
         $options = $attribute->getFrontend()->getSelectOptions();
         $optionsCount = $this->_getResource()->getCount($this);
-        $data = array();
         foreach ($options as $option) {
             if (is_array($option['value'])) {
                 continue;
@@ -134,22 +135,22 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {
-                        $data[] = array(
-                            'label' => $this->tagFilter->filter($option['label']),
-                            'value' => $option['value'],
-                            'count' => $optionsCount[$option['value']]
+                        $this->itemDataBuilder->addItemData(
+                            $this->tagFilter->filter($option['label']),
+                            $option['value'],
+                            $optionsCount[$option['value']]
                         );
                     }
                 } else {
-                    $data[] = array(
-                        'label' => $this->tagFilter->filter($option['label']),
-                        'value' => $option['value'],
-                        'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0
+                    $this->itemDataBuilder->addItemData(
+                        $this->tagFilter->filter($option['label']),
+                        $option['value'],
+                        isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0
                     );
                 }
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 }

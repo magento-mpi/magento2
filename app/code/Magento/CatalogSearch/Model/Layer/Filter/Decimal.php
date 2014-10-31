@@ -21,6 +21,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
@@ -30,12 +31,16 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
         array $data = array()
     ) {
-        parent::__construct($filterItemFactory, $storeManager, $layer, $filterDecimalFactory, $priceCurrency, $data);
+        parent::__construct(
+            $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
+            $filterDecimalFactory, $priceCurrency, $data
+        );
         $this->requestBuilder = $requestBuilder;
     }
 }
