@@ -569,7 +569,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'input' => 'text',
                         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice',
                         'required' => false,
-                        'sort_order' => 6,
+                        'sort_order' => 5,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'apply_to' => 'simple,virtual',
                         'group' => 'Prices'
@@ -601,7 +601,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type' => 'datetime',
                         'label' => 'Set Product as New from Date',
                         'input' => 'date',
-                        'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
+                        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Startdate',
                         'required' => false,
                         'sort_order' => 7,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
@@ -669,7 +669,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type' => 'datetime',
                         'label' => 'Active From',
                         'input' => 'date',
-                        'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
+                        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Startdate',
                         'required' => false,
                         'sort_order' => 2,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
@@ -781,7 +781,25 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\Time\Updated',
                         'sort_order' => 20,
                         'visible' => false
+                    ),
+                    'country_of_manufacture' => array(
+                        'type' => 'varchar',
+                        'label' => 'Country of Manufacture',
+                        'input' => 'select',
+                        'source' => 'Magento\Catalog\Model\Product\Attribute\Source\Countryofmanufacture',
+                        'required' => false,
+                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
+                        'visible' => true,
+                        'user_defined' => false,
+                        'searchable' => false,
+                        'filterable' => false,
+                        'comparable' => false,
+                        'visible_on_front' => false,
+                        'unique' => false,
+                        'apply_to' => 'simple,bundle',
+                        'group' => 'General',
                     )
+
                 )
             )
         );
