@@ -13,7 +13,7 @@ use Magento\Customer\Model\CustomerRegistry;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
@@ -76,7 +76,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_websiteMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     private $_customerBuilder;
 
@@ -248,7 +248,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
 
         $this->_customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $this->_customerMetadataService]
         );
 
@@ -1720,7 +1720,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerDetails()
     {
-        $customerMock = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
@@ -1754,7 +1754,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerDetailsWithException()
     {
-        $customerMock = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $addressMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
@@ -1822,7 +1822,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testIsEmailAvailableDefaultWebsite()
     {
         $customerMock = $this->getMockBuilder(
-            '\Magento\Customer\Api\Data\CustomerInterface'
+            '\Magento\Customer\Service\V1\Data\Customer'
         )->disableOriginalConstructor()->getMock();
         $this->_converter = $this->getMockBuilder(
             '\Magento\Customer\Model\Converter'
@@ -1872,7 +1872,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('logException')
             ->with($exception);
 
-        $mockCustomer = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $mockCustomer = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -1915,7 +1915,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_customerModelMock));
 
         $customerDataMock = $this->getMockBuilder(
-            'Magento\Customer\Api\Data\CustomerInterface'
+            'Magento\Customer\Service\V1\Data\Customer'
         )->setMethods(['getId', 'getFirstname', 'getLastname', 'getEmail'])
             ->disableOriginalConstructor()->getMock();
 
@@ -1951,7 +1951,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_converter = $this->getMockBuilder('Magento\Customer\Model\Converter')
             ->disableOriginalConstructor()->getMock();
 
-        $customerDataMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $customerDataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()->getMock();
 
         $addressMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Address')

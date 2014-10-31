@@ -69,7 +69,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $website->load(1);
         $this->_emailModel->setWebsite($website);
 
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->_emailModel->setCustomerData($customer);
 

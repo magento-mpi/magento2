@@ -48,7 +48,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerMock = $this->getMockBuilder(
-            '\Magento\Customer\Api\Data\CustomerInterface'
+            '\Magento\Customer\Service\V1\Data\Customer'
         )->disableOriginalConstructor()->getMock();
         $customerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 

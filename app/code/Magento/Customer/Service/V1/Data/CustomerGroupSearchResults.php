@@ -12,7 +12,6 @@ namespace Magento\Customer\Service\V1\Data;
  * SearchResults Service Data Object used for the search service requests
  */
 class CustomerGroupSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
-    implements \Magento\Customer\Api\Data\GroupSearchResultsInterface
 {
     /**
      * Get items

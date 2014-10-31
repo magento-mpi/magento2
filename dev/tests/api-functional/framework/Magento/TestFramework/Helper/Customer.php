@@ -12,8 +12,8 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
-use Magento\Customer\Model\Data\Customer as CustomerData;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerService;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 class Customer extends WebapiAbstract
 {
@@ -51,7 +51,7 @@ class Customer extends WebapiAbstract
     /** @var CustomerDetailsBuilder */
     private $customerDetailsBuilder;
 
-    /** @var CustomerDataBuilder */
+    /** @var CustomerBuilder */
     private $customerBuilder;
 
     public function __construct($name = NULL, array $data = array(), $dataName = '')
@@ -67,7 +67,7 @@ class Customer extends WebapiAbstract
         );
 
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder'
+            'Magento\Customer\Service\V1\Data\CustomerBuilder'
         );
     }
 
@@ -149,22 +149,22 @@ class Customer extends WebapiAbstract
     public function createSampleCustomerDataObject()
     {
         $customerData = [
-            CustomerData::FIRSTNAME => self::FIRSTNAME,
-            CustomerData::LASTNAME => self::LASTNAME,
-            CustomerData::EMAIL => 'janedoe' . uniqid() . '@example.com',
-            CustomerData::CONFIRMATION => self::CONFIRMATION,
-            CustomerData::CREATED_AT => self::CREATED_AT,
-            CustomerData::CREATED_IN => self::STORE_NAME,
-            CustomerData::DOB => self::DOB,
-            CustomerData::GENDER => self::GENDER,
-            CustomerData::GROUP_ID => self::GROUP_ID,
-            CustomerData::MIDDLENAME => self::MIDDLENAME,
-            CustomerData::PREFIX => self::PREFIX,
-            CustomerData::STORE_ID => self::STORE_ID,
-            CustomerData::SUFFIX => self::SUFFIX,
-            CustomerData::TAXVAT => self::TAXVAT,
-            CustomerData::WEBSITE_ID => self::WEBSITE_ID,
-            'custom_attributes' => [
+            CustomerService::FIRSTNAME => self::FIRSTNAME,
+            CustomerService::LASTNAME => self::LASTNAME,
+            CustomerService::EMAIL => 'janedoe' . uniqid() . '@example.com',
+            CustomerService::CONFIRMATION => self::CONFIRMATION,
+            CustomerService::CREATED_AT => self::CREATED_AT,
+            CustomerService::CREATED_IN => self::STORE_NAME,
+            CustomerService::DOB => self::DOB,
+            CustomerService::GENDER => self::GENDER,
+            CustomerService::GROUP_ID => self::GROUP_ID,
+            CustomerService::MIDDLENAME => self::MIDDLENAME,
+            CustomerService::PREFIX => self::PREFIX,
+            CustomerService::STORE_ID => self::STORE_ID,
+            CustomerService::SUFFIX => self::SUFFIX,
+            CustomerService::TAXVAT => self::TAXVAT,
+            CustomerService::WEBSITE_ID => self::WEBSITE_ID,
+            CustomerService::CUSTOM_ATTRIBUTES_KEY => [
                 [
                     'attribute_code' => 'disable_auto_group_change',
                     'value' => '0'

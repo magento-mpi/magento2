@@ -25,12 +25,12 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function item($id)
+    public function item($entityId)
     {
         return $this->builder
-            ->setId($id)
+            ->setEntityId($entityId)
             ->setName('testItemName')
             ->setIsEnabled(true)
             ->setHasOrders(true)
@@ -38,17 +38,17 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function items()
     {
-        $allSoapAndRest1 = $this->builder->setId(1)->setName('testProduct1')->create();
-        $allSoapAndRest2 = $this->builder->setId(2)->setName('testProduct2')->create();
+        $allSoapAndRest1 = $this->builder->setEntityId(1)->setName('testProduct1')->create();
+        $allSoapAndRest2 = $this->builder->setEntityId(2)->setName('testProduct2')->create();
         return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item)
     {
@@ -56,11 +56,21 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item)
+    public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem)
     {
-        $item->setName('Updated' . $item->getName());
-        return $this->builder->populate($item)->create();
+        return $entityItem;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function nestedUpdate(
+        $parentId,
+        $entityId,
+        \Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $entityItem
+    ) {
+        return $entityItem;
     }
 }

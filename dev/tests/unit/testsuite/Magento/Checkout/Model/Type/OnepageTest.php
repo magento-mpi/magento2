@@ -70,7 +70,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerFormFactoryMock;
 
-    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     /** @var \Magento\Customer\Service\V1\Data\AddressBuilder|\PHPUnit_Framework_MockObject_MockObject */
@@ -119,7 +119,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [],
             [],
             '',
@@ -395,7 +395,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             );
         $formMock->expects($this->any())->method('prepareRequest')->will($this->returnValue($this->requestMock));
         $this->customerFormFactoryMock->expects($this->any())->method('create')->will($this->returnValue($formMock));
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $customerDataMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
         $this->customerBuilderMock
             ->expects($this->any())

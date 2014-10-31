@@ -106,8 +106,8 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCustomerData()
     {
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customerDataMock */
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataMock */
+        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $this->quoteMock->expects($this->once())->method('assignCustomer')->with($customerDataMock);
         $customerDataMock->expects($this->once())->method('getId');
         $this->checkoutModel->setCustomerData($customerDataMock);
@@ -115,8 +115,8 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCustomerWithAddressChange()
     {
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customerDataMock */
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataMock */
+        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         /** @var \Magento\Sales\Model\Quote\Address $customerDataMock */
         $quoteAddressMock = $this->getMock('Magento\Sales\Model\Quote\Address', [], [], '', false);
         $this->quoteMock
@@ -189,7 +189,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                     ->getMock()
             );
 
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $this->customerAccountServiceMock->expects($this->any())
             ->method('getCustomer')
             ->willReturn($customerDataMock);

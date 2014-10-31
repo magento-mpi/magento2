@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service;
 
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Class implements tests for SimpleDataObjectConverter class.
@@ -129,9 +129,9 @@ class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
         $metadataService->expects($this->any())
             ->method('getCustomAttributesMetadata')
             ->will($this->returnValue([]));
-        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
         $customerBuilder = $objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $metadataService]
         );
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */

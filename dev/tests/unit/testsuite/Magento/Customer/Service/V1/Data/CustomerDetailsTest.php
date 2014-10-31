@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Data;
-use Magento\Customer\Api\Data\CustomerInterface;
 
 /**
  * CustomerDetails Test
@@ -23,7 +22,7 @@ class CustomerDetailsTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer mock
      *
-     * @var CustomerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var Customer | \PHPUnit_Framework_MockObject_MockObject
      */
     private $_customerMock;
 
@@ -37,7 +36,7 @@ class CustomerDetailsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_customerMock = $this->getMockBuilder(
-            '\Magento\Customer\Api\Data\CustomerInterface'
+            '\Magento\Customer\Service\V1\Data\Customer'
         )->disableOriginalConstructor()->getMock();
         $this->_addressMock = $this->getMockBuilder(
             '\Magento\Customer\Service\V1\Data\Address'

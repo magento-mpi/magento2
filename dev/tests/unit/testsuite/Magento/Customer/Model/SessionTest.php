@@ -83,7 +83,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSetCustomerAsLoggedIn()
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
-        $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDto = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $this->_converterMock->expects($this->any())
             ->method('createCustomerFromModel')
             ->will($this->returnValue($customerDto));
@@ -103,7 +103,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSetCustomerDataAsLoggedIn()
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
-        $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDto = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
 
         $this->_converterMock->expects($this->any())
             ->method('createCustomerModel')
@@ -167,7 +167,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareLoginDataMock($customerId)
     {
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
         $customerDataMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($customerId));

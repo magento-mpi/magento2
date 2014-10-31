@@ -26,7 +26,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterface
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
@@ -146,7 +146,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     /**
      * Get logged in customer
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function _getCustomerData()
     {

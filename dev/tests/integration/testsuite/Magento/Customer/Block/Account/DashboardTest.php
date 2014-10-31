@@ -68,7 +68,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         $this->customerSession->setCustomerId(1);
         $object = $this->block->getCustomer();
         $this->assertEquals($customer, $object);
-        $this->assertInstanceOf('Magento\Customer\Api\Data\CustomerInterface', $object);
+        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Customer', $object);
     }
 
     /**

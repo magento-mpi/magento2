@@ -164,7 +164,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     /**
      * Get current customer data object.
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     protected function _getCurrentCustomerData()
     {

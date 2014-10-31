@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 
 /**
@@ -251,7 +251,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerBuilder = $this->objectManagerHelper->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $customerMetadataService]
         );
 

@@ -25,12 +25,12 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerDataBuilderMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerDataMock;
 
@@ -72,14 +72,14 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->customerDataBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             array('create', 'setGroupId'),
             array(),
             '',
             false
         );
         $this->customerDataMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterface',
+            'Magento\Customer\Service\V1\Data\Customer',
             array(),
             array(),
             '',

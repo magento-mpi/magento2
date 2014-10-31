@@ -34,7 +34,7 @@
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
-    <route url="/V1/customerGroups/:groupId/permissions" method="GET">
+    <route url="/V1/customerGroups/:id/permissions" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="canDelete"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
@@ -59,13 +59,13 @@
         </resources>
     </route>
     <route url="/V1/customerGroups/:groupId" method="PUT">
-        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="save"/>
+        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="updateGroup"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
     <route url="/V1/customerGroups/:groupId" method="DELETE">
-        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="deleteById"/>
+        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="deleteGroup"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
@@ -125,7 +125,7 @@
 
     <!-- Customer Account Service-->
     <route url="/V1/customers" method="GET">
-        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="get"/>
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerDetailsByEmail"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
@@ -137,7 +137,7 @@
         </resources>
     </route>
     <route url="/V1/customers" method="POST">
-        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="save"/>
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="createCustomer"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>
@@ -188,7 +188,7 @@
         </resources>
     </route>
     <route url="/V1/customers/search" method="GET">
-        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="getList"/>
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="searchCustomers"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
@@ -263,13 +263,13 @@
         </resources>
     </route>
     <route url="/V1/customers/:customerId" method="DELETE">
-        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="deleteById"/>
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomer"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
     <route url="/V1/customers" method="DELETE">
-        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="delete"/>
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomerByEmail"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>

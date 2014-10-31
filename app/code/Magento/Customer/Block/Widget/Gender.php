@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Api\Data\OptionInterface;
 
 /**
@@ -82,8 +82,7 @@ class Gender extends AbstractWidget
 
     /**
      * Get current customer from session using the customer service
-     *
-*@return CustomerInterface
+     * @return Customer
      */
     public function getCustomer()
     {

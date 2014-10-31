@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Service\Data\AttributeValue;
 
 /**
@@ -58,7 +57,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
 
-    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     protected $_customerBuilder;
 
     public function setUp()
@@ -82,7 +81,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
         $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
         $this->_customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
                 'valueBuilder' => $valueBuilder,
                 'metadataService' => $customerMetadataService
@@ -153,10 +152,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 AttributeValue::VALUE => 'value2'
             ]
         ];
-        $customerData = array(
-            'attribute1' => 'value1',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
-        );
+        $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->assertEquals(
             [],
@@ -177,10 +173,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 AttributeValue::VALUE => 'value2'
             ]
         ];
-        $customerData = array(
-            'attribute1' => 'value1',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
-        );
+        $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         foreach ($customerDataObject->getCustomAttributes() as $attributeValue) {
             $this->assertEquals(
@@ -194,10 +187,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $customerFromArray = $this->_customerBuilder->populateWithArray(
             array(
-                \Magento\Customer\Model\Data\Customer::FIRSTNAME => self::FIRSTNAME,
-                \Magento\Customer\Model\Data\Customer::LASTNAME => self::LASTNAME,
-                \Magento\Customer\Model\Data\Customer::EMAIL => self::EMAIL,
-                \Magento\Customer\Model\Data\Customer::ID => self::ID,
+                Customer::FIRSTNAME => self::FIRSTNAME,
+                Customer::LASTNAME => self::LASTNAME,
+                Customer::EMAIL => self::EMAIL,
+                Customer::ID => self::ID,
                 'entity_id' => self::ID
             )
         )->create();
@@ -210,10 +203,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->_customerBuilder->populateWithArray(
             array(
-                \Magento\Customer\Model\Data\Customer::FIRSTNAME => self::FIRSTNAME,
-                \Magento\Customer\Model\Data\Customer::LASTNAME => self::LASTNAME,
-                \Magento\Customer\Model\Data\Customer::EMAIL => self::EMAIL,
-                \Magento\Customer\Model\Data\Customer::ID => self::ID
+                Customer::FIRSTNAME => self::FIRSTNAME,
+                Customer::LASTNAME => self::LASTNAME,
+                Customer::EMAIL => self::EMAIL,
+                Customer::ID => self::ID
             )
         )->create();
 

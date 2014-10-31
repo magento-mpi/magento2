@@ -25,7 +25,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $customerAccountService = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $customerAddressService = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         $customerGroupService = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerBuilder = $this->getMock('Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
+        $customerBuilder = $this->getMock('Magento\Customer\Service\V1\Data\CustomerBuilder', [], [], '', false);
         $customerAddressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
         $registry = $this->getMock('Magento\Framework\Registry');
 

@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <remove name="top.search"/>
-    <remove name="catalog-search-term-popular-link"/>
-    <remove name="catalog-search-advanced-link"/>
+    <body>
+        <remove name="top.search"/>
+        <remove name="catalog-search-term-popular-link"/>
+        <remove name="catalog-search-advanced-link"/>
+    </body>
 </page>

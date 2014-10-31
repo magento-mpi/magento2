@@ -8,7 +8,7 @@
 namespace Magento\Newsletter\Model\Plugin;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Newsletter\Model\SubscriberFactory;
 
@@ -36,12 +36,12 @@ class CustomerPlugin
      * Plugin after create customer that updates any newsletter subscription that may have existed.
      *
      * @param CustomerAccountServiceInterface $subject
-     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
-     * @return CustomerInterface
+     * @param Customer $customer
+     * @return Customer
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterCreateCustomer(CustomerAccountServiceInterface $subject, CustomerInterface $customer)
+    public function afterCreateCustomer(CustomerAccountServiceInterface $subject, Customer $customer)
     {
         $this->subscriberFactory->create()->updateSubscription($customer->getId());
 

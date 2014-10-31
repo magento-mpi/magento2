@@ -8,8 +8,8 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -31,7 +31,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
     /** @var CustomerAccountServiceInterface */
     private $customerAccountService;
 
-    /** @var CustomerDataBuilder */
+    /** @var CustomerBuilder */
     private $customerBuilder;
 
     /** @var CustomerDetailsBuilder */
@@ -66,7 +66,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
             ['customerRegistry' => $this->customerRegistry]
         );
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder'
+            'Magento\Customer\Service\V1\Data\CustomerBuilder'
         );
         $this->customerDetailsBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
@@ -81,10 +81,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
-        $requestData = [
-            'username' => $this->customerData[\Magento\Customer\Model\Data\Customer::EMAIL],
-            'password' => 'test@123'
-        ];
+        $requestData = ['username' => $this->customerData[Customer::EMAIL], 'password' => 'test@123'];
         $this->token = $this->_webApiCall($serviceInfo, $requestData);
     }
 
@@ -111,20 +108,14 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ]
         ];
-        $requestData = [
-            'username' => $this->customerData[\Magento\Customer\Model\Data\Customer::EMAIL],
-            'password' => '123@test'
-        ];
+        $requestData = ['username' => $this->customerData[Customer::EMAIL], 'password' => '123@test'];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(
-            $this->customerData[\Magento\Customer\Model\Data\Customer::ID],
-            $customerResponseData[\Magento\Customer\Model\Data\Customer::ID]
-        );
+        $this->assertEquals($this->customerData[Customer::ID], $customerResponseData[Customer::ID]);
     }
 
     public function testUpdateCustomer()
     {
-        $customerDetails = $this->_getCustomerDetails($this->customerData[\Magento\Customer\Model\Data\Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($this->customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
         $updatedCustomer = $this->customerBuilder
@@ -150,16 +141,14 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response);
 
-        $customerDetails = $this->_getCustomerDetails($this->customerData[\Magento\Customer\Model\Data\Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($this->customerData[Customer::ID]);
         $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
     }
 
     public function testGetCustomerDetails()
     {
         //Get expected details from the Service directly
-        $expectedCustomerDetails = $this
-            ->_getCustomerDetails($this->customerData[\Magento\Customer\Model\Data\Customer::ID])
-            ->__toArray();
+        $expectedCustomerDetails = $this->_getCustomerDetails($this->customerData[Customer::ID])->__toArray();
         $expectedCustomerDetails['addresses'][0]['id'] =
             (int)$expectedCustomerDetails['addresses'][0]['id'];
 
@@ -191,14 +180,11 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
                 'token' => $this->token
             ]
         ];
-        $requestData = ['confirmationKey' => $this->customerData[\Magento\Customer\Model\Data\Customer::CONFIRMATION]];
+        $requestData = ['confirmationKey' => $this->customerData[Customer::CONFIRMATION]];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(
-            $this->customerData[\Magento\Customer\Model\Data\Customer::ID],
-            $customerResponseData[\Magento\Customer\Model\Data\Customer::ID]
-        );
+        $this->assertEquals($this->customerData[Customer::ID], $customerResponseData[Customer::ID]);
         // Confirmation key is removed after confirmation
-        $this->assertFalse(isset($customerResponseData[\Magento\Customer\Model\Data\Customer::CONFIRMATION]));
+        $this->assertFalse(isset($customerResponseData[Customer::CONFIRMATION]));
     }
 
     /**

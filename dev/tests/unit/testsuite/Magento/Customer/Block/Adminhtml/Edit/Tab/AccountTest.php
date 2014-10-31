@@ -46,7 +46,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerMetadataServiceInterfaceMock;
 
-    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     protected function setUp()
@@ -73,7 +73,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->customerMetadataServiceInterfaceMock = $this->getMock(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface'
         );
-        $this->customerBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerDataBuilder')
+        $this->customerBuilderMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\CustomerBuilder')
             ->setMethods(['populateWithArray', 'create'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -118,7 +118,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $storeManagerMock->expects($this->any())->method('isSingleStoreMode')
             ->will($this->returnValue($isSingleStoreMode));
 
-        $customerObject = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
+        $customerObject = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
             ->setMethods(['__toArray', 'getId'])
             ->disableOriginalConstructor()
             ->getMock();

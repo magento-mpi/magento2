@@ -144,6 +144,12 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $customerModel->setId($customer->getId());
         /** Prevent addresses being processed by resource model */
         $customerModel->unsAddresses();
+        // Need to use attribute set or future updates can cause data loss
+        if (!$customerModel->getAttributeSetId()) {
+            $customerModel->setAttributeSetId(
+                \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
+            );
+        }
         // Populate model with secure data
         if ($customer->getId()) {
             /*
@@ -163,9 +169,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $this->customerRegistry->push($customerModel);
         $customerId = $customerModel->getId();
         foreach ($customer->getAddresses() as $address) {
-            if ($isNewCustomer) {
-                $address = $this->addressBuilder->populate($address)->setCustomerId($customerId)->create();
-            }
+            $address = $this->addressBuilder->populate($address)->setCustomerId($customerId)->create();
             $this->addressRepository->save($address);
         }
         $savedCustomer = $this->get($customer->getEmail(), $customer->getWebsiteId());

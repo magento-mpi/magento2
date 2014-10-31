@@ -25,7 +25,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $formFactoryMock;
 
-    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -66,7 +66,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             array(),
             array(),
             '',
@@ -148,7 +148,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->getMock('Magento\Framework\App\RequestInterface'))
         );
 
-        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
         $customerMock->expects(
             $this->any()
         )->method(

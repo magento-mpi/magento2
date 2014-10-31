@@ -31,23 +31,34 @@ class Chooser extends \Magento\Backend\Block\Template
     protected $_jsonEncoder;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
-     * @param Radio $widgetRadio
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        Radio $widgetRadio,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_nodeFactory = $nodeFactory;
-        $this->_widgetRadio = $widgetRadio;
         parent::__construct($context, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return $this
+     */
+    protected function _prepareLayout()
+    {
+        $this->_widgetRadio = $this->getLayout()
+            ->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio');
+        return parent::_prepareLayout();
     }
 
     /**
