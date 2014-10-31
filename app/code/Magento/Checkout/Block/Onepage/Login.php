@@ -51,7 +51,7 @@ class Login extends AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerRepositoryInterface $customerAccountService,
+        CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
@@ -69,7 +69,7 @@ class Login extends AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerAccountService,
+            $customerRepository,
             $addressConfig,
             $httpContext,
             $data

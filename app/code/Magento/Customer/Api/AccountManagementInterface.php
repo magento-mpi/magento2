@@ -197,4 +197,14 @@ interface AccountManagementInterface
      * @return bool
      */
     public function isCustomerInStore($customerWebsiteId, $storeId);
+
+    /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     * @todo this method has to be removed when the checkout process refactored in the way it won't require to pass
+     *       a password through requests
+     */
+    public function getPasswordHash($password);
 }

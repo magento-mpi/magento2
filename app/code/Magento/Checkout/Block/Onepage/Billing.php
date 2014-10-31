@@ -56,7 +56,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerRepositoryInterface $customerAccountService,
+        CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
@@ -71,7 +71,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerAccountService,
+            $customerRepository,
             $addressConfig,
             $httpContext,
             $data
