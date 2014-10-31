@@ -31,7 +31,7 @@ define([
                     caption = node.label;
                 }
             }
-            else{
+            else if(node.value !== ''){
                 return node;
             }
         });
@@ -67,6 +67,15 @@ define([
         },
 
         formatInitialValue: function() {
+            var value = this.value();
+
+            if(_.isUndefined(value) && !this.caption){
+                value = this.options[0].value;  
+            }
+
+            this.initialValue = value;
+            this.value(value);
+
             this.hasLeafNode = hasLeafNode(this.options);
             
             return this;

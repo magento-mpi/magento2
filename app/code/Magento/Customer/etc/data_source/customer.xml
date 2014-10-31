@@ -34,7 +34,7 @@
             <field name="email" source="eav">
                 <constraint name="required-entry" />
             </field>
-            <field name="gender" source="eav" dataType="text" />
+            <field name="gender" source="eav" dataType="text" formElement="select" />
             <field name="sendemail" dataType="boolean" formElement="checkbox" label="Welcome Email" />
         </fields>
     </datasource>
