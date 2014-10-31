@@ -34,7 +34,7 @@ define([
                 amount,
                 adjustments;
 
-            _.each(this.prices, function (type, value) {
+            _.each(this.prices, function (value, type) {
                 amount      = value.amount;
                 adjustments = value.adjustments;
 
