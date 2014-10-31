@@ -37,9 +37,9 @@ class ConfigurableAttributesData implements FixtureInterface
     /**
      * Prepared dataSet data
      *
-     * @var mixed
+     * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /**
      * Prepared attributes data
@@ -890,7 +890,7 @@ class ConfigurableAttributesData implements FixtureInterface
      * Return prepared data set
      *
      * @param string|null $key
-     * @return mixed
+     * @return array
      */
     public function getData($key = null)
     {

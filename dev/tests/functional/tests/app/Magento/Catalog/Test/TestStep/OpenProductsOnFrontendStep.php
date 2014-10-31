@@ -14,7 +14,7 @@ use Mtf\TestStep\TestStepInterface;
 /**
  * Open products on frontend via url.
  */
-class OpenProductsStep implements TestStepInterface
+class OpenProductsOnFrontendStep implements TestStepInterface
 {
     /**
      * Products fixtures.

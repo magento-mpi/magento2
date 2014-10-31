@@ -35,7 +35,7 @@ class CartItem extends AbstractCartItem
      *
      * @var string
      */
-    protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
+    protected $bundleOptions = './/dl[contains(@class, "item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
      * 'Move to Wishlist' button

@@ -28,7 +28,4 @@
     <assertDownloadableProductInCustomerWishlistOnBackendGrid module="Magento_Downloadable">
         <severeness>low</severeness>
     </assertDownloadableProductInCustomerWishlistOnBackendGrid>
-    <assertDownloadableProductInGrid module="Magento_Downloadable">
-        <severeness>low</severeness>
-    </assertDownloadableProductInGrid>
 </constraint>
