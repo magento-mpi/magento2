@@ -88,19 +88,14 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
             if ($existingGroup->getAttributeSetId() != $group->getAttributeSetId()) {
                 throw new StateException('Attribute group does not belong to provided attribute set');
             }
-            $this->groupBuilder->setId($existingGroup->getId());
         }
 
-        $this->groupBuilder->setName($group->getName());
-        $this->groupBuilder->setAttributeSetId($group->getAttributeSetId());
-        $groupData = $this->groupBuilder->create();
-
         try {
-            $this->groupResource->save($groupData);
+            $this->groupResource->save($group);
         } catch (\Exception $e) {
             throw new StateException('Cannot save attributeGroup');
         }
-        return $groupData;
+        return $group;
     }
 
     /**
@@ -153,19 +148,8 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
      */
     public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group)
     {
-        /** @var \Magento\Eav\Model\Entity\Attribute\Group $group */
-        $attributeGroup = $this->groupFactory->create();
-        $this->groupResource->load($attributeGroup, $group->getId());
-
-        if (!$attributeGroup->getId()) {
-            throw NoSuchEntityException::singleField('attributeGroupId', $group->getId());
-        }
-        if ($attributeGroup->getAttributeSetId() != $group->getAttributeSetId()) {
-            throw new StateException('Attribute group does not belong to provided attribute set');
-        }
-
         try {
-            $this->groupResource->delete($attributeGroup);
+            $this->groupResource->delete($group);
         } catch (\Exception $e) {
             throw new StateException('Cannot delete attributeGroup with id %attribute_group_id',
                 ['attribute_group_id' => $group->getId()], $e);

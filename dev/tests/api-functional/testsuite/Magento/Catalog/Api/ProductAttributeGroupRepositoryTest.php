@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Api;
 
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -18,35 +17,29 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
     const RESOURCE_PATH = '/V1/products/attribute-sets';
 
     /**
-     * @var \Magento\Eav\Model\Attribute\GroupRepository
+     * @magentoApiDataFixture Magento/Catalog/_files/empty_attribute_group.php
      */
-    protected $groupRepository;
-
-    protected function setUp()
-    {
-        $this->groupRepository = Bootstrap::getObjectManager()->get('\Magento\Eav\Model\Attribute\GroupRepository');
-    }
-
     public function testCreateGroup()
     {
         $attributeSetId = 1;
-        $result = $this->createGroup($attributeSetId);
+        $groupData = $this->createGroupData($attributeSetId);
+        $groupData['name'] = 'empty_attribute_group_updated';
+
+        $result = $this->createGroup($attributeSetId, $groupData);
         $this->assertArrayHasKey('id', $result);
         $this->assertNotNull($result['id']);
-
-        $this->groupRepository->deleteById($result['id']);
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/empty_attribute_group.php
+     */
     public function testDeleteGroup()
     {
-        $attributeSetId = 1;
-        $result = $this->createGroup($attributeSetId);
-        $this->assertArrayHasKey('id', $result);
-        $this->assertNotNull($result['id']);
+        $group = $this->getGroupByName('empty_attribute_group');
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/groups/" . $result['id'],
+                'resourcePath' => self::RESOURCE_PATH . "/groups/" . $group->getId(),
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -55,7 +48,7 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
                 'operation' => 'catalogProductAttributeGroupWriteServiceV1Delete'
             ]
         ];
-        return $this->_webApiCall($serviceInfo);
+        $this->assertTrue($this->_webApiCall($serviceInfo));
     }
 
     /**
@@ -67,14 +60,13 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
         $this->createGroup($attributeSetId);
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/empty_attribute_group.php
+     */
     public function testUpdateGroup()
     {
         $attributeSetId = 1;
-        /** @var \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder $builder */
-        $builder = Bootstrap::getObjectManager()->get('\Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder');
-        $builder->setName('OldGroupName');
-        $builder->setAttributeSetId($attributeSetId);
-        $group = $this->groupRepository->save($builder->create());
+        $group = $this->getGroupByName('empty_attribute_group');
 
         $serviceInfo = [
             'rest' => [
@@ -89,15 +81,15 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
         ];
 
         $newGroupData = $this->createGroupData($attributeSetId);
+        $newGroupData['name'] = 'empty_attribute_group_updated';
         $newGroupData['id'] = $group->getId();
+
         $result = $this->_webApiCall($serviceInfo, ['group' => $newGroupData]);
 
         $this->assertArrayHasKey('id', $result);
         $this->assertEquals($group->getId(), $result['id']);
         $this->assertArrayHasKey('name', $result);
         $this->assertEquals($newGroupData['name'], $result['name']);
-
-        $this->groupRepository->deleteById($group->getId());
     }
 
     public function testGetList()
@@ -118,7 +110,7 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
      * @param $attributeSetId
      * @return array|bool|float|int|string
      */
-    protected function createGroup($attributeSetId)
+    protected function createGroup($attributeSetId, $groupData = null)
     {
         $serviceInfo = [
             'rest' => [
@@ -131,7 +123,10 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
                 'operation' => self::SERVICE_NAME . 'Save'
             ],
         ];
-        return $this->_webApiCall($serviceInfo, ['group' => $this->createGroupData($attributeSetId)]);
+        return $this->_webApiCall(
+            $serviceInfo,
+            ['group' => $groupData ? $groupData : $this->createGroupData($attributeSetId)]
+        );
     }
 
     /**
@@ -141,8 +136,27 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
     protected function createGroupData($attributeSetId)
     {
         return [
-            'name' => 'NewGroupName',
+            'name' => 'empty_attribute_group',
             'attribute_set_id' => $attributeSetId
         ];
+    }
+
+    /**
+     * Retrieve attribute group based on given name.
+     * This utility methods assumes that there is only one attribute group with given name,
+     *
+     * @param string $groupName
+     * @return \Magento\Eav\Model\Entity\Attribute\Group|null
+     */
+    protected function getGroupByName($groupName)
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Eav\Model\Entity\Attribute\Group */
+        $attributeGroup = $objectManager->create('\Magento\Eav\Model\Entity\Attribute\Group')
+            ->load($groupName, 'attribute_group_name');
+        if ($attributeGroup->getId() === null) {
+            return null;
+        }
+        return $attributeGroup;
     }
 }
