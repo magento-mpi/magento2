@@ -63,7 +63,7 @@ class CartItem extends AbstractCartItem
      *
      * @return string
      */
-    protected function getProductName()
+    public function getProductName()
     {
         $this->_rootElement->find($this->productName)->getText();
     }
