@@ -28,14 +28,13 @@ class Product
 
     /**
      * @param CatalogProduct $product
-     * @param callable $proceed
+     * @param array $identities
      * @return string[]
      */
-    public function aroundGetIdentities(
+    public function afterGetIdentities(
         CatalogProduct $product,
-        \Closure $proceed
+        array $identities
     ) {
-        $identities = $proceed();
         foreach ($this->type->getParentIdsByChild($product->getId()) as $parentId) {
             $identities[] = CatalogProduct::CACHE_TAG . '_' . $parentId;
         }
