@@ -95,6 +95,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Customer\Api\Data\AddressDataBuilder">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\AddressMetadataServiceInterface</argument>
+        </arguments>
+    </type>
     <type name="Magento\Customer\Service\V1\CustomerAccountService">
         <arguments>
             <argument name="url" xsi:type="object">Magento\Framework\Url</argument>

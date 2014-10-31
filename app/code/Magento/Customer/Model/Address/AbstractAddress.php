@@ -93,6 +93,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Customer\Api\AddressMetadataInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -105,6 +106,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
         Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Customer\Api\AddressMetadataInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -115,7 +117,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_addressConfig = $addressConfig;
         $this->_regionFactory = $regionFactory;
         $this->_countryFactory = $countryFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**

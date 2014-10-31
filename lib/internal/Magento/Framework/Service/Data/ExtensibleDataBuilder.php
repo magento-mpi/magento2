@@ -38,20 +38,33 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     protected $metadataService;
 
     /**
+     * @var string[]
+     */
+    protected $customAttributesCodes = null;
+
+    /**
+     * @var \Magento\Framework\Api\Data\AttributeInterfaceBuilder
+     */
+    protected $valueBuilder;
+
+    /**
      * Initialize the builder
      *
      * @param ObjectManager $objectManager
-     * @param string $modelClassInterface
      * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\Data\AttributeInterfaceBuilder $valueBuilder
+     * @param string $modelClassInterface
      */
     public function __construct(
         ObjectManager $objectManager,
-        $modelClassInterface,
-        MetadataServiceInterface $metadataService
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\Data\AttributeInterfaceBuilder $valueBuilder,
+        $modelClassInterface
     ) {
         $this->objectManager = $objectManager;
-        $this->modelClassInterface = $modelClassInterface;
         $this->metadataService = $metadataService;
+        $this->modelClassInterface = $modelClassInterface;
+
     }
 
     /**
@@ -103,6 +116,29 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     }
 
     /**
+     * Template method used to configure the attribute codes for the custom attributes
+     *
+     * @return string[]
+     */
+    protected function getCustomAttributesCodes()
+    {
+        if (!is_null($this->customAttributesCodes)) {
+            return $this->customAttributesCodes;
+        }
+        $attributeCodes = [];
+        /** @var \Magento\Framework\Service\Data\MetadataObjectInterface[] $customAttributesMetadata */
+        $customAttributesMetadata = $this->metadataService
+            ->getCustomAttributesMetadata($this->modelClassInterface);
+        if (is_array($customAttributesMetadata)) {
+            foreach ($customAttributesMetadata as $attribute) {
+                $attributeCodes[] = $attribute->getAttributeCode();
+            }
+        }
+        $this->customAttributesCodes = $attributeCodes;
+        return $attributeCodes;
+    }
+
+    /**
      * Initializes Data Object with the data from array
      *
      * @param array $data
@@ -131,7 +167,14 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
             } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->data[$key] = $value;
             } else {
-                $this->setCustomAttribute($key, $value);
+                /* If key corresponds to custom attribute code, populate custom attributes */
+                if (in_array($key, $this->getCustomAttributesCodes())) {
+                    $valueObject = $this->valueBuilder
+                        ->setAttributeCode($key)
+                        ->setValue($value)
+                        ->create();
+                    $this->setCustomAttribute($valueObject);
+                }
             }
         }
 
