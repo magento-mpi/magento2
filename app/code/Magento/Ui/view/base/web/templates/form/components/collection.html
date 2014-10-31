@@ -8,29 +8,29 @@
 -->
 <div class="ui-tabs">
     <ul class="address-list ui-tabs-nav">
-        <!-- ko foreach: { data: element.elems, as: 'element' } -->
-        <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: $parent.setActive(element)">
-            <div class="address-list-item-actions">
-                <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeElement(element)">
-                    <span data-bind="text: element.removeLabel"></span>
-                </button>
-            </div>
-            <address data-bind="text: label"></address>
-            <address data-bind="foreach: { data: element.previewElements, as: 'element' }">
-                <!-- ko foreach: { data: element.elems, as: 'element' } -->
-                    <!-- ko if: element.value -->
-                    <span data-bind="text: element.value"></span><br>
-                    <!-- /ko -->
-                <!-- /ko -->
-            </address>
 
-            <div data-bind="foreach: { data: element.headElements, as: 'element' }, stopPropagation: true">
-                <!-- ko template: element.getTemplate() --><!-- /ko -->
-            </div>
-        </li>
+        <!-- ko foreach: { data: element.elems, as: 'element' } -->
+            <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: activate">
+                <div class="address-list-item-actions">
+                    <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeChild(element)">
+                        <span data-bind="text: element.removeLabel"></span>
+                    </button>
+                </div>
+                <address data-bind="text: getLabel()"></address>
+                <address data-bind="foreach: { data: element.previews, as: 'element' }">
+                    <!-- ko if: $parent.getPreivew(element) -->
+                        <span data-bind="text: $parent.getPreivew(element)"></span><br>
+                    <!-- /ko -->
+                </address>
+
+                <div data-bind="foreach: { data: element.head, as: 'element' }, stopPropagation: true">
+                    <!-- ko template: element.getTemplate() --><!-- /ko -->
+                </div>
+            </li>
         <!-- /ko -->
+
         <li class="address-list-actions last">
-            <button data-bind="attr: { title: element.addLabel }, click: element.addEmptyChild" type="button" class="scalable add">
+            <button data-bind="attr: { title: element.addLabel }, click: element.addChild" type="button" class="scalable add">
                 <span data-bind="text: element.addLabel"></span>
             </button>
         </li>
@@ -40,7 +40,7 @@
         <div class="address-item-edit-content">
             <fieldset class="fieldset">
                 <legend class="legend"><span data-bind="text: $parent.label"></span></legend><br>
-                <!-- ko foreach: { data: element.bodyElements, as: 'element' } -->
+                <!-- ko foreach: { data: element.body, as: 'element' } -->
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 <!-- /ko -->
             </fieldset>

@@ -10,8 +10,8 @@ define([
     './component',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events',
-    'Magento_Ui/js/lib/registry/registry'
-], function(_, storages, Component, Class, EventsBus, registry){
+    'mage/utils'
+], function(_, storages, Component, Class, EventsBus, utils){
     'use strict';
     
     var defaults = {
@@ -24,9 +24,7 @@ define([
          * @param {Object} settings - Settings to initialize object with.
          */
         initialize: function(settings) {
-            _.extend(this, defaults, settings);
-
-            this.global = registry.get('globalStorage');
+            _.extend(this, defaults, settings, settings.config || {});
 
             this.initStorages();
         },
@@ -49,10 +47,13 @@ define([
             return this;
         },
 
-        get: function(source){
-            var global = this.global;
-
-            global.get.apply(global, arguments);
+        save: function(){
+            var data = this.data.get();
+            
+            utils.submit({
+                url: this.submit_url,
+                data: data
+            });
         }
     }, EventsBus);
 

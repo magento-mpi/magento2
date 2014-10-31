@@ -15,7 +15,6 @@ define([
 
     var defaults = {
         lastIndex: 0,
-        active: null,
         template: 'ui/form/components/collection'
     };
 
@@ -30,31 +29,10 @@ define([
                 .initChildren();
         },
 
-        initObservable: function () {
-            __super__.initObservable.apply(this, arguments);
+        initElement: function (elem) {
+            __super__.initElement.apply(this, arguments);
 
-            this.observe('active');
-
-            return this;
-        },
-
-        initElement: function (element) {
-            var indexed         = this.elems.indexBy('index'),
-                activeIndex     = this.active(),
-                activeExists    = indexed[activeIndex],
-                activeDefined   = activeIndex !== null,
-                elementIndex    = element.index,
-                activeElement;
-
-            element.setDataScope(this.dataScope);
-
-            activeElement = activeDefined
-                ? (activeExists ? (elementIndex == activeIndex) && element : element)
-                : (elementIndex == 0) && element
-
-            if (activeElement) {
-                this._setActive(activeElement);
-            }
+            elem.activate();
         },
 
         initRenderer: function () {
@@ -64,76 +42,68 @@ define([
         },
 
         initChildTemplate: function () {
+            var template = this.name + '.' + this.itemTemplate;
+
             this.childTemplate = {
-                template: this.name + '.' + this.itemTemplate,
-                appendTo: this.name,
-                parentName: this.name
+                template:   template,
+                parent:     this.name
             };
 
             return this;
         },
 
         initChildren: function () {
-            var children = this.provider.data.get(this.dataScope);
+            var data     = this.provider.data,
+                children = data.get(this.dataScope);
             
-            _.each(children, this.initChild.bind(this));
+            _.each(children, function(item, index){
+                this.addChild(index);
+            }, this);
+
+            return this;
         },
 
-        initChild: function (item, index) {
-            this.lastIndex++;
-            this.createChild(index);
-        },
+        addChild: function(index){
+            var setIndex = _.isObject(index) || _.isUndefined(index);
+            
+            if(setIndex){
+                index = 'new_' + this.lastIndex;
+            }
 
-        addEmptyChild: function () {
-            var index = 'new_' + this.lastIndex++;
-                
-            this.createChild(index);
-        },
-
-        createChild: function (index) {
             _.extend(this.childTemplate, {
-                name: index
+                name:       index,
+                dataScope:  index
             });
 
             this.renderer.render({
                 layout: [this.childTemplate]
             });
+
+            this.lastIndex++;
         },
 
-        removeElement: function (element) {
-            return this._removeElement.bind(this, element);
+        removeChild: function (element) {
+            return function(){
+                var shouldRemove = window.confirm(this.removeMessage);
+
+                if(shouldRemove){
+                    this._removeChild(element);
+                }
+
+            }.bind(this);
         },
 
-        _removeElement: function (element) {
-            var shouldRemove = confirm(this.removeMessage);
+        _removeChild: function (elem) {
+            var isActive = elem.active(),
+                first;
 
-            if (shouldRemove) {
-                this.remove(element);
+            this.remove(elem);
+
+            first = this.elems()[0];
+
+            if(first && isActive){
+                first.activate();
             }
-        },
-
-        setActive: function (element) {
-            return this._setActive.bind(this, element);
-        },
-
-        _setActive: function (element) {
-            var index = element.index;
-
-            this.active(index);
-            this.activate(element);
-            this.deactivate(this.elems.without(element));
-        },
-
-        deactivate: function (elements) {
-            elements.each(function (element) {
-                element.active(false);
-            });
-
-            return this;
-        },
-
-        activate: function (element) {
-            element.active(true);
         }
     });
 });

@@ -13,13 +13,6 @@
 <script data-mage-init='{ "Magento_Ui/js/core/app": "" }' type="application/json">
     <?php echo $this->getRenderContext()->getConfigBuilder()->toJsonNew($this->getRenderContext()->getStorage()); ?>
 </script>
-<script>
-    var allowLocalCache = false;
-</script>
-<div data-bind="scope: '<?php echo $this->getDataScope(); ?>.form'">
-    <button data-bind="click: save">Validate</button>
-    <div class="messages" style="display: none" data-bind="visible: isValid"><div class="message success"><div data-ui-id="messages-message-success">The form is valid!</div></div></div>
-</div>
 <div data-bind="scope: '<?php echo $this->getDataScope(); ?>.areas'" class="entry-edit form-inline">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>

@@ -8,6 +8,7 @@
 -->
 <select multiple class="control-select multiselect" data-bind="
     attr: {
+        name: name,
         id: uid,
         size: size,
         disabled: disabled,
@@ -17,7 +18,7 @@
     hasFocus: focused,
     optgroup: options,
     selectedOptions: value,
-    optionsCaption: getCaption(),
+    optionsCaption: caption,
     optionsValue: 'value',
     optionsText: 'label'"
 />

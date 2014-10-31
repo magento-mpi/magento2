@@ -239,7 +239,7 @@
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::layout/tabs/nav/default.phtml</argument>
             <argument name="js_config" xsi:type="array">
-                <item name="component" xsi:type="string">Magento_Ui/js/form/collapsible</item>
+                <item name="component" xsi:type="string">Magento_Ui/js/form/components/tab_group</item>
                 <item name="config" xsi:type="array">
                     <item name="template" xsi:type="string">ui/tab</item>
                 </item>

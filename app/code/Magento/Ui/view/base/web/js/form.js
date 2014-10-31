@@ -40,13 +40,6 @@ define([
             return this;
         },
 
-        /**
-         * Submits form
-         */
-        submit: function () {
-            console.log('submit');
-        },
-
         reset: function(){
             this.provider.data.trigger('reset');
         },
@@ -59,11 +52,16 @@ define([
 
             isValid = !params.get('invalidElement');
 
-            this.isValid(isValid);
-
             if (isValid) {
                 this.submit();
             }
+        },
+
+        /**
+         * Submits form
+         */
+        submit: function () {
+            this.provider.save();
         },
 
         /**

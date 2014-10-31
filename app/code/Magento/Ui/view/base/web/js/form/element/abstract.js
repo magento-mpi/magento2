@@ -13,6 +13,8 @@ define([
     'use strict';
 
     var defaults = {
+        preview:            '',
+        focused:            false,
         tooltip:            null,
         required:           false,
         disabled:           false,
@@ -39,8 +41,8 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initTemplate()
-                .initListeners()
+            this.initName()
+                .initTemplate()
                 .initDisableStatus()
                 .setUniqueId()
                 .setNoticeId();
@@ -51,26 +53,20 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function () {
-            var rules,
-                data = this.provider.data;
+            var value = this.getInititalValue(), 
+                rules;
 
             __super__.initObservable.apply(this, arguments);
 
             rules = this.validation = this.validation || {};
 
-            this.observe({
-                'value':         this.initialValue = data.get(this.dataScope),
-                'required':      rules['required-entry'],
-                'disabled':      this.disabled,
-                'error':         this.error,
-                'focused':       false
-            });            
+            this.initialValue = value;
 
-            return this;
-        },
-
-        initTemplate: function(){
-            this.template =  this.template || (this.tmpPath + this.input_type);
+            this.observe('error disabled focused preview')
+                .observe({
+                    'value':    value,
+                    'required': rules['required-entry']
+                });        
 
             return this;
         },
@@ -81,6 +77,18 @@ define([
             data.on('reset', this.reset.bind(this));
 
             this.value.subscribe(this.onUpdate, this);
+
+            return this;
+        },
+        
+        initName: function(){
+            this.name = utils.serializeName(this.dataScope);
+            
+            return this;
+        },
+
+        initTemplate: function(){
+            this.template =  this.template || (this.tmpPath + this.input_type);
 
             return this;
         },
@@ -97,19 +105,21 @@ define([
             return this;
         },
 
-        setDataScope: function (dataScope) {
-            this.store(undefined);
+        getInititalValue: function(){
+            var data = this.provider.data,
+                value;
 
-            this.dataScope = dataScope;
+            if(_.has(this, 'value')){
+                value = this.value;
+            }
+            else if(_.has(this, 'default') && this.default != null){
+                value = this.default;
+            }
+            else{
+                value = data.get(this.dataScope);
+            }
 
-            this.pull();
-        },
-
-        pull: function () {
-            var value = this.provider.data.get(this.dataScope);
-
-            this.initialValue = value;
-            this.value(value);
+            return value;
         },
 
         /**
@@ -134,6 +144,16 @@ define([
             return this;
         },
 
+        setPreview: function(value){
+            this.preview(value);
+
+            return this;
+        },
+
+        getPreview: function(){
+            return this.preview();
+        },
+
         hasAddons: function () {
             return this.addbefore || this.addafter;
         },
@@ -144,6 +164,8 @@ define([
          */
         store: function (value) {
             this.provider.data.set(this.dataScope, value);
+
+            this.setPreview(value);
 
             return this;
         },
@@ -169,7 +191,6 @@ define([
             return this.value() !== this.initialValue;
         },
 
-
         /**
          * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
@@ -177,33 +198,24 @@ define([
          *     
          * @return {Boolean} - true, if element is valid
          */
-        validate: function (showErrors) {
+        validate: function () {
             var value       = this.value(),
-                rules       = this.validation,
                 params      = this.provider.params,
-                isValid     = true;
+                errorMsg    = '';
 
-             _.every(rules, function (params, rule) {
-                isValid = validator.validate(rule, value, params);
+            _.some(this.validation, function (params, rule) {
+                errorMsg = validator.validate(rule, value, params);
 
-                if (!isValid) {
-                    this.error(validator.messageFor(rule));
-                }
-
-                return isValid;
+                return !!errorMsg;
             }, this);
 
-            if(!isValid){
-
-                if(!params.get('invalidElement')){
-                    params.set('invalidElement', this);
-                }
-            }
-            else{
-                this.error('');
+            if(errorMsg && !params.get('invalidElement')){
+                params.set('invalidElement', this);
             }
 
-            return isValid;
+            this.error(errorMsg);
+
+            return !!errorMsg;
         }
     });
 });

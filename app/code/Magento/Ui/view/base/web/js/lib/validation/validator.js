@@ -21,14 +21,16 @@ define([
         validate: function (rule, value, params) {
             var isValid   = true,
                 rule      = rules[rule],
+                message   = true,
                 validator;
 
             if (rule) {
                 validator = rule[0];
                 isValid   = validator(value, params);
+                message   = rule[1];
             }
 
-            return isValid;
+            return !isValid ? message : '';
         },
 
         /**

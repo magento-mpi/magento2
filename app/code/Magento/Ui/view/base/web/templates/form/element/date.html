@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 -->
-<input class="control-text"
-       type="text"
-       data-bind="
-                hasFocus: focused,
-                datepicker: { storage: value, options: options },
-                attr: {
-                    value: value,
-                    placeholder: placeholder,
-                    'aria-describedby': noticeid,
-                    disabled: disabled
-                }" />
+<input class="control-text" type="text" data-bind="
+    hasFocus: focused,
+    datepicker: { storage: value, options: options },
+    attr: {
+        value: value,
+        name: name,
+        placeholder: placeholder,
+        'aria-describedby': noticeid,
+        disabled: disabled
+    }" />

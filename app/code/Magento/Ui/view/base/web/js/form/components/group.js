@@ -46,10 +46,6 @@ define([
 
             element.on('update', this.trigger.bind(this, 'update'));
 
-            if (this.dataScope) {
-                element.setDataScope(this.dataScope + '.' + element.dataScope);
-            }
-
             return this;
         },
 

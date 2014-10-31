@@ -91,11 +91,6 @@ class AbstractStructure extends AbstractView
     {
         $this->ns = $this->getData('name');
 
-        $this->structure['form'] = [
-            'type' => 'form',
-            'children' => []
-        ];
-
         $this->initSections();
         $this->initAreas();
         $this->initGroups();
@@ -158,7 +153,7 @@ class AbstractStructure extends AbstractView
     protected function initAreas()
     {
         $this->structure['areas'] = [
-            'type' => $this->ns,
+            'type' => 'form',
             'children' => []
         ];
     }
@@ -281,16 +276,14 @@ class AbstractStructure extends AbstractView
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
             'config' => [
-                'label' => [
-                    'default' => __('New ' . $childMeta->getLabel())
-                ]
+                'label' => __('New ' . $childMeta->getLabel())
             ]
         ];
         if ($previewElements = $childMeta->getPreviewElements()) {
-            $itemTemplate['config']['previewElements'] = explode(',', $previewElements);
+            $itemTemplate['config']['previewParts'] = explode(',', $previewElements);
         }
         if ($compositeLabel = $childMeta->getCompositeLabel()) {
-            $itemTemplate['config']['label']['compositeOf'] = explode(',', $compositeLabel);
+            $itemTemplate['config']['labelParts'] = explode(',', $compositeLabel);
         }
         foreach ($childMeta as $key => $value) {
             $itemTemplate['children'][$key] = $value;
@@ -414,6 +407,7 @@ class AbstractStructure extends AbstractView
         $this->structure['elements']['children'][$elementName]['type'] = 'group';
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
+            'name' => $config['name'],
             'config' => $config
         ];
         return "{$this->ns}.elements.{$elementName}";

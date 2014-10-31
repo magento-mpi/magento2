@@ -5,27 +5,23 @@
  * @license     {license_link}
  */
 define([
-    'Magento_Ui/js/form/component',
+    '../tab',
     'underscore',
     'mage/utils'
-], function (Component, _, utils) {
+], function (Tab, _, utils) {
     'use strict';
 
-    function compact() {
-        return _.compact.apply(_, arguments);
-    };
-
     var defaults = {
-        active: false,
-        template: 'ui/form/components/collection/item',
-        defaultDisplayArea: 'body',
-        defaultLabel: '',
-        separator: ' '
+        template:           'ui/form/components/collection/item',
+        displayArea:        'body',
+        label:              '',
+        separator:          ' ',
+        storeAs:            'activeCollectionItem'
     };
 
-    var __super__ = Component.prototype;
+    var __super__ = Tab.prototype;
 
-    return Component.extend({
+    return Tab.extend({
         initialize: function () {
             _.extend(this, defaults);
 
@@ -33,72 +29,56 @@ define([
         },
 
         initObservable: function () {
-            var previewIndexes  = this.previewElements || [],
-                previewCount    = previewIndexes.length;
-
             __super__.initObservable.apply(this, arguments);
 
-            this.labelConfig        = this.label || {};
-            this.previewIndexes     = previewIndexes;
-            this._previewElements   = utils.reserve([], previewCount.length);
+            this.labelParts     = this.labelParts || [];
+            this.previewParts   = this.previewParts || [];
 
-            this.observe('active')
-                .observe('bodyElements',    [])
-                .observe('headElements',    [])
-                .observe('previewElements', [])
-                .compute('label',           this.compositeLabel.bind(this));
+            this.observe({
+                    'labels':   [],
+                    'previews': [],
+                    'body':     [],
+                    'head':     []
+                });
 
             return this;
         },
 
-        initElement: function (element) {
-            var showAt  = element.displayArea || this.defaultDisplayArea,
-                storage = this[showAt + 'Elements'];
+        initElement: function (elem) {
+            var region = elem.displayArea || this.displayArea;
 
             __super__.initElement.apply(this, arguments);
-
-            if (this.dataScope) {
-                element.setDataScope(this.dataScope + '.' + this.index);    
-            }
             
-            storage.push(element);
-            this.addPreview(element);
+            this[region].push(elem);
+            
+            this.insertTo('previews',   this.previewParts,    elem)
+                .insertTo('labels',     this.labelParts,      elem);
         },
 
-        compositeLabel: function () {
-            var config          = this.labelConfig,
-                defaultLabel    = config['default'] || this.defaultLabel,
-                separator       = this.separator,
-                parts           = config.compositeOf,
-                indexed         = this.elems.indexBy('index'),
-                getValues       = this.getValues.bind(this, separator),
-                label           = '',
-                elements;
+        insertTo: function(container, map, elem){
+            var items   = this[container](),
+                index   = map.indexOf(elem.index);
 
-            if (parts) {
-                elements    = parts.map(function (part) { return indexed[part] });
-                label       = compact(elements).map(getValues).join(separator).trim();
+            if(~index){
+                items.splice(index, 0, elem);
+                
+                this[container](_.compact(items));
             }
 
-            return label || defaultLabel;
+            return this;
         },
 
-        getValues: function (separator, element) {
-            var getValue = function (element) { return element.value() };
+        getLabel: function(){
+            var label;
 
-            return element.elems.map(getValue).join(separator);
+            label = this.labels().map(this.getPreivew);
+            label = label.join(this.separator).trim();
+
+            return label || this.label;
         },
 
-        addPreview: function (element) {
-            var previewIndexes  = this.previewIndexes,
-                previewElements = this._previewElements,
-                position        = previewIndexes.indexOf(element.index);
-
-            if (!!~position) {
-                previewElements.splice(position, 1, element);
-            }
-
-            this.previewElements(compact(previewElements));
+        getPreivew: function(elem){
+            return elem.delegate('getPreview');
         }
     });
 });

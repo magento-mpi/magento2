@@ -8,6 +8,7 @@
 -->
 <select class="control-select" data-bind="
     attr: {
+        name: name,
         id: uid,
         disabled: disabled,
         'aria-describedby': noticeid,
@@ -15,8 +16,8 @@
     },
     hasFocus: focused,
     optgroup: options,
-    selectedOptions: value,
-    optionsCaption: getCaption(),
+    value: value,
+    optionsCaption: caption,
     optionsValue: 'value',
     optionsText: 'label'"
 />

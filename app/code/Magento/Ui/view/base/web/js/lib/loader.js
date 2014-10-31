@@ -63,10 +63,6 @@ define(['jquery'], function($) {
                 path        = formatTemplatePath(name),
                 cached;
 
-            if (allowLocalCache) {
-                cached = storage.getItem(storagePath) || null;
-            }
-
             if (cached) {
                 setTimeout(function () {
                     isLoaded.resolve(cached);    
