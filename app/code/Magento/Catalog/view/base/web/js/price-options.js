@@ -19,7 +19,8 @@ define([
         priceHolderSelector: '.price-box',
         optionsSelector: '.product-custom-option',
         optionConfig: {},
-        optionHandlers: {}
+        optionHandlers: {},
+        controlContainer: 'dd' // should be eliminated
     };
 
     $.widget('mage.priceOptions',{
@@ -47,6 +48,7 @@ define([
         var optionType = option.prop('type');
         var changes;
         var handler = this.options.optionHandlers[optionType];
+        option.data('optionContainer', option.closest(this.options.controlContainer));
         if(handler && handler instanceof Function) {
             changes = handler(option);
         } else {
@@ -78,8 +80,7 @@ define([
     }
 
     function defaultGetOptionValue(element, optionConfig) {
-        var code, value,
-            changes = {};
+        var changes = {};
         var optionValue = element.val();
         var optionId = findOptionId(event.target);
         var optionName = element.prop('name');
@@ -90,36 +91,39 @@ define([
             case 'text':
             case 'textarea':
                 optionHash = optionName;
-                if(optionValue) { // if non empty field
-                    overhead = optionConfig[optionId];
-                } else {
-                    overhead = {};
-                }
-                break;
-            case 'select-one':
-                optionHash = optionName;
-                overhead = optionConfig[optionId][optionValue];
-                if(!overhead) {
-                    overhead = {};
-                }
-                break;
-            case 'select-multiple':
+                overhead = optionValue ? optionConfig[optionId] : null;
+
+                changes[ optionHash ] = setOptionConfig(overhead);
 
                 break;
-            case 'file':
             case 'radio':
+            case 'select-one':
+                optionHash = optionName;
+                overhead = optionConfig[optionId][optionValue] || null;
+
+                changes[ optionHash ] = setOptionConfig(overhead);
+                break;
+            case 'select-multiple':
+                _.each(optionConfig[optionId], function(prices, optionValueCode) {
+                    optionHash = optionName + '##' + optionValueCode;
+                    overhead = _.contains(optionValue, optionValueCode) ? prices : null;
+
+                    changes[ optionHash ] = setOptionConfig(overhead);
+                });
+
+                break;
             case 'checkbox':
+                optionHash = optionName + '##' + optionValue;
+                overhead = element.is(':checked') ? optionConfig[optionId][optionValue] : null;
+
+                changes[ optionHash ] = setOptionConfig(overhead);
+                break;
+            case 'file':
             case 'hidden':
             default:
                 break;
         }
 
-
-        changes[ optionHash ] = setOptionConfig(overhead);
-        console.log(optionHash);
-
-
-        changes[code] = value;
         return changes;
     }
 
