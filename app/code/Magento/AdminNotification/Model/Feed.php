@@ -7,9 +7,6 @@
  */
 namespace Magento\AdminNotification\Model;
 
-use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
-use Magento\Setup\Module\Setup\Config;
-
 /**
  * AdminNotification Feed model
  *
@@ -48,13 +45,6 @@ class Feed extends \Magento\Framework\Model\AbstractModel
     protected $curlFactory;
 
     /**
-     * Deployment configuration factory
-     *
-     * @var DeploymentConfigFactory
-     */
-    private $deploymentConfigFactory;
-
-    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
@@ -62,7 +52,6 @@ class Feed extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Framework\HTTP\Adapter\curlFactory $curlFactory
-     * @param DeploymentConfigFactory $deploymentConfigFactory
      * @param array $data
      */
     public function __construct(
@@ -73,14 +62,12 @@ class Feed extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        DeploymentConfigFactory $deploymentConfigFactory,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_backendConfig = $backendConfig;
         $this->_inboxFactory = $inboxFactory;
         $this->curlFactory = $curlFactory;
-        $this->deploymentConfigFactory = $deploymentConfigFactory;
     }
 
     /**
@@ -121,10 +108,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
 
         $feedXml = $this->getFeedData();
 
-        $config = $this->deploymentConfigFactory->create();
-        $config->loadFromFile();
-        $configData = $config->getConfigData();
-        $installDate = $configData[Config::KEY_DATE];
+        $installDate = $this->_appState->getInstallDate();
 
         if ($feedXml && $feedXml->channel && $feedXml->channel->item) {
             foreach ($feedXml->channel->item as $item) {
