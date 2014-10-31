@@ -176,6 +176,10 @@ define([
                 this.insert(name, node.prependTo, 0);
             }
 
+            if(node.insertTo){
+                this.insertTo(node.name, node.insertTo);
+            }
+
             if (node.wrapIn) {
                 this.wrap(node.wrapIn, node);
             }
@@ -194,6 +198,15 @@ define([
                     target.insert(items, position);
                 });
             });
+
+            return this;
+        },
+
+        insertTo: function(item, targets){
+
+            targets.forEach(function(info){
+                this.insert(item, info.target, info.position);
+            }, this);
 
             return this;
         },

@@ -21,13 +21,13 @@ define([
         });
     }
 
-    function getOffsetFor(elems, offset){
+    function getOffset(size, offset){
         if(typeof offset === 'undefined'){
             offset = -1;
         }
 
         if(offset < 0){
-            offset += elems.length + 1;
+            offset += size + 1;
         }
 
         return offset;
@@ -37,7 +37,7 @@ define([
         initialize: function(config, additional){
             _.extend(this, config, additional);
 
-            this._elems     = [];
+            this.reserved   = 0; 
             this.provider   = registry.get(this.provider);
 
             this.initObservable()
@@ -68,34 +68,31 @@ define([
         },
 
         insert: function(elems, offset){
-            var size    = elems.length,
-                _elems  = this._elems,
-                callback;
-            
-            offset      = getOffsetFor(_elems, offset);
-            callback    = this.insertAt.bind(this, offset);
-            this._elems = utils.reserve(_elems, size, offset);
+            var callback;
 
+            offset      = getOffset(this.reserved, offset);
+            callback    = this.insertAt.bind(this, offset);
+
+            this.reserved += elems.length;
+             
             loadEach(elems, callback);
 
             return this;
         },
 
         insertAt: function(offset, index, elem){
-            var _elems = this._elems;
+            var elems = this.elems();
 
-            _elems[index + offset] = elem;
+            elems.splice(index+offset, 0, elem);
                 
-            this.elems(_.compact(_elems));
+            this.elems(_.compact(elems));
             this.initElement(elem);
         },
 
-        remove: function (element) {
-            var _elems   = this._elems,
-                position = _elems.indexOf(element);
+        remove: function (elem) {
+            this.reserved--;
 
-            _elems.splice(position, 1);
-            this.elems.remove(element);
+            this.elems.remove(elem);
 
             return this;
         },
