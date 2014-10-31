@@ -223,4 +223,14 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->info->hasAdditionalInformation('key2'));
         $this->assertTrue($this->info->hasAdditionalInformation());
     }
+
+    public function testInitAdditionalInformationWithUnserialize()
+    {
+        $this->assertFalse($this->info->hasAdditionalInformation());
+
+        $data = serialize(['key1' => 'data1', 'key2' => 'data2']);
+        $this->info->setData('additional_information', $data);
+
+        $this->assertEquals(unserialize($data), $this->info->getAdditionalInformation());
+    }
 }
