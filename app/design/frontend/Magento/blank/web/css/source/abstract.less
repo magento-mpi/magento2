@@ -786,6 +786,12 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-no-display-desktop {
+        display: none;
+    }
+}
+
 //
 //    Status
 //--------------------------------------
@@ -846,6 +852,15 @@
             width: 100%;
         }
     }
+}
+
+//
+//    Items counter in blocks
+//--------------------------------------
+.abstract-block-items-counter {
+    color: @color-primary-lighter;
+    .font-size(12px);
+    white-space: nowrap;
 }
 
 //
