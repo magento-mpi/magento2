@@ -89,7 +89,12 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
      */
     public function assign($entityTypeCode, $attributeSetId, $attributeGroupId, $attributeCode, $sortOrder)
     {
-        $attributeSet = $this->setRepository->get($attributeSetId);
+        try {
+            $attributeSet = $this->setRepository->get($attributeSetId);
+        } catch (NoSuchEntityException $ex) {
+            throw new NoSuchEntityException(sprintf('AttributeSet with id "%s" does not exist.', $attributeSetId));
+        }
+
         $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
         if ($setEntityType->getEntityTypeCode() != $entityTypeCode) {
             throw new InputException('Wrong attribute set id provided');

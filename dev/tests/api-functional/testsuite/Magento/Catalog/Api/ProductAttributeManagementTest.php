@@ -57,7 +57,7 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
         $payload = $this->getAttributeData();
         $payload['attributeSetId'] = -1;
 
-        $expectedMessage = 'Attribute Set with id "' . $payload['attributeSetId'] . '" does not exist.';
+        $expectedMessage = 'AttributeSet with id "' . $payload['attributeSetId'] . '" does not exist.';
 
         try {
             $this->_webApiCall($this->getAssignServiceInfo(), $payload);
