@@ -38,13 +38,6 @@ class State
     protected $_updateMode = false;
 
     /**
-     * Application install date
-     *
-     * @var string
-     */
-    protected $_installDate;
-
-    /**
      * Config scope model
      *
      * @var \Magento\Framework\Config\ScopeInterface
@@ -72,16 +65,13 @@ class State
 
     /**
      * @param \Magento\Framework\Config\ScopeInterface $configScope
-     * @param string $installDate
      * @param string $mode
      * @throws \LogicException
      */
     public function __construct(
         \Magento\Framework\Config\ScopeInterface $configScope,
-        $installDate,
         $mode = self::MODE_DEFAULT
     ) {
-        $this->_installDate = strtotime((string)$installDate);
         $this->_configScope = $configScope;
         switch ($mode) {
             case self::MODE_DEVELOPER:
@@ -135,16 +125,6 @@ class State
     public function setIsDownloader($flag = true)
     {
         $this->_isDownloader = $flag;
-    }
-
-    /**
-     * Get install date
-     *
-     * @return int
-     */
-    public function getInstallDate()
-    {
-        return $this->_installDate;
     }
 
     /**
