@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Api;
+namespace Magento\Customer\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Test for Magento\Customer\Api\GroupManagementInterface
+ * Test for Magento\Customer\Model\GroupManagement
  */
 class GroupManagementTest extends \PHPUnit_Framework_TestCase
 {
