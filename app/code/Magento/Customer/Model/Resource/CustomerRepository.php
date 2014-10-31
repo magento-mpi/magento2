@@ -11,7 +11,7 @@ namespace Magento\Customer\Model\Resource;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Api\Data\SearchCriteriaInterface;
+use Magento\Framework\Data\SearchCriteriaInterface;
 
 /**
  * Customer repository.
