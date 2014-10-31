@@ -49,7 +49,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped('As of skipping 11 out of 38 failed. Should be fixed as part of MAGETWO-29378.');
+        //$this->markTestSkipped('As of skipping 11 out of 38 failed. Should be fixed as part of MAGETWO-29378.');
         $this->objectManager = Bootstrap::getObjectManager();
         $this->accountManagement = $this->objectManager
             ->create('Magento\Customer\Api\AccountManagementInterface');
@@ -99,9 +99,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
-        //$customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
         //Cleanup customer from registry
-        //$customerRegistry->remove(1);
+        $customerRegistry->remove(1);
     }
 
     /**
@@ -389,7 +389,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $password = 'new_password';
 
         $this->setResetPasswordData($resetToken, 'Y-m-d');
-        $this->assertTrue($this->accountManagement->resetPassword(1, $resetToken, $password));
+        $this->assertTrue($this->accountManagement->resetPassword('customer@example.com', $resetToken, $password));
     }
 
     /**
@@ -402,7 +402,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->setResetPasswordData($resetToken, '1970-01-01');
         try {
-            $this->accountManagement->resetPassword(1, $resetToken, $password);
+            $this->accountManagement->resetPassword('customer@example.com', $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (ExpiredException $e) {
             $this->assertEquals('Reset password token expired.', $e->getMessage());
@@ -421,7 +421,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->setResetPasswordData($resetToken, 'Y-m-d');
         try {
-            $this->accountManagement->resetPassword(1, $invalidToken, $password);
+            $this->accountManagement->resetPassword('customer@example.com', $invalidToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $this->assertEquals(InputException::REQUIRED_FIELD, $ie->getRawMessage());
@@ -440,7 +440,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $password = 'new_password';
         $this->setResetPasswordData($resetToken, 'Y-m-d');
         try {
-            $this->accountManagement->resetPassword(4200, $resetToken, $password);
+            $this->accountManagement->resetPassword('invalid-customer@example.com', $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
@@ -450,7 +450,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testResetPasswordTokenInvalidUserId()
+    public function testResetPasswordTokenInvalidUserEmail()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'new_password';
@@ -458,7 +458,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $this->setResetPasswordData($resetToken, 'Y-m-d');
 
         try {
-            $this->accountManagement->resetPassword(0, $resetToken, $password);
+            $this->accountManagement->resetPassword('invalid', $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $this->assertEquals('Invalid value of "0" provided for the customerId field.', $ie->getMessage());
