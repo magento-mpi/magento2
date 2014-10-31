@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="rma/returns/history" module="Magento_Rma">
+    <blocks>
+        <rmaHistory>
+            <class>Magento\Rma\Test\Block\Returns\History</class>
+            <locator>#my-returns-table</locator>
+            <strategy>css selector</strategy>
+        </rmaHistory>
+    </blocks>
+</page>

@@ -9,53 +9,52 @@
 namespace Magento\Sales\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
 
 /**
- * Class AssertProductInItemsOrderedGrid
- * Assert product was added to Items Ordered grid in customer account on Order creation page backend
+ * Assert product was added to Items Ordered grid in customer account on Order creation page backend.
  */
-class AssertProductInItemsOrderedGrid extends AbstractConstraint
+class AssertProductInItemsOrderedGrid extends AbstractAssertForm
 {
     /**
-     * Constraint severeness
+     * Constraint severeness.
      *
      * @var string
      */
     protected $severeness = 'low';
 
     /**
-     * Fields for assert
+     * Fields for assert.
      *
      * @var array
      */
     protected $fields = ['name' => '', 'price' => '', 'checkout_data' => ['qty' => '']];
 
     /**
-     * Check configured products
+     * Check configured products.
      *
      * @var bool
      */
     protected $productsIsConfigured;
 
     /**
-     * Assert product was added to Items Ordered grid in customer account on Order creation page backend
+     * Assert product was added to Items Ordered grid in customer account on Order creation page backend.
      *
      * @param OrderCreateIndex $orderCreateIndex
-     * @param array $entityData
+     * @param array $products
      * @param bool $productsIsConfigured
      * @throws \Exception
      * @return void
      */
-    public function processAssert(OrderCreateIndex $orderCreateIndex, array $entityData, $productsIsConfigured = true)
+    public function processAssert(OrderCreateIndex $orderCreateIndex, array $products, $productsIsConfigured = true)
     {
-        if (!isset($entityData['products'])) {
+        if (!$products) {
             throw new \Exception("No products");
         }
         $this->productsIsConfigured = $productsIsConfigured;
-        $data = $this->prepareData($entityData, $orderCreateIndex->getCreateBlock()->getItemsBlock());
+        $data = $this->prepareData($products, $orderCreateIndex->getCreateBlock()->getItemsBlock());
 
         \PHPUnit_Framework_Assert::assertEquals(
             $data['fixtureData'],
@@ -65,7 +64,7 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     }
 
     /**
-     * Prepare data
+     * Prepare data.
      *
      * @param array $data
      * @param Items $itemsBlock
@@ -74,7 +73,7 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     protected function prepareData(array $data, Items $itemsBlock)
     {
         $fixtureData = [];
-        foreach ($data['products'] as $product) {
+        foreach ($data as $product) {
             $checkoutData = $product->getCheckoutData();
             $fixtureData[] = [
                 'name' => $product->getName(),
@@ -85,12 +84,35 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
             ];
         }
         $pageData = $itemsBlock->getProductsDataByFields($this->fields);
+        $preparePageData = $this->arraySort($fixtureData, $pageData);
 
-        return ['fixtureData' => $fixtureData, 'pageData' => $pageData];
+        return ['fixtureData' => $fixtureData, 'pageData' => $preparePageData];
     }
 
     /**
-     * Get product price
+     * Sort of array.
+     *
+     * @param array $fixtureData
+     * @param array $pageData
+     * @return array
+     */
+    protected function arraySort(array $fixtureData, array $pageData)
+    {
+        $result = [];
+        foreach ($fixtureData as $key => $value) {
+            foreach ($pageData as $pageDataKey => $pageDataValue) {
+                if ($value['name'] == $pageDataValue['name']) {
+                    $result[$key] = $pageDataValue;
+                    unset($pageData[$pageDataKey]);
+                    break;
+                }
+            }
+        }
+        return array_merge($result, $pageData);
+    }
+
+    /**
+     * Get product price.
      *
      * @param FixtureInterface $product
      * @return int
@@ -98,12 +120,12 @@ class AssertProductInItemsOrderedGrid extends AbstractConstraint
     protected function getProductPrice(FixtureInterface $product)
     {
         return isset ($product->getCheckoutData()['cartItem']['price'])
-        ? $product->getCheckoutData()['cartItem']['price']
-        : $product->getPrice();
+            ? $product->getCheckoutData()['cartItem']['price']
+            : $product->getPrice();
     }
 
     /**
-     * Returns a string representation of the object
+     * Returns a string representation of the object.
      *
      * @return string
      */

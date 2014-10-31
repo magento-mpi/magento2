@@ -11,16 +11,16 @@
     <catalogProductEdit>
         <mca>catalog/product/edit</mca>
         <area>adminhtml</area>
-        <class>Magento\Configurable\Test\Page\Adminhtml\CatalogProductEdit</class>
+        <class>Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductEdit</class>
     </catalogProductEdit>
     <catalogProductNew>
         <mca>catalog/product/edit</mca>
         <area>adminhtml</area>
-        <class>Magento\Configurable\Test\Page\Adminhtml\CatalogProductNew</class>
+        <class>Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductNew</class>
     </catalogProductNew>
     <catalogProductView>
         <mca>catalog/product/view</mca>
         <area>product</area>
-        <class>Magento\Configurable\Test\Page\CatalogProductView</class>
+        <class>Magento\ConfigurableProduct\Test\Page\Product\CatalogProductView</class>
     </catalogProductView>
 </page>
