@@ -33,15 +33,38 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     protected $objectManager;
 
     /**
+     * @var MetadataServiceInterface
+     */
+    protected $metadataService;
+
+    /**
+     * @var string[]
+     */
+    protected $customAttributesCodes = null;
+
+    /**
+     * @var \Magento\Framework\Api\Data\AttributeInterfaceBuilder
+     */
+    protected $valueBuilder;
+
+    /**
      * Initialize the builder
      *
      * @param ObjectManager $objectManager
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\Data\AttributeInterfaceBuilder $valueBuilder
      * @param string $modelClassInterface
      */
-    public function __construct(ObjectManager $objectManager, $modelClassInterface)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\Data\AttributeInterfaceBuilder $valueBuilder,
+        $modelClassInterface
+    ) {
         $this->objectManager = $objectManager;
+        $this->metadataService = $metadataService;
         $this->modelClassInterface = $modelClassInterface;
+
     }
 
     /**
@@ -75,5 +98,86 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
             $this->modelClassInterface,
             ['data' => $this->data]
         );
+    }
+
+    /**
+     * Populates the fields with data from the array.
+     *
+     * Keys for the map are snake_case attribute/field names.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function populateWithArray(array $data)
+    {
+        $this->data = array();
+        $this->_setDataValues($data);
+        return $this;
+    }
+
+    /**
+     * Template method used to configure the attribute codes for the custom attributes
+     *
+     * @return string[]
+     */
+    protected function getCustomAttributesCodes()
+    {
+        if (!is_null($this->customAttributesCodes)) {
+            return $this->customAttributesCodes;
+        }
+        $attributeCodes = [];
+        /** @var \Magento\Framework\Service\Data\MetadataObjectInterface[] $customAttributesMetadata */
+        $customAttributesMetadata = $this->metadataService
+            ->getCustomAttributesMetadata($this->modelClassInterface);
+        if (is_array($customAttributesMetadata)) {
+            foreach ($customAttributesMetadata as $attribute) {
+                $attributeCodes[] = $attribute->getAttributeCode();
+            }
+        }
+        $this->customAttributesCodes = $attributeCodes;
+        return $attributeCodes;
+    }
+
+    /**
+     * Initializes Data Object with the data from array
+     *
+     * @param array $data
+     * @return $this
+     */
+    protected function _setDataValues(array $data)
+    {
+        $dataObjectMethods = get_class_methods($this->modelClassInterface);
+        foreach ($data as $key => $value) {
+            /* First, verify is there any getter for the key on the Service Data Object */
+            $camelCaseKey = \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key);
+            $possibleMethods = array(
+                'get' . $camelCaseKey,
+                'is' . $camelCaseKey
+            );
+            if ($key == AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY
+                && is_array($data[$key])
+                && !empty($data[$key])
+            ) {
+                foreach ($data[$key] as $customAttribute) {
+                    $this->setCustomAttribute(
+                        $customAttribute[AttributeValue::ATTRIBUTE_CODE],
+                        $customAttribute[AttributeValue::VALUE]
+                    );
+                }
+            } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
+                $this->data[$key] = $value;
+            } else {
+                /* If key corresponds to custom attribute code, populate custom attributes */
+                if (in_array($key, $this->getCustomAttributesCodes())) {
+                    $valueObject = $this->valueBuilder
+                        ->setAttributeCode($key)
+                        ->setValue($value)
+                        ->create();
+                    $this->setCustomAttribute($valueObject);
+                }
+            }
+        }
+
+        return $this;
     }
 }

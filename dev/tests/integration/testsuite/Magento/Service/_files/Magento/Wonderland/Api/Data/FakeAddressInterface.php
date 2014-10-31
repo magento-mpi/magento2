@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Api\Data;
+namespace Magento\Wonderland\Api\Data;
 
-use Magento\Framework\Data\ExtensibleDataInterface;
+use Magento\Framework\Api\Data\ExtensibleDataInterface;
 
 /**
  * Customer address interface.
  */
-interface AddressInterface extends ExtensibleDataInterface
+interface FakeAddressInterface extends ExtensibleDataInterface
 {
     /**#@+
      * Constants for keys of data array

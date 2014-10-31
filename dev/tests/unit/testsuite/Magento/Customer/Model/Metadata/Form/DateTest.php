@@ -75,13 +75,33 @@ class DateTest extends AbstractFormTestCase
     {
         $validationRules = array();
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $ruleBuilder = $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder');
-        $ruleBuilder->populateWithArray(array('name' => 'input_validation', 'value' => 'date'));
-        $validationRules[] = new ValidationRule($ruleBuilder);
+
+        $validationRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getName', 'getValue'])
+            ->getMockForAbstractClass();
+        $validationRule->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('input_validation'));
+        $validationRule->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue('date'));
+
+        $validationRules[] = $validationRule;
         if (is_array($validation)) {
             foreach ($validation as $ruleName => $ruleValue) {
-                $ruleBuilder->populateWithArray(array('name' => $ruleName, 'value' => $ruleValue));
-                $validationRules[] = new ValidationRule($ruleBuilder);
+                $validationRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+                    ->disableOriginalConstructor()
+                    ->setMethods(['getName', 'getValue'])
+                    ->getMockForAbstractClass();
+                $validationRule->expects($this->any())
+                    ->method('getName')
+                    ->will($this->returnValue($ruleName));
+                $validationRule->expects($this->any())
+                    ->method('getValue')
+                    ->will($this->returnValue($ruleValue));
+
+                $validationRules[] = $validationRule;
             }
         }
 
