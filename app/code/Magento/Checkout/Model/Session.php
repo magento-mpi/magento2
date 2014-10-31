@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Model;
 
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\APi\Data\CustomerInterface;
 use Magento\Sales\Model\Quote;
 
 /**
@@ -30,7 +30,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Customer Data Object
      *
-     * @var null|CustomerDataObject
+     * @var CustomerInterface|null
      */
     protected $_customer;
 
@@ -133,7 +133,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Set customer data.
      *
-     * @param CustomerDataObject|null $customer
+     * @param CustomerInterface|null $customer
      * @return \Magento\Checkout\Model\Session
      */
     public function setCustomerData($customer)
@@ -222,7 +222,7 @@ class Session extends \Magento\Framework\Session\SessionManager
                 if ($this->_customer) {
                     $quote->setCustomer($this->_customer);
                 } else if ($this->_customerSession->isLoggedIn()) {
-                    $quote->setCustomer($this->_customerSession->getCustomerDataObject());
+                    $quote->setCustomer($this->_customerSession->getCustomer());
                 }
             }
 
@@ -298,7 +298,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer($this->_customerSession->getCustomerDataObject())
+            $this->getQuote()->setCustomer($this->_customerSession->getCustomer())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();

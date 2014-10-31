@@ -25,7 +25,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $_customer;
 
@@ -72,7 +72,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     /**
      * @var CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Customer\Model\Address\Config
@@ -83,6 +83,11 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
+
+    /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -108,6 +113,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         CustomerRepositoryInterface $customerAccountService,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -119,8 +125,9 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerAccountService;
         $this->_addressConfig = $addressConfig;
+        $this->dataObjectProcessor = $dataObjectProcessor;
     }
 
     /**
@@ -143,7 +150,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     {
         if (empty($this->_customer)) {
             // @TODO ensure repository accept id instead of email
-            $this->_customer = $this->_customerAccountService->get($this->_customerSession->getCustomerId());
+            $this->_customer = $this->customerRepository->getById($this->_customerSession->getCustomerId());
         }
         return $this->_customer;
     }
@@ -231,12 +238,14 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                /** @var \Magento\Customer\Service\V1\Data\Address $address */
-                $label = $this->_addressConfig->getFormatByCode(
-                    AddressConfig::DEFAULT_ADDRESS_FORMAT
-                )->getRenderer()->renderArray(
-                    \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address)
+                $array = $this->dataObjectProcessor->buildOutputDataArray(
+                    $address,
+                    '\Magento\Customer\Api\Data\AddressInterface'
                 );
+                $label = $this->_addressConfig
+                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
+                    ->getRenderer()
+                    ->renderArray($array);
 
                 $options[] = ['value' => $address->getId(), 'label' => $label];
             }

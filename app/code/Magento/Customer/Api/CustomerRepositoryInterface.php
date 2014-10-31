@@ -37,6 +37,12 @@ interface CustomerRepositoryInterface
     public function get($email, $websiteId = null);
 
     /**
+     * @param int $customerId
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     */
+    public function getById($customerId);
+
+    /**
      * Retrieve customers which match a specified criteria.
      *
      * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria

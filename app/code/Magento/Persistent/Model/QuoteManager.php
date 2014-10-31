@@ -105,7 +105,7 @@ class QuoteManager
     {
         $quote = $this->checkoutSession->setLoadInactive()->getQuote();
         if ($quote->getIsActive() && $quote->getCustomerId()) {
-            $this->checkoutSession->setCustomerData(null)->clearQuote()->clearStorage();
+            $this->checkoutSession->setCustomer(null)->clearQuote()->clearStorage();
         } else {
             $quote
                 ->setIsActive(true)
