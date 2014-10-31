@@ -21,7 +21,7 @@ class CategoryRepositoryTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/category_backend.php
      */
-    public function testIGet()
+    public function testGet()
     {
         $expected = [
             'parent_id' => 3,
