@@ -32,6 +32,10 @@
                 <antcall target="_remote-git-checkout">
                     <param name="server_ip" value="@{ip}"/>
                 </antcall>
+                <antcall target="_composer_install">
+                    <param name="product_root_dir" value="${env.magento_dir}"/>
+                    <param name="server_ip" value="@{ip}"/>
+                </antcall>
             </sequential>
         </ac:for>
     </target>
@@ -64,6 +68,29 @@
         <delete file="${basedir}/config.php"/>
     </target>
 
+    <target name="_composer_install" description="Run composer install">
+        <sshexec host="${server_ip}"
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="cd ${product_root_dir}/setup; composer update;"/>
+        <sshexec host="${server_ip}"
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="cd ${product_root_dir}/setup; composer install;"/>
+        <sshexec host="${server_ip}"
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="cd ${product_root_dir}; composer update;"/>
+        <sshexec host="${server_ip}"
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="cd ${product_root_dir}; composer install;"/>
+    </target>
+
     <target name="install-clean-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee" description="Install Magento application on remote server">
         <sshexec host="${env.webnode_initial}"
              username="${env.webnode_login}"
@@ -74,42 +101,17 @@
 
     <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install/Repair Magento Application on defined fixture configuration">
 
-        <condition property="env.generate_store_views" value="4">
-            <not><isset property="env.generate_store_views"/></not>
-        </condition>
-        <condition property="env.generate_cart_price_rules" value="200">
-            <not><isset property="env.generate_cart_price_rules"/></not>
-        </condition>
-        <condition property="env.generate_cart_price_rules_floor" value="3">
-            <not><isset property="env.generate_cart_price_rules_floor"/></not>
-        </condition>
-        <condition property="env.generate_cart_price_rules_first_category" value="10">
-            <not><isset property="env.generate_cart_price_rules_first_category"/></not>
-        </condition>
-        <condition property="env.generate_categories" value="500">
-            <not><isset property="env.generate_categories"/></not>
-        </condition>
-        <condition property="env.generate_categories_nesting_level" value="3">
-            <not><isset property="env.generate_categories_nesting_level"/></not>
-        </condition>
-        <condition property="env.generate_simple_products" value="10000">
-            <not><isset property="env.generate_simple_products"/></not>
-        </condition>
-        <condition property="env.generate_configurable_products" value="10000">
-            <not><isset property="env.generate_configurable_products"/></not>
+        <condition property="env.size" value="small">
+            <not><isset property="env.size"/></not>
         </condition>
 
         <ac:propertyregex property="git_repository_part" input="${env.git_repository}" regexp="github.scm.corp.ebay.com\/(.+)" select="\1" casesensitive="false" />
         <ac:propertyregex property="git_repository" input="${git_repository_part}" regexp="\/" replace="-" casesensitive="false" />
 
         <property name="sql_dump_file_path" value="${user.home}/sql_dumps/${git_repository}/${env.git_branch}"/>
-        <property name="sql_dump_file_name" value="${env.generate_store_views}-${env.generate_cart_price_rules}-${env.generate_cart_price_rules_floor}-${env.generate_cart_price_rules_first_category}-${env.generate_categories}-${env.generate_categories_nesting_level}-${env.generate_simple_products}-${env.generate_configurable_products}.gzip"/>
+        <property name="sql_dump_file_name" value="${env.size}.gzip"/>
 
         <mkdir dir="${sql_dump_file_path}"/>
-
-        <antcall target="_composer_install">
-            <param name="product_root_dir" value="${env.magento_dir}"/>
-        </antcall>
 
         <ac:if>
             <or>
@@ -119,11 +121,12 @@
                 <isset property="force_regenerate"/>
             </or>
             <then>
+                <antcall target="install-clean-magento"/>
                 <sshexec host="${env.webnode_initial}"
                      username="${env.webnode_login}"
                      password="${env.webnode_password}"
                      trust="yes"
-                     command="php -f ${env.magento_dir}/dev/tests/performance/regenerate_profile.php  -- --store_views=${env.generate_store_views} --cart_price_rules=${env.generate_cart_price_rules} --cart_price_rules_floor=${env.generate_cart_price_rules_floor} --cart_price_rules_first_category=${env.generate_cart_price_rules_first_category} --categories=${env.generate_categories} --categories_nesting_level=${env.generate_categories_nesting_level} --simple_products=${env.generate_simple_products} --configurable_products=${env.generate_configurable_products}"/>
+                     command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
                 <sshexec host="${env.mysql_host}"
                      username="${env.webnode_login}"
                      password="${env.webnode_password}"
