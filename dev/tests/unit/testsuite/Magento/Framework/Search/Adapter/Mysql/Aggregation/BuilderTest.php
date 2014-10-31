@@ -66,6 +66,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     private $builder;
 
+    /**
+     * SetUP method
+     */
     protected function setUp()
     {
         $helper = new ObjectManager($this);
@@ -141,6 +144,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test for method "build"
+     */
     public function testBuild()
     {
         $fetchResult = ['name' => ['some', 'result']];
