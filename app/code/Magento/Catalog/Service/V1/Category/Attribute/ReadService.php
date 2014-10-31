@@ -54,7 +54,7 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    public function search(\Magento\Framework\Data\SearchCriteria $searchCriteria)
     {
         return $this->metadataService->getAllAttributeMetadata(
             MetadataServiceInterface::ENTITY_TYPE,

@@ -25,7 +25,7 @@ class CollectTotals
     protected $vatValidator;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $customerBuilder;
 
@@ -35,13 +35,13 @@ class CollectTotals
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param VatValidator $vatValidator
-     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Customer\Helper\Data $customerHelper,
         VatValidator $vatValidator,
-        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
     ) {
         $this->customerHelper = $customerHelper;
         $this->customerAddressHelper = $customerAddressHelper;

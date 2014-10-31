@@ -9,9 +9,6 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Model\Data\ValidationRule;
-use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
-
 class AbstractDataTest extends \PHPUnit_Framework_TestCase
 {
     const MODEL = 'MODEL';
@@ -209,6 +206,18 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     public function testValidateInputRule($value, $label, $inputValidation, $expectedOutput)
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $validationRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getName', 'getValue'])
+            ->getMockForAbstractClass();
+        $validationRule->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('input_validation'));
+        $validationRule->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue($inputValidation));
+
         $this->_attributeMock->expects($this->any())->method('getStoreLabel')->will($this->returnValue($label));
         $this->_attributeMock->expects(
             $this->any()
@@ -217,15 +226,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new ValidationRule(
-                        $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
-                            ->populateWithArray(
-                                array(
-                                    'name'  => 'input_validation',
-                                    'value' => $inputValidation
-                                )
-                            )
-                    )
+                    $validationRule
                 )
             )
         );

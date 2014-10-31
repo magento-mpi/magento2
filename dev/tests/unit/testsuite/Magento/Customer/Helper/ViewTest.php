@@ -43,7 +43,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerName($prefix, $firstName, $middleName, $lastName, $suffix, $result)
     {
-        $customerData = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $customerData = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
         $customerData->expects($this->any())

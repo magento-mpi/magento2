@@ -29,7 +29,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Currently logged in customer
      *
-     * @var \Magento\Customer\Api\Data\CustomerInterface
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_currentCustomer;
 
@@ -154,7 +154,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve logged in customer
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function _getCurrentCustomer()
     {
@@ -164,10 +164,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Set current customer
      *
-     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return void
      */
-    public function setCustomer(\Magento\Customer\Api\Data\CustomerInterface $customer)
+    public function setCustomer(\Magento\Customer\Service\V1\Data\Customer $customer)
     {
         $this->_currentCustomer = $customer;
     }
@@ -175,7 +175,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve current customer
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {

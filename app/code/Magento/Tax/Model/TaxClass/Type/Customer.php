@@ -23,7 +23,7 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Data\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
@@ -38,14 +38,14 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
      * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);

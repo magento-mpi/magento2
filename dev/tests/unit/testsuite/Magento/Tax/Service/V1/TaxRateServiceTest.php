@@ -11,9 +11,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\RateFactory;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -101,7 +101,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
         $this->searchCriteriaBuilder = $this->objectManager->getObject(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
 

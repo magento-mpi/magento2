@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModuleMSC\Api\Data;
 
-interface CustomAttributeNestedDataObjectInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface CustomAttributeNestedDataObjectInterface extends \Magento\Framework\Data\ExtensibleDataInterface
 {
     /**
      * @return string

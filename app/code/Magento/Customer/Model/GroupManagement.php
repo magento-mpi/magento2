@@ -12,12 +12,13 @@ namespace Magento\Customer\Model;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Model\GroupFactory;
 
 class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
 {
+    const XML_PATH_DEFAULT_ID = 'customer/create_account/default_group';
+
     /**
      * @var StoreManagerInterface
      */
@@ -80,7 +81,7 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
         }
         try {
             $groupId = $this->scopeConfig->getValue(
-                GroupManagementInterface::XML_PATH_DEFAULT_ID,
+                self::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );

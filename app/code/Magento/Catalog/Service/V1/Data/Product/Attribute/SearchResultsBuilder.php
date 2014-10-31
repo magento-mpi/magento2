@@ -12,7 +12,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Data\ObjectFactory;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 
 /**
  * Builder for the SearchResults Service Data Object

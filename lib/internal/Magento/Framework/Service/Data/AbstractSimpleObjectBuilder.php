@@ -117,7 +117,7 @@ abstract class AbstractSimpleObjectBuilder
     public function mergeDataObjectWithArray(AbstractSimpleObject $dataObject, array $data)
     {
         $objectType = $this->_getDataObjectType();
-        if (get_class($dataObject) != $objectType) {
+        if (!($dataObject instanceof $objectType)) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
         }
         $this->_setDataValues($dataObject->__toArray());

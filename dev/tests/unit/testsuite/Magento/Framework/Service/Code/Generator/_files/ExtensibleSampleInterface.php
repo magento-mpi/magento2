@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\Code\Generator;
 
-use Magento\Framework\Api\Data\ExtensibleDataInterface;
+use Magento\Framework\Data\ExtensibleDataInterface;
 
 /**
  * Interface for ExtensibleSample

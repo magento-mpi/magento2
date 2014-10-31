@@ -34,7 +34,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $customerMock = $this->getMock(
-            '\Magento\Customer\Api\Data\CustomerInterface',
+            '\Magento\Customer\Service\V1\Data\Customer',
             array('getId', '__wakeup'),
             array(),
             '',

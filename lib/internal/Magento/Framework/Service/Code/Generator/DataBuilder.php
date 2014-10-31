@@ -181,7 +181,12 @@ class DataBuilder extends EntityAbstract
                 ['name' => lcfirst($propertyName)]
             ],
             'body' => $setterBody,
-            'docblock' => array('shortDescription' => '@param ' . $returnType . " \$" . lcfirst($propertyName))
+            'docblock' => [
+                'tags' => [
+                    ['name' => 'param', 'description' => $returnType . " \$" . lcfirst($propertyName)],
+                    ['name' => 'return', 'description' => '$this'],
+                ]
+            ]
         ];
         return $methodInfo;
     }
@@ -274,7 +279,7 @@ class DataBuilder extends EntityAbstract
     protected function getExtensibleInterfaceMethods()
     {
         if ($this->extensibleInterfaceMethods === null) {
-            $interfaceReflection = new ClassReflection('Magento\Framework\Api\Data\ExtensibleDataInterface');
+            $interfaceReflection = new ClassReflection('Magento\Framework\Data\ExtensibleDataInterface');
             $methodsReflection = $interfaceReflection->getMethods();
             $this->extensibleInterfaceMethods = [];
             foreach ($methodsReflection as $methodReflection) {

@@ -179,6 +179,8 @@ class ServiceArgsSerializer
         if (substr($className, -strlen($interfaceSuffix)) === $interfaceSuffix) {
             /** If class name ends with Interface, replace it with Data suffix */
             $builderClassName = substr($className, 0, -strlen($interfaceSuffix)) . 'Data';
+        } else {
+            $builderClassName = $className;
         }
         $builderClassName .= 'Builder';
         return $this->_objectManager->create($builderClassName);

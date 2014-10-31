@@ -11,7 +11,7 @@ namespace Magento\Customer\Model\Resource;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SortOrder;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Resource\Address\Collection;
@@ -132,11 +132,11 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     /**
      * Retrieve customers addresses matching the specified criteria.
      *
-     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Data\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\AddressSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Data\SearchCriteriaInterface $searchCriteria)
     {
         $this->addressSearchResultsBuilder->setSearchCriteria($searchCriteria);
 
@@ -151,7 +151,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         /** @var SortOrder $sortOrder */
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $sortOrder) {
-                $field = $this->translateField($sortOrder->getField());
+                $field = $sortOrder->getField();
                 $collection->addOrder(
                     $field,
                     ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
@@ -161,7 +161,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        /** @var AddressInterface[] $addresses */
+        /** @var \Magento\Customer\Api\Data\AddressInterface[] $addresses */
         $addresses = [];
         /** @var CustomerAddressModel $customerAddressModel */
         $addressIds = $collection->getAllIds();
@@ -186,23 +186,12 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = ['attribute' => $this->translateField($filter->getField()), $condition => $filter->getValue()];
+            $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
             $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
         }
-    }
-
-    /**
-     * Translates a field name to a DB column name for use in collection queries.
-     *
-     * @param string $field a field name that should be translated to a DB column name.
-     * @return string
-     */
-    protected function translateField($field)
-    {
-        return $field;
     }
 
     /**

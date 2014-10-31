@@ -10,9 +10,9 @@ namespace Magento\Sales\Model\AdminOrder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
 use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
 use Magento\Sales\Model\Quote\Item;
@@ -152,7 +152,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_metadataFormFactory;
 
     /**
-     * @var CustomerDataBuilder
+     * @var CustomerBuilder
      */
     protected $_customerBuilder;
 
@@ -205,7 +205,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
-     * @param CustomerDataBuilder $customerBuilder
+     * @param CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -229,7 +229,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
-        CustomerDataBuilder $customerBuilder,
+        CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Data $customerHelper,
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -1201,7 +1201,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected function _createCustomerForm(CustomerDataObject $customerDataObject)
     {
         $customerForm = $this->_metadataFormFactory->create(
-            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
             \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customerDataObject),
             false,

@@ -383,7 +383,7 @@ class TypeProcessor
      *
      * Example:
      * <pre>
-     *  \Magento\Customer\Api\Data\CustomerInterface => CustomerV1DataCustomer
+     *  \Magento\Customer\Service\V1\Data\Customer => CustomerV1DataCustomer
      *  \Magento\Catalog\Service\V2\Data\Product => CatalogV2DataProduct
      * </pre>
      *

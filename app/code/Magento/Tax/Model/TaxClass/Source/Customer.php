@@ -22,7 +22,7 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $taxClassService;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Data\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
@@ -35,12 +35,12 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Initialize dependencies.
      *
      * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      */
     public function __construct(
         \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
     ) {
         $this->taxClassService = $taxClassService;

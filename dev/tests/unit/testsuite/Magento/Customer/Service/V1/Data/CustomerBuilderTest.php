@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
@@ -15,7 +14,7 @@ use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_TestCase */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_TestCase */
     protected $_customerBuilder;
 
     /** @var \Magento\TestFramework\Helper\ObjectManager */
@@ -72,7 +71,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Service\Data\AttributeValueBuilder'
         );
         $this->_customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'metadataService' => $this->_customerMetadataService
@@ -162,7 +161,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Wrong prototype object given. It can only be of
-     * "Magento\Customer\Api\Data\CustomerInterface" type.
+     * "Magento\Customer\Service\V1\Data\Customer" type.
      */
     // @codingStandardsIgnoreEnd
     public function testPopulateException()
@@ -182,14 +181,14 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'test@example.com';
         $customerBuilder1 = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'metadataService' => $this->_customerMetadataService
             ]
         );
         $customerBuilder2 = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'metadataService' => $this->_customerMetadataService
@@ -224,7 +223,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => [
                     AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                     AttributeValue::VALUE => '78777'
@@ -254,8 +253,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
 
         foreach ($address->getCustomAttributes() as $customAttribute) {
-            $attributes[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY]
-                [$customAttribute->getAttributeCode()] = [
+            $attributes[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()] = [
                 AttributeValue::ATTRIBUTE_CODE => $customAttribute->getAttributeCode(),
                 AttributeValue::VALUE => $customAttribute->getValue()
             ];
@@ -289,10 +287,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
         $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
-        $this->assertEquals(
-            $customerAttributes,
-            $address->__toArray()[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY]
-        );
+        $this->assertEquals($customerAttributes, $address->__toArray()[Customer::CUSTOM_ATTRIBUTES_KEY]);
     }
 
     public function testToArrayCustomAttributes()
@@ -312,12 +307,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
+            Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->assertEquals(
             $customAttributes,
-            $customer->__toArray()[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY]
+            $customer->__toArray()[Customer::CUSTOM_ATTRIBUTES_KEY]
         );
     }
 
@@ -328,7 +323,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => [
                     AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                     AttributeValue::VALUE => '78777'
@@ -346,7 +341,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             [
                 'lastname' => 'Johnson',
                 'unknown_key' => 'Golden Necklace',
-                \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+                Customer::CUSTOM_ATTRIBUTES_KEY => [
                     'warehouse_zip' => [
                         AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                         AttributeValue::VALUE => '78666'
@@ -363,7 +358,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Johnson',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => [
                     AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                     AttributeValue::VALUE => '78666'
@@ -379,8 +374,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('90051', $customer2->getCustomAttribute('warehouse_alternate')->getValue());
         foreach ($customer2->getCustomAttributes() as $customAttribute) {
             $this->assertEquals(
-                $expectedData[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY]
-                    [$customAttribute->getAttributeCode()]['value'],
+                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()]['value'],
                 $customAttribute->getValue()
             );
         }
@@ -394,7 +388,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => [
                     AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                     AttributeValue::VALUE => '78777'
@@ -410,7 +404,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Johnson',
             'unknown_key' => 'Golden Necklace',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => [
                     AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                     AttributeValue::VALUE => '78666'
@@ -421,7 +415,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Johnson',
-            \Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY => [
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
                 'warehouse_zip' => [
                     AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
                     AttributeValue::VALUE => '78666'
@@ -439,8 +433,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('90051', $customer3->getCustomAttribute('warehouse_alternate')->getValue());
         foreach ($customer3->getCustomAttributes() as $customAttribute) {
             $this->assertEquals(
-                $expectedData[\Magento\Customer\Model\Data\Customer::CUSTOM_ATTRIBUTES_KEY]
-                    [$customAttribute->getAttributeCode()]['value'],
+                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()]['value'],
                 $customAttribute->getValue()
             );
         }

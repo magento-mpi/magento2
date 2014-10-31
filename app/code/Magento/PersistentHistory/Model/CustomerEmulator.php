@@ -99,7 +99,7 @@ class CustomerEmulator
         // apply persistent data to segments
         $this->_coreRegistry->register('segment_customer', $customer, true);
         if ($this->_ePersistentData->isWishlistPersist()) {
-            /** @var \Magento\Customer\Api\Data\CustomerInterface $customerDataObject */
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataObject */
             $customerDataObject = $this->_customerAccountService->getCustomer(
                 $this->_persistentSession->getSession()->getCustomerId()
             );

@@ -85,7 +85,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $customerDataObject = new \Magento\Customer\Api\Data\CustomerInterface($objectBuilder);
+        $customerDataObject = new \Magento\Customer\Service\V1\Data\Customer($objectBuilder);
         $this->_customerSession->expects($this->once())
             ->method('getCustomerDataObject')
             ->will($this->returnValue($customerDataObject));
@@ -111,7 +111,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession->expects($this->once())
             ->method('isLoggedIn')
             ->will($this->returnValue(true));
-        $customerDataObject = $this->getMock('\Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDataObject = $this->getMock('\Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $customerDataObject->expects($this->once())->method('getEmail')->will($this->returnValue('customer@email.com'));
         $this->_customerSession->expects($this->once())
             ->method('getCustomerDataObject')

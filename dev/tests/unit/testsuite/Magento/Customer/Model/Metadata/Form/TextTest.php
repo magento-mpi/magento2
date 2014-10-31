@@ -9,9 +9,6 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Model\Data\ValidationRule;
-use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
-
 class TextTest extends AbstractFormTestCase
 {
     /** @var \Magento\Framework\Stdlib\String */
@@ -109,15 +106,32 @@ class TextTest extends AbstractFormTestCase
     public function testValidateValueLength($value, $expected)
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $minTextLengthRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getName', 'getValue'])
+            ->getMockForAbstractClass();
+        $minTextLengthRule->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('min_text_length'));
+        $minTextLengthRule->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue(4));
+
+        $maxTextLengthRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getName', 'getValue'])
+            ->getMockForAbstractClass();
+        $maxTextLengthRule->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('max_text_length'));
+        $maxTextLengthRule->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue(8));
+
         $validationRules = array(
-            'min_text_length' => new ValidationRule(
-                $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
-                    ->populateWithArray(array('name' => 'min_text_length', 'value' => 4))
-            ),
-            'max_text_length' => new ValidationRule(
-                    $helper->getObject('\Magento\Customer\Api\Data\ValidationRuleDataBuilder')
-                        ->populateWithArray(array('name' => 'max_text_length', 'value' => 8))
-            )
+            'min_text_length' => $minTextLengthRule,
+            'max_text_length' => $maxTextLengthRule
         );
 
         $this->attributeMetadataMock->expects(

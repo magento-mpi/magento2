@@ -45,7 +45,7 @@ interface CustomerAccountServiceInterface
      * @param string $password If null then a random password will be assigned. Disregard if $hash is not empty.
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
      */
@@ -62,7 +62,7 @@ interface CustomerAccountServiceInterface
      * @param string $hash Password hash that we can save directly
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
      */
@@ -89,7 +89,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer($customerId);
 
@@ -98,7 +98,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerId
      * @param string $confirmationKey Sent to customer in an confirmation e-mail.
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Framework\Exception\State\InputMismatchException if the token is invalid
      * @throws \Magento\Framework\Exception\State\InvalidTransitionException if account already active
@@ -108,18 +108,18 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve customers which match a specified criteria
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Framework\Exception\InputException if there is a problem with the input
      * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerDetails
      */
-    public function searchCustomers(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function searchCustomers(\Magento\Framework\Data\SearchCriteria $searchCriteria);
 
     /**
      * Login a customer account using username and password
      *
      * @param string $username username in plain-text
      * @param string $password password in plain-text
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Framework\Exception\AuthenticationException If unable to authenticate
      * @throws \Magento\Framework\Exception\EmailNotConfirmedException If this is an unconfirmed account
      * @throws \Magento\Framework\Exception\InvalidEmailOrPasswordException If email or password is invalid
@@ -212,12 +212,12 @@ interface CustomerAccountServiceInterface
     /**
      * Validate customer entity
      *
-     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @return \Magento\Customer\Service\V1\Data\CustomerValidationResults
      */
     public function validateCustomerData(
-        \Magento\Customer\Api\Data\CustomerInterface $customer,
+        \Magento\Customer\Service\V1\Data\Customer $customer,
         array $attributes = array()
     );
 
@@ -284,7 +284,7 @@ interface CustomerAccountServiceInterface
      * @param string $customerEmail
      * @param string $websiteId If not set, will use the current websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomerByEmail($customerEmail, $websiteId = null);
 

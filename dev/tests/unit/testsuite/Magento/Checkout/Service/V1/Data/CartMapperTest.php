@@ -66,7 +66,7 @@ class CartMapperTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerBuilder = $this->getMock(
-            '\Magento\Checkout\Service\V1\Data\Cart\CustomerDataBuilder',
+            '\Magento\Checkout\Service\V1\Data\Cart\CustomerBuilder',
             [],
             [],
             '',

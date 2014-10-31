@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="billing_method">
-        <block class="Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment" template="sales/order/create/payment.phtml" name="customerbalance" before="-"/>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="billing_method">
+            <block class="Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment" template="sales/order/create/payment.phtml" name="customerbalance" before="-"/>
+        </referenceBlock>
+    </body>
 </page>

@@ -10,7 +10,7 @@ namespace Magento\Customer\Model;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Model\Data\CustomerBuilder;
 use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Webapi\Model\DataObjectProcessor;
@@ -191,9 +191,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $dateTime;
 
     /**
-     * @var CustomerDataBuilder
+     * @var CustomerBuilder
      */
-    protected $customerDataBuilder;
+    protected $_customerDataBuilder;
 
     /**
      * @var DataObjectProcessor
@@ -217,7 +217,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param CustomerDataBuilder $customerDataBuilder
+     * @param CustomerBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -239,7 +239,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        CustomerDataBuilder $customerDataBuilder,
+        CustomerBuilder $customerDataBuilder,
         DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -256,7 +256,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
-        $this->customerDataBuilder = $customerDataBuilder;
+        $this->_customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
@@ -278,7 +278,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getDataModel()
     {
-        return $this->customerDataBuilder->populateWithArray($this->getData())->setId($this->getId())->create();
+        return $this->_customerDataBuilder->populateWithArray($this->getData())->setId($this->getId())->create();
     }
 
     /**
@@ -308,7 +308,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
 
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
-            $this->setAttributeSetId(CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+            $this->setAttributeSetId(
+                \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
+            );
         }
 
         return $this;
@@ -331,6 +333,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
+     * @deprecated Use \Magento\Customer\Model\Api\AccountManagement::authenticate
      */
     public function authenticate($login, $password)
     {
@@ -392,10 +395,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $customerData = (array)$this->getData();
         $customerData[CustomerData::ID] = $this->getId();
-        $dataObject = $this->customerDataBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[CustomerData::ID] = $this->getId();
-        $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
+        $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
@@ -765,6 +768,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
+     * @deprecated Maybe this needs to be moved to helper
      */
     public function isConfirmationRequired()
     {
@@ -862,6 +866,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Send email to when password is resetting
      *
      * @return $this
+     * @deprecated
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -1187,7 +1192,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return bool
      */
-    public function canSkipConfirmation()
+    protected function canSkipConfirmation()
     {
         if (!$this->getId()) {
             return false;
@@ -1287,6 +1292,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if current reset password link token is expired
      *
      * @return boolean
+     * @deprecated
      */
     public function isResetPasswordLinkTokenExpired()
     {
@@ -1348,8 +1354,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
          * 'confirmation' email with confirmation link
          */
         $types = array(
-            'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
-            'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
+            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
+            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
         );
         return $types;

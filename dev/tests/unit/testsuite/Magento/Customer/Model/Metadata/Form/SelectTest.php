@@ -7,9 +7,6 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Model\Data\Option;
-use Magento\Customer\Api\Data\OptionDataBuilder;
-
 /**
  * test Magento\Customer\Model\Metadata\Form\Select
  */
@@ -97,7 +94,39 @@ class SelectTest extends AbstractFormTestCase
      */
     public function testOutputValue($value, $expected)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $option1 = $this->getMockBuilder('Magento\Customer\Api\Data\OptionInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getLabel', 'getValue'])
+            ->getMockForAbstractClass();
+        $option1->expects($this->any())
+            ->method('getLabel')
+            ->will($this->returnValue('fourteen'));
+        $option1->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue('14'));
+
+        $option2 = $this->getMockBuilder('Magento\Customer\Api\Data\OptionInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getLabel', 'getValue'])
+            ->getMockForAbstractClass();
+        $option2->expects($this->any())
+            ->method('getLabel')
+            ->will($this->returnValue('some string'));
+        $option2->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue('some key'));
+
+        $option3 = $this->getMockBuilder('Magento\Customer\Api\Data\OptionInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getLabel', 'getValue'])
+            ->getMockForAbstractClass();
+        $option3->expects($this->any())
+            ->method('getLabel')
+            ->will($this->returnValue('True'));
+        $option3->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue('true'));
+
         $this->attributeMetadataMock->expects(
             $this->any()
         )->method(
@@ -105,12 +134,9 @@ class SelectTest extends AbstractFormTestCase
         )->will(
             $this->returnValue(
                 array(
-                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
-                        ->setValue('14')->setLabel('fourteen')->create(),
-                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
-                        ->setValue('some key')->setLabel('some string')->create(),
-                    $helper->getObject('\Magento\Customer\Api\Data\OptionDataBuilder')
-                        ->setValue('true')->setLabel('True')->create()
+                    $option1,
+                    $option2,
+                    $option3
                 )
             )
         );

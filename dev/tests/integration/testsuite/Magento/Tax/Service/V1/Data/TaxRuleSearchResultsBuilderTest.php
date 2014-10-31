@@ -7,7 +7,7 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 
 /**
  * Integration test for \Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder
@@ -47,7 +47,7 @@ class TaxRuleSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->builder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder');
         $this->searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Data\SearchCriteriaBuilder'
         );
         $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
     }

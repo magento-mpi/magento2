@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 
 interface CreditmemoReadInterface
 {
@@ -19,7 +19,7 @@ interface CreditmemoReadInterface
     public function get($id);
 
     /**
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Service\V1\Data\SearchResults
      */
     public function search(SearchCriteria $searchCriteria);

@@ -37,9 +37,9 @@ class OrderListTest extends WebapiAbstract
      */
     public function testOrderList()
     {
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Data\SearchCriteriaBuilder'
         );
 
         /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */

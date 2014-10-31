@@ -29,7 +29,7 @@ class CustomerDetails extends \Magento\Framework\Service\Data\AbstractExtensible
     /**
      * Get customer
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {

@@ -16,7 +16,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     protected $customerModel;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
+     * @var \Magento\Customer\Model\Data\CustomerBuilder
      */
     protected $customerBuilder;
 
@@ -26,7 +26,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\Customer'
         );
         $this->customerBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder'
+            'Magento\Customer\Model\Data\CustomerBuilder'
         );
     }
 

@@ -13,7 +13,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $customerName = 'John Doe';
 
-        $customer = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+        $customer = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Customer')
             ->disableOriginalConstructor()
             ->getMock();
 

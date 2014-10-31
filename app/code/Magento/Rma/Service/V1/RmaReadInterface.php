@@ -21,8 +21,8 @@ interface RmaReadInterface
     /**
      * Return list of rma data objects based on search criteria
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
      * @return \Magento\Rma\Service\V1\Data\RmaSearchResults
      */
-    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function search(\Magento\Framework\Data\SearchCriteria $searchCriteria);
 }

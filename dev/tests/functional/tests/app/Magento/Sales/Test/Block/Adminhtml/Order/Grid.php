@@ -29,14 +29,14 @@ class Grid extends GridInterface
      *
      * @var string
      */
-    protected $purchasePointFilter = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]';
+    protected $purchasePointFilter = '//*[@data-ui-id="widget-grid-column-filter-store-0-filter-store-id"]';
 
     /**
      * Purchase Point Filter option group elements selector
      *
      * @var string
      */
-    protected $purchasePointOptionGroup = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]/optgroup';
+    protected $purchasePointOptGroup = '//*[@data-ui-id="widget-grid-column-filter-store-0-filter-store-id"]/optgroup';
 
     /**
      * Order Id td selector
@@ -84,7 +84,7 @@ class Grid extends GridInterface
      */
     public function assertNumberOfPurchasePointFilterOptionsGroup($number)
     {
-        $selector = $this->purchasePointOptionGroup . '[' . ($number + 1) . ']';
+        $selector = $this->purchasePointOptGroup . '[' . ($number + 1) . ']';
         return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

@@ -19,7 +19,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
 use Magento\Framework\Service\V1\Data\SortOrder;
@@ -210,9 +210,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getGroup($groupId)
+    public function getGroup($id)
     {
-        $customerGroup = $this->_groupRegistry->retrieve($groupId);
+        $customerGroup = $this->_groupRegistry->retrieve($id);
         $this->_customerGroupBuilder->setId($customerGroup->getId())
             ->setCode($customerGroup->getCode())
             ->setTaxClassId($customerGroup->getTaxClassId());
@@ -228,7 +228,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $storeId = $this->_storeManager->getStore()->getCode();
         }
         try {
-            $groupId = $this->_scopeConfig->getValue(
+            $id = $this->_scopeConfig->getValue(
                 \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
@@ -237,19 +237,19 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             throw NoSuchEntityException::singleField('storeId', $storeId);
         }
         try {
-            return $this->getGroup($groupId);
+            return $this->getGroup($id);
         } catch (NoSuchEntityException $e) {
-            throw NoSuchEntityException::doubleField('groupId', $groupId, 'storeId', $storeId);
+            throw NoSuchEntityException::doubleField(CustomerGroup::ID, $id, 'storeId', $storeId);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function canDelete($groupId)
+    public function canDelete($id)
     {
-        $customerGroup = $this->_groupRegistry->retrieve($groupId);
-        return $groupId > 0 && !$customerGroup->usesAsDefault();
+        $customerGroup = $this->_groupRegistry->retrieve($id);
+        return $id > 0 && !$customerGroup->usesAsDefault();
     }
 
     /**
@@ -296,7 +296,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateGroup($groupId, Data\CustomerGroup $group)
+    public function updateGroup($id, Data\CustomerGroup $group)
     {
         if (!$group->getCode()) {
             throw InputException::invalidFieldValue('code', $group->getCode());
@@ -305,9 +305,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         /** @var /Magento/Customer/Model/Group $customerGroup */
         $customerGroup = null;
         try {
-            $customerGroup = $this->_groupRegistry->retrieve($groupId);
+            $customerGroup = $this->_groupRegistry->retrieve($id);
         } catch (NoSuchEntityException $e) {
-            throw NoSuchEntityException::singleField('id', $groupId);
+            throw NoSuchEntityException::singleField('id', $id);
         }
 
         $customerGroup->setCode($group->getCode());
@@ -360,18 +360,18 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteGroup($groupId)
+    public function deleteGroup($id)
     {
-        if (!$this->canDelete($groupId)) {
+        if (!$this->canDelete($id)) {
             throw new StateException('Cannot delete group.');
         }
 
         // Get group so we can throw an exception if it doesn't exist
-        $this->getGroup($groupId);
+        $this->getGroup($id);
         $customerGroup = $this->_groupFactory->create();
-        $customerGroup->setId($groupId);
+        $customerGroup->setId($id);
         $customerGroup->delete();
-        $this->_groupRegistry->remove($groupId);
+        $this->_groupRegistry->remove($id);
         return true;
     }
 }

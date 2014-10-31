@@ -174,9 +174,9 @@ class ReadServiceTest extends WebapiAbstract
     {
         /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
         $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
         $attributeCode = 'name';
         $filter = $filterBuilder->setField('code')->setValue($attributeCode)->create();
         $searchCriteriaBuilder->addFilter([$filter]);

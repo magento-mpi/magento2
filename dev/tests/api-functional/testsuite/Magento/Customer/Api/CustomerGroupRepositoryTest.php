@@ -78,7 +78,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
                 'operation' => 'customerCustomerGroupServiceV1GetGroup'
             ]
         ];
-        $requestData = ['groupId' => $groupId];
+        $requestData = [CustomerGroup::ID => $groupId];
         $groupData = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($testGroup, $groupData, "The group data does not match.");
@@ -297,7 +297,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['groupId' => $groupId];
+        $requestData = [CustomerGroup::ID => $groupId];
 
         $canDelete = $this->_webApiCall($serviceInfo, $requestData);
 
@@ -341,7 +341,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['groupId' => $groupId];
+        $requestData = [CustomerGroup::ID => $groupId];
 
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
@@ -385,7 +385,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);
@@ -465,7 +465,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);
@@ -645,7 +645,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $this->assertEquals($groupId, $this->_webApiCall($serviceInfo, $requestData));
+        $this->assertEquals($groupId, $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID]);
 
         $group = $this->groupRegistry->retrieve($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
@@ -911,7 +911,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = ['groupId' => $groupId, 'group' => $groupData];
+        $requestData = [CustomerGroup::ID => $groupId, 'group' => $groupData];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
@@ -946,7 +946,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = ['groupId' => $nonExistentGroupId, 'group' => $groupData];
+        $requestData = [CustomerGroup::ID => $nonExistentGroupId, 'group' => $groupData];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -987,7 +987,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['groupId' => $groupId];
+        $requestData = [CustomerGroup::ID => $groupId];
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response, 'Expected response should be true.');
 
@@ -995,8 +995,9 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             $this->groupRegistry->retrieve($groupId);
             $this->fail('An expected NoSuchEntityException was not thrown.');
         } catch (NoSuchEntityException $e) {
+            $exception = NoSuchEntityException::singleField(CustomerGroup::ID, $groupId);
             $this->assertEquals(
-                "No such entity with groupId = $groupId",
+                $exception->getMessage(),
                 $e->getMessage(),
                 'Exception message does not match expected message.'
             );
@@ -1022,9 +1023,9 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = array('groupId' => $groupId);
+        $requestData = array(CustomerGroup::ID => $groupId);
         $expectedMessage = NoSuchEntityException::MESSAGE_SINGLE_FIELD;
-        $expectedParameters = ['fieldName' => 'groupId', 'fieldValue' => $groupId];
+        $expectedParameters = ['fieldName' => CustomerGroup::ID, 'fieldValue' => $groupId];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -1057,7 +1058,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['groupId' => $groupIdAssignedDefault];
+        $requestData = [CustomerGroup::ID => $groupIdAssignedDefault];
         $expectedMessage = "Cannot delete group.";
 
         try {
@@ -1088,7 +1089,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
      */
     private function createGroup($group)
     {
-        $groupId = $this->groupRepository->save($group); //->getId();
+        $groupId = $this->groupRepository->save($group)->getId();
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRegistry->retrieve($groupId);
@@ -1170,7 +1171,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
     {
         $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
         $filter = $filterBuilder
                     ->setField($filterField)
                     ->setValue($filterValue)
@@ -1218,7 +1219,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $this->_markTestAsRestOnly('SOAP is covered in ');
         $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
         $filter = $filterBuilder
             ->setField($filterField)
             ->setValue($filterValue)

@@ -11,12 +11,12 @@ namespace Magento\Wishlist\Helper;
 class Rss extends \Magento\Wishlist\Helper\Data
 {
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterface
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
 
@@ -31,7 +31,7 @@ class Rss extends \Magento\Wishlist\Helper\Data
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
-     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -44,7 +44,7 @@ class Rss extends \Magento\Wishlist\Helper\Data
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
-        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
     ) {
         $this->_customerBuilder = $customerBuilder;
 
@@ -87,7 +87,7 @@ class Rss extends \Magento\Wishlist\Helper\Data
     /**
      * Retrieve Customer instance
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {

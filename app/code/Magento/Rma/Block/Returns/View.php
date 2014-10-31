@@ -84,7 +84,7 @@ class View extends \Magento\Rma\Block\Form
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterface
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $customerData;
 
@@ -410,7 +410,7 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
-     * @return \Magento\Customer\Api\Data\CustomerInterface|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getCustomerData()

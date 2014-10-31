@@ -10,7 +10,7 @@ namespace Magento\Rma\Service\V1;
 
 use Magento\Rma\Model\Rma\Status\HistoryRepository;
 use Magento\Rma\Service\V1\Data\RmaStatusHistoryMapper;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder;
 use Magento\Rma\Model\Rma\PermissionChecker;

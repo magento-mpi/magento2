@@ -9,7 +9,7 @@ namespace Magento\Sales\Service\V1\Action;
 
 use Magento\Sales\Service\V1\Data\CreditmemoMapper;
 use Magento\Sales\Model\Order\CreditmemoRepository;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Data\SearchCriteria;
 use Magento\Sales\Service\V1\Data\CreditmemoSearchResultsBuilder;
 
 /**
@@ -50,7 +50,7 @@ class CreditmemoList
     /**
      * Invoke CreditmemoList service
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Service\V1\Data\SearchResults
      */
     public function invoke(SearchCriteria $searchCriteria)
