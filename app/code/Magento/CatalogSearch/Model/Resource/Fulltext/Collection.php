@@ -41,6 +41,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /** @var  string */
     private $queryText;
 
+    /** @var \Magento\Framework\Search\Response\QueryResponse */
+    private $queryResponse;
+
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Framework\Logger $logger
@@ -142,10 +145,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $this->requestBuilder->setRequestName('quick_search_container');
             $queryRequest = $this->requestBuilder->create();
 
-            $queryResponse = $this->searchEngine->search($queryRequest);
+            $this->queryResponse = $this->searchEngine->search($queryRequest);
             $ids = [0];
             /** @var \Magento\Framework\Search\Document $document */
-            foreach ($queryResponse as $document) {
+            foreach ($this->queryResponse as $document) {
                 $ids[] = $document->getId();
             }
             $this->addIdFilter($ids);
@@ -185,5 +188,23 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setGeneralDefaultQuery()
     {
         return $this;
+    }
+
+    /**
+     * Return field faceted data from faceted search result
+     *
+     * @param string $field
+     * @return array
+     */
+    public function getFacetedData($field)
+    {
+        return;
+        $aggregations = $this->queryResponse->getAggregations();
+        $values = $aggregations->getBucket($field . '_bucket')->getValues();
+        $result = [];
+        foreach ($values as $value) {
+            $result[] = $value->getMetrics();
+        }
+        return $result;
     }
 }

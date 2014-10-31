@@ -79,8 +79,9 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
      */
     public function prepareFilters()
     {
-        $queryRequest = $this->requestBuilder->create();
+        //$queryRequest = $this->requestBuilder->create();
         /** @var \Magento\Framework\Search\Response\QueryResponse $queryResponse */
+        /*
         $queryResponse = $this->searchEngine->search($queryRequest);
         $aggregations = $queryResponse->getAggregations();
         foreach ($this->filters as $filter) {
@@ -97,7 +98,7 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
             foreach($aggregations->getBucket($filterAttributeCode . '_bucket')->getValues() as $value) {
                 $values[] = $value->getMetrics();
             }
-            //$filter->setItems($values);
-        }
+            $filter->setItems($values);
+        }*/
     }
 }

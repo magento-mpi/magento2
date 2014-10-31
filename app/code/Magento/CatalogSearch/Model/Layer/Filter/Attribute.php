@@ -73,6 +73,9 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
+        $productCollection = $this->getLayer()->getProductCollection();
+        $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
+
         $options = $attribute->getFrontend()->getSelectOptions();
         $optionsCount = $this->_getResource()->getCount($this);
         $data = array();
