@@ -95,7 +95,9 @@ class DataBuilder extends EntityAbstract
             $constructorDefinition = [
                 'name' => '__construct',
                 'parameters' => [
-                    ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager']
+                    ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
+                    ['name' => 'metadataService', 'type' => '\Magento\Framework\Service\Data\MetadataServiceInterface'],
+                    ['name' => 'valueBuilder', 'type' => '\Magento\Framework\Api\Data\AttributeInterfaceBuilder'],
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
@@ -106,7 +108,8 @@ class DataBuilder extends EntityAbstract
                         ]
                     ]
                 ],
-                'body' => "parent::__construct(\$objectManager, '{$this->_getSourceClassName()}');"
+                'body' => "parent::__construct(\$objectManager, \$metadataService, \$valueBuilder, "
+                    . "'" . $this->_getSourceClassName(). "');"
             ];
         }
         return $constructorDefinition;
