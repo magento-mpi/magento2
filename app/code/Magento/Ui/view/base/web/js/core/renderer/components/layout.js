@@ -195,7 +195,7 @@ define([
 
                 registry.get(target, function(target){
                 
-                    target.insert(items, position);
+                    target.insert(items, +position);
                 });
             });
 
@@ -204,8 +204,8 @@ define([
 
         insertTo: function(item, targets){
 
-            targets.forEach(function(info){
-                this.insert(item, info.target, info.position);
+            _.each(targets, function(info, target){
+                this.insert(item, target, info.position);
             }, this);
 
             return this;
