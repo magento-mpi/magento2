@@ -49,15 +49,8 @@ class Range
      */
     public function getPriceRange()
     {
-        $currentCategory = $this->registry->registry('current_category_filter');
-        if ($currentCategory) {
-            $range = $currentCategory->getFilterPriceRange();
-        } else {
-            $range = $this->layer->getCurrentCategory()
-                ->getFilterPriceRange();
-        }
-
-        return $range;
+        $currentCategory = $this->registry->registry('current_category_filter') ?: $this->layer->getCurrentCategory();
+        return $currentCategory->getFilterPriceRange();
     }
 
     /**
