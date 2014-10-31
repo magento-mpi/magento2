@@ -194,6 +194,8 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
      *
      * @param BundleProduct $product
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareBundleData(BundleProduct $product)
     {

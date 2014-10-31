@@ -98,7 +98,7 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     protected function clickAddProducts()
     {
         $this->_rootElement->find($this->addProducts)->click();
-        $this->getTemplateBlock()->waitLoader();
+        $this->waitForElementVisible($this->orderItemsGrid);
     }
 
     /**
@@ -173,7 +173,7 @@ class Items extends \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
     {
         return $this->blockFactory->create(
             '\Magento\Backend\Test\Block\Template',
-            ['element' => $this->_rootElement->find($this->templateBlock), Locator::SELECTOR_XPATH]
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
         );
     }
 }

@@ -14,6 +14,8 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Source rma items.
+ *
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class Items implements FixtureInterface
 {

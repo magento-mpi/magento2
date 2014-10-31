@@ -29,11 +29,14 @@ class RmaItems extends Form
      * @param FixtureInterface|null $fixture
      * @param Element|null $element
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
+        $context = $element ? $element : $this->_rootElement;
         $mapping = $this->dataMapping();
-        $items = $this->_rootElement->find($this->itemRow)->getElements();
+        $items = $context->find($this->itemRow)->getElements();
         $data = [];
 
         foreach ($items as $key => $item) {

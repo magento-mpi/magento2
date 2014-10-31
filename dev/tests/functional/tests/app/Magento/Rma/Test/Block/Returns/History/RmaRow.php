@@ -29,14 +29,17 @@ class RmaRow extends \Magento\Backend\Test\Block\Widget\Form
      * @param FixtureInterface|null $fixture
      * @param Element|null $element
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
+        $context = $element ? $element : $this->_rootElement;
         $mapping = $this->dataMapping();
         $data = [];
 
         foreach ($mapping as $name => $field) {
-            $data[$name] = $this->_rootElement->find($field['selector'], $field['strategy'])->getText();
+            $data[$name] = $context->find($field['selector'], $field['strategy'])->getText();
         }
 
         return $data;
