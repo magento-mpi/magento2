@@ -72,7 +72,6 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
         if ($category->getId()) {
             $existingCategory = $this->get($category->getId());
             $existingData = $category->getData();
-            $customAttributes = $category->getCustomAttributes();
             if (isset($existingData['image']) && is_array($existingData['image'])) {
                 $existingData['image_additional_data'] = $existingData['image'];
                 unset($existingData['image']);

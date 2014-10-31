@@ -1,5 +1,6 @@
 <?php
 /**
+ * Category data interface
  *
  * {license_notice}
  *
@@ -9,20 +10,15 @@
 
 namespace Magento\Catalog\Api\Data;
 
-
+/**
+ * Created from @see \Magento\Catalog\Service\V1\Data\Category
+ */
 interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
 {
-    const CATEGORY_ID = 'category_id';
-    const PARENT_ID = 'parent_id';
-    const NAME = 'name';
-    const ACTIVE = 'active';
-    const POSITION = 'position';
-    const LEVEL = 'level';
-
     /**
      * @return int|null
      */
-    public function getCategoryId();
+    public function getId();
 
     /**
      * Get parent category ID
@@ -58,4 +54,43 @@ interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleDataIn
      * @return int
      */
     public function getLevel();
+
+    /**
+     * @return array|null
+     */
+    public function getChildren();
+
+    /**
+     * @return string|null
+     */
+    public function getCreatedAt();
+
+    /**
+     * @return string|null
+     */
+    public function getUpdatedAt();
+
+    /**
+     * @return string|null
+     */
+    public function getUrlKey();
+
+    /**
+     * @return string|null
+     */
+    public function getPath();
+
+    /**
+     * @return string|null
+     */
+    public function getDisplayMode();
+
+    /**
+     * @return string[]|null
+     */
+    public function getAvailableSortBy();
+    /**
+     * @return bool|null
+     */
+    public function getIncludeInMenu();
 }
