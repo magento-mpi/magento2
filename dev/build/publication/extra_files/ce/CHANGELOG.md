@@ -1,7 +1,7 @@
 0.1.0-alpha102
 =============
 * Fixed bugs:
-	* Fixed an issue where the categories tree was not displayed when adding a new category during product creation.
+	* Fixed an issue where the categories tree was not displayed when adding a new category during product creation
 	* Fixed an issue where the Template field on the New Email Template page was labeled as required
 	* Fixed minor UI issues in Multiple Addresses Checkout for a desktop
 	* Fixed minor UI issues with Widgets on the storefront
@@ -21,7 +21,7 @@
 	* Update custom order status
 	* Update a product from a mini shopping cart
 * WebApi Framework improvements:
-	* Added Web API support to add / override matching identifier parameter in the body from URL
+	* Added Web API support to add/override matching identifier parameter in the body from URL
 * Documentation:
 	* Added README files with module description for the following modules:
 		* Authorizenet
@@ -43,10 +43,11 @@
 		* Ups
 		* Usps
 		* Wishlist
-* Distributed the responsibility of View\Layout between three classes (PageLayout, PageConfig, GenericLayout )
-* Refactored controller actions to use ResultInterface objects:
-    * Catalog
-    * Backend
+* Container-Based Page Layout:
+    * Distributed the responsibility of View\Layout between three classes (PageLayout, PageConfig, GenericLayout)
+    * Refactored controller actions to use ResultInterface objects:
+        * Catalog
+        * Backend
 
 0.1.0-alpha101
 =============
