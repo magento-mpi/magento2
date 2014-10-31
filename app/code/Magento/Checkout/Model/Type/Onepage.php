@@ -17,7 +17,7 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
@@ -131,8 +131,8 @@ class Onepage
     /** @var \Magento\Framework\Math\Random */
     protected $mathRandom;
 
-    /** @var CustomerAddressServiceInterface */
-    protected $_customerAddressService;
+    /** @var AddressRepositoryInterface */
+    protected $addressRepository;
 
     /** @var CustomerAccountServiceInterface */
     protected $_customerAccountService;
@@ -164,7 +164,7 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param CustomerAddressServiceInterface $customerAddressService
+     * @param AddressRepositoryInterface $customerAddressService
      * @param OrderSender $orderSender
      */
     public function __construct(
@@ -188,7 +188,7 @@ class Onepage
         AddressBuilder $addressBuilder,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        CustomerAddressServiceInterface $customerAddressService,
+        AddressRepositoryInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService,
         OrderSender $orderSender
     ) {
@@ -212,7 +212,7 @@ class Onepage
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
-        $this->_customerAddressService = $customerAddressService;
+        $this->addressRepository = $customerAddressService;
         $this->_customerAccountService = $accountService;
         $this->orderSender = $orderSender;
     }
@@ -359,7 +359,7 @@ class Onepage
 
         if ($customerAddressId) {
             try {
-                $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
+                $customerAddress = $this->addressRepository->getAddress($customerAddressId);
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return ['error' => 1, 'message' => __('The customer address is not valid.')];
                 }
@@ -596,7 +596,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             $addressData = null;
             try {
-                $addressData = $this->_customerAddressService->getAddress($customerAddressId);
+                $addressData = $this->addressRepository->get($customerAddressId);
             } catch (NoSuchEntityException $e) {
                 // do nothing if customer is not found by id
             }
