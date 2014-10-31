@@ -40,11 +40,61 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreate()
+    public function testConditionFactoryClassHasStaticArray()
     {
-        $type = '1';
-        $data = ['data2', 'data3'];
-        $this->objectManagerMock->expects($this->once())->method('create')->with($type, $data);
-        $this->conditionFactory->create($type, $data);
+        $this->assertClassHasStaticAttribute('conditionModels', 'Magento\Rule\Model\ConditionFactory');
+    }
+
+    public function testExceptingToCallMethodCreateInObjectManager()
+    {
+        $type = 'type';
+        $this->objectManagerMock
+            ->expects($this->once())
+            ->method('create')
+            ->with($type)
+            ->willReturn(new \stdClass());
+
+        $this->conditionFactory->create($type);
+    }
+
+    public function testExceptingToCallMethodCreateInObjectManagerForSameTypeOnlyOnce()
+    {
+        $type = 'test';
+        $this->objectManagerMock
+            ->expects($this->once())
+            ->method('create')
+            ->with($type)
+            ->willReturn(new \stdClass());
+
+        $this->conditionFactory->create($type);
+        $this->conditionFactory->create($type);
+    }
+
+    public function testExceptingToCallMethodCreateInObjectManagerEachTimePerType()
+    {
+        $type2 = 'test2';
+        $this->objectManagerMock
+            ->expects($this->at(0))
+            ->method('create')
+            ->with($type2)
+            ->willReturn(new \stdClass());
+
+        $type3 = 'test3';
+        $this->objectManagerMock
+            ->expects($this->at(1))
+            ->method('create')
+            ->with($type3)
+            ->willReturn(new \stdClass());
+
+        $type4 = 'test4';
+        $this->objectManagerMock
+            ->expects($this->at(2))
+            ->method('create')
+            ->with($type4)
+            ->willReturn(new \stdClass());
+
+        $this->conditionFactory->create($type2);
+        $this->conditionFactory->create($type3);
+        $this->conditionFactory->create($type4);
     }
 }
