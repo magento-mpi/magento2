@@ -1,1 +1,1 @@
-Magento_Review module brings functionality that allows to write reviews for products.
+Magento_Review module functionality allows to write reviews for products.

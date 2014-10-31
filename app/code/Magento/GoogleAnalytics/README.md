@@ -1,1 +1,1 @@
-Magento_GoogleAnalytics is a module integration for Google Analytics service.
+Magento_GoogleAnalytics is a module for integration with Google Analytics service.

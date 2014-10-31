@@ -1,2 +1,6 @@
-Magento_GiftCard module introduce new product type in the Magento application named GiftCard Product.
-This module is designed to extend existing functionality of Magento_Catalog module adding new product type.
+Magento_GiftCard module introduces new product type in the Magento application called GiftCard Product.
+This module extends existing functionality of Magento_Catalog module by adding new product type.
+
+This product option enables store owner to offers gift cards in Virtual, Physical, or Combination format. 
+When a gift card is ordered, a unique code is generated that is emailed to a customer for virtual gift cards, or exported for printing to physical gift cards. 
+This unique number can only be redeemed by one customer.

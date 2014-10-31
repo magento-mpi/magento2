@@ -1,1 +1,1 @@
-Magento_Reminder module provides functionality of sending reminder email to customers according to pre-configured rules.
+Magento_Reminder module provides functionality for sending reminder emails to customers according to pre-configured rules.

@@ -1,1 +1,1 @@
-GoogleAdwords is a module integration for Google Adwords service.
+GoogleAdwords is a module designed for integration of Google Adwords service.
