@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Test\Repository;
+namespace Magento\AdvancedCheckout\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class Widget Repository
+ * Class Widget Repository.
  */
 class Widget extends AbstractRepository
 {
@@ -24,16 +24,16 @@ class Widget extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['cms_page_link'] = [
-            'code' => 'CMS Page Link',
-            'title' => 'Cms Page Link %isolation%',
+        $this->_data['order_by_sku'] = [
+            'code' => 'Order by SKU',
+            'theme_id' => 'Magento Blank',
+            'title' => 'Order by SKU %isolation%',
             'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'All Pages',
                     'all_pages' => [
-                        'block' => 'Main Content Area',
-                        'template' => 'CMS Page Link Block Template'
+                        'block' => 'Sidebar Additional',
                     ]
                 ]
             ],
@@ -43,7 +43,6 @@ class Widget extends AbstractRepository
                 'title' => 'anchor title',
             ],
             'page_id' => ['dataSet' => 'default'],
-            'theme_id' => 'Magento Blank'
         ];
     }
 }

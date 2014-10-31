@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\AdvancedCheckout\Test\Block\Customer;
+namespace Magento\AdvancedCheckout\Test\Block\Widget;
 
 /**
- * Customer Order By SKU form.
+ * Order By SKU widget form.
  */
 class Sku extends \Magento\AdvancedCheckout\Test\Block\Sku\AbstractSku
 {
