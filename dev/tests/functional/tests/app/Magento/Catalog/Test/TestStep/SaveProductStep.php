@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\TestStep;
 
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Mtf\TestStep\TestStepInterface;
-use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Save product step.
@@ -20,7 +20,7 @@ class SaveProductStep implements TestStepInterface
     /**
      * Product fixture.
      *
-     * @var FixtureInterface
+     * @var InjectableFixture
      */
     protected $product;
 
@@ -33,10 +33,10 @@ class SaveProductStep implements TestStepInterface
 
     /**
      * @constructor
-     * @param FixtureInterface $product
+     * @param InjectableFixture $product
      * @param CatalogProductEdit $catalogProductEdit
      */
-    public function __construct(FixtureInterface $product, CatalogProductEdit $catalogProductEdit)
+    public function __construct(InjectableFixture $product, CatalogProductEdit $catalogProductEdit)
     {
         $this->product = $product;
         $this->catalogProductEdit = $catalogProductEdit;

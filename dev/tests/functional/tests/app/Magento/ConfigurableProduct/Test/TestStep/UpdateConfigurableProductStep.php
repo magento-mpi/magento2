@@ -1,5 +1,4 @@
 <?php
-
 /**
  * {license_notice}
  *
@@ -85,7 +84,7 @@ class UpdateConfigurableProductStep implements TestStepInterface
     }
 
     /**
-     * Delete terms on backend.
+     * Update configurable product.
      *
      * @return array
      */

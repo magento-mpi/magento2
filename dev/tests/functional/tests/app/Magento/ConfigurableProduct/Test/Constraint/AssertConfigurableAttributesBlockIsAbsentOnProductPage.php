@@ -14,7 +14,7 @@ use Mtf\Constraint\AbstractConstraint;
 use Mtf\Client\Browser;
 
 /**
- * Assert that all products attributes is absent on product page on frontend.
+ * Assert that all configurable attributes is absent on product page on frontend.
  */
 class AssertConfigurableAttributesBlockIsAbsentOnProductPage extends AbstractConstraint
 {

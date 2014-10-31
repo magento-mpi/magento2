@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\TestStep;
 
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\TestStep\TestStepInterface;
-use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Open product on backend.
@@ -20,7 +20,7 @@ class OpenProductOnBackendStep implements TestStepInterface
     /**
      * Product fixture.
      *
-     * @var FixtureInterface
+     * @var InjectableFixture
      */
     protected $product;
 
@@ -33,10 +33,10 @@ class OpenProductOnBackendStep implements TestStepInterface
 
     /**
      * @constructor
-     * @param FixtureInterface $product
+     * @param InjectableFixture $product
      * @param CatalogProductIndex $catalogProductIndex
      */
-    public function __construct(FixtureInterface $product, CatalogProductIndex $catalogProductIndex)
+    public function __construct(InjectableFixture $product, CatalogProductIndex $catalogProductIndex)
     {
         $this->product = $product;
         $this->catalogProductIndex = $catalogProductIndex;
