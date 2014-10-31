@@ -270,7 +270,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
-     * @param  \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor
+     * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -300,7 +301,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataServiceInterface,
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;

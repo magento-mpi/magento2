@@ -62,6 +62,16 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      */
     protected $attributeRepository;
 
+    /**
+     * @param ProductFactory $productFactory
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper
+     * @param \Magento\Catalog\Api\Data\ProductSearchResultsBuilder $searchResultsBuilder
+     * @param Resource\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder $searchCriteriaBuilder
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
+     * @param Resource\Product $resourceModel
+     * @param \Magento\Framework\Data\Search\FilterInterfaceBuilder $filterBuilder
+     */
     public function __construct(
         ProductFactory $productFactory,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,

@@ -11,7 +11,7 @@ namespace Magento\Catalog\Api;
 /**
  * Interface RepositoryInterface must be implemented in new model
  */
-interface ProductAttributeRepositoryInterface
+interface ProductAttributeRepositoryInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
 {
     /**
      * Retrieve all attributes for entity type

@@ -93,11 +93,9 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
     {
         $attributeCode = 'test_attribute_code_333';
         $attribute = $this->getAttribute($attributeCode);
-        $attributeId = $attribute['attribute_id'];
 
         $attributeData = [
             'attribute' => [
-                'attribute_id' => $attributeId,
                 'attribute_code' => $attributeCode,
                 'store_frontend_labels' => [
                     ['store_id' => 0, 'label' => 'front_lbl_new']
@@ -110,7 +108,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $attributeId,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $attribute['attribute_id'],
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -121,7 +119,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         ];
         $result = $this->_webApiCall($serviceInfo, $attributeData);
 
-        $this->assertEquals($attributeId, $result['attribute_id']);
+        $this->assertEquals($attribute['attribute_id'], $result['attribute_id']);
         $this->assertEquals($attributeCode, $result['attribute_code']);
         $this->assertEquals('default value new', $result['default_value']);
         $this->assertEquals('front_lbl_new', $result['frontend_label']);

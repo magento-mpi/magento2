@@ -49,6 +49,21 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $filterManager;
 
     /**
+     * @var \Magento\Framework\Service\Config\MetadataConfig
+     */
+    protected $metadataConfig;
+
+    /**
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Attribute $attributeResource
      * @param \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder
      * @param \Magento\Catalog\Helper\Product $productHelper
@@ -56,6 +71,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      * @param \Magento\Eav\Model\AttributeRepository $eavAttributeRepository
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory
+     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataConfig
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Attribute $attributeResource,
@@ -64,7 +82,10 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Eav\Model\AttributeRepository $eavAttributeRepository,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory,
+        \Magento\Framework\Service\Config\MetadataConfig $metadataConfig,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
     ) {
         $this->attributeResource = $attributeResource;
         $this->attributeBuilder = $attributeBuilder;
@@ -73,6 +94,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         $this->eavAttributeRepository = $eavAttributeRepository;
         $this->eavConfig = $eavConfig;
         $this->inputtypeValidatorFactory = $validatorFactory;
+        $this->metadataConfig = $metadataConfig;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**
@@ -193,6 +217,29 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $this->get($attributeCode)
         );
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomAttributesMetadata($dataObjectClassName = null)
+    {
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+            [
+                $this->filterBuilder
+                    ->setField('attribute_set_id')
+                    ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
+                    ->create()
+            ]
+        );
+
+        $customAttributes = [];
+        $entityAttributes = $this->getList($searchCriteria->create())->getItems();
+
+        foreach ($entityAttributes as $attributeMetadata) {
+            $customAttributes[] = $attributeMetadata;
+        }
+        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata($dataObjectClassName));
     }
 
     /**

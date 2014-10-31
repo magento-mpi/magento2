@@ -174,6 +174,10 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             ProductInterface::STATUS => 1,
             ProductInterface::TYPE_ID => 'simple',
             ProductInterface::ATTRIBUTE_SET_ID => 1,
+            'custom_attributes' => [
+                ['attribute_code' => 'cost', 'value' => ''],
+                ['attribute_code' => 'description', 'value' => ''],
+            ]
         );
     }
 
