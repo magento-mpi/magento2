@@ -8,10 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="checkout.cart.methods">
-        <block class="Magento\GiftRegistry\Block\Cart\Link" name="giftregistry.cart.link" template="cart/link.phtml" cacheable="false"/>
-    </referenceContainer>
-    <referenceBlock name="additional.product.info">
-        <block class="Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
-    </referenceBlock>
+    <body>
+        <referenceContainer name="checkout.cart.methods">
+            <block class="Magento\GiftRegistry\Block\Cart\Link" name="giftregistry.cart.link" template="cart/link.phtml" cacheable="false"/>
+        </referenceContainer>
+        <referenceBlock name="additional.product.info">
+            <block class="Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
+        </referenceBlock>
+    </body>
 </page>
