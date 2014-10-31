@@ -9,7 +9,9 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="sales_archive_creditmemos_grid_block"/>
-    <referenceContainer name="content">
-        <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo" name="sales_creditmemo.grid.container"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo" name="sales_creditmemo.grid.container"/>
+        </referenceContainer>
+    </body>
 </page>

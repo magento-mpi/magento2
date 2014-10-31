@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <move element="checkout.cart.giftcardaccount" destination="cart.summary" after="checkout.cart.coupon" before="checkout.cart.totals.container"/>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <move element="checkout.cart.giftcardaccount" destination="cart.summary" after="checkout.cart.coupon" before="checkout.cart.totals.container"/>
+    </body>
 </page>
