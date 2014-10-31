@@ -224,4 +224,13 @@ return [
     ['/dev/tests/unit/testsuite/Magento/Object', '/dev/tests/unit/testsuite/Magento/Framework/Object'],
     ['/dev/tests/integration/testsuite/Magento/Object', '/dev/tests/integration/testsuite/Magento/Framework/Object'],
     ['/downloader'],
+    ['/app/code/Magento/Install'],
+    ['/dev/tests/integration/testsuite/Magento/Install'],
+    ['/dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Install'],
+    ['/dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/InstallWizardConfigFilesTest.php'],
+    ['/dev/tests/static/testsuite/Magento/Test/Legacy/Magento/Install'],
+    ['/dev/tests/unit/testsuite/Magento/Install'],
+    ['/dev/shell/install.php'],
+    ['/dev/shell/uninstall.php'],
+    ['/app/design/install'],
 ];
