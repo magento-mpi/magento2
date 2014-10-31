@@ -43,14 +43,14 @@ class AssertInvitationForm extends AbstractAssertForm
         $invitationsIndex->open();
         $invitationGrid = $invitationsIndex->getInvitationGrid();
         $invitations = [];
-        foreach ($invitation->getEmail() as $email) {
+        $uniqueEmails = array_unique($invitation->getEmail());
+        foreach ($uniqueEmails as $email) {
             $invitationGrid->search(['email' => $email]);
             $rowsData = $invitationGrid->getRowsData(['id', 'email']);
             foreach ($rowsData as $rowData) {
                 $invitations[] = $rowData;
             }
         }
-        $invitations = array_unique($invitations, SORT_REGULAR);
 
         foreach ($invitations as $invitationData) {
             $filter = [

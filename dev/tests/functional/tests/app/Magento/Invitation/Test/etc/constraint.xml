@@ -32,13 +32,13 @@
     <assertInvitationSuccessDiscardMessage module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationSuccessDiscardMessage>
-    <assertInvitationSuccessSentBackendMessage module="Magento_Invitation">
+    <assertInvitationSuccessSentMessageOnBackend module="Magento_Invitation">
         <severeness>low</severeness>
-    </assertInvitationSuccessSentBackendMessage>
+    </assertInvitationSuccessSentMessageOnBackend>
     <assertInvitationNoticeMessage module="Magento_Invitation">
         <severeness>low</severeness>
     </assertInvitationNoticeMessage>
-    <assertInvitationErrorMessage module="Magento_Invitation">
+    <assertInvitationErrorSentMessage module="Magento_Invitation">
         <severeness>low</severeness>
-    </assertInvitationErrorMessage>
+    </assertInvitationErrorSentMessage>
 </constraint>

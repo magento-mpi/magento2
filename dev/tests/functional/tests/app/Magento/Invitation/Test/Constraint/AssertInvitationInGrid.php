@@ -43,14 +43,14 @@ class AssertInvitationInGrid extends AbstractConstraint
         $invitationsIndex->open();
         $invitationGrid = $invitationsIndex->getInvitationGrid();
         $invitations = [];
-        foreach ($invitation->getEmail() as $email) {
+        $uniqueEmails = array_unique($invitation->getEmail());
+        foreach ($uniqueEmails as $email) {
             $invitationGrid->search(['email' => $email]);
             $rowsData = $invitationGrid->getRowsData(['id', 'email']);
             foreach ($rowsData as $rowData) {
                 $invitations[] = $rowData;
             }
         }
-        $invitations = array_unique($invitations, SORT_REGULAR);
 
         $result = [];
         foreach ($invitations as $invitationData) {
@@ -66,7 +66,6 @@ class AssertInvitationInGrid extends AbstractConstraint
             $result[] = array_shift($data);
         }
 
-        $result = array_unique($result, SORT_REGULAR);
         foreach ($result as $key => $value) {
             $result[$key] = $value['email'];
         }

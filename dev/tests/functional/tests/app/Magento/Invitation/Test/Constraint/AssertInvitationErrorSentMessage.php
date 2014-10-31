@@ -9,12 +9,13 @@
 namespace Magento\Invitation\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 
 /**
  * Assert that error message appears after sending invitation on backend.
  */
-class AssertInvitationErrorMessage extends AbstractConstraint
+class AssertInvitationErrorSentMessage extends AbstractConstraint
 {
     /**
      * Error send message.
@@ -32,14 +33,14 @@ class AssertInvitationErrorMessage extends AbstractConstraint
      * Assert that error message appears after sending invitation on backend.
      *
      * @param InvitationsIndex $invitationsIndex
+     * @param Invitation $invitation
      * @param string $countNotSent
-     * @param string $totalInvitations
      * @return void
      */
-    public function processAssert(InvitationsIndex $invitationsIndex, $countNotSent, $totalInvitations)
+    public function processAssert(InvitationsIndex $invitationsIndex, Invitation $invitation, $countNotSent)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::ERROR_MESSAGE, $countNotSent, $totalInvitations),
+            sprintf(self::ERROR_MESSAGE, $countNotSent, count($invitation->getEmail())),
             $invitationsIndex->getMessagesBlock()->getErrorMessages(),
             "Expected error message doesn't match actual."
         );

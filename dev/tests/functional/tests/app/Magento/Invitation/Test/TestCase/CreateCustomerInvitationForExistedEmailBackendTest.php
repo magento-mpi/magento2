@@ -10,7 +10,6 @@ namespace Magento\Invitation\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexNew;
@@ -20,6 +19,7 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexNew;
  *
  * Preconditions:
  * 1. Create customer.
+ * 2. Create invitation.
  *
  * Steps:
  * 1. Open Backend.
@@ -77,26 +77,22 @@ class CreateCustomerInvitationForExistedEmailBackendTest extends Injectable
      * Create customer invitation for existed email on backend test.
      *
      * @param CustomerInjectable $customer
-     * @param Invitation $invitation
-     * @param array $data
-     * @return void
+     * @param array $invitationData
+     * @return array
      */
-    public function test(CustomerInjectable $customer, Invitation $invitation, array $data)
+    public function test(CustomerInjectable $customer, array $invitationData)
     {
         // Preconditions
         $customer->persist();
-        $preparedData['email']['email_1'] = $customer->getEmail();
-        $preparedData['email']['email_2'] = $invitation->getEmail()['email_1'];
-        $data = array_merge($data, $preparedData);
-        $fixtureData = $invitation->getData();
-        $data = array_merge($data, $fixtureData);
-        $data['email'] = implode(',', $preparedData['email']);
-        $invitation =  $this->fixtureFactory->createByCode('invitation', ['data' => $data]);
+        $invitationData['email'] = $invitationData['email'] . ', ' . $customer->getEmail();
+        $invitation = $this->fixtureFactory->createByCode('invitation', ['data' => $invitationData]);
 
         // Steps
         $this->invitationsIndex->open();
         $this->invitationsIndex->getGridPageActions()->addNew();
         $this->invitationsIndexNew->getFormBlock()->fill($invitation);
         $this->invitationsIndexNew->getPageMainActions()->save();
+
+        return ['invitation' => $invitation];
     }
 }

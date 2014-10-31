@@ -16,7 +16,7 @@
         </pageMainActions>
         <formBlock>
             <class>Magento\Invitation\Test\Block\Adminhtml\Invitation\Add\Form</class>
-            <locator>[id="page:main-container"]</locator>
+            <locator>#edit_form</locator>
             <strategy>css selector</strategy>
         </formBlock>
     </blocks>
