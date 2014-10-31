@@ -1189,27 +1189,6 @@ $table = $installer->getConnection()->newTable(
         array('store_id', 'category_id', 'visibility', 'is_parent', 'position')
     ),
     array('store_id', 'category_id', 'visibility', 'is_parent', 'position')
-)->addForeignKey(
-    $installer->getFkName('catalog_category_product_index', 'category_id', 'catalog_category_entity', 'entity_id'),
-    'category_id',
-    $installer->getTable('catalog_category_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_category_product_index', 'product_id', 'catalog_product_entity', 'entity_id'),
-    'product_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_category_product_index', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Catalog Category Product Index'
 );
@@ -1327,50 +1306,6 @@ $table = $installer->getConnection()->newTable(
 );
 $installer->getConnection()->createTable($table);
 
-/**
- * Create table 'catalog_product_enabled_index'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_product_enabled_index')
-)->addColumn(
-    'product_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
-    'Product ID'
-)->addColumn(
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
-    'Store ID'
-)->addColumn(
-    'visibility',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Visibility'
-)->addIndex(
-    $installer->getIdxName('catalog_product_enabled_index', array('store_id')),
-    array('store_id')
-)->addForeignKey(
-    $installer->getFkName('catalog_product_enabled_index', 'product_id', 'catalog_product_entity', 'entity_id'),
-    'product_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_product_enabled_index', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->setComment(
-    'Catalog Product Visibility Index Table'
-);
-$installer->getConnection()->createTable($table);
 
 /**
  * Create table 'catalog_product_link_type'
@@ -2502,27 +2437,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_index_eav', array('value')),
     array('value')
-)->addForeignKey(
-    $installer->getFkName('catalog_product_index_eav', 'attribute_id', 'eav_attribute', 'attribute_id'),
-    'attribute_id',
-    $installer->getTable('eav_attribute'),
-    'attribute_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_product_index_eav', 'entity_id', 'catalog_product_entity', 'entity_id'),
-    'entity_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_product_index_eav', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Catalog Product EAV Index Table'
 );
@@ -2566,27 +2480,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_index_eav_decimal', array('value')),
     array('value')
-)->addForeignKey(
-    $installer->getFkName('catalog_product_index_eav_decimal', 'attribute_id', 'eav_attribute', 'attribute_id'),
-    'attribute_id',
-    $installer->getTable('eav_attribute'),
-    'attribute_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_product_index_eav_decimal', 'entity_id', 'catalog_product_entity', 'entity_id'),
-    'entity_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('catalog_product_index_eav_decimal', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Catalog Product EAV Decimal Index Table'
 );
@@ -3625,54 +3518,6 @@ $table = $installer->getConnection()->newTable(
 );
 $installer->getConnection()->createTable($table);
 
-/**
- * Create table 'catalog_category_product_index_idx'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_product_index_idx')
-)->addColumn(
-    'category_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Category ID'
-)->addColumn(
-    'product_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Product ID'
-)->addColumn(
-    'position',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('nullable' => false, 'default' => '0'),
-    'Position'
-)->addColumn(
-    'is_parent',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Is Parent'
-)->addColumn(
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Store ID'
-)->addColumn(
-    'visibility',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array('unsigned' => true, 'nullable' => false),
-    'Visibility'
-)->addIndex(
-    $installer->getIdxName('catalog_category_product_index_idx', array('product_id', 'category_id', 'store_id')),
-    array('product_id', 'category_id', 'store_id')
-)->setComment(
-    'Catalog Category Product Indexer Index Table'
-);
-$installer->getConnection()->createTable($table);
 
 /**
  * Create table 'catalog_category_product_index_tmp'
@@ -3715,158 +3560,11 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false),
     'Visibility'
+)->addIndex(
+    $installer->getIdxName('catalog_category_product_index_tmp', array('product_id', 'category_id', 'store_id')),
+    array('product_id', 'category_id', 'store_id')
 )->setComment(
     'Catalog Category Product Indexer Temp Table'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Create table 'catalog_category_product_index_enbl_idx'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_product_index_enbl_idx')
-)->addColumn(
-    'product_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Product ID'
-)->addColumn(
-    'visibility',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Visibility'
-)->addIndex(
-    $installer->getIdxName('catalog_category_product_index_enbl_idx', array('product_id')),
-    array('product_id')
-)->setComment(
-    'Catalog Category Product Enabled Indexer Index Table'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Create table 'catalog_category_product_index_enbl_tmp'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_product_index_enbl_tmp')
-)->addColumn(
-    'product_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Product ID'
-)->addColumn(
-    'visibility',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Visibility'
-)->addIndex(
-    $installer->getIdxName('catalog_category_product_index_enbl_tmp', array('product_id')),
-    array('product_id')
-)->setComment(
-    'Catalog Category Product Enabled Indexer Temp Table'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Create table 'catalog_category_anc_categs_index_idx'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_anc_categs_index_idx')
-)->addColumn(
-    'category_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Category ID'
-)->addColumn(
-    'path',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array('nullable' => true, 'default' => null),
-    'Path'
-)->addIndex(
-    $installer->getIdxName('catalog_category_anc_categs_index_idx', array('category_id')),
-    array('category_id')
-)->setComment(
-    'Catalog Category Anchor Indexer Index Table'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Create table 'catalog_category_anc_categs_index_tmp'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_anc_categs_index_tmp')
-)->addColumn(
-    'category_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Category ID'
-)->addColumn(
-    'path',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array('nullable' => true, 'default' => null),
-    'Path'
-)->addIndex(
-    $installer->getIdxName('catalog_category_anc_categs_index_tmp', array('category_id')),
-    array('category_id')
-)->setComment(
-    'Catalog Category Anchor Indexer Temp Table'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Create table 'catalog_category_anc_products_index_idx'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_anc_products_index_idx')
-)->addColumn(
-    'category_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Category ID'
-)->addColumn(
-    'product_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Product ID'
-)->addColumn(
-    'position',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true),
-    'Position'
-)->setComment(
-    'Catalog Category Anchor Product Indexer Index Table'
-);
-$installer->getConnection()->createTable($table);
-
-/**
- * Create table 'catalog_category_anc_products_index_tmp'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('catalog_category_anc_products_index_tmp')
-)->addColumn(
-    'category_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Category ID'
-)->addColumn(
-    'product_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Product ID'
-)->setComment(
-    'Catalog Category Anchor Product Indexer Temp Table'
 );
 $installer->getConnection()->createTable($table);
 
