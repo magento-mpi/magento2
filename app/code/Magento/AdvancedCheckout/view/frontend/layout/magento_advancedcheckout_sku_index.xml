@@ -8,18 +8,20 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="page.main.title">
-        <action method="setPageTitle">
-            <argument translate="true" name="title" xsi:type="string">Order by SKU</argument>
-        </action>
-    </referenceBlock>
     <update handle="customer_account"/>
-    <referenceContainer name="content">
-        <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
-            <action method="setIsTitleHidden">
-                <argument name="value" xsi:type="string">true</argument>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Order by SKU</argument>
             </action>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
-        </block>
-    </referenceContainer>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
+                <action method="setIsTitleHidden">
+                    <argument name="value" xsi:type="string">true</argument>
+                </action>
+                <block class="Magento\Framework\View\Element\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

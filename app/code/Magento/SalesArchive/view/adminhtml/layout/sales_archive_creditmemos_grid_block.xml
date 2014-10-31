@@ -9,27 +9,29 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="sales_creditmemo_grid_block"/>
-    <referenceBlock name="sales.creditmemo.grid">
-        <arguments>
-            <argument name="id" xsi:type="string">sales_creditmemo_grid_archive</argument>
-            <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Creditmemo\Collection</argument>
-            <argument name="grid_url" xsi:type="url" path="*/*/creditmemosgrid">
-                <param name="_current">1</param>
-            </argument>
-        </arguments>
-        <referenceBlock name="sales.creditmemo.grid.export">
+    <body>
+        <referenceBlock name="sales.creditmemo.grid">
             <arguments>
-                <argument name="exportTypes" xsi:type="array">
-                    <item name="csv" xsi:type="array">
-                        <item name="urlPath" xsi:type="string">*/*/exportCreditmemoCsv</item>
-                        <item name="label" xsi:type="string" translate="true">CSV</item>
-                    </item>
-                    <item name="excel" xsi:type="array">
-                        <item name="urlPath" xsi:type="string">*/*/exportCreditmemoExcel</item>
-                        <item name="label" xsi:type="string" translate="true">Excel XML</item>
-                    </item>
+                <argument name="id" xsi:type="string">sales_creditmemo_grid_archive</argument>
+                <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Creditmemo\Collection</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/creditmemosgrid">
+                    <param name="_current">1</param>
                 </argument>
             </arguments>
+            <referenceBlock name="sales.creditmemo.grid.export">
+                <arguments>
+                    <argument name="exportTypes" xsi:type="array">
+                        <item name="csv" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">*/*/exportCreditmemoCsv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                        </item>
+                        <item name="excel" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">*/*/exportCreditmemoExcel</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
         </referenceBlock>
-    </referenceBlock>
+    </body>
 </page>
