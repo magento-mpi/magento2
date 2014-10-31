@@ -7,8 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage\Shipping\Method;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Sales\Model\Quote\Address;
 
@@ -35,8 +34,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerAccountService $customerAccountService
-     * @param CustomerAddressService $customerAddressService
+     * @param CustomerRepositoryInterface $customerAccountService
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
@@ -49,8 +47,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerAccountService $customerAccountService,
-        CustomerAddressService $customerAddressService,
+        CustomerRepositoryInterface $customerAccountService,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
@@ -64,7 +61,6 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $countryCollectionFactory,
             $regionCollectionFactory,
             $customerAccountService,
-            $customerAddressService,
             $addressConfig,
             $httpContext,
             $data
