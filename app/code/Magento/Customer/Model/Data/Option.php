@@ -13,7 +13,7 @@ namespace Magento\Customer\Model\Data;
 /**
  * Class Option
  */
-class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class Option extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\OptionInterface
 {
     /**

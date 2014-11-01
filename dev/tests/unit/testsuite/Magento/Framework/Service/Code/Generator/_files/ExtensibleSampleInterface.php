@@ -6,9 +6,9 @@
  * @license   {license_link}
  */
 
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
-use Magento\Framework\Data\ExtensibleDataInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Interface for ExtensibleSample

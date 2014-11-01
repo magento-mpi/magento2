@@ -7,10 +7,10 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\AttributeValue;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\AddressMetadataService */
     private $_addressMetadataService;
 
-    /** @var \Magento\Framework\Service\Data\AttributeValueBuilder */
+    /** @var \Magento\Framework\Api\AttributeValueBuilder */
     private $_valueBuilder;
 
     protected function setUp()
@@ -68,7 +68,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                 )
             );
         $this->_valueBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Service\Data\AttributeValueBuilder'
+            'Magento\Framework\Api\AttributeValueBuilder'
         );
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
@@ -461,7 +461,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expectedCustomerData,
-            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer)
+            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer)
         );
     }
 }

@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 /**
  * Class Sample for Proxy and Factory generation

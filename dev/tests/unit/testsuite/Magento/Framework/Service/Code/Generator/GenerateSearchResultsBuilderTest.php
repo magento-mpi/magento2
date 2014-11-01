@@ -5,9 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
-use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
 
 /**
  * Class SearchResultBuilderTest
@@ -40,12 +40,12 @@ class GenerateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     {
         require_once __DIR__ . '/_files/Sample.php';
         $model = $this->getMock(
-            'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
+            'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
             [
                 '_validateData'
             ],
             [
-                '\Magento\Framework\Service\Code\Generator\Sample',
+                '\Magento\Framework\Api\Code\Generator\Sample',
                 null,
                 $this->ioObjectMock,
                 null,
@@ -55,7 +55,7 @@ class GenerateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $sampleSearchResultBuilderCode = file_get_contents(__DIR__ . '/_files/SampleSearchResultsBuilder.txt');
         $this->ioObjectMock->expects($this->once())
             ->method('getResultFileName')
-            ->with('\Magento\Framework\Service\Code\Generator\SampleSearchResultsBuilder')
+            ->with('\Magento\Framework\Api\Code\Generator\SampleSearchResultsBuilder')
             ->will($this->returnValue('SampleSearchResultsBuilder.php'));
         $this->ioObjectMock->expects($this->once())
             ->method('writeResultFile')

@@ -33,7 +33,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
     protected $_soapService = 'testModuleMSCAllSoapAndRest';
 
     /**
-     * @var \Magento\Framework\Service\Data\AttributeValueBuilder
+     * @var \Magento\Framework\Api\AttributeValueBuilder
      */
     protected $valueBuilder;
 
@@ -72,7 +72,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $this->_restResourcePath = "/{$this->_version}/testmoduleMSC/";
 
         $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\Data\AttributeValueBuilder'
+            'Magento\Framework\Api\AttributeValueBuilder'
         );
 
         $this->itemDataBuilder = Bootstrap::getObjectManager()->create(

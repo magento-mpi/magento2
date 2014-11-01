@@ -7,7 +7,7 @@
  */
 namespace Magento\Rma\Service\V1;
 
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 interface CommentReadInterface
 {

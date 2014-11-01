@@ -10,7 +10,7 @@ namespace Magento\ConfigurableProduct\Service\V1\Data;
 /**
  * @codeCoverageIgnore
  */
-class OptionBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class OptionBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * @param int $value

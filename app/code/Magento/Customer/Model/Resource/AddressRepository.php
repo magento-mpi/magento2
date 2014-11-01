@@ -10,9 +10,9 @@
 namespace Magento\Customer\Model\Resource;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use Magento\Framework\Data\SearchCriteria;
-use Magento\Framework\Service\V1\Data\SortOrder;
+use Magento\Framework\Api\Search\FilterGroup;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SortOrder;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Resource\Address\Collection;
 
@@ -132,11 +132,11 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     /**
      * Retrieve customers addresses matching the specified criteria.
      *
-     * @param \Magento\Framework\Data\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\AddressSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Data\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         $this->addressSearchResultsBuilder->setSearchCriteria($searchCriteria);
 

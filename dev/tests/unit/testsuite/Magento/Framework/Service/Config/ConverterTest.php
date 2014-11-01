@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Config;
+namespace Magento\Framework\Api\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Service\Config\Converter
+     * @var \Magento\Framework\Api\Config\Converter
      */
     protected $_converter;
 
@@ -19,7 +19,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_converter = new \Magento\Framework\Service\Config\Converter();
+        $this->_converter = new \Magento\Framework\Api\Config\Converter();
     }
 
     /**

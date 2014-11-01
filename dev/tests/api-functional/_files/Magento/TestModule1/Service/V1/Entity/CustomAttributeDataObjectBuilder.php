@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class CustomAttributeDataObjectBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class CustomAttributeDataObjectBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * @param string $name

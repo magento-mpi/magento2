@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Data;
 
-class Address extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class Address extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\AddressInterface
 {
     /**

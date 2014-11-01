@@ -521,7 +521,7 @@
    * Placing the order on frontend if enter in the street address line 1 and 2 255 symbols
    * Using  @357.farm domain emails in registration form
    * Validation for country_id/region_id and percentage_rate during Tax Rate creation
-   * Declaration of getSortOrders in Magento\Framework\Data\SearchCriteria
+   * Declaration of getSortOrders in Magento\Framework\Api\SearchCriteria
    * Order cancellation for online payment methods
    * Order online processing for Authorize.net Direct Post
    * Backend grids while search

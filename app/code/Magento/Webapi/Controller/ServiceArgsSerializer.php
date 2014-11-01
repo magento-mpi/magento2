@@ -11,14 +11,15 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Framework\ObjectManager;
 use Magento\Framework\ObjectManager\Config as ObjectManagerConfig;
-use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
-use Magento\Framework\Service\Data\AttributeValue;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
+use Magento\Framework\Api\AttributeValue;
+use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Reflection\TypeProcessor;
+use Magento\Framework\Reflection\DataObjectProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 
 /**
  * Deserializes arguments from API requests.

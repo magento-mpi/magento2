@@ -8,9 +8,9 @@
 
 namespace Magento\Webapi\Controller\Rest\Response;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Service\ExtensibleDataObjectConverter;
-use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
+use Magento\Webapi\Model\DataObjectProcessor;
 
 /**
  * Data object converter for REST

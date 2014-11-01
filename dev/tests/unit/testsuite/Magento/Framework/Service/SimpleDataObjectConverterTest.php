@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service;
+namespace Magento\Framework\Api;
 
 use Magento\Customer\Service\V1\Data\Customer;
 
@@ -53,7 +53,7 @@ class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->dataObjectConverter = $objectManager->getObject('Magento\Framework\Service\SimpleDataObjectConverter');
+        $this->dataObjectConverter = $objectManager->getObject('Magento\Framework\Api\SimpleDataObjectConverter');
         parent::setUp();
     }
 

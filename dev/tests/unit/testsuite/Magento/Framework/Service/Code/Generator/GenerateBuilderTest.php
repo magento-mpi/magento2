@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 /**
  * Class BuilderTest
@@ -37,14 +37,14 @@ class GenerateBuilderTest extends \PHPUnit_Framework_TestCase
     public function testGenerate()
     {
         require_once __DIR__ . '/_files/Sample.php';
-        /** @var \Magento\Framework\Service\Code\Generator\Builder $model */
+        /** @var \Magento\Framework\Api\Code\Generator\Builder $model */
         $model = $this->getMock(
-            '\Magento\Framework\Service\Code\Generator\Builder',
+            '\Magento\Framework\Api\Code\Generator\Builder',
             [
                 '_validateData'
             ],
             [
-                '\Magento\Framework\Service\Code\Generator\Sample',
+                '\Magento\Framework\Api\Code\Generator\Sample',
                 null,
                 $this->ioObjectMock,
                 null,
@@ -54,7 +54,7 @@ class GenerateBuilderTest extends \PHPUnit_Framework_TestCase
         $sampleBuilderCode = file_get_contents(__DIR__ . '/_files/SampleBuilder.txt');
         $this->ioObjectMock->expects($this->once())
             ->method('getResultFileName')
-            ->with('\Magento\Framework\Service\Code\Generator\SampleBuilder')
+            ->with('\Magento\Framework\Api\Code\Generator\SampleBuilder')
             ->will($this->returnValue('SampleBuilder.php'));
         $this->ioObjectMock->expects($this->once())
             ->method('writeResultFile')

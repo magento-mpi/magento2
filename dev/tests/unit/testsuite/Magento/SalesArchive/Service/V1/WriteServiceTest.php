@@ -27,10 +27,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $archiveSearchResultsBuilderMock;
 
-    /** @var \Magento\Framework\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Api\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $searchCriteriaBuilderMock;
 
-    /** @var \Magento\Framework\Service\V1\Data\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Api\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $filterBuilderMock;
 
     /** @var \Magento\SalesArchive\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
@@ -68,13 +68,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchCriteriaBuilderMock = $this->getMock(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Api\SearchCriteriaBuilder',
             [],
             [],
             '',
             false
         );
-        $this->filterBuilderMock = $this->getMock('Magento\Framework\Service\V1\Data\FilterBuilder', [], [], '', false);
+        $this->filterBuilderMock = $this->getMock('Magento\Framework\Api\FilterBuilder', [], [], '', false);
         $this->configMock = $this->getMock('Magento\SalesArchive\Model\Config', [], [], '', false);
         $this->dateTimeMock = $this->getMock('Magento\Framework\Stdlib\DateTime');
         $this->archiveMock = $this->getMock('Magento\SalesArchive\Model\Archive', [], [], '', false);
@@ -98,9 +98,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testInvokeEmptyStatuses()
     {
         $statuses = [];
-        $serviceResultsMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchResults')
+        $serviceResultsMock = $this->getMockBuilder('Magento\Framework\Api\SearchResults')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
         $this->configMock->expects($this->once())->method('getArchiveOrderStatuses')->will(
@@ -116,17 +116,17 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testInvokeEmptyArchiveAge()
     {
         list($statuses, $archiveAge) = [['status'], 0];
-        $serviceResultsMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchResults')
+        $serviceResultsMock = $this->getMockBuilder('Magento\Framework\Api\SearchResults')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $filterMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\Filter')
+        $filterMock = $this->getMockBuilder('Magento\Framework\Api\Filter')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchFilterMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\Filter')
+        $searchFilterMock = $this->getMockBuilder('Magento\Framework\Api\Filter')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $filterGroupMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\Search\FilterGroup')
+        $filterGroupMock = $this->getMockBuilder('Magento\Framework\Api\Search\FilterGroup')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchCriteriaBuildMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $searchCriteriaBuildMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')->disableOriginalConstructor()->setMethods([])
             ->getMock();

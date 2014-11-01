@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 
 /**
@@ -51,7 +51,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
         $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
         $this->_dataObjectConverter = $this->getMock(
-            'Magento\Framework\Service\SimpleDataObjectConverter',
+            'Magento\Framework\Api\SimpleDataObjectConverter',
             ['convertStdObjectToArray'],
             [],
             '',

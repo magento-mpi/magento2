@@ -33,7 +33,7 @@ class CreditmemoListTest extends \PHPUnit_Framework_TestCase
     protected $searchResultsBuilderMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaMock;
 
@@ -76,7 +76,7 @@ class CreditmemoListTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchCriteriaMock = $this->getMock(
-            'Magento\Framework\Data\SearchCriteria',
+            'Magento\Framework\Api\SearchCriteria',
             [],
             [],
             '',

@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 /**
  * Class MapperTest
@@ -38,12 +38,12 @@ class GenerateMapperTest extends \PHPUnit_Framework_TestCase
     {
         require_once __DIR__ . '/_files/Sample.php';
         $model = $this->getMock(
-            'Magento\Framework\Service\Code\Generator\Mapper',
+            'Magento\Framework\Api\Code\Generator\Mapper',
             [
                 '_validateData'
             ],
             [
-                '\Magento\Framework\Service\Code\Generator\Sample',
+                '\Magento\Framework\Api\Code\Generator\Sample',
                 null,
                 $this->ioObjectMock,
                 null,
@@ -53,7 +53,7 @@ class GenerateMapperTest extends \PHPUnit_Framework_TestCase
         $sampleMapperCode = file_get_contents(__DIR__ . '/_files/SampleMapper.txt');
         $this->ioObjectMock->expects($this->once())
             ->method('getResultFileName')
-            ->with('\Magento\Framework\Service\Code\Generator\SampleMapper')
+            ->with('\Magento\Framework\Api\Code\Generator\SampleMapper')
             ->will($this->returnValue('SampleMapper.php'));
         $this->ioObjectMock->expects($this->once())
             ->method('writeResultFile')

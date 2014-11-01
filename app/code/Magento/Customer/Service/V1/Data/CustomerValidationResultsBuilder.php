@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 /**
  *  Builder for CustomerValidationResults
  */
-class CustomerValidationResultsBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class CustomerValidationResultsBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * Set if customer data is valid

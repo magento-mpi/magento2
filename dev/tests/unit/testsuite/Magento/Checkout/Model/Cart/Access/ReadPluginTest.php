@@ -70,7 +70,7 @@ class ReadPluginTest extends \PHPUnit_Framework_TestCase
         $this->userContextMock->expects($this->once())->method('getUserType')->will($this->returnValue($userType));
         $this->model->beforeGetCartList(
             $this->subjectMock,
-            $this->getMock('\Magento\Framework\Data\SearchCriteria', [], [], '', false)
+            $this->getMock('\Magento\Framework\Api\SearchCriteria', [], [], '', false)
         );
     }
 
@@ -84,7 +84,7 @@ class ReadPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Authorization\Model\UserContextInterface::USER_TYPE_CUSTOMER));
         $this->model->beforeGetCartList(
             $this->subjectMock,
-            $this->getMock('\Magento\Framework\Data\SearchCriteria', [], [], '', false)
+            $this->getMock('\Magento\Framework\Api\SearchCriteria', [], [], '', false)
         );
     }
 }

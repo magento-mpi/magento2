@@ -23,13 +23,13 @@
         </resources>
     </route>
     <route url="/V1/customerGroups/default/:storeId" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="getDefaultGroup"/>
+        <service class="Magento\Customer\Api\GroupManagementInterface" method="getDefaultGroup"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
     <route url="/V1/customerGroups/default" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="getDefaultGroup"/>
+        <service class="Magento\Customer\Api\GroupManagementInterface" method="getDefaultGroup"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
@@ -58,14 +58,14 @@
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
-    <route url="/V1/customerGroups/:groupId" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="updateGroup"/>
+    <route url="/V1/customerGroups/:id" method="PUT">
+        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>
     </route>
     <route url="/V1/customerGroups/:groupId" method="DELETE">
-        <service class="Magento\Customer\Service\V1\CustomerGroupServiceInterface" method="deleteGroup"/>
+        <service class="Magento\Customer\Api\GroupRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Customer::group"/>
         </resources>

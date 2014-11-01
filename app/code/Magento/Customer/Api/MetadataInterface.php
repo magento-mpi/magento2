@@ -11,7 +11,7 @@ namespace Magento\Customer\Api;
 /**
  * Interface for getting attributes metadata. Note that this interface should not be used directly, use its children.
  */
-interface MetadataInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
+interface MetadataInterface extends \Magento\Framework\Api\MetadataServiceInterface
 {
     /**
      * Retrieve all attributes filtered by form code

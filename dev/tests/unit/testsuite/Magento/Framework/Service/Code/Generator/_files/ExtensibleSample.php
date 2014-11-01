@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
 
@@ -14,7 +14,7 @@ use Magento\Framework\Model\AbstractExtensibleModel;
  * Class ExtensibleSample
  */
 class ExtensibleSample extends AbstractExtensibleModel implements
-    \Magento\Framework\Service\Code\Generator\ExtensibleSampleInterface
+    \Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface
 {
     /**
      * {@inheritdoc}

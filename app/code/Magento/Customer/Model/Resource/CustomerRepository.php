@@ -12,7 +12,7 @@ use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Data\CustomerSecure;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Data\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Customer repository.
@@ -334,13 +334,13 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup
+     * @param \Magento\Framework\Api\Search\FilterGroup $filterGroup
      * @param \Magento\Customer\Model\Resource\Customer\Collection $collection
      * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
     protected function addFilterGroupToCollection(
-        \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+        \Magento\Framework\Api\Search\FilterGroup $filterGroup,
         \Magento\Customer\Model\Resource\Customer\Collection $collection
     ) {
         $fields = [];

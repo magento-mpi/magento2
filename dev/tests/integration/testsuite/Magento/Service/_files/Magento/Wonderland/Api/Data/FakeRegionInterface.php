@@ -8,7 +8,7 @@
  */
 namespace Magento\Wonderland\Api\Data;
 
-use Magento\Framework\Data\ExtensibleDataInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Customer address region interface.

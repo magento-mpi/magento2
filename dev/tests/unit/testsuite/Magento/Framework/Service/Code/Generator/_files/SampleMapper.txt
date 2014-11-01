@@ -1,19 +1,19 @@
-namespace \Magento\Framework\Service\Code\Generator;
+namespace \Magento\Framework\Api\Code\Generator;
 
 /**
- * Mapper class for \Magento\Framework\Service\Code\Generator\Sample
+ * Mapper class for \Magento\Framework\Api\Code\Generator\Sample
  */
 class SampleMapper
 {
     /**
      * sampleBuilder
      *
-     * @var \Magento\Framework\Service\Code\Generator\SampleBuilder
+     * @var \Magento\Framework\Api\Code\Generator\SampleBuilder
      */
     protected $sampleBuilder = null;
 
     /**
-     * Magento\Framework\Service\Code\Generator\Sample[]
+     * Magento\Framework\Api\Code\Generator\Sample[]
      *
      * @var array
      */
@@ -22,9 +22,9 @@ class SampleMapper
     /**
      * Mapper constructor
      *
-     * @param \Magento\Framework\Service\Code\Generator\Sample $sampleBuilder
+     * @param \Magento\Framework\Api\Code\Generator\Sample $sampleBuilder
      */
-    public function __construct(\Magento\Framework\Service\Code\Generator\SampleBuilder $sampleBuilder)
+    public function __construct(\Magento\Framework\Api\Code\Generator\SampleBuilder $sampleBuilder)
     {
         $this->sampleBuilder = $sampleBuilder;
     }
@@ -33,7 +33,7 @@ class SampleMapper
      * Extract data object from model
      *
      * @param \Magento\Framework\Model\AbstractModel $object
-     * @return \Magento\Framework\Service\Code\Generator\Sample
+     * @return \Magento\Framework\Api\Code\Generator\Sample
      */
     public function extractDto(\Magento\Framework\Model\AbstractModel $object)
     {

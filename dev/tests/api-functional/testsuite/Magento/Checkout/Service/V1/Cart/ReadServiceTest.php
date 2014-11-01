@@ -9,11 +9,11 @@ namespace Magento\Checkout\Service\V1\Cart;
 
 use \Magento\TestFramework\TestCase\WebapiAbstract;
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Framework\Data\SearchCriteriaBuilder;
-use \Magento\Framework\Service\V1\Data\FilterBuilder;
+use \Magento\Framework\Api\SearchCriteriaBuilder;
+use \Magento\Framework\Api\FilterBuilder;
 use \Magento\TestFramework\ObjectManager;
 use \Magento\Checkout\Service\V1\Data\Cart;
-use \Magento\Framework\Data\SearchCriteria;
+use \Magento\Framework\Api\SearchCriteria;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -41,13 +41,13 @@ class ReadServiceTest extends WebapiAbstract
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->filterBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
         $this->sortOrderBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+            'Magento\Framework\Api\SortOrderBuilder'
         );
         $this->searchBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
     }
 

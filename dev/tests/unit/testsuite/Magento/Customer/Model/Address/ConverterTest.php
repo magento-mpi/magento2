@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Model\Address;
 
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\AttributeValue;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {

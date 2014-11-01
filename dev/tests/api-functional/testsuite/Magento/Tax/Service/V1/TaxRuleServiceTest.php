@@ -8,8 +8,8 @@
 
 namespace Magento\Tax\Service\V1;
 
-use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -42,19 +42,19 @@ class TaxRuleServiceTest extends WebapiAbstract
     public function setUp()
     {
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
         $this->filterBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
         $objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRuleService');
 
         $this->searchCriteriaBuilder = $objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
         $this->filterBuilder = $objectManager->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
 
         /** Initialize tax classes, tax rates and tax rules defined in fixture Magento/Tax/_files/tax_classes.php */
@@ -264,7 +264,7 @@ class TaxRuleServiceTest extends WebapiAbstract
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
 
-        /** @var \Magento\Framework\Service\V1\Data\SearchResults $searchResults */
+        /** @var \Magento\Framework\Api\SearchResults $searchResults */
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals(1, $searchResults['total_count']);
@@ -321,7 +321,7 @@ class TaxRuleServiceTest extends WebapiAbstract
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
 
-        /** @var \Magento\Framework\Service\V1\Data\SearchResults $searchResults */
+        /** @var \Magento\Framework\Api\SearchResults $searchResults */
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals(2, $searchResults['total_count']);

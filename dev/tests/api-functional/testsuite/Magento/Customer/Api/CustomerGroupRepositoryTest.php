@@ -505,7 +505,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         } catch (\Exception $e) {
             // @codingStandardsIgnoreStart
             $this->assertContains(
-                '{"message":"%fieldName is a required field.","parameters":{"fieldName":"code"}}',
+                '{"message":"%fieldName is a required field.","parameters":{"fieldName":"code"}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -575,7 +575,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $this->assertContains(
-                '{"message":"No such entity with %fieldName = %fieldValue","parameters":{"fieldName":"groupId","fieldValue":88}}',
+                '{"message":"No such entity with %fieldName = %fieldValue","parameters":{"fieldName":"id","fieldValue":88}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -684,7 +684,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             $this->fail('Expected exception');
         } catch (\Exception $e) {
             $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
-             . '"parameters":{"fieldName":"groupId","fieldValue":9999}}';
+             . '"parameters":{"fieldName":"id","fieldValue":9999}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -1169,9 +1169,9 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
      */
     public function testSearchGroups($filterField, $filterValue, $expectedResult)
     {
-        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Api\SearchCriteriaBuilder');
         $filter = $filterBuilder
                     ->setField($filterField)
                     ->setValue($filterValue)
@@ -1217,9 +1217,9 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
     public function testSearchGroupsWithGET($filterField, $filterValue, $expectedResult)
     {
         $this->_markTestAsRestOnly('SOAP is covered in ');
-        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Api\SearchCriteriaBuilder');
         $filter = $filterBuilder
             ->setField($filterField)
             ->setValue($filterValue)

@@ -54,7 +54,7 @@ class WrappingRead implements WrappingReadInterface
     /**
      * {@inheritdoc}
      */
-    public function search(\Magento\Framework\Data\SearchCriteria $searchCriteria)
+    public function search(\Magento\Framework\Api\SearchCriteria $searchCriteria)
     {
         $wrappings = [];
         foreach ($this->wrappingRepository->find($searchCriteria) as $wrapping) {

@@ -27,7 +27,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
     /** @var \Magento\Customer\Model\Data\GroupBuilder */
     private $groupBuilder;
 
-    /** @var  \Magento\Framework\Data\SearchCriteriaDataBuilder */
+    /** @var  \Magento\Framework\Api\SearchCriteriaDataBuilder */
     private $searchCriteriaBuilder;
 
 
@@ -36,7 +36,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->groupRepository = $this->objectManager->create('Magento\Customer\Api\GroupRepositoryInterface');
         $this->groupBuilder = $this->objectManager->create('Magento\Customer\Api\Data\GroupDataBuilder');
-        $this->searchCriteriaBuilder = $this->objectManager->create('Magento\Framework\Data\SearchCriteriaDataBuilder');
+        $this->searchCriteriaBuilder = $this->objectManager->create('Magento\Framework\Api\SearchCriteriaDataBuilder');
     }
 
     protected function tearDown()
@@ -211,7 +211,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
     public function searchGroupsDataProvider()
     {
         $builder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+            ->create('Magento\Framework\Api\FilterBuilder');
         return [
             'eq' => [
                 [$builder->setField(GroupInterface::CODE)->setValue('General')->create()],

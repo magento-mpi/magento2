@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 interface InvoiceReadInterface
 {
@@ -19,8 +19,8 @@ interface InvoiceReadInterface
     public function get($id);
 
     /**
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Framework\Service\V1\Data\SearchResults
+     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
+     * @return \Magento\Framework\Api\SearchResults
      */
     public function search(SearchCriteria $searchCriteria);
 

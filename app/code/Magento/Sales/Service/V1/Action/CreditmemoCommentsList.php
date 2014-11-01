@@ -8,9 +8,9 @@
 namespace Magento\Sales\Service\V1\Action;
 
 use Magento\Sales\Service\V1\Data\CommentMapper;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Api\FilterBuilder;
 use Magento\Sales\Model\Order\Creditmemo\CommentRepository;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder;
 
 /**
@@ -29,12 +29,12 @@ class CreditmemoCommentsList
     protected $commentMapper;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     protected $criteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
@@ -46,8 +46,8 @@ class CreditmemoCommentsList
     /**
      * @param \Magento\Sales\Model\Order\Creditmemo\CommentRepository $commentRepository
      * @param \Magento\Sales\Service\V1\Data\CommentMapper $commentMapper
-     * @param \Magento\Framework\Data\SearchCriteriaBuilder $criteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(

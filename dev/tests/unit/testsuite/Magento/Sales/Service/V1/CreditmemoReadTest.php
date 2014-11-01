@@ -83,7 +83,7 @@ class CreditmemoReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearch()
     {
-        $searchCriteria = $this->getMock('Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteria = $this->getMock('Magento\Framework\Api\SearchCriteria', [], [], '', false);
         $this->creditmemoListMock->expects($this->once())
             ->method('invoke')
             ->with($searchCriteria)

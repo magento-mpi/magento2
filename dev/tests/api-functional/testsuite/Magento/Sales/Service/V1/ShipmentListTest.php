@@ -36,14 +36,14 @@ class ShipmentListTest extends WebapiAbstract
      */
     public function testShipmentList()
     {
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Api\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
 
-        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        /** @var $filterBuilder  \Magento\Framework\Api\FilterBuilder */
         $filterBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
 
         $searchCriteriaBuilder->addFilter([$filterBuilder->setField('shipment_status')->setValue(1)->create()]);

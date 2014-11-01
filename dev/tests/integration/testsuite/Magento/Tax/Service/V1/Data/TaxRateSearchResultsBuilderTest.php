@@ -7,7 +7,7 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 /**
  * Integration test for \Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder

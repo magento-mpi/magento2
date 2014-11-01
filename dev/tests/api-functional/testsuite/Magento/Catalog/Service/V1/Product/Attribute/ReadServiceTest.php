@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -98,13 +98,13 @@ class ReadServiceTest extends WebapiAbstract
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
         }
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Api\SearchCriteriaBuilder */
         $searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
-        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        /** @var $filterBuilder  \Magento\Framework\Api\FilterBuilder */
         $filterBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
         foreach ($filterGroups as $filterGroup) {
             $group = array();
@@ -117,11 +117,11 @@ class ReadServiceTest extends WebapiAbstract
             }
             $searchCriteriaBuilder->addFilter($group);
         }
-        /**@var \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder */
+        /**@var \Magento\Framework\Api\SortOrderBuilder $sortOrderBuilder */
         $sortOrderBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\SortOrderBuilder'
+            'Magento\Framework\Api\SortOrderBuilder'
         );
-        /** @var \Magento\Framework\Service\V1\Data\SortOrder $sortOrder */
+        /** @var \Magento\Framework\Api\SortOrder $sortOrder */
         $sortOrder = $sortOrderBuilder->setField($sortField)->setDirection($sortValue)->create();
         $searchCriteriaBuilder->setSortOrders([$sortOrder]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();

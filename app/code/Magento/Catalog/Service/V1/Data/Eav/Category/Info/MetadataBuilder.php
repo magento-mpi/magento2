@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeValueBuilder;
 
 /**
  * Class MetadataBuilder
@@ -19,12 +19,12 @@ use Magento\Framework\Service\Data\AttributeValueBuilder;
 class MetadataBuilder extends AbstractExtensibleObjectBuilder
 {
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
     ) {

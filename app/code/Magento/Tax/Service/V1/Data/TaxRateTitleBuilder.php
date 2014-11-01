@@ -13,7 +13,7 @@ namespace Magento\Tax\Service\V1\Data;
  *
  * @method TaxRateTitle create()
  */
-class TaxRateTitleBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class TaxRateTitleBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * Set store id

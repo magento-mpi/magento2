@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class NestedDataObjectRequestBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class NestedDataObjectRequestBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * @param \Magento\TestModule4\Service\V1\Entity\DataObjectRequest $details

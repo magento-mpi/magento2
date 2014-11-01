@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModuleMSC\Api\Data;
 
-interface CustomAttributeDataObjectInterface extends \Magento\Framework\Data\ExtensibleDataInterface
+interface CustomAttributeDataObjectInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     const NAME = 'name';
 

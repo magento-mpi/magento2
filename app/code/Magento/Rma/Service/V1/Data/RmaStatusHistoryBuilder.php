@@ -8,7 +8,7 @@
  
 namespace Magento\Rma\Service\V1\Data;
 
-class RmaStatusHistoryBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class RmaStatusHistoryBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * {@inheritdoc}

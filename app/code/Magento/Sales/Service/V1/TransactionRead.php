@@ -8,7 +8,7 @@
  
 namespace Magento\Sales\Service\V1;
 
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 use Magento\Sales\Model\Order\Payment\TransactionRepository;
 
 class TransactionRead implements TransactionReadInterface

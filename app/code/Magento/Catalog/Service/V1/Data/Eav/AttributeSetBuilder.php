@@ -12,7 +12,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  *
  * @codeCoverageIgnore
  */
-class AttributeSetBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class AttributeSetBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * Set attribute set id

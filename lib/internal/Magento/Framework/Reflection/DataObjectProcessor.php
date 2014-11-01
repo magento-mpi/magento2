@@ -10,8 +10,8 @@ namespace Magento\Framework\Reflection;
 
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
-use Magento\Framework\Service\SimpleDataObjectConverter;
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Cache\Type as WebapiCache;
@@ -177,7 +177,7 @@ class DataObjectProcessor
     /**
      * Convert array of custom_attributes to use flat array structure
      *
-     * @param \Magento\Framework\Data\AttributeInterface[] $customAttributes
+     * @param \Magento\Framework\Api\AttributeInterface[] $customAttributes
      * @return array
      */
     protected function convertCustomAttributes($customAttributes)
@@ -192,7 +192,7 @@ class DataObjectProcessor
     /**
      * Convert custom_attribute object to use flat array structure
      *
-     * @param \Magento\Framework\Data\AttributeInterface $customAttribute
+     * @param \Magento\Framework\Api\AttributeInterface $customAttribute
      * @return array
      */
     protected function convertCustomAttribute($customAttribute)

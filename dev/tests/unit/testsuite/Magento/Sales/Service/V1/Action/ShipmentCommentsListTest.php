@@ -28,12 +28,12 @@ class ShipmentCommentsListTest extends \PHPUnit_Framework_TestCase
     protected $commentMapperMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterBuilderMock;
 
@@ -53,7 +53,7 @@ class ShipmentCommentsListTest extends \PHPUnit_Framework_TestCase
     protected $dataObjectMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaMock;
 
@@ -74,14 +74,14 @@ class ShipmentCommentsListTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->criteriaBuilderMock = $this->getMock(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Api\SearchCriteriaBuilder',
             ['create', 'addFilter'],
             [],
             '',
             false
         );
         $this->filterBuilderMock = $this->getMock(
-            'Magento\Framework\Service\V1\Data\FilterBuilder',
+            'Magento\Framework\Api\FilterBuilder',
             ['setField', 'setValue', 'create'],
             [],
             '',
@@ -109,7 +109,7 @@ class ShipmentCommentsListTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchCriteriaMock = $this->getMock(
-            'Magento\Framework\Data\SearchCriteria',
+            'Magento\Framework\Api\SearchCriteria',
             [],
             [],
             '',

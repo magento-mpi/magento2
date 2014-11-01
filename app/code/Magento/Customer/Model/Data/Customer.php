@@ -9,7 +9,7 @@
 namespace Magento\Customer\Model\Data;
 
 
-class Customer extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class Customer extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\CustomerInterface
 {
     /**

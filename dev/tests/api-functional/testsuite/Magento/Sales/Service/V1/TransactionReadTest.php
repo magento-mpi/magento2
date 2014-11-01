@@ -94,9 +94,9 @@ class TransactionReadTest extends WebapiAbstract
 
         $childTransaction = $transaction->getChildTransactions()[2];
 
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Api\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
 
         $searchCriteriaBuilder->addFilter($filters);
@@ -171,9 +171,9 @@ class TransactionReadTest extends WebapiAbstract
      */
     public function filtersDataProvider()
     {
-        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        /** @var $filterBuilder  \Magento\Framework\Api\FilterBuilder */
         $filterBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
 
         return [

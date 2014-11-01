@@ -28,11 +28,11 @@
     <preference for="Magento\Customer\Api\Data\ValidationResultsInterface"
                 type="Magento\Customer\Model\Data\ValidationResults" />
     <preference for="Magento\Customer\Api\Data\GroupSearchResultsInterface"
-                type="Magento\Framework\Service\V1\Data\SearchResults" />
+                type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Customer\Api\Data\CustomerSearchResultsInterface"
-                type="Magento\Framework\Service\V1\Data\SearchResults" />
+                type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Customer\Api\Data\AddressSearchResultsInterface"
-                type="Magento\Framework\Service\V1\Data\SearchResults" />
+                type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
@@ -112,7 +112,7 @@
             <argument name="url" xsi:type="object">Magento\Framework\Url</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>
@@ -122,7 +122,7 @@
             <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Customer\Service\Config\AddressMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Customer\Service\Config\AddressMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>

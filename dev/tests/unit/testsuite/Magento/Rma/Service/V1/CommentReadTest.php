@@ -23,17 +23,17 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $rmaServiceCommentReadMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\FilterBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\Filter | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\Filter | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterMock;
 
@@ -53,7 +53,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $searchResultsBuilderMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteria | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteria | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaMock;
 
@@ -95,22 +95,22 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     {
         $this->rmaRepositoryMock = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
 
-        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteriaBuilder')
+        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteriaBuilder')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->filterBuilderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\FilterBuilder')
+        $this->filterBuilderMock = $this->getMockBuilder('Magento\Framework\Api\FilterBuilder')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->filterMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\Filter')
+        $this->filterMock = $this->getMockBuilder('Magento\Framework\Api\Filter')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->searchCriteriaMock = $this->getMockBuilder('\Magento\Framework\Data\SearchCriteria')
+        $this->searchCriteriaMock = $this->getMockBuilder('\Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();

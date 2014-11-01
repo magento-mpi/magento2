@@ -9,8 +9,8 @@ namespace Magento\GiftWrapping\Model\System\Config\Source\TaxClass;
 
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
 use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Framework\Data\SearchCriteriaBuilder;
-use \Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use \Magento\Framework\Api\FilterBuilder;
 
 class Product implements \Magento\Framework\Option\ArrayInterface
 {
@@ -25,7 +25,7 @@ class Product implements \Magento\Framework\Option\ArrayInterface
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
