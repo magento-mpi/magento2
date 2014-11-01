@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Data;
+namespace Magento\Framework\Api\Data;
 
 /**
  * TODO: Temporary search criteria builder builder

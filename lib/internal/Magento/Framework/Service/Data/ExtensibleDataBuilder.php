@@ -8,12 +8,12 @@
 
 namespace Magento\Framework\Service\Data;
 
-use Magento\Framework\Data\ExtensibleDataBuilderInterface;
+use Magento\Framework\Api\Data\ExtensibleDataBuilderInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 
 /**
- * Implementation for \Magento\Framework\Data\ExtensibleDataBuilderInterface.
+ * Implementation for \Magento\Framework\Api\Data\ExtensibleDataBuilderInterface.
  */
 class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
 {
@@ -70,7 +70,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Data\AttributeInterface $attribute)
+    public function setCustomAttribute(\Magento\Framework\Api\Data\AttributeInterface $attribute)
     {
         // Store as an associative array for easier lookup and processing
         $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]

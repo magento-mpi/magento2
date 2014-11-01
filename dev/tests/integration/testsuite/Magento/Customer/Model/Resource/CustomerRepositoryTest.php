@@ -9,7 +9,7 @@
 namespace Magento\Customer\Model\Resource;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Framework\Data\SearchCriteriaInterface;
+use Magento\Framework\Api\Data\SearchCriteriaInterface;
 
 class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,9 +102,9 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomers($filters, $filterGroup, $expectedResult)
     {
-        /** @var \Magento\Framework\Data\SearchCriteriaDataBuilder $searchBuilder */
+        /** @var \Magento\Framework\Api\Data\SearchCriteriaDataBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Data\SearchCriteriaDataBuilder');
+            ->create('Magento\Framework\Api\Data\SearchCriteriaDataBuilder');
         foreach ($filters as $filter) {
             $searchBuilder->addFilter([$filter]);
         }
@@ -170,9 +170,9 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomersOrder()
     {
-        /** @var \Magento\Framework\Data\SearchCriteriaDataBuilder $searchBuilder */
+        /** @var \Magento\Framework\Api\Data\SearchCriteriaDataBuilder $searchBuilder */
         $objectManager = Bootstrap::getObjectManager();
-        $searchBuilder = $objectManager->create('Magento\Framework\Data\SearchCriteriaDataBuilder');
+        $searchBuilder = $objectManager->create('Magento\Framework\Api\Data\SearchCriteriaDataBuilder');
 
         // Filter for 'firstname' like 'First'
         $filterBuilder = $objectManager->create('\Magento\Framework\Service\V1\Data\FilterBuilder');

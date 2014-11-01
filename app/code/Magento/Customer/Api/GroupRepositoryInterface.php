@@ -43,11 +43,11 @@ interface GroupRepositoryInterface
      * The list of groups can be filtered to exclude the NOT_LOGGED_IN group using the first parameter and/or it can
      * be filtered by tax class.
      *
-     * @param \Magento\Framework\Data\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\GroupSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Data\SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete customer group.

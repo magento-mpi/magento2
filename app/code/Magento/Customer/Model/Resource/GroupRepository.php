@@ -10,7 +10,7 @@ namespace Magento\Customer\Model\Resource;
 
 use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Customer\Model\Resource\Group\Collection;
-use Magento\Framework\Data\SearchCriteriaInterface;
+use Magento\Framework\Api\Data\SearchCriteriaInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;

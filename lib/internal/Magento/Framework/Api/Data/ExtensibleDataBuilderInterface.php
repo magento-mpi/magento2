@@ -6,20 +6,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Data;
+namespace Magento\Framework\Api\Data;
 
 /**
- * Base builder interface for \Magento\Framework\Data\ExtensibleDataInterface types.
+ * Base builder interface for \Magento\Framework\Api\Data\ExtensibleDataInterface types.
  */
 interface ExtensibleDataBuilderInterface
 {
     /**
      * Set custom attribute value.
      *
-     * @param \Magento\Framework\Data\AttributeInterface $attribute
+     * @param \Magento\Framework\Api\Data\AttributeInterface $attribute
      * @return $this
      */
-    public function setCustomAttribute(\Magento\Framework\Data\AttributeInterface $attribute);
+    public function setCustomAttribute(\Magento\Framework\Api\Data\AttributeInterface $attribute);
 
     /**
      * Set array of custom attributes
@@ -33,7 +33,7 @@ interface ExtensibleDataBuilderInterface
     /**
      * Return created DataInterface object
      *
-     * @return \Magento\Framework\Data\ExtensibleDataInterface
+     * @return \Magento\Framework\Api\Data\ExtensibleDataInterface
      */
     public function create();
 }

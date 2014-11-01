@@ -11,7 +11,7 @@ namespace Magento\Customer\Api\Data;
 /**
  * Interface for customer search results.
  */
-interface CustomerSearchResultsInterface extends \Magento\Framework\Data\SearchResultsInterface
+interface CustomerSearchResultsInterface extends \Magento\Framework\Api\Data\SearchResultsInterface
 {
     /**
      * Get customers list.
