@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model;
+namespace Magento\Framework\Reflection;
 
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
@@ -14,7 +14,6 @@ use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
-use Magento\Framework\Reflection\TypeProcessor;
 use Magento\Webapi\Model\Cache\Type as WebapiCache;
 
 /**

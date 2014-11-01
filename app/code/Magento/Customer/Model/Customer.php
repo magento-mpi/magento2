@@ -12,8 +12,7 @@ use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Model\Data\CustomerBuilder;
 use Magento\Customer\Model\Data\Customer as CustomerData;
-use Magento\Customer\Api\CustomerMetadataInterface;
-use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Framework\Reflection\DataObjectProcessor;
 
 /**
  * Customer model

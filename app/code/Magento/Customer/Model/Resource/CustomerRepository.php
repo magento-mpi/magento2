@@ -20,7 +20,7 @@ use Magento\Framework\Data\SearchCriteriaInterface;
 class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInterface
 {
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $dataProcessor;
 
@@ -80,7 +80,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     protected $storeManager;
 
     /**
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
@@ -94,7 +94,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
