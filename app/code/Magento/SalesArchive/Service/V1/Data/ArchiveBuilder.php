@@ -13,7 +13,7 @@ namespace Magento\SalesArchive\Service\V1\Data;
  *
  * @codeCoverageIgnore
  */
-class ArchiveBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class ArchiveBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * @param string $baseCurrencyCode

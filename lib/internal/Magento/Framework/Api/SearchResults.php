@@ -11,7 +11,7 @@ namespace Magento\Framework\Api;
 /**
  * SearchResults Service Data Object used for the search service requests
  */
-class SearchResults extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class SearchResults extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     const KEY_ITEMS = 'items';
     const KEY_SEARCH_CRITERIA = 'search_criteria';
@@ -20,7 +20,7 @@ class SearchResults extends \Magento\Framework\Service\Data\AbstractExtensibleOb
     /**
      * Get items
      *
-     * @return \Magento\Framework\Service\Data\AbstractExtensibleObject[]
+     * @return \Magento\Framework\Api\AbstractExtensibleObject[]
      */
     public function getItems()
     {

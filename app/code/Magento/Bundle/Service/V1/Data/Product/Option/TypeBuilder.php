@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product\Option;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore

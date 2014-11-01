@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule3\Service\V1\Entity;
 
-class WrappedErrorParameterBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class WrappedErrorParameterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * Set field name.

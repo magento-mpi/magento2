@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api\Search;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * Groups two or more filters together using a logical OR

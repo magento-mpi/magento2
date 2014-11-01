@@ -11,7 +11,7 @@ namespace Magento\Framework\Api;
 /**
  * Filter which can be used by any methods from service layer.
  */
-class Filter extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Filter extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * Get field

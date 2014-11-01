@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Model\Data;
 
-class ValidationRule extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class ValidationRule extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\ValidationRuleInterface
 {
     /**

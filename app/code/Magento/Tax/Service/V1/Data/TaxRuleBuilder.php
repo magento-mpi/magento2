@@ -7,10 +7,10 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Builder for the TaxRule Service Data Object

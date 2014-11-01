@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
 
 class SimpleBuilder extends AbstractExtensibleObjectBuilder
 {

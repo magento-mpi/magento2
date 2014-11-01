@@ -304,7 +304,7 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
         $scope->expects($this->any())->method('getId')->will($this->returnValue($websiteId));
         $this->scopeResolver->expects($this->any())->method('getScope')->will($this->returnValue($scope));
 
-        $builder = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder')
+        $builder = $this->getMockBuilder('Magento\Framework\Api\AbstractExtensibleObjectBuilder')
             ->disableOriginalConstructor()
             ->getMock();
         $builder->expects($this->any())->method('getData')->will($this->returnValue($criteriaData));
@@ -323,7 +323,7 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new \ArrayIterator([$statusItem])));
         $this->itemsFactory->expects($this->once())->method('create')->will($this->returnValue($collection));
 
-        /** @var \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder $builder */
+        /** @var \Magento\Framework\Api\AbstractExtensibleObjectBuilder $builder */
         $lowStockCriteria = new Data\LowStockCriteria($builder);
 
         // Expected results

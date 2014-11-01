@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 class ObjectFactory
 {

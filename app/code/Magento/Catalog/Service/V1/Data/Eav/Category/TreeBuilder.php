@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore

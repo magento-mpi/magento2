@@ -36,7 +36,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_serializerMock;
 
-    /** @var \Magento\Framework\Service\DataObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ApiObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_dataObjectProcessorMock;
 
     /** @var array */

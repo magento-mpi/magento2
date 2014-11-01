@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeMetadataBuilderInterface;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Class AttributeMetadataBuilder
@@ -39,7 +39,7 @@ class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implement
     /**
      * Initializes builder.
      *
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param OptionBuilder $optionBuilder
@@ -47,7 +47,7 @@ class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implement
      * @param Product\Attribute\FrontendLabelBuilder $frontendLabelBuilder
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         OptionBuilder $optionBuilder,

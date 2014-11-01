@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 use Magento\Framework\Api\ExtensibleDataBuilderInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
@@ -126,7 +126,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
             return $this->customAttributesCodes;
         }
         $attributeCodes = [];
-        /** @var \Magento\Framework\Service\Data\MetadataObjectInterface[] $customAttributesMetadata */
+        /** @var \Magento\Framework\Api\MetadataObjectInterface[] $customAttributesMetadata */
         $customAttributesMetadata = $this->metadataService
             ->getCustomAttributesMetadata($this->modelClassInterface);
         if (is_array($customAttributesMetadata)) {

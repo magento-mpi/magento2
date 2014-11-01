@@ -48,11 +48,11 @@ class SearchResultsBuilder extends EntityAbstract
             'parameters' => [
                 [
                     'name' => 'objectFactory',
-                    'type' => '\\Magento\Framework\Service\Data\ObjectFactory'
+                    'type' => '\\Magento\Framework\Api\ObjectFactory'
                 ],
                 [
                     'name' => 'valueBuilder',
-                    'type' => '\\Magento\Framework\Service\Data\AttributeValueBuilder'
+                    'type' => '\\Magento\Framework\Api\AttributeValueBuilder'
                 ],
                 [
                     'name' => 'metadataService',

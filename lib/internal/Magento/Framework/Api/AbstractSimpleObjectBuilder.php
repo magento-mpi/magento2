@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Base Builder Class for simple data Objects

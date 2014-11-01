@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
 class Simple extends AbstractExtensibleObject
 {

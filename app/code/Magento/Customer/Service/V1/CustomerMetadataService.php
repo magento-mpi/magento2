@@ -132,7 +132,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (!$this->customerDataObjectMethods) {
             $dataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
             $baseClassDataObjectMethods = array_flip(
-                get_class_methods('Magento\Framework\Service\Data\AbstractExtensibleObject')
+                get_class_methods('Magento\Framework\Api\AbstractExtensibleObject')
             );
             $this->customerDataObjectMethods = array_diff_key($dataObjectMethods, $baseClassDataObjectMethods);
         }

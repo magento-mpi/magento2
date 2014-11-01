@@ -11,7 +11,7 @@ namespace Magento\Customer\Model\Data;
 /**
  * Customer Group data model.
  */
-class Group extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class Group extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\GroupInterface
 {
     /**

@@ -24,7 +24,7 @@ interface ExtensibleDataBuilderInterface
     /**
      * Set array of custom attributes
      *
-     * @param \Magento\Framework\Service\Data\AttributeValue[] $attributes
+     * @param \Magento\Framework\Api\AttributeValue[] $attributes
      * @return $this
      * @throws \LogicException If array elements are not of AttributeValue type
      */

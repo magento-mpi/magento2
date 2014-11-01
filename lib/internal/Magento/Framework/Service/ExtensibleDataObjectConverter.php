@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\Service;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Convert\ConvertArray;
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\AttributeValue;
 
 /**
  * Class to convert Extensible Data Object array to flat array

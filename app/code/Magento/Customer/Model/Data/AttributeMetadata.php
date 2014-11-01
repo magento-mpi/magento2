@@ -11,7 +11,7 @@ namespace Magento\Customer\Model\Data;
 /**
  * Customer attribute metadata class.
  */
-class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class AttributeMetadata extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\AttributeMetadataInterface
 {
     /**

@@ -203,7 +203,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
@@ -225,7 +225,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,

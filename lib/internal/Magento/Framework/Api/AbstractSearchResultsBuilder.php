@@ -8,10 +8,10 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Builder for the SearchResults Service Data Object
@@ -80,7 +80,7 @@ abstract class AbstractSearchResultsBuilder extends AbstractExtensibleObjectBuil
     /**
      * Set items
      *
-     * @param \Magento\Framework\Service\Data\AbstractExtensibleObject[] $items
+     * @param \Magento\Framework\Api\AbstractExtensibleObject[] $items
      * @return $this
      */
     public function setItems($items)

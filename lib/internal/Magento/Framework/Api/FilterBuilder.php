@@ -13,7 +13,7 @@ namespace Magento\Framework\Api;
  *
  * @method Filter create()
  */
-class FilterBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * Set field

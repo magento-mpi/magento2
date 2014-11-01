@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
@@ -24,7 +24,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\AttributeValue|null null if the attribute has not been set
+     * @return \Magento\Framework\Api\AttributeValue|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -37,7 +37,7 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
+     * @return \Magento\Framework\Api\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {

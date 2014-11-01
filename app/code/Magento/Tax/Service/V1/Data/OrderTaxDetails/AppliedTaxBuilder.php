@@ -12,7 +12,7 @@ namespace Magento\Tax\Service\V1\Data\OrderTaxDetails;
  *
  * @method AppliedTax create()
  */
-class AppliedTaxBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class AppliedTaxBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * Set tax rate code

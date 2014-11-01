@@ -96,7 +96,7 @@ class DataBuilder extends EntityAbstract
                 'name' => '__construct',
                 'parameters' => [
                     ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
-                    ['name' => 'metadataService', 'type' => '\Magento\Framework\Service\Data\MetadataServiceInterface'],
+                    ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
                     ['name' => 'valueBuilder', 'type' => '\Magento\Framework\Api\AttributeDataBuilder'],
                 ],
                 'docblock' => [
@@ -232,9 +232,9 @@ class DataBuilder extends EntityAbstract
             ->addMethods($this->_getClassMethods())
             ->setClassDocBlock($this->_getClassDocBlock());
         if ($this->getDataType() == self::TYPE_DATA_MODEL) {
-            $this->_classGenerator->setExtendedClass('\Magento\Framework\Service\Data\ExtensibleDataBuilder');
+            $this->_classGenerator->setExtendedClass('\Magento\Framework\Api\ExtensibleDataBuilder');
         } else if ($this->getDataType() == self::TYPE_DATA_OBJECT) {
-            $this->_classGenerator->setExtendedClass('\Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder');
+            $this->_classGenerator->setExtendedClass('\Magento\Framework\Api\AbstractExtensibleObjectBuilder');
         }
         return $this->_getGeneratedCode();
     }
@@ -262,7 +262,7 @@ class DataBuilder extends EntityAbstract
                     "Preference for {$this->_getSourceClassName()} is not defined."
                 );
             }
-            if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Service\Data\AbstractSimpleObject')) {
+            if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Api\AbstractSimpleObject')) {
                 $this->currentDataType = self::TYPE_DATA_OBJECT;
             } else if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {
                 $this->currentDataType = self::TYPE_DATA_MODEL;

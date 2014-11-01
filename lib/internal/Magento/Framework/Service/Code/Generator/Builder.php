@@ -62,7 +62,7 @@ class Builder extends EntityAbstract
                     $method->getName(),
                     array('__sleep', '__wakeup', '__clone')
                 ) &&
-                $method->class !== 'Magento\Framework\Service\Data\AbstractExtensibleObject'
+                $method->class !== 'Magento\Framework\Api\AbstractExtensibleObject'
             ) {
                 if (substr($method->getName(), 0, 3) == 'get') {
                     $methods[] = $this->_getMethodInfo($reflectionClass, $method);
@@ -135,7 +135,7 @@ class Builder extends EntityAbstract
             $this->_getClassMethods()
         )->setClassDocBlock(
             $this->_getClassDocBlock()
-        )->setExtendedClass('\\Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder');
+        )->setExtendedClass('\\Magento\Framework\Api\AbstractExtensibleObjectBuilder');
 
         return $this->_getGeneratedCode();
     }

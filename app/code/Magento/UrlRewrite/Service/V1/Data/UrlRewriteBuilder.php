@@ -7,7 +7,7 @@
  */
 namespace Magento\UrlRewrite\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
 
 /**
  * Data builder class for url rewrite

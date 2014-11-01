@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\Service\Config;
 
-use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
-use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
+use Magento\Framework\Api\AttributeMetadataBuilderInterface;
 
 /**
  * Class which allows to get a metadata of the attributes declared in a config.
@@ -65,7 +65,7 @@ class MetadataConfig implements MetadataServiceInterface
      * Get custom attribute metadata for the given class/interface.
      *
      * @param string $dataObjectClassName
-     * @return \Magento\Framework\Service\Data\MetadataObjectInterface[]
+     * @return \Magento\Framework\Api\MetadataObjectInterface[]
      */
     protected function getAttributesMetadata($dataObjectClassName)
     {

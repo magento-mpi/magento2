@@ -70,7 +70,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param GroupDataBuilder $groupBuilder
      * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
@@ -82,7 +82,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Store\Model\StoresConfig $storesConfig,
         GroupDataBuilder $groupBuilder,
         \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,

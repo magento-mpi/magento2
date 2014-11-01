@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Model;
 
-use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
@@ -72,7 +72,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
+     * @return \Magento\Framework\Api\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {
@@ -86,7 +86,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Service\Data\AttributeValue|null null if the attribute has not been set
+     * @return \Magento\Framework\Api\AttributeValue|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
@@ -164,7 +164,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         $attributeCodes = [];
         $customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata(get_class($this));
         if (is_array($customAttributesMetadata)) {
-            /** @var $attribute \Magento\Framework\Service\Data\MetadataObjectInterface */
+            /** @var $attribute \Magento\Framework\Api\MetadataObjectInterface */
             foreach ($customAttributesMetadata as $attribute) {
                 // Create a map for easier processing
                 $attributeCodes[$attribute->getAttributeCode()] = $attribute->getAttributeCode();

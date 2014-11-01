@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Custom Attribute Data object builder

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Base Builder Class for extensible data Objects
@@ -30,12 +30,12 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
     protected $customAttributesCodes = null;
 
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService
     ) {
@@ -47,7 +47,7 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
     /**
      * Set array of custom attributes
      *
-     * @param \Magento\Framework\Service\Data\AttributeValue[] $attributes
+     * @param \Magento\Framework\Api\AttributeValue[] $attributes
      * @return $this
      * @throws \LogicException If array elements are not of AttributeValue type
      */

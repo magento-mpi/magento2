@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data;
+namespace Magento\Framework\Api;
 
 interface MetadataServiceInterface
 {
@@ -14,7 +14,7 @@ interface MetadataServiceInterface
      *  Get custom attribute metadata for the given class or interfaces it implements.
      *
      * @param string|null $dataObjectClassName Data object class name
-     * @return \Magento\Framework\Service\Data\MetadataObjectInterface[]
+     * @return \Magento\Framework\Api\MetadataObjectInterface[]
      */
     public function getCustomAttributesMetadata($dataObjectClassName = null);
 }

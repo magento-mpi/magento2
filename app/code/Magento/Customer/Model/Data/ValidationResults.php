@@ -12,7 +12,7 @@ namespace Magento\Customer\Model\Data;
 /**
  * Validation results data model.
  */
-class ValidationResults extends \Magento\Framework\Service\Data\AbstractExtensibleObject implements
+class ValidationResults extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Customer\Api\Data\ValidationResultsInterface
 {
     /**

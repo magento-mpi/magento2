@@ -12,7 +12,7 @@ use Magento\GiftWrapping\Service\V1\Data\Wrapping as WrappingData;
 /**
  * @codeCoverageIgnore
  */
-class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class WrappingBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * @param int $id

@@ -69,7 +69,7 @@
     <preference for="Magento\Framework\View\Page\FaviconInterface" type="Magento\Theme\Model\Favicon\Favicon" />
     <preference for="Magento\Framework\Api\SearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Framework\Api\SearchCriteriaInterface" type="Magento\Framework\Api\SearchCriteria" />
-    <preference for="Magento\Framework\Api\AttributeInterface" type="Magento\Framework\Service\Data\AttributeValue" />
+    <preference for="Magento\Framework\Api\AttributeInterface" type="Magento\Framework\Api\AttributeValue" />
     <type name="Magento\Framework\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">

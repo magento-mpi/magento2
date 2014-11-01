@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Service\V1\Data\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**

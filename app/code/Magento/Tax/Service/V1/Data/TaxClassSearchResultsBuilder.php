@@ -8,9 +8,9 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\AbstractSearchResultsBuilder;
 

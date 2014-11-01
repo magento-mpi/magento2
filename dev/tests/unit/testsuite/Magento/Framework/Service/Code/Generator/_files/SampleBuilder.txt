@@ -3,7 +3,7 @@ namespace \Magento\Framework\Service\Code\Generator;
 /**
  * Builder class for \Magento\Framework\Service\Code\Generator\Sample
  */
-class SampleBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class SampleBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * {@inheritdoc}

@@ -11,7 +11,7 @@ namespace Magento\Webapi\Model;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Service\SimpleDataObjectConverter;
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;

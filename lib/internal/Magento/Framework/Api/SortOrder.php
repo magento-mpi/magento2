@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * Data object for sort order.

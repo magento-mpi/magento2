@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SortOrder;
 
@@ -25,13 +25,13 @@ class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
     protected $_filterGroupBuilder;
 
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param FilterGroupBuilder $filterGroupBuilder
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         FilterGroupBuilder $filterGroupBuilder
