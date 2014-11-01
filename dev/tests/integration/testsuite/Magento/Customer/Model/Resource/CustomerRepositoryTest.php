@@ -91,8 +91,8 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Framework\Service\V1\Data\Filter[] $filters
-     * @param \Magento\Framework\Service\V1\Data\Filter[] $filterGroup
+     * @param \Magento\Framework\Api\Filter[] $filters
+     * @param \Magento\Framework\Api\Filter[] $filterGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
@@ -125,7 +125,7 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function searchCustomersDataProvider()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Api\FilterBuilder');
         return [
             'Customer with specific email' => [
                 [$builder->setField('email')->setValue('customer@search.example.com')->create()],
@@ -175,14 +175,14 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
         $searchBuilder = $objectManager->create('Magento\Framework\Api\SearchCriteriaDataBuilder');
 
         // Filter for 'firstname' like 'First'
-        $filterBuilder = $objectManager->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = $objectManager->create('\Magento\Framework\Api\FilterBuilder');
         $firstnameFilter = $filterBuilder->setField('firstname')
             ->setConditionType('like')
             ->setValue('First%')
             ->create();
         $searchBuilder->addFilter([$firstnameFilter]);
         // Search ascending order
-        $sortOrderBuilder = $objectManager->create('\Magento\Framework\Service\V1\Data\SortOrderBuilder');
+        $sortOrderBuilder = $objectManager->create('\Magento\Framework\Api\SortOrderBuilder');
         $sortOrder = $sortOrderBuilder
             ->setField('lastname')
             ->setDirection(SearchCriteriaInterface::SORT_ASC)

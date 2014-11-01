@@ -10,11 +10,11 @@ namespace Magento\Framework\Service;
 
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Exception;
-use Magento\Framework\Service\V1\Data\Filter;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Framework\Service\V1\Data\SortOrderBuilder;
+use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SortOrderBuilder;
 
 /**
  * Base for service collections
@@ -48,7 +48,7 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SortOrderBuilder
+     * @var \Magento\Framework\Api\SortOrderBuilder
      */
     protected $sortOrderBuilder;
 
@@ -56,7 +56,7 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
      * @param EntityFactoryInterface $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder
+     * @param \Magento\Framework\Api\SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         EntityFactoryInterface $entityFactory,
@@ -142,7 +142,7 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
             $this->searchCriteriaBuilder->addFilter($filterGroup);
         }
         foreach ($this->_orders as $field => $direction) {
-            /** @var \Magento\Framework\Service\V1\Data\SortOrder $sortOrder */
+            /** @var \Magento\Framework\Api\SortOrder $sortOrder */
             /** @var string $direction */
             $direction = ($direction == 'ASC') ? SearchCriteria::SORT_ASC : SearchCriteria::SORT_DESC;
             $sortOrder = $this->sortOrderBuilder->setField($field)->setDirection($direction)->create();

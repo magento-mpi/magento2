@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\V1\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Filter which can be used by any methods from service layer.

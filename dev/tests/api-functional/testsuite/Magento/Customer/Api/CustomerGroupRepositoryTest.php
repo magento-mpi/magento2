@@ -1169,9 +1169,9 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
      */
     public function testSearchGroups($filterField, $filterValue, $expectedResult)
     {
-        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Api\SearchCriteriaBuilder');
         $filter = $filterBuilder
                     ->setField($filterField)
                     ->setValue($filterValue)
@@ -1217,9 +1217,9 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
     public function testSearchGroupsWithGET($filterField, $filterValue, $expectedResult)
     {
         $this->_markTestAsRestOnly('SOAP is covered in ');
-        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
         $searchCriteriaBuilder =  Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Api\SearchCriteriaBuilder');
         $filter = $filterBuilder
             ->setField($filterField)
             ->setValue($filterValue)

@@ -1,6 +1,6 @@
 namespace \Magento\Framework\Service\Code\Generator;
 
-class SampleSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
+class SampleSearchResults extends \Magento\Framework\Api\SearchResults
 {
     /**
      * Returns array of items

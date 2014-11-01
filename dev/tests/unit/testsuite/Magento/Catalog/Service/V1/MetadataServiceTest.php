@@ -139,7 +139,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->attributeCollection));
 
-        $searchCriteria = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
+        $searchCriteria = $this->getMockBuilder('\Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()
             ->setMethods(['getFilterGroups'])
             ->getMock();

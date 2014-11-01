@@ -24,7 +24,7 @@ class SearchResultsBuilder extends EntityAbstract
     /**
      * Search result builder abstract class
      */
-    const SEARCH_RESULT_BUILDER = '\\Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder';
+    const SEARCH_RESULT_BUILDER = '\\Magento\Framework\Api\AbstractSearchResultsBuilder';
 
     /**
      * Retrieve class properties
@@ -60,7 +60,7 @@ class SearchResultsBuilder extends EntityAbstract
                 ],
                 [
                     'name' => 'searchCriteriaBuilder',
-                    'type' => '\\Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+                    'type' => '\\Magento\Framework\Api\SearchCriteriaBuilder'
                 ],
                 [
                     'name' => 'itemObjectBuilder',

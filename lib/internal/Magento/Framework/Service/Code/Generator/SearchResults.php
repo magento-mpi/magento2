@@ -25,7 +25,7 @@ class SearchResults extends EntityAbstract
     /**
      * Search result default class
      */
-    const SEARCH_RESULT = '\\Magento\Framework\Service\V1\Data\SearchResults';
+    const SEARCH_RESULT = '\\Magento\Framework\Api\SearchResults';
 
     /**
      * Retrieve class properties

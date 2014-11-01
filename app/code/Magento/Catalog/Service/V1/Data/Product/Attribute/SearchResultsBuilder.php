@@ -12,7 +12,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Data\ObjectFactory;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**
  * Builder for the SearchResults Service Data Object
@@ -20,7 +20,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
  * @method \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResults create()
  * @codeCoverageIgnore
  */
-class SearchResultsBuilder extends \Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder
+class SearchResultsBuilder extends \Magento\Framework\Api\AbstractSearchResultsBuilder
 {
     /**
      * Constructor

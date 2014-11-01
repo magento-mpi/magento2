@@ -19,14 +19,14 @@ interface SearchCriteriaInterface
     /**
      * Get a list of filter groups.
      *
-     * @return \Magento\Framework\Service\V1\Data\Search\FilterGroup[]
+     * @return \Magento\Framework\Api\Search\FilterGroup[]
      */
     public function getFilterGroups();
 
     /**
      * Get sort order.
      *
-     * @return \Magento\Framework\Service\V1\Data\SortOrder[]|null
+     * @return \Magento\Framework\Api\SortOrder[]|null
      */
     public function getSortOrders();
 

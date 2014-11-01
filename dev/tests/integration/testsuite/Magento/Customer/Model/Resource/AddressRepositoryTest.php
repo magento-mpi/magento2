@@ -131,8 +131,8 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Framework\Service\V1\Data\Filter[] $filters
-     * @param \Magento\Framework\Service\V1\Data\Filter[] $filterGroup
+     * @param \Magento\Framework\Api\Filter[] $filters
+     * @param \Magento\Framework\Api\Filter[] $filterGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchAddressDataProvider
@@ -143,9 +143,9 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchAddresses($filters, $filterGroup, $expectedResult)
     {
-        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Api\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
         foreach ($filters as $filter) {
             $searchBuilder->addFilter([$filter]);
@@ -178,7 +178,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function searchAddressDataProvider()
     {
-        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
         return [
             'Address with postcode 75477' => [
                 [$builder->setField('postcode')->setValue('75477')->create()],

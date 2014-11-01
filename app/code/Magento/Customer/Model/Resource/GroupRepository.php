@@ -13,7 +13,7 @@ use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassServiceInterface;
 
@@ -169,7 +169,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
         }
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
-        /** @var \Magento\Framework\Service\V1\Data\SortOrder $sortOrder */
+        /** @var \Magento\Framework\Api\SortOrder $sortOrder */
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $sortOrder) {
                 $field = $this->translateField($sortOrder->getField());

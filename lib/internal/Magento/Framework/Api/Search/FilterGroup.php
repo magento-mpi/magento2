@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\V1\Data\Search;
+namespace Magento\Framework\Api\Search;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
 
@@ -20,7 +20,7 @@ class FilterGroup extends AbstractExtensibleObject
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Framework\Service\V1\Data\Filter[]|null
+     * @return \Magento\Framework\Api\Filter[]|null
      */
     public function getFilters()
     {

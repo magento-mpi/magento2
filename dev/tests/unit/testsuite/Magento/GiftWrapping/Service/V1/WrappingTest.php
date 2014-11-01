@@ -188,10 +188,10 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     public function testSearch()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject $searchCriteria */
-        $searchCriteria = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
+        $searchCriteria = $this->getMockBuilder('Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         /** @var \PHPUnit_Framework_MockObject_MockObject $searchResults */
-        $searchResults = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchResults')
+        $searchResults = $this->getMockBuilder('Magento\Framework\Api\SearchResults')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         /** @var \Magento\GiftWrapping\Model\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingModel */
         $wrappingModel = $this->getMockBuilder('Magento\GiftWrapping\Model\Wrapping')->disableOriginalConstructor()

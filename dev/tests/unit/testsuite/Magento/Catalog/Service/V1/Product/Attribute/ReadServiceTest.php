@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Product\MetadataService;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase

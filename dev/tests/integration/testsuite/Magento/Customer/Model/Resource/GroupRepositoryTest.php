@@ -211,7 +211,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
     public function searchGroupsDataProvider()
     {
         $builder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\FilterBuilder');
+            ->create('Magento\Framework\Api\FilterBuilder');
         return [
             'eq' => [
                 [$builder->setField(GroupInterface::CODE)->setValue('General')->create()],

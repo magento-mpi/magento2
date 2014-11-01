@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\V1\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Builder for Filter Service Data Object.

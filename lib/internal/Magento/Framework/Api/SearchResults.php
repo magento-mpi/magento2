@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\V1\Data;
+namespace Magento\Framework\Api;
 
 /**
  * SearchResults Service Data Object used for the search service requests
@@ -30,7 +30,7 @@ class SearchResults extends \Magento\Framework\Service\Data\AbstractExtensibleOb
     /**
      * Get search criteria
      *
-     * @return \Magento\Framework\Service\V1\Data\SearchCriteria
+     * @return \Magento\Framework\Api\SearchCriteria
      */
     public function getSearchCriteria()
     {

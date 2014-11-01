@@ -19,12 +19,12 @@ class MetadataService implements MetadataServiceInterface
     protected $metadataService;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     private $filterBuilder;
 
@@ -37,14 +37,14 @@ class MetadataService implements MetadataServiceInterface
      * Initialize dependencies.
      *
      * @param \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param MetadataConfig $metadataConfig
      */
     public function __construct(
         \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         MetadataConfig $metadataConfig
     ) {
         $this->metadataService = $metadataService;

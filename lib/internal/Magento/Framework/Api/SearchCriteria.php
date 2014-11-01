@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\V1\Data;
+namespace Magento\Framework\Api;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -27,7 +27,7 @@ class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaI
     /**
      * Get a list of filter groups.
      *
-     * @return \Magento\Framework\Service\V1\Data\Search\FilterGroup[]
+     * @return \Magento\Framework\Api\Search\FilterGroup[]
      */
     public function getFilterGroups()
     {
@@ -37,7 +37,7 @@ class SearchCriteria extends AbstractExtensibleObject implements SearchCriteriaI
     /**
      * Get sort order.
      *
-     * @return \Magento\Framework\Service\V1\Data\SortOrder[]|null
+     * @return \Magento\Framework\Api\SortOrder[]|null
      */
     public function getSortOrders()
     {

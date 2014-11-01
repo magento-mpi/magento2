@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\V1\Data;
+namespace Magento\Framework\Api;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
-use Magento\Framework\Service\V1\Data\SortOrder;
+use Magento\Framework\Api\Search\FilterGroupBuilder;
+use Magento\Framework\Api\SortOrder;
 
 /**
  * Builder for SearchCriteria Service Data Object
@@ -57,7 +57,7 @@ class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Create a filter group based on the filter array provided and add to the filter groups
      *
-     * @param \Magento\Framework\Service\V1\Data\Filter[] $filter
+     * @param \Magento\Framework\Api\Filter[] $filter
      * @return $this
      */
     public function addFilter(array $filter)
@@ -69,7 +69,7 @@ class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Set filter groups
      *
-     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup[] $filterGroups
+     * @param \Magento\Framework\Api\Search\FilterGroup[] $filterGroups
      * @return $this
      */
     public function setFilterGroups(array $filterGroups)
