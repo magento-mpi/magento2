@@ -9,7 +9,7 @@
 namespace Magento\Framework\Model;
 
 use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Api\Data\ExtensibleDataInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Abstract model with custom attributes support.

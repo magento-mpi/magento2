@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Service\Data;
 
-use Magento\Framework\Api\Data\ExtensibleDataInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Base Class for extensible data Objects

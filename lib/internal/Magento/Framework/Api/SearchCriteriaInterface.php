@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Api\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Search criteria interface.

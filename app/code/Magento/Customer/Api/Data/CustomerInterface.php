@@ -9,7 +9,7 @@
 
 namespace Magento\Customer\Api\Data;
 
-use Magento\Framework\Api\Data\ExtensibleDataInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Customer interface.

@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\Data;
 
-use Magento\Framework\Api\Data\AttributeInterface;
+use Magento\Framework\Api\AttributeInterface;
 
 /**
  * Custom Attribute Data object

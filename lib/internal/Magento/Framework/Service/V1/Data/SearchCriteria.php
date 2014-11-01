@@ -9,7 +9,7 @@
 namespace Magento\Framework\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Api\Data\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Data Object for SearchCriteria

@@ -97,7 +97,7 @@ class DataBuilder extends EntityAbstract
                 'parameters' => [
                     ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
                     ['name' => 'metadataService', 'type' => '\Magento\Framework\Service\Data\MetadataServiceInterface'],
-                    ['name' => 'valueBuilder', 'type' => '\Magento\Framework\Data\AttributeDataBuilder'],
+                    ['name' => 'valueBuilder', 'type' => '\Magento\Framework\Api\AttributeDataBuilder'],
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
@@ -282,7 +282,7 @@ class DataBuilder extends EntityAbstract
     protected function getExtensibleInterfaceMethods()
     {
         if ($this->extensibleInterfaceMethods === null) {
-            $interfaceReflection = new ClassReflection('Magento\Framework\Api\Data\ExtensibleDataInterface');
+            $interfaceReflection = new ClassReflection('Magento\Framework\Api\ExtensibleDataInterface');
             $methodsReflection = $interfaceReflection->getMethods();
             $this->extensibleInterfaceMethods = [];
             foreach ($methodsReflection as $methodReflection) {

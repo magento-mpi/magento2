@@ -8,12 +8,12 @@
 
 namespace Magento\Framework\Service\Data;
 
-use Magento\Framework\Api\Data\ExtensibleDataBuilderInterface;
+use Magento\Framework\Api\ExtensibleDataBuilderInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
 
 /**
- * Implementation for \Magento\Framework\Api\Data\ExtensibleDataBuilderInterface.
+ * Implementation for \Magento\Framework\Api\ExtensibleDataBuilderInterface.
  */
 class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
 {
@@ -43,7 +43,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     protected $customAttributesCodes = null;
 
     /**
-     * @var \Magento\Framework\Data\AttributeDataBuilder
+     * @var \Magento\Framework\Api\AttributeDataBuilder
      */
     protected $valueBuilder;
 
@@ -52,13 +52,13 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      *
      * @param ObjectManager $objectManager
      * @param MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\Data\AttributeDataBuilder $valueBuilder
+     * @param \Magento\Framework\Api\AttributeDataBuilder $valueBuilder
      * @param string $modelClassInterface
      */
     public function __construct(
         ObjectManager $objectManager,
         MetadataServiceInterface $metadataService,
-        \Magento\Framework\Data\AttributeDataBuilder $valueBuilder,
+        \Magento\Framework\Api\AttributeDataBuilder $valueBuilder,
         $modelClassInterface
     ) {
         $this->objectManager = $objectManager;
@@ -70,7 +70,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Api\Data\AttributeInterface $attribute)
+    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
     {
         // Store as an associative array for easier lookup and processing
         $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]

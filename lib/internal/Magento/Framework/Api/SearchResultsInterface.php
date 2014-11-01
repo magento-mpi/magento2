@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Api\Data;
+namespace Magento\Framework\Api;
 
 /**
  * Search results interface.
@@ -16,14 +16,14 @@ interface SearchResultsInterface
     /**
      * Get items list.
      *
-     * @return \Magento\Framework\Api\Data\ExtensibleDataInterface[]
+     * @return \Magento\Framework\Api\ExtensibleDataInterface[]
      */
     public function getItems();
 
     /**
      * Get search criteria.
      *
-     * @return \Magento\Framework\Api\Data\SearchCriteriaInterface
+     * @return \Magento\Framework\Api\SearchCriteriaInterface
      */
     public function getSearchCriteria();
 

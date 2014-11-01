@@ -12,7 +12,7 @@ use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Data\CustomerSecure;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Api\Data\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Customer repository.
