@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Model\Config\ClassReflector;
+namespace Magento\Framework\Reflection;
 
 use Zend\Code\Reflection\ClassReflection;
 use Magento\Webapi\Exception as WebapiException;

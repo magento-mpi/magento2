@@ -14,7 +14,7 @@ use Magento\Framework\Service\SimpleDataObjectConverter;
 use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
-use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
+use Magento\Framework\Reflection\TypeProcessor;
 use Magento\Webapi\Model\Cache\Type as WebapiCache;
 
 /**
