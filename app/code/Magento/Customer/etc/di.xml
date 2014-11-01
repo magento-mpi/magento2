@@ -112,7 +112,7 @@
             <argument name="url" xsi:type="object">Magento\Framework\Url</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>
@@ -122,7 +122,7 @@
             <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Customer\Service\Config\AddressMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Customer\Service\Config\AddressMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>

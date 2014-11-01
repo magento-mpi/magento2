@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Framework\Code\Generator\Io;
 use Magento\TestFramework\Helper\ObjectManager;
@@ -20,9 +20,9 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
      * The test is based on assumption that the classes will be injecting "DataBuilder" as dependency which will
      * indicate the compiler to identify and code generate based on ExtensibleSample implementations' interface
      */
-    const SOURCE_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\ExtensibleSample';
-    const RESULT_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\ExtensibleSampleDataBuilder';
-    const GENERATOR_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\DataBuilder';
+    const SOURCE_CLASS_NAME = 'Magento\Framework\Api\Code\Generator\ExtensibleSample';
+    const RESULT_CLASS_NAME = 'Magento\Framework\Api\Code\Generator\ExtensibleSampleDataBuilder';
+    const GENERATOR_CLASS_NAME = 'Magento\Framework\Api\Code\Generator\DataBuilder';
     const OUTPUT_FILE_NAME = 'ExtensibleSampleDataBuilder.php';
     /**
      * @var Io | \PHPUnit_Framework_MockObject_MockObject

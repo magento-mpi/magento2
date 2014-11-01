@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Framework\Code\Generator\EntityAbstract;
 
@@ -56,7 +56,7 @@ class SearchResultsBuilder extends EntityAbstract
                 ],
                 [
                     'name' => 'metadataService',
-                    'type' => '\\Magento\Framework\Service\Config\MetadataConfig'
+                    'type' => '\\Magento\Framework\Api\Config\MetadataConfig'
                 ],
                 [
                     'name' => 'searchCriteriaBuilder',

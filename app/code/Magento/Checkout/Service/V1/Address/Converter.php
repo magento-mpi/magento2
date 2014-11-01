@@ -12,7 +12,7 @@ use Magento\Checkout\Service\V1\Data\Cart\AddressBuilder;
 use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\Api\AttributeValue;
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 
 /** Quote shipping address converter service. */
 class Converter

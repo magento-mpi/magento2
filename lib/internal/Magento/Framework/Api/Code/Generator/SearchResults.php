@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Framework\Code\Generator\EntityAbstract;
 

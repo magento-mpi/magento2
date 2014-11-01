@@ -8,7 +8,7 @@
 namespace Magento\Customer\Model\Resource\Customer\Grid;
 
 use Magento\Core\Model\EntityFactory;
-use Magento\Framework\Service\AbstractServiceCollection;
+use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Framework\Api\FilterBuilder;

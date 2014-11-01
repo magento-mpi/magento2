@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\Service\Config;
+namespace Magento\Framework\Api\Config;
 
 class Converter implements \Magento\Framework\Config\ConverterInterface
 {

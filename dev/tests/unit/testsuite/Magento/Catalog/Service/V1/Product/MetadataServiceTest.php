@@ -47,7 +47,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     private $searchResult;
 
     /**
-     * @var \Magento\Framework\Service\Config\MetadataConfig|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\Config\MetadataConfig|\PHPUnit_Framework_MockObject_MockObject
      */
     private $metadataConfig;
 
@@ -55,7 +55,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new ObjectManager($this);
 
-        $this->metadataConfig = $this->getMockBuilder('Magento\Framework\Service\Config\MetadataConfig')
+        $this->metadataConfig = $this->getMockBuilder('Magento\Framework\Api\Config\MetadataConfig')
             ->setMethods(['getCustomAttributesMetadata'])
             ->disableOriginalConstructor()
             ->getMock();

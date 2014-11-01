@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service;
+namespace Magento\Framework\Api;
 
 use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Convert\ConvertArray;

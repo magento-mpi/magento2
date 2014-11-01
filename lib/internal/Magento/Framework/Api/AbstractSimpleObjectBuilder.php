@@ -75,8 +75,8 @@ abstract class AbstractSimpleObjectBuilder
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
             $possibleMethods = array(
-                'get' . \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key),
-                'is' . \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key)
+                'get' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key),
+                'is' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key)
             );
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;

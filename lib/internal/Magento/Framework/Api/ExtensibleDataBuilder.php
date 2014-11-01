@@ -149,7 +149,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
         $dataObjectMethods = get_class_methods($this->modelClassInterface);
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
-            $camelCaseKey = \Magento\Framework\Service\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key);
+            $camelCaseKey = \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key);
             $possibleMethods = array(
                 'get' . $camelCaseKey,
                 'is' . $camelCaseKey

@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1\Product;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Framework\Service\Config\MetadataConfig;
+use Magento\Framework\Api\Config\MetadataConfig;
 
 /**
  * Class AttributeMetadataService

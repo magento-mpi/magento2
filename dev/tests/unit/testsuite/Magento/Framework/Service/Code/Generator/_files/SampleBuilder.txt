@@ -1,7 +1,7 @@
-namespace \Magento\Framework\Service\Code\Generator;
+namespace \Magento\Framework\Api\Code\Generator;
 
 /**
- * Builder class for \Magento\Framework\Service\Code\Generator\Sample
+ * Builder class for \Magento\Framework\Api\Code\Generator\Sample
  */
 class SampleBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
@@ -10,6 +10,6 @@ class SampleBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setMessages($messages)
     {
-        return $this->_set(\Magento\Framework\Service\Code\Generator\Sample::MESSAGES, $messages);
+        return $this->_set(\Magento\Framework\Api\Code\Generator\Sample::MESSAGES, $messages);
     }
 }

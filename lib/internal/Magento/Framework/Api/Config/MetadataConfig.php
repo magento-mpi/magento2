@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Config;
+namespace Magento\Framework\Api\Config;
 
 use Magento\Framework\Api\MetadataServiceInterface;
-use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
+use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeMetadataBuilderInterface;
 
 /**

@@ -17,7 +17,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
-use Magento\Framework\Service\ExtensibleDataObjectConverter;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
  * Test for \Magento\Customer\Service\V1\CustomerAccountService

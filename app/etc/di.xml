@@ -77,7 +77,7 @@
     <preference for="Magento\Framework\Mview\View\ChangelogInterface" type="Magento\Framework\Mview\View\Changelog" />
     <preference for="Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface" type="Magento\Framework\View\Design\FileResolution\Fallback\CacheData\Flat"/>
     <preference for="Magento\Framework\Api\AttributeMetadataBuilderInterface" type="Magento\Framework\Api\AttributeMetadataBuilder"/>
-    <preference for="Magento\Framework\Api\MetadataServiceInterface" type="Magento\Framework\Service\Config\MetadataConfig"/>
+    <preference for="Magento\Framework\Api\MetadataServiceInterface" type="Magento\Framework\Api\Config\MetadataConfig"/>
     <preference for="Magento\Framework\App\Rss\UrlBuilderInterface" type="Magento\Framework\App\Rss\UrlBuilder"/>
     <type name="Magento\Framework\Model\Context">
         <arguments>

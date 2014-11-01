@@ -11,8 +11,8 @@ namespace Magento\Rma\Service\V1;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataConverter;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\Config\MetadataConfig;
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\Config\MetadataConfig;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 
 class RmaMetadataRead implements RmaMetadataReadInterface
 {

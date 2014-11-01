@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Framework\Code\Generator\Io;
 use Magento\TestFramework\Helper\ObjectManager;
@@ -15,9 +15,9 @@ use Magento\TestFramework\Helper\ObjectManager;
  */
 class SearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    const SOURCE_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\Sample';
-    const RESULT_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\SampleSearchResultsBuilder';
-    const GENERATOR_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder';
+    const SOURCE_CLASS_NAME = 'Magento\Framework\Api\Code\Generator\Sample';
+    const RESULT_CLASS_NAME = 'Magento\Framework\Api\Code\Generator\SampleSearchResultsBuilder';
+    const GENERATOR_CLASS_NAME = 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder';
     const OUTPUT_FILE_NAME = 'SampleSearchResultsBuilder.php';
 
     /**

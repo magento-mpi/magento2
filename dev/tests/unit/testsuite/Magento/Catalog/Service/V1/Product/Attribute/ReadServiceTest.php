@@ -69,7 +69,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $typeBuilder = $objectManager->getObject(
             '\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder',
-            ['metadataService' => $objectManager->getObject('Magento\Framework\Service\Config\MetadataConfig')]
+            ['metadataService' => $objectManager->getObject('Magento\Framework\Api\Config\MetadataConfig')]
         );
 
         /** @var \Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface $service */

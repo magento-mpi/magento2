@@ -31,13 +31,13 @@ class MetadataBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBui
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
-     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataService
+     * @param \Magento\Framework\Api\Config\MetadataConfig $metadataService
      * @param array $customAttributeCodes
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        \Magento\Framework\Service\Config\MetadataConfig $metadataService,
+        \Magento\Framework\Api\Config\MetadataConfig $metadataService,
         array $customAttributeCodes = array()
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);

@@ -461,7 +461,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expectedCustomerData,
-            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer)
+            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer)
         );
     }
 }

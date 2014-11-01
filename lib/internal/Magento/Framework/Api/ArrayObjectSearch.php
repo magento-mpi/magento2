@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service;
+namespace Magento\Framework\Api;
 
 /**
  * Class to provide possibility to search for any object's property value by the name and value of another property

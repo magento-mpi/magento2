@@ -1,8 +1,8 @@
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 /**
  * DataBuilder class for
- * \Magento\Framework\Service\Code\Generator\ExtensibleSampleInterface
+ * \Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface
  */
 class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
@@ -51,8 +51,8 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      *
      * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeInterfaceBuilder $valueBuilder)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeDataBuilder $valueBuilder)
     {
-        parent::__construct($objectManager, $metadataService, $valueBuilder, 'Magento\Framework\Service\Code\Generator\ExtensibleSampleInterface');
+        parent::__construct($objectManager, $metadataService, $valueBuilder, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
     }
 }
