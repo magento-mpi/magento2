@@ -55,10 +55,10 @@ class WrappingRepository
     /**
      * Find entities by criteria
      *
-     * @param \Magento\Framework\Data\SearchCriteria  $criteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria  $criteria
      * @return \Magento\GiftWrapping\Model\Wrapping[]
      */
-    public function find(\Magento\Framework\Data\SearchCriteria $criteria)
+    public function find(\Magento\Framework\Service\V1\Data\SearchCriteria $criteria)
     {
         $collection = $this->wrappingCollectionFactory->create();
         $collection->addWebsitesToResult();

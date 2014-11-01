@@ -37,7 +37,7 @@ class Customer extends \Magento\Framework\Object
     protected $_customerService;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
      */
     protected $_searchCriteriaBuilder;
 
@@ -56,14 +56,14 @@ class Customer extends \Magento\Framework\Object
      *
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Customer\Service\V1\CustomerAccountService $customerService
-     * @param \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Helper\View $customerViewHelper
      */
     public function __construct(
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Customer\Service\V1\CustomerAccountService $customerService,
-        \Magento\Framework\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
         \Magento\Customer\Helper\View $customerViewHelper
     ) {

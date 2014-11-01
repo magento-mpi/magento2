@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
@@ -144,7 +144,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
         $this->_searchBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
 

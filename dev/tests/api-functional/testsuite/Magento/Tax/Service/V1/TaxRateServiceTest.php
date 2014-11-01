@@ -9,8 +9,8 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteria;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -60,7 +60,7 @@ class TaxRateServiceTest extends WebapiAbstract
         $objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRateService');
         $this->searchCriteriaBuilder = $objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         $this->filterBuilder = $objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'

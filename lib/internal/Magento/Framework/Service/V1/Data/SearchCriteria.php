@@ -6,9 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Data;
+namespace Magento\Framework\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Data\SearchCriteriaInterface;
 
 /**
  * Data Object for SearchCriteria

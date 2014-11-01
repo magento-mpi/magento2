@@ -13,7 +13,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**

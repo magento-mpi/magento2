@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Unit test for \Magento\Customer\Model\Resource\Group\Grid\ServiceCollection
@@ -21,7 +21,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Service\V1\Data\FilterBuilder */
     protected $filterBuilder;
 
-    /** @var \Magento\Framework\Data\SearchCriteriaBuilder */
+    /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
     protected $searchCriteriaBuilder;
 
     /** @var \Magento\Framework\Service\V1\Data\SortOrderBuilder */
@@ -42,9 +42,9 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
         $this->filterBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filterGroupBuilder = $this->objectManager
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
-        /** @var \Magento\Framework\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $this->searchCriteriaBuilder = $this->objectManager->getObject(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
         $this->sortOrderBuilder = $this->objectManager->getObject(

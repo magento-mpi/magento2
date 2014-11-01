@@ -64,7 +64,7 @@ class OrderGetTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchCriteriaMock = $this->getMock(
-            'Magento\Framework\Data\SearchCriteria',
+            'Magento\Framework\Service\V1\Data\SearchCriteria',
             [],
             [],
             '',

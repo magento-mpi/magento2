@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\Framework\Data\SearchCriteria;
+use \Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /** 
  * Cart read service interface. 
@@ -35,7 +35,7 @@ interface ReadServiceInterface
     /**
      * Enables administrative users to list carts that match specified search criteria.
      *
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria The search criteria.
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria The search criteria.
      * @return \Magento\Checkout\Service\V1\Data\CartSearchResults Cart search results object.
      */
     public function getCartList(SearchCriteria $searchCriteria);

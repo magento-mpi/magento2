@@ -96,7 +96,7 @@ class OrderReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearch()
     {
-        $searchCriteria = $this->getMock('Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteria = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         $this->orderListMock->expects($this->once())
             ->method('invoke')
             ->with($searchCriteria)

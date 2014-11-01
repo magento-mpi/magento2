@@ -8,7 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\Framework\Data\SearchCriteria;
+use \Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -106,7 +106,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetCartListSuccess($direction, $expected)
     {
         $searchResult = $this->getMock('\Magento\Checkout\Service\V1\Data\CartSearchResults', [], [], '', false);
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
 
         $cartMock = $this->getMock('Magento\Payment\Model\Cart', [], [], '', false);
         $this->searchResultsBuilderMock
@@ -162,7 +162,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCartListWithNotExistingField()
     {
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setSearchCriteria')

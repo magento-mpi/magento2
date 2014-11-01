@@ -22,7 +22,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     private $metadataService;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     private $searchCriteriaBuilder;
 
@@ -37,7 +37,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     private $filter;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
      */
     private $searchCriteria;
 
@@ -65,7 +65,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->searchCriteriaBuilder = $this->getMockBuilder('Magento\Framework\Data\SearchCriteriaBuilder')
+        $this->searchCriteriaBuilder = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder')
             ->setMethods(['addFilter', 'create'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -79,7 +79,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->searchCriteria = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $this->searchCriteria = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -12,8 +12,8 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteria;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
@@ -217,11 +217,11 @@ class TaxClassService implements TaxClassServiceInterface
     /**
      * Retrieve tax classes which match a specific criteria.
      *
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Tax\Service\V1\Data\TaxClassSearchResults containing Data\TaxClass
      * @throws \Magento\Framework\Exception\InputException
      */
-    public function searchTaxClass(\Magento\Framework\Data\SearchCriteria $searchCriteria)
+    public function searchTaxClass(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var TaxClassCollection $collection */

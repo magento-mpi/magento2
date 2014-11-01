@@ -27,7 +27,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $archiveSearchResultsBuilderMock;
 
-    /** @var \Magento\Framework\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $searchCriteriaBuilderMock;
 
     /** @var \Magento\Framework\Service\V1\Data\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject */
@@ -68,7 +68,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchCriteriaBuilderMock = $this->getMock(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             [],
             [],
             '',
@@ -100,7 +100,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $statuses = [];
         $serviceResultsMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchResults')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
         $this->configMock->expects($this->once())->method('getArchiveOrderStatuses')->will(
@@ -124,9 +124,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $filterGroupMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\Search\FilterGroup')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        $searchCriteriaBuildMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteria')
+        $searchCriteriaBuildMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()->setMethods([])->getMock();
         $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')->disableOriginalConstructor()->setMethods([])
             ->getMock();

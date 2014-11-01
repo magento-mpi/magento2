@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Framework\Data\SearchCriteria;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Test for \Magento\Catalog\Service\V1\ProductService
@@ -102,7 +102,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
         $this->_searchBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
     }

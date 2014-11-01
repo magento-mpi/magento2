@@ -9,7 +9,7 @@
 namespace Magento\Checkout\Model\Cart\Access;
 
 use Magento\Authorization\Model\UserContextInterface;
-use \Magento\Framework\Data\SearchCriteria;
+use \Magento\Framework\Service\V1\Data\SearchCriteria;
 use \Magento\Framework\Exception\AuthorizationException;
 
 class ReadPlugin

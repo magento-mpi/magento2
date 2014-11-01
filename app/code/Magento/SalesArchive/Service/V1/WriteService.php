@@ -13,8 +13,8 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Model\OrderRepository;
 use Magento\SalesArchive\Service\V1\Data\ArchiveMapper;
 use Magento\SalesArchive\Service\V1\Data\ArchiveSearchResultsBuilder;
-use Magento\Framework\Data\SearchCriteriaBuilder;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 
 class WriteService implements WriteServiceInterface
@@ -115,7 +115,7 @@ class WriteService implements WriteServiceInterface
     /**
      * Retrieve archived orders grid service
      *
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\SalesArchive\Service\V1\Data\ArchiveSearchResults
      */
     public function getList(SearchCriteria $searchCriteria)

@@ -236,9 +236,9 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchGroups($filters, $filterGroup, $expectedResult)
     {
-        /** @var \Magento\Framework\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
         foreach ($filters as $filter) {
             $searchBuilder->addFilter([$filter]);
         }

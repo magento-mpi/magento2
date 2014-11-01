@@ -13,7 +13,7 @@ use Magento\Directory\Model\RegionFactory;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Model\Calculation\RateFactory;

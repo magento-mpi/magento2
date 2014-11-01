@@ -32,7 +32,7 @@ use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception as MailException;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SortOrder;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\StoreManagerInterface;

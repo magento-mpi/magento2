@@ -43,9 +43,9 @@ class WriteServiceTest extends WebapiAbstract
         $order->setStatus('canceled');
         $order->save();
 
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
 
         /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */

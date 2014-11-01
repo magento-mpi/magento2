@@ -36,9 +36,9 @@ class ShipmentListTest extends WebapiAbstract
      */
     public function testShipmentList()
     {
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
 
         /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */

@@ -10,7 +10,7 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Service\V1\Action\CreditmemoGet;
 use Magento\Sales\Service\V1\Action\CreditmemoList;
 use Magento\Sales\Service\V1\Action\CreditmemoCommentsList;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class CreditmemoRead

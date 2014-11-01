@@ -9,7 +9,7 @@
 namespace Magento\Tax\Model\Rate;
 
 use Magento\Tax\Service\V1\TaxRateServiceInterface;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Convert\Object as Converter;
 use Magento\Tax\Service\V1\Data\TaxRate;
 

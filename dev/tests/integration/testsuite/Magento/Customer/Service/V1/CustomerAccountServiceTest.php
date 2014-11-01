@@ -12,7 +12,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Exception\State\ExpiredException;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -1172,9 +1172,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomers($filters, $filterGroup, $expectedResult)
     {
-        /** @var \Magento\Framework\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         foreach ($filters as $filter) {
             $searchBuilder->addFilter([$filter]);
@@ -1248,9 +1248,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomersOrder()
     {
-        /** @var \Magento\Framework\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
 
         // Filter for 'firstname' like 'First'
         $filterBuilder = $this->_objectManager->create('\Magento\Framework\Service\V1\Data\FilterBuilder');

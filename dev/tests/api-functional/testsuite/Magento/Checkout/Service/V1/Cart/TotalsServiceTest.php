@@ -9,7 +9,7 @@
 namespace Magento\Checkout\Service\V1\Cart;
 
 use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Framework\Data\SearchCriteriaBuilder;
+use \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use \Magento\Framework\Service\V1\Data\FilterBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
@@ -37,7 +37,7 @@ class TotalsServiceTest extends WebapiAbstract
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->searchBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         $this->filterBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'

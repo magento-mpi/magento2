@@ -58,8 +58,8 @@ interface ProductServiceInterface
     /**
      * Get product list
      *
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults containing Data\Product objects
      */
-    public function search(\Magento\Framework\Data\SearchCriteria $searchCriteria);
+    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

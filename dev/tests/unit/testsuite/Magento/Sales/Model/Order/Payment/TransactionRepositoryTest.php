@@ -34,7 +34,7 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaBuilder;
 
@@ -56,7 +56,7 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->filterBuilder = $this->getMock('Magento\Framework\Service\V1\Data\FilterBuilder', [], [], '', false);
         $this->searchCriteriaBuilder = $this->getMock(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             [],
             [],
             '',
@@ -107,7 +107,7 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
         $filterGroup->expects($this->any())
             ->method('getFilters')
             ->willReturn($filter);
-        $searchCriteria = $this->getMock('Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteria = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         $searchCriteria->expects($this->any())
             ->method('getFilterGroups')
             ->willReturn([$filterGroup]);
@@ -134,7 +134,7 @@ class TransactionRepositoryTest extends \PHPUnit_Framework_TestCase
         $transactionModelMock->expects($this->any())->method('getId')->will($this->returnValue($id));
         $collection = $this->prepareCollection($transactionModelMock, $collectionIds);
 
-        $searchCriteriaMock = $this->getMock('Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteriaMock = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         $filterGroup = $this->getMock('Magento\Framework\Service\V1\Data\Search\FilterGroup', [], [], '', false);
         $filter = $this->getMock('Magento\Framework\Service\V1\Data\Filter', [], [], '', false);
 

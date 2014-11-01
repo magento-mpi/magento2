@@ -26,7 +26,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $filterGroupBuilder = $objectManagerHelper
             ->getObject('\Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         $searchCriteriaBuilder = $objectManagerHelper->getObject(
-            'Magento\Framework\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             [
                 'filterGroupBuilder' => $filterGroupBuilder
             ]

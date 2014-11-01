@@ -12,8 +12,8 @@ use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Exception;
 use Magento\Framework\Service\V1\Data\Filter;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteria;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 
 /**

@@ -9,7 +9,7 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -42,7 +42,7 @@ class TaxRuleServiceTest extends WebapiAbstract
     public function setUp()
     {
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         $this->filterBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
@@ -51,7 +51,7 @@ class TaxRuleServiceTest extends WebapiAbstract
         $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRuleService');
 
         $this->searchCriteriaBuilder = $objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         $this->filterBuilder = $objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'

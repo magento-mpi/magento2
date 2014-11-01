@@ -60,7 +60,7 @@ class SearchResultsBuilder extends EntityAbstract
                 ],
                 [
                     'name' => 'searchCriteriaBuilder',
-                    'type' => '\\Magento\Framework\Data\SearchCriteriaBuilder'
+                    'type' => '\\Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
                 ],
                 [
                     'name' => 'itemObjectBuilder',

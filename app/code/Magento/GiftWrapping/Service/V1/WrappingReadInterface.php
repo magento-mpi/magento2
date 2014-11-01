@@ -20,8 +20,8 @@ interface WrappingReadInterface
     /**
      * Return list of gift wrapping data objects based on search criteria
      *
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\GiftWrapping\Service\V1\Data\WrappingSearchResults
      */
-    public function search(\Magento\Framework\Data\SearchCriteria $searchCriteria);
+    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

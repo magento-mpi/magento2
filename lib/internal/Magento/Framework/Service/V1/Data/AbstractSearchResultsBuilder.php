@@ -12,8 +12,6 @@ use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Data\ObjectFactory;
-use Magento\Framework\Data\SearchCriteriaBuilder;
-use Magento\Framework\Data\SearchCriteria;
 
 /**
  * Builder for the SearchResults Service Data Object

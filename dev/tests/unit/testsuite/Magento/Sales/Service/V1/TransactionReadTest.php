@@ -81,9 +81,9 @@ class TransactionReadTest extends \PHPUnit_Framework_TestCase
     public function testSearch()
     {
         /**
-         * @var \Magento\Framework\Data\SearchCriteria $searchCriteria
+         * @var \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
          */
-        $searchCriteria = $this->getMock('Magento\Framework\Data\SearchCriteria', [], [], '', false);
+        $searchCriteria = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         $transactions = $this->getMock('Magento\Sales\Model\Order\Payment\Transaction', [], [], '', false);
         $transactionDto = $this->getMock('Magento\Sales\Service\V1\Data\Transaction', [], [], '', false);
         $searchResults = $this->getMock('Magento\Sales\Service\V1\Data\TransactionSearchResults', [], [], '', false);

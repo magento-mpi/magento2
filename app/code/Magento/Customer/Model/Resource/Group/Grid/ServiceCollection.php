@@ -12,7 +12,7 @@ use Magento\Framework\Service\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\SortOrderBuilder;
 
 /**

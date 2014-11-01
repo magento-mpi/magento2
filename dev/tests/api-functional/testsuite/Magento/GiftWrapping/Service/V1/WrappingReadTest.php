@@ -9,7 +9,7 @@ namespace Magento\GiftWrapping\Service\V1;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\GiftWrapping\Service\V1\WrappingRead as WrappingService;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
@@ -39,7 +39,7 @@ class WrappingReadTest extends WebapiAbstract
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->wrappingService = $this->objectManager->create('Magento\GiftWrapping\Service\V1\WrappingRead');
         $this->searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         $this->filterBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'

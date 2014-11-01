@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Framework\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 interface OrderReadInterface
 {
@@ -19,7 +19,7 @@ interface OrderReadInterface
     public function get($id);
 
     /**
-     * @param \Magento\Framework\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Sales\Service\V1\Data\OrderSearchResults
      */
     public function search(SearchCriteria $searchCriteria);

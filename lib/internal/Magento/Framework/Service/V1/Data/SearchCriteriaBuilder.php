@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Data;
+namespace Magento\Framework\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
 use Magento\Framework\Service\Data\AttributeValueBuilder;

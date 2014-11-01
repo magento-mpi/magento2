@@ -23,7 +23,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $rmaServiceCommentReadMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaBuilderMock;
 
@@ -53,7 +53,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $searchResultsBuilderMock;
 
     /**
-     * @var \Magento\Framework\Data\SearchCriteria | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteria | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaMock;
 
@@ -95,7 +95,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     {
         $this->rmaRepositoryMock = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
 
-        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Data\SearchCriteriaBuilder')
+        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
@@ -110,7 +110,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
-        $this->searchCriteriaMock = $this->getMockBuilder('\Magento\Framework\Data\SearchCriteria')
+        $this->searchCriteriaMock = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
