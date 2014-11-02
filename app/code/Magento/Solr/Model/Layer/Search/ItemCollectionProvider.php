@@ -8,7 +8,9 @@
  */
 namespace Magento\Solr\Model\Layer\Search;
 
-class ItemCollectionProvider
+use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
+
+class ItemCollectionProvider implements ItemCollectionProviderInterface
 {
     /**
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
