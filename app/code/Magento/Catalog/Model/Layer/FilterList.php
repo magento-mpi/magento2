@@ -118,14 +118,4 @@ class FilterList
 
         return $filterClassName;
     }
-
-    /**
-     * Prepare Filters
-     *
-     * @return void
-     */
-    public function prepareFilters()
-    {
-        return;
-    }
 }

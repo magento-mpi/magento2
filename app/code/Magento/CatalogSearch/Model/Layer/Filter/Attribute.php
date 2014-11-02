@@ -13,11 +13,6 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
-     * @var \Magento\Framework\Search\Request\Builder
-     */
-    private $requestBuilder;
-
-    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -25,7 +20,6 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Filter\StripTags $tagFilter
-     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
      * @param array $data
      */
     public function __construct(
@@ -36,14 +30,12 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
-        \Magento\Framework\Search\Request\Builder $requestBuilder,
         array $data = array()
     ) {
         parent::__construct(
             $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
             $filterAttributeFactory, $string, $tagFilter, $data
         );
-        $this->requestBuilder = $requestBuilder;
     }
 
     /**
@@ -59,7 +51,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             return $this;
         }
         $attribute = $this->getAttributeModel();
-        $this->requestBuilder->bind($attribute->getAttributeCode(), $attributeValue);
+        //$this->requestBuilder->bind($attribute->getAttributeCode(), $attributeValue);
         return $this;
     }
 

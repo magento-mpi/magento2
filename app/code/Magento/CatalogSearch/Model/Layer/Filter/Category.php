@@ -13,11 +13,6 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
-     * @var \Magento\Framework\Search\Request\Builder
-     */
-    private $requestBuilder;
-
-    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -25,7 +20,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
      * @param array $data
      */
     public function __construct(
@@ -36,13 +30,30 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\Search\Request\Builder $requestBuilder,
         array $data = array()
     ) {
         parent::__construct(
             $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
             $categoryFactory, $escaper, $coreRegistry, $data
         );
-        $this->requestBuilder = $requestBuilder;
+    }
+
+    /**
+     * Apply category filter to product collection
+     *
+     * @param   \Magento\Framework\App\RequestInterface $request
+     * @return  $this
+     */
+    public function apply(\Magento\Framework\App\RequestInterface $request)
+    {
+        $attributeValue = $request->getParam($this->_requestVar);
+        $attributeValue = 3;
+        if (empty($attributeValue)) {
+            return $this;
+        }
+        //$attribute = $this->getAttributeModel();
+        $productCollection = $this->getLayer()->getProductCollection();
+        $productCollection->applyFilterToCollection('category_ids', 3);
+        return $this;
     }
 }

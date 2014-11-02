@@ -139,20 +139,22 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _renderFiltersBefore()
     {
+        $this->requestBuilder->bindDimension('scope', $this->getStoreId());
         if ($this->queryText) {
-            $this->requestBuilder->bindDimension('scope', $this->getStoreId());
             $this->requestBuilder->bind('search_term', $this->queryText);
-            $this->requestBuilder->setRequestName('quick_search_container');
-            $queryRequest = $this->requestBuilder->create();
+        }
+        $this->requestBuilder->setRequestName('quick_search_container');
+        $queryRequest = $this->requestBuilder->create();
 
-            $this->queryResponse = $this->searchEngine->search($queryRequest);
-            $ids = [0];
-            /** @var \Magento\Framework\Search\Document $document */
-            foreach ($this->queryResponse as $document) {
-                $ids[] = $document->getId();
-            }
-            $this->addIdFilter($ids);
+        $this->queryResponse = $this->searchEngine->search($queryRequest);
+        $ids = [0];
+        /** @var \Magento\Framework\Search\Document $document */
+        foreach ($this->queryResponse as $document) {
+            $ids[] = $document->getId();
+        }
+        $this->addIdFilter($ids);
 
+        if ($this->queryText) {
             $this->getSelect()
                 ->columns(
                     [
@@ -206,5 +208,17 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $result[] = $value->getMetrics();
         }
         return $result;
+    }
+
+    /**
+     * Apply attribute filter to facet collection
+     *
+     * @param string $field
+     * @param mixed $value
+     * @return void
+     */
+    public function applyFilterToCollection($field, $value)
+    {
+        $this->requestBuilder->bind($field, $value);
     }
 }

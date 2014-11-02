@@ -100,16 +100,6 @@ class Navigation extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Prepare filters
-     *
-     * @return array
-     */
-    public function prepareFilters()
-    {
-        return $this->filterList->prepareFilters();
-    }
-
-    /**
      * Check availability display layer block
      *
      * @return bool

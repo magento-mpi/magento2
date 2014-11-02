@@ -13,11 +13,6 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 {
     /**
-     * @var \Magento\Framework\Search\Request\Builder
-     */
-    private $requestBuilder;
-
-    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -28,7 +23,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Framework\Search\Request\Builder $requestBuilder
      * @param array $data
      */
     public function __construct(
@@ -42,7 +36,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Framework\Search\Request\Builder $requestBuilder,
         array $data = array()
     ) {
         parent::__construct(
@@ -58,6 +51,5 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $priceCurrency,
             $data
         );
-        $this->requestBuilder = $requestBuilder;
     }
 }

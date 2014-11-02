@@ -97,7 +97,7 @@
     <type name="Magento\Catalog\Model\Layer\Search\CollectionFilter">
         <plugin name="searchQuery" type="Magento\CatalogSearch\Model\Layer\Search\Plugin\CollectionFilter" />
     </type>
-    <virtualType name="categoryFilterList" type="Magento\CatalogSearch\Model\Layer\Category\FilterList">
+    <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
         <arguments>
             <argument name="filters" xsi:type="array">
                 <item name="attribute" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Attribute</item>
@@ -128,6 +128,13 @@
             <argument name="stateKey" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\StateKey</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Magento\CatalogSearch\Model\Layer\Advanced\Context" type="Magento\Catalog\Model\Layer\Context">
+        <arguments>
+            <argument name="collectionProvider" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\ItemCollectionProvider</argument>
+            <argument name="stateKey" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\StateKey</argument>
+            <argument name="collectionFilter" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\CollectionFilter</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Catalog\Model\Layer\Category">
         <arguments>
             <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Category\Context</argument>
@@ -136,6 +143,11 @@
     <type name="Magento\Catalog\Model\Layer\Search">
         <arguments>
             <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogSearch\Model\Layer\Advanced">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>
         </arguments>
     </type>
 </config>
