@@ -47,16 +47,6 @@
             <argument name="resourceIndex" xsi:type="object">Magento\Solr\Model\Resource\Index\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Layer\Category">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\Solr\Model\Layer\Category\Context</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Layer\Search">
-        <arguments>
-            <argument name="context" xsi:type="object">Magento\Solr\Model\Layer\Search\Context</argument>
-        </arguments>
-    </type>
     <type name="Magento\CatalogSearch\Model\Layer\Advanced">
         <arguments>
             <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>

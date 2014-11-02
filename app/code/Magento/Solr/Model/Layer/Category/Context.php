@@ -10,7 +10,7 @@ namespace Magento\Solr\Model\Layer\Category;
 
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
 
-class Context extends \Magento\Catalog\Model\Layer\Category\Context
+class Context extends \Magento\Catalog\Model\Layer\Context
 {
     /**
      * @var \Magento\Solr\Helper\Data
