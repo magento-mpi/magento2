@@ -13,32 +13,6 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 {
     /**
-     * @param ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $layer
-     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
-     * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
-     * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Framework\Filter\StripTags $tagFilter
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $layer,
-        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
-        \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
-        \Magento\Framework\Stdlib\String $string,
-        \Magento\Framework\Filter\StripTags $tagFilter,
-        array $data = array()
-    ) {
-        parent::__construct(
-            $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
-            $filterAttributeFactory, $string, $tagFilter, $data
-        );
-    }
-
-    /**
      * Apply attribute option filter to product collection
      *
      * @param   \Magento\Framework\App\RequestInterface $request
@@ -51,7 +25,8 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             return $this;
         }
         $attribute = $this->getAttributeModel();
-        //$this->requestBuilder->bind($attribute->getAttributeCode(), $attributeValue);
+        $productCollection = $this->getLayer()->getProductCollection();
+        $productCollection->applyFilterToCollection($attribute->getAttributeCode(), $attributeValue);
         return $this;
     }
 

@@ -13,32 +13,6 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
 class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
-     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $layer
-     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Framework\Escaper $escaper
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $layer,
-        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Framework\Escaper $escaper,
-        \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
-    ) {
-        parent::__construct(
-            $filterItemFactory, $storeManager, $layer, $itemDataBuilder,
-            $categoryFactory, $escaper, $coreRegistry, $data
-        );
-    }
-
-    /**
      * Apply category filter to product collection
      *
      * @param   \Magento\Framework\App\RequestInterface $request
@@ -47,13 +21,37 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         $attributeValue = $request->getParam($this->_requestVar);
-        $attributeValue = 3;
         if (empty($attributeValue)) {
             return $this;
         }
-        //$attribute = $this->getAttributeModel();
         $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->applyFilterToCollection('category_ids', 3);
+        $productCollection->applyFilterToCollection('category_ids', $attributeValue);
         return $this;
+    }
+
+    /**
+     * Get data array for building category filter items
+     *
+     * @return array
+     */
+    protected function _getItemsData()
+    {
+        $category = $this->getCategory();
+        $categories = $category->getChildrenCategories();
+
+        $this->getLayer()->getProductCollection()->addCountToCategories($categories);
+
+        if ($category->getIsActive()) {
+            foreach ($categories as $category) {
+                if ($category->getIsActive() && $category->getProductCount()) {
+                    $this->itemDataBuilder->addItemData(
+                        $this->_escaper->escapeHtml($category->getName()),
+                        $category->getId(),
+                        $category->getProductCount()
+                    );
+                }
+            }
+        }
+        return $this->itemDataBuilder->build();
     }
 }
