@@ -33,6 +33,7 @@
             <field name="suffix" source="eav" dataType="text" />
             <field name="email" source="eav">
                 <constraint name="required-entry" />
+                <constraint name="validate-email" />
             </field>
             <field name="dob" source="eav" dataType="text" label="Date Of Birth" formElement="date"/>
             <field name="taxvat" source="eav" dataType="text" label="Tax VAT Number" />

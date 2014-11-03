@@ -15,7 +15,7 @@ define([
     'use strict';
     
     var defaults = {
-        stores: ['meta', 'data', 'params', 'dump']
+        stores: ['meta', 'data', 'params']
     };
 
     var Provider = Class.extend({
@@ -40,6 +40,10 @@ define([
             this.stores.forEach(function(store) {
                 storage = storages[store];
                 config  = this[store] || {};
+
+                if(Array.isArray(config)){
+                    config = {};
+                }
 
                 this[store] = new storage(config);
             }, this);
