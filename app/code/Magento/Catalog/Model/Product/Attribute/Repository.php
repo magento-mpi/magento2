@@ -195,15 +195,6 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function delete(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute)
     {
-        $model = $this->eavConfig->getAttribute(
-            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
-            $attribute->getAttributeId()
-        );
-
-        if (!$model || !$model->getId()) {
-            throw NoSuchEntityException::singleField('attribute_code', $attribute->getAttributeId());
-        }
-
         $this->attributeResource->delete($attribute);
         return true;
     }
