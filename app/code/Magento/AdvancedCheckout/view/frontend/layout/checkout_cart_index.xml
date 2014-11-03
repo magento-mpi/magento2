@@ -21,7 +21,9 @@
                         <item name="configurable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="downloadable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="giftcard" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="grouped" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="simple" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="virtual" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="undefined" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                     </argument>
                     <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers</argument>
@@ -37,7 +39,9 @@
                         <item name="configurable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="downloadable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="giftcard" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="grouped" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="simple" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="virtual" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                         <item name="undefined" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
                     </argument>
                     <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers</argument>
