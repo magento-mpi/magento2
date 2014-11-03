@@ -35,7 +35,6 @@ class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $metadataConfigMock;
-
     
     protected function setUp()
     {
@@ -58,10 +57,9 @@ class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $searchCriteriaMock = $this->getMock('Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
-        $this->attributeRepositoryMock->expects($this->once())->method('getList')->with(
-                \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,
-                $searchCriteriaMock
-            )
+        $this->attributeRepositoryMock->expects($this->once())
+            ->method('getList')
+            ->with(\Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE, $searchCriteriaMock)
             ->willReturn($this->attributeRepositoryMock);
 
         $this->model->getList($searchCriteriaMock);
@@ -71,10 +69,10 @@ class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeCode = 'some Attribute Code';
         $eavDataInterfaceMock = $this->getMock('Magento\Eav\Api\Data\AttributeInterface', [], [], '', false);
-        $this->attributeRepositoryMock->expects($this->once())->method('get')->with(
-            \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,
-            $attributeCode
-        )->willReturn($eavDataInterfaceMock);
+        $this->attributeRepositoryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE, $attributeCode)
+            ->willReturn($eavDataInterfaceMock);
 
         $this->model->get($attributeCode);
     }
