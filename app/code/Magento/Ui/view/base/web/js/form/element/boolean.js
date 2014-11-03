@@ -16,7 +16,7 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.initialValue = !(this.value() === undefined);
+            this.initialValue = !!this.value();
             this.value(this.initialValue);
 
             return this;
