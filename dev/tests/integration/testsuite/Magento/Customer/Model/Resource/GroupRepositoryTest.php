@@ -70,7 +70,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with groupId = 9999
+     * @expectedExceptionMessage No such entity with id = 9999
      */
     public function testGetGroup_Exception()
     {
@@ -176,7 +176,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with groupId = 9999
+     * @expectedExceptionMessage No such entity with id = 9999
      */
     public function testDelete_doesNotExist()
     {
