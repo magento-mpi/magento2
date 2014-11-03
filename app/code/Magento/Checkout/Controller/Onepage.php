@@ -69,7 +69,7 @@ class Onepage extends Action
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        CustomerRepositoryInterface $customerAccountService,
+        CustomerRepositoryInterface $customerRepository,
         AccountManagementInterface $customerMetadataService,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Translate\InlineInterface $translateInline,
@@ -82,7 +82,7 @@ class Onepage extends Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->scopeConfig = $scopeConfig;
         $this->layoutFactory = $layoutFactory;
-        parent::__construct($context, $customerSession, $customerAccountService, $customerMetadataService);
+        parent::__construct($context, $customerSession, $customerRepository, $customerMetadataService);
     }
 
     /**

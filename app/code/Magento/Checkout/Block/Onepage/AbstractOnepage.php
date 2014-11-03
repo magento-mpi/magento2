@@ -110,7 +110,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerRepositoryInterface $customerAccountService,
+        CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
@@ -125,7 +125,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->customerRepository = $customerAccountService;
+        $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
         $this->dataObjectProcessor = $dataObjectProcessor;
     }
@@ -254,9 +254,9 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             if (empty($addressId)) {
                 try {
                     if ($type == 'billing') {
-                        $addressId = $this->_getCustomer()->getDefaultBilling();
+                        $addressId = $this->_getCustomer()->getDefaultBilling()->getId();
                     } else {
-                        $addressId = $this->_getCustomer()->getDefaultShipping();
+                        $addressId = $this->_getCustomer()->getDefaultShipping()->getId();
                     }
                 } catch (NoSuchEntityException $e) {
                     // Do nothing
