@@ -146,9 +146,9 @@ class CategoryRepositoryTest extends WebapiAbstract
             'name' => "Update Category Test"
         ];
         $this->assertEquals($categoryId, $this->updateCategory($categoryId, $categoryData));
-        /** @var \Magento\Catalog\Model\CategoryRepository $model */
-        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\CategoryRepository');
-        $category = $model->get($categoryId);
+        /** @var \Magento\Catalog\Model\Category $model */
+        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
+        $category = $model->load($categoryId);
         $this->assertEquals("Update Category Test", $category->getName());
     }
 

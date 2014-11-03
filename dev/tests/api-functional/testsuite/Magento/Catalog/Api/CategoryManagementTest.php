@@ -20,7 +20,6 @@ class CategoryManagementTest extends WebapiAbstract
 
     const SERVICE_NAME = 'catalogCategoryWriteServiceV1';
 
-
     public function testTree()
     {
         $serviceInfo = [
