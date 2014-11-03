@@ -7,11 +7,20 @@
 /** Creates datepicker binding and registers in to ko.bindingHandlers object */
 define([
     'ko',
+    'underscore',
     'jquery',
     'mage/calendar'
-], function (ko, $) {
+], function (ko, _, $) {
     'use strict';
     
+    var defaults = {
+        "dateFormat": "mm\/dd\/yyyy",
+        "showsTime": false,
+        "timeFormat": null,
+        "buttonImage": "/pub/static/adminhtml/Magento/backend/en_US/images/grid/cal.gif",
+        "buttonText": "Select Date"
+    }
+
     ko.bindingHandlers.datepicker = {
         /**
          * Initializes calendar widget on element and stores it's value to observable property.
@@ -25,9 +34,12 @@ define([
                 observable,
                 options = {};
 
+            _.extend(options, defaults);
+
             if (typeof config === 'object') {
                 observable = config.storage;
-                options    = config.options;
+
+                _.extend(options, config.options);
             } else {
                 observable = config;
             }
