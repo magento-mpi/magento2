@@ -19,6 +19,8 @@ use Magento\Framework\StoreManagerInterface;
  */
 class CustomerRegistry
 {
+    const REGISTRY_SEPARATOR = ':';
+
     /**
      * @var CustomerFactory
      */
@@ -42,8 +44,6 @@ class CustomerRegistry
      * @var array
      */
     private $customerSecureRegistryById = [];
-
-    const REGISTRY_SEPARATOR = ':';
 
     /**
      * @var \Magento\Framework\StoreManagerInterface

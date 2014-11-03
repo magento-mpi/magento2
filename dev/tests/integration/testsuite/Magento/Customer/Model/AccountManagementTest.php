@@ -49,7 +49,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        //$this->markTestSkipped('As of skipping 11 out of 38 failed. Should be fixed as part of MAGETWO-29378.');
         $this->objectManager = Bootstrap::getObjectManager();
         $this->accountManagement = $this->objectManager
             ->create('Magento\Customer\Api\AccountManagementInterface');
