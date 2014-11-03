@@ -14,7 +14,7 @@ $installer->startSetup();
 $installer->addAttribute(
     'catalog_product',
     'giftcard_amounts',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'decimal',
         'backend' => 'Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount',
@@ -36,24 +36,25 @@ $installer->addAttribute(
         'apply_to' => 'giftcard',
         'used_in_product_listing' => true,
         'sort_order' => -5
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'allow_open_amount',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
         'label' => 'Allow Open Amount',
         'input' => 'select',
+        'input_renderer' => 'Magento\GiftCard\Block\Adminhtml\Renderer\OpenAmount',
         'class' => '',
         'source' => 'Magento\GiftCard\Model\Source\Open',
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible' => true,
-        'required' => true,
+        'required' => false,
         'user_defined' => false,
         'default' => '',
         'searchable' => false,
@@ -64,12 +65,12 @@ $installer->addAttribute(
         'apply_to' => 'giftcard',
         'used_in_product_listing' => true,
         'sort_order' => -4
-    )
+    ]
 );
 $installer->addAttribute(
     'catalog_product',
     'open_amount_min',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'decimal',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
@@ -91,12 +92,12 @@ $installer->addAttribute(
         'apply_to' => 'giftcard',
         'used_in_product_listing' => true,
         'sort_order' => -3
-    )
+    ]
 );
 $installer->addAttribute(
     'catalog_product',
     'open_amount_max',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'decimal',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
@@ -118,13 +119,13 @@ $installer->addAttribute(
         'apply_to' => 'giftcard',
         'used_in_product_listing' => true,
         'sort_order' => -2
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'giftcard_type',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -134,7 +135,7 @@ $installer->addAttribute(
         'class' => '',
         'source' => 'Magento\GiftCard\Model\Source\Type',
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
-        'visible' => false,
+        'visible' => true,
         'required' => true,
         'user_defined' => false,
         'default' => '',
@@ -144,13 +145,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'is_redeemable',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -170,13 +171,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'use_config_is_redeemable',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -196,13 +197,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'lifetime',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -222,13 +223,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'use_config_lifetime',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -248,13 +249,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'email_template',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'varchar',
         'backend' => '',
@@ -274,13 +275,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'use_config_email_template',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -300,13 +301,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 // 0.0.3 => 0.0.4
 $installer->addAttribute(
     'catalog_product',
     'allow_message',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -326,13 +327,13 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'catalog_product',
     'use_config_allow_message',
-    array(
+    [
         'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
@@ -352,7 +353,7 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => 'giftcard'
-    )
+    ]
 );
 
 // 0.0.4 => 0.0.5 make 'weight' attribute applicable to gift card products
@@ -366,7 +367,7 @@ if ($applyTo) {
 }
 
 // 0.0.6 => 0.0.7
-$fieldList = array('cost');
+$fieldList = ['cost'];
 
 // make these attributes not applicable to gift card products
 foreach ($fieldList as $field) {
@@ -379,6 +380,25 @@ foreach ($fieldList as $field) {
             }
         }
         $installer->updateAttribute('catalog_product', $field, 'apply_to', join(',', $applyTo));
+    }
+}
+
+$groupName = 'Product Details';
+$entityTypeId = $installer->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+$attributeSetId = $installer->getAttributeSetId($entityTypeId, 'Default');
+
+$attributesOrder = [
+    'giftcard_type' => 31,
+    'giftcard_amounts' => 32,
+    'allow_open_amount' => 33,
+    'open_amount_min' => 34,
+    'open_amount_max' => 35
+];
+
+foreach ($attributesOrder as $key => $order) {
+    $attribute = $installer->getAttribute($entityTypeId, $key);
+    if ($attribute) {
+        $installer->addAttributeToGroup($entityTypeId, $attributeSetId, $groupName, $attribute['attribute_id'], $order);
     }
 }
 
