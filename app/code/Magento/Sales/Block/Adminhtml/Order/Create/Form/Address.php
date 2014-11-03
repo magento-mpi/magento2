@@ -9,7 +9,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\Service\ExtensibleDataObjectConverter;
 
 /**
  * Order create address form
@@ -73,6 +72,11 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $filterBuilder;
 
     /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataProcessor;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
@@ -87,6 +91,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
      * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -105,6 +111,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         array $data = []
     ) {
         $this->_customerHelper = $customerHelper;
@@ -115,7 +122,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressService = $addressService;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
-
+        $this->dataProcessor = $dataProcessor;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
     }
 
@@ -165,7 +172,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                ExtensibleDataObjectConverter::toFlatArray($address)
+                $this->dataProcessor->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface')
             );
             $data[$address->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -292,7 +299,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(ExtensibleDataObjectConverter::toFlatArray($address));
+            $result = $formatTypeRenderer->renderArray(
+                $this->dataProcessor->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface')
+            );
         }
 
         return $this->escapeHtml($result);

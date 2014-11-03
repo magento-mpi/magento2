@@ -28,7 +28,7 @@ class CollectTotals
     protected $vatValidator;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
      */
     protected $customerBuilder;
 
@@ -38,13 +38,13 @@ class CollectTotals
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param VatValidator $vatValidator
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Customer\Helper\Data $customerHelper,
         VatValidator $vatValidator,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
     ) {
         $this->customerHelper = $customerHelper;
         $this->customerAddressHelper = $customerAddressHelper;
@@ -79,9 +79,9 @@ class CollectTotals
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
         if (empty($customerVatNumber) || false == $this->customerHelper->isCountryInEU($customerCountryCode)) {
-            $groupId = $customer->getId() ? $this->customerHelper->getDefaultCustomerGroupId(
-                $storeId
-            ) : \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+            $groupId = $customer->getId()
+                ? $this->customerHelper->getDefaultCustomerGroupId($storeId)
+                : \Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID;
         } else {
             // Magento always has to emulate group even if customer uses default billing/shipping address
             $groupId = $this->customerHelper->getCustomerGroupIdBasedOnVatNumber(

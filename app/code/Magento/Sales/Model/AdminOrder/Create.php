@@ -186,6 +186,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $customerBuilder;
 
     /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataProcessor;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -233,6 +238,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
+        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         array $data = []
     ) {
         $this->_objectManager = $objectManager;
@@ -256,6 +262,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->quoteItemUpdater = $quoteItemUpdater;
         $this->objectFactory = $objectFactory;
         $this->accountManagement = $accountManagement;
+        $this->dataProcessor = $dataProcessor;
 
         parent::__construct($data);
     }
@@ -637,7 +644,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         if ($customerId) {
             $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
             if (!$this->_cart->getId()) {
-                $customerData = $this->customerRepository->get($customerId);
+                $customerData = $this->customerRepository->getById($customerId);
                 $this->_cart->assignCustomer($customerData);
                 $this->_cart->save();
             }
@@ -1214,7 +1221,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer),
+            $this->dataProcessor->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface'),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
@@ -1500,7 +1507,10 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->getQuote()->updateCustomerData($customer);
         $data = [];
 
-        $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = $this->dataProcessor->buildOutputDataArray(
+            $customer,
+            '\Magento\Customer\Api\Data\CustomerInterface'
+        );
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
             $data[$code] = isset(
@@ -1578,7 +1588,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected function _customerIsInStore($store)
     {
         $customerId = (int)$this->getSession()->getCustomerId();
-        $customer = $this->customerRepository->get($customerId);
+        $customer = $this->customerRepository->getById($customerId);
 
         return $customer->getWebsiteId() == $store->getWebsiteId() ||
             $this->accountManagement->isCustomerInStore($customer->getWebsiteId(), $store->getId());
@@ -1663,7 +1673,10 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         $this->getQuote()->updateCustomerData($customer);
 
-        $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = $this->dataProcessor->buildOutputDataArray(
+            $customer,
+            '\Magento\Customer\Api\Data\CustomerInterface'
+        );
         foreach ($this->_createCustomerForm($customer)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
