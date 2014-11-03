@@ -13,7 +13,8 @@ use Magento\Customer\Api\Data\GroupInterface;
 /**
  * Integration test for \Magento\Customer\Model\Resource\GroupRepository
  */
-class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
+class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
+{
 
     /** The group id of the "NOT LOGGED IN" group */
     const NOT_LOGGED_IN_GROUP_ID = 0;
@@ -29,7 +30,6 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
 
     /** @var  \Magento\Framework\Api\SearchCriteriaDataBuilder */
     private $searchCriteriaBuilder;
-
 
     protected function setUp()
     {
@@ -60,7 +60,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
      */
     public function getGroupsDataProvider()
     {
-        return [ [[GroupInterface::ID => 0, GroupInterface::CODE => 'NOT LOGGED IN', GroupInterface::TAX_CLASS_ID => 3]],
+        return [
+            [[GroupInterface::ID => 0, GroupInterface::CODE => 'NOT LOGGED IN', GroupInterface::TAX_CLASS_ID => 3]],
             [[GroupInterface::ID => 1, GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3]],
             [[GroupInterface::ID => 2, GroupInterface::CODE => 'Wholesale', GroupInterface::TAX_CLASS_ID => 3]],
             [[GroupInterface::ID => 3, GroupInterface::CODE => 'Retailer', GroupInterface::TAX_CLASS_ID => 3]],
@@ -69,7 +70,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with groupId = 9999
+     * @expectedExceptionMessage No such entity with id = 9999
      */
     public function testGetGroup_Exception()
     {
@@ -175,7 +176,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with groupId = 9999
+     * @expectedExceptionMessage No such entity with id = 9999
      */
     public function testDelete_doesNotExist()
     {

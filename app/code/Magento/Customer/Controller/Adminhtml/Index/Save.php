@@ -101,6 +101,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
      *
      * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function execute()
     {

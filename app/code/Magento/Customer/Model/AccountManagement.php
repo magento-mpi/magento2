@@ -354,15 +354,21 @@ class AccountManagement implements AccountManagementInterface
     {
         $this->checkPasswordStrength($password);
 
-        $customer = $this->customerRepository->get($username);
-        if ($customer->getConfirmation() && $this->isConfirmationRequired($customer)) {
-            throw new EmailNotConfirmedException('This account is not confirmed.', []);
+        try {
+            $customer = $this->customerRepository->get($username);
+        } catch (NoSuchEntityException $e) {
+            throw new InvalidEmailOrPasswordException('Invalid login or password.', []);
         }
 
         $hash = $this->customerRegistry->retrieveSecureData($customer->getId())->getPasswordHash();
         if (!$this->encryptor->validateHash($password, $hash)) {
             throw new InvalidEmailOrPasswordException('Invalid login or password.', []);
         }
+
+        if ($customer->getConfirmation() && $this->isConfirmationRequired($customer)) {
+            throw new EmailNotConfirmedException('This account is not confirmed.', []);
+        }
+
         $this->eventManager->dispatch(
             'customer_customer_authenticated',
             array('model' => $this->getFullCustomerObject($customer), 'password' => $password)
@@ -556,7 +562,11 @@ class AccountManagement implements AccountManagementInterface
      */
     public function changePassword($email, $currentPassword, $newPassword)
     {
-        $customer = $this->customerRepository->get($email);
+        try {
+            $customer = $this->customerRepository->get($email);
+        } catch (NoSuchEntityException $e) {
+            throw new InvalidEmailOrPasswordException("Password doesn't match for this account.");
+        }
         $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
         $hash = $customerSecure->getPasswordHash();
         if (!$this->encryptor->validateHash($currentPassword, $hash)) {
@@ -1066,7 +1076,8 @@ class AccountManagement implements AccountManagementInterface
      */
     protected function getFullCustomerObject($customer)
     {
-        // TODO: Fix flattening of custom attribute codes
+        // No need to flatten the custom attributes or nested objects since the only usage is for email templates and
+        // object passed for events
         $mergedCustomerData = $this->customerRegistry->retrieveSecureData($customer->getId());
         $customerData = $this->dataProcessor
             ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');

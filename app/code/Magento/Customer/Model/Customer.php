@@ -10,7 +10,7 @@ namespace Magento\Customer\Model;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Customer\Model\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Webapi\Model\DataObjectProcessor;
@@ -191,7 +191,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $dateTime;
 
     /**
-     * @var CustomerBuilder
+     * @var CustomerDataBuilder
      */
     protected $_customerDataBuilder;
 
@@ -217,7 +217,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param CustomerBuilder $customerDataBuilder
+     * @param CustomerDataBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -239,7 +239,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        CustomerBuilder $customerDataBuilder,
+        CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -278,7 +278,17 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getDataModel()
     {
-        return $this->_customerDataBuilder->populateWithArray($this->getData())->setId($this->getId())->create();
+        $customerData = $this->getData();
+        $addressesData = [];
+        /** @var \Magento\Customer\Model\Address $address */
+        foreach ($this->getAddresses() as $address) {
+            $addressesData[] = $address->getDataModel();
+        }
+        return $this->_customerDataBuilder
+            ->populateWithArray($customerData)
+            ->setAddresses($addressesData)
+            ->setId($this->getId())
+            ->create();
     }
 
     /**

@@ -19,6 +19,8 @@ use Magento\Framework\StoreManagerInterface;
  */
 class CustomerRegistry
 {
+    const REGISTRY_SEPARATOR = ':';
+
     /**
      * @var CustomerFactory
      */
@@ -28,6 +30,7 @@ class CustomerRegistry
      * @var CustomerSecureFactory
      */
     private $customerSecureFactory;
+
     /**
      * @var array
      */
@@ -42,8 +45,6 @@ class CustomerRegistry
      * @var array
      */
     private $customerSecureRegistryById = [];
-
-    const REGISTRY_SEPARATOR = ':';
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -139,7 +140,7 @@ class CustomerRegistry
     /**
      * Retrieve CustomerSecure Model from registry given an id
      *
-     * @param string $customerId
+     * @param int $customerId
      * @return CustomerSecure
      * @throws NoSuchEntityException
      */
