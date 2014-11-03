@@ -15,7 +15,6 @@ define([
         template:           'ui/form/components/collection/item',
         displayArea:        'body',
         label:              '',
-        separator:          ' ',
         storeAs:            'activeCollectionItem',
         previewTpl:         'ui/form/components/collection/preview'     
     };
@@ -78,10 +77,6 @@ define([
             this.indexed(indexed);
         },
 
-        updateState: function(){
-            this.noPreview(!_.some(this.displayed));
-        },
-
         formatPreviews: function(previews){
             return previews.map(parsePreview);
         },
@@ -90,7 +85,7 @@ define([
             var preview = this.getPreview(data.items),
                 prefix  = data.prefix;
 
-            this.updateState();
+            this.updatePreview();
 
             return prefix + preview.join(data.separator);
         },
@@ -113,6 +108,10 @@ define([
             });
 
             return _.compact(items);
+        },
+
+        updatePreview: function(){
+            this.noPreview(!_.some(this.displayed));
         }
     });
 });
