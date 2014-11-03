@@ -6,6 +6,15 @@
  * @license     {license_link}
  */
 
+/* @var $installer \Magento\Eav\Model\Entity\Setup */
+$installer = $this;
+
+$installer->getConnection()
+    ->insertForce(
+        $installer->getTable('cataloginventory_stock'),
+        ['stock_id' => 1, 'stock_name' => 'Default']
+    );
+
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
 
 $groupName = 'Product Details';
