@@ -56,8 +56,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
      */
     protected function _extractCustomerAddressData()
     {
-        $addresses = $this->getRequest()->getPost('address');
         $customerData = $this->getRequest()->getPost('account');
+        $addresses = isset($customerData['customer_address']) ? $customerData['customer_address'] : [];
         $result = array();
         if ($addresses) {
             if (isset($addresses['_template_'])) {
@@ -68,7 +68,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             /** @var \Magento\Customer\Helper\Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
             foreach ($addressIdList as $addressId) {
-                $scope = sprintf('address/%s', $addressId);
+                $scope = sprintf('account/address/%s', $addressId);
                 $addressData = $customerHelper->extractCustomerData(
                     $this->getRequest(),
                     'adminhtml_customer_address',

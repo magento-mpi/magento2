@@ -107,9 +107,6 @@ class AbstractStructure extends AbstractView
 
         $this->processChildBLocks();
 
-
-        //$this->sortTabs($this->structure['sections']['children']); // todo
-
         $this->renderContext->getStorage()->addLayoutStructure(
             $this->getDataScope(),
             [
@@ -117,17 +114,18 @@ class AbstractStructure extends AbstractView
             ]
         );
 
+        $navBlock = $this->factory->create(
+            \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
+            [
+                'data_scope' => $this->ns
+            ]
+        );
         if ($this->getData('configuration/tabs_container_name')) {
-            $navBlock = $this->factory->create(
-                \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
-                [
-                    'data_scope' => $this->ns
-                ]
-            );
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
         } else {
-            // todo fallback to content container
+            $this->getRenderContext()->getPageLayout()
+                ->addBlock($navBlock, 'tabs_nav', 'content');
         }
     }
 
@@ -214,11 +212,11 @@ class AbstractStructure extends AbstractView
 
         $meta = $this->dataManager->getMetadata($dataSource);
 
-        $referenceAreaName = $this->addArea(
+        $this->addArea(
             $dataSource,
             [
-                'insert' => [
-                    'sections' => [
+                'insertTo' => [
+                    $this->ns . '.sections' => [
                         'position' => $this->getNextSortInc()
                     ]
                 ],
@@ -245,18 +243,16 @@ class AbstractStructure extends AbstractView
         }
 
         $this->addToArea($dataSource, $referenceGroupName);
-        $this->addToSection($referenceAreaName);
 
         $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
         foreach ($children as $childName) {
             $this->processChildDataSource($dataSource, $childName);
         }
 
-        $preparedData = [
-            $dataSource => []
-        ];
+        $preparedData = [];
         $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
         if ($data) {
+            $preparedData[$dataSource] = [];
             foreach (array_shift($data) as $key => $value) {
                 $preparedData[$dataSource][$key] = $value;
             }
@@ -272,11 +268,11 @@ class AbstractStructure extends AbstractView
     {
         $childMeta = $this->dataManager->getMetadata($childName);
 
-        $referenceChildAreaName = $this->addArea(
+        $this->addArea(
             $childName,
             [
-                'insert' => [
-                    'sections' => [
+                'insertTo' => [
+                    $this->ns . '.sections' => [
                         'position' => $this->getNextSortInc()
                     ]
                 ],
@@ -285,7 +281,6 @@ class AbstractStructure extends AbstractView
                 ]
             ]
         );
-        $this->addToSection($referenceChildAreaName);
         $referenceChildGroupName = $this->addGroup(
             $childName,
             [
@@ -352,17 +347,16 @@ class AbstractStructure extends AbstractView
                 continue;
             }
             $sortOrder = $childBlock->hasSortOrder() ? $childBlock->getSortOrder() : $this->getNextSortInc();
-            $referenceChildAreaName = $this->addArea($blockName, [
-                'insert' => [
-                    'sections' => [
-                        'position' => $sortOrder
+            $this->addArea($blockName, [
+                'insertTo' => [
+                    $this->ns . '.sections' => [
+                        'position' => (int)$sortOrder
                     ]
                 ],
                 'config' => [
                     'label' => $childBlock->getTabTitle()
                 ]
             ]);
-            $this->addToSection($referenceChildAreaName);
 
             $config = [
                 'label' => $childBlock->getTabTitle()
@@ -375,14 +369,6 @@ class AbstractStructure extends AbstractView
             $referenceGroupName = $this->addGroup($blockName, $config, 'html_content');
             $this->addToArea($blockName, $referenceGroupName);
         }
-    }
-
-    /**
-     * @param string $itemName
-     */
-    protected function addToSection($itemName)
-    {
-        $this->structure['sections']['children'][] = $itemName;
     }
 
     /**
@@ -475,39 +461,11 @@ class AbstractStructure extends AbstractView
     }
 
     /**
-     * Set tabs
-     *
-     * @param array $items
-     * @return void
-     */
-    protected function sortTabs(array & $items)
-    {
-        usort($items, [$this, 'compareSortOrder']);
-    }
-
-    /**
-     * Compare sort order
-     *
-     * @param array $one
-     * @param array $two
-     * @return int
-     */
-    protected function compareSortOrder(array $one, array $two)
-    {
-        if (!isset($one['sort_order'])) {
-            $one['sort_order'] = 0;
-        }
-        if (!isset($two['sort_order'])) {
-            $two['sort_order'] = 0;
-        }
-        return (int)$one['sort_order'] - (int)$two['sort_order'];
-    }
-
-    /**
      * @return int
      */
     protected function getNextSortInc()
     {
-        return 10 + $this->sortInc;
+        $this->sortInc += 10;
+        return $this->sortInc;
     }
 }

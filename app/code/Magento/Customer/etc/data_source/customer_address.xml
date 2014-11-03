@@ -18,7 +18,7 @@
             <field name="street" dataType="text" formElement="multiline" source="eav"/>
         </fields>
         <references>
-            <reference target="customer"
+            <reference target="account"
                referencedField="parent_id"
                targetField="entity_id"
             />

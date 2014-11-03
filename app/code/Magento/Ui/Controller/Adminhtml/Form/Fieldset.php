@@ -31,11 +31,11 @@ class Fieldset extends \Magento\Ui\Controller\Adminhtml\AbstractAction
 //        } else {
 //            $this->_redirect('admin');
 //        }
-        $tabIndex = $this->getRequest()->getParam('container');
-        $this->getResponse()->appendBody(
-            json_encode(
-                ['layout' => ['customer_form_tabs' => [$tabIndex => ['label' => 'loaded', 'content' => 'content is loaded']]]]
-            )
-        );
+//        $tabIndex = $this->getRequest()->getParam('container');
+//        $this->getResponse()->appendBody(
+//            json_encode(
+//                ['layout' => ['customer_form_tabs' => [$tabIndex => ['label' => 'loaded', 'content' => 'content is loaded']]]]
+//            )
+//        );
     }
 }

@@ -20,7 +20,7 @@
             <argument name="label" xsi:type="string">Customer Information</argument>
             <argument name="name" xsi:type="string">customer_form</argument>
             <argument name="data_sources" xsi:type="array">
-                <item name="customer_info" xsi:type="string">customer</item>
+                <item name="customer_info" xsi:type="string">account</item>
             </argument>
 
             <argument name="layout" xsi:type="array">
@@ -44,9 +44,10 @@
                 </item>
             </argument>
         </arguments>
-        <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View" name="customer_edit_tab_view" template="tab/view.phtml" sort_order="10">
+        <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View" name="customer_edit_tab_view" template="tab/view.phtml">
             <arguments>
                 <argument name="tab_label" xsi:type="string">Customer View</argument>
+                <argument name="sort_order" xsi:type="number">10</argument>
             </arguments>
             <block class="Magento\Customer\Block\Adminhtml\Edit\Tab\View\PersonalInfo" name="personal_info" template="tab/view/personal_info.phtml"/>
         </block>
