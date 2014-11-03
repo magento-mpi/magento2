@@ -154,7 +154,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
                 $field = $sortOrder->getField();
                 $collection->addOrder(
                     $field,
-                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
+                    ($sortOrder->getDirection() == SearchCriteriaInterface::SORT_ASC) ? 'ASC' : 'DESC'
                 );
             }
         }
@@ -163,7 +163,6 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
 
         /** @var \Magento\Customer\Api\Data\AddressInterface[] $addresses */
         $addresses = [];
-        /** @var CustomerAddressModel $customerAddressModel */
         $addressIds = $collection->getAllIds();
         foreach ($addressIds as $addressId) {
             $addresses[] = $this->get($addressId);
