@@ -66,7 +66,7 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
                 'path' => "Magento_Ui/js/form/provider/provider",
                 'data' => $data,
                 'config' => [
-                    'submit_url' => ''
+                    'submit_url' => '/backend/customer/index/save/id/1'
                 ]
             ];
         }
