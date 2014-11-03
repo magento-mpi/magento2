@@ -68,7 +68,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             /** @var \Magento\Customer\Helper\Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
             foreach ($addressIdList as $addressId) {
-                $scope = sprintf('account/address/%s', $addressId);
+                $scope = sprintf('account/customer_address/%s', $addressId);
                 $addressData = $customerHelper->extractCustomerData(
                     $this->getRequest(),
                     'adminhtml_customer_address',
@@ -107,7 +107,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
     public function execute()
     {
         $returnToEdit = false;
-        $customerId = (int)$this->getRequest()->getPost('customer_id');
+        $customerId = (int)$this->getRequest()->getParam('id');
         $originalRequestData = $this->getRequest()->getPost();
         if ($originalRequestData) {
             try {
