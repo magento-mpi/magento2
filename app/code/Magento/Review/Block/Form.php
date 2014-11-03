@@ -142,15 +142,8 @@ class Form extends \Magento\Framework\View\Element\Template
             );
         }
 
-        $this->setTemplate(
-            'form.phtml'
-        )->assign(
-            'data',
-            $data
-        )->assign(
-            'messages',
-            $this->messageManager->getMessages(true)
-        );
+        $this->setTemplate('form.phtml')
+            ->assign('data', $data);
     }
 
     /**

@@ -7,10 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="page.header">
-        <block class="Magento\Doc\Ui\Widget\Navigation\Top" name="main_navigation" template="Magento_Doc::html/widget/navigation/top.phtml" ttl="3600"/>
-    </referenceContainer>
-    <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Doc::html/page/element/require_js.phtml" />
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="3columns" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="default_head_blocks"/>
+    <body>
+        <referenceContainer name="page.header">
+            <block class="Magento\Doc\Ui\Widget\Navigation\Top" name="main_navigation" template="Magento_Doc::html/widget/navigation/top.phtml" ttl="3600"/>
+        </referenceContainer>
+        <block name="require.js" class="Magento\Framework\View\Element\Template" template="Magento_Doc::html/page/element/require_js.phtml"/>
+    </body>
 </page>

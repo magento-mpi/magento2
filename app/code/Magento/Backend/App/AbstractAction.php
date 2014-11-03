@@ -309,6 +309,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
     /**
      * Set redirect into response
      *
+     * @deprecated
      * @param   string $path
      * @param   array $arguments
      * @return \Magento\Framework\App\ResponseInterface
@@ -321,6 +322,9 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
     }
 
     /**
+     * Forward to action
+     *
+     * @deprecated
      * @param string $action
      * @param string|null $controller
      * @param string|null $module
