@@ -155,7 +155,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
         $fieldset->addField(
             'subscription',
             'checkbox',
-            array('label' => __('Subscribed to Newsletter'), 'name' => 'subscription')
+            array(
+                'label' => __('Subscribed to Newsletter'),
+                'name' => 'subscription',
+                'data-form-part' => $this->getData('target_form')
+            )
         );
 
         if (!$this->_customerAccountService->canModify($customerId)) {
@@ -215,13 +219,13 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
             )
         );
         parent::_prepareLayout();
-        $this->initForm();
         return $this;
     }
 
     protected function _toHtml()
     {
         if ($this->canShowTab()) {
+            $this->initForm();
             return parent::_toHtml();
         } else {
             return '';

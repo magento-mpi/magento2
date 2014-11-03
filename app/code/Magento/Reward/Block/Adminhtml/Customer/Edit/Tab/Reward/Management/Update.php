@@ -70,7 +70,8 @@ class Update extends \Magento\Backend\Block\Widget\Form\Generic
                     'name' => 'store_id',
                     'title' => __('Store'),
                     'label' => __('Store'),
-                    'values' => $this->_getStoreValues()
+                    'values' => $this->_getStoreValues(),
+                    'data-form-part' => $this->getData('target_form')
                 )
             );
         }
@@ -82,14 +83,20 @@ class Update extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'points_delta',
                 'title' => __('Update Points'),
                 'label' => __('Update Points'),
-                'note' => __('Enter a negative number to subtract from the balance.')
+                'note' => __('Enter a negative number to subtract from the balance.'),
+                'data-form-part' => $this->getData('target_form')
             )
         );
 
         $fieldset->addField(
             'comment',
             'text',
-            array('name' => 'comment', 'title' => __('Comment'), 'label' => __('Comment'))
+            array(
+                'name' => 'comment',
+                'title' => __('Comment'),
+                'label' => __('Comment'),
+                'data-form-part' => $this->getData('target_form')
+            )
         );
 
         $fieldset = $form->addFieldset('notification_fieldset', array('legend' => __('Reward Points Notifications')));
@@ -101,7 +108,8 @@ class Update extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'reward_update_notification',
                 'label' => __('Subscribe for balance updates'),
                 'checked' => (bool)$this->getCustomer()->getRewardUpdateNotification(),
-                'value' => 1
+                'value' => 1,
+                'data-form-part' => $this->getData('target_form')
             )
         );
 
@@ -112,7 +120,8 @@ class Update extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'reward_warning_notification',
                 'label' => __('Subscribe for points expiration notifications'),
                 'checked' => (bool)$this->getCustomer()->getRewardWarningNotification(),
-                'value' => 1
+                'value' => 1,
+                'data-form-part' => $this->getData('target_form')
             )
         );
 

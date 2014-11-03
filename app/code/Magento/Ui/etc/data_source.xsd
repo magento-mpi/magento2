@@ -22,11 +22,11 @@
                 <xs:element ref="fields" minOccurs="0" maxOccurs="1"/>
                 <xs:element ref="references" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
-            <xs:attribute type="required_attribute" name="name"/>
-            <xs:attribute type="text_attribute" name="label"/>
-            <xs:attribute type="text_attribute" name="compositeLabel"/>
-            <xs:attribute type="text_attribute" name="previewElements"/>
-            <xs:attribute type="xs:string" name="dataset"/>
+            <xs:attribute type="required_attribute" name="name" use="required"/>
+            <xs:attribute type="text_attribute" name="label" use="required"/>
+            <xs:attribute type="xs:string" name="dataset" use="required"/>
+            <xs:attribute type="text_attribute" name="compositeLabel" use="optional"/>
+            <xs:attribute type="text_attribute" name="previewElements" use="optional"/>
         </xs:complexType>
     </xs:element>
     <!-- -->
@@ -46,10 +46,12 @@
                 <xs:element name="constraint" maxOccurs="unbounded" minOccurs="0" type="field_constraint"/>
             </xs:choice>
             <xs:attribute type="required_attribute" name="name" use="required"/>
-            <xs:attribute type="required_attribute" name="dataType" use="optional"/>
-            <xs:attribute type="required_attribute" name="formElement" use="optional"/>
-            <xs:attribute type="required_attribute" name="displayArea" use="optional"/>
+            <xs:attribute type="text_attribute" name="dataType" use="optional"/>
+            <xs:attribute type="text_attribute" name="formElement" use="optional"/>
+            <xs:attribute type="text_attribute" name="displayArea" use="optional"/>
+            <xs:attribute type="text_attribute" name="fieldGroup" use="optional"/>
             <xs:attribute type="text_attribute" name="source" use="optional"/>
+            <xs:attribute type="text_attribute" name="optionProvider" use="optional"/>
             <xs:attribute type="text_attribute" name="default_value" use="optional"/>
             <xs:attribute type="text_attribute" name="label" use="optional"/>
             <xs:attribute type="visible_attribute" name="visible" use="optional"/>
@@ -108,7 +110,7 @@
             <xs:documentation>Any text value</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Za-z0-9,\:_. -]+" />
+            <xs:pattern value="[A-Za-z0-9,_.\\: -]+" />
         </xs:restriction>
     </xs:simpleType>
     <!-- -->

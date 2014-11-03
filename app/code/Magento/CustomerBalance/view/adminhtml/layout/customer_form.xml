@@ -9,7 +9,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="form">
-        <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance" name="customerbalance" sort_order="500" />
+        <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance" name="customerbalance"/>
     </referenceBlock>
     <update handle="adminhtml_customer_balance_grid"/>
     <referenceBlock name="customer_edit_tab_view">

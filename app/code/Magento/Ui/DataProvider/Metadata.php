@@ -10,6 +10,8 @@ namespace Magento\Ui\DataProvider;
 
 use Magento\Ui\DataProvider\Config\Data as Config;
 use Magento\Framework\ObjectManager;
+use Magento\Framework\Validator\UniversalFactory;
+
 /**
  * Class Metadata
  */
@@ -51,18 +53,28 @@ class Metadata implements \Iterator, \ArrayAccess
     protected $manager;
 
     /**
+     * @var UniversalFactory
+     */
+    protected $universalFactory;
+
+    /**
      * @param ObjectManager $objectManager
      * @param Manager $manager
      * @param array $config
      */
-    public function __construct(ObjectManager $objectManager, Manager $manager, array $config)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        Manager $manager,
+        UniversalFactory $universalFactory,
+        array $config
+    ) {
         $this->config = $config;
         if (isset($this->config['children'])) {
             $this->config['fields'][self::CHILD_DATA_SOURCES] = array_keys($config['children']);
         }
         $this->dataSet = $objectManager->get($this->config['dataset']);
         $this->manager = $manager;
+        $this->universalFactory = $universalFactory;
         $this->initAttributes();
     }
 
@@ -141,7 +153,7 @@ class Metadata implements \Iterator, \ArrayAccess
         ];
         $options = [];
         if (isset($this->config['fields'][$this->key()]['source'])) {
-            if ($this->config['fields'][$this->key()]['source']== 'option') {
+            if ($this->config['fields'][$this->key()]['source'] == 'option') {
                 $rawOptions = $this->manager->getData(
                     $this->config['fields'][$this->key()]['reference']['target']
                 );
@@ -156,10 +168,13 @@ class Metadata implements \Iterator, \ArrayAccess
 
                     ];
                 }
-            } else {
-                // read from "options" data source node
             }
+        } else if (isset($this->config['fields'][$this->key()]['optionProvider'])) {
+            list($source, $method) = explode('::', $this->config['fields'][$this->key()]['optionProvider']);
+            $sourceModel = $this->universalFactory->create($source);
+            $options = $sourceModel->$method();
         }
+
         $attributeCodes = [
             'options' => ['eav_map' => 'options', 'default' => $options],
             'dataType' => ['eav_map' => 'frontend_input', 'default' => 'text'],
@@ -175,7 +190,7 @@ class Metadata implements \Iterator, \ArrayAccess
             'validation' => []
         ];
 
-        foreach ($attributeCodes as  $code => $info) {
+        foreach ($attributeCodes as $code => $info) {
             if (isset($this->config['fields'][$this->key()][$code])) {
                 $this->metadata[$this->key()][$code] = $this->config['fields'][$this->key()][$code];
             } else {

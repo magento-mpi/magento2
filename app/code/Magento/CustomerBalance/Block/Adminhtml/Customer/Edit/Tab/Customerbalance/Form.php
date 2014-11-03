@@ -72,7 +72,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'label' => __('Website'),
                     'title' => __('Website'),
                     'values' => $this->_systemStore->getWebsiteValuesForForm(),
-                    'onchange' => 'updateEmailWebsites()'
+                    'onchange' => 'updateEmailWebsites()',
+                    'data-form-part' => $this->getData('target_form')
                 )
             );
         }
@@ -84,7 +85,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'amount_delta',
                 'label' => __('Update Balance'),
                 'title' => __('Update Balance'),
-                'comment' => __('An amount on which to change the balance')
+                'comment' => __('An amount on which to change the balance'),
+                'data-form-part' => $this->getData('target_form')
             )
         );
 
@@ -95,10 +97,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'notify_by_email',
                 'label' => __('Notify Customer by Email'),
                 'title' => __('Notify Customer by Email'),
+                'data-form-part' => $this->getData('target_form'),
                 'after_element_html' => !$this->_storeManager
                     ->isSingleStoreMode() ? '<script type="text/javascript">' .
-                "\n                \$('{$prefix}notify_by_email').disableSendemail = function() {\n                    \$('{$prefix}store_id').disabled = (this.checked) ? false : true;\n                }.bind(\$('{$prefix}notify_by_email'));\n                Event.observe('{$prefix}notify_by_email', 'click', \$('{$prefix}notify_by_email').disableSendemail);\n                \$('{$prefix}notify_by_email').disableSendemail();\n                " .
-                '</script>' : ''
+                    "\n                \$('{$prefix}notify_by_email').disableSendemail = function() {\n                    \$('{$prefix}store_id').disabled = (this.checked) ? false : true;\n                }.bind(\$('{$prefix}notify_by_email'));\n                Event.observe('{$prefix}notify_by_email', 'click', \$('{$prefix}notify_by_email').disableSendemail);\n                \$('{$prefix}notify_by_email').disableSendemail();\n                " .
+                    '</script>' : ''
             )
         );
 
@@ -109,7 +112,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 array(
                     'name' => 'store_id',
                     'label' => __('Send Email Notification From the Following Store View'),
-                    'title' => __('Send Email Notification From the Following Store View')
+                    'title' => __('Send Email Notification From the Following Store View'),
+                    'data-form-part' => $this->getData('target_form')
                 )
             );
             $renderer = $this->getLayout()->createBlock(
@@ -117,11 +121,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             );
             $field->setRenderer($renderer);
         }
-
+var_dump($this->getData('target_form'));
         $fieldset->addField(
             'comment',
             'text',
-            array('name' => 'comment', 'label' => __('Comment'), 'title' => __('Comment'), 'comment' => __('Comment'))
+            array(
+                'name' => 'comment',
+                'label' => __('Comment'),
+                'title' => __('Comment'),
+                'comment' => __('Comment'),
+                'data-form-part' => $this->getData('target_form')
+            )
         );
 
         if ($customer->isReadonly()) {

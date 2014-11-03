@@ -2,8 +2,7 @@
         xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
     <datasource
             name="account" label="Account Information"
-            dataset="Magento\Customer\Model\Resource\Customer\Collection"
-            >
+            dataset="Magento\Customer\Model\Resource\Customer\Collection">
         <fields entityType="customer">
             <field name="entity_id" dataType="text" visible="false"/>
             <field name="default_billing" source="eav" dataType="boolean" visible="false"/>
@@ -14,16 +13,14 @@
                 <reference target="website"
                            referencedField="website_id"
                            targetField="website_id"
-                           neededField="name"
-                        />
+                           neededField="name"/>
             </field>
             <field name="prefix" source="eav" dataType="text"/>
             <field name="customer_group_code" dataType="number" formElement="select" source="option" label="Group" fieldGroup="customer_group_code">
                 <reference target="customer_group"
                            referencedField="group_id"
                            targetField="customer_group_id"
-                           neededField="customer_group_code"
-                        />
+                           neededField="customer_group_code"/>
             </field>
             <field name="disable_auto_group_change" source="eav" dataType="boolean" formElement="checkbox" fieldGroup="customer_group_code"/>
             <field name="firstname" source="eav" dataType="text">
@@ -42,8 +39,11 @@
             <field name="taxvat" source="eav" dataType="text" label="Tax VAT Number"/>
             <field name="gender" source="eav" dataType="text" formElement="select"/>
             <field name="sendemail" dataType="boolean" formElement="checkbox" label="Send Welcome Email"/>
-            <field name="sendemail_store_id" dataType="number" formElement="select"
-                   source="Magento\Store\Model\System\Store::getStoreValuesForForm" label="Send From"/>
+            <field name="sendemail_store_id"
+                   dataType="number"
+                   formElement="select"
+                   optionProvider="Magento\Store\Model\System\Store::getStoreValuesForForm"
+                   label="Send From"/>
         </fields>
     </datasource>
 </config>

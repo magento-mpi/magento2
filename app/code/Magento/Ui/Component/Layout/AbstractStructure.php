@@ -352,6 +352,7 @@ class AbstractStructure extends AbstractView
             if (!$childBlock->canShowTab()) {
                 continue;
             }
+            $childBlock->setData('target_form', $this->getDataScope());
             $sortOrder = $childBlock->hasSortOrder() ? $childBlock->getSortOrder() : $this->getNextSortInc();
             $this->addArea($blockName, [
                 'insertTo' => [
