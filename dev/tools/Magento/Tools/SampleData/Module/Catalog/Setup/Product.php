@@ -81,6 +81,8 @@ class Product implements SetupInterface
         $fixtures = array(
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
+            'Catalog/SimpleProduct/products_gear_fitness_equipment_ball.csv',
+            'Catalog/SimpleProduct/products_gear_fitness_equipment_strap.csv',
             'Catalog/SimpleProduct/products_gear_watches.csv',
         )
     ) {
