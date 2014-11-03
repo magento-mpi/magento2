@@ -20,11 +20,11 @@ class Link
     /**
      * Initialize internal storage
      *
-     * @param \Magento\Catalog\Api\Data\ProductLinkInterfaceBuilder $builder
+     * @param array $data
      */
-    public function __construct(\Magento\Catalog\Api\Data\ProductLinkInterfaceBuilder $builder)
+    public function __construct(array $data)
     {
-        $this->_data = $builder->getData();
+        $this->_data = $data;
     }
 
     /**

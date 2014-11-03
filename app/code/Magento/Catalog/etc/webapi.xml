@@ -343,7 +343,7 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/links/:linkType" method="GET">
+    <route url="/V1/products/:productSku/links/:type" method="GET">
         <service class="Magento\Catalog\Api\ProductLinkManagementInterface" method="getLinkedItemsByType"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>

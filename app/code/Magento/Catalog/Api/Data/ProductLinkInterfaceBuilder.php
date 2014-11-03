@@ -45,4 +45,9 @@ class ProductLinkInterfaceBuilder extends \Magento\Framework\Service\Data\Abstra
     {
         $this->_set(\Magento\Catalog\Api\Data\ProductLinkInterface::POSITION, $position);
     }
+
+    public function create()
+    {
+        return $this->objectFactory->create($this->_getDataObjectType(), ['data' => $this->_data]);
+    }
 }

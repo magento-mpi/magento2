@@ -65,15 +65,15 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function getLinkedItemsByType($productSku, $linkType)
+    public function getLinkedItemsByType($productSku, $type)
     {
         $output = [];
         $product = $this->productRepository->get($productSku);
-        $collection = $this->entityCollectionProvider->getCollection($product, $linkType);
+        $collection = $this->entityCollectionProvider->getCollection($product, $type);
         foreach ($collection as $item) {
             $data = [
                 ProductLinkInterface::PRODUCT_SKU => $product->getSku(),
-                ProductLinkInterface::LINK_TYPE => $linkType,
+                ProductLinkInterface::LINK_TYPE => $type,
                 ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
                 ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
                 ProductLinkInterface::POSITION => $item['position']
@@ -86,11 +86,11 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function setProductLinks($productSku, $linkType, array $linkedProducts)
+    public function setProductLinks($productSku, $type, array $items)
     {
-        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface[] $linkedProducts */
+        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface[] $items */
         $linkedSkuList = [];
-        foreach ($linkedProducts as $link) {
+        foreach ($items as $link) {
             $linkedSkuList[] = $link->getLinkedProductSku();
             $linkedSkuList[] = $link->getProductSku();
         }
@@ -99,7 +99,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
 
         $linksData = [];
         /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $linkedProduct*/
-        foreach ($linkedProducts as $linkedProduct) {
+        foreach ($items as $linkedProduct) {
             if (!isset($linkedProductIds[$linkedProduct->getLinkedProductSku()])) {
                 throw new NoSuchEntityException(
                     sprintf("Product with SKU \"%s\" does not exist", $linkedProduct->getLinkedProductSku())
