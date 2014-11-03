@@ -16,14 +16,36 @@ define([
         displayArea:        'body',
         label:              '',
         separator:          ' ',
-        storeAs:            'activeCollectionItem'
+        storeAs:            'activeCollectionItem',
+        previewTpl:         'ui/form/components/collection/preview'     
+    };
+
+    var previewConfig = {
+        separator: ' ',
+        prefix: ''
     };
 
     var __super__ = Tab.prototype;
 
+    function parsePreview(data){
+        var items;
+
+        if (typeof data === 'string') {
+            data = {
+                items: data
+            };
+        }
+
+        data.items = utils.stringToArray(data.items);
+
+        return _.defaults(data, previewConfig);
+    }
+
     return Tab.extend({
         initialize: function () {
             _.extend(this, defaults);
+
+            _.bindAll(this, 'getPreview', 'buildPreview', 'hasPreview');
 
             __super__.initialize.apply(this, arguments);
         },
@@ -31,54 +53,70 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.labelParts     = this.labelParts || [];
-            this.previewParts   = this.previewParts || [];
+            this.displayed = {};
 
             this.observe({
-                    'labels':   [],
-                    'previews': [],
-                    'body':     [],
-                    'head':     []
+                    'noPreview': true,
+                    'indexed':   {},
+                    'body':      [],
+                    'head':      []
                 });
 
             return this;
         },
 
         initElement: function (elem) {
-            var region = elem.displayArea || this.displayArea;
+            var region  = elem.displayArea || this.displayArea,
+                indexed = this.indexed(); 
 
             __super__.initElement.apply(this, arguments);
             
             this[region].push(elem);
             
-            this.insertTo('previews',   this.previewParts,    elem)
-                .insertTo('labels',     this.labelParts,      elem);
+            indexed[elem.index] = elem;
+
+            this.indexed(indexed);
         },
 
-        insertTo: function(container, map, elem){
-            var items   = this[container](),
-                index   = map.indexOf(elem.index);
+        updateState: function(){
+            var hasPreview = _.some(this.displayed, function(hasPreview){
+                return !!hasPreview;
+            });
 
-            if(~index){
-                items.splice(index, 0, elem);
+            this.noPreview(!hasPreview);
+        },
+
+        formatPreviews: function(previews){
+            return previews.map(parsePreview);
+        },
+
+        buildPreview: function(data){
+            var preview = this.getPreview(data.items),
+                prefix  = data.prefix;
+
+            this.updateState();
+
+            return prefix + preview.join(data.separator);
+        },
+
+        hasPreview: function(data){
+            return !!this.getPreview(data.items).length;
+        },
+
+        getPreview: function(items){
+            var elems       = this.indexed(),
+                displayed   = this.displayed;
+
+            items = items.map(function(index){
+                var elem    = elems[index],
+                    preview = elem && elem.delegate('getPreview');
+
+                displayed[index] = !!preview;
                 
-                this[container](_.compact(items));
-            }
+                return preview;
+            });
 
-            return this;
-        },
-
-        getLabel: function(){
-            var label;
-
-            label = this.labels().map(this.getPreivew);
-            label = label.join(this.separator).trim();
-
-            return label || this.label;
-        },
-
-        getPreivew: function(elem){
-            return elem.delegate('getPreview');
+            return _.compact(items);
         }
     });
 });

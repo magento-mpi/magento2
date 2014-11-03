@@ -16,13 +16,7 @@
                         <span data-bind="text: element.removeLabel"></span>
                     </button>
                 </div>
-                <address data-bind="text: getLabel()"></address>
-                <address data-bind="foreach: { data: element.previews, as: 'element' }">
-                    <!-- ko if: $parent.getPreivew(element) -->
-                        <span data-bind="text: $parent.getPreivew(element)"></span><br>
-                    <!-- /ko -->
-                </address>
-
+                <!-- ko template: previewTpl --><!-- /ko -->
                 <div data-bind="foreach: { data: element.head, as: 'element' }, stopPropagation: true">
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 </div>
