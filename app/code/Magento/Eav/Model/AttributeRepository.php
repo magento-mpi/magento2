@@ -139,7 +139,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     {
         /** @var \Magento\Eav\Api\Data\AttributeInterface $attribute */
         $attribute = $this->eavConfig->getAttribute($entityTypeCode, $attributeCode);
-        if (!$attribute->getAttributeId()) {
+        if (!$attribute || !$attribute->getAttributeId()) {
             throw new NoSuchEntityException(sprintf(
                 'Attribute with attributeCode "%s" does not exist.',
                 $attributeCode

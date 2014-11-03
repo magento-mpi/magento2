@@ -19,7 +19,6 @@ interface AttributeManagementInterface
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface::addAttribute
      */
     public function assign($entityTypeCode, $attributeSetId, $attributeGroupId, $attributeCode, $sortOrder);
 
@@ -32,7 +31,6 @@ interface AttributeManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      * @return bool
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface::deleteAttribute
      */
     public function unassign($attributeSetId, $attributeCode);
 
@@ -43,7 +41,6 @@ interface AttributeManagementInterface
      * @param string $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Eav\Api\Data\AttributeInterface[]
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getAttributeList
      */
     public function getAttributes($entityTypeCode, $attributeSetId);
 }

@@ -61,7 +61,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
      * @param Config $eavConfig
      * @param ConfigFactory $entityTypeFactory
      * @param \Magento\Eav\Api\AttributeGroupRepositoryInterface $groupRepository
-     * @param AttributeRepository $attributeRepository
+     * @param \Magento\Eav\Api\AttributeRepositoryInterface $attributeRepository
      * @param Resource\Entity\Attribute $attributeResource
      */
     public function __construct(
@@ -124,7 +124,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         $attributeSet = $this->setRepository->get($attributeSetId);
         $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
 
-        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
+        /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         $attribute = $this->attributeRepository->get($setEntityType->getEntityTypeCode(), $attributeCode);
 
         // Check if attribute is in set

@@ -16,7 +16,6 @@ interface AttributeRepositoryInterface
      * @param string $entityTypeCode
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
-     * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAllAttributeMetadata
      */
     public function getList($entityTypeCode, \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
@@ -27,7 +26,6 @@ interface AttributeRepositoryInterface
      * @param string $attributeCode
      * @return \Magento\Eav\Api\Data\AttributeInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
     public function get($entityTypeCode, $attributeCode);
 
