@@ -314,8 +314,6 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                     => 'Magento\Framework\Api\Code\Generator\DataBuilder',
                 \Magento\Framework\Api\Code\Generator\SearchResultsBuilder::ENTITY_TYPE
                     => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
-                \Magento\Framework\Api\Code\Generator\SearchResultsBuilder::ENTITY_TYPE
-                    => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
                 \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
                     => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
                 \Magento\Framework\ObjectManager\Code\Generator\Repository::ENTITY_TYPE
