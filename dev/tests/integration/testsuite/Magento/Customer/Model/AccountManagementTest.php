@@ -119,8 +119,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
-     * @expectedExceptionMessage Invalid login or password
+     * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
+     * @expectedExceptionMessage Invalid login or password.
      */
     public function testLoginWrongPassword()
     {
@@ -129,8 +129,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
-     * @expectedExceptionMessage Invalid login or password
+     * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
+     * @expectedExceptionMessage Invalid login or password.
      */
     public function testLoginWrongUsername()
     {
@@ -153,7 +153,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
      * @expectedExceptionMessage Password doesn't match for this account
      */
     public function testChangePasswordWrongPassword()
@@ -162,7 +162,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
+     * @expectedExceptionMessage Password doesn't match for this account
      */
     public function testChangePasswordWrongUser()
     {
@@ -220,7 +221,10 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             $this->accountManagement->activate('1234' . $customerModel->getEmail(), $key);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
-            $this->assertEquals('No such entity with customerId = 12341', $nsee->getMessage());
+            $this->assertEquals(
+                'No such entity with email = 1234customer@needAconfirmation.com, websiteId = 1',
+                $nsee->getMessage()
+            );
         }
     }
 
@@ -443,7 +447,10 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             $this->accountManagement->resetPassword('invalid-customer@example.com', $resetToken, $password);
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
-            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
+            $this->assertEquals(
+                'No such entity with email = invalid-customer@example.com, websiteId = 1',
+                $nsee->getMessage()
+            );
         }
     }
 
@@ -460,9 +467,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         try {
             $this->accountManagement->resetPassword('invalid', $resetToken, $password);
             $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $this->assertEquals('Invalid value of "0" provided for the customerId field.', $ie->getMessage());
-            $this->assertEmpty($ie->getErrors());
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals('No such entity with email = invalid, websiteId = 1', $e->getMessage());
         }
 
     }
