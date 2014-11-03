@@ -8,7 +8,6 @@
             <field name="entity_id" dataType="text" visible="false"/>
             <field name="default_billing" source="eav" dataType="boolean" visible="false"/>
             <field name="default_shipping" source="eav" dataType="boolean" visible="false"/>
-            <field name="entity_id" dataType="text" visible="false"/>
             <field name="website_code" dataType="number" formElement="select" source="option"
                    label="Associate to Website">
                 <constraint name="required-entry"/>

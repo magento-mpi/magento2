@@ -308,6 +308,9 @@ class AbstractStructure extends AbstractView
             $itemTemplate['config']['labelParts'] = explode(',', $compositeLabel);
         }
         foreach ($childMeta as $key => $value) {
+            if (isset($value['visible']) && $value['visible'] === 'false') {
+                continue;
+            }
             $itemTemplate['children'][$key] = $value;
             $itemTemplate['children'][$key]['config'] = $value;
             $itemTemplate['children'][$key]['type'] = 'group';
