@@ -54,7 +54,7 @@ class Converter implements ConverterInterface
                     continue;
                 }
                 if ($child->nodeName == 'constraint') {
-                    if (!isset($groups[$child->nodeName])) {
+                    if (!isset($result[$child->nodeName])) {
                         $result[$child->nodeName] = [];
                     }
                     $result[$child->nodeName][] = $this->toArray($child);
