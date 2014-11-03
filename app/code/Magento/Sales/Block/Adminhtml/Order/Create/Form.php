@@ -32,28 +32,19 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Address service
      *
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $addressService;
-
-    /**
-     * Search criteria builder
-     *
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
-     */
-    protected $criteriaBuilder;
-
-    /**
-     * Filter builder
-     *
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
-     */
-    protected $filterBuilder;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
+
+    /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataProcessor;
 
     /**
      * Constructor
@@ -64,10 +55,9 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param array $data
      */
     public function __construct(
@@ -77,18 +67,16 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
-        \Magento\Customer\Api\AddressRepositoryInterface $addressService,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
-        $this->addressService = $addressService;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
+        $this->addressService = $customerRepository;
         $this->_localeCurrency = $localeCurrency;
+        $this->dataProcessor = $dataProcessor;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
 
@@ -179,17 +167,16 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = [];
 
-            $this->criteriaBuilder->addFilter(
-                ['eq' => $this->filterBuilder->setField('parent_id')->setValue($this->getCustomerId())->create()]
-            );
-            $criteria = $this->criteriaBuilder->create();
-            $addresses = $this->addressService->getList($criteria)->getItems();
+            $addresses = $this->customerRepository->getById($this->getCustomerId())->getAddresses();
 
             foreach ($addresses as $addressModel) {
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
-                    $addressModel->getData()
+                    $this->dataProcessor->buildOutputDataArray(
+                        $addressModel,
+                        '\Magento\Customer\Api\Data\AddressInterface'
+                    )
                 );
                 $data['addresses'][$addressModel->getId()] = $addressForm->outputData(
                     \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON

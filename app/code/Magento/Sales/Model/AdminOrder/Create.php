@@ -1700,16 +1700,16 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         // Possible that customerId is null for new customers
         $customerId = $customer->getId();
         $quoteCustomerAddress->setCustomerId($customerId);
-        $customerAddressDataObject = $quoteCustomerAddress->exportCustomerAddress();
+        $customerAddress = $quoteCustomerAddress->exportCustomerAddress();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
         $addressType = $quoteCustomerAddress->getAddressType();
         if ($quoteAddressId) {
             /** Update existing address */
             $existingAddressDataObject = $this->addressRepository->get($quoteAddressId);
             /** Update customer address data */
-            $customerAddressDataObject = $this->addressBuilder->mergeDataObjects(
+            $customerAddress = $this->addressBuilder->mergeDataObjects(
                 $existingAddressDataObject,
-                $customerAddressDataObject
+                $customerAddress
             );
         } elseif ($addressType == \Magento\Customer\Api\Data\AddressInterface::ADDRESS_TYPE_SHIPPING) {
             try {
@@ -1720,7 +1720,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling();
             if (isset($billingAddressDataObject) && $isShippingAsBilling) {
                 /** Set existing billing address as default shipping */
-                $customerAddressDataObject = $this->addressBuilder->populate($billingAddressDataObject)
+                $customerAddress = $this->addressBuilder->populate($billingAddressDataObject)
                     ->setDefaultShipping(true)
                     ->create();
             }
@@ -1729,14 +1729,14 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         switch ($addressType) {
             case \Magento\Customer\Api\Data\AddressInterface::ADDRESS_TYPE_BILLING:
                 if (is_null($customer->getDefaultBilling())) {
-                    $customerAddressDataObject = $this->addressBuilder->populate($customerAddressDataObject)
+                    $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultBilling(true)
                         ->create();
                 }
                 break;
             case \Magento\Customer\Api\Data\AddressInterface::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customer->getDefaultShipping())) {
-                    $customerAddressDataObject = $this->addressBuilder->populate($customerAddressDataObject)
+                    $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultShipping(true)
                         ->create();
                 }
@@ -1744,7 +1744,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
-        $this->getQuote()->addCustomerAddress($customerAddressDataObject);
+        $this->getQuote()->addCustomerAddress($customerAddress);
     }
 
     /**
