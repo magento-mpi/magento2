@@ -527,9 +527,10 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'input' => 'media_image',
                         'frontend' => 'Magento\Catalog\Model\Product\Attribute\Frontend\Image',
                         'required' => false,
-                        'sort_order' => 1,
+                        'sort_order' => 0,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Images'
+                        'used_in_product_listing' => true,
+                        'group' => 'General'
                     ),
                     'small_image' => array(
                         'type' => 'varchar',
@@ -798,8 +799,25 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'unique' => false,
                         'apply_to' => 'simple,bundle',
                         'group' => 'General',
+                    ),
+                    'quantity_and_stock_status' => array(
+                        'group' => 'General',
+                        'type' => 'int',
+                        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Stock',
+                        'label' => 'Quantity',
+                        'input' => 'select',
+                        'input_renderer' => 'Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock',
+                        'source' => 'Magento\CatalogInventory\Model\Stock\Status',
+                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+                        'default' => \Magento\CatalogInventory\Model\Stock::STOCK_IN_STOCK,
+                        'user_defined' => false,
+                        'visible' => true,
+                        'required' => false,
+                        'searchable' => false,
+                        'filterable' => false,
+                        'comparable' => false,
+                        'unique' => false
                     )
-
                 )
             )
         );
