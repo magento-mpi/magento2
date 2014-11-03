@@ -24,7 +24,8 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager->configure(
             [
                 'preferences' => [
-                    'Magento\Wonderland\Api\Data\FakeAddressInterface' => 'Magento\Wonderland\Model\FakeAddress'
+                    'Magento\Wonderland\Api\Data\FakeAddressInterface' => 'Magento\Wonderland\Model\FakeAddress',
+                    'Magento\Wonderland\Api\Data\FakeRegionInterface' => 'Magento\Wonderland\Model\FakeRegion'
                 ]
             ]
         );
@@ -43,6 +44,17 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
                 FakeRegionInterface::REGION_CODE => 'TX',
                 FakeRegionInterface::REGION_ID => '1',
             ],
+            FakeAddressInterface::REGIONS => [
+                [
+                    FakeRegionInterface::REGION => 'US',
+                    FakeRegionInterface::REGION_CODE => 'TX',
+                    FakeRegionInterface::REGION_ID => '1',
+                ], [
+                    FakeRegionInterface::REGION => 'US',
+                    FakeRegionInterface::REGION_CODE => 'TX',
+                    FakeRegionInterface::REGION_ID => '2',
+                ]
+            ],
             FakeAddressInterface::COMPANY => 'Magento',
             FakeAddressInterface::COUNTRY_ID => 'US',
             FakeAddressInterface::CUSTOMER_ID => '1',
@@ -59,12 +71,15 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
             'test' => 'xxx'
         ];
 
+        /** @var \Magento\Wonderland\Api\Data\FakeAddressInterface $address */
         $address = $addressBuilder->populateWithArray($data)
             ->create();
         $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeAddressInterface', $address);
         $this->assertEquals('Johnes', $address->getLastname());
-        $this->assertNull($address->getCustomAttribute('xx'));
-
+        $this->assertNull($address->getCustomAttribute('test'));
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegion());
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[0]);
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[1]);
     }
 
 }

@@ -36,4 +36,14 @@ interface ExtensibleDataBuilderInterface
      * @return \Magento\Framework\Api\ExtensibleDataInterface
      */
     public function create();
+
+    /**
+     * Populates the fields with data from the array.
+     *
+     * Keys for the map are snake_case attribute/field names.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function populateWithArray(array $data);
 }

@@ -98,6 +98,9 @@ class DataBuilder extends EntityAbstract
                     ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
                     ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
                     ['name' => 'attributeValueBuilder', 'type' => '\Magento\Framework\Api\AttributeDataBuilder'],
+                    ['name' => 'objectProcessor', 'type' => '\Magento\Framework\Reflection\DataObjectProcessor'],
+                    ['name' => 'typeProcessor', 'type' => '\Magento\Framework\Reflection\TypeProcessor'],
+                    ['name' => 'dataBuilderFactory', 'type' => '\Magento\Framework\Serialization\DataBuilderFactory']
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
@@ -113,10 +116,23 @@ class DataBuilder extends EntityAbstract
                         [
                             'name' => 'param',
                             'description' => '\Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Reflection\DataObjectProcessor $objectProcessor'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Reflection\TypeProcessor $typeProcessor'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory'
                         ]
                     ]
                 ],
-                'body' => "parent::__construct(\$objectManager, \$metadataService, \$attributeValueBuilder, "
+                'body' => "parent::__construct(\$objectManager, \$metadataService, "
+                    . "\$attributeValueBuilder, \$objectProcessor, \$typeProcessor, \$dataBuilderFactory, "
                     . "'" . $this->_getSourceClassName(). "');"
             ];
         }
