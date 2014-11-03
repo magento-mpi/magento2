@@ -76,7 +76,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1GetGroup'
+                'operation' => 'customerGroupRepositoryV1Get'
             ]
         ];
         $requestData = [CustomerGroup::ID => $groupId];
@@ -126,243 +126,6 @@ class GroupRepositoryTest extends WebapiAbstract
                 ]
             ],
         ];
-    }
-
-    /**
-     * Verify the retrieval of all customer groups.
-     */
-    public function testGetGroups()
-    {
-        $expectedGroups = [
-            [
-                CustomerGroup::ID => 0,
-                CustomerGroup::CODE => 'NOT LOGGED IN',
-                CustomerGroup::TAX_CLASS_ID => 3,
-            ],
-            [
-                CustomerGroup::ID => 1,
-                CustomerGroup::CODE => 'General',
-                CustomerGroup::TAX_CLASS_ID => 3,
-            ],
-            [
-                CustomerGroup::ID => 2,
-                CustomerGroup::CODE => 'Wholesale',
-                CustomerGroup::TAX_CLASS_ID => 3,
-            ],
-            [
-                CustomerGroup::ID => 3,
-                CustomerGroup::CODE => 'Retailer',
-                CustomerGroup::TAX_CLASS_ID => 3,
-            ]
-        ];
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1GetGroups'
-            ]
-        ];
-
-        $groups = array_map(
-            function ($array) {
-                return $array;
-            },
-            $this->_webApiCall($serviceInfo)
-        );
-
-        $this->assertCount(count($expectedGroups), $groups, "The number of groups returned is wrong.");
-        $this->assertEquals($expectedGroups, $groups, "The list of groups does not match.");
-    }
-
-    /**
-     * Verify the retrieval of the default group for storeId equal to 1.
-     *
-     * @param int $storeId The store Id
-     * @param array $defaultGroupData The default group data for the store with the specified Id.
-     *
-     * @dataProvider getDefaultGroupDataProvider
-     */
-    public function testGetDefaultGroup($storeId, $defaultGroupData)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/default/$storeId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1GetDefaultGroup'
-            ]
-        ];
-        $requestData = ['storeId' => $storeId];
-        $groupData = $this->_webApiCall($serviceInfo, $requestData);
-
-        $this->assertEquals($defaultGroupData, $groupData, "The default group does not match.");
-    }
-
-    /**
-     * The testGetDefaultGroup data provider.
-     *
-     * @return array
-     */
-    public function getDefaultGroupDataProvider()
-    {
-        return [
-            'admin' => [
-                0,
-                [
-                    CustomerGroup::ID => 1,
-                    CustomerGroup::CODE => 'General',
-                    CustomerGroup::TAX_CLASS_ID => 3,
-                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
-            ],
-            'base' => [
-                1,
-                [
-                    CustomerGroup::ID => 1,
-                    CustomerGroup::CODE => 'General',
-                    CustomerGroup::TAX_CLASS_ID => 3,
-                    CustomerGroup::TAX_CLASS_NAME => 'Retail Customer'
-                ]
-            ]
-        ];
-    }
-
-    /**
-     * Verify the retrieval of a non-existent storeId will return an expected fault.
-     */
-    public function testGetDefaultGroupNonExistentStore()
-    {
-        /* Store id should not exist */
-        $nonExistentStoreId = 9876;
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/default/$nonExistentStoreId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1GetDefaultGroup'
-            ]
-        ];
-        $requestData = ['storeId' => $nonExistentStoreId];
-        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
-
-        try {
-            $this->_webApiCall($serviceInfo, $requestData);
-            $this->fail("Expected exception");
-        } catch (\SoapFault $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "SoapFault does not contain expected message."
-            );
-        } catch (\Exception $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "Exception does not contain expected message."
-            );
-            $this->assertContains((string)$nonExistentStoreId, $e->getMessage());
-        }
-    }
-
-    /**
-     * Verify that the group with the specified Id can or cannot be deleted.
-     *
-     * @param int $groupId The group Id
-     * @param bool $isDeleteable Whether the group can or cannot be deleted.
-     *
-     * @dataProvider canDeleteDataProvider
-     */
-    public function testCanDelete($groupId, $isDeleteable)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CanDelete'
-            ]
-        ];
-
-        $requestData = [CustomerGroup::ID => $groupId];
-
-        $canDelete = $this->_webApiCall($serviceInfo, $requestData);
-
-        $failureMessage = $isDeleteable
-            ? 'The group should be deleteable.' : 'The group should not be deleteable.';
-        $this->assertEquals($isDeleteable, $canDelete, $failureMessage);
-    }
-
-    /**
-     * The testCanDelete data provider.
-     *
-     * @return array
-     */
-    public function canDeleteDataProvider()
-    {
-        return [
-            'NOT LOGGED IN' => [0, false],
-            'General' => [1, false],
-            'Wholesale' => [2, true],
-            'Retailer' => [3, true]
-        ];
-    }
-
-    /**
-     * Verify that the group with the specified Id can or cannot be deleted.
-     */
-    public function testCanDeleteNoSuchGroup()
-    {
-        /* This group ID should not exist in the store. */
-        $groupId = 9999;
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/$groupId/permissions",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CanDelete'
-            ]
-        ];
-
-        $requestData = [CustomerGroup::ID => $groupId];
-
-        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
-
-        try {
-            $this->_webApiCall($serviceInfo, $requestData);
-            $this->fail("Expected exception.");
-        } catch (\SoapFault $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "SoapFault does not contain expected message."
-            );
-        } catch (\Exception $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "Exception does not contain expected message."
-            );
-            $this->assertContains((string)$groupId, $e->getMessage());
-        }
     }
 
     /**
@@ -610,7 +373,7 @@ class GroupRepositoryTest extends WebapiAbstract
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                "ID is not expected for this request.",
+                'No such entity with %fieldName = %fieldValue',
                 $e->getMessage(),
                 "SoapFault does not contain expected message."
             );
@@ -716,7 +479,7 @@ class GroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
         $newGroup = $this->groupRepository->get($groupId);
@@ -834,14 +597,12 @@ class GroupRepositoryTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage ='Invalid value of "%value" provided for the %fieldName field.';
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
-                $expectedMessage,
+                '%fieldName is a required field.',
                 $e->getMessage(),
                 "SoapFault does not contain expected message."
             );
@@ -905,7 +666,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1UpdateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -914,9 +675,7 @@ class GroupRepositoryTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = [CustomerGroup::ID => $groupId, 'group' => $groupData];
-
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $this->_webApiCall($serviceInfo, ['group' => $groupData]);
 
         $group = $this->groupRepository->get($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
@@ -940,7 +699,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1UpdateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -949,7 +708,7 @@ class GroupRepositoryTest extends WebapiAbstract
             CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
             'taxClassId' => 3
         ];
-        $requestData = [CustomerGroup::ID => $nonExistentGroupId, 'group' => $groupData];
+        $requestData = ['group' => $groupData];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -986,7 +745,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1DeleteGroup'
+                'operation' => 'customerGroupRepositoryV1DeleteById'
             ]
         ];
 
@@ -1022,7 +781,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1DeleteGroup'
+                'operation' => 'customerGroupRepositoryV1DeleteById'
             ]
         ];
 
@@ -1057,7 +816,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1DeleteGroup'
+                'operation' => 'customerGroupRepositoryV1DeleteById'
             ]
         ];
 
@@ -1189,7 +948,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1SearchGroups'
+                'operation' => 'customerGroupRepositoryV1GetList'
             ]
         ];
 
