@@ -7,7 +7,7 @@
 //  */
 
 .form.send.friend {
-   &:extend(.add-recipients all);
+   &:extend(.abstract-add-fields all);
 }
 
 .product-social-links .action.mailto.friend {
@@ -24,7 +24,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .form.send.friend {
         width: 60%;
-        &:extend(.add-recipients-desktop all);
+        &:extend(.abstract-add-fields-desktop all);
         &:extend(.form-field-column-2 all);
         .fieldset {
             .field {

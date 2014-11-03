@@ -514,4 +514,13 @@
             <argument name="context" xsi:type="object">Magento\Catalog\Model\Layer\Category\Context</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory">
+        <arguments>
+            <argument name="algorithms" xsi:type="array">
+                <item name="auto" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Auto</item>
+                <item name="improved" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Improved</item>
+                <item name="manual" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Manual</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
