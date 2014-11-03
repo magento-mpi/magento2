@@ -54,6 +54,7 @@
             <xs:attribute type="text_attribute" name="optionProvider" use="optional"/>
             <xs:attribute type="text_attribute" name="default_value" use="optional"/>
             <xs:attribute type="text_attribute" name="label" use="optional"/>
+            <xs:attribute type="text_attribute" name="description" use="optional"/>
             <xs:attribute type="visible_attribute" name="visible" use="optional"/>
         </xs:complexType>
     </xs:element>

@@ -194,7 +194,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             array('title' => 'default_name', 'country_id' => 'country_id')
         );
         if (count($options) > 0) {
-            array_unshift($options, array('title ' => null, 'value' => '0', 'label' => __('--Please select--')));
+            array_unshift($options, array('title ' => null, 'value' => null, 'label' => __('--Please select--')));
         }
         return $options;
     }
