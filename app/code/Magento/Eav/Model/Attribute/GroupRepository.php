@@ -73,7 +73,9 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
      */
     public function save(\Magento\Eav\Api\Data\AttributeGroupInterface $group)
     {
-        if (!$this->setRepository->get($group->getAttributeSetId())->getId()) {
+        try {
+            $this->setRepository->get($group->getAttributeSetId());
+        } catch (NoSuchEntityException $ex) {
             throw NoSuchEntityException::singleField('attributeSetId', $group->getAttributeSetId());
         }
 

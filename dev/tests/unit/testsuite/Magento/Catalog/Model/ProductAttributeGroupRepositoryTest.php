@@ -15,17 +15,17 @@ class ProductAttributeGroupRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Eav\Api\AttributeGroupRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $groupRepositoryMock;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Attribute\Group|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $groupFactoryMock;
 
     /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $groupResourceMock;
 
@@ -41,15 +41,20 @@ class ProductAttributeGroupRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->groupResourceMock = $this->getMock(
             '\Magento\Eav\Model\Resource\Entity\Attribute\Group',
-            [],
+            ['load', '__wakeup'],
             [],
             '',
             false
         );
-        $this->model = new \Magento\Catalog\Model\ProductAttributeGroupRepository(
-            $this->groupRepositoryMock,
-            $this->groupResourceMock,
-            $this->groupFactoryMock
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            '\Magento\Catalog\Model\ProductAttributeGroupRepository',
+            [
+                'groupRepository' => $this->groupRepositoryMock,
+                'groupResource' => $this->groupResourceMock,
+                'groupFactory' => $this->groupFactoryMock
+            ]
         );
     }
 
@@ -64,45 +69,84 @@ class ProductAttributeGroupRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetList()
     {
-        $serchCriteriaMock = $this->getMock('\Magento\Framework\Data\Search\SearchCriteriaInterface');
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\Search\SearchCriteriaInterface');
         $expectedResult = $this->getMock('\Magento\Eav\Api\Data\AttributeGroupInterface');
-        $this->groupRepositoryMock->expects($this->once())->method('getList')->with($serchCriteriaMock)
+        $this->groupRepositoryMock->expects($this->once())->method('getList')->with($searchCriteriaMock)
             ->willReturn($expectedResult);
-        $this->assertEquals($expectedResult, $this->model->getList($serchCriteriaMock));
+        $this->assertEquals($expectedResult, $this->model->getList($searchCriteriaMock));
     }
 
     public function testGet()
     {
         $groupId = 42;
-        $groupMock = $this->getMock('\Magento\Eav\Api\Data\AttributeGroupInterface');
-        $this->groupRepositoryMock->expects($this->once())->method('get')->with($groupId)->willReturn($groupMock);
+        $groupMock = $this->getMock('\Magento\Catalog\Model\Product\Attribute\Group', [], [], '', false);
+        $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($groupMock);
+        $this->groupResourceMock->expects($this->once())->method('load')->with($groupMock, $groupId)->willReturnSelf();
+        $groupMock->expects($this->once())->method('getId')->willReturn($groupId);
         $this->assertEquals($groupMock, $this->model->get($groupId));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testGetThrowsExceptionIfGroupDoesNotExist()
+    {
+        $groupId = 42;
+        $groupMock = $this->getMock('\Magento\Catalog\Model\Product\Attribute\Group', [], [], '', false);
+        $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($groupMock);
+        $this->groupResourceMock->expects($this->once())->method('load')->with($groupMock, $groupId)->willReturnSelf();
+        $groupMock->expects($this->once())->method('getId')->willReturn(null);
+        $this->model->get($groupId);
     }
 
     public function testDeleteById()
     {
         $groupId = 42;
-        $groupMock = $this->getMock('\Magento\Eav\Api\Data\AttributeGroupInterface');
-        $this->groupRepositoryMock->expects($this->once())->method('get')->with($groupId)->willReturn($groupMock);
+        $groupMock = $this->getMock(
+            '\Magento\Catalog\Model\Product\Attribute\Group',
+            ['hasSystemAttributes', 'getId'],
+            [],
+            '',
+            false
+        );
+        $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($groupMock);
+        $this->groupResourceMock->expects($this->once())->method('load')->with($groupMock, $groupId)->willReturnSelf();
+
         $groupMock->expects($this->once())->method('getId')->willReturn($groupId);
-        $attributeGroupMock = $this->getMock('\Magento\Catalog\Model\Product\Attribute\Group', [], [], '', false);
-        $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($attributeGroupMock);
-        $this->groupResourceMock->expects($this->once())->method('load')->with($attributeGroupMock, $groupId);
-        $attributeGroupMock->expects($this->once())->method('hasSystemAttributes')->willReturn(false);
-        $this->groupRepositoryMock->expects($this->once())->method('delete')->willReturn(true);
+        $groupMock->expects($this->once())->method('hasSystemAttributes')->willReturn(false);
+
+        $this->groupRepositoryMock->expects($this->once())->method('delete')->with($groupMock)->willReturn(true);
         $this->assertTrue($this->model->deleteById($groupId));
     }
 
     public function testDelete()
     {
-        $groupId = 42;
-        $groupMock = $this->getMock('\Magento\Eav\Api\Data\AttributeGroupInterface');
-        $groupMock->expects($this->once())->method('getId')->willReturn($groupId);
-        $attributeGroupMock = $this->getMock('\Magento\Catalog\Model\Product\Attribute\Group', [], [], '', false);
-        $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($attributeGroupMock);
-        $this->groupResourceMock->expects($this->once())->method('load')->with($attributeGroupMock, $groupId);
-        $attributeGroupMock->expects($this->once())->method('hasSystemAttributes')->willReturn(false);
-        $this->groupRepositoryMock->expects($this->once())->method('delete')->willReturn(true);
+        $groupMock = $this->getMock(
+            '\Magento\Catalog\Model\Product\Attribute\Group',
+            ['hasSystemAttributes'],
+            [],
+            '',
+            false
+        );
+        $groupMock->expects($this->once())->method('hasSystemAttributes')->willReturn(false);
+        $this->groupRepositoryMock->expects($this->once())->method('delete')->with($groupMock)->willReturn(true);
         $this->assertTrue($this->model->delete($groupMock));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionMessage Attribute group that contains system attributes can not be deleted
+     */
+    public function testDeleteThrowsExceptionIfGroupHasSystemAttributes()
+    {
+        $groupMock = $this->getMock(
+            '\Magento\Catalog\Model\Product\Attribute\Group',
+            ['hasSystemAttributes'],
+            [],
+            '',
+            false
+        );
+        $groupMock->expects($this->once())->method('hasSystemAttributes')->willReturn(true);
+        $this->model->delete($groupMock);
     }
 }
