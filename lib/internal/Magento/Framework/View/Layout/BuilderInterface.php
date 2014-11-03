@@ -7,13 +7,17 @@
  */
 namespace Magento\Framework\View\Layout;
 
+use Magento\Framework\View;
+
 /**
  * Interface BuilderInterface
  */
 interface BuilderInterface
 {
     /**
-     * @return \Magento\Framework\View\LayoutInterface
+     * Build structure
+     *
+     * @return View\LayoutInterface
      */
     public function build();
 }

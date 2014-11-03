@@ -39,17 +39,17 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     protected $currentElement;
 
     /**
-     * @var \Magento\Framework\View\Layout\Element
-     */
-    protected $parentElement;
-
-    /**
      * @param string $xml
      * @return \Magento\Framework\View\Layout\Element
      */
     protected function getElement($xml)
     {
-        return new \Magento\Framework\View\Layout\Element($xml);
+        $xml = '<' . \Magento\Framework\View\Layout\Reader\Block::TYPE_BLOCK . '>'
+            . $xml
+            . '</' . \Magento\Framework\View\Layout\Reader\Block::TYPE_BLOCK . '>';
+
+        $xml = simplexml_load_string($xml, 'Magento\Framework\View\Layout\Element');
+        return current($xml->children());
     }
 
     /**
@@ -60,7 +60,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     protected function prepareReaderPool($xml)
     {
         $this->currentElement = $this->getElement($xml);
-        $this->readerPool->expects($this->once())->method('readStructure')->with($this->context, $this->currentElement);
+        $this->readerPool->expects($this->once())->method('interpret')->with($this->context, $this->currentElement);
     }
 
     /**
@@ -90,7 +90,6 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         );
         $this->context = $this->getMock('Magento\Framework\View\Layout\Reader\Context', [], [], '', false);
         $this->readerPool = $this->getMock('Magento\Framework\View\Layout\ReaderPool', [], [], '', false);
-        $this->parentElement = $this->getElement('<' . \Magento\Framework\View\Layout\Reader\Block::TYPE_BLOCK . '/>');
     }
 
     /**
@@ -138,7 +137,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
                 'readerPool' => $this->readerPool
             ]
         );
-        $block->interpret($this->context, $this->currentElement, $this->parentElement);
+        $block->interpret($this->context, $this->currentElement);
     }
 
     /**
@@ -159,7 +158,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\View\Layout\Reader\Block $block */
         $block = $this->getBlock(['readerPool' => $this->readerPool]);
-        $block->interpret($this->context, $this->currentElement, $this->parentElement);
+        $block->interpret($this->context, $this->currentElement);
     }
 
     /**

@@ -370,7 +370,7 @@
     </virtualType>
     <type name="Magento\Framework\View\Layout">
         <arguments>
-            <argument name="reader" xsi:type="object" shared="false">commonRenderPool</argument>
+            <argument name="readerPool" xsi:type="object" shared="false">commonRenderPool</argument>
         </arguments>
     </type>
     <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\ReaderPool">

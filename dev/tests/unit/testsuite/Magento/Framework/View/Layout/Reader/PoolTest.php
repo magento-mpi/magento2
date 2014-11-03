@@ -39,7 +39,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testReadStructure()
+    public function testInterpret()
     {
         /** @var Context $contextMock */
         $contextMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
@@ -54,7 +54,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
          */
         $moveReaderMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Move')
             ->disableOriginalConstructor()->getMock();
-        $moveReaderMock->expects($this->once())->method('process')
+        $moveReaderMock->expects($this->once())->method('interpret')
             ->willReturn($this->returnSelf());
         $moveReaderMock->method('getSupportedNodes')
             ->willReturn(['move']);
@@ -64,7 +64,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
          */
         $removeReaderMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Remove')
             ->disableOriginalConstructor()->getMock();
-        $removeReaderMock->expects($this->once())->method('process')
+        $removeReaderMock->expects($this->once())->method('interpret')
             ->with()
             ->willReturn($this->returnSelf());
         $removeReaderMock->method('getSupportedNodes')
@@ -79,6 +79,6 @@ class PoolTest extends \PHPUnit_Framework_TestCase
                 ]
             ));
 
-        $this->pool->readStructure($contextMock, $currentElement);
+        $this->pool->interpret($contextMock, $currentElement);
     }
 }

@@ -119,7 +119,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->with($createData)->will($this->returnValue($this->processorInterface));
         $element = new \Magento\Framework\View\Layout\Element($xml);
         $this->processorInterface->expects($this->once())->method('asSimplexml')->will($this->returnValue($element));
-        $this->readerPool->expects($this->once())->method('readStructure')->with($this->readerContext, $element);
+        $this->readerPool->expects($this->once())->method('interpret')->with($this->readerContext, $element);
         $this->model->read($this->readerContext, $data);
     }
 }

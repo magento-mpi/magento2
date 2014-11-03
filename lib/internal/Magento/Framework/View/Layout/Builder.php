@@ -54,6 +54,8 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * Build layout structure
+     *
      * @return \Magento\Framework\View\LayoutInterface
      */
     public function build()
@@ -77,7 +79,7 @@ class Builder implements BuilderInterface
         Profiler::start('LAYOUT');
         /* dispatch event for adding handles to layout update */
         $this->eventManager->dispatch(
-            'controller_action_layout_load_before',
+            'layout_load_before',
             array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
         );
         Profiler::start('layout_load');
@@ -111,8 +113,6 @@ class Builder implements BuilderInterface
     /**
      * Generate layout blocks
      *
-     * TODO: Restore action flag functionality to have ability to turn off event dispatching
-     *
      * @return $this
      */
     protected function generateLayoutBlocks()
@@ -122,7 +122,7 @@ class Builder implements BuilderInterface
         Profiler::start('LAYOUT');
         /* dispatch event for adding xml layout elements */
         $this->eventManager->dispatch(
-            'controller_action_layout_generate_blocks_before',
+            'layout_generate_blocks_before',
             array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
         );
         Profiler::start('layout_generate_blocks');
@@ -132,7 +132,7 @@ class Builder implements BuilderInterface
 
         Profiler::stop('layout_generate_blocks');
         $this->eventManager->dispatch(
-            'controller_action_layout_generate_blocks_after',
+            'layout_generate_blocks_after',
             array('full_action_name' => $this->request->getFullActionName(), 'layout' => $this->layout)
         );
         Profiler::stop('LAYOUT');

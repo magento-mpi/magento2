@@ -160,10 +160,8 @@ class Layout extends AbstractResult
         $this->applyHttpHeaders($response);
         $this->render($response);
 
-        $this->eventManager->dispatch('controller_action_layout_render_before');
-        $this->eventManager->dispatch(
-            'controller_action_layout_render_before_' . $this->request->getFullActionName()
-        );
+        $this->eventManager->dispatch('layout_render_before');
+        $this->eventManager->dispatch('layout_render_before_' . $this->request->getFullActionName());
         \Magento\Framework\Profiler::stop('layout_render');
         \Magento\Framework\Profiler::stop('LAYOUT');
         return $this;
