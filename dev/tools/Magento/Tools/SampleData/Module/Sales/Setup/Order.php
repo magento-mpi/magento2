@@ -16,6 +16,15 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
  */
 class Order implements SetupInterface
 {
+    /**
+     * @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory
+     */
+    protected $CsvReaderFactory;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\Fixture
+     */
+    protected $FixtureHelper;
 
     /**
      * @var \Magento\Tools\SampleData\Module\Sales\Setup\Order\Converter
@@ -204,7 +213,9 @@ class Order implements SetupInterface
         if ($invoice) {
             $invoice->register();
             $invoice->getOrder()->setIsInProcess(true);
-            $invoiceTransaction = $this->transactionFactory->create()->addObject($invoice)->addObject($invoice->getOrder());
+            $invoiceTransaction = $this->transactionFactory->create()
+                ->addObject($invoice)
+                ->addObject($invoice->getOrder());
             $invoiceTransaction->save();
         }
     }
@@ -224,7 +235,9 @@ class Order implements SetupInterface
         if ($shipment) {
             $shipment->register();
             $shipment->getOrder()->setIsInProcess(true);
-            $shipmentTransaction = $this->transactionFactory->create()->addObject($shipment)->addObject($shipment->getOrder());
+            $shipmentTransaction = $this->transactionFactory->create()
+                ->addObject($shipment)
+                ->addObject($shipment->getOrder());
             $shipmentTransaction->save();
         }
     }
@@ -233,6 +246,7 @@ class Order implements SetupInterface
      * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param string $storeCreditAmount
      * @return void
+     * @TODO uncomment code after merge with mainline
      */
     protected function refundOrder(\Magento\Sales\Model\Order\Item $orderItem, $storeCreditAmount = '')
     {
@@ -252,7 +266,9 @@ class Order implements SetupInterface
         if ($creditmemo && $creditmemo->isValidGrandTotal()) {
             $creditmemo->setOfflineRequested(true);
             $creditmemo->register();
-            $transactionSave = $this->transactionFactory->create()->addObject($creditmemo)->addObject($creditmemo->getOrder());
+            $transactionSave = $this->transactionFactory->create()
+                ->addObject($creditmemo)
+                ->addObject($creditmemo->getOrder());
             $transactionSave->save();
         }
     }
