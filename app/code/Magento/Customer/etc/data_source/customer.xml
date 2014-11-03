@@ -6,7 +6,7 @@
     >
         <fields entityType="customer">
             <field name="entity_id" dataType="text" visible="false" />
-            <field name="website_code" dataType="number" formElement="select" source="option" label="Website">
+            <field name="website_code" dataType="number" formElement="select" source="option" label="Associate to Website">
                 <constraint name="required-entry" />
                 <reference target="website"
                            referencedField="website_id"
@@ -16,7 +16,7 @@
             </field>
             <field name="prefix" source="eav" dataType="text" />
             <field name="disable_auto_group_change" source="eav" dataType="boolean" formElement="checkbox" />
-            <field name="customer_group_code" dataType="number" formElement="select" source="option" label="Customer Group">
+            <field name="customer_group_code" dataType="number" formElement="select" source="option" label="Group">
                 <reference target="customer_group"
                            referencedField="group_id"
                            targetField="customer_group_id"
@@ -34,8 +34,10 @@
             <field name="email" source="eav">
                 <constraint name="required-entry" />
             </field>
+            <field name="dob" source="eav" dataType="text" label="Date Of Birth" formElement="date"/>
+            <field name="taxvat" source="eav" dataType="text" label="Tax VAT Number" />
             <field name="gender" source="eav" dataType="text" formElement="select" />
-            <field name="sendemail" dataType="boolean" formElement="checkbox" label="Welcome Email" />
+            <field name="sendemail" dataType="boolean" formElement="checkbox" label="Send Welcome Email" />
         </fields>
     </datasource>
 </config>

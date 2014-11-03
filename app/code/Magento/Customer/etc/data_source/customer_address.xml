@@ -5,17 +5,33 @@
                 previewElements="prefix,firstname,lastname,postcode,city,region_id"
                 dataset="Magento\Customer\Model\Resource\Address\Collection">
         <fields>
-            <field name="firstname" source="eav"/>
-            <field name="middlename" source="eav"/>
-            <field name="lastname" source="eav"/>
             <field name="prefix" source="eav"/>
+            <field name="firstname" source="eav">
+                <constraint name="required-entry" />
+            </field>
+            <field name="middlename" source="eav"/>
+            <field name="lastname" source="eav">
+                <constraint name="required-entry" />
+            </field>
             <field name="suffix" source="eav"/>
-            <field name="city" source="eav"/>
+            <field name="company" source="eav" label="Company"/>
+            <field name="street" dataType="text" formElement="multiline" source="eav">
+                <constraint name="required-entry" />
+            </field>
+            <field name="city" source="eav">
+                <constraint name="required-entry" />
+            </field>
             <field name="region_id" source="eav" formElement="select"/>
-            <field name="postcode" source="eav"/>
+            <field name="postcode" source="eav">
+                <constraint name="required-entry" />
+            </field>
+            <field name="telephone" source="eav" label="Phone Number">
+                <constraint name="required-entry" />
+            </field>
+            <field name="fax" source="eav" label="Fax"/>
+            <field name="vat_id" source="eav" label="VAT number"/>
             <field name="default_billing" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Billing Address" />
             <field name="default_shipping" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Shipping Address" />
-            <field name="street" dataType="text" formElement="multiline" source="eav"/>
         </fields>
         <references>
             <reference target="customer"
