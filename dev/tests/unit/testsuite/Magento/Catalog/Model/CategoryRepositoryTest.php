@@ -111,7 +111,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($categoryMock, $this->model->get($categoryId));
     }
 
-    public function testSave()
+    public function testUpdateExistingCategory()
     {
         $categoryId = 5;
         $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
@@ -142,13 +142,16 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($categoryId, $this->model->save($categoryMock));
     }
 
-    public function testSaveWithoutCategoryId()
+    public function testCreateNewCategory()
     {
         $categoryId = null;
         $parentCategoryId = 15;
+        $newCategoryId = 25;
         $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
+
         $parentCategoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
-        $categoryMock->expects($this->any())->method('getId')->willReturn($categoryId);
+        $categoryMock->expects($this->exactly(2))->method('getId')
+            ->will($this->onConsecutiveCalls($categoryId, $newCategoryId));
         $categoryMock->expects($this->never())->method('getIsActive');
         $this->categoryFactoryMock->expects($this->once())->method('create')->willReturn($parentCategoryMock);
         $parentCategoryMock->expects($this->atLeastOnce())->method('getId')->willReturn($parentCategoryId);
@@ -158,7 +161,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $categoryMock->expects($this->once())->method('validate')->willReturn(true);
         $categoryMock->expects($this->once())->method('getParentId')->willReturn(3);
         $this->categoryResourceMock->expects($this->once())->method('save')->willReturn('\Magento\Framework\Object');
-        $this->assertEquals(null, $this->model->save($categoryMock));
+        $this->assertEquals($newCategoryId, $this->model->save($categoryMock));
     }
 
     /**
