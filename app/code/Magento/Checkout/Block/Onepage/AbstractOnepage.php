@@ -238,14 +238,14 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $array = $this->dataObjectProcessor->buildOutputDataArray(
+                $builtOutputAddressData = $this->dataObjectProcessor->buildOutputDataArray(
                     $address,
                     '\Magento\Customer\Api\Data\AddressInterface'
                 );
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
-                    ->renderArray($array);
+                    ->renderArray($builtOutputAddressData);
 
                 $options[] = ['value' => $address->getId(), 'label' => $label];
             }
