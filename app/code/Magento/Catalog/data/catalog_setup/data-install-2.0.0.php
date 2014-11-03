@@ -139,3 +139,113 @@ foreach ($describe as $columnData) {
     $installer->getConnection()
         ->dropColumn($installer->getTable('eav_attribute'), $columnData['COLUMN_NAME']);
 }
+
+$newGeneralTabName = 'Product Details';
+$newPriceTabName = 'Advanced Pricing';
+$newImagesTabName = 'Image Management';
+$newMetaTabName = 'Search Engine Optimization';
+$autosettingsTabName = 'Autosettings';
+$tabNames = [
+    'General' => [
+        'attribute_group_name' => $newGeneralTabName,
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newGeneralTabName)),
+        'tab_group_code' => 'basic',
+        'sort_order' => 10
+    ],
+    'Images' => [
+        'attribute_group_name' => $newImagesTabName,
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newImagesTabName)),
+        'tab_group_code' => 'basic',
+        'sort_order' => 20
+    ],
+    'Meta Information' => [
+        'attribute_group_name' => $newMetaTabName,
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newMetaTabName)),
+        'tab_group_code' => 'basic',
+        'sort_order' => 30
+    ],
+    'Prices' => [
+        'attribute_group_name' => $newPriceTabName,
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newPriceTabName)),
+        'tab_group_code' => 'advanced',
+        'sort_order' => 40
+    ],
+    'Design' => ['attribute_group_code' => 'design', 'tab_group_code' => 'advanced', 'sort_order' => 50]
+];
+
+$entityTypeId = $installer->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+$attributeSetId = $installer->getAttributeSetId($entityTypeId, 'Default');
+
+//Rename attribute tabs
+foreach ($tabNames as $tabName => $tab) {
+    $groupId = $installer->getAttributeGroupId($entityTypeId, $attributeSetId, $tabName);
+    if ($groupId) {
+        foreach ($tab as $propertyName => $propertyValue) {
+            $installer->updateAttributeGroup($entityTypeId, $attributeSetId, $groupId, $propertyName, $propertyValue);
+        }
+    }
+}
+
+//Add new tab
+$installer->addAttributeGroup($entityTypeId, $attributeSetId, $autosettingsTabName, 60);
+$installer->updateAttributeGroup(
+    $entityTypeId,
+    $attributeSetId,
+    'Autosettings',
+    'attribute_group_code',
+    'autosettings'
+);
+$installer->updateAttributeGroup($entityTypeId, $attributeSetId, 'Autosettings', 'tab_group_code', 'advanced');
+
+//New attributes order and properties
+$properties = ['is_required', 'default_value', 'frontend_input_renderer'];
+$attributesOrder = [
+    //Product Details tab
+    'name' => [$newGeneralTabName => 10],
+    'sku' => [$newGeneralTabName => 20],
+    'price' => [$newGeneralTabName => 30],
+    'image' => [$newGeneralTabName => 50],
+    'weight' => [$newGeneralTabName => 70, 'is_required' => 0],
+    'category_ids' => [$newGeneralTabName => 80],
+    'description' => [$newGeneralTabName => 90, 'is_required' => 0],
+    'status' => [
+        $newGeneralTabName => 100,
+        'is_required' => 0,
+        'default_value' => 1,
+        'frontend_input_renderer' => 'Magento\Framework\Data\Form\Element\Hidden'
+    ],
+    //Autosettings tab
+    'short_description' => [$autosettingsTabName => 0, 'is_required' => 0],
+    'visibility' => [$autosettingsTabName => 20, 'is_required' => 0],
+    'news_from_date' => [$autosettingsTabName => 30],
+    'news_to_date' => [$autosettingsTabName => 40],
+    'country_of_manufacture' => [$autosettingsTabName => 50]
+];
+
+foreach ($attributesOrder as $key => $value) {
+    $attribute = $installer->getAttribute($entityTypeId, $key);
+    if ($attribute) {
+        foreach ($value as $propertyName => $propertyValue) {
+            if (in_array($propertyName, $properties)) {
+                $installer->updateAttribute($entityTypeId, $attribute['attribute_id'], $propertyName, $propertyValue);
+            } else {
+                $installer->addAttributeToGroup(
+                    $entityTypeId,
+                    $attributeSetId,
+                    $propertyName,
+                    $attribute['attribute_id'],
+                    $propertyValue
+                );
+            }
+        }
+    }
+}
+
+foreach (['status', 'visibility'] as $attributeCode) {
+    $installer->updateAttribute(
+        \Magento\Catalog\Model\Product::ENTITY,
+        $attributeCode,
+        'is_required_in_admin_store',
+        '1'
+    );
+}
