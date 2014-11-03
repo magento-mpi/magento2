@@ -8,11 +8,10 @@
  */
 namespace Magento\Ui\Controller\Adminhtml\Index;
 
-use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Element\UiComponentFactory;
-
 /**
  * Class Render
+ *
+ * @package Magento\Ui\Controller\Adminhtml\Index
  */
 class Render extends \Magento\Ui\Controller\Adminhtml\AbstractAction
 {

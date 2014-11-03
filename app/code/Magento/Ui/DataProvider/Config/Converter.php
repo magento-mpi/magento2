@@ -109,7 +109,7 @@ class Converter implements ConverterInterface
                     $fields[$field['@attributes']['name']][$key] = $value;
                 }
                 if (isset($field['@attributes']['source'])) {
-                    if (in_array($field['@attributes']['source'], ['lookup', 'option'])) {
+                    if (in_array($field['@attributes']['source'], ['lookup', 'option', 'reference'])) {
                         $fields[$field['@attributes']['name']]['reference'] = [
                             'target' => $field['reference']['@attributes']['target'],
                             'targetField' => $field['reference']['@attributes']['targetField'],

@@ -67,7 +67,7 @@ class ActionPool implements ActionPoolInterface
      *
      * @param string $key
      * @param UiComponentInterface $view
-     * @return \Magento\Backend\Block\Widget\Button\Toolbar\Container
+     * @return \Magento\Ui\Component\Control\Container
      */
     protected function createContainer($key, UiComponentInterface $view)
     {

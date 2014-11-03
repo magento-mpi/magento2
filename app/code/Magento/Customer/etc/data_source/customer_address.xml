@@ -1,43 +1,59 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
     <datasource name="customer_address"
                 label="Customer Address"
                 compositeLabel="prefix,firstname"
                 previewElements="prefix,firstname,lastname,postcode,city,region_id"
                 dataset="Magento\Customer\Model\Resource\Address\Collection">
         <fields>
+            <field name="parent_id" dataType="number" visible="false"/>
             <field name="prefix" source="eav"/>
             <field name="firstname" source="eav">
-                <constraint name="required-entry" />
+                <constraint name="required-entry"/>
             </field>
             <field name="middlename" source="eav"/>
             <field name="lastname" source="eav">
-                <constraint name="required-entry" />
+                <constraint name="required-entry"/>
             </field>
             <field name="suffix" source="eav"/>
             <field name="company" source="eav" label="Company"/>
             <field name="street" dataType="text" formElement="multiline" source="eav">
-                <constraint name="required-entry" />
+                <constraint name="required-entry"/>
             </field>
             <field name="city" source="eav">
-                <constraint name="required-entry" />
+                <constraint name="required-entry"/>
             </field>
             <field name="region_id" source="eav" formElement="select"/>
             <field name="postcode" source="eav">
-                <constraint name="required-entry" />
+                <constraint name="required-entry"/>
             </field>
             <field name="telephone" source="eav" label="Phone Number">
-                <constraint name="required-entry" />
+                <constraint name="required-entry"/>
             </field>
             <field name="fax" source="eav" label="Fax"/>
             <field name="vat_id" source="eav" label="VAT number"/>
-            <field name="default_billing" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Billing Address" />
-            <field name="default_shipping" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Shipping Address" />
+            <field name="is_default_billing" source="reference" dataType="boolean" formElement="checkbox"
+                   displayArea="head" label="Default Billing Address">
+                <reference target="account"
+                           referencedField="parent_id"
+                           targetField="entity_id"
+                           neededField="default_billing"
+                        />
+            </field>
+            <field name="is_default_shipping" source="reference" dataType="boolean" formElement="checkbox"
+                   displayArea="head" label="Default Shipping Address">
+                <reference target="account"
+                           referencedField="parent_id"
+                           targetField="entity_id"
+                           neededField="default_shipping"
+                        />
+            </field>
         </fields>
         <references>
             <reference target="account"
-               referencedField="parent_id"
-               targetField="entity_id"
-            />
+                       referencedField="parent_id"
+                       targetField="entity_id"
+                    />
         </references>
     </datasource>
 </config>

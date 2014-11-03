@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Backend\Helper\Data;
 use Magento\Ui\DataProvider\Manager;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
@@ -25,13 +24,6 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 class FilterPool extends AbstractView
 {
     /**
-     * Data helper
-     *
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $dataHelper;
-
-    /**
      * Filters pool
      *
      * @var FilterPoolProvider
@@ -46,7 +38,6 @@ class FilterPool extends AbstractView
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
-     * @param Data $dataHelper
      * @param FilterPoolProvider $filterPool
      * @param DataProviderFactory $dataProviderFactory
      * @param Manager $dataProviderManager
@@ -58,13 +49,11 @@ class FilterPool extends AbstractView
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
-        Data $dataHelper,
         FilterPoolProvider $filterPool,
         DataProviderFactory $dataProviderFactory,
         Manager $dataProviderManager,
         array $data = []
     ) {
-        $this->dataHelper = $dataHelper;
         $this->filterPool = $filterPool;
         parent::__construct(
             $context,
@@ -91,46 +80,6 @@ class FilterPool extends AbstractView
         }
         $this->prepareConfiguration($configData);
         $this->updateDataCollection();
-    }
-
-    /**
-     * Update data collection
-     *
-     * @return void
-     */
-    protected function updateDataCollection()
-    {
-        $collection = $this->renderContext->getStorage()->getDataCollection($this->getParentName());
-
-        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
-        $metaData = $metaData['fields'];
-        $filterData = $this->dataHelper->prepareFilterString(
-            $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
-        );
-        foreach ($filterData as $field => $value) {
-            if (!isset($metaData[$field]['filter_type'])) {
-                continue;
-            }
-            $condition = $this->filterPool->getFilter($metaData[$field]['filter_type'])->getCondition($value);
-            if ($condition !== null) {
-                $collection->addFieldToFilter($field, $condition);
-            }
-        }
-    }
-
-    /**
-     * Get list of required filters
-     *
-     * @return array
-     */
-    protected function getListOfRequiredFilters()
-    {
-        $result = [];
-        foreach ($this->getFields() as $field) {
-            $result[] = isset($field['filter_type']) ? $field['filter_type'] : $field['input_type'];
-        }
-
-        return $result;
     }
 
     /**
@@ -163,7 +112,7 @@ class FilterPool extends AbstractView
         $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
         $metaData = $metaData['fields'];
         $filters = [];
-        $filterData = $this->dataHelper->prepareFilterString(
+        $filterData = $this->prepareFilterString(
             $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
         );
         foreach ($filterData as $field => $value) {
@@ -176,5 +125,72 @@ class FilterPool extends AbstractView
         }
 
         return $filters;
+    }
+
+    /**
+     * Update data collection
+     *
+     * @return void
+     */
+    protected function updateDataCollection()
+    {
+        $collection = $this->renderContext->getStorage()->getDataCollection($this->getParentName());
+
+        $metaData = $this->renderContext->getStorage()->getMeta($this->getParentName());
+        $metaData = $metaData['fields'];
+        $filterData = $this->prepareFilterString(
+            $this->renderContext->getRequestParam(FilterAbstract::FILTER_VAR)
+        );
+        foreach ($filterData as $field => $value) {
+            if (!isset($metaData[$field]['filter_type'])) {
+                continue;
+            }
+            $condition = $this->filterPool->getFilter($metaData[$field]['filter_type'])->getCondition($value);
+            if ($condition !== null) {
+                $collection->addFieldToFilter($field, $condition);
+            }
+        }
+    }
+
+    /**
+     * Get list of required filters
+     *
+     * @return array
+     */
+    protected function getListOfRequiredFilters()
+    {
+        $result = [];
+        foreach ($this->getFields() as $field) {
+            $result[] = isset($field['filter_type']) ? $field['filter_type'] : $field['input_type'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Decode filter string
+     *
+     * @param string $filterString
+     * @return array
+     */
+    protected function prepareFilterString($filterString)
+    {
+        $data = array();
+        $filterString = base64_decode($filterString);
+        parse_str($filterString, $data);
+        array_walk_recursive(
+            $data,
+            // @codingStandardsIgnoreStart
+            /**
+             * Decodes URL-encoded string and trims whitespaces from the beginning and end of a string
+             *
+             * @param string $value
+             */
+            // @codingStandardsIgnoreEnd
+            function (&$value) {
+                $value = trim(rawurldecode($value));
+            }
+        );
+        return $data;
     }
 }

@@ -24,7 +24,7 @@ class Container extends AbstractBlock
      *
      * @param string $blockName
      * @param string $blockClassName
-     * @return \Magento\Backend\Block\Widget\Button
+     * @return \Magento\Ui\Component\Control\Button
      */
     protected function createButton($blockName, $blockClassName = null)
     {
