@@ -14,7 +14,6 @@
 ?>
 <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $this->getProduct(); ?>
-
 <script type="text/javascript">
 require([
     "jquery",
@@ -29,6 +28,85 @@ require([
         $('.price-box').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
     });
 });
+</script>
+<script data-mage-apply='{"Magento_Catalog/js/price/provider": ""}' type="application/json">
+    {
+        "name": "product_price_provider"
+    }
+</script>
+<script data-mage-apply='{"Magento_Catalog/js/price/view": ""}' type="application/json">
+    {
+        "name": "product_price_view",
+        "provider": "product_price_provider",
+        "container": ".price-box"
+    }
+</script>
+<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
+    {   
+        "name": "catalog_price",
+        "provider": "product_price_provider",
+        "prices": {
+            "final": {
+                "amount": 90.00000
+            },
+            "old": {
+                "amount": 100.00000
+            }
+        },
+        "config": {
+            "priceFormat": {
+                "pattern": "$%s",
+                "precision": 2,
+                "requiredPrecision": 2,
+                "decimalSymbol": ".",
+                "groupSymbol": ",",
+                "groupLength": 3,
+                "integerRequired": 1
+            }
+        }
+    }
+</script>
+<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
+    {
+        "name": "tax_price",
+        "provider": "product_price_provider",
+        "prices": {
+            "final": {
+                "adjustments": {
+                    "tax": 13.50000
+                }
+            },
+            "old": {
+                "adjustments": {
+                    "tax": 15.00000
+                }
+            }
+        },
+        "config": {
+            "showBothPrices": true
+        }
+    }
+</script>
+<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
+    {
+        "name": "weee_price",
+        "provider": "product_price_provider",
+        "prices": {
+            "final": {
+                "adjustments": {
+                    "weee": 5.00000
+                }
+            },
+            "old": {
+                "adjustments": {
+                    "weee": 5.00000
+                }
+            }
+        },
+        "config": {
+
+        }
+    }
 </script>
 <div class="product-add-form">
     <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
