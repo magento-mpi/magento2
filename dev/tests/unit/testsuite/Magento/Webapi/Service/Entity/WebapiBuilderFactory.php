@@ -5,25 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Webapi\Service\Entity;
 
-namespace Magento\Framework\Serialization;
-
-use Magento\Framework\ObjectManager;
-
-/**
- * Factory used to construct Data Builder based on interface name
- */
-class DataBuilderFactory
+class WebapiBuilderFactory extends \Magento\Framework\Serialization\DataBuilderFactory
 {
     /**
-     * @var ObjectManager
+     * @param \Magento\TestFramework\Helper\ObjectManager $objectManager
      */
-    protected $objectManager;
-
-    /**
-     * @param ObjectManager $objectManager
-     */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(\Magento\TestFramework\Helper\ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -44,6 +33,6 @@ class DataBuilderFactory
             $builderClassName = $className;
         }
         $builderClassName .= 'Builder';
-        return $this->objectManager->create($builderClassName);
+        return $this->objectManager->getObject($builderClassName);
     }
 }
