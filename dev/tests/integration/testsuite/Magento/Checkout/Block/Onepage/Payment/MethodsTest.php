@@ -21,7 +21,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Checkout\Block\Onepage\Payment\Methods'
@@ -39,13 +39,9 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             'Magento\Payment\Model\Method\Free'
         );
 
-        $block = $this->_block->getLayout()->createBlock(
-            'Magento\Framework\View\Element\Text'
-        )->setMethodTitle(
-            $expectedTitle
-        )->setMethodLabelAfterHtml(
-            $expectedLabel
-        );
+        $block = $this->_block->getLayout()->createBlock('Magento\Framework\View\Element\Text')
+            ->setMethodTitle($expectedTitle)
+            ->setMethodLabelAfterHtml($expectedLabel);
 
         $this->assertEquals('No Payment Information Required', $this->_block->getMethodTitle($method));
         $this->_block->setChild('payment.method.free', $block);

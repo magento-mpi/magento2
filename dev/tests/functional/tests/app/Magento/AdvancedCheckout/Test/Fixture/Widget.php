@@ -8,14 +8,21 @@
 
 namespace Magento\AdvancedCheckout\Test\Fixture;
 
-use Magento\Widget\Test\Fixture\Widget as ParentWidget;
-
 /**
- * Class Widget
- * Fixture for Widget
+ * Fixture for Widget.
  */
-class Widget extends ParentWidget
+class Widget extends \Magento\Widget\Test\Fixture\Widget
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\AdvancedCheckout\Test\Repository\Widget';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\AdvancedCheckout\Test\Handler\Widget\WidgetInterface';
+
     protected $widgetOptions = [
         'attribute_code' => 'widgetOptions',
         'backend_type' => 'virtual',

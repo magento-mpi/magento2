@@ -107,9 +107,9 @@
                         <next>loginCustomerOnFrontend</next>
                     </step>
                     <step name="loginCustomerOnFrontend" module="Magento_Customer">
-                        <next>openProducts</next>
+                        <next>openProductsOnFrontend</next>
                     </step>
-                    <step name="openProducts" module="Magento_Catalog">
+                    <step name="openProductsOnFrontend" module="Magento_Catalog">
                         <next>openCustomerOnBackend</next>
                     </step>
                     <step name="openCustomerOnBackend" module="Magento_Customer">

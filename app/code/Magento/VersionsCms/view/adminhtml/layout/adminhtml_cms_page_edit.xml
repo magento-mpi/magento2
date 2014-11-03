@@ -7,17 +7,19 @@
  * @license     {license_link}
  */
 -->
-<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="cms_page_edit"/>
-    <referenceBlock name="head.components">
-        <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
-    </referenceBlock>
-    <referenceBlock name="cms_page_edit_tabs">
-        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit" name="cms_page_edit_extender"/>
-        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy" name="cms_page_edit_tab_hierarchy" template="page/tab/hierarchy.phtml"/>
-        <action method="addTab">
-            <argument name="name" xsi:type="string">hierarchy</argument>
-            <argument name="block" xsi:type="string">cms_page_edit_tab_hierarchy</argument>
-        </action>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+        </referenceBlock>
+        <referenceBlock name="cms_page_edit_tabs">
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit" name="cms_page_edit_extender"/>
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy" name="cms_page_edit_tab_hierarchy" template="page/tab/hierarchy.phtml"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">hierarchy</argument>
+                <argument name="block" xsi:type="string">cms_page_edit_tab_hierarchy</argument>
+            </action>
+        </referenceBlock>
+    </body>
 </page>

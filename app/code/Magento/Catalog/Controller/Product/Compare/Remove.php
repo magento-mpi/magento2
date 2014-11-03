@@ -13,7 +13,7 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
     /**
      * Remove item from compare list
      *
-     * @return void
+     * @return \Magento\Framework\Controller\ResultInterface
      */
     public function execute()
     {
@@ -39,7 +39,8 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
                 $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare');
                 if ($item->getId()) {
                     $item->delete();
-                    $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
+                    $productName = $this->_objectManager->get('Magento\Framework\Escaper')
+                        ->escapeHtml($product->getName());
                     $this->messageManager->addSuccess(
                         __('You removed product %1 from the comparison list.', $productName)
                     );
@@ -53,7 +54,8 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
         }
 
         if (!$this->getRequest()->getParam('isAjax', false)) {
-            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+            $resultRedirect = $this->resultRedirectFactory->create();
+            return $resultRedirect->setRefererOrBaseUrl();
         }
     }
 }

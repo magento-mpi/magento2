@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="customerbalance.wrapper">
-        <block class="Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem_link.phtml" after="balance" cacheable="false"/>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="customerbalance.wrapper">
+            <block class="Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem_link.phtml" after="balance" cacheable="false"/>
+        </referenceBlock>
+    </body>
 </page>

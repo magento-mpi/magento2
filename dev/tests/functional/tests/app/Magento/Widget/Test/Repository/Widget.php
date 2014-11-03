@@ -26,7 +26,9 @@ class Widget extends AbstractRepository
     {
         $this->_data['default'] = [
             'title' => 'Test Frontend App',
-            'store_ids' => ['dataSet' => 'All Store Views'],
+            'store_ids' => [
+                '0' => 'All Store Views'
+            ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
@@ -50,12 +52,10 @@ class Widget extends AbstractRepository
             'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
-                    'page_group' => 'all_pages',
+                    'page_group' => 'All Pages',
                     'all_pages' => [
-                        'layout_handle' => 'default',
-                        'for' => 'all',
-                        'block' => 'content',
-                        'template' => 'widget/link/link_block.phtml'
+                        'block' => 'Main Content Area',
+                        'template' => 'CMS Page Link Block Template'
                     ]
                 ]
             ],
@@ -63,7 +63,6 @@ class Widget extends AbstractRepository
                 'display_mode' => 'fixed',
                 'anchor_text' => 'text',
                 'title' => 'anchor title',
-
             ],
             'page_id' => ['dataSet' => 'default'],
             'theme_id' => 'Magento Blank'

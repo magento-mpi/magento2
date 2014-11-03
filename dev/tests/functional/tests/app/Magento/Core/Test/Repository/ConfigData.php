@@ -11,13 +11,12 @@ namespace Magento\Core\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class ConfigData
- * Data for creation Config settings
+ * Data for creation Config settings.
  */
 class ConfigData extends AbstractRepository
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @constructor
      * @param array $defaultConfig [optional]
@@ -1101,14 +1100,38 @@ class ConfigData extends AbstractRepository
 
         $this->_data['msrp_rollback'] = [
             'section' => [
+                    [
+                        'path' => 'sales/msrp/enabled',
+                        'scope' => 'sales',
+                        'scope_id' => 1,
+                        'value' => 0,
+                    ],
+                    [
+                        'path' => 'sales/msrp/display_price_type',
+                        'scope' => 'sales',
+                        'scope_id' => 1,
+                        'value' => 1,
+                    ],
+            ]
+        ];
+
+        // Rma
+        $this->_data['rma_enable_on_frontend'] = [
+            'section' => [
                 [
-                    'path' => 'sales/msrp/enabled',
+                    'path' => 'sales/magento_rma/enabled',
                     'scope' => 'sales',
                     'scope_id' => 1,
-                    'value' => 0,
+                    'value' => 1,
                 ],
                 [
-                    'path' => 'sales/msrp/display_price_type',
+                    'path' => 'sales/magento_rma/enabled_on_product',
+                    'scope' => 'sales',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'sales/magento_rma/use_store_address',
                     'scope' => 'sales',
                     'scope_id' => 1,
                     'value' => 1,
