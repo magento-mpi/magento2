@@ -460,7 +460,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $paymentData = $order->getPayment()->getData();
         unset($paymentData['cc_type'], $paymentData['cc_last4']);
         unset($paymentData['cc_exp_month'], $paymentData['cc_exp_year']);
-        $quote->getPayment()->addData($paymentData);
+        $quote->getPayment()->addData($paymentData)->save();
 
         $orderCouponCode = $order->getCouponCode();
         if ($orderCouponCode) {
@@ -1446,7 +1446,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         if (!isset($data['method'])) {
             $data['method'] = $this->getQuote()->getPayment()->getMethod();
         }
-        $this->getQuote()->getPayment()->importData($data);
+        $this->getQuote()->getPayment()->importData($data)->save();
         return $this;
     }
 

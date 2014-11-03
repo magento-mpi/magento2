@@ -1588,7 +1588,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 ->fetchItem();
         }
         if ($payment = $this->_currentPayment) {
-            $payment->setQuote($this);
+            if ($this->getId()) {
+                $this->_currentPayment->setQuote($this);
+            }
             if (!$payment->isDeleted()) {
                 return $payment;
             }
