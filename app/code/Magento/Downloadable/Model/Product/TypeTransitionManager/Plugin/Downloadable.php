@@ -56,7 +56,7 @@ class Downloadable
         $hasDownloadableData = false;
         if (isset($downloadableData)) {
             foreach ($downloadableData as $data) {
-                foreach ( $data as $rowData) {
+                foreach ($data as $rowData) {
                     if (empty($rowData['is_delete'])) {
                         $hasDownloadableData = true;
                         break;
