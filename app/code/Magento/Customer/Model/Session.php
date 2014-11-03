@@ -27,7 +27,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Customer model
      *
-     * @var \Magento\Customer\Api\Data\CustomerInterface
+     * @var Customer
      */
     protected $_customerModel;
 
@@ -66,9 +66,9 @@ class Session extends \Magento\Framework\Session\SessionManager
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     * @var CustomerFactory
      */
-    protected $_customerRepository;
+    protected $_customerFactory;
 
     /**
      * @var \Magento\Framework\UrlFactory
@@ -103,7 +103,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
      * @param ResourceCustomer $customerResource
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param CustomerFactory $customerFactory
      * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -124,7 +124,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
         Resource\Customer $customerResource,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        CustomerFactory $customerFactory,
         \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -136,7 +136,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_customerData = $customerData;
         $this->_configShare = $configShare;
         $this->_customerResource = $customerResource;
-        $this->_customerRepository = $customerRepository;
+        $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
         $this->_customerAccountService = $customerAccountService;
@@ -207,7 +207,6 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Returns Customer data object with the customer information
      *
-     * @deprecated use getCustomer
      * @return CustomerData
      */
     public function getCustomerDataObject()
@@ -220,7 +219,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * Set Customer data object with the customer information
      *
      * @param CustomerData $customerData
-     * @deprecated use setCustomer
      * @return $this
      */
     public function setCustomerDataObject(CustomerData $customerData)
@@ -235,6 +233,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      *
      * @param   Customer $customerModel
      * @return  $this
+     * @deprecated use setCustomerId() instead
      */
     public function setCustomer(Customer $customerModel)
     {
@@ -261,12 +260,13 @@ class Session extends \Magento\Framework\Session\SessionManager
     /**
      * Retrieve customer model object
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return Customer
+     * @deprecated use getCustomerId() instead
      */
     public function getCustomer()
     {
         if ($this->_customerModel === null) {
-            $this->_customerModel = $this->_customerRepository->get($this->getCustomerId());
+            $this->_customerModel = $this->_customerFactory->create()->load($this->getCustomerId());
         }
 
         return $this->_customerModel;
