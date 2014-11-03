@@ -14,7 +14,6 @@ use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\ObjectManager;
-use Magento\Webapi\Model\Cache\Type as WebapiCache;
 
 /**
  * Data object processor for de-serialization using class reflection
@@ -28,7 +27,7 @@ class DataObjectProcessor
     const BASE_MODEL_CLASS = 'Magento\Framework\Model\AbstractExtensibleModel';
 
     /**
-     * @var WebapiCache
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $cache;
 
@@ -50,10 +49,10 @@ class DataObjectProcessor
     /**
      * Initialize dependencies.
      *
-     * @param WebapiCache $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param TypeProcessor $typeProcessor
      */
-    public function __construct(WebapiCache $cache, TypeProcessor $typeProcessor)
+    public function __construct(\Magento\Framework\Cache\FrontendInterface $cache, TypeProcessor $typeProcessor)
     {
         $this->cache = $cache;
         $this->typeProcessor = $typeProcessor;
