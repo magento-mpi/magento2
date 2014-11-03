@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product;
+namespace Magento\Catalog\Api\Product;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
