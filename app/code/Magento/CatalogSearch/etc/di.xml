@@ -104,4 +104,9 @@
     <type name="Magento\Catalog\Model\Layer\Search\CollectionFilter">
         <plugin name="searchQuery" type="Magento\CatalogSearch\Model\Layer\Search\Plugin\CollectionFilter" />
     </type>
+  <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
+        <arguments>
+            <argument name="range" xsi:type="object">Magento\Catalog\Model\Layer\Filter\Price\Range\Proxy</argument>
+        </arguments>
+  </type>
 </config>

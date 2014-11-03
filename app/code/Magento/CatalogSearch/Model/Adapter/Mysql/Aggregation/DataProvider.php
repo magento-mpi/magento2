@@ -15,7 +15,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Catalog\Model\Layer\Filter\Price\Range\Proxy as RangeProxy;
+use Magento\Catalog\Model\Layer\Filter\Price\Range;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
@@ -42,7 +42,7 @@ class DataProvider implements DataProviderInterface
     private $storeManager;
 
     /**
-     * @var RangeProxy
+     * @var Range
      */
     private $range;
 
@@ -53,10 +53,10 @@ class DataProvider implements DataProviderInterface
 
     /**
      * @param Config $eavConfig
-     * @param Resource|Resource $resource
+     * @param Resource $resource
      * @param StoreManagerInterface $storeManager
      * @param ScopeConfigInterface $scopeConfig
-     * @param RangeProxy $range
+     * @param Range $range
      * @internal param Range $range
      */
     public function __construct(
@@ -64,7 +64,7 @@ class DataProvider implements DataProviderInterface
         Resource $resource,
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
-        RangeProxy $range
+        Range $range
     ) {
         $this->eavConfig = $eavConfig;
         $this->resource = $resource;
