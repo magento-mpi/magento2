@@ -53,7 +53,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $customerFactory;
 
     /**
-     * @var Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     private $customerBuilder;
 
@@ -144,7 +144,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator
-     * @param Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder
@@ -167,7 +167,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Random $mathRandom,
         Converter $converter,
         Validator $validator,
-        Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         Data\CustomerDetailsBuilder $customerDetailsBuilder,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder,
@@ -431,11 +431,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Send either confirmation or welcome email after an account creation
      *
      * @param CustomerModel $customerModel
-     * @param Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @param string $redirectUrl
      * @return void
      */
-    protected function _sendEmailConfirmation(CustomerModel $customerModel, Data\Customer $customer, $redirectUrl)
+    protected function _sendEmailConfirmation(
+        CustomerModel $customerModel,
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
+        $redirectUrl
+    )
     {
         try {
             if ($customerModel->isConfirmationRequired()) {
@@ -578,14 +582,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Create or update customer information
      *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @param string $hash Hashed password ready to be saved
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @return int customer ID
      */
     protected function saveCustomer(
-        \Magento\Customer\Service\V1\Data\Customer $customer,
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
         $hash
     ) {
         $customerModel = $this->converter->createCustomerModel($customer);
@@ -666,7 +670,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validateCustomerData(Data\Customer $customer, array $attributes = [])
+    public function validateCustomerData(\Magento\Customer\Api\Data\CustomerInterface $customer, array $attributes = [])
     {
         $customerErrors = $this->validator->validateData(
             \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),

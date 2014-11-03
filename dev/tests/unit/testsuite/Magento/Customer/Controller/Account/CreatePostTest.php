@@ -66,7 +66,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
     protected $customerExtractorMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerServiceDataMock;
 
@@ -158,7 +158,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->urlMock));
 
-        $this->customerServiceDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $this->customerServiceDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->customerDetailsMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\CustomerDetails', [], [], '', false
         );

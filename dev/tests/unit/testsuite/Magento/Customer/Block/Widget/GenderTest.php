@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class GenderTest extends \PHPUnit_Framework_TestCase
@@ -160,9 +160,9 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $data = [
             'firstname' => 'John', 'lastname' => 'Doe'
         ];
-        $builder = $this->getMock('\Magento\Customer\Service\V1\Data\CustomerBuilder', [], [], '', false);
+        $builder = $this->getMock('\Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
         $builder->expects($this->any())->method('getData')->will($this->returnValue($data));
-        $customerData = new \Magento\Customer\Service\V1\Data\Customer($builder);
+        $customerData = new \Magento\Customer\Api\Data\CustomerInterface($builder);
 
         $this->_customerSession->expects($this->once())->method('getCustomerId')->will($this->returnValue(1));
         $this->_customerAccountService->expects(

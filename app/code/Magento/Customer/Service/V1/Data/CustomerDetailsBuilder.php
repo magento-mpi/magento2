@@ -21,7 +21,7 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Customer builder
      *
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $_customerBuilder;
 
@@ -36,14 +36,14 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
-     * @param CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
@@ -79,10 +79,10 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
     /**
      * Set customer
      *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return $this
      */
-    public function setCustomer(Customer $customer)
+    public function setCustomer(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
         return $this->_set(CustomerDetails::KEY_CUSTOMER, $customer);
     }

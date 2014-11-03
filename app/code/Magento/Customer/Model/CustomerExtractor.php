@@ -19,7 +19,7 @@ class CustomerExtractor
     protected $formFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -35,13 +35,13 @@ class CustomerExtractor
 
     /**
      * @param Metadata\FormFactory $formFactory
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param CustomerGroupServiceInterface $groupService
      */
     public function __construct(
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         CustomerGroupServiceInterface $groupService
     ) {
@@ -54,7 +54,7 @@ class CustomerExtractor
     /**
      * @param string $formCode
      * @param RequestInterface $request
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function extract($formCode, RequestInterface $request)
     {

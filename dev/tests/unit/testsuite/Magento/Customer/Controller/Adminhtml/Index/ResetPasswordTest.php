@@ -9,7 +9,7 @@ namespace Magento\Customer\Controller\Adminhtml\Index;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 
 /**
  * Unit test for \Magento\Customer\Controller\Adminhtml\Index controller
@@ -410,7 +410,7 @@ class ResetPasswordTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $customerBuilder = $this->getMock('\Magento\Customer\Service\V1\Data\CustomerBuilder', [], [], '', false);
+        $customerBuilder = $this->getMock('\Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
         $data = [
             'id' => $customerId,
             'email' => $email,
@@ -418,7 +418,7 @@ class ResetPasswordTest extends \PHPUnit_Framework_TestCase
         ];
         $customerBuilder->expects($this->once())->method('getData')->will($this->returnValue($data));
 
-        $customer = new \Magento\Customer\Service\V1\Data\Customer($customerBuilder);
+        $customer = new \Magento\Customer\Api\Data\CustomerInterface($customerBuilder);
 
         $this->_acctServiceMock->expects(
             $this->once()

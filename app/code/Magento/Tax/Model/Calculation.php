@@ -9,8 +9,8 @@ namespace Magento\Tax\Model;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
@@ -150,7 +150,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     protected $customerAccountService;
 
     /**
-     * @var CustomerBuilder
+     * @var CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -172,7 +172,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
      * @param CustomerAccountServiceInterface $customerAccount
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -190,7 +190,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         AddressServiceInterface $addressService,
         GroupServiceInterface $groupService,
         CustomerAccountServiceInterface $customerAccount,
-        CustomerBuilder $customerBuilder,
+        CustomerDataBuilder $customerBuilder,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

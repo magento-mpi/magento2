@@ -30,7 +30,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customerData
      * @param string $expectedCustomerName
      * @param bool $isPrefixAllowed
      * @param bool $isMiddleNameAllowed
@@ -86,8 +86,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function getCustomerNameDataProvider()
     {
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         return array(
             'With disabled prefix, middle name, suffix' => array(
                 $customerBuilder->setPrefix(

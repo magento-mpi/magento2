@@ -9,8 +9,8 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
-use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerDataObjectBuilder;
 use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Framework\StoreManagerInterface;
 
@@ -157,7 +157,9 @@ class Converter
 
         // Need to use attribute set or future updates can cause data loss
         if (!$customerModel->getAttributeSetId()) {
-            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+            $customerModel->setAttributeSetId(
+                \Magento\Customer\Api\CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
+            );
         }
 
         return $customerModel;
@@ -184,7 +186,9 @@ class Converter
         }
         // Need to use attribute set or future calls to customerModel::save can cause data loss
         if (!$customerModel->getAttributeSetId()) {
-            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+            $customerModel->setAttributeSetId(
+                \Magento\Customer\Api\CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
+            );
         }
     }
 
@@ -203,7 +207,7 @@ class Converter
             $value = $value ? $value : $customerModel->getData($attrCode);
             if (null !== $value) {
                 if ($attrCode == 'entity_id') {
-                    $attributes[CustomerDataObject::ID] = $value;
+                    $attributes[\Magento\Customer\Model\Data\Customer::ID] = $value;
                 } else {
                     $attributes[$attrCode] = $value;
                 }

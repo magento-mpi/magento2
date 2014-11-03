@@ -81,7 +81,7 @@ class EditPost extends \Magento\Customer\Controller\Account
         if ($this->getRequest()->isPost()) {
             $customerId = $this->_getSession()->getCustomerId();
             $customer = $this->customerExtractor->extract('customer_account_edit', $this->_request);
-            $this->customerDataBuilder->populateWithArray($customer->__toArray());
+            $this->customerDataBuilder->populate($customer);
             $this->customerDataBuilder->setId($customerId);
 
             if ($this->getRequest()->getParam('change_password')) {

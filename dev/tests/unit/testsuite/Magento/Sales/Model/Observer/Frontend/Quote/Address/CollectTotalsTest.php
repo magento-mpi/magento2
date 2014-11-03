@@ -69,7 +69,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->storeId = 1;
         $this->customerDataMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Customer',
+            'Magento\Customer\Api\Data\CustomerInterface',
             array('getStoreId', 'getCustomAttribute', 'getId', '__wakeup'),
             array(),
             '',
@@ -78,7 +78,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
         $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             array('mergeDataObjectWithArray'),
             array(),
             '',

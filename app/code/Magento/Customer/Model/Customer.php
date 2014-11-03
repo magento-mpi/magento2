@@ -193,7 +193,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * @var CustomerDataBuilder
      */
-    protected $_customerDataBuilder;
+    protected $customerDataBuilder;
 
     /**
      * @var DataObjectProcessor
@@ -256,7 +256,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
-        $this->_customerDataBuilder = $customerDataBuilder;
+        $this->customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
@@ -405,10 +405,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $customerData = (array)$this->getData();
         $customerData[CustomerData::ID] = $this->getId();
-        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[CustomerData::ID] = $this->getId();
-        $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
+        $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
@@ -1364,8 +1364,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
          * 'confirmation' email with confirmation link
          */
         $types = array(
-            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
-            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
+            'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
+            'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
         );
         return $types;

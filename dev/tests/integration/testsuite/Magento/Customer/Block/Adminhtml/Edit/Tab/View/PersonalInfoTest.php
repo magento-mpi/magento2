@@ -10,8 +10,8 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -27,7 +27,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Framework\Registry */
     private $_coreRegistry;
 
-    /** @var  CustomerBuilder */
+    /** @var  CustomerDataBuilder */
     private $_customerBuilder;
 
     /** @var  CustomerAccountServiceInterface */
@@ -60,7 +60,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
             array('storeManager' => $this->_storeManager)
         );
 
-        $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
         $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_customerAccountService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
@@ -178,7 +178,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsConfirmedStatusConfirmationIsNotRequired()
     {
-        /** @var Customer $customer */
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
         $customer = $this->_customerBuilder->setConfirmation(
             true
         )->setFirstname(
@@ -229,11 +229,11 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     private function _createCustomer()
     {
-        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
         $customer = $this->_customerBuilder->setFirstname(
             'firstname'
         )->setLastname(
@@ -247,7 +247,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     private function _loadCustomer()
     {

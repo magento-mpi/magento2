@@ -146,7 +146,7 @@ class Form
     public function getAttributes()
     {
         if (!isset($this->_attributes)) {
-            if ($this->_entityType === CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER) {
+            if ($this->_entityType === \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER) {
                 $this->_attributes = $this->_customerMetadataService->getAttributes($this->_formCode);
             } else if ($this->_entityType === \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS) {
                 $this->_attributes = $this->_addressMetadataService->getAttributes($this->_formCode);

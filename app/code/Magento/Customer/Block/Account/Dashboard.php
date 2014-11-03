@@ -69,7 +69,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
     /**
      * Return the Customer given the customer Id stored in the session.
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {
