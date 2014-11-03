@@ -7,7 +7,6 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Api\AbstractExtensibleObjectTest;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 

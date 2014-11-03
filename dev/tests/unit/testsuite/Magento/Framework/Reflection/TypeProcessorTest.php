@@ -173,7 +173,7 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\SerializationException
      * @expectedExceptionMessage Invalid type for value :"1". Expected Type: "int[]".
      */
     public function testProcessSimpleTypeInvalidType()

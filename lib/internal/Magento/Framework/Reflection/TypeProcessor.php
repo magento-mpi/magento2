@@ -8,7 +8,7 @@
 namespace Magento\Framework\Reflection;
 
 use Zend\Code\Reflection\ClassReflection;
-use Magento\Webapi\Exception as WebapiException;
+use Magento\Framework\Exception\SerializationException;
 
 /**
  * Type processor of config reader properties
@@ -426,29 +426,37 @@ class TypeProcessor
      * @param int|string|float|int[]|string[]|float[] $value
      * @param string $type Convert given value to the this simple type
      * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
-     * @throws \Magento\Webapi\Exception
+     * @throws SerializationException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function processSimpleAndAnyType($value, $type)
     {
-        $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: "%s".';
         $isArrayType = $this->isArrayType($type);
         if ($isArrayType && is_array($value)) {
             $arrayItemType = $this->getArrayItemType($type);
             foreach (array_keys($value) as $key) {
                 if ($value !== null && !settype($value[$key], $arrayItemType)) {
-                    throw new WebapiException(sprintf($invalidTypeMsg, $value, $type));
+                    throw new SerializationException(
+                        SerializationException::TYPE_MISMATCH,
+                        ['value' => $value, 'type' => $type]
+                    );
                 }
             }
         } elseif ($isArrayType && is_null($value)) {
             return null;
         } elseif (!$isArrayType && !is_array($value)) {
             if ($value !== null && $type !== self::ANY_TYPE && !settype($value, $type)) {
-                throw new WebapiException(sprintf($invalidTypeMsg, $value, $type));
+                throw new SerializationException(
+                    SerializationException::TYPE_MISMATCH,
+                    ['value' => (string)$value, 'type' => $type]
+                );
             }
         } else {
-            throw new WebapiException(sprintf($invalidTypeMsg, (string)$value, $type));
+            throw new SerializationException(
+                SerializationException::TYPE_MISMATCH,
+                ['value' => (string)$value, 'type' => $type]
+            );
         }
         return $value;
     }

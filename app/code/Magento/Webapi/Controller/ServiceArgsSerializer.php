@@ -15,11 +15,12 @@ use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Reflection\TypeProcessor;
-use Magento\Framework\Reflection\DataObjectProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
 use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\Exception\SerializationException;
+use Magento\Webapi\Exception as WebapiException;
 
 /**
  * Deserializes arguments from API requests.
@@ -277,7 +278,11 @@ class ServiceArgsSerializer
             $value = $this->_removeSoapItemNode($value);
         }
         if ($this->_typeProcessor->isTypeSimple($type) || $this->_typeProcessor->isTypeAny($type)) {
-            $result = $this->_typeProcessor->processSimpleAndAnyType($value, $type);
+            try {
+                $result = $this->_typeProcessor->processSimpleAndAnyType($value, $type);
+            } catch (SerializationException $e) {
+                throw new WebapiException($e->getMessage());
+            }
         } else {
             /** Complex type or array of complex types */
             if ($isArrayType) {
