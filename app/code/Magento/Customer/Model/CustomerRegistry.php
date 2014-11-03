@@ -30,6 +30,7 @@ class CustomerRegistry
      * @var CustomerSecureFactory
      */
     private $customerSecureFactory;
+
     /**
      * @var array
      */
@@ -139,7 +140,7 @@ class CustomerRegistry
     /**
      * Retrieve CustomerSecure Model from registry given an id
      *
-     * @param string $customerId
+     * @param int $customerId
      * @return CustomerSecure
      * @throws NoSuchEntityException
      */

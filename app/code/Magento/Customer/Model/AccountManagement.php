@@ -1076,7 +1076,8 @@ class AccountManagement implements AccountManagementInterface
      */
     protected function getFullCustomerObject($customer)
     {
-        // TODO: Fix flattening of custom attribute codes
+        // No need to flatten the custom attributes or nested objects since the only usage is for email templates and
+        // object passed for events
         $mergedCustomerData = $this->customerRegistry->retrieveSecureData($customer->getId());
         $customerData = $this->dataProcessor
             ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');
