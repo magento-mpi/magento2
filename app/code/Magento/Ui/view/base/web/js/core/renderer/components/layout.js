@@ -177,7 +177,7 @@ define([
             }
 
             if(node.insertTo){
-                this.insertTo(node.name, node.insertTo);
+                this.insertTo(name, node.insertTo);
             }
 
             if (node.wrapIn) {
@@ -195,7 +195,7 @@ define([
 
                 registry.get(target, function(target){
                 
-                    target.insert(items, +position);
+                    target.insert(items, position);
                 });
             });
 
@@ -203,7 +203,6 @@ define([
         },
 
         insertTo: function(item, targets){
-
             _.each(targets, function(info, target){
                 this.insert(item, target, info.position);
             }, this);

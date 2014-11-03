@@ -21,13 +21,13 @@ define([
         });
     }
 
-    function getOffset(size, offset){
+    function getOffsetFor(elems, offset){
         if(typeof offset === 'undefined'){
             offset = -1;
         }
 
         if(offset < 0){
-            offset += size + 1;
+            offset += elems.length + 1;
         }
 
         return offset;
@@ -37,7 +37,7 @@ define([
         initialize: function(config, additional){
             _.extend(this, config, additional);
 
-            this.reserved   = 0; 
+            this._elems     = [];
             this.provider   = registry.get(this.provider);
 
             this.initObservable()
@@ -68,30 +68,33 @@ define([
         },
 
         insert: function(elems, offset){
-            var callback;
-
-            offset      = getOffset(this.reserved, offset);
+            var size    = elems.length,
+                _elems  = this._elems,
+                callback;
+            
+            offset      = getOffsetFor(_elems, offset);
             callback    = this.insertAt.bind(this, offset);
+            this._elems = utils.reserve(_elems, size, offset);
 
-            this.reserved += elems.length;
-             
             loadEach(elems, callback);
 
             return this;
         },
 
         insertAt: function(offset, index, elem){
-            var elems = this.elems();
+            var _elems = this._elems;
 
-            elems.splice(index+offset, 0, elem);
+            _elems[index + offset] = elem;
                 
-            this.elems(_.compact(elems));
+            this.elems(_.compact(_elems));
             this.initElement(elem);
         },
 
         remove: function (elem) {
-            this.reserved--;
+            var _elems   = this._elems,
+                position = _elems.indexOf(elem);
 
+            _elems.splice(position, 1);
             this.elems.remove(elem);
 
             return this;

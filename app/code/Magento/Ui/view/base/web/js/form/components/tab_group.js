@@ -13,13 +13,9 @@ define([
 
     return Collapsible.extend({
         initElement: function(elem){
-            var params = this.provider.params;
+            __super__.initElement.apply(this, arguments);    
 
-            __super__.initElement.apply(this, arguments);
-            
-            if(!params.get('activeArea')){
-                elem.activate();
-            }
+            this.initActivation(elem);
 
             return this;
         },
@@ -27,6 +23,17 @@ define([
         initListeners: function(){
             this.provider.data.on('validate', this.onValidate.bind(this));
             
+            return this;
+        },
+
+        initActivation: function(elem){
+            var elems   = this.elems(),
+                isFirst = !elems.indexOf(elem);
+
+            if(isFirst || elem.active()){
+                elem.activate();
+            }
+
             return this;
         },
 

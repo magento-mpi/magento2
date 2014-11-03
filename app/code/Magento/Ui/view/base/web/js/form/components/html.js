@@ -13,7 +13,7 @@ define([
 
     var defaults = {
         content:        '',
-        showSpinner:    true,
+        showSpinner:    false,
         loading:        false,
         template:       'ui/content/content'
     };
