@@ -367,6 +367,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type' => 'varchar',
                         'label' => 'Name',
                         'input' => 'text',
+                        'frontend_class' => 'validate-length maximum-length-255',
                         'sort_order' => 1,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'searchable' => true,
@@ -378,6 +379,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type' => 'static',
                         'label' => 'SKU',
                         'input' => 'text',
+                        'frontend_class' => 'validate-length maximum-length-64',
                         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Sku',
                         'unique' => true,
                         'sort_order' => 2,
@@ -477,8 +479,10 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type' => 'decimal',
                         'label' => 'Weight',
                         'input' => 'weight',
+                        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Weight',
+                        'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
                         'sort_order' => 5,
-                        'apply_to' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
+                        'apply_to' => 'simple,virtual'
                     ),
                     'manufacturer' => array(
                         'type' => 'int',
@@ -526,6 +530,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'label' => 'Base Image',
                         'input' => 'media_image',
                         'frontend' => 'Magento\Catalog\Model\Product\Attribute\Frontend\Image',
+                        'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\BaseImage',
                         'required' => false,
                         'sort_order' => 0,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
@@ -709,6 +714,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                     'category_ids' => array(
                         'type' => 'static',
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+                        'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
                         'required' => false,
                         'sort_order' => 13,
                         'visible' => false
