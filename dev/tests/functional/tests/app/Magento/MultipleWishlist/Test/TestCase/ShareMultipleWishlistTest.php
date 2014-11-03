@@ -137,6 +137,7 @@ class ShareMultipleWishlistTest extends Injectable
         MultipleWishlist $multipleWishlist,
         array $sharingInfo
     ) {
+        $this->markTestIncomplete("Bug: MAGETWO-30105");
         // Preconditions
         $multipleWishlist->persist();
         $product->persist();

@@ -139,7 +139,7 @@ class MoveProductFromCustomerActivityToOrderTest extends Injectable
             $this->orderCreateIndex->getConfigureProductBlock()->clickOk();
         }
 
-        return ['entityData' => ['products' => [$product]]];
+        return ['products' => [$product]];
     }
 
     /**
