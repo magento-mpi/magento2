@@ -23,4 +23,3 @@ namespace Magento\Customer\Model\Data;
 class CustomerSecure extends \Magento\Framework\Object
 {
 }
-

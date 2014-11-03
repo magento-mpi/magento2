@@ -267,8 +267,10 @@ class DataBuilder extends EntityAbstract
             } else if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {
                 $this->currentDataType = self::TYPE_DATA_MODEL;
             } else {
-                throw new \LogicException('Preference of ' . $this->_getSourceClassName()
-                    . ' must extend from AbstractSimpleObject or AbstractExtensibleModel');
+                throw new \LogicException(
+                    'Preference of ' . $this->_getSourceClassName()
+                    . ' must extend from AbstractSimpleObject or AbstractExtensibleModel'
+                );
             }
         }
         return $this->currentDataType;
