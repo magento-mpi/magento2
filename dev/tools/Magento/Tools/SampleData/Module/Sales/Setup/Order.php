@@ -16,6 +16,15 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
  */
 class Order implements SetupInterface
 {
+    /**
+     * @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory
+     */
+    protected $CsvReaderFactory;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\Fixture
+     */
+    protected $FixtureHelper;
 
     /**
      * @var \Magento\Tools\SampleData\Module\Sales\Setup\Order\Converter
