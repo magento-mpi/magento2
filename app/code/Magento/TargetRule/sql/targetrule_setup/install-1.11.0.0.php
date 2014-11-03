@@ -80,7 +80,7 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Use Customer Segment'
+    'Deprecated after 1.11.2.0'
 )->addColumn(
     'action_select',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -180,7 +180,7 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
-    'Store Id'
+    'Deprecated after 1.11.2.0'
 )->addIndex(
     $installer->getIdxName('magento_targetrule_product', array('product_id')),
     array('product_id')
@@ -248,36 +248,12 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '1'),
     'Flag'
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index', array('store_id')),
-    array('store_id')
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index', array('customer_group_id')),
-    array('customer_group_id')
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index', array('type_id')),
-    array('type_id')
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index', 'customer_group_id', 'customer_group', 'customer_group_id'),
-    'customer_group_id',
-    $installer->getTable('customer_group'),
-    'customer_group_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index', 'entity_id', 'catalog_product_entity', 'entity_id'),
-    'entity_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addColumn(
+    'customer_segment_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => false, 'default' => '0', 'primary' => true),
+    'Customer Segment Id'
 )->setComment(
     'Enterprise Targetrule Index'
 );
@@ -312,38 +288,12 @@ $table = $installer->getConnection()->newTable(
     255,
     array(),
     'Related Product Ids'
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index_related', array('store_id')),
-    array('store_id')
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index_related', array('customer_group_id')),
-    array('customer_group_id')
-)->addForeignKey(
-    $installer->getFkName(
-        'magento_targetrule_index_related',
-        'customer_group_id',
-        'customer_group',
-        'customer_group_id'
-    ),
-    'customer_group_id',
-    $installer->getTable('customer_group'),
-    'customer_group_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_related', 'entity_id', 'catalog_product_entity', 'entity_id'),
-    'entity_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_related', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addColumn(
+    'customer_segment_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0', 'primary' => true),
+    'Customer Segment Id'
 )->setComment(
     'Enterprise Targetrule Index Related'
 );
@@ -378,38 +328,12 @@ $table = $installer->getConnection()->newTable(
     255,
     array(),
     'Upsell Product Ids'
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index_upsell', array('store_id')),
-    array('store_id')
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index_upsell', array('customer_group_id')),
-    array('customer_group_id')
-)->addForeignKey(
-    $installer->getFkName(
-        'magento_targetrule_index_upsell',
-        'customer_group_id',
-        'customer_group',
-        'customer_group_id'
-    ),
-    'customer_group_id',
-    $installer->getTable('customer_group'),
-    'customer_group_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_upsell', 'entity_id', 'catalog_product_entity', 'entity_id'),
-    'entity_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_upsell', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addColumn(
+    'customer_segment_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0', 'primary' => true),
+    'Customer Segment Id'
 )->setComment(
     'Enterprise Targetrule Index Upsell'
 );
@@ -444,38 +368,12 @@ $table = $installer->getConnection()->newTable(
     255,
     array(),
     'CrossSell Product Ids'
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index_crosssell', array('store_id')),
-    array('store_id')
-)->addIndex(
-    $installer->getIdxName('magento_targetrule_index_crosssell', array('customer_group_id')),
-    array('customer_group_id')
-)->addForeignKey(
-    $installer->getFkName(
-        'magento_targetrule_index_crosssell',
-        'customer_group_id',
-        'customer_group',
-        'customer_group_id'
-    ),
-    'customer_group_id',
-    $installer->getTable('customer_group'),
-    'customer_group_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_crosssell', 'entity_id', 'catalog_product_entity', 'entity_id'),
-    'entity_id',
-    $installer->getTable('catalog_product_entity'),
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->addForeignKey(
-    $installer->getFkName('magento_targetrule_index_crosssell', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+)->addColumn(
+    'customer_segment_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0', 'primary' => true),
+    'Customer Segment Id'
 )->setComment(
     'Enterprise Targetrule Index Crosssell'
 );
