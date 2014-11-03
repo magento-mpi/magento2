@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Api\Data;
 
-use Magento\Framework\Validator\Test\True;
+use Magento\Framework\Api\AttributeValue;
 
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {
