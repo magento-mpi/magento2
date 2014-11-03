@@ -120,6 +120,13 @@ define([
                 changes[ optionHash ] = utils.setOptionConfig(overhead);
                 break;
             case 'file':
+                optionHash = optionName;
+
+                // Checking for 'disable' property equal to checking DOMNode with id*="change-"
+                overhead = optionValue || element.prop('disabled') ? optionConfig[optionId] : null;
+
+                changes[ optionHash ] = utils.setOptionConfig(overhead);
+                break;
             case 'hidden':
             default:
                 break;
