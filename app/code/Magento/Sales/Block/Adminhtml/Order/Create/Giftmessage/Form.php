@@ -130,7 +130,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($this->_getSession()->hasCustomerId() && $this->_getSession()->getCustomerId()) {
             // TODO to change email on id
-            $customer = $this->customerRepository->get($this->_getSession()->getCustomerId());
+            $customer = $this->customerRepository->getById($this->_getSession()->getCustomerId());
             return $this->_customerViewHelper->getCustomerName($customer);
         }
 

@@ -621,7 +621,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 $this->setBillingAddress($billingAddress);
             } else {
                 try {
-                    $defaultBillingAddress = $this->addressRepository->get($customer->getDefaultBilling());
+                    $defaultBillingAddress = $customer->getDefaultBilling();
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     //
                 }
@@ -635,7 +635,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
             if (null === $shippingAddress) {
                 try {
-                    $defaultShippingAddress = $this->addressRepository->get($customer->getDefaultShipping());
+                    $defaultShippingAddress = $customer->getDefaultShipping();
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     //
                 }
