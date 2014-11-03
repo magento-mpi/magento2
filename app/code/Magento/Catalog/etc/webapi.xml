@@ -388,7 +388,7 @@
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products/:productSku" method="DELETE">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="delete" />
+        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="deleteByIds" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
