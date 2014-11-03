@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Api;
+namespace Magento\Framework\Api\Data;
 
 use Magento\Framework\Validator\Test\True;
 
