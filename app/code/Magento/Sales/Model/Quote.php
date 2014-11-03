@@ -1585,7 +1585,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         if (null === $this->_currentPayment || !$this->_currentPayment) {
             $this->_currentPayment = $this->_quotePaymentCollectionFactory->create()
                 ->setQuoteFilter($this->getId())
-                ->fetchItem();
+                ->getFirstItem();
         }
         if ($payment = $this->_currentPayment) {
             if ($this->getId()) {
