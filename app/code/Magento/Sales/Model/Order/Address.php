@@ -16,8 +16,8 @@ namespace Magento\Sales\Model\Order;
  * @method Address setParentId(int $value)
  * @method int getCustomerAddressId()
  * @method Address setCustomerAddressId(int $value)
- * @method \Magento\Customer\Service\V1\Data\Address getCustomerAddressData()
- * @method Address setCustomerAddressData(\Magento\Customer\Service\V1\Data\Address $value)
+ * @method \Magento\Customer\Api\Data\AddressInterface getCustomerAddress()
+ * @method Address setCustomerAddressData(\Magento\Customer\Api\Data\AddressInterface $value)
  * @method int getQuoteAddressId()
  * @method Address setQuoteAddressId(int $value)
  * @method Address setRegionId(int $value)
@@ -97,7 +97,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

@@ -7,8 +7,9 @@
  */
 namespace Magento\Sales\Model\Observer\Backend;
 
-use Magento\Customer\Service\V1\Data\Customer as CustomerData;
-
+/**
+ * Class CustomerQuote
+ */
 class CustomerQuote
 {
     /**
@@ -49,26 +50,26 @@ class CustomerQuote
      */
     public function dispatch(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var CustomerData $customerDataObject */
-        $customerDataObject = $observer->getEvent()->getCustomerDataObject();
-        /** @var CustomerData $origCustomerDataObject */
-        $origCustomerDataObject = $observer->getEvent()->getOrigCustomerDataObject();
-        if ($customerDataObject->getGroupId() !== $origCustomerDataObject->getGroupId()) {
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        $customer = $observer->getEvent()->getCustomerDataObject();
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $origCustomer */
+        $origCustomer = $observer->getEvent()->getOrigCustomerDataObject();
+        if ($customer->getGroupId() !== $origCustomer->getGroupId()) {
             /**
              * It is needed to process customer's quotes for all websites
              * if customer accounts are shared between all of them
              */
             /** @var $websites \Magento\Store\Model\Website[] */
-            $websites = $this->_config->isWebsiteScope() ? array(
-                $this->_storeManager->getWebsite($customerDataObject->getWebsiteId())
-            ) : $this->_storeManager->getWebsites();
+            $websites = $this->_config->isWebsiteScope()
+                ? [$this->_storeManager->getWebsite($customer->getWebsiteId())]
+                : $this->_storeManager->getWebsites();
 
             foreach ($websites as $website) {
                 $quote = $this->_quoteFactory->create();
                 $quote->setWebsite($website);
-                $quote->loadByCustomer($customerDataObject->getId());
+                $quote->loadByCustomer($customer->getId());
                 if ($quote->getId()) {
-                    $quote->setCustomerGroupId($customerDataObject->getGroupId());
+                    $quote->setCustomerGroupId($customer->getGroupId());
                     $quote->collectTotals();
                     $quote->save();
                 }

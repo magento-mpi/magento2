@@ -181,7 +181,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function unsetAddressIdDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     /**
@@ -216,13 +216,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testExportCustomerAddressData()
     {
-        $street = array('Street1');
+        $street = ['Street1'];
         $company = 'TestCompany';
 
         $this->_address->setStreet($street);
         $this->_address->setCompany($company);
 
-        $customerAddress = $this->_address->exportCustomerAddressData();
+        $customerAddress = $this->_address->exportCustomerAddress();
 
         $this->assertEquals($street, $customerAddress->getStreet(), 'Street was exported incorrectly.');
         $this->assertEquals($company, $customerAddress->getCompany(), 'Company was exported incorrectly.');

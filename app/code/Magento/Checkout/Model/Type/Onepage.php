@@ -760,7 +760,7 @@ class Onepage
         $shipping = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customer = $quote->getCustomer();
-        $customerBillingData = $billing->exportCustomerAddressData();
+        $customerBillingData = $billing->exportCustomerAddress();
         $customerBillingData = $this->_addressBuilder->populate(
             $customerBillingData
         )->setDefaultBilling(
@@ -769,7 +769,7 @@ class Onepage
 
         if ($shipping) {
             if (!$shipping->getSameAsBilling()) {
-                $customerShippingData = $shipping->exportCustomerAddressData();
+                $customerShippingData = $shipping->exportCustomerAddress();
                 $customerShippingData = $this->_addressBuilder->populate(
                     $customerShippingData
                 )->setDefaultShipping(
@@ -821,7 +821,7 @@ class Onepage
         if ($shipping && !$shipping->getSameAsBilling() &&
             (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())
         ) {
-            $shippingAddress = $shipping->exportCustomerAddressData();
+            $shippingAddress = $shipping->exportCustomerAddress();
             if (!$hasDefaultShipping) {
                 //Make provided address as default shipping address
                 $shippingAddress = $this->_addressBuilder
@@ -835,7 +835,7 @@ class Onepage
         }
 
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
-            $billingAddress = $billing->exportCustomerAddressData();
+            $billingAddress = $billing->exportCustomerAddress();
             if (!$hasDefaultBilling) {
                 //Make provided address as default shipping address
                 $this->_addressBuilder->populate($billingAddress);

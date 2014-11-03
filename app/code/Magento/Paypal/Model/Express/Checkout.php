@@ -1147,13 +1147,13 @@ class Checkout
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $billingAddressBuilder */
         $billingAddressBuilder = $this->_addressBuilderFactory->create();
         $customerBilling = $billingAddressBuilder
-            ->populate($billing->exportCustomerAddressData())
+            ->populate($billing->exportCustomerAddress())
             ->setDefaultBilling(true);
         if ($shipping && !$shipping->getSameAsBilling()) {
             /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $shippingAddressBuilder */
             $shippingAddressBuilder = $this->_addressBuilderFactory->create();
             $customerShipping = $shippingAddressBuilder
-                ->populate($shipping->exportCustomerAddressData())
+                ->populate($shipping->exportCustomerAddress())
                 ->setDefaultShipping(true)
                 ->create();
             $shipping->setCustomerAddressData($customerShipping);
@@ -1215,14 +1215,14 @@ class Checkout
 
 
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
-            $billingAddress = $billing->exportCustomerAddressData();
+            $billingAddress = $billing->exportCustomerAddress();
             $billing->setCustomerAddressData($billingAddress);
         }
         if ($shipping
             && !$shipping->getSameAsBilling()
             && (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())
         ) {
-            $shippingAddress = $shipping->exportCustomerAddressData();
+            $shippingAddress = $shipping->exportCustomerAddress();
             $shipping->setCustomerAddressData($shippingAddress);
         }
 
