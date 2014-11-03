@@ -10,7 +10,12 @@
     <input type="checkbox" class="control-checkbox" data-bind="checked: value, attr: { id: uid, disabled: disabled, name: name }, hasFocus: focused">
     
     <label class="label" data-bind="checked: value, attr: { for: uid }">
-        <span data-bind="text: description"></span>
+        <!-- ko if: $parent.isSingle() -->
+            <span data-bind="text: description"></span>
+        <!-- /ko -->
+        <!-- ko if: !$parent.isSingle() -->
+            <span data-bind="text: description || label"></span>
+        <!-- /ko -->
     </label>
     
     <!-- ko if: notice -->

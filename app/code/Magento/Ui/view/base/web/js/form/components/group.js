@@ -16,7 +16,7 @@ define([
         required:       false,
         template:       'ui/group/group',
         fieldTemplate:  'ui/group/field',
-        breakLine:      false
+        breakLine:      true
     };
 
     var __super__ = Component.prototype;
