@@ -48,6 +48,11 @@ class AbstractStructure extends AbstractView
     protected $ns;
 
     /**
+     * @var int
+     */
+    protected $sortInc = 10;
+
+    /**
      * Constructor
      *
      * @param TemplateContext $context
@@ -102,9 +107,6 @@ class AbstractStructure extends AbstractView
 
         $this->processChildBLocks();
 
-
-        //$this->sortTabs($this->structure['sections']); // todo
-
         $this->renderContext->getStorage()->addLayoutStructure(
             $this->getDataScope(),
             [
@@ -112,17 +114,18 @@ class AbstractStructure extends AbstractView
             ]
         );
 
+        $navBlock = $this->factory->create(
+            \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
+            [
+                'data_scope' => $this->ns
+            ]
+        );
         if ($this->getData('configuration/tabs_container_name')) {
-            $navBlock = $this->factory->create(
-                \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
-                [
-                    'data_scope' => $this->ns
-                ]
-            );
             $this->getRenderContext()->getPageLayout()
                 ->addBlock($navBlock, 'tabs_nav', $this->getData('configuration/tabs_container_name'));
         } else {
-            // todo fallback to content container
+            $this->getRenderContext()->getPageLayout()
+                ->addBlock($navBlock, 'tabs_nav', 'content');
         }
     }
 
@@ -212,10 +215,17 @@ class AbstractStructure extends AbstractView
 
         $meta = $this->dataManager->getMetadata($dataSource);
 
-        $referenceAreaName = $this->addArea(
+        $this->addArea(
             $dataSource,
             [
-                'label' => $meta->getLabel()
+                'insertTo' => [
+                    $this->ns . '.sections' => [
+                        'position' => $this->getNextSortInc()
+                    ]
+                ],
+                'config' => [
+                    'label' => $meta->getLabel()
+                ]
             ]
         );
         $referenceGroupName = $this->addGroup(
@@ -236,18 +246,16 @@ class AbstractStructure extends AbstractView
         }
 
         $this->addToArea($dataSource, $referenceGroupName);
-        $this->addToSection($referenceAreaName);
 
         $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
         foreach ($children as $childName) {
             $this->processChildDataSource($dataSource, $childName);
         }
 
-        $preparedData = [
-            $dataSource => []
-        ];
+        $preparedData = [];
         $data = $id ? $this->dataManager->getData($dataSource, ['entity_id' => $id]) : [];
         if ($data) {
+            $preparedData[$dataSource] = [];
             foreach (array_shift($data) as $key => $value) {
                 $preparedData[$dataSource][$key] = $value;
             }
@@ -263,13 +271,19 @@ class AbstractStructure extends AbstractView
     {
         $childMeta = $this->dataManager->getMetadata($childName);
 
-        $referenceChildAreaName = $this->addArea(
+        $this->addArea(
             $childName,
             [
-                'label' => $childMeta->getLabel()
+                'insertTo' => [
+                    $this->ns . '.sections' => [
+                        'position' => $this->getNextSortInc()
+                    ]
+                ],
+                'config' => [
+                    'label' => $childMeta->getLabel()
+                ]
             ]
         );
-        $this->addToSection($referenceChildAreaName);
         $referenceChildGroupName = $this->addGroup(
             $childName,
             [
@@ -335,8 +349,18 @@ class AbstractStructure extends AbstractView
             if (!$childBlock->canShowTab()) {
                 continue;
             }
-            $referenceAreaName = $this->addArea($blockName, ['label' => $childBlock->getTabTitle()]);
-            $this->addToSection($referenceAreaName);
+            $sortOrder = $childBlock->hasSortOrder() ? $childBlock->getSortOrder() : $this->getNextSortInc();
+            $this->addArea($blockName, [
+                'insertTo' => [
+                    $this->ns . '.sections' => [
+                        'position' => (int)$sortOrder
+                    ]
+                ],
+                'config' => [
+                    'label' => $childBlock->getTabTitle()
+                ]
+            ]);
+
             $config = [
                 'label' => $childBlock->getTabTitle()
             ];
@@ -351,25 +375,15 @@ class AbstractStructure extends AbstractView
     }
 
     /**
-     * @param string $itemName
-     */
-    protected function addToSection($itemName)
-    {
-        $this->structure['sections']['children'][] = $itemName;
-    }
-
-    /**
-     * @param string $areaName
+     * @param string $name
      * @param array $config
      * @return string
      */
-    protected function addArea($areaName, array $config = [])
+    protected function addArea($name, array $config = [])
     {
-        $this->structure['areas']['children'][$areaName] = [
-            'type' => 'tab',
-            'config' => $config
-        ];
-        return "{$this->ns}.areas.{$areaName}";
+        $config['type'] = 'tab';
+        $this->structure['areas']['children'][$name] = $config;
+        return "{$this->ns}.areas.{$name}";
     }
 
     /**
@@ -450,31 +464,11 @@ class AbstractStructure extends AbstractView
     }
 
     /**
-     * Set tabs
-     *
-     * @param array $items
-     * @return void
-     */
-    protected function sortTabs(array & $items)
-    {
-        usort($items, [$this, 'compareSortOrder']);
-    }
-
-    /**
-     * Compare sort order
-     *
-     * @param array $one
-     * @param array $two
      * @return int
      */
-    protected function compareSortOrder(array $one, array $two)
+    protected function getNextSortInc()
     {
-        if (!isset($one['sort_order'])) {
-            $one['sort_order'] = 0;
-        }
-        if (!isset($two['sort_order'])) {
-            $two['sort_order'] = 0;
-        }
-        return (int)$one['sort_order'] - (int)$two['sort_order'];
+        $this->sortInc += 10;
+        return $this->sortInc;
     }
 }

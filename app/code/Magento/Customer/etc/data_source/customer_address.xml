@@ -34,7 +34,7 @@
             <field name="default_shipping" dataType="boolean" formElement="checkbox" displayArea="head" label="Default Shipping Address" />
         </fields>
         <references>
-            <reference target="customer"
+            <reference target="account"
                referencedField="parent_id"
                targetField="entity_id"
             />
