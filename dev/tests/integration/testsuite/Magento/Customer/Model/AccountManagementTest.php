@@ -605,6 +605,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'id',
             'lastname',
+            'confirmation'
         ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
