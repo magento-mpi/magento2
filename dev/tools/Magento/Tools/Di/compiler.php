@@ -92,7 +92,6 @@ try {
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
             Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-            DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
             Builder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Builder',
             Mapper::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Mapper',
             Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
