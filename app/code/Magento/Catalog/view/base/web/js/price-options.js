@@ -5,13 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-/*global Handlebars*/
 define([
     "jquery",
     "underscore",
-    "handlebars",
+    "Magento_Catalog/js/price-utils",
     "jquery/ui"
-], function($,_){
+], function($,_, utils){
     "use strict";
 
     var globalOptions = {
@@ -51,7 +50,7 @@ define([
         option.data('optionContainer', option.closest(this.options.controlContainer));
 
         if(handler && handler instanceof Function) {
-            changes = handler(option);
+            changes = handler(option, this.options.optionConfig, this);
         } else {
             changes = defaultGetOptionValue(option, this.options.optionConfig);
         }
@@ -67,13 +66,14 @@ define([
 
         _.each(this._additionalPriceObject, function(prices){
             _.each(prices, function(priceValue, priceCode){
+                priceValue.amount = +priceValue.amount || 0;
+                priceValue.adjustments = priceValue.adjustments || {};
+
                 additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount':0, 'adjustments': {}};
-                if(priceValue.amount)
-                    additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
-                if(priceValue.adjustments)
-                    _.each(priceValue.adjustments, function(adValue, adCode){
-                        additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
-                    });
+                additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
+                _.each(priceValue.adjustments, function(adValue, adCode){
+                    additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
+                });
             });
         });
 
@@ -83,18 +83,18 @@ define([
     function defaultGetOptionValue(element, optionConfig) {
         var changes = {};
         var optionValue = element.val();
-        var optionId = findOptionId(event.target);
+        var optionId = utils.findOptionId(event.target);
         var optionName = element.prop('name');
         var optionType = element.prop('type');
-        var overhead;// = optionConfig[optionId][valueId];
-        var optionHash = optionId + '##' + optionName + '##' + optionValue;
+        var overhead;
+        var optionHash;
         switch (optionType) {
             case 'text':
             case 'textarea':
                 optionHash = optionName;
                 overhead = optionValue ? optionConfig[optionId] : null;
 
-                changes[ optionHash ] = setOptionConfig(overhead);
+                changes[ optionHash ] = utils.setOptionConfig(overhead);
 
                 break;
             case 'radio':
@@ -102,14 +102,14 @@ define([
                 optionHash = optionName;
                 overhead = optionConfig[optionId][optionValue] || null;
 
-                changes[ optionHash ] = setOptionConfig(overhead);
+                changes[ optionHash ] = utils.setOptionConfig(overhead);
                 break;
             case 'select-multiple':
                 _.each(optionConfig[optionId], function(prices, optionValueCode) {
                     optionHash = optionName + '##' + optionValueCode;
                     overhead = _.contains(optionValue, optionValueCode) ? prices : null;
 
-                    changes[ optionHash ] = setOptionConfig(overhead);
+                    changes[ optionHash ] = utils.setOptionConfig(overhead);
                 });
 
                 break;
@@ -117,7 +117,7 @@ define([
                 optionHash = optionName + '##' + optionValue;
                 overhead = element.is(':checked') ? optionConfig[optionId][optionValue] : null;
 
-                changes[ optionHash ] = setOptionConfig(overhead);
+                changes[ optionHash ] = utils.setOptionConfig(overhead);
                 break;
             case 'file':
             case 'hidden':
@@ -130,9 +130,9 @@ define([
 
     /**
      * Custom behavior on getting options:
-     * now widget able to deep merge of accepted configuration.
+     * now widget able to deep merge accepted configuration with instance options.
      * @param  {Object}  options
-     * @return {mage.priceBox}
+     * @return {$.Widget}
      */
     function setOptions(options) {
         $.extend(true, this.options, options);
@@ -141,42 +141,5 @@ define([
             this._setOption('disabled', options['disabled']);
         }
         return this;
-    }
-
-
-
-
-    function findOptionId(element) {
-        var name = $(element).attr('name');
-        var re = new RegExp(/\[([^\]]+)?\]/);
-        var id = re.exec(name)[1];
-
-        if(id) {
-            return id;
-        } else {
-            return undefined;
-        }
-    }
-
-    function setOptionConfig (config) {
-        if(!config) {
-            config = {
-                exclTaxPrice: 0,
-                inclTaxPrice: 0
-            };
-        }
-        var rightObj = {};
-        rightObj.regular = {};
-        rightObj.regular.amount = config.exclTaxPrice;
-        rightObj.regular.adjustments = {};
-        rightObj.regular.adjustments.tax = config.inclTaxPrice - config.exclTaxPrice;
-
-        rightObj.special = rightObj.regular;
-
-        if(config.oldPrice  !== config.price) {
-            rightObj.regular = {amount: config.oldPrice};
-        }
-
-        return rightObj;
     }
 });

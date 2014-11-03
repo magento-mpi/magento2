@@ -22,22 +22,56 @@ define([
 
     $.widget('mage.priceOptionDate',{
         options: globalOptions,
-        _create: initPriceBox
+        _create: initOptionDate
     });
 
-    return $.mage.priceBox;
+    return $.mage.priceOptionDate;
 
     /**
      * Function-initializer of priceBox widget
      */
-    function initPriceBox() {
+    function initOptionDate() {
         var field = this.element;
         var form = field.closest(this.options.fromSelector);
         var dropdowns = $(this.options.dropdownsSelector, field);
+        var dateOptionId;
+        var priceOptionHandler = {};
 
-        form.priceOptions({'optionHandlers':{'calendar-dropdown': function(){
-            console.log(arguments);
-        }}});
+        if(dropdowns.length) {
+            dateOptionId = this.options.dropdownsSelector + dropdowns.attr('name');
+            priceOptionHandler['optionHandlers'] = {};
+            priceOptionHandler['optionHandlers'][dateOptionId] = onCalendarDropdownCahnge(dropdowns);
+
+            dropdowns.data('role', dateOptionId);
+
+            form.priceOptions(priceOptionHandler);
+        }
     }
+
+    /**
+     * Custom handler for Date-with-Dropdowns option type.
+     * @param  {jQuery} siblings
+     * @return {Object} { optionHash : optionAdditionalPrice }
+     */
+    function onCalendarDropdownCahnge (siblings) {
+        return function(element, optionConfig, form) {
+            var changes = {};
+            var optionId = utils.findOptionId(event.target);
+            var overhead = optionConfig[optionId];
+            var isNeedToUpdate = true;
+
+
+            siblings.each(function(index, el){
+                isNeedToUpdate = isNeedToUpdate && !!$(el).val();
+            });
+
+            overhead = isNeedToUpdate ? overhead : null;
+            changes[optionId] = utils.setOptionConfig(overhead);
+
+            return changes;
+        }
+    }
+
+
 
 });
