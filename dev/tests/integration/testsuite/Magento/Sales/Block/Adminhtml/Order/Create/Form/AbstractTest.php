@@ -55,9 +55,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $attributeBuilder = $objectManager->create(
             '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
             [
-                'optionBuilder' => $objectManager->create('\Magento\Customer\Api\Data\OptionDataBuilder'),
+                'optionBuilder' => $objectManager->create('Magento\Customer\Service\V1\Data\Eav\OptionBuilder'),
                 'validationRuleBuilder' => $objectManager->create(
-                    '\Magento\Customer\Api\Data\ValidationRuleDataBuilder'
+                    'Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder'
                 ),
             ]
         );
