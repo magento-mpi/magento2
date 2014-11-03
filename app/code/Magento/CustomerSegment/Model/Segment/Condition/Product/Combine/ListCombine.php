@@ -177,12 +177,12 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
                 break;
             default:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('sales_flat_quote_item')),
+                    array('item' => $this->getResource()->getTable('sales_quote_item')),
                     array(new \Zend_Db_Expr(1))
                 );
                 $conditions = "item.quote_id = list.entity_id";
                 $select->joinInner(
-                    array('list' => $this->getResource()->getTable('sales_flat_quote')),
+                    array('list' => $this->getResource()->getTable('sales_quote')),
                     $conditions,
                     array()
                 );

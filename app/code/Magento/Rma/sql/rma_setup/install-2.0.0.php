@@ -967,7 +967,7 @@ $this->getConnection()->createTable($table);
 
 //TODO: should be refactored in order to avoid sales table modification
 $this->getConnection()->addColumn(
-    $this->getTable('sales_flat_order_item'),
+    $this->getTable('sales_order_item'),
     'qty_returned',
     array(
         'TYPE' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,

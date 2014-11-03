@@ -131,9 +131,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('paypal_billing_agreement_order', 'order_id', 'sales_flat_order', 'entity_id'),
+    $installer->getFkName('paypal_billing_agreement_order', 'order_id', 'sales_order', 'entity_id'),
     'order_id',
-    $installer->getTable('sales_flat_order'),
+    $installer->getTable('sales_order'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
