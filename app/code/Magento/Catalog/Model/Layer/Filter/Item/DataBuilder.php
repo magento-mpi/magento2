@@ -25,7 +25,7 @@ class DataBuilder
      *
      * @return array
      */
-    protected $_itemsData;
+    protected $_itemsData = [];
 
     /**
      * Add Item Data
