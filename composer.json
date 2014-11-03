@@ -227,11 +227,14 @@
         },
         "psr-4": {
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
-            "Magento\\": ["app/code/Magento/", "var/generation/Magento/"],
+            "Magento\\": [
+                "var/generation/Magento/",
+                "app/code/Magento/"
+            ],
             "Zend\\Soap\\": "app/code/Zend/Soap/",
             "Zend\\": "lib/internal/Zend/"
         },
-        "classmap" : ["var/generation/"]
+        "classmap": ["app/code/"]
     },
     "include-path": [
         "/lib/internal/",
@@ -239,17 +242,13 @@
     ],
     "autoload-dev": {
         "psr-4": {
-            "Magento\\Sniffs\\": ["dev/tests/static/framework/Magento/Sniffs/"],
-            "Magento\\Tools\\": ["dev/tools/Magento/Tools/"],
-            "Magento\\Tools\\License\\": ["dev/build/publication/license/"],
-            "Magento\\Tools\\Sanity\\": ["dev/build/publication/sanity/Magento/Tools/Sanity/"],
-            "Magento\\TestFramework\\Inspection\\": ["dev/tests/static/framework/Magento/TestFramework/Inspection/"],
-            "Magento\\TestFramework\\Utility\\": ["dev/tests/static/framework/Magento/TestFramework/Utility/"],
-            "Magento\\ToolkitFramework\\": ["dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/"]
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\License\\": "dev/build/publication/license/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Magento\\ToolkitFramework\\": "dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/"
         }
-    },
-    "scripts": {
-        "pre-install-cmd": "php -f dev/tools/Magento/Tools/Composer/make-generation-directory.php",
-        "pre-autoload-dump": "php -f dev/tools/Magento/Tools/Composer/make-generation-directory.php"
     }
 }
