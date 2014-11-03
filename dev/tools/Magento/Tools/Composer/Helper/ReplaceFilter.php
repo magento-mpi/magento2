@@ -60,27 +60,28 @@ class ReplaceFilter
     }
 
     /**
-     * Go through the "replace section" and move Magento components under "require" section
+     * Go through the "replace section" and find Magento components
      *
      * @param Package $package
      * @param bool $useWildcard
-     * @return void
+     * @return array
      */
-    public function moveMagentoComponentsToRequire(Package $package, $useWildcard)
+    public function getMagentoComponentsFromReplace(Package $package, $useWildcard)
     {
         $rootVersion = $package->get('version');
         $rootWildcard = preg_replace('/\.\d+$/', '.*', $rootVersion);
+        $components = [];
         foreach ($package->get('replace') as $key => $value) {
             if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
-                $package->unsetProperty("replace->{$key}");
-                if ($value === 'self.version') {
-                    $newValue = $useWildcard ? $rootWildcard : $rootVersion;
+                if ($value === 'self.version' && $useWildcard) {
+                    $newValue = $rootWildcard;
                 } else {
                     $newValue = $value;
                 }
-                $package->set("require->{$key}", $newValue);
+                $components[$key] = $newValue;
             }
         }
+        return $components;
     }
 
     /**
