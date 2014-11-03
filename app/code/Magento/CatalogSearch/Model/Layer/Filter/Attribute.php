@@ -62,7 +62,3 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         return $this->itemDataBuilder->build();
     }
 }
-
-/*
-
- */
