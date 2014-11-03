@@ -80,7 +80,7 @@ class Render
      */
     public function renderRangeData($range, $dbRanges)
     {
-        if (!empty($dbRanges)) {
+        if (empty($dbRanges)) {
             return [];
         }
         $lastIndex = array_keys($dbRanges);

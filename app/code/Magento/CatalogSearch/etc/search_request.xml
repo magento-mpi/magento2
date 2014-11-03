@@ -29,7 +29,7 @@
             <filter xsi:type="termFilter" name="category_filter" field="category_ids" value="$category_ids$"/>
         </filters>
         <aggregations>
-            <bucket name="price" field="price" xsi:type="dynamicBucket" method="$price_dynamic_algorithm$">
+            <bucket name="price_bucket" field="price" xsi:type="dynamicBucket" method="$price_dynamic_algorithm$">
                 <metrics>
                     <metric type="count"/>
                 </metrics>

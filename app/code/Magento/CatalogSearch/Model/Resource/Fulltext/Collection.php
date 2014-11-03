@@ -143,6 +143,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         if ($this->queryText) {
             $this->requestBuilder->bind('search_term', $this->queryText);
         }
+        $this->requestBuilder->bind(
+            'price_dynamic_algorithm',
+            $this->_scopeConfig ->getValue(
+                \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory::XML_PATH_RANGE_CALCULATION,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
+
         $this->requestBuilder->setRequestName('quick_search_container');
         $queryRequest = $this->requestBuilder->create();
 
