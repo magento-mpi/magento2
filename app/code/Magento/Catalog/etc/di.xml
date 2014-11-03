@@ -523,27 +523,16 @@
     <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="Magento\Catalog\Model\ProductLink\Link" />
     <preference for="\Magento\Catalog\Api\CategoryLinkManagementInterface" type="\Magento\Catalog\Model\CategoryLinkManagement" />
     <preference for="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" type="\Magento\Catalog\Model\CategoryLinkRepository" />
-    <preference for="\Magento\Catalog\Model\Product\Option\Metadata\ConverterInterface" type="Magento\Catalog\Model\Product\Option\Metadata\Converter\Composite" />
-    <type name="Magento\Catalog\Model\Product\Option\Metadata\Converter\Composite">
-        <arguments>
-            <argument name="converters" xsi:type="array">
-                <item name="default" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\DefaultConverter</item>
-                <item name="drop_down" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
-                <item name="radio" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
-                <item name="checkbox" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
-                <item name="multiple" xsi:type="object">\Magento\Catalog\Model\Product\Option\Metadata\Converter\Select</item>
-            </argument>
-        </arguments>
-    </type>
     <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface" type="Magento\Catalog\Model\Product\Option" />
     <preference for="Magento\Catalog\Api\ProductGroupPriceManagementInterface" type="Magento\Catalog\Model\Product\GroupPriceManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductGroupPriceInterface" type="Magento\Catalog\Model\Product\GroupPrice" />
-    <preference for="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" type="Magento\Catalog\Model\Product\Option\Repository" />
+    <preference for="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" type="\Magento\Catalog\Model\Product\Option\Repository" />
     <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface" type="Magento\Catalog\Model\Product\Option\Type" />
     <preference for="Magento\Catalog\Api\ProductTierPriceManagementInterface" type="\Magento\Catalog\Model\Product\TierPriceManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductTierPriceInterface" type="Magento\Catalog\Model\Product\TierPrice" />
     <preference for="Magento\Catalog\Api\Data\CategoryProductLinkInterface" type="Magento\Catalog\Model\CategoryProductLink" />
-
+    <preference for="Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface" type="Magento\Catalog\Model\ProductOptions\TypeList" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface" type="\Magento\Catalog\Model\Product\Option\Value" />
     <virtualType name="Magento\Catalog\Model\Resource\Attribute\Collection" type="Magento\Eav\Model\Resource\Entity\Attribute\Collection">
     </virtualType>
 </config>

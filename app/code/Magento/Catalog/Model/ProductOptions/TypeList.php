@@ -18,17 +18,17 @@ class TypeList implements \Magento\Catalog\Api\ProductCustomOptionOptionTypeList
     protected $config;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterfaceBuilder
+     * @var \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceDataBuilder
      */
     protected $builder;
 
     /**
      * @param Config $config
-     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterfaceBuilder $builder
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceDataBuilder $builder
      */
     public function __construct(
         Config $config,
-        \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceBuilder $builder
+        \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceDataBuilder $builder
     ) {
         $this->config = $config;
         $this->builder = $builder;
@@ -46,9 +46,9 @@ class TypeList implements \Magento\Catalog\Api\ProductCustomOptionOptionTypeList
                     continue;
                 }
                 $itemData = [
-                    OptionType::LABEL => __($type['label']),
-                    OptionType::CODE => $type['name'],
-                    OptionType::GROUP => __($option['label'])
+                    'label' => __($type['label']),
+                    'code' => $type['name'],
+                    'group' => __($option['label'])
                 ];
                 $output[] = $this->builder->populateWithArray($itemData)->create();
             }

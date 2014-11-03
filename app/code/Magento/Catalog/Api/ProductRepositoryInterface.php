@@ -18,12 +18,13 @@ interface ProductRepositoryInterface
      * Create product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
+     * @param bool $saveOption
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(ProductInterface $product);
+    public function save(ProductInterface $product, $saveOption = false);
 
     /**
      * Get info about product by product SKU
@@ -55,8 +56,8 @@ interface ProductRepositoryInterface
     /**
      * Get product list
      *
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
      */
-    public function getList(SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

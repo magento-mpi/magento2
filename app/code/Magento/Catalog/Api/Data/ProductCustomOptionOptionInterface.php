@@ -8,11 +8,6 @@
 
 namespace Magento\Catalog\Api\Data;
 
-/**
- * Created from:
- * @see \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option - previous implementation
- * @todo \Magento\Catalog\Model\Product\Option implements
- */
 interface ProductCustomOptionOptionInterface
 {
     /**
@@ -20,7 +15,7 @@ interface ProductCustomOptionOptionInterface
      *
      * @return string
      */
-    public function getProductSKU();
+    public function getProductSku();
 
     /**
      * Get option id
@@ -58,9 +53,48 @@ interface ProductCustomOptionOptionInterface
     public function getIsRequire();
 
     /**
-     * Get option metadata
+     * Get price
      *
-     * @return \Magento\Catalog\Api\Data\ProductCustomOptionAttributeInterface[]
+     * @return float|null
      */
-    public function getMetadata();
+    public function getPrice();
+
+    /**
+     * Get price type
+     *
+     * @return string|null
+     */
+    public function getPriceType();
+
+    /**
+     * Get Sku
+     *
+     * @return string|null
+     */
+    public function getSku();
+
+    /**
+     * @return string|null
+     */
+    public function getFileExtension();
+
+    /**
+     * @return int|null
+     */
+    public function getMaxCharacters();
+
+    /**
+     * @return int|null
+     */
+    public function getImageSizeX();
+
+    /**
+     * @return int|null
+     */
+    public function getImageSizeY();
+
+    /**
+     * @return  \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface[]|null
+     */
+    public function getValues();
 }

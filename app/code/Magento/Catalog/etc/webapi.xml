@@ -294,7 +294,7 @@
 
     <!-- Product Custom Options -->
     <route url="/V1/products/options/types" method="GET">
-        <service class="\Magento\Catalog\Model\ProductOptions\TypeList" method="getItems"/>
+        <service class="Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface" method="getItems"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
@@ -306,25 +306,25 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku/options/:optionId" method="GET">
-        <service class="\Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="get"/>
+        <service class="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/options" method="POST">
+    <route url="/V1/products/options" method="POST">
         <service class="\Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/options/:optionId" method="PUT">
+    <route url="/V1/products/options/:optionId" method="PUT">
         <service class="\Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/:productSku/options/:optionId" method="DELETE">
-        <service class="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="delete"/>
+        <service class="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" method="deleteByIdentifier"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

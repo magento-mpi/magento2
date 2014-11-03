@@ -10,10 +10,6 @@ namespace Magento\Catalog\Api\Data;
 
 interface ProductCustomOptionOptionTypeInterface
 {
-    const LABEL = 'label';
-    const CODE = 'code';
-    const GROUP = 'group';
-
     /**
      * Get option type label
      *

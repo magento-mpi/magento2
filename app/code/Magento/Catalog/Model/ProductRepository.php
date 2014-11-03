@@ -12,7 +12,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\Framework\Data\Search\SearchCriteriaInterface;
 use Magento\Framework\Data\Search\SortOrderInterface;
-use Magento\Framework\Data\Search\FilterGroupInterface;
+use \Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
 
 class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterface
@@ -63,6 +63,11 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $attributeRepository;
 
     /**
+     * @var MetadataServiceInterface
+     */
+    protected $metadataService;
+
+    /**
      * @param ProductFactory $productFactory
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper
      * @param \Magento\Catalog\Api\Data\ProductSearchResultsBuilder $searchResultsBuilder
@@ -75,12 +80,13 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     public function __construct(
         ProductFactory $productFactory,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
-        \Magento\Catalog\Api\Data\ProductSearchResultsBuilder $searchResultsBuilder,
+        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
-        \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
         \Magento\Catalog\Model\Resource\Product $resourceModel,
-        \Magento\Framework\Data\Search\FilterInterfaceBuilder $filterBuilder
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
     ) {
         $this->productFactory = $productFactory;
         $this->collectionFactory = $collectionFactory;
@@ -90,6 +96,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $this->resourceModel = $resourceModel;
         $this->attributeRepository = $attributeRepository;
         $this->filterBuilder = $filterBuilder;
+        $this->metadataService = $metadataServiceInterface;
     }
 
     /**
@@ -116,7 +123,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\ProductInterface $product)
+    public function save(\Magento\Catalog\Api\Data\ProductInterface $product, $saveOption = false)
     {
         $this->initializationHelper->initialize($product);
         $validationResult = $this->resourceModel->validate($product);
@@ -126,6 +133,10 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             );
         }
         try {
+            if ($saveOption)
+            {
+                $product->setCanSaveCustomOptions(true);
+            }
             $this->resourceModel->save($product);
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
             throw \Magento\Framework\Exception\InputException::invalidFieldValue(
@@ -136,7 +147,10 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\CouldNotSaveException('Unable to save product');
         }
-        $this->instances[$product->getSku()] = $product;
+        if (array_key_exists($product->getSku(), $this->instances)) {
+            unset($this->instances[$product->getSku()]);
+        }
+
         return $product;
     }
 
@@ -169,27 +183,25 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getList(SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
         $collection = $this->collectionFactory->create();
 
-        // This is needed to make sure all the attributes are properly loaded
-        $attributeSearchCriteria = $this->searchCriteriaBuilder->addFilter(
+        $searchCriteria1 = $this->searchCriteriaBuilder->addFilter(
             [
                 $this->filterBuilder
                     ->setField('attribute_set_id')
-                    ->setValue(ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
+                    ->setValue(\Magento\Catalog\Api\Data\CategoryAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
                     ->create()
             ]
         );
 
-        $attributeSearchResult = $this->attributeRepository->getList($attributeSearchCriteria);
-        foreach ($attributeSearchResult->getItems() as $metadata) {
+        $customAttributes = [];
+        foreach ($this->metadataService->getList($searchCriteria1->create())->getItems() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());
         }
-
         $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');
         $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
 
@@ -218,12 +230,13 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param FilterGroupInterface $filterGroup
+     * @param FilterGroup $filterGroup
      * @param Collection $collection
      * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
-    protected function addFilterGroupToCollection(FilterGroupInterface $filterGroup, Collection $collection)
+    protected function addFilterGroupToCollection(\Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+                                                  Collection $collection)
     {
         $fields = [];
         foreach ($filterGroup->getFilters() as $filter) {
