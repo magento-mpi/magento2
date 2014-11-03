@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Wonderland\Api\Data\FakeAddressInterface;
 use Magento\Wonderland\Api\Data\FakeRegionInterface;
