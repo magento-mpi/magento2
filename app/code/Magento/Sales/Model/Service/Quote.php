@@ -66,27 +66,6 @@ class Quote
     protected $_transactionFactory;
 
     /**
-     * Address service
-     *
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
-     */
-    protected $addressService;
-
-    /**
-     * Search criteria builder
-     *
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
-     */
-    protected $criteriaBuilder;
-
-    /**
-     * Filter builder
-     *
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
-     */
-    protected $filterBuilder;
-
-    /**
      * Account management
      *
      * @var \Magento\Customer\Api\AccountManagementInterface
@@ -115,9 +94,6 @@ class Quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
      * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
      * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
@@ -128,17 +104,11 @@ class Quote
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
-        \Magento\Customer\Api\AddressRepositoryInterface $addressService,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
     ) {
 
-        $this->addressService = $addressService;
-        $this->criteriaBuilder = $criteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
         $this->accountManagement = $accountManagement;
         $this->customerBuilder = $customerBuilder;
         $this->addressBuilder = $addressBuilder;
@@ -208,23 +178,19 @@ class Quote
                     $this->addressBuilder->mergeDataObjectWithArray($address, ['parent_id' => $customer->getId()]);
                 }
             } else { //for new customers
-                $this->accountManagement->createAccountWithPasswordHash(
-                    $customer,
+                $customer = $this->accountManagement->createAccountWithPasswordHash(
+                    $this->customerBuilder->populateWithArray([]),
                     $quote->getPasswordHash()
                 );
 
-                $this->criteriaBuilder->addFilter(
-                    ['eq' => $this->filterBuilder->setField('parent_id')->setValue($customer->getId())->create()]
-                );
-                $criteria = $this->criteriaBuilder->create();
-                $addresses = $this->addressService->getList($criteria)->getItems();
+                $addresses = $customer->getAddresses();
 
                 //Update quote address information
                 foreach ($addresses as $address) {
-                    if ($address->isDefaultBilling()) {
+                    if ($address === $customer->getDefaultBilling()) {
                         $quote->getBillingAddress()->setCustomerAddressData($address);
                     } else {
-                        if ($address->isDefaultShipping()) {
+                        if ($address === $customer->getDefaultShipping()) {
                             $quote->getShippingAddress()->setCustomerAddressData($address);
                         }
                     }
