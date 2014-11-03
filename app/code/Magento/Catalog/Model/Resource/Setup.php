@@ -713,11 +713,14 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                     ),
                     'category_ids' => array(
                         'type' => 'static',
+                        'label' => 'Categories',
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+                        'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Category',
                         'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
                         'required' => false,
-                        'sort_order' => 13,
-                        'visible' => false
+                        'sort_order' => 9,
+                        'visible' => true,
+                        'group' => 'General'
                     ),
                     'options_container' => array(
                         'type' => 'varchar',
