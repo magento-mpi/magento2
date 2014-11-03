@@ -54,11 +54,13 @@ class Downloadable
         );
         $downloadableData = $this->request->getPost('downloadable');
         $hasDownloadableData = false;
-        if (isset($downloadableData['link'])) {
-            foreach ($downloadableData['link'] as $data) {
-                if (empty($data['is_delete'])) {
-                    $hasDownloadableData = true;
-                    break;
+        if (isset($downloadableData)) {
+            foreach ($downloadableData as $data) {
+                foreach ( $data as $rowData) {
+                    if (empty($rowData['is_delete'])) {
+                        $hasDownloadableData = true;
+                        break;
+                    }
                 }
             }
         }
