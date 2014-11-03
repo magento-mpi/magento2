@@ -28,49 +28,32 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 
         $data = [];
         if (!empty($facets)) {
-
-            $i = 0;
-            $maxIntervalsNumber = $this->getMaxIntervalsNumber();
-            $lastSeparator = null;
             foreach ($facets as $key => $aggregation) {
                 $count = $aggregation['count'];
-                $separator = explode('_', '_' . $key);
-
-                ++$i;
-                $label = null;
-                $value = null;
-                if (isset($this->_facets[$separator[1] . '_' . $separator[2]])) {
-                    $separatorLabelValues = $this->_facets[$separator[1] . '_' . $separator[2]];
-                    if ($i <= max(1, $maxIntervalsNumber)) {
-                        $lastSeparator = $separatorLabelValues[0];
-                    }
-                    $label = $this->_renderRangeLabel($separatorLabelValues[0], $separatorLabelValues[1]);
-                    $value = (empty($separatorLabelValues[0]) ? '' : $separatorLabelValues[0]) .
-                        '-' .
-                        $separatorLabelValues[1];
+                list($from, $to) = explode('_', $key);
+                if ($from == '*') {
+                    $from = '';
+                }
+                if ($to== '*') {
+                    $to= '';
+                }
+                if (empty($from) and empty($to)) {
+                    continue;
                 }
 
-                if ($separator[1] == '*') {
-                    $separator[1] = '';
-                }
-                if ($separator[2] == '*') {
-                    $separator[2] = '';
-                }
+                $label = $this->_renderRangeLabel(
+                    empty($from) ? 0 : $from * $this->getCurrencyRate(),
+                    empty($to) ? $to: $to* $this->getCurrencyRate()
+                );
+                $value =  $from . '-' . $to . $this->_getAdditionalRequestData();
 
 
-                $data[$i - 1] = [
-                    'label' => is_null(
-                        $label
-                    ) ? $this->_renderRangeLabel(
-                        empty($separator[1]) ? 0 : $separator[1] * $this->getCurrencyRate(),
-                        empty($separator[2]) ? $separator[2] : $separator[2] * $this->getCurrencyRate()
-                    ) : $label,
-                    'value' => (is_null(
-                            $value
-                        ) ? $separator[1] . '-' . $separator[2] : $value) . $this->_getAdditionalRequestData(),
+                $data[] = [
+                    'label' => $label,
+                    'value' => $value,
                     'count' => $count,
-                    'from' => $separator[1],
-                    'to' => $separator[2]
+                    'from' => $from,
+                    'to' => $to
                 ];
             }
 
@@ -118,7 +101,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         $priceFacets = [];
         $this->_facets = [];
         foreach ($this->_getSeparators() as $separator) {
-            $facetedRange = $this->_prepareFacetRange($separator[0], $separator[1]);
+            $facetedRange = $this->_prepareFacetRange($separator[0], $from);
             $this->_facets[$facetedRange['from'] . '_' . $facetedRange['to']] = $separator;
             $priceFacets[] = $facetedRange;
         }

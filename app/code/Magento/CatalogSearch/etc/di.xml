@@ -128,6 +128,12 @@
             <argument name="instanceName" xsi:type="string">Magento\CatalogSearch\Model\Resource\Advanced\Collection</argument>
         </arguments>
     </virtualType>
+    <type name="Magento\CatalogSearch\Model\Resource\Fulltext\Engine">
+        <arguments>
+            <argument name="catalogSearchAdvancedCollectionFactory" xsi:type="object">\Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory</argument>
+            <argument name="catalogSearchFulltextCollectionFactory" xsi:type="object">\Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory</argument>
+        </arguments>
+    </type>
     <virtualType name="Magento\CatalogSearch\Model\Layer\Category\ItemCollectionProvider" type="Magento\Catalog\Model\Layer\Search\ItemCollectionProvider">
         <arguments>
             <argument name="collectionFactory" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory</argument>

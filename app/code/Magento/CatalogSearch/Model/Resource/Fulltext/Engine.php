@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
+use Magento\Catalog\Model\Resource\Product\CollectionFactory;
 use Magento\CatalogSearch\Model\Resource\EngineInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 
@@ -66,8 +67,8 @@ class Engine extends AbstractDb implements EngineInterface
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollectionFactory
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $catalogSearchAdvancedCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $catalogSearchFulltextCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\CatalogSearch\Model\Resource\Advanced $searchResource
      * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection
@@ -76,8 +77,8 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollectionFactory,
-        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollectionFactory,
+        CollectionFactory $catalogSearchAdvancedCollectionFactory,
+        CollectionFactory $catalogSearchFulltextCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\CatalogSearch\Model\Resource\Advanced $searchResource,
         \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection,
