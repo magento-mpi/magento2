@@ -6,16 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Weee\Test\Block\Cart;
+namespace Magento\Weee\Test\Block\Cart\CartItem;
 
-use Magento\Checkout\Test\Block\Cart\AbstractCartItem;
 use Mtf\Client\Element\Locator;
+use Mtf\Block\Block;
 
 /**
- * Class Price
  * Product item fpt block on cart page
  */
-class Price extends AbstractCartItem
+class Fpt extends Block
 {
     /**
      * Selector for price
@@ -62,5 +61,17 @@ class Price extends AbstractCartItem
         $cartProductFptTotal = $this->_rootElement->find($this->fptTotal, Locator::SELECTOR_XPATH);
         $cartProductFptTotalText = $cartProductFptTotal->isVisible() ? $cartProductFptTotal->getText() : '';
         return str_replace(',', '', $this->escapeCurrency($cartProductFptTotalText));
+    }
+
+    /**
+     * Escape currency in price
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }

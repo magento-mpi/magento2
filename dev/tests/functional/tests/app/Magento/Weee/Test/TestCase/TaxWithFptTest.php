@@ -20,6 +20,7 @@ use Mtf\ObjectManager;
  * Test TaxWithFptTest
  *
  * Test Flow:
+ *
  * Preconditions:
  * 1. Create customer
  * 2. Log in as default admin user.
@@ -34,6 +35,7 @@ use Mtf\ObjectManager;
  * 11. Add new product template based on default.
  * 12. Add created FPT attribute to Product Details group and fill set name.
  * 13. Save attribute set.
+ *
  * Steps:
  * 1. Go to Products > Catalog.
  * 2. Add new product.

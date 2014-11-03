@@ -6,16 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Weee\Test\Block\Cart;
+namespace Magento\Weee\Test\Block\Cart\Totals;
 
-use Magento\Checkout\Test\Block\Cart\Totals;
 use Mtf\Client\Element\Locator;
+use Mtf\Block\Block;
 
 /**
- * Class TotalsFpt
  * Cart totals fpt block
  */
-class TotalsFpt extends Totals
+class Fpt extends Block
 {
     /**
      * FPT totals locator
@@ -33,5 +32,17 @@ class TotalsFpt extends Totals
     {
         $grandTotal = $this->_rootElement->find($this->totalFpt, Locator::SELECTOR_CSS)->getText();
         return $this->escapeCurrency($grandTotal);
+    }
+
+    /**
+     * Escape currency in price
+     *
+     * @param string $price
+     * @return string|null
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }

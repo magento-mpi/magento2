@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/category/view" module="Magento_Weee">
+    <blocks>
+        <weeeListProductBlock>
+            <class>Magento\Weee\Test\Block\Product\ListProduct</class>
+            <locator>.products.wrapper.grid</locator>
+            <strategy>css selector</strategy>
+        </weeeListProductBlock>
+    </blocks>
+</page>

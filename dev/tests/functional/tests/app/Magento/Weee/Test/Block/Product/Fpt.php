@@ -10,8 +10,7 @@ namespace Magento\Weee\Test\Block\Product;
 use Magento\Catalog\Test\Block\Product\Price;
 
 /**
- * Class Price
- * This class is used to access the price related information from the storefront
+ * This class is used to access the fpt price from the storefront
  */
 class Fpt extends Price
 {

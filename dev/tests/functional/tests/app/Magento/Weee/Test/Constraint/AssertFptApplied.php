@@ -16,8 +16,7 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class AssertFptApplied
- * Checks that prices with fpt on category, product and cart pages are equal to specified in dataset
+ * Checks that prices with fpt on category, product and cart pages are equal to specified in dataset.
  */
 class AssertFptApplied extends AbstractConstraint
 {
@@ -85,7 +84,11 @@ class AssertFptApplied extends AbstractConstraint
         $this->clearShoppingCart();
         $actualPrices = $this->getPrices($product);
         //Prices verification
-        \PHPUnit_Framework_Assert::assertEquals($prices, $actualPrices, 'Arrays should be equal');
+        \PHPUnit_Framework_Assert::assertEquals(
+            $prices,
+            $actualPrices,
+            'Prices on front should be equal to defined in dataset'
+        );
     }
 
     /**
@@ -107,26 +110,18 @@ class AssertFptApplied extends AbstractConstraint
      */
     protected function getPrices(CatalogProductSimple $product)
     {
-        $productName = $product->getName();
-        $this->openCategory($product);
         $actualPrices = [];
-        $actualPrices = $this->getCategoryPrice($productName, $actualPrices);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $actualPrices = $this->addToCart($product, $actualPrices);
-        $actualPrices = $this->getCartPrice($product, $actualPrices);
-        return $actualPrices;
-    }
-
-    /**
-     * Open product category
-     *
-     * @param CatalogProductSimple $product
-     * @return void
-     */
-    protected function openCategory(CatalogProductSimple $product)
-    {
+        $productName = $product->getName();
+        // Get prices with fpt on category page
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName($product->getCategoryIds()[0]);
+        $actualPrices = $this->getCategoryPrice($productName, $actualPrices);
+        // Get prices with fpt on product page
+        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
+        $actualPrices = $this->addToCart($product, $actualPrices);
+        //Get prices with fpt on cart page
+        $actualPrices = $this->getCartPrice($product, $actualPrices);
+        return $actualPrices;
     }
 
     /**
@@ -138,15 +133,13 @@ class AssertFptApplied extends AbstractConstraint
      */
     protected function getCategoryPrice($productName, $actualPrices)
     {
-        $actualPrices['category_price'] =
-            $this->catalogCategoryView
-                ->getListProductBlock()->getProductPriceBlock($productName)->getEffectivePrice();
-        $actualPrices['fpt_category'] =
-            $this->catalogCategoryView->getListProductBlock()
-                ->getProductFptBlock($productName, $this->fptLabel)->getFpt();
-        $actualPrices['fpt_total_category'] =
-            $this->catalogCategoryView->getListProductBlock()
-                ->getProductFptBlock($productName, $this->fptLabel)->getFptTotal();
+        $productBlock = $this->catalogCategoryView->getListProductBlock();
+        $actualPrices['category_price'] = $productBlock->getProductPriceBlock($productName)->getEffectivePrice();
+        $productWeeeBlock = $this->catalogCategoryView->getWeeeListProductBlock();
+        $actualPrices['fpt_category'] = $productWeeeBlock->getProductFptBlock($productName, $this->fptLabel)->getFpt();
+        $actualPrices['fpt_total_category'] = $productWeeeBlock->getProductFptBlock($productName, $this->fptLabel)
+            ->getFptTotal();
+
         return $actualPrices;
     }
 
@@ -159,14 +152,14 @@ class AssertFptApplied extends AbstractConstraint
      */
     protected function addToCart(CatalogProductSimple $product, array $actualPrices)
     {
-        $this->catalogProductView->getViewBlock()->fillOptions($product);
-        $actualPrices['product_page_price'] =
-            $this->catalogProductView->getViewBlock()->getPriceBlock()->getEffectivePrice();
-        $actualPrices['product_page_fpt'] =
-            $this->catalogProductView->getViewBlock()->getFptBlock($this->fptLabel)->getFpt();
-        $actualPrices['product_page_fpt_total'] =
-            $this->catalogProductView->getViewBlock()->getFptBlock($this->fptLabel)->getFptTotal();
-        $this->catalogProductView->getViewBlock()->clickAddToCart();
+        $viewBlock = $this->catalogProductView->getViewBlock();
+        $viewBlock->fillOptions($product);
+        $actualPrices['product_page_price'] = $viewBlock->getPriceBlock()->getEffectivePrice();
+        $viewWeeeBlock = $this->catalogProductView->getWeeeViewBlock();
+        $actualPrices['product_page_fpt'] = $viewWeeeBlock->getFptBlock($this->fptLabel)->getFpt();
+        $actualPrices['product_page_fpt_total'] = $viewWeeeBlock->getFptBlock($this->fptLabel)->getFptTotal();
+        $viewBlock->clickAddToCart();
+
         return $actualPrices;
     }
 
@@ -179,22 +172,17 @@ class AssertFptApplied extends AbstractConstraint
      */
     protected function getCartPrice(CatalogProductSimple $product, array $actualPrices)
     {
-        $actualPrices['cart_item_price'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPrice();
-        $actualPrices['cart_item_fpt'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPriceFptBlock()->getFpt();
-        $actualPrices['cart_item_fpt_total'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getPriceFptBlock()->getFptTotal();
-        $actualPrices['cart_item_subtotal'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getSubtotalPrice();
-        $actualPrices['cart_item_subtotal_fpt'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getSubtotalFptBlock()->getFpt();
-        $actualPrices['cart_item_subtotal_fpt_total'] =
-            $this->checkoutCart->getCartBlock()->getCartItem($product)->getSubtotalFptBlock()->getFptTotal();
-        $actualPrices['grand_total'] =
-            $this->checkoutCart->getTotalsBlock()->getGrandTotal();
-        $actualPrices['total_fpt'] =
-            $this->checkoutCart->getTotalsBlock()->getFptBlock()->getTotalFpt();
+        $productItem = $this->checkoutCart->getCartBlock()->getCartItem($product);
+        $productWeeeItem = $this->checkoutCart->getWeeeCartBlock()->getCartItem($product);
+        $actualPrices['cart_item_price'] = $productItem->getPrice();
+        $actualPrices['cart_item_fpt'] = $productWeeeItem->getPriceFptBlock()->getFpt();
+        $actualPrices['cart_item_fpt_total'] = $productWeeeItem->getPriceFptBlock()->getFptTotal();
+        $actualPrices['cart_item_subtotal'] = $productItem->getSubtotalPrice();
+        $actualPrices['cart_item_subtotal_fpt'] = $productWeeeItem->getSubtotalFptBlock()->getFpt();
+        $actualPrices['cart_item_subtotal_fpt_total'] = $productWeeeItem->getSubtotalFptBlock()->getFptTotal();
+        $actualPrices['grand_total'] = $this->checkoutCart->getTotalsBlock()->getGrandTotal();
+        $actualPrices['total_fpt'] = $this->checkoutCart->getWeeeTotalsBlock()->getFptBlock()->getTotalFpt();
+
         return $actualPrices;
     }
 

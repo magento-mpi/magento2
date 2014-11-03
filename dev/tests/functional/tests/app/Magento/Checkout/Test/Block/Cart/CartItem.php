@@ -59,21 +59,6 @@ class CartItem extends AbstractCartItem
     protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="price-excluding-tax"]//span[@class="price"]';
 
     /**
-     * Fpt price block selector
-     *
-     * @var string
-     */
-
-    protected $priceFptBlock = './/td[@class="col price"]';
-
-    /**
-     * Fpt subtotal block selector
-     *
-     * @var string
-     */
-    protected $subtotalFptBlock = './/td[@class="col subtotal"]';
-
-    /**
      * Get product name
      *
      * @return string
@@ -104,33 +89,6 @@ class CartItem extends AbstractCartItem
         $cartProductPrice = $this->_rootElement->find($this->priceInclTax, Locator::SELECTOR_XPATH)->getText();
         return str_replace(',', '', $this->escapeCurrency($cartProductPrice));
     }
-
-    /**
-     * Get block price fpt
-     *
-     * @return \Magento\Weee\Test\Block\Cart\Price
-     */
-    public function getPriceFptBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Weee\Test\Block\Cart\Price',
-            ['element' => $this->_rootElement->find($this->priceFptBlock, Locator::SELECTOR_XPATH)]
-        );
-    }
-
-    /**
-     * Get block subtotal fpt
-     *
-     * @return \Magento\Weee\Test\Block\Cart\Price
-     */
-    public function getSubtotalFptBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Weee\Test\Block\Cart\Price',
-            ['element' => $this->_rootElement->find($this->subtotalFptBlock, Locator::SELECTOR_XPATH)]
-        );
-    }
-
 
     /**
      * Set product quantity
