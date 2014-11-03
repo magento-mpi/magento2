@@ -373,8 +373,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $store->expects($this->any())->method('getWebsiteId')->will($this->returnValue(1));
         $this->_storeManager->expects($this->any())->method('getStore')->with(1)->will($this->returnValue($store));
-
-
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
 
