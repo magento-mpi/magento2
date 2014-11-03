@@ -45,26 +45,26 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * @var \Magento\Framework\Api\AttributeDataBuilder
      */
-    protected $valueBuilder;
+    protected $attributeValueBuilder;
 
     /**
      * Initialize the builder
      *
      * @param ObjectManager $objectManager
      * @param MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\Api\AttributeDataBuilder $valueBuilder
+     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
      * @param string $modelClassInterface
      */
     public function __construct(
         ObjectManager $objectManager,
         MetadataServiceInterface $metadataService,
-        \Magento\Framework\Api\AttributeDataBuilder $valueBuilder,
+        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
         $modelClassInterface
     ) {
         $this->objectManager = $objectManager;
         $this->metadataService = $metadataService;
         $this->modelClassInterface = $modelClassInterface;
-        $this->valueBuilder = $valueBuilder;
+        $this->attributeValueBuilder = $attributeValueBuilder;
     }
 
     /**
@@ -169,7 +169,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
             } else {
                 /* If key corresponds to custom attribute code, populate custom attributes */
                 if (in_array($key, $this->getCustomAttributesCodes())) {
-                    $valueObject = $this->valueBuilder
+                    $valueObject = $this->attributeValueBuilder
                         ->setAttributeCode($key)
                         ->setValue($value)
                         ->create();
