@@ -161,6 +161,13 @@
     <block class="Magento\Ui\Component\Form\Element\DataType\Email" name="email">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::data_type/email/default.phtml</argument>
+            <argument name="js_config" xsi:type="array">
+                <item name="extends" xsi:type="string">input</item>
+                <item name="config" xsi:type="array">
+                    <item name="input_type" xsi:type="string">email</item>
+                    <item name="addbefore" xsi:type="string">@email:</item>
+                </item>
+            </argument>
         </arguments>
     </block>
     <block class="Magento\Ui\Component\Form\Element\DataType\Price" name="price">
