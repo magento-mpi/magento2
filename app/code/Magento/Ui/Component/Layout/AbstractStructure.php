@@ -240,8 +240,7 @@ class AbstractStructure extends AbstractView
                 continue;
             }
             if ($key != Metadata::CHILD_DATA_SOURCES) {
-                $referenceElementName = $this->addElement($key, $dataSource . '.' . $key, $value);
-                $this->addToGroup($dataSource, $referenceElementName);
+                $this->addElement($dataSource, $key, $dataSource . '.' . $key, $value);
             }
         }
 
@@ -424,13 +423,24 @@ class AbstractStructure extends AbstractView
     }
 
     /**
+     * @param string $dataSource
      * @param string $elementName
      * @param string $dataScope
      * @param array $config
      * @return string
      */
-    protected function addElement($elementName, $dataScope, array $config = [])
+    protected function addElement($dataSource, $elementName, $dataScope, array $config = [])
     {
+        $referenceElementName = "{$this->ns}.elements.{$elementName}";
+        if (isset($config['fieldGroup'])) {
+            if ($elementName === $config['fieldGroup']) {
+                $this->structure['elements']['children'][$elementName]['config']['label'] = $config['label'];
+                $this->addToGroup($dataSource, $referenceElementName);
+            }
+            $elementName = $config['fieldGroup'];
+        } else {
+            $this->addToGroup($dataSource, $referenceElementName);
+        }
         $this->structure['elements']['children'][$elementName]['type'] = 'group';
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
