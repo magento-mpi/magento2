@@ -24,6 +24,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_block;
 
+    /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $_registry;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $_request;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $_storeManager;
+
     protected function setUp()
     {
         $this->_registry = $this->getMock(
