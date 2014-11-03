@@ -18,7 +18,6 @@ interface CategoryAttributeRepositoryInterface extends \Magento\Framework\Servic
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
-     * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAllAttributeMetadata
      */
     public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
@@ -27,7 +26,6 @@ interface CategoryAttributeRepositoryInterface extends \Magento\Framework\Servic
      *
      * @param string $attributeCode
      * @return \Magento\Catalog\Api\Data\CategoryAttributeInterface
-     * @see \Magento\Catalog\Service\V1\MetadataServiceInterface::getAttributeMetadata
      */
     public function get($attributeCode);
 }
