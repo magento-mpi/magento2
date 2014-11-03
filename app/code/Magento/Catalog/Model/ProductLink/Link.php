@@ -8,7 +8,9 @@
 
 namespace Magento\Catalog\Model\ProductLink;
 
-class Link implements \Magento\Catalog\Api\Data\ProductLinkInterface
+class Link
+    extends \Magento\Framework\Model\AbstractExtensibleModel
+    implements \Magento\Catalog\Api\Data\ProductLinkInterface
 {
     /**
      * @var array

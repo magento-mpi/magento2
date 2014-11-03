@@ -31,6 +31,11 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
     protected $linkInitializer;
 
     /**
+     * @var Management
+     */
+    protected $linkManagement;
+
+    /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param CollectionProvider $entityCollectionProvider
      * @param LinksInitializer $linkInitializer
@@ -38,12 +43,13 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider,
-        \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linkInitializer
+        \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linkInitializer,
+        \Magento\Catalog\Model\ProductLink\Management $linkManagement
     ) {
         $this->productRepository = $productRepository;
         $this->entityCollectionProvider = $entityCollectionProvider;
         $this->linkInitializer = $linkInitializer;
-
+        $this->linkManagement = $linkManagement;
     }
 
     /**
@@ -98,4 +104,26 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
         }
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteById($productSku, $type, $linkedProductSku)
+    {
+        $linkItems = $this->linkManagement->getLinkedItemsByType($productSku, $type);
+        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $linkItem */
+        foreach ($linkItems as $linkItem) {
+            if ($linkItem->getLinkedProductSku() == $linkedProductSku) {
+                return $this->delete($linkItem);
+            }
+        }
+        throw new NoSuchEntityException(
+            'Product %s doesn\'t have linked %s as %s',
+            $productSku,
+            $linkedProductSku,
+            $type
+        );
+    }
+
+
 }

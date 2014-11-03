@@ -8,15 +8,17 @@
 
 namespace Magento\Catalog\Api;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\MultipleWishlist\Model\Config\Source\Search;
-
+/**
+ * Interface Product links handling interface
+ */
 interface ProductLinkRepositoryInterface
 {
     /**
      * Save product link
      *
      * @param \Magento\Catalog\Api\Data\ProductLinkInterface $entity
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
     public function save(\Magento\Catalog\Api\Data\ProductLinkInterface $entity);
@@ -25,7 +27,19 @@ interface ProductLinkRepositoryInterface
      * Delete product link
      *
      * @param \Magento\Catalog\Api\Data\ProductLinkInterface $entity
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
     public function delete(\Magento\Catalog\Api\Data\ProductLinkInterface $entity);
+
+    /**
+     * @param string $productSku
+     * @param string $type
+     * @param string $linkedProductSku
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @return bool
+     */
+    public function deleteById($productSku, $type, $linkedProductSku);
 }
