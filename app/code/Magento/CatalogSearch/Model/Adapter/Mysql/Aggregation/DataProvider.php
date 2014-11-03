@@ -118,8 +118,7 @@ class DataProvider implements DataProviderInterface
     {
         $select = $this->getSelect();
 
-        $tableName = $this->getConnection()
-            ->getTableName('catalog_product_index_price');
+        $tableName = $this->resource->getTableName('catalog_product_index_price');
         $select->from($tableName, [])
             ->where('entity_id IN (?)', $entityIds)
             ->columns(
@@ -166,8 +165,7 @@ class DataProvider implements DataProviderInterface
         $select = $this->getSelect();
 
         $rangeExpr = new \Zend_Db_Expr("FLOOR(min_price / {$range}) + 1");
-        $tableName = $this->getConnection()
-            ->getTableName('catalog_product_index_price');
+        $tableName = $this->resource->getTableName('catalog_product_index_price');
         $select->from($tableName, [])
             ->where('entity_id IN (?)', $entityIds)
             ->columns(['range' => $rangeExpr, 'count' => 'COUNT(*)'])
