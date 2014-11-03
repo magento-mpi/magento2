@@ -24,6 +24,11 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_indexerMock;
 
+    /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
     public function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -35,7 +40,7 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_indexerMock->expects($this->any())->method('load')->will($this->returnValue($this->_indexerMock));
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
         $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
         $registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
@@ -50,23 +55,34 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
                 'registry' => $registryMock,
                 'storeManager' => $storeManagerMock,
                 'config' => $configMock,
-                'indexer' => $this->_indexerMock
+                'indexerRegistry' => $this->indexerRegistryMock
             )
         );
     }
 
     public function testProcessValue()
     {
-        $this->markTestIncomplete('MAGETWO-28043');
         $this->_indexerMock->expects($this->once())->method('invalidate');
+        $this->prepareIndexer(1);
         $this->_model->setValue('1');
         $this->_model->processValue();
     }
 
     public function testProcessValueNotChanged()
     {
-        $this->markTestIncomplete('MAGETWO-28043');
         $this->_indexerMock->expects($this->never())->method('invalidate');
+        $this->prepareIndexer(0);
         $this->_model->processValue();
+    }
+
+    /**
+     * @param int $countCall
+     */
+    protected function prepareIndexer($countCall)
+    {
+        $this->indexerRegistryMock->expects($this->exactly($countCall))
+            ->method('get')
+            ->with(\Magento\Catalog\Model\Indexer\Product\Price\Processor::INDEXER_ID)
+            ->will($this->returnValue($this->_indexerMock));
     }
 }

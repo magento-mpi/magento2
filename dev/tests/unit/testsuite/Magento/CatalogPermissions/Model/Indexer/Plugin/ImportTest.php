@@ -29,7 +29,6 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-28043');
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->configMock = $this->getMockBuilder('Magento\CatalogPermissions\App\ConfigInterface')->getMock();
         $this->subject = $this->getMockBuilder('Magento\ImportExport\Model\Import')
@@ -41,18 +40,20 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->configMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
 
         $indexer = $this->getMockBuilder('Magento\Indexer\Model\Indexer')->disableOriginalConstructor()->getMock();
-        $indexer->expects($this->exactly(2))->method('load')
-            ->with($this->logicalOr(Category::INDEXER_ID, Product::INDEXER_ID))
-            ->will($this->returnSelf());
         $indexer->expects($this->exactly(2))->method('invalidate');
 
-        $indexerFactory = $this->getMockBuilder('Magento\Indexer\Model\IndexerFactory')
-            ->disableOriginalConstructor()->setMethods(array('create'))->getMock();
-        $indexerFactory->expects($this->exactly(2))->method('create')->will($this->returnValue($indexer));
+        $indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+        $indexerRegistryMock->expects($this->exactly(2))
+            ->method('get')
+            ->will($this->returnValueMap([
+                [\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID, $indexer],
+                [\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID, $indexer],
+            ]));
 
+        /** @var \Magento\CatalogPermissions\Model\Indexer\Plugin\Import $import */
         $import = $this->objectManager->getObject(
             'Magento\CatalogPermissions\Model\Indexer\Plugin\Import',
-            array('config' => $this->configMock, 'indexerFactory' => $indexerFactory)
+            array('config' => $this->configMock, 'indexerRegistry' => $indexerRegistryMock)
         );
         $this->assertEquals('import', $import->afterImportSource($this->subject, 'import'));
     }
@@ -61,6 +62,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $this->configMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
 
+        /** @var \Magento\CatalogPermissions\Model\Indexer\Plugin\Import $import */
         $import = $this->objectManager->getObject(
             'Magento\CatalogPermissions\Model\Indexer\Plugin\Import',
             array('config' => $this->configMock)

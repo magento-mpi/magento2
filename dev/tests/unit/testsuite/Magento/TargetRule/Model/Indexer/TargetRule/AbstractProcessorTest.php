@@ -29,9 +29,9 @@ class AbstractProcessorTest extends \PHPUnit_Framework_TestCase
     protected $_indexer;
 
     /**
-     * @var \Magento\Indexer\Model\IndexerFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_indexerFactory;
+    protected $indexerRegistryMock;
 
     /**
      * @var \Magento\Indexer\Model\Indexer\State|\PHPUnit_Framework_MockObject_MockObject
@@ -40,14 +40,6 @@ class AbstractProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_indexerFactory = $this->getMock(
-            '\Magento\Indexer\Model\IndexerFactory',
-            ['create'],
-            [],
-            '',
-            false
-        );
-
         $this->_indexer = $this->getMock(
             '\Magento\Indexer\Model\Indexer',
             ['getState', 'load'],
@@ -55,10 +47,6 @@ class AbstractProcessorTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $this->_indexerFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_indexer));
 
         $this->_statusContainer = $this->getMock(
             '\Magento\TargetRule\Model\Indexer\TargetRule\Status\Container',
@@ -68,9 +56,11 @@ class AbstractProcessorTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
         $this->_processor = $this->getMockForAbstractClass(
             '\Magento\TargetRule\Model\Indexer\TargetRule\AbstractProcessor',
-            [$this->_indexerFactory, $this->_statusContainer]
+            [$this->indexerRegistryMock, $this->_statusContainer]
         );
     }
 
@@ -107,6 +97,10 @@ class AbstractProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_indexer->expects($this->once())
             ->method('getState')
             ->will($this->returnValue($this->_state));
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with('')
+            ->will($this->returnValue($this->_indexer));
 
         $this->_processor->setFullReindexPassed();
     }
