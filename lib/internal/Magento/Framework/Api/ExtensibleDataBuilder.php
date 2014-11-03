@@ -64,7 +64,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
         $this->objectManager = $objectManager;
         $this->metadataService = $metadataService;
         $this->modelClassInterface = $modelClassInterface;
-
+        $this->valueBuilder = $valueBuilder;
     }
 
     /**
