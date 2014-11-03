@@ -28,7 +28,7 @@ interface GroupInterface extends ExtensibleDataInterface
     /**
      * Get id
      *
-     * @return int
+     * @return int|null
      */
     public function getId();
 
@@ -49,7 +49,7 @@ interface GroupInterface extends ExtensibleDataInterface
     /**
      * Get tax class name
      *
-     * @return string
+     * @return string|null
      */
     public function getTaxClassName();
 }
