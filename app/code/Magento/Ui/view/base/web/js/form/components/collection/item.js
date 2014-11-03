@@ -79,11 +79,7 @@ define([
         },
 
         updateState: function(){
-            var hasPreview = _.some(this.displayed, function(hasPreview){
-                return !!hasPreview;
-            });
-
-            this.noPreview(!hasPreview);
+            this.noPreview(!_.some(this.displayed));
         },
 
         formatPreviews: function(previews){
