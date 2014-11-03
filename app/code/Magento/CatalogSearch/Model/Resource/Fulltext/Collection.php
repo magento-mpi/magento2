@@ -204,7 +204,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $values = $aggregations->getBucket($field . '_bucket')->getValues();
         $result = [];
         foreach ($values as $value) {
-            $result[] = $value->getMetrics();
+            $metrics = $value->getMetrics();
+            $result[$metrics['value']] = $metrics;
         }
         return $result;
     }

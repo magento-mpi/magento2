@@ -48,6 +48,8 @@ class DataBuilder
      */
     public function build()
     {
-        return $this->_itemsData;
+        $result = $this->_itemsData;
+        $this->_itemsData = [];
+        return $result;
     }
 }

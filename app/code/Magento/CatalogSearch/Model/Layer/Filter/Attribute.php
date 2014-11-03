@@ -44,32 +44,25 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
 
         $options = $attribute->getFrontend()->getSelectOptions();
-        $optionsCount = $this->_getResource()->getCount($this);
-        $data = array();
         foreach ($options as $option) {
-            if (is_array($option['value'])) {
+            if (empty($option['value'])) {
                 continue;
             }
-            if ($this->string->strlen($option['value'])) {
-                // Check filter type
-                if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
-                    if (!empty($optionsCount[$option['value']])) {
-                        $data[] = array(
-                            'label' => $this->tagFilter->filter($option['label']),
-                            'value' => $option['value'],
-                            'count' => $optionsCount[$option['value']]
-                        );
-                    }
-                } else {
-                    $data[] = array(
-                        'label' => $this->tagFilter->filter($option['label']),
-                        'value' => $option['value'],
-                        'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0
-                    );
-                }
+            // Check filter type
+            if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS &&
+                empty($optionsFacetedData[$option['value']]['count'])) {
+                continue;
             }
+            $this->itemDataBuilder->addItemData(
+                $this->tagFilter->filter($option['label']),
+                $option['value'],
+                $optionsFacetedData[$option['value']]['count']
+            );
         }
-
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 }
+
+/*
+
+ */
