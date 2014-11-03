@@ -120,6 +120,10 @@ define([
                 value = data.get(this.dataScope);
             }
 
+            if (value == null) {
+                value = undefined;
+            }
+
             return value;
         },
 

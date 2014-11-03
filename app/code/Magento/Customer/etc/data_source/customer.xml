@@ -31,7 +31,7 @@
                 <constraint name="required-entry"/>
             </field>
             <field name="suffix" source="eav" dataType="text"/>
-            <field name="email" source="eav">
+            <field name="email" source="eav" formElement="email">
                 <constraint name="required-entry"/>
                 <constraint name="validate-email"/>
             </field>

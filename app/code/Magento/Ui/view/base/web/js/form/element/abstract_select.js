@@ -67,10 +67,15 @@ define([
         },
 
         formatInitialValue: function() {
-            var value = this.value();
+            var value = this.value(),
+                option;
 
             if(_.isUndefined(value) && !this.caption){
-                value = this.options[0].value;  
+                option = this.options[0];
+
+                if(option){
+                    value = option.value;
+                }
             }
 
             this.initialValue = value;
