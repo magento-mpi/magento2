@@ -20,7 +20,8 @@ use Magento\Tax\Service\V1\TaxClassServiceInterface;
 /**
  * Customer group CRUD class
  */
-class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface {
+class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
+{
 
     /**
      * The default tax class id if no tax class id is specified

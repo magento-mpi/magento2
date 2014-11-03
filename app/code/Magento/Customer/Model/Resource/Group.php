@@ -111,6 +111,7 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Prepare data before save
      *
+     * @param \Magento\Framework\Model\AbstractModel $group
      * @return $this
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $group)

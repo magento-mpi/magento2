@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Api;
 
 use Magento\Customer\Model\GroupRegistry;
@@ -15,11 +16,11 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
- * Class CustomerGroupRepositoryTest
+ * Class GroupRepositoryTest
  */
-class CustomerGroupRepositoryTest extends WebapiAbstract
+class GroupRepositoryTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "customerCustomerGroupServiceV1";
+    const SERVICE_NAME = "customerGroupRepositoryV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/customerGroups";
 
@@ -388,7 +389,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupRegistry->retrieve($groupId);
+        $newGroup = $this->groupRepository->get($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
@@ -468,7 +469,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupRegistry->retrieve($groupId);
+        $newGroup = $this->groupRepository->get($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
@@ -593,7 +594,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -647,7 +648,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
 
         $this->assertEquals($groupId, $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID]);
 
-        $group = $this->groupRegistry->retrieve($groupId);
+        $group = $this->groupRepository->get($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData[CustomerGroup::TAX_CLASS_ID],
@@ -704,7 +705,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -718,7 +719,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupRegistry->retrieve($groupId);
+        $newGroup = $this->groupRepository->get($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
@@ -749,7 +750,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -785,21 +786,23 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
         $groupData = [
             CustomerGroup::ID => null,
             CustomerGroup::CODE => 'Default Class Tax ID SOAP',
-            'taxClassId' => null
+            'taxClassId' => null,
+            'taxClassName' => null
         ];
         $requestData = ['group' => $groupData];
 
-        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $groupResponseData = $this->_webApiCall($serviceInfo, $requestData);
+        $groupId = $groupResponseData[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupRegistry->retrieve($groupId);
+        $newGroup = $this->groupRepository->get($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
@@ -820,7 +823,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -858,7 +861,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerGroupServiceV1CreateGroup'
+                'operation' => 'customerGroupRepositoryV1Save'
             ]
         ];
 
@@ -915,7 +918,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
-        $group = $this->groupRegistry->retrieve($groupId);
+        $group = $this->groupRepository->get($groupId);
         $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'],
@@ -992,7 +995,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $this->assertTrue($response, 'Expected response should be true.');
 
         try {
-            $this->groupRegistry->retrieve($groupId);
+            $this->groupRepository->get($groupId);
             $this->fail('An expected NoSuchEntityException was not thrown.');
         } catch (NoSuchEntityException $e) {
             $exception = NoSuchEntityException::singleField(CustomerGroup::ID, $groupId);
@@ -1078,7 +1081,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
             );
         }
 
-        $this->assertNotNull($this->groupRegistry->retrieve($groupIdAssignedDefault));
+        $this->assertNotNull($this->groupRepository->get($groupIdAssignedDefault));
     }
 
     /**
@@ -1092,7 +1095,7 @@ class CustomerGroupRepositoryTest extends WebapiAbstract
         $groupId = $this->groupRepository->save($group)->getId();
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupRegistry->retrieve($groupId);
+        $newGroup = $this->groupRepository->get($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($group->getCode(), $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(

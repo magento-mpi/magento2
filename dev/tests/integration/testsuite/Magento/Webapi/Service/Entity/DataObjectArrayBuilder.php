@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-class DataObjectArrayDataObjectBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class DataObjectArrayBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
 {
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDataObject[] $items

@@ -75,6 +75,7 @@ class Address extends \Magento\Framework\App\Action\Action
      * @internal param \Magento\Customer\Helper\Data $customerData
      * @internal param \Magento\Customer\Model\AddressFactory $addressFactory
      * @internal param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,

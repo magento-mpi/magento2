@@ -24,7 +24,7 @@ interface ExtensibleDataInterface
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Api\AttributeInterface[]
+     * @return \Magento\Framework\Api\AttributeInterface[]|null
      */
     public function getCustomAttributes();
 }

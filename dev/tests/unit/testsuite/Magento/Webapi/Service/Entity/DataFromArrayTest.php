@@ -161,7 +161,7 @@ class DataFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
-        /** @var AssociativeArrayData $dataObject */
+        /** @var AssociativeArray $dataObject */
         $dataObject = $result[0];
         $this->assertTrue($dataObject instanceof AssociativeArray);
         /** @var array $associativeArray */
