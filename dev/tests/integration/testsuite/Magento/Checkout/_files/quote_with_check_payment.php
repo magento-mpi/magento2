@@ -16,7 +16,7 @@ $rate->getPrice(1);
 
 $quote->getShippingAddress()->setShippingMethod('freeshipping_freeshipping');
 $quote->getShippingAddress()->addShippingRate($rate);
-$quote->getPayment()->setMethod('checkmo');
+$quote->getPayment()->setMethod('checkmo')->save();
 
 $quote->collectTotals();
 $quote->save();

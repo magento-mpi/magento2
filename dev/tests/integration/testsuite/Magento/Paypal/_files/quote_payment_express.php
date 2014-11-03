@@ -90,7 +90,7 @@ $quote->setCustomerIsGuest(
 );
 $quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
 $quote->getShippingAddress()->setCollectShippingRates(true);
-$quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
+$quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS)->save();
 $quote->collectTotals()->save();
 
 $quote->setCustomerEmail('admin@example.com');

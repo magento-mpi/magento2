@@ -51,7 +51,7 @@ $quoteItem = $quote->setCustomerId(
 );
 /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
 $quoteItem->setQty(1);
-$quote->getPayment()->setMethod('checkmo');
+$quote->getPayment()->setMethod('checkmo')->save();
 $quote->getBillingAddress();
 $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->collectTotals();

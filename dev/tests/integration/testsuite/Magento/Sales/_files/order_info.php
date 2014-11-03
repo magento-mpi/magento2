@@ -59,7 +59,7 @@ $quote->setCustomerIsGuest(
     $product,
     10
 );
-$quote->getPayment()->setMethod('checkmo');
+$quote->getPayment()->setMethod('checkmo')->save();
 $quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
 $quote->save();
 

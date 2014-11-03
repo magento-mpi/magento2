@@ -62,7 +62,7 @@ $quote->setCustomerIsGuest(
 )->addProduct(
     $product
 );
-$quote->getPayment()->setMethod('checkmo');
+$quote->getPayment()->setMethod('checkmo')->save();
 $quote->setIsMultiShipping('1');
 $quote->collectTotals();
 $quote->save();
