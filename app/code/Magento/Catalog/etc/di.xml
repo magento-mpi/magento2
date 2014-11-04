@@ -10,6 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Service\V1\MetadataServiceInterface" type="Magento\Catalog\Service\V1\MetadataService" />
     <preference for="Magento\Catalog\Service\V1\Product\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Product\MetadataService" />
+    <preference for="Magento\Catalog\Service\V1\ProductServiceInterface" type="\Magento\Catalog\Service\V1\ProductService" />
     <preference for="Magento\Catalog\Api\Data\ProductInterface" type="Magento\Catalog\Model\Product" />
     <preference for="Magento\Catalog\Api\ProductRepositoryInterface" type="Magento\Catalog\Model\ProductRepository" />
     <preference for="Magento\Catalog\Api\CategoryAttributeRepositoryInterface" type="Magento\Catalog\Model\Category\AttributeRepository" />
