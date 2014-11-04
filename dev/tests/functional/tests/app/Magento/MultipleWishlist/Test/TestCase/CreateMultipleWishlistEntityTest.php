@@ -100,6 +100,7 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
             $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
             . self::$wishlistId . '/code/wishlist_search/'
         );
+        self::$widgetInstanceEdit->getTemplateBlock()->waitLoader();
         self::$widgetInstanceEdit->getPageActionsBlock()->delete();
         self::$cachePage->open()->getActionsBlock()->flushMagentoCache();
     }
