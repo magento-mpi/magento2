@@ -100,7 +100,7 @@ $table = $installer->getConnection()
         'version_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        ['unsigned' => true,],
+        ['unsigned' => true],
         'View Version Id'
     )
     ->addIndex(

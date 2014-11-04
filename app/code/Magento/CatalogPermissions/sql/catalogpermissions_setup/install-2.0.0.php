@@ -173,11 +173,11 @@ $table = $installer->getConnection()
         ),
         ['category_id', 'website_id', 'customer_group_id'],
         ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
-
     )
     ->setComment('Enterprise Catalogpermissions Index');
 
-$installer->getConnection()->createTable($table);
+$installer->getConnection()
+    ->createTable($table);
 
 /**
  * Create table 'magento_catalogpermissions_index_product'
@@ -242,7 +242,6 @@ $table = $installer->getConnection()
         ),
         ['product_id', 'store_id', 'customer_group_id'],
         ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
-
     )
     ->setComment('Enterprise Catalogpermissions Index Product');
 
@@ -311,7 +310,6 @@ $table = $installer->getConnection()
         ),
         ['category_id', 'website_id', 'customer_group_id'],
         ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
-
     )
     ->setComment('Catalog Category Permissions Temporary Index');
 

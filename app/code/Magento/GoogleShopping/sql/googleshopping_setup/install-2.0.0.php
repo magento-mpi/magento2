@@ -46,7 +46,6 @@ $table = $connection->newTable($this->getTable('googleshopping_types'))
         40,
         [],
         'Google product category'
-
     )
     ->addForeignKey(
         $installer->getFkName('googleshopping_types', 'attribute_set_id', 'eav_attribute_set', 'attribute_set_id'),

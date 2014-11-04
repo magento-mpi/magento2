@@ -1002,7 +1002,7 @@ $table = $installer->getConnection()
     ->setOption(
         'type',
         \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
-        )
+    )
     ->setComment('Catalog Product Index Price Bundle Opt Tmp');
 
 $installer->getConnection()->createTable($table);

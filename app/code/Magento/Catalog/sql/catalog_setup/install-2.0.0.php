@@ -1249,8 +1249,6 @@ $table = $installer->getConnection()
         null,
         ['nullable' => false, 'default' => '0'],
         'Position'
-    /*    ->addIndex($installer->getIdxName('catalog_category_product', array('category_id')),
-    array('category_id'))*/
     )
     ->addIndex(
         $installer->getIdxName('catalog_category_product', ['product_id']),
@@ -1298,7 +1296,7 @@ $table = $installer->getConnection()
         'position',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        ['unsigned' => false, 'nullable' => true, 'default' => null,],
+        ['unsigned' => false, 'nullable' => true, 'default' => null],
         'Position'
     )
     ->addColumn(
