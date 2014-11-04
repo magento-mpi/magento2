@@ -72,8 +72,8 @@ app/design/frontend/Magento/blank/Magento_VersionsCms
 app/design/frontend/Magento/blank/Magento_GiftWrapping
 app/design/frontend/Magento/blank/Magento_Reward
 app/design/frontend/Magento/blank/Magento_Rma
+app/design/frontend/Magento/blank/Magento_Invitation
 app/design/frontend/Magento/luma
-app/design/install/Magento/enterprise
 
 dev/tools/Magento/Tools/SampleData/config/config_ee.php
 dev/tools/Magento/Tools/SampleData/fixtures/GiftCard

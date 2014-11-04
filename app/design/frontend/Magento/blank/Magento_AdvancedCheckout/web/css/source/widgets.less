@@ -6,64 +6,78 @@
 //  * @license     {license_link}
 //  */
 
-.block-addbysku {
-    .fieldset {
-        .fields .field {
-            display: inline-block;
-            margin-bottom: @indent-s-base;
-            vertical-align: top;
-            &.sku {
-                &:extend(.abstract-add-box-sizing all);
-                margin-right: -75px;
-                padding-right: 80px;
-                width: 100%;
-            }
-            &.qty {
-                .qty {
-                    &:extend(.abstract-input-qty all);
+.sidebar {
+    .block-addbysku {
+        .fieldset {
+            margin: 0;
+            .fields {
+                position: relative;
+                .field {
+                    display: inline-block;
+                    margin-bottom: @indent-s-base;
+                    vertical-align: top;
+                    &.sku {
+                        &:extend(.abstract-add-box-sizing all);
+                        margin-right: -85px;
+                        padding-right: 90px;
+                        width: 100%;
+                    }
+                    &.qty {
+                        .qty {
+                            &:extend(.abstract-input-qty all);
+                        }
+                    }
+                }
+                .actions-toolbar {
+                    position: absolute;
+                    top: 34px;
+                    right: 0;
                 }
             }
         }
-        .fields {
-            position: relative;
+        .form-addbysku {
+            .actions-toolbar {
+                margin-bottom: @indent-base;
+                .primary {
+                    text-align: left;
+                    .action {
+                        width: auto;
+                    }
+                }
+                .secondary {
+                    float: none;
+                    text-align: left;
+
+                }
+            }
         }
-    }
-    .action {
-        &.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 26px
-            );
-            .button-reset();
-        }
-        &.add {
-            .button-icon(
-                @_icon-font-content: @icon-expand,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 31px
-            );
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 2px 0;
-            width: auto;
-        }
-        &.links {
-            display: inline-block;
-            margin: @indent-base 0 0;
-        }
-    }
-    .form-addbysku > .actions-toolbar {
-        position: relative;
-        padding-top: 45px;
-    }
-    .fields {
-        position: relative;
-        .actions-toolbar {
-            position: absolute;
-            right: 0;
-            top: 34px;
+        .action {
+            &.add {
+                .button-icon(
+                    @_icon-font-content: @icon-expand,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 31px
+                );
+                line-height: normal;
+                padding: 2px 0;
+                width: auto;
+            }
+            &.links {
+                display: inline-block;
+                margin: @indent-base 0 0;
+            }
+            &.reset {
+                margin: @indent-s-base 0;
+                display: block;
+            }
+            &.remove {
+                .button-icon(
+                    @_icon-font-content: @icon-remove,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 28px
+                );
+                .button-reset();
+            }
         }
     }
 }

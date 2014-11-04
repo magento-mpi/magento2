@@ -47,7 +47,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         $this->_application = $this->getMock(
             'Magento\TestFramework\Application',
-            array('getInstallDir', 'getInitParams', 'reinitialize', 'run'),
+            array('getTempDir', 'getInitParams', 'reinitialize', 'run'),
             array(),
             '',
             false
@@ -146,10 +146,10 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetAppInstallDir()
+    public function testGetAppTempDir()
     {
-        $this->_application->expects($this->once())->method('getInstallDir')->will($this->returnValue(__DIR__));
-        $this->assertEquals(__DIR__, $this->_object->getAppInstallDir());
+        $this->_application->expects($this->once())->method('getTempDir')->will($this->returnValue(__DIR__));
+        $this->assertEquals(__DIR__, $this->_object->getAppTempDir());
     }
 
     public function testGetAppInitParams()
@@ -162,12 +162,6 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_fixtureInitParams)
         );
         $this->assertEquals($this->_fixtureInitParams, $this->_object->getAppInitParams());
-    }
-
-    public function testGetDbVendorName()
-    {
-        $this->_bootstrap->expects($this->once())->method('getDbVendorName')->will($this->returnValue('mysql'));
-        $this->assertEquals('mysql', $this->_object->getDbVendorName());
     }
 
     public function testReinitialize()
