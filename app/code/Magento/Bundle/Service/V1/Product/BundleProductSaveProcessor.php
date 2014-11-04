@@ -117,7 +117,7 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
         /**
          * @var Product $existingProduct
          */
-        $existingProduct = $this->productRepository->get($sku, ['edit_mode' => true]);
+        $existingProduct = $this->productRepository->get($sku, true);
 
         if ($existingProduct->getTypeId() != ProductType::TYPE_BUNDLE) {
             return $sku;

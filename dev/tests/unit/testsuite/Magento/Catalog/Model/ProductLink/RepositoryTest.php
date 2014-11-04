@@ -51,7 +51,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->model = new \Magento\Catalog\Model\ProductLink\Repository(
             $this->productRepositoryMock,
             $this->entityCollectionProviderMock,
-            $this->linkInitializerMock
+            $this->linkInitializerMock,
+            $this->getMock('\Magento\Catalog\Model\ProductLink\Management', [], [], '', false)
         );
     }
 
@@ -120,13 +121,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
         $entityMock->expects($this->any())->method('getLinkType')->willReturn('linkType');
-        $entityMock->expects($this->any())->method('__toArray')->willReturn([]);
         $linkedProductMock->expects($this->any())->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([
-            42 => ''
+            42 => '', 37 => ''
         ]);
         $this->linkInitializerMock->expects($this->once())->method('initializeLinks')->with($productMock, [
-            'linkType' => [42 => ['product_id' => 42]]
+            'linkType' => [37 => '']
         ]);
         $this->assertTrue($this->model->delete($entityMock));
     }
@@ -152,10 +152,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $entityMock->expects($this->any())->method('__toArray')->willReturn([]);
         $linkedProductMock->expects($this->any())->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([
-            42 => ''
+            42 => '', 37 => ''
         ]);
         $this->linkInitializerMock->expects($this->once())->method('initializeLinks')->with($productMock, [
-            'linkType' => [42 => ['product_id' => 42]]
+            'linkType' => [37 => '']
         ]);
         $productMock->expects($this->once())->method('save')->willThrowException(new \Exception);
         $this->model->delete($entityMock);
