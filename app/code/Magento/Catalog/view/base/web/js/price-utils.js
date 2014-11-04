@@ -22,7 +22,9 @@ define([
     return {
         formatPrice: formatPrice,
         deepClone: objectDeepClone,
-        strPad: stringPad
+        strPad: stringPad,
+        findOptionId: findOptionId,
+        setOptionConfig: setOptionConfig
     };
 
 
@@ -91,4 +93,39 @@ define([
         return JSON.parse(JSON.stringify(obj));
     }
 
+    function findOptionId(element) {
+        var name = element.name;
+        var re = new RegExp(/\[([^\]]+)?\]/);
+        var id = re.exec(name)[1];
+
+        if(id) {
+            return id;
+        } else {
+            return undefined;
+        }
+    }
+
+    function setOptionConfig (config) {
+        if(!config) {
+            config = {
+                exclTaxPrice: 0,
+                inclTaxPrice: 0,
+                oldPrice: 0,
+                price: 0
+            };
+        }
+        var rightObj = {};
+        rightObj.regular = {};
+        rightObj.regular.amount = config.exclTaxPrice;
+        rightObj.regular.adjustments = {};
+        rightObj.regular.adjustments.tax = config.inclTaxPrice - config.exclTaxPrice;
+
+        rightObj.special = rightObj.regular;
+
+        if(config.oldPrice  !== config.price) {
+            rightObj.regular = {amount: config.oldPrice};
+        }
+
+        return rightObj;
+    }
 });
