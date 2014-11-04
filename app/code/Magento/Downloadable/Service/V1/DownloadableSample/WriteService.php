@@ -70,7 +70,7 @@ class WriteService implements WriteServiceInterface
      */
     public function create($productSku, DownloadableSampleContent $sampleContent, $isGlobalScopeContent = false)
     {
-        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
+        $product = $this->productRepository->get($productSku, true);
         if ($product->getTypeId() !== \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             throw new InputException('Product type of the product must be \'downloadable\'.');
         }
@@ -121,7 +121,7 @@ class WriteService implements WriteServiceInterface
         DownloadableSampleContent $sampleContent,
         $isGlobalScopeContent = false
     ) {
-        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
+        $product = $this->productRepository->get($productSku, true);
         /** @var $sample \Magento\Downloadable\Model\Sample */
         $sample = $this->sampleFactory->create()->load($sampleId);
         if (!$sample->getId()) {
