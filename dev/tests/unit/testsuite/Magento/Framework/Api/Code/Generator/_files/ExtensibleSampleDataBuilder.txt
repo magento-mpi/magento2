@@ -52,9 +52,12 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder, \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor, \Magento\Framework\Reflection\TypeProcessor $typeProcessor, \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory)
     {
-        parent::__construct($objectManager, $metadataService, $attributeValueBuilder, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
+        parent::__construct($objectManager, $metadataService, $attributeValueBuilder, $objectProcessor, $typeProcessor, $dataBuilderFactory, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
     }
 }
