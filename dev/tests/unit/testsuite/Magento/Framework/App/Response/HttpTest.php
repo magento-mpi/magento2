@@ -250,12 +250,12 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage ObjectManager isn't initialized
      */
-//    public function testWakeUpWithException()
-//    {
-//        $this->model->__wakeup();
-//        $this->assertNull($this->cookieMetadataFactoryMock);
-//        $this->assertNull($this->cookieManagerMock);
-//    }
+    //public function testWakeUpWithException()
+    //{
+        //$this->model->__wakeup();
+        //$this->assertNull($this->cookieMetadataFactoryMock);
+        //$this->assertNull($this->cookieManagerMock);
+    //}
 
     /**
      * Test for the magic method __wakeup
