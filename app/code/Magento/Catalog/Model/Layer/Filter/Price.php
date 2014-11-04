@@ -10,7 +10,8 @@ namespace Magento\Catalog\Model\Layer\Filter;
 /**
  * Layer price filter
  *
- * @method null|array getInterval()
+ * @method null|int[] getInterval()
+ * @method $this setInterval(array $interval)
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
@@ -113,7 +114,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_resource = $resource;
@@ -346,19 +347,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
         list($from, $to) = $filter;
 
-        $this->setInterval(array($from, $to));
+        $this->setInterval([$from, $to]);
 
-        $priorFilters = array();
-        for ($i = 1; $i < count($filterParams); ++$i) {
-            $priorFilter = $this->_validateFilter($filterParams[$i]);
-            if ($priorFilter) {
-                $priorFilters[] = $priorFilter;
-            } else {
-                //not valid data
-                $priorFilters = array();
-                break;
-            }
-        }
+        $priorFilters = $this->getPriorFilters($filterParams);
         if ($priorFilters) {
             $this->setPriorIntervals($priorFilters);
         }
@@ -458,7 +449,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function getResetValue()
     {
         $priorIntervals = $this->getPriorIntervals();
-        $value = array();
+        $value = [];
         if ($priorIntervals) {
             foreach ($priorIntervals as $priorInterval) {
                 $value[] = implode('-', $priorInterval);
@@ -475,14 +466,30 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     public function getClearLinkText()
     {
-        if ($this->_scopeConfig->getValue(
-            self::XML_PATH_RANGE_CALCULATION,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) == self::RANGE_CALCULATION_IMPROVED && $this->getPriorIntervals()
+        if ($this->getPriorIntervals()
         ) {
             return __('Clear Price');
         }
 
         return parent::getClearLinkText();
+    }/**
+* @param $filterParams
+ * @return array
+ */
+    protected function getPriorFilters($filterParams)
+    {
+        $priorFilters = [];
+        for ($i = 1; $i < count($filterParams); ++$i) {
+            $priorFilter = $this->_validateFilter($filterParams[$i]);
+            if ($priorFilter) {
+                $priorFilters[] = $priorFilter;
+            } else {
+                //not valid data
+                $priorFilters = [];
+                break;
+            }
+        }
+
+        return $priorFilters;
     }
 }
