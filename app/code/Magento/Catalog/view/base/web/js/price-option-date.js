@@ -4,8 +4,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint browser:true jquery:true*/
-/*global Handlebars*/
 define([
     "jquery",
     "Magento_Catalog/js/price-utils",
@@ -28,7 +26,7 @@ define([
     return $.mage.priceOptionDate;
 
     /**
-     * Function-initializer of priceBox widget
+     * Function-initializer of priceOptionDate widget
      */
     function initOptionDate() {
         var field = this.element;
@@ -40,20 +38,21 @@ define([
         if(dropdowns.length) {
             dateOptionId = this.options.dropdownsSelector + dropdowns.attr('name');
             priceOptionHandler['optionHandlers'] = {};
-            priceOptionHandler['optionHandlers'][dateOptionId] = onCalendarDropdownCahnge(dropdowns);
+            priceOptionHandler['optionHandlers'][dateOptionId] = onCalendarDropdownChange(dropdowns);
 
             dropdowns.data('role', dateOptionId);
 
             form.priceOptions(priceOptionHandler);
+            dropdowns.on('change', onDateChange.bind(this, dropdowns));
         }
     }
 
     /**
      * Custom handler for Date-with-Dropdowns option type.
      * @param  {jQuery} siblings
-     * @return {Object} { optionHash : optionAdditionalPrice }
+     * @return {Function} function that return object { optionHash : optionAdditionalPrice }
      */
-    function onCalendarDropdownCahnge (siblings) {
+    function onCalendarDropdownChange (siblings) {
         return function(element, optionConfig, form) {
             var changes = {};
             var optionId = utils.findOptionId(event.target);
@@ -72,6 +71,49 @@ define([
         }
     }
 
+    /**
+     * Adjusts the number of days in the day option element based on which month or year
+     * is selected (changed). Adjusts the days to 28, 29, 30, or 31 typically.
+     * @param {jQuery} dropdowns
+     */
+    function onDateChange(dropdowns) {
+        var daysNodes,
+            curMonth, curYear, expectedDays,
+            options, needed;
+        var month = dropdowns.filter('[data-calendar-role=month]');
+        var year = dropdowns.filter('[data-calendar-role=year]');
 
+        if(month.length && year.length) {
+            daysNodes = dropdowns.filter('[data-calendar-role=day]').find('option');
 
+            curMonth = month.val() || '01';
+            curYear = year.val() || '2000';
+            expectedDays = getDaysInMonth(curMonth, curYear);
+
+            if(daysNodes.length - 1 > expectedDays) { // remove unnecessary option nodes
+                daysNodes.each(function(i,e){
+                    if(e.value > expectedDays) {
+                        e.remove();
+                    }
+                });
+            } else if(daysNodes.length - 1 < expectedDays) { // add missing option nodes
+                options = [];
+                needed = expectedDays - daysNodes.length + 1 ;
+                while(needed--) {
+                    options.push('<option value="' + (expectedDays - needed) + '">' + (expectedDays - needed) + '</option>');
+                }
+                $(options.join('')).insertAfter( daysNodes.last() );
+            }
+        }
+    }
+
+    /**
+     * Returns number of days for special month and year
+     * @param {number} month
+     * @param {number} year
+     * @return {number}
+     */
+    function getDaysInMonth(month, year) {
+        return new Date(year, month, 0).getDate();
+    }
 });
