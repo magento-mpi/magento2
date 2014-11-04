@@ -43,7 +43,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         );
 //        $this->getLayer()->getProductCollection()->addCategoryFilter($category);
 
-
         if ($request->getParam('id') != $category->getId() && $this->_isValidCategory($category)) {
             $this->getLayer()->getState()->addFilter($this->_createItem($category->getName(), $attributeValue));
         }
@@ -57,18 +56,18 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      */
     protected function _getItemsData()
     {
+        $productCollection = $this->getLayer()->getProductCollection();
+        $optionsFacetedData = $productCollection->getFacetedData('category');
         $category = $this->getCategory();
         $categories = $category->getChildrenCategories();
 
-        $this->getLayer()->getProductCollection()->addCountToCategories($categories);
-
         if ($category->getIsActive()) {
             foreach ($categories as $category) {
-                if ($category->getIsActive() && $category->getProductCount()) {
+                if ($category->getIsActive() && isset($optionsFacetedData[$category->getId()])) {
                     $this->itemDataBuilder->addItemData(
                         $this->_escaper->escapeHtml($category->getName()),
                         $category->getId(),
-                        $category->getProductCount()
+                        $optionsFacetedData[$category->getId()]['count']
                     );
                 }
             }

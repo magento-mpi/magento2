@@ -38,7 +38,6 @@ class Term implements BucketInterface
         $metrics = $this->metricsBuilder->build($bucket);
 
         $select = $dataProvider->getDataSet($bucket, $dimensions);
-
         $select->where('main_table.entity_id IN (?)', $entityIds);
         $select->columns($metrics);
         $select->group(RequestBucketInterface::FIELD_VALUE);

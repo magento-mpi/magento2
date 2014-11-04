@@ -39,6 +39,11 @@
                     <metric type="count"/>
                 </metrics>
             </bucket>
+            <bucket name="category_bucket" field="category_ids" xsi:type="termBucket">
+                <metrics>
+                    <metric type="count"/>
+                </metrics>
+            </bucket>
         </aggregations>
         <from>0</from>
         <size>10000</size>

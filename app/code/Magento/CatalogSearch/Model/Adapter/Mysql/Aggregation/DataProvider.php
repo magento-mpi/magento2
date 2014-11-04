@@ -16,9 +16,9 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Catalog\Model\Layer\Filter\Price\Range;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
+use Magento\Framework\App\ScopeResolverInterface;
 
 class DataProvider implements DataProviderInterface
 {
@@ -37,9 +37,9 @@ class DataProvider implements DataProviderInterface
     private $resource;
 
     /**
-     * @var StoreManagerInterface
+     * @var ScopeResolverInterface
      */
-    private $storeManager;
+    private $scopeResolver;
 
     /**
      * @var Range
@@ -54,7 +54,7 @@ class DataProvider implements DataProviderInterface
     /**
      * @param Config $eavConfig
      * @param Resource $resource
-     * @param StoreManagerInterface $storeManager
+     * @param ScopeResolverInterface $scopeResolver
      * @param ScopeConfigInterface $scopeConfig
      * @param Range $range
      * @internal param Range $range
@@ -62,13 +62,13 @@ class DataProvider implements DataProviderInterface
     public function __construct(
         Config $eavConfig,
         Resource $resource,
-        StoreManagerInterface $storeManager,
+        ScopeResolverInterface $scopeResolver,
         ScopeConfigInterface $scopeConfig,
         Range $range
     ) {
         $this->eavConfig = $eavConfig;
         $this->resource = $resource;
-        $this->storeManager = $storeManager;
+        $this->scopeResolver = $scopeResolver;
         $this->range = $range;
         $this->scopeConfig = $scopeConfig;
     }
@@ -78,9 +78,8 @@ class DataProvider implements DataProviderInterface
      */
     public function getDataSet(BucketInterface $bucket, array $dimensions)
     {
-        $currentStore = $dimensions['scope']->getValue();
-        $currentStoreId = $this->storeManager->getStore($currentStore)
-            ->getId();
+        $currentScope = $dimensions['scope']->getValue();
+        $currentScopeId = $this->scopeResolver->getScope($currentScope)->getId();
         $attribute = $this->eavConfig->getAttribute(Product::ENTITY, $bucket->getField());
         $table = $attribute->getBackendTable();
 
@@ -91,7 +90,7 @@ class DataProvider implements DataProviderInterface
         $select->from(['main_table' => $table], null)
             ->joinLeft(
                 ['current_store' => $table],
-                'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentStoreId,
+                'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentScopeId,
                 null
             )
             ->columns([BucketInterface::FIELD_VALUE => $ifNullCondition])
