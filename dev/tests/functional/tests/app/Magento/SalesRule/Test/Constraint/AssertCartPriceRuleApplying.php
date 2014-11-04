@@ -21,77 +21,78 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Abstract class for implementing assert applying.
+ * Class AssertCartPriceRuleApplying
+ * Abstract class for implementing assert applying
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AssertCartPriceRuleApplying extends AbstractConstraint
 {
     /**
-     * Page CheckoutCart.
+     * Page CheckoutCart
      *
      * @var CheckoutCart
      */
     protected $checkoutCart;
 
     /**
-     * Page CmsIndex.
+     * Page CmsIndex
      *
      * @var CmsIndex
      */
     protected $cmsIndex;
 
     /**
-     * Page CustomerAccountLogin.
+     * Page CustomerAccountLogin
      *
      * @var CustomerAccountLogin
      */
     protected $customerAccountLogin;
 
     /**
-     * Page CustomerAccountLogout.
+     * Page CustomerAccountLogout
      *
      * @var CustomerAccountLogout
      */
     protected $customerAccountLogout;
 
     /**
-     * Page CatalogCategoryView.
+     * Page CatalogCategoryView
      *
      * @var CatalogCategoryView
      */
     protected $catalogCategoryView;
 
     /**
-     * Page CatalogProductView.
+     * Page CatalogProductView
      *
      * @var CatalogProductView
      */
     protected $catalogProductView;
 
     /**
-     * Customer from precondition.
+     * Customer from precondition
      *
      * @var CustomerInjectable
      */
     protected $customer;
 
     /**
-     * First product from precondition.
+     * First product from precondition
      *
      * @var CatalogProductSimple
      */
     protected $productForSalesRule1;
 
     /**
-     * Second product from precondition.
+     * Second product from precondition
      *
      * @var CatalogProductSimple
      */
     protected $productForSalesRule2;
 
     /**
-     * Implementation assert.
+     * Implementation assert
      *
      * @return void
      */
@@ -161,7 +162,13 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
         $this->customer = $customer;
         $this->productForSalesRule1 = $productForSalesRule1;
         $this->productForSalesRule2 = $productForSalesRule2;
-        $isLoggedIn ? $this->login() : $this->customerAccountLogout->open();
+
+        $this->cmsIndex->open();
+        if ($this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && !$isLoggedIn) {
+            $this->customerAccountLogout->open();
+        } elseif ($isLoggedIn) {
+            $this->login();
+        }
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
         $this->addProductsToCart($productQuantity);
         if ($address->hasData('country_id')) {
@@ -177,20 +184,18 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
     }
 
     /**
-     * LogIn customer.
+     * LogIn customer
      *
      * @return void
      */
     protected function login()
     {
-        $this->objectManager->create(
-            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
-            ['customer' => $this->customer]
-        )->run();
+        $this->cmsIndex->getLinksBlock()->openLink("Log In");
+        $this->customerAccountLogin->getLoginBlock()->login($this->customer);
     }
 
     /**
-     * Add products to cart.
+     * Add products to cart
      *
      * @param array $productQuantity
      * @return void
