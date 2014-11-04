@@ -25,6 +25,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             return $this;
         }
         $attribute = $this->getAttributeModel();
+        /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->applyFilterToCollection($attribute->getAttributeCode(), $attributeValue);
         return $this;
@@ -39,7 +40,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     {
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
-
+        /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
         $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
 
