@@ -17,10 +17,9 @@ use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 
 /**
- * Class TargetRuleEntityTest
  * Parent class for TargetRule tests.
  */
-abstract class TargetRuleEntityTest extends Injectable
+abstract class AbstractTargetRuleEntityTest extends Injectable
 {
     /**
      * @var TargetRuleIndex

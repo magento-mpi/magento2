@@ -31,7 +31,7 @@ use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
  * @group Target_Rules_(MX)
  * @ZephyrId MAGETWO-24807
  */
-class UpdateTargetRuleEntityTest extends TargetRuleEntityTest
+class UpdateTargetRuleEntityTest extends AbstractTargetRuleEntityTest
 {
     /**
      * Run update TargetRule entity test
