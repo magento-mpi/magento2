@@ -8,8 +8,6 @@
 
 /**
  * Product Chooser for "Product Link" Cms Widget Plugin
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogWidget\Block\Product\Widget;
 

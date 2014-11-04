@@ -14,6 +14,9 @@
         <label translate="true">Catalog Products List</label>
         <description translate="true">List of Products</description>
         <parameters>
+            <parameter name="title" xsi:type="text" required="true" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
             <parameter name="show_pager" xsi:type="select" visible="true"
                        source_model="Magento\Backend\Model\Config\Source\Yesno">
                 <label translate="true">Display Page Control</label>
@@ -29,6 +32,14 @@
                 <label translate="true">Number of Products to Display</label>
                 <value>10</value>
             </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="product/widget/content/grid.phtml" selected="true">
+                        <label translate="true">Products Grid Template</label>
+                    </option>
+                </options>
+            </parameter>
             <parameter name="cache_lifetime" xsi:type="text" visible="true">
                 <label translate="true">Cache Lifetime (Seconds)</label>
                 <description translate="true">86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
@@ -38,5 +49,16 @@
                 <label translate="true">Conditions</label>
             </parameter>
         </parameters>
+        <containers>
+            <container name="content">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.top">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.bottom">
+                <template name="grid" value="default" />
+            </container>
+        </containers>
     </widget>
 </widgets>

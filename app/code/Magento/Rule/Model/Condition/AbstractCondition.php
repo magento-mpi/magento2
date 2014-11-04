@@ -363,7 +363,10 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     {
         if (!$this->hasValueParsed()) {
             $value = $this->getData('value');
-            if ($this->isArrayOperatorType() && is_string($value)) {
+            if (is_array($value) && isset($value[0]) && is_string($value[0])) {
+                $value = $value[0];
+            }
+            if ($this->isArrayOperatorType() && $value) {
                 $value = preg_split('#\s*[,;]\s*#', $value, null, PREG_SPLIT_NO_EMPTY);
             }
             $this->setValueParsed($value);

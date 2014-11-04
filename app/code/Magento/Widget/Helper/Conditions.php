@@ -14,12 +14,7 @@ class Conditions
      */
     public function encode(array $value)
     {
-        foreach ($value as &$condition) {
-            if (isset($condition['type'])) {
-                $condition['type'] = preg_quote($condition['type']);
-            }
-        }
-        $value = str_replace(['{','}','"'],['[',']','`'], json_encode($value));
+        $value = str_replace(['{','}','"', '\\'], ['[',']','`', '|'], serialize($value));
         return $value;
     }
 
@@ -31,7 +26,8 @@ class Conditions
      */
     public function decode($value)
     {
-        $value = str_replace(['[',']','`'],['{','}','"'], $value);
-        return json_decode($value, true);
+        $value = str_replace(['[',']','`', '|'],['{','}','"', '\\'], $value);
+        $value = unserialize($value);
+        return $value;
     }
 }

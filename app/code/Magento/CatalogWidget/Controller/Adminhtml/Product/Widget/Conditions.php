@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,9 +11,26 @@ use Magento\Rule\Model\Condition\AbstractCondition;
 
 /**
  * Class Conditions
-  */
+ */
 class Conditions extends \Magento\CatalogWidget\Controller\Adminhtml\Product\Widget
 {
+    /**
+     * @var \Magento\CatalogWidget\Model\Rule
+     */
+    protected $rule;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\CatalogWidget\Model\Rule $rule
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\CatalogWidget\Model\Rule $rule
+    ) {
+        $this->rule = $rule;
+        parent::__construct($context);
+    }
+
     /**
      * @return void
      */
@@ -27,9 +43,8 @@ class Conditions extends \Magento\CatalogWidget\Controller\Adminhtml\Product\Wid
         $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(
-                $this->_objectManager->create('Magento\CatalogWidget\Model\Rule')
-            )->setPrefix('conditions');
+            ->setRule($this->rule)
+            ->setPrefix('conditions');
 
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

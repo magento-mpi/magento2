@@ -64,4 +64,18 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         );
         return $conditions;
     }
+
+    /**
+     * Collect validated attributes for Product Collection
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
+     * @return $this
+     */
+    public function collectValidatedAttributes($productCollection)
+    {
+        foreach ($this->getConditions() as $condition) {
+            $condition->addToCollection($productCollection);
+        }
+        return $this;
+    }
 }
