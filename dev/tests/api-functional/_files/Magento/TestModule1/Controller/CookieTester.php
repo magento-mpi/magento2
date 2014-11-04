@@ -17,9 +17,6 @@ use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
  */
 class CookieTester extends \Magento\Framework\App\Action\Action
 {
-    /** @var \Magento\Framework\App\State */
-    protected $appState;
-
     /** @var PhpCookieManager */
     protected $cookieManager;
 
@@ -28,17 +25,14 @@ class CookieTester extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Framework\App\State $appState
      * @param PhpCookieManager $cookieManager
      * @param CookieMetadataFactory $cookieMetadataFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\App\State $appState,
         PhpCookieManager $cookieManager,
         CookieMetadataFactory $cookieMetadataFactory
     ) {
-        $this->appState = $appState;
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFacory = $cookieMetadataFactory;
         parent::__construct($context);
@@ -68,10 +62,6 @@ class CookieTester extends \Magento\Framework\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->appState->isInstalled()) {
-            parent::dispatch($request);
-        }
-
         if (!$this->getRequest()->isDispatched()) {
             parent::dispatch($request);
         }
