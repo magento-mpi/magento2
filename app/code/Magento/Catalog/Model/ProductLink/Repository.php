@@ -93,9 +93,7 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
         }
         //Remove product from the linked product list
         unset($links[$linkedProduct->getId()]);
-        $data = $entity->__toArray();
-        $data['product_id'] = $linkedProduct->getId();
-        $links[$linkedProduct->getId()] = $data;
+
         $this->linkInitializer->initializeLinks($product, [$entity->getLinkType() => $links]);
         try {
             $product->save();

@@ -29,52 +29,27 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related_multiple.php
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('TBD');
         $productSku = 'simple_with_cross';
         $linkedSku = 'simple';
         $linkType = 'related';
-
-        $actualLinks = $this->getLinkedProducts($productSku, $linkType);
-        $this->assertCount(1, $actualLinks, 'fixture seems to be broken');
-
-        $entity = array_shift($actualLinks)->__toArray();
         $this->_webApiCall(
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
                     'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-                ],
-                'soap' => [
-                    'service' => self::SERVICE_NAME,
-                    'serviceVersion' => self::SERVICE_VERSION,
-                    'operation' => self::SERVICE_NAME . 'Remove'
                 ]
-            ],
-            [
-                'productSku' => $productSku,
-                'linkedProductSku' => $linkedSku,
-                'type' => $linkType,
-                'entity' => $entity
             ]
         );
-
-        $actualLinks = $this->getLinkedProducts($productSku, $linkType);
-        $this->assertEmpty($actualLinks);
-    }
-
-    protected function getLinkedProducts($sku, $linkType)
-    {
         /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
-        $linkManagement = $this->objectManager->get('\Magento\Catalog\Api\ProductLinkManagementInterface');
-        $linkedProducts = $linkManagement->getLinkedItemsByType($sku, $linkType);
-
-        return $linkedProducts;
+        $linkManagement = $this->objectManager->create('\Magento\Catalog\Api\ProductLinkManagementInterface');
+        $linkedProducts = $linkManagement->getLinkedItemsByType($productSku, $linkType);
+        $this->assertCount(1, $linkedProducts);
+        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $product */
+        $product = current($linkedProducts);
+        $this->assertEquals($product->getLinkedProductSku(), 'simple_with_cross_two');
     }
-
-
-
 }
