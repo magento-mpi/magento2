@@ -34,7 +34,7 @@ class Improved implements AlgorithmInterface
         $aggregations = $dataProvider->getAggregations($entityIds);
 
         $options = $dataProvider->getOptions();
-        if ($aggregations['count'] <= $options['interval_division_limit']) {
+        if ($aggregations['count'] <  2 * $options['interval_division_limit'] ) { // minimum 2 intervals
             return [];
         }
 

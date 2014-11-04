@@ -9,8 +9,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
 
 /**
  * Layer category filter abstract model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractFilter extends \Magento\Framework\Object
 {
@@ -230,15 +228,11 @@ abstract class AbstractFilter extends \Magento\Framework\Object
      */
     protected function _createItem($label, $value, $count = 0)
     {
-        return $this->_filterItemFactory->create()->setFilter(
-            $this
-        )->setLabel(
-            $label
-        )->setValue(
-            $value
-        )->setCount(
-            $count
-        );
+        return $this->_filterItemFactory->create()
+            ->setFilter($this)
+            ->setLabel($label)
+            ->setValue($value)
+            ->setCount($count);
     }
 
     /**
