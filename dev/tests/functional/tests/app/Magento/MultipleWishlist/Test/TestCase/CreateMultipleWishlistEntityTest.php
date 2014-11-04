@@ -79,6 +79,8 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      */
     public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-30155");
+
         //Steps
         $this->openWishlistPage($customer);
         $this->wishlistIndex->getManagementBlock()->clickCreateNewWishlist();

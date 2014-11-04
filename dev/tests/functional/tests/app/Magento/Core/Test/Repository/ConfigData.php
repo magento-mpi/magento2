@@ -740,7 +740,7 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['checkmo_rollback'] = [
+        $this->_data['checkmo_disabled'] = [
             'section' => [
                 [
                     'path' => 'payment/checkmo/active',
