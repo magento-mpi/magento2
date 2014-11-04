@@ -522,6 +522,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         if (null !== $this->_payments) {
             $this->getPaymentsCollection()->save();
         }
+
+        if (null !== $this->_currentPayment) {
+            $this->getPayment()->save();
+        }
         return $this;
     }
 
@@ -1589,7 +1593,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         }
         if ($payment = $this->_currentPayment) {
             if ($this->getId()) {
-                $this->_currentPayment->setQuote($this);
+                $payment->setQuote($this);
             }
             if (!$payment->isDeleted()) {
                 return $payment;

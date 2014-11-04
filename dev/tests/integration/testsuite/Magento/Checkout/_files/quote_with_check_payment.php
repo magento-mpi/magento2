@@ -16,11 +16,11 @@ $rate->getPrice(1);
 
 $quote->getShippingAddress()->setShippingMethod('freeshipping_freeshipping');
 $quote->getShippingAddress()->addShippingRate($rate);
-$quote->getPayment()->setMethod('checkmo')->save();
+$quote->getPayment()->setMethod('checkmo');
 
 $quote->collectTotals();
 $quote->save();
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $quoteService = $objectManager->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
-$quoteService->getQuote()->getPayment()->setMethod('checkmo')->save();
+$quoteService->getQuote()->getPayment()->setMethod('checkmo');
