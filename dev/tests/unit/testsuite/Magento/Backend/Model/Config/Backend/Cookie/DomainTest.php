@@ -72,7 +72,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Config\Backend\Cookie\Domain::_beforeSave
+     * @covers \Magento\Backend\Model\Config\Backend\Cookie\Domain::beforeSave
      * @dataProvider beforeSaveDataProvider
      *
      * @param string $value
