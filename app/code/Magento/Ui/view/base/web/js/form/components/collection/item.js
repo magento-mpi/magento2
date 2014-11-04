@@ -55,7 +55,8 @@ define([
             this.observe({
                 'noPreview': true,
                 'body':      [],
-                'head':      []
+                'head':      [],
+                'indexed':   {}
             });
 
             return this;
@@ -65,7 +66,6 @@ define([
             __super__.initProperties.apply(this, arguments);
 
             this.displayed  = {};
-            this.indexed    = {};
 
             return this;
         },
@@ -92,8 +92,12 @@ define([
         },
 
         insertToIndexed: function (elem) {
-            this.indexed[elem.index] = elem;
+            var indexed = this.indexed();
+            
+            indexed[elem.index] = elem;
 
+            this.indexed(indexed);
+            
             return this;
         },
 
@@ -105,8 +109,6 @@ define([
             var preview = this.getPreview(data.items),
                 prefix  = data.prefix;
 
-            this.updatePreview();
-
             return prefix + preview.join(data.separator);
         },
 
@@ -115,7 +117,7 @@ define([
         },
 
         getPreview: function(items){
-            var elems       = this.indexed,
+            var elems       = this.indexed(),
                 displayed   = this.displayed;
 
             items = items.map(function(index){
@@ -126,6 +128,8 @@ define([
                 
                 return preview;
             });
+
+            this.updatePreview();
 
             return _.compact(items);
         },
