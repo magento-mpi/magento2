@@ -87,7 +87,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Config\Backend\Encrypted::_beforeSave
+     * @covers \Magento\Backend\Model\Config\Backend\Encrypted::beforeSave
      * @dataProvider beforeSaveDataProvider
      *
      * @param $value
