@@ -170,8 +170,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
                 array(
                     RegionInterface::REGION => $this->getRegion(),
                     RegionInterface::REGION_ID => $this->getRegionId(),
-                    RegionInterface::REGION_CODE => $this->getRegionCode())
+                    RegionInterface::REGION_CODE => $this->getRegionCode()
                 )
+            )
             ->create();
 
         $addressData[AddressData::REGION] = $region;

@@ -47,8 +47,8 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
-//            ->setDefaultBilling(true)
-//            ->setDefaultShipping(true)
+            //->setDefaultBilling(true)
+            //->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion($region)
             ->setStreet('Green str, 67')
@@ -64,8 +64,8 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
-//            ->setDefaultBilling(false)
-//            ->setDefaultShipping(false)
+            //->setDefaultBilling(false)
+            //->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion($region)
             ->setStreet('Black str, 48')
@@ -221,27 +221,28 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * TODO: restore once get/setDefaultBilling/ShippingAddress methods are implemented
+     *
      * @magentoDataFixture  Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
      */
     public function testSaveNewAddressDefaults()
     {
-//        $addressShippingBuilder = $this->_createFirstAddressBuilder();
-//        $addressShippingBuilder->setDefaultShipping(true)->setDefaultBilling(false);
-//        $addressShippingBuilder->setCustomerId(1);
-//        $addressShipping = $addressShippingBuilder->create();
-//
-//        $addressBillingBuilder = $this->_createSecondAddressBuilder();
-//        $addressBillingBuilder->setDefaultBilling(true)->setDefaultShipping(false);
-//        $addressBillingBuilder->setCustomerId(1);
-//        $addressBilling = $addressBillingBuilder->create();
-//        $shippingAddress = $this->repository->saveAddress($addressShipping);
-//        $billingAddress = $this->repository->saveAddress($addressBilling);
-//
-//        $shipping = $this->repository->get($shippingAddress);
-//        $billing = $this->repository->get($billAddress);
-//        $this->assertEquals($addressShipping, $shipping);
-//        $this->assertEquals($addressBilling, $billing);
+        //$addressShippingBuilder = $this->_createFirstAddressBuilder();
+        //$addressShippingBuilder->setDefaultShipping(true)->setDefaultBilling(false);
+        //$addressShippingBuilder->setCustomerId(1);
+        //$addressShipping = $addressShippingBuilder->create();
+
+        //$addressBillingBuilder = $this->_createSecondAddressBuilder();
+        //$addressBillingBuilder->setDefaultBilling(true)->setDefaultShipping(false);
+        //$addressBillingBuilder->setCustomerId(1);
+        //$addressBilling = $addressBillingBuilder->create();
+        //$shippingAddress = $this->repository->saveAddress($addressShipping);
+        //$billingAddress = $this->repository->saveAddress($addressBilling);
+
+        //$shipping = $this->repository->get($shippingAddress);
+        //$billing = $this->repository->get($billingAddress);
+        //$this->assertEquals($addressShipping, $shipping);
+        //$this->assertEquals($addressBilling, $billing);
     }
 
     public function testSaveAddressesCustomerIdNotExist()
