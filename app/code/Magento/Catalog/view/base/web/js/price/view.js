@@ -67,10 +67,11 @@ define(function (require) {
                 finalPrice:      format(finalPrice.adjusted),
                 finalPriceExcl:  format(finalPrice.raw),
                 oldPrice:        format(oldPrice.adjusted),
-                oldPriceExcl:    format(oldPrice.raw)
+                oldPriceExcl:    format(oldPrice.raw),
+                fpt:             format(config.fpt)
             };
 
-            return _.extend(data, config);
+            return _.extend({}, config, data);
         },
 
         getPrice: function (type) {
@@ -83,7 +84,7 @@ define(function (require) {
             adjusted = _.reduce(adjustments, function (summ, value) {
                 return summ += value;
             }, adjusted);
-            
+
             return {
                 raw: raw,
                 adjusted: adjusted

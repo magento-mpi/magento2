@@ -20,10 +20,9 @@
                 <span class="price">{{finalPriceExcl}}</span>
             </span>
             {{/if}}
-            <span class="weee">
-                <span class="price">$5.00</span>
-            </span>
-            
+            {{#if showFpt}}
+            <span data-label="{{fptLabel}}" class="weee"><span class="price">{{fpt}}</span></span>
+            {{/if}}
         </span>
     </span>
     {{#if oldPrice}}
