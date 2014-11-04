@@ -48,23 +48,52 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     protected $attributeValueBuilder;
 
     /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    protected $objectProcessor;
+
+    /**
+     * @var array
+     */
+    protected $interfaceMethodsDescription;
+
+    /**
+     * @var \Magento\Framework\Reflection\TypeProcessor
+     */
+    protected $typeProcessor;
+
+    /**
+     * @var \Magento\Framework\Serialization\DataBuilderFactory
+     */
+    protected $dataBuilderFactory;
+
+    /**
      * Initialize the builder
      *
      * @param ObjectManager $objectManager
      * @param MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
      * @param string $modelClassInterface
      */
     public function __construct(
         ObjectManager $objectManager,
         MetadataServiceInterface $metadataService,
         \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
+        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
+        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
+        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
         $modelClassInterface
     ) {
         $this->objectManager = $objectManager;
         $this->metadataService = $metadataService;
         $this->modelClassInterface = $modelClassInterface;
+        $this->objectProcessor = $objectProcessor;
         $this->attributeValueBuilder = $attributeValueBuilder;
+        $this->typeProcessor = $typeProcessor;
+        $this->dataBuilderFactory = $dataBuilderFactory;
     }
 
     /**
@@ -182,16 +211,52 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
                         $customAttribute[AttributeValue::VALUE]
                     );
                 }
-            } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
-                $this->data[$key] = $value;
-            } else {
-                /* If key corresponds to custom attribute code, populate custom attributes */
-                if (in_array($key, $this->getCustomAttributesCodes())) {
-                    $this->setCustomAttribute($key, $value);
+            } elseif (
+                $methodName = array_intersect($possibleMethods, $dataObjectMethods)
+            ) {
+                if (!is_array($value)) {
+                    $this->data[$key] = $value;
+                } else {
+                    $this->setComplexValue($methodName[0], $key, $value);
                 }
+            } elseif (in_array($key, $this->getCustomAttributesCodes())) {
+                $this->setCustomAttribute($key, $value);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @param string $methodName
+     * @param string $key
+     * @param array $value
+     * @return $this
+     */
+    protected function setComplexValue($methodName, $key, array $value)
+    {
+        $returnType = $this->objectProcessor->getMethodReturnType($this->modelClassInterface, $methodName);
+        if ($this->typeProcessor->isTypeSimple($returnType)) {
+            $this->data[$key] = $value;
+            return $this;
+        }
+
+        if ($this->typeProcessor->isArrayType($returnType)) {
+            $type = $this->typeProcessor->getArrayItemType($returnType);
+            $dataBuilder = $this->dataBuilderFactory->getDataBuilder($type);
+            $objects = [];
+            foreach ($value as $arrayElementData) {
+                $objects[] = $dataBuilder->populateWithArray($arrayElementData)
+                    ->create();
+            }
+            $this->data[$key] = $objects;
+            return $this;
+        }
+
+        $dataBuilder = $this->dataBuilderFactory->getDataBuilder($returnType);
+        $object = $dataBuilder->populateWithArray($value)
+            ->create();
+        $this->data[$key] = $object;
         return $this;
     }
 }

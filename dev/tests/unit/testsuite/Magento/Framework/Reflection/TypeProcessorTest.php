@@ -5,26 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Model\Config\ClassReflector;
+namespace Magento\Framework\Reflection;
 
 /**
  * Type processor Test
  */
 class TypeProcessorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
+    /**
+     * @var \Magento\Framework\Reflection\TypeProcessor
+     */
     protected $_typeProcessor;
-
-    /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
 
     /**
      * Set up helper.
      */
     protected function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', array(), array(), '', false);
-        $this->_typeProcessor = new \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor($this->_helperMock);
+        $this->_typeProcessor = new \Magento\Framework\Reflection\TypeProcessor();
     }
 
     /**
@@ -175,7 +173,7 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\SerializationException
      * @expectedExceptionMessage Invalid type for value :"1". Expected Type: "int[]".
      */
     public function testProcessSimpleTypeInvalidType()

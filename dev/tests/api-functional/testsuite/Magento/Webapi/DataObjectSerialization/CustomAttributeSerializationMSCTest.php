@@ -10,7 +10,7 @@ namespace Magento\Webapi\DataObjectSerialization;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModuleMSC\Api\Data\ItemDataBuilder;
-use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 
@@ -79,7 +79,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         );
 
         $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
-            'Magento\Webapi\Model\DataObjectProcessor'
+            'Magento\Framework\Reflection\DataObjectProcessor'
         );
 
         $this->dataObjectConverter = Bootstrap::getObjectManager()->create(

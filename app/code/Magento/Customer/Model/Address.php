@@ -50,7 +50,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_regionBuilder;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $dataProcessor;
 
@@ -66,7 +66,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
      * @param AddressDataBuilder $addressBuilder
      * @param RegionBuilder $regionBuilder
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -83,7 +83,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
         AddressDataBuilder $addressBuilder,
         RegionBuilder $regionBuilder,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

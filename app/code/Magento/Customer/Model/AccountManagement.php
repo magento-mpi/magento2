@@ -37,7 +37,7 @@ use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String as StringHelper;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
-use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Framework\Reflection\DataObjectProcessor;
 
 /**
  * Handle various customer account actions

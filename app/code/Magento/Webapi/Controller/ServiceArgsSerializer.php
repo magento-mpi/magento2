@@ -14,12 +14,14 @@ use Magento\Framework\ObjectManager\Config as ObjectManagerConfig;
 use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\AttributeValueBuilder;
-use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
-use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Framework\Reflection\TypeProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
 use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\Exception\SerializationException;
+use Magento\Webapi\Exception as WebapiException;
+use Magento\Framework\Serialization\DataBuilderFactory;
 
 /**
  * Deserializes arguments from API requests.
@@ -28,11 +30,11 @@ use Magento\Framework\Api\SimpleDataObjectConverter;
  */
 class ServiceArgsSerializer
 {
-    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
-    protected $_typeProcessor;
+    /** @var \Magento\Framework\Reflection\TypeProcessor */
+    protected $typeProcessor;
 
-    /** @var ObjectManager */
-    protected $_objectManager;
+    /** @var DataBuilderFactory */
+    protected $builderFactory;
 
     /** @var ServiceConfigReader */
     protected $serviceConfigReader;
@@ -44,18 +46,18 @@ class ServiceArgsSerializer
      * Initialize dependencies.
      *
      * @param TypeProcessor $typeProcessor
-     * @param ObjectManager $objectManager
+     * @param DataBuilderFactory $builderFactory
      * @param ServiceConfigReader $serviceConfigReader
      * @param AttributeValueBuilder $attributeValueBuilder
      */
     public function __construct(
         TypeProcessor $typeProcessor,
-        ObjectManager $objectManager,
+        DataBuilderFactory $builderFactory,
         ServiceConfigReader $serviceConfigReader,
         AttributeValueBuilder $attributeValueBuilder
     ) {
-        $this->_typeProcessor = $typeProcessor;
-        $this->_objectManager = $objectManager;
+        $this->typeProcessor = $typeProcessor;
+        $this->builderFactory = $builderFactory;
         $this->serviceConfigReader = $serviceConfigReader;
         $this->attributeValueBuilder = $attributeValueBuilder;
     }
@@ -144,7 +146,7 @@ class ServiceArgsSerializer
         $data = is_array($data) ? $data : [];
         $class = new ClassReflection($className);
 
-        $builder = $this->getBuilder($className);
+        $builder = $this->builderFactory->getDataBuilder($className);
 
         foreach ($data as $propertyName => $value) {
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
@@ -153,7 +155,7 @@ class ServiceArgsSerializer
             $methodName = $this->_processGetterMethod($class, $camelCaseProperty);
             $methodReflection = $class->getMethod($methodName);
             if ($methodReflection->isPublic()) {
-                $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
+                $returnType = $this->typeProcessor->getGetterReturnType($methodReflection)['type'];
                 $setterName = 'set' . $camelCaseProperty;
                 if ($camelCaseProperty === 'CustomAttributes') {
                     $setterValue = $this->convertCustomAttributeValue($value, $returnType, $className);
@@ -164,26 +166,6 @@ class ServiceArgsSerializer
             }
         }
         return $builder->create();
-    }
-
-    /**
-     * Returns a builder for a given classname.
-     *
-     * @param string $className
-     * @return object a builder instance
-     */
-    protected function getBuilder($className)
-    {
-        $builderClassName = '';
-        $interfaceSuffix = 'Interface';
-        if (substr($className, -strlen($interfaceSuffix)) === $interfaceSuffix) {
-            /** If class name ends with Interface, replace it with Data suffix */
-            $builderClassName = substr($className, 0, -strlen($interfaceSuffix)) . 'Data';
-        } else {
-            $builderClassName = $className;
-        }
-        $builderClassName .= 'Builder';
-        return $this->_objectManager->create($builderClassName);
     }
 
     /**
@@ -272,18 +254,22 @@ class ServiceArgsSerializer
      */
     protected function _convertValue($value, $type)
     {
-        $isArrayType = $this->_typeProcessor->isArrayType($type);
+        $isArrayType = $this->typeProcessor->isArrayType($type);
         if ($isArrayType && isset($value['item'])) {
             $value = $this->_removeSoapItemNode($value);
         }
-        if ($this->_typeProcessor->isTypeSimple($type) || $this->_typeProcessor->isTypeAny($type)) {
-            $result = $this->_typeProcessor->processSimpleAndAnyType($value, $type);
+        if ($this->typeProcessor->isTypeSimple($type) || $this->typeProcessor->isTypeAny($type)) {
+            try {
+                $result = $this->typeProcessor->processSimpleAndAnyType($value, $type);
+            } catch (SerializationException $e) {
+                throw new WebapiException($e->getMessage());
+            }
         } else {
             /** Complex type or array of complex types */
             if ($isArrayType) {
                 // Initializing the result for array type else it will return null for empty array
                 $result = is_array($value) ? [] : null;
-                $itemType = $this->_typeProcessor->getArrayItemType($type);
+                $itemType = $this->typeProcessor->getArrayItemType($type);
                 if (is_array($value)) {
                     foreach ($value as $key => $item) {
                         $result[$key] = $this->_createFromArray($itemType, $item);

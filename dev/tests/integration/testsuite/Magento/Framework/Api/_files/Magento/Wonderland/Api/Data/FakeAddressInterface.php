@@ -22,6 +22,7 @@ interface FakeAddressInterface extends ExtensibleDataInterface
     const ID = 'id';
     const CUSTOMER_ID = 'customer_id';
     const REGION = 'region';
+    const REGIONS = 'regions';
     const COUNTRY_ID = 'country_id';
     const STREET = 'street';
     const COMPANY = 'company';
@@ -54,9 +55,16 @@ interface FakeAddressInterface extends ExtensibleDataInterface
     /**
      * Get region
      *
-     * @return \Magento\Customer\Api\Data\RegionInterface|null
+     * @return \Magento\Wonderland\Api\Data\FakeRegionInterface|null
      */
     public function getRegion();
+
+    /**
+     * Get region
+     *
+     * @return \Magento\Wonderland\Api\Data\FakeRegionInterface[]|null
+     */
+    public function getRegions();
 
     /**
      * Two-letter country code in ISO_3166-2 format

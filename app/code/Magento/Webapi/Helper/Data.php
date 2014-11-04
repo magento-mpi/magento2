@@ -76,7 +76,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getServiceNameParts($className, $preserveVersion = false)
     {
-        if (preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN_DEPRECATED, $className, $matches)) {
+        if (preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
@@ -92,7 +92,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $serviceNameParts[] = $serviceVersion;
             }
             return $serviceNameParts;
-        } elseif (preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
+        } elseif (preg_match(\Magento\Webapi\Model\Config::API_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;

@@ -85,30 +85,30 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        $constructorDefinition = [
-            'name' => '__construct',
-            'parameters' => [
-                ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
-                ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
+            $constructorDefinition = [
+                'name' => '__construct',
+                'parameters' => [
+                    ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
+                    ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
                 ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
-            ],
-            'docblock' => [
-                'shortDescription' => 'Initialize the builder',
-                'tags' => [
-                    [
-                        'name' => 'param',
-                        'description' => '\Magento\Framework\ObjectManager $objectManager'
-                    ],
-                    [
-                        'name' => 'param',
-                        'description' => '\Magento\Framework\Api\MetadataServiceInterface $metadataService'
-                    ],
-                    [
-                        'name' => 'param',
+                ],
+                'docblock' => [
+                    'shortDescription' => 'Initialize the builder',
+                    'tags' => [
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\ObjectManager $objectManager'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Api\MetadataServiceInterface $metadataService'
+                        ],
+                        [
+                            'name' => 'param',
                         'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
+                        ]
                     ]
-                ]
-            ],
+                ],
             'body' => "parent::__construct(\$objectManager, \$metadataService, \$objectManagerConfig, "
                 . "'{$this->_getSourceClassName()}');"
         ];

@@ -49,7 +49,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     protected $groupResourceModel;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $dataObjectProcessor;
 
@@ -68,7 +68,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder
      * @param \Magento\Customer\Model\Resource\Group $groupResourceModel
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Customer\Api\Data\GroupSearchResultsDataBuilder $searchResultsBuilder
      * @param TaxClassServiceInterface $taxClassServiceInterface
      */
@@ -77,7 +77,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder,
         \Magento\Customer\Model\Resource\Group $groupResourceModel,
-        \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Customer\Api\Data\GroupSearchResultsDataBuilder $searchResultsBuilder,
         TaxClassServiceInterface $taxClassServiceInterface
     ) {

@@ -57,7 +57,7 @@ class Address extends \Magento\Framework\App\Action\Action
     protected $_addressDataBuilder;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $_dataProcessor;
 
@@ -71,7 +71,7 @@ class Address extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Customer\Model\Data\AddressBuilder $addressDataBuilder
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @internal param \Magento\Customer\Helper\Data $customerData
      * @internal param \Magento\Customer\Model\AddressFactory $addressFactory
      * @internal param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
@@ -87,7 +87,7 @@ class Address extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Customer\Model\Data\AddressBuilder $addressDataBuilder,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+        \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
     ) {
         $this->_customerSession = $customerSession;
         $this->_formKeyValidator = $formKeyValidator;

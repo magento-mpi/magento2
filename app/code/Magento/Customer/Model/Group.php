@@ -56,7 +56,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $groupBuilder;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $dataObjectProcessor;
 
@@ -73,7 +73,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param GroupDataBuilder $groupBuilder
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Tax\Model\ClassModelFactory $classModelFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -85,7 +85,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Store\Model\StoresConfig $storesConfig,
         GroupDataBuilder $groupBuilder,
-        \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Tax\Model\ClassModelFactory $classModelFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
