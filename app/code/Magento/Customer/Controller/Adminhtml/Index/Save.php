@@ -11,6 +11,7 @@ namespace Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Customer\Service\V1\CustomerMetadataService as CustomerMetadata;
 
 class Save extends \Magento\Customer\Controller\Adminhtml\Index
 {
@@ -126,13 +127,11 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 unset($customerData[Customer::DEFAULT_BILLING]);
                 unset($customerData[Customer::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
-                $addressesOldFormat = array();
-                $addresses = [];
+                $addresses = array();
                 foreach ($addressesData as $addressData) {
-                    $addressesOldFormat[] = $this->_addressBuilder->populateWithArray($addressData)->create();
-                    $addresses[] = $this->_addressDataBuilder->populateWithArray($addressData)->create();
+                    $addresses[] = $this->_addressBuilder->populateWithArray($addressData)->create();
                 }
-                $customerBuilder->setAddresses($addresses);
+
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_prepare_save',
                     array('customer' => $customerBuilder, 'request' => $request)
@@ -140,12 +139,11 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $customer = $customerBuilder->create();
 
                 // Save customer
-                $customerDetails = $this->_customerDetailsBuilder
-                    ->setCustomer($customer)
-                    ->setAddresses($addressesOldFormat)
-                    ->create();
+                $customerDetails = $this->_customerDetailsBuilder->setCustomer(
+                    $customer
+                )->setAddresses($addresses)->create();
                 if ($isExistingCustomer) {
-                    $this->_customerRepository->save($customer);
+                    $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
                 } else {
                     $customer = $this->_customerAccountService->createCustomer($customerDetails);
                     $customerId = $customer->getId();
