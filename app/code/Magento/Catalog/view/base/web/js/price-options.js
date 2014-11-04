@@ -4,7 +4,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint browser:true jquery:true*/
 define([
     "jquery",
     "underscore",
@@ -31,9 +30,6 @@ define([
     return $.mage.priceOptions;
 
     function initPriceOptions() {
-        console.log('Options:  ', this);
-        console.log('Options:  ', this.options);
-
         var form = this.element;
         var options = $(this.options.optionsSelector, form);
         this._additionalPriceObject = {};
@@ -43,9 +39,8 @@ define([
     }
 
     function onOptionChanged(event) {
-        var option = $(event.target);
-        var optionType = option.prop('type');
         var changes;
+        var option = $(event.target);
         var handler = this.options.optionHandlers[option.data('role')];
         option.data('optionContainer', option.closest(this.options.controlContainer));
 

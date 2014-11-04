@@ -94,14 +94,17 @@ define([
     }
 
     function findOptionId(element) {
-        var name = element.name;
-        var re = new RegExp(/\[([^\]]+)?\]/);
-        var id = re.exec(name)[1];
+        var re, id,
+            name = element.name;
+        if(name.indexOf('[') !== -1) {
+            re = /\[([^\]]+)?\]/;
+        } else {
+            re = /_([^\]]+)?_/; // just to support file-type-option
+        }
+        id = re.exec(name) && re.exec(name)[1];
 
         if(id) {
             return id;
-        } else {
-            return undefined;
         }
     }
 
