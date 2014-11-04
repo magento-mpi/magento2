@@ -76,7 +76,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_escaper = $escaper;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
-        $this->_requestVar = 'id';
+        $this->_requestVar = 'cat';
     }
 
     /**

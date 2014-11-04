@@ -20,7 +20,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      */
     public function apply(\Magento\Framework\App\RequestInterface $request)
     {
-        $attributeValue = $request->getParam($this->_requestVar);
+        $attributeValue = $request->getParam($this->_requestVar) ?: $request->getParam('id');
         if (empty($attributeValue)) {
             return $this;
         }

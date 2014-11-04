@@ -149,7 +149,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         return $this;
     }
 
-
     /**
      * Add search query filter
      *
