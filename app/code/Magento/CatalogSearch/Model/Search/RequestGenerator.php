@@ -48,25 +48,27 @@ class RequestGenerator
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
             if ($attribute->getIsFilterable()) {
-                $queryName = $attribute->getAttributeCode() . '_query';
-                $request['queries']['quick_search_container']['queryReference'][] = [
-                    'clause' => 'should',
-                    'ref' => $queryName,
-                ];
-                $filterName = $attribute->getAttributeCode() . '_filter';
-                $request['queries'][$queryName] = [
-                    'name' => $queryName,
-                    'type' => 'filteredQuery',
-                    'filterReference' => [['ref' => $filterName]]
-                ];
-                $request['filters'][$filterName] = [
-                    'type' => 'termFilter',
-                    'name' => $filterName,
-                    'field' => $attribute->getAttributeCode(),
-                    'value' => '$' . $attribute->getAttributeCode() . '$',
-                ];
-
                 if (!in_array($attribute->getAttributeCode(), ['price', 'catagory_ids'])) {
+
+                    $queryName = $attribute->getAttributeCode() . '_query';
+
+                    $request['queries']['quick_search_container']['queryReference'][] = [
+                        'clause' => 'should',
+                        'ref' => $queryName,
+                    ];
+                    $filterName = $attribute->getAttributeCode() . '_filter';
+                    $request['queries'][$queryName] = [
+                        'name' => $queryName,
+                        'type' => 'filteredQuery',
+                        'filterReference' => [['ref' => $filterName]]
+                    ];
+                    $request['filters'][$filterName] = [
+                        'type' => 'termFilter',
+                        'name' => $filterName,
+                        'field' => $attribute->getAttributeCode(),
+                        'value' => '$' . $attribute->getAttributeCode() . '$',
+                    ];
+
                     $bucketName = $attribute->getAttributeCode() . '_bucket';
                     $request['aggregations'][$bucketName] = [
                         'type' => 'termBucket',

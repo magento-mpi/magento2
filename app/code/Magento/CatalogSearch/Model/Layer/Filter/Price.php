@@ -56,4 +56,38 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 
         return $data;
     }
+
+
+    /**
+     * Apply price range filter
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return $this
+     */
+    public function apply(\Magento\Framework\App\RequestInterface $request)
+    {
+        /**
+         * Filter must be string: $fromPrice-$toPrice
+         */
+        $filter = $request->getParam($this->getRequestVar());
+        if (!$filter || is_array($filter)) {
+            return $this;
+        }
+
+
+        $filter = $this->_validateFilter($filter);
+        if (!$filter) {
+            return $this;
+        }
+
+        list($from, $to) = $filter;
+        $this->getLayer()->getProductCollection()->addFieldToFilter('price', ['from' => $from, 'to' => $to]);
+
+
+        $this->getLayer()->getState()->addFilter(
+            $this->_createItem($this->_renderRangeLabel(empty($from) ? 0 : $from, $to), $filter)
+        );
+
+        return $this;
+    }
 }

@@ -16,7 +16,8 @@
         <queries>
             <query xsi:type="boolQuery" name="quick_search_container" boost="1">
                 <queryReference clause="should" ref="search" />
-                <queryReference clause="should" ref="category"/>
+                <queryReference clause="must" ref="category"/>
+                <queryReference clause="must" ref="price"/>
             </query>
             <query xsi:type="matchQuery" value="$search_term$*" name="search">
                 <match field="name" boost="1"/>
@@ -24,9 +25,13 @@
             <query xsi:type="filteredQuery" name="category">
                 <filterReference clause="must" ref="category_filter"/>
             </query>
+            <query xsi:type="filteredQuery" name="price">
+                <filterReference clause="must" ref="price_filter"/>
+            </query>
         </queries>
         <filters>
             <filter xsi:type="termFilter" name="category_filter" field="category_ids" value="$category_ids$"/>
+            <filter xsi:type="rangeFilter" name="price_filter" field="price" from="$price.from$" to="$price.to$"/>
         </filters>
         <aggregations>
             <bucket name="price_bucket" field="price" xsi:type="dynamicBucket" method="$price_dynamic_algorithm$">
