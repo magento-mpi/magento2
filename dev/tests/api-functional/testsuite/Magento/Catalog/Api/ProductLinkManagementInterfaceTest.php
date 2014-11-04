@@ -24,21 +24,9 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
      */
     protected $objectManager;
 
-    /**
-     * @var string
-     */
-    protected $productSku;
-
-    /**
-     * @var string
-     */
-    protected $linkType;
-
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->productSku = 'simple';
-        $this->linkType = 'related';
     }
 
     /**
@@ -105,42 +93,49 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
      */
     public function testAssign()
     {
-        $this->markTestIncomplete('TBD');
-        $productData = [
-                ProductLinkInterface::LINKED_PRODUCT_TYPE => 'virtual',
-                ProductLinkInterface::LINKED_PRODUCT_SKU => 'virtual-product',
-                ProductLinkInterface::POSITION => 100,
-                ProductLinkInterface::PRODUCT_SKU => 'simple',
-                ProductLinkInterface::LINK_TYPE => 'related',
+        $linkType = 'related';
+        $productSku = 'simple';
+        $linkData = [
+            ProductLinkInterface::LINKED_PRODUCT_TYPE => 'virtual',
+            ProductLinkInterface::LINKED_PRODUCT_SKU => 'virtual-product',
+            ProductLinkInterface::POSITION => 100,
+            ProductLinkInterface::PRODUCT_SKU => 'simple',
+            ProductLinkInterface::LINK_TYPE => 'related',
         ];
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . $this->productSku . '/links/' . $this->linkType,
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Assign'
+                'operation' => self::SERVICE_NAME . 'SetProductLinks'
             ]
         ];
 
         $arguments = [
-            'productSku' => $this->productSku,
-            'items' => ['related' => $productData],
-            'type' => $this->linkType
+            'productSku' => $productSku,
+            'items' => [$linkData],
+            'type' => $linkType
         ];
 
         $this->_webApiCall($serviceInfo, $arguments);
-        $actual = $this->getLinkedProducts($this->productSku, 'related');
+        $actual = $this->getLinkedProducts($productSku, 'related');
         array_walk($actual, function (&$item) {
             $item = $item->__toArray();
         });
-        $this->assertEquals([$this->productData], $actual);
+        $this->assertEquals([$linkData], $actual);
     }
 
-
+    /**
+     * Get list of linked products
+     *
+     * @param string $sku
+     * @param string $linkType
+     * @return \Magento\Catalog\Api\Data\ProductLinkInterface[]
+     */
     protected function getLinkedProducts($sku, $linkType)
     {
         /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */

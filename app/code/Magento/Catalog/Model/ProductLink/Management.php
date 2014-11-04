@@ -9,10 +9,10 @@
 namespace Magento\Catalog\Model\ProductLink;
 
 use Magento\Catalog\Api\Data;
-use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Catalog\Api\Data\ProductLinkInterface as ProductLinkInterface;
+use Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Catalog\Api\Data\ProductLinkInterface as ProductLinkInterface;
 
 class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
 {
@@ -88,43 +88,33 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
      */
     public function setProductLinks($productSku, $type, array $items)
     {
-        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface[] $items */
-        $linkedSkuList = [];
+        $product = $this->productRepository->get($productSku);
+        $assignedSkuList = [];
+        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $link */
+        foreach($items as $link) {
+            $assignedSkuList[] = $link->getLinkedProductSku();
+        }
+        $linkedProductIds = $this->productResource->getProductsIdsBySkus($assignedSkuList);
+
+        $links = [];
+        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface[] $items*/
         foreach ($items as $link) {
-            $linkedSkuList[] = $link->getLinkedProductSku();
-            $linkedSkuList[] = $link->getProductSku();
-        }
-        $linkedSkuList = array_unique($linkedSkuList);
-        $linkedProductIds = $this->productResource->getProductsIdsBySkus($linkedSkuList);
-
-        $linksData = [];
-        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $linkedProduct*/
-        foreach ($items as $linkedProduct) {
-            if (!isset($linkedProductIds[$linkedProduct->getLinkedProductSku()])) {
+            $data = $link->__toArray();
+            $linkedSku = $link->getLinkedProductSku();
+            if (!isset($linkedProductIds[$linkedSku])) {
                 throw new NoSuchEntityException(
-                    sprintf("Product with SKU \"%s\" does not exist", $linkedProduct->getLinkedProductSku())
+                    sprintf("Product with SKU \"%s\" does not exist", $linkedSku)
                 );
             }
-
-            if (!isset($linkedProductIds[$linkedProduct->getProductSku()])) {
-                throw new NoSuchEntityException(
-                    sprintf("Product with SKU \"%s\" does not exist", $linkedProduct->getProductSku())
-                );
-            }
-
-            $linksData[$linkedProduct->getProductSku()][$linkedProduct->getLinkType()][] = $linkedProduct;
+            $data['product_id'] = $linkedProductIds[$linkedSku];
+            $links[$linkedProductIds[$linkedSku]] = $data;
         }
-
-        foreach ($linksData as $productSku => $links) {
-            try {
-                $product = $this->productRepository->get($productSku);
-                $this->linkInitializer->initializeLinks($product, $links);
-                $product->save();
-            } catch (\Exception $exception) {
-                throw new CouldNotSaveException('Invalid data provided for linked products');
-            }
+        $this->linkInitializer->initializeLinks($product, [$type => $links]);
+        try {
+            $product->save();
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException('Invalid data provided for linked products');
         }
-
         return true;
     }
 }
