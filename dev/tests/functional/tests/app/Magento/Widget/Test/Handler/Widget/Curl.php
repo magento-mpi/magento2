@@ -32,6 +32,7 @@ class Curl extends AbstractCurl
         ],
         'code' => [
             'CMS Page Link' => 'cms_page_link',
+            'Banner Rotator' => 'magento_banner',
         ],
         'block' => [
             'Main Content Area' => 'content',
@@ -44,6 +45,7 @@ class Curl extends AbstractCurl
             'Page Layouts' => 'page_layouts'
         ],
         'template' => [
+            'Banner Block Template' => 'widget/block.phtml',
             'CMS Page Link Block Template' => 'widget/link/link_block.phtml'
         ],
     ];
@@ -140,7 +142,7 @@ class Curl extends AbstractCurl
     {
         $widgetInstancePageGroup['layout_handle'] = 'default';
         $widgetInstancePageGroup['for'] = 'all';
-        if (!isset($group['template'])) {
+        if (!isset($widgetInstancePageGroup['template'])) {
             $widgetInstancePageGroup['template'] = $this->widgetInstanceTemplate;
         }
 
