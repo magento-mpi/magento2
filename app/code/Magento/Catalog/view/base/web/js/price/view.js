@@ -9,13 +9,9 @@ define(function (require) {
 
     var Component   = require('Magento_Catalog/js/price/component'),
         Class       = require('Magento_Ui/js/lib/class'),
-        Handlebars  = require('handlebars'),
         $           = require('jquery'),
         _           = require('underscore'),
-        template    = require('text!Magento_Catalog/templates/price_view.html'),
         utils       = require('../price-utils');
-
-    Handlebars = Handlebars || window.Handlebars;
 
     var formatPrice = function (format, amount, isShowSign) {
         return utils.formatPrice(amount, format, isShowSign);
@@ -25,8 +21,6 @@ define(function (require) {
 
         initialize: function (config) {
             _.extend(this, defaults, config);
-
-            this.element = $(this.element);
 
             this.initListeners()
                 .process();
@@ -91,10 +85,8 @@ define(function (require) {
             };
         },
 
-        _render: Handlebars.compile(template),
-
         render: function (data) {
-            this.element.html(this._render(data));
+            
         },
     });
 
