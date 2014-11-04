@@ -12,7 +12,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  *
  * @codeCoverageIgnore
  */
-class CustomerBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class CustomerBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set customer id

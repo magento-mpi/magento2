@@ -7,13 +7,13 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-class DataObjectArrayBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class DataObjectArrayBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDataObject[] $items
      */
     public function setItems(array $items)
     {
-        $this->_data['items'] = $items;
+        $this->data['items'] = $items;
     }
 }

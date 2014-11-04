@@ -7,14 +7,14 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-class SimpleBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class SimpleBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param int $entityId
      */
     public function setEntityId($entityId)
     {
-        $this->_data['entityId'] = $entityId;
+        $this->data['entityId'] = $entityId;
     }
 
     /**
@@ -22,6 +22,6 @@ class SimpleBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setName($name)
     {
-        $this->_data['name'] = $name;
+        $this->data['name'] = $name;
     }
 }

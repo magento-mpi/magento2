@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Framework\Api\AbstractExtensibleObject;
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {

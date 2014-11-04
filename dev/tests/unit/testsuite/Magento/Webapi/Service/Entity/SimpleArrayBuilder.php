@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
-class SimpleArrayBuilder extends AbstractExtensibleObjectBuilder
+class SimpleArrayBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @param array $ids
@@ -17,7 +17,7 @@ class SimpleArrayBuilder extends AbstractExtensibleObjectBuilder
      */
     public function setIds($ids)
     {
-        $this->_data['ids'] = $ids;
+        $this->data['ids'] = $ids;
         return $this;
     }
 }

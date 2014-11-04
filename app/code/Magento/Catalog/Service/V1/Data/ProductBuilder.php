@@ -13,7 +13,7 @@ use Magento\Framework\Api\AttributeValueBuilder;
 /**
  * @codeCoverageIgnore
  */
-class ProductBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class ProductBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory

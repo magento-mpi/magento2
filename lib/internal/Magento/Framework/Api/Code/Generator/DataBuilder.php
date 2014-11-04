@@ -90,36 +90,33 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        $constructorDefinition = [];
-        if ($this->getDataType() == self::TYPE_DATA_MODEL) {
-            $constructorDefinition = [
-                'name' => '__construct',
-                'parameters' => [
-                    ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
-                    ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
-                    ['name' => 'attributeValueBuilder', 'type' => '\Magento\Framework\Api\AttributeDataBuilder'],
-                ],
-                'docblock' => [
-                    'shortDescription' => 'Initialize the builder',
-                    'tags' => [
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\ObjectManager $objectManager'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\Api\MetadataServiceInterface $metadataService'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder'
-                        ]
+        $constructorDefinition = [
+            'name' => '__construct',
+            'parameters' => [
+                ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
+                ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
+                ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
+            ],
+            'docblock' => [
+                'shortDescription' => 'Initialize the builder',
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => '\Magento\Framework\ObjectManager $objectManager'
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\Magento\Framework\Api\MetadataServiceInterface $metadataService'
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
                     ]
-                ],
-                'body' => "parent::__construct(\$objectManager, \$metadataService, \$attributeValueBuilder, "
-                    . "'" . $this->_getSourceClassName(). "');"
-            ];
-        }
+                ]
+            ],
+            'body' => "parent::__construct(\$objectManager, \$metadataService, \$objectManagerConfig, "
+                . "'{$this->_getSourceClassName()}');"
+        ];
         return $constructorDefinition;
     }
 
@@ -176,22 +173,14 @@ class DataBuilder extends EntityAbstract
             ->getDocBlock()
             ->getTag('return')
             ->getType();
-
-        $setterBody = '';
         $fieldName = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName));
-        if ($this->getDataType() == self::TYPE_DATA_OBJECT) {
-            $setterBody = "\$this->_set('{$fieldName}', \$" . lcfirst($propertyName) . ");"
-                . PHP_EOL . "return \$this;";
-        } else if ($this->getDataType() == self::TYPE_DATA_MODEL) {
-            $setterBody = "\$this->" . self::DATA_PROPERTY_NAME . "['"
-                . $fieldName . "'] = \$" . lcfirst($propertyName) . ";" . PHP_EOL . "return \$this;";
-        }
         $methodInfo = [
             'name' => 'set' . $propertyName,
             'parameters' => [
                 ['name' => lcfirst($propertyName)]
             ],
-            'body' => $setterBody,
+            'body' => "\$this->set('{$fieldName}', \$" . lcfirst($propertyName) . ");"
+                . PHP_EOL . "return \$this;",
             'docblock' => [
                 'tags' => [
                     ['name' => 'param', 'description' => $returnType . " \$" . lcfirst($propertyName)],
@@ -238,12 +227,8 @@ class DataBuilder extends EntityAbstract
             ->setName($this->_getResultClassName())
             ->addProperties($this->_getClassProperties())
             ->addMethods($this->_getClassMethods())
-            ->setClassDocBlock($this->_getClassDocBlock());
-        if ($this->getDataType() == self::TYPE_DATA_MODEL) {
-            $this->_classGenerator->setExtendedClass('\Magento\Framework\Api\ExtensibleDataBuilder');
-        } else if ($this->getDataType() == self::TYPE_DATA_OBJECT) {
-            $this->_classGenerator->setExtendedClass('\Magento\Framework\Api\AbstractExtensibleObjectBuilder');
-        }
+            ->setClassDocBlock($this->_getClassDocBlock())
+            ->setExtendedClass('\Magento\Framework\Api\CompositeExtensibleDataBuilder');
         return $this->_getGeneratedCode();
     }
 
@@ -253,35 +238,6 @@ class DataBuilder extends EntityAbstract
     protected function _getSourceClassName()
     {
         return parent::_getSourceClassName() . 'Interface';
-    }
-
-    /**
-     * Identify type of objects which should be built with generated builder. Value can be one of self::TYPE_DATA_*.
-     *
-     * @return string
-     * @throws \LogicException
-     */
-    protected function getDataType()
-    {
-        if ($this->currentDataType === null) {
-            $sourceClassPreference = $this->objectManagerConfig->getPreference($this->_getSourceClassName());
-            if (empty($sourceClassPreference)) {
-                throw new \LogicException(
-                    "Preference for {$this->_getSourceClassName()} is not defined."
-                );
-            }
-            if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Api\AbstractSimpleObject')) {
-                $this->currentDataType = self::TYPE_DATA_OBJECT;
-            } else if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {
-                $this->currentDataType = self::TYPE_DATA_MODEL;
-            } else {
-                throw new \LogicException(
-                    'Preference of ' . $this->_getSourceClassName()
-                    . ' must extend from AbstractSimpleObject or AbstractExtensibleModel'
-                );
-            }
-        }
-        return $this->currentDataType;
     }
 
     /**

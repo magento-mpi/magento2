@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class CustomAttributeNestedDataObjectBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class CustomAttributeNestedDataObjectBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param string $name
@@ -17,7 +17,7 @@ class CustomAttributeNestedDataObjectBuilder extends \Magento\Framework\Api\Abst
      */
     public function setName($name)
     {
-        $this->_data['name'] = $name;
+        $this->data['name'] = $name;
         return $this;
     }
 }

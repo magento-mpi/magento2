@@ -16,7 +16,7 @@ use Magento\Framework\Api\MetadataServiceInterface;
  *
  * @method TaxDetails create()
  */
-class TaxDetailsBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class TaxDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Applied Tax data object builder

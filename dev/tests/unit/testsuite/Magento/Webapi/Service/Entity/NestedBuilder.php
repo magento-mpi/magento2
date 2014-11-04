@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
-class NestedBuilder extends AbstractExtensibleObjectBuilder
+class NestedBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @param string $details
@@ -17,7 +17,7 @@ class NestedBuilder extends AbstractExtensibleObjectBuilder
      */
     public function setDetails($details)
     {
-        $this->_data['details'] = $details;
+        $this->data['details'] = $details;
         return $this;
     }
 }

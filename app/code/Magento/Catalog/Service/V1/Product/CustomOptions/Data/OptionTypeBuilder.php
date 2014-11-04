@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 /**
  * @codeCoverageIgnore
  */
-class OptionTypeBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class OptionTypeBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set option type label

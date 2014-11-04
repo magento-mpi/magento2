@@ -13,7 +13,7 @@ namespace Magento\Framework\Api;
  *
  * @method Filter create()
  */
-class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class FilterBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set field
@@ -23,7 +23,7 @@ class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setField($field)
     {
-        $this->_data['field'] = $field;
+        $this->data['field'] = $field;
         return $this;
     }
 
@@ -35,7 +35,7 @@ class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setValue($value)
     {
-        $this->_data['value'] = $value;
+        $this->data['value'] = $value;
         return $this;
     }
 
@@ -47,7 +47,7 @@ class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setConditionType($conditionType)
     {
-        $this->_data['condition_type'] = $conditionType;
+        $this->data['condition_type'] = $conditionType;
         return $this;
     }
 }

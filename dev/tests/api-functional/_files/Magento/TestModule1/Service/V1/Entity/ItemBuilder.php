@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class ItemBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class ItemBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**#@+
      * Custom attribute code constants
@@ -24,7 +24,7 @@ class ItemBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
      */
     public function setItemId($itemId)
     {
-        $this->_data['item_id'] = $itemId;
+        $this->data['item_id'] = $itemId;
         return $this;
     }
 
@@ -35,7 +35,7 @@ class ItemBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
      */
     public function setName($name)
     {
-        $this->_data['name'] = $name;
+        $this->data['name'] = $name;
         return $this;
     }
 

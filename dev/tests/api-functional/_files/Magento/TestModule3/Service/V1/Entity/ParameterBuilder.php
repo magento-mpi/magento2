@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule3\Service\V1\Entity;
 
-class ParameterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class ParameterBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set Name.
@@ -17,7 +17,7 @@ class ParameterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBu
      */
     public function setName($name)
     {
-        $this->_data['name'] = $name;
+        $this->data['name'] = $name;
         return $this;
     }
 
@@ -29,7 +29,7 @@ class ParameterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBu
      */
     public function setValue($value)
     {
-        $this->_data['value'] = $value;
+        $this->data['value'] = $value;
         return $this;
     }
 }

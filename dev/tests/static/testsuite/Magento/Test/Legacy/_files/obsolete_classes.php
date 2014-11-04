@@ -2781,7 +2781,7 @@ return array(
     ['\Magento\Framework\Api\AbstractObject', 'Magento\Framework\Api\AbstractSimpleObject'],
     [
         '\Magento\Framework\Api\Eav\AbstractObjectBuilder',
-        'Magento\Framework\Api\AbstractExtensibleObjectBuilder'
+        'Magento\Framework\Api\ExtensibleObjectBuilder'
     ],
     [
         '\Magento\Framework\Api\AbstractObjectBuilder',
