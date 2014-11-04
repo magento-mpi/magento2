@@ -14,6 +14,9 @@
 
     <?php if ($_product->isSaleable() && $this->isConfigured($_product)): ?>
         <fieldset class="fieldset giftcard send">
+            <legend class="legend">
+                <span><?php echo __('Gift Card Information'); ?></span>
+            </legend><br>
             <div class="field sender required">
                 <label for="giftcard_sender_name" class="label"><span><?php echo __('Sender Name'); ?></span></label>
                 <div class="control">

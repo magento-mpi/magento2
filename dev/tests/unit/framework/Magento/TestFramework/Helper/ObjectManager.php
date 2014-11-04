@@ -88,7 +88,7 @@ class ObjectManager
     protected function _getResourceModelMock()
     {
         $resourceMock = $this->_testObject->getMock(
-            'Magento\Install\Model\Resource\Resource',
+            'Magento\Framework\Module\Resource',
             array('getIdFieldName', '__sleep', '__wakeup'),
             array(),
             '',

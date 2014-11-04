@@ -8,33 +8,45 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="additional.product.info">
-        <block class="Magento\AdvancedCheckout\Block\Sku\Products\Info" name="sku.product.info" template="cart/sku/failed/info.phtml"/>
-    </referenceBlock>
-    <referenceBlock name="checkout.cart.form">
-        <block class="Magento\AdvancedCheckout\Block\Sku\Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after" cacheable="false">
-            <arguments>
-                <argument name="overridden_templates" xsi:type="array">
-                    <item name="default" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
-                    <item name="simple" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
-                    <item name="downloadable" xsi:type="string">Magento_Checkout::cart/item/default.phtml</item>
-                    <item name="undefined" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
-                </argument>
-                <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
-    <referenceContainer name="checkout.cart.empty.widget">
-        <block class="Magento\AdvancedCheckout\Block\Sku\Products" after="-" template="cart/sku/failed.phtml" as="shopping.cart.table.after" cacheable="false">
-            <arguments>
-                <argument name="overridden_templates" xsi:type="array">
-                    <item name="default" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
-                    <item name="simple" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
-                    <item name="downloadable" xsi:type="string">Magento_Checkout::cart/item/default.phtml</item>
-                    <item name="undefined" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
-                </argument>
-                <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers</argument>
-            </arguments>
-        </block>
-    </referenceContainer>
+    <body>
+        <referenceBlock name="additional.product.info">
+            <block class="Magento\AdvancedCheckout\Block\Sku\Products\Info" name="sku.product.info" template="cart/sku/failed/info.phtml"/>
+        </referenceBlock>
+        <referenceBlock name="checkout.cart.form">
+            <block class="Magento\AdvancedCheckout\Block\Sku\Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after" cacheable="false">
+                <arguments>
+                    <argument name="overridden_templates" xsi:type="array">
+                        <item name="default" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="bundle" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="configurable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="downloadable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="giftcard" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="grouped" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="simple" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="virtual" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="undefined" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                    </argument>
+                    <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceContainer name="checkout.cart.empty.widget">
+            <block class="Magento\AdvancedCheckout\Block\Sku\Products" after="-" template="cart/sku/failed.phtml" as="shopping.cart.table.after" cacheable="false">
+                <arguments>
+                    <argument name="overridden_templates" xsi:type="array">
+                        <item name="default" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="bundle" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="configurable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="downloadable" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="giftcard" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="grouped" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="simple" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="virtual" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                        <item name="undefined" xsi:type="string">Magento_AdvancedCheckout::cart/item/failed.phtml</item>
+                    </argument>
+                    <argument name="renderer_list_name" xsi:type="string">checkout.cart.item.renderers</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

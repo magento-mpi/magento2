@@ -8,10 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="customer_edit_tabs">
-        <action method="addTab">
-            <argument name="name" xsi:type="string">customer_edit_tab_payment_profile</argument>
-            <argument name="block" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment\Profile</argument>
-        </action>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="customer_edit_tabs">
+            <action method="addTab">
+                <argument name="name" xsi:type="string">customer_edit_tab_payment_profile</argument>
+                <argument name="block" xsi:type="string">Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment\Profile</argument>
+            </action>
+        </referenceBlock>
+    </body>
 </page>
