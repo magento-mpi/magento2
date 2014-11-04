@@ -24,15 +24,23 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
     protected $optionResource;
 
     /**
+     * @var Converter
+     */
+    protected $converter;
+
+    /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Catalog\Model\Resource\Product\Option $optionResource
+     * @param Converter $converter
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        \Magento\Catalog\Model\Resource\Product\Option $optionResource
+        \Magento\Catalog\Model\Resource\Product\Option $optionResource,
+        \Magento\Catalog\Model\Product\Option\Converter $converter
     ) {
         $this->productRepository = $productRepository;
         $this->optionResource = $optionResource;
+        $this->converter = $converter;
     }
 
     /**
@@ -73,15 +81,7 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
     {
         $productSku = $option->getProductSku();
         $product = $this->productRepository->get($productSku, true);
-        $optionData = $option->getData();
-        $values = $option->getData('values');
-        $valuesData = [];
-        if (!empty($values)) {
-            foreach ($values as $key => $value) {
-                $valuesData[$key] = $value->getData();
-            }
-        }
-        $optionData['values'] = $valuesData;
+        $optionData = $this->converter->toArray($option);
         if ($option->getOptionId()) {
             if (!$product->getOptionById($option->getOptionId())) {
                 throw new NoSuchEntityException();
@@ -123,10 +123,10 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
      */
     public function deleteByIdentifier($productSku, $optionId)
     {
-        $product = $this->productRepository->get($productSku);
-        $options = $this->getList($productSku);
-        $option = $this->get($productSku, $optionId);
-        if (!$option->getId() || !isset($options[$option->getId()])) {
+        $product = $this->productRepository->get($productSku, true);
+        $options = $product->getOptions();
+        $option = $product->getOptionById($optionId);
+        if (is_null($option)) {
             throw NoSuchEntityException::singleField('optionId', $optionId);
         }
         unset($options[$optionId]);
