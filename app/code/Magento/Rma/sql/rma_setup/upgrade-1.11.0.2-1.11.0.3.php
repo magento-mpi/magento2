@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Rma\Model\Resource\Setup */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
 $tableName = $installer->getTable('sales_flat_order_item');
