@@ -187,6 +187,7 @@ class Metadata implements \Iterator, \ArrayAccess
             'sortOrder' => ['eav_map' => 'sort_order'],
             'notice' => ['eav_map' => 'note'],
             'default' => ['eav_map' => 'default_value'],
+            'description' => [],
             'validation' => [],
             'fieldGroup' => []
         ];
