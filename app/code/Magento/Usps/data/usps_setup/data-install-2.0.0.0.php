@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 $configDataTable = $installer->getTable('core_config_data');
 $connection = $installer->getConnection();

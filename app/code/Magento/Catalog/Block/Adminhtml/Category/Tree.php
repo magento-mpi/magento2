@@ -9,8 +9,6 @@
 
 /**
  * Categories tree block
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Category;
 

@@ -14,22 +14,15 @@ namespace Magento\Config;
 class FileIterator implements \Iterator, \Countable
 {
     /**
-     * @var string
-     */
-    private $basePath;
-
-    /**
      * @var array
      */
     protected $paths = array();
 
     /**
-     * @param string $basePath
      * @param array $paths
      */
-    public function __construct($basePath, array $paths)
+    public function __construct(array $paths)
     {
-        $this->basePath = $basePath;
         $this->paths = $paths;
     }
 
@@ -50,7 +43,7 @@ class FileIterator implements \Iterator, \Countable
      */
     public function current()
     {
-        return file_get_contents($this->basePath . $this->key());
+        return file_get_contents($this->key());
     }
 
     /**

@@ -11,7 +11,6 @@ namespace Magento\Setup\Module\Setup;
 use Magento\Framework\Filesystem\Directory\Write;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Setup\Model\FilesystemFactory;
 
 /**
  * Deployment configuration model
@@ -61,13 +60,6 @@ class Config
     ];
 
     /**
-     * Filesystem
-     *
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Config Directory
      *
      * @var Write
@@ -77,15 +69,12 @@ class Config
     /**
      * Default Constructor
      *
-     * @param FilesystemFactory $fileSystemFactory
+     * @param Filesystem $fileSystem
      * @param string[] $data
      */
-    public function __construct(
-        FilesystemFactory $fileSystemFactory,
-        $data = []
-    ) {
-        $this->filesystem = $fileSystemFactory->create();
-        $this->configDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
+    public function __construct(Filesystem $fileSystem, $data = [])
+    {
+        $this->configDirectory = $fileSystem->getDirectoryWrite(DirectoryList::CONFIG);
 
         if ($data) {
             $this->update($data);

@@ -6,8 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Rma\Model\Resource\Setup */
-/** @var $installer \Magento\Rma\Model\Resource\Setup */
+/** @var $this \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
 /**
