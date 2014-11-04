@@ -34,7 +34,9 @@ class Setup implements SetupInterface
     protected $postInstaller;
 
     /**
+     * @param State $appState
      * @param Setup\Order $orderSetup
+     * @param PostInstaller $postInstaller
      */
     public function __construct(
         State $appState,
@@ -53,6 +55,5 @@ class Setup implements SetupInterface
     public function run()
     {
         $this->postInstaller->addSetupResource($this->orderSetup);
-
     }
 }
