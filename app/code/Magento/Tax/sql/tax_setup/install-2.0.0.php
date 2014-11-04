@@ -478,8 +478,8 @@ $table = $installer->getConnection()->newTable(
         'associated_item_id',
         $installer->getTable('sales_flat_order_item'),
         'item_id',
-        null,
-        null
+        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
     )->addForeignKey(
         $installer->getFkName('sales_order_tax_item', 'tax_id', 'sales_order_tax', 'tax_id'),
         'tax_id',
