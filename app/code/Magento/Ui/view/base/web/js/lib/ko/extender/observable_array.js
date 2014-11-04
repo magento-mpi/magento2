@@ -72,6 +72,10 @@ define([
 
         every: function (predicate, ctx) {
             return _.every(this(), predicate, ctx);
+        },
+
+        groupBy: function (iteratee, ctx) {
+            return _.groupBy(this(), iteratee, ctx);
         }
     });
 });

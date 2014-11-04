@@ -52,29 +52,49 @@ define([
         initObservable: function () {
             __super__.initObservable.apply(this, arguments);
 
-            this.displayed = {};
-
             this.observe({
-                    'noPreview': true,
-                    'indexed':   {},
-                    'body':      [],
-                    'head':      []
-                });
+                'noPreview': true,
+                'body':      [],
+                'head':      []
+            });
+
+            return this;
+        },
+
+        initProperties: function () {
+            __super__.initProperties.apply(this, arguments);
+
+            this.displayed  = {};
+            this.indexed    = {};
 
             return this;
         },
 
         initElement: function (elem) {
-            var region  = elem.displayArea || this.displayArea,
-                indexed = this.indexed(); 
-
             __super__.initElement.apply(this, arguments);
-            
-            this[region].push(elem);
-            
-            indexed[elem.index] = elem;
 
-            this.indexed(indexed);
+            this.insertToArea(elem)
+                .insertToIndexed(elem);
+        },
+
+        insertToArea: function (elem) {
+            var regions = [];
+
+            elem.displayArea = elem.displayArea || this.displayArea;
+
+            regions = this.elems.groupBy('displayArea');
+
+            _.each(regions, function (elems, region) {
+                this[region](elems);
+            }, this);
+
+            return this;
+        },
+
+        insertToIndexed: function (elem) {
+            this.indexed[elem.index] = elem;
+
+            return this;
         },
 
         formatPreviews: function(previews){
@@ -95,7 +115,7 @@ define([
         },
 
         getPreview: function(items){
-            var elems       = this.indexed(),
+            var elems       = this.indexed,
                 displayed   = this.displayed;
 
             items = items.map(function(index){

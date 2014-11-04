@@ -41,6 +41,7 @@ define([
             this.provider   = registry.get(this.provider);
 
             this.initObservable()
+                .initProperties()
                 .initListeners();
         },
 
@@ -50,6 +51,10 @@ define([
                 'elems':      []
             });
 
+            return this;
+        },
+
+        initProperties: function () {
             return this;
         },
 
