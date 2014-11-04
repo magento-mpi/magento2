@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Downloadable\Model\Resource\Setup */
+
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 /**
  * Add attributes to the eav/attribute table

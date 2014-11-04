@@ -15,8 +15,6 @@ require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Cl
 require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
 
 $testsBaseDir = dirname(__DIR__);
-$testsTmpDir = "{$testsBaseDir}/tmp";
-$magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
 $includePath->addIncludePath(
@@ -25,52 +23,43 @@ $includePath->addIncludePath(
         "{$testsBaseDir}/testsuite",
         "{$testsBaseDir}/lib",
         "{$integrationTestsDir}/framework",
-        "{$integrationTestsDir}/lib"
     )
 );
 
+$logWriter = new \Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new \Zend_Log($logWriter);
+
 /* Bootstrap the application */
-$invariantSettings = array('TESTS_LOCAL_CONFIG_EXTRA_FILE' => '../integration/etc/integration-tests-config.xml');
+$settings = new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants());
+$shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger);
+
+$application = \Magento\TestFramework\WebApiApplication::getInstance(
+    $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
+    BP . '/app/etc/',
+    glob(BP . '/app/etc/*/module.xml'),
+    $settings->get('TESTS_MAGENTO_MODE'),
+    $shell
+);
+if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
+    if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
+        $application->cleanup();
+    }
+    $application->install();
+}
+
 $bootstrap = new \Magento\TestFramework\Bootstrap(
-    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
+    $settings,
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Framework\Profiler\Driver\Standard()),
-    new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer()),
-    $testsTmpDir
+    $shell,
+    $application,
+    new \Magento\TestFramework\Bootstrap\MemoryFactory($shell)
 );
 $bootstrap->runBootstrap();
+$application->initialize();
+
 \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
-\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
-
-/** Magento installation */
-if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
-    if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
-        $unInstallCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/uninstall.php')));
-        passthru($unInstallCmd, $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
-        echo $unInstallCmd . "\n";
-    }
-    $installConfigFile = $testsBaseDir . '/config/install.php';
-    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "{$installConfigFile}.dist";
-    $installConfig = require $installConfigFile;
-    $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
-
-    /* Install application */
-    if ($installOptions) {
-        $installCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php')));
-        foreach ($installOptions as $optionName => $optionValue) {
-            $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
-        }
-        echo $installCmd . "\n";
-        passthru($installCmd, $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
-    }
-}
-
-/* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($bootstrap, $installCmd, $installConfigFile, $installConfig, $installExitCode);
+\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));
+unset($bootstrap, $application, $settings, $shell);

@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
 $oldTabName = 'Search Optimization';
 $newTabName = 'Search Engine Optimization';

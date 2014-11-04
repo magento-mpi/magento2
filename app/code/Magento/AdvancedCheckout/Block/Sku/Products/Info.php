@@ -137,7 +137,7 @@ class Info extends \Magento\Framework\View\Element\Template
                     'checkout/cart/configureFailed',
                     array('id' => $item->getProductId(), 'qty' => $item->getQty(), 'sku' => $item->getSku())
                 );
-                return '<a href="' . $link . '" class="configure-popup">' . __(
+                return '<a href="' . $link . '" class="action configure">' . __(
                     "Specify the product's options"
                 ) . '</a>';
             case Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
