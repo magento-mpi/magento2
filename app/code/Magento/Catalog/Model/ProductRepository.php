@@ -123,7 +123,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\ProductInterface $product, $saveOption = false)
+    public function save(\Magento\Catalog\Api\Data\ProductInterface $product, $saveOptions = false)
     {
         $this->initializationHelper->initialize($product);
         $validationResult = $this->resourceModel->validate($product);
@@ -133,8 +133,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             );
         }
         try {
-            if ($saveOption)
-            {
+            if ($saveOptions) {
                 $product->setCanSaveCustomOptions(true);
             }
             $this->resourceModel->save($product);
@@ -189,17 +188,17 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
         $collection = $this->collectionFactory->create();
 
-        $searchCriteria1 = $this->searchCriteriaBuilder->addFilter(
+        $extendedSearchCriteria = $this->searchCriteriaBuilder->addFilter(
             [
                 $this->filterBuilder
                     ->setField('attribute_set_id')
-                    ->setValue(\Magento\Catalog\Api\Data\CategoryAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
+                    ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
                     ->create()
             ]
         );
 
         $customAttributes = [];
-        foreach ($this->metadataService->getList($searchCriteria1->create())->getItems() as $metadata) {
+        foreach ($this->metadataService->getList($extendedSearchCriteria->create())->getItems() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());
         }
         $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');

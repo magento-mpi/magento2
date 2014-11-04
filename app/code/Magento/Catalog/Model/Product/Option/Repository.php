@@ -9,8 +9,6 @@
 namespace Magento\Catalog\Model\Product\Option;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryInterface
@@ -128,7 +126,6 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
         $product = $this->productRepository->get($productSku);
         $options = $this->getList($productSku);
         $option = $this->get($productSku, $optionId);
-        $option->load($optionId);
         if (!$option->getId() || !isset($options[$option->getId()])) {
             throw NoSuchEntityException::singleField('optionId', $optionId);
         }

@@ -18,13 +18,13 @@ interface ProductRepositoryInterface
      * Create product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param bool $saveOption
+     * @param bool $saveOptions
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(ProductInterface $product, $saveOption = false);
+    public function save(ProductInterface $product, $saveOptions = false);
 
     /**
      * Get info about product by product SKU

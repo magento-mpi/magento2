@@ -8,8 +8,6 @@
 
 namespace Magento\Catalog\Model\ProductOptions;
 
-use \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface as OptionType;
-
 class TypeList implements \Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface
 {
     /**
