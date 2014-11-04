@@ -38,7 +38,16 @@ require([
     {
         "name": "product_price_view",
         "provider": "product_price_provider",
-        "container": ".price-box"
+        "element": ".price-box",
+        "priceFormat": {
+            "pattern": "$%s",
+            "precision": 2,
+            "requiredPrecision": 2,
+            "decimalSymbol": ".",
+            "groupSymbol": ",",
+            "groupLength": 3,
+            "integerRequired": 1
+        }
     }
 </script>
 <script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
@@ -47,22 +56,15 @@ require([
         "provider": "product_price_provider",
         "prices": {
             "final": {
-                "amount": 90.00000
+                "base": 90.00000
             },
             "old": {
-                "amount": 100.00000
+                "base": 100.00000
             }
         },
         "config": {
-            "priceFormat": {
-                "pattern": "$%s",
-                "precision": 2,
-                "requiredPrecision": 2,
-                "decimalSymbol": ".",
-                "groupSymbol": ",",
-                "groupLength": 3,
-                "integerRequired": 1
-            }
+            "oldPriceLabel": "Regular Price",
+            "finalPriceLabel": "Special Price"
         }
     }
 </script>
@@ -83,7 +85,9 @@ require([
             }
         },
         "config": {
-            "showBothPrices": true
+            "showBothPrices": true,
+            "exclTaxLabel": "Excl. Tax",
+            "inclTaxLabel": "Incl. Tax"
         }
     }
 </script>
@@ -104,7 +108,7 @@ require([
             }
         },
         "config": {
-
+            "exctFptLabel": "Weeee"
         }
     }
 </script>

@@ -6,30 +6,34 @@
  * @license     {license_link}
  */
 -->
-<div class="price-box price-final_price" data-product-id="1">
+<div class="price-box">
     <span class="special-price">
-        <span class="price-container price-final_price tax weee">
-            <span class="price-label">Special Price</span>
-            <span id="price-including-tax-product-price-1" data-label="Incl. Tax" data-price-amount="108.5" class="price-wrapper price-including-tax">
-                <span class="price">$108.50</span>
+        <span class="price-container tax weee">
+            {{#if oldPrice}}
+            <span class="price-label">{{finalPriceLabel}}</span>
+            {{/if}}
+            <span class="price-wrapper price-including-tax">
+                <span class="price">{{finalPrice}}</span>
             </span>
-
-            <span id="price-excluding-tax-product-price-1" data-label="Excl. Tax" class="price-wrapper price-excluding-tax">
-                <span class="price">$90.00</span>
+            {{#if showBothPrices}}
+            <span data-label="{{exclTaxLabel}}" class="price-wrapper price-excluding-tax">
+                <span class="price">{{finalPriceExcl}}</span>
             </span>
-
-            <span class="weee" data-label="WEEEEEE">
+            {{/if}}
+            <span class="weee">
                 <span class="price">$5.00</span>
             </span>
+            
         </span>
     </span>
+    {{#if oldPrice}}
     <span class="old-price">
         <span class="price-container">
-            <span class="price-label">Regular Price</span>
-            <span id="old-price-1" data-price-amount="120" class="price-wrapper">
-                <span class="price">$120.00</span>
+            <span class="price-label">{{oldPriceLabel}}</span>
+            <span class="price-wrapper">
+                <span class="price">{{oldPrice}}</span>
             </span>
         </span>
     </span>
+    {{/if}} 
 </div>
-

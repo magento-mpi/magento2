@@ -31,15 +31,25 @@ define([
 
         pushPriceData: function () {
             var data = this.provider.data,
-                amount,
-                adjustments;
+                adjustments,
+                base,
+                oldAdjustments;
 
             _.each(this.prices, function (value, type) {
-                amount      = value.amount;
+                base        = value.base;
                 adjustments = value.adjustments;
 
-                amount      && data.set('prices.'      + type, amount);
-                adjustments && data.get('adjustments.' + type, adjustments);
+                !_.isUndefined(base) && data.set('prices.' + type, base);
+
+                if (!_.isUndefined(adjustments) && _.isObject(adjustments)) {
+                    oldAdjustments = data.get('adjustments.' + type) || {};
+
+                    data.set('adjustments.' + type, _.extend(
+                        {},
+                        oldAdjustments,
+                        adjustments
+                    ));
+                }
             });
 
             return this;
