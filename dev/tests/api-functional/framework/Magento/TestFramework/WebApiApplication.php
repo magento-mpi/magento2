@@ -21,6 +21,7 @@ class WebApiApplication extends Application
      * @param string $globalConfigDir
      * @param array $moduleConfigFiles
      * @param string $appMode
+     * @param string $tmpDir
      * @param \Magento\Framework\Shell $shell
      * @return Application|WebApiApplication
      */
@@ -29,6 +30,7 @@ class WebApiApplication extends Application
         $globalConfigDir,
         array $moduleConfigFiles,
         $appMode,
+        $tmpDir,
         \Magento\Framework\Shell $shell
     ) {
         if (!file_exists($installConfigFile)) {
