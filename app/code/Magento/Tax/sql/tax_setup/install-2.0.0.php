@@ -467,9 +467,9 @@ $table = $installer->getConnection()->newTable(
     array('item_id')
 )->addIndex(
     $installer->getIdxName(
-    'sales_order_tax_item',
-    array('tax_id', 'item_id'),
-    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        'sales_order_tax_item',
+        array('tax_id', 'item_id'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('tax_id', 'item_id'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
