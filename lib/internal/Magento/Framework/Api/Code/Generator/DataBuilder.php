@@ -37,9 +37,6 @@ class DataBuilder extends EntityAbstract
     const TYPE_DATA_MODEL = 'data_model';
     /**#@-*/
 
-    /** @var ObjectManagerConfig */
-    protected $objectManagerConfig;
-
     /** @var string */
     protected $currentDataType;
 
@@ -62,8 +59,6 @@ class DataBuilder extends EntityAbstract
         CodeGenerator\CodeGeneratorInterface $classGenerator = null,
         IncludePath $autoLoader = null
     ) {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->objectManagerConfig = $objectManager->get('Magento\Framework\ObjectManager\Config');
         parent::__construct(
             $sourceClassName,
             $resultClassName,

@@ -49,23 +49,14 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     ) {
         $this->modelClassInterface = $modelClassInterface;
         $this->objectManagerConfig = $objectManagerConfig;
-        if ($this->getDataType() == self::TYPE_DATA_MODEL) {
-            $this->currentBuilder = $objectManager->create(
-                'Magento\Framework\Api\ExtensibleDataBuilder',
-                [
-                    'metadataService' => $metadataService,
-                    'modelClassInterface' => $modelClassInterface
-                ]
-            );
-        } else {
-            $this->currentBuilder = $objectManager->create(
-                'Magento\Framework\Api\ExtensibleObjectBuilder',
-                [
-                    'metadataService' => $metadataService,
-                    'modelClassInterface' => $modelClassInterface
-                ]
-            );
-        }
+        $arguments = [
+            'metadataService' => $metadataService,
+            'modelClassInterface' => $modelClassInterface
+        ];
+        $builderClass = ($this->getDataType() == self::TYPE_DATA_MODEL)
+            ? 'Magento\Framework\Api\ExtensibleDataBuilder'
+            : 'Magento\Framework\Api\ExtensibleObjectBuilder';
+        $this->currentBuilder = $objectManager->create($builderClass, $arguments);
     }
 
     /**
