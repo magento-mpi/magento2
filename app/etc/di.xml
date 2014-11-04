@@ -32,6 +32,8 @@
     <preference for="Magento\Framework\Locale\ConfigInterface" type="Magento\Framework\Locale\Config" />
     <preference for="Magento\Framework\Notification\NotifierInterface" type="Magento\Framework\Notification\NotifierPool" />
     <preference for="Magento\Framework\UrlInterface" type="Magento\Framework\Url" />
+    <preference for="Magento\Framework\Url\EncoderInterface" type="Magento\Framework\Url\Encoder" />
+    <preference for="Magento\Framework\Url\DecoderInterface" type="Magento\Framework\Url\Decoder" />
     <preference for="Magento\Framework\Data\Collection\Db\FetchStrategyInterface" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Framework\Config\ScopeInterface" type="Magento\Framework\Config\Scope" />
     <preference for="Magento\Framework\Config\FileResolverInterface" type="Magento\Framework\App\Config\FileResolver" />

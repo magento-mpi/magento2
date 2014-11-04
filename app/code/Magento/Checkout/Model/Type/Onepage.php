@@ -59,11 +59,11 @@ class Onepage
     protected $_logger;
 
     /**
-     * Customer data
+     * Customer url
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerData = null;
+    protected $_customerUrl;
 
     /**
      * Core event manager proxy
@@ -143,7 +143,7 @@ class Onepage
     /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -168,7 +168,7 @@ class Onepage
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Helper\Data $helper,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Framework\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -191,7 +191,7 @@ class Onepage
         OrderSender $orderSender
     ) {
         $this->_eventManager = $eventManager;
-        $this->_customerData = $customerData;
+        $this->_customerUrl = $customerUrl;
         $this->_helper = $helper;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
@@ -859,7 +859,7 @@ class Onepage
         $customer = $this->getQuote()->getCustomerData();
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
-            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 // @codingStandardsIgnoreStart
                 __(

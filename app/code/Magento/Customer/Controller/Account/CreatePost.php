@@ -20,6 +20,7 @@ use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Customer\Helper\Data as CustomerHelper;
 use Magento\Framework\Escaper;
 use Magento\Customer\Model\CustomerExtractor;
@@ -60,7 +61,10 @@ class CreatePost extends \Magento\Customer\Controller\Account
     protected $customerDetailsBuilder;
 
     /** @var CustomerHelper */
-    protected $customerHelperData;
+    protected $customerHelper;
+
+    /** @var CustomerUrl */
+    protected $customerUrl;
 
     /** @var Escaper */
     protected $escaper;
@@ -84,7 +88,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
      * @param RegionBuilder $regionBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerDetailsBuilder $customerDetailsBuilder
-     * @param CustomerHelper $customerHelperData
+     * @param CustomerUrl $customerUrl
+     * @param CustomerHelper $customerHelper
      * @param Escaper $escaper
      * @param CustomerExtractor $customerExtractor
      *
@@ -103,7 +108,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
         RegionBuilder $regionBuilder,
         AddressBuilder $addressBuilder,
         CustomerDetailsBuilder $customerDetailsBuilder,
-        CustomerHelper $customerHelperData,
+        CustomerUrl $customerUrl,
+        CustomerHelper $customerHelper,
         Escaper $escaper,
         CustomerExtractor $customerExtractor
     ) {
@@ -116,7 +122,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
         $this->regionBuilder = $regionBuilder;
         $this->addressBuilder = $addressBuilder;
         $this->customerDetailsBuilder = $customerDetailsBuilder;
-        $this->customerHelperData = $customerHelperData;
+        $this->customerUrl = $customerUrl;
+        $this->customerHelper = $customerHelper;
         $this->escaper = $escaper;
         $this->customerExtractor = $customerExtractor;
         $this->urlModel = $urlFactory->create();
@@ -175,7 +182,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     public function execute()
     {
-        if ($this->_getSession()->isLoggedIn() || !$this->customerHelperData->isRegistrationAllowed()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->customerHelper->isRegistrationAllowed()) {
             $this->_redirect('*/*/');
             return;
         }
@@ -218,7 +225,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
 
             $confirmationStatus = $this->customerAccountService->getConfirmationStatus($customer->getId());
             if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
-                $email = $this->customerHelperData->getEmailConfirmationUrl($customer->getEmail());
+                $email = $this->customerUrl->getEmailConfirmationUrl($customer->getEmail());
                 // @codingStandardsIgnoreStart
                 $this->messageManager->addSuccess(
                     __(

@@ -12,7 +12,7 @@ use Magento\Framework\View\Element\Template;
 /**
  * Customer account navigation sidebar
  */
-class Forgotpassword extends \Magento\Framework\View\Element\Template
+class Confirmation extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var Url

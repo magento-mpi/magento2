@@ -26,9 +26,14 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
     protected $customerSessionMock;
 
     /**
+     * @var \Magento\Customer\Model\Url|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerUrl;
+
+    /**
      * @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerHelperMock;
+    protected $customerHelper;
 
     /**
      * @var \Magento\Framework\App\Response\RedirectInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -192,7 +197,8 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
         $this->addressBuilderMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\AddressBuilder', [], [], '', false
         );
-        $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
+        $this->customerUrl = $this->getMock('Magento\Customer\Model\Url', [], [], '', false);
+        $this->customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->escaperMock = $this->getMock('Magento\Framework\Escaper', [], [], '', false);
         $this->customerExtractorMock = $this->getMock('Magento\Customer\Model\CustomerExtractor', [], [], '', false);
 
@@ -228,7 +234,8 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             $this->regionBuilderMock,
             $this->addressBuilderMock,
             $this->customerDetailsBuilderMock,
-            $this->customerHelperMock,
+            $this->customerUrl,
+            $this->customerHelper,
             $this->escaperMock,
             $this->customerExtractorMock
         );
@@ -243,7 +250,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerHelper->expects($this->once())
             ->method('isRegistrationAllowed')
             ->will($this->returnValue(false));
 
@@ -266,7 +273,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerHelper->expects($this->once())
             ->method('isRegistrationAllowed')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->once())
@@ -300,10 +307,10 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerHelper->expects($this->once())
             ->method('isRegistrationAllowed')
             ->will($this->returnValue(true));
-        $this->customerHelperMock->expects($this->once())
+        $this->customerUrl->expects($this->once())
             ->method('getEmailConfirmationUrl')
             ->will($this->returnValue($customerEmail));
 
@@ -444,7 +451,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(false));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerHelper->expects($this->once())
             ->method('isRegistrationAllowed')
             ->will($this->returnValue(true));
 

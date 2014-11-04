@@ -44,7 +44,7 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
 
         $helperMock = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('isRegistrationAllowed', 'getRegisterUrl'))
+            ->setMethods(array('isRegistrationAllowed'))
             ->getMock();
         $helperMock->expects($this->any())
             ->method('isRegistrationAllowed')
@@ -80,7 +80,7 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $helper = $this->getMockBuilder(
-            'Magento\Customer\Helper\Data'
+            'Magento\Customer\Model\Url'
         )->disableOriginalConstructor()->setMethods(
             array('getRegisterUrl')
         )->getMock();
@@ -91,7 +91,7 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
 
         $block = $this->_objectManager->getObject(
             'Magento\Customer\Block\Account\RegisterLink',
-            array('context' => $context, 'customerHelper' => $helper)
+            array('context' => $context, 'customerUrl' => $helper)
         );
         $this->assertEquals('register url', $block->getHref());
     }

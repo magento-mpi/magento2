@@ -94,9 +94,9 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     protected $_urlHelper;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerHelper;
+    protected $_customerUrl;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
@@ -107,7 +107,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Framework\Session\Generic $paypalSession
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Url $customerUrl
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -118,7 +118,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Framework\Session\Generic $paypalSession,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Customer\Helper\Data $customerHelper
+        \Magento\Customer\Model\Url $customerUrl
     ) {
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
@@ -127,7 +127,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         $this->_checkoutFactory = $checkoutFactory;
         $this->_paypalSession = $paypalSession;
         $this->_urlHelper = $urlHelper;
-        $this->_customerHelper = $customerHelper;
+        $this->_customerUrl = $customerUrl;
         parent::__construct($context);
         $parameters = array('params' => array($this->_configMethod));
         $this->_config = $this->_objectManager->create($this->_configType, $parameters);
@@ -249,7 +249,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      */
     public function getLoginUrl()
     {
-        return $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
+        return $this->_customerUrl->getLoginUrl();
     }
 
     /**
@@ -272,7 +272,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         $this->_actionFlag->set('', 'no-dispatch', true);
         $this->_customerSession->setBeforeAuthUrl($this->_redirect->getRefererUrl());
         $this->getResponse()->setRedirect(
-            $this->_urlHelper->addRequestParam($this->_customerHelper->getLoginUrl(), array('context' => 'checkout'))
+            $this->_urlHelper->addRequestParam($this->_customerUrl->getLoginUrl(), array('context' => 'checkout'))
         );
     }
 }

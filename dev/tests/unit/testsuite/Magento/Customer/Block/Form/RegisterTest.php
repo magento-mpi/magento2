@@ -39,8 +39,8 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Module\Manager */
     private $_moduleManager;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data */
-    private $_customerHelper;
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Url */
+    private $_customerUrl;
 
     /** @var Register */
     private $_block;
@@ -50,7 +50,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_moduleManager = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $this->_customerUrl = $this->getMock('Magento\Customer\Model\Url', array(), array(), '', false);
         $this->_customerSession = $this->getMock(
             'Magento\Customer\Model\Session',
             array('getCustomerFormData'),
@@ -71,7 +71,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Directory\Model\Resource\Country\CollectionFactory', array(), array(), '', false),
             $this->_moduleManager,
             $this->_customerSession,
-            $this->_customerHelper
+            $this->_customerUrl
         );
     }
 
@@ -100,7 +100,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPostActionUrl()
     {
-        $this->_customerHelper->expects(
+        $this->_customerUrl->expects(
             $this->once()
         )->method(
             'getRegisterPostUrl'
@@ -115,7 +115,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBackUrlNullData()
     {
-        $this->_customerHelper->expects(
+        $this->_customerUrl->expects(
             $this->once()
         )->method(
             'getLoginUrl'

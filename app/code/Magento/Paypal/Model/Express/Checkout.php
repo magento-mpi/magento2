@@ -166,9 +166,9 @@ class Checkout
     /**
      * Customer data
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerData;
+    protected $_customerUrl;
 
     /**
      * @var \Magento\Framework\Logger
@@ -274,7 +274,7 @@ class Checkout
      * Set config, session and quote instances
      *
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -303,7 +303,7 @@ class Checkout
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
@@ -329,7 +329,7 @@ class Checkout
         OrderSender $orderSender,
         $params = array()
     ) {
-        $this->_customerData = $customerData;
+        $this->_customerUrl = $customerUrl;
         $this->_taxData = $taxData;
         $this->_checkoutData = $checkoutData;
         $this->_configCacheType = $configCacheType;
@@ -1260,7 +1260,7 @@ class Checkout
         $customer = $this->_quote->getCustomerData();
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
-            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());
             $this->_messageManager->addSuccess(
             // @codingStandardsIgnoreStart
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)

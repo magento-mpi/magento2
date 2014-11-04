@@ -47,9 +47,9 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Model\Url|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerHelperMock;
+    protected $customerUrl;
 
     /**
      * @var \Magento\Framework\App\Response\RedirectInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -129,8 +129,8 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->customerHelperMock = $this->getMock(
-            'Magento\Customer\Helper\Data',
+        $this->customerUrl = $this->getMock(
+            'Magento\Customer\Model\Url',
             [],
             [],
             '',
@@ -158,7 +158,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
                 'response' => $this->response,
                 'objectManager' => $this->objectManager,
                 'formKeyValidator' => $this->_formKeyValidator,
-                'customerHelperData' => $this->customerHelperMock,
+                'customerUrl' => $this->customerUrl,
                 'redirect' => $this->redirectMock,
                 'view' => $this->viewMock,
                 'customerAccountService' => $this->customerAccountServiceMock,

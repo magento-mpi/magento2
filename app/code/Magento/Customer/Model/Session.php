@@ -14,6 +14,7 @@ use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 
 /**
  * Customer session model
+ * @method string getNoReferer()
  */
 class Session extends \Magento\Framework\Session\SessionManager
 {
@@ -39,11 +40,11 @@ class Session extends \Magento\Framework\Session\SessionManager
     protected $_isCustomerIdChecked = null;
 
     /**
-     * Customer data
+     * Customer URL
      *
-     * @var \Magento\Customer\Helper\Data|null
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerData = null;
+    protected $_customerUrl;
 
     /**
      * Core url
@@ -101,7 +102,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param ResourceCustomer $customerResource
      * @param CustomerFactory $customerFactory
      * @param \Magento\Framework\UrlFactory $urlFactory
@@ -122,7 +123,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Url $customerUrl,
         Resource\Customer $customerResource,
         CustomerFactory $customerFactory,
         \Magento\Framework\UrlFactory $urlFactory,
@@ -133,7 +134,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->_coreUrl = $coreUrl;
-        $this->_customerData = $customerData;
+        $this->_customerUrl = $customerUrl;
         $this->_configShare = $configShare;
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
@@ -461,7 +462,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $arguments = $this->_customerData->getLoginUrlParams();
+            $arguments = $this->_customerUrl->getLoginUrlParams();
             if ($this->_session->getCookieShouldBeReceived() && $this->_createUrl()->getUseSession()) {
                 $arguments += array(
                     '_query' => array(

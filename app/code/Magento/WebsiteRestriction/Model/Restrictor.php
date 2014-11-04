@@ -41,12 +41,18 @@ class Restrictor
     protected $_scopeConfig;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
      * @param ConfigInterface $config
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\App\ActionFlag $actionFlag
+     * @param \Magento\Customer\Model\Url $customerUrl
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
@@ -54,8 +60,10 @@ class Restrictor
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Framework\App\ActionFlag $actionFlag
+        \Magento\Framework\App\ActionFlag $actionFlag,
+        \Magento\Customer\Model\Url $customerUrl
     ) {
+        $this->customerUrl = $customerUrl;
         $this->_config = $config;
         $this->_customerHelper = $customerHelper;
         $this->_session = $session;
@@ -135,7 +143,7 @@ class Restrictor
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     );
                     if ($redirectToDashboard) {
-                        $afterLoginUrl = $this->_customerHelper->getDashboardUrl();
+                        $afterLoginUrl = $this->customerUrl->getDashboardUrl();
                     } else {
                         $afterLoginUrl = $this->_url->getUrl();
                     }

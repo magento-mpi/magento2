@@ -25,20 +25,28 @@ class RegisterLink extends \Magento\Framework\View\Element\Html\Link
     protected $_customerHelper;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $_customerUrl;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Url $customerUrl,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;
         $this->_customerHelper = $customerHelper;
+        $this->_customerUrl = $customerUrl;
         $this->_isScopePrivate = true;
     }
 
@@ -47,7 +55,7 @@ class RegisterLink extends \Magento\Framework\View\Element\Html\Link
      */
     public function getHref()
     {
-        return $this->_customerHelper->getRegisterUrl();
+        return $this->_customerUrl->getRegisterUrl();
     }
 
     /**

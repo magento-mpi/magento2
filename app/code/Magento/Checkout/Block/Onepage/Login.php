@@ -30,6 +30,11 @@ class Login extends AbstractOnepage
     protected $messageManager;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -59,9 +64,10 @@ class Login extends AbstractOnepage
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Customer\Model\Url $customerUrl,
         array $data = array()
     ) {
-
+        $this->customerUrl = $customerUrl;
         $this->_checkoutData = $checkoutData;
         $this->messageManager = $messageManager;
         parent::__construct(
@@ -90,6 +96,16 @@ class Login extends AbstractOnepage
             $this->getCheckout()->setStepData('login', array('label' => __('Checkout Method'), 'allow' => true));
         }
         parent::_construct();
+    }
+
+    /**
+     * Return forgot password URL
+     *
+     * @return string
+     */
+    public function getForgotPasswordUrl()
+    {
+        return $this->customerUrl->getForgotPasswordUrl();
     }
 
     /**

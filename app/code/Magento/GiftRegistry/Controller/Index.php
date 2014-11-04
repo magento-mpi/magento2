@@ -60,7 +60,7 @@ class Index extends \Magento\Framework\App\Action\Action
 
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->getResponse()->setRedirect(
-                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
+                $this->_objectManager->get('Magento\Customer\Model\Url')->getLoginUrl()
             );
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }

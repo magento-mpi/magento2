@@ -20,6 +20,7 @@ use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Customer\Helper\Data as CustomerHelper;
 use Magento\Framework\Escaper;
 use Magento\Customer\Model\CustomerExtractor;
@@ -36,6 +37,11 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     protected $invitationProvider;
 
     /**
+     * @var CustomerHelper
+     */
+    protected $customerHelper;
+
+    /**
      * @param Context $context
      * @param Session $customerSession
      * @param ScopeConfigInterface $scopeConfig
@@ -48,10 +54,11 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      * @param RegionBuilder $regionBuilder
      * @param AddressBuilder $addressBuilder
      * @param CustomerDetailsBuilder $customerDetailsBuilder
-     * @param CustomerHelper $customerHelperData
+     * @param CustomerUrl $customerUrl
      * @param Escaper $escaper
      * @param CustomerExtractor $customerExtractor
      * @param InvitationProvider $invitationProvider
+     * @param CustomerHelper $customerHelper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -68,7 +75,8 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         RegionBuilder $regionBuilder,
         AddressBuilder $addressBuilder,
         CustomerDetailsBuilder $customerDetailsBuilder,
-        CustomerHelper $customerHelperData,
+        CustomerUrl $customerUrl,
+        CustomerHelper $customerHelper,
         Escaper $escaper,
         CustomerExtractor $customerExtractor,
         InvitationProvider $invitationProvider
@@ -87,7 +95,8 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $regionBuilder,
             $addressBuilder,
             $customerDetailsBuilder,
-            $customerHelperData,
+            $customerUrl,
+            $customerHelper,
             $escaper,
             $customerExtractor
         );
@@ -120,7 +129,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             if (in_array($e->getCode(), $_definedErrorCodes)) {
                 $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if ($this->customerHelperData->isRegistrationAllowed()) {
+                if ($this->customerHelper->isRegistrationAllowed()) {
                     $this->messageManager->addError(__('Your invitation is not valid. Please create an account.'));
                     $this->_redirect('customer/account/create');
                     return;
