@@ -9,6 +9,16 @@ use Magento\Framework\Service\Data\ExtensibleDataBuilder;
 class ProductAttributeMediaGalleryEntryContentInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
     /**
+     * Initialize the builder
+     *
+     * @param \Magento\Framework\ObjectManager $objectManager
+     */
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
+    {
+        parent::__construct($objectManager, 'Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface');
+    }
+
+    /**
      * @param string $data
      */
     public function setEntryData($data)
@@ -33,16 +43,6 @@ class ProductAttributeMediaGalleryEntryContentInterfaceDataBuilder extends \Mage
     {
         $this->data['name'] = $name;
         return $this;
-    }
-
-    /**
-     * Initialize the builder
-     *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager)
-    {
-        parent::__construct($objectManager, 'Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface');
     }
 
     /**

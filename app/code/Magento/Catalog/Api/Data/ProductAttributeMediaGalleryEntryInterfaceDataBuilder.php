@@ -9,6 +9,16 @@ use Magento\Framework\Service\Data\ExtensibleDataBuilder;
 class ProductAttributeMediaGalleryEntryInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
     /**
+     * Initialize the builder
+     *
+     * @param \Magento\Framework\ObjectManager $objectManager
+     */
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
+    {
+        parent::__construct($objectManager, 'Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface');
+    }
+
+    /**
      * @param int|null $id
      */
     public function setId($id)
@@ -60,16 +70,6 @@ class ProductAttributeMediaGalleryEntryInterfaceDataBuilder extends \Magento\Fra
     {
         $this->data['file'] = $file;
         return $this;
-    }
-
-    /**
-     * Initialize the builder
-     *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager)
-    {
-        parent::__construct($objectManager, 'Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface');
     }
 
     /**

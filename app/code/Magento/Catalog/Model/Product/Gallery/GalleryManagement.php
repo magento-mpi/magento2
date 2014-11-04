@@ -151,7 +151,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     ) {
         try {
             $this->storeManager->getStore($storeId);
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
             throw new NoSuchEntityException('There is no store with provided ID.');
         }
         if (!$this->contentValidator->isValid($entryContent)) {
@@ -206,7 +206,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     {
         try {
             $this->storeManager->getStore($storeId);
-        } catch (\Exception $ex) {
+        } catch (\Exception $exception) {
             throw new NoSuchEntityException('There is no store with provided ID.');
         }
         $product = $this->productRepository->get($productSku);
@@ -228,7 +228,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
 
         try {
             $this->productRepository->save($product);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             throw new StateException('Cannot save product.');
         }
         return true;
