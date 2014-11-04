@@ -332,7 +332,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \Magento\PricePermissions\Model\Observer::viewBlockAbstractToHtmlBefore
      * @dataProvider viewBlockAbstractToHtmlBeforeDataProvider
-     * @param $nameInLayout
+     * @param array $nameInLayout
      */
     public function testViewBlockAbstractToHtmlBefore($nameInLayout)
     {
