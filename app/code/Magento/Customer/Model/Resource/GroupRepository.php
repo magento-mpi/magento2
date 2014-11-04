@@ -143,9 +143,9 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function get($groupId)
+    public function get($id)
     {
-        $groupModel = $this->groupRegistry->retrieve($groupId);
+        $groupModel = $this->groupRegistry->retrieve($id);
         return $this->groupBuilder->setId($groupModel->getId())
             ->setCode($groupModel->getCode())
             ->setTaxClassId($groupModel->getTaxClassId())
@@ -252,22 +252,22 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     /**
      * Delete customer group by ID.
      *
-     * @param int $groupId
+     * @param int $id
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException If customer group cannot be deleted
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function deleteById($groupId)
+    public function deleteById($id)
     {
-        $groupModel = $this->groupRegistry->retrieve($groupId);
+        $groupModel = $this->groupRegistry->retrieve($id);
 
-        if ($groupId <= 0 || $groupModel->usesAsDefault()) {
+        if ($id <= 0 || $groupModel->usesAsDefault()) {
             throw new \Magento\Framework\Exception\StateException('Cannot delete group.');
         }
 
         $groupModel->delete();
-        $this->groupRegistry->remove($groupId);
+        $this->groupRegistry->remove($id);
         return true;
     }
 

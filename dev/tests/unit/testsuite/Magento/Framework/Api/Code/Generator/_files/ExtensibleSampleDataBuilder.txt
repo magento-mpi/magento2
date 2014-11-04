@@ -50,9 +50,11 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      * Initialize the builder
      *
      * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeDataBuilder $valueBuilder)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder)
     {
-        parent::__construct($objectManager, $metadataService, $valueBuilder, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
+        parent::__construct($objectManager, $metadataService, $attributeValueBuilder, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
     }
 }

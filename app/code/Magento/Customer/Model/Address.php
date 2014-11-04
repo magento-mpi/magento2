@@ -12,6 +12,7 @@ use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionInterface;
+use Magento\Customer\Model\Data\RegionBuilder;
 
 /**
  * Customer address model
@@ -44,6 +45,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressBuilder;
 
     /**
+     * @var RegionBuilder
+     */
+    protected $_regionBuilder;
+
+    /**
      * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $dataProcessor;
@@ -59,6 +65,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param CustomerFactory $customerFactory
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
      * @param AddressDataBuilder $addressBuilder
+     * @param RegionBuilder $regionBuilder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -75,6 +82,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         CustomerFactory $customerFactory,
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
         AddressDataBuilder $addressBuilder,
+        RegionBuilder $regionBuilder,
         \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -84,6 +92,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_customerFactory = $customerFactory;
         $this->_addressMetadataService = $addressMetadataService;
         $this->_addressBuilder = $addressBuilder;
+        $this->_regionBuilder = $regionBuilder;
         parent::__construct(
             $context,
             $registry,
@@ -155,20 +164,19 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             }
         }
 
-        $this->_addressBuilder->populateWithArray(
-            array_merge(
-                $addressData,
+        /** @var \Magento\Customer\Api\Data\RegionInterface $region */
+        $region = $this->_regionBuilder
+            ->populateWithArray(
                 array(
-                    AddressInterface::STREET => $this->getStreet(),
-                    AddressInterface::REGION => array(
-                        RegionInterface::REGION => $this->getRegion(),
-                        RegionInterface::REGION_ID => $this->getRegionId(),
-                        RegionInterface::REGION_CODE => $this->getRegionCode()
-                    )
+                    RegionInterface::REGION => $this->getRegion(),
+                    RegionInterface::REGION_ID => $this->getRegionId(),
+                    RegionInterface::REGION_CODE => $this->getRegionCode())
                 )
-            )
-        );
+            ->create();
 
+        $addressData[AddressData::REGION] = $region;
+
+        $this->_addressBuilder->populateWithArray($addressData);
         if ($addressId) {
             $this->_addressBuilder->setId($addressId);
         }
