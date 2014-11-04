@@ -37,12 +37,11 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
     public function testGetItems()
     {
         $attributeCode = 10;
-        $attributeOptionInterfaceMock = [$this->getMock('\Magento\Eav\Api\Data\AttributeOptionInterface')];
         $this->eavOptionManagementMock->expects($this->once())
             ->method('getItems')
             ->with(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE, $attributeCode)
-            ->willReturn($attributeOptionInterfaceMock);
-        $this->assertEquals($attributeOptionInterfaceMock, $this->model->getItems($attributeCode));
+            ->willReturn([]);
+        $this->assertEquals([], $this->model->getItems($attributeCode));
     }
 
     public function testAdd()
