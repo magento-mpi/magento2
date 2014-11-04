@@ -23,7 +23,7 @@ class Totals extends \Magento\Checkout\Test\Block\Cart\Totals
     protected $fptBlock = './/tr[normalize-space(td)="FPT"]';
 
     /**
-   Get block fpt totals
+     * Get block fpt totals
      *
      * @return \Magento\Weee\Test\Block\Cart\Totals\Fpt
      */
