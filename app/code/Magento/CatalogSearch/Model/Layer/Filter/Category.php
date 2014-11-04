@@ -24,8 +24,29 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         if (empty($attributeValue)) {
             return $this;
         }
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->applyFilterToCollection('category_ids', $attributeValue);
+
+        $category = $this->_categoryFactory->create()
+            ->setStoreId(
+                $this->getLayer()->getCurrentStore()->getId()
+            )
+            ->load(
+                $attributeValue
+            );
+        $this->_coreRegistry->register('current_category_filter', $category, true);
+
+        if (!$category->getId()) {
+            $category = $this->getLayer()->getCurrentCategory();
+        }
+        $this->getLayer()->getProductCollection()->addFieldToFilter(
+            'category_ids',
+            $category->getId() ?: $this->getLayer()->getCurrentCategory()->getId()
+        );
+//        $this->getLayer()->getProductCollection()->addCategoryFilter($category);
+
+
+        if ($request->getParam('id') != $category->getId() && $this->_isValidCategory($category)) {
+            $this->getLayer()->getState()->addFilter($this->_createItem($category->getName(), $attributeValue));
+        }
         return $this;
     }
 
