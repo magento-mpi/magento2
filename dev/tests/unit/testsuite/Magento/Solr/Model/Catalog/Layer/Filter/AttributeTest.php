@@ -69,6 +69,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $_dataBuilder;
+
     public function setUp()
     {
         $this->_filterItem = $this->getMock(
@@ -151,13 +156,20 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        /** @var \Magento\Framework\Filter\StripTags|\PHPUnit_Framework_MockObject_MockObject $tagFilter */
         $tagFilter = $this->getMock('\Magento\Framework\Filter\StripTags', array(), array(), '', false);
         $tagFilter->expects($this->any())->method('filter')->will($this->returnArgument(0));
+
+        $this->_dataBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Filter\Item\DataBuilder')
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
 
         $this->_model = new \Magento\Solr\Model\Layer\Category\Filter\Attribute(
             $this->_filterItemFactory,
             $this->_storeManager,
             $this->_layer,
+            $this->_dataBuilder,
             $this->_attributeFactory,
             $this->_string,
             $tagFilter,
@@ -205,7 +217,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         // Parameters for the method
         $filterBlock = $this->getMock('\Magento\Catalog\Block\Layer\Filter\Attribute', array(), array(), '', false);
 
-        $request = $this->getMock('Zend_Controller_Request_Abstract');
+        $request = $this->getMockForAbstractClass('\Magento\Framework\App\RequestInterface');
         $request->expects(
             $this->once()
         )->method(

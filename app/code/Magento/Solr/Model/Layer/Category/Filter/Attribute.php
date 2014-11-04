@@ -95,7 +95,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Zend_Controller_Request_Abstract $request
      * @return \Magento\Catalog\Model\Layer\Filter\Attribute
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {

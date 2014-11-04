@@ -73,8 +73,8 @@ class FilterList
             $this->filters = array(
                 $this->objectManager->create($this->filterTypes[self::CATEGORY_FILTER], array('layer' => $layer)),
             );
-            foreach ($this->filterableAttributes->getList() as $attibute) {
-                $this->filters[] = $this->createAttributeFilter($attibute, $layer);
+            foreach ($this->filterableAttributes->getList() as $attribute) {
+                $this->filters[] = $this->createAttributeFilter($attribute, $layer);
             }
         }
         return $this->filters;

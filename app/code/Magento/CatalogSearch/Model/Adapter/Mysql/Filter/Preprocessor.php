@@ -60,7 +60,7 @@ class Preprocessor implements PreprocessorInterface
      */
     public function process(FilterInterface $filter, $isNegation, $query)
     {
-        return $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
+        return $resultQuery = $this->processQueryWithField($filter, $isNegation, $query);
     }
 
     /**
@@ -68,6 +68,7 @@ class Preprocessor implements PreprocessorInterface
      * @param bool $isNegation
      * @param string $query
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     private function processQueryWithField(FilterInterface $filter, $isNegation, $query)
     {
@@ -111,7 +112,7 @@ class Preprocessor implements PreprocessorInterface
             }
         }
 
-        return 'product_id ' . ' IN (
+        return 'product_id IN (
                 select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
              as filter)';
     }

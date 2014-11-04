@@ -77,7 +77,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
      * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
      */
-    public function testaroundIsEnabledLayeredNavigationIsNotAllowed()
+    public function testAroundIsEnabledLayeredNavigationIsNotAllowed()
     {
         $this->engineMock->expects($this->once())
             ->method('isLayeredNavigationAllowed')
@@ -102,7 +102,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @dataProvider aroundIsEnabledDataProvider
      * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
      */
-    public function testaroundIsEnabledLayeredNavigationIsAllowedParentLogic($collectionSize, $availableResCount)
+    public function testAroundIsEnabledLayeredNavigationIsAllowedParentLogic($collectionSize, $availableResCount)
     {
         $this->engineMock->expects($this->once())
             ->method('isLayeredNavigationAllowed')
@@ -147,7 +147,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
      */
-    public function testaroundIsEnabledLayeredNavigationIsAllowed()
+    public function testAroundIsEnabledLayeredNavigationIsAllowed()
     {
         $this->engineMock->expects($this->once())
             ->method('isLayeredNavigationAllowed')
