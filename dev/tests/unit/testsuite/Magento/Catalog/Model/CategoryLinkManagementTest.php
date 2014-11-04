@@ -50,14 +50,12 @@ class CategoryLinkManagementTest extends \PHPUnit_Framework_TestCase
         $productsPosition = [$productId => 25];
         $productSku = 'testSku';
         $expectedValue = 'testComplete';
-        $categoryMock = $this->getMockForAbstractClass(
-            '\Magento\Catalog\Api\Data\CategoryInterface',
+        $categoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Category',
+            [],
             [],
             '',
-            false,
-            false,
-            true,
-            ['getProductsPosition', 'getProductCollection']
+            false
         );
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $productMock->expects($this->once())->method('getSku')->willReturn($productSku);
