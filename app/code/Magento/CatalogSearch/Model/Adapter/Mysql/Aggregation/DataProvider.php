@@ -8,6 +8,7 @@
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Session;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
@@ -52,11 +53,17 @@ class DataProvider implements DataProviderInterface
     private $scopeConfig;
 
     /**
+     * @var Session
+     */
+    private $customerSession;
+
+    /**
      * @param Config $eavConfig
      * @param Resource $resource
      * @param ScopeResolverInterface $scopeResolver
      * @param ScopeConfigInterface $scopeConfig
      * @param Range $range
+     * @param Session $customerSession
      * @internal param Range $range
      */
     public function __construct(
@@ -64,13 +71,15 @@ class DataProvider implements DataProviderInterface
         Resource $resource,
         ScopeResolverInterface $scopeResolver,
         ScopeConfigInterface $scopeConfig,
-        Range $range
+        Range $range,
+        Session $customerSession
     ) {
         $this->eavConfig = $eavConfig;
         $this->resource = $resource;
         $this->scopeResolver = $scopeResolver;
         $this->range = $range;
         $this->scopeConfig = $scopeConfig;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -128,6 +137,8 @@ class DataProvider implements DataProviderInterface
                     'std' => 'STDDEV_SAMP(min_price)'
                 ]
             );
+        $select = $this->setCustomerGroupId($select);
+
         $result = $this->getConnection()
             ->fetchRow($select);
 
@@ -170,9 +181,12 @@ class DataProvider implements DataProviderInterface
             ->columns(['range' => $rangeExpr, 'count' => 'COUNT(*)'])
             ->group($rangeExpr)
             ->order("{$rangeExpr} ASC");
+        $select = $this->setCustomerGroupId($select);
 
-        return $this->getConnection()
+        $result = $this->getConnection()
             ->fetchPairs($select);
+
+        return $result;
     }
 
     /**
@@ -223,5 +237,14 @@ class DataProvider implements DataProviderInterface
     private function getConnection()
     {
         return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+    }
+
+    /**
+     * @param Select $select
+     * @return Select
+     */
+    private function setCustomerGroupId($select)
+    {
+        return $select->where('customer_group_id = ?', $this->customerSession->getCustomerGroupId());
     }
 }

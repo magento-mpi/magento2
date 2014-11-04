@@ -74,10 +74,16 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return $this;
         }
 
-
-        $filter = $this->_validateFilter($filter);
+        $filterParams = explode(',', $filter);
+        $filter = $this->_validateFilter($filterParams[0]);
         if (!$filter) {
             return $this;
+        }
+
+        $this->setInterval($filter);
+        $priorFilters = $this->getPriorFilters($filterParams);
+        if ($priorFilters) {
+            $this->setPriorIntervals($priorFilters);
         }
 
         list($from, $to) = $filter;
