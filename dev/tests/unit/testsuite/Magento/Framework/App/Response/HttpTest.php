@@ -252,7 +252,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testWakeUpWithException()
     {
-        $this->markTestSkipped('Random failures');
+        $reflection = new \ReflectionClass('\Magento\Framework\App\ObjectManager');
+        $reflectedProperty = $reflection->getProperty('_instance');
+        $reflectedProperty->setAccessible(true);
+        $reflectedProperty->setValue(null);
         $this->model->__wakeup();
         $this->assertNull($this->cookieMetadataFactoryMock);
         $this->assertNull($this->cookieManagerMock);
