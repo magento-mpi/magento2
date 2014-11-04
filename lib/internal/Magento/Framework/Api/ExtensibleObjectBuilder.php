@@ -73,12 +73,16 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Ext
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
+    public function setCustomAttribute($attributeCode, $attributeValue)
     {
         $customAttributesCodes = $this->getCustomAttributesCodes();
         /* If key corresponds to custom attribute code, populate custom attributes */
-        if (in_array($attribute->getAttributeCode(), $customAttributesCodes)) {
-            $this->data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()] = $attribute;
+        if (in_array($attributeCode, $customAttributesCodes)) {
+            $attribute = $this->attributeValueBuilder
+                ->setAttributeCode($attributeCode)
+                ->setValue($attributeValue)
+                ->create();
+            $this->data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
         }
         return $this;
     }
@@ -138,20 +142,15 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Ext
                 && !empty($data[$key])
             ) {
                 foreach ($data[$key] as $customAttribute) {
-                    $attribute = $this->attributeValueBuilder
-                        ->setAttributeCode($customAttribute[AttributeValue::ATTRIBUTE_CODE])
-                        ->setValue($customAttribute[AttributeValue::VALUE])
-                        ->create();
-                    $this->setCustomAttribute($attribute);
+                    $this->setCustomAttribute(
+                        $customAttribute[AttributeValue::ATTRIBUTE_CODE],
+                        $customAttribute[AttributeValue::VALUE]
+                    );
                 }
             } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->data[$key] = $value;
             } else {
-                $attribute = $this->attributeValueBuilder
-                    ->setAttributeCode($key)
-                    ->setValue($value)
-                    ->create();
-                $this->setCustomAttribute($attribute);
+                $this->setCustomAttribute($key, $value);
             }
         }
         return $this;

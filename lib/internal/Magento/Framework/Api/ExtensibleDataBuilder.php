@@ -70,11 +70,14 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
+    public function setCustomAttribute($attributeCode, $attributeValue)
     {
+        $attribute = $this->attributeValueBuilder
+            ->setAttributeCode($attributeCode)
+            ->setValue($attributeValue)
+            ->create();
         // Store as an associative array for easier lookup and processing
-        $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]
-            = $attribute;
+        $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
         return $this;
     }
 
@@ -83,8 +86,9 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttributes(array $attributes)
     {
+        /** @var \Magento\Framework\Api\AttributeInterface $attribute */
         foreach ($attributes as $attribute) {
-            $this->setCustomAttribute($attribute);
+            $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()] = $attribute;
         }
         return $this;
     }
@@ -173,22 +177,17 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
                 && !empty($data[$key])
             ) {
                 foreach ($data[$key] as $customAttribute) {
-                    $attribute = $this->attributeValueBuilder
-                        ->setAttributeCode($customAttribute[AttributeValue::ATTRIBUTE_CODE])
-                        ->setValue($customAttribute[AttributeValue::VALUE])
-                        ->create();
-                    $this->setCustomAttribute($attribute);
+                    $this->setCustomAttribute(
+                        $customAttribute[AttributeValue::ATTRIBUTE_CODE],
+                        $customAttribute[AttributeValue::VALUE]
+                    );
                 }
             } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->data[$key] = $value;
             } else {
                 /* If key corresponds to custom attribute code, populate custom attributes */
                 if (in_array($key, $this->getCustomAttributesCodes())) {
-                    $valueObject = $this->attributeValueBuilder
-                        ->setAttributeCode($key)
-                        ->setValue($value)
-                        ->create();
-                    $this->setCustomAttribute($valueObject);
+                    $this->setCustomAttribute($key, $value);
                 }
             }
         }

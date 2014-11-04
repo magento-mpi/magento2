@@ -62,9 +62,9 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
+    public function setCustomAttribute($attributeCode, $attributeValue)
     {
-        return $this->currentBuilder->setCustomAttribute($attribute);
+        return $this->currentBuilder->setCustomAttribute($attributeCode, $attributeValue);
     }
 
     /**

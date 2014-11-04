@@ -16,10 +16,11 @@ interface ExtensibleDataBuilderInterface
     /**
      * Set custom attribute value.
      *
-     * @param \Magento\Framework\Api\AttributeInterface $attribute
+     * @param string $attributeCode
+     * @param mixed $attributeValue
      * @return $this
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute);
+    public function setCustomAttribute($attributeCode, $attributeValue);
 
     /**
      * Set array of custom attributes
