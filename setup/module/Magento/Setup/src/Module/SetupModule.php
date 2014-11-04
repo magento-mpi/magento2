@@ -15,6 +15,12 @@ use Magento\Setup\Module\Setup\Config;
 
 class SetupModule extends Setup
 {
+    const TYPE_DB_INSTALL = 'install';
+
+    const TYPE_DB_UPGRADE = 'upgrade';
+
+    const TYPE_DB_RECURRING = 'recurring';
+
     /**
      * Setup resource name
      * @var string
@@ -136,7 +142,7 @@ class SetupModule extends Setup
 
         // Module is installed
         if ($dbVer !== false) {
-            if (version_compare($configVer, $dbVer) == self::VERSION_COMPARE_GREATER) {
+            if (version_compare($configVer, $dbVer, '>')) {
                 $this->applySchemaUpdates(self::TYPE_DB_UPGRADE, $dbVer, $configVer);
                 $this->resource->setDbVersion($this->resourceName, $configVer);
             }
@@ -208,7 +214,7 @@ class SetupModule extends Setup
             case self::TYPE_DB_INSTALL:
                 uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
-                    if (version_compare($version, $toVersion) !== self::VERSION_COMPARE_GREATER) {
+                    if (version_compare($version, $toVersion, '<=')) {
                         $arrRes[0] = [
                             'toVersion' => $version,
                             'fileName'  => $file

@@ -26,7 +26,7 @@ class Lists
     protected $language;
 
     /**
-     * @var Locale
+     * @var Data\Locale
      */
     protected $locale;
 

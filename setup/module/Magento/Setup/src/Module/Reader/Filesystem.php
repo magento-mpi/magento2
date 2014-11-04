@@ -12,14 +12,14 @@ namespace Magento\Setup\Module\Reader;
 
 use Magento\Config\Reader\Filesystem as ConfigFilesystem;
 use Magento\Setup\Module\FileResolver;
-use Magento\Setup\Module\Converter\Dom;
+use Magento\Framework\Module\Declaration\Converter\Dom;
 use Magento\Setup\Module\SchemaLocator;
-use Magento\Setup\Module\Dependency\ManagerInterface;
+use Magento\Framework\Module\DependencyManagerInterface;
 
 class Filesystem extends ConfigFilesystem
 {
     /**
-     * @var \Magento\Setup\Module\Dependency\ManagerInterface
+     * @var DependencyManagerInterface
      */
     protected $dependencyManager;
 
@@ -37,7 +37,7 @@ class Filesystem extends ConfigFilesystem
      * @param FileResolver $fileResolver
      * @param Dom $converter
      * @param SchemaLocator $schemaLocator
-     * @param ManagerInterface $dependencyManager
+     * @param DependencyManagerInterface $dependencyManager
      * @param string $fileName
      * @param string $domDocumentClass
      * @param array $idAttributes
@@ -46,7 +46,7 @@ class Filesystem extends ConfigFilesystem
         FileResolver $fileResolver,
         Dom $converter,
         SchemaLocator $schemaLocator,
-        ManagerInterface $dependencyManager,
+        DependencyManagerInterface $dependencyManager,
         $fileName = 'module.xml',
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $idAttributes = array()

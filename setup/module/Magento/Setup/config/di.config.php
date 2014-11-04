@@ -43,7 +43,7 @@ return [
             'preference' => [
                 'Zend\EventManager\EventManagerInterface' => 'EventManager',
                 'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
-                'Magento\Setup\Module\Dependency\ManagerInterface' => 'Magento\Setup\Module\Dependency\Manager',
+                'Magento\Framework\Module\DependencyManagerInterface' => 'Magento\Framework\Module\DependencyManager',
                 'Magento\Setup\Module\Resource\ResourceInterface' => 'Magento\Setup\Module\Resource\Resource',
                 'Magento\Setup\Module\ModuleListInterface' => 'Magento\Setup\Module\ModuleList',
             ]
