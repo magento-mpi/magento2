@@ -1,4 +1,11 @@
 <?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Eav\Api\Data;
 use Magento\Framework\Service\Data\ExtensibleDataBuilder;
 
