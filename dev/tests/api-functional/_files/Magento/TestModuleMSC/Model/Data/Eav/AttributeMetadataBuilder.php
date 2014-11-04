@@ -7,13 +7,13 @@
  */
 namespace Magento\TestModuleMSC\Model\Data\Eav;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeMetadataBuilderInterface;
 
 /**
  * Class AttributeMetadataBuilder
  */
-class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implements AttributeMetadataBuilderInterface
+class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements AttributeMetadataBuilderInterface
 {
     /**
      * Set attribute id

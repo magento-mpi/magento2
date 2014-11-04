@@ -135,7 +135,7 @@ class Builder extends EntityAbstract
             $this->_getClassMethods()
         )->setClassDocBlock(
             $this->_getClassDocBlock()
-        )->setExtendedClass('\\Magento\Framework\Api\AbstractExtensibleObjectBuilder');
+        )->setExtendedClass('\\Magento\Framework\Api\ExtensibleObjectBuilder');
 
         return $this->_getGeneratedCode();
     }

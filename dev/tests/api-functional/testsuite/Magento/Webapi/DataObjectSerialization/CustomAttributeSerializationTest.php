@@ -32,11 +32,6 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
     protected $_soapService = 'testModule1AllSoapAndRest';
 
     /**
-     * @var \Magento\Framework\Api\AttributeValueBuilder
-     */
-    protected $valueBuilder;
-
-    /**
      * @var ItemBuilder
      */
     protected $itemBuilder;
@@ -64,10 +59,6 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
         $this->_version = 'V1';
         $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
-
-        $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Api\AttributeValueBuilder'
-        );
 
         $this->itemBuilder = Bootstrap::getObjectManager()->create(
             'Magento\TestModule1\Service\V1\Entity\ItemBuilder'

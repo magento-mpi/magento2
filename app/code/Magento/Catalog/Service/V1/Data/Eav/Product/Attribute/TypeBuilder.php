@@ -13,7 +13,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Product\Attribute;
  * @package Magento\Catalog\Service\V1\Data\Eav\Product\Attribute
  * @codeCoverageIgnore
  */
-class TypeBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class TypeBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set option label

@@ -24,23 +24,15 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Api\AllSoapAndRestInterfa
     protected $customAttributeDataObjectDataBuilder;
 
     /**
-     * @var AttributeValueBuilder
-     */
-    protected $valueBuilder;
-
-    /**
      * @param ItemDataBuilder $itemDataBuilder
      * @param CustomAttributeDataObjectDataBuilder $customAttributeNestedDataObjectBuilder
-     * @param AttributeValueBuilder $valueBuilder
      */
     public function __construct(
         ItemDataBuilder $itemDataBuilder,
-        CustomAttributeDataObjectDataBuilder $customAttributeNestedDataObjectBuilder,
-        AttributeValueBuilder $valueBuilder
+        CustomAttributeDataObjectDataBuilder $customAttributeNestedDataObjectBuilder
     ) {
         $this->itemDataBuilder = $itemDataBuilder;
         $this->customAttributeDataObjectDataBuilder = $customAttributeNestedDataObjectBuilder;
-        $this->valueBuilder = $valueBuilder;
     }
 
     /**
@@ -107,21 +99,11 @@ class AllSoapAndRest implements \Magento\TestModuleMSC\Api\AllSoapAndRestInterfa
             ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
-        $customAttributeDataObjectAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_data_object')
-            ->setValue($customAttributeDataObject)
-            ->create();
-
-        $customAttributeStringAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_string')
-            ->setValue('someStringValue')
-            ->create();
-
         $item = $this->itemDataBuilder
             ->setItemId(1)
             ->setName('testProductAnyType')
-            ->setCustomAttribute($customAttributeDataObjectAttributeValue)
-            ->setCustomAttribute($customAttributeStringAttributeValue)
+            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
+            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
             ->create();
 
         return $item;

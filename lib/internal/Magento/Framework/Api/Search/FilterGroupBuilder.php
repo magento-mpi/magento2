@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api\Search;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\FilterBuilder;
@@ -16,7 +16,7 @@ use Magento\Framework\Api\FilterBuilder;
 /**
  * Builder for FilterGroup Data.
  */
-class FilterGroupBuilder extends AbstractExtensibleObjectBuilder
+class FilterGroupBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @var FilterBuilder
@@ -47,7 +47,7 @@ class FilterGroupBuilder extends AbstractExtensibleObjectBuilder
      */
     public function addFilter(\Magento\Framework\Api\Filter $filter)
     {
-        $this->_data[FilterGroup::FILTERS][] = $filter;
+        $this->data[FilterGroup::FILTERS][] = $filter;
         return $this;
     }
 

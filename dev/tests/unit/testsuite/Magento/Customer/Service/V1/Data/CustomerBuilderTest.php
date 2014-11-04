@@ -8,9 +8,6 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Framework\Api\AttributeValue;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Framework\Api\AbstractExtensibleObject;
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -242,13 +239,10 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     public function testSetCustomAttribute()
     {
         $this->_customerBuilder->populateWithArray(array());
-        $address = $this->_customerBuilder->setCustomAttribute(
-            'warehouse_zip',
-            '78777'
-        )->setCustomAttribute(
-                'warehouse_alternate',
-                '90051'
-            )->create();
+        $address = $this->_customerBuilder
+            ->setCustomAttribute('warehouse_zip', '78777')
+            ->setCustomAttribute('warehouse_alternate', '90051')
+            ->create();
         $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
         $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
 

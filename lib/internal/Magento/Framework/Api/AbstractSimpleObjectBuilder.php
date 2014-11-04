@@ -16,7 +16,7 @@ abstract class AbstractSimpleObjectBuilder
     /**
      * @var array
      */
-    protected $_data;
+    protected $data;
 
     /**
      * @var ObjectFactory
@@ -28,7 +28,7 @@ abstract class AbstractSimpleObjectBuilder
      */
     public function __construct(ObjectFactory $objectFactory)
     {
-        $this->_data = array();
+        $this->data = array();
         $this->objectFactory = $objectFactory;
     }
 
@@ -58,7 +58,7 @@ abstract class AbstractSimpleObjectBuilder
      */
     public function populateWithArray(array $data)
     {
-        $this->_data = array();
+        $this->data = array();
         $this->_setDataValues($data);
         return $this;
     }
@@ -79,7 +79,7 @@ abstract class AbstractSimpleObjectBuilder
                 'is' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key)
             );
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
-                $this->_data[$key] = $value;
+                $this->data[$key] = $value;
             }
         }
         return $this;
@@ -134,7 +134,7 @@ abstract class AbstractSimpleObjectBuilder
     {
         $dataObjectType = $this->_getDataObjectType();
         $dataObject = $this->objectFactory->create($dataObjectType, ['builder' => $this]);
-        $this->_data = array();
+        $this->data = array();
         return $dataObject;
     }
 
@@ -146,7 +146,7 @@ abstract class AbstractSimpleObjectBuilder
      */
     protected function _set($key, $value)
     {
-        $this->_data[$key] = $value;
+        $this->data[$key] = $value;
         return $this;
     }
 
@@ -175,6 +175,6 @@ abstract class AbstractSimpleObjectBuilder
      */
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
     }
 }

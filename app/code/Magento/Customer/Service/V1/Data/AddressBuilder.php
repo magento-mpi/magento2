@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 
 /**
@@ -20,7 +20,7 @@ use Magento\Framework\Api\AttributeValueBuilder;
  * @method Address mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
  * @method Address mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
  */
-class AddressBuilder extends AbstractExtensibleObjectBuilder
+class AddressBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Region builder
@@ -43,7 +43,7 @@ class AddressBuilder extends AbstractExtensibleObjectBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->_regionBuilder = $regionBuilder;
-        $this->_data[Address::KEY_REGION] = $regionBuilder->create();
+        $this->data[Address::KEY_REGION] = $regionBuilder->create();
     }
 
     /**

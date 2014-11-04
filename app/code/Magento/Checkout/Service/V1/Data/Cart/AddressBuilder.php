@@ -10,7 +10,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
 use Magento\Checkout\Service\V1\Data\Cart\Address\RegionBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 
 /**
@@ -18,7 +18,7 @@ use Magento\Framework\Api\AttributeValueBuilder;
  *
  * @codeCoverageIgnore
  */
-class AddressBuilder extends AbstractExtensibleObjectBuilder
+class AddressBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Region builder
@@ -41,7 +41,7 @@ class AddressBuilder extends AbstractExtensibleObjectBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->_regionBuilder = $regionBuilder;
-        $this->_data[Address::KEY_REGION] = $regionBuilder->create();
+        $this->data[Address::KEY_REGION] = $regionBuilder->create();
     }
 
     /**

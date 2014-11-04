@@ -4,7 +4,7 @@ namespace Magento\Framework\Api\Code\Generator;
  * DataBuilder class for
  * \Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface
  */
-class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
+class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\CompositeExtensibleDataBuilder
 {
     /**
      * @param array $items
@@ -12,7 +12,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      */
     public function setItems($items)
     {
-        $this->data['items'] = $items;
+        $this->set('items', $items);
         return $this;
     }
 
@@ -22,7 +22,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      */
     public function setName($name)
     {
-        $this->data['name'] = $name;
+        $this->set('name', $name);
         return $this;
     }
 
@@ -32,7 +32,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      */
     public function setCount($count)
     {
-        $this->data['count'] = $count;
+        $this->set('count', $count);
         return $this;
     }
 
@@ -42,7 +42,7 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      */
     public function setCreatedAt($createdAt)
     {
-        $this->data['created_at'] = $createdAt;
+        $this->set('created_at', $createdAt);
         return $this;
     }
 
@@ -51,13 +51,10 @@ class ExtensibleSampleDataBuilder extends \Magento\Framework\Api\ExtensibleDataB
      *
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
-     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
-     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
-     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
+     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder, \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor, \Magento\Framework\Reflection\TypeProcessor $typeProcessor, \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\ObjectManager\Config $objectManagerConfig)
     {
-        parent::__construct($objectManager, $metadataService, $attributeValueBuilder, $objectProcessor, $typeProcessor, $dataBuilderFactory, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
+        parent::__construct($objectManager, $metadataService, $objectManagerConfig, 'Magento\Framework\Api\Code\Generator\ExtensibleSampleInterface');
     }
 }

@@ -99,11 +99,14 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute)
+    public function setCustomAttribute($attributeCode, $attributeValue)
     {
+        $attribute = $this->attributeValueBuilder
+            ->setAttributeCode($attributeCode)
+            ->setValue($attributeValue)
+            ->create();
         // Store as an associative array for easier lookup and processing
-        $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()]
-            = $attribute;
+        $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
         return $this;
     }
 
@@ -112,8 +115,9 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttributes(array $attributes)
     {
+        /** @var \Magento\Framework\Api\AttributeInterface $attribute */
         foreach ($attributes as $attribute) {
-            $this->setCustomAttribute($attribute);
+            $this->data[AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()] = $attribute;
         }
         return $this;
     }
@@ -168,6 +172,20 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     }
 
     /**
+     * Set data item value.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     * @deprecated This method should not be used in the client code and will be removed after Service Layer refactoring
+     */
+    public function set($key, $value)
+    {
+        $this->data[$key] = $value;
+        return $this;
+    }
+
+    /**
      * Initializes Data Object with the data from array
      *
      * @param array $data
@@ -188,7 +206,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
                 && !empty($data[$key])
             ) {
                 foreach ($data[$key] as $customAttribute) {
-                    $this->setCustomAttributeValue(
+                    $this->setCustomAttribute(
                         $customAttribute[AttributeValue::ATTRIBUTE_CODE],
                         $customAttribute[AttributeValue::VALUE]
                     );
@@ -202,7 +220,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
                     $this->setComplexValue($methodName[0], $key, $value);
                 }
             } elseif (in_array($key, $this->getCustomAttributesCodes())) {
-                $this->setCustomAttributeValue($key, $value);
+                $this->setCustomAttribute($key, $value);
             }
         }
 
@@ -240,21 +258,5 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
             ->create();
         $this->data[$key] = $object;
         return $this;
-    }
-
-    /**
-     * Set value for the custom attribute
-     *
-     * @param string $attributeCode
-     * @param string $attributeValue
-     * return void
-     */
-    protected function setCustomAttributeValue($attributeCode, $attributeValue)
-    {
-        $attributeValueObject = $this->attributeValueBuilder
-            ->setAttributeCode($attributeCode)
-            ->setValue($attributeValue)
-            ->create();
-        $this->setCustomAttribute($attributeValueObject);
     }
 }

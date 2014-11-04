@@ -12,12 +12,12 @@ namespace Magento\Framework\Api;
  * Base Builder Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuilder
+class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements ExtensibleDataBuilderInterface
 {
     /**
      * @var AttributeValueBuilder
      */
-    protected $valueBuilder;
+    protected $attributeValueBuilder;
 
     /**
      * @var MetadataServiceInterface
@@ -30,26 +30,30 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
     protected $customAttributesCodes = null;
 
     /**
+     * @var string
+     */
+    protected $modelClassInterface;
+
+    /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
+     * @param string|null $modelClassInterface
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        MetadataServiceInterface $metadataService
+        MetadataServiceInterface $metadataService,
+        $modelClassInterface = null
     ) {
-        $this->valueBuilder = $valueBuilder;
+        $this->attributeValueBuilder = $valueBuilder;
         $this->metadataService = $metadataService;
+        $this->modelClassInterface = $modelClassInterface;
         parent::__construct($objectFactory);
     }
 
     /**
-     * Set array of custom attributes
-     *
-     * @param \Magento\Framework\Api\AttributeValue[] $attributes
-     * @return $this
-     * @throws \LogicException If array elements are not of AttributeValue type
+     * {@inheritdoc}
      */
     public function setCustomAttributes(array $attributes)
     {
@@ -60,29 +64,25 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
             }
             $attributeCode = $attribute->getAttributeCode();
             if (in_array($attributeCode, $customAttributesCodes)) {
-                $this->_data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
+                $this->data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
             }
         }
         return $this;
     }
 
     /**
-     * Set custom attribute value
-     *
-     * @param string $attributeCode
-     * @param string|int|float|bool $attributeValue
-     * @return $this
+     * {@inheritdoc}
      */
     public function setCustomAttribute($attributeCode, $attributeValue)
     {
         $customAttributesCodes = $this->getCustomAttributesCodes();
         /* If key corresponds to custom attribute code, populate custom attributes */
         if (in_array($attributeCode, $customAttributesCodes)) {
-            $valueObject = $this->valueBuilder
+            $attribute = $this->attributeValueBuilder
                 ->setAttributeCode($attributeCode)
                 ->setValue($attributeValue)
                 ->create();
-            $this->_data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $valueObject;
+            $this->data[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $attribute;
         }
         return $this;
     }
@@ -98,8 +98,7 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
             return $this->customAttributesCodes;
         }
         $attributeCodes = [];
-        $dataObjectClassName = $this->_getDataObjectType();
-        $customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata($dataObjectClassName);
+        $customAttributesMetadata = $this->metadataService->getCustomAttributesMetadata($this->_getDataObjectType());
         if (is_array($customAttributesMetadata)) {
             foreach ($customAttributesMetadata as $attribute) {
                 $attributeCodes[] = $attribute->getAttributeCode();
@@ -107,6 +106,19 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
         }
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
+    }
+
+    /**
+     * Set data item value.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     * @deprecated This method should not be used in the client code and will be removed after Service Layer refactoring
+     */
+    public function set($key, $value)
+    {
+        return $this->_set($key, $value);
     }
 
     /**
@@ -136,11 +148,19 @@ abstract class AbstractExtensibleObjectBuilder extends AbstractSimpleObjectBuild
                     );
                 }
             } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
-                $this->_data[$key] = $value;
+                $this->data[$key] = $value;
             } else {
                 $this->setCustomAttribute($key, $value);
             }
         }
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _getDataObjectType()
+    {
+        return $this->modelClassInterface ?: parent::_getDataObjectType();
     }
 }

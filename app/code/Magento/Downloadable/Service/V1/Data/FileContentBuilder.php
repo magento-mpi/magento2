@@ -7,12 +7,12 @@
  */
 namespace Magento\Downloadable\Service\V1\Data;
 
-use \Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use \Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class FileContentBuilder extends AbstractExtensibleObjectBuilder
+class FileContentBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Set data (base64 encoded content)

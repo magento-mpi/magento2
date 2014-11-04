@@ -112,7 +112,6 @@ class DefinitionFactory
                 $autoloader,
                 $generatorIo,
                 array(
-
                     SearchResultsBuilder::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
                     Generator\Factory::ENTITY_TYPE
@@ -124,7 +123,7 @@ class DefinitionFactory
                     InterceptionGenerator\Interceptor::ENTITY_TYPE
                         => '\Magento\Framework\Interception\Code\Generator\Interceptor',
                     DataBuilderGenerator::ENTITY_TYPE
-                    => '\Magento\Framework\Api\Code\Generator\DataBuilder',
+                        => '\Magento\Framework\Api\Code\Generator\DataBuilder',
                     BuilderGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\Builder',
                     MapperGenerator::ENTITY_TYPE

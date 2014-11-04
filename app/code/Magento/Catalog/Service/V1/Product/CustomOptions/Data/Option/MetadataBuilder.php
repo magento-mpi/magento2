@@ -13,7 +13,7 @@ use Magento\Framework\Api\AttributeValueBuilder;
 /**
  * @codeCoverageIgnore
  */
-class MetadataBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class MetadataBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @var string[]
