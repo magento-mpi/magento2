@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Abstract.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id$
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -32,11 +32,16 @@
  *
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Controller_Router_Route_Abstract implements Zend_Controller_Router_Route_Interface
 {
+    /**
+     * URI delimiter
+     */
+    const URI_DELIMITER = '/';
+    
     /**
      * Wether this route is abstract or not
      *
@@ -83,7 +88,7 @@ abstract class Zend_Controller_Router_Route_Abstract implements Zend_Controller_
     }
 
     /**
-     * Check or set whether this is an abstract route or not
+     * Check or set wether this is an abstract route or not
      *
      * @param  boolean $flag
      * @return boolean

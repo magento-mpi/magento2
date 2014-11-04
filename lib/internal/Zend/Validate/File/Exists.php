@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Exists.php 20352 2010-01-17 17:55:38Z thomas $
+ * @version   $Id$
  */
 
 /**
@@ -29,7 +29,7 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_Exists extends Zend_Validate_Abstract
@@ -152,7 +152,7 @@ class Zend_Validate_File_Exists extends Zend_Validate_Abstract
      *
      * Returns true if and only if the file already exists in the set directories
      *
-     * @param  string  $value Real file to check for existence
+     * @param  string  $value Real file to check for existance
      * @param  array   $file  File data from Zend_File_Transfer
      * @return boolean
      */

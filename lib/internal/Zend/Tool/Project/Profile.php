@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage Framework
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Profile.php 20851 2010-02-02 21:45:51Z ralph $
+ * @version    $Id$
  */
 
 /**
@@ -38,7 +38,7 @@
  *
  * @category   Zend
  * @package    Zend_Tool
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Container
@@ -48,7 +48,7 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
      * @var bool
      */
     protected static $_traverseEnabled = false;
-    
+
     /**
      * Constructor, standard usage would allow the setting of options
      *
@@ -111,7 +111,7 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
     /**
      * isLoadableFromFile() - can a profile be loaded from a file
      *
-     * whether or not a profile can be loaded from the
+     * wether or not a profile can be loaded from the
      * file in attribute 'projectProfileFile', or from a file named
      * '.zfproject.xml' inside a directory in key 'projectDirectory'
      *

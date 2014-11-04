@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Photos
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Photos.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 /**
@@ -52,14 +52,14 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Photos
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Photos extends Zend_Gdata
 {
 
-    const PICASA_BASE_URI = 'http://picasaweb.google.com/data';
-    const PICASA_BASE_FEED_URI = 'http://picasaweb.google.com/data/feed';
+    const PICASA_BASE_URI = 'https://picasaweb.google.com/data';
+    const PICASA_BASE_FEED_URI = 'https://picasaweb.google.com/data/feed';
     const AUTH_SERVICE_NAME = 'lh2';
 
     /**
@@ -176,7 +176,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve AlbumFeed object containing multiple PhotoEntry or TagEntry
+     * Retreive AlbumFeed object containing multiple PhotoEntry or TagEntry
      * objects.
      *
      * @param mixed $location (optional) The location for the feed, as a URL or Query.
@@ -202,7 +202,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve PhotoFeed object containing comments and tags associated
+     * Retreive PhotoFeed object containing comments and tags associated
      * with a given photo.
      *
      * @param mixed $location (optional) The location for the feed, as a URL
@@ -230,7 +230,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single UserEntry object.
+     * Retreive a single UserEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Photos_UserEntry
@@ -255,7 +255,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single AlbumEntry object.
+     * Retreive a single AlbumEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Photos_AlbumEntry
@@ -280,7 +280,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single PhotoEntry object.
+     * Retreive a single PhotoEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Photos_PhotoEntry
@@ -305,7 +305,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single TagEntry object.
+     * Retreive a single TagEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Photos_TagEntry
@@ -330,7 +330,7 @@ class Zend_Gdata_Photos extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single CommentEntry object.
+     * Retreive a single CommentEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Photos_CommentEntry

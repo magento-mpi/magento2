@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gapps
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Gapps.php 22511 2010-07-01 01:41:46Z tjohns $
+ * @version    $Id$
  */
 
 /**
@@ -76,7 +76,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gapps
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gapps extends Zend_Gdata
@@ -195,10 +195,10 @@ class Zend_Gdata_Gapps extends Zend_Gdata
      * @throws Zend_Gdata_Gapps_ServiceException
      * @return Zend_Gdata_App_Feed
      */
-    public static function import($uri, $client = null, $className='Zend_Gdata_App_Feed')
+    public static function import($uri, $client = null, $className='Zend_Gdata_App_Feed', $useObjectMapping = true)
     {
         try {
-            return parent::import($uri, $client, $className);
+            return parent::import($uri, $client, $className, $useObjectMapping);
         } catch (Zend_Gdata_App_HttpException $e) {
             self::throwServiceExceptionIfDetected($e);
         }
@@ -370,7 +370,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve NicknameFeed object containing multiple NicknameEntry objects.
+     * Retreive NicknameFeed object containing multiple NicknameEntry objects.
      *
      * @param mixed $location (optional) The location for the feed, as a URL
      *          or Query.
@@ -392,7 +392,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve GroupFeed object containing multiple GroupEntry
+     * Retreive GroupFeed object containing multiple GroupEntry
      * objects.
      *
      * @param mixed $location (optional) The location for the feed, as a URL
@@ -416,7 +416,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve MemberFeed object containing multiple MemberEntry
+     * Retreive MemberFeed object containing multiple MemberEntry
      * objects.
      *
      * @param mixed $location (optional) The location for the feed, as a URL
@@ -441,7 +441,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve OwnerFeed object containing multiple OwnerEntry
+     * Retreive OwnerFeed object containing multiple OwnerEntry
      * objects.
      *
      * @param mixed $location (optional) The location for the feed, as a URL
@@ -466,7 +466,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve EmailListFeed object containing multiple EmailListEntry
+     * Retreive EmailListFeed object containing multiple EmailListEntry
      * objects.
      *
      * @param mixed $location (optional) The location for the feed, as a URL
@@ -489,7 +489,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve EmailListRecipientFeed object containing multiple
+     * Retreive EmailListRecipientFeed object containing multiple
      * EmailListRecipientEntry objects.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
@@ -513,7 +513,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single UserEntry object.
+     * Retreive a single UserEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_UserEntry
@@ -536,7 +536,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single NicknameEntry object.
+     * Retreive a single NicknameEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_NicknameEntry
@@ -559,7 +559,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single GroupEntry object.
+     * Retreive a single GroupEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_GroupEntry
@@ -582,7 +582,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single MemberEntry object.
+     * Retreive a single MemberEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_MemberEntry
@@ -605,7 +605,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single OwnerEntry object.
+     * Retreive a single OwnerEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_OwnerEntry
@@ -628,7 +628,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single EmailListEntry object.
+     * Retreive a single EmailListEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_EmailListEntry
@@ -651,7 +651,7 @@ class Zend_Gdata_Gapps extends Zend_Gdata
     }
 
     /**
-     * Retrieve a single EmailListRecipientEntry object.
+     * Retreive a single EmailListRecipientEntry object.
      *
      * @param mixed $location The location for the feed, as a URL or Query.
      * @return Zend_Gdata_Gapps_EmailListRecipientEntry

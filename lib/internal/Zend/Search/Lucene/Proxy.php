@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Proxy.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Interface */
@@ -30,7 +30,7 @@
  *
  * @category   Zend
  * @package    Zend_Search_Lucene
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Proxy implements Zend_Search_Lucene_Interface
@@ -447,7 +447,7 @@ class Zend_Search_Lucene_Proxy implements Zend_Search_Lucene_Interface
     }
 
     /**
-     * Retrieve similarity used by index reader
+     * Retrive similarity used by index reader
      *
      * @return Zend_Search_Lucene_Search_Similarity
      */
@@ -538,7 +538,7 @@ class Zend_Search_Lucene_Proxy implements Zend_Search_Lucene_Interface
     }
 
     /**
-     * Skip terms stream up to specified term prefix.
+     * Skip terms stream up to specified term preffix.
      *
      * Prefix contains fully specified field info and portion of searched term
      *

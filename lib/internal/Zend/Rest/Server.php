@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage Server
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Server.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 /**
@@ -39,7 +39,7 @@
  * @category   Zend
  * @package    Zend_Rest
  * @subpackage Server
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Rest_Server implements Zend_Server_Interface
@@ -484,7 +484,7 @@ class Zend_Rest_Server implements Zend_Server_Interface
             $xmlResponse->appendChild($element);
             $code = $exception->getCode();
         } elseif (($exception !== null) || 'rest' == $function) {
-            $xmlResponse->appendChild($dom->createElement('message', 'An unknown error occurred. Please try again.'));
+            $xmlResponse->appendChild($dom->createElement('message', 'An unknown error occured. Please try again.'));
         } else {
             $xmlResponse->appendChild($dom->createElement('message', 'Call to ' . $method . ' failed.'));
         }

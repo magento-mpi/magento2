@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Pdf
  * @subpackage FileParser
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FileParserDataSource.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id$
  */
 
 /**
@@ -35,7 +35,7 @@
  *
  * @package    Zend_Pdf
  * @subpackage FileParser
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Pdf_FileParserDataSource
@@ -60,7 +60,14 @@ abstract class Zend_Pdf_FileParserDataSource
   /**** Public Interface ****/
 
 
-    /* Abstract Methods */
+  /* Abstract Methods */
+
+    /**
+     * Object destructor. Closes the data source.
+     *
+     * May also perform cleanup tasks such as deleting temporary files.
+     */
+    abstract public function __destruct();
 
     /**
      * Returns the specified number of raw bytes from the data source at the

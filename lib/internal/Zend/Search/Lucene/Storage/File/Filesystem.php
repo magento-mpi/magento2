@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Filesystem.php 23395 2010-11-19 15:30:47Z alexander $
+ * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Storage_File */
@@ -27,7 +27,7 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Storage_File_Filesystem extends Zend_Search_Lucene_Storage_File
@@ -163,7 +163,7 @@ class Zend_Search_Lucene_Storage_File_Filesystem extends Zend_Search_Lucene_Stor
             $nextBlock = fread($this->_fileHandle, $length);
             if ($nextBlock === false) {
                 #require_once 'Zend/Search/Lucene/Exception.php';
-                throw new Zend_Search_Lucene_Exception( "Error occurred while file reading." );
+                throw new Zend_Search_Lucene_Exception( "Error occured while file reading." );
             }
 
             $data .= $nextBlock;
@@ -171,7 +171,7 @@ class Zend_Search_Lucene_Storage_File_Filesystem extends Zend_Search_Lucene_Stor
         }
         if ($length != 0) {
             #require_once 'Zend/Search/Lucene/Exception.php';
-            throw new Zend_Search_Lucene_Exception( "Error occurred while file reading." );
+            throw new Zend_Search_Lucene_Exception( "Error occured while file reading." );
         }
 
         return $data;
