@@ -108,6 +108,18 @@ class IntegrationGrid extends Grid
     }
 
     /**
+     * Search and reauthorize current item
+     *
+     * @param array $filter
+     * @return void
+     */
+    public function searchAndReauthorize(array $filter)
+    {
+        $this->search($filter);
+        $this->_rootElement->find($this->activateLink)->click();
+    }
+
+    /**
      * Return Integration resources popup block
      *
      * @return ResourcesPopup
