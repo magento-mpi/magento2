@@ -35,7 +35,7 @@ $defaults = [
 ];
 $skeletonDefaults = [
     'name' => 'magento/skeleton',
-    'description' => 'Magento Skeleton',
+    'description' => 'Magento 2 Skeleton',
     'type' => 'magento2-component',
 ];
 $opt = getopt('', ['skeleton', 'wildcard', 'source-dir::', 'target-file::', 'set::']);
