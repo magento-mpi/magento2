@@ -113,7 +113,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock'));
-        $this->_varienObserver->expects($this->once())->method('getBlock')->will($this->returnValue($this->_block));
+        $this->_varienObserver->expects($this->any())->method('getBlock')->will($this->returnValue($this->_block));
     }
 
     /**
@@ -455,5 +455,88 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function checkoutItemsDataProvider()
     {
         return array(array('checkout.items'), array('items'));
+    }
+
+    /**
+     * @covers \Magento\PricePermissions\Model\Observer::viewBlockAbstractToHtmlBefore
+     * @dataProvider viewBlockAbstractToHtmlBeforeDataProvider
+     * @param string $nameInLayout
+     */
+    public function testViewBlockAbstractToHtmlBefore($nameInLayout)
+    {
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->setMethods(['isObjectNew', 'getIsRecurring', '__wakeup'])
+            ->getMock();
+        $product->expects($this->any())->method('isObjectNew')->will($this->returnValue(false));
+        $product->expects($this->any())->method('getIsRecurring')->will($this->returnValue(true));
+
+        $productFactory = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $productFactory->expects($this->any())->method('create')->will($this->returnValue($product));
+
+        $coreRegistry = $this->getMockBuilder('Magento\Framework\Registry')
+            ->disableOriginalConstructor()
+            ->setMethods(['registry'])
+            ->getMock();
+        $coreRegistry->expects($this->any())->method('registry')->with('product')->will($this->returnValue($product));
+        $data = ['can_read_product_price' => false, 'can_edit_product_price' => false];
+        $model = (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\PricePermissions\Model\Observer',
+                [
+                    'coreRegistry' => $coreRegistry,
+                    'productFactory' => $productFactory,
+                    'data' => $data,
+                ]
+            );
+        $block = $this->getMockBuilder(
+            'Magento\Framework\View\Element\AbstractBlock'
+        )->disableOriginalConstructor()->setMethods(
+            [
+                'getNameInLayout',
+                'setProductEntity',
+                'setIsReadonly',
+                'addConfigOptions',
+                'addFieldDependence',
+                'setCanEditPrice'
+            ]
+        )->getMock();
+        $observer = $this->getMockBuilder(
+            'Magento\Framework\Event\Observer'
+        )->disableOriginalConstructor()->setMethods(
+            array('getBlock')
+        )->getMock();
+        $observer->expects($this->any())->method('getBlock')->will($this->returnValue($block));
+
+        switch ($nameInLayout) {
+            case 'adminhtml_recurring_payment_edit_form':
+                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+                $block->expects($this->once())->method('setProductEntity')->with($product);
+                $block->expects($this->once())->method('setIsReadonly')->with(true);
+                break;
+            case 'adminhtml_recurring_payment_edit_form_dependence':
+                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+                $block->expects($this->once())->method('addConfigOptions')->with(array('can_edit_price' => false));
+                $block->expects($this->once())
+                    ->method('addFieldDependence')
+                    ->with('product[recurring_payment]', 'product[is_recurring]', 0);
+                break;
+            case 'adminhtml.catalog.product.edit.tab.attributes':
+                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+                $block->expects($this->once())->method('setCanEditPrice')->with(false);
+                break;
+        }
+        $model->viewBlockAbstractToHtmlBefore($observer);
+    }
+
+    public function viewBlockAbstractToHtmlBeforeDataProvider()
+    {
+        return [
+            ['adminhtml_recurring_payment_edit_form'],
+            ['adminhtml_recurring_payment_edit_form_dependence'],
+            ['adminhtml.catalog.product.edit.tab.attributes'],
+        ];
     }
 }
