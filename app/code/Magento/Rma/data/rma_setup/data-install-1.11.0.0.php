@@ -7,7 +7,6 @@
  */
 
 /** @var $this \Magento\Rma\Model\Resource\Setup */
-/** @var $installer \Magento\Rma\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -16,8 +15,7 @@ $installer = $this;
 $installer->installEntities();
 $installer->installForms();
 
-//Add Product's Attribute
-/** @var \Magento\Catalog\Model\Resource\Setup $installer */
+// Add Product's Attribute
 $installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 /**
