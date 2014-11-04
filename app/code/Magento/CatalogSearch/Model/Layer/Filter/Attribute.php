@@ -27,7 +27,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         $attribute = $this->getAttributeModel();
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->applyFilterToCollection($attribute->getAttributeCode(), $attributeValue);
+        $productCollection->addFieldToFilter($attribute->getAttributeCode(), $attributeValue);
         return $this;
     }
 

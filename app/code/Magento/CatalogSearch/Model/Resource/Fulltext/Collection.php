@@ -20,13 +20,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $queryResponse;
 
     /**
-     * List Of filters
-     *
-     * @var array
-     */
-    private $filters = [];
-
-    /**
      * Catalog search data
      *
      * @var \Magento\Search\Model\QueryFactory
@@ -135,16 +128,21 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * Add not indexable fields to search
-     *
-     * @param array $fields
+     * @param mixed $field
+     * @param null $condition
      * @return $this
-     * @throws \Magento\Framework\Model\Exception
      */
-    public function addFieldsToFilter($fields)
+    public function addFieldToFilter($field, $condition = null)
     {
-        if ($fields) {
-            $this->filters = array_merge($this->filters, $fields);
+        if (!is_array($condition) && !in_array(key($condition), ['from', 'to'])) {
+            $this->requestBuilder->bind($field, $condition);
+        } else {
+            if (!empty($condition['from'])) {
+                $this->requestBuilder->bind("{$field}.from", $condition['from']);
+            }
+            if (!empty($condition['to'])) {
+                $this->requestBuilder->bind("{$field}.to", $condition['to']);
+            }
         }
         return $this;
     }
@@ -159,41 +157,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         $this->queryText = trim($this->queryText .' ' . $query);
         return $this;
-    }
-
-    /**
-     * Render search filters
-     *
-     * @return void
-     */
-    protected function _renderSearchFilters()
-    {
-        if ($this->filters) {
-            foreach ($this->filters as $attributes) {
-                foreach ($attributes as $attributeCode => $attributeValue) {
-                    if (is_numeric($attributeCode)) {
-                        $attributeCode =
-                            $this->_eavConfig->getAttribute(Product::ENTITY, $attributeCode)->getAttributeCode();
-                    }
-                    if (!empty($attributeValue['from']) || !empty($attributeValue['to'])) {
-                        if (!empty($attributeValue['from'])) {
-                            $this->requestBuilder->bind("{$attributeCode}.from", $attributeValue['from']);
-                        }
-                        if (!empty($attributeValue['to'])) {
-                            $this->requestBuilder->bind("{$attributeCode}.to", $attributeValue['to']);
-                        }
-                    } elseif (!is_array($attributeValue)) {
-                        $this->requestBuilder->bind($attributeCode, $attributeValue);
-                    } elseif (isset($attributeValue['like'])) {
-                        $this->requestBuilder->bind($attributeCode, trim($attributeValue['like'], '%'));
-                    } elseif (isset($attributeValue['in'])) {
-                        $this->requestBuilder->bind($attributeCode, $attributeValue['in']);
-                    } elseif (isset($attributeValue['in_set'])) {
-                        $this->requestBuilder->bind($attributeCode, implode('%', $attributeValue['in_set']));
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -214,7 +177,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
         );
-        $this->_renderSearchFilters();
 
         $this->requestBuilder->setRequestName('quick_search_container');
         $queryRequest = $this->requestBuilder->create();
@@ -225,7 +187,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         foreach ($this->queryResponse as $document) {
             $ids[] = $document->getId();
         }
-        $this->addIdFilter($ids);
+        parent::addFieldToFilter('entity_id', ['in' => $ids]);
 
         if ($this->order && $this->order['field'] == 'relevance') {
             $this->getSelect()->order(
