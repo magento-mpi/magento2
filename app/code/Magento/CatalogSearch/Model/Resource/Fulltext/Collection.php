@@ -162,6 +162,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         return $this;
     }
 
+    /**
+     * Render search filters
+     *
+     * @return void
+     */
     protected function _renderSearchFilters()
     {
         if ($this->filters) {
