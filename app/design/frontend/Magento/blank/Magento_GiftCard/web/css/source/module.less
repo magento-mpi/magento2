@@ -30,4 +30,12 @@
     .product-options-wrapper {
         margin-top: @form-field-vertical-indent;
     }
+    .fieldset.giftcard {
+        >.legend {
+            &:extend(.abstract-visually-hidden all);
+        }
+        >.legend + br {
+            &:extend(.abstract-no-display all);
+        }
+    }
 }
