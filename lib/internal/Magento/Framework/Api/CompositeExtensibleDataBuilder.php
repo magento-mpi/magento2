@@ -88,10 +88,11 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      *
      * @param string $name
      * @param array $arguments
+     * @return mixed
      */
     public function __call($name, $arguments)
     {
-        call_user_func_array([$this->currentBuilder, $name], $arguments);
+        return call_user_func_array([$this->currentBuilder, $name], $arguments);
     }
 
     /**
