@@ -9,10 +9,6 @@
  */
 namespace Magento\Catalog\Api\Data;
 
-/**
- * @todo implement this interface as \Magento\Catalog\Model\Product\Attribute\Media\GalleryEntry.
- * Move logic from service there.
- */
 interface ProductAttributeMediaGalleryEntryInterface
 {
     const ID = 'id';
@@ -25,14 +21,14 @@ interface ProductAttributeMediaGalleryEntryInterface
     /**
      * Retrieve gallery entry ID
      *
-     * @return int|null
+     * @return int
      */
     public function getId();
 
     /**
      * Retrieve gallery entry alternative text
      *
-     * @return string|null
+     * @return string
      */
     public function getLabel();
 
@@ -48,19 +44,19 @@ interface ProductAttributeMediaGalleryEntryInterface
      *
      * @return bool
      */
-    public function isDisabled();
+    public function getIsDisabled();
 
     /**
      * Retrieve gallery entry image types (thumbnail, image, small_image etc)
      *
-     * @return string[]|null
+     * @return string[]
      */
     public function getTypes();
 
     /**
      * Get file path
      *
-     * @return string|null
+     * @return string
      */
     public function getFile();
 }

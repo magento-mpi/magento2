@@ -14,7 +14,6 @@ interface ProductMediaAttributeManagementInterface
      *
      * @param string $attributeSetName
      * @return \Magento\Catalog\Api\Data\ProductAttributeInterface[] list of media attributes
-     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface::types
      */
     public function getList($attributeSetName);
 }

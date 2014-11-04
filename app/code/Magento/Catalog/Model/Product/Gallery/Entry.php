@@ -8,27 +8,27 @@
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Entry extends \Magento\Framework\Model\AbstractExtensibleModel
     implements \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface
 {
     /**
      * Retrieve gallery entry ID
      *
-     * @return int|null
+     * @return int
      */
     public function getId()
     {
-        return $this->_get(self::ID);
+        return $this->getData(self::ID);
     }
 
     /**
      * Retrieve gallery entry alternative text
      *
-     * @return string|null
+     * @return string
      */
     public function getLabel()
     {
-        return $this->_get(self::LABEL);
+        return $this->getData(self::LABEL);
     }
 
     /**
@@ -38,7 +38,7 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      */
     public function getPosition()
     {
-        return $this->_get(self::POSITION);
+        return $this->getData(self::POSITION);
     }
 
     /**
@@ -46,28 +46,28 @@ class Entry extends \Magento\Framework\Service\Data\AbstractExtensibleObject
      *
      * @return bool
      */
-    public function isDisabled()
+    public function getIsDisabled()
     {
-        return $this->_get(self::DISABLED);
+        return $this->getData(self::DISABLED);
     }
 
     /**
      * Retrieve gallery entry image types (thumbnail, image, small_image etc)
      *
-     * @return string[]|null
+     * @return string[]
      */
     public function getTypes()
     {
-        return $this->_get(self::TYPES);
+        return $this->getData(self::TYPES);
     }
 
     /**
      * Get file path
      *
-     * @return string|null
+     * @return string
      */
     public function getFile()
     {
-        return $this->_get(self::FILE);
+        return $this->getData(self::FILE);
     }
-} 
+}

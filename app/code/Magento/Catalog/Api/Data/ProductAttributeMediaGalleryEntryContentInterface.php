@@ -9,18 +9,18 @@
  */
 namespace Magento\Catalog\Api\Data;
 
-/**
- * @todo implement this interface as \Magento\Catalog\Model\Product\Attribute\Media\GalleryEntryContent.
- * Move logic from service there. Move corresponding helper classes too.
- */
 interface ProductAttributeMediaGalleryEntryContentInterface
 {
+    const DATA = 'data';
+    const MIME_TYPE = 'mime_type';
+    const NAME = 'name';
+
     /**
      * Retrieve media data (base64 encoded content)
      *
      * @return string
      */
-    public function getData();
+    public function getEntryData();
 
     /**
      * Retrieve MIME type

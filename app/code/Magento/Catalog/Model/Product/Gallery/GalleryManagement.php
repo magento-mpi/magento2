@@ -8,13 +8,12 @@
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-use Magento\Catalog\Model\Product\Gallery\ContentValidator;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\StateException;
-use Magento\Catalog\Api\Data\ProductInterface as Product;
-use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
-use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
+use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Framework\Exception\InputException;
+use \Magento\Framework\Exception\StateException;
+use \Magento\Catalog\Api\Data\ProductInterface as Product;
+use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
+use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
 use \Magento\Catalog\Model\Product\Media\Config as MediaConfig;
 use \Magento\Framework\App\Filesystem;
 
@@ -48,64 +47,60 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     protected $mediaConfig;
 
     /**
-     * @var ContentValidator
+     * @var \Magento\Catalog\Model\Product\Gallery\ContentValidator
      */
     protected $contentValidator;
 
     /**
-     * @var Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @var EntryBuilder
+     * @var \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder
      */
     protected $entryBuilder;
 
     /**
-     * @var \Magento\Eav\Model\Config
-     */
-    protected $eavConfig;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
-    protected  $mediaGallery;
+    protected $mediaGallery;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
+     * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
      */
-    protected $attributeFactory;
+    protected $attributeRepository;
 
     /**
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
      * @param MediaConfig $mediaConfig
      * @param ContentValidator $contentValidator
-     * @param Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param EntryResolver $entryResolver
-     * @param EntryBuilder $entryBuilder
-     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder $entryBuilder
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
      */
     public function __construct(
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
         MediaConfig $mediaConfig,
-        ContentValidator $contentValidator,
-        Filesystem $filesystem,
+        \Magento\Catalog\Model\Product\Gallery\ContentValidator $contentValidator,
+        \Magento\Framework\Filesystem $filesystem,
         EntryResolver $entryResolver,
-        EntryBuilder $entryBuilder,
-        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder $entryBuilder,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
     ) {
         $this->productRepository = $productRepository;
         $this->storeManager = $storeManager;
+        $this->attributeRepository = $attributeRepository;
         $this->mediaConfig = $mediaConfig;
         $this->contentValidator = $contentValidator;
         $this->filesystem = $filesystem;
         $this->entryResolver = $entryResolver;
         $this->entryBuilder = $entryBuilder;
-        $this->eavConfig = $eavConfig;
         $this->mediaGallery = $mediaGallery;
     }
 
@@ -119,10 +114,12 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     protected function getGalleryAttributeBackend(Product $product)
     {
         $attributes = $product->getTypeInstance()->getSetAttributes($product);
-        if (!isset($attributes['media_gallery']) || !($attributes['media_gallery'] instanceof AbstractAttribute)) {
+        if (!isset($attributes['media_gallery'])
+            || !($attributes['media_gallery'] instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute)
+        ) {
             throw new StateException('Requested product does not support images.');
         }
-        /** @var $galleryAttribute AbstractAttribute */
+        /** @var $galleryAttribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
         $galleryAttribute = $attributes['media_gallery'];
         return $galleryAttribute->getBackend();
     }
@@ -152,8 +149,9 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
         ContentInterface $entryContent,
         $storeId = 0
     ) {
-        $store = $this->storeManager->getStore($storeId);
-        if ($store->getId() != $storeId) {
+        try {
+            $this->storeManager->getStore($storeId);
+        } catch (\Exception $ex) {
             throw new NoSuchEntityException('There is no store with provided ID.');
         }
         if (!$this->contentValidator->isValid($entryContent)) {
@@ -161,9 +159,9 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
         }
         $product = $this->productRepository->get($productSku);
 
-        $fileContent = @base64_decode($entryContent->getData(), true);
+        $fileContent = @base64_decode($entryContent->getEntryData(), true);
         $mediaTmpPath = $this->mediaConfig->getBaseTmpMediaPath();
-        $mediaDirectory = $this->filesystem->getDirectoryWrite(Filesystem::MEDIA_DIR);
+        $mediaDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
         $mediaDirectory->create($mediaTmpPath);
         $fileName = $entryContent->getName() . '.' . $this->mimeTypeExtensionMap[$entryContent->getMimeType()];
         $relativeFilePath = $mediaTmpPath . DIRECTORY_SEPARATOR . $fileName;
@@ -177,16 +175,21 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
             $absoluteFilePath,
             $entry->getTypes(),
             true,
-            $entry->isDisabled()
+            $entry->getIsDisabled()
         );
         // Update additional fields that are still empty after addImage call
         $productMediaGallery->updateImage($product, $imageFileUri, array(
                 'label' => $entry->getLabel(),
                 'position' => $entry->getPosition(),
-                'disabled' => $entry->isDisabled(),
+                'disabled' => $entry->getIsDisabled(),
             ));
         $product->setStoreId($storeId);
-        $product->save();
+
+        try {
+            $this->productRepository->save($product);
+        } catch (\Exception $e) {
+            throw new StateException('Cannot save product.');
+        }
         // Remove all temporary files
         $mediaDirectory->delete($relativeFilePath);
         // File could change its name during the move from tmp dir
@@ -201,8 +204,9 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
      */
     public function update($productSku, ProductAttributeMediaGalleryEntryInterface $entry, $storeId = 0)
     {
-        $store = $this->storeManager->getStore($storeId);
-        if ($store->getId() != $storeId) {
+        try {
+            $this->storeManager->getStore($storeId);
+        } catch (\Exception $ex) {
             throw new NoSuchEntityException('There is no store with provided ID.');
         }
         $product = $this->productRepository->get($productSku);
@@ -216,12 +220,17 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
         $productMediaGallery->updateImage($product, $filePath, array(
             'label' => $entry->getLabel(),
             'position' => $entry->getPosition(),
-            'disabled' => $entry->isDisabled(),
+            'disabled' => $entry->getIsDisabled(),
         ));
         $productMediaGallery->clearMediaAttribute($product, array_keys($product->getMediaAttributes()));
         $productMediaGallery->setMediaAttribute($product, $entry->getTypes(), $filePath);
         $product->setStoreId($storeId);
-        $product->save();
+
+        try {
+            $this->productRepository->save($product);
+        } catch (\Exception $e) {
+            throw new StateException('Cannot save product.');
+        }
         return true;
     }
 
@@ -279,10 +288,8 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
 
-        $galleryAttribute = $this->attributeFactory->create()->loadByCode(
-            $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY),
-            'media_gallery'
-        );
+        /** @var \Magento\Catalog\Api\Data\ProductAttributeInterface $galleryAttribute */
+        $galleryAttribute = $this->attributeRepository->get('media_gallery');
 
         $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
         $gallery = $this->mediaGallery->loadGallery($product, $container);
@@ -293,7 +300,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
             $this->entryBuilder->setId($image['value_id']);
             $this->entryBuilder->setLabel($image['label_default']);
             $this->entryBuilder->setTypes(array_keys($productImages, $image['file']));
-            $this->entryBuilder->setDisabled($image['disabled_default']);
+            $this->entryBuilder->setIsDisabled($image['disabled_default']);
             $this->entryBuilder->setPosition($image['position_default']);
             $this->entryBuilder->setFile($image['file']);
             $result[] = $this->entryBuilder->create();

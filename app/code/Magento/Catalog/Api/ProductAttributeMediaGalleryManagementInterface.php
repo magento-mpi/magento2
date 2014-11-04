@@ -9,9 +9,6 @@
  */
 namespace Magento\Catalog\Api;
 
-use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
-use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
-
 /**
  * @todo implement this interface as a \Magento\Catalog\Model\Product\Attribute\Media\GalleryManagement.
  * Move logic from service there.
@@ -29,9 +26,13 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
-     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface::create
      */
-    public function create($productSku, ProductAttributeMediaGalleryEntryInterface $entry, ContentInterface $entryContent, $storeId = 0);
+    public function create(
+        $productSku,
+        \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface $entry,
+        \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface $entryContent,
+        $storeId = 0
+    );
 
     /**
      * Update gallery entry
@@ -42,9 +43,12 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
-     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface::update
      */
-    public function update($productSku, ProductAttributeMediaGalleryEntryInterface $entry, $storeId = 0);
+    public function update(
+        $productSku,
+        \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface $entry,
+        $storeId = 0
+    );
 
     /**
      * Remove gallery entry
@@ -54,7 +58,6 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
-     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface::delete
      */
     public function remove($productSku, $entryId);
 
@@ -65,7 +68,6 @@ interface ProductAttributeMediaGalleryManagementInterface
      * @param int $imageId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface
-     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface::info
      */
     public function get($productSku, $imageId);
 
@@ -74,7 +76,6 @@ interface ProductAttributeMediaGalleryManagementInterface
      *
      * @param string $productSku
      * @return \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface[]
-     * @see \Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface::getList
      */
     public function getList($productSku);
 }

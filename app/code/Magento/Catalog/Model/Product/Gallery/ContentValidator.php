@@ -46,7 +46,7 @@ class ContentValidator
      */
     public function isValid(ProductAttributeMediaGalleryEntryContentInterface $entryContent)
     {
-        $fileContent = @base64_decode($entryContent->getData(), true);
+        $fileContent = @base64_decode($entryContent->getEntryData(), true);
         if (empty($fileContent)) {
             throw new InputException('The image content must be valid base64 encoded data.');
         }
