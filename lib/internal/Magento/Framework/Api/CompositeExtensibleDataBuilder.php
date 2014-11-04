@@ -120,4 +120,17 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
             );
         }
     }
+
+    /**
+     * Populates the fields with data from the array.
+     *
+     * Keys for the map are snake_case attribute/field names.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function populateWithArray(array $data)
+    {
+        return $this->currentBuilder->populateWithArray($data);
+    }
 }

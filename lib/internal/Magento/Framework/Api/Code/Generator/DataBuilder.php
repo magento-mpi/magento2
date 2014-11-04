@@ -85,17 +85,12 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        $constructorDefinition = [];
-        if ($this->getDataType() == self::TYPE_DATA_MODEL) {
             $constructorDefinition = [
                 'name' => '__construct',
                 'parameters' => [
                     ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
                     ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
-                    ['name' => 'attributeValueBuilder', 'type' => '\Magento\Framework\Api\AttributeDataBuilder'],
-                    ['name' => 'objectProcessor', 'type' => '\Magento\Framework\Reflection\DataObjectProcessor'],
-                    ['name' => 'typeProcessor', 'type' => '\Magento\Framework\Reflection\TypeProcessor'],
-                    ['name' => 'dataBuilderFactory', 'type' => '\Magento\Framework\Serialization\DataBuilderFactory']
+                ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
@@ -110,27 +105,13 @@ class DataBuilder extends EntityAbstract
                         ],
                         [
                             'name' => 'param',
-                            'description' => '\Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\Reflection\DataObjectProcessor $objectProcessor'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\Reflection\TypeProcessor $typeProcessor'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory'
+                        'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
                         ]
                     ]
                 ],
-                'body' => "parent::__construct(\$objectManager, \$metadataService, "
-                    . "\$attributeValueBuilder, \$objectProcessor, \$typeProcessor, \$dataBuilderFactory, "
-                    . "'" . $this->_getSourceClassName(). "');"
-            ];
-        }
+            'body' => "parent::__construct(\$objectManager, \$metadataService, \$objectManagerConfig, "
+                . "'{$this->_getSourceClassName()}');"
+        ];
         return $constructorDefinition;
     }
 
