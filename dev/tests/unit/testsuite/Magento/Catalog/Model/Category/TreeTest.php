@@ -71,7 +71,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'categoryCollection' => $this->categoryCollection,
                     'categoryTree' => $this->categoryTreeMock,
                     'storeManager' => $this->storeManagerMock,
-                    'treeBuilderFactory' => $this->treeBuilderMock
+                    'treeBuilder' => $this->treeBuilderMock
                 ]
             );
 
