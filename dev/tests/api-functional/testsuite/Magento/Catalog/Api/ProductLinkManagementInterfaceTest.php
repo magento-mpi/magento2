@@ -13,7 +13,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Catalog\Api\Data\ProductLinkInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
+class ProductLinkManagementInterfaceTest extends WebapiAbstract
 {
     const SERVICE_NAME = 'catalogProductLinkRepositoryInterfaceV1';
     const SERVICE_VERSION = 'V1';
