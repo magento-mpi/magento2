@@ -64,7 +64,8 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttribute($attributeCode, $attributeValue)
     {
-        return $this->currentBuilder->setCustomAttribute($attributeCode, $attributeValue);
+        $this->currentBuilder->setCustomAttribute($attributeCode, $attributeValue);
+        return $this;
     }
 
     /**
@@ -72,7 +73,8 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function setCustomAttributes(array $attributes)
     {
-        return $this->currentBuilder->setCustomAttributes($attributes);
+        $this->currentBuilder->setCustomAttributes($attributes);
+        return $this;
     }
 
     /**
@@ -92,7 +94,8 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this->currentBuilder, $name], $arguments);
+        call_user_func_array([$this->currentBuilder, $name], $arguments);
+        return $this;
     }
 
     /**
@@ -131,6 +134,12 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function populateWithArray(array $data)
     {
-        return $this->currentBuilder->populateWithArray($data);
+        $this->currentBuilder->populateWithArray($data);
+        return $this;
+    }
+
+    public function populate(AbstractSimpleObject $prototype) {
+        $this->currentBuilder->populate($prototype);
+        return $this;
     }
 }

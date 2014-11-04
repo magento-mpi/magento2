@@ -47,8 +47,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
-            //->setDefaultBilling(true)
-            //->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion($region)
             ->setStreet('Green str, 67')
@@ -64,8 +62,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
-            //->setDefaultBilling(false)
-            //->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion($region)
             ->setStreet('Black str, 48')
@@ -73,7 +69,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setTelephone('3234676')
             ->setFirstname('John')
             ->setLastname('Smith');
-
         $address2 = $this->_addressBuilder->create();
 
         $this->_expectedAddresses = array($address, $address2);
@@ -219,32 +214,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * TODO: restore once get/setDefaultBilling/ShippingAddress methods are implemented
-     *
-     * @magentoDataFixture  Magento/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
-     */
-    public function testSaveNewAddressDefaults()
-    {
-        //$addressShippingBuilder = $this->_createFirstAddressBuilder();
-        //$addressShippingBuilder->setDefaultShipping(true)->setDefaultBilling(false);
-        //$addressShippingBuilder->setCustomerId(1);
-        //$addressShipping = $addressShippingBuilder->create();
-
-        //$addressBillingBuilder = $this->_createSecondAddressBuilder();
-        //$addressBillingBuilder->setDefaultBilling(true)->setDefaultShipping(false);
-        //$addressBillingBuilder->setCustomerId(1);
-        //$addressBilling = $addressBillingBuilder->create();
-        //$shippingAddress = $this->repository->saveAddress($addressShipping);
-        //$billingAddress = $this->repository->saveAddress($addressBilling);
-
-        //$shipping = $this->repository->get($shippingAddress);
-        //$billing = $this->repository->get($billingAddress);
-        //$this->assertEquals($addressShipping, $shipping);
-        //$this->assertEquals($addressBilling, $billing);
-    }
-
     public function testSaveAddressesCustomerIdNotExist()
     {
         $proposedAddress = $this->_createSecondAddressBuilder()->setCustomerId(4200)->create();
@@ -324,6 +293,98 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         } catch (NoSuchEntityException $exception) {
             $this->assertEquals('No such entity with addressId = 12345', $exception->getMessage());
         }
+    }
+
+
+    /**
+     * @param \Magento\Framework\Api\Filter[] $filters
+     * @param \Magento\Framework\Api\Filter[] $filterGroup
+     * @param array $expectedResult array of expected results indexed by ID
+     *
+     * @dataProvider searchAddressDataProvider
+     *
+     * @magentoDataFixture  Magento/Customer/_files/customer.php
+     * @magentoDataFixture  Magento/Customer/_files/customer_two_addresses.php
+     * @magentoAppIsolation enabled
+     */
+    public function testSearchAddresses($filters, $filterGroup, $expectedResult)
+    {
+        /** @var \Magento\Framework\Api\SearchCriteriaBuilder $searchBuilder */
+        $searchBuilder = $this->_objectManager->create('Magento\Framework\Api\SearchCriteriaBuilder');
+        foreach ($filters as $filter) {
+            $searchBuilder->addFilter([$filter]);
+        }
+        if (!is_null($filterGroup)) {
+            $searchBuilder->addFilter($filterGroup);
+        }
+
+        $searchResults = $this->repository->getList($searchBuilder->create());
+
+        $this->assertEquals(count($expectedResult), $searchResults->getTotalCount());
+
+        /** @var \Magento\Customer\Api\Data\AddressInterface $item*/
+        foreach ($searchResults->getItems() as $item) {
+            $this->assertEquals(
+                $expectedResult[$item->getId()]['city'],
+                $item->getCity()
+            );
+            $this->assertEquals(
+                $expectedResult[$item->getId()]['postcode'],
+                $item->getPostcode()
+            );
+            $this->assertEquals(
+                $expectedResult[$item->getId()]['firstname'],
+                $item->getFirstname()
+            );
+            unset($expectedResult[$item->getId()]);
+        }
+    }
+
+    public function searchAddressDataProvider()
+    {
+        /**
+         * @var \Magento\Framework\Api\FilterBuilder $filterBuilder
+         */
+        $filterBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
+        return [
+            'Address with postcode 75477' => [
+                [$filterBuilder->setField('postcode')->setValue('75477')->create()],
+                null,
+                [1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John']]
+            ],
+            'Address with city CityM' => [
+                [$filterBuilder->setField('city')->setValue('CityM')->create()],
+                null,
+                [1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John']]
+            ],
+            'Addresses with firstname John' => [
+                [$filterBuilder->setField('firstname')->setValue('John')->create()],
+                null,
+                [
+                    1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John'],
+                    2 => ['city' => 'CityX', 'postcode' => 47676, 'firstname' => 'John']
+                ]
+            ],
+            'Addresses with postcode of either 75477 or 47676' => [
+                [],
+                [
+                    $filterBuilder->setField('postcode')->setValue('75477')->create(),
+                    $filterBuilder->setField('postcode')->setValue('47676')->create()
+                ],
+                [
+                    1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John'],
+                    2 => ['city' => 'CityX', 'postcode' => 47676, 'firstname' => 'John']
+                ]
+            ],
+            'Addresses with postcode greater than 0' => [
+                [$filterBuilder->setField('postcode')->setValue('0')->setConditionType('gt')->create()],
+                null,
+                [
+                    1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John'],
+                    2 => ['city' => 'CityX', 'postcode' => 47676, 'firstname' => 'John']
+                ]
+            ]
+        ];
     }
 
     /**
