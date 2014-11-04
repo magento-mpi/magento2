@@ -47,14 +47,12 @@ class ApplyCatalogPriceRuleTest extends Functional
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData(SimpleProduct::BASE);
-        $simple->persist();
 
         // Create Configurable Product with same category
         $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct(
             ['categories' => $simple->getCategories()]
         );
         $configurable->switchData(Repository::CONFIGURABLE);
-        $configurable->persist();
 
         $products = [$simple, $configurable];
 
@@ -75,6 +73,10 @@ class ApplyCatalogPriceRuleTest extends Functional
         // Create new Catalog Price Rule
         $categoryIds = $configurable->getCategoryIds();
         $catalogPriceRuleId = $this->createNewCatalogPriceRule($categoryIds[0]);
+
+        // Save products after category rule
+        $simple->persist();
+        $configurable->persist();
 
         // Prepare data for tear down
         $this->catalogPriceRuleId = $catalogPriceRuleId;

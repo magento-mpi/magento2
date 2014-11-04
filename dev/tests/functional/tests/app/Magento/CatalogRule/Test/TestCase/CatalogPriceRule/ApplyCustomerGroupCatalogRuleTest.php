@@ -55,7 +55,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Create Simple Product
         $simpleProductFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);
-        $simpleProductFixture->persist();
+
         $categoryIds = $simpleProductFixture->getCategoryIds();
         // Create Customer Group Catalog Price Rule
         // Admin login
@@ -104,6 +104,9 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         // Verify Notice Message
         $messagesBlock->assertNoticeMessage();
+
+        // Save new product
+        $simpleProductFixture->persist();
 
         // Apply Catalog Price Rule
         $catalogRulePage->open();
