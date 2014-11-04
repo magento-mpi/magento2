@@ -94,31 +94,31 @@
         </resources>
     </route>
     <route url="/V1/products/attribute-sets" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getList"/>
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getInfo"/>
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="remove"/>
+        <service class="\Magento\Eav\Api\AttributeSetRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="create"/>
+        <service class="Magento\Eav\Api\AttributeSetManagementInterface" method="create"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:id" method="PUT">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="update"/>
+        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
@@ -238,7 +238,7 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\TierPriceServiceInterface" method="getList"/>
+        <service class="Magento\Catalog\Api\ProductTierPriceManagementInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
