@@ -74,7 +74,6 @@ app/design/frontend/Magento/blank/Magento_Reward
 app/design/frontend/Magento/blank/Magento_Rma
 app/design/frontend/Magento/blank/Magento_Invitation
 app/design/frontend/Magento/luma
-app/design/install/Magento/enterprise
 
 app/etc/enterprise
 
