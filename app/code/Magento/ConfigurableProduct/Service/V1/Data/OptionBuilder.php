@@ -10,7 +10,7 @@ namespace Magento\ConfigurableProduct\Service\V1\Data;
 /**
  * @codeCoverageIgnore
  */
-class OptionBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class OptionBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param int $value
@@ -49,8 +49,8 @@ class OptionBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
     }
 
     /**
-     * @param bool $value 
-     * @return self 
+     * @param bool $value
+     * @return self
      */
     public function setType($value)
     {

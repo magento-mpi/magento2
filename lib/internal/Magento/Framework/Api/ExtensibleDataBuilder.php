@@ -139,6 +139,20 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
     }
 
     /**
+     * Set data item value.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     * @deprecated This method should not be used in the client code and will be removed after Service Layer refactoring
+     */
+    public function set($key, $value)
+    {
+        $this->data[$key] = $value;
+        return $this;
+    }
+
+    /**
      * Initializes Data Object with the data from array
      *
      * @param array $data
@@ -159,10 +173,11 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
                 && !empty($data[$key])
             ) {
                 foreach ($data[$key] as $customAttribute) {
-                    $this->setCustomAttribute(
-                        $customAttribute[AttributeValue::ATTRIBUTE_CODE],
-                        $customAttribute[AttributeValue::VALUE]
-                    );
+                    $attribute = $this->attributeValueBuilder
+                        ->setAttributeCode($customAttribute[AttributeValue::ATTRIBUTE_CODE])
+                        ->setValue($customAttribute[AttributeValue::VALUE])
+                        ->create();
+                    $this->setCustomAttribute($attribute);
                 }
             } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->data[$key] = $value;

@@ -9,7 +9,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
@@ -20,7 +20,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  * @method Customer mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
  * @method Customer mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
  */
-class CustomerBuilder extends AbstractExtensibleObjectBuilder
+class CustomerBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory

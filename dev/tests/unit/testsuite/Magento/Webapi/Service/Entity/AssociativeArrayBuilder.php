@@ -7,9 +7,9 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
-class AssociativeArrayBuilder extends AbstractExtensibleObjectBuilder
+class AssociativeArrayBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @param string[] $associativeArray
@@ -17,7 +17,7 @@ class AssociativeArrayBuilder extends AbstractExtensibleObjectBuilder
      */
     public function setAssociativeArray($associativeArray)
     {
-        $this->_data['associativeArray'] = $associativeArray;
+        $this->data['associativeArray'] = $associativeArray;
         return $this;
     }
 }

@@ -143,9 +143,14 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
     public function testDataObjectCustomAttributes()
     {
+        $customAttributeInt = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_int')
+            ->setValue(1)
+            ->create();
+
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute('custom_attribute_int', 1)
+            ->setCustomAttribute($customAttributeInt)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
@@ -196,9 +201,14 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
         $result = $this->_webApiCall($serviceInfo, []);
 
+        $customAttributeInt = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_int')
+            ->setValue(1)
+            ->create();
+
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute('custom_attribute_int', 1)
+            ->setCustomAttribute($customAttributeInt)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder
@@ -232,10 +242,20 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setName('nestedNameValue')
             ->create();
 
+        $customAttributeInt = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_int')
+            ->setValue(1)
+            ->create();
+
+        $customAttributeNested = $this->valueBuilder
+            ->setAttributeCode('custom_attribute_nested')
+            ->setValue($customAttributeNestedDataObject)
+            ->create();
+
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
-            ->setCustomAttribute('custom_attribute_nested', $customAttributeNestedDataObject)
-            ->setCustomAttribute('custom_attribute_int', 1)
+            ->setCustomAttribute($customAttributeNested)
+            ->setCustomAttribute($customAttributeInt)
             ->create();
 
         $customAttributeDataObjectAttributeValue = $this->valueBuilder

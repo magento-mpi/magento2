@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ObjectFactory;
@@ -18,7 +18,7 @@ use Magento\Framework\Api\ObjectFactory;
  *
  * @method SearchResults create()
  */
-abstract class AbstractSearchResultsBuilder extends AbstractExtensibleObjectBuilder
+abstract class AbstractSearchResultsBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Search criteria builder
@@ -30,7 +30,7 @@ abstract class AbstractSearchResultsBuilder extends AbstractExtensibleObjectBuil
     /**
      * Item data object builder
      *
-     * @var AbstractExtensibleObjectBuilder $itemObjectBuilder
+     * @var ExtensibleObjectBuilder $itemObjectBuilder
      */
     protected $itemObjectBuilder;
 
@@ -41,14 +41,14 @@ abstract class AbstractSearchResultsBuilder extends AbstractExtensibleObjectBuil
      * @param AttributeValueBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param AbstractExtensibleObjectBuilder $itemObjectBuilder
+     * @param ExtensibleObjectBuilder $itemObjectBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        AbstractExtensibleObjectBuilder $itemObjectBuilder
+        ExtensibleObjectBuilder $itemObjectBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
