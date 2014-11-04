@@ -122,17 +122,17 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
      */
     public function testUpdate()
     {
-        // @TODO check test when framework supports resolving id by sku
-        $this->markTestIncomplete('Update is not supported by framework now');
         $productData = [
             ProductInterface::NAME => 'Very Simple Product', //new name
             ProductInterface::SKU => 'simple', //sku from fixture
         ];
         $product = $this->getSimpleProductData($productData);
+        unset($product[ProductInterface::SKU]);
+
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'resourcePath' => self::RESOURCE_PATH. '/' . $productData[ProductInterface::SKU],
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -144,6 +144,8 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $response =  $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertArrayHasKey(ProductInterface::SKU, $response);
+        $this->assertArrayHasKey(ProductInterface::NAME, $response);
+        $this->assertEquals($productData[ProductInterface::NAME], $response[ProductInterface::NAME]);
     }
 
     /**
