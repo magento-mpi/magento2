@@ -2818,6 +2818,7 @@ return array(
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
     ['Magento\Checkout\Controller\Onepage\Progress'],
+    ['Magento\Checkout\Controller\Onepage\GetAdditional'],
     ['Magento\Framework\App\Filesystem', 'Magento\Framework\Filesystem'],
     ['Magento\TestFramework\App\Filesystem\DirectoryList'],
     ['Magento\Framework\App\Filesystem\DirectoryList\Configuration'],
