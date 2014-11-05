@@ -108,7 +108,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      */
     public function isAddressDefaultBilling(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultBilling();
+        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultBilling()->getId();
     }
 
     /**
@@ -119,7 +119,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      */
     public function isAddressDefaultShipping(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultShipping();
+        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultShipping()->getId();
     }
 
     /**
