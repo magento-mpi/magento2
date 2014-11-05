@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha101",
+    "version": "0.1.0-alpha102",
     "require": {
         "php": "~5.4.11|~5.5.0",
         "zendframework/zend-stdlib": "2.0.3"
@@ -71,7 +71,6 @@
         "magento/module-grouped-product": "self.version",
         "magento/module-import-export": "self.version",
         "magento/module-indexer": "self.version",
-        "magento/module-install": "self.version",
         "magento/module-integration": "self.version",
         "magento/module-invitation": "self.version",
         "magento/module-layered-navigation": "self.version",

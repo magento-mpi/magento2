@@ -61,7 +61,6 @@ Magento/Directory/Model
 Magento/GiftMessage/Block/Adminhtml/Sales/Order
 Magento/ImportExport/Model
 Magento/Integration/Controller/Adminhtml
-Magento/Install/Block/Db
 Magento/Newsletter/Block/Adminhtml/Template/Preview
 Magento/Newsletter/Block/Adminhtml/Queue/Preview
 Magento/Payment/Block/Form

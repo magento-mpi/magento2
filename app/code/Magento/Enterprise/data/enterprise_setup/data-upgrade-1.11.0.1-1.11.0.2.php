@@ -6,11 +6,10 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Framework\Module\Setup */
+/** @var $installer \Magento\Enterprise\Model\Resource\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('authorization_rule');
-/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 $condition = $connection->prepareSqlCondition(
     'resource_id',

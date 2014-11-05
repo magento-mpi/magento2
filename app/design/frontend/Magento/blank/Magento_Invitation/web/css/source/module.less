@@ -1,0 +1,89 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form-add-invitations {
+    .fieldset {
+        .legend {
+            &:extend(.abstract-reset-left-margin-desktop all);
+        }
+        .fields {
+            position: relative;
+            .actions-toolbar {
+                &:extend(.abstract-reset-left-margin-desktop all);
+                position: absolute;
+                left: 80%;
+                top: 3px;
+            }
+        }
+
+        > .actions-toolbar {
+            .secondary {
+                float: none;
+                text-align: left;
+                margin: 0 0 @indent-base;
+            }
+        }
+
+        .control {
+            .input-text {
+                width: 70%;
+            }
+        }
+    }
+
+    .action {
+        &.add {
+            .button-icon(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 31px
+            );
+            line-height: normal;
+            padding: 2px 0;
+            width: auto;
+        }
+        &.remove {
+            .button-reset();
+            .button-as-link();
+        }
+    }
+}
+
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-wrapper.invitations {
+        &:extend(.abstract-account-table-border all);
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .form-add-invitations {
+        .fieldset {
+            .fields {
+                .actions-toolbar {
+                    top: 30px;
+                    left: 74%;
+                }
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .table-invitations {
+        .col {
+            width: 50%;
+        }
+    }
+}
