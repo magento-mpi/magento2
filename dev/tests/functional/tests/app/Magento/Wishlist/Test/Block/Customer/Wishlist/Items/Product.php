@@ -100,13 +100,11 @@ class Product extends Form
         $viewDetails = $this->_rootElement->find($this->viewDetails);
         if ($viewDetails->isVisible()) {
             $viewDetails->click();
+            $this->waitForElementVisible($this->optionLabel);
             $labels = $this->_rootElement->find($this->optionLabel)->getElements();
             $values = $this->_rootElement->find($this->optionValue)->getElements();
             $data = [];
             foreach ($labels as $key => $label) {
-                if (!$label->isVisible()) {
-                    $viewDetails->click();
-                }
                 $data[] = [
                     'title' => $label->getText(),
                     'value' => str_replace('$', '', $values[$key]->getText())
