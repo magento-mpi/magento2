@@ -23,24 +23,9 @@ class Converter
     protected $productFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     * @var \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
      */
-    protected $attributeCollectionFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
-     */
-    protected $attrOptionCollectionFactory;
-
-    /**
-     * @var array
-     */
-    protected $attributeCodeOptionsPair;
-
-    /**
-     * @var int
-     */
-    protected $attributeSetId;
+    protected $productConverter;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -50,21 +35,18 @@ class Converter
     /**
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public  function __construct(
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
+        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
         \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->customerAccount = $customerAccount;
         $this->productFactory = $productFactory;
-        $this->attributeCollectionFactory = $attributeCollectionFactory;
-        $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
+        $this->productConverter = $productConverter;
         $this->eavConfig = $eavConfig;
     }
 
@@ -133,6 +115,10 @@ class Converter
     protected function getAccountInformation($email)
     {
         $customerDetails = $this->customerAccount->getCustomerDetailsByEmail($email);
+        $account = [
+            'email' => $customerDetails->getCustomer()->getEmail(),
+            'group_id' => $customerDetails->getCustomer()->getGroupId()
+        ];
         foreach ($customerDetails->getAddresses() as $customerAddress) {
             if ($customerAddress->isDefaultBilling()) {
                 $account['billing_address'] = $this->getAddresses($customerAddress);
@@ -141,10 +127,6 @@ class Converter
                 $account['shipping_address'] = $this->getAddresses($customerAddress);
             }
         }
-        $account = [
-            'email' => $customerDetails->getCustomer()->getEmail(),
-            'group_id' => $customerDetails->getCustomer()->getGroupId()
-        ];
         return $account;
     }
 
@@ -203,68 +185,11 @@ class Converter
             if (!$attribute->getId()) {
                 continue;
             }
-            $options = $this->getAttributeOptions($attribute->getAttributeCode());
+            $options = $this->productConverter->getAttributeOptions($attribute->getAttributeCode());
             $attributeOption = $options->getItemByColumnValue('value', $value);
             $attributeId = $attributeOption->getDataByKey('attribute_id');
             $attributesData[$attributeId] = $attributeOption->getDataByKey('option_id');
         }
         return $attributesData;
-    }
-
-    /**
-     * Get attribute options by attribute code
-     *
-     * @param string $attributeCode
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection|null
-     */
-    public function getAttributeOptions($attributeCode)
-    {
-        if (!$this->attributeCodeOptionsPair) {
-            $this->loadAttributeOptions();
-        }
-        return isset($this->attributeCodeOptionsPair[$attributeCode])
-            ? $this->attributeCodeOptionsPair[$attributeCode]
-            : null;
-    }
-
-    /**
-     * Loads all attributes with options for current attribute set
-     *
-     * @return $this
-     */
-    protected function loadAttributeOptions()
-    {
-        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
-        $collection = $this->attributeCollectionFactory->create();
-        $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
-        $collection->setAttributeSetFilter($this->getAttributeSetId());
-        $collection->setFrontendInputTypeFilter(array('in' => array('select', 'multiselect')));
-        foreach ($collection as $item) {
-            $options = $this->attrOptionCollectionFactory->create()
-                ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
-            $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
-        }
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    protected function getAttributeSetId()
-    {
-        return $this->attributeSetId;
-    }
-
-    /**
-     * @param int $value
-     * @return $this
-     */
-    public function setAttributeSetId($value)
-    {
-        if ($this->attributeSetId != $value) {
-            $this->loadAttributeOptions();
-        }
-        $this->attributeSetId = $value;
-        return $this;
     }
 }

@@ -32,21 +32,22 @@ class Order implements SetupInterface
     protected $converter;
 
     /**
-     * @var \Magento\Tools\SampleData\Module\Sales\Setup\Order\Create
+     * @var \Magento\Tools\SampleData\Module\Sales\Setup\Order\Processor
      */
-    protected $orderCreate;
+    protected $orderProcessor;
 
     /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Order\Converter $converter
+     * @param Order\Processor $orderProcessor
      * @param array $fixtures
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
-        \Magento\Tools\SampleData\Module\Sales\Setup\Order\Converter $converter,
-        \Magento\Tools\SampleData\Module\Sales\Setup\Order\Create $orderCreate,
+        Order\Converter $converter,
+        Order\Processor $orderProcessor,
         $fixtures = [
             'Sales/orders.csv'
         ]
@@ -54,7 +55,7 @@ class Order implements SetupInterface
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->converter = $converter;
-        $this->orderCreate = $orderCreate;
+        $this->orderProcessor = $orderProcessor;
         $this->fixtures = $fixtures;
     }
 
@@ -69,7 +70,7 @@ class Order implements SetupInterface
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
                 $orderData = $this->converter->convertRow($row);
-                $this->orderCreate->creteOrder($orderData);
+                $this->orderProcessor->createOrder($orderData);
                 echo '.';
                 }
             }

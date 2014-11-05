@@ -8,9 +8,9 @@
 namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
 
 /**
- * Class Create
+ * Class Processor
  */
-class Create
+class Processor
 {
     /**
      * @var \Magento\Framework\Registry
@@ -88,15 +88,9 @@ class Create
     /**
      * @param array $orderData
      */
-    public function creteOrder($orderData)
+    public function createOrder($orderData)
     {
         $this->setPhraseRenderer();
-        $registryItems = [
-            'rule_data',
-            'currently_saved_addresses',
-            'current_invoice',
-            'current_shipment'
-        ];
         if (!empty($orderData)) {
             $orderCreateModel = $this->processQuote($orderData);
             if (!empty($orderData['payment'])) {
@@ -117,6 +111,12 @@ class Create
             if ($orderData['refund'] === "yes") {
                 $this->refundOrder($transactionOrder, $order->getBaseGrandTotal());
             }
+            $registryItems = [
+                'rule_data',
+                'currently_saved_addresses',
+                'current_invoice',
+                'current_shipment'
+            ];
             $this->unsetRegistryData($registryItems);
         }
     }
@@ -253,7 +253,8 @@ class Create
             foreach ($unsetData as $item) {
                 $this->coreRegistry->unregister($item);
             }
+        } else {
+            $this->coreRegistry->unregister($unsetData);
         }
-        else $this->coreRegistry->unregister($unsetData);
     }
 }
