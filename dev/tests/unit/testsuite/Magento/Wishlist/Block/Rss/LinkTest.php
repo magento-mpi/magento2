@@ -29,7 +29,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', [], [], '', false);
+        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId'], [], '', false);
         $wishlist->expects($this->any())->method('getId')->will($this->returnValue(5));
 
         $customer = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
