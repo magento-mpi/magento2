@@ -9,7 +9,6 @@ namespace Magento\Setup\Module;
 
 use Magento\Setup\Module\Setup\ConnectionFactory;
 use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
-use Magento\Setup\Module\Resource\Resource;
 use Magento\Setup\Model\LoggerInterface;
 use Magento\Setup\Module\Setup\Config;
 
@@ -63,7 +62,7 @@ class SetupModule extends Setup
         parent::__construct($connectionFactory, $log, $config);
         $this->fileResolver = $fileResolver;
         $this->moduleConfig = $moduleList->getModule($moduleName);
-        $this->resource = new Resource($this->connection, $config->get(Config::KEY_DB_PREFIX));
+        $this->resource = new \Magento\Framework\Module\SchemaResource($this->connection, $config->get(Config::KEY_DB_PREFIX));
         $this->resourceName = $this->fileResolver->getResourceCode($moduleName);
     }
 

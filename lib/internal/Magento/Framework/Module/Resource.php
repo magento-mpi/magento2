@@ -8,7 +8,7 @@
 namespace Magento\Framework\Module;
 
 /**
- * Resource Resource Model
+ * Resource Model
  */
 class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implements \Magento\Framework\Module\ResourceInterface
 {

@@ -5,21 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Setup\Module;
+namespace Magento\Framework\Module;
 
 /**
- * Resource Model Interface
+ * Schema Resource Model Interface
  */
-interface ResourceInterface
+interface SchemaResourceInterface
 {
-    /**
-     * Get Module version from DB
-     *
-     * @param string $resName
-     * @return false|string
-     */
-    public function getDbVersion($resName);
-
     /**
      * Set module version into DB
      *
