@@ -66,6 +66,7 @@ class FinalPriceBox extends BasePriceBox
     protected function wrapResult($html)
     {
         return '<div class="price-box ' . $this->getData('css_classes') . '" ' .
+            'data-role="priceBox" ' .
             'data-product-id="' . $this->getSaleableItem()->getId() . '" ' .
             '>' . $html . '</div>';
     }

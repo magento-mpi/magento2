@@ -15,110 +15,13 @@
 <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
-require([
-    "jquery",
-    "mage/mage",
-    'Magento_Catalog/js/price-box',
-    'Magento_Catalog/js/price-options'
-], function($){
-    $(document).ready(function() {
-        $('#product_addtocart_form')
-            .mage('priceOption', {"optionConfig":<?php echo $this->getJsonConfig() ?>})
-            .priceOptions({"priceConfig":<?php echo $this->getJsonConfig() ?>});
-        $('.price-box').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
+require([ 'jquery', 'Magento_Catalog/js/price-box' ], function($){
+    $(function() {
+        $('[data-role=priceBox]').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
     });
 });
 </script>
-<script data-mage-apply='{"Magento_Catalog/js/price/provider": ""}' type="application/json">
-    {
-        "name": "product_price_provider"
-    }
-</script>
-<script data-mage-apply='{"Magento_Catalog/js/price/view": ""}' type="application/json">
-    {
-        "name": "product_price_view",
-        "provider": "product_price_provider",
-        "element": ".price-box",
-        "priceFormat": {
-            "pattern": "$%s",
-            "precision": 2,
-            "requiredPrecision": 2,
-            "decimalSymbol": ".",
-            "groupSymbol": ",",
-            "groupLength": 3,
-            "integerRequired": 1
-        }
-    }
-</script>
-<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
-    {   
-        "name": "catalog_price",
-        "provider": "product_price_provider",
-        "prices": {
-            "final": {
-                "base": 90.00000
-            },
-            "old": {
-                "base": 100.00000
-            }
-        }
-    }
-</script>
-<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
-    {
-        "name": "tax_price",
-        "provider": "product_price_provider",
-        "showBothPrices": true,
-        "prices": {
-            "final": {
-                "adjustments": {
-                    "tax": 13.50000
-                }
-            },
-            "old": {
-                "adjustments": {
-                    "tax": 15.00000
-                }
-            }
-        }
-    }
-</script>
-<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
-    {
-        "name": "weee_price",
-        "provider": "product_price_provider",
-        "prices": {
-            "final": {
-                "adjustments": {
-                    "weee": 5.00000
-                }
-            },
-            "old": {
-                "adjustments": {
-                    "weee": 5.00000
-                }
-            }
-        }
-    }
-</script>
-<script data-mage-apply='{"Magento_Catalog/js/price/model": ""}' type="application/json">
-    {
-        "name": "qweee_price",
-        "provider": "product_price_provider",
-        "prices": {
-            "final": {
-                "adjustments": {
-                    "qweee": 10.00000
-                }
-            },
-            "old": {
-                "adjustments": {
-                    "qweee": 10.00000
-                }
-            }
-        }
-    }
-</script>
+
 <div class="product-add-form">
     <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
           id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
