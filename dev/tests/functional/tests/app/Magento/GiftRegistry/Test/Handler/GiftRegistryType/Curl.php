@@ -55,6 +55,10 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
             'Static Types/Event Location' => 'event_location',
             'Static Types/Role' => 'role',
         ],
+        'is_required' => [
+            'Yes' => 1,
+            'No' => 0,
+        ]
     ];
 
     /**
@@ -108,11 +112,19 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
      *
      * @param array $attribute
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareAttributes(array $attribute)
     {
         $attribute['frontend']['is_required'] = $attribute['is_required'];
         unset ($attribute['is_required']);
+        $attribute['is_deleted'] = '';
+        if (isset($attribute['options'])) {
+            foreach ($attribute['options'] as $key => $option) {
+                $attribute['options'][$key]['is_deleted'] = '';
+            }
+        }
         return $attribute;
     }
 }

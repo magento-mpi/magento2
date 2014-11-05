@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Sales\Model\Resource\Setup */
+/* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
 $installer->getConnection()->addColumn(

@@ -7,23 +7,24 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="header.panel">
-        <block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.panel">
+            <block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">header links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="footer">
+            <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" after="footer_links" template="switch/stores.phtml"/>
+        </referenceContainer>
+        <remove name="report.bugs"/>
+        <referenceBlock name="logo">
             <arguments>
-                <argument name="css_class" xsi:type="string">header links</argument>
+                <argument name="logo_file" xsi:type="string">images/logo.png</argument>
             </arguments>
-        </block>
-    </referenceContainer>
-    <referenceContainer name="footer">
-        <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" after="footer_links" template="switch/stores.phtml"/>
-    </referenceContainer>
-    <remove name="report.bugs"/>
-    <referenceBlock name="logo">
-        <arguments>
-            <argument name="logo_file" xsi:type="string">images/logo.png</argument>
-        </arguments>
-    </referenceBlock>
-    <move element="copyright" destination="before.body.end"/>
+        </referenceBlock>
+        <move element="copyright" destination="before.body.end"/>
+    </body>
 </page>
