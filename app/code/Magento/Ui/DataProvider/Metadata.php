@@ -187,8 +187,10 @@ class Metadata implements \Iterator, \ArrayAccess
             'sortOrder' => ['eav_map' => 'sort_order'],
             'notice' => ['eav_map' => 'note'],
             'default' => ['eav_map' => 'default_value'],
+            'unique' => [],
             'description' => [],
-            'validation' => [],
+            'constraints' => [],
+            'customEntry' => [],
             'fieldGroup' => []
         ];
 
@@ -206,6 +208,7 @@ class Metadata implements \Iterator, \ArrayAccess
                 $this->metadata[$this->key()][$code] = $info['default'];
             }
         }
+
         return $this->metadata[$this->key()];
     }
 

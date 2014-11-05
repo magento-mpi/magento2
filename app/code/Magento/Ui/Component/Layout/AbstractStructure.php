@@ -442,6 +442,20 @@ class AbstractStructure extends AbstractView
             $this->addToGroup($dataSource, $referenceElementName);
         }
         $this->structure['elements']['children'][$elementName]['type'] = 'group';
+        if (isset($config['constraints'])) {
+            if (isset($config['constraints']['validate'])) {
+                $config['validation'] = $config['constraints']['validate'];
+            }
+            if (isset($config['constraints']['filter'])) {
+                foreach ($config['constraints']['filter'] as $filter) {
+                    $config['listeners'] = [
+                        "data:" . $filter['on'] => [
+                            'filter' => [$filter['by']]
+                        ]
+                    ];
+                }
+            }
+        }
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],
             'name' => $config['name'],

@@ -53,7 +53,7 @@ class Converter implements ConverterInterface
                 if ($child->nodeType == XML_TEXT_NODE || $child->nodeType == XML_COMMENT_NODE) {
                     continue;
                 }
-                if ($child->nodeName == 'constraint') {
+                if (in_array($child->nodeName, ['validate', 'filter', 'readonly'])) {
                     if (!isset($result[$child->nodeName])) {
                         $result[$child->nodeName] = [];
                     }
@@ -93,17 +93,6 @@ class Converter implements ConverterInterface
                 'dataset' => $datasource['@attributes']['dataset'],
             ];
             $fields = [];
-//            if (isset($datasource['fields']['@attributes']['entityType'])) {
-//                $entityType = $this->entityTypeFactory->create()
-//                    ->load($datasource['fields']['@attributes']['entityType'], 'entity_type_code');
-//                $attributeCollection = $entityType->getAttributeCollection();
-//                foreach ($attributeCollection  as $attribute) {
-//                    $fields[$attribute->getAttributeCode()] = [
-//                        'name' => $attribute->getAttributeCode(),
-//                        'source' => 'eav'
-//                    ];
-//                }
-//            }
             foreach ($datasource['fields']['field'] as $field) {
                 foreach ($field['@attributes'] as $key => $value) {
                     $fields[$field['@attributes']['name']][$key] = $value;
@@ -118,11 +107,29 @@ class Converter implements ConverterInterface
                         ];
                     }
                 }
-                if (isset($field['constraint'])) {
-                    foreach ($field['constraint'] as $constraint) {
-                        $fields[$field['@attributes']['name']]['validation'][$constraint['@attributes']['name']] =
-                            isset($constraint['@attribute']['value'])
-                                ? $constraint['@attribute']['value'] : true;
+
+                if (isset($field['constraints']['validate'])) {
+                    foreach ($field['constraints']['validate'] as $rule) {
+                        $fields[$field['@attributes']['name']]['constraints']['validate'][$rule['@attributes']['name']] =
+                            isset($rule['@attribute']['value'])
+                                ? $rule['@attribute']['value'] : true;
+                    }
+                }
+                if (isset($field['constraints']['filter'])) {
+                    foreach ($field['constraints']['filter'] as $filter) {
+                        $fields[$field['@attributes']['name']]['constraints']['filter'][] = [
+                            'on' => $filter['@attributes']['on'],
+                            'by' => $filter['@attributes']['by'],
+                            'value' => $filter['@attributes']['value'],
+                        ];
+                    }
+                }
+                if (isset($field['constraints']['readonly'])) {
+                    foreach ($field['constraints']['readonly'] as $condition) {
+                        $fields[$field['@attributes']['name']]['constraints']['readonly'][] = [
+                            'on' => $condition['@attributes']['on'],
+                            'value' => $condition['@attributes']['value'],
+                        ];
                     }
                 }
             }

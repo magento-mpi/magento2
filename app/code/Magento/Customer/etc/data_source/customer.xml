@@ -9,7 +9,9 @@
             <field name="default_shipping" source="eav" dataType="boolean" visible="false"/>
             <field name="website_code" dataType="number" formElement="select" source="option"
                    label="Associate to Website">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
                 <reference target="website"
                            referencedField="website_id"
                            targetField="website_id"
@@ -24,16 +26,22 @@
             </field>
             <field name="disable_auto_group_change" source="eav" dataType="boolean" formElement="checkbox" fieldGroup="customer_group_code"/>
             <field name="firstname" source="eav" dataType="text">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="middlename" source="eav" dataType="text"/>
             <field name="lastname" source="eav" dataType="text">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="suffix" source="eav" dataType="text"/>
             <field name="email" source="eav" formElement="email">
-                <constraint name="required-entry"/>
-                <constraint name="validate-email"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                    <validate name="validate-email"/>
+                </constraints>
             </field>
             <field name="dob" source="eav" dataType="text" label="Date Of Birth" formElement="date"/>
             <field name="taxvat" source="eav" dataType="text" label="Tax VAT Number"/>

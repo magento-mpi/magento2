@@ -2,41 +2,54 @@
         xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
     <datasource name="customer_address"
                 label="Customer Address"
+                compositeLabel="prefix,firstname"
+                previewElements="prefix,firstname,lastname,postcode,city,region_id"
                 dataset="Magento\Customer\Model\Resource\Address\Collection">
         <fields>
             <field name="parent_id" dataType="number" visible="false"/>
             <field name="prefix" source="eav"/>
             <field name="firstname" source="eav">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="middlename" source="eav"/>
             <field name="lastname" source="eav">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="suffix" source="eav"/>
             <field name="company" source="eav" label="Company"/>
             <field name="street" dataType="text" formElement="multiline" source="eav">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="city" source="eav">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
-            <field name="country_id" source="eav" formElement="select">
-                <constraint name="required-entry"/>
-            </field>
-            <field name="region_id" source="eav" formElement="select">
-                <constraint name="required-entry"/>
+            <field name="region_id" source="eav" formElement="select" customEntry="true">
+                <constraints>
+                    <filter on="{parentScope}.country_id" by="country_id" />
+                </constraints>
             </field>
             <field name="postcode" source="eav">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="telephone" source="eav" label="Phone Number">
-                <constraint name="required-entry"/>
+                <constraints>
+                    <validate name="required-entry"/>
+                </constraints>
             </field>
             <field name="fax" source="eav" label="Fax"/>
             <field name="vat_id" source="eav" label="VAT number"/>
             <field name="is_default_billing" source="reference" dataType="boolean" formElement="checkbox"
-                   displayArea="head" description="Default Billing Address">
+                   displayArea="head" label="Default Billing Address" unique="true">
                 <reference target="account"
                            referencedField="parent_id"
                            targetField="entity_id"
@@ -44,7 +57,7 @@
                         />
             </field>
             <field name="is_default_shipping" source="reference" dataType="boolean" formElement="checkbox"
-                   displayArea="head" description="Default Shipping Address">
+                   displayArea="head" label="Default Shipping Address" unique="true">
                 <reference target="account"
                            referencedField="parent_id"
                            targetField="entity_id"
