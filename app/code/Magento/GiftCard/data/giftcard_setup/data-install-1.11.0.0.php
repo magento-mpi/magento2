@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = $this;
 
 $installer->startSetup();
 // 0.0.2 => 0.0.3

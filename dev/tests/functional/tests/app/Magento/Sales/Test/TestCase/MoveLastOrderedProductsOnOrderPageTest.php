@@ -78,7 +78,7 @@ class MoveLastOrderedProductsOnOrderPageTest extends Injectable
     }
 
     /**
-     * Move last ordered products on order page
+     * Move last ordered products on order page.
      *
      * @param OrderInjectable $order
      * @return array
@@ -98,7 +98,7 @@ class MoveLastOrderedProductsOnOrderPageTest extends Injectable
         $this->orderCreateIndex->getCustomerActivitiesBlock()->getLastOrderedItemsBlock()->addToOrderByName($products);
         $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
 
-        return ['entityData' => $order->getEntityId()];
+        return ['products' => $order->getEntityId()['products']];
     }
 
     /**
