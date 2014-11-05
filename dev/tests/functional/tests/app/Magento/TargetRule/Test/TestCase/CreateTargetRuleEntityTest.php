@@ -32,7 +32,7 @@ use Magento\TargetRule\Test\Fixture\TargetRule;
  * @group Target_Rules_(MX)
  * @ZephyrId MAGETWO-24686
  */
-class CreateTargetRuleEntityTest extends TargetRuleEntityTest
+class CreateTargetRuleEntityTest extends AbstractTargetRuleEntityTest
 {
     /**
      * Run create TargetRule entity test
