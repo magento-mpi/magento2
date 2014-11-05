@@ -176,7 +176,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                 $this->messageManager->addNotice(
                     __(
                         'Please refresh "Product EAV" in System -> <a href="%1">Index Management</a>.',
-                        $this->getUrl('adminhtml/process/list')
+                        $this->getUrl('indexer/indexer/list')
                     )
                 );
             }
