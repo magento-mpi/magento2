@@ -13,6 +13,7 @@ define([
     'use strict';
 
     var defaults = {
+        hidden:             false,
         preview:            '',
         focused:            false,
         tooltip:            null,
@@ -41,11 +42,10 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initName()
-                .initTemplate()
-                .initDisableStatus()
+            this.initTemplate()
                 .setNoticeId()
-                .store(this.value());
+                .store(this.value())
+                .setHidden(this.hidden());
         },
 
         /**
@@ -63,7 +63,13 @@ define([
 
             this.initialValue = value;
 
-            this.observe('error disabled focused preview')
+            this.observe([
+                    'error',
+                    'disabled',
+                    'focused',
+                    'preview',
+                    'hidden'
+                ])
                 .observe({
                     'value':    value,
                     'required': rules['required-entry']
@@ -81,7 +87,7 @@ define([
             __super__.initProperties.apply(this, arguments);
 
             this.uid    = utils.uniqueid();
-            this.name   = utils.serializeName(this.dataScope);
+            this.serializedScope = utils.serializeName(this.dataScope);
 
             return this;
         },
@@ -92,12 +98,13 @@ define([
          * @return {Object} - reference to instance
          */
         initListeners: function(){
-            var data = this.provider.data;
+            var provider  = this.provider,
+                data      = provider.data;
 
             __super__.initListeners.apply(this, arguments);
 
             data.on('reset', this.reset.bind(this));
-
+            
             this.value.subscribe(this.onUpdate, this);
 
             return this;
@@ -121,17 +128,7 @@ define([
          */
         getInititalValue: function(){
             var data = this.provider.data,
-                value;
-
-            if(_.has(this, 'value')){
-                value = this.value;
-            }
-            else if(_.has(this, 'default') && this.default != null){
-                value = this.default;
-            }
-            else{
                 value = data.get(this.dataScope);
-            }
 
             if (value == null) {
                 value = undefined;
@@ -171,6 +168,26 @@ define([
          */
         getPreview: function(){
             return this.preview();
+        },
+
+        hide: function(){
+            this.setHidden(true)
+                .value('');
+        },
+
+        show: function(value){
+            this.setHidden(false);
+        },
+
+        setHidden: function(value){
+            var params = this.provider.params;
+
+            this.hidden(value);
+            this.trigger('toggle', value);
+
+            params.set(this.name + '.hidden', value);
+
+            return this;
         },
 
         /**
@@ -217,7 +234,9 @@ define([
          * @return {Boolean}
          */
         hasChanged: function(){
-            return this.value() !== this.initialValue;
+            return this.hidden() ?
+                false :
+                this.value() !== this.initialValue;
         },
 
         /**
@@ -231,6 +250,10 @@ define([
             var value       = this.value(),
                 params      = this.provider.params,
                 errorMsg    = '';
+
+            if(this.hidden()){
+                return false;
+            }
 
             _.some(this.validation, function (params, rule) {
                 errorMsg = validator.validate(rule, value, params);
