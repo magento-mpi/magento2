@@ -29,6 +29,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $indexerMock;
 
+    /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
     protected function setUp()
     {
         $this->fullMock = $this->getMock(
@@ -57,10 +62,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array('getId', 'load', 'isInvalid', 'isWorking', '__wakeup')
         );
 
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
         $this->model = new \Magento\Catalog\Model\Indexer\Category\Product(
             $this->fullMock,
             $this->rowsMock,
-            $this->indexerMock
+            $this->indexerRegistryMock
         );
     }
 
@@ -68,16 +75,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $ids = array(1, 2, 3);
 
-        $this->indexerMock->expects(
-            $this->once()
-        )->method(
-            'load'
-        )->with(
-            'catalog_category_product'
-        )->will(
-            $this->returnSelf()
-        );
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
+        $this->prepareIndexer();
 
         $rowMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Product\Action\Rows',
@@ -98,16 +97,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $ids = array(1, 2, 3);
 
-        $this->indexerMock->expects(
-            $this->once()
-        )->method(
-            'load'
-        )->with(
-            'catalog_category_product'
-        )->will(
-            $this->returnSelf()
-        );
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
+        $this->prepareIndexer();
 
         $rowMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Product\Action\Rows',
@@ -121,5 +112,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->rowsMock->expects($this->once())->method('create')->will($this->returnValue($rowMock));
 
         $this->model->execute($ids);
+    }
+
+    protected function prepareIndexer()
+    {
+        $this->indexerRegistryMock->expects($this->any())
+            ->method('get')
+            ->with(\Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
     }
 }

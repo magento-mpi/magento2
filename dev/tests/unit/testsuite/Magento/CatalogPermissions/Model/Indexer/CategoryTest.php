@@ -29,6 +29,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $indexerMock;
 
+    /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
     protected function setUp()
     {
         $this->fullMock = $this->getMock(
@@ -58,10 +63,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $methods
         );
 
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
         $this->model = new \Magento\CatalogPermissions\Model\Indexer\Category(
             $this->fullMock,
             $this->rowsMock,
-            $this->indexerMock
+            $this->indexerRegistryMock
         );
     }
 
@@ -69,15 +76,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $ids = array(1, 2, 3);
 
-        $this->indexerMock->expects(
-            $this->once()
-        )->method(
-            'load'
-        )->with(
-            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
-        )->will(
-            $this->returnSelf()
-        );
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
 
         $rowMock = $this->getMock(
@@ -99,15 +101,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $ids = array(1, 2, 3);
 
-        $this->indexerMock->expects(
-            $this->once()
-        )->method(
-            'load'
-        )->with(
-            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
-        )->will(
-            $this->returnSelf()
-        );
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
 
         $rowMock = $this->getMock(

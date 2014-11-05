@@ -29,6 +29,11 @@ class ModeTest extends \PHPUnit_Framework_TestCase
      */
     protected $indexerMock;
 
+    /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
     protected function setUp()
     {
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
@@ -46,15 +51,16 @@ class ModeTest extends \PHPUnit_Framework_TestCase
             false,
             false,
             true,
-            array('load', 'setScheduled', '__wakeup')
+            array('setScheduled', '__wakeup')
         );
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\CatalogPermissions\Model\Indexer\System\Config\Mode',
             array(
                 'config' => $this->configMock,
-                'indexer' => $this->indexerMock,
+                'indexerRegistry' => $this->indexerRegistryMock,
                 'indexerState' => $this->indexerStateMock
             )
         );
@@ -89,7 +95,6 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         $this->indexerStateMock->expects($this->never())->method('setStatus');
         $this->indexerStateMock->expects($this->never())->method('save');
 
-        $this->indexerMock->expects($this->never())->method('load');
         $this->indexerMock->expects($this->never())->method('setScheduled');
 
         $this->model->processValue();
@@ -139,7 +144,6 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         );
         $this->indexerStateMock->expects($this->once())->method('save')->will($this->returnSelf());
 
-        $this->indexerMock->expects($this->never())->method('load');
         $this->indexerMock->expects($this->never())->method('setScheduled');
 
         $this->model->processValue();
@@ -174,15 +178,13 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         $this->indexerStateMock->expects($this->never())->method('setStatus');
         $this->indexerStateMock->expects($this->never())->method('save');
 
-        $map = array(
-            array(
-                \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
-                \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
-            ),
-            array($this->returnSelf(), $this->returnSelf())
-        );
-        $this->indexerMock->expects($this->exactly(2))->method('load')->will($this->returnValueMap($map));
         $this->indexerMock->expects($this->exactly(2))->method('setScheduled')->with(false);
+        $this->indexerRegistryMock->expects($this->exactly(2))
+            ->method('get')
+            ->will($this->returnValueMap([
+                [\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID, $this->indexerMock],
+                [\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID, $this->indexerMock],
+            ]));
 
         $this->model->processValue();
     }

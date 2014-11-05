@@ -25,6 +25,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $subjectMock;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @var View
      */
     protected $model;
@@ -52,7 +57,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             array('isEnabled')
         );
         $this->configMock->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
-        $this->model = new View($this->indexerMock, $this->configMock);
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+        $this->model = new View($this->indexerRegistryMock, $this->configMock);
     }
 
     public function testAroundSaveNewObject()
@@ -131,7 +137,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     protected function mockIndexerMethods()
     {
-        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('invalidate');
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
     }
 }

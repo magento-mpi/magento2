@@ -23,6 +23,11 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     protected $subjectMock;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @var Action
      */
     protected $model;
@@ -40,15 +45,16 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             true,
             array('getId', 'getState', '__wakeup')
         );
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $this->model = new Action($this->indexerMock);
+        $this->model = new Action($this->indexerRegistryMock);
     }
 
     public function testAroundUpdateAttributesNonScheduled()
     {
-        $this->indexerMock->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('reindexList')->with(array(1, 2, 3));
+        $this->prepareIndexer();
 
         $closureMock = function ($productIds, $attrData, $storeId) {
             $this->assertEquals(array(1, 2, 3), $productIds);
@@ -65,9 +71,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundUpdateAttributesScheduled()
     {
-        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(true));
         $this->indexerMock->expects($this->never())->method('reindexList');
+        $this->prepareIndexer();
 
         $closureMock = function ($productIds, $attrData, $storeId) {
             $this->assertEquals(array(1, 2, 3), $productIds);
@@ -84,9 +90,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundUpdateWebsitesNonScheduled()
     {
-        $this->indexerMock->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('reindexList')->with(array(1, 2, 3));
+        $this->prepareIndexer();
 
         $closureMock = function ($productIds, $websiteIds, $type) {
             $this->assertEquals(array(1, 2, 3), $productIds);
@@ -100,9 +106,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundUpdateWebsitesScheduled()
     {
-        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(true));
         $this->indexerMock->expects($this->never())->method('reindexList');
+        $this->prepareIndexer();
 
         $closureMock = function ($productIds, $websiteIds, $type) {
             $this->assertEquals(array(1, 2, 3), $productIds);
@@ -112,5 +118,13 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         };
 
         $this->model->aroundUpdateWebsites($this->subjectMock, $closureMock, array(1, 2, 3), array(4, 5, 6), 'type');
+    }
+
+    protected function prepareIndexer()
+    {
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
     }
 }

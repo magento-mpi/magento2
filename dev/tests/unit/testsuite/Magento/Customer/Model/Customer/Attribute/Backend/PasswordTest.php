@@ -19,10 +19,8 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $logger = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
         $string = new String();
-        /** @var \Magento\Framework\Logger $logger */
-        $this->testable = new Password($logger, $string);
+        $this->testable = new Password($string);
     }
 
     public function testValidatePositive()

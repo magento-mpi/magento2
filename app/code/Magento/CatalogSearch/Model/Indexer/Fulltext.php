@@ -24,24 +24,22 @@ class Fulltext implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      */
     protected $rowsActionFactory;
 
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @param Fulltext\Action\FullFactory $fullActionFactory
      * @param Fulltext\Action\RowsFactory $rowsActionFactory
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      */
     public function __construct(
         Fulltext\Action\FullFactory $fullActionFactory,
         Fulltext\Action\RowsFactory $rowsActionFactory,
-        \Magento\Indexer\Model\IndexerInterface $indexer
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
     ) {
         $this->fullActionFactory = $fullActionFactory;
         $this->rowsActionFactory = $rowsActionFactory;
-        $this->indexer = $indexer;
+        $this->indexerRegistry = $indexerRegistry;
     }
 
     /**
@@ -52,7 +50,7 @@ class Fulltext implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      */
     public function execute($ids)
     {
-        $this->indexer->load(self::INDEXER_ID);
+        $this->indexerRegistry->get(self::INDEXER_ID);
 
         /** @var Fulltext\Action\Rows $action */
         $action = $this->rowsActionFactory->create();

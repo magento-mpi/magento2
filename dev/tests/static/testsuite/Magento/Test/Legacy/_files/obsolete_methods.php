@@ -2036,4 +2036,13 @@ return array(
     ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
     ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
     ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
+    ['getFlatIndexer', 'Magento\Catalog\Model\Category'],
+    ['getProductIndexer', 'Magento\Catalog\Model\Category'],
+    ['getFlatIndexer', 'Magento\Catalog\Model\Indexer\AbstractFlatState'],
+    ['getIndexer', 'Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup'],
+    ['getIndexer', 'Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup'],
+    ['getIndexer', 'Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin'],
+    ['getCategoryIndexer', 'Magento\Catalog\Model\Product'],
+    ['getCategoryIndexer', 'Magento\Catalog\Model\Product\Action'],
+    ['getIndexer', 'Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin'],
 );

@@ -42,7 +42,7 @@ class Group extends AbstractPlugin
         $needInvalidating = $this->validate($store);
         $objectResource = $proceed($store);
         if ($needInvalidating && $this->appConfig->isEnabled()) {
-            $this->getIndexer()->invalidate();
+            $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)->invalidate();
         }
 
         return $objectResource;

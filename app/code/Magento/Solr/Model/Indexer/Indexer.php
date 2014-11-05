@@ -50,20 +50,18 @@ class Indexer
      */
     protected $_searchData = null;
 
-    /**
-     * @var \Magento\Indexer\Model\IndexerFactory
-     */
-    protected $indexerFactory;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
-     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\Solr\Helper\Data $searchData
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Solr\Helper\Data $searchData
     ) {
-        $this->indexerFactory = $indexerFactory;
+        $this->indexerRegistry = $indexerRegistry;
         $this->_searchData = $searchData;
     }
 
@@ -75,11 +73,8 @@ class Indexer
     public function reindexAll()
     {
         if ($this->_searchData->isThirdPartyEngineAvailable()) {
-            $indexer = $this->indexerFactory->create();
-            $indexer->load(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
-            $indexer->invalidate();
+            $this->indexerRegistry->get(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID)->invalidate();
         }
-
         return $this;
     }
 }

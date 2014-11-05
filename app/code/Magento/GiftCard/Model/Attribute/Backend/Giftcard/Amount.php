@@ -31,7 +31,6 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     protected $_directoryHelper;
 
     /**
-     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -40,7 +39,6 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
      */
     public function __construct(
-        \Magento\Framework\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -51,7 +49,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;
         $this->_amountResource = $amountResource;
-        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
+        parent::__construct($currencyFactory, $storeManager, $catalogData, $config);
     }
 
     /**

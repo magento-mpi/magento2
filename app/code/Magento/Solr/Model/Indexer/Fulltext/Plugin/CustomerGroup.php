@@ -8,8 +8,8 @@
 namespace Magento\Solr\Model\Indexer\Fulltext\Plugin;
 
 use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin;
-use Magento\Indexer\Model\IndexerInterface;
 use Magento\Solr\Helper\Data;
+use Magento\CatalogSearch\Model\Indexer\Fulltext;
 
 class CustomerGroup extends AbstractPlugin
 {
@@ -19,15 +19,15 @@ class CustomerGroup extends AbstractPlugin
     protected $helper;
 
     /**
-     * @param IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param Data $helper
      */
     public function __construct(
-        IndexerInterface $indexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         Data $helper
     ) {
+        parent::__construct($indexerRegistry);
         $this->helper = $helper;
-        parent::__construct($indexer);
     }
 
 
@@ -50,9 +50,8 @@ class CustomerGroup extends AbstractPlugin
             && ($group->isObjectNew() || $group->dataHasChangedFor('tax_class_id'));
         $result = $proceed($group);
         if ($needInvalidation) {
-            $this->getIndexer()->invalidate();
+            $this->indexerRegistry->get(Fulltext::INDEXER_ID)->invalidate();
         }
-
         return $result;
     }
 }

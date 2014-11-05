@@ -25,6 +25,11 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
     protected $helperMock;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @var CustomerGroup
      */
     protected $model;
@@ -42,7 +47,8 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
             true,
             ['getId', 'getState', '__wakeup']
         );
-        $this->model = new CustomerGroup($this->indexerMock, $this->helperMock);
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+        $this->model = new CustomerGroup($this->indexerRegistryMock, $this->helperMock);
     }
 
     /**
@@ -77,8 +83,11 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
             return $this->subjectMock;
         };
 
-        $this->indexerMock->expects($this->exactly($invalidateCounter))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->exactly($invalidateCounter))->method('invalidate');
+        $this->indexerRegistryMock->expects($this->exactly($invalidateCounter))
+            ->method('get')
+            ->with(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->assertEquals(
             $this->subjectMock,

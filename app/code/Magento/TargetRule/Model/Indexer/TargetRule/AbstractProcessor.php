@@ -20,14 +20,14 @@ abstract class AbstractProcessor extends \Magento\Indexer\Model\Indexer\Abstract
     protected $_statusContainer;
 
     /**
-     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
-     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Status\Container $statusContainer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
+     * @param Status\Container $statusContainer
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\TargetRule\Model\Indexer\TargetRule\Status\Container $statusContainer
     ) {
-        $this->_indexer = $indexerFactory->create();
+        parent::__construct($indexerRegistry);
         $this->_statusContainer = $statusContainer;
     }
 
