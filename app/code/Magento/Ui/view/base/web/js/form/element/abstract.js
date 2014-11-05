@@ -167,10 +167,9 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            var isUndefined     = typeof value === 'undefined',
-                method          = isUndefined ? 'remove' : 'set';
-                
-            this.provider.data[method](this.dataScope, value);
+            var isUndefined = typeof value === 'undefined';
+
+            this.provider.data.set(this.dataScope, value);
 
             this.setPreview(isUndefined ? '' : value);
 
