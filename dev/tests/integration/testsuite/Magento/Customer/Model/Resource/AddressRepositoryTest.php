@@ -99,7 +99,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         $proposedAddress = $this->_addressBuilder->create();
         $customerId = 1;
         $createdAddress = $this->_service->save($proposedAddress);
-        $addresses = $this->_service->get($customerId);
+        $addresses = $this->_service->getbyId($customerId);
         $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
         $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
         $expectedNewAddressBuilder->setId($addresses[1]->getId());

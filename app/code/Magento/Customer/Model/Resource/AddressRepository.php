@@ -123,7 +123,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get($addressId)
+    public function getById($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
         return $address->getDataModel();
@@ -165,7 +165,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $addresses = [];
         $addressIds = $collection->getAllIds();
         foreach ($addressIds as $addressId) {
-            $addresses[] = $this->get($addressId);
+            $addresses[] = $this->getById($addressId);
         }
         $this->addressSearchResultsBuilder->setItems($addresses);
         return $this->addressSearchResultsBuilder->create();
