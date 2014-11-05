@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface" type="Magento\Reward\Model\Observer\PlaceOrder\Restriction\Frontend"/>
     <type name="Magento\Framework\Module\Manager">
         <arguments>
             <argument name="outputConfigPaths" xsi:type="array">
