@@ -92,9 +92,5 @@
             <path>lib/web/mage/mage.js</path>
             <word>head.js</word>
         </item>
-        <item>
-            <path>app/code/Magento/Wishlist/view/frontend/web/js/add-to-wishlist.js</path>
-            <word>GiftCard</word>
-        </item>
     </whitelist>
 </config>
