@@ -13,7 +13,6 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Store\Test\Fixture\Store;
 
 /**
- * Class StoreIds
  * Prepare Store
  */
 class StoreIds implements FixtureInterface

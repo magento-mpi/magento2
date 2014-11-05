@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpd
 use Mtf\Client\Element;
 
 /**
- * Class GenericPages
  * Filling Generic Pages type layout
  */
 class GenericPages extends LayoutForm

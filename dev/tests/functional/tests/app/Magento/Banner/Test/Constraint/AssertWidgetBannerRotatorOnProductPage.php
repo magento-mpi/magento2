@@ -15,8 +15,7 @@ use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Client\Browser;
 
 /**
- * Class AssertWidgetBannerRotatorOnProductPage
- * Check that created widget displayed on frontend on Product page
+ * Check that created Banner Rotator widget displayed on frontend on Product page
  */
 class AssertWidgetBannerRotatorOnProductPage extends AssertWidgetOnProductPage
 {
@@ -28,7 +27,7 @@ class AssertWidgetBannerRotatorOnProductPage extends AssertWidgetOnProductPage
     protected $severeness = 'low';
 
     /**
-     * Assert that created widget displayed on frontend on Product page
+     * Assert that created Banner Rotator widget displayed on frontend on Product page
      *
      * @param CatalogProductView $productView
      * @param Browser $browser
@@ -54,7 +53,6 @@ class AssertWidgetBannerRotatorOnProductPage extends AssertWidgetOnProductPage
             $productView->getWidgetView()->isWidgetVisible($widget, $widgetText),
             'Widget is absent on Product page.'
         );
-        $t = 0;
     }
 
     /**

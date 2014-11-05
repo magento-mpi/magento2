@@ -20,5 +20,5 @@ class WidgetView extends \Magento\Widget\Test\Block\WidgetView
      *
      * @var array
      */
-    protected $widgetSelectors = ['orderBySku' => './/*/a[contains(.,"%s")]'];
+    protected $widgetSelectors = ['orderBySku' => '/descendant-or-self::div[contains(.,"%s")]'];
 }

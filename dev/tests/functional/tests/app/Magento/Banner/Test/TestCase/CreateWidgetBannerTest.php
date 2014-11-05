@@ -12,15 +12,13 @@ use Magento\Widget\Test\TestCase\AbstractCreateWidgetEntityTest;
 use Magento\Banner\Test\Fixture\Widget;
 
 /**
- * Test Creation for New Instance of WidgetEntity Banner Rotator
- *
  * Test Flow:
  *
  * Steps:
  * 1. Login to the backend
  * 2. Open Content > Frontend Apps
  * 3. Click Add new Widget Instance
- * 4. Fill settings data according dataset
+ * 4. Fill settings data for Banner widget type according dataset
  * 5. Click button Continue
  * 6. Fill widget data according dataset
  * 7. Perform all assertions

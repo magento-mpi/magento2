@@ -11,7 +11,6 @@ namespace Magento\AdvancedCheckout\Test\Fixture\Widget;
 use Magento\Widget\Test\Fixture\Widget\WidgetOptions as AbstractWidgetOptions;
 
 /**
- * Class WidgetOptions
  * Prepare Widget options for widget
  */
 class WidgetOptions extends AbstractWidgetOptions

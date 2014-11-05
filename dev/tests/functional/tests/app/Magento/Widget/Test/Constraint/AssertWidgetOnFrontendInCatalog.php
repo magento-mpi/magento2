@@ -15,7 +15,6 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class AssertWidgetOnFrontendInCatalog
  * Check that created widget displayed on frontent in Catalog
  */
 class AssertWidgetOnFrontendInCatalog extends AbstractConstraint

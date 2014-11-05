@@ -15,10 +15,9 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 
 /**
- * Class AssertWidgetBannerRotatorOnFrontendAllPages
- * Check that created widget displayed on frontent on Home page and on Advanced Search
+ * Check that created Banner Rotator widget displayed on frontend on Home page and on Advanced Search
  */
-class AssertWidgetBannerRotatorOnFrontendAllPages extends AbstractConstraint
+class AssertWidgetBannerRotator extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,7 +27,7 @@ class AssertWidgetBannerRotatorOnFrontendAllPages extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created widget displayed on frontent on Home page and on Advanced Search
+     * Assert that created Banner Rotator widget displayed on frontent on Home page and on Advanced Search
      *
      * @param CmsIndex $cmsIndex
      * @param AdvancedSearch $advancedSearch

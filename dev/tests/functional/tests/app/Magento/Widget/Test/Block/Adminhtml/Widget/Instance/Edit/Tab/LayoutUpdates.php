@@ -11,10 +11,9 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\AbstractLayoutForm;
+use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\LayoutForm;
 
 /**
- * Class LayoutUpdates
  * Layout Updates form
  */
 class LayoutUpdates extends Tab
@@ -40,7 +39,7 @@ class LayoutUpdates extends Tab
      *
      * @var string
      */
-    protected $addLayoutUpdates = '[data-ui-id="widget-button"]';
+    protected $addLayoutUpdates = '[data-ui-id="widget-button-0"]';
 
     /**
      * Page group locator
@@ -64,7 +63,7 @@ class LayoutUpdates extends Tab
                 ->setOptionGroupValue($field['page_group'][0], $field['page_group'][1]);
             $this->getTemplateBlock()->waitLoader();
             $path = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\\';
-            /** @var AbstractLayoutForm $layoutForm */
+            /** @var LayoutForm $layoutForm */
             $layoutForm = $this->blockFactory->create(
                 $path . str_replace(" ", "", $field['page_group'][0]),
                 [

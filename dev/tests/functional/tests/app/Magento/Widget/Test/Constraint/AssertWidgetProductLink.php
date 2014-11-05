@@ -15,7 +15,6 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class AssertWidgetProductLink
  * Check that after click on widget link on frontend system redirects you to Product page defined in widget
  */
 class AssertWidgetProductLink extends AbstractConstraint

@@ -12,7 +12,6 @@ use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Widget
  * Backend add widget block form
  */
 class WidgetForm extends Form

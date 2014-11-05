@@ -9,7 +9,6 @@
 namespace Magento\AdvancedCheckout\Test\Fixture\Widget;
 
 /**
- * Class LayoutUpdates
  * Prepare Layout Updates for widget
  */
 class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates

@@ -23,15 +23,4 @@ class WidgetOptions extends AbstractWidgetOptions
      * @var string
      */
     protected $path = 'Magento\Banner\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\\';
-
-    /**
-     * Prepare class path
-     *
-     * @param string $widgetOptionsName
-     * @return string
-     */
-    protected function prepareClassPath($widgetOptionsName)
-    {
-        return $this->path . 'BannerRotator';
-    }
 }

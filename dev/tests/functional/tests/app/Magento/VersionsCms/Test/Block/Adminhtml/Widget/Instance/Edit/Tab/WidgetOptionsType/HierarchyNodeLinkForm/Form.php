@@ -11,7 +11,6 @@ namespace Magento\VersionsCms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\Widg
 use Magento\Backend\Test\Block\Widget\Form as AbstractForm;
 
 /**
- * Class Form
  * Hierarchy Node Link form
  */
 class Form extends AbstractForm

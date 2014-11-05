@@ -94,7 +94,7 @@ class Nodes implements FixtureInterface
      */
     protected function getPreset($name)
     {
-        //ToDo Currently it is impossible to make data for UI because the module is not stable now
+        //ToDo Rewrite data for UI usability when the module will be stable.
         $presets = [
             'nodeWithOnePage' => [
                 '0' => [
@@ -106,7 +106,11 @@ class Nodes implements FixtureInterface
                     'sort_order' => 0,
                     'level' => 1,
                     'top_menu_visibility' => '1',
-                    'top_menu_excluded' => '0',
+                    'top_menu_excluded' => 0,
+                    'meta_cs_enabled' => 1,
+                    'meta_first_last' => 1,
+                    'meta_next_previous' => 1,
+                    'meta_chapter_section' => 'both',
                 ],
                 '1' => [
                     'node_id' => '1',

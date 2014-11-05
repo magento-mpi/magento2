@@ -47,7 +47,7 @@
     <assertWidgetBannerRotatorOnProductPage module="Magento_Banner">
         <severeness>low</severeness>
     </assertWidgetBannerRotatorOnProductPage>
-    <assertWidgetBannerRotatorOnFrontendAllPages module="Magento_Banner">
+    <assertWidgetBannerRotator module="Magento_Banner">
         <severeness>low</severeness>
-    </assertWidgetBannerRotatorOnFrontendAllPages>
+    </assertWidgetBannerRotator>
 </constraint>

@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Test\Fixture\Category;
+namespace Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
 
 /**
- * Class CategoryId
  * Create and return Category
  */
 class CategoryId extends CategoryIds

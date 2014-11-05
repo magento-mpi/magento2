@@ -18,7 +18,6 @@ use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**

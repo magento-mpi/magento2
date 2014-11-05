@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class CmsHierarchy
+ * Cms Hierarchy fixture
  */
 class CmsHierarchy extends InjectableFixture
 {
@@ -32,6 +32,10 @@ class CmsHierarchy extends InjectableFixture
         'nodes_data' => ['preset' => 'nodeWithOnePage'],
         'top_menu_visibility' => 'Yes',
         'pager_visibility' => 'Yes',
+        'meta_cs_enabled' => 'Yes',
+        'meta_first_last' => 'Yes',
+        'meta_next_previous' => 'Yes',
+        'meta_chapter_section' => 'Both',
     ];
 
     protected $node_id = [
@@ -143,6 +147,26 @@ class CmsHierarchy extends InjectableFixture
         'source' => 'Magento\VersionsCms\Test\Fixture\CmsHierarchy\Nodes',
     ];
 
+    protected $meta_cs_enabled = [
+        'attribute_code' => 'meta_cs_enabled',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $meta_first_last = [
+        'attribute_code' => 'meta_first_last',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $meta_next_previous = [
+        'attribute_code' => 'meta_next_previous',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $meta_chapter_section = [
+        'attribute_code' => 'meta_chapter_section',
+        'backend_type' => 'virtual',
+    ];
+
     public function getNodeId()
     {
         return $this->getData('node_id');
@@ -216,5 +240,25 @@ class CmsHierarchy extends InjectableFixture
     public function getNodesData()
     {
         return $this->getData('nodes_data');
+    }
+
+    public function getMetaCsEnabled()
+    {
+        return $this->getData('meta_cs_enabled');
+    }
+
+    public function getMetaFirstLast()
+    {
+        return $this->getData('meta_first_last');
+    }
+
+    public function getMetaNextPrevious()
+    {
+        return $this->getData('meta_next_previous');
+    }
+
+    public function getMetaChapterSection()
+    {
+        return $this->getData('meta_chapter_section');
     }
 }

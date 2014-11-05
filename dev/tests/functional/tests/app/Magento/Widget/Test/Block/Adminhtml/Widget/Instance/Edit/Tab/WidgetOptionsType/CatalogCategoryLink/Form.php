@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 use Magento\Backend\Test\Block\Widget\Form as AbstractForm;
 
 /**
- * Class Form
  * Catalog category link form
  */
 class Form extends AbstractForm

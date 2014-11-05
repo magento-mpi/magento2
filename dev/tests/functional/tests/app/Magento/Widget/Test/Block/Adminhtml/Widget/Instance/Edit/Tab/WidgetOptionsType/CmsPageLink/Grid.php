@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
- * Class Grid
  * Chooser page grid
  */
 class Grid extends GridInterface

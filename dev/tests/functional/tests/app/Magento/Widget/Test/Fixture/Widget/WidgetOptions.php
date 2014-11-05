@@ -12,7 +12,6 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 
 /**
- * Class WidgetOptions
  * Prepare Widget options for widget
  */
 class WidgetOptions implements FixtureInterface

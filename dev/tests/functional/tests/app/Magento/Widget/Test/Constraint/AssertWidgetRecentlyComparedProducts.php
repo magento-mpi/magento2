@@ -8,16 +8,13 @@
 
 namespace Magento\Widget\Test\Constraint;
 
-use Magento\Catalog\Test\Constraint\AssertProductCompareSuccessAddMessage;
-use Magento\Catalog\Test\Constraint\AssertProductCompareSuccessRemoveMessage;
-use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Client\Browser;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Fixture\InjectableFixture;
-use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Check that widget with type Recently Compared Products is present on Product Compare page
@@ -55,8 +52,6 @@ class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
     /**
      * Assert that widget with type Recently Compared Products is present on Product Compare page
      *
-     * @param AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
-     * @param AssertProductCompareSuccessRemoveMessage $assertProductCompareSuccessRemoveMessage
      * @param CatalogProductCompare $catalogProductCompare
      * @param CmsIndex $cmsIndex
      * @param CatalogProductView $catalogProductView
@@ -68,8 +63,6 @@ class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
      */
 
     public function processAssert(
-        AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage,
-        AssertProductCompareSuccessRemoveMessage $assertProductCompareSuccessRemoveMessage,
         CatalogProductCompare $catalogProductCompare,
         CmsIndex $cmsIndex,
         CatalogProductView $catalogProductView,
@@ -93,8 +86,8 @@ class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
             $products[] = $product;
         }
         $cmsIndex->open();
-        $this->addProducts($products, $assertProductCompareSuccessAddMessage);
-        $this->removeCompareProduct($products, $assertProductCompareSuccessRemoveMessage);
+        $this->addProducts($products);
+        $this->removeCompareProducts();
 
         \PHPUnit_Framework_Assert::assertTrue(
             $this->catalogProductCompare->getWidgetView()->isWidgetVisible($widget, 'Recently Compared'),
@@ -106,33 +99,27 @@ class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
      * Add products to compare list
      *
      * @param array $products
-     * @param AbstractConstraint $assert
      * @return void
      */
-    protected function addProducts(array $products, AbstractConstraint $assert)
+    protected function addProducts(array $products)
     {
         foreach ($products as $itemProduct) {
             $this->browser->open($_ENV['app_frontend_url'] . $itemProduct->getUrlKey() . '.html');
             $this->catalogProductView->getViewBlock()->clickAddToCompare();
-            $assert->processAssert($this->catalogProductView, $itemProduct);
+            $this->catalogProductView->getMessagesBlock()->waitSuccessMessage();
         }
     }
 
     /**
      * Remove compare product
      *
-     * @param array $products
-     * @param AbstractConstraint $assert
      * @return void
      */
-    protected function removeCompareProduct(array $products, AbstractConstraint $assert)
+    protected function removeCompareProducts()
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
-        foreach ($products as $itemProduct) {
-            $this->catalogProductCompare->getCompareProductsBlock()->removeProduct();
-            $assert->processAssert($this->catalogProductCompare, $itemProduct);
-        }
+        $this->catalogProductCompare->getCompareProductsBlock()->removeAllProducts();
     }
 
     /**

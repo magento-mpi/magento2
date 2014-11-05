@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\Product\Grid;
 
 /**
- * Class Products
  * Filling Product type layout
  */
 class Products extends LayoutForm

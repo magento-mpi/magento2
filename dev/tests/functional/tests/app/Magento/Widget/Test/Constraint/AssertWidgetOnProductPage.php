@@ -15,7 +15,6 @@ use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Client\Browser;
 
 /**
- * Class AssertWidgetOnProductPage
  * Check that created widget displayed on frontend on Product page
  */
 class AssertWidgetOnProductPage extends AbstractConstraint

@@ -9,7 +9,6 @@
 namespace Magento\VersionsCms\Test\Fixture\Widget;
 
 /**
- * Class WidgetOptions
  * Prepare Widget options for widget cms hierarchy
  */
 class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions

@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\WidgetOptionsForm;
 
 /**
- * Class WidgetOptions
  * Widget options form
  */
 class WidgetOptions extends Tab
@@ -44,13 +43,10 @@ class WidgetOptions extends Tab
     {
         foreach ($fields['widgetOptions']['value'] as $key => $field) {
             $path = $this->path . ucfirst($field['type_id']);
-            unset($field['name']);
             /** @var WidgetOptionsForm $widgetOptionsForm */
             $widgetOptionsForm = $this->blockFactory->create(
                 $path,
-                [
-                    'element' => $this->_rootElement->find($this->formSelector)
-                ]
+                ['element' => $this->_rootElement->find($this->formSelector)]
             );
             $widgetOptionsForm->fillForm($field);
         }

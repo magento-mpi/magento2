@@ -80,12 +80,12 @@ class UpdateCatalogEventEntityTest extends Injectable
         $this->product = $product;
 
         /** @var CategoryIds $sourceCategories */
-        $sourceCategories = $product->getDataFieldConfig('category_ids')['source'];
+        $sourceCategory = $product->getDataFieldConfig('category_ids')['source']->getCategories()[0];
         $catalogEvent = $fixtureFactory->createByCode(
             'catalogEventEntity',
             [
                 'dataSet' => 'default_event',
-                'data' => ['category_id' => $sourceCategories->getCategories()[0]->getId()],
+                'data' => ['category_id' => $sourceCategory->getId()],
             ]
         );
         $catalogEvent->persist();

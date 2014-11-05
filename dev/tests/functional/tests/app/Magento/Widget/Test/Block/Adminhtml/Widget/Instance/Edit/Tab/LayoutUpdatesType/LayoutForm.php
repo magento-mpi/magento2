@@ -13,7 +13,6 @@ use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class LayoutForm
  * Responds for filling layout form
  */
 class LayoutForm extends Form

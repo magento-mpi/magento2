@@ -22,11 +22,4 @@ class Widget extends ParentWidget
         'source' => 'Magento\CatalogEvent\Test\Fixture\Widget\WidgetOptions',
         'group' => 'catalog_event_widget_options',
     ];
-
-    protected $layout = [
-        'attribute_code' => 'layout',
-        'backend_type' => 'virtual',
-        'source' => 'Magento\CatalogEvent\Test\Fixture\Widget\LayoutUpdates',
-        'group' => 'layout_updates',
-    ];
 }

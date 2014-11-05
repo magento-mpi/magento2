@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpd
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
- * Class Grid
  * Chooser product grid
  */
 class Grid extends GridInterface

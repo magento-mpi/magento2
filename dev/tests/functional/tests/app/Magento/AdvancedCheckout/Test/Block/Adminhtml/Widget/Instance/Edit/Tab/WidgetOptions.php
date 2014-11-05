@@ -13,7 +13,6 @@ use Magento\Widget\Test\Fixture\Widget;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions as AbstractWidgetOptions;
 
 /**
- * Class LayoutUpdates
  * Widget options form
  */
 class WidgetOptions extends AbstractWidgetOptions

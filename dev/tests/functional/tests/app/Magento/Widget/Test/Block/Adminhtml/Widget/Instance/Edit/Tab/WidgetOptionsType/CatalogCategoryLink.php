@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogCategoryLink\Form;
 
 /**
- * Class CatalogCategoryLink
  * Filling Widget Options that have catalog category link type
  */
 class CatalogCategoryLink extends WidgetOptionsForm

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="cms/index/index" module="Magento_Cms">
+<page mca="cms/index/index">
     <blocks>
         <widgetView>
             <renders>

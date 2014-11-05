@@ -36,6 +36,18 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
         'pager_visibility' => [
             'Yes' => 2,
         ],
+        'meta_cs_enabled' => [
+            'Yes' => 1,
+        ],
+        'meta_first_last' => [
+            'Yes' => 1,
+        ],
+        'meta_next_previous' => [
+            'Yes' => 1,
+        ],
+        'meta_chapter_section' => [
+            'Both' => 'both',
+        ],
     ];
 
     /**

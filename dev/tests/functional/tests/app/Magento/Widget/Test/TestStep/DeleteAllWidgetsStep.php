@@ -13,7 +13,6 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 
 /**
- * Class DeleteAllWidgetsStep
  * Delete all widgets on backend
  */
 class DeleteAllWidgetsStep implements TestStepInterface

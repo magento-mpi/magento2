@@ -12,7 +12,6 @@ use Mtf\Client\Element;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class LayoutUpdates
  * Widget options form
  */
 class WidgetOptions extends \Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions

@@ -12,7 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 
 /**
- * Class AssertWidgetSuccessDeleteMessage
  * Check that Widget success delete message presents
  */
 class AssertWidgetSuccessDeleteMessage extends AbstractConstraint

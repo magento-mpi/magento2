@@ -14,10 +14,8 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
 
-;
-
 /**
- * Class AssertWidgetOrderBySkuOnCategoryPage
+ * Check that created Order By Sku widget displayed on frontend in Catalog
  */
 class AssertWidgetOrderBySkuOnCategoryPage extends AbstractConstraint
 {
@@ -29,7 +27,7 @@ class AssertWidgetOrderBySkuOnCategoryPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created widget displayed on frontent in Catalog
+     * Assert that created Order By Sku widget displayed on frontend in Catalog
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
@@ -49,15 +47,10 @@ class AssertWidgetOrderBySkuOnCategoryPage extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        if (isset($widget->getLayout()[0]['entities'])) {
-            $categoryName = $widget->getLayout()[0]['entities']['name'];
-        } else {
-            $categoryName = $widget->getWidgetOptions()[0]['entities']['category_id'][0];
-        }
-        $widgetText = $widget->getWidgetOptions()[0]['link_text'];
+        $categoryName = $widget->getLayout()[0]['entities']['name'];
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogCategoryView->getWidgetView()->isWidgetVisible($widget, $widgetText),
+            $catalogCategoryView->getWidgetView()->isWidgetVisible($widget, "Order by SKU"),
             'Widget is absent on Category page.'
         );
     }

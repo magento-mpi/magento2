@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpd
 use Mtf\Client\Element;
 
 /**
- * Class Categories
  * Filling Categories type layout
  */
 class Categories extends LayoutForm

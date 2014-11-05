@@ -84,7 +84,7 @@
             <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
         </require>
     </assertCatalogEventBlockAbsent>
-    <assertWidgetEventLink module="Magento_CatalogEvent">
+    <assertWidgetCatalogEvent module="Magento_CatalogEvent">
         <severeness>low</severeness>
-    </assertWidgetEventLink>
+    </assertWidgetCatalogEvent>
 </constraint>

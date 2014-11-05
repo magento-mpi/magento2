@@ -12,7 +12,6 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 
 /**
- * Class LayoutUpdates
  * Prepare Layout Updates for widget
  */
 class LayoutUpdates implements FixtureInterface

@@ -9,59 +9,44 @@
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid;
+use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class CmsPageLink
  * Filling Widget Options that have cms page link type
  */
 class CmsPageLink extends WidgetOptionsForm
 {
     /**
+     * Select block
+     *
+     * @var string
+     */
+    protected $selectBlock = '.scalable.btn-chooser';
+
+    /**
      * Cms Page Link grid block
      *
      * @var string
      */
-    protected $cmsPageLinkGrid = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
+    protected $gridBlock = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
 
     /**
-     * Filling widget options form
+     * Path to grid
      *
-     * @param array $widgetOptionsFields
-     * @param Element $element
-     * @return void
+     * @var string
      */
-    public function fillForm(array $widgetOptionsFields, Element $element = null)
-    {
-        $element = $element === null ? $this->_rootElement : $element;
-        $mapping = $this->dataMapping($widgetOptionsFields);
-        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
-        if (isset($mapping['entities'])) {
-            $this->selectEntityInGrid($mapping['entities']);
-        }
-    }
+    // @codingStandardsIgnoreStart
+    protected $pathToGrid = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid';
+    // @codingStandardsIgnoreEnd
 
     /**
-     * Select entity in grid on widget options tab
+     * Prepare filter for grid
      *
-     * @param array $entities
-     * @return void
+     * @param InjectableFixture $entity
+     * @return array
      */
-    protected function selectEntityInGrid(array $entities)
+    protected function prepareFilter(InjectableFixture $entity)
     {
-        foreach ($entities['value'] as $entity) {
-            $this->_rootElement->find($this->selectPage)->click();
-
-            /** @var Grid $cmsPageLinkGrid */
-            $cmsPageLinkGrid = $this->blockFactory->create(
-                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid',
-                [
-                    'element' => $this->_rootElement
-                        ->find($this->cmsPageLinkGrid, Locator::SELECTOR_XPATH)
-                ]
-            );
-            $cmsPageLinkGrid->searchAndSelect(['title' => $entity->getTitle()]);
-        }
+        return ['title' => $entity->getTitle()];
     }
 }

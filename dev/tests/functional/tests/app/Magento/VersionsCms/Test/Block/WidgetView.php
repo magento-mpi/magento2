@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\Test\Block;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Widget block on the frontend
+ * Widget view block on the index page
  */
 class WidgetView extends \Magento\Widget\Test\Block\WidgetView
 {

@@ -11,7 +11,7 @@ namespace Magento\CatalogEvent\Test\Block;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Widget block on the frontend
+ * Widget catalog event block on the frontend
  */
 class WidgetView extends \Magento\Widget\Test\Block\WidgetView
 {

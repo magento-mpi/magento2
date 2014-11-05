@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Widget
  * Fixture for Widget
  *
  * @SuppressWarnings(PHPMD.TooManyFields)

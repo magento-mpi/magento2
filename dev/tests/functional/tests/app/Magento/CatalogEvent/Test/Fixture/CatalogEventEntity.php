@@ -50,7 +50,7 @@ class CatalogEventEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => 'Magento\CatalogEvent\Test\Fixture\Category\CategoryId',
+        'source' => 'Magento\CatalogEvent\Test\Fixture\CatalogEventEntity\CategoryId',
     ];
 
     protected $date_start = [

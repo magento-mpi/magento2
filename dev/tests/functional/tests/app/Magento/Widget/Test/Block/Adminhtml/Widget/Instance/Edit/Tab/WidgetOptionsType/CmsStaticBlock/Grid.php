@@ -9,7 +9,6 @@
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsStaticBlock;
 
 /**
- * Class Grid
  * Chooser block grid
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid

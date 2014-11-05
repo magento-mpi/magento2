@@ -14,7 +14,6 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class AssertWidgetCmsPageLink
  * Check that created widget displayed on frontent on Home page and on Advanced Search and
  * after click on widget link on frontend system redirects you to catalog page
  */

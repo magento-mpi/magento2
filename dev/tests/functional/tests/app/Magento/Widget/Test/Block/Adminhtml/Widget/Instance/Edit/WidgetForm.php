@@ -8,9 +8,9 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit;
 
-use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class WidgetForm
@@ -27,16 +27,11 @@ class WidgetForm extends FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $widgetOptionName = $fixture->getWidgetOptions()[0]['type_id'];
-        if ($this->hasRender($widgetOptionName)) {
-            $this->callRender($widgetOptionName, 'fill', ['fixture' => $fixture, 'element' => $element]);
-        } else {
-            $tabs = $this->getFieldsByTabs($fixture);
-            $this->fillTabs(['settings' => $tabs['settings']]);
-            unset($tabs['settings']);
-            $this->reinitRootElement();
+        $tabs = $this->getFieldsByTabs($fixture);
+        $this->fillTabs(['settings' => $tabs['settings']]);
+        unset($tabs['settings']);
+        $this->reinitRootElement();
 
-            return $this->fillTabs($tabs, $element);
-        }
+        return $this->fillTabs($tabs, $element);
     }
 }

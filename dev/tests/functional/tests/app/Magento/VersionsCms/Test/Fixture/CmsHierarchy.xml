@@ -110,6 +110,26 @@
             <backend_type>virtual</backend_type>
             <is_required></is_required>
         </nodes_data>
+        <meta_cs_enabled>
+            <attribute_code>meta_cs_enabled</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required></is_required>
+        </meta_cs_enabled>
+        <meta_first_last>
+            <attribute_code>meta_first_last</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required></is_required>
+        </meta_first_last>
+        <meta_next_previous>
+            <attribute_code>meta_next_previous</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required></is_required>
+        </meta_next_previous>
+        <meta_chapter_section>
+            <attribute_code>meta_chapter_section</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required></is_required>
+        </meta_chapter_section>
     </fields>
     <repository_class>Magento\VersionsCms\Test\Repository\CmsHierarchy</repository_class>
     <handler_interface>Magento\VersionsCms\Test\Handler\CmsHierarchy\CmsHierarchyInterface</handler_interface>

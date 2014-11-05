@@ -11,8 +11,6 @@ namespace Magento\Widget\Test\TestCase;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Test Creation for New Instance of WidgetEntity
- *
  * Test Flow:
  *
  * Steps:

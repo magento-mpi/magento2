@@ -14,7 +14,6 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
- * Class AssertWidgetAbsentOnFrontendHome
  * Check that created widget does NOT displayed on frontend on Home page
  */
 class AssertWidgetAbsentOnFrontendHome extends AbstractConstraint

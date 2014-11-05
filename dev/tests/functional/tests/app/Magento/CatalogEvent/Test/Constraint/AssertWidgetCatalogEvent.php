@@ -15,10 +15,10 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**
- * Class AssertWidgetEventLink
- * Check that link "Go To Sale" on event carousel widget redirects you to category page
+ * Check that widget catalog event carousel is present on category page and link "Go To Sale" on widget redirects
+ * you to category page
  */
-class AssertWidgetEventLink extends AbstractConstraint
+class AssertWidgetCatalogEvent extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,7 +28,8 @@ class AssertWidgetEventLink extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that link "Go To Sale" on event carousel widget redirects you to category page
+     * Assert that widget catalog event carousel is present on category page and link "Go To Sale" on widget redirects
+     * you to category page
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget

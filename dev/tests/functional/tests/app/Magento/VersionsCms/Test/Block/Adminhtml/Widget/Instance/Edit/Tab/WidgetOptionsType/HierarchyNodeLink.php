@@ -14,7 +14,6 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsTy
 use Magento\VersionsCms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\HierarchyNodeLinkForm\Form;
 
 /**
- * Class HierarchyNodeLink
  * Filling Widget Options that have hierarchy node link type
  */
 class HierarchyNodeLink extends WidgetOptionsForm

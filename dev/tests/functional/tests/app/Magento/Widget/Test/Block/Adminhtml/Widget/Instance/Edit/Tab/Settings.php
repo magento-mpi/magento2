@@ -13,7 +13,6 @@ use Magento\Widget\Test\Fixture\Widget;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Class LayoutUpdates
  * Widget options form
  */
 class Settings extends Tab
@@ -23,7 +22,7 @@ class Settings extends Tab
      *
      * @var string
      */
-    protected $continueButton = '[data-ui-id="widget-button"]';
+    protected $continueButton = '[data-ui-id="widget-button-0"]';
 
     /**
      * Click 'Continue' button

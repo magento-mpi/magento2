@@ -11,15 +11,15 @@ namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpt
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid;
+use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class CatalogProductLink
  * Filling Widget Options that have catalog product link type
  */
 class CatalogProductLink extends WidgetOptionsForm
 {
     /**
-     * Select page button
+     * Select block
      *
      * @var string
      */
@@ -30,48 +30,25 @@ class CatalogProductLink extends WidgetOptionsForm
      *
      * @var string
      */
+    protected $gridBlock = './ancestor::body//*[contains(@id, "options_fieldset")]//div[contains(@class, "main-col")]';
+
+    /**
+     * Path to grid
+     *
+     * @var string
+     */
     // @codingStandardsIgnoreStart
-    protected $catalogProductLinkGrid = './ancestor::body//*[contains(@id, "options_fieldset")]//div[contains(@class, "main-col")]';
+    protected $pathToGrid = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid';
     // @codingStandardsIgnoreEnd
 
     /**
-     * Filling widget options form
+     * Prepare filter for grid
      *
-     * @param array $widgetOptionsFields
-     * @param Element $element
-     * @return void
+     * @param InjectableFixture $entity
+     * @return array
      */
-    public function fillForm(array $widgetOptionsFields, Element $element = null)
+    protected function prepareFilter(InjectableFixture $entity)
     {
-        $element = $element === null ? $this->_rootElement : $element;
-        $mapping = $this->dataMapping($widgetOptionsFields);
-        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
-        if (isset($mapping['entities'])) {
-            $this->selectEntityInGrid($mapping['entities']);
-        }
-    }
-
-    /**
-     * Select entity in grid on widget options tab
-     *
-     * @param array $entities
-     * @return void
-     */
-    protected function selectEntityInGrid(array $entities)
-    {
-        foreach ($entities['value'] as $entity) {
-            $this->_rootElement->find($this->selectBlock)->click();
-            // @codingStandardsIgnoreStart
-            /** @var Grid $catalogProductLinkGrid */
-            $catalogProductLinkGrid = $this->blockFactory->create(
-                'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid',
-                [
-                    'element' => $this->_rootElement
-                        ->find($this->catalogProductLinkGrid, Locator::SELECTOR_XPATH)
-                ]
-            );
-            // @codingStandardsIgnoreEnd
-            $catalogProductLinkGrid->searchAndSelect(['name' => $entity->getName()]);
-        }
+        return ['name' => $entity->getName()];
     }
 }

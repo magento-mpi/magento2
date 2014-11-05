@@ -9,7 +9,6 @@
 namespace Magento\Cms\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Page
@@ -32,6 +31,13 @@ class Page extends Block
     protected $cmsPageTitle = ".page-title";
 
     /**
+     * Cms menu
+     *
+     * @var string
+     */
+    protected $cmsMenu = ".cms-menu";
+
+    /**
      * Get page content text
      *
      * @return string
@@ -42,13 +48,22 @@ class Page extends Block
     }
 
     /**
-     * Check is visible widget selector
+     * Get page title
      *
      * @return string
-     * @throws \Exception
      */
     public function getPageTitle()
     {
         return $this->_rootElement->find($this->cmsPageTitle)->getText();
+    }
+
+    /**
+     * Check is visible cms menu
+     *
+     * @return bool
+     */
+    public function cmsMenuIsVisible()
+    {
+        return $this->_rootElement->find($this->cmsMenu)->isVisible();
     }
 }

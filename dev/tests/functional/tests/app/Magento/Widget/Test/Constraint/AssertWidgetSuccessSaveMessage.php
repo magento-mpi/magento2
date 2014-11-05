@@ -12,7 +12,6 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertWidgetSuccessSaveMessage
  * Check that success message is displayed after widget saved
  */
 class AssertWidgetSuccessSaveMessage extends AbstractConstraint
