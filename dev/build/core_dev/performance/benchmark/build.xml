@@ -93,10 +93,10 @@
 
     <target name="install-clean-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee" description="Install Magento application on remote server">
         <sshexec host="${env.webnode_initial}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="php -f ${env.magento_dir}/dev/shell/install.php -- --license_agreement_accepted 'yes' --locale 'en_US' --timezone 'America/Los_Angeles' --default_currency 'USD' --db_host '${env.mysql_host}' --db_name '${env.mysql_database}' --db_user '${env.mysql_user}' --db_pass '${env.mysql_password}' --use_secure 'no' --use_secure_admin 'no' --use_rewrites 'yes' --admin_lastname 'Admin' --admin_firstname 'Admin' --admin_email 'admin@example.com' --admin_no_form_key 'yes' --url 'http://${env.base_url}' --secure_base_url 'http://${env.secure_base_url}' --backend_frontname 'backend' --admin_username 'admin' --admin_password '123123q' 2>&amp;1"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="php -f ${env.magento_dir}/dev/shell/install.php -- --license_agreement_accepted 'yes' --locale 'en_US' --timezone 'America/Los_Angeles' --default_currency 'USD' --db_host '${env.mysql_host}' --db_name '${env.mysql_database}' --db_user '${env.mysql_user}' --db_pass '${env.mysql_password}' --use_secure 'no' --use_secure_admin 'no' --use_rewrites 'yes' --admin_lastname 'Admin' --admin_firstname 'Admin' --admin_email 'admin@example.com' --admin_no_form_key 'yes' --url 'http://${env.base_url}' --secure_base_url 'http://${env.secure_base_url}' --backend_frontname 'backend' --admin_username 'admin' --admin_password '123123q' 2>&amp;1"/>
     </target>
 
     <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install/Repair Magento Application on defined fixture configuration">
@@ -105,7 +105,7 @@
             <not><isset property="env.size"/></not>
         </condition>
 
-        <ac:propertyregex property="git_repository_part" input="${env.git_repository}" regexp="github.scm.corp.ebay.com\/(.+)" select="\1" casesensitive="false" />
+        <ac:propertyregex property="git_repository_part" input="${env.git_repository}" regexp="github.corp.ebay.com\/(.+)" select="\1" casesensitive="false" />
         <ac:propertyregex property="git_repository" input="${git_repository_part}" regexp="\/" replace="-" casesensitive="false" />
 
         <property name="sql_dump_file_path" value="${user.home}/sql_dumps/${git_repository}/${env.git_branch}"/>
@@ -130,16 +130,16 @@
                          command="cd ${env.magento_dir}/dev/tools/performance-toolkit/fixtures/; cp tax_rates.csv temp.csv; head -5 temp.csv > tax_rates.csv;"/>
 
                 <sshexec host="${env.webnode_initial}"
-                     username="${env.webnode_login}"
-                     password="${env.webnode_password}"
-                     trust="yes"
-                     command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
+                         username="${env.webnode_login}"
+                         password="${env.webnode_password}"
+                         trust="yes"
+                         command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
                 <sshexec host="${env.mysql_host}"
-                     username="${env.webnode_login}"
-                     password="${env.webnode_password}"
-                     trust="yes"
-                     command="mysqldump -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database} | gzip -9 &gt; ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
-                <scp file="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}/${sql_dump_file_name}" todir="${sql_dump_file_path}" trust="yes"/>
+                         username="${env.webnode_login}"
+                         password="${env.webnode_password}"
+                         trust="yes"
+                         command="mysqldump -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database} | gzip -9 &gt; ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
+                <scp file="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}/${sql_dump_file_name}" todir="${sql_dump_file_path}/${sql_dump_file_path}" trust="yes"/>
             </then>
             <else>
                 <scp file="${sql_dump_file_path}/${sql_dump_file_name}" todir="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}" trust="yes"/>
@@ -150,10 +150,10 @@
             </else>
         </ac:if>
         <sshexec host="${env.mysql_host}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="rm -rf ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="rm -rf ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
     </target>
 
     <target name="force_regenerate_database" description="Set flag which will enforce database regeneration">
@@ -216,37 +216,41 @@
 
     <target name="_prepare-magento-ee" description="Prepare Enterprise Edition Modules">
         <sshexec host="${env.webnode_initial}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="cp ${env.magento_dir}/app/etc/enterprise/module.xml.dist ${env.magento_dir}/app/etc/enterprise/module.xml"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="cp ${env.magento_dir}/app/etc/enterprise/module.xml.dist ${env.magento_dir}/app/etc/enterprise/module.xml"/>
     </target>
 
     <target name="_remote-code-prepare" description="Set permissions for magento directories and files on remote machine">
         <sshexec host="${server_ip}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="chmod a+w -R ${env.magento_dir}/app/etc ${env.magento_dir}/pub/media ${env.magento_dir}/pub/static ${env.magento_dir}/var"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="chmod a+w -R ${env.magento_dir}/app/etc ${env.magento_dir}/pub/media ${env.magento_dir}/pub/static ${env.magento_dir}/var"/>
     </target>
 
     <target name="_remote-git-checkout" description="Checkout specified git repository branch on remote machine">
         <fail unless="env.git_repository" message="Variable 'git_repository' must be defined"/>
+        <fail unless="env.git_token" message="Variable 'git_token' must be defined"/>
         <fail unless="env.git_branch" message="Variable 'git_branch' must be defined"/>
+
+        <ac:propertyregex property="git_repository_part" input="${env.git_repository}" regexp="https:\/\/(.+)" select="\1" casesensitive="false" />
+
         <sshexec host="${server_ip}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="git clone -b ${env.git_branch} ${env.git_repository} ${env.magento_dir}"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="git clone -b ${env.git_branch} https://${env.git_token}@${git_repository_part} ${env.magento_dir}"/>
     </target>
 
     <target name="_remote-rmdir" description="Delete specified directory recursively">
         <fail unless="directory_path" message="Variable 'directory_path' must be defined"/>
         <sshexec host="${server_ip}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="rm -rf ${directory_path}"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="rm -rf ${directory_path}"/>
     </target>
 
     <target name="_remote-flush-memcache" description="Invalidate all memcache items">
@@ -261,27 +265,27 @@
 
     <target name="_remote-drop-database" depends="_database-credentials-check" description="Drop specified MySQL database">
         <sshexec host="${env.mysql_host}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="mysql -u${env.mysql_user} -p${env.mysql_password} -e 'DROP DATABASE IF EXISTS ${env.mysql_database};'"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="mysql -u${env.mysql_user} -p${env.mysql_password} -e 'DROP DATABASE IF EXISTS ${env.mysql_database};'"/>
     </target>
 
     <target name="_remote-create-database" depends="_database-credentials-check" description="Create specified MySQL database">
         <sshexec host="${env.mysql_host}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="mysql -u${env.mysql_user} -p${env.mysql_password} -e 'CREATE DATABASE ${env.mysql_database};'"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="mysql -u${env.mysql_user} -p${env.mysql_password} -e 'CREATE DATABASE ${env.mysql_database};'"/>
     </target>
 
     <target name="_remote-restore-database-from-gzip" depends="_database-credentials-check" description="Restore specified MySQL database from archive">
         <fail unless="mysql_db_dump_file" message="Variable 'mysql_db_dump_file' must be defined"/>
         <sshexec host="${env.mysql_host}"
-             username="${env.webnode_login}"
-             password="${env.webnode_password}"
-             trust="yes"
-             command="gunzip &lt; ${mysql_db_dump_file} | mysql -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database}"/>
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="gunzip &lt; ${mysql_db_dump_file} | mysql -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database}"/>
     </target>
 
     <target name="_database-credentials-check" description="Check whether common database parameters is set">
