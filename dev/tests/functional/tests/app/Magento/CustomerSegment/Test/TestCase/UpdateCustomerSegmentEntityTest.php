@@ -163,6 +163,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
         CustomerSegment $customerSegment,
         CustomerSegment $customerSegmentOriginal
     ) {
+//        $this->markTestIncomplete('MAGETWO-30226');
         //Preconditions
         $customer->persist();
         $this->customerIndexPage->open();
