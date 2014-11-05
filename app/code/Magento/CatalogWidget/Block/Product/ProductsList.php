@@ -8,11 +8,11 @@
 namespace Magento\CatalogWidget\Block\Product;
 
 /**
- * New products widget
+ * Catalog Products List widget block
+ * Class ProductsList
  */
 class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\Widget\Block\BlockInterface
 {
-
     /**
      * Default value for products count that will be shown
      */
@@ -38,14 +38,14 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      *
      * @var \Magento\Catalog\Block\Product\Widget\Html\Pager
      */
-    protected $_pager;
+    protected $pager;
 
     /**
      * Products count
      *
      * @var int
      */
-    protected $_productsCount;
+    protected $productsCount;
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -57,14 +57,14 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      *
      * @var \Magento\Catalog\Model\Product\Visibility
      */
-    protected $_catalogProductVisibility;
+    protected $catalogProductVisibility;
 
     /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
-    protected $_productCollectionFactory;
+    protected $productCollectionFactory;
 
     /**
      * @var \Magento\Rule\Model\Condition\Sql\Builder
@@ -101,8 +101,8 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
         \Magento\Widget\Helper\Conditions $conditionsHelper,
         array $data = array()
     ) {
-        $this->_productCollectionFactory = $productCollectionFactory;
-        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->productCollectionFactory = $productCollectionFactory;
+        $this->catalogProductVisibility = $catalogProductVisibility;
         $this->httpContext = $httpContext;
         $this->sqlBuilder = $sqlBuilder;
         $this->rule = $rule;
@@ -143,16 +143,14 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             ? $this->getData('conditions')
             : $this->getData('conditions_encoded');
 
-        return array_merge(
-            array(
-                'CATALOG_PRODUCTS_LIST_WIDGET',
-                $this->_storeManager->getStore()->getId(),
-                $this->_design->getDesignTheme()->getId(),
-                $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
-                intval($this->getRequest()->getParam(self::PAGE_VAR_NAME, 1)),
-                $this->getProductsPerPage(),
-                $conditions
-            )
+        return array(
+            'CATALOG_PRODUCTS_LIST_WIDGET',
+            $this->_storeManager->getStore()->getId(),
+            $this->_design->getDesignTheme()->getId(),
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
+            intval($this->getRequest()->getParam(self::PAGE_VAR_NAME, 1)),
+            $this->getProductsPerPage(),
+            $conditions
         );
     }
 
@@ -212,8 +210,8 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
     protected function createCollection()
     {
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = $this->_productCollectionFactory->create();
-        $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
+        $collection = $this->productCollectionFactory->create();
+        $collection->setVisibility($this->catalogProductVisibility->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices(
             $collection
@@ -258,11 +256,11 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             return $this->getData('products_count');
         }
 
-        if (null === $this->_productsCount) {
-            $this->_productsCount = self::DEFAULT_PRODUCTS_COUNT;
+        if (null === $this->productsCount) {
+            $this->productsCount = self::DEFAULT_PRODUCTS_COUNT;
         }
 
-        return $this->_productsCount;
+        return $this->productsCount;
     }
 
     /**
@@ -299,13 +297,13 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
     public function getPagerHtml()
     {
         if ($this->showPager() && $this->_getProductCollection()->getSize() > $this->getProductsPerPage()) {
-            if (!$this->_pager) {
-                $this->_pager = $this->getLayout()->createBlock(
+            if (!$this->pager) {
+                $this->pager = $this->getLayout()->createBlock(
                     'Magento\Catalog\Block\Product\Widget\Html\Pager',
                     'widget.products.list.pager'
                 );
 
-                $this->_pager->setUseContainer(true)
+                $this->pager->setUseContainer(true)
                     ->setShowAmounts(true)
                     ->setShowPerPage(false)
                     ->setPageVarName(self::PAGE_VAR_NAME)
@@ -313,8 +311,8 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
                     ->setTotalLimit($this->getProductsCount())
                     ->setCollection($this->getProductCollection());
             }
-            if ($this->_pager instanceof \Magento\Framework\View\Element\AbstractBlock) {
-                return $this->_pager->toHtml();
+            if ($this->pager instanceof \Magento\Framework\View\Element\AbstractBlock) {
+                return $this->pager->toHtml();
             }
         }
         return '';
@@ -328,7 +326,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      */
     public function setProductsCount($count)
     {
-        $this->_productsCount = $count;
+        $this->productsCount = $count;
         return $this;
     }
 
