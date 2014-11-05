@@ -1,0 +1,2 @@
+"products";"grandTotal";"paymentMethod";"shippingMethod";"salesRuleDiscount";"constraint"
+"bundleProduct::bundle_dynamic_product, configurableProductInjectable::default, downloadableProductInjectable::default, giftCardProduct::default";"873.00";"Check / Money order";"Flat Rate - Fixed";"300.00";"assertSalesPrintOrderBillingAddress, assertSalesPrintOrderGrandTotal, assertSalesPrintOrderPaymentMethod, assertSalesPrintOrderProducts, assertGiftCardAccountOnPrintOrder, assertSalesRuleOnPrintOrder, assertShippingMethodOnPrintOrder"

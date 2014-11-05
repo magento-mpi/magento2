@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/guest/print">
+    <blocks>
+        <printOrderSalesRule>
+            <class>Magento\SalesRule\Test\Block\Order\PrintOrder</class>
+            <locator>.columns</locator>
+            <strategy>css selector</strategy>
+        </printOrderSalesRule>
+    </blocks>
+</page>

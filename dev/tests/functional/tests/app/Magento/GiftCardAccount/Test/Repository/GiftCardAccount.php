@@ -42,5 +42,12 @@ class GiftCardAccount extends AbstractRepository
             'website_id' => 1,
             'balance' => '10',
         ];
+
+        $this->_data['gift_card_account_amount_1'] = [
+            'status' => 'Yes',
+            'is_redeemable' => 'Yes',
+            'website_id' => 1,
+            'balance' => '1',
+        ];
     }
 }

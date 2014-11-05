@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Fixture\OrderInjectable;
 
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
@@ -56,6 +57,12 @@ class BillingAddressId implements FixtureInterface
         if (isset($data['dataSet'])) {
             $addresses = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => $data['dataSet']]);
             $this->data = $addresses->getData();
+            $this->data['street'] = [$this->data['street']];
+        }
+        if (isset($data['billingAddress']) && $data['billingAddress'] instanceof AddressInjectable) {
+            /** @var AddressInjectable $address */
+            $address = $data['billingAddress'];
+            $this->data = $address->getData();
             $this->data['street'] = [$this->data['street']];
         }
     }

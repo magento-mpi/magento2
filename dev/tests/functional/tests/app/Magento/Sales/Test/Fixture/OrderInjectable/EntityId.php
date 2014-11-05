@@ -58,14 +58,19 @@ class EntityId implements FixtureInterface
         if (!isset($data['products'])) {
             return;
         }
-        $products = explode(',', $data['products']);
-        foreach ($products as $product) {
-            list($fixture, $dataSet) = explode('::', $product);
-            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            if ($product->hasData('id') === false) {
+        if (is_string($data['products'])) {
+            $products = explode(',', $data['products']);
+            foreach ($products as $product) {
+                list($fixture, $dataSet) = explode('::', $product);
+                $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
                 $product->persist();
+                $this->data['products'][] = $product;
             }
-            $this->data['products'][] = $product;
+        } elseif (is_array($data['products'])) {
+            $products = $data['products'];
+            foreach ($products as $product) {
+                $this->data['products'][] = $product;
+            }
         }
     }
 

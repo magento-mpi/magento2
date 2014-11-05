@@ -47,4 +47,7 @@
     <assertGiftCardDiscount module="Magento_GiftCardAccount">
         <severeness>low</severeness>
     </assertGiftCardDiscount>
+    <assertGiftCardAccountOnPrintOrder module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountOnPrintOrder>
 </constraint>

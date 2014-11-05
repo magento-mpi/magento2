@@ -64,4 +64,21 @@
             </method>
         </methods>
     </scenario>
+    <scenario name="PrintOrderFrontendGuestTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createSalesRule" module="Magento_SalesRule">
+                        <arguments>
+                            <item name="salesRule">active_sales_rule_with_fixed_price_discount_coupon</item>
+                        </arguments>
+                        <next>applySalesRuleOnBackend</next>
+                    </step>
+                    <step name="applySalesRuleOnBackend" module="Magento_SalesRule">
+                        <next>fillBillingAddress</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
 </scenarios>

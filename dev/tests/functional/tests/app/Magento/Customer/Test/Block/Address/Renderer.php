@@ -49,6 +49,12 @@ class Renderer
     {
         $region = $this->resolveRegion();
         switch ($this->type) {
+            case "html":
+                $outputPattern = "{{depend}}{{prefix}} {{/depend}}{{firstname}} {{depend}}{{middlename}} {{/depend}}"
+                    . "{{lastname}}{{depend}} {{suffix}}{{/depend}}\n{{depend}}{{company}}\n{{/depend}}{{street}}\n"
+                    . "{{city}}, {{{$region}}}, {{postcode}}\n{{country_id}}\n{{depend}}T: {{telephone}}{{/depend}}"
+                    . "{{depend}}\nF: {{fax}}{{/depend}}{{depend}}\nVAT: {{vat_id}}{{/depend}}";
+                break;
             case "oneline":
             default:
                 $outputPattern = "{{depend}}{{prefix}} {{/depend}}{{firstname}} {{depend}}{{middlename}} {{/depend}}"
@@ -69,13 +75,13 @@ class Renderer
         $outputPattern = $this->getPattern();
         $fields = $this->getFieldsArray($outputPattern);
         $output = $this->preparePattern();
+        $output = str_replace(['{{depend}}','{{/depend}}','{', '}'], '', $output);
 
         foreach ($fields as $field) {
             $data = $this->address->getData($field);
             $output = str_replace($field, $data, $output);
         }
 
-        $output = str_replace(['{', '}'], '', $output);
         return $output;
     }
 
@@ -105,7 +111,7 @@ class Renderer
     protected function preparePattern()
     {
         $outputPattern = $this->getPattern();
-        preg_match_all('@\{\{depend\}\}(.*?)\{\{.depend\}\}@', $outputPattern, $matches);
+        preg_match_all('@\{\{depend\}\}(.*?)\{\{.depend\}\}@siu', $outputPattern, $matches);
         foreach ($matches[1] as $key => $dependPart) {
             preg_match_all('@\{\{(\w+)\}\}@', $dependPart, $depends);
             foreach ($depends[1] as $depend) {

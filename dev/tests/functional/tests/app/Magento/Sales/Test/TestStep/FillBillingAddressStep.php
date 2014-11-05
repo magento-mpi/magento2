@@ -46,10 +46,12 @@ class FillBillingAddressStep implements TestStepInterface
     /**
      * Fill Sales Data
      *
-     * @return void
+     * @return AddressInjectable
      */
     public function run()
     {
         $this->orderCreateIndex->getCreateBlock()->fillAddresses($this->billingAddress);
+
+        return ['billingAddress' => $this->billingAddress];
     }
 }
