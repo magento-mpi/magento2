@@ -33,29 +33,12 @@ class HierarchyNodeLink extends WidgetOptionsForm
     protected $hierarchyNodeLinkForm = './ancestor::body//*[contains(@id, "responseCntoptions_fieldset")]';
 
     /**
-     * Filling widget options form
-     *
-     * @param array $widgetOptionsFields
-     * @param Element $element
-     * @return void
-     */
-    public function fillForm(array $widgetOptionsFields, Element $element = null)
-    {
-        $element = $element === null ? $this->_rootElement : $element;
-        $mapping = $this->dataMapping($widgetOptionsFields);
-        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
-        if (isset($mapping['entities'])) {
-            $this->selectNode($mapping['entities']);
-        }
-    }
-
-    /**
      * Select node on widget options tab
      *
      * @param array $entities
      * @return void
      */
-    protected function selectNode(array $entities)
+    protected function selectEntity(array $entities)
     {
         foreach ($entities['value'] as $entity) {
             $this->_rootElement->find($this->selectPage)->click();

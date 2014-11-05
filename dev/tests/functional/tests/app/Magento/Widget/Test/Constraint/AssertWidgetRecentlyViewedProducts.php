@@ -8,6 +8,7 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureFactory;
@@ -19,6 +20,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Check that that widget with type Recently Viewed Products is present on category and order page
@@ -93,6 +95,7 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
      * @param CustomerIndex $customerIndexPage
      * @param CustomerIndexEdit $customerIndexEdit
      * @param OrderCreateIndex $orderCreateIndex
+     * @param CatalogProductSimple $productSimple
      * @param CustomerInjectable $customer
      * @return void
      */
@@ -106,6 +109,7 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
         CustomerIndex $customerIndexPage,
         CustomerIndexEdit $customerIndexEdit,
         OrderCreateIndex $orderCreateIndex,
+        CatalogProductSimple $productSimple,
         CustomerInjectable $customer
     ) {
         // Flush cache
@@ -120,7 +124,6 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
         $this->customerIndexPage = $customerIndexPage;
         $this->customerIndexEdit = $customerIndexEdit;
         $this->fixtureFactory = $fixtureFactory;
-        $products = [];
         $customer->persist();
 
         $this->objectManager->create(
@@ -128,28 +131,22 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
             ['customer' => $customer]
         )->run();
 
-        $entities = $widget->getDataFieldConfig('widgetOptions')['source']->getEntities();
-        foreach ($entities as $product) {
-            $products[] = $product;
-        }
-        $this->openProducts($products);
-        $this->checkRecentlyViewedBlockOnCategory($widget);
-
+        $productSimple->persist();
+        $this->openProduct($productSimple);
+        $this->checkRecentlyViewedBlockOnCategory($productSimple);
         $this->createOrderFromCustomerPage($customer);
-        $this->checkRecentlyViewedBlockOnOrder($widget);
+        $this->checkRecentlyViewedBlockOnOrder($productSimple);
     }
 
     /**
      * Open products
      *
-     * @param array $products
+     * @param CatalogProductSimple $product
      * @return void
      */
-    protected function openProducts(array $products)
+    protected function openProduct(CatalogProductSimple $product)
     {
-        foreach ($products as $itemProduct) {
-            $this->browser->open($_ENV['app_frontend_url'] . $itemProduct->getUrlKey() . '.html');
-        }
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
     }
 
     /**
@@ -169,10 +166,10 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
     /**
      * Check that block Recently Viewed contains product on category page
      *
-     * @param Widget $widget
+     * @param CatalogProductSimple $productSimple
      * @return void
      */
-    protected function checkRecentlyViewedBlockOnCategory(Widget $widget)
+    protected function checkRecentlyViewedBlockOnCategory(CatalogProductSimple $productSimple)
     {
         $category = $this->fixtureFactory->createByCode('catalogCategory', ['dataSet' => 'default_subcategory']);
         $category->persist();
@@ -180,30 +177,26 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
         $this->cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
 
         $products = $this->catalogCategoryView->getViewBlock()->getProductsFromRecentlyViewedBlock();
-        foreach ($widget->getWidgetOptions()[0]['entities'] as $entity) {
-            \PHPUnit_Framework_Assert::assertTrue(
-                in_array($entity->getName(), $products),
-                'Product' . $entity->getName() . ' is absent on Recently Viewed block on Category page.'
-            );
-        }
+        \PHPUnit_Framework_Assert::assertTrue(
+            in_array($productSimple->getName(), $products),
+            'Product' . $productSimple->getName() . ' is absent on Recently Viewed block on Category page.'
+        );
     }
 
     /**
      * Check that block Recently Viewed contains product on order page
      *
-     * @param Widget $widget
+     * @param CatalogProductSimple $productSimple
      * @return void
      */
-    protected function checkRecentlyViewedBlockOnOrder(Widget $widget)
+    protected function checkRecentlyViewedBlockOnOrder(CatalogProductSimple $productSimple)
     {
         $products = $this->orderCreateIndex->getCustomerActivitiesBlock()->getRecentlyViewedProductsBlock()
             ->getProducts();
-        foreach ($widget->getWidgetOptions()[0]['entities'] as $entity) {
-            \PHPUnit_Framework_Assert::assertTrue(
-                in_array($entity->getName(), $products),
-                'Product is absent on Recently Viewed block on order page.'
-            );
-        }
+        \PHPUnit_Framework_Assert::assertTrue(
+            in_array($productSimple->getName(), $products),
+            'Product is absent on Recently Viewed block on order page.'
+        );
     }
 
     /**

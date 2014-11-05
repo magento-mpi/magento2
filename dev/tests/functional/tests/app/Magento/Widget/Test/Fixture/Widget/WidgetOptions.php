@@ -146,13 +146,11 @@ class WidgetOptions implements FixtureInterface
             'recentlyComparedProducts' => [
                 [
                     'page_size' => '4',
-                    'entities' => ['catalogProductSimple::default', 'catalogProductSimple::default']
                 ]
             ],
             'recentlyViewedProducts' => [
                 [
                     'page_size' => '4',
-                    'entities' => ['catalogProductSimple::product_with_category']
                 ]
             ],
         ];

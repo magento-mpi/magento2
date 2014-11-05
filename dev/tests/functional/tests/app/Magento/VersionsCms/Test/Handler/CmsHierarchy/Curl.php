@@ -28,13 +28,13 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
      */
     protected $mappingData = [
         'menu_brief' => [
-            'Yes' => 1,
+            'Neighbours and Children' => 0,
         ],
         'top_menu_visibility' => [
-            'Yes' => 1,
+            'No' => 0,
         ],
         'pager_visibility' => [
-            'Yes' => 2,
+            'Yes' => 1,
         ],
         'meta_cs_enabled' => [
             'Yes' => 1,
@@ -47,6 +47,12 @@ class Curl extends AbstractCurl implements CmsHierarchyInterface
         ],
         'meta_chapter_section' => [
             'Both' => 'both',
+        ],
+        'menu_visibility' => [
+            'Yes' => 1,
+        ],
+        'menu_ordered' => [
+            'Ordered' => 1,
         ],
     ];
 

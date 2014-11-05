@@ -9,6 +9,7 @@
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Magento\Widget\Test\Fixture\Widget;
 use Magento\Backend\Test\Block\Widget\Tab;
 
@@ -22,7 +23,7 @@ class Settings extends Tab
      *
      * @var string
      */
-    protected $continueButton = '[data-ui-id="widget-button-0"]';
+    protected $continueButton = './/button[contains(@data-ui-id, "widget-button")]';
 
     /**
      * Click 'Continue' button
@@ -31,7 +32,7 @@ class Settings extends Tab
      */
     protected function clickContinue()
     {
-        $this->_rootElement->find($this->continueButton)->click();
+        $this->_rootElement->find($this->continueButton, Locator::SELECTOR_XPATH)->click();
     }
 
     /**

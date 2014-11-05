@@ -38,15 +38,4 @@ class CmsPageLink extends WidgetOptionsForm
     // @codingStandardsIgnoreStart
     protected $pathToGrid = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CmsPageLink\Grid';
     // @codingStandardsIgnoreEnd
-
-    /**
-     * Prepare filter for grid
-     *
-     * @param InjectableFixture $entity
-     * @return array
-     */
-    protected function prepareFilter(InjectableFixture $entity)
-    {
-        return ['title' => $entity->getTitle()];
-    }
 }

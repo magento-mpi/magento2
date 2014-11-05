@@ -28,14 +28,17 @@ class CmsHierarchy extends AbstractRepository
         $this->_data['cmsHierarchy'] = [
             'identifier' => 'Node_%isolation%',
             'label' => 'node-%isolation%',
-            'menu_brief' => 'Yes',
+            'menu_brief' => 'Neighbours and Children',
             'nodes_data' => ['preset' => 'nodeWithOnePage'],
-            'top_menu_visibility' => 'Yes',
+            'top_menu_visibility' => 'No',
             'pager_visibility' => 'Yes',
             'meta_cs_enabled' => 'Yes',
             'meta_first_last' => 'Yes',
             'meta_next_previous' => 'Yes',
             'meta_chapter_section' => 'Both',
+            'pager_frame' => 50,
+            'menu_visibility' => 'Yes',
+            'menu_ordered' => 'Ordered',
         ];
     }
 }

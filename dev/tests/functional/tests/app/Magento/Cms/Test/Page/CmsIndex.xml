@@ -64,5 +64,10 @@
             <locator>.widget</locator>
             <strategy>css selector</strategy>
         </widgetView>
+        <cmsHierarchyNodeBlock>
+            <class>Magento\VersionsCms\Test\Block\HierarchyNode</class>
+            <locator>.col-main</locator>
+            <strategy>css selector</strategy>
+        </cmsHierarchyNodeBlock>
     </blocks>
 </page>

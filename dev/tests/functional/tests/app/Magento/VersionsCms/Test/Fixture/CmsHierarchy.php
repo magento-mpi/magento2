@@ -27,15 +27,18 @@ class CmsHierarchy extends InjectableFixture
 
     protected $defaultDataSet = [
         'identifier' => 'Node_%isolation%',
-        'label' => 'node_%isolation%',
-        'menu_brief' => 'Yes',
+        'label' => 'node-%isolation%',
+        'menu_brief' => 'Neighbours and Children',
         'nodes_data' => ['preset' => 'nodeWithOnePage'],
-        'top_menu_visibility' => 'Yes',
+        'top_menu_visibility' => 'No',
         'pager_visibility' => 'Yes',
         'meta_cs_enabled' => 'Yes',
         'meta_first_last' => 'Yes',
         'meta_next_previous' => 'Yes',
         'meta_chapter_section' => 'Both',
+        'pager_frame' => 50,
+        'menu_visibility' => 'Yes',
+        'menu_ordered' => 'Ordered',
     ];
 
     protected $node_id = [
@@ -167,6 +170,16 @@ class CmsHierarchy extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $menu_visibility = [
+        'attribute_code' => 'menu_visibility',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $menu_ordered = [
+        'attribute_code' => 'menu_ordered',
+        'backend_type' => 'virtual',
+    ];
+
     public function getNodeId()
     {
         return $this->getData('node_id');
@@ -260,5 +273,15 @@ class CmsHierarchy extends InjectableFixture
     public function getMetaChapterSection()
     {
         return $this->getData('meta_chapter_section');
+    }
+
+    public function getMenuVisibility()
+    {
+        return $this->getData('menu_visibility');
+    }
+
+    public function getMenuOrdered()
+    {
+        return $this->getData('menu_ordered');
     }
 }

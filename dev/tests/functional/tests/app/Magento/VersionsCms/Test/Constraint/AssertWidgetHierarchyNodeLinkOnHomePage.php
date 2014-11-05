@@ -54,7 +54,7 @@ class AssertWidgetHierarchyNodeLinkOnHomePage extends AbstractConstraint
 
         $cmsIndex->getWidgetView()->clickToWidget($widget, $nodeLinkText);
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->getCmsPageBlock()->cmsMenuIsVisible(),
+            $cmsIndex->getCmsHierarchyNodeBlock()->cmsMenuIsVisible(),
             'Cms menu is absent on frontend page.'
         );
     }
@@ -66,8 +66,6 @@ class AssertWidgetHierarchyNodeLinkOnHomePage extends AbstractConstraint
      */
     public function toString()
     {
-        // @codingStandardsIgnoreStart
         return "Widget hierarchy node link is present on Home page and after click to link widget redirects to page with cms menu.";
-        // @codingStandardsIgnoreEnd
     }
 }

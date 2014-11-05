@@ -23,7 +23,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $recentlyViewedProducts = './/*[contains(@class,"widget")]//strong[@class="product name"]';
+    protected $recentlyViewedProducts = './/*[contains(@class,"widget")]//strong[@class="product-item-name"]';
 
     /**
      * Description CSS selector

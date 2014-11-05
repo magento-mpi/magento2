@@ -130,6 +130,16 @@
             <backend_type>virtual</backend_type>
             <is_required></is_required>
         </meta_chapter_section>
+        <menu_visibility>
+            <attribute_code>menu_visibility</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required></is_required>
+        </menu_visibility>
+        <menu_ordered>
+            <attribute_code>menu_ordered</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required></is_required>
+        </menu_ordered>
     </fields>
     <repository_class>Magento\VersionsCms\Test\Repository\CmsHierarchy</repository_class>
     <handler_interface>Magento\VersionsCms\Test\Handler\CmsHierarchy\CmsHierarchyInterface</handler_interface>

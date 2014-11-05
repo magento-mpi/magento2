@@ -59,7 +59,7 @@ class WidgetOptionsForm extends Form
         $mapping = $this->dataMapping($widgetOptionsFields);
         $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
         if (isset($mapping['entities'])) {
-            $this->selectEntityInGrid($mapping['entities']);
+            $this->selectEntity($mapping['entities']);
         }
     }
 
@@ -78,12 +78,12 @@ class WidgetOptionsForm extends Form
     }
 
     /**
-     * Select entity in grid on widget options tab
+     * Select entity on widget options tab
      *
      * @param array $entities
      * @return void
      */
-    protected function selectEntityInGrid(array $entities)
+    protected function selectEntity(array $entities)
     {
         foreach ($entities['value'] as $entity) {
             $this->_rootElement->find($this->selectBlock)->click();
@@ -105,6 +105,6 @@ class WidgetOptionsForm extends Form
      */
     protected function prepareFilter(InjectableFixture $entity)
     {
-        //
+        return ['title' => $entity->getTitle()];
     }
 }

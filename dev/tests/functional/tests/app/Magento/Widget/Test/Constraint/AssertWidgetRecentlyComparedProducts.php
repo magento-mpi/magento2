@@ -8,6 +8,7 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
@@ -57,17 +58,20 @@ class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
      * @param CatalogProductView $catalogProductView
      * @param Browser $browser
      * @param Widget $widget
+     * @param CatalogProductSimple $productSimple1
+     * @param CatalogProductSimple $productSimple2
      * @param AdminCache $adminCache
      * @var string
      * @return void
      */
-
     public function processAssert(
         CatalogProductCompare $catalogProductCompare,
         CmsIndex $cmsIndex,
         CatalogProductView $catalogProductView,
         Browser $browser,
         Widget $widget,
+        CatalogProductSimple $productSimple1,
+        CatalogProductSimple $productSimple2,
         AdminCache $adminCache
     ) {
         // Flush cache
@@ -79,12 +83,12 @@ class AssertWidgetRecentlyComparedProducts extends AbstractConstraint
         $this->catalogProductView = $catalogProductView;
         $this->browser = $browser;
         $this->cmsIndex = $cmsIndex;
-        $products = [];
 
-        $entities = $widget->getDataFieldConfig('widgetOptions')['source']->getEntities();
-        foreach ($entities as $product) {
-            $products[] = $product;
-        }
+        $productSimple1->persist();
+        $products[] = $productSimple1;
+        $productSimple2->persist();
+        $products[] = $productSimple2;
+
         $cmsIndex->open();
         $this->addProducts($products);
         $this->removeCompareProducts();
