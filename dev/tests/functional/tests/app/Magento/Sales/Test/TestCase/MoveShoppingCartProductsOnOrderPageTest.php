@@ -182,7 +182,7 @@ class MoveShoppingCartProductsOnOrderPageTest extends Injectable
             ->addToOrderByName($product->getName());
         $this->orderCreateIndex->getCustomerActivitiesBlock()->updateChanges();
 
-        return ['entityData' => ['products' => [$product]]];
+        return ['products' => [$product]];
     }
 
     /**
