@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Tax\Model\Resource\Setup $installer */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $connection = $installer->getConnection();
 

@@ -112,17 +112,17 @@ class Attributes implements FixtureInterface
                         [
                             'code' => 'code1_%isolation%',
                             'label' => 'label1_%isolation%',
-                            'is_default' => 'Yes'
+                            'is_default' => 'Yes',
                         ],
                         [
                             'code' => 'code2_%isolation%',
                             'label' => 'label2_%isolation%',
-                            'is_default' => 'No'
+                            'is_default' => 'No',
                         ],
                         [
                             'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
-                            'is_default' => 'No'
+                            'is_default' => 'No',
                         ]
                     ],
                 ]
@@ -135,7 +135,7 @@ class Attributes implements FixtureInterface
                     'label' => 'date_%isolation%',
                     'is_required' => 'Yes',
                     'sort_order' => '30',
-                    'date_format' => 'Full'
+                    'date_format' => 'Full',
                 ]
             ],
             'country' => [
@@ -146,7 +146,7 @@ class Attributes implements FixtureInterface
                     'label' => 'country_%isolation%',
                     'is_required' => 'No',
                     'sort_order' => '40',
-                    'show_region' => 'Yes'
+                    'show_region' => 'Yes',
                 ]
             ],
             'event_date' => [
@@ -157,7 +157,7 @@ class Attributes implements FixtureInterface
                     'sort_order' => '50',
                     'is_searcheable' => 'Yes',
                     'is_listed' => 'No',
-                    'date_format' => 'Medium'
+                    'date_format' => 'Medium',
                 ]
             ],
             'event_country' => [
@@ -168,7 +168,7 @@ class Attributes implements FixtureInterface
                     'sort_order' => '60',
                     'is_searcheable' => 'Yes',
                     'is_listed' => 'No',
-                    'show_region' => 'No'
+                    'show_region' => 'No',
                 ]
             ],
             'event_location' => [
@@ -193,17 +193,17 @@ class Attributes implements FixtureInterface
                         [
                             'code' => 'code1_%isolation%',
                             'label' => 'label1_%isolation%',
-                            'is_default' => 'Yes'
+                            'is_default' => 'Yes',
                         ],
                         [
                             'code' => 'code2_%isolation%',
                             'label' => 'label2_%isolation%',
-                            'is_default' => 'No'
+                            'is_default' => 'No',
                         ],
                         [
                             'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
-                            'is_default' => 'No'
+                            'is_default' => 'No',
                         ]
                     ],
                 ]

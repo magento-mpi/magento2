@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $installer \Magento\Framework\Module\Setup */
+
+/* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $installer->startSetup();
 
