@@ -283,7 +283,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         foreach ($this->getAddresses() as $address) {
             $addressesData[] = $address->getDataModel();
         }
-        return $this->_customerDataBuilder
+        return $this->customerDataBuilder
             ->populateWithArray($customerData)
             ->setAddresses($addressesData)
             ->setId($this->getId())
