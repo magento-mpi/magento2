@@ -47,7 +47,7 @@ class FinalPriceBox extends PriceBox
      * @param RendererPool $rendererPool
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
-     * @param \Magento\Checkout\Model\Session
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         Template\Context $context,
@@ -55,8 +55,8 @@ class FinalPriceBox extends PriceBox
         PriceInterface $price,
         RendererPool $rendererPool,
         PriceCurrencyInterface $priceCurrency,
-        array $data = [],
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         parent::__construct(
@@ -203,7 +203,7 @@ class FinalPriceBox extends PriceBox
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return string
      */
     public function getDefaultValue($key)

@@ -621,11 +621,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
 
     /**
      * Check msrp application conditions
+     *
+     * @return bool
      */
     public function canApplyMsrp()
     {
-        return $this->msrpHelper->isShowBeforeOrderConfirm(
-            $this->getItem()->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->getItem()->getProduct()
-        );
+        return $this->msrpHelper->isShowBeforeOrderConfirm($this->getItem()->getProduct())
+        && $this->msrpHelper->isMinimalPriceLessMsrp($this->getItem()->getProduct());
     }
 }

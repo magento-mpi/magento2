@@ -34,16 +34,16 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
      * @param PriceCurrencyInterface $priceCurrency
-     * @param array $data
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array(),
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        array $data = array()
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_customerSession = $customerSession;
