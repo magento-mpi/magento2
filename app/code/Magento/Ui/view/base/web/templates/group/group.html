@@ -13,7 +13,7 @@
         <span data-bind="text: element.label"></span>
     </legend><br />
     <div class="control" data-bind="css: {'control-fields': element.breakLine}">
-        
+
         <!-- ko ifnot: element.breakLine -->
             <div class="control-grouped">
             <!-- ko foreach: { data: elems, as: 'element' } -->
@@ -57,9 +57,9 @@
 <!-- ko if: element.isSingle() -->
 
     <!-- ko foreach: { data: elems, as: 'element' } -->
-    
+
         <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
-    
+
     <!-- /ko -->
 
 <!-- /ko -->

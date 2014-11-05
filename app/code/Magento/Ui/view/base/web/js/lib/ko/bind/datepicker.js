@@ -12,12 +12,13 @@ define([
     'mage/calendar'
 ], function (ko, _, $) {
     'use strict';
-    
+
     var defaults = {
         "dateFormat": "mm\/dd\/yyyy",
         "showsTime": false,
         "timeFormat": null,
-        "buttonImage": "/pub/static/adminhtml/Magento/backend/en_US/images/grid/cal.gif",
+        "buttonImage": null,
+        "buttonImageOnly": null,
         "buttonText": "Select Date"
     }
 
@@ -66,9 +67,9 @@ define([
                 config;
 
             value = observable();
-            
+
             if (value) {
-                $(el).datepicker('setDate', observable());    
+                $(el).datepicker('setDate', observable());
             }
         }
     }

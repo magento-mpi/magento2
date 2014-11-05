@@ -6,6 +6,53 @@
 //  * @license     {license_link}
 //  */
 
+@field-control--border-color: #ABABAB;
+@field-control_focus--border-color: #007BDB;
+@field-label--color: #007BDB;
+@field-divider--color: #cccccc;
+@field-label--color: #303030;
+@field-label_required--color: #EB5202;
+@field-note--color: #303030;
+@field-control--color: #303030;
+@field-date-icon--color: #514943;
+@field-error--color: #555555;
+@field-error--background: #FFF8D6;
+@field-error--border-color: #E22626;
+
+.form__field {
+    &.field-error {
+        .control [class*="control-"] {
+            border-color: @field-error--border-color;
+            &:before {
+                border-color: @field-error--border-color;
+            }
+        }
+    }
+    .mage-error {
+       border: 1px solid @field-error--border-color;
+       display: block;
+       margin: 2px 0 0;
+       padding: 6px 10px 10px;
+       background: @field-error--background;
+       color: @field-error--color;
+       font-size: 12px;
+       font-weight: 500;
+       .box-sizing();
+       max-width: 380px;
+    }
+}
+
+.form__field.field-disabled {
+    > .label {
+        color: #999999;
+    }
+    &.field .control [class*="control-"][disabled] {
+        background: #E9E9E9;
+        opacity: 0.5;
+        color: @field-control--color;
+        border-color: @field-control--border-color;
+    }
+}
 
 
 .temp__static-content {
@@ -24,6 +71,7 @@
     &-radio {
     }
 }
+
 
 .tab-nav {
     &.block {
@@ -189,11 +237,33 @@
 .form__field {
     border: 0;
     padding: 0;
-    &.field {
-        margin-bottom: 15px;
+    .note {
+        color: @field-note--color;
+        padding: 0;
+        margin: 10px 0 0;
+        max-width: 380px;
+        &:before {
+            display: none;
+        }
+    }
+    &.form__field {
+        margin-bottom: 0;
+        & + & {
+            margin-top: 15px;
+        }
+        &:not(.choice) ~ .choice {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+        &.choice ~ .choice {
+            margin-top: 9px;
+        }
+        & ~ .choice:last-child {
+            margin-bottom: 8px;
+        }
     }
     .fieldset > & {
-        margin-bottom: 25px;
+        margin-bottom: 30px;
     }
     &.field-info {
         color: lighter(#333333, 50%);
@@ -201,13 +271,15 @@
         padding: 10px;
         display: none;
     }
+    .label {
+        color: @field-label--color;
+    }
     &:not(.choice) > .label {
         font-size: 14px;
         font-weight: 600;
         width: 30%;
         padding-right: 30px;
         padding-top: 0;
-        color: #41362f;
         line-height: 33px;
         white-space: nowrap;
         &:before {
@@ -231,15 +303,16 @@
         }
         span:after {
             content: "*";
-            color: #eb5202;
+            color: @field-label_required--color;
             display: inline;
-            font-size: 18px;
+            font-weight: 500;
+            font-size: 16px;
+            margin-top: 2px;
             position: absolute;
             z-index: 1;
             margin-left: 10px;
         }
     }
-
     .control {
         &-file {
             margin-top: 6px;
@@ -264,14 +337,18 @@
             border-color: #adadad;
             border-radius: 1px;
             padding: 0 10px;
-            color: #333333;
-            font-weight: 300;
+            color: @field-control--color;
+            font-weight: 500;
             font-size: 15px;
-            line-height: 33px;
+            min-width: 11em;
+            &:focus {
+                outline: 0;
+                border-color: @field-control_focus--border-color;
+                box-shadow: none;
+            }
         }
         &-text {
-            line-height: 1;
-            padding: ((33px - 15px) / 2) 10px;
+            line-height: auto;
         }
         &-textarea {
             padding-top: 6px;
@@ -288,7 +365,7 @@
             padding: 6px 10px;
         }
         &-fields {
-            .field:nth-child(n+2):not(.choice) {
+            .form_field:nth-child(n+2):not(.choice) {
                 > .label {
                     .visually-hidden;
                 }
@@ -312,7 +389,7 @@
         }
     }
     .control-range {
-        & > .field:nth-child(2) {
+        & > .form_field:nth-child(2) {
             &:before {
                 content: "\2014";
                 content: ":";
@@ -329,12 +406,14 @@
         position: relative;
         z-index: 1;
         padding-top: 8px;
+        padding-left: 26px;
         padding-right: 0;
         .label {
-            font-weight: 300;
+            font-weight: 500;
             padding: 0;
             display: inline;
             float: none;
+            line-height: 18px;
         }
         input {
             position: absolute;
@@ -346,48 +425,56 @@
             }
         }
         .control > & {
-
+            max-width: 380px;
             &:nth-child(1):nth-last-child(2),
             &:nth-child(2):nth-last-child(1) {
                 display: inline-block;
                 & + .choice {
-                    border-left: 1px solid #e3e3e3;
-                    padding-bottom: 8px;
-                    padding-left: 10px;
-                    margin-left: 10px;
+                    margin-left: 41px;
+                    margin-top: 0;
+                }
+                & + .choice:before {
+                    content: "";
+                    position: absolute;
+                    display: inline-block;
+                    height: 20px;
+                    top: 8px;
+                    left: -20px;
+                    width: 1px;
+                    background: @field-divider--color;
                 }
             }
         }
         .label {
-            margin-left: 32px;
             cursor: pointer;
         }
         .label:before {
             content: "";
             position: absolute;
             z-index: 1;
-            border: 1px solid #adadad;
-            width: 18px;
-            height: 18px;
-            top: 8px;
-            margin-left: -32px;
+            border: 1px solid @field-control--border-color;
+            width: 14px;
+            height: 14px;
+            top: 10px;
+            left: 0;
             .url('images/choice_bkg.png', 'Magento_Ui');
+            border-radius: 2px;
             background: url("@{url}") no-repeat -100% -100%;
         }
         input:focus + .label:before {
             outline: 0;
-            border-color: #75b9f0;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6)
+            border-color: @field-control_focus--border-color;
+            //box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.3);
         }
         .control {
             &-radio + .label:before {
-                border-radius: 9px;
+                border-radius: 8px;
             }
             &-radio:checked + .label:before {
-                background-position: -24px 1px;
+                background-position: -26px -1px;
             }
             &-checkbox:checked + .label:before {
-                background-position: 1px 1px;
+                background-position: -1px -1px;
             }
 
         }
@@ -402,7 +489,7 @@
         &-after,
         &-before {
             border: 0;
-            color: #333333;
+            color: #858585;
             font-weight: 300;
             font-size: 15px;
             line-height: 33px;
@@ -410,7 +497,6 @@
             height: 33px;
             .box-sizing();
             padding: 0 3px;
-            color: #666;
         }
         .no-flexbox.no-flexboxlegacy &-before,
         .no-flexbox.no-flexboxlegacy &-addon {
@@ -430,7 +516,7 @@
             .control-select[disabled][type],
             .control-select,
             .control-text {
-                background: transparent;
+                background: transparent!important;
                 border: 0;
                 width: auto;
                 vertical-align: top;
@@ -440,8 +526,8 @@
                     box-shadow: none;
                     & + label:before {
                         outline: 0;
-                        border-color: #75b9f0;
-                        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+                        border-color: @field-control_focus--border-color;
+                        //box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
                     }
                 }
                 & + label {
@@ -468,12 +554,12 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: #fff;
                     z-index: 0;
+                    background: #fff;
                 }
                 &[disabled] + label:before {
-                    color: #999;
-                    border-color: #eee;
+                    opacity: 0.5;
+                    background: #E9E9E9;
                 }
             }
         }
@@ -530,7 +616,7 @@ fieldset.form__field {
     position: relative;
     [class*="control-grouped"],
     .control-fields {
-        & > .field:first-child {
+        & > .form__field:first-child {
             & > .label {
                 position: absolute;
                 left: 0;
@@ -542,3 +628,21 @@ fieldset.form__field {
         }
     }
 }
+
+.control-text + .ui-datepicker-trigger {
+    img {
+        display: none;
+    }
+    .button-reset();
+    .icon-font(
+        @icon-calendar,
+        @_icon-font-size: 38px,
+        @_icon-font-line-height: 33px,
+        @_icon-font-text-hide: true,
+        @_icon-font-position: after,
+        @_icon-font-color: @field-date-icon--color
+    );
+    margin-left: -40px;
+    display: inline-block;
+}
+
