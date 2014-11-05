@@ -15,24 +15,25 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
 
     protected $productRepositoryMock;
 
     /**
-     * @var \Magento\Catalog\Model\ProductLink\CollectionProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $entityCollectionProviderMock;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $linkInitializerMock;
 
 
     protected function setUp()
     {
+        $linkManagementMock = $this->getMock('\Magento\Catalog\Model\ProductLink\Management', [], [], '', false);
         $this->productRepositoryMock = $this->getMock('\Magento\Catalog\Model\ProductRepository', [], [], '', false);
         $this->entityCollectionProviderMock = $this->getMock(
             '\Magento\Catalog\Model\ProductLink\CollectionProvider',
@@ -48,11 +49,15 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->model = new \Magento\Catalog\Model\ProductLink\Repository(
-            $this->productRepositoryMock,
-            $this->entityCollectionProviderMock,
-            $this->linkInitializerMock,
-            $this->getMock('\Magento\Catalog\Model\ProductLink\Management', [], [], '', false)
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            '\Magento\Catalog\Model\ProductLink\Repository',
+            [
+                'productRepository' => $this->productRepositoryMock,
+                'entityCollectionProvider' => $this->entityCollectionProviderMock,
+                'linkInitializer' => $this->linkInitializerMock,
+                'linkManagement' => $linkManagementMock
+            ]
         );
     }
 
@@ -69,9 +74,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         ));
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
-        $entityMock->expects($this->any())->method('getLinkType')->willReturn('linkType');
-        $entityMock->expects($this->any())->method('__toArray')->willReturn([]);
-        $linkedProductMock->expects($this->any())->method('getId')->willReturn(42);
+        $entityMock->expects($this->exactly(2))->method('getLinkType')->willReturn('linkType');
+        $entityMock->expects($this->once())->method('__toArray')->willReturn([]);
+        $linkedProductMock->expects($this->exactly(2))->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([]);
         $this->linkInitializerMock->expects($this->once())->method('initializeLinks')->with($productMock, [
             'linkType' => [42 => ['product_id' => 42]]
@@ -96,9 +101,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         ));
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
-        $entityMock->expects($this->any())->method('getLinkType')->willReturn('linkType');
-        $entityMock->expects($this->any())->method('__toArray')->willReturn([]);
-        $linkedProductMock->expects($this->any())->method('getId')->willReturn(42);
+        $entityMock->expects($this->exactly(2))->method('getLinkType')->willReturn('linkType');
+        $entityMock->expects($this->once())->method('__toArray')->willReturn([]);
+        $linkedProductMock->expects($this->exactly(2))->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([]);
         $this->linkInitializerMock->expects($this->once())->method('initializeLinks')->with($productMock, [
             'linkType' => [42 => ['product_id' => 42]]
@@ -120,8 +125,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         ));
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
-        $entityMock->expects($this->any())->method('getLinkType')->willReturn('linkType');
-        $linkedProductMock->expects($this->any())->method('getId')->willReturn(42);
+        $entityMock->expects($this->exactly(2))->method('getLinkType')->willReturn('linkType');
+        $linkedProductMock->expects($this->exactly(2))->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([
             42 => '', 37 => ''
         ]);
@@ -148,9 +153,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         ));
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
-        $entityMock->expects($this->any())->method('getLinkType')->willReturn('linkType');
-        $entityMock->expects($this->any())->method('__toArray')->willReturn([]);
-        $linkedProductMock->expects($this->any())->method('getId')->willReturn(42);
+        $entityMock->expects($this->exactly(2))->method('getLinkType')->willReturn('linkType');
+        $linkedProductMock->expects($this->exactly(2))->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([
             42 => '', 37 => ''
         ]);
@@ -178,7 +182,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         ));
         $entityMock->expects($this->exactly(2))->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->exactly(2))->method('getProductSku')->willReturn('product');
-        $entityMock->expects($this->any())->method('getLinkType')->willReturn('linkType');
+        $entityMock->expects($this->once())->method('getLinkType')->willReturn('linkType');
         $this->model->delete($entityMock);
     }
 }

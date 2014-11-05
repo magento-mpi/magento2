@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-use \Magento\Catalog\Api\Data\ProductLinkTypeInterface as LinkType;
-use \Magento\Catalog\Api\Data\ProductLinkAttributeInterface as LinkAttribute;
+use Magento\Catalog\Api\Data\ProductLinkTypeInterface as LinkType;
+use Magento\Catalog\Api\Data\ProductLinkAttributeInterface as LinkAttribute;
 
 class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,17 +18,17 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $linkTypeBuilderMock;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $linkAttributeBuilderMock;
 
     /**
-     * @var \Magento\Catalog\Model\Product\LinkFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $linkFactoryMock;
 
@@ -53,11 +53,15 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
             'test_product_link_2' => 'test_code_2',
             'test_product_link_3' => 'test_code_3'
         ];
-        $this->model = new \Magento\Catalog\Model\Product\LinkTypeProvider(
-            $this->linkTypeBuilderMock,
-            $this->linkAttributeBuilderMock,
-            $this->linkFactoryMock,
-            $this->linkTypes
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            '\Magento\Catalog\Model\Product\LinkTypeProvider',
+            [
+                'linkTypeBuilder' => $this->linkTypeBuilderMock,
+                'linkAttributeBuilder' => $this->linkAttributeBuilderMock,
+                'linkFactory' => $this->linkFactoryMock,
+                'linkTypes' => $this->linkTypes
+            ]
         );
     }
 
@@ -79,7 +83,7 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
             }
             return $output;
         };
-        $this->linkTypeBuilderMock->expects($this->any())->method('populateWithArray')->will($this->returnValueMap(
+        $this->linkTypeBuilderMock->expects($this->exactly(3))->method('populateWithArray')->will($this->returnValueMap(
             $valueMap($expectedResult, $objectMocks)
         ));
         $this->assertEquals($expectedResult, $this->model->getItems());
@@ -103,7 +107,7 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
         $linkMock = $this->getMock('\Magento\Catalog\Model\Product\Link', ['getAttributes'], [], '', false);
         $linkMock->expects($this->once())->method('getAttributes')->willReturn($attributes);
         $this->linkFactoryMock->expects($this->once())->method('create')->with($typeId)->willReturn($linkMock);
-        $this->linkAttributeBuilderMock->expects($this->any())->method('populateWithArray')->willReturn($objectMock);
+        $this->linkAttributeBuilderMock->expects($this->once())->method('populateWithArray')->willReturn($objectMock);
         $this->assertEquals($expectedResult, $this->model->getItemAttributes($type));
     }
 

@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\ProductLink;
 
+use Magento\Catalog\Api\Data\ProductLinkInterface;
+
 class ManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,22 +23,22 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     protected $productRepositoryMock;
 
     /**
-     * @var \Magento\Catalog\Model\ProductLink\CollectionProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $collectionProviderMock;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $linkInitializerMock;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productLinkBuilderMock;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productResourceMock;
 
@@ -72,12 +74,16 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         );
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
-        $this->model = new \Magento\Catalog\Model\ProductLink\Management(
-            $this->productRepositoryMock,
-            $this->collectionProviderMock,
-            $this->productLinkBuilderMock,
-            $this->linkInitializerMock,
-            $this->productResourceMock
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManager->getObject(
+            '\Magento\Catalog\Model\ProductLink\Management',
+            [
+                'productRepository' => $this->productRepositoryMock,
+                'collectionProvider' => $this->collectionProviderMock,
+                'productLinkBuilder' => $this->productLinkBuilderMock,
+                'linkInitializer' => $this->linkInitializerMock,
+                'productResource' => $this->productResourceMock
+            ]
         );
     }
     
@@ -85,55 +91,69 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     {
         $productSku = 'product';
         $linkType = 'link';
-        $abstractSimpleObjectMock = $this->getMock(
-            '\Magento\Framework\Service\Data\AbstractSimpleObject',
-            ['create'],
-            [],
-            '',
-            false
-        );
-
-        $abstractSimpleObjectMock->expects($this->exactly(3))->method('create')->willReturn('test');
         $this->productRepositoryMock->expects($this->once())->method('get')->with($productSku)
             ->willReturn($this->productMock);
+        $item = [
+            'sku' => 'product1',
+            'type' => 'type1',
+            'position' => 'pos1',
+        ];
+        $itemCollection = [$item];
+        $expectedItem = [
+            ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
+            ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
+            ProductLinkInterface::POSITION => $item['position'],
+            ProductLinkInterface::PRODUCT_SKU => $productSku,
+            ProductLinkInterface::LINK_TYPE => $linkType
+        ];
         $this->collectionProviderMock->expects($this->once())
             ->method('getCollection')
             ->with($this->productMock, $linkType)
-            ->willReturn(
-                [
-                    ['sku' => 'product1', 'type' => 'type1', 'position' => 'pos1'],
-                    ['sku' => 'product2', 'type' => 'type2', 'position' => 'pos2'],
-                    ['sku' => 'product3', 'type' => 'type3', 'position' => 'pos3']
-                ]
-            );
-        $this->productMock->expects($this->exactly(3))->method('getSku')->willReturn($productSku);
-        $this->productLinkBuilderMock->expects($this->exactly(3))
+            ->willReturn($itemCollection);
+        $this->productMock->expects($this->once())->method('getSku')->willReturn($productSku);
+        $this->productLinkBuilderMock->expects($this->once())
             ->method('populateWithArray')
-            ->willReturn($abstractSimpleObjectMock);
-        $this->assertEquals(['test', 'test', 'test'], $this->model->getLinkedItemsByType($productSku, $linkType));
+            ->with($expectedItem)
+            ->willReturnSelf();
+        $this->productLinkBuilderMock->expects($this->once())->method('create')->willReturn('test');
+        $this->assertEquals(['test'], $this->model->getLinkedItemsByType($productSku, $linkType));
     }
 
     public function testSetProductLinks()
     {
+        $type = 'type';
         $linkedProductsMock = [];
         $linksData = [];
         for ($i = 0; $i < 2; $i++) {
-            $productLinkMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
-            $productLinkMock->expects($this->any())
+            $linkMock = $this->getMockForAbstractClass(
+                '\Magento\Catalog\Api\Data\ProductLinkInterface',
+                [],
+                '',
+                false,
+                false,
+                true,
+                ['getLinkedProductSku', '__toArray']
+            );
+            $linkMock->expects($this->exactly(2))
                 ->method('getLinkedProductSku')
                 ->willReturn('linkedProduct' . $i .'Sku');
-            $linkedProductsMock[$i] = $productLinkMock;
-            $linksData['productSku']['link'][] = $productLinkMock;
+            $linkMock->expects($this->once())->method('__toArray');
+            $linkedProductsMock[$i] = $linkMock;
+            $linksData['productSku']['link'][] = $linkMock;
         }
         $linkedSkuList = ['linkedProduct0Sku', 'linkedProduct1Sku'];
         $linkedProductIds = ['linkedProduct0Sku' => 1, 'linkedProduct1Sku' => 2];
 
-        $this->productResourceMock->expects($this->any())->method('getProductsIdsBySkus')->with($linkedSkuList)
+        $this->productResourceMock->expects($this->once())->method('getProductsIdsBySkus')->with($linkedSkuList)
             ->willReturn($linkedProductIds);
-        $this->productRepositoryMock->expects($this->any())->method('get')->willReturn($this->productMock);
-        $this->linkInitializerMock->expects($this->once())->method('initializeLinks');
-        $this->productMock->expects($this->any())->method('save');
-        $this->assertTrue($this->model->setProductLinks('', '', $linkedProductsMock));
+        $this->productRepositoryMock->expects($this->once())->method('get')->willReturn($this->productMock);
+        $this->linkInitializerMock->expects($this->once())->method('initializeLinks')
+            ->with($this->productMock, [$type => [
+                1 => ['product_id' => 1],
+                2 => ['product_id' => 2]
+            ]]);
+        $this->productMock->expects($this->once())->method('save');
+        $this->assertTrue($this->model->setProductLinks('', $type, $linkedProductsMock));
     }
 
     /**
@@ -179,28 +199,38 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetProductLinksInvalidDataException()
     {
+        $type = 'type';
         $linkedProductsMock = [];
         $linksData = [];
-        $this->productRepositoryMock->expects($this->any())->method('get')->willReturn($this->productMock);
         for ($i = 0; $i < 2; $i++) {
-            $productLinkMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
-            $productLinkMock->expects($this->any())
+            $linkMock = $this->getMockForAbstractClass(
+                '\Magento\Catalog\Api\Data\ProductLinkInterface',
+                [],
+                '',
+                false,
+                false,
+                true,
+                ['getLinkedProductSku', '__toArray']
+            );
+            $linkMock->expects($this->exactly(2))
                 ->method('getLinkedProductSku')
                 ->willReturn('linkedProduct' . $i .'Sku');
-            $linkedProductsMock[$i] = $productLinkMock;
-            $linksData['productSku']['link'][] = $productLinkMock;
+            $linkMock->expects($this->once())->method('__toArray');
+            $linkedProductsMock[$i] = $linkMock;
+            $linksData['productSku']['link'][] = $linkMock;
         }
         $linkedSkuList = ['linkedProduct0Sku', 'linkedProduct1Sku'];
         $linkedProductIds = ['linkedProduct0Sku' => 1, 'linkedProduct1Sku' => 2];
 
-        $this->productResourceMock->expects($this->any())
-            ->method('getProductsIdsBySkus')
-            ->with($linkedSkuList)
+        $this->productResourceMock->expects($this->once())->method('getProductsIdsBySkus')->with($linkedSkuList)
             ->willReturn($linkedProductIds);
-        $this->linkInitializerMock->expects($this->once())->method('initializeLinks');
-        $this->productMock->expects($this->once())
-            ->method('save')
-            ->will($this->throwException(new \Exception('invalid data')));
-        $this->model->setProductLinks('', '', $linkedProductsMock);
+        $this->productRepositoryMock->expects($this->once())->method('get')->willReturn($this->productMock);
+        $this->linkInitializerMock->expects($this->once())->method('initializeLinks')
+            ->with($this->productMock, [$type => [
+                1 => ['product_id' => 1],
+                2 => ['product_id' => 2]
+            ]]);
+        $this->productMock->expects($this->once())->method('save')->willThrowException(new \Exception());
+        $this->model->setProductLinks('', $type, $linkedProductsMock);
     }
 }
