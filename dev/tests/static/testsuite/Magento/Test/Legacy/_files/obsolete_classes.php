@@ -1473,8 +1473,8 @@ return array(
     array('Magento\Adminhtml\Block\Promo\Catalog\Edit', 'Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit'),
     array('Magento\Adminhtml\Block\Promo\Catalog', 'Magento\CatalogRule\Block\Adminhtml\Promo\Catalog'),
     array(
-        'Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange',
-        'Magento\CatalogRule\Block\Adminhtml\Widget\Chooser\Daterange'
+        'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange',
+        'Was not used in Community Edition, moved to proper place'
     ),
     array(
         'Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku',

@@ -5,12 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Date range promo widget chooser
- * Currently works without localized format
- */
-namespace Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser;
+namespace Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser;
 
 class Daterange extends \Magento\Backend\Block\AbstractBlock
 {
