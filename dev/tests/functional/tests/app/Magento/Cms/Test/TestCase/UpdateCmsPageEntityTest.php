@@ -83,6 +83,7 @@ class UpdateCmsPageEntityTest extends Injectable
      */
     public function test(CmsPage $cms, CmsPage $cmsOriginal)
     {
+        $this->markTestIncomplete('MAGETWO-29634');
         $this->cmsIndex->open();
         $filter = ['title' => $cmsOriginal->getTitle()];
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);

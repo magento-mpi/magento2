@@ -96,7 +96,6 @@
             @_button-gradient
         );
         .css(border, @_button-border-active);
-        .tab-focus();
         .css(color, @_button-color-active);
     }
     &:hover {
@@ -197,7 +196,6 @@
     &:focus {
         background: none;
         border: 0;
-        outline: none;
     }
     &.disabled,
     &[disabled],
@@ -234,7 +232,6 @@
     .css(font-weight, @font-weight-base);
     &:focus,
     &:active {
-        .tab-focus();
         background: none;
         border: none;
     }
