@@ -177,8 +177,6 @@ class Reader
     private function getSkipMappingPaths()
     {
         $skips = [];
-        $skips[] = $this->rootDir . '/composer.json';
-        $skips[] = $this->rootDir . '/README.md';
         $skips[] = $this->rootDir . '/.gitignore';
 
         return $skips;
@@ -222,6 +220,8 @@ class Reader
         $excludes[] = $this->rootDir . '/.idea';
         $excludes[] = $this->rootDir . '/.git';
         $excludes[] = $this->rootDir . '/app/etc/vendor_path.php';
+        $excludes[] = $this->rootDir . '/composer.json';
+        $excludes[] = $this->rootDir . '/README.md';
 
         return $excludes;
     }
