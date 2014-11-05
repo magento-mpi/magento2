@@ -295,7 +295,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     /**
      * @param \Magento\Framework\Api\Filter[] $filters
      * @param \Magento\Framework\Api\Filter[] $filterGroup
@@ -345,7 +344,8 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         /**
          * @var \Magento\Framework\Api\FilterBuilder $filterBuilder
          */
-        $filterBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
+        $filterBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Api\FilterBuilder');
         return [
             'Address with postcode 75477' => [
                 [$filterBuilder->setField('postcode')->setValue('75477')->create()],

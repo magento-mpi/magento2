@@ -138,7 +138,14 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
         return $this;
     }
 
-    public function populate(AbstractSimpleObject $prototype) {
+    /**
+     * Populates the fields with data from the prototype.
+     *
+     * @param AbstractSimpleObject $prototype
+     * @return $this
+     */
+    public function populate(AbstractSimpleObject $prototype)
+    {
         $this->currentBuilder->populate($prototype);
         return $this;
     }
