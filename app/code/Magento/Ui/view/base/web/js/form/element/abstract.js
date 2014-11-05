@@ -44,7 +44,6 @@ define([
             this.initName()
                 .initTemplate()
                 .initDisableStatus()
-                .setUniqueId()
                 .setNoticeId()
                 .store(this.value());
         },
@@ -72,8 +71,18 @@ define([
             return this;
         },
 
+        initProperties: function () {
+            __super__.initProperties.apply(this, arguments);
+
+            this.uid = utils.uniqueid();
+
+            return this;
+        },
+
         initListeners: function(){
             var data = this.provider.data;
+
+            __super__.initListeners.apply(this, arguments);
 
             data.on('reset', this.reset.bind(this));
 
@@ -128,16 +137,6 @@ define([
         },
 
         /**
-         * Sets unique id for element
-         * @return {Object} - reference to instance
-         */
-        setUniqueId: function () {
-            this.uid = utils.uniqueid();
-
-            return this;
-        },
-
-        /**
          * Sets notice id for element
          * @return {Object} - reference to instance
          */
@@ -168,9 +167,12 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.provider.data.set(this.dataScope, value);
+            var isUndefined     = typeof value === 'undefined',
+                method          = isUndefined ? 'remove' : 'set';
+                
+            this.provider.data[method](this.dataScope, value);
 
-            this.setPreview(value);
+            this.setPreview(isUndefined ? '' : value);
 
             return this;
         },

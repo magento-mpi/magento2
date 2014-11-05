@@ -96,6 +96,7 @@ define([
                 first;
 
             this.remove(elem);
+            this.provider.data.remove(elem.dataScope);
 
             first = this.elems()[0];
 
