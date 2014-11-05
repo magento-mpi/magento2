@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
 /**
  * Class Converter
  */
-class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
+class Converter
 {
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
@@ -23,9 +23,9 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     protected $productFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     * @var \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
      */
-    protected $categoryReadService;
+    protected $productConverter;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -33,39 +33,21 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     protected $eavConfig;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
-     */
-    protected $attributeCollectionFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
-     */
-    protected $attrOptionCollectionFactory;
-
-    /**
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      */
     public  function __construct(
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
+        \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->customerAccount = $customerAccount;
         $this->productFactory = $productFactory;
-        parent::__construct(
-            $categoryReadService,
-            $eavConfig,
-            $attributeCollectionFactory,
-            $attrOptionCollectionFactory
-        );
+        $this->productConverter = $productConverter;
+        $this->eavConfig = $eavConfig;
     }
 
     /**
@@ -133,8 +115,10 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     protected function getAccountInformation($email)
     {
         $customerDetails = $this->customerAccount->getCustomerDetailsByEmail($email);
-        $account['email'] = $customerDetails->getCustomer()->getEmail();
-        $account['group_id'] = $customerDetails->getCustomer()->getGroupId();
+        $account = [
+            'email' => $customerDetails->getCustomer()->getEmail(),
+            'group_id' => $customerDetails->getCustomer()->getGroupId()
+        ];
         foreach ($customerDetails->getAddresses() as $customerAddress) {
             if ($customerAddress->isDefaultBilling()) {
                 $account['billing_address'] = $this->getAddresses($customerAddress);
@@ -180,9 +164,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     protected function convertProductData($productData)
     {
         $productValues = unserialize($productData);
-        $productData = array();
         $productId = $this->getProductData($productValues['sku'])->getId();
-        $productData['qty'] = $productValues['qty'];
+        $productData = ['qty' => $productValues['qty']];
         if (isset($productValues['configurable_options'])) {
             $productData['super_attribute'] = $this->getProductAttributes($productValues['configurable_options']);
         }
@@ -202,12 +185,11 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             if (!$attribute->getId()) {
                 continue;
             }
-            $options = $this->getAttributeOptions($attribute->getAttributeCode());
+            $options = $this->productConverter->getAttributeOptions($attribute->getAttributeCode());
             $attributeOption = $options->getItemByColumnValue('value', $value);
             $attributeId = $attributeOption->getDataByKey('attribute_id');
             $attributesData[$attributeId] = $attributeOption->getDataByKey('option_id');
         }
         return $attributesData;
     }
-
 }
