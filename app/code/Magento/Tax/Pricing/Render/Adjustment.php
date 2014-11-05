@@ -91,9 +91,14 @@ class Adjustment extends AbstractAdjustment
     {
         // todo use 'excludeWith' method instead hard-coded list here
         return $this->convertAndFormatCurrency(
-            $this->amountRender->getAmount()->getValue(['tax', 'weee']),
+            $this->getRawAmount(['tax', 'weee']),
             $includeContainer
         );
+    }
+
+    public function getRawAmount($exclude = ['tax', 'weee'])
+    {
+        return $this->amountRender->getAmount()->getValue($exclude);
     }
 
     /**
@@ -104,7 +109,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmount($includeContainer = true)
     {
-         return $this->convertAndFormatCurrency($this->amountRender->getAmount()->getValue(), $includeContainer);
+         return $this->convertAndFormatCurrency($this->getRawAmount([]), $includeContainer);
     }
 
     /**

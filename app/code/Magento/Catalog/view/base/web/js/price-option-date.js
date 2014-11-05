@@ -7,9 +7,8 @@
 define([
     "jquery",
     "Magento_Catalog/js/price-utils",
-    "underscore",
     "jquery/ui"
-], function($,utils, _){
+], function($,utils){
     "use strict";
 
     var globalOptions = {

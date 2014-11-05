@@ -9,9 +9,15 @@
 
 <?php /** @var \Magento\Tax\Pricing\Render\Adjustment $this */ ?>
 
+<?php
+//getAdjustmentCode
+?>
+
 <?php if ($this->displayBothPrices()): ?>
     <span id="<?php echo $this->buildIdWithPrefix('price-excluding-tax-') ?>"
           data-label="<?php echo $this->escapeHtml(__('Excl. Tax')); ?>"
+          data-price-amount="<?php echo $this->getRawAmount() ?>"
+          data-price-type="priceExclTax"
           class="price-wrapper price-excluding-tax">
         <span class="price"><?php echo $this->getDisplayAmountExclTax() ?></span></span>
 <?php endif; ?>

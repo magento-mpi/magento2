@@ -73,13 +73,17 @@ define([
         if(!!isReplace) {
             $.extend(true, prices, newPrices);
         } else {
-            _.map(newPrices, function(priceValue, priceCode){
-                var origin = this.initialPrices[priceCode];
-                var option = newPrices[priceCode];
-                var final = prices[priceCode];
-                final.amount = 0 + origin.amount + (option.amount || 0);
+            _.map(newPrices, function(option, priceCode){
+                var origin = this.initialPrices[priceCode] || {};
+                var final = prices[priceCode] || {};
+                option.amount = option.amount || 0;
+                origin.amount = origin.amount || 0;
+                origin.adjustments = origin.adjustments || {};
+                final.adjustments = final.adjustments || {};
+
+                final.amount = 0 + origin.amount + option.amount;
                 _.map(option.adjustments, function(pa, paCode){
-                    final.adjustments[paCode] = 0 + origin.adjustments[paCode] + (option.adjustments[paCode] || 0);
+                    final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
                 });
             }.bind(this));
         }
@@ -88,6 +92,7 @@ define([
     }
 
     function reloadPrice() {
+        var box = this.element;
         var prices = this.options.prices;
         var priceFormat = this.options.priceConfig.priceFormat;
 
@@ -95,26 +100,29 @@ define([
         var boxTemplate = this.boxTemplate = hbs(this.options.boxTemplate);
 
         _.each(prices, function(price, priceCode){
-            var html,
-                finalPrice = price.amount;
+            var finalPrice = price.amount;
             _.each(price.adjustments, function(adjustmentAmount){
                 finalPrice += adjustmentAmount;
             });
 
             prices[priceCode]['final'] = finalPrice;
             prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
-            html = priceTemplate(prices[priceCode]);
-
-//            $('[data-product-id=' + productId + '] > [data-price-' + priceCode + ']').html(html);
-//            $('[data-price-' + priceCode + ']', box).html(html);
-            console.log('To render ', priceCode,': ', finalPrice, prices[priceCode]['formatted']);
         });
 
         if(prices.special) {
-            prices.final = prices.special;
+            prices.price = prices.special;
+            prices.oldPrice = prices.regular;
         } else if(prices.regular) {
-            prices.final = prices.regular;
+            prices.price = prices.regular;
         }
+
+        _.each(prices, function(price, priceCode){
+            var html = priceTemplate(prices[priceCode]);
+
+            $('[data-price-type="' + priceCode + '"]', box).html(html);
+            console.log('To render ', priceCode,': ', prices[priceCode]['final'], prices[priceCode]['formatted'], $('[data-price-type="' + priceCode + '"]', box)[0]);
+        });
+
     }
 
     /**
@@ -146,6 +154,7 @@ define([
             if(+config.productId !== +this.options.productId) {
                 return;
             }
+            console.log('Prices: ', config);
             if(config.inclTaxPrice === config.productOldPrice) {
                 this.options.prices['regular'] = {
                     'amount': config.productOldPrice * (1 - config.currentTax / 100),
@@ -165,6 +174,12 @@ define([
                     'adjustments': {
                         'tax': config.exclTaxPrice * config.currentTax / 100
                     }
+                };
+            }
+            if(config.exclTaxPrice) {
+                this.options.prices['priceExclTax'] = {
+                    'amount': config.exclTaxPrice,
+                    'adjustments': {}
                 };
             }
         }

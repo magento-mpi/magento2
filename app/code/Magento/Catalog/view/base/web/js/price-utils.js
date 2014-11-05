@@ -128,6 +128,9 @@ define([
         if(config.oldPrice  !== config.price) {
             rightObj.regular = {amount: config.oldPrice};
         }
+        rightObj.priceExclTax = {};
+        rightObj.priceExclTax.amount = config.exclTaxPrice;
+        rightObj.priceExclTax.adjustments = {};
 
         return rightObj;
     }

@@ -24,6 +24,7 @@ $idSuffix = $this->getIdSuffix() ? $this->getIdSuffix() : '';
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price'),
             'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
+            'price_type'        => 'price',
             'include_container' => true
         ]); ?>
     </span>
@@ -31,6 +32,7 @@ $idSuffix = $this->getIdSuffix() ? $this->getIdSuffix() : '';
         <?php echo $this->renderAmount($priceModel->getAmount(), [
             'display_label'     => __('Regular Price'),
             'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
+            'price_type'        => 'oldPrice',
             'include_container' => true,
             'skip_adjustments'  => true
         ]); ?>
@@ -38,6 +40,7 @@ $idSuffix = $this->getIdSuffix() ? $this->getIdSuffix() : '';
 <?php else: ?>
     <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
         'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
+        'price_type'        => 'price',
         'include_container' => true
     ]); ?>
 <?php endif; ?>
