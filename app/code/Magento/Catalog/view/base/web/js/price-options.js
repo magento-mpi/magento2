@@ -89,7 +89,7 @@ define([
                 optionHash = optionName;
                 overhead = optionValue ? optionConfig[optionId] : null;
 
-                changes[ optionHash ] = utils.setOptionConfig(overhead);
+                changes[optionHash] = utils.setOptionConfig(overhead);
 
                 break;
             case 'radio':
@@ -97,14 +97,14 @@ define([
                 optionHash = optionName;
                 overhead = optionConfig[optionId][optionValue] || null;
 
-                changes[ optionHash ] = utils.setOptionConfig(overhead);
+                changes[optionHash] = utils.setOptionConfig(overhead);
                 break;
             case 'select-multiple':
                 _.each(optionConfig[optionId], function(prices, optionValueCode) {
                     optionHash = optionName + '##' + optionValueCode;
                     overhead = _.contains(optionValue, optionValueCode) ? prices : null;
 
-                    changes[ optionHash ] = utils.setOptionConfig(overhead);
+                    changes[optionHash] = utils.setOptionConfig(overhead);
                 });
 
                 break;
@@ -112,7 +112,7 @@ define([
                 optionHash = optionName + '##' + optionValue;
                 overhead = element.is(':checked') ? optionConfig[optionId][optionValue] : null;
 
-                changes[ optionHash ] = utils.setOptionConfig(overhead);
+                changes[optionHash] = utils.setOptionConfig(overhead);
                 break;
             case 'file':
                 optionHash = optionName;
@@ -120,7 +120,7 @@ define([
                 // Checking for 'disable' property equal to checking DOMNode with id*="change-"
                 overhead = optionValue || element.prop('disabled') ? optionConfig[optionId] : null;
 
-                changes[ optionHash ] = utils.setOptionConfig(overhead);
+                changes[optionHash] = utils.setOptionConfig(overhead);
                 break;
             case 'hidden':
             default:
