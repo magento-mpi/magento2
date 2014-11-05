@@ -67,7 +67,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         );
         $this->productLinkBuilderMock = $this->getMock(
             '\Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder',
-            [],
+            ['populateWithArray', 'create'],
             [],
             '',
             false
