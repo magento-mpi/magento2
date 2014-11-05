@@ -41,8 +41,10 @@ class FormPost extends \Magento\Customer\Controller\Address
 
         $region = [
             RegionInterface::REGION_ID => $attributeValues['region_id'],
-            RegionInterface::REGION => $attributeValues['region'],
-            RegionInterface::REGION_CODE => $attributeValues['region_code']
+            RegionInterface::REGION => !empty($attributeValues['region']) ? $attributeValues['region'] : null,
+            RegionInterface::REGION_CODE => !empty($attributeValues['region_code'])
+                ? $attributeValues['region_code']
+                : null
         ];
 
         $region = $this->_regionDataBuilder
