@@ -211,9 +211,7 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
                         $customAttribute[AttributeValue::VALUE]
                     );
                 }
-            } elseif (
-                $methodName = array_intersect($possibleMethods, $dataObjectMethods)
-            ) {
+            } elseif ($methodName = array_intersect($possibleMethods, $dataObjectMethods)) {
                 if (!is_array($value)) {
                     $this->data[$key] = $value;
                 } else {
