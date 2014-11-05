@@ -314,6 +314,21 @@ class AbstractStructure extends AbstractView
             $itemTemplate['children'][$key]['config'] = $value;
             $itemTemplate['children'][$key]['type'] = 'group';
             $itemTemplate['children'][$key]['dataScope'] = $key;
+            if (isset($value['constraints'])) {
+                if (isset($value['constraints']['validate'])) {
+                    $value['validation'] = $value['constraints']['validate'];
+                }
+                if (isset($value['constraints']['filter'])) {
+                    foreach ($value['constraints']['filter'] as $filter) {
+                        $value['listeners'] = [
+                            "data:" . $filter['on'] => [
+                                'filter' => [$filter['by']]
+                            ]
+                        ];
+                    }
+                }
+                unset($value['constraints']);
+            }
             $itemTemplate['children'][$key]['children'][$key] = [
                 'type' => $value['formElement'],
                 'config' => $value
@@ -455,6 +470,7 @@ class AbstractStructure extends AbstractView
                     ];
                 }
             }
+            unset($config['constraints']);
         }
         $this->structure['elements']['children'][$elementName]['children'][] = [
             'type' => $config['formElement'],

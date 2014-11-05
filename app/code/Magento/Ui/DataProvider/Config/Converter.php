@@ -117,11 +117,10 @@ class Converter implements ConverterInterface
                 }
                 if (isset($field['constraints']['filter'])) {
                     foreach ($field['constraints']['filter'] as $filter) {
-                        $fields[$field['@attributes']['name']]['constraints']['filter'][] = [
-                            'on' => $filter['@attributes']['on'],
-                            'by' => $filter['@attributes']['by'],
-                            'value' => $filter['@attributes']['value'],
-                        ];
+                        $filterValues['on'] = isset($filter['@attributes']['on']) ? $filter['@attributes']['on'] : null;
+                        $filterValues['by'] = isset($filter['@attributes']['by']) ? $filter['@attributes']['by'] : null;
+                        $filterValues['value'] = isset($filter['@attributes']['value']) ? $filter['@attributes']['value'] : null;
+                        $fields[$field['@attributes']['name']]['constraints']['filter'][] = $filterValues;
                     }
                 }
                 if (isset($field['constraints']['readonly'])) {
