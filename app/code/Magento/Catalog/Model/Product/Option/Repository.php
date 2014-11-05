@@ -150,16 +150,16 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
      */
     protected function markRemovedValues($newValues, $originalValues)
     {
-        $idsToLeave = [];
+        $existingValuesIds = [];
 
         foreach ($newValues as $newValue) {
             if (array_key_exists('option_type_id', $newValue)) {
-                $idsToLeave[] = $newValue['option_type_id'];
+                $existingValuesIds[] = $newValue['option_type_id'];
             }
         }
         /** @var $originalValue \Magento\Catalog\Model\Product\Option\Value */
         foreach ($originalValues as $originalValue) {
-            if (!in_array($originalValue->getData('option_type_id'), $idsToLeave)) {
+            if (!in_array($originalValue->getData('option_type_id'), $existingValuesIds)) {
                 $originalValue->setData('is_delete', 1);
                 $newValues[] = $originalValue->getData();
             }

@@ -12,8 +12,7 @@ namespace Magento\Catalog\Api\Data;
  * DataBuilder class for
  * \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface
  */
-class
-ProductCustomOptionOptionTypeInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductCustomOptionOptionTypeInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
     /**
      * @param string $label
@@ -44,7 +43,7 @@ ProductCustomOptionOptionTypeInterfaceDataBuilder extends \Magento\Framework\Ser
 
     public function populateWithArray(array $data)
     {
-        $this->_data = array();
+        $this->data = array();
         $this->_setDataValues($data);
         return $this;
     }

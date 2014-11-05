@@ -197,7 +197,6 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             ]
         );
 
-        $customAttributes = [];
         foreach ($this->metadataService->getList($extendedSearchCriteria->create())->getItems() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());
         }
@@ -208,7 +207,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
         }
-        /** @var SortOrderInterface $sortOrder*/
+        /** @var SortOrderInterface $sortOrder */
         foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $field = $sortOrder->getField();
             $collection->addOrder(
@@ -234,9 +233,10 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
-    protected function addFilterGroupToCollection(\Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
-                                                  Collection $collection)
-    {
+    protected function addFilterGroupToCollection(
+        \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+        Collection $collection
+    ) {
         $fields = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
