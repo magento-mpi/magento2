@@ -42,7 +42,7 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [[2, 0, 0], 'sku', 'static'],
-            [[2, 0, 0], 'price', 'static'],
+            [[0, 0, 0], 'price', 'static'],
             [[3, 2, 0], 'name', 'text'],
             [[1, 0, 0], 'name2', 'text', false],
             [[3, 2, 1], 'date', 'decimal'],
