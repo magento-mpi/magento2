@@ -94,11 +94,11 @@ try {
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
             Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-            Builder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Builder',
-            Mapper::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Mapper',
+            Builder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Builder',
+            Mapper::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Mapper',
             Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
             Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
-            SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
+            SearchResults::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResults',
         ]
     );
     $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
