@@ -50,11 +50,14 @@ class Items extends Sidebar
                 Locator::SELECTOR_XPATH
             )->click();
         } else {
-            $this->_rootElement->find(
+            $checkBox = $this->_rootElement->find(
                 sprintf($this->addToOrder, $product->getName(), $qty, $product->getCheckoutData()['cartItem']['price']),
                 Locator::SELECTOR_XPATH,
                 'checkbox'
-            )->setValue('Yes');
+            );
+            $checkBox->click();
+            $this->_rootElement->click();
+            $checkBox->setValue('Yes');
         }
     }
 }
