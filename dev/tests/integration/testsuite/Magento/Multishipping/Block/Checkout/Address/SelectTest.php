@@ -32,12 +32,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressAsHtml()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
-        $addressService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
+        /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
+        $addressRepository = Bootstrap::getObjectManager()->create(
+            '\Magento\Customer\Api\AddressRepositoryInterface'
         );
         $fixtureAddressId = 1;
-        $address = $addressService->getAddress($fixtureAddressId);
+        $address = $addressRepository->get($fixtureAddressId);
         $addressAsHtml = $this->_selectBlock->getAddressAsHtml($address);
         $this->assertEquals(
             "John Smith<br/>CompanyName<br />Green str, 67<br />CityM,  Alabama, 75477"

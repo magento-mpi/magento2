@@ -7,44 +7,43 @@
  */
 namespace Magento\Multishipping\Block\Checkout\Address;
 
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\Data\AddressConverter;
-use Magento\Customer\Helper\Address as CustomerAddressHelper;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Customer\Helper\Address as CustomerAddressHelper;
 
 /**
+ * Class Select
  * Multishipping checkout select billing address
  */
 class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
 {
-    /**
-     * @var CustomerAddressServiceInterface
-     */
-    protected $_customerAddressService;
-
     /**
      * @var CustomerAddressHelper
      */
     protected $_customerAddressHelper;
 
     /**
+     * @var \Magento\Webapi\Model\DataObjectProcessor
+     */
+    protected $dataProcessor;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
-     * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressHelper $customerAddressHelper
+     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
-        CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressHelper $customerAddressHelper,
-        array $data = array()
+        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
+        array $data = []
     ) {
-        $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressHelper = $customerAddressHelper;
+        $this->dataProcessor = $dataProcessor;
         parent::__construct($context, $multishipping, $data);
     }
 
@@ -65,18 +64,16 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Get a list of current customer addresses.
      *
-     * @return \Magento\Customer\Service\V1\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
      */
-    public function getAddressCollection()
+    public function getAddress()
     {
         $addresses = $this->getData('address_collection');
         if (is_null($addresses)) {
             try {
-                $addresses = $this->_customerAddressService->getAddresses(
-                    $this->_multishipping->getCustomer()->getId()
-                );
+                $addresses = $this->_multishipping->getCustomer()->getAddresses();
             } catch (NoSuchEntityException $e) {
-                return array();
+                return [];
             }
             $this->setData('address_collection', $addresses);
         }
@@ -86,15 +83,19 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Represent customer address in HTML format.
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $addressData
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return string
      */
-    public function getAddressAsHtml($addressData)
+    public function getAddressAsHtml(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
+            $arrayData = $this->dataProcessor->buildOutputDataArray(
+                $address,
+                '\Magento\Customer\Api\Data\AddressInterface'
+            );
+            $result = $formatTypeRenderer->renderArray($arrayData);
         }
         return $result;
     }
@@ -102,10 +103,10 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Check if provided address is default customer billing address.
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return bool
      */
-    public function isAddressDefaultBilling($address)
+    public function isAddressDefaultBilling(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         return $address->getId() == $this->_multishipping->getCustomer()->getDefaultBilling();
     }
@@ -113,10 +114,10 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Check if provided address is default customer shipping address.
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return bool
      */
-    public function isAddressDefaultShipping($address)
+    public function isAddressDefaultShipping(\Magento\Customer\Api\Data\AddressInterface $address)
     {
         return $address->getId() == $this->_multishipping->getCustomer()->getDefaultShipping();
     }
@@ -124,23 +125,23 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Get URL of customer address edit page.
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return string
      */
-    public function getEditAddressUrl($address)
+    public function getEditAddressUrl(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        return $this->getUrl('*/*/editAddress', array('id' => $address->getId()));
+        return $this->getUrl('*/*/editAddress', ['id' => $address->getId()]);
     }
 
     /**
      * Get URL of page, at which customer billing address can be set.
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return string
      */
-    public function getSetAddressUrl($address)
+    public function getSetAddressUrl(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        return $this->getUrl('*/*/setBilling', array('id' => $address->getId()));
+        return $this->getUrl('*/*/setBilling', ['id' => $address->getId()]);
     }
 
     /**
