@@ -13,7 +13,6 @@ define([
     'use strict';
 
     var defaults = {
-        hidden:             false,
         preview:            '',
         focused:            false,
         tooltip:            null,
@@ -34,7 +33,7 @@ define([
     return Component.extend({
 
         /**
-         * Invokes initialize method of parent class and initializes properties of instance.
+         * Invokes initialize method of parent class.
          * @param {Object} config - form element configuration
          */
         initialize: function () {
@@ -42,16 +41,16 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initInputName()
+            this.initName()
                 .initTemplate()
-                .setUniqueId()
+                .initDisableStatus()
                 .setNoticeId()
-                .store(this.value())
-                .setHidden(this.hidden());
+                .store(this.value());
         },
 
         /**
          * Initializes observable properties of instance
+         * 
          * @return {Object} - reference to instance
          */
         initObservable: function () {
@@ -64,13 +63,7 @@ define([
 
             this.initialValue = value;
 
-            this.observe([
-                    'error',
-                    'disabled',
-                    'focused',
-                    'preview',
-                    'hidden'
-                ])
+            this.observe('error disabled focused preview')
                 .observe({
                     'value':    value,
                     'required': rules['required-entry']
@@ -79,34 +72,66 @@ define([
             return this;
         },
 
-        initListeners: function(){
-            var provider  = this.provider,
-                data      = provider.data;
+        /**
+         * Initializes properties of instance
+         * 
+         * @return {Object} - reference to instance
+         */
+        initProperties: function () {
+            __super__.initProperties.apply(this, arguments);
 
-            data.on('reset', this.reset.bind(this));
-            
-            this.value.subscribe(this.onUpdate, this);
+            this.uid    = utils.uniqueid();
+            this.name   = utils.serializeName(this.dataScope);
+
+            return this;
+        },
+
+        /**
+         * Initializes instance's listeners
+         * 
+         * @return {Object} - reference to instance
+         */
+        initListeners: function(){
+            var data = this.provider.data;
 
             __super__.initListeners.apply(this, arguments);
 
+            data.on('reset', this.reset.bind(this));
+
+            this.value.subscribe(this.onUpdate, this);
+
             return this;
         },
 
-        initInputName: function(){
-            this.serializedScope = utils.serializeName(this.dataScope);
-            
-            return this;
-        },
-
+        /**
+         * Overrides template property of instance
+         * 
+         * @return {Object} - reference to instance
+         */
         initTemplate: function(){
-            this.template =  this.template || (this.tmpPath + this.input_type);
+            this.template = this.template || (this.tmpPath + this.input_type);
 
             return this;
         },
 
+        /**
+         * Gets initial value of element
+         * 
+         * @return {*} - value of element
+         */
         getInititalValue: function(){
             var data = this.provider.data,
+                value;
+
+            if(_.has(this, 'value')){
+                value = this.value;
+            }
+            else if(_.has(this, 'default') && this.default != null){
+                value = this.default;
+            }
+            else{
                 value = data.get(this.dataScope);
+            }
 
             if (value == null) {
                 value = undefined;
@@ -116,17 +141,8 @@ define([
         },
 
         /**
-         * Sets unique id for element
-         * @return {Object} - reference to instance
-         */
-        setUniqueId: function () {
-            this.uid = utils.uniqueid();
-
-            return this;
-        },
-
-        /**
          * Sets notice id for element
+         * 
          * @return {Object} - reference to instance
          */
         setNoticeId: function () {
@@ -137,36 +153,31 @@ define([
             return this;
         },
 
+        /**
+         * Sets value to preview observable
+         * 
+         * @param {Object} - reference to instance
+         */
         setPreview: function(value){
             this.preview(value);
 
             return this;
         },
 
+        /**
+         * Returnes unwrapped preview observable
+         * 
+         * @return {*} - value of preview observable
+         */
         getPreview: function(){
             return this.preview();
         },
 
-        hide: function(){
-            this.setHidden(true)
-                .value('');
-        },
-
-        show: function(value){
-            this.setHidden(false);
-        },
-
-        setHidden: function(value){
-            var params = this.provider.params;
-
-            this.hidden(value);
-            this.trigger('toggle', value);
-
-            params.set(this.name + '.hidden', value);
-
-            return this;
-        },
-
+        /**
+         * Checkes if element has addons
+         * 
+         * @return {Boolean}
+         */
         hasAddons: function () {
             return this.addbefore || this.addafter;
         },
@@ -176,13 +187,18 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
+            var isUndefined = typeof value === 'undefined';
+
             this.provider.data.set(this.dataScope, value);
 
-            this.setPreview(value);
+            this.setPreview(isUndefined ? '' : value);
 
             return this;
         },
 
+        /**
+         * Sets value observable to initialValue property
+         */
         reset: function(){
             this.value(this.initialValue);
         },
@@ -201,9 +217,7 @@ define([
          * @return {Boolean}
          */
         hasChanged: function(){
-            return this.hidden() ?
-                false :
-                this.value() !== this.initialValue;
+            return this.value() !== this.initialValue;
         },
 
         /**
@@ -217,10 +231,6 @@ define([
             var value       = this.value(),
                 params      = this.provider.params,
                 errorMsg    = '';
-
-            if(this.hidden()){
-                return false;
-            }
 
             _.some(this.validation, function (params, rule) {
                 errorMsg = validator.validate(rule, value, params);
