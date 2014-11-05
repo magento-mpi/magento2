@@ -20,7 +20,6 @@
         "magento/framework": "0.1.0-alpha101",
         "magento/module-authorization": "0.1.0-alpha101",
         "magento/module-integration": "0.1.0-alpha101",
-        "magento/module-webapi": "0.1.0-alpha101",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
