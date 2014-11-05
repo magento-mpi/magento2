@@ -90,7 +90,7 @@ class DataBuilder extends EntityAbstract
                 'parameters' => [
                     ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
                     ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
-                ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
+                    ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
@@ -105,7 +105,7 @@ class DataBuilder extends EntityAbstract
                         ],
                         [
                             'name' => 'param',
-                        'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
+                            'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
                         ]
                     ]
                 ],
