@@ -13,6 +13,7 @@ use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Helper\Data as CustomerDataHelper;
+use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
@@ -210,6 +211,11 @@ class AccountManagement implements AccountManagementInterface
     protected $customerDataHelper;
 
     /**
+     * @var CustomerViewHelper
+     */
+    protected $customerViewHelper;
+
+    /**
      * @var DateTime
      */
     protected $dateTime;
@@ -242,6 +248,7 @@ class AccountManagement implements AccountManagementInterface
      * @param DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Registry $registry
      * @param CustomerDataHelper $customerDataHelper
+     * @param CustomerViewHelper $customerViewHelper
      * @param DateTime $dateTime
      * @param \Magento\Framework\ObjectFactory $objectFactory
      *
@@ -270,6 +277,7 @@ class AccountManagement implements AccountManagementInterface
         DataObjectProcessor $dataProcessor,
         \Magento\Framework\Registry $registry,
         CustomerDataHelper $customerDataHelper,
+        CustomerViewHelper $customerViewHelper,
         DateTime $dateTime,
         \Magento\Framework\ObjectFactory $objectFactory
     ) {
@@ -295,6 +303,7 @@ class AccountManagement implements AccountManagementInterface
         $this->dataProcessor = $dataProcessor;
         $this->registry = $registry;
         $this->customerDataHelper = $customerDataHelper;
+        $this->customerViewHelper = $customerViewHelper;
         $this->dateTime = $dateTime;
         $this->objectFactory = $objectFactory;
     }
@@ -808,7 +817,7 @@ class AccountManagement implements AccountManagementInterface
             )
         )->addTo(
             $customer->getEmail(),
-            $this->getName($customer)
+            $this->customerViewHelper->getCustomerName($customer)
         )->getTransport();
         $transport->sendMessage();
 
@@ -873,39 +882,11 @@ class AccountManagement implements AccountManagementInterface
             $this->scopeConfig->getValue($sender, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->addTo(
             $customer->getEmail(),
-            $this->getName($customer)
+            $this->customerViewHelper->getCustomerName($customer)
         )->getTransport();
         $transport->sendMessage();
 
         return $this;
-    }
-
-    /**
-     * Get full customer name
-     *
-     * @param CustomerInterface $customer
-     * @return string
-     */
-    protected function getName($customer)
-    {
-        $name = '';
-
-        if ($this->customerMetadataService->getAttributeMetadata('prefix')->isVisible() && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
-        }
-        $name .= $customer->getFirstname();
-        if ($this->customerMetadataService->getAttributeMetadata('middlename')->isVisible()
-            && $customer->getMiddlename()
-        ) {
-            $name .= ' ' . $customer->getMiddlename();
-        }
-        $name .= ' ' . $customer->getLastname();
-        if ($this->customerMetadataService->getAttributeMetadata('suffix')->isVisible()
-            && $customer->getSuffix()
-        ) {
-            $name .= ' ' . $customer->getSuffix();
-        }
-        return $name;
     }
 
     /**
@@ -1082,7 +1063,7 @@ class AccountManagement implements AccountManagementInterface
         $customerData = $this->dataProcessor
             ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');
         $mergedCustomerData->addData($customerData);
-        $mergedCustomerData->setData('name', $this->getName($customer));
+        $mergedCustomerData->setData('name', $this->customerViewHelper->getCustomerName($customer));
         return $mergedCustomerData;
     }
 }
