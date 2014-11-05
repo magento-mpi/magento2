@@ -7,7 +7,7 @@
  */
 namespace Magento\Review\Block\Customer;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -38,7 +38,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
@@ -48,7 +48,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerAccountServiceInterface $customerAccountService,
+        CustomerRepositoryInterface $customerRepository,
         CustomerAddressServiceInterface $addressService,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
@@ -59,7 +59,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
             $context,
             $customerSession,
             $subscriberFactory,
-            $customerAccountService,
+            $customerRepository,
             $addressService,
             $data
         );

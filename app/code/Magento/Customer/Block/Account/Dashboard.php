@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -31,9 +31,9 @@ class Dashboard extends \Magento\Framework\View\Element\Template
     protected $_subscriberFactory;
 
     /**
-     * @var CustomerAccountServiceInterface
+     * @var CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $_customerRepository;
 
     /**
      * @var CustomerAddressServiceInterface
@@ -46,7 +46,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerAccountServiceInterface $customerService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param CustomerAddressServiceInterface $addressService
      * @param array $data
      */
@@ -54,13 +54,13 @@ class Dashboard extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerAccountServiceInterface $customerAccountService,
+        CustomerRepositoryInterface $customerRepository,
         CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_subscriberFactory = $subscriberFactory;
-        $this->_customerAccountService = $customerAccountService;
+        $this->_customerRepository = $customerRepository;
         $this->_addressService = $addressService;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -73,7 +73,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getCustomer()
     {
-        return $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
+        return $this->_customerRepository->get($this->_customerSession->getCustomerId());
     }
 
     /**
