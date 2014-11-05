@@ -7,23 +7,26 @@
  */
 -->
 
-<!-- ko if: element.isMultiple() -->
 <fieldset class="field form__field" data-bind="css: {'required': element.required}">
     <legend class="label">
         <span data-bind="text: element.label"></span>
     </legend><br />
     <div class="control" data-bind="css: {'control-fields': element.breakLine}">
-
+        
         <!-- ko ifnot: element.breakLine -->
             <div class="control-grouped">
             <!-- ko foreach: { data: elems, as: 'element' } -->
 
-                <!-- ko ifnot: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
-                    <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
-                <!-- /ko -->
+                <!-- ko ifnot: element.hidden -->
 
-                <!-- ko if: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                    <!-- ko ifnot: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                        <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
+                    <!-- /ko -->
+
+                    <!-- ko if: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
                         <!-- ko template: element.getTemplate() --><!-- /ko -->
+                    <!-- /ko -->
+
                 <!-- /ko -->
 
             <!-- /ko -->
@@ -33,33 +36,26 @@
         <!-- ko if: element.breakLine -->
             <!-- ko foreach: { data: elems, as: 'element' } -->
 
-                <!-- ko ifnot: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
-                    <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
-                <!-- /ko -->
+                <!-- ko ifnot: element.hidden -->
 
-                <!-- ko if: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
-                    <!-- ko template: element.getTemplate() --><!-- /ko -->
+                    <!-- ko ifnot: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                        <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
+                    <!-- /ko -->
+
+                    <!-- ko if: (element.input_type == 'checkbox' || element.input_type == 'radio') -->
+                        <!-- ko template: element.getTemplate() --><!-- /ko -->
+                    <!-- /ko -->
+
                 <!-- /ko -->
 
             <!-- /ko -->
         <!-- /ko -->
 
         <!-- ko foreach: { data: elems, as: 'element' } -->
-            <!-- ko if: element.error -->
+            <!-- ko if: element.error && !element.hidden -->
                 <label class="mage-error" data-bind="attr: { for: uid }, text: element.error"></label>
             <!-- /ko -->
         <!-- /ko -->
     </div>
 
 </fieldset>
-<!-- /ko -->
-
-<!-- ko if: element.isSingle() -->
-
-    <!-- ko foreach: { data: elems, as: 'element' } -->
-
-        <!-- ko template: $parent.fieldTemplate --><!-- /ko -->
-
-    <!-- /ko -->
-
-<!-- /ko -->

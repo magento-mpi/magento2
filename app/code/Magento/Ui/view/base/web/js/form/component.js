@@ -33,6 +33,58 @@ define([
         return offset;
     }
 
+    function getProxy(callback, data){
+        var conditions;
+
+        if(_.isArray(data)){
+            data = {
+                conditions: "*",
+                additional: data
+            }
+        }
+        else if(!_.isObject(data)){
+            data = {
+                conditions: data,
+                additional: []
+            }
+        }
+
+        conditions = data.conditions;
+
+        if(_.isUndefined(conditions)){
+            data.conditions = '*';
+        }
+
+        data.callback = callback;
+
+        return proxy.bind(null, data);
+    }
+
+    function proxy(data, value){
+        var conditions = data.conditions,
+            args;
+
+        if(conditions === value || conditions === '*'){
+            args = data.additional.slice();
+
+            args.push(value);
+
+            data.callback.apply(null, args);
+        }
+    }
+
+    function parseSource(source, storages, data){
+        var storage;
+
+        source  = utils.template(source, data).split(':');
+        storage = source.shift();
+
+        return {
+            source: source[0],
+            storage: storages[storage]
+        }
+    }
+
     return Scope.extend({
         initialize: function(config, additional){
             _.extend(this, config, additional);
@@ -41,7 +93,9 @@ define([
             this.provider   = registry.get(this.provider);
 
             this.initObservable()
-                .initProperties()
+                .initRenderer()
+                .getLastPart('parentName', this.name)
+                .getLastPart('parentScope', this.dataScope)
                 .initListeners();
         },
 
@@ -54,8 +108,42 @@ define([
             return this;
         },
 
-        initProperties: function () {
+        initRenderer: function () {
+            this.renderer = registry.get('globalStorage').renderer;
+
             return this;
+        },
+
+        initListeners: function(){
+            var listeners = this.listeners || {},
+                params,
+                iterator;
+
+            _.each(listeners, function(handlers, source){
+                params   = parseSource(source, this.provider, this);
+                iterator = this.initListener.bind(this, params);
+
+                _.each(handlers, iterator);
+            }, this);
+
+            return this;
+        },
+
+        initListener: function(params, data, callback){
+            var storage = params.storage,
+                source = params.source,
+                value;
+
+            callback = this[callback].bind(this);
+            callback = getProxy(callback, data);
+
+            value = storage.get(source);
+
+            if(value){
+                callback(value);
+            }
+
+            storage.on('update:' + source, callback);
         },
 
         initElement: function(elem){
@@ -68,7 +156,13 @@ define([
             return this;
         },
 
-        initListeners: function(){
+        getLastPart: function(container, ns){
+            ns = ns.split('.');
+
+            ns.pop();
+
+            this[container] = ns.join('.');
+
             return this;
         },
 

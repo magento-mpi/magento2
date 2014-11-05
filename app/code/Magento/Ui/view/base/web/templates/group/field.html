@@ -28,11 +28,5 @@
         <!-- ko if: element.notice -->
             <div class="note" data-bind="attr: { id: element.noticeId }"><span data-bind="text: element.notice"></span></div>
         <!-- /ko -->
-
-        <!-- ko if: $parent.isSingle() -->
-            <!-- ko if: element.error -->
-                <label class="mage-error" data-bind="attr: { for: uid }, text: element.error"></label>
-            <!-- /ko -->
-        <!-- /ko -->
     </div>
 </div>

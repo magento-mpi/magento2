@@ -27,6 +27,8 @@ define([
             __super__.initListeners.apply(this, arguments);
 
             this.provider.params.on('update:invalidElement', this.onInvalidUpdate.bind(this));
+
+            return this;
         },
 
         initElement: function(elem){

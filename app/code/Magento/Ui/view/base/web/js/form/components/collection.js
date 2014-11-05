@@ -24,8 +24,7 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initRenderer()
-                .initChildTemplate()
+            this.initChildTemplate()
                 .initChildren();
         },
 
@@ -33,12 +32,6 @@ define([
             __super__.initElement.apply(this, arguments);
 
             elem.activate();
-        },
-
-        initRenderer: function () {
-            this.renderer = registry.get('globalStorage').renderer;
-
-            return this;
         },
 
         initChildTemplate: function () {

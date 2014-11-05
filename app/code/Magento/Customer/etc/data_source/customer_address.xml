@@ -2,8 +2,6 @@
         xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
     <datasource name="customer_address"
                 label="Customer Address"
-                compositeLabel="prefix,firstname"
-                previewElements="prefix,firstname,lastname,postcode,city,region_id"
                 dataset="Magento\Customer\Model\Resource\Address\Collection">
         <fields>
             <field name="parent_id" dataType="number" visible="false"/>
@@ -23,7 +21,12 @@
             <field name="city" source="eav">
                 <constraint name="required-entry"/>
             </field>
-            <field name="region_id" source="eav" formElement="select"/>
+            <field name="country_id" source="eav" formElement="select">
+                <constraint name="required-entry"/>
+            </field>
+            <field name="region_id" source="eav" formElement="select">
+                <constraint name="required-entry"/>
+            </field>
             <field name="postcode" source="eav">
                 <constraint name="required-entry"/>
             </field>

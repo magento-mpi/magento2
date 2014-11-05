@@ -48,7 +48,7 @@ define([
         },
 
         setPreview: function(value){
-            var option  = _.indexBy(this.options, 'value')[value],
+            var option  = _.indexBy(this.options(), 'value')[value],
                 preview = '';
 
             if(option){

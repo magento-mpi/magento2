@@ -12,6 +12,7 @@ define([
     'use strict';
 
     var defaults = {
+        hidden:         false,
         label:          '',
         required:       false,
         template:       'ui/group/group',
@@ -20,6 +21,23 @@ define([
     };
 
     var __super__ = Component.prototype;
+
+    function extractData(container, field){
+        var data,
+            value;
+
+        container.some(function(item){
+            value = item[field];
+
+            if(_.isFunction(value)){
+                value = value();
+            }
+
+            return !item.hidden() && (data = value);
+        });
+
+        return data;
+    }
 
     return Component.extend({
 
@@ -35,6 +53,12 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
+        initObservable: function(){
+            __super__.initObservable.apply(this, arguments);
+
+            return this.observe('hidden label required');
+        },
+
         /**
          * Assignes onUpdate callback to update event of incoming element.
          * Calls extractData method.
@@ -44,17 +68,28 @@ define([
         initElement: function(element){
             __super__.initElement.apply(this, arguments);
 
-            element.on('update', this.trigger.bind(this, 'update'));
+            element.on({
+                'update': this.trigger.bind(this, 'update'),
+                'toggle': this.toggle.bind(this)
+            });
+
+            this.extractData();
 
             return this;
         },
 
-        /**
-         * Defines if group has more than one element.
-         * @return {Boolean}
-         */
-        isMultiple: function () {
-            return this.elems.getLength() > 1;
+        extractData: function(){
+            var elems = this.elems();
+
+            this.label(extractData(elems, 'label'));
+            this.required(extractData(elems, 'required'));
+
+            return this;
+        },
+
+        toggle: function(value){
+            this.extractData()
+                .hidden(value);
         },
 
         /**

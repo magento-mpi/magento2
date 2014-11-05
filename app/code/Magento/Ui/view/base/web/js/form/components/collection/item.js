@@ -122,7 +122,7 @@ define([
 
             items = items.map(function(index){
                 var elem    = elems[index],
-                    preview = elem && elem.delegate('getPreview');
+                    preview = elem && elem.delegate('getPreview', 'some');
 
                 displayed[index] = !!preview;
                 

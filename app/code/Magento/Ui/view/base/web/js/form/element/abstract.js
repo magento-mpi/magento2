@@ -13,6 +13,7 @@ define([
     'use strict';
 
     var defaults = {
+        hidden:             false,
         preview:            '',
         focused:            false,
         tooltip:            null,
@@ -41,11 +42,12 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initName()
+            this.initInputName()
                 .initTemplate()
-                .initDisableStatus()
+                .setUniqueId()
                 .setNoticeId()
-                .store(this.value());
+                .store(this.value())
+                .setHidden(this.hidden());
         },
 
         /**
@@ -62,7 +64,13 @@ define([
 
             this.initialValue = value;
 
-            this.observe('error disabled focused preview')
+            this.observe([
+                    'error',
+                    'disabled',
+                    'focused',
+                    'preview',
+                    'hidden'
+                ])
                 .observe({
                     'value':    value,
                     'required': rules['required-entry']
@@ -71,28 +79,21 @@ define([
             return this;
         },
 
-        initProperties: function () {
-            __super__.initProperties.apply(this, arguments);
-
-            this.uid = utils.uniqueid();
-
-            return this;
-        },
-
         initListeners: function(){
-            var data = this.provider.data;
+            var provider  = this.provider,
+                data      = provider.data;
+
+            data.on('reset', this.reset.bind(this));
+            
+            this.value.subscribe(this.onUpdate, this);
 
             __super__.initListeners.apply(this, arguments);
 
-            data.on('reset', this.reset.bind(this));
-
-            this.value.subscribe(this.onUpdate, this);
-
             return this;
         },
-        
-        initName: function(){
-            this.name = utils.serializeName(this.dataScope);
+
+        initInputName: function(){
+            this.serializedScope = utils.serializeName(this.dataScope);
             
             return this;
         },
@@ -103,37 +104,25 @@ define([
             return this;
         },
 
-        initDisableStatus: function() {
-            var self = this;
-
-            _.each(this.disable_rules, function(triggeredValue, path){
-                self.provider.data.on('update:' + path, function(changedValue){
-                    self.disabled(triggeredValue === changedValue);
-                });
-            });
-
-            return this;
-        },
-
         getInititalValue: function(){
             var data = this.provider.data,
-                value;
-
-            if(_.has(this, 'value')){
-                value = this.value;
-            }
-            else if(_.has(this, 'default') && this.default != null){
-                value = this.default;
-            }
-            else{
                 value = data.get(this.dataScope);
-            }
 
             if (value == null) {
                 value = undefined;
             }
 
             return value;
+        },
+
+        /**
+         * Sets unique id for element
+         * @return {Object} - reference to instance
+         */
+        setUniqueId: function () {
+            this.uid = utils.uniqueid();
+
+            return this;
         },
 
         /**
@@ -158,6 +147,26 @@ define([
             return this.preview();
         },
 
+        hide: function(){
+            this.setHidden(true)
+                .value('');
+        },
+
+        show: function(value){
+            this.setHidden(false);
+        },
+
+        setHidden: function(value){
+            var params = this.provider.params;
+
+            this.hidden(value);
+            this.trigger('toggle', value);
+
+            params.set(this.name + '.hidden', value);
+
+            return this;
+        },
+
         hasAddons: function () {
             return this.addbefore || this.addafter;
         },
@@ -167,11 +176,9 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            var isUndefined = typeof value === 'undefined';
-
             this.provider.data.set(this.dataScope, value);
 
-            this.setPreview(isUndefined ? '' : value);
+            this.setPreview(value);
 
             return this;
         },
@@ -194,7 +201,9 @@ define([
          * @return {Boolean}
          */
         hasChanged: function(){
-            return this.value() !== this.initialValue;
+            return this.hidden() ?
+                false :
+                this.value() !== this.initialValue;
         },
 
         /**
@@ -208,6 +217,10 @@ define([
             var value       = this.value(),
                 params      = this.provider.params,
                 errorMsg    = '';
+
+            if(this.hidden()){
+                return false;
+            }
 
             _.some(this.validation, function (params, rule) {
                 errorMsg = validator.validate(rule, value, params);
