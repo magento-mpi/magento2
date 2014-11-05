@@ -48,22 +48,20 @@ class Observer
      */
     protected $_onePageCheckout;
 
-    /** @var \Magento\Customer\Model\Converter */
-    protected $_customerConverter;
-
     /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
     protected $priceCurrency;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Customer\Model\Converter $customerConverter
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
@@ -73,7 +71,6 @@ class Observer
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Customer\Model\Converter $customerConverter,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
         $this->_onePageCheckout = $onePageCheckout;
@@ -82,7 +79,6 @@ class Observer
         $this->_storeManager = $storeManager;
         $this->_customerBalanceData = $customerBalanceData;
         $this->_coreRegistry = $coreRegistry;
-        $this->_customerConverter = $customerConverter;
         $this->priceCurrency = $priceCurrency;
     }
 
@@ -100,20 +96,13 @@ class Observer
         /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
-        /* @var $customer \Magento\Customer\Service\V1\Data\Customer */
+        /* @var $customer \Magento\Customer\Api\Data\CustomerInterface */
         $customer = $observer->getCustomer();
-        $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
         if ($data) {
             if (!empty($data['amount_delta'])) {
-                $balance = $this->_balanceFactory->create()->setCustomer(
-                    $customerModel
-                )->setWebsiteId(
-                    isset($data['website_id']) ? $data['website_id'] : $customer->getWebsiteId()
-                )->setAmountDelta(
-                    $data['amount_delta']
-                )->setComment(
-                    $data['comment']
-                );
+                $balance = $this->_balanceFactory->create()->setCustomer($customer)
+                    ->setWebsiteId(isset($data['website_id']) ? $data['website_id'] : $customer->getWebsiteId())
+                    ->setAmountDelta($data['amount_delta'])->setComment($data['comment']);
                 if (isset($data['notify_by_email'])) {
                     if (isset($data['store_id'])) {
                         $balance->setNotifyByEmail(true, $data['store_id']);
@@ -307,6 +296,8 @@ class Observer
                 (bool)(int)$request['payment']['use_customer_balance']
             );
         }
+
+        return $this;
     }
 
     /**
@@ -628,7 +619,7 @@ class Observer
         if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
             $actions = $this->_coreRegistry->registry('magento_logged_actions');
             if (!is_array($actions)) {
-                $actions = array($actions);
+                $actions = [$actions];
             }
             $actions[] = 'adminhtml_customerbalance_save';
             $this->_coreRegistry->unregister('magento_logged_actions');
@@ -683,7 +674,7 @@ class Observer
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' + (%s)');
         $arguments = $expressionTransferObject->getArguments();
         $arguments[] = $adapter->getCheckSql(
-            $adapter->prepareSqlCondition('main_table.bs_customer_bal_total_refunded', array('null' => null)),
+            $adapter->prepareSqlCondition('main_table.bs_customer_bal_total_refunded', ['null' => null]),
             0,
             sprintf(
                 'main_table.bs_customer_bal_total_refunded - %s - %s',
