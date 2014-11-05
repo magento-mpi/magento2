@@ -226,8 +226,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testInitAdditionalInformationWithUnserialize()
     {
-        $this->assertFalse($this->info->hasAdditionalInformation());
-
         $data = serialize(['key1' => 'data1', 'key2' => 'data2']);
         $this->info->setData('additional_information', $data);
 
