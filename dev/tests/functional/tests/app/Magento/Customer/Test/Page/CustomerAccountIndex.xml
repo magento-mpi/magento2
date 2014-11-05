@@ -44,10 +44,5 @@
             <locator>.block-addresses-list</locator>
             <strategy>css selector</strategy>
         </additionalAddressBlock>
-        <orderBySkuBlock>
-            <class>Magento\AdvancedCheckout\Test\Block\Widget\Sku</class>
-            <locator>.block-addbysku</locator>
-            <strategy>css selector</strategy>
-        </orderBySkuBlock>
     </blocks>
 </page>

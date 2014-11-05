@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Sales\Model\Resource\Setup */
+/** @var $installer \Magento\GiftRegistry\Model\Resource\Setup */
 $installer = $this;
 
 $defaultTypes = array('1' => 'Birthday', '2' => 'Baby Registry', '3' => 'Wedding');
