@@ -139,7 +139,7 @@
                          password="${env.webnode_password}"
                          trust="yes"
                          command="mysqldump -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database} | gzip -9 &gt; ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
-                <scp file="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}/${sql_dump_file_name}" todir="${sql_dump_file_path}/${sql_dump_file_path}" trust="yes"/>
+                <scp file="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}/${sql_dump_file_name}" todir="${sql_dump_file_path}" trust="yes"/>
             </then>
             <else>
                 <scp file="${sql_dump_file_path}/${sql_dump_file_name}" todir="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}" trust="yes"/>
