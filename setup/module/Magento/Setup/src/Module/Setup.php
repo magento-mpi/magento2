@@ -8,19 +8,11 @@
 namespace Magento\Setup\Module;
 
 use Magento\Setup\Module\Setup\ConnectionFactory;
-use Magento\Setup\Module\Updater\SetupInterface;
 use Magento\Setup\Model\LoggerInterface;
 use Magento\Setup\Module\Setup\Config;
 
-class Setup implements SetupInterface
+class Setup
 {
-    /**
-     * Call afterApplyAllUpdates method flag
-     *
-     * @var boolean
-     */
-    protected $callAfterApplyAllUpdates = false;
-
     /**
      * Setup Connection
      *
@@ -143,16 +135,6 @@ class Setup implements SetupInterface
     {
         $this->logger->log("Include {$fileName}");
         return include $fileName;
-    }
-
-    /**
-     * Apply data updates to the system after upgrading.
-     *
-     * @return $this
-     */
-    public function applyDataUpdates()
-    {
-        return $this;
     }
 
     /******************* UTILITY METHODS *****************/
@@ -316,27 +298,6 @@ class Setup implements SetupInterface
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
         return $this->connection->getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName);
-    }
-
-    /**
-     * Check call afterApplyAllUpdates method for setup class
-     *
-     * @return bool
-     */
-    public function getCallAfterApplyAllUpdates()
-    {
-        return $this->callAfterApplyAllUpdates;
-    }
-
-    /**
-     * Run each time after applying of all updates,
-     * if setup model's $_callAfterApplyAllUpdates flag is set to true
-     *
-     * @return $this
-     */
-    public function afterApplyAllUpdates()
-    {
-        return $this;
     }
 
     /**

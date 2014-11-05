@@ -12,7 +12,7 @@
 namespace Magento\Config\Reader;
 
 use Magento\Config\FileResolverInterface;
-use Magento\Config\Converter\ConverterInterface;
+use Magento\Framework\Config\ConverterInterface;
 use Magento\Config\SchemaLocatorInterface;
 
 class Filesystem implements ReaderInterface
@@ -27,7 +27,7 @@ class Filesystem implements ReaderInterface
     /**
      * Config converter
      *
-     * @var \Magento\Config\Converter\ConverterInterface
+     * @var ConverterInterface
      */
     protected $converter;
 
