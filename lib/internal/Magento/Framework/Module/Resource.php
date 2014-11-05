@@ -46,7 +46,7 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
      * @param string $needType Can be 'db' or 'data'
      * @return $this
      */
-    protected function _loadVersionData($needType)
+    protected function _loadVersion($needType)
     {
         if ($needType == 'db' && is_null(self::$_versions) || $needType == 'data' && is_null(self::$_dataVersions)) {
             self::$_versions = array();
@@ -80,28 +80,8 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
         if (!$this->_getReadAdapter()) {
             return false;
         }
-        $this->_loadVersionData('db');
+        $this->_loadVersion('db');
         return isset(self::$_versions[$resName]) ? self::$_versions[$resName] : false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDbVersion($resName, $version)
-    {
-        $dbModuleInfo = array('code' => $resName, 'version' => $version);
-
-        if ($this->getDbVersion($resName)) {
-            self::$_versions[$resName] = $version;
-            return $this->_getWriteAdapter()->update(
-                $this->getMainTable(),
-                $dbModuleInfo,
-                array('code = ?' => $resName)
-            );
-        } else {
-            self::$_versions[$resName] = $version;
-            return $this->_getWriteAdapter()->insert($this->getMainTable(), $dbModuleInfo);
-        }
     }
 
     /**
@@ -113,7 +93,7 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
             return false;
         }
 
-        $this->_loadVersionData('data');
+        $this->_loadVersion('data');
 
         return isset(self::$_dataVersions[$resName]) ? self::$_dataVersions[$resName] : false;
     }
