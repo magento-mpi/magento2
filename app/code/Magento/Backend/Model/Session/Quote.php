@@ -132,28 +132,39 @@ class Quote extends \Magento\Framework\Session\SessionManager
             $this->_quote = $this->_quoteFactory->create();
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
+                $this->assignCustomer();
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
                 $customerGroupId = $this->_scopeConfig->getValue(
                     \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
-                $this->_quote
-                    ->setStoreId($this->getStoreId())
+                $this->_quote->setStoreId($this->getStoreId())
                     ->setCustomerGroupId($customerGroupId)
                     ->setIsActive(false)
                     ->save();
                 $this->setQuoteId($this->_quote->getId());
-                try {
-                    $customerData = $this->_customerService->getCustomer($this->getCustomerId());
-                    $this->_quote->assignCustomer($customerData);
-                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                    /** Customer does not exist */
-                }
+                $this->assignCustomer();
             }
             $this->_quote->setIgnoreOldQty(true);
             $this->_quote->setIsSuperMode(true);
         }
+
         return $this->_quote;
+    }
+
+    /**
+     * Assign Customer to quote
+     *
+     * @return void
+     */
+    public function assignCustomer()
+    {
+        try {
+            $customerData = $this->_customerService->getCustomer($this->getCustomerId());
+            $this->_quote->assignCustomer($customerData);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            /** Customer does not exist */
+        }
     }
 
     /**
