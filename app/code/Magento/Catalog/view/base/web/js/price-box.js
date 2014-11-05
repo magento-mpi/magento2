@@ -167,6 +167,11 @@ define([
                     }
                 };
             }
+            if(config.plusDisposition) {
+                _.map(this.options.prices, function(e){
+                    e.adjustments.weee = config.plusDisposition;
+                });
+            }
             if(config.exclTaxPrice) {
                 this.options.prices['priceExclTax'] = {
                     'amount': config.exclTaxPrice,
