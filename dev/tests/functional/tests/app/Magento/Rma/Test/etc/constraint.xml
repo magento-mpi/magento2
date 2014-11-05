@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertRmaSuccessSaveMessage module="Magento_Rma">
+        <severeness>high</severeness>
+    </assertRmaSuccessSaveMessage>
+    <assertRmaInGrid module="Magento_Rma">
+        <severeness>low</severeness>
+    </assertRmaInGrid>
+    <assertRmaForm module="Magento_Rma">
+        <severeness>middle</severeness>
+    </assertRmaForm>
+    <assertRmaConfigurableForm module="Magento_Rma">
+        <severeness>middle</severeness>
+    </assertRmaConfigurableForm>
+    <assertRmaOnFrontendForCustomer module="Magento_Rma">
+        <severeness>high</severeness>
+    </assertRmaOnFrontendForCustomer>
+    <assertRmaBundleOnFrontendForCustomer module="Magento_Rma">
+        <severeness>middle</severeness>
+    </assertRmaBundleOnFrontendForCustomer>
+    <assertRmaConfigurableOnFrontendForCustomer module="Magento_Rma">
+        <severeness>middle</severeness>
+    </assertRmaConfigurableOnFrontendForCustomer>
+    <assertRmaOnFrontendForGuest module="Magento_Rma">
+        <severeness>high</severeness>
+    </assertRmaOnFrontendForGuest>
+</constraint>
