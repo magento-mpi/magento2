@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model;
+namespace Magento\Eav\Model\Attribute;
 
 class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
 {

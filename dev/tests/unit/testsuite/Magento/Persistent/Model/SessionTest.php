@@ -89,7 +89,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Persistent\Model\Session::_afterDeleteCommit
      * @covers \Magento\Persistent\Model\Session::removePersistentCookie
      */
     public function testAfterDeleteCommit()
