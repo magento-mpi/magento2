@@ -46,6 +46,11 @@ class Restrictor
     protected $customerUrl;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param ConfigInterface $config
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Framework\Session\Generic $session
@@ -53,6 +58,7 @@ class Restrictor
      * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Customer\Model\Url $customerUrl
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
@@ -61,11 +67,13 @@ class Restrictor
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\App\ActionFlag $actionFlag,
-        \Magento\Customer\Model\Url $customerUrl
+        \Magento\Customer\Model\Url $customerUrl,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->customerUrl = $customerUrl;
         $this->_config = $config;
         $this->_customerHelper = $customerHelper;
+        $this->_customerSession = $customerSession;
         $this->_session = $session;
         $this->_scopeConfig = $scopeConfig;
         $this->_url = $urlFactory;
@@ -108,7 +116,7 @@ class Restrictor
 
                 //redirect to landing page/login
             case \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN:
-                if (!$isCustomerLoggedIn && !$this->_customerHelper->isLoggedIn()) {
+                if (!$isCustomerLoggedIn && !$this->_customerSession->isLoggedIn()) {
                     // see whether redirect is required and where
                     $redirectUrl = false;
                     $allowedActionNames = $this->_config->getGenericActions();

@@ -2057,4 +2057,7 @@ return array(
     ['getCustomerVatClass', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getCustomerVatClass'],
     ['isCountryInEU', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::isCountryInEU'],
     ['getDefaultCustomerGroupId', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getDefaultCustomerGroupId'],
+    ['generateResetPasswordLinkToken', 'Magento\Customer\Helper\Data'],
+    ['isLoggedIn', 'Magento\Customer\Helper\Data'],
+    ['getResetPasswordLinkExpirationPeriod', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Customer::getResetPasswordLinkExpirationPeriod'],
 );

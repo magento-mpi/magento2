@@ -178,16 +178,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Check customer is logged in
-     *
-     * @return bool
-     */
-    public function isLoggedIn()
-    {
-        return $this->_customerSession->isLoggedIn();
-    }
-
-    /**
      * Check whether customers registration is allowed
      *
      * @return bool
@@ -238,29 +228,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $result[$value] = $value;
         }
         return $result;
-    }
-
-    /**
-     * Generate unique token for reset password confirmation link
-     *
-     * @return string
-     */
-    public function generateResetPasswordLinkToken()
-    {
-        return $this->mathRandom->getUniqueHash();
-    }
-
-    /**
-     * Retrieve customer reset password link expiration period in days
-     *
-     * @return int
-     */
-    public function getResetPasswordLinkExpirationPeriod()
-    {
-        return (int)$this->_scopeConfig->getValue(
-            self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
-            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
-        );
     }
 
     /**

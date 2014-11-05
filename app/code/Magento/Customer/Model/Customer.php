@@ -73,6 +73,11 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     const ENTITY = 'customer';
 
     /**
+     * Configuration path to expiration period of reset password link
+     */
+    const XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'customer/password/reset_link_expiration_period';
+
+    /**
      * Model event prefix
      *
      * @var string
@@ -1242,7 +1247,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             return true;
         }
 
-        $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->getResetPasswordLinkExpirationPeriod();
 
         $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
         $tokenTimestamp = $this->dateTime->toTimestamp($linkTokenCreatedAt);
@@ -1256,6 +1261,19 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve customer reset password link expiration period in days
+     *
+     * @return int
+     */
+    public function getResetPasswordLinkExpirationPeriod()
+    {
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
+        );
     }
 
     /**
