@@ -32,4 +32,24 @@ interface GroupManagementInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getDefaultGroup($storeId = null);
+
+    /**
+     * Get customer group representing customers not logged in.
+     *
+     * @param int $storeId
+     * @return \Magento\Customer\Api\Data\GroupInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getNotLoggedInGroup($storeId = null);
+
+    /**
+     * Get customer group representing all customers.
+     *
+     * @param int $storeId
+     * @return \Magento\Customer\Api\Data\GroupInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getAllGroup($storeId = null);
 }
