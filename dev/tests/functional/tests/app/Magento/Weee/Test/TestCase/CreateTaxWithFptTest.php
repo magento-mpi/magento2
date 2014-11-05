@@ -17,7 +17,7 @@ use Magento\Core\Test\Fixture\ConfigData;
 use Mtf\ObjectManager;
 
 /**
- * Test TaxWithFptTest
+ * Test CreateTaxWithFptTest
  *
  * Test Flow:
  *
@@ -51,7 +51,7 @@ use Mtf\ObjectManager;
  * @group Tax_(CS)
  * @ZephyrId MAGETWO-29551
  */
-class TaxWithFptTest extends Injectable
+class CreateTaxWithFptTest extends Injectable
 {
     /**
      * Fixture factory

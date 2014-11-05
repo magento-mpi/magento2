@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/cart/index" module="Magento_Weee">
+<page mca="checkout/cart/index">
     <blocks>
         <weeeCartBlock>
             <class>Magento\Weee\Test\Block\Cart</class>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/category/view" module="Magento_Weee">
+<page mca="catalog/category/view">
     <blocks>
         <weeeListProductBlock>
             <class>Magento\Weee\Test\Block\Product\ListProduct</class>

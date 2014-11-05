@@ -119,8 +119,9 @@ class AssertFptApplied extends AbstractConstraint
         // Get prices with fpt on product page
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
         $actualPrices = $this->addToCart($product, $actualPrices);
-        //Get prices with fpt on cart page
+        // Get prices with fpt on cart page
         $actualPrices = $this->getCartPrice($product, $actualPrices);
+
         return $actualPrices;
     }
 
