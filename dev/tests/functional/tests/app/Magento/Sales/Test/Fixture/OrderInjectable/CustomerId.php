@@ -13,27 +13,26 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
- * Class CustomerId
- * Prepare CustomerId for order list
+ * Prepare CustomerId for order list.
  */
 class CustomerId implements FixtureInterface
 {
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param FixtureFactory $fixtureFactory
      * @param array $params
@@ -56,7 +55,7 @@ class CustomerId implements FixtureInterface
     }
 
     /**
-     * Persist attribute options
+     * Persist attribute options.
      *
      * @return void
      */
@@ -66,7 +65,7 @@ class CustomerId implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string|null $key [optional]
      * @return mixed
@@ -79,9 +78,9 @@ class CustomerId implements FixtureInterface
     }
 
     /**
-     * Get customer fixture
+     * Get customer fixture.
      *
-     * @return array
+     * @return CustomerInjectable
      */
     public function getCustomer()
     {
@@ -89,7 +88,7 @@ class CustomerId implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return array
      */
