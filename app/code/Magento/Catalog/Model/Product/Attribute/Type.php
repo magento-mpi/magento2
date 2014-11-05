@@ -14,9 +14,9 @@ class Type extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getValue()
     {
-        return $this->getData(self::TYPE);
+        return $this->getData('value');
     }
 
     /**

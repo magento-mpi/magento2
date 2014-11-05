@@ -10,16 +10,16 @@ namespace Magento\Catalog\Api\Data;
 use Magento\Framework\Service\Data\ExtensibleDataBuilder;
 
 /**
- * DataBuilder class for \Magento\Catalog\Api\Data\ProductAttributeTypeInterface
+ * DataBuilder class for @see \Magento\Catalog\Api\Data\ProductAttributeTypeInterface
  */
 class ProductAttributeTypeInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
 {
     /**
-     * @param string $type
+     * @param string $value
      */
-    public function setType($type)
+    public function setValue($value)
     {
-        $this->data['type'] = $type;
+        $this->data['value'] = $value;
         return $this;
     }
 

@@ -10,16 +10,16 @@ namespace Magento\Catalog\Api\Data;
 
 interface ProductAttributeTypeInterface
 {
-    const TYPE = 'type';
+    const VALUE= 'value';
 
     const LABEL = 'label';
 
     /**
-     * Get type
+     * Get value
      *
      * @return string
      */
-    public function getType();
+    public function getValue();
 
     /**
      * Get type label

@@ -32,7 +32,7 @@ class ProductAttributeTypesListTest extends \Magento\TestFramework\TestCase\Weba
         $types = $this->_webApiCall($serviceInfo);
 
         $this->assertTrue(count($types) > 0);
-        $this->assertArrayHasKey('type', $types[0]);
+        $this->assertArrayHasKey('value', $types[0]);
         $this->assertArrayHasKey('label', $types[0]);
     }
 }
