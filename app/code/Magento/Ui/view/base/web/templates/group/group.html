@@ -11,7 +11,7 @@
     <legend class="label">
         <span data-bind="text: element.label"></span>
     </legend><br />
-    
+
     <div class="control" data-bind="css: {'control-fields': element.breakLine, 'control-grouped': !element.breakLine}">
 
         <!-- ko foreach: { data: elems, as: 'element' } -->
@@ -28,6 +28,12 @@
 
             <!-- /ko -->
 
+        <!-- /ko -->
+
+        <!-- ko foreach: { data: elems, as: 'element' } -->
+            <!-- ko if: element.error() && !element.hidden() -->
+                <label class="mage-error" data-bind="attr: { for: uid }, text: element.error"></label>
+            <!-- /ko -->
         <!-- /ko -->
     </div>
 

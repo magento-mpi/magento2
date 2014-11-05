@@ -14,7 +14,6 @@ define([
     var __super__ = Abstract.prototype;
     
     var inputNode = {
-        dataScope:  '{index}',
         name:       '{index}_input',
         type:       'input',
         parent:     '{parentName}'
