@@ -7,6 +7,10 @@
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser;
 
+/**
+ * Date range widget chooser
+ * Currently works without localized format
+ */
 class Daterange extends \Magento\Backend\Block\AbstractBlock
 {
     /**
