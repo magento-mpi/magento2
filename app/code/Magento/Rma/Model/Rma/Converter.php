@@ -9,7 +9,7 @@
 namespace Magento\Rma\Model\Rma;
 
 use Magento\Rma\Service\V1\Data\Rma;
-use Magento\Framework\Service\ExtensibleDataObjectConverter;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 class Converter
 {

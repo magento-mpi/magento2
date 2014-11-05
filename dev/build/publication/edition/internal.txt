@@ -1,5 +1,6 @@
 # Files included in testing builds, but nor ready/approved for publication
 
+dev/tools/Magento/Tools/SampleData
 dev/tools/Magento/Tools/Formatter
 dev/tools/PHP-Parser
 

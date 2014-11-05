@@ -10,18 +10,19 @@ require __DIR__ . '/../../../bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../../');
 use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\ObjectManager\Code\Generator\Factory;
-use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
+use Magento\Framework\ObjectManager\Code\Generator\Proxy;
+use Magento\Tools\Di\Compiler\Log\Log;
+use Magento\Tools\Di\Compiler\Log\Writer;
+use Magento\Tools\Di\Compiler\Directory;
+use Magento\Tools\Di\Code\Scanner;
+use Magento\Tools\Di\Definition\Compressor;
+use Magento\Tools\Di\Definition\Serializer;
 use Magento\Framework\Service\Code\Generator\Builder;
 use Magento\Framework\Service\Code\Generator\Mapper;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
-use Magento\Tools\Di\Code\Scanner;
-use Magento\Tools\Di\Compiler\Directory;
-use Magento\Tools\Di\Compiler\Log\Log;
-use Magento\Tools\Di\Compiler\Log\Writer;
-use Magento\Tools\Di\Definition\Compressor;
-use Magento\Tools\Di\Definition\Serializer;
+use Magento\Framework\Api\Code\Generator\DataBuilder;
 
 $filePatterns = ['php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/'];
 $codeScanDir = realpath($rootDir . '/app');
@@ -87,6 +88,7 @@ try {
         $fileResolver,
         $generatorIo,
         [
+            DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',

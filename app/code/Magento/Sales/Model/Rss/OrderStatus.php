@@ -218,4 +218,12 @@ class OrderStatus implements DataProviderInterface
     {
         return array();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAuthRequired()
+    {
+        return true;
+    }
 }

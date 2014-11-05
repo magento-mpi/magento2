@@ -44,7 +44,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
 
-        // \Magento\Framework\Service\ResourceNotFoundException
+        // \Magento\Framework\Api\ResourceNotFoundException
         $this->_errorTest(
             $serviceInfo,
             ['resource_id' => 'resourceY'],
@@ -62,7 +62,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
 
-        // \Magento\Framework\Service\AuthorizationException
+        // \Magento\Framework\Api\AuthorizationException
         $this->_errorTest(
             $serviceInfo,
             [],
