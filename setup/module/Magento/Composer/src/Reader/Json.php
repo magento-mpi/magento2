@@ -43,7 +43,7 @@ class Json
      */
     public function read()
     {
-        $fileList = $this->fileResolver->get($this->fileName);
+        $fileList = $this->fileResolver->get($this->fileName, '');
         if (!count($fileList)) {
             return [];
         }

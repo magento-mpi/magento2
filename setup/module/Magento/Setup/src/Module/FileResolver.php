@@ -8,52 +8,47 @@
 
 namespace Magento\Setup\Module;
 
-use Zend\Stdlib\Glob;
-use Magento\Config\FileResolverInterface;
-use Magento\Config\FileIterator;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Config\FileIteratorFactory;
 
-class FileResolver implements FileResolverInterface
+class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {
     /**
-     * Magento application's DirectoryList
-     *
-     * @var DirectoryList
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
-    private $directoryList;
+    protected $directoryRead;
+
+    /**
+     * @var \Magento\Framework\Config\FileIteratorFactory
+     */
+    protected $iteratorFactory;
 
     /**
      * Constructor
      *
-     * @param DirectoryList $directoryList
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
      */
-    public function __construct(DirectoryList $directoryList)
-    {
-        $this->directoryList = $directoryList;
+    public function __construct(
+        \Magento\Framework\Filesystem $filesystem,
+        FileIteratorFactory $iteratorFactory
+    ) {
+        $this->directoryRead = $filesystem->getDirectoryRead(DirectoryList::MODULES);
+        $this->iteratorFactory = $iteratorFactory;
     }
 
     /**
-     * Collect files and wrap them into an Iterator object
-     *
-     * @param string $filename
-     * @return FileIterator
+     * {@inheritdoc}
      */
-    public function get($filename)
+    public function get($filename, $scope)
     {
-        $result = [];
-
-        // Collect files by /app/code/*/*/etc/{filename} pattern
-        $pattern = $this->directoryList->getPath(DirectoryList::MODULES) . '/*/*/etc/' . $filename;
-        foreach (Glob::glob($pattern) as $file) {
-            $result[] = $file;
-        }
-
-        // Collect files by /app/etc/*/{filename} pattern
-        $pattern = $this->directoryList->getPath(DirectoryList::CONFIG) . '/*/' . $filename;
-        foreach (Glob::glob($pattern) as $file) {
-            $result[] = $file;
-        }
-
-        return new FileIterator($result);
+        $iterator = $this->iteratorFactory->create(
+            $this->directoryRead,
+            array_merge(
+                $this->directoryRead->search('/*/*/etc/' . $filename),
+                $this->directoryRead->search('/*/' . $filename)
+            )
+        );
+        return $iterator;
     }
 }

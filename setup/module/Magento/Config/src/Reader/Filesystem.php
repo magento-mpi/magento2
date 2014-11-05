@@ -11,7 +11,7 @@
 
 namespace Magento\Config\Reader;
 
-use Magento\Config\FileResolverInterface;
+use Magento\Framework\Config\FileResolverInterface;
 use Magento\Framework\Config\ConverterInterface;
 use Magento\Config\SchemaLocatorInterface;
 
@@ -20,7 +20,7 @@ class Filesystem implements ReaderInterface
     /**
      * File locator
      *
-     * @var \Magento\Config\FileResolverInterface
+     * @var \Magento\Framework\Config\FileResolverInterface
      */
     protected $fileResolver;
 
@@ -90,7 +90,7 @@ class Filesystem implements ReaderInterface
      */
     public function read()
     {
-        $fileList = $this->fileResolver->get($this->fileName);
+        $fileList = $this->fileResolver->get($this->fileName, '');
         if (!count($fileList)) {
             return array();
         }
