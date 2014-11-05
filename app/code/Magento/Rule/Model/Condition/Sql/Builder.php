@@ -29,7 +29,7 @@ class Builder
     protected $_conditionOperatorMap = [
         '=='    => ':field = ?',
         '!='    => ':field <> ?',
-        '>='    => ':field => ?',
+        '>='    => ':field >= ?',
         '>'     => ':field > ?',
         '<='    => ':field <= ?',
         '<'     => ':field < ?',
