@@ -251,6 +251,7 @@ class ServiceArgsSerializer
      * @param mixed $value
      * @param string $type Convert given value to the this type
      * @return mixed
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _convertValue($value, $type)
     {
