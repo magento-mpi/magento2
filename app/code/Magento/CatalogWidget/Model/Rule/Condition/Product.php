@@ -114,7 +114,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             return $this;
         }
 
-        if ($attribute->isScopeGlobal()) {
+        if ($attribute->getBackend() && $attribute->isScopeGlobal()) {
             $this->addGlobalAttribute($attribute, $collection);
         } else {
             $this->addNotGlobalAttribute($attribute, $collection);
@@ -139,15 +139,18 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         $storeId =  $this->storeManager->getStore()->getId();
         $alias = 'at_' . $attribute->getAttributeCode();
 
-        if ($attribute->getBackendType() != 'datetime') {
-            $collection->getSelect()->join(
-                array($alias => $collection->getTable('catalog_product_index_eav')),
-                "($alias.entity_id = e.entity_id) AND ($alias.store_id = $storeId)" .
-                " AND ($alias.attribute_id = {$attribute->getId()})",
-                array()
-            );
-        } else {
-            $collection->addAttributeToSelect($attribute->getAttributeCode(), 'inner');
+        switch ($attribute->getBackendType()) {
+            case 'decimal':
+            case 'datetime':
+                $collection->addAttributeToSelect($attribute->getAttributeCode(), 'inner');
+                break;
+            default:
+                $collection->getSelect()->join(
+                    array($alias => $collection->getTable('catalog_product_index_eav')),
+                    "($alias.entity_id = e.entity_id) AND ($alias.store_id = $storeId)" .
+                    " AND ($alias.attribute_id = {$attribute->getId()})",
+                    array()
+                );
         }
 
         $this->joinedAttributes[$attribute->getAttributeCode()] = $alias;
@@ -181,6 +184,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         }
 
         $this->setOperator('()');
+        $this->setData('is_value_parsed', true);
         $this->setData('value_parsed', implode(',', $validEntities));
 
         return $this;
