@@ -109,18 +109,18 @@ define([
             prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
         });
 
-        if(prices.special) {
-            prices.price = prices.special;
-            prices.oldPrice = prices.regular;
-        } else if(prices.regular) {
-            prices.price = prices.regular;
-        }
+//        if(prices.special) {
+//            prices.price = prices.special;
+//            prices.oldPrice = prices.regular;
+//        } else if(prices.regular) {
+//            prices.price = prices.regular;
+//        }
 
         _.each(prices, function(price, priceCode){
             var html = priceTemplate(prices[priceCode]);
 
             $('[data-price-type="' + priceCode + '"]', box).html(html);
-            console.log('To render ', priceCode,': ', prices[priceCode]['final'], prices[priceCode]['formatted'], $('[data-price-type="' + priceCode + '"]', box)[0]);
+            console.log('To render ', priceCode,': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
         });
 
     }
@@ -154,25 +154,27 @@ define([
             if(+config.productId !== +this.options.productId) {
                 return;
             }
-            console.log('Prices: ', config);
             if(config.inclTaxPrice === config.productOldPrice) {
-                this.options.prices['regular'] = {
+//                this.options.prices['regular'] = {
+                this.options.prices['price'] = {
                     'amount': config.productOldPrice * (1 - config.currentTax / 100),
                     'adjustments': {
                         'tax': config.productOldPrice * config.currentTax / 100
                     }
                 };
             } else {
-                this.options.prices['regular'] = {
-                    'amount': config.productOldPrice * (1 - config.currentTax / 100),
-                    'adjustments': {
-                        'tax': config.productOldPrice * config.currentTax / 100
-                    }
-                };
-                this.options.prices['special'] = {
+//                this.options.prices['special'] = {
+                this.options.prices['price'] = {
                     'amount': config.exclTaxPrice,
                     'adjustments': {
                         'tax': config.exclTaxPrice * config.currentTax / 100
+                    }
+                };
+//                this.options.prices['regular'] = {
+                this.options.prices['oldPrice'] = {
+                    'amount': config.productOldPrice * (1 - config.currentTax / 100),
+                    'adjustments': {
+                        'tax': config.productOldPrice * config.currentTax / 100
                     }
                 };
             }

@@ -118,15 +118,15 @@ define([
             };
         }
         var rightObj = {};
-        rightObj.regular = {};
-        rightObj.regular.amount = config.exclTaxPrice;
-        rightObj.regular.adjustments = {};
-        rightObj.regular.adjustments.tax = config.inclTaxPrice - config.exclTaxPrice;
+        rightObj.oldPrice = {};
+        rightObj.oldPrice.amount = config.exclTaxPrice;
+        rightObj.oldPrice.adjustments = {};
+        rightObj.oldPrice.adjustments.tax = config.inclTaxPrice - config.exclTaxPrice;
 
-        rightObj.special = rightObj.regular;
+        rightObj.price = rightObj.oldPrice;
 
         if(config.oldPrice  !== config.price) {
-            rightObj.regular = {amount: config.oldPrice};
+            rightObj.oldPrice = {amount: config.oldPrice};
         }
         rightObj.priceExclTax = {};
         rightObj.priceExclTax.amount = config.exclTaxPrice;
