@@ -204,6 +204,8 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
     {
         $productSku = 'mediaProduct';
         $storeId = 0;
+        $entryPosition = 'entryPosition';
+        $absolutePath = 'absolute/path';
         $entryMock = $this->getMock('\Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface');
         $entryContentMock = $this->getMock(
             '\Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface'
@@ -236,7 +238,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $entryContentMock->expects($this->once())->method('getName')->willReturn($fileName);
         $entryContentMock->expects($this->once())->method('getMimeType')->willReturn($mimeType);
         $writeInterfaceMock->expects($this->once())->method('getAbsolutePath')->with($relativeFilePath)
-            ->willReturn('absolute/path');
+            ->willReturn($absolutePath);
         $writeInterfaceMock->expects($this->once())->method('writeFile')->with($relativeFilePath, $entryData);
         $this->productMock->expects($this->once())->method('getTypeInstance')->willReturnSelf();
         $this->productMock->expects($this->once())->method('getSetAttributes')->with($this->productMock)
@@ -244,11 +246,11 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $attributeMock->expects($this->once())->method('getBackend')->willReturn($productMediaGalleryMock);
         $entryMock->expects($this->once())->method('getTypes')->willReturn(['jpg']);
         $entryMock->expects($this->exactly(2))->method('getIsDisabled')->willReturn(false);
-        $entryMock->expects($this->once())->method('getPosition')->willReturn('entryPosition');
+        $entryMock->expects($this->once())->method('getPosition')->willReturn($entryPosition);
         $entryMock->expects($this->once())->method('getLabel')->willReturn('entryLabel');
         $productMediaGalleryMock->expects($this->once())->method('addImage')->with(
             $this->productMock,
-            'absolute/path',
+            $absolutePath,
             ['jpg'],
             true,
             false
@@ -258,7 +260,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
             $imageFileUri,
             [
                 'label' => 'entryLabel',
-                'position' => 'entryPosition',
+                'position' => $entryPosition,
                 'disabled' => false
             ]
         );
@@ -273,6 +275,8 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
     {
         $productSku = 'mediaProduct';
         $storeId = 0;
+        $entryPosition = 'entryPosition';
+        $absolutePath = 'absolute/path';
         $entryMock = $this->getMock('\Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface');
         $entryContentMock = $this->getMock(
             '\Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface'
@@ -305,7 +309,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $entryContentMock->expects($this->once())->method('getName')->willReturn($fileName);
         $entryContentMock->expects($this->once())->method('getMimeType')->willReturn($mimeType);
         $writeInterfaceMock->expects($this->once())->method('getAbsolutePath')->with($relativeFilePath)
-            ->willReturn('absolute/path');
+            ->willReturn($absolutePath);
         $writeInterfaceMock->expects($this->once())->method('writeFile')->with($relativeFilePath, $entryData);
         $this->productMock->expects($this->once())->method('getTypeInstance')->willReturnSelf();
         $this->productMock->expects($this->once())->method('getSetAttributes')->with($this->productMock)
@@ -313,11 +317,11 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $attributeMock->expects($this->once())->method('getBackend')->willReturn($productMediaGalleryMock);
         $entryMock->expects($this->once())->method('getTypes')->willReturn(['jpg']);
         $entryMock->expects($this->exactly(2))->method('getIsDisabled')->willReturn(false);
-        $entryMock->expects($this->once())->method('getPosition')->willReturn('entryPosition');
+        $entryMock->expects($this->once())->method('getPosition')->willReturn($entryPosition);
         $entryMock->expects($this->once())->method('getLabel')->willReturn('entryLabel');
         $productMediaGalleryMock->expects($this->once())->method('addImage')->with(
             $this->productMock,
-            'absolute/path',
+            $absolutePath,
             ['jpg'],
             true,
             false
@@ -327,7 +331,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
             $imageFileUri,
             [
                 'label' => 'entryLabel',
-                'position' => 'entryPosition',
+                'position' => $entryPosition,
                 'disabled' => false
             ]
         );
@@ -400,6 +404,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $storeId = 0;
         $entryId = 42;
         $filePath = '/path/to/the/file.jpg';
+        $entryPosition = 'entryPosition';
         $productMediaGalleryMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
             ['addImage', 'updateImage', 'getRenamedImage', 'clearMediaAttribute', 'setMediaAttribute'],
@@ -419,14 +424,14 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $this->entryResolverMock->expects($this->once())->method('getEntryFilePathById')
             ->with($this->productMock, $entryId)->willReturn($filePath);
         $entryMock->expects($this->once())->method('getIsDisabled')->willReturn(false);
-        $entryMock->expects($this->once())->method('getPosition')->willReturn('entryPosition');
+        $entryMock->expects($this->once())->method('getPosition')->willReturn($entryPosition);
         $entryMock->expects($this->once())->method('getLabel')->willReturn('entryLabel');
         $productMediaGalleryMock->expects($this->once())->method('updateImage')->with(
             $this->productMock,
             $filePath,
             [
                 'label' => 'entryLabel',
-                'position' => 'entryPosition',
+                'position' => $entryPosition,
                 'disabled' => false
             ]
         );
@@ -454,6 +459,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $storeId = 0;
         $entryId = 42;
         $filePath = '/path/to/the/file.jpg';
+        $entryPosition = 'entryPosition';
         $productMediaGalleryMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
             ['addImage', 'updateImage', 'getRenamedImage', 'clearMediaAttribute', 'setMediaAttribute'],
@@ -473,14 +479,14 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
         $this->entryResolverMock->expects($this->once())->method('getEntryFilePathById')
             ->with($this->productMock, $entryId)->willReturn($filePath);
         $entryMock->expects($this->once())->method('getIsDisabled')->willReturn(false);
-        $entryMock->expects($this->once())->method('getPosition')->willReturn('entryPosition');
+        $entryMock->expects($this->once())->method('getPosition')->willReturn($entryPosition);
         $entryMock->expects($this->once())->method('getLabel')->willReturn('entryLabel');
         $productMediaGalleryMock->expects($this->once())->method('updateImage')->with(
             $this->productMock,
             $filePath,
             [
                 'label' => 'entryLabel',
-                'position' => 'entryPosition',
+                'position' => $entryPosition,
                 'disabled' => false
             ]
         );
@@ -554,7 +560,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionmessage Such product doesn't exist
+     * @expectedExceptionMessage Such product doesn't exist
      */
     public function testGetWithNonExistingProduct()
     {
