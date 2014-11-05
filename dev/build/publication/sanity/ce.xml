@@ -482,5 +482,9 @@
             <word>Enterprise</word>
             <path>setup/module/Magento/Framework/src/DB/ExpressionConverter.php</path>
         </item>
+        <item>
+            <word>GiftCard</word>
+            <path>app/code/Magento/Wishlist/view/frontend/web/js/add-to-wishlist.js</path>
+        </item>
     </whitelist>
 </config>
