@@ -99,6 +99,7 @@ class Product extends Form
     {
         $viewDetails = $this->_rootElement->find($this->viewDetails);
         if ($viewDetails->isVisible()) {
+            $this->reinitRootElement();
             $viewDetails->click();
             $this->waitForElementVisible($this->optionLabel);
             $labels = $this->_rootElement->find($this->optionLabel)->getElements();
