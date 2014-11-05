@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <block class="Magento\GiftRegistry\Block\Search\Advanced" name="root" template="search/advanced.phtml" cacheable="false"/>
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <block class="Magento\GiftRegistry\Block\Search\Advanced" name="root" template="search/advanced.phtml" cacheable="false"/>
+    </body>
 </page>

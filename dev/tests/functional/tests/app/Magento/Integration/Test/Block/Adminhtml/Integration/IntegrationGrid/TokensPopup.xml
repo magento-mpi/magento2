@@ -9,7 +9,9 @@
 -->
 <mapping strict="0">
     <fields>
-        <consumer_key />
+        <key>
+            <selector>[name="consumer_key"]</selector>
+        </key>
         <consumer_secret />
         <token />
         <token_secret />
