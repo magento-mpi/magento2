@@ -42,3 +42,30 @@ require([ 'jquery', 'Magento_Catalog/js/price-box' ], function($){
         <?php echo $this->getChildHtml('form_bottom'); ?>
     </form>
 </div>
+
+<script type="text/javascript">
+    require([ 'jquery', 'Magento_Catalog/js/price-box' ], function($){
+        $(function() {
+            $('[data-role=priceBox]').priceBox({prices:{
+                examplePrice: {
+                    amount: 89.9999
+                }
+            }});
+        });
+    });
+</script>
+<script type="text/javascript">
+    require([ 'jquery', 'Magento_Catalog/js/price-box' ], function($){
+        $(function() {
+            $('[data-role=priceBox]').priceBox({prices:{
+                examplePrice: {
+                    adjustments: {
+                        gift: -56.01
+                    }
+                }
+            }})
+                .trigger('reloadPrice')
+            ;
+        });
+    });
+</script>

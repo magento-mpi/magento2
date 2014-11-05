@@ -47,8 +47,8 @@ define([
         var prices = this.options.prices || {};
         var initial = this.initialPrices = utils.deepClone(this.options.prices);
 
-        box.on('updatePrice', onUpdatePrice.bind(this)).trigger('updatePrice');
-        box.on('reloadPrice', reloadPrice.bind(this)).trigger('reloadPrice');
+        box.on('updatePrice', onUpdatePrice.bind(this));
+        box.on('reloadPrice', reloadPrice.bind(this));
 
     }
 
