@@ -29,7 +29,7 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      *
@@ -44,7 +44,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -58,7 +58,7 @@ class Register extends \Magento\Customer\Block\Form\Register
             $countryCollectionFactory,
             $moduleManager,
             $customerSession,
-            $customerHelper,
+            $customerUrl,
             $data
         );
         $this->_isScopePrivate = true;
