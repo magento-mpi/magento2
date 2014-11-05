@@ -102,7 +102,7 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
             throw NoSuchEntityException::singleField('storeId', $storeId);
         }
         try {
-            return $this->groupRepository->get($groupId);
+            return $this->groupRepository->getById($groupId);
         } catch (NoSuchEntityException $e) {
             throw NoSuchEntityException::doubleField('groupId', $groupId, 'storeId', $storeId);
         }

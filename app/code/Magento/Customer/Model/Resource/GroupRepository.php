@@ -143,7 +143,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function get($id)
+    public function getById($id)
     {
         $groupModel = $this->groupRegistry->retrieve($id);
         return $this->groupBuilder->setId($groupModel->getId())
