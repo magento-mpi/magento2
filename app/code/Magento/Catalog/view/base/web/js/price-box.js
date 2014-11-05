@@ -100,26 +100,18 @@ define([
         var boxTemplate = this.boxTemplate = hbs(this.options.boxTemplate);
 
         _.each(prices, function(price, priceCode){
-            var finalPrice = price.amount;
+            var html,
+                finalPrice = price.amount;
             _.each(price.adjustments, function(adjustmentAmount){
                 finalPrice += adjustmentAmount;
             });
 
             prices[priceCode]['final'] = finalPrice;
             prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
-        });
 
-//        if(prices.special) {
-//            prices.price = prices.special;
-//            prices.oldPrice = prices.regular;
-//        } else if(prices.regular) {
-//            prices.price = prices.regular;
-//        }
-
-        _.each(prices, function(price, priceCode){
-            var html = priceTemplate(prices[priceCode]);
-
+            html = priceTemplate(prices[priceCode]);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
+
             console.log('To render ', priceCode,': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
         });
 
@@ -155,7 +147,6 @@ define([
                 return;
             }
             if(config.inclTaxPrice === config.productOldPrice) {
-//                this.options.prices['regular'] = {
                 this.options.prices['price'] = {
                     'amount': config.productOldPrice * (1 - config.currentTax / 100),
                     'adjustments': {
@@ -163,14 +154,12 @@ define([
                     }
                 };
             } else {
-//                this.options.prices['special'] = {
                 this.options.prices['price'] = {
                     'amount': config.exclTaxPrice,
                     'adjustments': {
                         'tax': config.exclTaxPrice * config.currentTax / 100
                     }
                 };
-//                this.options.prices['regular'] = {
                 this.options.prices['oldPrice'] = {
                     'amount': config.productOldPrice * (1 - config.currentTax / 100),
                     'adjustments': {

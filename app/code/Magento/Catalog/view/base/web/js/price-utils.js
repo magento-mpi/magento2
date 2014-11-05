@@ -117,20 +117,23 @@ define([
                 price: 0
             };
         }
-        var rightObj = {};
-        rightObj.oldPrice = {};
-        rightObj.oldPrice.amount = config.exclTaxPrice;
-        rightObj.oldPrice.adjustments = {};
-        rightObj.oldPrice.adjustments.tax = config.inclTaxPrice - config.exclTaxPrice;
+        var rightObj = {
+            oldPrice: {
+                amount: config.exclTaxPrice,
+                adjustments: {
+                    tax: config.inclTaxPrice - config.exclTaxPrice
+                }
+            }
+        };
 
         rightObj.price = rightObj.oldPrice;
-
         if(config.oldPrice  !== config.price) {
             rightObj.oldPrice = {amount: config.oldPrice};
         }
-        rightObj.priceExclTax = {};
-        rightObj.priceExclTax.amount = config.exclTaxPrice;
-        rightObj.priceExclTax.adjustments = {};
+        rightObj.priceExclTax = {
+            amount: config.exclTaxPrice,
+            adjustments: {}
+        };
 
         return rightObj;
     }
