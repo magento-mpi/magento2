@@ -21,7 +21,7 @@
     <type name="Magento\Customer\Model\Session">
         <arguments>
             <argument name="configShare" xsi:type="object">Magento\Customer\Model\Config\Share\Proxy</argument>
-            <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
+            <argument name="customerUrl" xsi:type="object">Magento\Customer\Model\Url\Proxy</argument>
             <argument name="customerResource" xsi:type="object">Magento\Customer\Model\Resource\Customer\Proxy</argument>
             <argument name="storage" xsi:type="object">Magento\Customer\Model\Session\Storage</argument>
         </arguments>
