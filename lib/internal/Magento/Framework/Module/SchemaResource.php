@@ -65,4 +65,4 @@ class SchemaResource extends Resource implements SchemaResourceInterface
     {
         return $this->_connections['read']->getTableName($this->tablePrefix . self::MAIN_TABLE);
     }
-} 
+}
