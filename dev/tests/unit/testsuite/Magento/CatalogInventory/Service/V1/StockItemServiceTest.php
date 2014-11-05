@@ -37,9 +37,9 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
     protected $stockItemBuilder;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productLoader;
+    protected $productRepository;
 
     protected function setUp()
     {
@@ -55,7 +55,7 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoader')
+        $this->productRepository = $this->getMockBuilder('Magento\Catalog\Api\ProductRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -66,7 +66,7 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
                 'stockItemRegistry' => $this->stockItemRegistry,
                 'config' => $this->config,
                 'stockItemBuilder' => $this->stockItemBuilder,
-                'productLoader' => $this->productLoader
+                'productRepository' => $this->productRepository
             ]
         );
     }
@@ -358,8 +358,8 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
         $stockItem->expects($this->any())->method('getData')->will($this->returnValue($stockItemData));
 
-        $this->productLoader->expects($this->any())->method('load')
-            ->will($this->returnValueMap([[$productSku, $product]]));
+        $this->productRepository->expects($this->any())->method('get')
+            ->will($this->returnValueMap([[$productSku, false, $product]]));
 
         $this->stockItemRegistry->expects($this->any())->method('retrieve')
             ->will($this->returnValueMap([[$productId, $stockItem]]));
@@ -398,14 +398,14 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetStockItemBySkuWithException($productSku, $productId)
     {
         // 1. Get mocks
-        /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        /** @var \PHPUnit_Framework_MockObject_MockObject $product */
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->getMock();
 
         // 2. Set fixtures
-        $this->productLoader->expects($this->any())->method('load')
-            ->will($this->returnValueMap([[$productSku, $product]]));
+        $this->productRepository->expects($this->any())->method('get')
+            ->will($this->returnValueMap([[$productSku, false, $product]]));
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
         // 3. Run tested method
@@ -474,8 +474,8 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $stockItem->expects($this->any())->method('save')->will($this->returnSelf());
         $stockItem->expects($this->any())->method('getId')->will($this->returnValue($savedStockItemId));
 
-        $this->productLoader->expects($this->any())->method('load')
-            ->will($this->returnValueMap([[$productSku, $product]]));
+        $this->productRepository->expects($this->any())->method('get')
+            ->will($this->returnValueMap([[$productSku, false, $product]]));
 
         $this->stockItemRegistry->expects($this->any())->method('retrieve')
             ->will($this->returnValueMap([[$productId, $stockItem]]));
@@ -541,8 +541,8 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         // 2. Set fixtures
-        $this->productLoader->expects($this->any())->method('load')
-            ->will($this->returnValueMap([[$productSku, $product]]));
+        $this->productRepository->expects($this->any())->method('get')
+            ->will($this->returnValueMap([[$productSku, false, $product]]));
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
         // 3. Run tested method

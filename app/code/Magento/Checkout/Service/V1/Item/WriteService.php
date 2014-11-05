@@ -26,22 +26,22 @@ class WriteService implements WriteServiceInterface
     /**
      * Product loader.
      *
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $productLoader;
+    protected $productRepository;
 
     /**
      * Constructs a write service object.
      *
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository Quote repository.
-     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader Product loader.
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
-        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         $this->quoteRepository = $quoteRepository;
-        $this->productLoader = $productLoader;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -63,7 +63,7 @@ class WriteService implements WriteServiceInterface
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteRepository->get($cartId);
 
-        $product = $this->productLoader->load($data->getSku());
+        $product = $this->productRepository->get($data->getSku());
 
         try {
             $quote->addProduct($product, $qty);
