@@ -29,24 +29,16 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $coreData;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $accountService;
-
-    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
         array $data = array()
     ) {
         $this->coreData = $coreData;
-        $this->accountService = $accountService;
         parent::__construct(
             $context,
             $data
@@ -175,7 +167,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return $this->_scopeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->getValue(
+            \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -185,7 +180,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_scopeConfig->isSetFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
