@@ -2048,4 +2048,13 @@ return array(
     ['getLoginPostUrl', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getLoginPostUrl'],
     ['getLoginUrl', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getLoginUrl'],
     ['getLoginUrlParams', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getLoginUrlParams'],
+    ['getMerchantCountryCode', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getMerchantCountryCode'],
+    ['getMerchantVatNumber', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getMerchantVatNumber'],
+    ['getCustomerGroupIdBasedOnVatNumber', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getCustomerGroupIdBasedOnVatNumber'],
+    ['checkVatNumber', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::checkVatNumber'],
+    ['createVatNumberValidationSoapClient', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::createVatNumberValidationSoapClient'],
+    ['canCheckVatNumber', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::canCheckVatNumber'],
+    ['getCustomerVatClass', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getCustomerVatClass'],
+    ['isCountryInEU', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::isCountryInEU'],
+    ['getDefaultCustomerGroupId', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getDefaultCustomerGroupId'],
 );

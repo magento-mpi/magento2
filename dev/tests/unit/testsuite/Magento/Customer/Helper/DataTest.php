@@ -37,7 +37,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $scopeConfigMock;
 
-    /** @var \Magento\Customer\Helper\Data */
+    /** @var \Magento\Customer\Model\Vat */
     protected $model;
 
     public function setUp()
@@ -206,12 +206,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'scopeConfig' => $this->scopeConfigMock
         );
-        $this->model = $objectManagerHelper->getObject('Magento\Customer\Helper\Data', $arguments);
+        $this->model = $objectManagerHelper->getObject('Magento\Customer\Model\Vat', $arguments);
 
         $this->scopeConfigMock->expects($this->once())
             ->method('isSetFlag')
             ->with(
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_GROUP_AUTO_ASSIGN,
+                \Magento\Customer\Model\Vat::XML_PATH_CUSTOMER_GROUP_AUTO_ASSIGN,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store'
             )->will($this->returnValue(false));
@@ -254,43 +254,43 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'scopeConfig' => $this->scopeConfigMock
         ];
-        $this->model = $objectManagerHelper->getObject('Magento\Customer\Helper\Data', $arguments);
+        $this->model = $objectManagerHelper->getObject('Magento\Customer\Model\Vat', $arguments);
 
         $this->scopeConfigMock->expects($this->once())
             ->method('isSetFlag')
             ->with(
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_GROUP_AUTO_ASSIGN,
+                \Magento\Customer\Model\Vat::XML_PATH_CUSTOMER_GROUP_AUTO_ASSIGN,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store'
             )->will($this->returnValue(true));
 
         $configMap = [
             [
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_VIV_DOMESTIC_GROUP,
+                \Magento\Customer\Model\Vat::XML_PATH_CUSTOMER_VIV_DOMESTIC_GROUP,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store',
                 $vatDomestic
             ],
             [
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_VIV_INTRA_UNION_GROUP,
+                \Magento\Customer\Model\Vat::XML_PATH_CUSTOMER_VIV_INTRA_UNION_GROUP,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store',
                 $vatIntra
             ],
             [
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_VIV_INVALID_GROUP,
+                \Magento\Customer\Model\Vat::XML_PATH_CUSTOMER_VIV_INVALID_GROUP,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store',
                 $vatInvalid
             ],
             [
-                \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_VIV_ERROR_GROUP,
+                \Magento\Customer\Model\Vat::XML_PATH_CUSTOMER_VIV_ERROR_GROUP,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store',
                 $vatError
             ],
             [
-                \Magento\Customer\Helper\Data::XML_PATH_MERCHANT_COUNTRY_CODE,
+                \Magento\Customer\Model\Vat::XML_PATH_MERCHANT_COUNTRY_CODE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 'store',
                 $merchantCountryCode

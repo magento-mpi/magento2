@@ -22,7 +22,7 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerDataMock;
+    protected $customerVatMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -47,21 +47,13 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
-        $this->customerDataMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
-        $this->customerDataMock->expects(
-            $this->any()
-        )->method(
-            'getMerchantCountryCode'
-        )->will(
-            $this->returnValue('merchantCountryCode')
-        );
-        $this->customerDataMock->expects(
-            $this->any()
-        )->method(
-            'getMerchantVatNumber'
-        )->will(
-            $this->returnValue('merchantVatNumber')
-        );
+        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', array(), array(), '', false);
+        $this->customerVatMock->expects($this->any())
+            ->method('getMerchantCountryCode')
+            ->willReturn('merchantCountryCode');
+        $this->customerVatMock->expects($this->any())
+            ->method('getMerchantVatNumber')
+            ->willReturn('merchantVatNumber');
 
         $this->storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
@@ -128,13 +120,13 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->model = new \Magento\Sales\Model\Observer\Frontend\Quote\Address\VatValidator(
             $this->customerAddressMock,
-            $this->customerDataMock
+            $this->customerVatMock
         );
     }
 
     public function testValidateWithDisabledValidationOnEachTransaction()
     {
-        $this->customerDataMock->expects($this->never())->method('checkVatNumber');
+        $this->customerVatMock->expects($this->never())->method('checkVatNumber');
 
         $this->customerAddressMock->expects(
             $this->once()
@@ -172,7 +164,7 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWithEnabledValidationOnEachTransaction()
     {
-        $this->customerDataMock->expects(
+        $this->customerVatMock->expects(
             $this->once()
         )->method(
             'checkVatNumber'
@@ -221,7 +213,7 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWithDifferentCountryIdAndValidatedCountryCode()
     {
-        $this->customerDataMock->expects(
+        $this->customerVatMock->expects(
             $this->once()
         )->method(
             'checkVatNumber'
@@ -264,7 +256,7 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWithDifferentVatNumberAndValidatedVatNumber()
     {
-        $this->customerDataMock->expects(
+        $this->customerVatMock->expects(
             $this->once()
         )->method(
             'checkVatNumber'
