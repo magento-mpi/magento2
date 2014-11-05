@@ -31,7 +31,7 @@ class CategoryLinkManagementTest extends \PHPUnit_Framework_TestCase
     {
         $this->categoryRepositoryMock = $this->getMock('\Magento\Catalog\Model\CategoryRepository', [], [], '', false);
         $this->productLinkBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\CategoryProductLinkInterfaceBuilder',
+            '\Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder',
             ['populateWithArray', 'create'],
             [],
             '',

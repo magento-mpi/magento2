@@ -31,7 +31,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     protected $linkInitializerMock;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $productLinkBuilderMock;
 
@@ -64,7 +64,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->productLinkBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\ProductLinkInterfaceBuilder',
+            '\Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder',
             [],
             [],
             '',
