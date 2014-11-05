@@ -42,24 +42,32 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     protected $productResource;
 
     /**
+     * @var \Magento\Framework\Service\Data\AttributeValueBuilder
+     */
+    protected $valueBuilder;
+
+    /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param CollectionProvider $collectionProvider
      * @param Data\ProductLinkInterfaceDataBuilder $productLinkBuilder
      * @param LinksInitializer $linkInitializer
      * @param \Magento\Catalog\Model\Resource\Product $productResource
+     * @param \Magento\Framework\Service\Data\AttributeValueBuilder $valueBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
         CollectionProvider $collectionProvider,
         \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder $productLinkBuilder,
         LinksInitializer $linkInitializer,
-        \Magento\Catalog\Model\Resource\Product $productResource
+        \Magento\Catalog\Model\Resource\Product $productResource,
+        \Magento\Framework\Service\Data\AttributeValueBuilder $valueBuilder
     ) {
         $this->productRepository = $productRepository;
         $this->entityCollectionProvider = $collectionProvider;
         $this->productLinkBuilder = $productLinkBuilder;
         $this->productResource = $productResource;
         $this->linkInitializer = $linkInitializer;
+        $this->valueBuilder = $valueBuilder;
     }
 
     /**
@@ -76,9 +84,15 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
                 ProductLinkInterface::LINK_TYPE => $type,
                 ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
                 ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
-                ProductLinkInterface::POSITION => $item['position']
+                ProductLinkInterface::POSITION => $item['position'],
             ];
-            $output[] = $this->productLinkBuilder->populateWithArray($data)->create();
+            $this->productLinkBuilder->populateWithArray($data);
+            foreach ($item['custom_attributes'] as $option) {
+                $this->productLinkBuilder->setCustomAttribute(
+                    $this->valueBuilder->populateWithArray($option)->create()
+                );
+            }
+            $output[] = $this->productLinkBuilder->create();
         }
         return $output;
     }

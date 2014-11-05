@@ -62,6 +62,9 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
         $links = $this->entityCollectionProvider->getCollection($product, $entity->getLinkType());
 
         $data = $entity->__toArray();
+        foreach ($entity->getCustomAttributes() as $attribute) {
+            $data[$attribute->getAttributeCode()] = $attribute->getValue();
+        }
         $data['product_id'] = $linkedProduct->getId();
         $links[$linkedProduct->getId()] = $data;
         $this->linkInitializer->initializeLinks($product, [$entity->getLinkType() => $links]);

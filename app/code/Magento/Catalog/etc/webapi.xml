@@ -350,13 +350,13 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku/links/:type" method="POST">
-        <service class="Magento\Catalog\Api\ProductLinkManagementInterface" method="setProductLinks"/>
+        <service class="Magento\Catalog\Api\ProductLinkRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
     <route url="/V1/products/:productSku/links/:type/:linkedProductSku" method="DELETE">
-        <service class="Magento\Catalog\Api\ProductLinkRepositoryInterface" method="deleteById"/>
+        <service class="Magento\Catalog\Api\ProductLinkRepositoryInterface" method="delete"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

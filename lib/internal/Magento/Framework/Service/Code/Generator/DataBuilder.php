@@ -53,7 +53,7 @@ class DataBuilder extends EntityAbstract
                 'tags' => [['name' => 'param', 'description' => '\Magento\Framework\ObjectManager $objectManager']]
             ],
             'body' => "parent::__construct(\$objectManager, "
-            . "'" . $this->_getSourceClassName() . "Interface');"
+            . "'" . $this->_getSourceClassName() . "');"
         ];
 
         return $constructorDefinition;
@@ -110,7 +110,7 @@ class DataBuilder extends EntityAbstract
     {
         $propertyName = substr($method->getName(), 3);
 
-        $returnType = (new ClassReflection($this->_getSourceClassName() . 'Interface'))
+        $returnType = (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
             ->getDocBlock()
             ->getTag('return')

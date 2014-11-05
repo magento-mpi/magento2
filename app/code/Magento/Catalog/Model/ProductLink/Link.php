@@ -104,7 +104,7 @@ class Link
      */
     public function getLinkedProductType()
     {
-        return $this->_get(self::LINKED_PRODUCT_SKU);
+        return $this->_get(self::LINKED_PRODUCT_TYPE);
     }
 
     /**
