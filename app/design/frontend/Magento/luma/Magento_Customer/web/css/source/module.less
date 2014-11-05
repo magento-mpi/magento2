@@ -120,6 +120,15 @@
     }
 }
 
+// checkout address (create shipping address)
+.field.street {
+    .field.additional {
+        .label {
+            &:extend(.abstract-visually-hidden all);
+        }
+    }
+}
+
 //
 //    Blocks & Widgets
 //--------------------------------------
@@ -316,7 +325,7 @@
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
         .page.messages {
-            margin-bottom: 40px;
+            margin-bottom: @indent-xl-base;
         }
         .block-collapsible-nav {
             margin-top: -21px;
