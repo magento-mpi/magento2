@@ -5,10 +5,11 @@
  * @license     {license_link}
  */
 define([
+    'mage/utils',
     'Magento_Ui/js/form/component',
     'underscore',
     'Magento_Ui/js/lib/registry/registry'
-], function (Component, _, registry) {
+], function (utils, Component, _, registry) {
     'use strict';
 
     var __super__ = Component.prototype;
@@ -18,31 +19,26 @@ define([
         template: 'ui/form/components/collection'
     };
 
+    var childTemplate = {
+        template:   "{name}.{itemTemplate}",
+        parent:     "{name}",
+        name:       "{childName}",
+        dataScope:  "{childName}"
+    };
+
     return Component.extend({
         initialize: function () {
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
 
-            this.initChildTemplate()
-                .initChildren();
+            this.initChildren();
         },
 
         initElement: function (elem) {
             __super__.initElement.apply(this, arguments);
 
             elem.activate();
-        },
-
-        initChildTemplate: function () {
-            var template = this.name + '.' + this.itemTemplate;
-
-            this.childTemplate = {
-                template:   template,
-                parent:     this.name
-            };
-
-            return this;
         },
 
         initChildren: function () {
@@ -63,13 +59,12 @@ define([
                 index = 'new_' + this.lastIndex;
             }
 
-            _.extend(this.childTemplate, {
-                name:       index,
-                dataScope:  index
-            });
+            this.childName = index;
 
             this.renderer.render({
-                layout: [this.childTemplate]
+                layout: [
+                    utils.template(childTemplate, this)
+                ]
             });
 
             this.lastIndex++;
