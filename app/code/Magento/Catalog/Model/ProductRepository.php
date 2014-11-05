@@ -114,7 +114,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             if ($editMode) {
                 $product->setData('_edit_mode', true);
             }
-            $product->load($productId);
+            $this->resourceModel->load($product, $productId);
             $this->instances[$sku] = $product;
         }
         return $this->instances[$sku];

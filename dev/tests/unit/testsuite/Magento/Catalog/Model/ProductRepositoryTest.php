@@ -80,7 +80,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->productMock));
         $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue('test_id'));
-        $this->productMock->expects($this->once())->method('load')->with('test_id');
+        $this->resourceModelMock->expects($this->once())->method('load')->with($this->productMock, 'test_id');
         $this->assertEquals($this->productMock, $this->model->get('test_sku'));
     }
 
@@ -91,7 +91,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('setData')->with('_edit_mode', true);
-        $this->productMock->expects($this->once())->method('load')->with('test_id');
+        $this->resourceModelMock->expects($this->once())->method('load')->with($this->productMock, 'test_id');
         $this->assertEquals($this->productMock, $this->model->get('test_sku', true));
     }
 
@@ -173,7 +173,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->productMock));
         $this->productMock->expects($this->once())->method('getIdBySku')->with($sku)
             ->will($this->returnValue('42'));
-        $this->productMock->expects($this->once())->method('load')->with('42');
+        $this->resourceModelMock->expects($this->once())->method('load')->with($this->productMock, '42');
         $this->assertTrue($this->model->deleteById($sku));
     }
 }
