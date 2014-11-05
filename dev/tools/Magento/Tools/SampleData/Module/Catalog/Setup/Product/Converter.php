@@ -72,7 +72,7 @@ class Converter
         $this->eavConfig = $eavConfig;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
-        $this->productCollection = $productCollection->removeAllItems()->addAttributeToSelect('sku');
+        $this->productCollection = $productCollection->removeAllItems()->clear()->addAttributeToSelect('sku');
     }
 
     /**
