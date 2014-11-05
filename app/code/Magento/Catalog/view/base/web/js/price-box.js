@@ -168,9 +168,7 @@ define([
                 };
             }
             if(config.plusDisposition) {
-                _.map(this.options.prices, function(e){
-                    e.adjustments.weee = config.plusDisposition;
-                });
+                this.options.prices.price.adjustments.weee = config.plusDisposition;
             }
             if(config.exclTaxPrice) {
                 this.options.prices['priceExclTax'] = {
@@ -178,6 +176,7 @@ define([
                     'adjustments': {}
                 };
             }
+            console.log(config, this.options.prices);
         }
     }
 });
