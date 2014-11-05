@@ -9,8 +9,7 @@
 namespace Magento\Shipping\Test\Block\Order;
 
 /**
- * Class PrintOrder
- * Print Order block
+ * Print Order block.
  */
 class PrintOrder extends \Magento\Sales\Test\Block\Order\PrintOrder
 {

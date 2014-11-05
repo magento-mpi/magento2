@@ -8,11 +8,10 @@
 
 namespace Magento\Shipping\Test\Constraint;
 
-use Magento\Sales\Test\Page\SalesGuestPrint;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Sales\Test\Page\SalesGuestPrint;
 
 /**
- * Class AssertShippingMethodOnPrintOrder
  * Assert that shipping method was printed correctly on sales guest print page.
  */
 class AssertShippingMethodOnPrintOrder extends AbstractConstraint
@@ -35,8 +34,7 @@ class AssertShippingMethodOnPrintOrder extends AbstractConstraint
     {
         $shippingBlock = $salesGuestPrint->getPrintOrderShipping()->getShippingMethodBlock();
         \PHPUnit_Framework_Assert::assertTrue(
-            $shippingBlock->isShippingMethodVisible($shippingMethod),
-            "Shipping method was printed incorrect."
+            $shippingBlock->isShippingMethodVisible($shippingMethod)
         );
 
     }

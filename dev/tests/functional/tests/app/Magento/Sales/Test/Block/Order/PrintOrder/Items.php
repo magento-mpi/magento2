@@ -12,8 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Items
- * Items block on order's print page
+ * Items block on order's print page.
  */
 class Items extends Block
 {
@@ -27,11 +26,14 @@ class Items extends Block
     /**
      * Check if item is visible in print order page.
      *
-     * @param string $itemName
+     * @param \Mtf\Fixture\InjectableFixture $product
      * @return bool
      */
-    public function isItemVisible($itemName)
+    public function isItemVisible($product)
     {
-        return $this->_rootElement->find(sprintf($this->itemSelector, $itemName), Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(
+            sprintf($this->itemSelector, $product->getName()),
+            Locator::SELECTOR_XPATH
+        )->isVisible();
     }
 }

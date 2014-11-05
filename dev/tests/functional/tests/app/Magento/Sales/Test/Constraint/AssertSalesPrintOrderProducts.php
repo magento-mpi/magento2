@@ -8,12 +8,10 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesGuestPrint;
 
 /**
- * Class AssertSalesPrintOrderProducts
  * Assert that products printed correctly on sales guest print page.
  */
 class AssertSalesPrintOrderProducts extends AbstractConstraint
@@ -21,7 +19,7 @@ class AssertSalesPrintOrderProducts extends AbstractConstraint
     /**
      * Template for error message.
      */
-    const ERROR_MESSAGE = "Product with name: '%s' was not found on sales guest print page.";
+    const ERROR_MESSAGE = "Product with name: '%s' was not found on sales guest print page.\n";
 
     /**
      * Constraint severeness.
@@ -34,19 +32,19 @@ class AssertSalesPrintOrderProducts extends AbstractConstraint
      * Assert that products printed correctly on sales guest print page.
      *
      * @param SalesGuestPrint $salesGuestPrint
-     * @param FixtureInterface[] $products
+     * @param \Mtf\Fixture\InjectableFixture[] $products
      * @return void
      */
     public function processAssert(SalesGuestPrint $salesGuestPrint, array $products)
     {
-        $errors = [];
+        $errors = '';
         foreach ($products as $product) {
-            if (!$salesGuestPrint->getPrintOrder()->getItemsBlock()->isItemVisible($product->getName())) {
-                $errors[] = sprintf(self::ERROR_MESSAGE, $product->getName());
+            if (!$salesGuestPrint->getPrintOrder()->getItemsBlock()->isItemVisible($product)) {
+                $errors .= sprintf(self::ERROR_MESSAGE, $product->getName());
             }
         }
 
-        \PHPUnit_Framework_Assert::assertEmpty($errors, implode("\n", $errors));
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**

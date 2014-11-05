@@ -41,15 +41,7 @@ class RmaTest extends Functional
         $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
         $returnItem->prepareData($payPalExpressOrder);
         $searchForm = Factory::getPageFactory()->getSalesGuestForm()->getSearchForm();
-        $orderInfo = [
-            'order_id' => $returnItem->getData('order_id'),
-            'billing_last_name' => $returnItem->getData('billing_last_name'),
-            'find_order_by' => $returnItem->getData('find_order_by'),
-            'email_address' => $returnItem->getData('email_address'),
-        ];
-        $searchForm->fillForm($orderInfo);
-
-
+        $searchForm->fill($returnItem);
 
         // Step 4: Click "Continue"
         $searchForm->submit();

@@ -10,22 +10,22 @@ namespace Magento\GiftCardAccount\Test\Block\Adminhtml\Sales\Order\Create;
 
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
- * Class Payment
- * Gift card account block in order new page
+ * Gift card account block in order new page.
  */
 class Payment extends Form
 {
     /**
-     * Selector for "Add Gift Card" button
+     * Selector for "Add Gift Card" button.
      *
      * @var string
      */
     protected $addGiftCardButton = "//button[preceding::input[contains(@id, 'giftcardaccount')]]";
 
     /**
-     * Click "Add Gift Card" button
+     * Click "Add Gift Card" button.
      *
      * @return void
      */
@@ -35,12 +35,12 @@ class Payment extends Form
     }
 
     /**
-     * Apply gift card account on order new page
+     * Apply gift card account on order new page.
      *
-     * @param \Magento\GiftCardAccount\Test\Fixture\GiftCardAccount $giftCard
+     * @param GiftCardAccount $giftCard
      * @return void
      */
-    public function applyGiftCardAccount($giftCard)
+    public function applyGiftCardAccount(GiftCardAccount $giftCard)
     {
         $this->fill($giftCard);
         $this->clickAddGiftCard();

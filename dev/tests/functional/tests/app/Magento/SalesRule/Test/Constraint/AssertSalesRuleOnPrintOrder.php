@@ -12,7 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesGuestPrint;
 
 /**
- * Class AssertSalesRuleOnPrintOrder
  * Assert that sales rule amount printed correctly on sales guest print page.
  */
 class AssertSalesRuleOnPrintOrder extends AbstractConstraint
@@ -33,11 +32,9 @@ class AssertSalesRuleOnPrintOrder extends AbstractConstraint
      */
     public function processAssert(SalesGuestPrint $salesGuestPrint, $salesRuleDiscount)
     {
-        $test = 5;
         \PHPUnit_Framework_Assert::assertEquals(
             $salesRuleDiscount,
-            $salesGuestPrint->getPrintOrderSalesRule()->getSalesRuleBlock()->getSalesRuleDiscount(),
-            "Sales rule amount not equals."
+            $salesGuestPrint->getPrintOrderSalesRule()->getSalesRuleBlock()->getSalesRuleDiscount()
         );
     }
 

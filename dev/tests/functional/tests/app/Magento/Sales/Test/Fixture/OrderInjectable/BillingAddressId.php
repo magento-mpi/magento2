@@ -8,40 +8,37 @@
 
 namespace Magento\Sales\Test\Fixture\OrderInjectable;
 
-use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
- * Class BillingAddressId
- * Billing address data
+ * Billing address data.
  */
 class BillingAddressId implements FixtureInterface
 {
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Current preset
+     * Current preset.
      *
      * @var string
      */
     protected $currentPreset;
 
     /**
-     * Constructor
-     *
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $data
@@ -68,7 +65,7 @@ class BillingAddressId implements FixtureInterface
     }
 
     /**
-     * Persist order products
+     * Persist order products.
      *
      * @return void
      */
@@ -78,7 +75,7 @@ class BillingAddressId implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string $key [optional]
      * @return mixed
@@ -91,7 +88,7 @@ class BillingAddressId implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return array
      */

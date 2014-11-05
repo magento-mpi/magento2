@@ -11,8 +11,7 @@ namespace Magento\GiftCardAccount\Test\Block\Sales\Order\PrintOrder;
 use Magento\Sales\Test\Block\Order\PrintOrder\Totals;
 
 /**
- * Class GiftCards
- * Gift card account total block in print order
+ * Gift card account total block in print order.
  */
 class GiftCards extends Totals
 {

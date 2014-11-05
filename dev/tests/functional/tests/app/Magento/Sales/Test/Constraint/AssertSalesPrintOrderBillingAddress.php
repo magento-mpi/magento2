@@ -13,7 +13,6 @@ use Magento\Sales\Test\Page\SalesGuestPrint;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
- * Class AssertSalesPrintOrderBillingAddress
  * Assert that BillingAddress printed correctly on sales guest print page.
  */
 class AssertSalesPrintOrderBillingAddress extends AbstractConstraint
@@ -41,8 +40,7 @@ class AssertSalesPrintOrderBillingAddress extends AbstractConstraint
         $expectedBillingAddress = $addressRenderer->render();
         \PHPUnit_Framework_Assert::assertEquals(
             $expectedBillingAddress,
-            $salesGuestPrint->getPrintOrder()->getBillingAddressBlock()->getBillingAddress(),
-            "Billing address was printed incorrectly."
+            $salesGuestPrint->getPrintOrder()->getBillingAddressBlock()->getBillingAddress()
         );
     }
 

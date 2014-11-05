@@ -13,7 +13,6 @@ use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
- * Class ApplyGiftCardAccountOnBackendStep
  * Apply Gift Card Account on backend order creation.
  */
 class ApplyGiftCardAccountOnBackendStep implements TestStepInterface

@@ -11,8 +11,7 @@ namespace Magento\Sales\Test\Block\Order\PrintOrder;
 use Mtf\Block\Block;
 
 /**
- * Class Totals
- * Totals block on order's print page
+ * Totals block on order's print page.
  */
 class Totals extends Block
 {

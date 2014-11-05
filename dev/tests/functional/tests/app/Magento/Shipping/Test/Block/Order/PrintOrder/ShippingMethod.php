@@ -12,7 +12,6 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class ShippingMethod
  * Shipping Method block on order's print page.
  */
 class ShippingMethod extends Block

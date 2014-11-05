@@ -11,26 +11,26 @@ namespace Magento\Customer\Test\Block\Address;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
- * Class Renderer
- * Render output from AddressInjectable fixture according to data format type
+ * Render output from AddressInjectable fixture according to data format type.
  */
 class Renderer
 {
     /**
-     * Address format type
+     * Address format type.
      *
      * @var string
      */
     protected $type;
 
     /**
-     * AddressInjectable fixture
+     * AddressInjectable fixture.
      *
      * @var AddressInjectable
      */
     protected $address;
 
     /**
+     * @constructor
      * @param AddressInjectable $address
      * @param string $type
      */
@@ -41,7 +41,7 @@ class Renderer
     }
 
     /**
-     * Returns pattern according to address type
+     * Returns pattern according to address type.
      *
      * @return string
      */
@@ -66,7 +66,7 @@ class Renderer
     }
 
     /**
-     * Render address according to format type
+     * Render address according to format type.
      *
      * @return string
      */
@@ -86,7 +86,7 @@ class Renderer
     }
 
     /**
-     * Get an array of necessary fields from pattern
+     * Get an array of necessary fields from pattern.
      *
      * @param string $outputPattern
      * @return mixed
@@ -104,7 +104,7 @@ class Renderer
     }
 
     /**
-     * Purge fields from pattern which are not present in fixture
+     * Purge fields from pattern which are not present in fixture.
      *
      * @return string
      */
@@ -124,7 +124,7 @@ class Renderer
     }
 
     /**
-     * Check necessary field to retrieve according to address country
+     * Check necessary field to retrieve according to address country.
      *
      * @return string
      */

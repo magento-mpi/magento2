@@ -11,8 +11,7 @@ namespace Magento\Sales\Test\Block\Order\PrintOrder;
 use Mtf\Block\Block;
 
 /**
- * Class BillingAddress
- * Billing Address block on order's print page
+ * Billing Address block on order's print page.
  */
 class BillingAddress extends Block
 {

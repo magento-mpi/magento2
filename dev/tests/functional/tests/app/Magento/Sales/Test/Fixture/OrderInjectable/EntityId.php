@@ -12,35 +12,32 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class EntityId
- * EntityId data
+ * EntityId data.
  */
 class EntityId implements FixtureInterface
 {
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Current preset
+     * Current preset.
      *
      * @var string
      */
     protected $currentPreset;
 
     /**
-     * Constructor
-     *
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $data
@@ -75,7 +72,7 @@ class EntityId implements FixtureInterface
     }
 
     /**
-     * Persist order products
+     * Persist order products.
      *
      * @return void
      */
@@ -85,7 +82,7 @@ class EntityId implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string $key [optional]
      * @return mixed
@@ -98,7 +95,7 @@ class EntityId implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return string
      */

@@ -13,8 +13,7 @@ use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\SalesGuestView;
 
 /**
- * Class PrintOrderOnFrontendStep
- * Click on "Print Order" button
+ * Click on "Print Order" button.
  */
 class PrintOrderOnFrontendStep implements TestStepInterface
 {

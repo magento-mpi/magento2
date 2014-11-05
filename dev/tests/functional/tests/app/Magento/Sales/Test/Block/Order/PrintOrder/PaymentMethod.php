@@ -12,8 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class PaymentMethod
- * Payment Method block on order's print page
+ * Payment Method block on order's print page.
  */
 class PaymentMethod extends Block
 {

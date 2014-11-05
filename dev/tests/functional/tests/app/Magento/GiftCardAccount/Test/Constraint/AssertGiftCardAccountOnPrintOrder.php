@@ -13,7 +13,6 @@ use Magento\Sales\Test\Page\SalesGuestPrint;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
- * Class AssertGiftCardAccountOnPrintOrder
  * Assert that gift card amount printed correctly on sales guest print page.
  */
 class AssertGiftCardAccountOnPrintOrder extends AbstractConstraint
@@ -36,8 +35,7 @@ class AssertGiftCardAccountOnPrintOrder extends AbstractConstraint
     {
         \PHPUnit_Framework_Assert::assertEquals(
             number_format($giftCardAccount->getBalance(), 2),
-            $salesGuestPrint->getPrintOrderGiftCard()->getGiftCardsBlock()->getGiftCardDiscount(),
-            "Gift card amount not equals."
+            $salesGuestPrint->getPrintOrderGiftCard()->getGiftCardsBlock()->getGiftCardDiscount()
         );
     }
 

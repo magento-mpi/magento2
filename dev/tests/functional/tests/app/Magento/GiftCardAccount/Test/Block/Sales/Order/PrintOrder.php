@@ -9,8 +9,7 @@
 namespace Magento\GiftCardAccount\Test\Block\Sales\Order;
 
 /**
- * Class PrintOrder
- * Print Order block
+ * Print Order block.
  */
 class PrintOrder extends \Magento\Sales\Test\Block\Order\PrintOrder
 {

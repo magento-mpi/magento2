@@ -16,27 +16,26 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 
 /**
- * Class SubmitOrderStep
- * Submit Order
+ * Submit Order step.
  */
 class SubmitOrderStep implements TestStepInterface
 {
     /**
-     * Sales order create index page
+     * Sales order create index page.
      *
      * @var OrderCreateIndex
      */
     protected $orderCreateIndex;
 
     /**
-     * Sales order view
+     * Sales order view.
      *
      * @var OrderView
      */
     protected $orderView;
 
     /**
-     * Factory for fixtures
+     * Factory for fixtures.
      *
      * @var FixtureFactory
      */
@@ -68,7 +67,7 @@ class SubmitOrderStep implements TestStepInterface
     }
 
     /**
-     * Fill Sales Data
+     * Fill Sales Data.
      *
      * @return array
      */

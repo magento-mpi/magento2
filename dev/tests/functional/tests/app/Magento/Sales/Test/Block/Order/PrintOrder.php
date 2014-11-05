@@ -11,8 +11,7 @@ namespace Magento\Sales\Test\Block\Order;
 use Mtf\Block\Block;
 
 /**
- * Class PrintOrder
- * Print Order block
+ * Print Order block.
  */
 class PrintOrder extends Block
 {

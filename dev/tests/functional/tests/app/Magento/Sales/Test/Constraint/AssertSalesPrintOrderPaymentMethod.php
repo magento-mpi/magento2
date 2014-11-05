@@ -12,7 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesGuestPrint;
 
 /**
- * Class AssertSalesPrintOrderPaymentMethod
  * Assert that payment method was printed correctly on sales guest print page.
  */
 class AssertSalesPrintOrderPaymentMethod extends AbstractConstraint
@@ -36,7 +35,7 @@ class AssertSalesPrintOrderPaymentMethod extends AbstractConstraint
     {
         \PHPUnit_Framework_Assert::assertTrue(
             $salesGuestPrint->getPrintOrder()->getPaymentMethodBlock()->isPaymentMethodVisible($paymentMethod),
-            "Payment method was printed incorrect."
+            "Payment method was printed incorrect on sales guest print page."
         );
 
     }

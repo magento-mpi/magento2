@@ -11,7 +11,6 @@ namespace Magento\SalesRule\Test\Block\Order\PrintOrder;
 use Magento\Sales\Test\Block\Order\PrintOrder\Totals;
 
 /**
- * Class SalesRule
  * Sales Rule total block in print order.
  */
 class SalesRule extends Totals

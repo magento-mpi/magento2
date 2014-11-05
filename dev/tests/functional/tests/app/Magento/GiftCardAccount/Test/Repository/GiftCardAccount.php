@@ -11,8 +11,7 @@ namespace Magento\GiftCardAccount\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class GiftCardAccount
- * Gift card account repository
+ * Gift card account repository.
  */
 class GiftCardAccount extends AbstractRepository
 {
