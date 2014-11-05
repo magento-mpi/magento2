@@ -25,17 +25,15 @@ class Widget extends ParentWidget
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['banner_rotator_non_anchor_categories'] = [
-            'code' => 'magento_banner',
+            'code' => 'Banner Rotator',
             'title' => 'Banner Rotator %isolation%',
             'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'notanchor_categories',
                     'notanchor_categories' => [
-                        'layout_handle' => 'default',
-                        'for' => 'all',
-                        'block' => 'content',
-                        'template' => 'widget/block.phtml'
+                        'block' => 'Main Content Area',
+                        'template' => 'Banner Block Template'
                     ]
                 ]
             ],
@@ -46,7 +44,7 @@ class Widget extends ParentWidget
         ];
 
         $this->_data['banner_rotator_shoping_cart'] = [
-            'code' => 'magento_banner',
+            'code' => 'Banner Rotator',
             'title' => 'Banner Rotator %isolation%',
             'store_ids' => [
                 '0' => 'All Store Views'
@@ -55,10 +53,8 @@ class Widget extends ParentWidget
                 '0' => [
                     'page_group' => 'pages',
                     'pages' => [
-                        'layout_handle' => 'checkout_cart_index',
-                        'for' => 'all',
-                        'block' => 'content',
-                        'template' => 'widget/block.phtml'
+                        'block' => 'Main Content Area',
+                        'template' => 'Banner Block Template'
                     ]
                 ]
             ],
@@ -69,17 +65,15 @@ class Widget extends ParentWidget
         ];
 
         $this->_data['banner_rotator'] = [
-            'code' => 'magento_banner',
+            'code' => 'Banner Rotator',
             'title' => 'Banner Rotator %isolation%',
             'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
-                    'page_group' => 'all_pages',
+                    'page_group' => 'All Pages',
                     'all_pages' => [
-                        'layout_handle' => 'default',
-                        'for' => 'all',
-                        'block' => 'content',
-                        'template' => 'widget/block.phtml'
+                        'block' => 'Main Content Area',
+                        'template' => 'Banner Block Template'
                     ]
                 ]
             ],
@@ -87,7 +81,6 @@ class Widget extends ParentWidget
             'parameters' => [
                 'display_mode' => 'catalogrule'
             ],
-            //TODO 'theme_id' should be specified via UI and data source should be used
             'theme_id' => 'Magento Blank'
         ];
 
