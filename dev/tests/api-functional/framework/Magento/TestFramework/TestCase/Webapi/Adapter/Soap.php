@@ -178,7 +178,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             return '';
         } elseif (isset($serviceInfo['serviceInterface'])) {
             preg_match(
-                \Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN_DEPRECATED,
+                \Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN,
                 $serviceInfo['serviceInterface'],
                 $matches
             );

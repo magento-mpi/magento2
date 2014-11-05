@@ -30,12 +30,12 @@ interface GroupRepositoryInterface
     /**
      * Get customer group by group ID.
      *
-     * @param int $groupId
+     * @param int $id
      * @return \Magento\Customer\Api\Data\GroupInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $groupId is not found
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get($groupId);
+    public function get($id);
 
     /**
      * Retrieve customer groups.
@@ -62,11 +62,11 @@ interface GroupRepositoryInterface
     /**
      * Delete customer group by ID.
      *
-     * @param int $groupId
+     * @param int $id
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException If customer group cannot be deleted
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function deleteById($groupId);
+    public function deleteById($id);
 }

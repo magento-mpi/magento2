@@ -7,7 +7,7 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ObjectFactory;
@@ -17,7 +17,7 @@ use Magento\Framework\Api\ObjectFactory;
  *
  * @method \Magento\Tax\Service\V1\Data\TaxRule create()
  */
-class TaxRuleBuilder extends AbstractExtensibleObjectBuilder
+class TaxRuleBuilder extends ExtensibleObjectBuilder
 {
     /**
      * TaxRate builder

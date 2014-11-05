@@ -21,7 +21,10 @@ dev/tests/integration/testsuite/Magento/Test/Tools/I18n/Code/Dictionary/_files/s
 dev/tests/integration/testsuite/Magento/Test/Tools/I18n/Code/Dictionary/_files/source/app/code/Magento/SecondModule/Model/Model.php
 dev/tests/integration/testsuite/Magento/Test/Tools/I18n/Code/Dictionary/_files/source/not_magento_dir/Model.php
 dev/tests/integration/testsuite/Magento/Test/Tools/I18n/Code/Dictionary/_files/source/app/code/Magento/FirstModule/Helper/Helper.php
-dev/tests/integration/testsuite/Magento/Service/_files/Magento/Wonderland/Model/FakeAddress.php
+dev/tests/integration/testsuite/Magento/Framework/Api/_files/Magento/Wonderland/Api/Data/FakeAddressInterface.php
+dev/tests/integration/testsuite/Magento/Framework/Api/_files/Magento/Wonderland/Api/Data/FakeRegionInterface.php
+dev/tests/integration/testsuite/Magento/Framework/Api/_files/Magento/Wonderland/Model/FakeAddress.php
+dev/tests/integration/testsuite/Magento/Framework/Api/_files/Magento/Wonderland/Model/FakeRegion.php
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input/coupling.php
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input/cyclomatic_complexity.php
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input/descendant_count.php

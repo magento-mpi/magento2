@@ -16,7 +16,7 @@ use Magento\Framework\Api\AttributeValueBuilder;
  * @method ProductLink create()
  * @codeCoverageIgnore
  */
-class ProductLinkBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class ProductLinkBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @var array
@@ -38,7 +38,7 @@ class ProductLinkBuilder extends \Magento\Framework\Api\AbstractExtensibleObject
         $this->customAttributes = $customAttributesCodes;
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
     }
-    
+
     /**
      * Set type
      *

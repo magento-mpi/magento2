@@ -24,9 +24,9 @@ class Config
     /**
      * Pattern for Web API interface name.
      */
-    const SERVICE_CLASS_PATTERN_DEPRECATED = '/^(.+?)\\\\(.+?)\\\\Service\\\\(V\d+)+(\\\\.+)Interface$/';
+    const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Service\\\\(V\d+)+(\\\\.+)Interface$/';
 
-    const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Api(\\\\.+)Interface$/';
+    const API_PATTERN = '/^(.+?)\\\\(.+?)\\\\Api(\\\\.+)Interface$/';
 
     /**
      * @var WebapiCache

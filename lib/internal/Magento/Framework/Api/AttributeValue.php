@@ -15,13 +15,6 @@ use Magento\Framework\Api\AttributeInterface;
  */
 class AttributeValue extends AbstractSimpleObject implements AttributeInterface
 {
-    /**#@+
-     * Constant used as key into $_data
-     */
-    const ATTRIBUTE_CODE = 'attribute_code';
-    const VALUE = 'value';
-    /**#@-*/
-
     /**
      * Get attribute code
      *

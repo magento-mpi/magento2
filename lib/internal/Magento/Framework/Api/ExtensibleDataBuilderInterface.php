@@ -16,15 +16,16 @@ interface ExtensibleDataBuilderInterface
     /**
      * Set custom attribute value.
      *
-     * @param \Magento\Framework\Api\AttributeInterface $attribute
+     * @param string $attributeCode
+     * @param mixed $attributeValue
      * @return $this
      */
-    public function setCustomAttribute(\Magento\Framework\Api\AttributeInterface $attribute);
+    public function setCustomAttribute($attributeCode, $attributeValue);
 
     /**
      * Set array of custom attributes
      *
-     * @param \Magento\Framework\Api\AttributeValue[] $attributes
+     * @param \Magento\Framework\Api\AttributeInterface[] $attributes
      * @return $this
      * @throws \LogicException If array elements are not of AttributeValue type
      */
@@ -36,4 +37,14 @@ interface ExtensibleDataBuilderInterface
      * @return \Magento\Framework\Api\ExtensibleDataInterface
      */
     public function create();
+
+    /**
+     * Populates the fields with data from the array.
+     *
+     * Keys for the map are snake_case attribute/field names.
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function populateWithArray(array $data);
 }

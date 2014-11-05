@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedItems;
 use Mtf\Block\Block;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison;
@@ -34,6 +35,13 @@ class CustomerActivities extends Block
      * @var string
      */
     protected $reorderSidebar = '#order-sidebar_reorder';
+
+    /**
+     * Recently Viewed css selector.
+     *
+     * @var string
+     */
+    protected $recentlyViewedSidebar = '#sidebar_data_pviewed';
 
     /**
      * Order sidebar compared css selector
@@ -75,6 +83,19 @@ class CustomerActivities extends Block
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems',
             ['element' => $this->_rootElement->find($this->reorderSidebar)]
+        );
+    }
+
+    /**
+     * Get viewed products block.
+     *
+     * @return RecentlyViewedItems
+     */
+    public function getRecentlyViewedItemsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedItems',
+            ['element' => $this->_rootElement->find($this->recentlyViewedSidebar)]
         );
     }
 

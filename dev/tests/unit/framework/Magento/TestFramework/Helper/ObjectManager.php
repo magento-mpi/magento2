@@ -88,7 +88,7 @@ class ObjectManager
     protected function _getResourceModelMock()
     {
         $resourceMock = $this->_testObject->getMock(
-            'Magento\Install\Model\Resource\Resource',
+            'Magento\Framework\Module\Resource',
             array('getIdFieldName', '__sleep', '__wakeup'),
             array(),
             '',
@@ -287,7 +287,7 @@ class ObjectManager
      */
     private function _getMockObject($argClassName, array $arguments)
     {
-        if (is_subclass_of($argClassName, '\Magento\Framework\Api\AbstractExtensibleObjectBuilder')) {
+        if (is_subclass_of($argClassName, '\Magento\Framework\Api\ExtensibleObjectBuilder')) {
             $object = $this->getBuilder($argClassName, $arguments);
             return $object;
         } else {

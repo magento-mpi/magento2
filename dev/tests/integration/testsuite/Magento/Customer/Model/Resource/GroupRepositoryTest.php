@@ -13,8 +13,8 @@ use Magento\Customer\Api\Data\GroupInterface;
 /**
  * Integration test for \Magento\Customer\Model\Resource\GroupRepository
  */
-class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
-
+class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
+{
     /** The group id of the "NOT LOGGED IN" group */
     const NOT_LOGGED_IN_GROUP_ID = 0;
 
@@ -30,7 +30,6 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
     /** @var  \Magento\Framework\Api\SearchCriteriaDataBuilder */
     private $searchCriteriaBuilder;
 
-
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -39,12 +38,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
         $this->searchCriteriaBuilder = $this->objectManager->create('Magento\Framework\Api\SearchCriteriaDataBuilder');
     }
 
-    protected function tearDown()
-    {
-    }
-
     /**
-     * @param $testGroup
+     * @param array $testGroup
      * @dataProvider getGroupsDataProvider
      */
     public function testGetGroup($testGroup)
@@ -60,7 +55,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
      */
     public function getGroupsDataProvider()
     {
-        return [ [[GroupInterface::ID => 0, GroupInterface::CODE => 'NOT LOGGED IN', GroupInterface::TAX_CLASS_ID => 3]],
+        return [
+            [[GroupInterface::ID => 0, GroupInterface::CODE => 'NOT LOGGED IN', GroupInterface::TAX_CLASS_ID => 3]],
             [[GroupInterface::ID => 1, GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3]],
             [[GroupInterface::ID => 2, GroupInterface::CODE => 'Wholesale', GroupInterface::TAX_CLASS_ID => 3]],
             [[GroupInterface::ID => 3, GroupInterface::CODE => 'Retailer', GroupInterface::TAX_CLASS_ID => 3]],
@@ -69,9 +65,9 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with groupId = 9999
+     * @expectedExceptionMessage No such entity with id = 9999
      */
-    public function testGetGroup_Exception()
+    public function testGetGroupException()
     {
         $this->groupRepository->get(9999);
     }
@@ -94,7 +90,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
     /**
      * @magentoDbIsolation enabled
      */
-    public function testCreateGroup_defaultTaxClass()
+    public function testCreateGroupDefaultTaxClass()
     {
         $group = $this->groupBuilder->setId(null)->setCode('Create Group')->setTaxClassId(null)->create();
         $groupId = $this->groupRepository->save($group)->getId();
@@ -132,7 +128,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Invalid value of "9999" provided for the taxClassId field.
      */
-    public function testUpdateGroup_Exception()
+    public function testUpdateGroupException()
     {
         $group = $this->groupBuilder->setId(null)->setCode('New Group')->setTaxClassId(3)->create();
         $groupId = $this->groupRepository->save($group)->getId();
@@ -148,9 +144,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
         $updatedGroup = $this->groupRepository->get($groupId);
         $this->assertEquals($updates->getCode(), $updatedGroup->getCode());
         $this->assertEquals($updates->getTaxClassId(), $updatedGroup->getTaxClassId());
-
     }
-
 
     /**
      * @magentoDbIsolation enabled
@@ -175,16 +169,16 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with groupId = 9999
+     * @expectedExceptionMessage No such entity with id = 9999
      */
-    public function testDelete_doesNotExist()
+    public function testDeleteDoesNotExist()
     {
         $this->assertFalse($this->groupRepository->deleteById(9999));
     }
 
     /**
-     * @param Filter[] $filters
-     * @param Filter[] $filterGroup
+     * @param array $filters
+     * @param array $filterGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchGroupsDataProvider
@@ -251,6 +245,4 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase {
             ],
         ];
     }
-
-
 }

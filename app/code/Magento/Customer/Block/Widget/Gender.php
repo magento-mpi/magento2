@@ -83,7 +83,7 @@ class Gender extends AbstractWidget
     /**
      * Get current customer from session using the customer service
      *
-*@return CustomerInterface
+     * @return CustomerInterface
      */
     public function getCustomer()
     {

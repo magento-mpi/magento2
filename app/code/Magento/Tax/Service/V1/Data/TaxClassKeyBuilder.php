@@ -7,14 +7,14 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Builder for the TaxClassKey Service Data Object
  *
  * @method TaxClassKey create()
  */
-class TaxClassKeyBuilder extends AbstractExtensibleObjectBuilder
+class TaxClassKeyBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Set type of tax class key

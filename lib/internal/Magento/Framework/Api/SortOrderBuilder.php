@@ -8,14 +8,14 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Builder for sort order data object.
  *
  * @method SortOrder create()
  */
-class SortOrderBuilder extends AbstractExtensibleObjectBuilder
+class SortOrderBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Set sorting field.

@@ -8,12 +8,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Product;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class GroupPriceBuilder extends AbstractExtensibleObjectBuilder
+class GroupPriceBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Set customer group id

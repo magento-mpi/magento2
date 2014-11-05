@@ -40,7 +40,7 @@ interface CustomerRepositoryInterface
     /**
      * Retrieve customer.
      *
-     * @param string $customerId
+     * @param int $customerId
      * @param int|null $websiteId
      * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with the specified ID does not exist.

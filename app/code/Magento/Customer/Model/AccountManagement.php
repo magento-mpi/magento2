@@ -37,7 +37,7 @@ use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String as StringHelper;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
-use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Framework\Reflection\DataObjectProcessor;
 
 /**
  * Handle various customer account actions
@@ -1076,7 +1076,8 @@ class AccountManagement implements AccountManagementInterface
      */
     protected function getFullCustomerObject($customer)
     {
-        // TODO: Fix flattening of custom attribute codes
+        // No need to flatten the custom attributes or nested objects since the only usage is for email templates and
+        // object passed for events
         $mergedCustomerData = $this->customerRegistry->retrieveSecureData($customer->getId());
         $customerData = $this->dataProcessor
             ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');

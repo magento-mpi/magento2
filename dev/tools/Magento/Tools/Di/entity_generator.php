@@ -14,6 +14,7 @@ use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Framework\Interception\Code\Generator\Interceptor;
 use Magento\Framework\Exception;
 use Magento\Framework\Api\Code\Generator\Builder;
+use Magento\Framework\Api\Code\Generator\DataBuilder;
 use Magento\Framework\Api\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\ObjectManager\Code\Generator\Converter;
@@ -77,6 +78,7 @@ $generator = new Generator(
     null,
     $io,
     [
+        DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
         SearchResultsBuilder::ENTITY_TYPE =>
             'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
         Proxy::ENTITY_TYPE =>

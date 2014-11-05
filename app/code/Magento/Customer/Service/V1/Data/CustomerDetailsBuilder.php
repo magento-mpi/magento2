@@ -9,14 +9,14 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Class CustomerDetailsBuilder
  */
-class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
+class CustomerDetailsBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Customer builder
@@ -105,11 +105,11 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
      */
     public function create()
     {
-        if (!isset($this->_data[CustomerDetails::KEY_CUSTOMER])) {
-            $this->_data[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->create();
+        if (!isset($this->data[CustomerDetails::KEY_CUSTOMER])) {
+            $this->data[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->create();
         }
-        if (!isset($this->_data[CustomerDetails::KEY_ADDRESSES])) {
-            $this->_data[CustomerDetails::KEY_ADDRESSES] = null;
+        if (!isset($this->data[CustomerDetails::KEY_ADDRESSES])) {
+            $this->data[CustomerDetails::KEY_ADDRESSES] = null;
         }
         return parent::create();
     }

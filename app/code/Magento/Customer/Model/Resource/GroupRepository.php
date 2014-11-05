@@ -20,7 +20,8 @@ use Magento\Tax\Service\V1\TaxClassServiceInterface;
 /**
  * Customer group CRUD class
  */
-class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface {
+class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
+{
 
     /**
      * The default tax class id if no tax class id is specified
@@ -48,7 +49,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     protected $groupResourceModel;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
     protected $dataObjectProcessor;
 
@@ -67,7 +68,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder
      * @param \Magento\Customer\Model\Resource\Group $groupResourceModel
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Customer\Api\Data\GroupSearchResultsDataBuilder $searchResultsBuilder
      * @param TaxClassServiceInterface $taxClassServiceInterface
      */
@@ -76,7 +77,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder,
         \Magento\Customer\Model\Resource\Group $groupResourceModel,
-        \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Customer\Api\Data\GroupSearchResultsDataBuilder $searchResultsBuilder,
         TaxClassServiceInterface $taxClassServiceInterface
     ) {
@@ -142,9 +143,9 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     /**
      * {@inheritdoc}
      */
-    public function get($groupId)
+    public function get($id)
     {
-        $groupModel = $this->groupRegistry->retrieve($groupId);
+        $groupModel = $this->groupRegistry->retrieve($id);
         return $this->groupBuilder->setId($groupModel->getId())
             ->setCode($groupModel->getCode())
             ->setTaxClassId($groupModel->getTaxClassId())
@@ -251,22 +252,22 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface 
     /**
      * Delete customer group by ID.
      *
-     * @param int $groupId
+     * @param int $id
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException If customer group cannot be deleted
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function deleteById($groupId)
+    public function deleteById($id)
     {
-        $groupModel = $this->groupRegistry->retrieve($groupId);
+        $groupModel = $this->groupRegistry->retrieve($id);
 
-        if ($groupId <= 0 || $groupModel->usesAsDefault()) {
+        if ($id <= 0 || $groupModel->usesAsDefault()) {
             throw new \Magento\Framework\Exception\StateException('Cannot delete group.');
         }
 
         $groupModel->delete();
-        $this->groupRegistry->remove($groupId);
+        $this->groupRegistry->remove($id);
         return true;
     }
 

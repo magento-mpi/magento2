@@ -8,10 +8,8 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
@@ -35,8 +33,6 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
      *
      * @param CustomerInjectable $customer
      * @param GiftRegistryType $giftRegistryType
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryAddSelect $giftRegistryAddSelect
@@ -45,16 +41,14 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
     public function processAssert(
         CustomerInjectable $customer,
         GiftRegistryType $giftRegistryType,
-        CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryAddSelect $giftRegistryAddSelect
     ) {
-        $cmsIndex->open();
-        $cmsIndex->getLinksBlock()->openLink('Log In');
-        $customerAccountLogin->getLoginBlock()->fill($customer);
-        $customerAccountLogin->getLoginBlock()->submit();
+        $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+            ['customer' => $customer]
+        )->run();
 
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
         $giftRegistryIndex->getActionsToolbar()->addNew();

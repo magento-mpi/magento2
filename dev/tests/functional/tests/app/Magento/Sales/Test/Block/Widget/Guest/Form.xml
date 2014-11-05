@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<mapping strict="1">
+<mapping strict="0">
     <fields>
         <order_id>
             <selector>[name='oar_order_id']</selector>
@@ -22,5 +22,8 @@
         <email_address>
             <selector>[name='oar_email']</selector>
         </email_address>
+        <billing_zip_code>
+            <selector>[name='oar_zip']</selector>
+        </billing_zip_code>
     </fields>
 </mapping>

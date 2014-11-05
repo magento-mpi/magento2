@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+/* @var $this \Magento\Catalog\Model\Resource\Setup */
 $applyTo = array_merge(
     explode(',', $this->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'weight', 'apply_to')),
     array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)

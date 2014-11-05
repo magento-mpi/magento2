@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
@@ -17,7 +17,7 @@ use Magento\Framework\Api\SortOrder;
 /**
  * Builder for SearchCriteria Service Data Object
  */
-class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
+class SearchCriteriaBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @var FilterGroupBuilder
@@ -48,7 +48,7 @@ class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
     public function create()
     {
         //Initialize with empty array if not set
-        if (empty($this->_data[SearchCriteria::FILTER_GROUPS])) {
+        if (empty($this->data[SearchCriteria::FILTER_GROUPS])) {
             $this->_set(SearchCriteria::FILTER_GROUPS, []);
         }
         return parent::create();
@@ -62,7 +62,7 @@ class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
      */
     public function addFilter(array $filter)
     {
-        $this->_data[SearchCriteria::FILTER_GROUPS][] = $this->_filterGroupBuilder->setFilters($filter)->create();
+        $this->data[SearchCriteria::FILTER_GROUPS][] = $this->_filterGroupBuilder->setFilters($filter)->create();
         return $this;
     }
 
@@ -85,10 +85,10 @@ class SearchCriteriaBuilder extends AbstractExtensibleObjectBuilder
      */
     public function addSortOrder($sortOrder)
     {
-        if (!isset($this->_data[SearchCriteria::SORT_ORDERS])) {
-            $this->_data[SearchCriteria::SORT_ORDERS] = [];
+        if (!isset($this->data[SearchCriteria::SORT_ORDERS])) {
+            $this->data[SearchCriteria::SORT_ORDERS] = [];
         }
-        $this->_data[SearchCriteria::SORT_ORDERS][] = $sortOrder;
+        $this->data[SearchCriteria::SORT_ORDERS][] = $sortOrder;
         return $this;
     }
 

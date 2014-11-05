@@ -310,6 +310,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $autoloader,
             $generatorIo,
             array(
+                \Magento\Framework\Api\Code\Generator\DataBuilder::ENTITY_TYPE
+                    => 'Magento\Framework\Api\Code\Generator\DataBuilder',
                 \Magento\Framework\Api\Code\Generator\SearchResultsBuilder::ENTITY_TYPE
                     => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
                 \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE

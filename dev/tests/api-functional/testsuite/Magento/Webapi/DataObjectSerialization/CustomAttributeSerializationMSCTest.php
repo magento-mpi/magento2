@@ -10,7 +10,7 @@ namespace Magento\Webapi\DataObjectSerialization;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModuleMSC\Api\Data\ItemDataBuilder;
-use Magento\Webapi\Model\DataObjectProcessor;
+use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 
@@ -31,11 +31,6 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
      * @var string
      */
     protected $_soapService = 'testModuleMSCAllSoapAndRest';
-
-    /**
-     * @var \Magento\Framework\Api\AttributeValueBuilder
-     */
-    protected $valueBuilder;
 
     /**
      * @var ItemDataBuilder
@@ -71,10 +66,6 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $this->_soapService = 'testModuleMSCAllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmoduleMSC/";
 
-        $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Api\AttributeValueBuilder'
-        );
-
         $this->itemDataBuilder = Bootstrap::getObjectManager()->create(
             'Magento\TestModuleMSC\Api\Data\ItemDataBuilder'
         );
@@ -88,7 +79,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         );
 
         $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
-            'Magento\Webapi\Model\DataObjectProcessor'
+            'Magento\Framework\Reflection\DataObjectProcessor'
         );
 
         $this->dataObjectConverter = Bootstrap::getObjectManager()->create(
@@ -148,21 +139,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
-        $customAttributeDataObjectAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_data_object')
-            ->setValue($customAttributeDataObject)
-            ->create();
-
-        $customAttributeStringAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_string')
-            ->setValue('someStringValue')
-            ->create();
-
         $item = $this->itemDataBuilder
             ->setItemId(1)
             ->setName('testProductAnyType')
-            ->setCustomAttribute($customAttributeDataObjectAttributeValue)
-            ->setCustomAttribute($customAttributeStringAttributeValue)
+            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
+            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
             ->create();
 
         $serviceInfo = [
@@ -201,21 +182,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
-        $customAttributeDataObjectAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_data_object')
-            ->setValue($customAttributeDataObject)
-            ->create();
-
-        $customAttributeStringAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_string')
-            ->setValue('someStringValue')
-            ->create();
-
         $item = $this->itemDataBuilder
             ->setItemId(1)
             ->setName('testProductAnyType')
-            ->setCustomAttribute($customAttributeDataObjectAttributeValue)
-            ->setCustomAttribute($customAttributeStringAttributeValue)
+            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
+            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
             ->create();
 
         $expectedResponse = $this->dataObjectConverter->processServiceOutput(
@@ -238,21 +209,11 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
             ->setCustomAttribute('custom_attribute_int', 1)
             ->create();
 
-        $customAttributeDataObjectAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_data_object')
-            ->setValue($customAttributeDataObject)
-            ->create();
-
-        $customAttributeStringAttributeValue = $this->valueBuilder
-            ->setAttributeCode('custom_attribute_string')
-            ->setValue('someStringValue')
-            ->create();
-
         $item = $this->itemDataBuilder
             ->setItemId(1)
             ->setName('testProductAnyType')
-            ->setCustomAttribute($customAttributeDataObjectAttributeValue)
-            ->setCustomAttribute($customAttributeStringAttributeValue)
+            ->setCustomAttribute('custom_attribute_data_object', $customAttributeDataObject)
+            ->setCustomAttribute('custom_attribute_string', 'someStringValue')
             ->create();
 
         $serviceInfo = [
