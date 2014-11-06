@@ -258,11 +258,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         }
         $isFixedPrice = $this->getProduct()->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED;
 
-        $productAmount = $currentProduct
-            ->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
-            ->getAmount();
-
         $baseProductAmount = $currentProduct
             ->getPriceInfo()
             ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE)
@@ -275,10 +270,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'basePrice' => $this->priceCurrency->convert($baseProductAmount->getValue()),
             'finalBasePriceInclTax' => $isFixedPrice
-                ? $this->priceCurrency->convert($productAmount->getValue())
+                ? $this->priceCurrency->convert($baseProductAmount->getValue())
                 : 0,
             'finalBasePriceExclTax' => $isFixedPrice
-                ? $this->priceCurrency->convert($productAmount->getBaseAmount())
+                ? $this->priceCurrency->convert($baseProductAmount->getBaseAmount())
                 : 0,
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct
