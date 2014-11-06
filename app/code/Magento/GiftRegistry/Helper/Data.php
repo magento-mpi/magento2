@@ -46,9 +46,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $entityFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * Core store config
@@ -82,7 +82,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -93,7 +93,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
@@ -103,7 +103,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_scopeConfig = $scopeConfig;
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
         $this->_localeResolver = $localeResolver;
@@ -307,7 +307,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if ($productType == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
             if ($item instanceof Item) {
-                $product = $this->productFactory->create()->load($item->getProductId());
+                $product = $this->productRepository->getById($item->getProductId());
             } else {
                 $product = $item;
             }

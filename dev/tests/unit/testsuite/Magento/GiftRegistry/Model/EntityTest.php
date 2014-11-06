@@ -122,7 +122,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', array(), array(), '', false);
         $itemFactory = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', array(), array(), '', false);
         $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false);
-        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $productRepository = $this->getMock('Magento\Catalog\Model\ProductRepository', array(), array(), '', false);
         $dateFactory = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTimeFactory', array(), array(), '', false);
         $escaper = $this->getMock('Magento\Framework\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
@@ -153,7 +153,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $personFactory,
             $itemFactory,
             $addressFactory,
-            $productFactory,
+            $productRepository,
             $dateFactory,
             $escaper,
             $mathRandom,

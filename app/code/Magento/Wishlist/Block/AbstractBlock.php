@@ -33,24 +33,24 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected $httpContext;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         array $data = array()
     ) {
         $this->httpContext = $httpContext;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         parent::__construct(
             $context,
             $data
@@ -296,10 +296,10 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = $this->_productFactory->create()->setStoreId(
+                $product = $this->productRepository->getById(
+                    $config['product_id'],
+                    false,
                     $this->_storeManager->getStore()->getStoreId()
-                )->load(
-                    $config['product_id']
                 );
             }
         }

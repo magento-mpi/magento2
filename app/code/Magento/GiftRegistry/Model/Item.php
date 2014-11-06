@@ -31,9 +31,9 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\GiftRegistry\Model\Item\OptionFactory
@@ -68,7 +68,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -79,7 +79,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -88,7 +88,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->optionFactory = $optionFactory;
         $this->optionFactory = $optionFactory;
         $this->resourceUrl = $resourceUrl;
@@ -277,9 +277,12 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = $this->productFactory->create()->load($this->getProductId());
-            if (!$product->getId()) {
-                throw new \Magento\Framework\Model\Exception(__('Please correct the product for adding the item to the quote.'));
+            try {
+                $product = $this->productRepository->getById($this->getProductId());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
+                throw new \Magento\Framework\Model\Exception(
+                    __('Please correct the product for adding the item to the quote.')
+                );
             }
             $this->setProduct($product);
         }

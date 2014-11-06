@@ -144,9 +144,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $addressFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTimeFactory
@@ -194,7 +194,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\PersonFactory $personFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Math\Random $mathRandom
@@ -220,7 +220,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftRegistry\Model\PersonFactory $personFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Math\Random $mathRandom,
@@ -243,7 +243,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $this->personFactory = $personFactory;
         $this->itemFactory = $itemFactory;
         $this->addressFactory = $addressFactory;
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->dateFactory = $dateFactory;
         $this->storeManager = $storeManager;
         $this->_escaper = $escaper;
@@ -931,7 +931,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
                 throw new \Magento\Framework\Model\Exception(__('We cannot specify the product.'));
             }
 
-            $product = $this->productFactory->create()->load($productId);
+            $product = $this->productRepository->getById($productId);
 
             $this->setData('product', $product);
         }

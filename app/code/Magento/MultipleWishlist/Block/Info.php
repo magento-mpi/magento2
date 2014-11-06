@@ -28,7 +28,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
@@ -36,7 +36,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
@@ -46,7 +46,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
         parent::__construct(
             $context,
             $httpContext,
-            $productFactory,
+            $productRepository,
             $data
         );
     }

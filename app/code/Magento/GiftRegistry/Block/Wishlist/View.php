@@ -27,7 +27,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
@@ -37,7 +37,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
@@ -49,7 +49,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         parent::__construct(
             $context,
             $httpContext,
-            $productFactory,
+            $productRepository,
             $helperPool,
             $formKey,
             $data

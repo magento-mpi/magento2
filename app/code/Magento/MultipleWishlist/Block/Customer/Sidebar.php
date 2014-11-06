@@ -23,14 +23,14 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper,
         array $data = array()
     ) {
@@ -38,7 +38,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
         parent::__construct(
             $context,
             $httpContext,
-            $productFactory,
+            $productRepository,
             $data
         );
     }

@@ -37,23 +37,23 @@ class Save extends \Magento\Framework\Object
     protected $_messageFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param \Magento\Backend\Model\Session\Quote $session
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
         \Magento\Backend\Model\Session\Quote $session,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_messageFactory = $messageFactory;
         $this->_session = $session;
         $this->_giftMessageMessage = $giftMessageMessage;
@@ -281,7 +281,7 @@ class Save extends \Magento\Framework\Object
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
         foreach ($products as $productId => $data) {
-            $product = $this->_productFactory->create()->setStore($this->_session->getStore())->load($productId);
+            $product = $this->productRepository->getById($productId, false, $this->_session->getStore()->getId());
             $item = $this->_getQuote()->getItemByProduct($product);
 
             if (!$item) {
