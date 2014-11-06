@@ -548,7 +548,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = $this->groupManagement->getAllGroup()->getId();
+        $allGroupsId = $this->groupManagement->getAllGroup()->getId();
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
@@ -567,7 +567,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                     'price' => $product->getPrice(),
                     'website_price' => $product->getPrice(),
                     'price_qty' => 1,
-                    'cust_group' => $allGroups
+                    'cust_group' => $allGroupsId
                 )
             );
         }
@@ -576,10 +576,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         if ($qty) {
             $prevQty = 1;
             $prevPrice = 0;
-            $prevGroup = $allGroups;
+            $prevGroup = $allGroupsId;
 
             foreach ($prices as $price) {
-                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroups) {
+                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroupsId) {
                     // tier not for current customer group nor is for all groups
                     continue;
                 }
@@ -591,7 +591,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                     // higher tier qty already found
                     continue;
                 }
-                if ($price['price_qty'] == $prevQty && $prevGroup != $allGroups && $price['cust_group'] == $allGroups
+                if (
+                    $price['price_qty'] == $prevQty
+                    && $prevGroup != $allGroupsId
+                    && $price['cust_group'] == $allGroupsId
                 ) {
                     // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
                     continue;
@@ -608,7 +611,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         } else {
             $qtyCache = array();
             foreach ($prices as $i => $price) {
-                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroups) {
+                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroupsId) {
                     unset($prices[$i]);
                 } else if (isset($qtyCache[$price['price_qty']])) {
                     $j = $qtyCache[$price['price_qty']];

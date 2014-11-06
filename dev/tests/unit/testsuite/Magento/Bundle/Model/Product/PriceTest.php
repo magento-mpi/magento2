@@ -76,19 +76,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $this->groupManagement = $this->getMockBuilder('Magento\Customer\Api\GroupManagementInterface')
-            ->setMethods(['getAllGroup'])
             ->getMockForAbstractClass();
-
-        $allGroup = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
-            ->setMethods(['getId'])
-            ->getMockForAbstractClass();
-        $allGroup->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(32000));
-
-        $this->groupManagement->expects($this->any())
-            ->method('getAllGroup')
-            ->will($this->returnValue($allGroup));
 
         $this->model = new \Magento\Bundle\Model\Product\Price(
             $this->ruleFactoryMock,
