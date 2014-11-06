@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Helper\Address;
+use Magento\Customer\Helper\Address as AddressHelper;
 use Magento\Framework\Escaper;
 
 class Options
@@ -15,7 +15,7 @@ class Options
     /**
      * Customer address
      *
-     * @var Address
+     * @var AddressHelper
      */
     protected $addressHelper;
 
@@ -25,11 +25,11 @@ class Options
     protected $escaper;
 
     /**
-     * @param Address $addressHelper
+     * @param AddressHelper $addressHelper
      * @param Escaper $escaper
      */
     public function __construct(
-        Address $addressHelper,
+        AddressHelper $addressHelper,
         Escaper $escaper
     ) {
         $this->addressHelper = $addressHelper;

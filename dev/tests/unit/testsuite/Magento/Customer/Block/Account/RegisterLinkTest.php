@@ -42,12 +42,12 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
             ->will($this->returnValue($isAuthenticated));
 
-        $helperMock = $this->getMockBuilder('Magento\Customer\Helper\Data')
+        $registrationMock = $this->getMockBuilder('Magento\Customer\Model\Registration')
             ->disableOriginalConstructor()
-            ->setMethods(array('isRegistrationAllowed'))
+            ->setMethods(array('isAllowed'))
             ->getMock();
-        $helperMock->expects($this->any())
-            ->method('isRegistrationAllowed')
+        $registrationMock->expects($this->any())
+            ->method('isAllowed')
             ->will($this->returnValue($isRegistrationAllowed));
 
         /** @var \Magento\Customer\Block\Account\RegisterLink $link */
@@ -56,7 +56,7 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
             array(
                 'context' => $context,
                 'httpContext' => $httpContext,
-                'customerHelper' => $helperMock,
+                'registration' => $registrationMock,
             )
         );
 

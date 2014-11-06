@@ -251,7 +251,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->registration->expects($this->once())
-            ->method('isRegistrationAllowed')
+            ->method('isAllowed')
             ->will($this->returnValue(false));
 
         $this->redirectMock->expects($this->once())
@@ -274,7 +274,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->registration->expects($this->once())
-            ->method('isRegistrationAllowed')
+            ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->once())
             ->method('isPost')
@@ -308,7 +308,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->registration->expects($this->once())
-            ->method('isRegistrationAllowed')
+            ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->customerUrl->expects($this->once())
             ->method('getEmailConfirmationUrl')
@@ -452,7 +452,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->registration->expects($this->once())
-            ->method('isRegistrationAllowed')
+            ->method('isAllowed')
             ->will($this->returnValue(true));
 
         $this->customerSessionMock->expects($this->once())
