@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Persistent\Model;
 
+/**
+ * Class QuoteManager
+ */
 class QuoteManager
 {
     /**
@@ -15,7 +17,7 @@ class QuoteManager
      *
      * @var \Magento\Persistent\Helper\Session
      */
-    protected $persistentSession = null;
+    protected $persistentSession;
 
     /**
      * Checkout session
@@ -29,7 +31,7 @@ class QuoteManager
      *
      * @var \Magento\Persistent\Helper\Data
      */
-    protected $persistentData = null;
+    protected $persistentData;
 
     /**
      * Whether set quote to be persistent in workflow
@@ -39,6 +41,8 @@ class QuoteManager
     protected $_setQuotePersistent = true;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -72,21 +76,14 @@ class QuoteManager
             $quote->getPaymentsCollection()->walk('delete');
             $quote->getAddressesCollection()->walk('delete');
             $this->_setQuotePersistent = false;
-            $quote->setIsActive(
-                true
-            )->setCustomerId(
-                null
-            )->setCustomerEmail(
-                null
-            )->setCustomerFirstname(
-                null
-            )->setCustomerLastname(
-                null
-            )->setCustomerGroupId(
-                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
-            )->setIsPersistent(
-                false
-            )->removeAllAddresses();
+            $quote->setIsActive(true)
+                ->setCustomerId(null)
+                ->setCustomerEmail(null)
+                ->setCustomerFirstname(null)
+                ->setCustomerLastname(null)
+                ->setCustomerGroupId(\Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID)
+                ->setIsPersistent(false)
+                ->removeAllAddresses();
             //Create guest addresses
             $quote->getShippingAddress();
             $quote->getBillingAddress();
@@ -107,11 +104,10 @@ class QuoteManager
         if ($quote->getIsActive() && $quote->getCustomerId()) {
             $this->checkoutSession->setCustomer(null)->clearQuote()->clearStorage();
         } else {
-            $quote
-                ->setIsActive(true)
+            $quote->setIsActive(true)
                 ->setIsPersistent(false)
                 ->setCustomerId(null)
-                ->setCustomerGroupId(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
+                ->setCustomerGroupId(\Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID);
         }
     }
 

@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Persistent\Model\Observer;
 
+/**
+ * Class UpdateCustomerCookies
+ */
 class UpdateCustomerCookies
 {
     /**
@@ -22,18 +24,27 @@ class UpdateCustomerCookies
      *
      * @var \Magento\Persistent\Helper\Session
      */
-    protected $_persistentSession = null;
+    protected $_persistentSession;
 
     /**
+     * Customer repository
+     *
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Persistent\Helper\Session $persistentSession
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->_persistentSession = $persistentSession;
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -50,7 +61,7 @@ class UpdateCustomerCookies
 
         $customerCookies = $observer->getEvent()->getCustomerCookies();
         if ($customerCookies instanceof \Magento\Framework\Object) {
-            $persistentCustomer = $this->_customerAccountService->getCustomer(
+            $persistentCustomer = $this->customerRepository->getById(
                 $this->_persistentSession->getSession()->getCustomerId()
             );
             $customerCookies->setCustomerId($persistentCustomer->getId());
