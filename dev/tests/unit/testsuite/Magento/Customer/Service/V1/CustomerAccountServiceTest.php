@@ -291,15 +291,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        $this->_customerHelperMock =
-            $this->getMockBuilder('Magento\Customer\Helper\Data')
-                ->disableOriginalConstructor()
-                ->setMethods(['isCustomerInStore'])
-                ->getMock();
-        $this->_customerHelperMock->expects($this->any())
-            ->method('isCustomerInStore')
-            ->will($this->returnValue(false));
-
         $this->_urlMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
             ->disableOriginalConstructor()
             ->getMock();

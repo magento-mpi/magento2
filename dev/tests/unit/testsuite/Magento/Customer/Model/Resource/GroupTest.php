@@ -18,7 +18,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject */
     protected $resource;
 
-    /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Model\Vat|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerVat;
 
     /** @var \Magento\Customer\Model\Group|\PHPUnit_Framework_MockObject_MockObject */

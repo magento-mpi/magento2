@@ -20,7 +20,7 @@ class LoginTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Url
      */
     protected $customerUrl;
 

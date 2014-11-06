@@ -9,7 +9,6 @@
 namespace Magento\Customer\Controller\Account;
 
 use Magento\Customer\Helper\Address;
-use Magento\Customer\Helper\Data as CustomerData;
 use Magento\Customer\Model\Url;
 use Magento\Store\Model\ScopeInterface;
 

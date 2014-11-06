@@ -28,8 +28,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Checkout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $checkoutHelperMock;
 
-    /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-    protected $customerHelperMock;
+    /** @var \Magento\Customer\Model\Url|\PHPUnit_Framework_MockObject_MockObject */
+    protected $customerUrlMock;
 
     /** @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $loggerMock;
@@ -43,7 +43,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerMock;
 
-    /** @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $requestMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -92,7 +92,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     {
         $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->checkoutHelperMock = $this->getMock('Magento\Checkout\Helper\Data', [], [], '', false);
-        $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
+        $this->customerUrlMock = $this->getMock('Magento\Customer\Model\Url', [], [], '', false);
         $this->loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->checkoutSessionMock = $this->getMock('Magento\Checkout\Model\Session',
             ['getLastOrderId', 'getQuote', 'setStepData', 'getStepData'], [], '', false);
@@ -151,7 +151,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             [
                 'eventManager' => $this->eventManagerMock,
                 'helper' => $this->checkoutHelperMock,
-                'customerData' => $this->customerHelperMock,
+                'customerUrl' => $this->customerUrlMock,
                 'logger' => $this->loggerMock,
                 'checkoutSession' => $this->checkoutSessionMock,
                 'customerSession' => $this->customerSessionMock,

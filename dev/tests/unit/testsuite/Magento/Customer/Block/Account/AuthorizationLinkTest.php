@@ -23,7 +23,7 @@ class AuthorizationLinkTest extends \PHPUnit_Framework_TestCase
     protected $httpContext;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
     protected $_customerUrl;
 
