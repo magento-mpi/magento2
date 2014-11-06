@@ -178,6 +178,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Resource\Category\Tree $categoryTreeResource
      * @param Resource\Category\TreeFactory $categoryTreeFactory
@@ -192,7 +193,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
-     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data

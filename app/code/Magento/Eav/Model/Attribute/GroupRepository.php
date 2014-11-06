@@ -103,7 +103,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         $attributeSetId = $this->retrieveAttributeSetIdFromSearchCriteria($searchCriteria);
         if (!$attributeSetId) {

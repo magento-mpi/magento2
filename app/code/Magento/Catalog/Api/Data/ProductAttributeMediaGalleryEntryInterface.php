@@ -14,7 +14,7 @@ interface ProductAttributeMediaGalleryEntryInterface
     const ID = 'id';
     const LABEL = 'label';
     const POSITION = 'position';
-    const DISABLED = 'disabled';
+    const DISABLED = 'is_disabled';
     const TYPES = 'types';
     const FILE = 'file';
 
