@@ -77,6 +77,38 @@ class IntervalFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Interval not found by config t
+     */
+    public function testCreateIntervalNotFoundException()
+    {
+        $this->scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with(self::CONFIG_PATH, ScopeInterface::SCOPE_DEFAULT)
+            ->willReturn('t');
+
+        $this->factoryCreate();
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Interval not instance of interface \Magento\Framework\Search\Dynamic\IntervalInterface
+     */
+    public function testCreateIntervalNotImplementedInterfaceException()
+    {
+        $this->scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with(self::CONFIG_PATH, ScopeInterface::SCOPE_DEFAULT)
+            ->willReturn(self::CONFIG_PATH . 't');
+        $this->objectManager->expects($this->once())
+            ->method('create')
+            ->with(self::INTERVAL)
+            ->willReturn($this->objectManager);
+
+        $this->factoryCreate();
+    }
+
+    /**
      * @return IntervalInterface
      */
     private function factoryCreate()
