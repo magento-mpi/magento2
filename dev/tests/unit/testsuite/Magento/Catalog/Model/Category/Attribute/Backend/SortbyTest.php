@@ -39,15 +39,22 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
             array('scopeConfig' => $this->_scopeConfig)
         );
-        $this->_attribute = $this->getMockForAbstractClass(
+        $this->_attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array(),
+            ['getName', '__call', 'isValueEmpty', 'getEntity', 'getFrontend', '__wakeup', 'getIsRequired', 'getIsUnique'],
+            [],
             '',
-            false,
-            true,
-            true,
-            array('getName', '__call', 'isValueEmpty', 'getEntity', 'getFrontend', '__wakeup')
+            false
         );
+//        $this->_attribute = $this->getMockForAbstractClass(
+//            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+//            array(),
+//            '',
+//            false,
+//            true,
+//            true,
+//            array('getName', '__call', 'isValueEmpty', 'getEntity', 'getFrontend', '__wakeup')
+//        );
         $this->_model->setAttribute($this->_attribute);
     }
 
@@ -144,8 +151,7 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
         $this->_attribute->expects($this->any())->method('getName')->will($this->returnValue($attributeData['code']));
         $this->_attribute
             ->expects($this->at(1))
-            ->method('__call')
-            ->with('getIsRequired')
+            ->method('getIsRequired')
             ->will($this->returnValue($attributeData['isRequired']));
         $this->_attribute
             ->expects($this->any())
@@ -184,8 +190,8 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
     public function testValidateUnique()
     {
         $this->_attribute->expects($this->any())->method('getName')->will($this->returnValue('attribute_name'));
-        $this->_attribute->expects($this->at(1))->method('__call')->with('getIsRequired');
-        $this->_attribute->expects($this->at(2))->method('__call')->with('getIsUnique')->will($this->returnValue(true));
+        $this->_attribute->expects($this->at(1))->method('getIsRequired');
+        $this->_attribute->expects($this->at(2))->method('getIsUnique')->will($this->returnValue(true));
 
         $entityMock = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',
@@ -207,8 +213,8 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
     public function testValidateUniqueException()
     {
         $this->_attribute->expects($this->any())->method('getName')->will($this->returnValue('attribute_name'));
-        $this->_attribute->expects($this->at(1))->method('__call')->with('getIsRequired');
-        $this->_attribute->expects($this->at(2))->method('__call')->with('getIsUnique')->will($this->returnValue(true));
+        $this->_attribute->expects($this->at(1))->method('getIsRequired');
+        $this->_attribute->expects($this->at(2))->method('getIsUnique')->will($this->returnValue(true));
 
         $entityMock = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',

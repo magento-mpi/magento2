@@ -30,7 +30,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()
             ->getMock();
         $this->resourceMock = $this->getMockBuilder('Magento\Framework\Module\Resource')
-            ->disableOriginalConstructor()
+            ->disableOriginalConstructor('delete')
             ->getMock();
 
         $objectManager = new ObjectManager($this);
@@ -61,7 +61,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
 
         // Test
-        $this->model->setValue($invalidCookieLifetime)->save();
+        $this->model->setValue($invalidCookieLifetime)->beforeSave();
     }
 
     /**
@@ -77,10 +77,9 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
             ->method('isValid')
             ->with($validCookieLifetime)
             ->willReturn(true);
-        $this->resourceMock->expects($this->once())->method('addCommitCallback')->willReturnSelf();
 
         // Test
-        $this->model->setValue($validCookieLifetime)->save();
+        $this->model->setValue($validCookieLifetime)->beforeSave();
     }
 
     /**
@@ -95,9 +94,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
         $this->validatorMock->expects($this->never())
             ->method('isValid');
 
-        $this->resourceMock->expects($this->once())->method('addCommitCallback')->willReturnSelf();
-
         // Test
-        $this->model->setValue($validCookieLifetime)->save();
+        $this->model->setValue($validCookieLifetime)->beforeSave();
     }
 }

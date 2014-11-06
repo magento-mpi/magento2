@@ -129,7 +129,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getId()) {
             $incrementNumber = $this->_cmsIncrementFactory->create()->getNewIncrementId(
@@ -160,7 +160,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
             }
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -168,7 +168,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         // If this was a new version we should create initial revision for it
         // from specified revision or from latest for parent version
@@ -194,7 +194,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
 
             $this->setLastRevision($revision);
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -203,7 +203,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $resource = $this->_getResource();
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Version */
@@ -221,7 +221,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
             );
         }
 
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -229,7 +229,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_cmsResourceIncrement->cleanIncrementRecord(
             \Magento\VersionsCms\Model\Increment::TYPE_PAGE,
@@ -237,7 +237,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
             \Magento\VersionsCms\Model\Increment::LEVEL_REVISION
         );
 
-        return parent::_afterDelete();
+        return parent::afterDelete();
     }
 
     /**

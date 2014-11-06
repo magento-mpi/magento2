@@ -27,13 +27,13 @@ class Active extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->isValueChanged()) {
             $this->_cacheManager->clean(
                 array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
             );
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 }

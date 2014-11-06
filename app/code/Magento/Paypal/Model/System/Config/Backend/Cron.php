@@ -45,7 +45,7 @@ class Cron extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $cronExprString = '';
         $time = explode(
@@ -67,6 +67,6 @@ class Cron extends \Magento\Framework\App\Config\Value
             self::CRON_STRING_PATH
         )->save();
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 }

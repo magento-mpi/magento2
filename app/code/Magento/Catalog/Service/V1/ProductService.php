@@ -18,6 +18,7 @@ use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Class ProductService
+ * @deprecated
  * @package Magento\Catalog\Service\V1
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

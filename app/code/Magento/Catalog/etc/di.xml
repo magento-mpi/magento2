@@ -10,8 +10,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Service\V1\MetadataServiceInterface" type="Magento\Catalog\Service\V1\MetadataService" />
     <preference for="Magento\Catalog\Service\V1\Product\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Product\MetadataService" />
-    <preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />
-    <preference for="Magento\Catalog\Service\V1\ProductServiceInterface" type="Magento\Catalog\Service\V1\ProductService" />
+    <preference for="Magento\Catalog\Service\V1\ProductServiceInterface" type="\Magento\Catalog\Service\V1\ProductService" />
+    <preference for="Magento\Catalog\Api\Data\ProductInterface" type="Magento\Catalog\Model\Product" />
+    <preference for="Magento\Catalog\Api\ProductRepositoryInterface" type="Magento\Catalog\Model\ProductRepository" />
+    <preference for="Magento\Catalog\Api\CategoryAttributeRepositoryInterface" type="Magento\Catalog\Model\Category\AttributeRepository" />
+    <preference for="Magento\Catalog\Api\Data\CategoryAttributeInterface" type="Magento\Catalog\Model\Category\Attribute" />
     <preference for="Magento\Catalog\Service\V1\Category\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\WriteService" />
@@ -43,7 +46,6 @@
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\Media\WriteServiceInterface" type="\Magento\Catalog\Service\V1\Product\Attribute\Media\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\WriteService" />
-    <preference for="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface" type="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapper\Composite" />
     <preference for="Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface" type="Magento\Catalog\Service\V1\Product\GroupPriceService" />
     <preference for="Magento\Catalog\Service\V1\Product\TierPriceServiceInterface" type="Magento\Catalog\Service\V1\Product\TierPriceService" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\ReadService" />
@@ -52,6 +54,23 @@
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Composite" />
     <preference for="Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite" />
     <preference for="Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface" type="Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite" />
+    <preference for="Magento\Catalog\Api\Data\CategoryInterface" type="Magento\Catalog\Model\Category" />
+    <preference for="Magento\Catalog\Api\CategoryManagementInterface" type="Magento\Catalog\Model\CategoryManagement" />
+    <preference for="Magento\Catalog\Api\CategoryRepositoryInterface" type="Magento\Catalog\Model\CategoryRepository" />
+    <preference for="Magento\Catalog\Api\Data\CategoryTreeInterface" type="Magento\Catalog\Model\Category" />
+    <preference for="Magento\Catalog\Api\ProductAttributeRepositoryInterface" type="Magento\Catalog\Model\Product\Attribute\Repository" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeInterface" type="Magento\Catalog\Model\Resource\Eav\Attribute" />
+    <preference for="Magento\Catalog\Api\ProductTypeListInterface" type="Magento\Catalog\Model\ProductTypeList" />
+    <preference for="Magento\Catalog\Api\Data\ProductTypeInterface" type="Magento\Catalog\Model\ProductType" />
+    <preference for="Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface" type="Magento\Catalog\Model\Product\Gallery\GalleryManagement" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface" type="Magento\Catalog\Model\Product\Gallery\Entry" />
+    <preference for="Magento\Catalog\Api\ProductMediaAttributeManagementInterface" type="Magento\Catalog\Model\Product\Media\AttributeManagement" />
+    <preference for="Magento\Catalog\Api\ProductAttributeTypesListInterface" type="Magento\Catalog\Model\Product\Attribute\TypesList" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeTypeInterface" type="Magento\Catalog\Model\Product\Attribute\Type" />
+    <preference for="Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface" type="Magento\Catalog\Model\ProductAttributeGroupRepository" />
+    <preference for="Magento\Catalog\Api\ProductAttributeOptionManagementInterface" type="Magento\Catalog\Model\Product\Attribute\OptionManagement" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface" type="Magento\Catalog\Model\Product\Media\GalleryEntryContent" />
+    <preference for="Magento\Catalog\Api\ProductLinkRepositoryInterface" type="Magento\Catalog\Model\ProductLink\Repository" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -380,19 +399,19 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider">
+    <type name="Magento\Catalog\Model\ProductLink\CollectionProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="crosssell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Crosssell</item>
-                <item name="upsell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Upsell</item>
-                <item name="related" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Related</item>
+                <item name="crosssell" xsi:type="object">Magento\Catalog\Model\ProductLink\CollectionProvider\Crosssell</item>
+                <item name="upsell" xsi:type="object">Magento\Catalog\Model\ProductLink\CollectionProvider\Upsell</item>
+                <item name="related" xsi:type="object">Magento\Catalog\Model\ProductLink\CollectionProvider\Related</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool">
+    <type name="Magento\Catalog\Model\ProductLink\Converter\ConverterPool">
         <arguments>
             <argument name="converters" xsi:type="array">
-                <item name="default" xsi:type="object">\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\DefaultConverter</item>
+                <item name="default" xsi:type="object">Magento\Catalog\Model\ProductLink\Converter\DefaultConverter</item>
             </argument>
         </arguments>
     </type>
@@ -497,4 +516,24 @@
             <argument name="collectionFilter" xsi:type="object">Magento\Catalog\Model\Layer\Search\CollectionFilter</argument>
         </arguments>
     </type>
+
+    <preference for="Magento\Catalog\Api\ProductLinkTypeListInterface" type="Magento\Catalog\Model\Product\LinkTypeProvider" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkAttributeInterface" type="\Magento\Catalog\Model\ProductLink\Attribute" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkTypeInterface" type="Magento\Catalog\Model\ProductLink\Type" />
+    <preference for="Magento\Catalog\Api\ProductLinkManagementInterface" type="Magento\Catalog\Model\ProductLink\Management" />
+    <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="Magento\Catalog\Model\ProductLink\Link" />
+    <preference for="\Magento\Catalog\Api\CategoryLinkManagementInterface" type="\Magento\Catalog\Model\CategoryLinkManagement" />
+    <preference for="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" type="\Magento\Catalog\Model\CategoryLinkRepository" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface" type="Magento\Catalog\Model\Product\Option" />
+    <preference for="Magento\Catalog\Api\ProductGroupPriceManagementInterface" type="Magento\Catalog\Model\Product\GroupPriceManagement" />
+    <preference for="Magento\Catalog\Api\Data\ProductGroupPriceInterface" type="Magento\Catalog\Model\Product\GroupPrice" />
+    <preference for="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" type="\Magento\Catalog\Model\Product\Option\Repository" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface" type="Magento\Catalog\Model\Product\Option\Type" />
+    <preference for="Magento\Catalog\Api\ProductTierPriceManagementInterface" type="\Magento\Catalog\Model\Product\TierPriceManagement" />
+    <preference for="Magento\Catalog\Api\Data\ProductTierPriceInterface" type="Magento\Catalog\Model\Product\TierPrice" />
+    <preference for="Magento\Catalog\Api\Data\CategoryProductLinkInterface" type="Magento\Catalog\Model\CategoryProductLink" />
+    <preference for="Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface" type="Magento\Catalog\Model\ProductOptions\TypeList" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface" type="\Magento\Catalog\Model\Product\Option\Value" />
+    <virtualType name="Magento\Catalog\Model\Resource\Attribute\Collection" type="Magento\Eav\Model\Resource\Entity\Attribute\Collection">
+    </virtualType>
 </config>

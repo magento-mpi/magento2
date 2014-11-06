@@ -14,6 +14,8 @@ use Magento\Framework\Service\Data\MetadataObjectInterface;
  * Class AttributeMetadata
  *
  * @codeCoverageIgnore
+ * @deprecated
+ * @see \Magento\Eav\Api\Data\Entity\Attribute\MetadataInterface
  */
 class AttributeMetadata extends AbstractExtensibleObject implements MetadataObjectInterface
 {

@@ -113,7 +113,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      *
      * @return void
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->hasData('website_ids') && $this->_storeManager->hasSingleStore()) {
             $this->setData('website_ids', array_keys($this->_systemStore->getWebsiteOptionHash()));
@@ -127,7 +127,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
                 $this->setData('image', $baseImageName);
             }
         }
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -135,7 +135,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      *
      * @return void
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_getResource()->saveWrappingStoreData($this);
         $this->_getResource()->saveWrappingWebsiteData($this);

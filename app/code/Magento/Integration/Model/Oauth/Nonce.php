@@ -63,9 +63,9 @@ class Nonce extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if ($this->_oauthData->isCleanupProbability()) {
             $this->getResource()->deleteOldEntries($this->_oauthData->getCleanupExpirationPeriod());

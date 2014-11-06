@@ -24,7 +24,9 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Eav\Model\Entity\Type;
 
-class Set extends \Magento\Framework\Model\AbstractModel
+class Set
+    extends \Magento\Framework\Model\AbstractExtensibleModel
+    implements \Magento\Eav\Api\Data\AttributeSetInterface
 {
     /**
      * Resource instance
@@ -62,6 +64,7 @@ class Set extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -73,6 +76,7 @@ class Set extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
@@ -81,7 +85,7 @@ class Set extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
         $this->_eavConfig = $eavConfig;
         $this->_attrGroupFactory = $attrGroupFactory;
         $this->_attributeFactory = $attributeFactory;
@@ -325,5 +329,39 @@ class Set extends \Magento\Framework\Model\AbstractModel
     protected function _getResource()
     {
         return $this->_resource ?: parent::_getResource();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->getData('attribute_set_name');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSortOrder()
+    {
+        return $this->getData('sort_order');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEntityTypeId()
+    {
+        return $this->getData('entity_type_id');
+    }
+
+    /**
+     * Set attribute set name.
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->setData('attribute_set_name', $name);
     }
 }

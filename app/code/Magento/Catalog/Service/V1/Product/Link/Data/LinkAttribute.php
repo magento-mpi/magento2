@@ -12,6 +12,8 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
  * LinkAttribute Service Data Object
  *
  * @codeCoverageIgnore
+ * @deprecated
+ * @see \Magento\Catalog\Api\Data\ProductLinkAttributeInterface
  */
 class LinkAttribute extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

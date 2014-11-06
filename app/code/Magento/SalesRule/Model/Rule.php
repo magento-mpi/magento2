@@ -251,7 +251,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $couponCode = trim($this->getCouponCode());
         if (strlen(
@@ -271,7 +271,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $this->getPrimaryCoupon()->delete();
         }
 
-        parent::_afterSave();
+        parent::afterSave();
         return $this;
     }
 

@@ -12,6 +12,7 @@ use Magento\Framework\Service\Data\MetadataObjectInterface;
 
 /**
  * @codeCoverageIgnore
+ * @todo this interface is never used. Recheck and remove it.
  */
 class AttributeMetadata extends AbstractExtensibleObject implements MetadataObjectInterface
 {

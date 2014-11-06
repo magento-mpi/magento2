@@ -9,7 +9,9 @@
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 
 /**
- * @codeCoverageIgnore
+ * @deprecate
+ * @todo remove this interface
+ * @see \Magento\Catalog\Api\Data\ProductCustomOptionsOptionInterface
  */
 class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
 {

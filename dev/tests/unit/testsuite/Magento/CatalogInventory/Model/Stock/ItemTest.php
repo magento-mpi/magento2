@@ -140,7 +140,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->item = null;
     }
 
-    public function testSave()
+    public function testBeforeSave()
     {
         $this->item->setData('key', 'value');
 
@@ -151,14 +151,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->with('cataloginventory_stock_item_save_before', ['data_object' => $this->item, 'item' => $this->item]);
 
-        $this->resource->expects($this->once())
-            ->method('addCommitCallback')
-            ->will($this->returnValue($this->resource));
         $this->stockItemService->expects($this->any())
             ->method('isQty')
             ->will($this->returnValue(true));
 
-        $this->assertEquals($this->item, $this->item->save());
+        $this->assertEquals($this->item, $this->item->beforeSave());
     }
 
     /**

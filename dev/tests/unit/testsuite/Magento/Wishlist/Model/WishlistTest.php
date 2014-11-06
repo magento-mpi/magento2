@@ -158,11 +158,6 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $sharingCode = 'expected_sharing_code';
         $this->eventDispatcher->expects($this->any())
             ->method('dispatch');
-        $this->resource->expects($this->once())
-            ->method('addCommitCallback')
-            ->will($this->returnSelf());
-        $this->resource->expects($this->once())
-            ->method('commit');
         $this->resource->expects($this->any())
             ->method('getCustomerIdFieldName');
         $this->resource->expects($this->once())
@@ -284,4 +279,3 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
- 

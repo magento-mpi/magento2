@@ -183,9 +183,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getParentId() && $this->getShipment()) {
             $this->setParentId($this->getShipment()->getId());

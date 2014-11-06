@@ -161,9 +161,9 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         if ($this->getParentItem()) {
             $this->setParentItemId($this->getParentItem()->getId());
         }

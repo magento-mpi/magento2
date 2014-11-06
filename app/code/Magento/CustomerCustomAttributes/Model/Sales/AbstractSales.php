@@ -69,11 +69,11 @@ abstract class AbstractSales extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->_dataSaveAllowed && !$this->_getResource()->isEntityExists($this)) {
             $this->_dataSaveAllowed = false;
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

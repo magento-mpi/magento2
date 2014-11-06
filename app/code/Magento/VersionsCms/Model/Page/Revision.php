@@ -141,7 +141,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         /**
          * Resetting revision id this revision should be saved as new.
@@ -160,7 +160,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
             $this->setRevisionNumber($incrementNumber);
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -232,7 +232,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $resource = $this->_getResource();
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Revision */

@@ -103,13 +103,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
 
         $this->resourceMock->expects($this->once())
-            ->method('isEntityExists')
-            ->with($this->quote)
-            ->will($this->returnValue(true));
-        $this->resourceMock->expects($this->once())
-            ->method('addCommitCallback')
-            ->will($this->returnSelf());
-        $this->resourceMock->expects($this->once())
             ->method('save')
             ->with($this->quote)
             ->will($this->returnSelf());
@@ -117,26 +110,28 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->quote, $this->quote->saveAttributeData($salesMock));
     }
 
-    public function testSaveAttributeDataNegative()
+    public function testBeforeSaveNegative()
     {
         $salesMock = $this->getMock('Magento\Framework\Model\AbstractModel', [], [], '', false);
-        $salesMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue([]));
-        $salesMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-
         $this->resourceMock->expects($this->once())
             ->method('isEntityExists')
             ->with($this->quote)
             ->will($this->returnValue(false));
-        $this->resourceMock->expects($this->once())
-            ->method('addCommitCallback')
-            ->will($this->returnSelf());
-        $this->resourceMock->expects($this->never())
-            ->method('save');
 
-        $this->assertEquals($this->quote, $this->quote->saveAttributeData($salesMock));
+        $this->quote->beforeSave();
+        $this->assertFalse($this->quote->isSaveAllowed());
+    }
+
+
+    public function testBeforeSave()
+    {
+        $salesMock = $this->getMock('Magento\Framework\Model\AbstractModel', [], [], '', false);
+        $this->resourceMock->expects($this->once())
+            ->method('isEntityExists')
+            ->with($this->quote)
+            ->will($this->returnValue(true));
+        $this->eventManagerMock->expects($this->exactly(2))->method('dispatch');
+        $this->quote->beforeSave();
+        $this->assertTrue($this->quote->isSaveAllowed());
     }
 }

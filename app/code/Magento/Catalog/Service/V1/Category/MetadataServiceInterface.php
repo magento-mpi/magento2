@@ -11,6 +11,8 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
 /**
  * Class Category MetadataServiceInterface
+ * @deprecated
+ * @see \Magento\Catalog\Api\CategoryAttributeMetadataRepositoryInterface
  */
 interface MetadataServiceInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
 {
@@ -21,7 +23,7 @@ interface MetadataServiceInterface extends \Magento\Framework\Service\Data\Metad
 
     const DEFAULT_ATTRIBUTE_SET_ID = 3;
 
-    const DATA_OBJECT_CLASS_NAME = 'Magento\Catalog\Service\V1\Data\Category';
+    const DATA_OBJECT_CLASS_NAME = 'Magento\Catalog\Api\Data\CategoryInterface';
     /**#@-*/
 
     /**

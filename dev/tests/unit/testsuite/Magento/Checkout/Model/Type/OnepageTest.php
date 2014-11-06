@@ -352,7 +352,6 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 'getShippingAddress',
                 'getCustomerData',
                 'collectTotals',
-                'save',
             ],
             [],
             '',
@@ -373,7 +372,15 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getShippingAddress')->will($this->returnValue($shippingAddressMock));
         $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            ['setSaveInAddressBook', 'getData', 'setEmail', '__wakeup', 'importCustomerAddressData', 'validate'],
+            [
+                'setSaveInAddressBook',
+                'getData',
+                'setEmail',
+                '__wakeup',
+                'importCustomerAddressData',
+                'validate',
+                'save'
+            ],
             [],
             '',
             false
@@ -381,6 +388,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->any())->method('importCustomerAddressData')->will($this->returnSelf());
         $addressMock->expects($this->atLeastOnce())->method('validate')->will($this->returnValue($validateResult));
         $addressMock->expects($this->any())->method('getData')->will($this->returnValue([]));
+        $addressMock->expects($this->once())->method('save')->willReturnSelf();
         $quoteMock->expects($this->any())->method('getBillingAddress')->will($this->returnValue($addressMock));
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue($quoteCustomerId));
         $formMock = $this->getMock('Magento\Customer\Model\Metadata\Form', [], [], '', false);

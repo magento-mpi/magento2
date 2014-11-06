@@ -43,7 +43,7 @@ class Database extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $helper = $this->_coreFileStorage;
         $helper->getStorageModel(null, array('init' => true));

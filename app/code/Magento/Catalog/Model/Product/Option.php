@@ -12,6 +12,8 @@ use Magento\Catalog\Model\Resource\Product\Option\Value\Collection;
 use Magento\Catalog\Pricing\Price\BasePrice;
 use Magento\Framework\Model\Exception;
 use Magento\Framework\Model\AbstractModel;
+use \Magento\Framework\Model\AbstractExtensibleModel;
+use \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface;
 
 /**
  * Catalog product option model
@@ -19,28 +21,10 @@ use Magento\Framework\Model\AbstractModel;
  * @method \Magento\Catalog\Model\Resource\Product\Option getResource()
  * @method int getProductId()
  * @method \Magento\Catalog\Model\Product\Option setProductId(int $value)
- * @method string getType()
- * @method \Magento\Catalog\Model\Product\Option setType(string $value)
- * @method string getTitle()
- * @method \Magento\Catalog\Model\Product\Option seTitle(string $value)
- * @method int getIsRequire()
- * @method \Magento\Catalog\Model\Product\Option setIsRequire(int $value)
- * @method string getSku()
- * @method \Magento\Catalog\Model\Product\Option setSku(string $value)
- * @method int getMaxCharacters()
- * @method \Magento\Catalog\Model\Product\Option setMaxCharacters(int $value)
- * @method string getFileExtension()
- * @method \Magento\Catalog\Model\Product\Option setFileExtension(string $value)
- * @method int getImageSizeX()
- * @method \Magento\Catalog\Model\Product\Option setImageSizeX(int $value)
- * @method int getImageSizeY()
- * @method \Magento\Catalog\Model\Product\Option setImageSizeY(int $value)
- * @method int getSortOrder()
- * @method \Magento\Catalog\Model\Product\Option setSortOrder(int $value)
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends AbstractModel
+class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface
 {
     const OPTION_GROUP_TEXT = 'text';
 
@@ -127,6 +111,7 @@ class Option extends AbstractModel
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Framework\Stdlib\String $string,
         Option\Validator\Pool $validatorPool,
+        \Magento\Catalog\Service\V1\Category\MetadataService $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -135,7 +120,7 @@ class Option extends AbstractModel
         $this->_optionFactory = $optionFactory;
         $this->validatorPool = $validatorPool;
         $this->string = $string;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataServiceInterface, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -185,7 +170,7 @@ class Option extends AbstractModel
     }
 
     /**
-     * @return Option\Value[]
+     * @return ProductCustomOptionValuesInterface[]|null
      */
     public function getValues()
     {
@@ -398,7 +383,7 @@ class Option extends AbstractModel
      * @return AbstractModel
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->getValueInstance()->unsetValues();
         if (is_array($this->getData('values'))) {
@@ -411,7 +396,7 @@ class Option extends AbstractModel
             throw new Exception(__('Select type options required values rows.'));
         }
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -571,5 +556,122 @@ class Option extends AbstractModel
     protected function _getValidationRulesBeforeSave()
     {
         return $this->validatorPool->get($this->getType());
+    }
+
+    /**
+     * Get product SKU
+     *
+     * @return string
+     */
+    public function getProductSku()
+    {
+        $productSku = $this->_getData('product_sku');
+        if (!$productSku) {
+            $productSku = $this->getProduct()->getSku();
+        }
+        return $productSku;
+    }
+
+    /**
+     * Get option id
+     *
+     * @return int|null
+     */
+    public function getOptionId()
+    {
+        return $this->_getData('option_id');
+    }
+
+
+    /**
+     * Get option title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_getData('title');
+    }
+
+    /**
+     * Get option type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_getData('type');
+    }
+
+    /**
+     * Get sort order
+     *
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->_getData('sort_order');
+    }
+
+    /**
+     * Get is require
+     *
+     * @return bool
+     */
+    public function getIsRequire()
+    {
+        return $this->_getData('is_require');
+    }
+
+    /**
+     * Get price type
+     *
+     * @return string|null
+     */
+    public function getPriceType()
+    {
+        return $this->_getData('price_type');
+    }
+
+    /**
+     * Get Sku
+     *
+     * @return string|null
+     */
+    public function getSku()
+    {
+        return $this->_getData('sku');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFileExtension()
+    {
+        return $this->getData('file_extension');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMaxCharacters()
+    {
+        return $this->getData('max_characters');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getImageSizeX()
+    {
+        return $this->getData('image_size_x');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getImageSizeY()
+    {
+        return $this->getData('image_size_y');
     }
 }

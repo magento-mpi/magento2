@@ -166,7 +166,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
             throw new \Magento\Framework\Model\Exception(__('Please assign a gift card account.'));
@@ -203,6 +203,6 @@ class History extends \Magento\Framework\Model\AbstractModel
                 break;
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

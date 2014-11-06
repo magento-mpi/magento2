@@ -1659,9 +1659,9 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getParentId() && $this->getOrder()) {
             $this->setParentId($this->getOrder()->getId());

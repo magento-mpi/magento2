@@ -283,4 +283,14 @@ class Quote extends AbstractResource
 
         return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save(\Magento\Framework\Model\AbstractModel $object)
+    {
+        if (!$object->isPreventSaving()) {
+            return parent::save($object);
+        }
+    }
 }

@@ -9,7 +9,7 @@ namespace Magento\Catalog\Model\Product\Option;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Option;
-
+use \Magento\Framework\Model\AbstractExtensibleModel;
 /**
  * Catalog product option select type model
  *
@@ -17,14 +17,11 @@ use Magento\Catalog\Model\Product\Option;
  * @method \Magento\Catalog\Model\Resource\Product\Option\Value getResource()
  * @method int getOptionId()
  * @method \Magento\Catalog\Model\Product\Option\Value setOptionId(int $value)
- * @method string getSku()
- * @method \Magento\Catalog\Model\Product\Option\Value setSku(string $value)
- * @method int getSortOrder()
- * @method \Magento\Catalog\Model\Product\Option\Value setSortOrder(int $value)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Value extends \Magento\Framework\Model\AbstractModel
+class Value extends AbstractExtensibleModel
+    implements \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface
 {
     /**
      * Option type percent
@@ -65,12 +62,13 @@ class Value extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
+        \Magento\Catalog\Service\V1\Category\MetadataService $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataServiceInterface, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -289,5 +287,55 @@ class Value extends \Magento\Framework\Model\AbstractModel
     {
         $this->getResource()->duplicate($this, $oldOptionId, $newOptionId);
         return $this;
+    }
+
+    /**
+     * Get option title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_getData('title');
+    }
+
+    /**
+     * Get sort order
+     *
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->_getData('sort_order');
+    }
+
+    /**
+     * Get price type
+     *
+     * @return string
+     */
+    public function getPriceType()
+    {
+        return $this->_getData('price_type');
+    }
+
+    /**
+     * Get Sku
+     *
+     * @return string|null
+     */
+    public function getSku()
+    {
+        return $this->_getData('sku');
+    }
+
+    /**
+     * Get Sku
+     *
+     * @return string|null
+     */
+    public function getOptionTypeId()
+    {
+        return $this->_getData('option_type_id');
     }
 }

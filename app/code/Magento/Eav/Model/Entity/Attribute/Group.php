@@ -12,7 +12,6 @@ namespace Magento\Eav\Model\Entity\Attribute;
  *
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group _getResource()
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group getResource()
- * @method int getAttributeSetId()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeSetId(int $value)
  * @method string getAttributeGroupName()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeGroupName(string $value)
@@ -25,7 +24,8 @@ namespace Magento\Eav\Model\Entity\Attribute;
  * @method string getTabGroupCode()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setTabGroupCode(string $value)
  */
-class Group extends \Magento\Framework\Model\AbstractModel
+class Group extends \Magento\Framework\Model\AbstractExtensibleModel
+    implements \Magento\Eav\Api\Data\AttributeGroupInterface
 {
     /**
      * Resource initialization
@@ -62,7 +62,7 @@ class Group extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getAttributeGroupCode()) {
             $groupName = $this->getAttributeGroupName();
@@ -70,6 +70,30 @@ class Group extends \Magento\Framework\Model\AbstractModel
                 $this->setAttributeGroupCode(trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($groupName)), '-'));
             }
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getData(self::GROUP_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->getData(self::GROUP_NAME);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeSetId()
+    {
+        return $this->getData(self::ATTRIBUTE_SET_ID);
     }
 }

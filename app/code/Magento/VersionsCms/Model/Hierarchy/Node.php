@@ -792,9 +792,9 @@ class Node extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
         // we save to metadata table not only metadata :(
         //if ($this->_cmsHierarchy->isMetadataEnabled()) {
         $this->_getResource()->saveMetaData($this);

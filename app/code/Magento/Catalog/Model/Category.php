@@ -21,13 +21,14 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
  * @method int getMovedCategoryId()
  * @method Category setAffectedCategoryIds(array $categoryIds)
  * @method array getAffectedCategoryIds()
- * @method string getUrlKey()
  * @method Category setUrlKey(string $urlKey)
  * @method Category setUrlPath(string $urlPath)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
+class Category extends \Magento\Catalog\Model\AbstractModel
+    implements \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryInterface,
+    \Magento\Catalog\Api\Data\CategoryTreeInterface
 {
     /**
      * Entity code.
@@ -191,6 +192,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
+     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -212,6 +214,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
+        \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -229,7 +232,15 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $this->flatIndexer = $flatIndexer;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->urlFinder = $urlFinder;
-        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $metadataServiceInterface,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -819,12 +830,12 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         if ($this->getResource()->isForbiddenToDelete($this->getId())) {
             throw new \Magento\Framework\Model\Exception("Can't delete root category.");
         }
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -1006,9 +1017,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      *
      * @return \Magento\Catalog\Model\Category
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        $result = parent::_afterSave();
+        $result = parent::afterSave();
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
     }
@@ -1033,10 +1044,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->reindex();
-        return parent::_afterDeleteCommit();
+        return parent::afterDeleteCommit();
     }
 
     /**
@@ -1053,5 +1064,93 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             $identities[] = Product::CACHE_PRODUCT_CATEGORY_TAG . '_' . $this->getId();
         }
         return $identities;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPath()
+    {
+        return $this->getData('path');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPosition()
+    {
+        return $this->getData('position');
+    }
+
+    /**
+     * @return int
+     */
+    public function getChildrenCount()
+    {
+        return $this->getData('children_count');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCreatedAt()
+    {
+        return $this->getData('created_at');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUpdatedAt()
+    {
+        return $this->getData('updated_at');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->getData('is_active');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCategoryId()
+    {
+        return $this->getData('category_id');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDisplayMode()
+    {
+        return $this->getData('display_mode');
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIncludeInMenu()
+    {
+        return $this->getData('include_in_menu');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUrlKey()
+    {
+        return $this->getData('url_key');
+    }
+
+    /**
+     * @return \Magento\Catalog\Api\Data\CategoryTreeInterface[]|null
+     */
+    public function getChildrenData()
+    {
+        return $this->getData('children_data');
     }
 }

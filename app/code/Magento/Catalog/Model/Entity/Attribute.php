@@ -34,15 +34,11 @@ use Magento\Catalog\Model\Attribute\LockValidatorInterface;
  * @method \Magento\Catalog\Model\Entity\Attribute setIsUsedForPriceRules(int $value)
  * @method int getIsFilterableInSearch()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsFilterableInSearch(int $value)
- * @method int getUsedInProductListing()
  * @method \Magento\Catalog\Model\Entity\Attribute setUsedInProductListing(int $value)
- * @method int getUsedForSortBy()
  * @method \Magento\Catalog\Model\Entity\Attribute setUsedForSortBy(int $value)
- * @method string getApplyTo()
  * @method \Magento\Catalog\Model\Entity\Attribute setApplyTo(string $value)
  * @method int getIsVisibleInAdvancedSearch()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsVisibleInAdvancedSearch(int $value)
- * @method int getPosition()
  * @method \Magento\Catalog\Model\Entity\Attribute setPosition(int $value)
  * @method int getIsWysiwygEnabled()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsWysiwygEnabled(int $value)
@@ -85,6 +81,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param LockValidatorInterface $lockValidator
+     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -102,6 +99,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
+        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -119,6 +117,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $localeDate,
             $reservedAttributeList,
             $localeResolver,
+            $metadataService,
             $resource,
             $resourceCollection,
             $data
@@ -131,7 +130,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Eav\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         try {
             $this->attrLockValidator->validate($this);
@@ -140,7 +139,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         }
 
         $this->setData('modulePrefix', self::MODULE_NAME);
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -148,12 +147,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         /**
          * Fix saving attribute in admin
          */
         $this->_eavConfig->clear();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 }

@@ -64,7 +64,7 @@ class Agreement extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->getContentHeight() == 0) {
             $this->setContentHeight(''); //converting zero Content-Height
@@ -77,6 +77,6 @@ class Agreement extends \Magento\Framework\Model\AbstractModel
             $this->setContentHeight($contentHeight);
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }
