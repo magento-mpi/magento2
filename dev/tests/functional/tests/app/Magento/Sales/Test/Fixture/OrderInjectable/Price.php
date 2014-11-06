@@ -9,7 +9,6 @@
 namespace Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
- * Class Price
  * Data keys:
  *  - preset (Price data verification preset name)
  */
@@ -40,8 +39,8 @@ class Price extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price
     {
         $presets = [
             'default_with_discount' => [
-                'subtotal' => 1120,
-                'discount' => 560,
+                'subtotal' => 560,
+                'discount' => 280,
             ],
             'full_invoice' => [
                 [

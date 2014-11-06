@@ -44,6 +44,22 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'order_default'],
         ];
 
+        $this->_data['product_with_url_key'] = [
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'is_virtual' => 'No',
+            'weight' => 1,
+            'quantity_and_stock_status' => [
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'url_key' => 'simple-product-%isolation%',
+            'price' => ['value' => 560.00, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
+            'visibility' => 'Catalog, Search',
+            'checkout_data' => ['preset' => 'order_default'],
+        ];
+
         $this->_data['simple_big_qty'] = [
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product %isolation%',
