@@ -41,84 +41,84 @@ title,identifier,content
    </div>
 </div>
 "
-"Sale Left Menu Block",sale-left-menu-block,"<span class=""menu-section"">Women's Deals</span>
-<ul>
-    <li><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies and Sweatshirts</a></li>
-    <li><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
-    <li><a href=""{{category url=""tees-women""}}"">Tees</a></li>
-    <li><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
-    <li><a href=""{{category url=""pants-women""}}"">Pants</a></li>
-    <li><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
+"Sale Left Menu Block",sale-left-menu-block,"<strong class=""title""><span>Women's Deals</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies and Sweatshirts</a></li>
+    <li class=""item""><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
+    <li class=""item""><a href=""{{category url=""tees-women""}}"">Tees</a></li>
+    <li class=""item""><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
+    <li class=""item""><a href=""{{category url=""pants-women""}}"">Pants</a></li>
+    <li class=""item""><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
 </ul>
 
-<span class=""menu-section"">Men's Deals</span>
-<ul>
-    <li><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies and Sweatshirts</a></li>
-    <li><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
-    <li><a href=""{{category url=""tees-men""}}"">Tees</a></li>
-    <li><a href=""{{category url=""pants-men""}}"">Pants</a></li>
-    <li><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
+<strong class=""title""><span>Mens's Deals</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies and Sweatshirts</a></li>
+    <li class=""item""><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
+    <li class=""item""><a href=""{{category url=""tees-men""}}"">Tees</a></li>
+    <li class=""item""><a href=""{{category url=""pants-men""}}"">Pants</a></li>
+    <li class=""item""><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
 </ul>
 
-<span class=""menu-section"">Gear Deals</span>
-<ul>
-    <li><a href=""{{category url=""bags""}}"">Bags</a></li>
-    <li><a href=""{{category url=""fitness-equipment""}}"">Fitness Equipment</a></li>
+<strong class=""title""><span>Gear Deals</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""bags""}}"">Bags</a></li>
+    <li class=""item""><a href=""{{category url=""fitness-equipment""}}"">Fitness Equipment</a></li>
 </ul>
 "
-"Gear Left Menu Block",gear-left-menu-block,"<span class=""menu-section""></span>
-<ul>
-    <li><a href=""{{category url=""bags""}}"">Bags</a></li>
-    <li><a href=""{{category url=""fitness-equipment""}}"">Fitness Equipment</a></li>
-    <li><a href=""{{category url=""watches""}}"">Watches</a></li>
+"Gear Left Menu Block",gear-left-menu-block,"<strong class=""title""><span></span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""bags""}}"">Bags</a></li>
+    <li class=""item""><a href=""{{category url=""fitness-equipment""}}"">Fitness Equipment</a></li>
+    <li class=""item""><a href=""{{category url=""watches""}}"">Watches</a></li>
 </ul>
 "
-"Men Left Menu Block",men-left-menu-block,"<span class=""menu-section"">Tops</span>
-<ul>
-    <li><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies & Sweatshirts</a></li>
-    <li><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
-    <li><a href=""{{category url=""tees-men""}}"">Tees</a></li>
-    <li><a href=""{{category url=""tanks-men""}}"">Tanks</a></li>
+"Men Left Menu Block",men-left-menu-block,"<strong class=""title""><span>Tops</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies & Sweatshirts</a></li>
+    <li class=""item""><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
+    <li class=""item""><a href=""{{category url=""tees-men""}}"">Tees</a></li>
+    <li class=""item""><a href=""{{category url=""tanks-men""}}"">Tanks</a></li>
 </ul>
 
-<span class=""menu-section"">Bottoms</span>
-<ul>
-    <li><a href=""{{category url=""pants-men""}}"">Pants</a></li>
-    <li><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
+<strong class=""title""><span>Bottoms</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""pants-men""}}"">Pants</a></li>
+    <li class=""item""><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
 </ul>
 "
-"Women Left Menu Block",women-left-menu-block,"<span class=""menu-section"">Tops</span>
-<ul>
-    <li><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies & Sweatshirts</a></li>
-    <li><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
-    <li><a href=""{{category url=""tees-women""}}"">Tees</a></li>
-    <li><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
+"Women Left Menu Block",women-left-menu-block,"<strong class=""title""><span>Tops</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies & Sweatshirts</a></li>
+    <li class=""item""><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
+    <li class=""item""><a href=""{{category url=""tees-women""}}"">Tees</a></li>
+    <li class=""item""><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
 </ul>
 
-<span class=""menu-section"">Bottoms</span>
-<ul>
-    <li><a href=""{{category url=""pants-women""}}"">Pants</a></li>
-    <li><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
+<strong class=""title""><span>Bottoms</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""pants-women""}}"">Pants</a></li>
+    <li class=""item""><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
 </ul>
 "
-"New Left Menu Block",new-left-menu-block,"<span class=""menu-section"">New in women's</span>
-<ul>
-    <li><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies & Sweatshirts</a></li>
-    <li><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
-    <li><a href=""{{category url=""tees-women""}}"">Tees</a></li>
-    <li><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
-    <li><a href=""{{category url=""pants-women""}}"">Pants</a></li>
-    <li><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
+"New Left Menu Block",new-left-menu-block,"<strong class=""title""><span>New in women's</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""hoodies-and-sweatshirts-women""}}"">Hoodies & Sweatshirts</a></li>
+    <li class=""item""><a href=""{{category url=""jackets-women""}}"">Jackets</a></li>
+    <li class=""item""><a href=""{{category url=""tees-women""}}"">Tees</a></li>
+    <li class=""item""><a href=""{{category url=""tanks-women""}}"">Bras & Tanks</a></li>
+    <li class=""item""><a href=""{{category url=""pants-women""}}"">Pants</a></li>
+    <li class=""item""><a href=""{{category url=""shorts-women""}}"">Shorts</a></li>
 </ul>
 
-<span class=""menu-section"">New in men's</span>
-<ul>
-    <li><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies & Sweatshirts</a></li>
-    <li><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
-    <li><a href=""{{category url=""tees-men""}}"">Tees</a></li>
-    <li><a href=""{{category url=""tanks-men""}}"">Tanks</a></li>
-    <li><a href=""{{category url=""pants-men""}}"">Pants</a></li>
-    <li><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
+<strong class=""title""><span>New in men's</span></strong>
+<ul class=""items"">
+    <li class=""item""><a href=""{{category url=""hoodies-and-sweatshirts-men""}}"">Hoodies & Sweatshirts</a></li>
+    <li class=""item""><a href=""{{category url=""jackets-men""}}"">Jackets</a></li>
+    <li class=""item""><a href=""{{category url=""tees-men""}}"">Tees</a></li>
+    <li class=""item""><a href=""{{category url=""tanks-men""}}"">Tanks</a></li>
+    <li class=""item""><a href=""{{category url=""pants-men""}}"">Pants</a></li>
+    <li class=""item""><a href=""{{category url=""shorts-men""}}"">Shorts</a></li>
 </ul>
 "
 Women Block,women-block,"<div class=""blocks-promo"">
