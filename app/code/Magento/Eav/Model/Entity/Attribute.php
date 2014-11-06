@@ -75,7 +75,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -92,7 +92,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

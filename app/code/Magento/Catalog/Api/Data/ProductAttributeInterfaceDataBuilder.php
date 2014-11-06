@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Api\Data;
-use Magento\Framework\Service\Data\ExtensibleDataBuilder;
+use Magento\Framework\Api\ExtensibleDataBuilder;
 
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductAttributeInterface
  */
-class ProductAttributeInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductAttributeInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param bool|null $isWysiwygEnabled

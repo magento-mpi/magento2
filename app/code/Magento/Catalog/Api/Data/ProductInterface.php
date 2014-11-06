@@ -13,7 +13,7 @@ namespace Magento\Catalog\Api\Data;
  * ProductInterface will be implemented by \Magento\Catalog\Model\Product
  * @see \Magento\Catalog\Service\V1\Data\Product
  */
-interface ProductInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface ProductInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of  data array

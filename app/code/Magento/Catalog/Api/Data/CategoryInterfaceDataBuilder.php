@@ -10,7 +10,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\CategoryInterface
  */
-class CategoryInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class CategoryInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param int $id

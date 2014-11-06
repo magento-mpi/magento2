@@ -108,7 +108,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Catalog\Model\Indexer\Product\Eav\Processor $indexerEavProcessor
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper
      * @param LockValidatorInterface $lockValidator
-     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -129,7 +129,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $indexerEavProcessor,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper,
         LockValidatorInterface $lockValidator,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

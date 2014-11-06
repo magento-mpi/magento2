@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Model;
 
 class CategoryProductLink
-    extends \Magento\Framework\Service\Data\AbstractSimpleObject
+    extends \Magento\Framework\Api\AbstractSimpleObject
     implements \Magento\Catalog\Api\Data\CategoryProductLinkInterface
 {
     /**

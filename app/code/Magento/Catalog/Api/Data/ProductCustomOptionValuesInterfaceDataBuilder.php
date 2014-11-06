@@ -12,7 +12,7 @@ namespace Magento\Catalog\Api\Data;
  * DataBuilder class for
  * \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface
  */
-class ProductCustomOptionValuesInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductCustomOptionValuesInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param string $title

@@ -49,17 +49,17 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $filterManager;
 
     /**
-     * @var \Magento\Framework\Service\Config\MetadataConfig
+     * @var \Magento\Framework\Api\Config\MetadataConfig
      */
     protected $metadataConfig;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
@@ -71,9 +71,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      * @param \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory
-     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataConfig
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\Config\MetadataConfig $metadataConfig
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Attribute $attributeResource,
@@ -83,9 +83,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory,
-        \Magento\Framework\Service\Config\MetadataConfig $metadataConfig,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+        \Magento\Framework\Api\Config\MetadataConfig $metadataConfig,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder
     ) {
         $this->attributeResource = $attributeResource;
         $this->attributeBuilder = $attributeBuilder;
@@ -113,7 +113,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria)
     {
         return $this->eavAttributeRepository->getList(
             \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,

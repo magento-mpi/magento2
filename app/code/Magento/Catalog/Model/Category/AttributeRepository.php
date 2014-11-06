@@ -12,12 +12,12 @@ use Magento\Catalog\Api\CategoryAttributeRepositoryInterface;
 class AttributeRepository implements CategoryAttributeRepositoryInterface
 {
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
@@ -27,15 +27,15 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
     protected $eavAttributeRepository;
 
     /**
-     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataConfig
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\Config\MetadataConfig $metadataConfig
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
      */
     public function __construct(
-        \Magento\Framework\Service\Config\MetadataConfig $metadataConfig,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Api\Config\MetadataConfig $metadataConfig,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
     ) {
         $this->metadataConfig = $metadataConfig;
@@ -47,7 +47,7 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria)
     {
         return $this->eavAttributeRepository->getList(
             \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,

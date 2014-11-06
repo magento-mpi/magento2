@@ -4,7 +4,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductLinkInterface
  */
-class ProductLinkInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductLinkInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * Initialize the builder

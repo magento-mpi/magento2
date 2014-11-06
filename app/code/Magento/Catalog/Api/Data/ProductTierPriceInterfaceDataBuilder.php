@@ -11,7 +11,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductTierPriceInterface
  */
-class ProductTierPriceInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductTierPriceInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param float $qty

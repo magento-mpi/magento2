@@ -11,7 +11,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductGroupPriceInterface
  */
-class ProductGroupPriceInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductGroupPriceInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param int $customerGroupId

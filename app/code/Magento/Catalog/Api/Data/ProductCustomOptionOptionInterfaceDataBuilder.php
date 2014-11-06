@@ -12,7 +12,7 @@ namespace Magento\Catalog\Api\Data;
  * DataBuilder class for
  * \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface
  */
-class ProductCustomOptionOptionInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductCustomOptionOptionInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param string $productSku

@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Api\Data;
-use Magento\Framework\Service\Data\ExtensibleDataBuilder;
+use Magento\Framework\Api\ExtensibleDataBuilder;
 
 /**
  * DataBuilder class for
  * \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface
  */
-class ProductAttributeMediaGalleryEntryContentInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductAttributeMediaGalleryEntryContentInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * Initialize the builder

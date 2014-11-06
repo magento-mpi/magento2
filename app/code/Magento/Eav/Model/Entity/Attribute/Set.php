@@ -64,7 +64,7 @@ class Set
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -76,7 +76,7 @@ class Set
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Service\Data\MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,

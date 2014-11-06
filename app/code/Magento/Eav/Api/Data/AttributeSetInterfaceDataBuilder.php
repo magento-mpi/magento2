@@ -13,7 +13,7 @@ namespace Magento\Eav\Api\Data;
  * @todo this utility class can be removed after API framework is able to generate builders
  * taking field mapping into account
  */
-class AttributeSetInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class AttributeSetInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param int $id

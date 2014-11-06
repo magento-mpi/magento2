@@ -4,7 +4,7 @@ namespace Magento\Catalog\Api\Data;
 /**
  * Builder class for \Magento\Catalog\Api\Data\ProductLinkAttributeInterface
  */
-class ProductLinkAttributeInterfaceBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class ProductLinkAttributeInterfaceBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * {@inheritdoc}

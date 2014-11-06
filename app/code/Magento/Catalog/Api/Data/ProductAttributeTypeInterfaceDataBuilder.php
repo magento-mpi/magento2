@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Api\Data;
-use Magento\Framework\Service\Data\ExtensibleDataBuilder;
+use Magento\Framework\Api\ExtensibleDataBuilder;
 
 /**
  * DataBuilder class for @see \Magento\Catalog\Api\Data\ProductAttributeTypeInterface
  */
-class ProductAttributeTypeInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class ProductAttributeTypeInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param string $value

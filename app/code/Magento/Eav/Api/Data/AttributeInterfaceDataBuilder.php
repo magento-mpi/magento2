@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 namespace Magento\Eav\Api\Data;
-use Magento\Framework\Service\Data\ExtensibleDataBuilder;
+use Magento\Framework\Api\ExtensibleDataBuilder;
 
 /**
  * DataBuilder class for \Magento\Eav\Api\Data\AttributeInterface
  */
-class AttributeInterfaceDataBuilder extends \Magento\Framework\Service\Data\ExtensibleDataBuilder
+class AttributeInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
     /**
      * @param string|null $attributeId

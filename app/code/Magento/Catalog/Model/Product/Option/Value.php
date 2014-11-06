@@ -62,13 +62,13 @@ class Value extends AbstractExtensibleModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
-        \Magento\Catalog\Service\V1\Category\MetadataService $metadataServiceInterface,
+        \Magento\Catalog\Service\V1\Category\MetadataService $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
-        parent::__construct($context, $registry, $metadataServiceInterface, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**
