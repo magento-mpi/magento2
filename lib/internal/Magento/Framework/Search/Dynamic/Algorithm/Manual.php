@@ -16,15 +16,14 @@ class Manual implements AlgorithmInterface
      */
     public function getItems(DataProviderInterface $dataProvider, array $entityIds)
     {
-        $data = [];
         $range = $dataProvider->getRange();
+        $options = $dataProvider->getOptions();
         if (!$range) {
-            $options = $dataProvider->getOptions();
             $range = $options['range_step'];
-            $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
-            $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
-            $data = $dataProvider->prepareData($range, $dbRanges);
         }
+        $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
+        $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
+        $data = $dataProvider->prepareData($range, $dbRanges);
 
         return $data;
     }
