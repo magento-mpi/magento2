@@ -62,7 +62,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct(
@@ -147,20 +147,20 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
         $helper = $this->_pbridgeData;
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
-            array(
+            [
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url' => null,
                 'customer_id' => $this->getCustomerIdentifier(),
                 'customer_name' => $this->getCustomerName(),
                 'customer_email' => $this->getCustomerEmail()
-            )
+            ]
         );
     }
 
     /**
      * Get current customer object
      *
-     * @return null|\Magento\Customer\Model\Customer
+     * @return null|\Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCurrentCustomer()
     {

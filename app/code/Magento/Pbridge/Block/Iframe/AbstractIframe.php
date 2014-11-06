@@ -97,7 +97,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_customerSession = $customerSession;
@@ -116,7 +116,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     public function getRedirectUrl()
     {
-        return $this->getUrl('magento_pbridge/pbridge/result', array('_current' => true, '_secure' => true));
+        return $this->getUrl('magento_pbridge/pbridge/result', ['_current' => true, '_secure' => true]);
     }
 
     /**
@@ -154,9 +154,9 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getAddressInfo()
     {
-        $address = $this->_getCurrentCustomer()->getDefaultBillingAddress();
+        $address = $this->_getCurrentCustomer()->getDefaultBilling();
 
-        $addressFileds = array(
+        $addressFileds = [
             'prefix',
             'firstname',
             'middlename',
@@ -168,9 +168,9 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
             'telephone',
             'fax',
             'postcode'
-        );
+        ];
 
-        $result = array();
+        $result = [];
         if ($address) {
             foreach ($addressFileds as $addressField) {
                 if ($address->hasData($addressField)) {
@@ -253,7 +253,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
         $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_JS);
-        $items = array();
+        $items = [];
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;
         }
@@ -279,9 +279,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
             if ($mergeCallback) {
                 $mergedUrl = call_user_func($mergeCallback, $rows);
             }
-            // render elements
-            $params = trim($params);
-            $params = $params ? ' ' . $params : '';
+
             if ($mergedUrl) {
                 $url[] = $mergedUrl;
             } else {
@@ -335,8 +333,8 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     public function getCustomerName()
     {
         $customer = $this->_getCurrentCustomer();
-        if ($customer && $customer->getName()) {
-            return $customer->getName();
+        if ($customer && $customer->getFirstname()) {
+            return $customer->getFirstname();
         }
         return null;
     }
@@ -344,7 +342,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Get current customer object
      *
-     * @return null|\Magento\Customer\Model\Customer
+     * @return null|\Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCurrentCustomer()
     {
