@@ -18,6 +18,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $expected = ['key1' => 'value1', 'giftcardInfo' => '[id^=giftcard]'];
         $param = ['key1' => 'value1'];
-        $this->assertEquals($expected, (new Plugin())->afterGetWishlistOptions(null, $param));
+        $block = $this->getMockBuilder('Magento\Catalog\Block\Product\View')->disableOriginalConstructor()->getMock();
+        /** @var $block \Magento\Catalog\Block\Product\View */
+        $this->assertEquals($expected, (new Plugin())->afterGetWishlistOptions($block, $param));
     }
 }
