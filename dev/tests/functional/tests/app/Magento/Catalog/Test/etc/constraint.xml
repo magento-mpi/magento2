@@ -442,4 +442,7 @@
     <assertCategoryRedirect module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryRedirect>
+    <assertProductAttributeOnProductForm module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeOnProductForm>
 </constraint>

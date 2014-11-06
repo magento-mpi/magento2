@@ -18,93 +18,127 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Edit;
 
 /**
- * Class ProductForm
- * Product form on backend product page
+ * Product form on backend product page.
  */
 class ProductForm extends FormTabs
 {
     /**
-     * Attribute on the Product page
+     * Attribute on the Product page.
      *
      * @var string
      */
     protected $attribute = './/*[contains(@class,"label")]/span[text()="%s"]';
 
     /**
-     * Attribute Search locator the Product page
+     * Attribute Search locator the Product page.
      *
      * @var string
      */
     protected $attributeSearch = '#product-attribute-search-container';
 
     /**
-     * Selector for trigger(show/hide) of advanced setting content
+     * Selector for trigger(show/hide) of advanced setting content.
      *
      * @var string
      */
     protected $advancedSettingTrigger = '#product_info_tabs-advanced [data-role="trigger"]';
 
     /**
-     * Selector for advanced setting content
+     * Selector for advanced setting content.
      *
      * @var string
      */
-
     protected $advancedSettingContent = '#product_info_tabs-advanced [data-role="content"]';
 
     /**
-     * Custom Tab locator
+     * Custom Tab locator.
      *
      * @var string
      */
     protected $customTab = './/*/a[contains(@id,"product_info_tabs_%s")]';
 
     /**
-     * Button "New Category"
+     * Button "New Category".
      *
      * @var string
      */
     protected $buttonNewCategory = '#add_category_button';
 
     /**
-     * Dialog box "Create Category"
+     * Dialog box "Create Category".
      *
      * @var string
      */
     protected $createCategoryDialog = './/ancestor::body//*[contains(@class,"mage-new-category-dialog")]';
 
     /**
-     * "Parent Category" block on dialog box
+     * "Parent Category" block on dialog box.
      *
      * @var string
      */
     protected $parentCategoryBlock = '//*[contains(@class,"field-new_category_parent")]';
 
     /**
-     * Field "Category Name" on dialog box
+     * Field "Category Name" on dialog box.
      *
      * @var string
      */
     protected $fieldNewCategoryName = '//input[@id="new_category_name"]';
 
     /**
-     * Button "Create Category" on dialog box
+     * Button "Create Category" on dialog box.
      *
      * @var string
      */
     protected $createCategoryButton = '//button[contains(@class,"action-create")]';
 
     /**
-     * Tabs title css selector
+     * Tabs title css selector.
      *
      * @var string
      */
     protected $tabsTitle = '#product_info_tabs-basic [data-role="title"]';
 
     /**
-     * Fill the product form
+     * Selector for 'New Attribute' button.
+     *
+     * @var string
+     */
+    protected $newAttributeButton = '[id^="create_attribute"]';
+
+    /**
+     * New attribute form selector.
+     *
+     * @var string
+     */
+    protected $newAttributeForm = '#create_new_attribute';
+
+    /**
+     * Custom product attribute locator.
+     *
+     * @var string
+     */
+    protected $customProductAttribute = '#attribute-%s-container';
+
+    /**
+     * Magento loader.
+     *
+     * @var string
+     */
+    protected $loader = '[data-role="loader"]';
+
+    /**
+     * Mage error selector.
+     *
+     * @var string
+     */
+    protected $mageError = '//*[contains(@class,"field ")][.//*[contains(@class,"mage-error")]]';
+
+    /**
+     * Fill the product form.
      *
      * @param FixtureInterface $product
      * @param Element|null $element [optional]
@@ -144,7 +178,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Get data of the tabs
+     * Get data of the tabs.
      *
      * @param FixtureInterface|null $fixture
      * @param Element|null $element
@@ -157,7 +191,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Show Advanced Setting
+     * Show Advanced Setting.
      *
      * @return void
      */
@@ -171,7 +205,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Open tab
+     * Open tab.
      *
      * @param string $tabName
      * @return Tab
@@ -184,7 +218,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Save new category
+     * Save new category.
      *
      * @param Product $fixture
      * @return void
@@ -207,7 +241,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Select parent category for new one
+     * Select parent category for new one.
      *
      * @return void
      */
@@ -221,7 +255,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Clear category field
+     * Clear category field.
      *
      * @return void
      */
@@ -234,7 +268,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Open new category dialog
+     * Open new category dialog.
      *
      * @return void
      */
@@ -245,7 +279,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Check visibility of the attribute on the product page
+     * Check visibility of the attribute on the product page.
      *
      * @param mixed $productAttribute
      * @return bool
@@ -261,7 +295,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Call method that checking present attribute in search result
+     * Call method that checking present attribute in search result.
      *
      * @param CatalogProductAttribute $productAttribute
      * @return bool
@@ -276,7 +310,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Check tab visibility on Product form
+     * Check tab visibility on Product form.
      *
      * @param string $tabName
      * @return bool
@@ -290,7 +324,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Open custom tab on Product form
+     * Open custom tab on Product form.
      *
      * @param string $tabName
      * @return void
@@ -299,5 +333,93 @@ class ProductForm extends FormTabs
     {
         $tabName = strtolower($tabName);
         $this->_rootElement->find(sprintf($this->customTab, $tabName), Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Click on 'New Attribute' button.
+     *
+     * @return void
+     */
+    public function addNewAttribute()
+    {
+        $this->_rootElement->find($this->attributeSearch)->click();
+        $this->_rootElement->find($this->newAttributeButton)->click();
+    }
+
+    /**
+     * Fill product attribute form.
+     *
+     * @param CatalogProductAttribute $productAttribute
+     * @return void
+     */
+    public function fillAttributeForm(CatalogProductAttribute $productAttribute)
+    {
+        $browser = $this->browser;
+        $element = $this->newAttributeForm;
+        $loader = $this->loader;
+
+        $attributeForm = $this->getAttributeForm();
+        $attributeForm->fill($productAttribute);
+
+        $this->_rootElement->waitUntil(
+            function () use ($browser, $element) {
+                return $browser->find($element)->isVisible() == false ? true : null;
+            }
+        );
+
+        $this->_rootElement->waitUntil(
+            function () use ($browser, $loader) {
+                return $browser->find($loader)->isVisible() == false ? true : null;
+            }
+        );
+    }
+
+    /**
+     * Get Attribute Form.
+     *
+     * @return Edit
+     */
+    public function getAttributeForm()
+    {
+        /** @var Edit $attributeForm */
+        $attributeForm = $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Edit',
+            ['element' => $this->browser->find('body')]
+        );
+        return $attributeForm;
+    }
+
+    /**
+     * Get product custom attribute block.
+     *
+     * @param CatalogProductAttribute $attribute
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeBlock
+     */
+    public function getCustomAttributeBlock(CatalogProductAttribute $attribute)
+    {
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeBlock',
+            [
+                'element' => $this->_rootElement->find(
+                    sprintf($this->customProductAttribute, $attribute->getAttributeCode())
+                ),
+                'config' => ['attribute' => $attribute]
+            ]
+        );
+    }
+
+    /**
+     * Get Require Notice Attributes.
+     *
+     * @return array
+     */
+    public function getRequireNoticeAttributes()
+    {
+        $data = [];
+        $elements = $this->_rootElement->find($this->mageError, Locator::SELECTOR_XPATH)->getElements();
+        foreach ($elements as $element) {
+            $data[$element->find('label')->getText()] = $element;
+        }
+        return $data;
     }
 }

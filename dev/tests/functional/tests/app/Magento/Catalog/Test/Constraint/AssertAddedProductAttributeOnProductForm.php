@@ -8,19 +8,16 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
- * Class AssertAddedProductAttributeOnProductForm
- * Check attribute on product form
+ * Check attribute on product form.
  */
 class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
 {
@@ -33,52 +30,23 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
 
     /**
      * Add this attribute to Default attribute Template. Create product and Assert that created attribute
-     * is displayed on product form (Products > Inventory > Catalog)
+     * is displayed on product form (Products > Inventory > Catalog).
      *
-     * @param FixtureFactory $fixtureFactory
-     * @param CatalogProductSetIndex $productSet
-     * @param CatalogProductSetEdit $productSetEdit
-     * @param CatalogAttributeSet $productTemplate
+     * @param InjectableFixture $product
      * @param CatalogProductIndex $productGrid
-     * @param CatalogProductAttribute $productAttributeOriginal
      * @param CatalogProductEdit $productEdit
-     * @param CatalogProductAttribute|null $productAttribute
+     * @param CatalogProductAttribute $productAttribute
+     * @param CatalogProductAttribute $productAttributeOriginal
+     * @throws \Exception
      * @return void
      */
     public function processAssert(
-        FixtureFactory $fixtureFactory,
-        CatalogProductSetIndex $productSet,
-        CatalogProductSetEdit $productSetEdit,
-        CatalogAttributeSet $productTemplate,
+        InjectableFixture $product,
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productEdit,
         CatalogProductAttribute $productAttribute,
         CatalogProductAttribute $productAttributeOriginal = null
     ) {
-        $filterAttribute = [
-            'set_name' => $productTemplate->getAttributeSetName(),
-        ];
-        $productSet->open();
-        $productSet->getGrid()->searchAndOpen($filterAttribute);
-
-        $attributeData = ($productAttributeOriginal !== null)
-            ? array_merge($productAttribute->getData(), $productAttributeOriginal->getData())
-            : $productAttribute->getData();
-
-        $productSetEdit->getAttributeSetEditBlock()->moveAttribute($attributeData, 'Product Details');
-        $productSetEdit->getPageActions()->save();
-
-        $product = $fixtureFactory->createByCode(
-            'catalogProductSimple',
-            [
-                'dataSet' => 'product_with_category',
-                'data' => [
-                    'attribute_set_id' => ['attribute_set' => $productTemplate],
-                ],
-            ]
-        );
-        $product->persist();
-
         $filterProduct = [
             'sku' => $product->getSku(),
         ];
