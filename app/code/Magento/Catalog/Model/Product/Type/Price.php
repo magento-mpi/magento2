@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Model\Product\Type;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Store\Model\Store;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
@@ -66,12 +67,18 @@ class Price
     protected $priceCurrency;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $_groupManagement;
+
+    /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param PriceCurrencyInterface $priceCurrency
+     * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
@@ -79,7 +86,8 @@ class Price
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        PriceCurrencyInterface $priceCurrency
+        PriceCurrencyInterface $priceCurrency,
+        GroupManagementInterface $groupManagement
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
@@ -87,6 +95,7 @@ class Price
         $this->_customerSession = $customerSession;
         $this->_eventManager = $eventManager;
         $this->priceCurrency = $priceCurrency;
+        $this->_groupManagement = $groupManagement;
     }
 
     /**
@@ -240,7 +249,7 @@ class Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
+        $allGroups = $this->_groupManagement->getAllGroup()->getId();
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {

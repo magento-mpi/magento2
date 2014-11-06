@@ -173,6 +173,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Solr\Helper\Data $searchData,
         \Magento\Search\Model\QueryFactory $queryFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
@@ -202,6 +203,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $localeDate,
             $customerSession,
             $dateTime,
+            $groupManagement,
             $connection
         );
     }

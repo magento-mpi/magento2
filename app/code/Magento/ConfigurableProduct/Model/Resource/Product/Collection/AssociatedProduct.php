@@ -11,6 +11,8 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Collection;
 
+use Magento\Customer\Api\GroupManagementInterface;
+
 /**
  * Catalog compare item resource model
  *
@@ -58,6 +60,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param GroupManagementInterface $groupManagement
      * @param \Magento\Framework\Registry $registryManager
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
@@ -84,6 +87,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        GroupManagementInterface $groupManagement,
         \Magento\Framework\Registry $registryManager,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
@@ -111,6 +115,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
             $localeDate,
             $customerSession,
             $dateTime,
+            $groupManagement,
             $connection
         );
     }

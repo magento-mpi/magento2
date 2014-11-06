@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group;
 
 use Magento\Backend\Block\Widget;
-use Magento\Customer\Model\Group;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 
@@ -63,6 +63,11 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     protected $_groupRepository;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $_groupManagement;
+
+    /**
      * @var  \Magento\Framework\Api\SearchCriteriaDataBuilder
      */
     protected $_searchCriteriaDataBuilder;
@@ -81,6 +86,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\Registry $registry,
+        GroupManagementInterface $groupManagement,
         \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaDataBuilder,
         array $data = array()
     ) {
@@ -88,6 +94,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         $this->_directoryHelper = $directoryHelper;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
+        $this->_groupManagement = $groupManagement;
         $this->_searchCriteriaDataBuilder = $searchCriteriaDataBuilder;
         parent::__construct($context, $data);
     }
@@ -276,7 +283,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      */
     public function getDefaultCustomerGroup()
     {
-        return Group::CUST_GROUP_ALL;
+        return $this->_groupManagement->getAllGroup()->getId();
     }
 
     /**

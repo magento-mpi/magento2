@@ -50,16 +50,16 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDelete()
     {
-        $this->assertEquals('return_value', $this->_model->afterDeleteGroup($this->_subjectMock, 'return_value'));
+        $this->assertEquals('return_value', $this->_model->afterDelete($this->_subjectMock, 'return_value'));
     }
 
-    public function testAroundCreate()
+    public function testAroundDeleteById()
     {
-        $this->assertEquals('return_value', $this->_model->afterCreateGroup($this->_subjectMock, 'return_value'));
+        $this->assertEquals('return_value', $this->_model->afterDeleteById($this->_subjectMock, 'return_value'));
     }
 
-    public function testAroundUpdate()
+    public function testAroundSave()
     {
-        $this->assertEquals('return_value', $this->_model->afterUpdateGroup($this->_subjectMock, 'return_value'));
+        $this->assertEquals('return_value', $this->_model->afterSave($this->_subjectMock, 'return_value'));
     }
 }

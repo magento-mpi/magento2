@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
 
-use Magento\Customer\Model\Group;
-
 /**
  * Adminhtml tier price item renderer
  */
@@ -26,7 +24,7 @@ class Tier extends Group\AbstractGroup
      */
     protected function _getInitialCustomerGroups()
     {
-        return array(Group::CUST_GROUP_ALL => __('ALL GROUPS'));
+        return array($this->_groupManagement->getAllGroup()->getId() => __('ALL GROUPS'));
     }
 
     /**

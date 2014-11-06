@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
+use Magento\Customer\Model\GroupManagement;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
@@ -56,6 +57,11 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $productMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupManagementMock;
+
     protected function setUp()
     {
         $this->repositoryMock = $this->getMock(
@@ -88,6 +94,8 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\Product\PriceModifier', array(), array(), '', false);
         $this->repositoryMock->expects($this->any())->method('get')->with('product_sku')
             ->will($this->returnValue($this->productMock));
+        $this->groupManagementMock =
+            $this->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
 
         $this->service = new TierPriceService(
             $this->repositoryMock,
@@ -95,7 +103,8 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             $this->storeManagerMock,
             $this->priceModifierMock,
             $this->configMock,
-            $this->groupServiceMock
+            $this->groupServiceMock,
+            $this->groupManagementMock
         );
     }
 
@@ -265,6 +274,15 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->productMock->expects($this->once())->method('save');
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $group->expects($this->once())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
+        $this->groupManagementMock->expects($this->once())->method('getAllGroup')
+            ->will($this->returnValue($group));
         $this->service->set('product_sku', 'all', $price);
     }
 

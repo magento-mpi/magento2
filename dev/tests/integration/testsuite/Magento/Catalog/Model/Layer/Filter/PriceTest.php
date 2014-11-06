@@ -19,6 +19,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
+
     protected function setUp()
     {
         $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -30,6 +35,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $layer->setCurrentCategory($category);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $layer));
+        $this->groupManagement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('\Magento\Customer\Api\GroupManagementInterface');
     }
 
     /**
@@ -137,7 +144,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testGetSetCustomerGroupId()
     {
         $this->assertEquals(
-            \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
+            $this->groupManagement->getNotLoggedInGroup()->getId(),
             $this->_model->getCustomerGroupId()
         );
 

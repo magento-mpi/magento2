@@ -12,28 +12,14 @@ use Magento\Customer\Api\GroupRepositoryInterface;
 class CustomerGroup extends AbstractPlugin
 {
     /**
-     * Invalidate the indexer after the group is created.
+     * Invalidate the indexer after the group is saved.
      *
      * @param GroupRepositoryInterface $subject
-     * @param string                        $result
+     * @param string                   $result
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterCreateGroup(GroupRepositoryInterface $subject, $result)
-    {
-        $this->invalidateIndexer();
-        return $result;
-    }
-
-    /**
-     * Invalidate the indexer after the group is updated.
-     *
-     * @param GroupRepositoryInterface $subject
-     * @param string                        $result
-     * @return string
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function afterUpdateGroup(GroupRepositoryInterface $subject, $result)
+    public function afterSave(GroupRepositoryInterface $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;
@@ -43,11 +29,25 @@ class CustomerGroup extends AbstractPlugin
      * Invalidate the indexer after the group is deleted.
      *
      * @param GroupRepositoryInterface $subject
-     * @param string                        $result
+     * @param string                   $result
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteGroup(GroupRepositoryInterface $subject, $result)
+    public function afterDelete(GroupRepositoryInterface $subject, $result)
+    {
+        $this->invalidateIndexer();
+        return $result;
+    }
+
+    /**
+     * Invalidate the indexer after the group is deleted.
+     *
+     * @param GroupRepositoryInterface $subject
+     * @param string                   $result
+     * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function afterDeleteById(GroupRepositoryInterface $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;

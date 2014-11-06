@@ -27,6 +27,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param PriceModifierInterface $priceModifier
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
@@ -35,10 +36,11 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         PriceCurrencyInterface $priceCurrency,
-        PriceModifierInterface $priceModifier
+        PriceModifierInterface $priceModifier,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
         $this->priceModifier = $priceModifier;
-        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager, $priceCurrency);
+        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager, $priceCurrency, $groupManagement);
     }
 
     /**

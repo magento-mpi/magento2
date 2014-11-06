@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Model\Product\Attribute\Backend\Groupprice;
 
 use Magento\Catalog\Model\Product\Attribute\Backend\Price;
-use Magento\Customer\Model\Group;
+use Magento\Customer\Api\GroupManagementInterface;
 
 /**
  * Catalog product abstract group price backend attribute model
@@ -38,12 +38,18 @@ abstract class AbstractGroupprice extends Price
     protected $_catalogProductType;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $_groupManagement;
+
+    /**
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
@@ -51,9 +57,11 @@ abstract class AbstractGroupprice extends Price
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Catalog\Model\Product\Type $catalogProductType
+        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        GroupManagementInterface $groupManagement
     ) {
         $this->_catalogProductType = $catalogProductType;
+        $this->_groupManagement = $groupManagement;
         parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
@@ -257,7 +265,7 @@ abstract class AbstractGroupprice extends Price
         foreach ($data as $k => $v) {
             $data[$k]['website_price'] = $v['price'];
             if ($v['all_groups']) {
-                $data[$k]['cust_group'] = Group::CUST_GROUP_ALL;
+                $data[$k]['cust_group'] = $this->_groupManagement->getAllGroup()->getId();
             }
         }
 
@@ -342,7 +350,7 @@ abstract class AbstractGroupprice extends Price
                 array_merge(array($data['website_id'], $data['cust_group']), $this->_getAdditionalUniqueFields($data))
             );
 
-            $useForAllGroups = $data['cust_group'] == Group::CUST_GROUP_ALL;
+            $useForAllGroups = $data['cust_group'] == $this->_groupManagement->getAllGroup()->getId();
             $customerGroupId = !$useForAllGroups ? $data['cust_group'] : 0;
 
             $new[$key] = array_merge(

@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Catalog\Service\V1\Data\Product;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 
@@ -46,12 +47,18 @@ class TierPriceService implements TierPriceServiceInterface
     protected $groupRepository;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
      * @param ProductRepository $productRepository
      * @param Product\TierPriceBuilder $priceBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Customer\Api\GroupRepositoryInterface $customerGroupService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
+     * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
         ProductRepository $productRepository,
@@ -59,7 +66,8 @@ class TierPriceService implements TierPriceServiceInterface
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
+        GroupManagementInterface $groupManagement
     ) {
         $this->productRepository = $productRepository;
         $this->priceBuilder = $priceBuilder;
@@ -67,6 +75,7 @@ class TierPriceService implements TierPriceServiceInterface
         $this->priceModifier = $priceModifier;
         $this->config = $config;
         $this->groupRepository = $groupRepository;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -101,7 +110,7 @@ class TierPriceService implements TierPriceServiceInterface
         }
         if (!$found) {
             $mappedCustomerGroupId = 'all' == $customerGroupId
-                ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
+                ? $this->groupManagement->getAllGroup()->getId()
                 : $this->groupRepository->getById($customerGroupId)->getId();
 
             $tierPrices[] = array(
