@@ -125,6 +125,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $priceCurrency;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemServiceInterface
+     */
+    protected $_stockItemService;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -170,6 +175,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Bundle\Model\OptionFactory $bundleOption,
         \Magento\Framework\StoreManagerInterface $storeManager,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -182,6 +188,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
         $this->priceCurrency = $priceCurrency;
+        $this->_stockItemService = $stockItemService;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -581,9 +588,12 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function isSalable($product)
     {
-        $salable = parent::isSalable($product);
-        if (!is_null($salable)) {
-            return $salable;
+        if (!parent::isSalable($product)) {
+            return false;
+        }
+
+        if ($product->hasData('all_items_salable')) {
+            return $product->getData('all_items_salable');
         }
 
         $optionCollection = $this->getOptionsCollection($product);
@@ -605,15 +615,28 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (!count($selectionCollection->getItems())) {
             return false;
         }
+        $hasNotSalableSelectedItem = false;
         $salableSelectionCount = 0;
+
         foreach ($selectionCollection as $selection) {
+            /* @var $selection \Magento\Catalog\Model\Product */
             if ($selection->isSalable()) {
+                if ($selection->hasSelectionQty() &&
+                    $selection->getSelectionQty() > $this->_stockItemService->getStockQty($selection->getId())
+                ) {
+                    $hasNotSalableSelectedItem = true;
+                }
                 $requiredOptionIds[$selection->getOptionId()] = 1;
                 $salableSelectionCount++;
             }
         }
-
-        return array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount;
+        if ($hasNotSalableSelectedItem) {
+            $isSalable = false;
+        } else {
+            $isSalable = array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount;
+        }
+        $product->setData('all_items_salable', $isSalable);
+        return $isSalable;
     }
 
     /**
