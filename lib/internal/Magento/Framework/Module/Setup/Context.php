@@ -35,11 +35,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_moduleList;
 
     /**
-     * @var \Magento\Framework\Module\ResourceInterface
-     */
-    protected $_resourceResource;
-
-    /**
      * @var \Magento\Framework\Module\Setup\MigrationFactory
      */
     protected $_migrationFactory;
