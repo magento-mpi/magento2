@@ -163,6 +163,13 @@ class ConditionsElement extends AbstractElement
     protected $chooserGridLocator = 'div[id*=chooser]';
 
     /**
+     * Rule param input selector.
+     *
+     * @var string
+     */
+    protected $ruleParamInput = '.element [name^="rule[conditions]"]';
+
+    /**
      * Set value to conditions
      *
      * @param string $value
@@ -266,7 +273,12 @@ class ConditionsElement extends AbstractElement
                 $grid->searchAndSelect([$chooserConfig[1] => $rule]);
                 continue;
             }
-
+            $input = $param->find($this->ruleParamInput);
+            $param->waitUntil(
+                function () use ($input) {
+                    return $input->isVisible() ? true : null;
+                }
+            );
             $value = $param->find('select', Locator::SELECTOR_CSS, 'select');
             if ($value->isVisible()) {
                 $value->setValue($rule);
