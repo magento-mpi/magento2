@@ -22,14 +22,14 @@ class LayoutForm extends Form
      *
      * @var string
      */
-    protected $chooser = '.widget-option-chooser';
+    protected $chooser = '//*[@class="chooser_container"]//a/img[contains(@alt,"Open Chooser")]';
 
     /**
      * Widget option apply button
      *
      * @var string
      */
-    protected $apply = './/div[contains(@class,"chooser_container")]//a/img[contains(@alt,"Apply")]';
+    protected $apply = '//*[@class="chooser_container"]//a/img[contains(@alt,"Apply")]';
 
     /**
      * Backend abstract block
@@ -49,8 +49,10 @@ class LayoutForm extends Form
     {
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($layoutFields);
-        $this->_fill($mapping, $element);
-        $this->getTemplateBlock()->waitLoader();
+        foreach ($mapping as $key => $values) {
+            $this->_fill([$key => $values], $element);
+            $this->getTemplateBlock()->waitLoader();
+        }
     }
 
     /**

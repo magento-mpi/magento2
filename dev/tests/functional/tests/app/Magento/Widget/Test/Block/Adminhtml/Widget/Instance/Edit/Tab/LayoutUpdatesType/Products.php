@@ -22,7 +22,7 @@ class Products extends LayoutForm
      *
      * @var string
      */
-    protected $productGrid = '.chooser_container';
+    protected $productGrid = '//*[@class="chooser_container"]';
 
     /**
      * Filling layout form
@@ -33,9 +33,13 @@ class Products extends LayoutForm
      */
     public function fillForm(array $widgetOptionsFields, Element $element = null)
     {
-        $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($widgetOptionsFields);
-        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
+        $fields = array_diff_key($mapping, ['entities' => '']);
+        foreach ($fields as $key => $values) {
+            $this->_fill([$key => $values], $this->_rootElement);
+            $this->getTemplateBlock()->waitLoader();
+            $this->reinitRootElement();
+        }
         if (isset($mapping['entities'])) {
             $this->selectEntityInGrid($mapping['entities']);
         }
@@ -49,7 +53,7 @@ class Products extends LayoutForm
      */
     protected function selectEntityInGrid(array $entities)
     {
-        $this->_rootElement->find($this->chooser)->click();
+        $this->_rootElement->find($this->chooser, Locator::SELECTOR_XPATH)->click();
         $this->getTemplateBlock()->waitLoader();
 
         /** @var Grid $productGrid */
@@ -57,7 +61,7 @@ class Products extends LayoutForm
             'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\Product\Grid',
             [
                 'element' => $this->_rootElement
-                    ->find($this->productGrid, Locator::SELECTOR_CSS)
+                    ->find($this->productGrid, Locator::SELECTOR_XPATH)
             ]
         );
         $productGrid->searchAndSelect(['name' => $entities['value']['name']]);

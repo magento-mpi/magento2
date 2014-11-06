@@ -27,7 +27,12 @@ class Categories extends LayoutForm
     {
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($widgetOptionsFields);
-        $this->_fill(array_diff_key($mapping, ['entities' => '']), $element);
+        $fields = array_diff_key($mapping, ['entities' => '']);
+        foreach ($fields as $key => $values) {
+            $this->_fill([$key => $values], $this->_rootElement);
+            $this->getTemplateBlock()->waitLoader();
+            $this->reinitRootElement();
+        }
         if (isset($mapping['entities'])) {
             $this->selectCategory($mapping['entities'], $element);
         }
@@ -42,7 +47,7 @@ class Categories extends LayoutForm
      */
     protected function selectCategory(array $entities, Element $element)
     {
-        $this->_rootElement->find($this->chooser)->click();
+        $this->_rootElement->find($this->chooser, Locator::SELECTOR_XPATH)->click();
         $this->getTemplateBlock()->waitLoader();
         $parentPath = $entities['value']['path'];
         $entities['value'] = $parentPath . '/' . $entities['value']['name'];

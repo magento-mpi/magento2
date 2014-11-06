@@ -31,7 +31,7 @@ class LayoutUpdates extends Tab
      * @var string
      */
     // @codingStandardsIgnoreStart
-    protected $formSelector = '(//*[@class="fieldset-wrapper-content"]//div[contains(@class,"group_container") and not(contains(@class,"no-display"))])[last()]';
+    protected $formSelector = './/div[contains(@id,"page_group_container_%d") and //div[contains(@class,"group_container") and not(contains(@class,"no-display"))]]';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -40,13 +40,6 @@ class LayoutUpdates extends Tab
      * @var string
      */
     protected $addLayoutUpdates = 'button.action-add';
-
-    /**
-     * Page group locator
-     *
-     * @var string
-     */
-    protected $pageGroup = '[id=page_group_container_%d] select[name$="[page_group]"]';
 
     /**
      * Fill Layout Updates form
@@ -59,17 +52,15 @@ class LayoutUpdates extends Tab
     {
         foreach ($fields['layout']['value'] as $key => $field) {
             $this->addLayoutUpdates();
-            $this->_rootElement->find(sprintf($this->pageGroup, $key), Locator::SELECTOR_CSS, 'select')
-                ->setOptionGroupValue($field['page_group'][0], $field['page_group'][1]);
-            $this->getTemplateBlock()->waitLoader();
             $path = 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\\';
             /** @var LayoutForm $layoutForm */
             $layoutForm = $this->blockFactory->create(
                 $path . str_replace(" ", "", $field['page_group'][0]),
                 [
-                    'element' => $this->_rootElement->find($this->formSelector, Locator::SELECTOR_XPATH)
+                    'element' => $this->_rootElement->find(sprintf($this->formSelector, $key), Locator::SELECTOR_XPATH)
                 ]
             );
+            $field['page_group'] = $field['page_group'][0] . '/' . $field['page_group'][1];
             $layoutForm->fillForm($field);
         }
         return $this;

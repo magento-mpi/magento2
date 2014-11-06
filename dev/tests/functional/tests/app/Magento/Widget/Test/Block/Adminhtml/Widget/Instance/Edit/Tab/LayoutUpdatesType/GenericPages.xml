@@ -10,8 +10,8 @@
 <mapping strict="0">
     <fields>
         <page_group>
-            <selector>select[id="layout_handle"]</selector>
-            <input>select</input>
+            <selector>.page_group_select</selector>
+            <input>optgroupselect</input>
         </page_group>
         <block>
             <selector>.block_reference select</selector>
