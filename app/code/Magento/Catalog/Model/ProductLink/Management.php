@@ -52,7 +52,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
      * @param Data\ProductLinkInterfaceDataBuilder $productLinkBuilder
      * @param LinksInitializer $linkInitializer
      * @param \Magento\Catalog\Model\Resource\Product $productResource
-     * @param \Magento\Framework\Service\Data\AttributeValueBuilder $valueBuilder
+     * @param \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
@@ -60,7 +60,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder $productLinkBuilder,
         LinksInitializer $linkInitializer,
         \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Framework\Service\Data\AttributeValueBuilder $valueBuilder
+        \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
     ) {
         $this->productRepository = $productRepository;
         $this->entityCollectionProvider = $collectionProvider;

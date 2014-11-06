@@ -39,7 +39,7 @@ class WriteService implements WriteServiceInterface
     protected $productResource;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Link\DataMapperInterface
+     * @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface
      */
     protected $dataMapper;
 
@@ -48,14 +48,14 @@ class WriteService implements WriteServiceInterface
      * @param \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider
      * @param ProductLoader $productLoader
      * @param ProductResource $productResource
-     * @param \Magento\Catalog\Model\Product\Link\DataMapperInterface $dataMapper
+     * @param \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface $dataMapper
      */
     public function __construct(
         LinksInitializer $linkInitializer,
         \Magento\Catalog\Model\ProductLink\CollectionProvider $entityCollectionProvider,
         ProductLoader $productLoader,
         ProductResource $productResource,
-        \Magento\Catalog\Model\Product\Link\DataMapperInterface $dataMapper
+        \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface $dataMapper
     ) {
         $this->linkInitializer = $linkInitializer;
         $this->entityCollectionProvider = $entityCollectionProvider;

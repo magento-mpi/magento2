@@ -6,12 +6,43 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Api\Data;
+use Magento\Framework\ObjectManager;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\CategoryInterface
  */
 class CategoryInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleDataBuilder
 {
+    /**
+     * @param ObjectManager $objectManager
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
+     * @param string $modelClassInterface
+     */
+    public function __construct(
+        ObjectManager $objectManager,
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
+        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
+        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
+        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
+        $modelClassInterface = 'Magento\Catalog\Api\Data\CategoryInterface'
+    ) {
+        parent::__construct(
+            $objectManager,
+            $metadataService,
+            $attributeValueBuilder,
+            $objectProcessor,
+            $typeProcessor,
+            $dataBuilderFactory,
+            $modelClassInterface
+        );
+    }
+
     /**
      * @param int $id
      */
@@ -136,15 +167,5 @@ class CategoryInterfaceDataBuilder extends \Magento\Framework\Api\ExtensibleData
     {
         $this->data['include_in_menu'] = $includeInMenu;
         return $this;
-    }
-
-    /**
-     * Initialize the builder
-     *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager)
-    {
-        parent::__construct($objectManager, 'Magento\Catalog\Api\Data\CategoryInterface');
     }
 }
