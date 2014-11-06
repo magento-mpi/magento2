@@ -66,7 +66,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->productLinkBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder',
+            '\Magento\Catalog\Api\Data\ProductLinkDataBuilder',
             ['populateWithArray', 'create'],
             [],
             '',
@@ -164,7 +164,13 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $linkedProductsMock = [];
         for ($i = 0; $i < 2; $i++) {
-            $productLinkMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
+            $productLinkMock = $this->getMock(
+                '\Magento\Catalog\Api\Data\ProductLinkInterface',
+                [
+                    'getLinkedProductSku', 'getProductSku', 'getLinkType',
+                    '__toArray', 'getLinkedProductType', 'getPosition', 'getCustomAttribute', 'getCustomAttributes'
+                ]
+            );
             $productLinkMock->expects($this->any())
                 ->method('getLinkedProductSku')
                 ->willReturn('linkedProduct' . $i .'Sku');

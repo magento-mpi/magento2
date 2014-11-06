@@ -62,8 +62,8 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataServiceInterface
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -71,14 +71,14 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\Api\MetadataServiceInterface $metadataServiceInterface,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $registry, $metadataServiceInterface, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**

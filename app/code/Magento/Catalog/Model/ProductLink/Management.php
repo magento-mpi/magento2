@@ -87,10 +87,12 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
                 ProductLinkInterface::POSITION => $item['position'],
             ];
             $this->productLinkBuilder->populateWithArray($data);
-            foreach ($item['custom_attributes'] as $option) {
-                $this->productLinkBuilder->setCustomAttribute(
-                    $this->valueBuilder->populateWithArray($option)->create()
-                );
+            if (isset($item['custom_attributes'])) {
+                foreach ($item['custom_attributes'] as $option) {
+                    $this->productLinkBuilder->setCustomAttribute(
+                        $this->valueBuilder->populateWithArray($option)->create()
+                    );
+                }
             }
             $output[] = $this->productLinkBuilder->create();
         }

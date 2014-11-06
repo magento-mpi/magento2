@@ -44,16 +44,16 @@ class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->searchBuilderMock =
-            $this->getMock('Magento\Framework\Api\SearchCriteriaBuilder', [], [], '', false);
+            $this->getMock('Magento\Framework\Api\SearchCriteriaDataBuilder', [], [], '', false);
         $this->filterBuilderMock =
-            $this->getMock('Magento\Framework\Service\V1\Data\FilterBuilder', [], [], '', false);
+            $this->getMock('Magento\Framework\Api\FilterBuilder', [], [], '', false);
         $this->attributeRepositoryMock =
             $this->getMock('Magento\Eav\Api\AttributeRepositoryInterface', [], [], '', false);
         $this->metadataConfigMock =
-            $this->getMock('Magento\Framework\Service\Config\MetadataConfig', [], [], '', false);
+            $this->getMock('Magento\Framework\Api\Config\MetadataConfig', [], [], '', false);
         $this->searchResultMock =
             $this->getMock(
-                'Magento\Framework\Data\Search\SearchResultsInterface',
+                'Magento\Framework\Api\SearchResultsInterface',
                 [
                     'getItems',
                     'getSearchCriteria',

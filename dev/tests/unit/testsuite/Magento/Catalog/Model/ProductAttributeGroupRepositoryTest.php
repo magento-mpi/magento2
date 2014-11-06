@@ -69,7 +69,7 @@ class ProductAttributeGroupRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetList()
     {
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\Search\SearchCriteriaInterface');
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
         $expectedResult = $this->getMock('\Magento\Eav\Api\Data\AttributeGroupInterface');
         $this->groupRepositoryMock->expects($this->once())->method('getList')->with($searchCriteriaMock)
             ->willReturn($expectedResult);
