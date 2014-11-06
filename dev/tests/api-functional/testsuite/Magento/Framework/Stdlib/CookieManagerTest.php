@@ -38,22 +38,22 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function testSensitiveCookie()
     {
         $url = $this->cookieTesterUrl . '/SetSensitiveCookie';
-        $cookieData =
+        $cookieParams =
             [
                 'cookie_name' => 'test-sensitive-cookie',
                 'cookie_value' => 'test-sensitive-cookie-value',
             ];
-        $response = $this->curlClient->get($url, $cookieData);
+        $response = $this->curlClient->get($url, $cookieParams);
 
-        // secure and httponly attributes should be set
-        $expectedCookie = [
-                'name' => 'test-sensitive-cookie',
-                'value' => 'test-sensitive-cookie-value',
-                'httponly' => 'true',
-
-        ];
-
-        $this->assertContains($expectedCookie, $response['cookies']);
+        $cookie = $this->findCookie($cookieParams['cookie_name'], $response['cookies']);
+        $this->assertNotNull($cookie);
+        $this->assertEquals($cookieParams['cookie_name'], $cookie['name']);
+        $this->assertEquals($cookieParams['cookie_value'], $cookie['value']);
+        $this->assertFalse(isset($cookie['domain']));
+        $this->assertFalse(isset($cookie['path']));
+        $this->assertEquals('true', $cookie['httponly']);
+        $this->assertFalse(isset($cookie['secure']));
+        $this->assertFalse(isset($cookie['max-age']));
     }
 
     /**
@@ -71,13 +71,15 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $response = $this->curlClient->get($url, $cookieParams);
 
-        // Just name and value set
-        $expectedCookie = [
-            'name' => 'test-cookie',
-            'value' => 'test-cookie-value'
-        ];
-
-        $this->assertContains($expectedCookie, $response['cookies']);
+        $cookie = $this->findCookie($cookieParams['cookie_name'], $response['cookies']);
+        $this->assertNotNull($cookie);
+        $this->assertEquals($cookieParams['cookie_name'], $cookie['name']);
+        $this->assertEquals($cookieParams['cookie_value'], $cookie['value']);
+        $this->assertFalse(isset($cookie['domain']));
+        $this->assertFalse(isset($cookie['path']));
+        $this->assertFalse(isset($cookie['httponly']));
+        $this->assertFalse(isset($cookie['secure']));
+        $this->assertFalse(isset($cookie['max-age']));
     }
 
     /**
@@ -86,7 +88,6 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testPublicCookieAll()
     {
-        $this->markTestIncomplete('MAGETWO-29179');
         $url = $this->cookieTesterUrl . '/SetPublicCookie';
         $cookieParams =
             [
@@ -101,18 +102,18 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $response = $this->curlClient->get($url, $cookieParams);
 
-        // All values, masking expires
-        $expectedCookie = [
-            'name' => 'test-cookie',
-            'value' => 'test-cookie-value',
-            'domain' => 'www.example.com',
-            'httponly' => 'true',
-            'path' => '/test/path',
-            'secure' => 'true',
-            'expires' => 'set'
-        ];
-
-        $this->assertContains($expectedCookie, $this->maskExpires($response['cookies']));
+        $cookie = $this->findCookie($cookieParams['cookie_name'], $response['cookies']);
+        $this->assertNotNull($cookie);
+        $this->assertEquals($cookieParams['cookie_name'], $cookie['name']);
+        $this->assertEquals($cookieParams['cookie_value'], $cookie['value']);
+        $this->assertEquals($cookieParams['cookie_domain'], $cookie['domain']);
+        $this->assertEquals($cookieParams['cookie_path'], $cookie['path']);
+        $this->assertEquals($cookieParams['cookie_httponly'], $cookie['httponly']);
+        $this->assertEquals($cookieParams['cookie_secure'], $cookie['secure']);
+        if (isset($cookie['max-age'])) {
+            $this->assertEquals($cookieParams['cookie_duration'], $cookie['max-age']);
+        }
+        $this->assertTrue(isset($cookie['expires']));
     }
 
     /**
@@ -121,7 +122,6 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testDeleteCookie()
     {
-        $this->markTestIncomplete('MAGETWO-29179');
         $url = $this->cookieTesterUrl . '/DeleteCookie';
         $cookieParams =
             [
@@ -135,28 +135,34 @@ class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ['Cookie: test-cookie=test-cookie-value; anothertestcookie=anothertestcookievalue']
         );
 
-        $expectedCookie = [
-            'name' => 'test-cookie',
-            'value' => 'deleted',
-            'expires' => 'Thu, 01-Jan-1970 00:00:01 GMT'
-        ];
-
-        $this->assertContains($expectedCookie, $response['cookies']);
+        $cookie = $this->findCookie($cookieParams['cookie_name'], $response['cookies']);
+        $this->assertNotNull($cookie);
+        $this->assertEquals($cookieParams['cookie_name'], $cookie['name']);
+        $this->assertEquals('deleted', $cookie['value']);
+        $this->assertFalse(isset($cookie['domain']));
+        $this->assertFalse(isset($cookie['path']));
+        $this->assertFalse(isset($cookie['httponly']));
+        $this->assertFalse(isset($cookie['secure']));
+        if (isset($cookie['max-age'])) {
+            $this->assertEquals(0, $cookie['max-age']);
+        }
+        $this->assertEquals('Thu, 01-Jan-1970 00:00:01 GMT', $cookie['expires']);
     }
 
     /**
-     * Masks any 'expires' value in Set-Cookie array with the value 'set'.
+     * Find cookie with given name in the list of cookies
      *
-     * @param array $cookies input array of cookies
-     * @return array input array with any 'expires' value masked.
+     * @param string $cookieName
+     * @param array $cookies
+     * @return $cookie|null
      */
-    private function maskExpires($cookies)
+    private function findCookie($cookieName, $cookies)
     {
         foreach ($cookies as $cookieIndex => $cookie) {
-            if (isset($cookie['expires'])) {
-                $cookies[$cookieIndex]['expires'] = 'set';
+            if ($cookie['name'] === $cookieName) {
+                return $cookie;
             }
         }
-        return $cookies;
+        return null;
     }
 }

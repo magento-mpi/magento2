@@ -13,7 +13,7 @@
         <container name="after_body_start" as="after_body_start" label="Page Top"/>
         <container name="columns.top" label="Before Main Columns" as="columns_top">
             <block class="Magento\Theme\Block\Html\Title" name="page.main.title" template="html/title.phtml"/>
-            <container name="page.messages" label="invisible" htmlTag="div" htmlClass="page messages">
+            <container name="page.messages" htmlTag="div" htmlClass="page messages">
                 <block class="Magento\Framework\View\Element\Messages" name="global_messages" as="global_messages"/>
                 <block class="Magento\Framework\View\Element\Messages" name="messages" as="messages"/>
             </container>

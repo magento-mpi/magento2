@@ -26,4 +26,9 @@
         <area>adminhtml</area>
         <class>Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexView</class>
     </invitationsIndexView>
+    <invitationsIndexNew>
+        <mca>invitations/index/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexNew</class>
+    </invitationsIndexNew>
 </page>
