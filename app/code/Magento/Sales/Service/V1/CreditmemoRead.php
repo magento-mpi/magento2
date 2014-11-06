@@ -10,7 +10,7 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Service\V1\Action\CreditmemoGet;
 use Magento\Sales\Service\V1\Action\CreditmemoList;
 use Magento\Sales\Service\V1\Action\CreditmemoCommentsList;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 /**
  * Class CreditmemoRead
@@ -59,7 +59,7 @@ class CreditmemoRead implements CreditmemoReadInterface
 
     /**
      * @param SearchCriteria $searchCriteria
-     * @return \Magento\Framework\Service\V1\Data\SearchResults
+     * @return \Magento\Framework\Api\SearchResults
      */
     public function search(SearchCriteria $searchCriteria)
     {
