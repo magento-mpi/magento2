@@ -33,7 +33,7 @@ namespace Magento\Sales\Test\TestCase;
 class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedProductsOnOrderPageTest
 {
     /**
-     * Move recently compared products on order page
+     * Move recently compared products on order page.
      *
      * @param string $products
      * @return array
@@ -52,7 +52,7 @@ class MoveRecentlyComparedProductsOnOrderPageTest extends AbstractMoveComparedPr
         $activitiesBlock->getRecentlyComparedProductsBlock()->addToOrderByName($this->extractProductNames($products));
         $activitiesBlock->updateChanges();
 
-        return ['entityData' => ['products' => $products], 'productsIsConfigured' => false];
+        return ['products' => $products, 'productsIsConfigured' => false];
     }
 
     /**

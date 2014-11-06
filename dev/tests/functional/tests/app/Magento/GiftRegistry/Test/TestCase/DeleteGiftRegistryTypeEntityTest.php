@@ -101,8 +101,6 @@ class DeleteGiftRegistryTypeEntityTest extends Injectable
      */
     public function test(GiftRegistryType $giftRegistryType)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-28824');
-
         // Preconditions:
         $giftRegistryType->persist();
 
