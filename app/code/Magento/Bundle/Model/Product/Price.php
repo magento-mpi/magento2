@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Model\Product;
 
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
@@ -41,6 +41,11 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     protected $_catalogData = null;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -48,6 +53,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
@@ -56,9 +62,11 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Catalog\Helper\Data $catalogData
+        \Magento\Catalog\Helper\Data $catalogData,
+        GroupManagementInterface $groupManagement
     ) {
         $this->_catalogData = $catalogData;
+        $this->groupManagement = $groupManagement;
         parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager, $priceCurrency);
     }
 
@@ -540,7 +548,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = CustomerGroupServiceInterface::CUST_GROUP_ALL;
+        $allGroups = $this->groupManagement->getAllGroup()->getId();
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
