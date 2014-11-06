@@ -25,7 +25,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     protected $groupFactory;
 
     /**
-     * @var \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder
+     * @var \Magento\Eav\Api\Data\AttributeGroupDataBuilder
      */
     protected $groupBuilder;
 
@@ -48,7 +48,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group $groupResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupListFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
-     * @param \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder $groupBuilder
+     * @param \Magento\Eav\Api\Data\AttributeGroupDataBuilder $groupBuilder
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository
      * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
      */
@@ -56,7 +56,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         \Magento\Eav\Model\Resource\Entity\Attribute\Group $groupResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupListFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
-        \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder $groupBuilder,
+        \Magento\Eav\Api\Data\AttributeGroupDataBuilder $groupBuilder,
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
         \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
     ) {

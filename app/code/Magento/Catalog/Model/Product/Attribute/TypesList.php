@@ -20,17 +20,17 @@ class TypesList implements \Magento\Catalog\Api\ProductAttributeTypesListInterfa
     private $inputTypeFactory;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductAttributeTypeInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductAttributeTypeDataBuilder
      */
     private $attributeTypeBuilder;
 
     /**
      * @param Source\InputtypeFactory $inputTypeFactory
-     * @param \Magento\Catalog\Api\Data\ProductAttributeTypeInterfaceDataBuilder $attributeTypeBuilder
+     * @param \Magento\Catalog\Api\Data\ProductAttributeTypeDataBuilder $attributeTypeBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory $inputTypeFactory,
-        \Magento\Catalog\Api\Data\ProductAttributeTypeInterfaceDataBuilder $attributeTypeBuilder
+        \Magento\Catalog\Api\Data\ProductAttributeTypeDataBuilder $attributeTypeBuilder
     ) {
         $this->inputTypeFactory = $inputTypeFactory;
         $this->attributeTypeBuilder = $attributeTypeBuilder;

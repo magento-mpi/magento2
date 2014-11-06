@@ -32,7 +32,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     protected $linkInitializer;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductLinkDataBuilder
      */
     protected $productLinkBuilder;
 
@@ -49,7 +49,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param CollectionProvider $collectionProvider
-     * @param Data\ProductLinkInterfaceDataBuilder $productLinkBuilder
+     * @param Data\ProductLinkDataBuilder $productLinkBuilder
      * @param LinksInitializer $linkInitializer
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
@@ -57,7 +57,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
         CollectionProvider $collectionProvider,
-        \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder $productLinkBuilder,
+        \Magento\Catalog\Api\Data\ProductLinkDataBuilder $productLinkBuilder,
         LinksInitializer $linkInitializer,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Framework\Api\AttributeValueBuilder $valueBuilder

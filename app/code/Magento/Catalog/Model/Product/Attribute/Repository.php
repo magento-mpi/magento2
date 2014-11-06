@@ -24,7 +24,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
     protected $eavAttributeRepository;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductAttributeDataBuilder
      */
     protected $attributeBuilder;
 
@@ -65,7 +65,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
 
     /**
      * @param \Magento\Catalog\Model\Resource\Attribute $attributeResource
-     * @param \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder
+     * @param \Magento\Catalog\Api\Data\ProductAttributeDataBuilder $attributeBuilder
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
@@ -77,7 +77,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Attribute $attributeResource,
-        \Magento\Catalog\Api\Data\ProductAttributeInterfaceDataBuilder $attributeBuilder,
+        \Magento\Catalog\Api\Data\ProductAttributeDataBuilder $attributeBuilder,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository,
