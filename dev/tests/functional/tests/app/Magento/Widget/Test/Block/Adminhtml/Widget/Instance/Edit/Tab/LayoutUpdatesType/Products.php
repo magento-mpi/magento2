@@ -62,5 +62,6 @@ class Products extends LayoutForm
         );
         $productGrid->searchAndSelect(['name' => $entities['value']['name']]);
         $this->getTemplateBlock()->waitLoader();
+        $this->_rootElement->find($this->apply, Locator::SELECTOR_XPATH)->click();
     }
 }

@@ -15,7 +15,7 @@ use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Check that created widget displayed on frontent on Home page and on Advanced Search and
- * after click on widget link on frontend system redirects you to catalog page
+ * after click on widget link on frontend system redirects you to cms page
  */
 class AssertWidgetCmsPageLink extends AbstractConstraint
 {
@@ -28,7 +28,7 @@ class AssertWidgetCmsPageLink extends AbstractConstraint
 
     /**
      * Assert that created widget displayed on frontent on Home page and on Advanced Search and
-     * after click on widget link on frontend system redirects you to catalog page
+     * after click on widget link on frontend system redirects you to cms page
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget

@@ -28,7 +28,6 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
                     'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template',
-                    'entities' => 'catalogCategory::default',
                 ]
             ],
             'for_virtual_product' => [

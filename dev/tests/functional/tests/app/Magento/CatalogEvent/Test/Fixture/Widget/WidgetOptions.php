@@ -27,7 +27,6 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
                 [
                     'limit' => '6',
                     'scroll' => '3',
-                    'entities' => ['catalogEventEntity::default_event', 'catalogEventEntity::default_event'],
                 ]
             ],
         ];

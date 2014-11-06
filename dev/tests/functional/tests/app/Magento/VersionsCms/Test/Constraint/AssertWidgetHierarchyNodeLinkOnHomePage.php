@@ -66,6 +66,7 @@ class AssertWidgetHierarchyNodeLinkOnHomePage extends AbstractConstraint
      */
     public function toString()
     {
-        return "Widget hierarchy node link is present on Home page and after click to link widget redirects to page with cms menu.";
+        return 'Widget hierarchy node link is present on Home page and after click on link widget redirects to '
+        . 'page with cms menu.';
     }
 }

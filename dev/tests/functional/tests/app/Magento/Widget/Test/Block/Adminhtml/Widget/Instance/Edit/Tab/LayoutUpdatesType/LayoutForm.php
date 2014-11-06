@@ -25,6 +25,13 @@ class LayoutForm extends Form
     protected $chooser = '.widget-option-chooser';
 
     /**
+     * Widget option apply button
+     *
+     * @var string
+     */
+    protected $apply = './/div[contains(@class,"chooser_container")]//a/img[contains(@alt,"Apply")]';
+
+    /**
      * Backend abstract block
      *
      * @var string

@@ -8,6 +8,7 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
+use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
@@ -35,21 +36,27 @@ class AssertWidgetCatalogEvent extends AbstractConstraint
      * @param Widget $widget
      * @param CatalogCategoryView $catalogCategoryView
      * @param AdminCache $adminCache
+     * @param CatalogEventEntity $event1
+     * @param CatalogEventEntity $event2
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         Widget $widget,
         CatalogCategoryView $catalogCategoryView,
-        AdminCache $adminCache
+        AdminCache $adminCache,
+        CatalogEventEntity $event1,
+        CatalogEventEntity $event2
     ) {
         // Flush cache
         $adminCache->open();
         $adminCache->getActionsBlock()->flushMagentoCache();
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
+        $event1->persist();
+        $event2->persist();
         $cmsIndex->open();
-        $categoryName = $widget->getWidgetOptions()[0]['entities'][1]->getCategoryId();
+        $categoryName = $event2->getCategoryId();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
             $catalogCategoryView->getWidgetView()->isWidgetVisible($widget, $categoryName),

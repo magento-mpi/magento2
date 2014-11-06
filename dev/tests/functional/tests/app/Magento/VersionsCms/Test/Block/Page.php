@@ -8,13 +8,10 @@
 
 namespace Magento\VersionsCms\Test\Block;
 
-use Mtf\Block\Block;
-
 /**
- * Class Page
  * Cms Page block for the content on the frontend.
  */
-class HierarchyNode extends Block
+class Page extends \Magento\Cms\Test\Block\Page
 {
     /**
      * Cms menu

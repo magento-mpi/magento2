@@ -9,6 +9,7 @@
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType;
 
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Filling Categories type layout
@@ -47,5 +48,6 @@ class Categories extends LayoutForm
         $entities['value'] = $parentPath . '/' . $entities['value']['name'];
         $this->_fill([$entities], $element);
         $this->getTemplateBlock()->waitLoader();
+        $this->_rootElement->find($this->apply, Locator::SELECTOR_XPATH)->click();
     }
 }

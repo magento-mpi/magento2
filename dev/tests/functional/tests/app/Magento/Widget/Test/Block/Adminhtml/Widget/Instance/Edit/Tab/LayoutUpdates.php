@@ -39,7 +39,7 @@ class LayoutUpdates extends Tab
      *
      * @var string
      */
-    protected $addLayoutUpdates = './/button[contains(@class, "action-add")]';
+    protected $addLayoutUpdates = 'button.action-add';
 
     /**
      * Page group locator
@@ -82,7 +82,7 @@ class LayoutUpdates extends Tab
      */
     protected function addLayoutUpdates()
     {
-        $this->_rootElement->find($this->addLayoutUpdates, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->addLayoutUpdates)->click();
     }
 
     /**

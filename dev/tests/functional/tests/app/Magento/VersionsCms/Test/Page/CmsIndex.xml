@@ -16,5 +16,10 @@
                 </hierarchyNodeLink>
             </renders>
         </widgetView>
+        <cmsHierarchyNodeBlock>
+            <class>Magento\VersionsCms\Test\Block\Page</class>
+            <locator>.col-main</locator>
+            <strategy>css selector</strategy>
+        </cmsHierarchyNodeBlock>
     </blocks>
 </page>

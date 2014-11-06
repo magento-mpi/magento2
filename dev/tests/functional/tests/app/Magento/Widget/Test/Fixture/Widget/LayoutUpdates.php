@@ -145,7 +145,6 @@ class LayoutUpdates implements FixtureInterface
                     'page_group' => ['Generic Pages', 'All Pages'],
                     'block' => 'Main Content Area',
                     'template' => 'CMS Page Link Block Template',
-                    'entities' => 'catalogCategory::default',
                 ]
             ],
         ];
