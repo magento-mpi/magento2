@@ -38,6 +38,8 @@ define([
         initElement: function (elem) {
             __super__.initElement.apply(this, arguments);
 
+            elem.on('update', this.trigger.bind(this, 'update'));
+            
             elem.activate();
         },
 
@@ -56,7 +58,7 @@ define([
             var setIndex = _.isObject(index) || _.isUndefined(index);
 
             if (setIndex) {
-                index = 'new_' + this.lastIndex;
+                index = 'new_' + this.lastIndex++;
             }
 
             this.childName = index;
@@ -67,7 +69,15 @@ define([
                 ]
             });
 
-            this.lastIndex++;
+            this.trigger('update');
+        },
+
+        hasChanged: function () {
+            var hasChanged = this.elems.some(function (elem) {
+                return elem.delegate('hasChanged', 'some');
+            });
+
+            return hasChanged || this.lastIndex !== 0;
         },
 
         removeChild: function(elem) {
@@ -91,6 +101,8 @@ define([
             if (first && isActive) {
                 first.activate();
             }
+
+            this.trigger('update');
         }
     });
 });

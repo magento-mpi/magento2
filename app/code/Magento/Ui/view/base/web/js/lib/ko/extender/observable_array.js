@@ -70,6 +70,10 @@ define([
             return _.last(this());
         },
 
+        some: function (predicate, ctx) {
+            return _.some(this(), predicate, ctx);
+        },
+
         every: function (predicate, ctx) {
             return _.every(this(), predicate, ctx);
         },
