@@ -64,10 +64,7 @@ class EntityId implements FixtureInterface
                 $this->data['products'][] = $product;
             }
         } elseif (is_array($data['products'])) {
-            $products = $data['products'];
-            foreach ($products as $product) {
-                $this->data['products'][] = $product;
-            }
+            $this->data['products'] = $data['products'];
         }
     }
 

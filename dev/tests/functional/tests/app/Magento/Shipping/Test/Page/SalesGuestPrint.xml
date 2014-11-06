@@ -9,10 +9,10 @@
 -->
 <page mca="sales/guest/print">
     <blocks>
-        <printOrderShipping>
-            <class>Magento\Shipping\Test\Block\Order\PrintOrder</class>
-            <locator>.columns</locator>
+        <infoShipping>
+            <class>Magento\Shipping\Test\Block\Order\Info</class>
+            <locator>.block-order-details-view</locator>
             <strategy>css selector</strategy>
-        </printOrderShipping>
+        </infoShipping>
     </blocks>
 </page>

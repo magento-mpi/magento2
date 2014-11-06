@@ -23,7 +23,6 @@ class AssertSalesPrintOrderPaymentMethod extends AbstractConstraint
      */
     protected $severeness = 'low';
 
-
     /**
      * Assert that payment method was printed correctly on sales guest print page.
      *
@@ -34,10 +33,9 @@ class AssertSalesPrintOrderPaymentMethod extends AbstractConstraint
     public function processAssert(SalesGuestPrint $salesGuestPrint, $paymentMethod)
     {
         \PHPUnit_Framework_Assert::assertTrue(
-            $salesGuestPrint->getPrintOrder()->getPaymentMethodBlock()->isPaymentMethodVisible($paymentMethod),
+            $salesGuestPrint->getInfo()->isPaymentMethodVisible($paymentMethod),
             "Payment method was printed incorrect on sales guest print page."
         );
-
     }
 
     /**

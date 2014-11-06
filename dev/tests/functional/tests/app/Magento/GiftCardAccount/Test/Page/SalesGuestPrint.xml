@@ -9,10 +9,10 @@
 -->
 <page mca="sales/guest/print">
     <blocks>
-        <printOrderGiftCard>
-            <class>Magento\GiftCardAccount\Test\Block\Sales\Order\PrintOrder</class>
-            <locator>.columns</locator>
+        <viewGiftCard>
+            <class>Magento\GiftCardAccount\Test\Block\Order\View</class>
+            <locator>.order-details-items</locator>
             <strategy>css selector</strategy>
-        </printOrderGiftCard>
+        </viewGiftCard>
     </blocks>
 </page>

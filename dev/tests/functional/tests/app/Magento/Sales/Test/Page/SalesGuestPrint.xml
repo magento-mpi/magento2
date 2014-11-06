@@ -9,10 +9,15 @@
 -->
 <page mca="sales/guest/print" module="Magento_Sales">
     <blocks>
-        <printOrder>
-            <class>Magento\Sales\Test\Block\Order\PrintOrder</class>
-            <locator>.columns</locator>
+        <view>
+            <class>Magento\Sales\Test\Block\Order\View</class>
+            <locator>.order-details-items</locator>
             <strategy>css selector</strategy>
-        </printOrder>
+        </view>
+        <info>
+            <class>Magento\Sales\Test\Block\Order\Info</class>
+            <locator>.block-order-details-view</locator>
+            <strategy>css selector</strategy>
+        </info>
     </blocks>
 </page>

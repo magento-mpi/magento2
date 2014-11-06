@@ -50,12 +50,10 @@ class PrintOrder extends Block
      */
     public function getBillingAddressBlock()
     {
-        $billingAddressBlock = $this->blockFactory->create(
+        return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Order\PrintOrder\BillingAddress',
             ['element' => $this->_rootElement->find($this->billingAddressSelector)]
         );
-
-        return $billingAddressBlock;
     }
 
     /**
@@ -65,12 +63,10 @@ class PrintOrder extends Block
      */
     public function getTotalsBlock()
     {
-        $totalsBlock = $this->blockFactory->create(
+        return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Order\PrintOrder\Totals',
             ['element' => $this->_rootElement->find($this->totalsSelector)]
         );
-
-        return $totalsBlock;
     }
 
     /**
@@ -80,12 +76,10 @@ class PrintOrder extends Block
      */
     public function getItemsBlock()
     {
-        $itemsBlock = $this->blockFactory->create(
+        return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Order\PrintOrder\Items',
             ['element' => $this->_rootElement->find($this->itemsSelector)]
         );
-
-        return $itemsBlock;
     }
 
     /**
@@ -95,11 +89,9 @@ class PrintOrder extends Block
      */
     public function getPaymentMethodBlock()
     {
-        $paymentMethodBlock = $this->blockFactory->create(
+        return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Order\PrintOrder\PaymentMethod',
             ['element' => $this->_rootElement->find($this->paymentMethodSelector)]
         );
-
-        return $paymentMethodBlock;
     }
 }

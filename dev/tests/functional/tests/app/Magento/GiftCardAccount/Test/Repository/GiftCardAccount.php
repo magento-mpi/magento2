@@ -27,7 +27,7 @@ class GiftCardAccount extends AbstractRepository
         $this->_data['default'] = [
             'status' => 'Yes',
             'is_redeemable' => 'Yes',
-            'website_id' => 'Main Website',
+            'website_id' => ['dataSet' => 'Main Website'],
             'balance' => '100',
             'date_expires' => '01/01/2054',
             'recipient_email' => 'johndoe@example.com',
@@ -38,14 +38,14 @@ class GiftCardAccount extends AbstractRepository
         $this->_data['active_redeemable_account'] = [
             'status' => 'Yes',
             'is_redeemable' => 'Yes',
-            'website_id' => 1,
+            'website_id' => ['dataSet' => 'Main Website'],
             'balance' => '10',
         ];
 
         $this->_data['gift_card_account_amount_1'] = [
             'status' => 'Yes',
             'is_redeemable' => 'Yes',
-            'website_id' => 1,
+            'website_id' => ['dataSet' => 'Main Website'],
             'balance' => '1',
         ];
     }

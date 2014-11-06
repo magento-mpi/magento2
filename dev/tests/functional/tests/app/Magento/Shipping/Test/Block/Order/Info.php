@@ -6,22 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\Shipping\Test\Block\Order\PrintOrder;
+namespace Magento\Shipping\Test\Block\Order;
 
-use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Shipping Method block on order's print page.
+ * Info block on order's view page.
  */
-class ShippingMethod extends Block
+class Info extends \Magento\Sales\Test\Block\Order\Info
 {
     /**
      * Shipping method selector.
      *
      * @var string
      */
-    protected $shippingMethodSelector = './.[contains(., "%s")]';
+    protected $shippingMethodSelector = './/.[contains(., "%s")]/..[contains(@class, "box-order-shipping-method")]';
 
     /**
      * Check if shipping method is visible in print order page.

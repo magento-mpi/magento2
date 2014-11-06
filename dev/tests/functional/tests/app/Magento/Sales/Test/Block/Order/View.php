@@ -29,7 +29,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $content = '/following-sibling::div[contains(@class,"order-items")][1]';
+    protected $content = '//following-sibling::div[contains(@class,"order-items")][1]';
 
     /**
      * Link xpath selector
@@ -41,12 +41,12 @@ class View extends Block
     /**
      * Get item block
      *
-     * @param int $id
+     * @param int $id [optional]
      * @return Items
      */
-    public function getItemBlock($id)
+    public function getItemBlock($id = null)
     {
-        $selector = sprintf($this->itemBlock, $id) . $this->content;
+        $selector = ($id === null) ? $this->content : sprintf($this->itemBlock, $id) . $this->content;
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Order\Items',
             ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]

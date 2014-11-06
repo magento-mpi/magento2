@@ -17,6 +17,11 @@ use Magento\Sales\Test\Page\SalesGuestPrint;
 class AssertShippingMethodOnPrintOrder extends AbstractConstraint
 {
     /**
+     * Shipping method and carrier template.
+     */
+    const SHIPPING_TEMPLATE = "%s - %s";
+
+    /**
      * Constraint severeness.
      *
      * @var string
@@ -27,16 +32,16 @@ class AssertShippingMethodOnPrintOrder extends AbstractConstraint
      * Assert that shipping method was printed correctly on sales guest print page.
      *
      * @param SalesGuestPrint $salesGuestPrint
-     * @param string $shippingMethod
+     * @param array $shipping
      * @return void
      */
-    public function processAssert(SalesGuestPrint $salesGuestPrint, $shippingMethod)
+    public function processAssert(SalesGuestPrint $salesGuestPrint, $shipping)
     {
-        $shippingBlock = $salesGuestPrint->getPrintOrderShipping()->getShippingMethodBlock();
+        $expected = sprintf(self::SHIPPING_TEMPLATE, $shipping['shipping_service'], $shipping['shipping_method']);
         \PHPUnit_Framework_Assert::assertTrue(
-            $shippingBlock->isShippingMethodVisible($shippingMethod)
+            $salesGuestPrint->getInfoShipping()->isShippingMethodVisible($expected),
+            "Shipping method was printed incorrectly."
         );
-
     }
 
     /**

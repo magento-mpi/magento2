@@ -34,7 +34,8 @@ class AssertSalesRuleOnPrintOrder extends AbstractConstraint
     {
         \PHPUnit_Framework_Assert::assertEquals(
             $salesRuleDiscount,
-            $salesGuestPrint->getPrintOrderSalesRule()->getSalesRuleBlock()->getSalesRuleDiscount()
+            $salesGuestPrint->getViewSalesRule()->getItemBlock()->getSalesRuleDiscount(),
+            "Sales rule amount not equals."
         );
     }
 

@@ -8,6 +8,7 @@
 
 namespace Magento\Sales\Test\Constraint;
 
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesGuestPrint;
 
@@ -32,14 +33,14 @@ class AssertSalesPrintOrderProducts extends AbstractConstraint
      * Assert that products printed correctly on sales guest print page.
      *
      * @param SalesGuestPrint $salesGuestPrint
-     * @param \Mtf\Fixture\InjectableFixture[] $products
+     * @param InjectableFixture[] $products
      * @return void
      */
     public function processAssert(SalesGuestPrint $salesGuestPrint, array $products)
     {
         $errors = '';
         foreach ($products as $product) {
-            if (!$salesGuestPrint->getPrintOrder()->getItemsBlock()->isItemVisible($product)) {
+            if (!$salesGuestPrint->getView()->getItemBlock()->isItemVisible($product)) {
                 $errors .= sprintf(self::ERROR_MESSAGE, $product->getName());
             }
         }
@@ -54,6 +55,6 @@ class AssertSalesPrintOrderProducts extends AbstractConstraint
      */
     public function toString()
     {
-        return "Products was printed correctly.";
+        return "Products were printed correctly.";
     }
 }

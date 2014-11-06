@@ -9,9 +9,9 @@
 namespace Magento\Sales\Test\Block\Order;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
- * Class Items
  * Items block on order's view page
  */
 class Items extends Block
@@ -22,6 +22,27 @@ class Items extends Block
      * @var string
      */
     protected $grandTotal = '.grand_total span.price';
+
+    /**
+     * Item selector.
+     *
+     * @var string
+     */
+    protected $itemSelector = './/tbody[tr[td[contains(., "%s")]]]';
+
+    /**
+     * Check if item is visible in print order page.
+     *
+     * @param \Mtf\Fixture\InjectableFixture $product
+     * @return bool
+     */
+    public function isItemVisible($product)
+    {
+        return $this->_rootElement->find(
+            sprintf($this->itemSelector, $product->getName()),
+            Locator::SELECTOR_XPATH
+        )->isVisible();
+    }
 
     /**
      * Get grand total price

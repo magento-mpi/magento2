@@ -75,11 +75,12 @@ class SubmitOrderStep implements TestStepInterface
     {
         $this->orderCreateIndex->getCreateBlock()->submitOrder();
         $this->orderView->getMessagesBlock()->waitSuccessMessage();
+        $orderId = trim($this->orderView->getTitleBlock()->getTitle(), '#');
         $order = $this->fixtureFactory->createByCode(
             'orderInjectable',
             [
                 'data' => [
-                    'id' => trim($this->orderView->getTitleBlock()->getTitle(), '#'),
+                    'id' => $orderId,
                     'customer_id' => ['customer' => $this->customer],
                     'entity_id' => ['products' => $this->products],
                     'billing_address_id' => ['billingAddress' => $this->billingAddress],
@@ -87,6 +88,6 @@ class SubmitOrderStep implements TestStepInterface
             ]
         );
 
-        return ['orderId' => trim($this->orderView->getTitleBlock()->getTitle(), '#'), 'order' => $order];
+        return ['orderId' => $orderId, 'order' => $order];
     }
 }

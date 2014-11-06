@@ -131,13 +131,7 @@
         <methods>
             <method name="test">
                 <steps>
-                    <first>setupConfiguration</first>
-                    <step name="setupConfiguration" module="Magento_Core">
-                        <arguments>
-                            <item name="configData">checkmo</item>
-                        </arguments>
-                        <next>createProducts</next>
-                    </step>
+                    <first>createProducts</first>
                     <step name="createProducts" module="Magento_Catalog">
                         <next>createCustomer</next>
                     </step>

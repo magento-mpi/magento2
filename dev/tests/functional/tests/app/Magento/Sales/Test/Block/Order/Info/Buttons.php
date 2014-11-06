@@ -13,13 +13,19 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Order view block
- *
+ * Order view block.
  */
 class Buttons extends Block
 {
     /**
-     * Link selector
+     * Selector for "Print Order" link.
+     *
+     * @var string
+     */
+    protected $printOrderSelector = '.action.print';
+
+    /**
+     * Link selector.
      *
      * @var string
      */
@@ -35,5 +41,15 @@ class Buttons extends Block
             throw new \Exception(sprintf('"%s" link is not visible', $linkName));
         }
         $link->click();
+    }
+
+    /**
+     * Click on "Print Order" link.
+     *
+     * @return void
+     */
+    public function clickPrintOrder()
+    {
+        $this->_rootElement->find($this->printOrderSelector)->click();
     }
 }

@@ -49,7 +49,7 @@ class PrintOrderOnFrontendStep implements TestStepInterface
      */
     public function run()
     {
-        $this->salesGuestView->getViewBlock()->clickLink('Print Order');
+        $this->salesGuestView->getViewBlock()->clickPrintOrder();
         $this->browser->selectWindow();
     }
 }
