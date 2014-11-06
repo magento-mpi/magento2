@@ -61,7 +61,7 @@ define([
 
             rules = this.validation = this.validation || {};
 
-            this.initialValue = value = typeof value === 'undefined' ? '' : value;
+            this.initialValue = value;
 
             this.observe([
                     'error',
