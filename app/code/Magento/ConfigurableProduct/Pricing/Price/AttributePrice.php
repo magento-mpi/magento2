@@ -121,8 +121,8 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             $optionPrices[] = [
                 'id' => $value['value_index'],
                 'label' => $value['label'],
-                'oldPrice' => $this->convertDot($oldPrice),
                 'price' => $this->convertDot($price),
+                'oldPrice' => $this->convertDot($oldPrice),
                 'inclTaxPrice' => $this->convertDot($inclTaxPrice),
                 'exclTaxPrice' => $this->convertDot($exclTaxPrice),
                 'products' => $this->getProductsIndex($attributeId, $options, $value)
