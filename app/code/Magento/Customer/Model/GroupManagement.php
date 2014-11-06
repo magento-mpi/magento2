@@ -113,8 +113,7 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
      */
     public function getNotLoggedInGroup($storeId = null)
     {
-        return $this->groupBuilder->setId(self::NOT_LOGGED_IN_ID)
-            ->create();
+        return $this->groupRepository->getById(self::NOT_LOGGED_IN_ID);
     }
 
     /**
