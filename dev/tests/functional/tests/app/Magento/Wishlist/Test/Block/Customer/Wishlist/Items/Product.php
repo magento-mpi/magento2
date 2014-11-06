@@ -38,6 +38,13 @@ class Product extends Form
     protected $viewDetails = '.details.tooltip';
 
     /**
+     * Selector for 'Details block' element
+     *
+     * @var string
+     */
+    protected $detailsBlock = '.product-item-tooltip';
+
+    /**
      * Edit button css selector
      *
      * @var string
@@ -99,12 +106,15 @@ class Product extends Form
     {
         $viewDetails = $this->_rootElement->find($this->viewDetails);
         if ($viewDetails->isVisible()) {
-            $this->_rootElement->dragAndDrop($viewDetails);
-            $this->waitForElementVisible($this->optionLabel);
             $labels = $this->_rootElement->find($this->optionLabel)->getElements();
             $values = $this->_rootElement->find($this->optionValue)->getElements();
             $data = [];
             foreach ($labels as $key => $label) {
+                $viewDetails->click();
+                if (!$label->isVisible()) {
+                    $this->_rootElement->find($this->detailsBlock)->click();
+                    $this->waitForElementVisible($this->optionLabel);
+                }
                 $data[] = [
                     'title' => $label->getText(),
                     'value' => str_replace('$', '', $values[$key]->getText())
