@@ -87,6 +87,18 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
         $this->groupManagement->isReadonly($testGroup['id']);
     }
 
+    public function testGetNotLoggedInGroup()
+    {
+        $notLoggedInGroup = $this->groupManagement->getNotLoggedInGroup();
+        $this->assertEquals(0, $notLoggedInGroup->getId());
+    }
+
+    public function testGetAllGroup()
+    {
+        $allGroup = $this->groupManagement->getAllGroup();
+        $this->assertEquals(32000, $allGroup->getId());
+    }
+
     /**
      * @return array
      */

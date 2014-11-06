@@ -21,7 +21,7 @@ use Magento\CatalogRule\Model\Rule\Product\Price;
 use Magento\Framework\Registry;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Customer\Model\GroupManagement;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Message\ManagerInterface;
@@ -101,6 +101,11 @@ class Observer
     protected $messageManager;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
      * @param Resource\RuleFactory $resourceRuleFactory
      * @param Resource\Rule $resourceRule
      * @param Resource\Rule\CollectionFactory $ruleCollectionFactory
@@ -114,6 +119,7 @@ class Observer
      * @param Registry $coreRegistry
      * @param DateTime $dateTime
      * @param ManagerInterface $messageManager
+     * @param GroupManagementInterface $groupManagement
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -130,7 +136,8 @@ class Observer
         BackendModelSession $backendSession,
         Registry $coreRegistry,
         DateTime $dateTime,
-        ManagerInterface $messageManager
+        ManagerInterface $messageManager,
+        GroupManagementInterface $groupManagement
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
@@ -145,6 +152,7 @@ class Observer
         $this->_coreRegistry = $coreRegistry;
         $this->dateTime = $dateTime;
         $this->messageManager = $messageManager;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -452,7 +460,7 @@ class Observer
             if ($this->_customerSession->isLoggedIn()) {
                 $groupId = $this->_customerSession->getCustomerGroupId();
             } else {
-                $groupId = GroupManagement::NOT_LOGGED_IN_ID;
+                $groupId = $this->groupManagement->getNotLoggedInGroup()->getId();
             }
         }
         if ($observer->getEvent()->hasDate()) {
