@@ -9,7 +9,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface ProductInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface ProductInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of  data array

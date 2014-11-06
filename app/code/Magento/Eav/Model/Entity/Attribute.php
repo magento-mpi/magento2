@@ -66,7 +66,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param TypeFactory $eavTypeFactory
@@ -76,6 +75,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -83,7 +83,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
@@ -93,6 +92,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -100,13 +100,13 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         parent::__construct(
             $context,
             $registry,
-            $metadataService,
             $coreData,
             $eavConfig,
             $eavTypeFactory,
             $storeManager,
             $resourceHelper,
             $universalFactory,
+            $metadataService,
             $resource,
             $resourceCollection,
             $data

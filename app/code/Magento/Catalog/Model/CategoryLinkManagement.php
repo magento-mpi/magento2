@@ -18,17 +18,17 @@ class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagem
     protected $categoryRepository;
 
     /**
-     * @var \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceBuilder
+     * @var \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceDataBuilder
      */
     protected $productLinkBuilder;
 
     /**
      * @param CategoryRepository $categoryRepository
-     * @param \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceBuilder $productLinkInterfaceBuilder
+     * @param \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceDataBuilder $productLinkInterfaceBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\CategoryRepository $categoryRepository,
-        \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceBuilder $productLinkInterfaceBuilder
+        \Magento\Catalog\Api\Data\CategoryProductLinkInterfaceDataBuilder $productLinkInterfaceBuilder
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->productLinkBuilder = $productLinkInterfaceBuilder;

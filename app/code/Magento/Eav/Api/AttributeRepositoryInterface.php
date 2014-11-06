@@ -14,10 +14,10 @@ interface AttributeRepositoryInterface
      * Retrieve all attributes for entity type
      *
      * @param string $entityTypeCode
-     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
      */
-    public function getList($entityTypeCode, \Magento\Framework\Api\SearchCriteria $searchCriteria);
+    public function getList($entityTypeCode, \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Retrieve specific attribute

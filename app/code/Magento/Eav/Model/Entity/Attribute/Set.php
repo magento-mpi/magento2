@@ -66,7 +66,7 @@ class Set
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
+     * @param GroupFactory $attrGroupFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource

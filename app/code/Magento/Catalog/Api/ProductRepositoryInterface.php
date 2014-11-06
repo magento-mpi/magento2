@@ -56,8 +56,8 @@ interface ProductRepositoryInterface
     /**
      * Get product list
      *
-     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
      */
-    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 }

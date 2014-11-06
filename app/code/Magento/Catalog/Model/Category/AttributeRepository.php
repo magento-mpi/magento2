@@ -12,7 +12,7 @@ use Magento\Catalog\Api\CategoryAttributeRepositoryInterface;
 class AttributeRepository implements CategoryAttributeRepositoryInterface
 {
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaDataBuilder
      */
     protected $searchCriteriaBuilder;
 
@@ -28,13 +28,13 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
 
     /**
      * @param \Magento\Framework\Api\Config\MetadataConfig $metadataConfig
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
      */
     public function __construct(
         \Magento\Framework\Api\Config\MetadataConfig $metadataConfig,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepository
     ) {
@@ -47,7 +47,7 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         return $this->eavAttributeRepository->getList(
             \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,
