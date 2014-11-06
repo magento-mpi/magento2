@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Module;
 
+use \Magento\Framework\DB\Adapter\AdapterInterface;
+
 /**
  * Resource Model
  */
@@ -87,6 +89,26 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
     /**
      * {@inheritdoc}
      */
+    public function setDbVersion($resName, $version)
+    {
+        $dbModuleInfo = array('code' => $resName, 'version' => $version);
+
+        if ($this->getDbVersion($resName)) {
+            self::$_versions[$resName] = $version;
+            return $this->_getWriteAdapter()->update(
+                $this->getMainTable(),
+                $dbModuleInfo,
+                array('code = ?' => $resName)
+            );
+        } else {
+            self::$_versions[$resName] = $version;
+            return $this->_getWriteAdapter()->insert($this->getMainTable(), $dbModuleInfo);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getDataVersion($resName)
     {
         if (!$this->_getReadAdapter()) {
@@ -94,5 +116,21 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
         }
         $this->_loadVersion('data');
         return isset(self::$_dataVersions[$resName]) ? self::$_dataVersions[$resName] : false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDataVersion($resName, $version)
+    {
+        $data = array('code' => $resName, 'data_version' => $version);
+
+        if ($this->getDbVersion($resName) || $this->getDataVersion($resName)) {
+            self::$_dataVersions[$resName] = $version;
+            $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code = ?' => $resName));
+        } else {
+            self::$_dataVersions[$resName] = $version;
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+        }
     }
 }

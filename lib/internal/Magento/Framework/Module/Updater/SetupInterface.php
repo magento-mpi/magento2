@@ -1,6 +1,6 @@
 <?php
 /**
- * Module setup. Used to install/upgrade module data.
+ * Module setup. Used to install/upgrade module schema.
  *
  * {license_notice}
  *

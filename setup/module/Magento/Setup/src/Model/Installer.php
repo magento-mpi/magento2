@@ -25,8 +25,6 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
-use Magento\Framework\App\State as AppState;
-use Magento\Framework\Shell\ComplexParameter;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -359,29 +357,8 @@ class Installer
      */
     public function installDataFixtures()
     {
-        require BP . '/app/bootstrap.php';
-        $bootstrapParam = new ComplexParameter('bootstrap');
-        $params = $bootstrapParam->mergeFromArgv($_SERVER, $_SERVER);
-        if (!isset($params[AppState::PARAM_MODE])) {
-            $params[AppState::PARAM_MODE] = AppState::MODE_DEVELOPER;
-        }
-        $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
-
-        /** @var \Magento\Framework\App\Arguments $args */
-        $args = $bootstrap->getObjectManager()->get('\Magento\Framework\App\Arguments');
-        $adapter = $this->connectionFactory->create([
-            Config::KEY_DB_NAME => $args->get('connection')['default']['dbName'],
-            Config::KEY_DB_HOST => $args->get('connection')['default']['host'],
-            Config::KEY_DB_USER => $args->get('connection')['default']['username'],
-            Config::KEY_DB_PASS => $args->get('connection')['default']['password']
-        ]);
-        // Construct Resource writer for data install/upgrade
-        $resource = new \Magento\Setup\Module\ResourceWriter($adapter, $args->get('db.table_prefix'));
-
-        /** @var \Magento\Framework\Module\Updater $updater */
-        $updater = $bootstrap->getObjectManager()
-            ->create('\Magento\Framework\Module\Updater', array('resource' => $resource));
-        $updater->updateData();
+        $params = [$this->directoryList->getRoot() . '/dev/shell/run_data_fixtures.php', $this->execParams];
+        $this->exec('-f %s -- --bootstrap=%s', $params);
     }
 
     /**

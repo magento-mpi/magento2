@@ -70,14 +70,11 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
         $this->moduleManager = $this->getMock('\Magento\Framework\Module\Manager', [], [], '', false);
 
-        $resource = $this->getMock('\Magento\Framework\Module\ResourceInterface');
-
         $this->_model = new \Magento\Framework\Module\Updater(
             $this->_factoryMock,
             $this->_moduleListMock,
             $this->_resourceResolver,
-            $this->moduleManager,
-            $resource
+            $this->moduleManager
         );
     }
 

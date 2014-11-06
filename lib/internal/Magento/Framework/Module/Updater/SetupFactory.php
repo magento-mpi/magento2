@@ -38,11 +38,10 @@ class SetupFactory
     /**
      * @param string $resourceName
      * @param string $moduleName
-     * @param \Magento\Framework\Module\ResourceInterface $resource
      * @return SetupInterface
      * @throws \LogicException
      */
-    public function create($resourceName, $moduleName, \Magento\Framework\Module\ResourceInterface $resource)
+    public function create($resourceName, $moduleName)
     {
         $className = isset(
             $this->_resourceTypes[$resourceName]
@@ -52,8 +51,9 @@ class SetupFactory
             throw new \LogicException($className . ' is not a \Magento\Framework\Module\Updater\SetupInterface');
         }
 
-        return $this->_objectManager
-            ->create($className, array('resourceName' => $resourceName, 'moduleName' => $moduleName))
-            ->setResource($resource);
+        return $this->_objectManager->create(
+            $className,
+            array('resourceName' => $resourceName, 'moduleName' => $moduleName)
+        );
     }
 }

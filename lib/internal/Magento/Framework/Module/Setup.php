@@ -124,24 +124,12 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
         $this->_logger = $context->getLogger();
         $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
+        $this->_resource = $context->getResource();
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
         $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_connectionName = $connectionName;
-    }
-
-
-    /**
-     * Set Resource for setup class
-     *
-     * @param \Magento\Framework\Module\ResourceInterface $resource
-     * @return $this
-     */
-    public function setResource(ResourceInterface $resource)
-    {
-        $this->_resource = $resource;
-        return $this;
     }
 
     /**

@@ -68,7 +68,7 @@ class SetupModule extends Setup
         parent::__construct($connectionFactory, $log, $config);
         $this->fileResolver = $fileResolver;
         $this->moduleConfig = $moduleList->getModule($moduleName);
-        $this->resource = new ResourceWriter($this->connection, $config->get(Config::KEY_DB_PREFIX));
+        $this->resource = new Resource($this->connection, $config->get(Config::KEY_DB_PREFIX));
         $this->resourceName = $this->fileResolver->getResourceCode($moduleName);
     }
 

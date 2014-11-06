@@ -25,21 +25,8 @@ class SetupFactoryTest extends \PHPUnit_Framework_TestCase
             $this->objectManagerMock,
             array()
         );
-        $resource = $this->getMockForAbstractClass('Magento\Framework\Module\ResourceInterface');
         $resourceName = 'module_setup';
         $moduleName = 'module';
-
-        $setupMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Module\Updater\SetupInterface',
-            array(),
-            '',
-            true,
-            true,
-            true,
-            array('setResource')
-        );
-        $setupMock->expects($this->once())->method('setResource')->will($this->returnValue($setupMock));
-
         $this->objectManagerMock->expects($this->once())->method('create')
             ->with(
                 'Magento\Framework\Module\Updater\SetupInterface',
@@ -47,9 +34,8 @@ class SetupFactoryTest extends \PHPUnit_Framework_TestCase
                     'resourceName' => $resourceName,
                     'moduleName' => $moduleName,
                 )
-            )
-            ->will($this->returnValue($setupMock));
-        $model->create($resourceName, $moduleName, $resource);
+            );
+        $model->create($resourceName, $moduleName);
     }
 
     /**
@@ -64,7 +50,6 @@ class SetupFactoryTest extends \PHPUnit_Framework_TestCase
                 'module_setup' => '\Not\Valid\Setup\Model',
             )
         );
-        $resource = $this->getMockForAbstractClass('Magento\Framework\Module\ResourceInterface');
-        $model->create('module_setup', 'module', $resource);
+        $model->create('module_setup', 'module');
     }
 }
