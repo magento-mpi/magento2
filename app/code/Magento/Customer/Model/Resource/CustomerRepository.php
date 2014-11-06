@@ -169,7 +169,11 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $this->customerRegistry->push($customerModel);
         $customerId = $customerModel->getId();
         foreach ($customer->getAddresses() as $address) {
-            $address = $this->addressBuilder->populate($address)->setCustomerId($customerId)->create();
+            $address = $this->addressBuilder
+                ->populate($address)
+                ->setCustomerId($customerId)
+                ->setRegion($address->getRegion())
+                ->create();
             $this->addressRepository->save($address);
         }
         $savedCustomer = $this->get($customer->getEmail(), $customer->getWebsiteId());
