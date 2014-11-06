@@ -69,4 +69,11 @@ interface BundleCalculatorInterface extends CalculatorInterface
      * @return \Magento\Bundle\Pricing\Price\BundleSelectionPrice[]
      */
     public function processOptions($option, $selectionPriceList, $searchMin = true);
+
+    /**
+     * @param float $amount
+     * @param Product $saleableItem
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    public function getAmountWithoutOption($amount, Product $saleableItem);
 }

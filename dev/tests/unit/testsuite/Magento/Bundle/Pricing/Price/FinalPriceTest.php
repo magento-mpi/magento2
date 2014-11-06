@@ -134,4 +134,15 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($result));
         $this->assertSame($result, $this->finalPrice->getMinimalPrice());
     }
+
+    public function testGetPriceWithoutOption()
+    {
+        $result = rand(1, 10);
+        $this->prepareMock();
+        $this->bundleCalculatorMock->expects($this->once())
+            ->method('getAmountWithoutOption')
+            ->with($this->equalTo($this->baseAmount), $this->equalTo($this->saleableInterfaceMock))
+            ->will($this->returnValue($result));
+        $this->assertSame($result, $this->finalPrice->getPriceWithoutOption());
+    }
 }

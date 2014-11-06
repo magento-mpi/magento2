@@ -10,6 +10,7 @@ namespace Magento\Bundle\Pricing\Adjustment;
 use Magento\Bundle\Model\Product\Price as ProductPrice;
 use Magento\Bundle\Pricing\Price;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Bundle\Pricing\Adjustment\Calculator;
 
 /**
  * Test for \Magento\Bundle\Pricing\Adjustment\Calculator
@@ -495,5 +496,24 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                 'adjustments' => ['tax' => 8]
             ]
         ];
+    }
+
+    public function testGetAmountWithoutOption()
+    {
+        $amount = 1;
+        $result = 5;
+
+        /** @var $calculatorMock Calculator|PHPUnit_Framework_MockObject_MockObject */
+        $calculatorMock = $this->getMockBuilder('Magento\Bundle\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->setMethods(['calculateBundleAmount'])
+            ->getMock();
+
+        $calculatorMock->expects($this->once())
+            ->method('calculateBundleAmount')
+            ->with($amount, $this->saleableItem, [])
+            ->will($this->returnValue($result));
+
+        $this->assertEquals($result, $calculatorMock->getAmountWithoutOption($amount, $this->saleableItem));
     }
 }
