@@ -8,6 +8,7 @@
 namespace Magento\Review\Block;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Url;
 use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
 
 /**
@@ -145,7 +146,7 @@ class Form extends \Magento\Framework\View\Element\Template
             $this->setLoginLink(
                 $this->getUrl(
                     'customer/account/login/',
-                    array(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    array(Url::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }

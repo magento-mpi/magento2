@@ -471,7 +471,7 @@ class Session extends \Magento\Framework\Session\SessionManager
                 );
             }
             $action->getResponse()->setRedirect(
-                $this->_createUrl()->getUrl(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN, $arguments)
+                $this->_createUrl()->getUrl(\Magento\Customer\Model\Url::ROUTE_ACCOUNT_LOGIN, $arguments)
             );
         }
 

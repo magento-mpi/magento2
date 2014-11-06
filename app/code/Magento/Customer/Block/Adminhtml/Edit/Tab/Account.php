@@ -39,9 +39,9 @@ class Account extends GenericMetadata
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Options
      */
-    protected $_customerHelper;
+    protected $options;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
@@ -75,7 +75,7 @@ class Account extends GenericMetadata
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
@@ -90,13 +90,13 @@ class Account extends GenericMetadata
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Options $options,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         array $data = array()
     ) {
-        $this->_customerHelper = $customerHelper;
+        $this->options = $options;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_systemStore = $systemStore;
         $this->_customerFormFactory = $customerFormFactory;
@@ -193,11 +193,11 @@ class Account extends GenericMetadata
         $element = $fieldset->getForm()->getElement($elementName);
         if ($element) {
             if ($elementName == 'prefix') {
-                $options = $this->_customerHelper->getNamePrefixOptions($this->_getCustomerDataObject()->getStoreId());
+                $options = $this->options->getNamePrefixOptions($this->_getCustomerDataObject()->getStoreId());
                 $prevSibling = $fieldset->getForm()->getElement('group_id')->getId();
             }
             if ($elementName == 'suffix') {
-                $options = $this->_customerHelper->getNameSuffixOptions($this->_getCustomerDataObject()->getStoreId());
+                $options = $this->options->getNameSuffixOptions($this->_getCustomerDataObject()->getStoreId());
                 $prevSibling = $fieldset->getForm()->getElement('lastname')->getId();
             }
 

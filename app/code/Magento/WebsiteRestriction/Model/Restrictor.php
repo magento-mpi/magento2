@@ -8,6 +8,8 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
+use Magento\Customer\Model\Url;
+
 class Restrictor
 {
     /**
@@ -147,7 +149,7 @@ class Restrictor
                         $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     $redirectToDashboard = $this->_scopeConfig->isSetFlag(
-                        \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                        Url::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     );
                     if ($redirectToDashboard) {

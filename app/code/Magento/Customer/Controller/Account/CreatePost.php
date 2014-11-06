@@ -8,6 +8,7 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Customer\Model\Url;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -325,7 +326,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
     protected function getSuccessRedirect()
     {
         $redirectToDashboard = $this->scopeConfig->isSetFlag(
-            CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+            Url::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             ScopeInterface::SCOPE_STORE
         );
         if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()) {

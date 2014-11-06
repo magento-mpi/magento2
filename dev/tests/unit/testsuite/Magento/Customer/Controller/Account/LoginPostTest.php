@@ -10,6 +10,7 @@
  * Test customer account controller
  */
 namespace Magento\Customer\Controller\Account;
+use Magento\Customer\Model\Url;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -210,7 +211,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getParam'
         )->with(
-            \Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME
+            Url::REFERER_QUERY_PARAM_NAME
         )->will(
             $this->returnValue('referer')
         );
