@@ -11,7 +11,7 @@ namespace Magento\Customer\Api\Data;
 /**
  * Interface for customer address search results.
  */
-interface AddressSearchResultsInterface extends \Magento\Framework\Api\Data\SearchResultsInterface
+interface AddressSearchResultsInterface extends \Magento\Framework\Api\SearchResultsInterface
 {
     /**
      * Get customer addresses list.

@@ -2777,15 +2777,15 @@ return array(
     ['Magento\Framework\Error\HandlerInterface', 'Magento\Framework\App\ErrorHandler'],
     ['Magento\Index'],
     ['Magento\Catalog\Model\Resource\Product\Indexer\Eav'],
-    ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
-    ['\Magento\Framework\Service\Data\AbstractObject', 'Magento\Framework\Service\Data\AbstractSimpleObject'],
+    ['\Magento\Framework\Api\Eav\AbstractObject', 'Magento\Framework\Api\AbstractExtensibleObject'],
+    ['\Magento\Framework\Api\AbstractObject', 'Magento\Framework\Api\AbstractSimpleObject'],
     [
-        '\Magento\Framework\Service\Data\Eav\AbstractObjectBuilder',
-        'Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder'
+        '\Magento\Framework\Api\Eav\AbstractObjectBuilder',
+        'Magento\Framework\Api\ExtensibleObjectBuilder'
     ],
     [
-        '\Magento\Framework\Service\Data\AbstractObjectBuilder',
-        'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
+        '\Magento\Framework\Api\AbstractObjectBuilder',
+        'Magento\Framework\Api\AbstractSimpleObjectBuilder'
     ],
     ['Magento\Catalog\Block\Product'],
     ['\Magento\Sales\Model\Observer'],
