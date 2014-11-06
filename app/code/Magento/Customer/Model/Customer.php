@@ -137,13 +137,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     protected $_config;
 
     /**
-     * Customer data
-     *
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
-
-    /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
@@ -201,7 +194,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -221,7 +213,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -238,7 +229,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_config = $config;

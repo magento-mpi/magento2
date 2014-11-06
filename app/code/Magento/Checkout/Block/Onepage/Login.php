@@ -35,6 +35,12 @@ class Login extends AbstractOnepage
     protected $customerUrl;
 
     /**
+     * @var \Magento\Customer\Model\Registration
+     */
+    protected $registration;
+
+    /**
+     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -48,9 +54,11 @@ class Login extends AbstractOnepage
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Registration $registration,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -67,6 +75,7 @@ class Login extends AbstractOnepage
         \Magento\Customer\Model\Url $customerUrl,
         array $data = array()
     ) {
+        $this->registration = $registration;
         $this->customerUrl = $customerUrl;
         $this->_checkoutData = $checkoutData;
         $this->messageManager = $messageManager;
@@ -96,6 +105,16 @@ class Login extends AbstractOnepage
             $this->getCheckout()->setStepData('login', array('label' => __('Checkout Method'), 'allow' => true));
         }
         parent::_construct();
+    }
+
+    /**
+     *
+     *
+     * @return \Magento\Customer\Model\Registration
+     */
+    public function getRegistration()
+    {
+        return $this->registration;
     }
 
     /**

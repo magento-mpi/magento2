@@ -54,13 +54,13 @@
         </form>
     </div>
 </div>
-<?php if ( $this->isAllowedGuestCheckout() || $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
+<?php if ( $this->isAllowedGuestCheckout() || $this->getRegistration()->isAllowed() ): ?>
 <div class="block guest">
     <div class="title">
         <strong>
-        <?php if( $this->isAllowedGuestCheckout() && $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
+        <?php if( $this->isAllowedGuestCheckout() && $this->getRegistration()->isAllowed() ): ?>
             <?php echo __('Checkout as a Guest or Register') ?>
-        <?php elseif ( $this->isAllowedGuestCheckout() && !$this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
+        <?php elseif ( $this->isAllowedGuestCheckout() && !$this->getRegistration()->isAllowed() ): ?>
             <?php echo __('Checkout as a Guest') ?>
         <?php else: ?>
             <?php echo __('Register to Create an Account') ?>
@@ -68,14 +68,14 @@
         </strong>
     </div>
     <div class="content">
-        <?php if( !$this->isAllowedGuestCheckout() && $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
+        <?php if( !$this->isAllowedGuestCheckout() && $this->getRegistration()->isAllowed() ): ?>
             <p><strong><?php echo __('Register and save time!') ?></strong><br />
             <?php echo __('Register with us for future convenience:') ?></p>
             <ul>
                 <li><?php echo __('Fast and easy check out') ?></li>
                 <li><?php echo __('Easy access to your order history and status') ?></li>
             </ul>
-        <?php elseif( $this->isAllowedGuestCheckout() && $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
+        <?php elseif( $this->isAllowedGuestCheckout() && $this->getRegistration()->isAllowed() ): ?>
             <p class="note"><?php echo __('Register with us for future convenience:') ?></p>
         <?php endif ?>
 
@@ -85,7 +85,7 @@
                     <input type="radio" name="checkout_method" data-role="checkout-method-guest" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==Magento\Checkout\Model\Type\Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" />
                     <label class="label" for="login:guest"><span><?php echo __('Checkout as Guest') ?></span></label>
                 </div>
-                <?php if( $this->helper('Magento\Customer\Helper\Data')->isRegistrationAllowed() ): ?>
+                <?php if( $this->getRegistration()->isAllowed() ): ?>
                 <div class="field choice">
                     <input type="radio" name="checkout_method" data-role="checkout-method-register" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER || !$this->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" />
                     <label class="label" for="login:register"><span><?php echo __('Register') ?></span></label>

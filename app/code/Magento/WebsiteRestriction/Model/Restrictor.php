@@ -28,9 +28,9 @@ class Restrictor
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Registration
      */
-    protected $_customerHelper;
+    protected $registration;
 
     /**
      * @var \Magento\Framework\Session\Generic
@@ -54,7 +54,7 @@ class Restrictor
 
     /**
      * @param ConfigInterface $config
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\UrlFactory $urlFactory
@@ -64,7 +64,7 @@ class Restrictor
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Registration $registration,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\UrlFactory $urlFactory,
@@ -74,7 +74,7 @@ class Restrictor
     ) {
         $this->customerUrl = $customerUrl;
         $this->_config = $config;
-        $this->_customerHelper = $customerHelper;
+        $this->registration = $registration;
         $this->_customerSession = $customerSession;
         $this->_session = $session;
         $this->_scopeConfig = $scopeConfig;
@@ -122,7 +122,7 @@ class Restrictor
                     // see whether redirect is required and where
                     $redirectUrl = false;
                     $allowedActionNames = $this->_config->getGenericActions();
-                    if ($this->_customerHelper->isRegistrationAllowed()) {
+                    if ($this->registration->isAllowed()) {
                         $allowedActionNames = array_merge($allowedActionNames, $this->_config->getRegisterActions());
                     }
 

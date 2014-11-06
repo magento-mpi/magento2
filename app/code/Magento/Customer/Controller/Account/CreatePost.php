@@ -22,7 +22,7 @@ use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Model\Url as CustomerUrl;
-use Magento\Customer\Helper\Data as CustomerHelper;
+use Magento\Customer\Model\Registration;
 use Magento\Framework\Escaper;
 use Magento\Customer\Model\CustomerExtractor;
 use Magento\Framework\Exception\StateException;
@@ -61,8 +61,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
     /** @var CustomerDetailsBuilder */
     protected $customerDetailsBuilder;
 
-    /** @var CustomerHelper */
-    protected $customerHelper;
+    /** @var Registration */
+    protected $registration;
 
     /** @var CustomerUrl */
     protected $customerUrl;
@@ -90,7 +90,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      * @param AddressBuilder $addressBuilder
      * @param CustomerDetailsBuilder $customerDetailsBuilder
      * @param CustomerUrl $customerUrl
-     * @param CustomerHelper $customerHelper
+     * @param Registration $registration
      * @param Escaper $escaper
      * @param CustomerExtractor $customerExtractor
      *
@@ -110,7 +110,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
         AddressBuilder $addressBuilder,
         CustomerDetailsBuilder $customerDetailsBuilder,
         CustomerUrl $customerUrl,
-        CustomerHelper $customerHelper,
+        Registration $registration,
         Escaper $escaper,
         CustomerExtractor $customerExtractor
     ) {
@@ -124,7 +124,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
         $this->addressBuilder = $addressBuilder;
         $this->customerDetailsBuilder = $customerDetailsBuilder;
         $this->customerUrl = $customerUrl;
-        $this->customerHelper = $customerHelper;
+        $this->registration = $registration;
         $this->escaper = $escaper;
         $this->customerExtractor = $customerExtractor;
         $this->urlModel = $urlFactory->create();
@@ -183,7 +183,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     public function execute()
     {
-        if ($this->_getSession()->isLoggedIn() || !$this->customerHelper->isRegistrationAllowed()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->registration->isAllowed()) {
             $this->_redirect('*/*/');
             return;
         }

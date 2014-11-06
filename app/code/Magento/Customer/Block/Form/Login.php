@@ -44,6 +44,14 @@ class Login extends \Magento\Framework\View\Element\Template
     protected $coreUrl;
 
     /**
+     * Registration
+     *
+     * @var \Magento\Customer\Model\Registration
+     */
+    protected $registration;
+
+    /**
+     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\Url $customerUrl
@@ -52,6 +60,7 @@ class Login extends \Magento\Framework\View\Element\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Registration $registration,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\Url $customerUrl,
@@ -59,6 +68,7 @@ class Login extends \Magento\Framework\View\Element\Template
         \Magento\Core\Helper\Url $coreUrl,
         array $data = array()
     ) {
+        $this->registration = $registration;
         $this->_customerUrl = $customerUrl;
         $this->_customerSession = $customerSession;
         $this->checkoutData = $checkoutData;
@@ -75,6 +85,16 @@ class Login extends \Magento\Framework\View\Element\Template
     {
         $this->pageConfig->setTitle(__('Customer Login'));
         return parent::_prepareLayout();
+    }
+
+    /**
+     * Return registration
+     *
+     * @return \Magento\Customer\Model\Registration
+     */
+    public function getRegistration()
+    {
+        return $this->registration;
     }
 
     /**

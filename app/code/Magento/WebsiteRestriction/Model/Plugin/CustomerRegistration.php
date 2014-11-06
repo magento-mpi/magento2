@@ -25,13 +25,13 @@ class CustomerRegistration
     /**
      * Check if registration is allowed
      *
-     * @param \Magento\Customer\Helper\Data $subject
+     * @param \Magento\Customer\Model\Registration $subject
      * @param boolean $invocationResult
      *
      * @return boolean
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterIsRegistrationAllowed(\Magento\Customer\Helper\Data $subject, $invocationResult)
+    public function afterIsAllowed(\Magento\Customer\Model\Registration $subject, $invocationResult)
     {
         if ($invocationResult) {
             $invocationResult = !$this->_restrictionConfig->isRestrictionEnabled() ||

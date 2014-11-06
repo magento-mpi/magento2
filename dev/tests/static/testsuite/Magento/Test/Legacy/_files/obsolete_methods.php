@@ -2060,4 +2060,5 @@ return array(
     ['generateResetPasswordLinkToken', 'Magento\Customer\Helper\Data'],
     ['isLoggedIn', 'Magento\Customer\Helper\Data'],
     ['getResetPasswordLinkExpirationPeriod', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Customer::getResetPasswordLinkExpirationPeriod'],
+    ['isRegistrationAllowed', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Registration::isAllowed'],
 );

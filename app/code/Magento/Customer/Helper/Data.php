@@ -24,14 +24,4 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Customer authorization cache context
      */
     const CONTEXT_AUTH = 'customer_logged_in';
-
-    /**
-     * Check whether customers registration is allowed
-     *
-     * @return bool
-     */
-    public function isRegistrationAllowed()
-    {
-        return true;
-    }
 }

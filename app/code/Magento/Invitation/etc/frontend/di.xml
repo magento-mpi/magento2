@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <type name="Magento\Customer\Helper\Data">
+    <type name="Magento\Customer\Model\Registration">
         <plugin name="invitation_customer_registration_plugin" type="Magento\Invitation\Model\Plugin\CustomerRegistration"/>
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
