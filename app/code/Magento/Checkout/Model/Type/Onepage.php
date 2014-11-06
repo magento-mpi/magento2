@@ -197,7 +197,7 @@ class Onepage
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         AddressRepositoryInterface $customerAddressService,
-        AccountManagementInterface $accountService,
+        AccountManagementInterface $accountManagement,
         OrderSender $orderSender,
         CustomerRepositoryInterface $customerRepository
     ) {
@@ -222,7 +222,7 @@ class Onepage
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
         $this->addressRepository = $customerAddressService;
-        $this->accountManagement = $accountService;
+        $this->accountManagement = $accountManagement;
         $this->orderSender = $orderSender;
         $this->customerRepository = $customerRepository;
     }
@@ -508,7 +508,7 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomer();
-        $customerData = \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
@@ -573,7 +573,7 @@ class Onepage
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_account',
             'to_quote',
-            \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer),
+            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
             $quote
         );
 
@@ -820,8 +820,8 @@ class Onepage
         $shipping = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customer = $this->customerRepository->getById($this->getCustomerSession()->getCustomerId());
-        $hasDefaultBilling = (bool) $customer->getDefaultBilling();
-        $hasDefaultShipping = (bool) $customer->getDefaultShipping();
+        $hasDefaultBilling = (bool)$customer->getDefaultBilling();
+        $hasDefaultShipping = (bool)$customer->getDefaultShipping();
 
         if ($shipping && !$shipping->getSameAsBilling() &&
             (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())

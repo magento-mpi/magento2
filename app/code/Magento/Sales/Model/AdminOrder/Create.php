@@ -1221,7 +1221,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            $this->dataProcessor->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface'),
+            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
@@ -1507,10 +1507,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->getQuote()->updateCustomerData($customer);
         $data = [];
 
-        $customerData = $this->dataProcessor->buildOutputDataArray(
-            $customer,
-            '\Magento\Customer\Api\Data\CustomerInterface'
-        );
+        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
             $data[$code] = isset(
@@ -1590,8 +1587,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerId = (int)$this->getSession()->getCustomerId();
         $customer = $this->customerRepository->getById($customerId);
 
-        return $customer->getWebsiteId() == $store->getWebsiteId() ||
-            $this->accountManagement->isCustomerInStore($customer->getWebsiteId(), $store->getId());
+        return $customer->getWebsiteId() == $store->getWebsiteId()
+            || $this->accountManagement->isCustomerInStore($customer->getWebsiteId(), $store->getId());
     }
 
     /**
@@ -1673,10 +1670,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         $this->getQuote()->updateCustomerData($customer);
 
-        $customerData = $this->dataProcessor->buildOutputDataArray(
-            $customer,
-            '\Magento\Customer\Api\Data\CustomerInterface'
-        );
+        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
         foreach ($this->_createCustomerForm($customer)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());

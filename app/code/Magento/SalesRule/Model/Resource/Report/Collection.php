@@ -43,6 +43,11 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     protected $_rulesIdsFilter;
 
     /**
+     * @var \Magento\SalesRule\Model\Resource\Report\RuleFactory $ruleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
@@ -155,7 +160,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             return $this;
         }
 
-        $rulesList = $this->_ruleFactory->getUniqRulesNamesList();
+        $rulesList = $this->_ruleFactory->create()->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
         foreach ($this->_rulesIdsFilter as $ruleId) {

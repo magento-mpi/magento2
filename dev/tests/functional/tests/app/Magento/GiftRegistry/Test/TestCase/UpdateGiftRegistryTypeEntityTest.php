@@ -102,8 +102,6 @@ class UpdateGiftRegistryTypeEntityTest extends Injectable
      */
     public function test(GiftRegistryType $giftRegistryType, GiftRegistryType $giftRegistryTypeInitial)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-28824');
-
         // Steps
         $giftRegistryTypeInitial->persist();
         $filter = ['label' => $giftRegistryTypeInitial->getLabel()];
@@ -111,15 +109,5 @@ class UpdateGiftRegistryTypeEntityTest extends Injectable
         $this->giftRegistryIndex->getGiftRegistryGrid()->searchAndOpen($filter);
         $this->giftRegistryNew->getGiftRegistryForm()->fill($giftRegistryType);
         $this->giftRegistryNew->getPageActions()->save();
-    }
-
-    /**
-     * Tear down after variation
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->customerAccountLogout->open();
     }
 }

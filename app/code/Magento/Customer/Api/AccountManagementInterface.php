@@ -35,16 +35,6 @@ interface AccountManagementInterface
     const DEFAULT_PASSWORD_LENGTH = 6;
 
     /**
-     * Constants for the type of new account email to be sent
-     */
-    const NEW_ACCOUNT_EMAIL_REGISTERED = 'registered';
-
-    /**
-     * Welcome email, when confirmation is enabled
-     */
-    const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation';
-
-    /**
      * Create customer account. Perform necessary business operations like sending email.
      *
      * @param \Magento\Customer\Api\Data\CustomerInterface $customer
@@ -53,7 +43,11 @@ interface AccountManagementInterface
      * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function createAccount(\Magento\Customer\Api\Data\CustomerInterface $customer, $password, $redirectUrl = '');
+    public function createAccount(
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
+        $password = null,
+        $redirectUrl = ''
+    );
 
     /**
      * Create customer account using provided hashed password. Should not be exposed as a webapi.

@@ -28,12 +28,12 @@ interface GroupRepositoryInterface
     /**
      * Get customer group by group ID.
      *
-     * @param int $groupId
+     * @param int $id
      * @return \Magento\Customer\Api\Data\GroupInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $groupId is not found
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get($groupId);
+    public function get($id);
 
     /**
      * Retrieve customer groups.
@@ -41,11 +41,11 @@ interface GroupRepositoryInterface
      * The list of groups can be filtered to exclude the NOT_LOGGED_IN group using the first parameter and/or it can
      * be filtered by tax class.
      *
-     * @param \Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\GroupSearchResultsInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getList(\Magento\Framework\Api\Data\SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete customer group.
@@ -60,11 +60,11 @@ interface GroupRepositoryInterface
     /**
      * Delete customer group by ID.
      *
-     * @param int $groupId
+     * @param int $id
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException If customer group cannot be deleted
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function deleteById($groupId);
+    public function deleteById($id);
 }

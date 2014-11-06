@@ -19,7 +19,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         $model = new \Magento\Framework\App\State(
             $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', array(), '', false),
-            time(),
             $mode
         );
         $this->assertEquals($mode, $model->getMode());
@@ -45,7 +44,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         new \Magento\Framework\App\State(
             $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', array(), '', false),
-            time(),
             "unknown mode"
         );
     }

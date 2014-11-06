@@ -9,6 +9,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
  * Create order account form
@@ -32,11 +33,6 @@ class Account extends AbstractForm
     protected $customerRepository;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
-     */
-    protected $dataProcessor;
-
-    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
@@ -46,7 +42,6 @@ class Account extends AbstractForm
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param array $data
      */
     public function __construct(
@@ -57,12 +52,10 @@ class Account extends AbstractForm
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         array $data = []
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->customerRepository = $customerRepository;
-        $this->dataProcessor = $dataProcessor;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
     }
 
@@ -150,13 +143,12 @@ class Account extends AbstractForm
     public function getFormValues()
     {
         try {
-            // TODO to change email on id
             $customer = $this->customerRepository->getById($this->getCustomerId());
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
         $data = isset($customer)
-            ? $this->dataProcessor->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface')
+            ? ExtensibleDataObjectConverter::toFlatArray($customer)
             : [];
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
