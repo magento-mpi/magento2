@@ -1,0 +1,3 @@
+name,url_key,path,active,is_anchor,include_in_menu,position,display_mode
+Sale,sale,,1,1,1,6,PAGE
+"What's New",what-is-new,,1,1,1,1,PAGE
