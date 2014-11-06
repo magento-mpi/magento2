@@ -28,6 +28,8 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->addFieldToFilter($attribute->getAttributeCode(), $attributeValue);
+        $label = $this->_getOptionText($attributeValue);
+        $this->getLayer()->getState()->addFilter($this->_createItem($label, $attributeValue));
         return $this;
     }
 
