@@ -99,6 +99,7 @@ class Converter
         $product = $this->productFactory
             ->create()
             ->getCollection()
+            ->clear()
             ->addFieldToFilter('sku', $productSku)
             ->addAttributeToSelect('*')
             ->getFirstItem();

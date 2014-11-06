@@ -141,6 +141,7 @@ class Customer implements SetupInterface
      */
     public function run()
     {
+        echo "Installing customers\n";
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
