@@ -51,7 +51,7 @@ abstract class AbstractActionProductToAnotherWishlistTest extends AbstractMultip
      */
     protected function addProductToWishlist($product)
     {
-        self::$browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->addToWishlist($product);
     }
 

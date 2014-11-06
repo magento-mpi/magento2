@@ -66,13 +66,6 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     protected $catalogProductView;
 
     /**
-     * Wish list id
-     *
-     * @var array
-     */
-    protected static $wishlistId;
-
-    /**
      * Admin cache page
      *
      * @var AdminCache
@@ -91,7 +84,7 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
      *
      * @var Browser
      */
-    protected static $browser;
+    protected $browser;
 
     /**
      * Prepare data.
@@ -113,8 +106,8 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
         Browser $browser
     ) {
         self::$widgetInstanceEdit = $widgetInstanceEdit;
-        self::$browser = $browser;
         self::$cachePage = $cachePage;
+        $this->browser = $browser;
         $this->fixtureFactory = $fixtureFactory;
         $this->setupConfiguration('multiple_wishlist_default');
         $customer->persist();
@@ -173,7 +166,6 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
             ['dataSet' => 'add_search']
         );
         $wishlistSearch->persist();
-        self::$wishlistId = $wishlistSearch->getId();
         self::$cachePage->open()->getActionsBlock()->flushMagentoCache();
     }
 
