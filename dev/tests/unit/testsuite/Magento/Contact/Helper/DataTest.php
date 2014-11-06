@@ -79,13 +79,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(true));
 
-        $objectBuilder = $this->getMockForAbstractClass(
-            '\Magento\Framework\Api\AbstractSimpleObjectBuilder',
-            ['getData'],
-            '',
-            false
-        );
-        $customerDataObject = new \Magento\Customer\Api\Data\CustomerInterface($objectBuilder);
+        $customerDataObject = $this->getMock('\Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->_customerSession->expects($this->once())
             ->method('getCustomerDataObject')
             ->will($this->returnValue($customerDataObject));
