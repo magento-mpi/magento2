@@ -65,18 +65,18 @@ class ArgumentsTest extends \PHPUnit_Framework_TestCase
             'existing connection' => array(
                 'connection_one',
                 false,
-                array('name' => 'connection_one', 'dbName' => 'db_one')
+                array('name' => 'connection_one', 'dbname' => 'db_one')
             ),
             'unknown connection' => array('connection_new', false, null),
             'existing connection, added' => array(
                 'connection_new',
                 true,
-                array('name' => 'connection_new', 'dbName' => 'db_new')
+                array('name' => 'connection_new', 'dbname' => 'db_new')
             ),
             'existing connection, overridden' => array(
                 'connection_one',
                 true,
-                array('name' => 'connection_one', 'dbName' => 'overridden_db_one')
+                array('name' => 'connection_one', 'dbname' => 'overridden_db_one')
             )
         );
     }

@@ -44,7 +44,7 @@ abstract class AbstractState implements StateInterface
         $host = (string)$config->connection->host;
         $user = (string)$config->connection->username;
         $password = (string)$config->connection->password;
-        $database = (string)$config->connection->dbName;
+        $database = (string)$config->connection->dbname;
 
         $fileName = MTF_BP . '/' . $database . '.sql';
         if (!file_exists($fileName)) {

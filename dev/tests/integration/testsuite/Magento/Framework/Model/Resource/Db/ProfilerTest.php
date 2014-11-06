@@ -51,7 +51,7 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
             'class' => 'Magento\Framework\Model\Resource\Db\Profiler',
             'enabled' => 'true'
         );
-        $connectionConfig['dbname'] = $connectionConfig['dbName'];
+        $connectionConfig['dbname'] = $connectionConfig['dbname'];
 
         return $objectManager->create('Magento\TestFramework\Db\Adapter\Mysql', array('config' => $connectionConfig));
     }

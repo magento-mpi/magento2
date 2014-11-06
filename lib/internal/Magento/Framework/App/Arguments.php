@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento application object manager. Configures and application application
- *
  * {license_notice}
  *
  * @copyright   {copyright}

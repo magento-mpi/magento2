@@ -55,11 +55,9 @@ class Resource
     protected $_connectionFactory;
 
     /**
-     * Application cache
-     *
-     * @var CacheInterface
+     * @var Arguments $localConfig
      */
-    protected $_cache;
+    private $localConfig;
 
     /**
      * @var string
@@ -67,44 +65,21 @@ class Resource
     protected $_tablePrefix;
 
     /**
-     * @param CacheInterface $cache
      * @param ResourceConfigInterface $resourceConfig
      * @param ConnectionFactory $adapterFactory
+     * @param Arguments $localConfig
      * @param string $tablePrefix
      */
     public function __construct(
-        CacheInterface $cache,
         ResourceConfigInterface $resourceConfig,
         ConnectionFactory $adapterFactory,
+        Arguments $localConfig,
         $tablePrefix = ''
     ) {
-        $this->_cache = $cache;
         $this->_config = $resourceConfig;
         $this->_connectionFactory = $adapterFactory;
-        $this->_tablePrefix = $tablePrefix;
-    }
-
-    /**
-     * Set cache instance
-     *
-     * @param CacheInterface $cache
-     * @return void
-     */
-    public function setCache(CacheInterface $cache)
-    {
-        $this->_cache = $cache;
-    }
-
-    /**
-     * Set table prefix
-     * Added for console installation
-     *
-     * @param string $tablePrefix
-     * @return void
-     */
-    public function setTablePrefix($tablePrefix)
-    {
-        $this->_tablePrefix = $tablePrefix;
+        $this->localConfig = $localConfig;
+        $this->_tablePrefix = $tablePrefix ?: $this->localConfig->get(self::PARAM_TABLE_PREFIX);
     }
 
     /**
@@ -120,11 +95,13 @@ class Resource
             return $this->_connections[$connectionName];
         }
 
-        $connection = $this->_connectionFactory->create($connectionName);
-        if (!$connection) {
+        $connectionConfig = $this->localConfig->getConnection($connectionName);
+        if ($connectionConfig) {
+            $connection = $this->_connectionFactory->create($connectionConfig);
+        }
+        if (empty($connection)) {
             return false;
         }
-        $connection->setCacheAdapter($this->_cache->getFrontend());
 
         $this->_connections[$connectionName] = $connection;
         return $connection;

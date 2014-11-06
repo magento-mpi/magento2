@@ -8,54 +8,51 @@
 
 namespace Magento\Setup\Module;
 
+use Magento\Framework\App\Resource;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
-use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Model\LoggerInterface;
 
 class SetupFactory
 {
     /**
-     * ZF service locator
-     *
      * @var ServiceLocatorInterface
      */
-    protected $serviceLocator;
+    private $serviceLocator;
 
     /**
-     * Deployment config factory
-     *
-     * @var DeploymentConfigFactory
+     * @var ResourceFactory
      */
-    private $deploymentConfigFactory;
+    private $resourceFactory;
+    /**
+     * @var \Magento\Framework\App\Arguments\Loader
+     */
+    private $configLoader;
 
     /**
      * Constructor
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param DeploymentConfigFactory $deploymentConfigFactory
+     * @param \Magento\Framework\App\Arguments\Loader $configLoader
+     * @param ResourceFactory $resourceFactory
      */
     public function __construct(
         ServiceLocatorInterface $serviceLocator,
-        DeploymentConfigFactory $deploymentConfigFactory
+        \Magento\Framework\App\Arguments\Loader $configLoader,
+        \Magento\Setup\Module\ResourceFactory $resourceFactory
     ) {
         $this->serviceLocator = $serviceLocator;
-        $this->deploymentConfigFactory = $deploymentConfigFactory;
+        $this->resourceFactory = $resourceFactory;
+        $this->configLoader = $configLoader;
     }
 
     /**
      * Creates Setup
      *
-     * @param LoggerInterface $log
      * @return Setup
      */
-    public function createSetup(LoggerInterface $log)
+    public function createSetup()
     {
-        return new Setup(
-            $this->serviceLocator->get('Magento\Setup\Module\Setup\ConnectionFactory'),
-            $log,
-            $this->loadConfig()
-        );
+        return new Setup($this->getResource());
     }
 
     /**
@@ -68,24 +65,20 @@ class SetupFactory
     public function createSetupModule(LoggerInterface $log, $moduleName)
     {
         return new SetupModule(
-            $this->serviceLocator->get('Magento\Setup\Module\Setup\ConnectionFactory'),
             $log,
-            $this->loadConfig(),
             $this->serviceLocator->get('Magento\Setup\Module\ModuleList'),
             $this->serviceLocator->get('Magento\Setup\Module\Setup\FileResolver'),
-            $moduleName
+            $moduleName,
+            $this->getResource()
         );
     }
 
-    /**
-     * Load deployment configuration data
-     *
-     * @return Config
-     */
-    private function loadConfig()
+    private function getResource()
     {
-        $config = $this->deploymentConfigFactory->create();
-        $config->loadFromFile();
-        return $config;
+        $arguments = new \Magento\Framework\App\Arguments(
+            [],
+            $this->configLoader
+        );
+        return $this->resourceFactory->create($arguments);
     }
 }

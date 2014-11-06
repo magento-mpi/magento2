@@ -9,10 +9,10 @@
 -->
 <config>
     <connection name="connection_one">
-        <dbName>overridden_db_one</dbName>
+        <dbname>overridden_db_one</dbname>
     </connection>
     <connection name="connection_new">
-        <dbName>db_new</dbName>
+        <dbname>db_new</dbname>
     </connection>
     <resource name="resource_one" connection="connection_new"/>
     <resource name="resource_new" connection="connection_two"/>

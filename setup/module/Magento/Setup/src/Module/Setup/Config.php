@@ -8,6 +8,8 @@
 
 namespace Magento\Setup\Module\Setup;
 
+use Magento\Framework\App\Arguments;
+use Magento\Framework\App\Arguments\Loader;
 use Magento\Framework\Filesystem\Directory\Write;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -31,13 +33,6 @@ class Config
     const KEY_SESSION_SAVE = 'session_save';
     const KEY_BACKEND_FRONTNAME = 'backend_frontname';
     const KEY_ENCRYPTION_KEY = 'key';
-    /**#@- */
-
-    /**#@+
-     * Paths to deployment config file and template
-     */
-    const DEPLOYMENT_CONFIG_FILE = 'local.xml';
-    const DEPLOYMENT_CONFIG_FILE_TEMPLATE = 'local.xml.template';
     /**#@- */
 
     /**
@@ -67,18 +62,28 @@ class Config
     protected $configDirectory;
 
     /**
+     * @var Arguments
+     */
+    private $arguments;
+
+    /**
      * Default Constructor
      *
      * @param Filesystem $fileSystem
+     * @param Arguments $arguments
      * @param string[] $data
      */
-    public function __construct(Filesystem $fileSystem, $data = [])
+    public function __construct(Filesystem $fileSystem, Arguments $arguments, $data = [])
     {
         $this->configDirectory = $fileSystem->getDirectoryWrite(DirectoryList::CONFIG);
 
         if ($data) {
             $this->update($data);
         }
+        $this->arguments = $arguments;
+        $config = $this->arguments->get();
+        $data = $this->convertFromConfigData($config);
+        $this->update($data);
     }
 
     /**
@@ -119,20 +124,6 @@ class Config
     }
 
     /**
-     * Loads configuration the deployment configuration file
-     *
-     * @return void
-     */
-    public function loadFromFile()
-    {
-        $xmlData = $this->configDirectory->readFile(self::DEPLOYMENT_CONFIG_FILE);
-        $xmlObj = @simplexml_load_string($xmlData, NULL, LIBXML_NOCDATA);
-        $xmlConfig = json_decode(json_encode((array)$xmlObj), true);
-        $data = $this->convertFromConfigData((array)$xmlConfig);
-        $this->update($data);
-    }
-
-    /**
      * Exports data to a deployment configuration file
      *
      * @return void
@@ -140,7 +131,7 @@ class Config
      */
     public function saveToFile()
     {
-        $contents = $this->configDirectory->readFile(self::DEPLOYMENT_CONFIG_FILE_TEMPLATE);
+        $contents = $this->configDirectory->readFile(Loader::DEPLOYMENT_CONFIG_FILE_TEMPLATE);
         foreach ($this->data as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
         }
@@ -149,8 +140,8 @@ class Config
             throw new \Exception("Some of the keys have not been replaced in the template: {$matches[1]}");
         }
 
-        $this->configDirectory->writeFile(self::DEPLOYMENT_CONFIG_FILE, $contents);
-        $this->configDirectory->changePermissions(self::DEPLOYMENT_CONFIG_FILE, 0777);
+        $this->configDirectory->writeFile(Loader::LOCAL_CONFIG_FILE, $contents);
+        $this->configDirectory->changePermissions(Loader::LOCAL_CONFIG_FILE, 0777);
     }
 
     /**
@@ -162,35 +153,38 @@ class Config
     private function convertFromConfigData(array $source)
     {
         $result = array();
-        if (isset($source['connection']['host']) && !is_array($source['connection']['host'])) {
-            $result[self::KEY_DB_HOST] = $source['connection']['host'];
+        $connection = $this->arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
+        if ($connection) {
+            if (isset($connection['host']) && !is_array($connection['host'])) {
+                $result[self::KEY_DB_HOST] = $connection['host'];
+            }
+            if (isset($connection['dbname']) && !is_array($connection['dbname'])) {
+                $result[self::KEY_DB_NAME] = $connection['dbname'];
+            }
+            if (isset($connection['username']) && !is_array($connection['username'])) {
+                $result[self::KEY_DB_USER] = $connection['username'];
+            }
+            if (isset($connection['password']) && !is_array($connection['password'])) {
+                $result[self::KEY_DB_PASS] = $connection['password'];
+            }
+            if (isset($connection['initStatements']) && !is_array($connection['initStatements']) ) {
+                $result[self::KEY_DB_INIT_STATEMENTS] = $connection['initStatements'];
+            }
         }
-        if (isset($source['connection']['dbName']) && !is_array($source['connection']['dbName'])) {
-            $result[self::KEY_DB_NAME] = $source['connection']['dbName'];
-        }
-        if (isset($source['connection']['username']) && !is_array($source['connection']['username'])) {
-            $result[self::KEY_DB_USER] = $source['connection']['username'];
-        }
-        if (isset($source['connection']['password']) && !is_array($source['connection']['password'])) {
-            $result[self::KEY_DB_PASS] = $source['connection']['password'];
-        }
-        if (isset($source['db']['table_prefix']) && !is_array($source['db']['table_prefix'])) {
-            $result[self::KEY_DB_PREFIX] = $source['db']['table_prefix'];
+        if (isset($source['db.table_prefix']) && !is_array($source['db.table_prefix'])) {
+            $result[self::KEY_DB_PREFIX] = $source['db.table_prefix'];
         }
         if (isset($source['session_save']) && !is_array($source['session_save'])) {
             $result[self::KEY_SESSION_SAVE] = $source['session_save'];
         }
-        if (isset($source['config']['address']['admin']) && !is_array($source['config']['address']['admin'])) {
-            $result[self::KEY_BACKEND_FRONTNAME] = $source['config']['address']['admin'];
+        if (isset($source['backend.frontName']) && !is_array($source['backend.frontName'])) {
+            $result[self::KEY_BACKEND_FRONTNAME] = $source['backend.frontName'];
         }
-        if (isset($source['connection']['initStatements']) && !is_array($source['connection']['initStatements']) ) {
-            $result[self::KEY_DB_INIT_STATEMENTS] = $source['connection']['initStatements'];
+        if (isset($source['crypt.key'])) {
+            $result[self::KEY_ENCRYPTION_KEY] = $source['crypt.key'];
         }
-        if (isset($source['crypt']['key'])) {
-            $result[self::KEY_ENCRYPTION_KEY] = $source['crypt']['key'];
-        }
-        if (isset($source['install']['date'])) {
-            $result[self::KEY_DATE] = $source['install']['date'];
+        if (isset($source['install.date'])) {
+            $result[self::KEY_DATE] = $source['install.date'];
         }
         return $result;
     }

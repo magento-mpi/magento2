@@ -148,8 +148,6 @@ class ObjectManagerFactory
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
         $objectManager->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope('global');
-        $objectManager->get('Magento\Framework\App\Resource')
-            ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
         $interceptionConfig = $objectManager->get('Magento\Framework\Interception\Config\Config');
         $diConfig->setInterceptionConfig($interceptionConfig);
 

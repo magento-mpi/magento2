@@ -7,7 +7,7 @@
  */
 namespace Magento\Setup\Module;
 
-use \Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\App\Resource\Config;
 
 /**
  * Resource Model
@@ -17,23 +17,18 @@ class Resource extends \Magento\Framework\Module\Resource
     const MAIN_TABLE = 'core_resource';
 
     /**
-     * Table prefix
-     *
-     * @var string
-     */
-    private $_tablePrefix;
-
-    /**
      * Class constructor
      *
-     * @param AdapterInterface $adapter
-     * @param string $tablePrefix
+     * @param \Magento\Framework\App\Resource $appResource
+     * @internal param AdapterInterface $adapter
+     * @internal param string $tablePrefix
      */
-    public function __construct(AdapterInterface $adapter, $tablePrefix)
+    public function __construct(\Magento\Framework\App\Resource $appResource)
     {
-        $this->_connections['read'] = $adapter;
-        $this->_connections['write'] = $adapter;
-        $this->_tablePrefix = $tablePrefix;
+        parent::__construct($appResource);
+        $connection = $appResource->getConnection(Config::DEFAULT_SETUP_CONNECTION);
+        $this->_connections['write'] = $connection;
+        $this->_connections['read'] = $connection;
     }
     /**
      * Get name of main table
@@ -41,6 +36,6 @@ class Resource extends \Magento\Framework\Module\Resource
      * @return string
      */
     public function getMainTable() {
-        return $this->_getReadAdapter()->getTableName($this->_tablePrefix . self::MAIN_TABLE);
+        return $this->_resources->getTableName(self::MAIN_TABLE);
     }
 }

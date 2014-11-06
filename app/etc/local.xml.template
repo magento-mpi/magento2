@@ -32,7 +32,7 @@
         <!-- <unix_socket><![CDATA[/var/lib/mysql/mysql.sock]]></unix_socket> -->
         <username>{{db_user}}</username>
         <password>{{db_pass}}</password>
-        <dbName>{{db_name}}</dbName>
+        <dbname>{{db_name}}</dbname>
         <!-- Database statements to be executed at DB backend upon connection establishment.
             For MySQL multiple statements can be entered, if separated with a semicolon. -->
         <initStatements>{{db_init_statements}}</initStatements>

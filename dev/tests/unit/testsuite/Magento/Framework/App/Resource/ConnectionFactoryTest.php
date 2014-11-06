@@ -12,38 +12,12 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\App\Resource\ConnectionFactory
      */
-    protected $model;
-
-    /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $objectManager;
-
-    /**
-     * @var \Magento\Framework\App\Arguments|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $localConfig;
+    private $model;
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMock(
-            '\Magento\Framework\ObjectManager',
-            [],
-            [],
-            '',
-            false
-        );
-        $this->localConfig = $this->getMock(
-            '\Magento\Framework\App\Arguments',
-            [],
-            [],
-            '',
-            false
-        );
-
         $this->model = new \Magento\Framework\App\Resource\ConnectionFactory(
-            $this->objectManager,
-            $this->localConfig
+            $this->getMockForAbstractClass('Magento\Framework\DB\LoggerInterface')
         );
     }
 
@@ -53,17 +27,7 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateNoActiveConfig($config)
     {
-        $this->localConfig->expects(
-            $this->once()
-        )->method(
-            'getConnection'
-        )->with(
-            'connection_name'
-        )->will(
-            $this->returnValue($config)
-        );
-
-        $this->assertNull($this->model->create('connection_name'));
+        $this->assertNull($this->model->create($config));
     }
 
     /**
@@ -72,15 +36,15 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
     public function dataProviderCreateNoActiveConfig()
     {
         return [
-            [null, null],
-            [['value'], null],
-            [['active' => 0], null],
+            [[]],
+            [['value']],
+            [['active' => 0]],
         ];
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Adapter is not set for connection "connection_name"
+     * @expectedExceptionMessage Adapter is not set for connection
      */
     public function testCreateNoAdapter()
     {
@@ -88,17 +52,7 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
             'active' => 1,
         ];
 
-        $this->localConfig->expects(
-            $this->once()
-        )->method(
-            'getConnection'
-        )->with(
-            'connection_name'
-        )->will(
-            $this->returnValue($config)
-        );
-
-        $this->model->create('connection_name');
+        $this->model->create($config);
     }
 
     /**
@@ -112,61 +66,20 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
             'adapter' => 'StdClass',
         ];
 
-        $this->localConfig->expects(
-            $this->once()
-        )->method(
-            'getConnection'
-        )->with(
-            'connection_name'
-        )->will(
-            $this->returnValue($config)
-        );
-
-        $adapterMock = $this->getMock('StdClass');
-
-        $this->objectManager->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            'StdClass',
-            $config
-        )->will(
-            $this->returnValue($adapterMock)
-        );
-
-        $this->model->create('connection_name');
+        $this->model->create($config);
     }
 
     public function testCreate()
     {
+        $this->markTestSkipped('MAGETWO-30176: requires injection of object manager or service locator');
+
+        $adapter = 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql';
         $config = [
             'active' => 1,
-            'adapter' => 'Magento\Framework\App\Resource\ConnectionAdapterInterface',
+            'adapter' => $adapter,
         ];
 
-        $this->localConfig->expects(
-            $this->once()
-        )->method(
-            'getConnection'
-        )->with(
-            'connection_name'
-        )->will(
-            $this->returnValue($config)
-        );
-
-        $adapterMock = $this->getMock('Magento\Framework\App\Resource\ConnectionAdapterInterface');
-
-        $this->objectManager->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            'Magento\Framework\App\Resource\ConnectionAdapterInterface',
-            $config
-        )->will(
-            $this->returnValue($adapterMock)
-        );
+        $adapterMock = $this->getMock($adapter);
 
         $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
 
@@ -178,6 +91,6 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($connectionMock)
         );
 
-        $this->assertEquals($connectionMock, $this->model->create('connection_name'));
+        $this->assertEquals($connectionMock, $this->model->create($config));
     }
 }

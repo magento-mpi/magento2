@@ -8,14 +8,15 @@
 
 namespace Magento\Setup\Model;
 
+use Magento\Framework\App\Arguments;
+use Magento\Framework\App\Arguments\Loader;
 use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Setup\Module\ModuleListInterface;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
-use Magento\Setup\Module\Setup\ConnectionFactory;
-use Zend\Db\Sql\Sql;
+use Magento\Framework\App\Resource\ConnectionFactory;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -162,6 +163,11 @@ class Installer
     private $execParams;
 
     /**
+     * @var Loader
+     */
+    private $configLoader;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -176,6 +182,7 @@ class Installer
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
      * @param ServiceLocatorInterface $serviceManager
+     * @param Loader $configLoader
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -189,7 +196,8 @@ class Installer
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
         Filesystem $filesystem,
-        ServiceLocatorInterface $serviceManager
+        ServiceLocatorInterface $serviceManager,
+        Loader $configLoader
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -205,6 +213,7 @@ class Installer
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
+        $this->configLoader = $configLoader;
     }
 
     /**
@@ -506,14 +515,16 @@ class Installer
      */
     public function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass = '')
     {
-        $adapter = $this->connectionFactory->create([
-            Config::KEY_DB_NAME => $dbName,
-            Config::KEY_DB_HOST => $dbHost,
-            Config::KEY_DB_USER => $dbUser,
-            Config::KEY_DB_PASS => $dbPass
+        $connection = $this->connectionFactory->create([
+            'dbname' => $dbName,
+            'host' => $dbHost,
+            'username' => $dbUser,
+            'password' => $dbPass,
+            'active' => true,
+            'adapter' => '\Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql'
         ]);
-        $adapter->getConnection();
-        if (!$adapter->isConnected()) {
+
+        if (!$connection) {
             throw new \Exception('Database connection failure.');
         }
         return true;
@@ -542,20 +553,18 @@ class Installer
             $this->log->log('No database connection defined - skipping database cleanup');
             return;
         }
-        $config = $this->deploymentConfigFactory->create();
-        $config->loadFromFile();
-        $configData = $config->getConfigData();
-        $adapter = $this->connectionFactory->create($configData);
+        $arguments = new Arguments([], $this->configLoader);
+        $config = $arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
         try {
-            $adapter->getConnection();
+            $connection = $this->connectionFactory->create($config);
         } catch (\Exception $e) {
             $this->log->log($e->getMessage() . ' - skipping database cleanup');
             return;
         }
-        $dbName = $adapter->quoteIdentifier($configData[Config::KEY_DB_NAME]);
+        $dbName = $connection->quoteIdentifier($config['dbname']);
         $this->log->log("Recreating database {$dbName}");
-        $adapter->query("DROP DATABASE IF EXISTS {$dbName}");
-        $adapter->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
+        $connection->query("DROP DATABASE IF EXISTS {$dbName}");
+        $connection->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
     }
 
     /**

@@ -33,6 +33,10 @@ class ConfigFactory
     {
         return new Config(
             $this->serviceLocator->get('Magento\Framework\Filesystem'),
+            new \Magento\Framework\App\Arguments(
+                [],
+                $this->serviceLocator->get('Magento\Framework\App\Arguments\Loader')
+            ),
             $data
         );
     }

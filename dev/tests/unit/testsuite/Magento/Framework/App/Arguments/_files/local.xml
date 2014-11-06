@@ -9,10 +9,10 @@
 -->
 <config>
     <connection name="connection_one">
-        <dbName>db_one</dbName>
+        <dbname>db_one</dbname>
     </connection>
     <connection name="connection_two">
-        <dbName>db_two</dbName>
+        <dbname>db_two</dbname>
     </connection>
     <resource name="resource_one" connection="connection_one"/>
     <resource name="resource_two" connection="connection_two"/>

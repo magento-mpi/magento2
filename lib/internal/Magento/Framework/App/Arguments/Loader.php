@@ -18,10 +18,12 @@ class Loader
      */
     const PARAM_CUSTOM_FILE = 'custom.options.file';
 
-    /**
-     * Local configuration file
+    /**#@+
+     * Local configuration file and its template
      */
     const LOCAL_CONFIG_FILE = 'local.xml';
+    const DEPLOYMENT_CONFIG_FILE_TEMPLATE = 'local.xml.template';
+    /**#@- */
 
     /**
      * Directory registry

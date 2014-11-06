@@ -12,49 +12,46 @@ namespace Magento\Framework\App\Resource;
 class ConnectionFactory
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\DB\LoggerInterface
      */
-    protected $_objectManager;
+    private $logger;
 
     /**
-     * @var \Magento\Framework\App\Arguments
+     * @param \Magento\Framework\DB\LoggerInterface $logger
      */
-    protected $_localConfig;
-
-    /**
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\App\Arguments $localConfig
-     */
-    public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\App\Arguments $localConfig
-    ) {
-        $this->_objectManager = $objectManager;
-        $this->_localConfig = $localConfig;
+    public function __construct(\Magento\Framework\DB\LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
      * Create connection adapter instance
      *
-     * @param string $connectionName
+     * @param array $connectionConfig
      * @return \Magento\Framework\DB\Adapter\AdapterInterface
      * @throws \InvalidArgumentException
      */
-    public function create($connectionName)
+    public function create(array $connectionConfig)
     {
-        $connectionConfig = $this->_localConfig->getConnection($connectionName);
         if (!$connectionConfig || !isset($connectionConfig['active']) || !$connectionConfig['active']) {
             return null;
         }
 
         if (!isset($connectionConfig['adapter'])) {
-            throw new \InvalidArgumentException('Adapter is not set for connection "' . $connectionName . '"');
+            throw new \InvalidArgumentException('Adapter is not set for connection');
         }
 
-        $adapterInstance = $this->_objectManager->create($connectionConfig['adapter'], $connectionConfig);
+        $adapterClass = $connectionConfig['adapter'];
+
+        $adapterInstance = new $adapterClass(
+            $this->logger,
+            new \Magento\Framework\Stdlib\String,
+            new \Magento\Framework\Stdlib\DateTime,
+            $connectionConfig
+        );
 
         if (!$adapterInstance instanceof ConnectionAdapterInterface) {
-            throw new \InvalidArgumentException('Trying to create wrong connection adapter');
+            throw new \InvalidArgumentException("Trying to create wrong connection adapter '$adapterClass'");
         }
 
         return $adapterInstance->getConnection();

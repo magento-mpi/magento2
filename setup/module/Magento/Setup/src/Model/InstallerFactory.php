@@ -46,10 +46,12 @@ class InstallerFactory
             $this->serviceLocator->get('Magento\Setup\Model\AdminAccountFactory'),
             $log,
             $this->serviceLocator->get('Magento\Framework\Math\Random'),
-            $this->serviceLocator->get('Magento\Setup\Module\Setup\ConnectionFactory'),
+            $this->serviceLocator->get('Magento\Framework\App\Resource\ConnectionFactory'),
             $this->serviceLocator->get('Magento\Framework\App\MaintenanceMode'),
             $this->serviceLocator->get('Magento\Framework\Filesystem'),
-            $this->serviceLocator
+            $this->serviceLocator,
+            $this->serviceLocator->get('Magento\Framework\App\Arguments\Loader'),
+            $this->serviceLocator->get('Magento\Setup\Module\ResourceFactory')
         );
     }
 }

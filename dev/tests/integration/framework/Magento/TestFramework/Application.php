@@ -7,6 +7,7 @@
  */
 namespace Magento\TestFramework;
 
+use Magento\Framework\App\Arguments\Loader;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -200,7 +201,7 @@ class Application
                 $host = (string)$localConfig->connection->host;
                 $user = (string)$localConfig->connection->username;
                 $password = (string)$localConfig->connection->password;
-                $dbName = (string)$localConfig->connection->dbName;
+                $dbName = (string)$localConfig->connection->dbname;
             } else {
                 $installConfig = $this->getInstallConfig();
                 $host = $installConfig['db_host'];
@@ -436,7 +437,10 @@ class Application
      */
     private function copyAppConfigFiles()
     {
-        $globalConfigFiles = glob($this->_globalConfigDir . '/{di.xml,local.xml.template,*/*.xml}', GLOB_BRACE);
+        $globalConfigFiles = glob(
+            $this->_globalConfigDir . '/{di.xml,' . Loader::DEPLOYMENT_CONFIG_FILE_TEMPLATE . ',*/*.xml}',
+            GLOB_BRACE
+        );
         foreach ($globalConfigFiles as $file) {
             $targetFile = $this->_configDir . str_replace($this->_globalConfigDir, '', $file);
             $this->_ensureDirExists(dirname($targetFile));

@@ -21,7 +21,7 @@
         <host>{{db_host}}</host>
         <username>{{db_user}}</username>
         <password>{{db_pass}}</password>
-        <dbName>{{db_name}}</dbName>
+        <dbname>{{db_name}}</dbname>
         <initStatements>{{db_init_statements}}</initStatements>
         <model>{{db_model}}</model>
         <adapter>Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql</adapter>

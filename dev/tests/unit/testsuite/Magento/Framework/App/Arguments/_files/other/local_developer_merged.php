@@ -8,9 +8,9 @@
 
 return array(
     'connection' => array(
-        'connection_one' => array('name' => 'connection_one', 'dbName' => 'overridden_db_one'),
-        'connection_two' => array('name' => 'connection_two', 'dbName' => 'db_two'),
-        'connection_new' => array('name' => 'connection_new', 'dbName' => 'db_new')
+        'connection_one' => array('name' => 'connection_one', 'dbname' => 'overridden_db_one'),
+        'connection_two' => array('name' => 'connection_two', 'dbname' => 'db_two'),
+        'connection_new' => array('name' => 'connection_new', 'dbname' => 'db_new')
     ),
     'resource' => array(
         'resource_one' => array('name' => 'resource_one', 'connection' => 'connection_new'),

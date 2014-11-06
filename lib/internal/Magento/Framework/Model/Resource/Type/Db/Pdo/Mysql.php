@@ -7,14 +7,15 @@
  */
 namespace Magento\Framework\Model\Resource\Type\Db\Pdo;
 
-class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magento\Framework\App\Resource\ConnectionAdapterInterface
+use Magento\Framework\App\Resource\ConnectionAdapterInterface;
+use Magento\Framework\Model\Resource\Type\Db;
+
+class Mysql extends Db implements ConnectionAdapterInterface
 {
     /**
-     * Filesystem class
-     *
-     * @var \Magento\Framework\Filesystem
+     * @var \Magento\Framework\DB\LoggerInterface
      */
-    protected $_filesystem;
+    private $logger;
 
     /**
      * @var \Magento\Framework\Stdlib\String
@@ -42,47 +43,25 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
     protected $_isActive;
 
     /**
-     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\DB\LoggerInterface $logger
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     * @param string $dbName
-     * @param array $profiler
-     * @param string $initStatements
-     * @param string $type
-     * @param bool $active
+     * @param array $config
      */
     public function __construct(
-        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Framework\DB\LoggerInterface $logger,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        $host,
-        $username,
-        $password,
-        $dbName,
-        array $profiler = array(),
-        $initStatements = 'SET NAMES utf8',
-        $type = 'pdo_mysql',
-        $active = false
+        array $config
     ) {
-        $this->_filesystem = $filesystem;
+        $this->logger = $logger;
         $this->string = $string;
         $this->dateTime = $dateTime;
-        $this->_connectionConfig = array(
-            'host' => $host,
-            'username' => $username,
-            'password' => $password,
-            'dbname' => $dbName,
-            'type' => $type,
-            'profiler' => !empty($profiler) && $profiler !== 'false'
-        );
+        $this->_connectionConfig = $this->getValidConfig($config);
 
-        $this->_host = $host;
-        $this->_type = $type;
-        $this->_initStatements = $initStatements;
-        $this->_isActive = !($active === 'false' || $active === '0');
+        $this->_initStatements = $this->_connectionConfig['initStatements'];
+        $this->_isActive = !($this->_connectionConfig['active'] === 'false'
+            || $this->_connectionConfig['active'] === '0' || $this->_connectionConfig['active'] === false);
         parent::__construct();
     }
 
@@ -104,8 +83,8 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
 
         $profiler = $connection->getProfiler();
         if ($profiler instanceof \Magento\Framework\DB\Profiler) {
-            $profiler->setType($this->_type);
-            $profiler->setHost($this->_host);
+            $profiler->setType($this->_connectionConfig['host']);
+            $profiler->setHost($this->_connectionConfig['type']);
         }
 
         return $connection;
@@ -119,7 +98,7 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
     protected function _getDbAdapterInstance()
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->_filesystem, $this->string, $this->dateTime, $this->_connectionConfig);
+        $adapter = new $className($this->logger, $this->string, $this->dateTime, $this->_connectionConfig);
         return $adapter;
     }
 
@@ -131,5 +110,28 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
     protected function _getDbAdapterClassName()
     {
         return 'Magento\Framework\DB\Adapter\Pdo\Mysql';
+    }
+
+    /**
+     * Validates the config and adds default options, if any is missing
+     *
+     * @param array $config
+     * @return array
+     */
+    private function getValidConfig(array $config)
+    {
+        $default = ['initStatements' => 'SET NAMES utf8', 'type' => 'pdo_mysql', 'active' => false];
+        foreach ($default as $key => $value) {
+            if (!isset($config[$key])) {
+                $config[$key] = $value;
+            }
+        }
+        $required = ['host'];
+        foreach ($required as $name) {
+            if (!isset($config[$name])) {
+                throw new \InvalidArgumentException("MySQL adapter: Missing required configuration option '$name'");
+            }
+        }
+        return $config;
     }
 }
