@@ -16,14 +16,14 @@ class Manual extends AbstractAlgorithm
      */
     public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds)
     {
-        $range = $dataProvider->getRange();
-        $options = $dataProvider->getOptions();
+        $range = $this->dataProvider->getRange();
+        $options = $this->dataProvider->getOptions();
         if (!$range) {
             $range = $options['range_step'];
         }
         $dbRanges = $this->dataProvider->getAggregation($bucket, $dimensions, $range, $entityIds);
         $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
-        $data = $dataProvider->prepareData($range, $dbRanges);
+        $data = $this->dataProvider->prepareData($range, $dbRanges);
 
         return $data;
     }
