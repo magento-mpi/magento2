@@ -32,7 +32,7 @@ class Customer extends \Magento\Framework\Object
     protected $_adminhtmlData = null;
 
     /**
-     * @var \Magento\Customer\Model\Resource\CustomerRepository
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     protected $customerRepository;
 
@@ -55,14 +55,14 @@ class Customer extends \Magento\Framework\Object
      * Initialize dependencies.
      *
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Customer\Model\Resource\CustomerRepository $customerRepository
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Helper\View $customerViewHelper
      */
     public function __construct(
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Customer\Model\Resource\CustomerRepository $customerRepository,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Helper\View $customerViewHelper

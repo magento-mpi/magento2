@@ -8,6 +8,7 @@
 namespace Magento\Backend\Model\Session;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\GroupManagementInterface;
 
 /**
  * Adminhtml quote session
@@ -68,9 +69,9 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var GroupManagementInterface
      */
-    protected $_scopeConfig;
+    protected $groupManagement;
 
     /**
      * @param \Magento\Framework\App\Request\Http $request
@@ -85,7 +86,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -100,13 +101,13 @@ class Quote extends \Magento\Framework\Session\SessionManager
         CustomerRepositoryInterface $customerRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        GroupManagementInterface $groupManagement
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->customerRepository = $customerRepository;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
-        $this->_scopeConfig = $scopeConfig;
+        $this->groupManagement = $groupManagement;
         parent::__construct(
             $request,
             $sidResolver,
@@ -135,13 +136,9 @@ class Quote extends \Magento\Framework\Session\SessionManager
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
-                $customerGroupId = $this->_scopeConfig->getValue(
-                    \Magento\Customer\Model\GroupManagement::XML_PATH_DEFAULT_ID,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
                 $this->_quote
                     ->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId($customerGroupId)
+                    ->setCustomerGroupId($this->groupManagement->getDefaultGroup()->getId())
                     ->setIsActive(false)
                     ->save();
                 $this->setQuoteId($this->_quote->getId());

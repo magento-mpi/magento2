@@ -9,7 +9,7 @@ namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
-use Magento\Customer\Api\Data\CustomerInterface as CustomerInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
