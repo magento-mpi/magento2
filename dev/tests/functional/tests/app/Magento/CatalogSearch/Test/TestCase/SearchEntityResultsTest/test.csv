@@ -5,5 +5,5 @@
 "configurableProductInjectable::default";"configurable";"assertCatalogSearchResult"
 "downloadableProductInjectable::default";"downloadable";"assertCatalogSearchResult"
 "groupedProductInjectable::default";"grouped";"assertCatalogSearchResult"
-"bundleProduct::bundle_dynamic_product";"bundle_dynamic";"assertCatalogSearchResult"
-"bundleProduct::bundle_fixed_product";"bundle_fixed";"assertCatalogSearchResult"
+"bundleProduct::bundle_dynamic_product";"bundle";"assertCatalogSearchResult"
+"bundleProduct::bundle_fixed_product";"bundle";"assertCatalogSearchResult"
