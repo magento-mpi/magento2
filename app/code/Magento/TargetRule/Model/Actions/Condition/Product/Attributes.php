@@ -222,7 +222,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
             $elementId,
             'select',
             array(
-                'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][value_type]',
+                'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][value_type]',
                 'values' => $this->getValueTypeOptions(),
                 'value' => $this->getValueType(),
                 'value_name' => $this->getValueTypeName(),

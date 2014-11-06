@@ -178,6 +178,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                     $parameter['value'] = $textSubNode->nodeValue;
                 }
             }
+        } elseif ($xsiType == 'conditions') {
+            $parameter['type'] = $sourceAttributes->getNamedItem('class')->nodeValue;
         } else {
             $parameter['type'] = $xsiType;
         }
