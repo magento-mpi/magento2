@@ -8,7 +8,6 @@
 namespace Magento\AdvancedCheckout\Helper;
 
 use Magento\Sales\Model\Quote\Item;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Enterprise Checkout Helper
@@ -95,10 +94,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var string[]
      */
-    protected $_failedTemplateStatusCodes = array(
+    protected $_failedTemplateStatusCodes = [
         self::ADD_ITEM_STATUS_FAILED_SKU,
         self::ADD_ITEM_STATUS_FAILED_PERMISSIONS
-    );
+    ];
 
     /**
      * @var \Magento\Catalog\Helper\Data
@@ -194,10 +193,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $priceCurrency;
 
-    /** @var \Magento\Msrp\Helper\Data */
+    /**
+     * @var \Magento\Msrp\Helper\Data
+     */
     protected $msrpData;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
@@ -213,7 +216,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Msrp\Helper\Data $msrpData
@@ -369,10 +371,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID || in_array(
-                        $groupId,
-                        $this->getSkuCustomerGroups()
-                    );
+                    $result = $groupId === \Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID
+                        || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
         }
@@ -413,15 +413,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $collection = $this->_products->addMinimalPrice()->addFinalPrice()->addTaxPercents()->addAttributeToSelect(
                 $this->_catalogConfig->getProductAttributes()
             )->addUrlRewrite();
-            $itemsToLoad = array();
+            $itemsToLoad = [];
 
-            $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
+            $quoteItemsCollection = is_null($this->_items) ? [] : $this->_items;
             $quote = $this->_checkoutSession->getQuote();
             foreach ($failedItems as $item) {
                 if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
                     if (!isset($itemsToLoad[$id])) {
-                        $itemsToLoad[$id] = array();
+                        $itemsToLoad[$id] = [];
                     }
                     $itemToLoad = $item['item'];
                     $itemToLoad['code'] = $item['code'];
@@ -454,7 +454,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         $itemProduct = $index == $itemsCount - 1 ? $product : clone $product;
                         $itemProduct->addData($itemToLoad);
                         if (!$itemProduct->getOptionsByCode()) {
-                            $itemProduct->setOptionsByCode(array());
+                            $itemProduct->setOptionsByCode([]);
                         }
                         // Create a new quote item and import data to it
                         $quoteItem = clone $emptyQuoteItem;
@@ -514,23 +514,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @return array|void
+     * @return array|null
      */
     public function processSkuFileUploading()
     {
+        $rows = null;
         $importModel = $this->_importFactory->create();
+
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
                 throw new \Magento\Framework\Model\Exception(__('The file is empty.'));
             }
+
             return $rows;
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, $this->getFileGeneralErrorText());
         }
+
+        return $rows;
     }
 
     /**
