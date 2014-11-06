@@ -8,21 +8,22 @@
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+use Magento\Framework\Search\Request\BucketInterface;
 
-class Auto implements AlgorithmInterface
+class Auto extends AbstractAlgorithm
 {
 
     /**
      * {@inheritdoc}
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds)
+    public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds)
     {
         $data = [];
-        $range = $dataProvider->getRange();
+        $range = $this->dataProvider->getRange();
         if (!$range) {
-            $range = $this->getRange($dataProvider, $entityIds);
-            $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
-            $data = $dataProvider->prepareData($range, $dbRanges);
+            $range = $this->getRange($bucket, $dimensions, $entityIds);
+            $dbRanges = $this->dataProvider->getAggregation($bucket, $dimensions, $range, $entityIds, 'count');
+            $data = $this->dataProvider->prepareData($range, $dbRanges);
         }
 
         return $data;
@@ -33,15 +34,15 @@ class Auto implements AlgorithmInterface
      * @param int[] $entityIds
      * @return number
      */
-    private function getRange(DataProviderInterface $dataProvider, array $entityIds)
+    private function getRange($bucket, array $dimensions ,array $entityIds)
     {
-        $maxPrice = $this->getMaxPriceInt($dataProvider, $entityIds);
+        $maxPrice = $this->getMaxPriceInt($entityIds);
         $index = 1;
         do {
             $range = pow(10, strlen(floor($maxPrice)) - $index);
-            $items = $dataProvider->getAggregation($range, $entityIds, 'count');
+            $items = $this->dataProvider->getAggregation($bucket, $dimensions, $range, $entityIds, 'count');
             $index++;
-        } while ($range > $this->getMinRangePower($dataProvider) && count($items) < 2);
+        } while ($range > $this->getMinRangePower() && count($items) < 2);
 
         return $range;
     }
@@ -53,9 +54,9 @@ class Auto implements AlgorithmInterface
      * @param int[] $entityIds
      * @return float
      */
-    private function getMaxPriceInt(DataProviderInterface $dataProvider, array $entityIds)
+    private function getMaxPriceInt(array $entityIds)
     {
-        $aggregations = $dataProvider->getAggregations($entityIds);
+        $aggregations = $this->dataProvider->getAggregations($entityIds);
         $maxPrice = $aggregations['max'];
         $maxPrice = floor($maxPrice);
 
@@ -66,9 +67,9 @@ class Auto implements AlgorithmInterface
      * @param DataProviderInterface $dataProvider
      * @return int
      */
-    private function getMinRangePower(DataProviderInterface $dataProvider)
+    private function getMinRangePower()
     {
-        $options = $dataProvider->getOptions();
+        $options = $this->dataProvider->getOptions();
 
         return $options['min_range_power'];
     }

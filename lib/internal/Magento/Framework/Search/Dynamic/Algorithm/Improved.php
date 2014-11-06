@@ -9,8 +9,9 @@ namespace Magento\Framework\Search\Dynamic\Algorithm;
 
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
+use Magento\Framework\Search\Request\BucketInterface;
 
-class Improved implements AlgorithmInterface
+class Improved extends AbstractAlgorithm
 {
 
     /**
@@ -19,22 +20,25 @@ class Improved implements AlgorithmInterface
     private $algorithm;
 
     /**
+     * @param DataProviderInterface $dataProvider
      * @param Algorithm $algorithm
      */
-    public function __construct(Algorithm $algorithm)
+    public function __construct(DataProviderInterface $dataProvider, Algorithm $algorithm)
     {
+        parent::__construct($dataProvider);
         $this->algorithm = $algorithm;
     }
+
 
     /**
      * {@inheritdoc}
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds)
+    public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds)
     {
-        $aggregations = $dataProvider->getAggregations($entityIds);
+        $aggregations = $this->dataProvider->getAggregations($entityIds);
 
-        $options = $dataProvider->getOptions();
-        if ($aggregations['count'] <  2 * $options['interval_division_limit'] ) { // minimum 2 intervals
+        $options = $this->dataProvider->getOptions();
+        if ($aggregations['count'] < $options['interval_division_limit'] ) { // minimum 2 intervals
             return [];
         }
 

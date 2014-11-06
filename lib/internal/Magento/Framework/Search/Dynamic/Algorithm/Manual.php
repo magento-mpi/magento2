@@ -7,21 +7,21 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+use Magento\Framework\Search\Request\BucketInterface;
 
-class Manual implements AlgorithmInterface
+class Manual extends AbstractAlgorithm
 {
     /**
      * {@inheritdoc}
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds)
+    public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds)
     {
         $range = $dataProvider->getRange();
         $options = $dataProvider->getOptions();
         if (!$range) {
             $range = $options['range_step'];
         }
-        $dbRanges = $dataProvider->getAggregation($range, $entityIds, 'count');
+        $dbRanges = $this->dataProvider->getAggregation($bucket, $dimensions, $range, $entityIds);
         $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
         $data = $dataProvider->prepareData($range, $dbRanges);
 
