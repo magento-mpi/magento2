@@ -86,8 +86,8 @@ define([
         initProperties: function () {
             __super__.initProperties.apply(this, arguments);
 
-            this.uid    = utils.uniqueid();
-            this.serializedScope = utils.serializeName(this.dataScope);
+            this.uid        = utils.uniqueid();
+            this.inputName = utils.serializeName(this.dataScope);
 
             return this;
         },
@@ -204,11 +204,9 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            var isUndefined = typeof value === 'undefined';
-
             this.provider.data.set(this.dataScope, value);
 
-            this.setPreview(isUndefined ? '' : value);
+            this.setPreview(value);
 
             return this;
         },
@@ -234,9 +232,9 @@ define([
          * @return {Boolean}
          */
         hasChanged: function(){
-            return this.hidden() ?
-                false :
-                this.value() !== this.initialValue;
+            var notEqual = this.value() !== this.initialValue;
+
+            return this.hidden() ? false : notEqual;
         },
 
         /**

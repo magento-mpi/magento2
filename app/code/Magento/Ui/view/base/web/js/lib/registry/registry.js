@@ -50,19 +50,14 @@ define([
 
        /**
          * Sets data to registry.
-         * @params {(String|Array)} elems -
-                An array of elements' names or a string of names divided by spaces.
-         * @params {*} [value] -
-                Value that will be assigned to elements.
+         * @params {String} elems - An array of elements' names or a string of names divided by spaces.
+         * @params {*} value - Value that will be assigned to element.
          * @returns {registry} Chainable.  
          */
-        set: function(elems, value) {
-            elems = utils.stringToArray(elems);
+        set: function(elem, value) {
 
-            elems.forEach(function(elem){
-                this.storage.set(elem, value);
-                this.events.resolve(elem);
-            }, this);
+            this.storage.set(elem, value);
+            this.events.resolve(elem);
 
             return this;
         },

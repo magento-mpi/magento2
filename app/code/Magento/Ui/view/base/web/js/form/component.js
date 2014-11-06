@@ -13,6 +13,7 @@ define([
 ], function(_, utils, Scope, EventsBus, registry) {
     'use strict';
     
+
     function loadEach(elems, callback){
         elems.forEach(function(elem, index){
             registry.get(elem, function(elem){
@@ -38,24 +39,15 @@ define([
 
         if(_.isArray(data)){
             data = {
-                conditions: "*",
                 additional: data
             }
         }
-        else if(!_.isObject(data)){
-            data = {
-                conditions: data,
-                additional: []
-            }
-        }
 
-        conditions = data.conditions;
-
-        if(_.isUndefined(conditions)){
-            data.conditions = '*';
-        }
-
-        data.callback = callback;
+        _.defaults(data, {
+            conditions: '*',
+            additional: [],
+            callback: callback
+        });
 
         return proxy.bind(null, data);
     }

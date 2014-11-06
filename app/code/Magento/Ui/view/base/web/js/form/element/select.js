@@ -28,25 +28,6 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
-        formatInitialValue: function() {
-            var value;
-
-            __super__.formatInitialValue.apply(this, arguments);
-            
-            if (this.hasLeafNode) {
-                value = [this.value()];
-
-                this.value(value);
-                this.initialValue = value;
-            }
-
-            return this;
-        },
-
-        formatValue: function(value){
-            return Array.isArray(value) ? value[0] : value;
-        },
-
         setPreview: function(value){
             var option  = _.indexBy(this.options(), 'value')[value],
                 preview = '';
@@ -58,27 +39,6 @@ define([
             this.preview(preview);
 
             return this;
-        },
-
-        /**
-         * Stores element's value to registry by element's path value
-         * @param  {*} changedValue - current value of form element
-         */
-        store: function (value) {
-            value = this.formatValue(value);
-
-            return __super__.store.call(this, value);
-        },
-
-        /**
-         * Defines if value has changed
-         * @return {Boolean}
-         */
-        hasChanged: function () {
-            var value   = this.formatValue(this.value()),
-                initial = this.formatValue(this.initialValue);
-
-            return value !== initial;
         }
     });
 });

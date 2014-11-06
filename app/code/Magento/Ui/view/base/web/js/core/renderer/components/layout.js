@@ -46,6 +46,10 @@ define([
         return $.extend(true, {}, config, node);
     }
 
+    function additional(node){
+        return _.pick(node, 'name', 'index', 'dataScope');
+    }
+
     function Layout(nodes, types){
         this.types      = types;
         this.registry   = registry.create();
@@ -108,23 +112,19 @@ define([
 
         initComponent: function(node){
             var source = node.component,
-                component,
-                name;
+                component;
 
             if(source){
-                source  = [source]; 
-                name    = node.name;
 
                 registry.get(node.deps, function(){
 
-                    require(source, function(constr){
-                        component = new constr(node.config, {
-                            name:       name,
-                            index:      node.index,
-                            dataScope:  node.dataScope
-                        });
+                    require([source], function(constr){
+                        component = new constr(
+                            node.config,
+                            additional(node)
+                        );
 
-                        registry.set(name, component);
+                        registry.set(node.name, component);
                     });
                 });
             }
@@ -141,9 +141,11 @@ define([
         },
 
         waitParent: function(node, name){
+            var process = this.process.bind(this);
+
             this.registry.get(node.parent, function(parent){
-                this.process(parent, node, name);
-            }.bind(this));
+                process(parent, node, name);
+            });
 
             return this;
         },

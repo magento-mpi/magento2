@@ -14,21 +14,24 @@ define([
     var __super__ = Abstract.prototype;
     
     var inputNode = {
-        name:       '{index}_input',
-        type:       'input',
-        parent:     '{parentName}'
+        name:  '{index}_input',
+        type: 'input',
+        parent: '{parentName}',
+        config: {
+            hidden: true,
+            label: '{label}',
+            listeners: {
+                "params:{parentName}.{index}.hidden":{
+                    "hide": {
+                        "conditions": false
+                    },
+                    "show": {
+                        "conditions": true
+                    }
+                }
+            }
+        }
     };
-
-    var inputConfig = {
-        hidden: true,
-        label:  '{label}'
-    };
-
-    function hasLeafNode(nodes){
-        return _.some(nodes, function(node){
-            return typeof node.value === 'object';
-        });
-    }
 
     function parseOptions(nodes){
         var caption;
@@ -48,6 +51,22 @@ define([
             options: _.compact(nodes),
             caption: caption
         };
+    }
+
+    function findFirst(data){
+        var value;
+
+        data.some(function(node){
+            value = node.value;
+
+            if(Array.isArray(value)){
+                value = findFirst(value);  
+            }
+
+            return !_.isUndefined(value);
+        });
+
+        return value;
     }
 
     return Abstract.extend({
@@ -88,23 +107,25 @@ define([
         },
 
         initInput: function(){
-            var node        = utils.template(inputNode, this),
-                config      = utils.template(inputConfig, this),
-                listeners   = {},
-                event;
-
-            event = "params:{parentName}."+ this.index +".hidden";
-            listeners[event] = {
-                "hide": false,
-                "show": true
-            };
-
-            config.listeners = listeners;
-            node.config      = config;
+            var node = utils.template(inputNode, this);
 
             this.renderer.render({
                 layout: [node]
             });
+
+            return this;
+        },
+
+        formatInitialValue: function() {
+            var value = this.value();
+
+            if(_.isUndefined(value) && !this.caption){
+                value = findFirst(this.options());
+            }
+            
+            this.initialValue = value;
+            this.value(value);
+            
             return this;
         },
 
@@ -128,26 +149,6 @@ define([
                 this.setHidden(!size);
             }
 
-            return this;
-        },
-
-        formatInitialValue: function() {
-            var value = this.value(),
-                option;
-
-            if(_.isUndefined(value) && !this.caption){
-                option = this.options[0];
-
-                if(option){
-                    value = option.value;
-                }
-            }
-
-            this.initialValue = value;
-            this.value(value);
-
-            this.hasLeafNode = hasLeafNode(this.options);
-            
             return this;
         }
     });
