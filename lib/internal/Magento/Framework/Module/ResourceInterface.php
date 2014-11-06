@@ -27,13 +27,4 @@ interface ResourceInterface
      * @return string|false
      */
     public function getDataVersion($resName);
-
-    /**
-     * Specify resource data version
-     *
-     * @param string $resName
-     * @param string $version
-     * @return $this
-     */
-    public function setDataVersion($resName, $version);
 }

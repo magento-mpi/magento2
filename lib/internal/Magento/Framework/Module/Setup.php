@@ -81,7 +81,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     /**
      * @var \Magento\Framework\Module\ResourceInterface
      */
-    protected $_resourceResource;
+    protected $_resource;
 
     /**
      * @var \Magento\Framework\Module\Setup\MigrationFactory
@@ -124,12 +124,24 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
         $this->_logger = $context->getLogger();
         $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
-        $this->_resourceResource = $context->getResourceResource();
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
         $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_connectionName = $connectionName;
+    }
+
+
+    /**
+     * Set Resource for setup class
+     *
+     * @param \Magento\Framework\Module\ResourceInterface $resource
+     * @return $this
+     */
+    public function setResource(ResourceInterface $resource)
+    {
+        $this->_resource = $resource;
+        return $this;
     }
 
     /**
@@ -194,7 +206,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
      */
     public function applyDataUpdates()
     {
-        $dataVer = $this->_resourceResource->getDataVersion($this->_resourceName);
+        $dataVer = $this->_resource->getDataVersion($this->_resourceName);
         $configVer = $this->_moduleConfig['schema_version'];
         if ($dataVer !== false) {
             $status = version_compare($configVer, $dataVer);
@@ -217,7 +229,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     {
         $oldVersion = $this->_modifyResourceDb(self::TYPE_DATA_INSTALL, '', $newVersion);
         $this->_modifyResourceDb(self::TYPE_DATA_UPGRADE, $oldVersion, $newVersion);
-        $this->_resourceResource->setDataVersion($this->_resourceName, $newVersion);
+        $this->_resource->setDataVersion($this->_resourceName, $newVersion);
 
         return $this;
     }
@@ -232,7 +244,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     protected function _upgradeData($oldVersion, $newVersion)
     {
         $this->_modifyResourceDb('data-upgrade', $oldVersion, $newVersion);
-        $this->_resourceResource->setDataVersion($this->_resourceName, $newVersion);
+        $this->_resource->setDataVersion($this->_resourceName, $newVersion);
 
         return $this;
     }
@@ -310,7 +322,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
                 }
 
                 if ($result) {
-                    $this->_resourceResource->setDataVersion($this->_resourceName, $file['toVersion']);
+                    $this->_resource->setDataVersion($this->_resourceName, $file['toVersion']);
                     $this->_logger->log($fileName);
                 } else {
                     $this->_logger->log("Failed resource setup: {$fileName}");

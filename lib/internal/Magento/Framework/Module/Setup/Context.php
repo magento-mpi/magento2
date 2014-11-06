@@ -62,7 +62,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Framework\Module\ResourceInterface $resourceResource
      * @param \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Filesystem $filesystem
@@ -73,7 +72,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
-        \Magento\Framework\Module\ResourceInterface $resourceResource,
         \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Filesystem $filesystem
@@ -83,7 +81,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         $this->_resourceModel = $resource;
         $this->_modulesReader = $modulesReader;
         $this->_moduleList = $moduleList;
-        $this->_resourceResource = $resourceResource;
         $this->_migrationFactory = $migrationFactory;
         $this->_encryptor = $encryptor;
         $this->filesystem = $filesystem;
@@ -135,14 +132,6 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     public function getMigrationFactory()
     {
         return $this->_migrationFactory;
-    }
-
-    /**
-     * @return \Magento\Framework\Module\ResourceInterface
-     */
-    public function getResourceResource()
-    {
-        return $this->_resourceResource;
     }
 
     /**

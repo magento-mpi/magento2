@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Module;
+namespace Magento\Setup\Module;
 
 use Magento\Framework\DB\Adapter\AdapterInterface;
 
 /*
- * Resource model for Schema install/upgrade
+ * Resource writer model for schema/data install/upgrade
  */
-class SchemaResource extends Resource implements SchemaResourceInterface
+class ResourceWriter extends \Magento\Framework\Module\Resource
 {
     const MAIN_TABLE = 'core_resource';
 
@@ -53,6 +53,22 @@ class SchemaResource extends Resource implements SchemaResourceInterface
         } else {
             self::$_versions[$resName] = $version;
             return $this->_getWriteAdapter()->insert($this->getMainTable(), $dbModuleInfo);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDataVersion($resName, $version)
+    {
+        $data = array('code' => $resName, 'data_version' => $version);
+
+        if ($this->getDbVersion($resName) || $this->getDataVersion($resName)) {
+            self::$_dataVersions[$resName] = $version;
+            $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code = ?' => $resName));
+        } else {
+            self::$_dataVersions[$resName] = $version;
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         }
     }
 
