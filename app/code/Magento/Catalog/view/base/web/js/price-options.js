@@ -78,7 +78,7 @@ define([
     function defaultGetOptionValue(element, optionConfig) {
         var changes = {};
         var optionValue = element.val();
-        var optionId = utils.findOptionId(event.target);
+        var optionId = utils.findOptionId(element[0]);
         var optionName = element.prop('name');
         var optionType = element.prop('type');
         var overhead;
