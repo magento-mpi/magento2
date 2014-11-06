@@ -10,8 +10,9 @@ namespace Magento\Customer\Model;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\Customer as CustomerData;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Model\Data\Customer as CustomerData;
+use Magento\Framework\Reflection\DataObjectProcessor;
 
 /**
  * Customer model
@@ -30,7 +31,7 @@ use Magento\Customer\Service\V1\Data\Customer as CustomerData;
  * @method string getPasswordHash()
  * @method string getConfirmation()
  */
-class Customer extends \Magento\Framework\Model\AbstractModel
+class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
 {
     /**
      * Configuration paths for email templates and identities
@@ -189,13 +190,19 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @var CustomerBuilder
+     * @var CustomerDataBuilder
      */
     protected $_customerDataBuilder;
 
     /**
+     * @var DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
@@ -209,13 +216,15 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param CustomerDataBuilder $customerDataBuilder
+     * @param DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param CustomerBuilder $customerDataBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
@@ -229,7 +238,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        CustomerBuilder $customerDataBuilder,
+        CustomerDataBuilder $customerDataBuilder,
+        DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -246,7 +256,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
         $this->_customerDataBuilder = $customerDataBuilder;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->dataObjectProcessor = $dataObjectProcessor;
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -257,6 +268,61 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     public function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Customer');
+    }
+
+    /**
+     * Retrieve customer model with customer data
+     *
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     */
+    public function getDataModel()
+    {
+        $customerData = $this->getData();
+        $addressesData = [];
+        /** @var \Magento\Customer\Model\Address $address */
+        foreach ($this->getAddresses() as $address) {
+            $addressesData[] = $address->getDataModel();
+        }
+        return $this->_customerDataBuilder
+            ->populateWithArray($customerData)
+            ->setAddresses($addressesData)
+            ->setId($this->getId())
+            ->create();
+    }
+
+    /**
+     * Update customer data
+     *
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @return $this
+     */
+    public function updateData($customer)
+    {
+        $customerDataAttributes = $this->dataObjectProcessor->buildOutputDataArray(
+            $customer,
+            '\Magento\Customer\Api\Data\CustomerInterface'
+        );
+
+        foreach ($customerDataAttributes as $attributeCode => $attributeData) {
+            if ($attributeCode == 'password') {
+                continue;
+            }
+            $this->setDataUsingMethod($attributeCode, $attributeData);
+        }
+
+        $customerId = $customer->getId();
+        if ($customerId) {
+            $this->setId($customerId);
+        }
+
+        // Need to use attribute set or future updates can cause data loss
+        if (!$this->getAttributeSetId()) {
+            $this->setAttributeSetId(
+                \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -276,6 +342,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
+     * @deprecated Use \Magento\Customer\Model\Api\AccountManagement::authenticate
      */
     public function authenticate($login, $password)
     {
@@ -710,6 +777,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
+     * @deprecated Maybe this needs to be moved to helper
      */
     public function isConfirmationRequired()
     {
@@ -807,6 +875,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * Send email to when password is resetting
      *
      * @return $this
+     * @deprecated
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -1132,7 +1201,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      *
      * @return bool
      */
-    public function canSkipConfirmation()
+    protected function canSkipConfirmation()
     {
         if (!$this->getId()) {
             return false;
@@ -1232,6 +1301,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * Check if current reset password link token is expired
      *
      * @return boolean
+     * @deprecated
      */
     public function isResetPasswordLinkTokenExpired()
     {
