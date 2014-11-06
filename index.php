@@ -20,7 +20,7 @@
  */
 
 require __DIR__ . '/app/bootstrap.php';
-$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER+['MAGE_MODE' => 'developer']);
 /** @var \Magento\Framework\App\Http $app */
 $app = $bootstrap->createApplication('Magento\Framework\App\Http');
 $bootstrap->run($app);

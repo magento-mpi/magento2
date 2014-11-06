@@ -25,24 +25,26 @@ class Compressor
     /**
      * Compress array definitions
      *
-     * @param array $definitions
+     * @param array $definitionsList
      * @return mixed
      */
-    public function compress(array $definitions)
+    public function compress(array $definitionsList)
     {
         $signatureList = new Compressor\UniqueList();
         $resultDefinitions = array();
-        foreach ($definitions as $className => $definition) {
-            $resultDefinitions[$className] = null;
-            if ($definition && count($definition)) {
-                $resultDefinitions[$className] = $signatureList->getNumber($definition);
+        foreach ($definitionsList as $scope => $definitions) {
+            foreach ($definitions as $className => $definition) {
+                $resultDefinitions[$scope][$className] = null;
+                if ($definition && count($definition)) {
+                    $resultDefinitions[$scope][$className] = $signatureList->getNumber($definition);
+                }
             }
         }
 
-        $signatures = $signatureList->asArray();
-        foreach ($signatures as $key => $signature) {
-            $signatures[$key] = $this->_serializer->serialize($signature);
-        }
-        return $this->_serializer->serialize(array($signatures, $resultDefinitions));
+//        $signatures = $signatureList->asArray();
+//        foreach ($signatures as $key => $signature) {
+//            $signatures[$key] = $this->_serializer->serialize($signature);
+//        }
+        return $this->_serializer->serialize($resultDefinitions);
     }
 }

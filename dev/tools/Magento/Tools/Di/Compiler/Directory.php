@@ -42,6 +42,10 @@ class Directory
      */
     protected $_validator;
 
+    protected $scopes = [
+        'global', 'frontend', 'adminhtml', 'webapi_soap', 'webapi_rest', 'install', 'crontab'
+    ];
+
     /**
      * @param Log $log
      * @param \Magento\Framework\Code\Validator $validator
@@ -111,5 +115,133 @@ class Directory
     public function getResult()
     {
         return array($this->_definitions, $this->_relations);
+    }
+
+    /*********************************** Arguments processing ***********************************************/
+
+    public function processInheritance(\Magento\Framework\App\ObjectManager\ConfigLoader  $configLoader)
+    {
+        $output = [];
+        $defaultScope = 'global';
+        foreach ($this->scopes as $scope) {
+            $config = new \Magento\Framework\ObjectManager\Config\Config();
+            if ($scope != $defaultScope) {
+                $config->extend($configLoader->load($defaultScope));
+            }
+            $config->extend($configLoader->load($scope));
+            foreach ($this->_definitions as $class => $constructorArguments) {
+                $configuredArguments = $config->getArguments($class);
+                $output[$scope][$class] = $this->_mapArguments($class, $config, $constructorArguments, $configuredArguments);
+            }
+        }
+
+        foreach ($output as $scope => $definitions) {
+            if ($scope != 'global') {
+                $definitions = $this->getDefinitionsDiff($output['global'], $definitions);
+            }
+            $output[$scope] = $definitions;
+        }
+        return $output;
+    }
+
+    protected function getDefinitionsDiff($globalDefinitions, $scopeDefinitions)
+    {
+        $output = [];
+        foreach ($globalDefinitions as $key => $val) {
+            if ($val != $scopeDefinitions[$key]) {
+                $output[$key] = $scopeDefinitions[$key];
+            }
+        }
+        return $output;
+    }
+
+
+    const INSTANCE_KEY = '__inst__';
+    const SHARED_KEY = '__shared__';
+    const ARGUMENT_KEY = '__arg___';
+    const VALUE_KEY = '__val___';
+    /**
+     * @param string $requestedType requested class name
+     * @param \Magento\Framework\ObjectManager\Config\Config $config
+     * @param array $parameters constructor parameters
+     * @param array $arguments configured arguments
+     * @return array
+     */
+    protected function _mapArguments(
+        $requestedType, \Magento\Framework\ObjectManager\Config\Config $config, $parameters, $arguments
+    ) {
+        if (is_null($parameters)) {
+            return $parameters;
+        }
+        $resolvedArguments = [];
+        foreach ($parameters as $parameter) {
+            $argumentConfig = null;
+            list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
+            $argument = null;
+            if (array_key_exists($paramName, $arguments)) {
+                $argument = $arguments[$paramName];
+            } elseif ($paramRequired) {
+                if ($paramType) {
+                    $argument = array('instance' => $paramType);
+                } else {
+                    $argumentConfig = null;
+                }
+            } else {
+                $argument = $paramDefault;
+            }
+
+            if ($paramType && $argument !== $paramDefault) { //processing of arguments that are objects
+                if (!is_array($argument) || !isset($argument['instance'])) {
+                    throw new \UnexpectedValueException(
+                        'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
+                    );
+                }
+                $argumentType = $argument['instance'];
+                $isShared = (isset($argument['shared']) ? $argument['shared'] : $config->isShared($argumentType));
+
+                if (!$isShared) {
+                    $argumentConfig[self::INSTANCE_KEY] = $argumentType;
+                    $argumentConfig[self::SHARED_KEY] = false;
+                } else {
+                    $argumentConfig = $argumentType;
+                }
+            } elseif (is_array($argument)) { //processing scalar arguments value
+                if (isset($argument['argument'])) {
+                    $argumentConfig[self::ARGUMENT_KEY] = $argument['argument'];
+                } else if (!empty($argument)) {
+                    $this->parseArray($argument, $config);
+                    $argumentConfig[self::VALUE_KEY] = $argument;
+                }
+            }
+            $resolvedArguments[$paramName] = $argumentConfig;
+        }
+        return $resolvedArguments;
+    }
+
+    /**
+     * Parse array argument
+     *
+     * @param array $array
+     * @return void
+     */
+    protected function parseArray(&$array, \Magento\Framework\ObjectManager\Config\Config $config)
+    {
+        foreach ($array as $key => $item) {
+            if (is_array($item)) {
+                if (isset($item['instance'])) {
+                    $itemType = $item['instance'];
+                    $isShared = (isset($item['shared'])) ? $item['shared'] : $config->isShared($itemType);
+                    if (!$isShared) {
+                        $array[$key] = [self::INSTANCE_KEY => $itemType, self::SHARED_KEY => false];
+                    } else {
+                        $array[$key] = $itemType;
+                    }
+                } elseif (isset($item['argument'])) {
+                    $array[$key] = [self::ARGUMENT_KEY => $item['argument']];
+                } else {
+                    $this->parseArray($array[$key], $config);
+                }
+            }
+        }
     }
 }

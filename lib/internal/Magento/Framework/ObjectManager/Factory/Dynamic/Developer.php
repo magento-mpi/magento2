@@ -5,9 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\ObjectManager\Factory;
+namespace Magento\Framework\ObjectManager\Factory\Dynamic;
 
 class Factory implements \Magento\Framework\ObjectManager\FactoryInterface
+class Developer implements \Magento\Framework\ObjectManager\Factory
 {
     /**
      * Object manager
