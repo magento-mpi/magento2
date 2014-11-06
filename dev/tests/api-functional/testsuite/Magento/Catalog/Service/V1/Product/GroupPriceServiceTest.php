@@ -48,7 +48,7 @@ class GroupPriceServiceTest extends WebapiAbstract
     public function testDelete()
     {
         $productSku = 'simple_with_group_price';
-        $customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+        $customerGroupId = \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => "/V1/products/$productSku/group-prices/$customerGroupId",

@@ -41,9 +41,9 @@ class TierPriceService implements TierPriceServiceInterface
     protected $config;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
-    protected $customerGroupService;
+    protected $groupRepository;
 
     /**
      * @param ProductRepository $productRepository
@@ -51,7 +51,7 @@ class TierPriceService implements TierPriceServiceInterface
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $customerGroupService
      */
     public function __construct(
         ProductRepository $productRepository,
@@ -59,14 +59,14 @@ class TierPriceService implements TierPriceServiceInterface
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
     ) {
         $this->productRepository = $productRepository;
         $this->priceBuilder = $priceBuilder;
         $this->storeManager = $storeManager;
         $this->priceModifier = $priceModifier;
         $this->config = $config;
-        $this->customerGroupService = $customerGroupService;
+        $this->groupRepository = $groupRepository;
     }
 
     /**
@@ -101,8 +101,8 @@ class TierPriceService implements TierPriceServiceInterface
         }
         if (!$found) {
             $mappedCustomerGroupId = 'all' == $customerGroupId
-                ? \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL
-                : $this->customerGroupService->getGroup($customerGroupId)->getId();
+                ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
+                : $this->groupRepository->getById($customerGroupId)->getId();
 
             $tierPrices[] = array(
                 'cust_group' => $mappedCustomerGroupId,

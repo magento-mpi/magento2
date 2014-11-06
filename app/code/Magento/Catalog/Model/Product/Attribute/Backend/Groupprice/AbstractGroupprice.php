@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Model\Product\Attribute\Backend\Groupprice;
 
 use Magento\Catalog\Model\Product\Attribute\Backend\Price;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Model\Group;
 
 /**
  * Catalog product abstract group price backend attribute model
@@ -257,7 +257,7 @@ abstract class AbstractGroupprice extends Price
         foreach ($data as $k => $v) {
             $data[$k]['website_price'] = $v['price'];
             if ($v['all_groups']) {
-                $data[$k]['cust_group'] = CustomerGroupServiceInterface::CUST_GROUP_ALL;
+                $data[$k]['cust_group'] = Group::CUST_GROUP_ALL;
             }
         }
 
@@ -342,7 +342,7 @@ abstract class AbstractGroupprice extends Price
                 array_merge(array($data['website_id'], $data['cust_group']), $this->_getAdditionalUniqueFields($data))
             );
 
-            $useForAllGroups = $data['cust_group'] == CustomerGroupServiceInterface::CUST_GROUP_ALL;
+            $useForAllGroups = $data['cust_group'] == Group::CUST_GROUP_ALL;
             $customerGroupId = !$useForAllGroups ? $data['cust_group'] : 0;
 
             $new[$key] = array_merge(

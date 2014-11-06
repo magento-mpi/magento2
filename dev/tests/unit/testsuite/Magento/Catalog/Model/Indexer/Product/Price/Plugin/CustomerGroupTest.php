@@ -20,7 +20,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\GroupRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_subjectMock;
 
@@ -29,7 +29,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_subjectMock = $this->getMock(
-            '\Magento\Customer\Service\V1\CustomerGroupServiceInterface', array(), array(), '', false
+            '\Magento\Customer\Api\GroupRepositoryInterface', array(), array(), '', false
         );
 
         $indexerMock = $this->getMock(

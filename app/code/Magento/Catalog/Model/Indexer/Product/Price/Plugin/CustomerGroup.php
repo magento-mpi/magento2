@@ -7,19 +7,19 @@
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Api\GroupRepositoryInterface;
 
 class CustomerGroup extends AbstractPlugin
 {
     /**
      * Invalidate the indexer after the group is created.
      *
-     * @param CustomerGroupServiceInterface $subject
+     * @param GroupRepositoryInterface $subject
      * @param string                        $result
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterCreateGroup(CustomerGroupServiceInterface $subject, $result)
+    public function afterCreateGroup(GroupRepositoryInterface $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;
@@ -28,12 +28,12 @@ class CustomerGroup extends AbstractPlugin
     /**
      * Invalidate the indexer after the group is updated.
      *
-     * @param CustomerGroupServiceInterface $subject
+     * @param GroupRepositoryInterface $subject
      * @param string                        $result
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterUpdateGroup(CustomerGroupServiceInterface $subject, $result)
+    public function afterUpdateGroup(GroupRepositoryInterface $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;
@@ -42,12 +42,12 @@ class CustomerGroup extends AbstractPlugin
     /**
      * Invalidate the indexer after the group is deleted.
      *
-     * @param CustomerGroupServiceInterface $subject
+     * @param GroupRepositoryInterface $subject
      * @param string                        $result
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteGroup(CustomerGroupServiceInterface $subject, $result)
+    public function afterDeleteGroup(GroupRepositoryInterface $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;

@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Resource\Product;
 
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Model\Group;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,8 +86,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $this->_collection->addTierPriceData()
         );
         $tierPrice = $this->_collection->getFirstItem()->getDataByKey('tier_price');
-        $this->assertEquals(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID, current($tierPrice)['cust_group']);
-        $this->assertEquals(CustomerGroupServiceInterface::CUST_GROUP_ALL, next($tierPrice)['cust_group']);
+        $this->assertEquals(Group::NOT_LOGGED_IN_ID, current($tierPrice)['cust_group']);
+        $this->assertEquals(Group::CUST_GROUP_ALL, next($tierPrice)['cust_group']);
         $this->assertTrue($this->_collection->getFlag('tier_price_added'));
     }
 

@@ -32,9 +32,9 @@ class GroupPriceService implements GroupPriceServiceInterface
     protected $storeManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
-    protected $customerGroupService;
+    protected $groupRepository;
 
     /**
      * @var \Magento\Catalog\Model\Product\PriceModifier
@@ -50,7 +50,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      * @param ProductRepository $productRepository
      * @param Product\GroupPriceBuilder $groupPriceBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
@@ -58,14 +58,14 @@ class GroupPriceService implements GroupPriceServiceInterface
         ProductRepository $productRepository,
         Product\GroupPriceBuilder $groupPriceBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
         $this->storeManager = $storeManager;
-        $this->customerGroupService = $customerGroupService;
+        $this->groupRepository = $groupRepository;
         $this->priceModifier = $priceModifier;
         $this->config = $config;
     }
@@ -78,7 +78,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price)
     {
-        $customerGroup = $this->customerGroupService->getGroup($price->getCustomerGroupId());
+        $customerGroup = $this->groupRepository->getById($price->getCustomerGroupId());
         $product = $this->productRepository->get($productSku, true);
 
         $groupPrices = $product->getData('group_price');

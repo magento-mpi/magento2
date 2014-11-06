@@ -177,6 +177,17 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * dataProvider searchGroupsDataProvider
+     */
+    public function testGetAllGroups()
+    {
+        $searchResults = $this->groupRepository->getList($this->searchCriteriaBuilder->create());
+        /** @var GroupInterface[] $results */
+        $results = $searchResults->getItems();
+        $this->assertEquals(4, count($results));
+    }
+
+    /**
      * @param array $filters
      * @param array $filterGroup
      * @param array $expectedResult array of expected results indexed by ID

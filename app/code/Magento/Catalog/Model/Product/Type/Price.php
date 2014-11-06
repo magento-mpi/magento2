@@ -240,7 +240,7 @@ class Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL;
+        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {

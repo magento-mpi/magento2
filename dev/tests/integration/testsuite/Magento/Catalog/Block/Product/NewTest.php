@@ -26,8 +26,8 @@ class NewTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Http\Context'
         )->setValue(
             \Magento\Customer\Helper\Data::CONTEXT_GROUP,
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
+            \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
         );
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
