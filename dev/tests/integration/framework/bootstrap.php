@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 require_once __DIR__ . '/../../../../app/bootstrap.php';
+$includePath = new \Magento\Framework\Autoload\IncludePath();
+spl_autoload_register([$includePath, 'load']);
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/AggregateInvoker.php';
 
@@ -13,7 +15,7 @@ $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+$includePath->addIncludePath(
     array("{$testsBaseDir}/framework", "{$testsBaseDir}/testsuite")
 );
 

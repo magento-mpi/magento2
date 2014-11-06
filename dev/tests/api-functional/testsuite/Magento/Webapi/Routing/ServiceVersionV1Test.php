@@ -11,7 +11,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\AttributeValue;
 use Magento\TestFramework\Authentication\OauthHelper;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -32,7 +32,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     protected $_soapService = 'testModule1AllSoapAndRest';
 
-    /** @var \Magento\Framework\Service\Data\AttributeValueBuilder */
+    /** @var \Magento\Framework\Api\AttributeValueBuilder */
     protected $valueBuilder;
 
     /** @var ItemBuilder */
@@ -45,7 +45,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
 
         $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\Data\AttributeValueBuilder'
+            'Magento\Framework\Api\AttributeValueBuilder'
         );
 
         $this->itemBuilder = Bootstrap::getObjectManager()->create(

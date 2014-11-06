@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class CustomAttributeDataObject extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class CustomAttributeDataObject extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * @return string

@@ -93,7 +93,7 @@ class OrderConverter
 
     /**
      * Get Order Items
-     * 
+     *
      * @param OrderData $dataObject
      * @return array
      */

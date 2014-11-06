@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule4\Service\V1\Entity;
 
-interface ExtensibleRequestInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface ExtensibleRequestInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * @return string
