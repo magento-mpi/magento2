@@ -347,6 +347,19 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'with_two_custom_option']
         ];
 
+        $this->_data['with_one_custom_option_and_category'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 300, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'drop_down_with_one_option_percent_price'],
+            'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
+            'website_ids' => ['Main Website'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+        ];
+
         $this->_data['with_all_custom_option'] = [
             'type_id' => 'simple',
             'attribute_set_id' => ['dataSet' => 'default'],
@@ -541,6 +554,33 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
             'website_ids' => ['Main Website'],
             'category_ids' => ['presets' => 'default_subcategory'],
+        ];
+
+        $this->_data['with_custom_option_and_fpt'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+            'website_ids' => ['Main Website'],
+            'name' => 'Simple Product With Fpt %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 70, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'drop_down_with_one_option_fixed_price'],
+            'checkout_data' => ['preset' => 'drop_down_with_one_option_fixed_price'],
+            'fpt' => ['preset' => 'one_fpt_for_all_states']
+        ];
+
+        $this->_data['with_special_price_and_fpt'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+            'website_ids' => ['Main Website'],
+            'name' => 'Simple Product With Fpt %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 110, 'preset' => '-'],
+            'special_price' => 100,
+            'weight' => 1,
+            'fpt' => ['preset' => 'one_fpt_for_all_states']
         ];
     }
 }
