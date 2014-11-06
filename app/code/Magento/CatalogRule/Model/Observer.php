@@ -21,7 +21,7 @@ use Magento\CatalogRule\Model\Rule\Product\Price;
 use Magento\Framework\Registry;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface as Group;
+use Magento\Customer\Model\GroupManagement;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Message\ManagerInterface;
@@ -452,7 +452,7 @@ class Observer
             if ($this->_customerSession->isLoggedIn()) {
                 $groupId = $this->_customerSession->getCustomerGroupId();
             } else {
-                $groupId = Group::NOT_LOGGED_IN_ID;
+                $groupId = GroupManagement::NOT_LOGGED_IN_ID;
             }
         }
         if ($observer->getEvent()->hasDate()) {
