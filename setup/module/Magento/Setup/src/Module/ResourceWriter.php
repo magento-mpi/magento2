@@ -37,7 +37,11 @@ class ResourceWriter extends \Magento\Framework\Module\Resource
     }
 
     /**
-     * {@inheritdoc}
+     * Set schema version
+     *
+     * @param $resName
+     * @param $version
+     * @return int
      */
     public function setDbVersion($resName, $version)
     {
@@ -57,7 +61,10 @@ class ResourceWriter extends \Magento\Framework\Module\Resource
     }
 
     /**
-     * {@inheritdoc}
+     * Set data version into DB
+     *
+     * @param $resName
+     * @param $version
      */
     public function setDataVersion($resName, $version)
     {
