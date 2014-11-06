@@ -25,16 +25,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $priceCurrency;
 
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
@@ -42,7 +36,6 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->priceCurrency = $priceCurrency;
@@ -53,7 +46,6 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
             $data
         );
         $this->_isScopePrivate = true;
-        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -173,12 +165,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getCustomerName()
     {
-        $firstName = $this->_customerSession->getCustomerDataObject()->getFirstname();
-        $lastName = $this->_customerSession->getCustomerDataObject()->getLastname();
+        $firstName = (string)$this->_customerSession->getCustomer()->getFirstname();
+        $lastName = (string)$this->_customerSession->getCustomer()->getLastname();
 
-        if ($this->checkoutSession->getData('giftcard_sender_name')) {
-            return $this->checkoutSession->getData('giftcard_sender_name', true);
-        } elseif ($firstName && $lastName) {
+        if ($firstName && $lastName) {
             return $firstName . ' ' . $lastName;
         } else {
             return '';
@@ -190,10 +180,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getCustomerEmail()
     {
-        if ($this->checkoutSession->getData('giftcard_sender_email')) {
-            return $this->checkoutSession->getData('giftcard_sender_email', true);
-        }
-        return $this->_customerSession->getCustomerDataObject()->getEmail();
+        return (string)$this->_customerSession->getCustomer()->getEmail();
     }
 
     /**
@@ -215,10 +202,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getDefaultValue($key)
     {
-        if ($this->checkoutSession->getData($key)) {
-            return $this->checkoutSession->getData($key, true);
-        }
-        return $this->getProduct()->getPreconfiguredValues()->getData($key);
+        return (string)$this->getProduct()->getPreconfiguredValues()->getData($key);
     }
 
     /**

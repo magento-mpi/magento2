@@ -36,18 +36,12 @@ class FinalPriceBox extends PriceBox
     protected $amountsCache = [];
 
     /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $checkoutSession;
-
-    /**
      * @param Template\Context $context
      * @param Product $saleableItem
      * @param PriceInterface $price
      * @param RendererPool $rendererPool
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         Template\Context $context,
@@ -55,7 +49,6 @@ class FinalPriceBox extends PriceBox
         PriceInterface $price,
         RendererPool $rendererPool,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
@@ -67,7 +60,6 @@ class FinalPriceBox extends PriceBox
             $data
         );
         $this->calculateMinMaxPrices();
-        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -200,18 +192,5 @@ class FinalPriceBox extends PriceBox
         $this->minMaxCache = ['min' => $min, 'max' => $max];
 
         return $this;
-    }
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    public function getDefaultValue($key)
-    {
-        $value = parent::getDefaultValue($key);
-        if (!$value) {
-            return $this->checkoutSession->getData($key, true);
-        }
-        return $value;
     }
 }
