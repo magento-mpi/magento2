@@ -37,6 +37,17 @@ interface ProductRepositoryInterface
     public function get($productSku, $editMode = false);
 
     /**
+     * Get info about product by product id
+     *
+     * @param int $productId
+     * @param bool $editMode
+     * @param null|int $storeId
+     * @return \Magento\Catalog\Api\Data\ProductInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getById($productId, $editMode = false, $storeId = null);
+
+    /**
      * Delete product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product

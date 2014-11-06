@@ -28,6 +28,11 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $instances = array();
 
     /**
+     * @var Product[]
+     */
+    protected $instancesById = array();
+
+    /**
      * @var \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper
      */
     protected $initializationHelper;
@@ -118,6 +123,29 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             $this->instances[$sku] = $product;
         }
         return $this->instances[$sku];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getById($productId, $editMode = false, $storeId = null)
+    {
+        if (!isset($this->instancesById[$productId])) {
+            $product = $this->productFactory->create();
+
+            if ($editMode) {
+                $product->setData('_edit_mode', true);
+            }
+            if ($storeId !== null) {
+                $product->setStoreId($storeId);
+            }
+            $this->resourceModel->load($product, $productId);
+            if (!$product->getId()) {
+                throw new NoSuchEntityException('Requested product doesn\'t exist');
+            }
+            $this->instancesById[$productId] = $product;
+        }
+        return $this->instancesById[$productId];
     }
 
     /**
