@@ -44,8 +44,8 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
         \Magento\Msrp\Helper\Data $msrpHelper,
+        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;

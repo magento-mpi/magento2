@@ -49,8 +49,8 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
-        Configuration $bundleProdConfigur,
         \Magento\Msrp\Helper\Data $msrpHelper,
+        Configuration $bundleProdConfigur,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;

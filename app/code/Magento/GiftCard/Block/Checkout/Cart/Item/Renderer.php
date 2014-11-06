@@ -38,8 +38,8 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
         \Magento\Msrp\Helper\Data $msrpHelper,
+        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
         array $data = array()
     ) {
         $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;

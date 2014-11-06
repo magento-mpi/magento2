@@ -26,6 +26,7 @@
             <module name="Magento_Eav"/>
             <module name="Magento_GiftMessage"/>
             <module name="Magento_Webapi"/>
+            <module name="Magento_Msrp"/>
         </depends>
     </module>
 </config>
