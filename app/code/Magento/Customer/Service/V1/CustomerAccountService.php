@@ -366,13 +366,16 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $password = null,
         $redirectUrl = ''
     ) {
-        if ($password) {
-            $this->checkPasswordStrength($password);
-        } else {
+        if (empty($password)) {
             $password = $this->mathRandom->getRandomString(self::MIN_PASSWORD_LENGTH);
+        } else {
+            $this->checkPasswordStrength($password);
         }
-        $hash = $this->getPasswordHash($password);
-        return $this->createCustomerWithPasswordHash($customerDetails, $hash, $redirectUrl);
+        return $this->createCustomerWithPasswordHash(
+            $customerDetails,
+            $this->getPasswordHash($password),
+            $redirectUrl
+        );
     }
 
     /**
@@ -646,8 +649,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $length = $this->stringHelper->strlen($password);
         if ($length < self::MIN_PASSWORD_LENGTH) {
             throw new InputException(
-                'The password must have at least %min_length characters.',
-                ['min_length' => self::MIN_PASSWORD_LENGTH]
+                'The password must have at least %1 characters.',
+                [self::MIN_PASSWORD_LENGTH]
             );
         }
         if ($this->stringHelper->strlen(trim($password)) != $length) {

@@ -5,47 +5,62 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Model\Attribute\Data;
+namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Eav\Model\AttributeDataFactory;
-use Magento\Framework\App\RequestInterface;
+use Magento\Customer\Model\Metadata\ElementFactory;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Logger;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface as MagentoTimezone;
-use Magento\Directory\Helper\Data as DirectoryHelper;
 
 /**
  * Customer Address Postal/Zip Code Attribute Data Model
- * This Data Model Has to Be Set Up in additional EAV attribute table
  */
-class Postcode extends \Magento\Eav\Model\Attribute\Data\AbstractData
+class Postcode extends AbstractData
 {
     /**
-     * @var \Magento\Directory\Helper\Data
+     * @var DirectoryHelper
      */
     protected $directoryHelper;
 
     /**
      * @param MagentoTimezone $localeDate
      * @param Logger $logger
+     * @param AttributeMetadata $attribute
      * @param ResolverInterface $localeResolver
+     * @param string $value
+     * @param string $entityTypeCode
+     * @param bool $isAjax
      * @param DirectoryHelper $directoryHelper
      */
     public function __construct(
         MagentoTimezone $localeDate,
         Logger $logger,
+        AttributeMetadata $attribute,
         ResolverInterface $localeResolver,
+        $value,
+        $entityTypeCode,
+        $isAjax,
         DirectoryHelper $directoryHelper
     ) {
         $this->directoryHelper = $directoryHelper;
-        parent::__construct($localeDate, $logger, $localeResolver);
+        parent::__construct(
+            $localeDate,
+            $logger,
+            $attribute,
+            $localeResolver,
+            $value,
+            $entityTypeCode,
+            $isAjax
+        );
     }
 
     /**
      * Validate postal/zip code
      * Return true and skip validation if country zip code is optional
      *
-     * @param array|string $value
+     * @param array|null|string $value
      * @return array|bool
      */
     public function validateValue($value)
@@ -69,36 +84,23 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\AbstractData
     }
 
     /**
-     * Extract data from request and return value
-     *
-     * @param RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
-    public function extractValue(RequestInterface $request)
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
     {
-        $value = $this->_getRequestValue($request);
-        return $this->_applyInputFilter($value);
+        return $this->_applyInputFilter($this->_getRequestValue($request));
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param array|string $value
-     * @return $this
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
-        if ($value !== false) {
-            $this->getEntity()->setDataUsingMethod($this->getAttribute()->getAttributeCode(), $value);
-        }
-        return $this;
+        return $value;
     }
 
     /**
-     * Restore attribute value from SESSION to entity model
-     *
-     * @param array|string $value
-     * @return $this
+     * {@inheritdoc}
      */
     public function restoreValue($value)
     {
@@ -106,16 +108,10 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\AbstractData
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @param string $format
-     * @return string|array
+     * {@inheritdoc}
      */
-    public function outputValue($format = AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = ElementFactory::OUTPUT_FORMAT_TEXT)
     {
-        $value = $this->getEntity()
-            ->getData($this->getAttribute()->getAttributeCode());
-        $value = $this->_applyOutputFilter($value);
-        return $value;
+        return $this->_applyOutputFilter($this->_value);
     }
 }
