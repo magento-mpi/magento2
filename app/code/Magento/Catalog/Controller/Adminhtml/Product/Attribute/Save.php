@@ -57,6 +57,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory
      * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      */
     public function __construct(
@@ -69,9 +70,10 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,
         \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Catalog\Helper\Product $productHelper,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
     ) {
-        parent::__construct($context, $attributeLabelCache, $coreRegistry);
+        parent::__construct($context, $attributeLabelCache, $coreRegistry, $resultPageFactory);
         $this->buildFactory = $buildFactory;
         $this->filterManager = $filterManager;
         $this->productHelper = $productHelper;
@@ -82,7 +84,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
     }
 
     /**
-     * @return void
+     * @return \Magento\Backend\Model\View\Result\Redirect
      */
     public function execute()
     {
@@ -244,7 +246,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_session->setAttributeData($data);
-                return $resultRedirect->setPath('catalog/*/edit', ['attribute_id' => $id, '_current' => true]);
+                return $resultRedirect->setPath('catalog/*/edit', ['attribute_id' => $attributeId, '_current' => true]);
             }
         }
         return $resultRedirect->setPath('catalog/*/');

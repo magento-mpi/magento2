@@ -67,7 +67,7 @@ class ValidatorFile extends Validator
         \Magento\Framework\File\Size $fileSize,
         \Magento\Framework\HTTP\Adapter\FileTransferFactory $httpFactory
     ) {
-        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA_DIR);
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->filesystem = $filesystem;
         $this->httpFactory = $httpFactory;
         parent::__construct($scopeConfig, $filesystem, $fileSize);

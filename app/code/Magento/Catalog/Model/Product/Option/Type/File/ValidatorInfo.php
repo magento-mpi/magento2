@@ -140,7 +140,7 @@ class ValidatorInfo extends Validator
 
         foreach ($checkPaths as $path) {
             if (!$this->rootDirectory->isFile($path)) {
-                if (!$this->coreFileStorageDatabase->saveFileToFilesystem($this->fileFullPath)) {
+                if (!$this->coreFileStorageDatabase->saveFileToFilesystem($path)) {
                     continue;
                 }
             }

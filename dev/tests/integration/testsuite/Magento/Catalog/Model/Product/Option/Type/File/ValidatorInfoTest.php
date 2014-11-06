@@ -156,18 +156,17 @@ class ValidatorInfoTest extends \PHPUnit_Framework_TestCase
      */
     protected function getOptionValue()
     {
-        $file     = 'magento_small_image.jpg';
-        $tmpPath = 'var/tmp/' . $file;
+        $file     = 'var/tmp/magento_small_image.jpg';
 
         /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $this->objectManager->get('Magento\Framework\Filesystem');
-        $tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::TMP);
+        $tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::ROOT);
         $filePath = $tmpDirectory->getAbsolutePath($file);
 
         return [
             'title'      => 'test.jpg',
-            'quote_path' => $tmpPath,
-            'order_path' => $tmpPath,
+            'quote_path' => $file,
+            'order_path' => $file,
             'secret_key' => substr(md5(file_get_contents($filePath)), 0, 20),
         ];
     }
