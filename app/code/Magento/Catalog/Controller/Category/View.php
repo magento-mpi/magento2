@@ -8,6 +8,8 @@
  */
 namespace Magento\Catalog\Controller\Category;
 
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
 
 class View extends \Magento\Framework\App\Action\Action
@@ -34,13 +36,6 @@ class View extends \Magento\Framework\App\Action\Action
     protected $_catalogDesign;
 
     /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
@@ -56,34 +51,39 @@ class View extends \Magento\Framework\App\Action\Action
     protected $resultPageFactory;
 
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        CategoryRepository $categoryRepository
     ) {
         $this->_storeManager = $storeManager;
-        $this->_categoryFactory = $categoryFactory;
         $this->_catalogDesign = $catalogDesign;
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->resultPageFactory = $resultPageFactory;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context);
     }
 
@@ -99,13 +99,11 @@ class View extends \Magento\Framework\App\Action\Action
             return false;
         }
 
-        /** @var \Magento\Catalog\Model\Category $category */
-        $category = $this->_categoryFactory->create()->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        )->load(
-            $categoryId
-        );
-
+        try {
+            $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
+        } catch (NoSuchEntityException $e) {
+            return false;
+        }
         if (!$this->_objectManager->get('Magento\Catalog\Helper\Category')->canShow($category)) {
             return false;
         }

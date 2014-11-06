@@ -2036,4 +2036,6 @@ return array(
     ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
     ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
     ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
+    ['getProduct', 'Magento\Catalog\Helper\Product'],
+    ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
 );

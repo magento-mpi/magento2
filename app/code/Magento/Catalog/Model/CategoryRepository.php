@@ -101,14 +101,20 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * Get info about category by category id
      *
+     * TODO: MAGETWO-30203 $storeId is temporary solution
+     *
      * @param int $categoryId
-     * @return \Magento\Catalog\Api\Data\CategoryInterface
+     * @param int $storeId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return \Magento\Catalog\Api\Data\CategoryInterface
      */
-    public function get($categoryId)
+    public function get($categoryId, $storeId = null)
     {
         /** @var Category $category */
         $category = $this->categoryFactory->create();
+        if (null !== $storeId) {
+            $category->setStoreId($storeId);
+        }
         $this->categoryResource->load($category, $categoryId);
 
         if (!$category->getId()) {

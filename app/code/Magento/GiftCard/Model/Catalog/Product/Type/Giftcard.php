@@ -74,7 +74,6 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param PriceCurrencyInterface $priceCurrency
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -93,8 +92,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_store = $storeManager->getStore();
@@ -110,8 +108,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger,
-            $data
+            $logger
         );
     }
 

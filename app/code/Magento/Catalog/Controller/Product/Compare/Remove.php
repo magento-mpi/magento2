@@ -8,6 +8,8 @@
  */
 namespace Magento\Catalog\Controller\Product\Compare;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class Remove extends \Magento\Catalog\Controller\Product\Compare
 {
     /**
@@ -19,11 +21,15 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
     {
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
-            /** @var \Magento\Catalog\Model\Product $product */
-            $product = $this->_productFactory->create();
-            $product->setStoreId($this->_storeManager->getStore()->getId())->load($productId);
+            $storeId = $this->_storeManager->getStore()->getId();
+            try {
+                $product = $this->productRepository->getById($productId, false, $storeId);
+            } catch (NoSuchEntityException $e) {
+                // TODO: MAGETWO-30203
+            }
 
-            if ($product->getId()) {
+            // TODO: MAGETWO-30203
+            if (isset($product)) {
                 /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
                 $item = $this->_compareItemFactory->create();
                 if ($this->_customerSession->isLoggedIn()) {

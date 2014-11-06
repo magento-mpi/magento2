@@ -7,7 +7,10 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Catalog\Model\CategoryRepository;
 use Magento\Catalog\Model\Product as ModelProduct;
+use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\Store;
 
 /**
@@ -80,31 +83,25 @@ class Product extends \Magento\Core\Helper\Url
     protected $_catalogSession;
 
     /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * Invalidate price indexer params
      *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var array
      */
     protected $_reindexPriceIndexerData;
 
     /**
+     * @var ProductRepository
+     */
+    protected $productRepository;
+
+    /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\Registry $coreRegistry
@@ -112,13 +109,13 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
-     * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
+     * @param array $reindexPriceIndexerData
+     * @param ProductRepository $productRepository
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\Registry $coreRegistry,
@@ -126,10 +123,10 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         $typeSwitcherLabel,
-        $reindexPriceIndexerData
+        $reindexPriceIndexerData,
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
     ) {
-        $this->_categoryFactory = $categoryFactory;
-        $this->_productFactory = $productFactory;
         $this->_catalogSession = $catalogSession;
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
@@ -138,6 +135,8 @@ class Product extends \Magento\Core\Helper\Url
         $this->_assetRepo = $assetRepo;
         $this->_coreConfig = $coreConfig;
         $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context, $storeManager);
     }
 
@@ -181,7 +180,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($product instanceof ModelProduct) {
             return $product->getProductUrl();
         } elseif (is_numeric($product)) {
-            return $this->_productFactory->create()->load($product)->getProductUrl();
+            return $this->productRepository->getById($product)->getProductUrl();
         }
         return false;
     }
@@ -291,15 +290,16 @@ class Product extends \Magento\Core\Helper\Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = $this->_productFactory->create()->load($product);
+            try {
+                $product = $this->productRepository->getById($product);
+            } catch (NoSuchEntityException $e) {
+                return false;
+            }
+        } else {
+            if (!$product->getId()) {
+                return false;
+            }
         }
-
-        /* @var $product ModelProduct */
-
-        if (!$product->getId()) {
-            return false;
-        }
-
         return $product->isVisibleInCatalog() && $product->isVisibleInSiteVisibility();
     }
 
@@ -405,11 +405,11 @@ class Product extends \Magento\Core\Helper\Url
             return false;
         }
 
-        $product = $this->_productFactory->create()->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        )->load(
-            $productId
-        );
+        try {
+            $product = $this->productRepository->getById($productId, false, $this->_storeManager->getStore()->getId());
+        } catch (NoSuchEntityException $e) {
+            return false;
+        }
 
         if (!$this->canShow($product)) {
             return false;
@@ -430,9 +430,16 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if ($categoryId) {
-            $category = $this->_categoryFactory->create()->load($categoryId);
-            $product->setCategory($category);
-            $this->_coreRegistry->register('current_category', $category);
+            try {
+                $category = $this->categoryRepository->get($categoryId);
+            } catch (NoSuchEntityException $e) {
+                // TODO: MAGETWO-30203
+            }
+            // TODO: MAGETWO-30203
+            if (isset($category)) {
+                $product->setCategory($category);
+                $this->_coreRegistry->register('current_category', $category);
+            }
         }
 
         // Register current data and dispatch final events
@@ -514,45 +521,6 @@ class Product extends \Magento\Core\Helper\Url
         $processingParams->addData($params->getData());
 
         return $buyRequest;
-    }
-
-    /**
-     * Return loaded product instance
-     *
-     * @param int|string $productId (SKU or ID)
-     * @param int $store
-     * @param string $identifierType
-     * @return ModelProduct
-     */
-    public function getProduct($productId, $store, $identifierType = null)
-    {
-        /** @var $product ModelProduct */
-        $product = $this->_productFactory->create()->setStoreId($this->_storeManager->getStore($store)->getId());
-
-        $expectedIdType = false;
-        if ($identifierType === null) {
-            if (is_string($productId) && !preg_match("/^[+-]?[1-9][0-9]*$|^0$/", $productId)) {
-                $expectedIdType = 'sku';
-            }
-        }
-
-        if ($identifierType == 'sku' || $expectedIdType == 'sku') {
-            $idBySku = $product->getIdBySku($productId);
-            if ($idBySku) {
-                $productId = $idBySku;
-            } else {
-                if ($identifierType == 'sku') {
-                    // Return empty product because it was not found by originally specified SKU identifier
-                    return $product;
-                }
-            }
-        }
-
-        if ($productId && is_numeric($productId)) {
-            $product->load((int)$productId);
-        }
-
-        return $product;
     }
 
     /**

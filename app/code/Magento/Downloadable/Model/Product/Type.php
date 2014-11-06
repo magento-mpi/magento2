@@ -73,7 +73,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * @param \Magento\Downloadable\Model\Resource\Sample\CollectionFactory $samplesFactory
      * @param \Magento\Downloadable\Model\SampleFactory $sampleFactory
      * @param \Magento\Downloadable\Model\LinkFactory $linkFactory
-     * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -92,8 +91,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
         \Magento\Downloadable\Model\Resource\Link\CollectionFactory $linksFactory,
         \Magento\Downloadable\Model\Resource\Sample\CollectionFactory $samplesFactory,
         \Magento\Downloadable\Model\SampleFactory $sampleFactory,
-        \Magento\Downloadable\Model\LinkFactory $linkFactory,
-        array $data = array()
+        \Magento\Downloadable\Model\LinkFactory $linkFactory
     ) {
         $this->_downloadableFile = $downloadableFile;
         $this->_sampleResFactory = $sampleResFactory;
@@ -112,8 +110,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger,
-            $data
+            $logger
         );
     }
 

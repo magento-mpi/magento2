@@ -6,13 +6,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
+
 /**
  * Layer category filter
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Layer\Filter;
-
 class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     /**
@@ -44,11 +47,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_coreRegistry;
 
     /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryRepository
      */
-    protected $_categoryFactory;
+    protected $categoryRepository;
 
     /**
      * Construct
@@ -56,23 +57,23 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
+     * @param CategoryRepository $categoryRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
+        CategoryRepository $categoryRepository,
         array $data = array()
     ) {
-        $this->_categoryFactory = $categoryFactory;
         $this->_escaper = $escaper;
         $this->_coreRegistry = $coreRegistry;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'cat';
     }
@@ -112,11 +113,12 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_categoryId = $filter;
         $this->_coreRegistry->register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = $this->_categoryFactory->create()->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        )->load(
-            $filter
-        );
+        $storeId = $this->_storeManager->getStore()->getId();
+        try {
+            $this->_appliedCategory = $this->categoryRepository->get($filter, $storeId);
+        } catch (NoSuchEntityException $e) {
+            return $this;
+        }
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
             $this->getLayer()->getProductCollection()->addCategoryFilter($this->_appliedCategory);
@@ -131,20 +133,17 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Validate category for be using as filter
      *
      * @param  \Magento\Catalog\Model\Category $category
-     * @return mixed
+     * @return bool
      */
     protected function _isValidCategory($category)
     {
-        if ($category->getId()) {
-            while ($category->getLevel() != 0) {
-                if (!$category->getIsActive()) {
-                    return false;
-                }
-                $category = $category->getParentCategory();
+        while ($category->getLevel() != 0) {
+            if (!$category->getIsActive()) {
+                return false;
             }
-            return true;
+            $category = $category->getParentCategory();
         }
-        return false;
+        return true;
     }
 
     /**
@@ -165,10 +164,10 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            $category = $this->_categoryFactory->create()->load($this->_categoryId);
-            if ($category->getId()) {
-                return $category;
+            try {
+                return $this->categoryRepository->get($this->_categoryId);
+            } catch (NoSuchEntityException $e) {
+                // TODO: MAGETWO-30203
             }
         }
         return $this->getLayer()->getCurrentCategory();

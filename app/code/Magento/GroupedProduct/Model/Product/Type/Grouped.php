@@ -96,7 +96,6 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Msrp\Helper\Data $msrpData
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -115,8 +114,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Framework\App\State $appState,
-        \Magento\Msrp\Helper\Data $msrpData,
-        array $data = array()
+        \Magento\Msrp\Helper\Data $msrpData
     ) {
         $this->productLinks = $catalogProductLink;
         $this->_storeManager = $storeManager;
@@ -133,8 +131,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger,
-            $data
+            $logger
         );
     }
 

@@ -9,6 +9,8 @@ namespace Magento\Catalog\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Catalog\Model\Category as ModelCategory;
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\Store;
 
 /**
@@ -58,23 +60,31 @@ class Category extends AbstractHelper
     protected $_dataCollectionFactory;
 
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
+        \Magento\Framework\Data\CollectionFactory $dataCollectionFactory,
+        CategoryRepository $categoryRepository
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_scopeConfig = $scopeConfig;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context);
     }
 
@@ -142,11 +152,15 @@ class Category extends AbstractHelper
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = $this->_categoryFactory->create()->load($category);
-        }
-
-        if (!$category->getId()) {
-            return false;
+            try {
+                $category = $this->categoryRepository->get($category);
+            } catch (NoSuchEntityException $e) {
+                return false;
+            }
+        } else {
+            if (!$category->getId()) {
+                return false;
+            }
         }
 
         if (!$category->getIsActive()) {

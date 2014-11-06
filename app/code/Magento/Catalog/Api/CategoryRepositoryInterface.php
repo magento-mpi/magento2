@@ -23,11 +23,14 @@ interface CategoryRepositoryInterface
     /**
      * Get info about category by category id
      *
+     * TODO: MAGETWO-30203 $storeId is temporary solution
+     *
      * @param int $categoryId
+     * @param int $storeId
      * @return \Magento\Catalog\Api\Data\CategoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($categoryId);
+    public function get($categoryId, $storeId = null);
 
     /**
      * Delete category by identifier

@@ -11,7 +11,8 @@ namespace Magento\Catalog\Block\Product;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Block\Product\AbstractProduct;
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Block\IdentityInterface;
 
 /**
@@ -41,34 +42,32 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     protected $_catalogLayer;
 
     /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * @var \Magento\Core\Helper\PostData
      */
     protected $_postDataHelper;
 
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @param Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param CategoryRepository $categoryRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
+        CategoryRepository $categoryRepository,
         array $data = array()
     ) {
-        $this->_categoryFactory = $categoryFactory;
         $this->_catalogLayer = $catalogLayer;
         $this->_postDataHelper = $postDataHelper;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct(
             $context,
             $data
@@ -104,9 +103,14 @@ class ListProduct extends AbstractProduct implements IdentityInterface
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                /** @var \Magento\Catalog\Model\Category $category */
-                $category = $this->_categoryFactory->create()->load($this->getCategoryId());
-                if ($category->getId()) {
+                try {
+                    $category = $this->categoryRepository->get($this->getCategoryId());
+                } catch (NoSuchEntityException $e) {
+                    // TODO: MAGETWO-30203
+                }
+
+                // TODO: MAGETWO-30203
+                if (isset($category)) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);
                 }

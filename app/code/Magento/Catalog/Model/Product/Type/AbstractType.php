@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Model\Product\Type;
 
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -158,6 +159,11 @@ abstract class AbstractType
     protected $_productFactory;
 
     /**
+     * @var ProductRepository
+     */
+    protected $productRepository;
+
+    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -170,7 +176,7 @@ abstract class AbstractType
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
-     * @param array $data
+     * @param ProductRepository $productRepository
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -183,7 +189,7 @@ abstract class AbstractType
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
-        array $data = array()
+        ProductRepository $productRepository
     ) {
         $this->_productFactory = $productFactory;
         $this->_catalogProductOption = $catalogProductOption;
@@ -195,6 +201,7 @@ abstract class AbstractType
         $this->_fileStorageDb = $fileStorageDb;
         $this->_filesystem = $filesystem;
         $this->_logger = $logger;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -375,7 +382,8 @@ abstract class AbstractType
                 /** @var \Magento\Catalog\Model\Product $superProduct */
                 $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
                 if (!$superProduct) {
-                    $superProduct = $this->_productFactory->create()->load($superProductId);
+                    // TODO: MAGETWO-30203 think about exception
+                    $superProduct = $this->productRepository->getById($superProductId);
                     $this->_coreRegistry->register('used_super_product_' . $superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {

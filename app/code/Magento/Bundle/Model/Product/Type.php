@@ -145,7 +145,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -169,8 +168,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        PriceCurrencyInterface $priceCurrency
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_catalogData = $catalogData;
@@ -192,8 +190,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger,
-            $data
+            $logger
         );
     }
 

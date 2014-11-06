@@ -163,7 +163,6 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable $catalogProductTypeConfigurable
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -186,8 +185,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory $productCollectionFactory,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable $catalogProductTypeConfigurable,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_typeConfigurableFactory = $typeConfigurableFactory;
         $this->_entityFactory = $entityFactory;
@@ -208,8 +206,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger,
-            $data
+            $logger
         );
     }
 

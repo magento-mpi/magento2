@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
+use Magento\Catalog\Model\CategoryRepository;
 use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\Catalog\Model\Resource\Product\CollectionFactory;
 
@@ -27,21 +28,26 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
     protected $_layerFactory;
 
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param CollectionFactory $productCollectionFactory
+     * @param CategoryRepository $categoryRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         CollectionFactory $productCollectionFactory,
+        CategoryRepository $categoryRepository,
         array $data = array()
     ) {
         $this->_layerFactory = $layerFactory;
@@ -49,8 +55,8 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         parent::__construct(
             $context,
             $postDataHelper,
-            $categoryFactory,
             $catalogLayer,
+            $categoryRepository,
             $data
         );
     }

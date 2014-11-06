@@ -7,26 +7,29 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Action;
 
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 {
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryRepository
      */
-    protected $categoryFactory;
+    protected $categoryRepository;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory
+        CategoryRepository $categoryRepository
     ) {
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($resource, $storeManager, $resourceHelper);
     }
 
@@ -54,9 +57,6 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     {
         $stores = $this->storeManager->getStores();
 
-        /* @var $category \Magento\Catalog\Model\Category */
-        $category = $this->categoryFactory->create();
-
         /* @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             $tableName = $this->getTableNameByStore($store, $useTempTable);
@@ -78,16 +78,21 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
                         continue;
                     }
 
-                    if ($category->load($categoryId)->getId()) {
-                        $data[] = $this->prepareValuesToInsert(
-                            array_merge(
-                                $category->getData(),
-                                $attributesData[$categoryId],
-                                array('store_id' => $store->getId())
-                            )
-                        );
+                    try {
+                        $category = $this->categoryRepository->get($categoryId);
+                    } catch (NoSuchEntityException $e) {
+                        continue;
                     }
+
+                    $data[] = $this->prepareValuesToInsert(
+                        array_merge(
+                            $category->getData(),
+                            $attributesData[$categoryId],
+                            array('store_id' => $store->getId())
+                        )
+                    );
                 }
+
                 foreach ($data as $row) {
                     $updateFields = array();
                     foreach (array_keys($row) as $key) {

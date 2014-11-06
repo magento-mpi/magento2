@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
@@ -103,20 +106,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * Template filter factory
      *
      * @var \Magento\Catalog\Model\Template\Filter\Factory
@@ -178,9 +167,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $priceCurrency;
 
     /**
+     * @var ProductRepository
+     */
+    protected $productRepository;
+
+    /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Stdlib\String $string
@@ -190,19 +187,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param string $templateFilterModel
-     * @param TaxClassKeyBuilder $taxClassKeyBuilder
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
      * @param Config $taxConfig
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
+     * @param ProductRepository $productRepository
+     * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Stdlib\String $string,
@@ -219,10 +216,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
-        PriceCurrencyInterface $priceCurrency
+        PriceCurrencyInterface $priceCurrency,
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
     ) {
-        $this->_categoryFactory = $categoryFactory;
-        $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         $this->_templateFilterFactory = $templateFilterFactory;
@@ -240,6 +237,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_addressConverter = $addressConverter;
         $this->priceCurrency = $priceCurrency;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context);
     }
 
@@ -339,7 +338,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $productId = $this->_catalogSession->getLastViewedProductId();
         if ($productId) {
-            $product = $this->_productFactory->create()->load($productId);
+            try {
+                $product = $this->productRepository->getById($productId);
+            } catch (NoSuchEntityException $e) {
+                return '';
+            }
             /* @var $product \Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
@@ -347,7 +350,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $categoryId = $this->_catalogSession->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = $this->_categoryFactory->create()->load($categoryId);
+            try {
+                $category = $this->categoryRepository->get($categoryId);
+            } catch (NoSuchEntityException $e) {
+                return '';
+            }
             /* @var $category \Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';

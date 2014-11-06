@@ -8,6 +8,8 @@
  */
 namespace Magento\Catalog\Controller\Product\Compare;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class Add extends \Magento\Catalog\Controller\Product\Compare
 {
     /**
@@ -24,11 +26,15 @@ class Add extends \Magento\Catalog\Controller\Product\Compare
 
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId && ($this->_customerVisitor->getId() || $this->_customerSession->isLoggedIn())) {
-            /** @var \Magento\Catalog\Model\Product $product */
-            $product = $this->_productFactory->create();
-            $product->setStoreId($this->_storeManager->getStore()->getId())->load($productId);
+            $storeId = $this->_storeManager->getStore()->getId();
+            try {
+                $product = $this->productRepository->getById($productId, false, $storeId);
+            } catch (NoSuchEntityException $e) {
+                // TODO: MAGETWO-30203
+            }
 
-            if ($product->getId()) {
+            // TODO: MAGETWO-30203
+            if (isset($product)) {
                 $this->_catalogProductCompareList->addProduct($product);
                 $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                 $this->messageManager->addSuccess(__('You added product %1 to the comparison list.', $productName));

@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Controller\Product;
 
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Core\App\Action\FormKeyValidator;
 use Magento\Framework\Controller\Result;
 use Magento\Framework\View\Result\PageFactory;
@@ -61,13 +62,6 @@ class Compare extends \Magento\Framework\App\Action\Action
     protected $_itemCollectionFactory;
 
     /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * Compare item factory
      *
      * @var \Magento\Catalog\Model\Product\Compare\ItemFactory
@@ -95,11 +89,15 @@ class Compare extends \Magento\Framework\App\Action\Action
     protected $resultPageFactory;
 
     /**
+     * @var ProductRepository
+     */
+    protected $productRepository;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\Visitor $customerVisitor
@@ -109,11 +107,11 @@ class Compare extends \Magento\Framework\App\Action\Action
      * @param FormKeyValidator $formKeyValidator
      * @param \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param ProductRepository $productRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\Visitor $customerVisitor,
@@ -122,11 +120,11 @@ class Compare extends \Magento\Framework\App\Action\Action
         \Magento\Framework\StoreManagerInterface $storeManager,
         FormKeyValidator $formKeyValidator,
         Result\RedirectFactory $resultRedirectFactory,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        ProductRepository $productRepository
     ) {
         $this->_storeManager = $storeManager;
         $this->_compareItemFactory = $compareItemFactory;
-        $this->_productFactory = $productFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_customerSession = $customerSession;
         $this->_customerVisitor = $customerVisitor;
@@ -135,6 +133,7 @@ class Compare extends \Magento\Framework\App\Action\Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->resultRedirectFactory = $resultRedirectFactory;
         $this->resultPageFactory = $resultPageFactory;
+        $this->productRepository = $productRepository;
         parent::__construct($context);
     }
 
