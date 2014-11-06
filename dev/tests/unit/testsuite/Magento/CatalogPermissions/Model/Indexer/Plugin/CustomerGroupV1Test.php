@@ -48,7 +48,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     public function testAfterDeleteGroupIndexerOff()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService',
+            'Magento\Customer\Model\Resource\GroupRepository',
             array(),
             array(),
             '',
@@ -62,7 +62,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     public function testAfterDeleteGroupIndexerOn()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService',
+            'Magento\Customer\Model\Resource\GroupRepository',
             array(),
             array(),
             '',
@@ -77,7 +77,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     public function testAroundCreateGroupNoNeedInvalidating()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService',
+            'Magento\Customer\Model\Resource\GroupRepository',
             array(),
             array(),
             '',
@@ -85,7 +85,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         );
 
         $customerGroupMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerGroup',
+            'Magento\Customer\Model\Data\Group',
             array('getId'),
             array(),
             '',
@@ -104,7 +104,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     public function testAroundCreateGroupInvalidating()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService',
+            'Magento\Customer\Model\Resource\GroupRepository',
             array(),
             array(),
             '',
@@ -112,7 +112,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         );
 
         $customerGroupMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerGroup',
+            'Magento\Customer\Model\Data\Group',
             array('getId'),
             array(),
             '',
