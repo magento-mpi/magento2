@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Api\Data;
 
 /**
- * @see \Magento\Catalog\Service\V1\Data\Product\GroupPrice
  * @todo remove this interface if framework support return array
  */
 interface ProductGroupPriceInterface
