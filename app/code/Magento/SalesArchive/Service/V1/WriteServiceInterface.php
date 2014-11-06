@@ -7,14 +7,14 @@
  */
 namespace Magento\SalesArchive\Service\V1;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 interface WriteServiceInterface
 {
     /**
      * Return List of archived orders service
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
      * @return \Magento\SalesArchive\Service\V1\Data\ArchiveSearchResults
      */
     public function getList(SearchCriteria $searchCriteria);

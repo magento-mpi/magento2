@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-class OrderTaxDetails extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class OrderTaxDetails extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

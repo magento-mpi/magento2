@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Framework\Service\ExtensibleDataObjectConverter;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
  * Customer account form block
