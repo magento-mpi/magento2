@@ -184,7 +184,7 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _reEncryptCreditCardNumbers()
     {
-        $table = $this->getTable('sales_flat_order_payment');
+        $table = $this->getTable('sales_order_payment');
         $select = $this->_getWriteAdapter()->select()->from($table, array('entity_id', 'cc_number_enc'));
 
         $attributeValues = $this->_getWriteAdapter()->fetchPairs($select);

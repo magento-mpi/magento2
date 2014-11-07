@@ -92,7 +92,7 @@ $installer->getConnection()->addColumn(
     'Simple Free Shipping'
 );
 $installer->getConnection()->addColumn(
-    $installer->getTable('sales_flat_order_item'),
+    $installer->getTable('sales_order_item'),
     'free_shipping',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
@@ -100,7 +100,7 @@ $installer->getConnection()->addColumn(
     'Free Shipping'
 );
 $installer->getConnection()->addColumn(
-    $installer->getTable('sales_flat_quote_address'),
+    $installer->getTable('sales_quote_address'),
     'free_shipping',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
@@ -108,7 +108,7 @@ $installer->getConnection()->addColumn(
     'Free Shipping'
 );
 $installer->getConnection()->addColumn(
-    $installer->getTable('sales_flat_quote_item'),
+    $installer->getTable('sales_quote_item'),
     'free_shipping',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
@@ -116,7 +116,7 @@ $installer->getConnection()->addColumn(
     'Free Shipping'
 );
 $installer->getConnection()->addColumn(
-    $installer->getTable('sales_flat_quote_address_item'),
+    $installer->getTable('sales_quote_address_item'),
     'free_shipping',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,

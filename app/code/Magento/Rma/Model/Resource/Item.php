@@ -259,7 +259,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
         $mainSelect = $adapter->select()
             ->from(
-                ['order_item' => $this->getTable('sales_flat_order_item')],
+                ['order_item' => $this->getTable('sales_order_item')],
                 [
                     'order_item.item_id',
                     'remaining_qty' => new \Zend_Db_Expr(sprintf('order_item.qty_shipped - %s', $subSelect))

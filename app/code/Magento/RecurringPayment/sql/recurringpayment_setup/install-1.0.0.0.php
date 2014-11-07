@@ -280,9 +280,9 @@ $table = $this->getConnection()->newTable(
     $this->getIdxName('recurring_payment_order', array('order_id')),
     array('order_id')
 )->addForeignKey(
-    $this->getFkName('recurring_payment_order', 'order_id', 'sales_flat_order', 'entity_id'),
+    $this->getFkName('recurring_payment_order', 'order_id', 'sales_order', 'entity_id'),
     'order_id',
-    $this->getTable('sales_flat_order'),
+    $this->getTable('sales_order'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
