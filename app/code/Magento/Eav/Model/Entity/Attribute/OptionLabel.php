@@ -21,7 +21,7 @@ class OptionLabel extends AbstractExtensibleModel implements AttributeOptionLabe
      */
     public function getLabel()
     {
-        return $this->getData(AttributeOptionLabelInterface::LABEL);
+        return $this->getData('label');
     }
 
     /**
@@ -29,6 +29,6 @@ class OptionLabel extends AbstractExtensibleModel implements AttributeOptionLabe
      */
     public function getStoreId()
     {
-        return $this->getData(AttributeOptionLabelInterface::STORE_ID);
+        return $this->getData('store_id');
     }
 }

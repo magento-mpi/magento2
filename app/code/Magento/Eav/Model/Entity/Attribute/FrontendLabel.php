@@ -14,16 +14,16 @@ class FrontendLabel extends \Magento\Framework\Model\AbstractExtensibleModel imp
     /**
      * {@inheritdoc}
      */
-    public function getLabel()
+    public function getStoreId()
     {
-        return $this->getData(self::LABEL);
+        return $this->getData('store_id');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getStoreId()
+    public function getLabel()
     {
-        return $this->getData(self::STORE_ID);
+        return $this->getData('label');
     }
 }

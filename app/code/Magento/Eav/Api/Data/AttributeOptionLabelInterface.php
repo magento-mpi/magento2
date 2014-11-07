@@ -10,10 +10,6 @@ namespace Magento\Eav\Api\Data;
 
 interface AttributeOptionLabelInterface
 {
-    const LABEL = 'label';
-
-    const STORE_ID = 'store_id';
-
     /**
      * Get option label
      *
