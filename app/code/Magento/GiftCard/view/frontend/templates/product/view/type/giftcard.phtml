@@ -81,13 +81,3 @@
         <?php echo $this->getProductPrice($_product);?>
     <?php endif; ?>
 </div>
-<script type="text/javascript">
-    require([
-        "jquery",
-        "mage/mage"
-    ], function($){
-
-        $.mage.addToWishlist.prototype.options.giftcardInfo = '[id^=giftcard]';
-
-    });
-</script>

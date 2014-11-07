@@ -8,9 +8,36 @@
  */
 -->
 <constraint>
+    <assertWidgetSuccessSaveMessage module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetSuccessSaveMessage>
+    <assertWidgetInGrid module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetInGrid>
+    <assertWidgetOnFrontendInCatalog module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetOnFrontendInCatalog>
+    <assertWidgetOnProductPage module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetOnProductPage>
+    <assertWidgetCmsPageLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetCmsPageLink>
+    <assertWidgetCatalogCategoryLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetCatalogCategoryLink>
+    <assertWidgetProductLink module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetProductLink>
+    <assertWidgetRecentlyViewedProducts module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetRecentlyViewedProducts>
     <assertWidgetSuccessDeleteMessage module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetSuccessDeleteMessage>
+    <assertWidgetRecentlyComparedProducts module="Magento_Widget">
+        <severeness>low</severeness>
+    </assertWidgetRecentlyComparedProducts>
     <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
         <severeness>low</severeness>
     </assertWidgetAbsentOnFrontendHome>

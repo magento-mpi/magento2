@@ -33,7 +33,7 @@ class CatalogEventEntity extends InjectableFixture
             'category_page' => 'Yes',
             'product_page' => 'Yes'
         ],
-        'category_ids' => ['presets' => 'default_subcategory'],
+        'category_id' => ['presets' => 'default_subcategory'],
     ];
 
     protected $event_id = [
@@ -50,6 +50,7 @@ class CatalogEventEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\CatalogEvent\Test\Fixture\CatalogEventEntity\CategoryId',
     ];
 
     protected $date_start = [

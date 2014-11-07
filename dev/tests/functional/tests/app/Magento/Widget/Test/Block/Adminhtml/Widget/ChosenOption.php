@@ -12,7 +12,6 @@ use Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class ChosenOption
  * Widget Chosen Option
  */
 class ChosenOption extends Element

@@ -67,12 +67,12 @@ class DeleteCatalogEventEntityTest extends Injectable
         $product->persist();
 
         /** @var CategoryIds $sourceCategories */
-        $sourceCategories = $product->getDataFieldConfig('category_ids')['source'];
+        $sourceCategory = $product->getDataFieldConfig('category_ids')['source']->getCategories()[0];
         $catalogEventEntity = $fixtureFactory->createByCode(
             'catalogEventEntity',
             [
                 'dataSet' => 'default_event',
-                'data' => ['category_id' => $sourceCategories->getIds()[0]],
+                'data' => ['category_id' => $sourceCategory->getId()],
             ]
         );
         $catalogEventEntity->persist();
