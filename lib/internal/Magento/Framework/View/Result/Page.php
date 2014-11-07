@@ -133,6 +133,8 @@ class Page extends Layout
 
     /**
      * Set up default handles for current page
+     *
+     * @return $this
      */
     public function initLayout()
     {
