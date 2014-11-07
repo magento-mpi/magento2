@@ -94,4 +94,8 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex</class>
     </orderCreateIndex>
+    <salesGuestPrint>
+        <mca>sales/guest/print</mca>
+        <class>Magento\Sales\Test\Page\SalesGuestPrint</class>
+    </salesGuestPrint>
 </page>

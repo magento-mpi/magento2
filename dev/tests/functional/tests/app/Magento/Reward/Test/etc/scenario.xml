@@ -23,7 +23,6 @@
                     </step>
                     <step name="applyRewardPointsToCustomer" module="Magento_Reward">
                         <prev>createCustomer</prev>
-                        <next>selectRewardPoints</next>
                     </step>
                     <step name="selectRewardPoints" module="Magento_Reward">
                         <next>selectPaymentMethod</next>
@@ -47,7 +46,6 @@
                     </step>
                     <step name="applyRewardPointsToCustomer" module="Magento_Reward">
                         <prev>createCustomer</prev>
-                        <next>openCustomerOnBackend</next>
                     </step>
                 </steps>
             </method>

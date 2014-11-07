@@ -29,4 +29,7 @@
     <assertCartPriceRuleIsNotPresentedInGrid module="Magento_SalesRule">
         <severeness>low</severeness>
     </assertCartPriceRuleIsNotPresentedInGrid>
+    <assertSalesRuleOnPrintOrder module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertSalesRuleOnPrintOrder>
 </constraint>
