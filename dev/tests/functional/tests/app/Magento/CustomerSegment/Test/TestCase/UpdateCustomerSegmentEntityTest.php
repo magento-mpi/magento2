@@ -163,6 +163,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
         CustomerSegment $customerSegment,
         CustomerSegment $customerSegmentOriginal
     ) {
+        $this->markTestIncomplete('MAGETWO-30226');
         //Preconditions
         $customer->persist();
         $this->customerIndexPage->open();
@@ -214,6 +215,9 @@ class UpdateCustomerSegmentEntityTest extends Injectable
      */
     public function tearDown()
     {
+        if (!$this->salesRule instanceof SalesRuleInjectable) {
+            return;
+        }
         $this->customerAccountLogout->open();
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
