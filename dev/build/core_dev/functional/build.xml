@@ -15,14 +15,24 @@
     <target name="run-ee" depends="_server_info" description="Run functional tests on EE">
         <antcall>
             <target name="_enterprise_edition"/>
+            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
     </target>
     <target name="run-ce" depends="_server_info" description="Run functional tests on CE">
         <antcall>
             <target name="_community_edition"/>
+            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
+    </target>
+
+    <target name="remove-unwanted-modules"
+            if="env.bamboo_build_module_list_file"
+            description="Remove modules according to test profile">
+        <exec executable="php" dir="${basedir}/dev/build" failonerror="true">
+            <arg line="remove-unwanted-modules.php --included-module-list-file ${env.bamboo_build_module_list_file}"/>
+        </exec>
     </target>
 
     <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
@@ -140,11 +150,16 @@
             }
         ]]></script>
 
+        <condition property="env.bamboo_module_filter" value="">
+            <not><isset property="env.bamboo_module_filter"/></not>
+        </condition>
+
         <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap.php
                  ${env.bamboo_executer_options}
                 "/>
+            <env key="module_filter" value="${env.bamboo_module_filter}"/>
         </exec>
     </target>
 
@@ -250,6 +265,10 @@
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
         </antcall>
 
+        <antcall target="_run_composer_dump_autoload">
+            <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
+        </antcall>
+
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
             if (currentInstance == 0) {
@@ -261,6 +280,15 @@
     <target name="_run_compiler" description="Run DI compiler tool">
         <exec executable="php" failonerror="true" >
             <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php'/>
+        </exec>
+    </target>
+
+    <target name="_run_composer_dump_autoload" if="env.COMPOSER_HOME">
+        <mkdir dir="${env.COMPOSER_HOME}"/>
+        <echo message="Run 'composer dump-autoload' for directory '${target_composer_dir}'"/>
+        <exec executable="/usr/local/bin/composer" dir="${target_composer_dir}" failonerror="true">
+            <env key="COMPOSER_PROCESS_TIMEOUT" value="600"/>
+            <arg line="dump-autoload"/>
         </exec>
     </target>
 

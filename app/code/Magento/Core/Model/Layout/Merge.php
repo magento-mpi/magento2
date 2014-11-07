@@ -8,6 +8,7 @@
 namespace Magento\Core\Model\Layout;
 
 use \Magento\Core\Model\Layout\Update\Validator;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Layout merge model
@@ -120,19 +121,19 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
-
-    /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
 
     /**
      * @var string
      */
     protected $pageLayout;
+
+    /**
+     * @var string
+     */
+    protected $cacheSuffix;
 
     /**
      * Init merge model
@@ -146,9 +147,9 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Core\Model\Layout\Update\Validator $validator
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Framework\View\Page\Config $pageConfig
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Design\ThemeInterface $theme Non-injectable theme instance
+     * @param string $cacheSuffix
      */
     public function __construct(
         \Magento\Framework\View\DesignInterface $design,
@@ -160,9 +161,9 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Core\Model\Layout\Update\Validator $validator,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Framework\View\Page\Config $pageConfig,
-        \Magento\Framework\View\Design\ThemeInterface $theme = null
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Framework\View\Design\ThemeInterface $theme = null,
+        $cacheSuffix = ''
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
         $this->_store = $storeManager->getStore();
@@ -174,7 +175,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $this->_layoutValidator = $validator;
         $this->_logger = $logger;
         $this->filesystem = $filesystem;
-        $this->pageConfig = $pageConfig;
+        $this->cacheSuffix = $cacheSuffix;
     }
 
     /**
@@ -283,16 +284,11 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     }
 
     /**
-     * If page layout not defined in page config model set page layout from page configuration
-     *
-     * @return $this
+     * @return string|null
      */
-    protected function processLayoutPage()
+    public function getPageLayout()
     {
-        if (!$this->pageConfig->getPageLayout() && $this->pageLayout) {
-            $this->pageConfig->setPageLayout($this->pageLayout);
-        }
-        return $this;
+        return $this->pageLayout;
     }
 
     /**
@@ -409,41 +405,22 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $this->addHandle($handles);
 
         $cacheId = $this->_getCacheId(md5(implode('|', $this->getHandles())));
-        $cacheIdPageLayout = $cacheId . '_' . self::PAGE_LAYOUT_CACHE_SUFFIX . '_' . $this->pageConfig->getPageLayout();
+        $cacheIdPageLayout = $cacheId . '_' . self::PAGE_LAYOUT_CACHE_SUFFIX;
         $result = $this->_loadCache($cacheId);
         if ($result) {
             $this->addUpdate($result);
-            $this->loadLayoutCache($cacheIdPageLayout);
+            $this->pageLayout = $this->_loadCache($cacheIdPageLayout);
             return $this;
         }
 
         foreach ($this->getHandles() as $handle) {
             $this->_merge($handle);
         }
-        $this->processLayoutPage();
-        $pageLayoutHandle = $this->pageConfig->getPageLayout();
-        if ($this->pageLayout) {
-            $this->_merge($pageLayoutHandle);
-            $this->addHandle($pageLayoutHandle);
-            $this->_saveCache($pageLayoutHandle, $cacheIdPageLayout);
-        }
 
         $layout = $this->asString();
         $this->_validateMergedLayout($cacheId, $layout);
         $this->_saveCache($layout, $cacheId, $this->getHandles());
-        return $this;
-    }
-
-    /**
-     * @param string $cacheIdPageLayout
-     * @return $this
-     */
-    protected function loadLayoutCache($cacheIdPageLayout)
-    {
-        $pageLayout = $this->_loadCache($cacheIdPageLayout);
-        if ($pageLayout) {
-            $this->pageConfig->setPageLayout($pageLayout);
-        }
+        $this->_saveCache((string)$this->pageLayout, $cacheIdPageLayout, $this->getHandles());
         return $this;
     }
 
@@ -619,7 +596,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         if ($this->_layoutUpdatesCache) {
             return $this->_layoutUpdatesCache;
         }
-        $cacheId = $this->_getCacheId();
+        $cacheId = $this->_getCacheId($this->cacheSuffix);
         $result = $this->_loadCache($cacheId);
         if ($result) {
             $result = $this->_loadXmlString($result);
@@ -678,7 +655,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme, '*.xml');
         $updateFiles = array_merge($updateFiles, $this->pageLayoutFileSource->getFiles($theme, '*.xml'));
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $dir = $this->filesystem->getDirectoryRead(DirectoryList::ROOT);
         $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {
             $filename = $dir->getRelativePath($file->getFilename());

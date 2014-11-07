@@ -94,9 +94,9 @@ class TransactionReadTest extends WebapiAbstract
 
         $childTransaction = $transaction->getChildTransactions()[2];
 
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Api\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
 
         $searchCriteriaBuilder->addFilter($filters);
@@ -162,12 +162,7 @@ class TransactionReadTest extends WebapiAbstract
 
         if (!is_null($transaction->getParentId())) {
             $expectedData['parent_id'] = (int)$transaction->getParentId();
-        } else {
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-                $expectedData['parent_id'] = null;
-            }
         }
-
         return $expectedData;
     }
 
@@ -176,9 +171,9 @@ class TransactionReadTest extends WebapiAbstract
      */
     public function filtersDataProvider()
     {
-        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        /** @var $filterBuilder  \Magento\Framework\Api\FilterBuilder */
         $filterBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
 
         return [

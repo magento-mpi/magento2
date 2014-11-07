@@ -149,6 +149,12 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
     {
         //Get expected details from the Service directly
         $expectedCustomerDetails = $this->_getCustomerDetails($this->customerData[Customer::ID])->__toArray();
+        $expectedCustomerDetails['addresses'][0]['id'] =
+            (int)$expectedCustomerDetails['addresses'][0]['id'];
+
+        $expectedCustomerDetails['addresses'][1]['id'] =
+            (int)$expectedCustomerDetails['addresses'][1]['id'];
+
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,

@@ -160,7 +160,7 @@ RESPONSE_ELEMENT;
         <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
-        <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
+        <xsd:element name="entityId" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
@@ -230,7 +230,7 @@ RESPONSE_TYPE;
         <xsd:appinfo xmlns:inf="{$this->_soapUrl}"/>
     </xsd:annotation>
     <xsd:sequence>
-        <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
+        <xsd:element name="entityId" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation>Item ID</xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
@@ -240,11 +240,13 @@ RESPONSE_TYPE;
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:returned>Always</inf:returned>
                     </inf:callInfo>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:requiredInput>Yes</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -259,11 +261,13 @@ RESPONSE_TYPE;
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:returned>Conditionally</inf:returned>
                     </inf:callInfo>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:requiredInput>No</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -278,11 +282,13 @@ RESPONSE_TYPE;
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:returned>Conditionally</inf:returned>
                     </inf:callInfo>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:requiredInput>No</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -297,16 +303,39 @@ RESPONSE_TYPE;
                         <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:returned>Conditionally</inf:returned>
                     </inf:callInfo>
                     <inf:callInfo>
                         <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
                         <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
                         <inf:requiredInput>No</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
+        <xsd:element name="customAttributes" type="tns:ArrayOfFrameworkAttributeValue" minOccurs="0">
+            <xsd:annotation>
+                <xsd:documentation></xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_soapUrl}">
+                    <inf:natureOfType>array</inf:natureOfType>
+                    <inf:callInfo>
+                        <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
+                        <inf:returned>Conditionally</inf:returned>
+                    </inf:callInfo>
+                    <inf:callInfo>
+                        <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1NestedUpdate</inf:callName>
+                        <inf:requiredInput>No</inf:requiredInput>
+                    </inf:callInfo>
+                </xsd:appinfo>
+            </xsd:annotation>
+    </xsd:element>
     </xsd:sequence>
 </xsd:complexType>
 RESPONSE_TYPE;

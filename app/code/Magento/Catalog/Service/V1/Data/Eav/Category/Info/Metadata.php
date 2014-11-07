@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * Class Metadata
@@ -42,14 +42,6 @@ class Metadata extends AbstractExtensibleObject
     const INCLUDE_IN_MENU = 'include_in_menu';
 
     const ACTIVE = 'active';
-
-    /**
-     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
-     */
-    public function getCustomAttributes()
-    {
-        $this->_get(self::CUSTOM_ATTRIBUTES_KEY);
-    }
 
     /**
      * @return int|null

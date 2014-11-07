@@ -9,6 +9,8 @@
  */
 namespace Magento\Framework\Module;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 class Setup implements \Magento\Framework\Module\Updater\SetupInterface
 {
     /**
@@ -96,7 +98,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -126,7 +128,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
-        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->_connectionName = $connectionName;
     }
 
@@ -206,37 +208,6 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     }
 
     /**
-     * Apply module resource install, upgrade and data scripts
-     *
-     * @return $this|true
-     */
-    public function applyUpdates()
-    {
-        $dbVer = $this->_resourceResource->getDbVersion($this->_resourceName);
-        $configVer = $this->_moduleConfig['schema_version'];
-
-        // Module is installed
-        if ($dbVer !== false) {
-            $status = version_compare($configVer, $dbVer);
-            switch ($status) {
-                case self::VERSION_COMPARE_LOWER:
-                    $this->_rollbackResourceDb($configVer, $dbVer);
-                    break;
-                case self::VERSION_COMPARE_GREATER:
-                    $this->_upgradeResourceDb($dbVer, $configVer);
-                    break;
-                default:
-                    return true;
-                    break;
-            }
-        } elseif ($configVer) {
-            $this->_installResourceDb($configVer);
-        }
-
-        return $this;
-    }
-
-    /**
      * Run data install scripts
      *
      * @param string $newVersion
@@ -264,103 +235,6 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
         $this->_resourceResource->setDataVersion($this->_resourceName, $newVersion);
 
         return $this;
-    }
-
-    /**
-     * Run resource installation file
-     *
-     * @param string $newVersion
-     * @return $this
-     */
-    protected function _installResourceDb($newVersion)
-    {
-        $oldVersion = $this->_modifyResourceDb(self::TYPE_DB_INSTALL, '', $newVersion);
-        $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
-        $this->_resourceResource->setDbVersion($this->_resourceName, $newVersion);
-
-        return $this;
-    }
-
-    /**
-     * Run resource upgrade files from $oldVersion to $newVersion
-     *
-     * @param string $oldVersion
-     * @param string $newVersion
-     * @return $this
-     */
-    protected function _upgradeResourceDb($oldVersion, $newVersion)
-    {
-        $this->_modifyResourceDb(self::TYPE_DB_UPGRADE, $oldVersion, $newVersion);
-        $this->_resourceResource->setDbVersion($this->_resourceName, $newVersion);
-
-        return $this;
-    }
-
-    /**
-     * Roll back resource
-     *
-     * @param string $newVersion
-     * @param string $oldVersion
-     * @return $this
-     */
-    protected function _rollbackResourceDb($newVersion, $oldVersion)
-    {
-        $this->_modifyResourceDb(self::TYPE_DB_ROLLBACK, $newVersion, $oldVersion);
-        return $this;
-    }
-
-    /**
-     * Uninstall resource
-     *
-     * @param string $version existing resource version
-     * @return $this
-     */
-    protected function _uninstallResourceDb($version)
-    {
-        $this->_modifyResourceDb(self::TYPE_DB_UNINSTALL, $version, '');
-        return $this;
-    }
-
-    /**
-     * Retrieve available Database install/upgrade files for current module
-     *
-     * @param string $actionType
-     * @param string $fromVersion
-     * @param string $toVersion
-     * @return array
-     */
-    protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
-    {
-        $modName = (string)$this->_moduleConfig['name'];
-
-        $filesDir = $this->_modulesReader->getModuleDir('sql', $modName) . '/' . $this->_resourceName;
-        $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
-        if (!$this->modulesDir->isDirectory($modulesDirPath) || !$this->modulesDir->isReadable($modulesDirPath)) {
-            return array();
-        }
-
-        $dbFiles = array();
-        $typeFiles = array();
-        $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
-        $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
-        foreach ($this->modulesDir->read($modulesDirPath) as $file) {
-            $matches = array();
-            if (preg_match($regExpDb, $file, $matches)) {
-                $dbFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
-            } else if (preg_match($regExpType, $file, $matches)) {
-                $typeFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
-            }
-        }
-
-        if (empty($typeFiles) && empty($dbFiles)) {
-            return array();
-        }
-
-        foreach ($typeFiles as $version => $file) {
-            $dbFiles[$version] = $file;
-        }
-
-        return $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $dbFiles);
     }
 
     /**
@@ -396,31 +270,6 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     }
 
     /**
-     * Save resource version
-     *
-     * @param string $actionType
-     * @param string $version
-     * @return $this
-     */
-    protected function _setResourceVersion($actionType, $version)
-    {
-        switch ($actionType) {
-            case self::TYPE_DB_INSTALL:
-            case self::TYPE_DB_UPGRADE:
-                $this->_resourceResource->setDbVersion($this->_resourceName, $version);
-                break;
-            case self::TYPE_DATA_INSTALL:
-            case self::TYPE_DATA_UPGRADE:
-                $this->_resourceResource->setDataVersion($this->_resourceName, $version);
-                break;
-            default:
-                break;
-        }
-
-        return $this;
-    }
-
-    /**
      * Run module modification files. Return version of last applied upgrade (false if no upgrades applied)
      * @param string $actionType
      * @param string $fromVersion
@@ -430,19 +279,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
      */
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
-        switch ($actionType) {
-            case self::TYPE_DB_INSTALL:
-            case self::TYPE_DB_UPGRADE:
-                $files = $this->_getAvailableDbFiles($actionType, $fromVersion, $toVersion);
-                break;
-            case self::TYPE_DATA_INSTALL:
-            case self::TYPE_DATA_UPGRADE:
-                $files = $this->_getAvailableDataFiles($actionType, $fromVersion, $toVersion);
-                break;
-            default:
-                $files = array();
-                break;
-        }
+        $files = $this->_getAvailableDataFiles($actionType, $fromVersion, $toVersion);
         if (empty($files) || !$this->getConnection()) {
             return false;
         }
@@ -473,7 +310,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
                 }
 
                 if ($result) {
-                    $this->_setResourceVersion($actionType, $file['toVersion']);
+                    $this->_resourceResource->setDataVersion($this->_resourceName, $file['toVersion']);
                     $this->_logger->log($fileName);
                 } else {
                     $this->_logger->log("Failed resource setup: {$fileName}");
@@ -514,7 +351,6 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     {
         $arrRes = [];
         switch ($actionType) {
-            case self::TYPE_DB_INSTALL:
             case self::TYPE_DATA_INSTALL:
                 uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
@@ -527,7 +363,6 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
                 }
                 break;
 
-            case self::TYPE_DB_UPGRADE:
             case self::TYPE_DATA_UPGRADE:
                 uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
@@ -552,8 +387,6 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
                 }
                 break;
 
-            case self::TYPE_DB_ROLLBACK:
-            case self::TYPE_DB_UNINSTALL:
             default:
                 break;
         }
@@ -765,7 +598,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     }
 
     /**
-     * @return \Magento\Framework\App\Filesystem
+     * @return \Magento\Framework\Filesystem
      */
     public function getFilesystem()
     {

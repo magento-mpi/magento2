@@ -9,7 +9,7 @@
 //
 //    List default styles reset
 //--------------------------------------
-.reset-list {
+.abstract-reset-list {
     .list-reset-styles();
     > li {
         margin: 0;
@@ -89,7 +89,7 @@
     dt {
         float: left;
         clear: left;
-        margin: 0 10px 5px 0;
+        margin: 0 @indent-s-base @indent-xs-base 0;
         &:after {
             content: ': ';
         }
@@ -97,7 +97,28 @@
     dd {
         float: left;
         display: inline-block;
-        margin: 0 0 5px;
+        margin: 0 0 @indent-xs-base;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-product-options-list-desktop {
+        dt:after {
+            content: ': ';
+        }
+        dt {
+            float: left;
+            clear: left;
+            margin: 0 @indent-s-base @indent-xs-base 0;
+        }
+        dd {
+            float: left;
+            display: inline-block;
+            margin: 0 0 @indent-xs-base;
+        }
     }
 }
 
@@ -132,6 +153,32 @@
         }
     }
     .abstract-blocks-2columns-reverse {
+        width: 48.8%;
+        &:nth-child(1) {
+            float: right;
+            clear: right;
+        }
+        &:nth-child(2) {
+            float: left;
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-blocks-2columns-s {
+        width: 48%;
+        &:nth-child(1) {
+            float: left;
+            clear: left;
+        }
+        &:nth-child(2) {
+            float: right;
+            & + * {
+                clear: both;
+            }
+        }
+    }
+    .abstract-blocks-2columns-reverse-s {
         width: 48.8%;
         &:nth-child(1) {
             float: right;
@@ -192,7 +239,7 @@
 //
 //    Marging for blocks & widgets
 //--------------------------------------
-.margin-for-blocks-and-widgets {
+.abstract-margin-for-blocks-and-widgets {
     margin-bottom: @indent-xl-base;
 }
 
@@ -205,7 +252,7 @@
 //
 //    Remove button for blocks
 //--------------------------------------
-.remove-button-for-blocks {
+.abstract-remove-button-for-blocks {
     .icon-font(
         @icon-remove,
         @_icon-font-size: 12px,
@@ -240,12 +287,18 @@
 //
 //   Reset left margin
 //--------------------------------------
-.reset-left-margin {
+.abstract-reset-left-margin {
     margin-left: 0;
 }
 
 .responsive(@break) when (@break = @screen-m) {
-    .reset-left-margin-desktop {
+    .abstract-reset-left-margin-desktop {
+        margin-left: 0;
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-reset-left-margin-desktop-s {
         margin-left: 0;
     }
 }
@@ -275,15 +328,15 @@
 //
 //    Add Recipient
 //--------------------------------------
-.add-recipients {
-    .recipients {
+.abstract-add-fields {
+    .fieldset {
         .field {
              .control {
                 width: 70%;
             }
         }
         .additional {
-            margin-top: @form-field-vertical-indent;
+            margin-top: 55px;
             position: relative;
             .action.remove {
                 &:extend(.action-remove all);
@@ -312,8 +365,8 @@
 //    Add Recipient for desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .add-recipients-desktop {
-        .recipients {
+    .abstract-add-fields-desktop {
+        .fieldset {
             .field {
                  .control {
                     width: auto;
@@ -332,7 +385,7 @@
 //    Margin for forms
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .margin-for-forms-desktop {
+    .abstract-margin-for-forms-desktop {
         margin-left: @form-field-type-inline-label-width;
     }
 }
@@ -381,6 +434,12 @@
     }
 }
 
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-add-clearfix-desktop-s {
+        .clearfix();
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-add-clearfix-mobile {
         .clearfix();
@@ -401,6 +460,12 @@
 
 .responsive(@break) when (@break = @screen-m) {
     .abstract-add-box-sizing-desktop {
+        .box-sizing();
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-add-box-sizing-desktop-s {
         .box-sizing();
     }
 }
@@ -473,10 +538,37 @@
 }
 
 //
+//    Field 2 column
+//--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .form-field-column-2-s {
+        .fieldset {
+            .field {
+                &:nth-last-child(1),
+                &:nth-last-child(2) {
+                    margin-bottom: 0;
+                }
+                .form-field-column(@_column: true);
+                .field {
+                    width: 100%;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+//
 //    Field 1 column
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .form-field-revert-column-1 {
+        .form-field-column-number(@_column-number: 1);
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .form-field-revert-column-1-s {
         .form-field-column-number(@_column-number: 1);
     }
 }
@@ -539,6 +631,12 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .abstract-table-vertical-mobile {
+        .table-responsive();
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-table-vertical-mobile-s {
         .table-responsive();
     }
 }
@@ -664,7 +762,7 @@
 //
 //    Mobile checkout order product name
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-product-items-summary {
         tbody {
             .col {
@@ -700,7 +798,6 @@
         }
     }
 }
-
 
 //
 //    Account pages: title
@@ -781,6 +878,21 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .abstract-action-print {
+        .icon-font(
+            @icon-print,
+            @_icon-font-size: 16px,
+            @_icon-font-line-height: 16px,
+            @_icon-font-margin: 0 4px 0 0,
+            @_icon-font-position: before
+        );
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-s) {
+    .abstract-action-print-s {
         .icon-font(
             @icon-print,
             @_icon-font-size: 16px,
@@ -924,7 +1036,7 @@
         margin: 0 0 @indent-s-base;
         > .action {
             font-weight: 400;
-            margin-left: 15px;
+            margin-left: @indent-s-base;
         }
     }
     .box-content {
@@ -987,4 +1099,169 @@
 //--------------------------------------
 .abstract-no-display {
     display: none;
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-no-display-s {
+        display: none;
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-no-display-desktop {
+        display: none;
+    }
+}
+
+//
+//    Status
+//--------------------------------------
+.abstract-status {
+    border: 2px solid @border-color-base;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 3px 0 0;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    vertical-align: top;
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-status-desktop {
+        margin-top: 6px;
+        padding: 5px 10px;
+    }
+}
+
+//
+//    Page title - orders pages
+//--------------------------------------
+.abstract-title-orders {
+    .page.main {
+        .page-title {
+            .title {
+                margin-right: 25px;
+            }
+            .order-date {
+                font-size: 16px;
+                margin-bottom: @indent-s-base;
+                .label {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-title-orders-mobile {
+        .page.main {
+            .page-title {
+                .title {
+                    display: block;
+                }
+                .order-status {
+                    @order-status-indent: ceil(@h1-margin-bottom/2);
+                    margin: -@order-status-indent 0 @indent-s-base;
+                }
+            }
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-title-orders-desktop {
+        .page.main {
+            .page-title {
+                .order-date {
+                    @order-date-indent: ceil(@h1-margin-bottom/1.5);
+                    margin: -@order-date-indent 0 18px;
+                }
+            }
+        }
+    }
+}
+
+//
+//    Table striped
+//--------------------------------------
+.abstract-table-striped {
+    .table-striped(@_stripped-highlight: even);
+}
+
+//
+//    Table bordered desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-table-bordered-desktop {
+        .table-bordered(
+            @_type: light,
+            @_border-width: 1px
+        );
+    }
+}
+
+//
+//    Pager toolbar for non-catalog pages desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-pager-toolbar {
+        position: relative;
+        .toolbar-amount,
+        .limiter {
+            position: relative;
+            z-index: 1;
+        }
+        .toolbar-amount {
+            padding: 7px 0 0;
+            line-height: normal;
+        }
+        .pages {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+        }
+    }
+}
+
+//
+//    Items counter in blocks
+//--------------------------------------
+.abstract-block-items-counter {
+    color: @color-primary-lighter;
+    .font-size(12px);
+    white-space: nowrap;
+}
+
+//
+//    Sidebar and widget blocks title
+//--------------------------------------
+.abstract-block-widget-title {
+    strong {
+        font-size: @font-size-l;
+        font-weight: @font-weight-light;
+    }
+    margin: 0 0 @indent-base;
+}
+
+//
+//    Shopping cart items
+//--------------------------------------
+.abstract-shopping-cart-items {
+    margin-bottom: 20px;
+    .actions.main {
+        .continue,
+        .clear {
+            display: none;
+        }
+    }
+}
+
+.responsive(@break) when (@break = @screen-m) {
+    .abstract-shopping-cart-items-desktop {
+        .layout-column(2, 1, @layout-column-checkout-main-width);
+        &:extend(.abstract-add-box-sizing-desktop all);
+        padding-right: 4%;
+        position: relative;
+    }
 }

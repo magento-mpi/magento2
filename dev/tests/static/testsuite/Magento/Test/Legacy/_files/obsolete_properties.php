@@ -60,7 +60,7 @@ return array(
     array('_moduleReader', 'Magento\Backend\Model\Menu\Config'),
     array('_option', 'Magento\Captcha\Helper\Data', '_dirs'),
     array('_options', 'Magento\Core\Model\Config', 'Magento\Framework\Filesystem'),
-    array('_optionsMapping', null, '\Magento\Framework\App\Filesystem::getPath($nodeKey)'),
+    array('_optionsMapping', null, '\Magento\Framework\Filesystem::getDirectoryRead($nodeKey)->getAbsolutePath()'),
     array('_order', 'Magento\Checkout\Block\Onepage\Success'),
     array('_order_id'),
     array('_parent', 'Magento\Core\Block\AbstractBlock'),
@@ -344,4 +344,5 @@ return array(
     ['_formKeyValidator', 'Magento\Customer\Controller\Account\LoginPost', 'Magento\Customer\Controller\Account\LoginPost::formKeyValidator'],
     ['_openActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::openActions'],
     ['_session', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::session'],
+    ['_directoryData', 'Magento\Customer\Model\Attribute\Data\Postcode', 'Magento\Customer\Model\Attribute\Data\Postcode::directoryHelper'],
 );

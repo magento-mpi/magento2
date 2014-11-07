@@ -32,10 +32,6 @@
             );
         display: inline-block;
         float: right;
-        &:active,
-        &:focus {
-            outline: none !important;
-        }
     }
     .action.search {
         display: none;
@@ -144,7 +140,7 @@
 }
 
 .search-terms {
-   &:extend(.reset-list all);
+   &:extend(.abstract-reset-list all);
    line-height: 2em;
    > li {
         display: inline-block;
@@ -189,7 +185,6 @@
             );
             .button-reset();
             &:focus {
-                outline: none;
                 &:before {
                     color: #333;
                 }

@@ -10,7 +10,7 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 use Magento\Doc\Document\Item;
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem;
 
 /**
  * Class ReferenceFile
@@ -24,7 +24,7 @@ class ReferenceFile extends AbstractType implements ReferenceInterface
     protected $content;
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 

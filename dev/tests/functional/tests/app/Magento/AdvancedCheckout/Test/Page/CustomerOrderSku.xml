@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer_order/sku" module="Magento_AdvancedCheckout">
+    <blocks>
+        <customerSkuBlock>
+            <class>Magento\AdvancedCheckout\Test\Block\Customer\Sku</class>
+            <locator>.block-addbysku</locator>
+            <strategy>css selector</strategy>
+        </customerSkuBlock>
+    </blocks>
+</page>

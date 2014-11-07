@@ -17,6 +17,7 @@
 }
 
 .toolbar {
+    &:extend(.abstract-add-clearfix all);
     &-amount {
         display: block;
         float: left;
@@ -41,6 +42,9 @@
         }
         .limiter {
             display: none;
+            .control {
+                display: inline-block;
+            }
         }
     }
 }

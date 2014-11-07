@@ -7,17 +7,15 @@
  */
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Framework\Service\Data\AbstractSimpleObject;
-
 /**
  * Some Data Object short description.
  *
  * Data Object long
  * multi line description.
  */
-class AllSoapAndRest extends AbstractSimpleObject
+class AllSoapAndRest extends \Magento\Framework\Api\AbstractExtensibleObject
 {
-    const ID = 'id';
+    const ID = 'entity_id';
     const NAME = 'name';
     const ENABLED = 'enabled';
     const HAS_ORDERS = 'orders';
@@ -27,7 +25,7 @@ class AllSoapAndRest extends AbstractSimpleObject
      *
      * @return int Item ID
      */
-    public function getId()
+    public function getEntityId()
     {
         return $this->_get(self::ID);
     }

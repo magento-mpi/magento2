@@ -9,10 +9,14 @@
  */
 namespace Magento\Framework\App;
 
+use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Request\Http as RequestHttp;
 use Magento\Framework\App\Response\Http as ResponseHttp;
 use Magento\Framework\Event;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\Response\HttpInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -100,6 +104,7 @@ class Http implements \Magento\Framework\AppInterface
     /**
      * Run application
      *
+     * @throws \InvalidArgumentException
      * @return ResponseInterface
      */
     public function launch()
@@ -107,8 +112,17 @@ class Http implements \Magento\Framework\AppInterface
         $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
         $this->_state->setAreaCode($areaCode);
         $this->_objectManager->configure($this->_configLoader->load($areaCode));
-        $this->_response = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface')
-            ->dispatch($this->_request);
+        /** @var \Magento\Framework\App\FrontControllerInterface $frontController */
+        $frontController = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface');
+        $result = $frontController->dispatch($this->_request);
+        // TODO: Temporary solution till all controllers are returned not ResultInterface (MAGETWO-28359)
+        if ($result instanceof ResultInterface) {
+            $result->renderResult($this->_response);
+        } elseif ($result instanceof HttpInterface) {
+            $this->_response = $result;
+        } else {
+            throw new \InvalidArgumentException('Invalid return type');
+        }
         // This event gives possibility to launch something before sending output (allow cookie setting)
         $eventParams = array('request' => $this->_request, 'response' => $this->_response);
         $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);
@@ -138,6 +152,10 @@ class Http implements \Magento\Framework\AppInterface
     private function handleDeveloperMode(Bootstrap $bootstrap, \Exception $exception)
     {
         if ($bootstrap->isDeveloperMode()) {
+            if (Bootstrap::ERR_IS_INSTALLED == $bootstrap->getErrorCode()) {
+                $this->redirectToSetup($bootstrap);
+                return true;
+            }
             $this->_response->setHttpResponseCode(500);
             $this->_response->setHeader('Content-Type', 'text/plain');
             $this->_response->setBody($exception->getMessage() . "\n" . $exception->getTraceAsString());
@@ -145,6 +163,19 @@ class Http implements \Magento\Framework\AppInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * If not installed, redirect to setup
+     *
+     * @param Bootstrap $bootstrap
+     * @return void
+     */
+    private function redirectToSetup(Bootstrap $bootstrap)
+    {
+        $path = $this->getInstallerRedirectPath($bootstrap->getParams());
+        $this->_response->setRedirect($path);
+        $this->_response->sendHeaders();
     }
 
     /**
@@ -157,13 +188,11 @@ class Http implements \Magento\Framework\AppInterface
     {
         $bootstrapCode = $bootstrap->getErrorCode();
         if (Bootstrap::ERR_MAINTENANCE == $bootstrapCode) {
-            require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/503.php';
+            require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/503.php');
             return true;
         }
         if (Bootstrap::ERR_IS_INSTALLED == $bootstrapCode) {
-            $path = $this->getInstallerRedirectPath($bootstrap->getParams());
-            $this->_response->setRedirect($path);
-            $this->_response->sendHeaders();
+            $this->redirectToSetup($bootstrap);
             return true;
         }
         return false;
@@ -196,7 +225,7 @@ class Http implements \Magento\Framework\AppInterface
     private function handleInitException(\Exception $exception)
     {
         if ($exception instanceof \Magento\Framework\App\InitException) {
-            require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/404.php';
+            require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/404.php');
             return true;
         }
         return false;
@@ -219,7 +248,7 @@ class Http implements \Magento\Framework\AppInterface
         if (isset($params['SCRIPT_NAME'])) {
             $reportData['script_name'] = $params['SCRIPT_NAME'];
         }
-        require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/report.php';
+        require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/report.php');
         return true;
     }
 

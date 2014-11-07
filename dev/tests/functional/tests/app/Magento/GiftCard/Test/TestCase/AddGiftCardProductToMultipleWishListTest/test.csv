@@ -1,0 +1,2 @@
+"multipleWishlist/dataSet";"products";"duplicate";"qtyToAction";"constraint"
+"wishlist_public";"giftCardProduct::default";"no";"1";"assertAddProductToWishlistSuccessMessage, assertProductInCustomWishlist, assertProductIsPresentInCustomerBackendWishlist"

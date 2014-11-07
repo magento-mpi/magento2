@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 
 /**
@@ -36,6 +36,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_serializerMock;
 
+    /** @var \Magento\Framework\Reflection\DataObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_dataObjectProcessorMock;
+
     /** @var array */
     protected $_arguments;
 
@@ -48,13 +51,20 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
         $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
         $this->_dataObjectConverter = $this->getMock(
-            'Magento\Framework\Service\SimpleDataObjectConverter',
+            'Magento\Framework\Api\SimpleDataObjectConverter',
             ['convertStdObjectToArray'],
             [],
             '',
             false
         );
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
+        $this->_dataObjectProcessorMock = $this->getMock(
+            'Magento\Framework\Reflection\DataObjectProcessor',
+            ['getMethodReturnType'],
+            [],
+            '',
+            false);
+
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
             $this->_requestMock,
@@ -62,7 +72,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_apiConfigMock,
             $this->_authorizationMock,
             $this->_dataObjectConverter,
-            $this->_serializerMock
+            $this->_serializerMock,
+            $this->_dataObjectProcessorMock
         );
         parent::setUp();
     }
@@ -106,6 +117,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock->expects($this->once())->method('get')->with($className)
             ->will($this->returnValue($serviceMock));
         $this->_serializerMock->expects($this->once())->method('getInputData')->will($this->returnArgument(2));
+
+        $this->_dataObjectProcessorMock->expects($this->any())->method('getMethodReturnType')
+            ->with($className, $methodName)
+            ->will($this->returnValue('string'));
 
         /** Execute SUT. */
         $this->assertEquals(

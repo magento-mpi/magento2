@@ -30,40 +30,46 @@ $qtyDisabled = !$this->hasProductUrl() ||
         $_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
 ?>
 <tbody class="cart item" data-mage-init='{"orderBySkuFailure":{}}'>
-    <tr class="item info">
-        <td class="col item">
-            <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo">
+    <tr class="item info item-info">
+        <td data-th="<?php echo $this->escapeHtml(__('Item')); ?>" class="col item">
+            <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-item-photo">
             <?php else:?>
-                <span class="product photo">
+                <span class="product-item-photo">
             <?php endif;?>
             <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($_item->getProduct(), 'cart_page_product_thumbnail')->toHtml(); ?>
             <?php if ($this->hasProductUrl()):?></a><?php else: ?></span><?php endif; ?>
-            <div class="product details">
-                <strong class="product name">
+            <div class="product-item-details">
+                <?php if($this->getProductName()):?>
+                <strong class="product-item-name">
                 <?php if ($this->hasProductUrl()):?>
                     <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
                 <?php else: ?>
                     <?php echo $this->escapeHtml($this->getProductName()) ?>
                 <?php endif; ?>
                 </strong>
+                <?php endif;?>
                 <?php if ($additionalInfoBlock):?>
                     <?php echo $additionalInfoBlock->setItem($_item)->toHtml() ?>
                 <?php endif;?>
             </div>
         </td>
-        <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
-            <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
-            <td class="col price"><?php echo $this->convertPrice($priceExcludingTax, true);?></td>
-        <?php endif;?>
-        <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
-            <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
-            <td class="col price"><?php echo $this->convertPrice($priceIncludingTax, true);?></td>
-        <?php endif;?>
-        <td class="col qty">
+        <td data-th="<?php echo $this->escapeHtml(__('Price')); ?>" class="col price">
+            <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
+                <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true); ?>
+                <span class="price-including-tax" data-label="<?php echo $this->escapeHtml(__('Incl. Tax')); ?>"><span
+                        class="cart-price"><?php echo $this->convertPrice($priceIncludingTax, true); ?></span></span>
+            <?php endif; ?>
+            <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
+                <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false); ?>
+                <span class="price-excluding-tax" data-label="<?php echo $this->escapeHtml(__('Excl. Tax')); ?>"><span
+                        class="cart-price"><?php echo $this->convertPrice($priceExcludingTax, true); ?></span></span>
+            <?php endif; ?>
+        </td>
+        <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>" class="col qty">
             <?php $validateItemQuantityCheck = false; ?>
             <div class="control qty">
-            <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
-                    size="4" type="number" class="qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
+                <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
+                    size="4" type="number" class="input-text qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
                     title="<?php echo __('Qty') ?>" data-role="input-qty"
                     <?php if ($qtyDisabled): ?>disabled="disabled"<?php endif ?>
                     data-validate="{'required': true,'validate-greater-than-zero': true, 'validate-item-quantity': {
@@ -76,15 +82,15 @@ $qtyDisabled = !$this->hasProductUrl() ||
         </td>
     </tr>
     <tr class="item actions">
-        <td colspan="100">
+        <td colspan="3">
             <div class="actions">
-                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?>
-                    <?php if ($isVisibleProduct): ?>
-                    <a href="#" data-post='<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartParams($_item->getId()); ?>' class="use-ajax action towishlist">
-                        <span><?php echo __('Move to Wishlist'); ?></span>
-                    </a>
-                    <?php endif ?>
+            <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?>
+                <?php if ($isVisibleProduct): ?>
+                <a href="#" data-post='<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartParams($_item->getId()); ?>' class="use-ajax action towishlist">
+                    <span><?php echo __('Move to Wishlist'); ?></span>
+                </a>
                 <?php endif ?>
+            <?php endif ?>
 
                 <?php if ($isVisibleProduct): ?>
                 <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><span><?php echo __('Edit') ?></span></a>

@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Framework\Model;
 
 /**
@@ -126,7 +127,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
     protected $_actionValidator;
 
     /**
-     * @param Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -219,7 +220,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
     {
         $this->_resourceName = $resourceName;
         if (is_null($collectionName)) {
-            $collectionName = $resourceName . \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
+            $collectionName = $resourceName . '\\' . 'Collection';
         }
         $this->_collectionName = $collectionName;
     }

@@ -30,6 +30,7 @@
 @panel-bg: #f6f6f6;
 @color-active: #ff5501;
 @color-error: #e02b27;
+@color-focus: #68a8e0;
 
 @font-family-base: @font-family-sans-serif; // Also used in: @loader-text-font-family
 // setting font-size for HTML tag, use <b>%</b>  units
@@ -118,7 +119,7 @@
 @h1-font-weight: @heading-font-weight-base;
 @h1-font-style: @heading-font-style-base;
 @h1-line-height: @heading-line-height-base;
-@h1-margin-top: @heading-margin-top-base;
+@h1-margin-top: 0;
 @h1-margin-bottom: @heading-margin-bottom-base;
 
 @h2-font-size: ceil((@font-size-base * 1.85)); // 26px
@@ -170,6 +171,9 @@
 @heading-small-line-height: 1;
 @heading-small-size: (@font-size-xs/@font-size-base) * 100%;
 
+// Focus
+@focus-box-shadow: 0 0 3px 1px @color-focus;
+
 // Code blocks
 @code-font-size: @font-size-s;
 @code-color: @color-primary-darker;
@@ -220,23 +224,23 @@
 @table-td-bg: @table-bg;
 @table-body-th-bg: @table-bg;
 
-@table-cell-padding-horizontal: 10px;
+@table-cell-padding-horizontal: @indent-s-base;
 @table-cell-padding-vertical: 11px;
 
 @table-border-color: @border-color-base;
 @table-border-width: @border-width-base;
 @table-border-style: solid;
 
-@table-caption-hide: false; // Default value false, set true to hide caption
-@table-caption-font-size: @font-size-l;
-@table-caption-color: @text-color-intense;
+@table-caption-hide: true; // true, false
+@table-caption-font-size: false;
+@table-caption-color: false;
 @table-caption-font-family: false;
 @table-caption-font-weight: false;
 @table-caption-font-style: false;
 @table-caption-line-height: false;
-@table-caption-alignment: left;
-@table-caption-margin-top: @indent-base;
-@table-caption-margin-bottom: @indent-s-base;
+@table-caption-alignment: false;
+@table-caption-margin-top: false;
+@table-caption-margin-bottom: false;
 
 @table-td-font-size: false;
 @table-td-color: false;
@@ -298,6 +302,7 @@
 //
 //    Responsive
 //--------------------------------------
+
 // Settings variables (TO DO: should be global)
 @use-flex: true; // Use flexbox [true|false]
 @responsive: true; // Theme is responsive [true|false]
@@ -335,7 +340,7 @@
 @submenu-border: '';
 @submenu-padding: 0 0 0 20px;
 @submenu-font-size: '';
-@submenu-font-weight:  @font-weight-base;
+@submenu-font-weight: @font-weight-base;
 @submenu-item-padding: 8px 0;
 
 @submenu-item-background: '';
@@ -348,7 +353,7 @@
 @submenu-item-color-active: @navigation-level0-item-color-active;
 @submenu-item-text-decoration-active: '';
 
-//  Desktop navigation
+// Desktop navigation
 @navigation-desktop-background: @navigation-background;
 @navigation-desktop-border: '';
 @navigation-desktop-font-size: '';
@@ -662,6 +667,7 @@
 @icon-star-empty: '\e625';
 @icon-download: '\e626';
 @icon-private: '\e629';
+
 //
 //    Messages variables
 //--------------------------------------
@@ -830,7 +836,6 @@
 @form-element-input-margin: false;
 @form-element-input-vertical-align: baseline;
 @form-element-input-background-clip: padding-box; // border-box, content-box
-@form-element-input-outline: true; // false
 @form-element-input-font-size: @font-size-base;
 @form-element-input-color: false;
 @form-element-input-font-family: @font-family-base;
@@ -871,7 +876,6 @@
 @input-text-margin: @form-element-input-margin;
 @input-text-vertical-align: @form-element-input-vertical-align;
 @input-text-background-clip: @form-element-input-background-clip; // border-box, content-box
-@input-text-outline: @form-element-input-outline; // false
 @input-text-font-size: @form-element-input-font-size;
 @input-text-color: @form-element-input-color;
 @input-text-font-family: @form-element-input-font-family;
@@ -906,7 +910,6 @@
 @select-margin: @form-element-input-margin;
 @select-vertical-align: @form-element-input-vertical-align;
 @select-background-clip: @form-element-input-background-clip; // border-box, content-box
-@select-outline: @form-element-input-outline; // false
 @select-font-size: @form-element-input-font-size;
 @select-color: @form-element-input-color;
 @select-font-family: @form-element-input-font-family;
@@ -941,7 +944,6 @@
 @textarea-margin: 0;
 @textarea-vertical-align: @form-element-input-vertical-align;
 @textarea-background-clip: @form-element-input-background-clip; // border-box, content-box
-@textarea-outline: @form-element-input-outline; // false
 @textarea-font-size: @form-element-input-font-size;
 @textarea-color: @form-element-input-color;
 @textarea-font-family: @form-element-input-font-family;
@@ -1017,13 +1019,13 @@
 @form-fieldset-legend-font-weight: @font-weight-light;
 @form-fieldset-legend-font-style: false;
 @form-fieldset-legend-line-height: 1.2;
-@form-fieldset-legend-margin: 0 0 20px 0;
+@form-fieldset-legend-margin: 0 0 20px;
 @form-fieldset-legend-padding: 0 0 10px;
 @form-fieldset-legend-width: 100%;
 
 // Field
 @form-field-type: block; //inline
-@form-field-type-revert: false; // block, false
+@form-field-type-revert: false; // inline, block, false
 @form-field-border: false;
 @form-field-column: false;
 @form-field-column-padding: 0 12px 0 0;
@@ -1042,7 +1044,8 @@
 @form-field-label-font-style: false;
 @form-field-label-line-height: false;
 @form-field-type-inline-label-margin: false;
-@form-field-type-inline-label-padding: 6px 15px 0 0;
+@form-field-type-inline-label-padding-top: 6px;
+@form-field-type-inline-label-padding: @form-field-type-inline-label-padding-top 15px 0 0;
 @form-field-type-inline-label-width: 25.8%;
 @form-field-type-inline-label-align: right;
 @form-field-type-block-label-margin: 0 0 8px;
@@ -1106,15 +1109,15 @@
 @pager-font-size: @font-size-s;
 @pager-font-weight: @font-weight-base;
 @pager-line-height: 30px;
-@pager-item-margin: 0 1px;
-@pager-item-padding: 0 4px;
+@pager-item-margin: 0 8px 0 0;
+@pager-item-padding: 0 5px;
 @pager-actions-padding: 0;
 
 // Pager current page
 @pager-current-font-weight: @font-weight-bold;
 @pager-current-color: @color-primary;
 @pager-current-border: false;
-@pager-current-background: false;
+@pager-current-background: #e5e5e5;
 
 @pager-current-gradient: false;
 @pager-current-gradient-direction: false;
@@ -1297,7 +1300,7 @@
 //
 //    Actions-toolbar variables
 //--------------------------------------
-@actions-toolbar-actions-position: left; // left, right, center
+@actions-toolbar-actions-position: left; // left, right, center, justify
 // Also used in: @popup-actions-toolbar-actions-position
 @actions-toolbar-actions-reverse: false; // true
 // Also used in: @popup-actions-toolbar-actions-position-reverse
@@ -1408,7 +1411,7 @@
 @popup-content-margin: false;
 @popup-footer-margin: false;
 
-@popup-title-headings: true; //false
+@popup-title-headings: true; // false
 @popup-title-headings-level: h2; // h1, h2, h3, h4, h5, h6
 
 @popup-action-toolbar: false; // true

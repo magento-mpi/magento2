@@ -5,23 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
- * Coupon data for quote
+ * Coupon data for quote.
  *
  * @codeCoverageIgnore
  */
-class Coupon extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Coupon extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
-     * Constants defined for keys of array
+     * Coupon code.
      */
     const COUPON_CODE = 'coupon_code';
 
     /**
-     * @return string
+     * Returns the coupon code.
+     *
+     * @return string Coupon code.
      */
     public function getCouponCode()
     {

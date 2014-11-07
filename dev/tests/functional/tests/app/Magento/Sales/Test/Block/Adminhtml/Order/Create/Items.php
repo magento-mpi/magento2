@@ -32,6 +32,20 @@ class Items extends Block
     protected $itemProduct = '//tr[td//*[normalize-space(text())="%s"]]';
 
     /**
+     * Product names
+     *
+     * @var string
+     */
+    protected $productNames = '//td[@class="col-product"]//span';
+
+    /**
+     * Magento loader
+     *
+     * @var string
+     */
+    protected $loader = '//ancestor::body/div[@data-role="loader"]';
+
+    /**
      * Click 'Add Products' button
      *
      * @return void
@@ -61,5 +75,24 @@ class Items extends Block
             'Magento\Sales\Test\Block\Adminhtml\Order\Create\Items\ItemProduct',
             ['element' => $this->_rootElement->find(sprintf($this->itemProduct, $name), Locator::SELECTOR_XPATH)]
         );
+    }
+
+    /**
+     * Get products data by fields from items ordered grid.
+     *
+     * @param array $fields
+     * @return array
+     */
+    public function getProductsDataByFields($fields)
+    {
+        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+        $this->_rootElement->click();
+        $products = $this->_rootElement->find($this->productNames, Locator::SELECTOR_XPATH)->getElements();
+        $pageData = [];
+        foreach ($products as $product) {
+            $pageData[] = $this->getItemProductByName($product->getText())->getCheckoutData($fields);
+        }
+
+        return $pageData;
     }
 }

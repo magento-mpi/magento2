@@ -9,8 +9,8 @@
 namespace Magento\Checkout\Service\V1\Cart;
 
 use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
-use \Magento\Framework\Service\V1\Data\FilterBuilder;
+use \Magento\Framework\Api\SearchCriteriaBuilder;
+use \Magento\Framework\Api\FilterBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals\Item as ItemTotals;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -37,10 +37,10 @@ class TotalsServiceTest extends WebapiAbstract
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->searchBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
         $this->filterBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
     }
 
@@ -85,9 +85,7 @@ class TotalsServiceTest extends WebapiAbstract
 
         $requestData = ['cartId' => $cartId];
 
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $data = $this->formatTotalsData($data);
-        }
+        $data = $this->formatTotalsData($data);
 
         $this->assertEquals($data, $this->_webApiCall($this->getServiceInfoForTotalsService($cartId), $requestData));
     }

@@ -14,7 +14,7 @@ use Zend\Soap\Wsdl;
  */
 class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Reflection\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_typeProcessor;
 
     /** @var \Magento\Webapi\Model\Soap\Wsdl|\PHPUnit_Framework_MockObject_MockObject */
@@ -29,7 +29,7 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_typeProcessor = $this->getMockBuilder(
-            'Magento\Webapi\Model\Config\ClassReflector\TypeProcessor'
+            'Magento\Framework\Reflection\TypeProcessor'
         )->setMethods(
             array('getTypeData')
         )->disableOriginalConstructor()->getMock();

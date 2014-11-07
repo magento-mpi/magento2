@@ -47,7 +47,6 @@
             <arg line="-f ${dir.build_directory}/dev/build/publication/edition.php --
                 --dir=${dir.build_directory}
                 --edition=ce
-                --build
                 "/>
         </exec>
     </target>
@@ -121,87 +120,6 @@
             <fileset dir="${basedir}" defaultexcludes="no"/>
         </copy>
         <property name="build.deployed" value="1" />
-    </target>
-
-    <target name="install" depends="init-build-directory">
-        <fail unless="env.install_properties_file" message="Bamboo variable 'build_properties_file' must be defined."/>
-        <fail unless="env.build_number" message="Bamboo variable 'build_number' must be defined."/>
-        <fail unless="env.db_host" message="Bamboo variable 'db_host' must be defined."/>
-        <fail unless="env.db_user" message="Bamboo variable 'db_user' must be defined."/>
-        <fail unless="env.db_password" message="Bamboo variable 'db_password' must be defined."/>
-        <fail unless="env.http_host" message="Bamboo variable 'http_host' must be defined."/>
-        <fail unless="env.https_host" message="Bamboo variable 'https_host' must be defined."/>
-        <fail unless="env.build_scope_name" message="Bamboo variable 'env.build_scope_name' must be defined."/>
-
-        <property name="db.name" value="${env.build_scope_name}_${timestamp}_${env.build_number}"/>
-
-        <property name="file.create_database" location="${dir.build_directory}/dev/build/bin/create-database.sh"/>
-        <chmod file="${file.create_database}" perm="ugo+rx"/>
-
-        <exec executable="${file.create_database}" failonerror="true">
-            <arg value="${env.db_host}"/>
-            <arg value="${db.name}"/>
-            <arg value="${env.db_user}"/>
-            <arg value="${env.db_password}"/>
-        </exec>
-
-        <antcall target="install-magento" inheritAll="true"/>
-
-        <mkdir dir="${dir.build_directory}/websites"/>
-    </target>
-
-    <target name="install-magento">
-        <replace file="${dir.build_directory}/${env.install_properties_file}" >
-            <replacefilter token="{{db_host}}" value="${env.db_host}"/>
-            <replacefilter token="{{db_name}}" value="${db.name}"/>
-            <replacefilter token="{{db_user}}" value="${env.db_user}"/>
-            <replacefilter token="{{db_password}}" value="${env.db_password}"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build_scope_name}/${timestamp}-${env.build_number}"/>
-            <replacefilter token="{{secure_url}}" value="${env.https_host}${env.build_scope_name}/${timestamp}-${env.build_number}"/>
-        </replace>
-
-        <antcall target="_composer_install">
-            <param name="product_root_dir" value="${dir.build_directory}"/>
-        </antcall>
-        <exec executable="php" failonerror="true">
-            <arg line="-f ${dir.build_directory}/dev/build/publication/install.php --
-                --build_properties_file ${dir.build_directory}/${env.install_properties_file}
-                "/>
-        </exec>
-    </target>
-
-    <target name="upgrade" depends="init-build-directory">
-        <property name="dir.previous_build_directory" value="${dir.build_directory}/../current"/>
-        <property name="db.name" value="${env.build_scope_name}_${timestamp}_${env.build_number}"/>
-
-        <copy todir="${dir.build_directory}/websites" failonerror="false">
-            <fileset dir="${dir.previous_build_directory}/websites" />
-        </copy>
-
-        <copy todir="${dir.build_directory}/pub/media" failonerror="false">
-            <fileset dir="${dir.previous_build_directory}/pub/media"/>
-        </copy>
-
-        <chmod perm="a+w">
-            <dirset dir="${dir.build_directory}/pub/media"/>
-            <fileset dir="${dir.build_directory}/pub/media"/>
-        </chmod>
-
-        <property name="file.prepare_previous" location="${dir.build_directory}/dev/build/bin/prepare-previous.sh"/>
-        <chmod file="${file.prepare_previous}" perm="ugo+rx"/>
-
-        <exec executable="${file.prepare_previous}" failonerror="true">
-            <arg value="${env.db_host}"/>
-            <arg value="${db.name}"/>
-            <arg value="${env.db_user}"/>
-            <arg value="${env.db_password}"/>
-            <arg value="${dir.build_directory}"/>
-            <arg value="${dir.previous_build_directory}"/>
-            <arg value="${env.http_host}${env.build_scope_name}"/>
-            <arg value="${env.https_host}${env.build_scope_name}"/>
-        </exec>
-
-        <antcall target="install-magento" inheritAll="true"/>
     </target>
 
     <target name="update-current" depends="init-build-directory">

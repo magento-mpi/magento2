@@ -7,14 +7,16 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Framework\Service\Data\AbstractSimpleObject;
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
+use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Handler of requests to SOAP server.
@@ -45,6 +47,9 @@ class Handler
     /** @var ServiceArgsSerializer */
     protected $_serializer;
 
+    /** @var DataObjectProcessor */
+    protected $_dataObjectProcessor;
+
     /**
      * Initialize dependencies.
      *
@@ -54,6 +59,7 @@ class Handler
      * @param AuthorizationInterface $authorization
      * @param SimpleDataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
+     * @param DataObjectProcessor $dataObjectProcessor
      */
     public function __construct(
         SoapRequest $request,
@@ -61,7 +67,8 @@ class Handler
         SoapConfig $apiConfig,
         AuthorizationInterface $authorization,
         SimpleDataObjectConverter $dataObjectConverter,
-        ServiceArgsSerializer $serializer
+        ServiceArgsSerializer $serializer,
+        DataObjectProcessor $dataObjectProcessor
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
@@ -69,6 +76,7 @@ class Handler
         $this->_authorization = $authorization;
         $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
+        $this->_dataObjectProcessor = $dataObjectProcessor;
     }
 
     /**
@@ -111,7 +119,7 @@ class Handler
         $service = $this->_objectManager->get($serviceClass);
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
         $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
-        return $this->_prepareResponseData($outputData);
+        return $this->_prepareResponseData($outputData, $serviceClass, $serviceMethod);
     }
 
     /**
@@ -134,18 +142,25 @@ class Handler
      * Convert service response into format acceptable by SoapServer.
      *
      * @param object|array|string|int|float|null $data
+     * @param string $serviceClassName
+     * @param string $serviceMethodName
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function _prepareResponseData($data)
+    protected function _prepareResponseData($data, $serviceClassName, $serviceMethodName)
     {
+        /** @var string $dataType */
+        $dataType = $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         $result = null;
-        if ($data instanceof AbstractSimpleObject) {
-            $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
+        if ($data instanceof ExtensibleDataInterface) {
+            $result = $this->_dataObjectConverter
+                ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
+            $dataType = substr($dataType, 0, -2);
             foreach ($data as $key => $value) {
-                if ($value instanceof AbstractSimpleObject) {
-                    $result[] = $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray());
+                if ($value instanceof ExtensibleDataInterface) {
+                    $result[] = $this->_dataObjectConverter
+                        ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($value, $dataType));
                 } else {
                     $result[$key] = $value;
                 }

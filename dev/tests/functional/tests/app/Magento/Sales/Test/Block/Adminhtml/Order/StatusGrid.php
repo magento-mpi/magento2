@@ -23,8 +23,18 @@ class StatusGrid extends \Magento\Backend\Test\Block\Widget\Grid
         ],
         'status' => [
             'selector' => '#sales_order_status_grid_filter_status'
+        ],
+        'state' => [
+            'selector' => '#sales_order_status_grid_filter_state'
         ]
     ];
+
+    /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = '[data-column="label"]';
 
     /**
      * Selector for unassign custom status link

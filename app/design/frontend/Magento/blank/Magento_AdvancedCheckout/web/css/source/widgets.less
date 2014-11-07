@@ -6,57 +6,78 @@
 //  * @license     {license_link}
 //  */
 
-.widget.addbysku {
-    .sidebar-main &,
-    .sidebar-additional & {
+.sidebar {
+    .block-addbysku {
         .fieldset {
-            margin-bottom: 0;
-            > .fields .field {
-                display: inline-block;
-                vertical-align: top;
-                margin-bottom: @indent-s-base;
-                &.sku {
-                    width: 100%;
-                    &:extend(.abstract-add-box-sizing all);
-                    padding-right: 84px;
-                    margin-right: -84px;
-                }
-                &.qty {
-                    .qty {
-                        &:extend(.abstract-input-qty all);
+            margin: 0;
+            .fields {
+                position: relative;
+                .field {
+                    display: inline-block;
+                    margin-bottom: @indent-s-base;
+                    vertical-align: top;
+                    &.sku {
+                        &:extend(.abstract-add-box-sizing all);
+                        margin-right: -85px;
+                        padding-right: 90px;
+                        width: 100%;
+                    }
+                    &.qty {
+                        .qty {
+                            &:extend(.abstract-input-qty all);
+                        }
                     }
                 }
-            }
-            > .fields {
-                position: relative;
-            }
-            .label {
-                font-weight: normal;
+                .actions-toolbar {
+                    position: absolute;
+                    top: 34px;
+                    right: 0;
+                }
             }
         }
-        .action.remove {
-            .button-icon(
-                @_icon-font-content: @icon-remove,
-                @_icon-font-text-hide: true,
-                @_icon-font-size: 26px
-            );
-            .button-reset();
-            line-height: normal;
-            position: absolute;
-            right: 0;
-            top: 29px;
-            width: auto;
-        }
-    }
-}
+        .form-addbysku {
+            .actions-toolbar {
+                margin-bottom: @indent-base;
+                .primary {
+                    text-align: left;
+                    .action {
+                        width: auto;
+                    }
+                }
+                .secondary {
+                    float: none;
+                    text-align: left;
 
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
-    .widget.block.addbysku {
-        .sidebar-main &,
-        .sidebar-additional & {
+                }
+            }
+        }
+        .action {
+            &.add {
+                .button-icon(
+                    @_icon-font-content: @icon-expand,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 31px
+                );
+                line-height: normal;
+                padding: 2px 0;
+                width: auto;
+            }
+            &.links {
+                display: inline-block;
+                margin: @indent-base 0 0;
+            }
+            &.reset {
+                margin: @indent-s-base 0;
+                display: block;
+            }
+            &.remove {
+                .button-icon(
+                    @_icon-font-content: @icon-remove,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 28px
+                );
+                .button-reset();
+            }
         }
     }
 }

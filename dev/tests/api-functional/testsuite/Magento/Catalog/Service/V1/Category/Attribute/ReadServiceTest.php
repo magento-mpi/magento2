@@ -34,15 +34,15 @@ class ReadServiceTest extends WebapiAbstract
                     [
                         [
                             'value' => 'PRODUCTS',
-                            'label' => 'Products only'
+                            'label' => 'Products only',
                         ],
                         [
                             'value' => 'PAGE',
-                            'label' => 'Static block only'
+                            'label' => 'Static block only',
                         ],
                         [
                             'value' => 'PRODUCTS_AND_PAGE',
-                            'label' => 'Static block and products'
+                            'label' => 'Static block and products',
                         ]
                     ]
                 ],
@@ -172,11 +172,11 @@ class ReadServiceTest extends WebapiAbstract
 
     public function testSearch()
     {
-        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
-        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var $filterBuilder  \Magento\Framework\Api\FilterBuilder */
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Api\FilterBuilder');
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Api\SearchCriteriaBuilder */
         $searchCriteriaBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Api\SearchCriteriaBuilder');
         $attributeCode = 'name';
         $filter = $filterBuilder->setField('code')->setValue($attributeCode)->create();
         $searchCriteriaBuilder->addFilter([$filter]);

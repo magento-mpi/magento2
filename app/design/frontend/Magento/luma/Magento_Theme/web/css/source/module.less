@@ -37,6 +37,8 @@
 @button-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 1), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
 @button-shadow-active: inset 0px 1px 0px 0px fade(@border-color-base, 80), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
 
+@h1-margin-bottom-desktop: @indent-xl-base;
+
 body {
     .css(background-color, @page-bg-color);
 }
@@ -97,14 +99,14 @@ body {
         max-width: 100%;
         display: block;
     }
+    .page-print & {
+        float: none;
+        display: inline-block;
+    }
 }
 
 .page.main {
     > .page-title {
-        .title {
-            margin: 0;
-        }
-        margin-bottom: @indent-l-base;
         .title + .action {
             margin-top: @indent-l-base;
         }
@@ -164,7 +166,7 @@ body {
         padding-top: 20px;
         border-top: 1px solid @footer-links-separator-border-color;
         ul {
-            &:extend(.reset-list all);
+            &:extend(.abstract-reset-list all);
         }
         .links {
             li {
@@ -310,6 +312,26 @@ body {
 @filter-quantity: #858585;
 
 //
+//    Widgets
+//--------------------------------------
+.sidebar {
+    .widget.block:not(:last-child),
+    .widget:not(:last-child) {
+        margin-bottom: @indent-xl-base;
+    }
+}
+
+.widget {
+    clear: both;
+    img {
+        max-width: 100%;
+    }
+    .block-title {
+        &:extend(.abstract-block-widget-title all);
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
@@ -338,7 +360,6 @@ body {
 
     .page.main {
         > .page-title {
-            margin-bottom: @indent-l-base;
             .title {
                 display: inline-block;
             }

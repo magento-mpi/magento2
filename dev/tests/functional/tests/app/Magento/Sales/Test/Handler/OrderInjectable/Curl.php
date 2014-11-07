@@ -13,26 +13,28 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
+use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
- * Class Curl
- * Create new order via curl
+ * Create new order via curl.
  */
 class Curl extends AbstractCurl implements OrderInjectableInterface
 {
     /**
-     * Customer fixture
+     * Customer fixture.
      *
      * @var CustomerInjectable
      */
     protected $customer;
 
     /**
-     * Customer fixture
+     * Customer fixture.
      *
      * @var OrderInjectable
      */
@@ -53,7 +55,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     ];
 
     /**
-     * Steps for create order on backend
+     * Steps for create order on backend.
      *
      * @var array
      */
@@ -67,7 +69,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     ];
 
     /**
-     * Post request for creating order
+     * Post request for creating order.
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return array
@@ -81,7 +83,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare POST data for creating product request
+     * Prepare POST data for creating product request.
      *
      * @param FixtureInterface $fixture
      * @return array
@@ -110,7 +112,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare coupon data
+     * Prepare coupon data.
      *
      * @param SalesRuleInjectable $data
      * @return array
@@ -121,7 +123,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare shipping data
+     * Prepare shipping data.
      *
      * @param array $data
      * @return array
@@ -140,7 +142,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare products data
+     * Prepare products data.
      *
      * @param array $data
      * @return array
@@ -162,16 +164,16 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for configurable product
+     * Prepare data for configurable product.
      *
-     * @param FixtureInterface $product
+     * @param ConfigurableProductInjectable $product
      * @return array
      */
-    protected function prepareConfigurableData(FixtureInterface $product)
+    protected function prepareConfigurableData(ConfigurableProductInjectable $product)
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['options']['qty'];
+        $result['qty'] = $checkoutData['qty'];
         $attributesData = $product->hasData('configurable_attributes_data')
             ? $product->getDataFieldConfig('configurable_attributes_data')['source']->getAttributesData()
             : null;
@@ -188,16 +190,62 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for downloadable product
+     * Prepare data for bundle product.
      *
-     * @param FixtureInterface $product
+     * @param BundleProduct $product
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function prepareDownloadableData(FixtureInterface $product)
+    protected function prepareBundleData(BundleProduct $product)
     {
         $result = [];
         $checkoutData = $product->getCheckoutData();
-        $result['qty'] = $checkoutData['options']['qty'];
+        $bundleOptions = isset($checkoutData['options']['bundle_options'])
+            ? $checkoutData['options']['bundle_options']
+            : [];
+        $bundleSelections = $product->getBundleSelections();
+        $bundleSelectionsData = [];
+        $result['qty'] = $checkoutData['qty'];
+
+        foreach ($bundleSelections['bundle_options'] as $option) {
+            foreach ($option['assigned_products'] as $productData) {
+                $productName = $productData['search_data']['name'];
+                $bundleSelectionsData[$productName] = [
+                    'selection_id' => $productData['selection_id'],
+                    'option_id' => $productData['option_id'],
+                ];
+            }
+        }
+
+        foreach ($bundleOptions as $option) {
+            $productName = $option['value']['name'];
+            foreach ($bundleSelectionsData as $fullProductName => $value) {
+                if (null !== strpos($fullProductName, $productName)) {
+                    $productName = $fullProductName;
+                }
+            }
+
+            if (isset($bundleSelectionsData[$productName])) {
+                $optionId = $bundleSelectionsData[$productName]['option_id'];
+                $selectionId = $bundleSelectionsData[$productName]['selection_id'];
+                $result['bundle_option'][$optionId] = $selectionId;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepare data for downloadable product.
+     *
+     * @param DownloadableProductInjectable $product
+     * @return array
+     */
+    protected function prepareDownloadableData(DownloadableProductInjectable $product)
+    {
+        $result = [];
+        $checkoutData = $product->getCheckoutData();
         foreach ($checkoutData['options']['links'] as $link) {
             $result['links'][] = $link['id'];
         }
@@ -206,18 +254,18 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare data for simple product
+     * Prepare data for simple product.
      *
      * @param FixtureInterface $product
      * @return array
      */
     protected function prepareSimpleData(FixtureInterface $product)
     {
-        return ['qty' => $product->getCheckoutData()['options']['qty']];
+        return ['qty' => $product->getCheckoutData()['qty']];
     }
 
     /**
-     * Prepare order data
+     * Prepare order data.
      *
      * @param array $data
      * @return array
@@ -248,7 +296,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare customer data
+     * Prepare customer data.
      *
      * @param array $data
      * @return array
@@ -264,7 +312,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Prepare order products data
+     * Prepare order products data.
      *
      * @param array $data
      * @return array
@@ -273,16 +321,16 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     {
         $result = [];
         foreach ($data['products'] as $value) {
-            $result[$value->getId()] = [
-                'qty' => ['qty' => $value->getCheckoutData()['options']['qty']],
-            ];
+            if (isset($value->getCheckoutData()['qty'])) {
+                $result[$value->getId()] = ['qty' => ['qty' => $value->getCheckoutData()['qty']]];
+            }
         }
 
         return $result;
     }
 
     /**
-     * Prepare billing address data
+     * Prepare billing address data.
      *
      * @param array $data
      * @return array
@@ -297,7 +345,7 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
     }
 
     /**
-     * Create product via curl
+     * Create product via curl.
      *
      * @param array $data
      * @return int|null

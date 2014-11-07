@@ -435,7 +435,7 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Catalog\Service\Config\ProductMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Catalog\Service\Config\ProductMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>
@@ -446,7 +446,7 @@
             <argument name="metadataConfig" xsi:type="object">Magento\Catalog\Service\Config\ProductMetadataConfig</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Catalog\Service\Config\CategoryMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Catalog\Service\Config\CategoryMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>
@@ -488,6 +488,13 @@
                 <item name="special_products" xsi:type="string">Magento\Catalog\Block\Rss\Product\Special</item>
                 <item name="category" xsi:type="string">Magento\Catalog\Block\Rss\Category</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Search\Context">
+        <arguments>
+            <argument name="collectionProvider" xsi:type="object">Magento\Catalog\Model\Layer\Search\ItemCollectionProvider</argument>
+            <argument name="stateKey" xsi:type="object">Magento\Catalog\Model\Layer\Category\StateKey</argument>
+            <argument name="collectionFilter" xsi:type="object">Magento\Catalog\Model\Layer\Search\CollectionFilter</argument>
         </arguments>
     </type>
 </config>

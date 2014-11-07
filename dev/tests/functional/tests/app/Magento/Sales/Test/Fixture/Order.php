@@ -10,6 +10,7 @@ namespace Magento\Sales\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Fixture with all necessary data for order creation on backend
@@ -27,7 +28,7 @@ class Order extends DataFixture
     /**
      * Products for order
      *
-     * @var \Magento\Catalog\Test\Fixture\SimpleProduct[]
+     * @var SimpleProduct[]
      */
     protected $products = [];
 
@@ -83,10 +84,12 @@ class Order extends DataFixture
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration([
-            'flat_rate',
-            'default_tax_config'
-        ]);
+        $this->_persistConfiguration(
+            [
+                'flat_rate',
+                'default_tax_config'
+            ]
+        );
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
         $objectManager = Factory::getObjectManager();
@@ -95,11 +98,12 @@ class Order extends DataFixture
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
-
-        $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
-        $configurable->switchData('configurable_required');
-
         $simple->persist();
+
+        $configurable = Factory::getObjectManager()->create(
+            'Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable',
+            ['dataSet' => 'with_one_option']
+        );
         $configurable->persist();
 
         $this->products = [
@@ -122,7 +126,7 @@ class Order extends DataFixture
     /**
      * Get product which should be added to order
      *
-     * @return \Magento\Catalog\Test\Fixture\SimpleProduct
+     * @return SimpleProduct[]
      */
     public function getProducts()
     {

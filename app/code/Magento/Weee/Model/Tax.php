@@ -12,6 +12,7 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Website;
 use Magento\Customer\Model\Converter as CustomerConverter;
 use Magento\Tax\Model\Calculation;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 
 class Tax extends \Magento\Framework\Model\AbstractModel
 {
@@ -90,12 +91,18 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $priceCurrency;
 
     /**
+     * @var AddressServiceInterface
+     */
+    protected $_addressService;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param AddressServiceInterface $addressService
      * @param \Magento\Tax\Helper\Data $taxData
      * @param Resource\Tax $resource
      * @param CustomerConverter $customerConverter
@@ -111,6 +118,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\CalculationFactory $calculationFactory,
         \Magento\Customer\Model\Session $customerSession,
+        AddressServiceInterface $addressService,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Model\Resource\Tax $resource,
         CustomerConverter $customerConverter,
@@ -123,6 +131,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_calculationFactory = $calculationFactory;
         $this->_customerSession = $customerSession;
+        $this->_addressService = $addressService;
         $this->_taxData = $taxData;
         $this->customerConverter = $customerConverter;
         $this->weeeConfig = $weeeConfig;
@@ -178,18 +187,19 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      */
     public function getWeeeAttributeCodes($forceEnabled = false)
     {
-        return $this->getWeeeTaxAttributeCodes($forceEnabled);
+        return $this->getWeeeTaxAttributeCodes(null, $forceEnabled);
     }
 
     /**
      * Retrieve Wee tax attribute codes
      *
-     * @param bool $forceEnabled
+     * @param  null|string|bool|int|Store $store
+     * @param  bool $forceEnabled
      * @return array
      */
-    public function getWeeeTaxAttributeCodes($forceEnabled = false)
+    public function getWeeeTaxAttributeCodes($store = null, $forceEnabled = false)
     {
-        if (!$forceEnabled && !$this->weeeConfig->isEnabled()) {
+        if (!$forceEnabled && !$this->weeeConfig->isEnabled($store)) {
             return array();
         }
 
@@ -217,21 +227,27 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $ignoreDiscount = false
     ) {
         $result = array();
-        $allWeee = $this->getWeeeTaxAttributeCodes();
-        if (!$allWeee) {
-            return $result;
-        }
 
         $websiteId = $this->_storeManager->getWebsite($website)->getId();
         /** @var \Magento\Store\Model\Store $store */
         $store = $this->_storeManager->getWebsite($website)->getDefaultGroup()->getDefaultStore();
 
+        $allWeee = $this->getWeeeTaxAttributeCodes($store);
+        if (!$allWeee) {
+            return $result;
+        }
+
         /** @var \Magento\Tax\Model\Calculation $calculator */
         $calculator = $this->_calculationFactory->create();
 
-        if ($shipping) {
+        if ($shipping && $shipping->getCountryId()) {
             $customerTaxClass = $shipping->getQuote()->getCustomerTaxClassId();
         } else {
+            // if customer logged use it default shipping and billing address
+            if ($customerId = $this->_customerSession->getCustomerId()) {
+                $shipping = $this->_addressService->getDefaultShippingAddress($customerId);
+                $billing = $this->_addressService->getDefaultBillingAddress($customerId);
+            }
             $customerTaxClass = null;
         }
 
