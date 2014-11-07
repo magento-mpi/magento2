@@ -94,8 +94,8 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $quoteTable = $this->getResource()->getTable('sales_flat_quote');
-        $quoteItemTable = $this->getResource()->getTable('sales_flat_quote_item');
+        $quoteTable = $this->getResource()->getTable('sales_quote');
+        $quoteItemTable = $this->getResource()->getTable('sales_quote_item');
 
         $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 

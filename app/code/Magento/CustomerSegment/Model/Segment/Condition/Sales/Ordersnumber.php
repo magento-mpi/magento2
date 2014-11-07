@@ -104,7 +104,7 @@ class Ordersnumber extends \Magento\CustomerSegment\Model\Segment\Condition\Sale
         $result = $adapter->getCheckSql("COUNT(*) {$operator} {$value}", 1, 0);
 
         $select->from(
-            array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
+            array('sales_order' => $this->getResource()->getTable('sales_order')),
             array(new \Zend_Db_Expr($result))
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
