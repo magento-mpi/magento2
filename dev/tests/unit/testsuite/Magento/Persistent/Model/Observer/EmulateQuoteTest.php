@@ -19,7 +19,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerAccountMock;
+    protected $customerAccountService;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -69,7 +69,12 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $eventMethods = ['getRequest', 'dispatch', '__wakeUp'];
-        $this->customerAccountMock = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerAccountService = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\CustomerRepositoryInterface',
+            [],
+            '',
+            false
+        );
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->sessionHelperMock = $this->getMock('Magento\Persistent\Helper\Session', [], [], '', false);
         $this->helperMock = $this->getMock('Magento\Persistent\Helper\Data', [], [], '', false);
@@ -85,7 +90,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
             $this->helperMock,
             $this->checkoutSessionMock,
             $this->customerSessionMock,
-            $this->customerAccountMock
+            $this->customerAccountService
         );
     }
 
@@ -172,14 +177,14 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($this->sessionMock));
         $this->sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
-        $this->customerAccountMock
+        $this->customerAccountService
             ->expects($this->once())
-            ->method('getCustomer')
+            ->method('getById')
             ->with($customerId)
             ->will($this->returnValue($this->customerMock));
+        $this->checkoutSessionMock->expects($this->once())->method('setCustomerData')->with($this->customerMock);
         $this->checkoutSessionMock->expects($this->once())->method('hasQuote')->will($this->returnValue(false));
         $this->checkoutSessionMock->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
-        $this->checkoutSessionMock->expects($this->once())->method('setCustomerData')->with($this->customerMock);
         $this->model->execute($this->observerMock);
     }
 
@@ -231,9 +236,9 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($this->sessionMock));
         $this->sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
-        $this->customerAccountMock
+        $this->customerAccountService
             ->expects($this->once())
-            ->method('getCustomer')
+            ->method('getById')
             ->with($customerId)
             ->will($this->returnValue($this->customerMock));
         $this->checkoutSessionMock->expects($this->once())->method('hasQuote')->will($this->returnValue(true));

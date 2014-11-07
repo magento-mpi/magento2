@@ -8,6 +8,9 @@
  */
 namespace Magento\Persistent\Model\Observer;
 
+/**
+ * Class EmulateQuote
+ */
 class EmulateQuote
 {
     /**
@@ -90,7 +93,7 @@ class EmulateQuote
         }
 
         if ($this->_persistentData->isShoppingCartPersist()) {
-            $this->_checkoutSession->setCustomer(
+            $this->_checkoutSession->setCustomerData(
                 $this->customerRepository->getById($this->_persistentSession->getSession()->getCustomerId())
             );
             if (!$this->_checkoutSession->hasQuote()) {
