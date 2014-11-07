@@ -58,14 +58,11 @@ class AssertCmsBlockOnCategoryPage extends AbstractConstraint
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
         $categoryViewContent = $catalogCategoryView->getViewBlock()->getContent();
-        $categoryViewDescription = explode("\n", $categoryViewContent)[0];
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $categoryViewDescription,
             $cmsBlock->getContent(),
-            'Wrong block description is displayed.'
-            . "\nExpected: " . $categoryViewDescription
-            . "\nActual: " . $cmsBlock->getContent()
+            $categoryViewContent,
+            'Wrong block content on category is displayed.'
         );
     }
 

@@ -33,6 +33,13 @@ class View extends Block
     protected $description = '.category-description';
 
     /**
+     * Locator for category content
+     *
+     * @var string
+     */
+    protected $content = '.category-cms';
+
+    /**
      * Get description
      *
      * @return string
@@ -49,7 +56,7 @@ class View extends Block
      */
     public function getContent()
     {
-        return $this->_rootElement->getText();
+        return $this->_rootElement->find($this->content)->getText();
     }
 
     /**

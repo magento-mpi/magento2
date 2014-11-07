@@ -62,7 +62,7 @@ class Stores implements FixtureInterface
                 $this->stores[] = $store;
                 $this->data[] = $store->getName() == 'All Store Views'
                     ? $store->getName()
-                    : 'Main Website' . '/' . $store->getGroupId() . '/' . $store->getName();
+                    : $store->getGroupId() . '/' . $store->getName();
             }
         }
     }

@@ -65,6 +65,7 @@ class CreateCmsPageEntityTest extends Injectable
      */
     public function test(CmsPageFixture $cms)
     {
+        $this->markTestIncomplete('MAGETWO-30362');
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getPageActionsBlock()->addNew();
