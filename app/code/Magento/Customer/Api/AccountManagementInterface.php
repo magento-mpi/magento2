@@ -169,6 +169,7 @@ interface AccountManagementInterface
      * @param int $customerWebsiteId
      * @param int $storeId
      * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function isCustomerInStore($customerWebsiteId, $storeId);
 

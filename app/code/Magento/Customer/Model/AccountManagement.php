@@ -752,7 +752,6 @@ class AccountManagement implements AccountManagementInterface
         return $customer->getDeleteable();
     }
 
-
     /**
      * Send email with new account related information
      *
@@ -797,7 +796,7 @@ class AccountManagement implements AccountManagementInterface
     }
 
     /**
-     * Send email to when password is reset
+     * Send email to customer when his password is reset
      *
      * @param CustomerInterface $customer
      * @return $this
