@@ -67,7 +67,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     ) {
         $this->_catalogData = $catalogData;
         $this->groupManagement = $groupManagement;
-        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager, $priceCurrency);
+        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager, $priceCurrency, $groupManagement);
     }
 
     /**
