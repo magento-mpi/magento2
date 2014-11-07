@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Sales\Model\Resource\Setup */
-$installer = $this;
-$installer->startSetup();
+/** @var $this \Magento\Sales\Model\Resource\Setup */
+$this->startSetup();
 /**
  * Create table 'weee_tax'
  */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('weee_tax')
+$table = $this->getConnection()->newTable(
+    $this->getTable('weee_tax')
 )->addColumn(
     'value_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -63,55 +62,55 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false),
     'Entity Type Id'
 )->addIndex(
-    $installer->getIdxName('weee_tax', array('website_id')),
+    $this->getIdxName('weee_tax', array('website_id')),
     array('website_id')
 )->addIndex(
-    $installer->getIdxName('weee_tax', array('entity_id')),
+    $this->getIdxName('weee_tax', array('entity_id')),
     array('entity_id')
 )->addIndex(
-    $installer->getIdxName('weee_tax', array('country')),
+    $this->getIdxName('weee_tax', array('country')),
     array('country')
 )->addIndex(
-    $installer->getIdxName('weee_tax', array('attribute_id')),
+    $this->getIdxName('weee_tax', array('attribute_id')),
     array('attribute_id')
 )->addForeignKey(
-    $installer->getFkName('weee_tax', 'country', 'directory_country', 'country_id'),
+    $this->getFkName('weee_tax', 'country', 'directory_country', 'country_id'),
     'country',
-    $installer->getTable('directory_country'),
+    $this->getTable('directory_country'),
     'country_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('weee_tax', 'entity_id', 'catalog_product_entity', 'entity_id'),
+    $this->getFkName('weee_tax', 'entity_id', 'catalog_product_entity', 'entity_id'),
     'entity_id',
-    $installer->getTable('catalog_product_entity'),
+    $this->getTable('catalog_product_entity'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('weee_tax', 'website_id', 'store_website', 'website_id'),
+    $this->getFkName('weee_tax', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('store_website'),
+    $this->getTable('store_website'),
     'website_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('weee_tax', 'attribute_id', 'eav_attribute', 'attribute_id'),
+    $this->getFkName('weee_tax', 'attribute_id', 'eav_attribute', 'attribute_id'),
     'attribute_id',
-    $installer->getTable('eav_attribute'),
+    $this->getTable('eav_attribute'),
     'attribute_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Weee Tax'
 );
-$installer->getConnection()->createTable($table);
+$this->getConnection()->createTable($table);
 
 /**
  * Create table 'weee_discount'
  */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('weee_discount')
+$table = $this->getConnection()->newTable(
+    $this->getTable('weee_discount')
 )->addColumn(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -137,38 +136,38 @@ $table = $installer->getConnection()->newTable(
     array('nullable' => false, 'default' => '0.0000'),
     'Value'
 )->addIndex(
-    $installer->getIdxName('weee_discount', array('website_id')),
+    $this->getIdxName('weee_discount', array('website_id')),
     array('website_id')
 )->addIndex(
-    $installer->getIdxName('weee_discount', array('entity_id')),
+    $this->getIdxName('weee_discount', array('entity_id')),
     array('entity_id')
 )->addIndex(
-    $installer->getIdxName('weee_discount', array('customer_group_id')),
+    $this->getIdxName('weee_discount', array('customer_group_id')),
     array('customer_group_id')
 )->addForeignKey(
-    $installer->getFkName('weee_discount', 'customer_group_id', 'customer_group', 'customer_group_id'),
+    $this->getFkName('weee_discount', 'customer_group_id', 'customer_group', 'customer_group_id'),
     'customer_group_id',
-    $installer->getTable('customer_group'),
+    $this->getTable('customer_group'),
     'customer_group_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('weee_discount', 'entity_id', 'catalog_product_entity', 'entity_id'),
+    $this->getFkName('weee_discount', 'entity_id', 'catalog_product_entity', 'entity_id'),
     'entity_id',
-    $installer->getTable('catalog_product_entity'),
+    $this->getTable('catalog_product_entity'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('weee_discount', 'website_id', 'store_website', 'website_id'),
+    $this->getFkName('weee_discount', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('store_website'),
+    $this->getTable('store_website'),
     'website_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Weee Discount'
 );
-$installer->getConnection()->createTable($table);
+$this->getConnection()->createTable($table);
 
-$installer->endSetup();
+$this->endSetup();
