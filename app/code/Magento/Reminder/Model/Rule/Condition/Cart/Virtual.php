@@ -82,7 +82,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('sales_flat_quote');
+        $table = $this->getResource()->getTable('sales_quote');
 
         $select = $this->getResource()->createSelect();
         $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));

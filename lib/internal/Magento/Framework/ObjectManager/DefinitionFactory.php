@@ -102,14 +102,14 @@ class DefinitionFactory
             $definitionModel = $this->_definitionClasses[$this->_definitionFormat];
             $result = new $definitionModel($definitions);
         } else {
-            $autoloader = new \Magento\Framework\Autoload\IncludePath();
+            $fileResolver = new \Magento\Framework\Code\Generator\FileResolver();
             $generatorIo = new \Magento\Framework\Code\Generator\Io(
                 $this->_filesystemDriver,
-                $autoloader,
+                $fileResolver,
                 $this->_generationDir
             );
             $generator = new \Magento\Framework\Code\Generator(
-                $autoloader,
+                $fileResolver,
                 $generatorIo,
                 array(
                     SearchResultsBuilder::ENTITY_TYPE
@@ -136,7 +136,7 @@ class DefinitionFactory
                         => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
                 )
             );
-            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
+            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
             spl_autoload_register(array($autoloader, 'load'));
 
             $result = new Runtime();

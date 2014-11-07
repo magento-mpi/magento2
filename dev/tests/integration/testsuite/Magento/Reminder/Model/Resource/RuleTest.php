@@ -24,7 +24,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\App\Resource $resource */
         $resource = Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
         $adapter = $resource->getConnection('core_write');
-        $adapter->query("UPDATE {$resource->getTableName('sales_flat_quote')} SET updated_at = '{$beforeYesterday}'");
+        $adapter->query("UPDATE {$resource->getTableName('sales_quote')} SET updated_at = '{$beforeYesterday}'");
 
         $collection = Bootstrap::getObjectManager()->create('Magento\Reminder\Model\Resource\Rule\Collection');
         $rules = $collection->addIsActiveFilter(1);
