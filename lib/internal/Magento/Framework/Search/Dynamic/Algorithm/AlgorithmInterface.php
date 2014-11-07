@@ -7,14 +7,15 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+use Magento\Framework\Search\Request\BucketInterface;
 
 interface AlgorithmInterface
 {
     /**
-     * @param DataProviderInterface $dataProvider
+     * @param BucketInterface $bucket
+     * @param array $dimensions
      * @param int[] $entityIds
      * @return mixed
      */
-    public function getItems(DataProviderInterface $dataProvider, array $entityIds);
+    public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds);
 }

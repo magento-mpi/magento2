@@ -42,12 +42,13 @@ interface DataProviderInterface
     public function getOptions();
 
     /**
+     * @param BucketInterface $bucket
+     * @param array $dimensions
      * @param int $range
      * @param int[] $entityIds
-     * @param string $aggregationType
      * @return array
      */
-    public function getAggregation($range, array $entityIds, $aggregationType);
+    public function getAggregation(BucketInterface $bucket, array $dimensions, $range, array $entityIds);
 
     /**
      * @param int $range

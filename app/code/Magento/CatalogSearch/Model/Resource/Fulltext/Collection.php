@@ -266,8 +266,19 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addCategoryFilter(\Magento\Catalog\Model\Category $category)
     {
-        $this->requestBuilder->bind('category_ids', $category->getId());
+        $this->applyFilterToCollection('category_ids', $category->getId());
         return parent::addCategoryFilter($category);
     }
 
+    /**
+     * Set product visibility filter for enabled products
+     *
+     * @param array $visibility
+     * @return $this
+     */
+    public function setVisibility($visibility)
+    {
+        $this->applyFilterToCollection('visibility', $visibility);
+        return $this;
+    }
 }

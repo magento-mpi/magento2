@@ -88,23 +88,39 @@ class DataProvider implements DataProviderInterface
     public function getDataSet(BucketInterface $bucket, array $dimensions)
     {
         $currentScope = $dimensions['scope']->getValue();
-        $currentScopeId = $this->scopeResolver->getScope($currentScope)->getId();
+
         $attribute = $this->eavConfig->getAttribute(Product::ENTITY, $bucket->getField());
-        $table = $attribute->getBackendTable();
 
-        $ifNullCondition = $this->getConnection()
-            ->getIfNullSql('current_store.value', 'main_table.value');
+        if ($attribute->getAttributeCode() == 'price') {
+            /** @var \Magento\Store\Model\Store $store */
+            $store = $this->scopeResolver->getScope($currentScope);
+            if (!$store instanceof \Magento\Store\Model\Store) {
+                throw new \RuntimeException('Illegal scope resolved');
+            }
+            $table = $this->resource->getTableName('catalog_product_index_price');
+            $select = $this->getSelect();
+            $select->from(['main_table' => $table], null)
+                ->columns([BucketInterface::FIELD_VALUE => 'main_table.min_price'])
+                ->where('main_table.customer_group_id = ?', $this->customerSession->getCustomerGroupId())
+                ->where('main_table.website_id = ?', $store->getWebsiteId());
 
-        $select = $this->getSelect();
-        $select->from(['main_table' => $table], null)
-            ->joinLeft(
-                ['current_store' => $table],
-                'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentScopeId,
-                null
-            )
-            ->columns([BucketInterface::FIELD_VALUE => $ifNullCondition])
-            ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
-            ->where('main_table.store_id = ?', Store::DEFAULT_STORE_ID);
+        } else {
+            $currentScopeId = $this->scopeResolver->getScope($currentScope)->getId();
+            $table = $attribute->getBackendTable();
+            $ifNullCondition = $this->getConnection()
+                ->getIfNullSql('current_store.value', 'main_table.value');
+
+            $select = $this->getSelect();
+            $select->from(['main_table' => $table], null)
+                ->joinLeft(
+                    ['current_store' => $table],
+                    'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentScopeId,
+                    null
+                )
+                ->columns([BucketInterface::FIELD_VALUE => $ifNullCondition])
+                ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
+                ->where('main_table.store_id = ?', Store::DEFAULT_STORE_ID);
+        }
 
         return $select;
     }
@@ -124,19 +140,21 @@ class DataProvider implements DataProviderInterface
      */
     public function getAggregations(array $entityIds)
     {
+        $aggregation = [
+            'count' => 'count(DISTINCT entity_id)',
+            'max' => 'MAX(min_price)',
+            'min' => 'MIN(min_price)',
+            'std' => 'STDDEV_SAMP(min_price)'
+        ];
+
+
         $select = $this->getSelect();
 
         $tableName = $this->resource->getTableName('catalog_product_index_price');
         $select->from($tableName, [])
             ->where('entity_id IN (?)', $entityIds)
-            ->columns(
-                [
-                    'count' => 'count(DISTINCT entity_id)',
-                    'max' => 'MAX(min_price)',
-                    'min' => 'MIN(min_price)',
-                    'std' => 'STDDEV_SAMP(min_price)'
-                ]
-            );
+            ->columns($aggregation);
+
         $select = $this->setCustomerGroupId($select);
 
         $result = $this->getConnection()
@@ -170,22 +188,23 @@ class DataProvider implements DataProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getAggregation($range, array $entityIds, $aggregationType)
+    public function getAggregation(BucketInterface $bucket, array $dimensions, $range, array $entityIds)
     {
-        $select = $this->getSelect();
+        $select = $this->getDataSet($bucket, $dimensions);
+        $column = $select->getPart(Select::COLUMNS)[0];
+        $select->reset(Select::COLUMNS);
+        $rangeExpr = new \Zend_Db_Expr(
+            $this->getConnection()->quoteInto('(FLOOR(' . $column[1] . ' / ? ) + 1)', $range)
+        );
 
-        $rangeExpr = new \Zend_Db_Expr("FLOOR(min_price / {$range}) + 1");
-        $tableName = $this->resource->getTableName('catalog_product_index_price');
-        $select->from($tableName, [])
-            ->where('entity_id IN (?)', $entityIds)
-            ->columns(['range' => $rangeExpr, 'count' => 'COUNT(*)'])
-            ->group($rangeExpr)
-            ->order("{$rangeExpr} ASC");
-        $select = $this->setCustomerGroupId($select);
-
-        $result = $this->getConnection()
-            ->fetchPairs($select);
-
+        $select
+            ->columns(['range' => $rangeExpr])
+            ->columns(['metrix' => 'COUNT(*)'])
+            ->where('main_table.entity_id in (?)', $entityIds)
+            ->group('range')
+            ->order('range');
+        $s = $select . '';
+        $result = $this->getConnection()->fetchPairs($select);
         return $result;
     }
 

@@ -9,6 +9,7 @@ namespace Magento\CatalogSearch\Model\Search;
 
 use Magento\Catalog\Model\Entity\Attribute;
 use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
+use Magento\Framework\Search\Request\BucketInterface;
 
 class RequestGenerator
 {
@@ -62,20 +63,36 @@ class RequestGenerator
                         'type' => 'filteredQuery',
                         'filterReference' => [['ref' => $filterName]]
                     ];
-                    $request['filters'][$filterName] = [
-                        'type' => 'termFilter',
-                        'name' => $filterName,
-                        'field' => $attribute->getAttributeCode(),
-                        'value' => '$' . $attribute->getAttributeCode() . '$',
-                    ];
-
                     $bucketName = $attribute->getAttributeCode() . '_bucket';
-                    $request['aggregations'][$bucketName] = [
-                        'type' => 'termBucket',
-                        'name' => $bucketName,
-                        'field' => $attribute->getAttributeCode(),
-                        'metric' => [["type" => "count"]],
-                    ];
+                    if ($attribute->getBackendType() == 'decimal') {
+                        $request['filters'][$filterName] = [
+                            'type' => 'rangeFilter',
+                            'name' => $filterName,
+                            'field' => $attribute->getAttributeCode(),
+                            'from' => '$' . $attribute->getAttributeCode() . '.from$',
+                            'to' => '$' . $attribute->getAttributeCode() . '.to$',
+                        ];
+                        $request['aggregations'][$bucketName] = [
+                            'type' => BucketInterface::TYPE_DYNAMIC,
+                            'name' => $bucketName,
+                            'field' => $attribute->getAttributeCode(),
+                            'method' => 'manual',
+                            'metric' => [["type" => "count"]],
+                        ];
+                    } else {
+                        $request['filters'][$filterName] = [
+                            'type' => 'termFilter',
+                            'name' => $filterName,
+                            'field' => $attribute->getAttributeCode(),
+                            'value' => '$' . $attribute->getAttributeCode() . '$',
+                        ];
+                        $request['aggregations'][$bucketName] = [
+                            'type' => 'termBucket',
+                            'name' => $bucketName,
+                            'field' => $attribute->getAttributeCode(),
+                            'metric' => [["type" => "count"]],
+                        ];
+                    }
                 }
             }
             /** @var $attribute Attribute */
@@ -96,7 +113,7 @@ class RequestGenerator
     /**
      * Retrieve searchable attributes
      *
-     * @return \Traversable
+     * @return \Magento\Catalog\Model\Entity\Attribute[]
      */
     protected function getSearchableAttributes()
     {

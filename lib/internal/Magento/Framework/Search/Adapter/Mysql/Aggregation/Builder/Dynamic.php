@@ -38,7 +38,7 @@ class Dynamic implements BucketInterface
     ) {
         /** @var DynamicBucket $bucket */
         $algorithm = $this->algorithmRepository->get($bucket->getMethod());
-        $data = $algorithm->getItems($dataProvider, $entityIds);
+        $data = $algorithm->getItems($bucket, $dimensions, $entityIds);
 
         $resultData = $this->prepareData($data);
 
