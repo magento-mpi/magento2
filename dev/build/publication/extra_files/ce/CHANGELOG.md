@@ -1,3 +1,52 @@
+0.1.0-alpha103
+=============
+* Fixed bugs:
+    * Fixed bug with error message after updating product via mass-action (MAGETWO-22900)
+    * Added install script in CatalogInventory module (MAGETWO-30036)
+    * It is impossible to create Tax Rate for all States (MAGETWO-28186)
+    * FPT is not shown if state doesn't match default state from configuration (MAGETWO-29436)
+    * Benchmark scenario fix (MAGETWO-29787)
+    * Fixed arrow near "Advanced Settings" tab group label to be clickable (MAGETWO-29924)
+    * Fixed Category menu not to disappear while resizing browser window (MAGETWO-29690)
+    * Guest Customer can't observe additional Order info (MAGETWO-29552)
+    * Fatal error for filter on coupon report page with "Shopping Cart Price Rule = 'Specified'" (MAGETWO-28201)
+    * URL for Manage Attribute Mapping grid on Google Content is different after Reset Filter (MAGETWO-18348)
+    * Wishlist RSS-Feed Unavailable without Customer Logged In (MAGETWO-1498)
+    * Incorrect name escaping on Wishlist RSS (MAGETWO-3382)
+    * RSS feed for shared wishlist is not accessible (MAGETWO-28518)
+    * Fixed an issue caused by REST POST/PUT requests with empty body (MAGETWO-29834)
+    * Postal code is still mandatory for Non-US addresses that don't use i (MAGETWO-22156)
+    * It's unable to view a Wishlist via Wishlist Search fun-ty (MAGETWO-29534)
+    * no password validation during customer registration on frontend (MAGETWO-24035)
+    * Move getAdditional request into basic one in OnePageCheckout (MAGETWO-29740)
+* Setup tools updates (MAGETWO-24422 and MAGETWO-28651):
+    * Removed old installation: Web and CLI, Magento_Install module, install theme, install configuration scope
+    * Utilized new setup installation in the tests
+    * Added ability to inject custom directory paths in setup tools
+    * Added uninstall tool: php -f setup/index.php uninstall
+    * Removed dependency on intl PHP extension until translations are used in the setup tools (MAGETWO-29813)
+    * Improved message about unnecessarily writable directories after installation by making it more specific (MAGETWO-29947)
+* UI improvements:
+    * Implemented UI for Recurring Payments page Customer pages (MAGETWO-26303)
+    * Implemented Product content with using Microdata and Schema vocabulary (MAGETWO-25087)
+    * Implemented UI for Catalog New Products List, Recently Compared Products, Recently Viewed Products Widgets (MAGETWO-28297)
+    * Implemented new Focus indicator (MAGETWO-18176)
+    * Implemented element for form inputs (MAGETWO-4178)
+    * Implemented Fieldset and Legend tags (MAGETWO-18181)
+    * Implemented ability to skip to main content (MAGETWO-18175)
+* Added the following functional tests:
+    * Add Products to Order from Recently Viewed Products Section (MTA-364)
+    * Update configurable product (MTA-398)
+    * Stabilize URL rewrite module (MTA-645)
+* Various improvements:
+    * Created a cron job in Customer module for cleaning customer_visitor table
+* Framework Improvements:
+    * Refactored data builders auto-generation (MAGETWO-29912)
+    * Implemented Customer module interfaces (MAGETWO-29376, MAGETWO-29377, MAGETWO-29375)
+    * Ported existing integration tests from Customer services (MAGETWO-29378)
+    * Remove quote saving on GET requests (checkout/cart, checkout/onepage) (MAGETWO-28021)
+    * Move getAdditional request into basic one in OnePageCheckout (MAGETWO-29740)
+
 0.1.0-alpha102
 =============
 * Fixed bugs:
