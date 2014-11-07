@@ -114,16 +114,6 @@ class UpdateCustomerSegmentEntityTest extends Injectable
     protected $fixtureFactory;
 
     /**
-     * Skip failed tests.
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::markTestIncomplete('MAGETWO-30226');
-    }
-
-    /**
      * Inject pages
      *
      * @param PromoQuoteIndex $promoQuoteIndex
@@ -173,6 +163,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
         CustomerSegment $customerSegment,
         CustomerSegment $customerSegmentOriginal
     ) {
+        $this->markTestIncomplete('MAGETWO-30226');
         //Preconditions
         $customer->persist();
         $this->customerIndexPage->open();
