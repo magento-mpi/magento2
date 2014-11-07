@@ -59,6 +59,8 @@ class SetupModule extends Setup
      * @param ModuleListInterface $moduleList
      * @param SetupFileResolver $fileResolver
      * @param string $moduleName
+     * @param \Magento\Framework\App\Resource $resource
+     * @param string $connectionName
      */
     public function __construct(
         LoggerInterface $log,
@@ -72,7 +74,7 @@ class SetupModule extends Setup
         $this->logger = $log;
         $this->fileResolver = $fileResolver;
         $this->moduleConfig = $moduleList->getModule($moduleName);
-        $this->resource = new Resource($resource);
+        $this->resource = new \Magento\Framework\Module\Resource($resource);
         $this->resourceName = $this->fileResolver->getResourceCode($moduleName);
     }
 
