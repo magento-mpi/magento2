@@ -10,7 +10,7 @@
 <fixture class="Magento\Sales\Test\Fixture\OrderInjectable">
     <module>Magento_Sales</module>
     <type>flat</type>
-    <entity_type>sales_flat_order</entity_type>
+    <entity_type>sales_order</entity_type>
     <collection>Magento\Sales\Model\Resource\Order\Collection</collection>
     <identifier></identifier>
     <fields>

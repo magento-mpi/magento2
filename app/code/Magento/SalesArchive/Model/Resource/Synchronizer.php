@@ -27,10 +27,10 @@ class Synchronizer
      * @var array
      */
     protected $_tablesMap = array(
-        'sales_flat_order_grid' => 'magento_sales_order_grid_archive',
-        'sales_flat_invoice_grid' => 'magento_sales_invoice_grid_archive',
-        'sales_flat_creditmemo_grid' => 'magento_sales_creditmemo_grid_archive',
-        'sales_flat_shipment_grid' => 'magento_sales_shipment_grid_archive'
+        'sales_order_grid' => 'magento_sales_order_grid_archive',
+        'sales_invoice_grid' => 'magento_sales_invoice_grid_archive',
+        'sales_creditmemo_grid' => 'magento_sales_creditmemo_grid_archive',
+        'sales_shipment_grid' => 'magento_sales_shipment_grid_archive'
     );
 
     /**
@@ -39,10 +39,10 @@ class Synchronizer
      * @var array
      */
     protected $_tableContraintMap = array(
-        'sales_flat_order_grid' => array('SALES_FLAT_ORDER_GRID', 'SALES_FLAT_ORDER_GRID_ARCHIVE'),
-        'sales_flat_invoice_grid' => array('SALES_FLAT_INVOICE_GRID', 'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
-        'sales_flat_creditmemo_grid' => array('SALES_FLAT_CREDITMEMO_GRID', 'SALES_FLAT_CREDITMEMO_GRID_ARCHIVE'),
-        'sales_flat_shipment_grid' => array('SALES_FLAT_SHIPMENT_GRID', 'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
+        'sales_order_grid' => array('SALES_ORDER_GRID', 'SALES_ORDER_GRID_ARCHIVE'),
+        'sales_invoice_grid' => array('SALES_INVOICE_GRID', 'SALES_INVOICE_GRID_ARCHIVE'),
+        'sales_creditmemo_grid' => array('SALES_CREDITMEMO_GRID', 'SALES_CREDITMEMO_GRID_ARCHIVE'),
+        'sales_shipment_grid' => array('SALES_SHIPMENT_GRID', 'SALES_SHIPMENT_GRID_ARCHIVE')
     );
 
     /**

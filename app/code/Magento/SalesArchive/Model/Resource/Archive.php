@@ -21,19 +21,19 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected $_tables = array(
         \Magento\SalesArchive\Model\ArchivalList::ORDER => array(
-            'sales_flat_order_grid',
+            'sales_order_grid',
             'magento_sales_order_grid_archive'
         ),
         \Magento\SalesArchive\Model\ArchivalList::INVOICE => array(
-            'sales_flat_invoice_grid',
+            'sales_invoice_grid',
             'magento_sales_invoice_grid_archive'
         ),
         \Magento\SalesArchive\Model\ArchivalList::SHIPMENT => array(
-            'sales_flat_shipment_grid',
+            'sales_shipment_grid',
             'magento_sales_shipment_grid_archive'
         ),
         \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => array(
-            'sales_flat_creditmemo_grid',
+            'sales_creditmemo_grid',
             'magento_sales_creditmemo_grid_archive'
         )
     );
