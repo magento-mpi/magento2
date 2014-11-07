@@ -146,7 +146,7 @@ class DataBuilder extends EntityAbstract
      */
     protected function canUseMethodForGeneration($method)
     {
-        $isGetter = (substr($method->getName(), 0, 3) == 'get');
+        $isGetter = substr($method->getName(), 0, 3) == 'get' || substr($method->getName(), 0, 2) == 'is';
         $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
             || $method->isStatic() || $method->isDestructor());
         $isMagicMethod = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
@@ -162,7 +162,11 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getMethodInfo(\ReflectionMethod $method)
     {
-        $propertyName = substr($method->getName(), 3);
+        if (substr($method->getName(), 0, 2) == 'is') {
+            $propertyName = substr($method->getName(), 2);
+        } else {
+            $propertyName = substr($method->getName(), 3);
+        }
         $returnType = (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
             ->getDocBlock()

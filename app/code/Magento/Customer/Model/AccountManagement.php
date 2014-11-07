@@ -17,7 +17,6 @@ use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
-use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -39,6 +38,7 @@ use Magento\Framework\Stdlib\String as StringHelper;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Customer\Api\Data\AddressInterface;
 
 /**
  * Handle various customer account actions
@@ -536,6 +536,24 @@ class AccountManagement implements AccountManagementInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getDefaultBillingAddress($customerId)
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        return $this->getAddressById($customer, $customer->getDefaultBilling());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultShippingAddress($customerId)
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        return $this->getAddressById($customer, $customer->getDefaultShipping());
+    }
+
+    /**
      * Send either confirmation or welcome email after an account creation
      *
      * @param CustomerInterface $customer
@@ -743,7 +761,6 @@ class AccountManagement implements AccountManagementInterface
         return $customer->getDeleteable();
     }
 
-
     /**
      * Send email with new account related information
      *
@@ -788,6 +805,8 @@ class AccountManagement implements AccountManagementInterface
     }
 
     /**
+     * Send email to customer when his password is reset
+     *
      * @param CustomerInterface $customer
      * @return $this
      */
@@ -1047,6 +1066,23 @@ class AccountManagement implements AccountManagementInterface
         );
 
         return $this;
+    }
+
+    /**
+     * Get address by id
+     *
+     * @param CustomerInterface $customer
+     * @param int $addressId
+     * @return AddressInterface|null
+     */
+    protected function getAddressById(CustomerInterface $customer, $addressId)
+    {
+        foreach ($customer->getAddresses() as $address) {
+            if ($address->getId() == $addressId) {
+                return $address;
+            }
+        }
+        return null;
     }
 
     /**
