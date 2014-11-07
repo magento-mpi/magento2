@@ -36,18 +36,23 @@ define([
         },
 
         initElement: function (elem) {
+            var update = this.trigger.bind(this, 'update');
+
             __super__.initElement.apply(this, arguments);
 
-            elem.on('update', this.trigger.bind(this, 'update'));
-            
-            elem.activate();
+            elem.on('update', update)
+                .activate();
+
+            update();
         },
 
         initChildren: function () {
             var data     = this.provider.data,
-                children = data.get(this.dataScope);
-            
+                children = data.get(this.dataScope),
+                initial  = this.initialItems = [];
+                        
             _.each(children, function(item, index){
+                initial.push(index);
                 this.addChild(index);
             }, this);
 
@@ -68,16 +73,16 @@ define([
                     utils.template(childTemplate, this)
                 ]
             });
-
-            this.trigger('update');
         },
 
-        hasChanged: function () {
-            var hasChanged = this.elems.some(function (elem) {
-                return elem.delegate('hasChanged', 'some');
-            });
+        hasChanged: function(){
+            var initial = this.initialItems,
+                current = this.elems.pluck('index'),
+                changed = !utils.identical(initial, current);
 
-            return hasChanged || this.lastIndex !== 0;
+            return changed || this.elems.some(function(elem){
+                elem.delegate('hasChanged', 'some');
+            });
         },
 
         removeChild: function(elem) {
@@ -91,12 +96,13 @@ define([
 
         _removeChild: function(elem) {
             var isActive = elem.active(),
+                data     = this.provider.data,
                 first;
 
             this.remove(elem);
-            this.provider.data.remove(elem.dataScope);
+            data.remove(elem.dataScope);
 
-            first = this.elems()[0];
+            first = this.elems[0];
 
             if (first && isActive) {
                 first.activate();

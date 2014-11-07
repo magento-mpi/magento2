@@ -100,6 +100,14 @@ define([
             return this.elems.getLength() === 1;
         },
 
+        /**
+         * Defines if group has multiple elements.
+         * @return {Boolean}
+         */
+        isMultiple: function () {
+            return this.elems.getLength() > 1;
+        },
+
         contains: function (ignored, element) {
             return this.elems.contains(element);
         }

@@ -80,6 +80,14 @@ define([
 
         groupBy: function (iteratee, ctx) {
             return _.groupBy(this(), iteratee, ctx);
+        },
+
+        pluck: function(){
+            var args = Array.prototype.slice.call(arguments);
+
+            args.unshift(this());
+
+            return _.pluck.apply(_, args);
         }
     });
 });

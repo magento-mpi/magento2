@@ -123,7 +123,7 @@ define([
 
         initListener: function(params, data, callback){
             var storage = params.storage,
-                source = params.source,
+                source  = params.source,
                 value;
 
             callback = this[callback].bind(this);

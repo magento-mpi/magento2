@@ -183,7 +183,6 @@ define([ 'ko' ], function (ko) {
 
                     value = applyToObject(option, optionsValue, option);
                     label = applyToObject(option, optionsText, value);
-                    label = strPad('\u00a0\u00a0', nestedOptionsLevel) + label;
 
                     if (Array.isArray(value)) {
                         obj[optionsText] = label;

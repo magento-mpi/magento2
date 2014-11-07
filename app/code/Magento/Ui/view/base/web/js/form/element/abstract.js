@@ -87,7 +87,7 @@ define([
             __super__.initProperties.apply(this, arguments);
 
             this.uid        = utils.uniqueid();
-            this.inputName = utils.serializeName(this.dataScope);
+            this.inputName  = utils.serializeName(this.dataScope);
 
             return this;
         },
@@ -204,7 +204,9 @@ define([
          * @param  {*} value - current value of form element
          */
         store: function (value) {
-            this.provider.data.set(this.dataScope, value);
+            var data = this.provider.data;
+
+            data.set(this.dataScope, value);
 
             this.setPreview(value);
 
