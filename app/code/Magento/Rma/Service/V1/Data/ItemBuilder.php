@@ -8,9 +8,9 @@
 
 namespace Magento\Rma\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeValueBuilder;
 use Magento\Rma\Service\V1\RmaMetadataReadInterface;
 
 /**
@@ -20,15 +20,15 @@ use Magento\Rma\Service\V1\RmaMetadataReadInterface;
  * @method Item mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
  * @method Item mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
  */
-class ItemBuilder extends AbstractExtensibleObjectBuilder
+class ItemBuilder extends ExtensibleObjectBuilder
 {
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param RmaMetadataReadInterface $metadataService
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         RmaMetadataReadInterface $metadataService
     ) {
