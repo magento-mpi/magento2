@@ -153,9 +153,13 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         try {
             $this->groupResource->delete($group);
         } catch (\Exception $e) {
-            throw new StateException('Cannot delete attributeGroup with id %attribute_group_id',
-                ['attribute_group_id' => $group->getId()],
-                $e);
+            throw new StateException(
+                'Cannot delete attributeGroup with id %attribute_group_id',
+                [
+                    'attribute_group_id' => $group->getId()
+                ],
+                $e
+            );
         }
         return true;
     }

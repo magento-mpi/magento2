@@ -11,7 +11,8 @@ namespace Magento\Eav\Model\Entity\Attribute;
  * Entity/Attribute/Model - attribute abstract
  */
 abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtensibleModel implements
-    AttributeInterface, \Magento\Eav\Api\Data\AttributeInterface
+    AttributeInterface,
+    \Magento\Eav\Api\Data\AttributeInterface
 {
     const TYPE_STATIC = 'static';
 

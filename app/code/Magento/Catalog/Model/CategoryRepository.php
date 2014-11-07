@@ -131,7 +131,8 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
         try {
             $this->categoryResource->delete($category);
         } catch (\Exception $e) {
-            throw new StateException('Cannot delete category with id %category_id',
+            throw new StateException(
+                'Cannot delete category with id %category_id',
                 [
                     'category_id' => $category->getId()
                 ],

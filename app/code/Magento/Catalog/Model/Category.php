@@ -27,7 +27,8 @@ use Magento\UrlRewrite\Model\UrlFinderInterface;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Category extends \Magento\Catalog\Model\AbstractModel implements
-    \Magento\Framework\Object\IdentityInterface, \Magento\Catalog\Api\Data\CategoryInterface,
+    \Magento\Framework\Object\IdentityInterface,
+    \Magento\Catalog\Api\Data\CategoryInterface,
     \Magento\Catalog\Api\Data\CategoryTreeInterface
 {
     /**

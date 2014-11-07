@@ -31,7 +31,9 @@ use Magento\Catalog\Api\Data\ProductInterface;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Product extends \Magento\Catalog\Model\AbstractModel implements
-    IdentityInterface, SaleableInterface, ProductInterface
+    IdentityInterface,
+    SaleableInterface,
+    ProductInterface
 {
     /**
      * Entity code.
