@@ -23,19 +23,19 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $infoOrder = $this->getMock('Magento\Sales\Model\Order', array('getQuoteId', '__wakeup'), array(), '', false);
-        $infoInstance = $this->getMock('Magento\Payment\Model\Info', array('__wakeup'), array(), '', false);
+        $infoOrder = $this->getMock('Magento\Sales\Model\Order', ['getQuoteId', '__wakeup'], [], '', false);
+        $infoInstance = $this->getMock('Magento\Payment\Model\Info', ['__wakeup'], [], '', false);
         $infoInstance->setOrder($infoOrder);
         $originalMethodInstance = $this->getMockForAbstractClass(
             'Magento\Payment\Model\Method\AbstractMethod',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getConfigPaymentAction')
+            ['getConfigPaymentAction']
         );
-        $requestHttp = $this->getMock('Magento\Framework\App\Request\Http', null, array(), '', false);
+        $requestHttp = $this->getMock('Magento\Framework\App\Request\Http', null, [], '', false);
         $originalMethodInstance->setData('info_instance', $infoInstance);
         $this->order = $this->getMock(
             'Magento\Sales\Model\Order',
@@ -46,8 +46,8 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         );
         $address = $this->getMock(
             'Magento\Customer\Model\Address\AbstractAddress',
-            array('__wakeup'),
-            array(),
+            ['__wakeup'],
+            [],
             '',
             false
         );
@@ -56,47 +56,53 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         )->method(
                 'getStore'
             )->will(
-                $this->returnValue(new \Magento\Framework\Object(array('id' => 1)))
+                $this->returnValue(new \Magento\Framework\Object(['id' => 1]))
             );
         $this->order->expects($this->any())->method('getBillingAddress')->will($this->returnValue($address));
         $this->order->expects($this->any())->method('getShippingAddress')->will($this->returnValue($address));
         $this->order->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
-        $region = $this->getMock('Magento\Directory\Model\Region', array('load', '__wakeup'), array(), '', false);
+        $region = $this->getMock('Magento\Directory\Model\Region', ['load', '__wakeup'], [], '', false);
         $regionFactory = $this->getMock(
             'Magento\Directory\Model\RegionFactory',
-            array('create', '__wakeup'),
-            array(),
+            ['create', '__wakeup'],
+            [],
             '',
             false
         );
         $regionFactory->expects($this->any())->method('create')->will($this->returnValue($region));
         $this->pbridgeData = $this->getMock(
             'Magento\Pbridge\Helper\Data',
-            array('prepareCart', 'getCustomerIdentifierByEmail'),
-            array(),
+            ['prepareCart', 'getCustomerIdentifierByEmail'],
+            [],
             '',
             false
         );
 
         $this->api = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge\Api',
-            array('doAuthorize', 'doVoid', 'getResponse'),
-            array(),
+            ['doAuthorize', 'doVoid', 'getResponse'],
+            [],
             '',
             false
         );
 
-        $apiFactory = $this->getMock('Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory', array('create'));
+        $apiFactory = $this->getMock(
+            'Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
         $apiFactory->expects($this->any())->method('create')->will($this->returnValue($this->api));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $helper->getObject(
             'Magento\Pbridge\Model\Payment\Method\Pbridge',
-            array(
+            [
                 'requestHttp' => $requestHttp,
                 'regionFactory' => $regionFactory,
                 'pbridgeData' => $this->pbridgeData,
                 'pbridgeApiFactory' => $apiFactory
-            )
+            ]
         );
         $this->model->setOriginalMethodInstance($originalMethodInstance);
     }
@@ -108,11 +114,11 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testAuthorize($firstCaptureFlag)
     {
-        $payment = $this->getMock('Magento\Sales\Model\Order\Payment', array('__wakeup'), array(), '', false);
+        $payment = $this->getMock('Magento\Sales\Model\Order\Payment', ['__wakeup'], [], '', false);
         $payment->setFirstCaptureFlag($firstCaptureFlag)->setOrder($this->order);
         $this->pbridgeData->expects($this->once())
             ->method('prepareCart')
-            ->will($this->returnValue(array([], [])));
+            ->will($this->returnValue([[], []]));
         $this->pbridgeData->expects(
             $this->once()
         )->method(
@@ -139,7 +145,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
 
     public function authorizeDataProvider()
     {
-        return array(array(true), array(false), array(null));
+        return [[true], [false], [null]];
     }
 
     /**
