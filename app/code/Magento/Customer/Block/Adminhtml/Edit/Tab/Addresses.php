@@ -159,7 +159,8 @@ class Addresses extends GenericMetadata
                 'name' => 'add_address_button',
                 'element_name' => 'add_address_button',
                 'disabled' => $this->isReadonly(),
-                'class' => 'add' . ($this->isReadonly() ? ' disabled' : '')
+                'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
+                'data_attribute' => ['ui-id' => 'adminhtml-edit-tab-addresses-add-address-button']
             )
         );
         $this->addChild(
