@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Account;
+use Magento\Customer\Model\Context;
 
 /**
  * Customer authorization link
@@ -84,6 +85,6 @@ class AuthorizationLink extends \Magento\Framework\View\Element\Html\Link
      */
     public function isLoggedIn()
     {
-        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }
 }

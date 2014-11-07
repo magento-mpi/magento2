@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Account;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Test class for \Magento\Customer\Block\Account\RegisterLink
  */
@@ -39,7 +41,7 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $httpContext->expects($this->any())
             ->method('getValue')
-            ->with(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            ->with(Context::CONTEXT_AUTH)
             ->will($this->returnValue($isAuthenticated));
 
         $registrationMock = $this->getMockBuilder('Magento\Customer\Model\Registration')

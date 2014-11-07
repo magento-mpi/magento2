@@ -111,11 +111,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_loggerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data
-     */
-    private $_customerHelperMock;
-
-    /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;

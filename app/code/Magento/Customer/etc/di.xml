@@ -43,11 +43,6 @@
             <argument name="customerResource" xsi:type="object">Magento\Customer\Model\Resource\Customer\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Model\Customer">
-        <arguments>
-            <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Customer\Service\V1\Data\CustomerGroupBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\OptionBuilder" shared="false" />

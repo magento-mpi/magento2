@@ -99,7 +99,7 @@
                     <button data-role="opc-continue" id="onepage-guest-register-button" type="button" class="action continue primary" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Continue') ?></span></button>
                 <?php elseif ($this->helper('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged()): ?>
                     <input type="checkbox" name="checkout_method" id="login:register" value="register" checked="checked" style="display: none"/>
-                    <button data-role="opc-continue" id="onepage-guest-register-button" type="button" class="action register primary" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl();?>"}'><span><?php echo __('Register') ?></span></button>
+                    <button data-role="opc-continue" id="onepage-guest-register-button" type="button" class="action register primary" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->getRegisterUrl();?>"}'><span><?php echo __('Register') ?></span></button>
                 <?php else: ?>
                     <input type="checkbox" name="checkout_method" data-role="checkout-method-register" id="login:register" value="register" checked="checked" style="display: none"/>
                     <button data-role="opc-continue" id="onepage-guest-register-button" type="button" class="action register primary" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Register') ?></span></button>

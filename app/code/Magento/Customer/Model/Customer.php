@@ -883,7 +883,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * Retrieve shared store ids
      *
      * @return array
-     * @deprecated Use \Magento\Customer\Helper\Data::getSharedStoreIds
      */
     public function getSharedStoreIds()
     {

@@ -8,6 +8,7 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\Config\Share;
+use Magento\Customer\Model\Context;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer as CustomerData;
@@ -181,7 +182,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             $this->setCustomerId(null);
         } else {
             $this->_httpContext->setValue(
-                \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                Context::CONTEXT_GROUP,
                 $customer->getGroupId(),
                 \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
             );
@@ -240,7 +241,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     {
         $this->_customerModel = $customerModel;
         $this->_httpContext->setValue(
-            \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+            Context::CONTEXT_GROUP,
             $customerModel->getGroupId(),
             \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
         );
@@ -403,7 +404,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function setCustomerDataAsLoggedIn($customer)
     {
-        $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
+        $this->_httpContext->setValue(Context::CONTEXT_AUTH, true, false);
         $this->setCustomerData($customer);
 
         $customerModel = $this->_converter->createCustomerModel($customer);
@@ -442,7 +443,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()));
             $this->_logout();
         }
-        $this->_httpContext->unsValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        $this->_httpContext->unsValue(Context::CONTEXT_AUTH);
         return $this;
     }
 

@@ -54,9 +54,6 @@ class Address extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
-     * @internal param \Magento\Customer\Helper\Data $customerData
-     * @internal param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @internal param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,

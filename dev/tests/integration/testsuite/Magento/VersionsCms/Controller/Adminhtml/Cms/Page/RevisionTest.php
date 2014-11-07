@@ -7,6 +7,8 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
+use Magento\Customer\Model\Context;
+
 /**
  * @magentoAppArea adminhtml
  */
@@ -40,7 +42,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
         // fixture design_change
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\Http\Context');
-        $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+        $context->setValue(Context::CONTEXT_AUTH, false, false);
 
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 

@@ -8,6 +8,7 @@
 namespace Magento\Review\Block;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Context;
 use Magento\Customer\Model\Url;
 use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
 
@@ -136,7 +137,7 @@ class Form extends \Magento\Framework\View\Element\Template
         }
 
         $this->setAllowWriteReviewFlag(
-            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            $this->httpContext->getValue(Context::CONTEXT_AUTH)
             || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {

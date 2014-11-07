@@ -40,7 +40,6 @@ class Login extends AbstractOnepage
     protected $registration;
 
     /**
-     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -55,10 +54,10 @@ class Login extends AbstractOnepage
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Customer\Model\Url $customerUrl
+     * @param \Magento\Customer\Model\Registration $registration
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Registration $registration,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -73,6 +72,7 @@ class Login extends AbstractOnepage
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Url $customerUrl,
+        \Magento\Customer\Model\Registration $registration,
         array $data = array()
     ) {
         $this->registration = $registration;
@@ -108,13 +108,23 @@ class Login extends AbstractOnepage
     }
 
     /**
-     *
+     * Get customer registration
      *
      * @return \Magento\Customer\Model\Registration
      */
     public function getRegistration()
     {
         return $this->registration;
+    }
+
+    /**
+     * Return registration URL
+     *
+     * @return string
+     */
+    public function getRegisterUrl()
+    {
+        return $this->customerUrl->getRegisterUrl();
     }
 
     /**

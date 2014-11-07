@@ -685,4 +685,6 @@ return array(
     ['REFERER_QUERY_PARAM_NAME', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::REFERER_QUERY_PARAM_NAME'],
     ['XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Customer::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD'],
     ['XML_PATH_SUPPORT_EMAIL', 'Magento\Customer\Helper\Data'],
+    ['CONTEXT_GROUP', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Context::CONTEXT_GROUP'],
+    ['CONTEXT_AUTH', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Context::CONTEXT_AUTH'],
 );

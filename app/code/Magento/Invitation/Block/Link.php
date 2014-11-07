@@ -12,6 +12,8 @@
  */
 namespace Magento\Invitation\Block;
 
+use Magento\Customer\Model\Context;
+
 class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
@@ -66,7 +68,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
     protected function _toHtml()
     {
         if ($this->_invitationConfiguration->isEnabledOnFront()
-            && $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            && $this->httpContext->getValue(Context::CONTEXT_AUTH)
         ) {
             return parent::_toHtml();
         }

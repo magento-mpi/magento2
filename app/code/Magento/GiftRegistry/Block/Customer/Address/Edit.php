@@ -7,6 +7,8 @@
  */
 namespace Magento\GiftRegistry\Block\Customer\Address;
 
+use Magento\Customer\Model\Context;
+
 /**
  * GiftRegistry shipping Address block
  */
@@ -149,6 +151,6 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function isCustomerLoggedIn()
     {
-        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }
 }

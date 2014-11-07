@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Account;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Customer register link
  */
@@ -64,7 +66,7 @@ class RegisterLink extends \Magento\Framework\View\Element\Html\Link
     protected function _toHtml()
     {
         if (!$this->_registration->isAllowed()
-            || $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            || $this->httpContext->getValue(Context::CONTEXT_AUTH)
         ) {
             return '';
         }

@@ -192,7 +192,6 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValueMap(
                 array(
-                    array('Magento\Customer\Helper\Data', new \Magento\Framework\Object(array('account_url' => 1))),
                     array(
                         'Magento\Framework\App\Config\ScopeConfigInterface',
                         new \Magento\Framework\Object(array('config_flag' => 1))

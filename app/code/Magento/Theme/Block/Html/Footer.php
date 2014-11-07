@@ -7,6 +7,8 @@
  */
 namespace Magento\Theme\Block\Html;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Html page footer block
  */
@@ -65,7 +67,7 @@ class Footer extends \Magento\Framework\View\Element\Template implements \Magent
             $this->_storeManager->getStore()->getId(),
             (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH),
+            $this->httpContext->getValue(Context::CONTEXT_AUTH),
         );
     }
 
