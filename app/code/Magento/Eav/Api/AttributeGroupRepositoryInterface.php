@@ -21,15 +21,6 @@ interface AttributeGroupRepositoryInterface
     public function save(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
 
     /**
-     * Retrieve list of attribute groups
-     *
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Eav\Api\Data\AttributeGroupSearchResultsInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
-
-    /**
      * Retrieve attribute group
      *
      * @param int $groupId
@@ -39,14 +30,13 @@ interface AttributeGroupRepositoryInterface
     public function get($groupId);
 
     /**
-     * Remove attribute group
+     * Retrieve list of attribute groups
      *
-     * @param \Magento\Eav\Api\Data\AttributeGroupInterface $group
-     * @return bool
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \Magento\Eav\Api\Data\AttributeGroupSearchResultsInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\StateException
      */
-    public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Remove attribute group by id
@@ -57,4 +47,14 @@ interface AttributeGroupRepositoryInterface
      * @throws \Magento\Framework\Exception\StateException
      */
     public function deleteById($groupId);
+
+    /**
+     * Remove attribute group
+     *
+     * @param \Magento\Eav\Api\Data\AttributeGroupInterface $group
+     * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function delete(\Magento\Eav\Api\Data\AttributeGroupInterface $group);
 }
