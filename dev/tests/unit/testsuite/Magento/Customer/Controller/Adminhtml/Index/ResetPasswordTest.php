@@ -394,7 +394,7 @@ class ResetPasswordTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordActionSendEmail()
     {
         $customerId = 1;
-        $email = "test@example.com";
+        $email = 'test@example.com';
         $websiteId = 1;
         $redirectLink = 'http://example.com';
 
@@ -409,16 +409,13 @@ class ResetPasswordTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($customerId)
         );
 
+        $customer = $this->getMockForAbstractClass(
+            '\Magento\Customer\Api\Data\CustomerInterface',
+            ['getId', 'getEmail', 'getWebsiteId']
+        );
 
-        $customerBuilder = $this->getMock('\Magento\Customer\Api\Data\CustomerDataBuilder', [], [], '', false);
-        $data = [
-            'id' => $customerId,
-            'email' => $email,
-            'website_id' => $websiteId
-        ];
-        $customerBuilder->expects($this->once())->method('getData')->will($this->returnValue($data));
-
-        $customer = new \Magento\Customer\Api\Data\CustomerInterface($customerBuilder);
+        $customer->expects($this->once())->method('getEmail')->will($this->returnValue($email));
+        $customer->expects($this->once())->method('getWebsiteId')->will($this->returnValue($websiteId));
 
         $this->_acctServiceMock->expects(
             $this->once()
