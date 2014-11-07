@@ -488,7 +488,7 @@
         <item>
             <word>Enterprise</word>
             <word>enterprise</word>
-            <path>dev/build/publication/extra_files/ce/README.md</path>
+            <path>README.md</path>
         </item>
     </whitelist>
 </config>

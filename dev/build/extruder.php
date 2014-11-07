@@ -7,11 +7,8 @@
  * @license    {license_link}
  */
 
-$vendorDir = require __DIR__ . '/../../app/etc/vendor_path.php';
-$vendorAutoload = __DIR__ . "/../../{$vendorDir}/autoload.php";
-if (file_exists($vendorAutoload)) {
-    require_once $vendorAutoload;
-}
+require __DIR__ . '/../../app/autoload.php';
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../lib/internal');
 
 define(
     'USAGE',
