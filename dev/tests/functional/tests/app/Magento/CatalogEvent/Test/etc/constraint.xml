@@ -13,60 +13,60 @@
     <assertCatalogEventSuccessCreateMessage module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex"/>
+            <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex" />
         </require>
     </assertCatalogEventSuccessCreateMessage>
     <assertCatalogEventInGrid module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple"/>
-            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity"/>
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
         </require>
     </assertCatalogEventInGrid>
     <assertCatalogEventIsClosed module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
-            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity"/>
-            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple"/>
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
         </require>
     </assertCatalogEventIsClosed>
     <assertCatalogEventBlockVisible module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
-            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity"/>
-            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple"/>
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
         </require>
     </assertCatalogEventBlockVisible>
     <assertCatalogEventIsUpcoming module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
-            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity"/>
-            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple"/>
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
         </require>
     </assertCatalogEventIsUpcoming>
     <assertCatalogEventIsOpen module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
-            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity"/>
-            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple"/>
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
         </require>
     </assertCatalogEventIsOpen>
     <assertCatalogEventSuccessDeleteMessage module="Magento_CatalogEvent">
         <severeness>low</severeness>
         <require>
-            <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex"/>
+            <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex" />
         </require>
     </assertCatalogEventSuccessDeleteMessage>
     <assertCatalogEventSuccessDeleteMessage module="Magento_CatalogEvent">
@@ -84,4 +84,7 @@
             <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
         </require>
     </assertCatalogEventBlockAbsent>
+    <assertWidgetCatalogEvent module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+    </assertWidgetCatalogEvent>
 </constraint>

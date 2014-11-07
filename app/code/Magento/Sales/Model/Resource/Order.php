@@ -54,7 +54,7 @@ class Order extends SalesResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_order', 'entity_id');
+        $this->_init('sales_order', 'entity_id');
     }
 
     /**
@@ -92,7 +92,7 @@ class Order extends SalesResource
     {
         $adapter = $this->getReadConnection();
         $select = $adapter->select()->from(
-            array('o' => $this->getTable('sales_flat_order_item')),
+            array('o' => $this->getTable('sales_order_item')),
             array('o.product_type', new \Zend_Db_Expr('COUNT(*)'))
         )->joinInner(
             array('p' => $this->getTable('catalog_product_entity')),

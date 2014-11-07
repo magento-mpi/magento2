@@ -14,5 +14,12 @@
             <locator>.column.main</locator>
             <strategy>css selector</strategy>
         </bannerViewBlock>
+        <widgetView>
+            <renders>
+                <bannerRotator>
+                    <class>Magento\Banner\Test\Block\WidgetView</class>
+                </bannerRotator>
+            </renders>
+        </widgetView>
     </blocks>
 </page>

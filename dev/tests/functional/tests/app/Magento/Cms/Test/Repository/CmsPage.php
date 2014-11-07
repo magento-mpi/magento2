@@ -34,6 +34,7 @@ class CmsPage extends AbstractRepository
             'content' => [
                 'content' => 'text content'
             ],
+            'content_heading' => 'Test-%isolation%',
             'page_layout' => '1 column'
         ];
 

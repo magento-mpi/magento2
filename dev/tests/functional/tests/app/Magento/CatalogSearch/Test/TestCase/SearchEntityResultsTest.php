@@ -14,10 +14,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 
 /**
- * Test Creation for SearchEntity results
- *
  * Test Flow:
- *
  * Preconditions:
  * 1. All product types are created
  *
@@ -50,14 +47,14 @@ class SearchEntityResultsTest extends Injectable
     }
 
     /**
-     * Run searching result test
+     * Run searching result test.
      *
      * @param string $products
      * @param CatalogSearchQuery $catalogSearch
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function testSearch($products, CatalogSearchQuery $catalogSearch, FixtureFactory $fixtureFactory)
+    public function test($products, CatalogSearchQuery $catalogSearch, FixtureFactory $fixtureFactory)
     {
         $result = [];
         $products = explode(',', $products);

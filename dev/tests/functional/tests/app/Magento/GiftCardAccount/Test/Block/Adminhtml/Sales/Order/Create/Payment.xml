@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="1">
+    <fields>
+        <code>
+            <selector>#giftcardaccount_add_input</selector>
+        </code>
+    </fields>
+</mapping>

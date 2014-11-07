@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/guest/print" module="Magento_Sales">
+    <blocks>
+        <viewBlock>
+            <class>Magento\Sales\Test\Block\Order\View</class>
+            <locator>.order-details-items</locator>
+            <strategy>css selector</strategy>
+        </viewBlock>
+        <infoBlock>
+            <class>Magento\Sales\Test\Block\Order\Info</class>
+            <locator>.block-order-details-view</locator>
+            <strategy>css selector</strategy>
+        </infoBlock>
+    </blocks>
+</page>

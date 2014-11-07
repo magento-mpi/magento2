@@ -105,11 +105,13 @@ class BannerInjectable extends InjectableFixture
     protected $banner_catalog_rules = [
         'attribute_code' => 'banner_catalog_rules',
         'backend_type' => 'virtual',
+        'source' => 'Magento\Banner\Test\Fixture\BannerInjectable\CatalogRules',
     ];
 
     protected $banner_sales_rules = [
         'attribute_code' => 'banner_sales_rules',
         'backend_type' => 'virtual',
+        'source' => 'Magento\Banner\Test\Fixture\BannerInjectable\SalesRules',
     ];
 
     protected $customer_segment_ids = [

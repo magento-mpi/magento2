@@ -88,9 +88,9 @@ class Address extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         $resource = $this->getResource();
         $select = $resource->createSelect();
 
-        $mainAddressTable = $this->getResource()->getTable('sales_flat_order_address');
+        $mainAddressTable = $this->getResource()->getTable('sales_order_address');
         $extraAddressTable = $this->getResource()->getTable('magento_customer_sales_flat_order_address');
-        $orderTable = $this->getResource()->getTable('sales_flat_order');
+        $orderTable = $this->getResource()->getTable('sales_order');
 
         $select->from(
             array('order_address' => $mainAddressTable),

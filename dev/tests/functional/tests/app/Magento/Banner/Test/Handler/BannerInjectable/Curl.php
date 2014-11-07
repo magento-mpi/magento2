@@ -53,6 +53,20 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
     protected $url = 'admin/banner/save/back/edit/active_tab/content_section/';
 
     /**
+     * Catalog rules
+     *
+     * @var string
+     */
+    protected $catalogRules = '';
+
+    /**
+     * Sales rules
+     *
+     * @var string
+     */
+    protected $salesRules = '';
+
+    /**
      * Post request for creating banner
      *
      * @param FixtureInterface|null $fixture [optional]
@@ -63,6 +77,23 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
     {
         $url = $_ENV['app_backend_url'] . $this->url;
         $data = $this->replaceMappingData($fixture->getData());
+        if (isset($data['banner_catalog_rules'])) {
+            foreach ($data['banner_catalog_rules'] as $key => $catalogRule) {
+                $this->catalogRules = $catalogRule;
+                if ($key > 0) {
+                    $this->catalogRules .= '&';
+                }
+            }
+            $data['banner_catalog_rules'] = $this->catalogRules;
+        } elseif (isset($data['banner_sales_rules'])) {
+            foreach ($data['banner_sales_rules'] as $key => $salesRule) {
+                $this->salesRules = $salesRule;
+                if ($key > 0) {
+                    $this->salesRules .= '&';
+                }
+            }
+            $data['banner_sales_rules'] = $this->salesRules;
+        }
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
@@ -84,18 +115,21 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
      */
     protected function replaceMappingData(array $data)
     {
-        foreach ($data['store_contents_not_use'] as $key => $storeContent) {
-            $store = explode('_', $key);
-            $data["store_contents_not_use[{$store[1]}]"] = $this->mappingData['store_contents_not_use'][$storeContent];
+        if (isset($data['store_contents_not_use'])) {
+            foreach ($data['store_contents_not_use'] as $key => $storeContent) {
+                $store = explode('_', $key);
+                $data["store_contents_not_use[{$store[1]}]"] = $this
+                    ->mappingData['store_contents_not_use'][$storeContent];
+            }
+            unset($data['store_contents_not_use']);
         }
-        unset($data['store_contents_not_use']);
-
-        foreach ($data['store_contents'] as $key => $storeContent) {
-            $store = explode('_', $key);
-            $data["store_contents[{$store[1]}]"] = $storeContent;
+        if (isset($data['store_contents'])) {
+            foreach ($data['store_contents'] as $key => $storeContent) {
+                $store = explode('_', $key);
+                $data["store_contents[{$store[1]}]"] = $storeContent;
+            }
+            unset($data['store_contents']);
         }
-        unset($data['store_contents']);
-
         if (isset($data['customer_segment_ids'])) {
             foreach ($data['customer_segment_ids'] as $key => $customerSegment) {
                 $data["customer_segment_ids[{$key}]"] = $customerSegment;
