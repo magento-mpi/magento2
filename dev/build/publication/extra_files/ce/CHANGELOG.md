@@ -2,45 +2,45 @@
 =============
 * Fixed bugs:
     * Fixed an issue where an error message was displayed after successful product mass actions
-    * Added the install script in the CatalogInventory module
     * Fixed an issue where it is impossible to create a tax rate for all states (“*” in the State field)
     * Fixed an issue where FPT was not shown on the storefront if a customer state did not match the default state from configuration
     * Fixed the benchmark scenario
     * Fixed an issue where the expand arrow next to Advanced Settings tab label was not clickable
     * Fixed an issue where the Category menu disappeared when resizing a browser window
     * Fixed an issue where the order additional info was not available for a guest customer
-    * Fixed an issue where a Fatal error was thrown when trying to get a coupon report with Shopping Cart Price Rule set to Specified
-    * Fixed an issue where the URL of an attribute set for attribute mapping changed after resetting filter for the grid on the Google Contents Attributes page.
+    * Fixed an issue where a fatal error was thrown when trying to get a coupon report with Shopping Cart Price Rule set to Specified
+    * Fixed an issue where the URL of an attribute set for attribute mapping changed after resetting filter for the grid on the Google Contents Attributes page
     * Fixed the implementation of the wishlist RSS-feed
     * Fixed the incorrect name escaping in wishlist RSS
     * Fixed an issue where a RSS feed for shared wishlist was not accessible
     * Fixed an issue caused by REST POST/PUT requests with empty body
-    * Fixed an issues where Postal code was still mandatory for non-US addresses that do not use it, even if set to be optional
-    * Fixed an issue where it was impossible to find a wishlist by using
+    * Fixed an issues where postal code was still mandatory for non-US addresses that do not use it, even if set to be optional
+    * Fixed an issue where it was impossible to find a wishlist by using Wishlist Search
     * Fixed an issue where no password validation was requested during customer registration on the storefront
-    * Moved getAdditional request into the basic one in OnePageCheckout
 * Updated setup tools:
+    * Added the install script in the CatalogInventory module
     * Removed old installation: Web and CLI, the Magento_Install module, install theme, install configuration scope
     * Added usage of the new setup installation in all tests
     * Added the ability to insert custom directory paths in the setup tools
     * Added the uninstall tool: php -f setup/index.php uninstall
-    * Removed dependency on intl PHP extension until translations are re-introduced in the setup tools
+    * Removed dependency on intl PHP extension until translations are re-introduced in the setup tool
     * Made notification about unnecessarily writable directories after installation more specific
 * UI improvements:
-    * Improved UI for Order by SKU, Invitation and Recurring Payments pages
-    * Implemented usage Microdata and Schema vocabulary for product content
+    * Improved UI for the Order by SKU, Invitation and Recurring Payments pages
+    * Implemented usage of Microdata and Schema vocabulary for product content
     * Implemented UI for Catalog New Products List, Recently Compared Products, Recently Viewed Products widgets
     * Implemented a new focus indicator
-    * Implemented the <label> element for form inputs
-    * Put in order the usage of the <fieldset> and <legend> tags
+    * Implemented the &lt;label&gt; element for form inputs
+    * Put in order the usage of the &lt;fieldset&gt; and &lt;legend&gt; tags
     * Implemented the ability to skip to main content
 * Added the following functional tests:
     * Add products to order from recently viewed products section
     * Update configurable product
-    * Stabilize URL rewrite module
 * Various improvements:
+    * Stabilize URL rewrite module
+    * Moved getAdditional request into the basic one in OnePageCheckout
     * Created a cron job in the Customer module for cleaning the customer_visitor table
-* Framework Improvements:
+* Framework improvements:
     * Refactored data builders auto-generation
     * Implemented the Customer module interfaces
     * Ported existing integration tests from Customer services
