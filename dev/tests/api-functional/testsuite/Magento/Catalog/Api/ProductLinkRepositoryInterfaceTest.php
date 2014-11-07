@@ -14,7 +14,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductLinkRepositoryInterfaceV1';
+    const SERVICE_NAME = 'catalogProductLinkRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/';
 
@@ -42,7 +42,17 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
                     'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                ],
+                'soap' => [
+                    'service' => self::SERVICE_NAME,
+                    'serviceVersion' => self::SERVICE_VERSION,
+                    'operation' => self::SERVICE_NAME . 'DeleteById'
                 ]
+            ],
+            [
+                'productSku' => $productSku,
+                'type' => $linkType,
+                'linkedProductSku' => $linkedSku
             ]
         );
         /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
