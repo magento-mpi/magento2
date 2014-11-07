@@ -171,11 +171,11 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     }
 
     /**
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return null|string
      */
     protected function retrieveAttributeSetIdFromSearchCriteria(
-        \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
+        \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
     ) {
         foreach ($searchCriteria->getFilterGroups() as $group) {
             foreach ($group->getFilters() as $filter) {
