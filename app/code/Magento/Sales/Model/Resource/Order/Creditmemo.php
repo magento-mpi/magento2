@@ -35,7 +35,7 @@ class Creditmemo extends SalesResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_creditmemo', 'entity_id');
+        $this->_init('sales_creditmemo', 'entity_id');
     }
 
     /**

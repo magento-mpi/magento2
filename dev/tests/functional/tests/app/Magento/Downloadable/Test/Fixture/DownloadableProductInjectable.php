@@ -894,4 +894,9 @@ class DownloadableProductInjectable extends InjectableFixture
     {
         return $this->getData('downloadable_sample');
     }
+
+    public function getIsVirtual()
+    {
+        return $this->getData('is_virtual');
+    }
 }

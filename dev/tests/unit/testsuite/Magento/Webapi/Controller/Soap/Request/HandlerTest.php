@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 
 /**
@@ -36,7 +36,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_serializerMock;
 
-    /** @var \Magento\Framework\Service\DataObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Reflection\DataObjectProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_dataObjectProcessorMock;
 
     /** @var array */
@@ -51,7 +51,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
         $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
         $this->_dataObjectConverter = $this->getMock(
-            'Magento\Framework\Service\SimpleDataObjectConverter',
+            'Magento\Framework\Api\SimpleDataObjectConverter',
             ['convertStdObjectToArray'],
             [],
             '',
@@ -59,7 +59,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         );
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         $this->_dataObjectProcessorMock = $this->getMock(
-            'Magento\Webapi\Model\DataObjectProcessor',
+            'Magento\Framework\Reflection\DataObjectProcessor',
             ['getMethodReturnType'],
             [],
             '',

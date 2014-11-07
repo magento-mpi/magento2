@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Framework\Module\Setup\Migration */
+/** @var $this \Magento\Banner\Model\Resource\Setup */
 $installer = $this->createMigrationSetup();
 $installer->startSetup();
 

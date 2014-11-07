@@ -315,7 +315,7 @@ RESPONSE_TYPE;
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
-        <xsd:element name="customAttributes" type="tns:ArrayOfFrameworkDataAttributeValue" minOccurs="0">
+        <xsd:element name="customAttributes" type="tns:ArrayOfFrameworkAttributeValue" minOccurs="0">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_soapUrl}">

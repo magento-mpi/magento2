@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Rma">
+    <rmaIndex>
+        <mca>admin/rma/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Rma\Test\Page\Adminhtml\RmaIndex</class>
+    </rmaIndex>
+    <rmaChooseOrder>
+        <mca>admin/rma/chooseorder</mca>
+        <area>adminhtml</area>
+        <class>Magento\Rma\Test\Page\Adminhtml\RmaChooseOrder</class>
+    </rmaChooseOrder>
+    <rmaView>
+        <mca>admin/rma/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Rma\Test\Page\Adminhtml\RmaView</class>
+    </rmaView>
+    <customerAccountRmaIndex>
+        <mca>rma/returns/history</mca>
+        <class>Magento\Rma\Test\Page\CustomerAccountRmaIndex</class>
+    </customerAccountRmaIndex>
+    <customerAccountRmaView>
+        <mca>rma/returns/view</mca>
+        <class>Magento\Rma\Test\Page\CustomerAccountRmaView</class>
+    </customerAccountRmaView>
+    <rmaGuestIndex>
+        <mca>rma/guest/returns</mca>
+        <class>Magento\Rma\Test\Page\RmaGuestIndex</class>
+    </rmaGuestIndex>
+    <rmaGuestView>
+        <mca>rma/guest/view</mca>
+        <class>Magento\Rma\Test\Page\RmaGuestView</class>
+    </rmaGuestView>
+</page>

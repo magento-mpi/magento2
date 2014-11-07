@@ -8,7 +8,7 @@
  
 namespace Magento\Rma\Service\V1\Data;
 
-class Rma extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Rma extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array

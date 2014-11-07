@@ -9,4 +9,5 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="\Magento\Banner\Test\Handler\BannerInjectable\BannerInjectableInterface" type="\Magento\Banner\Test\Handler\BannerInjectable\Curl" />
+    <preference for="Magento\Banner\Test\Handler\Widget\WidgetInterface" type="\Magento\Banner\Test\Handler\Widget\Curl"/>
 </config>

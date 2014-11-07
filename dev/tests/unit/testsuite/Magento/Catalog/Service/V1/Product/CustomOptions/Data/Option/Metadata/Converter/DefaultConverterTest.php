@@ -43,7 +43,7 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->attributeValueMock = $this->getMock(
-            '\Magento\Framework\Service\Data\AttributeValue',
+            '\Magento\Framework\Api\AttributeValue',
             [],
             [],
             '',
