@@ -125,7 +125,7 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearch($isRmaOwner)
     {
-        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteria')
+        $searchCriteriaMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();

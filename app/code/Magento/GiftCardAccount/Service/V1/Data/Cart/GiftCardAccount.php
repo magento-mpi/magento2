@@ -13,7 +13,7 @@ namespace Magento\GiftCardAccount\Service\V1\Data\Cart;
  *
  * @codeCoverageIgnore
  */
-class GiftCardAccount extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class GiftCardAccount extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array

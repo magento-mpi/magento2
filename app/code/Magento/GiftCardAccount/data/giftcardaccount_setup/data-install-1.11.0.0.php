@@ -6,8 +6,9 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer \Magento\Sales\Model\Resource\Setup */
+$installer = $this;
+
 $installer->startSetup();
 // 0.0.1 => 0.0.2
 $installer->addAttribute('quote', 'gift_cards', array('type' => 'text'));

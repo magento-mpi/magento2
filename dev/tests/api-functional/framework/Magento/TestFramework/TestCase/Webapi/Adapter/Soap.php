@@ -7,7 +7,7 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
 use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
@@ -50,7 +50,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $objectManager = Bootstrap::getObjectManager();
         $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
         $this->_helper = $objectManager->get('Magento\Webapi\Helper\Data');
-        $this->_converter = $objectManager->get('\Magento\Framework\Service\SimpleDataObjectConverter');
+        $this->_converter = $objectManager->get('\Magento\Framework\Api\SimpleDataObjectConverter');
     }
 
     /**
@@ -185,7 +185,9 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             if (isset($matches[3])) {
                 $version = $matches[3];
             } else {
-                throw new \LogicException("Service interface name is invalid.");
+                //TODO: Need to add this temporary version until version is added back for new MSC based services
+                $version = 1;
+                //throw new \LogicException("Service interface name is invalid.");
             }
         } else {
             throw new \LogicException("Service version cannot be identified.");
