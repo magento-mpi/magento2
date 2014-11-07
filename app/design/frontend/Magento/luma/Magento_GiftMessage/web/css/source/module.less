@@ -132,16 +132,35 @@
     }
 }
 
+//
+//    Account order gift message
+//--------------------------------------
 .order-details-items {
-    .gift-message {
-        margin: 0;
-        .gift-sender,
-        .gift-recipient {
-            font-weight: @font-weight-base;
+    .order-gift-message,
+    .block-order-details-gift-message {
+        .item-options {
+            dt {
+                margin: @indent-s-base 0;
+                font-weight: @font-weight-base;
+            }
         }
-        .gift-message-text {
-            margin: 0;
+        &:extend(.abstract-add-clearfix all);
+        dt:after {
+            content: "";
         }
+        .label {
+            &:extend(.abstract-colon all);
+        }
+        .item-message {
+            clear: left;
+        }
+    }
+}
+
+.order-details-items .order-items .order-gift-message {
+    &:extend(.abstract-no-display all);
+    .action.close {
+        &:extend(.abstract-no-display all);
     }
 }
 

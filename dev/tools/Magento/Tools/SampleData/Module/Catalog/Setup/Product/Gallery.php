@@ -62,6 +62,7 @@ class Gallery
      * @param CsvReaderFactory $csvReaderFactory
      * @param ProductFactory $productFactory
      * @param GalleryAttribute $galleryAttribute
+     * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
@@ -80,6 +81,7 @@ class Gallery
 
     /**
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function install($product)
     {
@@ -95,6 +97,7 @@ class Gallery
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param array $images
+     * @return void
      */
     protected function storeImage($product, $images)
     {
@@ -149,6 +152,7 @@ class Gallery
     /**
      * Set fixtures
      * @param array $fixtures
+     * @return void
      */
     public function setFixtures($fixtures)
     {
@@ -158,6 +162,7 @@ class Gallery
 
     /**
      * Load data from fixtures
+     * @return void
      */
     protected function loadFixtures()
     {

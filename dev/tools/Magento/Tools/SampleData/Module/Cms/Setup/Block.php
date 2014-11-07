@@ -55,17 +55,14 @@ class Block implements SetupInterface
      * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
      * @param array $fixtures
      */
-    function __construct(
+    public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         Block\Converter $converter,
         \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService,
         \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder,
-        $fixtures = [
-            'Cms/Block/categories_static_blocks.csv'
-        ]
-
+        $fixtures = array()
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -74,6 +71,9 @@ class Block implements SetupInterface
         $this->categoryWriteService = $categoryWriteService;
         $this->categoryDataBuilder = $categoryDataBuilder;
         $this->fixtures = $fixtures;
+        if (empty($this->fixtures)) {
+            $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Cms/Block');
+        }
     }
 
     /**
@@ -97,15 +97,14 @@ class Block implements SetupInterface
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @return \Magento\Cms\Model\Block
-     * @throws \Exception
      */
-    public function saveCmsBlock($data)
+    protected function saveCmsBlock($data)
     {
         $cmsBlock = $this->blockFactory->create();
         $cmsBlock->getResource()->load($cmsBlock, $data['identifier']);
-        if(!$cmsBlock->getData()) {
+        if (!$cmsBlock->getData()) {
             $cmsBlock->setData($data);
             $cmsBlock->setStores(array('0'));
             $cmsBlock->setIsActive(1);
@@ -115,8 +114,9 @@ class Block implements SetupInterface
     }
 
     /**
-     * @param $blockId
-     * @param $categoryId
+     * @param string $blockId
+     * @param string $categoryId
+     * @return void
      */
     protected function setCategoryLandingPage($blockId, $categoryId)
     {

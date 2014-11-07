@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-class QuoteDetails extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

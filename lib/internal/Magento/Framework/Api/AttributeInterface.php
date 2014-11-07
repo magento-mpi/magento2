@@ -13,6 +13,13 @@ namespace Magento\Framework\Api;
  */
 interface AttributeInterface
 {
+    /**#@+
+     * Constant used as key into $_data
+     */
+    const ATTRIBUTE_CODE = 'attribute_code';
+    const VALUE = 'value';
+    /**#@-*/
+
     /**
      * Get attribute code
      *

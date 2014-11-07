@@ -10,7 +10,6 @@ namespace Magento\Tools\SampleData\Module\Cms;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\PostInstaller;
 
-
 /**
  * Class Setup
  */

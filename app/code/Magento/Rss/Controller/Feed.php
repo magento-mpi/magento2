@@ -33,11 +33,6 @@ class Feed extends \Magento\Framework\App\Action\Action
     protected $logger;
 
     /**
-     * @var \Magento\Framework\App\ResponseInterface
-     */
-    protected $response;
-
-    /**
      * @var \Magento\Rss\Model\RssManager
      */
     protected $rssManager;
@@ -61,7 +56,6 @@ class Feed extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\HTTP\Authentication $httpAuthentication
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\App\ResponseInterface $response
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -71,8 +65,7 @@ class Feed extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\HTTP\Authentication $httpAuthentication,
-        \Magento\Framework\Logger $logger,
-        \Magento\Framework\App\ResponseInterface $response
+        \Magento\Framework\Logger $logger
     ) {
         $this->rssManager = $rssManager;
         $this->scopeConfig = $scopeConfig;
@@ -81,7 +74,6 @@ class Feed extends \Magento\Framework\App\Action\Action
         $this->customerAccountService = $customerAccountService;
         $this->httpAuthentication = $httpAuthentication;
         $this->logger = $logger;
-        $this->response = $response;
         parent::__construct($context);
     }
 

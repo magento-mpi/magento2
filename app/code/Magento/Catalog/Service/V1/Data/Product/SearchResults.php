@@ -13,7 +13,7 @@ namespace Magento\Catalog\Service\V1\Data\Product;
  *
  * @codeCoverageIgnore
  */
-class SearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
+class SearchResults extends \Magento\Framework\Api\SearchResults
 {
     /**
      * Get items

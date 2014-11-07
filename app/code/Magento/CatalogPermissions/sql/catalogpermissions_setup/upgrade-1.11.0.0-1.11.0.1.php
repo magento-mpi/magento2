@@ -6,8 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Catalog\Model\Resource\Setup $this */
-/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
+/** @var $this \Magento\Setup\Module\SetupModule */
 $connection = $this->getConnection();
 
 $connection->dropForeignKey(

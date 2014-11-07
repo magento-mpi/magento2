@@ -161,8 +161,8 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
     protected function addCustomAttributesToModel($attributesAsArray, $model)
     {
         $objectManager = new ObjectManagerHelper($this);
-        /** @var \Magento\Framework\Service\Data\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
+        /** @var \Magento\Framework\Api\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Api\AttributeValueBuilder');
         $addedAttributes = [];
         foreach ($attributesAsArray as $attributeCode => $attributeValue) {
             $addedAttributes[$attributeCode] = $attributeValueBuilder

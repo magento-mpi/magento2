@@ -69,6 +69,8 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      * @param array $ignoredUserAgents
      * @param array $ignores
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -81,7 +83,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
         array $ignores = array(),
-        $data = array()
+        array $data = array()
     ) {
         $this->session = $session;
         $this->httpHeader = $httpHeader;

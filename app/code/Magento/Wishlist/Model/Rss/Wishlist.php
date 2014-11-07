@@ -79,7 +79,11 @@ class Wishlist implements DataProviderInterface
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\RequestInterface $request
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Wishlist\Helper\Rss $wishlistHelper,

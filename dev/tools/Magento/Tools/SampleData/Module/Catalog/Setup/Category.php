@@ -57,7 +57,7 @@ class Category implements SetupInterface
     protected $csvReaderFactory;
 
     /**
-     * @var categoryTree
+     * @var \Magento\Catalog\Service\V1\Data\Category\Tree
      */
     protected $categoryTree;
 
@@ -130,8 +130,9 @@ class Category implements SetupInterface
     }
 
     /**
-     * @param $row
-     * @param $categoryId
+     * @param array $row
+     * @param int $categoryId
+     * @return void
      */
     protected function setAdditionalData($row, $categoryId)
     {
@@ -147,7 +148,6 @@ class Category implements SetupInterface
                 $this->writeService->update($categoryId, $updateCategoryData);
             }
         }
-
     }
 
     /**

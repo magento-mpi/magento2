@@ -65,7 +65,7 @@ class Converter
     }
 
     /**
-     * @param $urlKey
+     * @param string $urlKey
      * @return \Magento\Framework\Object
      */
     protected function getCategoryByUrlKey($urlKey)
@@ -96,7 +96,7 @@ class Converter
     }
 
     /**
-     * @param $content
+     * @param string $content
      * @return mixed
      */
     protected function convertContentUrls($content)
@@ -112,7 +112,7 @@ class Converter
     }
 
     /**
-     * @param $content
+     * @param string $content
      * @return array
      */
     protected function getCategoriesMatches($content)
@@ -123,9 +123,9 @@ class Converter
     }
 
     /**
-     * @param $content
-     * @param $urlPath
-     * @param $categoryUrl
+     * @param string $content
+     * @param string $urlPath
+     * @param string $categoryUrl
      * @return mixed
      */
     protected function replaceContentCategoriesPath($content, $urlPath, $categoryUrl)
@@ -140,7 +140,7 @@ class Converter
     }
 
     /**
-     * @param $categoriesReplacement
+     * @param array $categoriesReplacement
      * @return array
      */
     protected function getCategoriesUrl($categoriesReplacement)
@@ -163,7 +163,7 @@ class Converter
     }
 
     /**
-     * @param $urlAttributes
+     * @param string $urlAttributes
      * @return string
      */
     protected function getUrlFilter($urlAttributes)
@@ -182,5 +182,4 @@ class Converter
         }
         return $urlFilter;
     }
-
 }

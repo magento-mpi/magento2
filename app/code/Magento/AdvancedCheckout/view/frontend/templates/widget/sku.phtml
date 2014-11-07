@@ -15,21 +15,35 @@
 $uniqueSuffix = '_' . $this->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
 ?>
-<div class="widget block addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
+<div class="widget block block-addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
     <?php if (!$this->getIsTitleHidden()): ?>
-        <div class="title"><strong><?php echo __('Order by SKU') ?></strong></div>
+        <div class="block-title"><strong><?php echo __('Order by SKU') ?></strong></div>
     <?php endif ?>
-    <div class="content">
-        <form id="<?php echo $skuFormId; ?>" class="form addbysku" action="<?php echo $this->getFormAction(); ?>" method="post"
+    <div class="block-content">
+        <form id="<?php echo $skuFormId; ?>" class="form form-addbysku" action="<?php echo $this->getFormAction(); ?>" method="post"
             data-mage-init='{"validation":{}}'
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
-            <fieldset class="fieldset" data-container="items"></fieldset>
+
+            <div class="box box-items">
+                <fieldset class="fieldset" data-container="items"></fieldset>
+                <div class="actions-toolbar">
+                    <div class="secondary">
+                        <button type="button" id="add_new_item_button<?php echo $uniqueSuffix; ?>"
+                                title="<?php echo __('Add Row') ?>" class="action add" data-role="add">
+                            <span><?php echo __('Add Row') ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             <?php if ($this->getChildHtml()): ?>
-                <fieldset class="fieldset">
-                    <?php echo $this->getChildHtml(); ?>
-                </fieldset>
+                <div class="box box-upload">
+                    <fieldset class="fieldset">
+                        <?php echo $this->getChildHtml(); ?>
+                    </fieldset>
+                </div>
             <?php endif; ?>
+
             <div class="actions-toolbar">
                 <div class="primary">
                     <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
@@ -38,26 +52,16 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
                         <span><?php echo __('Add to Cart') ?></span>
                     </button>
                 </div>
-                <div class="secondary">
-                    <button type="button" id="add_new_item_button<?php echo $uniqueSuffix; ?>"
-                            title="<?php echo __('Add Row') ?>" class="action add" data-role="add">
-                        <span><?php echo __('Add Row') ?></span>
-                    </button>
-                </div>
             </div>
+
             <?php if ($this->getLink()): ?>
                 <?php echo $this->getLink(); ?>
             <?php endif; ?>
         </form>
         <script data-template="add-block" type="text/x-jQuery-tmpl">
             <div class="fields additional deletableItem" data-mage-init='{"deletableItem":{}}'>
-                <div class="actions-toolbar">
-                    <div class="secondary">
-                        <div class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></div>
-                    </div>
-                </div>
                 <div class="field sku required">
-                    <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('Sku') ?></span></label>
+                    <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('SKU') ?></span></label>
                     <div class="control">
                         <input type="text"
                                name="items[${rowIndex}${uniqueSuffix}][sku]"
@@ -79,6 +83,11 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
                                     "validate-greater-than-zero": true,
                                     "validate-number-range": "0.0001-99999999.9999"
                                     }'/>
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="secondary">
+                        <button type="button" class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
                     </div>
                 </div>
             </div>

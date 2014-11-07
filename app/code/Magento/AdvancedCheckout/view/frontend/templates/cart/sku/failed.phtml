@@ -12,28 +12,26 @@
  * @var $this \Magento\AdvancedCheckout\Block\Sku\Products
  */
 ?>
-<div class="cart table failed">
-    <h2 class="subtitle"><?php echo __('Products Requiring Attention') ?></h2>
-    <form action="<?php echo $this->getFormActionUrl() ?>" method="post" data-mage-init='{"validation": {}}'>
-            <table id="failed-products-table" class="cart items data failed">
-            <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
-                <thead>
+<div class="block block-cart-failed">
+    <div class="block-title"><strong><?php echo __('Products Requiring Attention') ?></strong></div>
+    <div class="block-content">
+        <form action="<?php echo $this->getFormActionUrl() ?>" method="post" data-mage-init='{"validation": {}}' class="form form-cart-failed">
+            <div class="cart table-wrapper">
+                <table id="failed-products-table" class="cart items data failed">
+                    <caption class="table-caption"><?php echo __('Products Requiring Attention') ?></caption>
+                    <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
+                    <thead>
                     <tr>
-                        <th class="col item" rowspan="<?php echo $mergedCells; ?>"><span><?php echo __('Item') ?></span></th>
-                        <th class="col price" colspan="<?php echo $mergedCells; ?>"><span><?php echo __('Unit Price') ?></span></th>
-                        <th class="col qty" rowspan="<?php echo $mergedCells; ?>"><?php echo __('Qty') ?></th>
+                        <th class="col item" scope="col"><span><?php echo __('Item') ?></span></th>
+                        <th class="col price" scope="col"><span><?php echo __('Price') ?></span></th>
+                        <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
                     </tr>
-                    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
-                    <tr>
-                        <th class="col price excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                        <th class="col price incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                    </tr>
-                    <?php endif; ?>
-                </thead>
-                <?php foreach($this->getItems() as $_item): ?>
-                    <?php echo $this->getItemHtml($_item) ?>
-                <?php endforeach ?>
-            </table>
+                    </thead>
+                    <?php foreach($this->getItems() as $_item): ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                    <?php endforeach ?>
+                </table>
+            </div>
             <div class="cart secondary actions">
                 <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></button>
                 <button id="remove_all_failed_items" type="button" title="<?php echo __('Remove All') ?>" class="action clear"
@@ -41,5 +39,6 @@
                     <span><?php echo __('Remove All') ?></span>
                 </button>
             </div>
-    </form>
+        </form>
+    </div>
 </div>

@@ -14,24 +14,22 @@ use Magento\Framework\Model\Exception;
 class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
 {
     /**
-     * @var \Magento\Framework\View\LayoutFactory
+     * @var \Magento\Framework\View\Result\LayoutFactory
      */
-    protected $layoutFactory;
+    protected $resultLayoutFactory;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\View\LayoutFactory $layoutFactory
+        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
     ) {
         parent::__construct($context, $registry);
-        $this->layoutFactory = $layoutFactory;
+        $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
     /**
@@ -70,12 +68,11 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
         $asJson = $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
 
-        $layout = $this->layoutFactory->create();
-        $update = $layout->getUpdate();
+        $resultLayout = $this->resultLayoutFactory->create();
         if ($asJson) {
-            $update->addHandle('checkout_index_manage_load_block_json');
+            $resultLayout->addHandle('checkout_index_manage_load_block_json');
         } else {
-            $update->addHandle('checkout_index_manage_load_block_plain');
+            $resultLayout->addHandle('checkout_index_manage_load_block_plain');
         }
 
         if ($block) {
@@ -88,14 +85,10 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                 if ($criticalException && $block != 'message') {
                     continue;
                 }
-                $update->addHandle('checkout_index_manage_load_block_' . $block);
+                $resultLayout->addHandle('checkout_index_manage_load_block_' . $block);
             }
         }
-
-        $update->load();
-        $layout->generateXml();
-        $layout->generateElements();
-        $result = $layout->renderElement('content');
+        $result = $resultLayout->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->setUpdateResult($result);
             $this->_redirect('checkout/*/showUpdateResult');

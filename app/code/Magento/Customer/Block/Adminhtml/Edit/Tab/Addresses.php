@@ -12,7 +12,6 @@ use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -217,7 +216,6 @@ class Addresses extends GenericMetadata
      */
     public function initForm()
     {
-
         $customerData = $this->_backendSession->getCustomerData();
 
         /** @var \Magento\Framework\Data\Form $form */
@@ -278,6 +276,12 @@ class Addresses extends GenericMetadata
             $country->addClass('countries');
         }
 
+        $postcode = $form->getElement('postcode');
+        if ($postcode) {
+            $postcode->removeClass('required-entry')
+                ->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
+        }
+
         if ($this->isReadonly()) {
             foreach ($this->_addressMetadataService->getAllAttributesMetadata() as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
@@ -325,6 +329,30 @@ class Addresses extends GenericMetadata
         $this->assign('addressCollection', $addressCollection);
         $form->setValues(AddressConverter::toFlatArray($address));
         $this->setForm($form);
+
+        return $this;
+    }
+
+    /**
+     * @param Address $address
+     * @return $this
+     */
+    public function initAddressForm(Address $address)
+    {
+        $form = $this->initForm()->getForm();
+
+        $postcode = $form->getElement('postcode');
+        if ($postcode) {
+            $postcode->removeClass('required-entry')
+                ->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
+        }
+
+        $form->addValues(AddressConverter::toFlatArray($address))
+            ->setHtmlIdPrefix("_item{$address->getId()}")
+            ->setFieldNameSuffix('address[' . $address->getId() . ']');
+
+        $this->addValuesToNamePrefixElement($address->getPrefix())
+            ->addValuesToNameSuffixElement($address->getSuffix());
 
         return $this;
     }

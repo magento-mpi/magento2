@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="invitations/index/new" module="Magento_Invitation">
+    <blocks>
+        <pageMainActions>
+            <class>Magento\Backend\Test\Block\FormPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageMainActions>
+        <formBlock>
+            <class>Magento\Invitation\Test\Block\Adminhtml\Invitation\Add\Form</class>
+            <locator>#edit_form</locator>
+            <strategy>css selector</strategy>
+        </formBlock>
+    </blocks>
+</page>

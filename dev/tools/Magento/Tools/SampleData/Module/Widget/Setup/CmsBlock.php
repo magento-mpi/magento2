@@ -68,9 +68,7 @@ class CmsBlock implements SetupInterface
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
-        $fixtures = array(
-            'Widget/cmsblock.csv',
-        )
+        $fixtures = array()
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -79,6 +77,9 @@ class CmsBlock implements SetupInterface
         $this->cmsBlockCollection = $cmsBlockCollection;
         $this->categoryFactory = $categoryFactory;
         $this->fixtures = $fixtures;
+        if (empty($this->fixtures)) {
+            $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Widget');
+        }
     }
 
     /**
@@ -150,7 +151,7 @@ class CmsBlock implements SetupInterface
     }
 
     /**
-     * @param $urlKey
+     * @param string $urlKey
      * @return \Magento\Framework\Object
      */
     protected function getCategoryByUrlKey($urlKey)

@@ -109,8 +109,6 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
                 return $this->design->getConfigurationDesignTheme($area);
             case 'adminhtml':
                 return 'Magento/backend';
-            case 'install':
-                return 'Magento/basic';
             case 'doc':
                 return 'Magento/blank';
             default:
