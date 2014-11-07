@@ -210,7 +210,10 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->yesnoFactory = $this->getMock('Magento\Backend\Model\Config\Source\YesnoFactory', ['create']);
         $this->inputtypeFactory = $this->getMock(
             'Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory',
-            ['create']
+            ['create'],
+            [],
+            '',
+            false
         );
         $this->scopeConfig = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config', [], [], '', false);
         $this->customAttributeManagementHelper = $this->getMock(
