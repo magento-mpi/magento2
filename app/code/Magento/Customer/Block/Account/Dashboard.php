@@ -73,7 +73,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getCustomer()
     {
-        return $this->_customerRepository->get($this->_customerSession->getCustomerId());
+        return $this->_customerRepository->getById($this->_customerSession->getCustomerId());
     }
 
     /**
