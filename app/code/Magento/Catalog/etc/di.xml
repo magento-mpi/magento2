@@ -448,4 +448,7 @@
             <argument name="collectionFilter" xsi:type="object">Magento\Catalog\Model\Layer\Search\CollectionFilter</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Resource\Config">
+        <plugin name="productListingAttributesCaching" type="Magento\Catalog\Plugin\Model\Resource\Config" />
+    </type>
 </config>
