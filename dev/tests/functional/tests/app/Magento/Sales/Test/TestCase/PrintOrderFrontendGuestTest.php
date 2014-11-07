@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Scenario;
 

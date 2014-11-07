@@ -172,12 +172,6 @@
                         <next>selectShippingMethodForOrder</next>
                     </step>
                     <step name="selectShippingMethodForOrder" module="Magento_Sales">
-                        <arguments>
-                            <items name="shipping">
-                                <item name="shipping_service">Flat Rate</item>
-                                <item name="shipping_method">Fixed</item>
-                            </items>
-                        </arguments>
                         <next>submitOrder</next>
                     </step>
                     <step name="submitOrder" module="Magento_Sales">

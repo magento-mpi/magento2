@@ -34,7 +34,7 @@ class AssertSalesPrintOrderGrandTotal extends AbstractConstraint
     {
         \PHPUnit_Framework_Assert::assertEquals(
             $grandTotal,
-            $salesGuestPrint->getView()->getItemBlock()->getGrandTotal(),
+            $salesGuestPrint->getViewBlock()->getItemBlock()->getGrandTotal(),
             "Grand total was printed incorrectly."
         );
     }

@@ -40,7 +40,7 @@ class AssertSalesPrintOrderProducts extends AbstractConstraint
     {
         $errors = '';
         foreach ($products as $product) {
-            if (!$salesGuestPrint->getView()->getItemBlock()->isItemVisible($product)) {
+            if (!$salesGuestPrint->getViewBlock()->getItemBlock()->isItemVisible($product)) {
                 $errors .= sprintf(self::ERROR_MESSAGE, $product->getName());
             }
         }
