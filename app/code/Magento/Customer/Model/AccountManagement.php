@@ -1085,4 +1085,34 @@ class AccountManagement implements AccountManagementInterface
         $mergedCustomerData->setData('name', $this->getName($customer));
         return $mergedCustomerData;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultBillingAddress($customerId)
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        $defaultBillingId = $customer->getDefaultBilling();
+        foreach ($customer->getAddresses() as $address) {
+            if ($address->getId() == $defaultBillingId) {
+                return $address;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultShippingAddress($customerId)
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        $defaultShippingId = $customer->getDefaultShipping();
+        foreach ($customer->getAddresses() as $address) {
+            if ($address->getId() == $defaultShippingId) {
+                return $address;
+            }
+        }
+        return null;
+    }
 }
