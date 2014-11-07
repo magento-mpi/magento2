@@ -75,7 +75,7 @@ class Renderer
         $outputPattern = $this->getPattern();
         $fields = $this->getFieldsArray($outputPattern);
         $output = $this->preparePattern();
-        $output = str_replace(['{{depend}}','{{/depend}}','{', '}'], '', $output);
+        $output = str_replace(['{{depend}}', '{{/depend}}', '{', '}'], '', $output);
 
         foreach ($fields as $field) {
             $data = $this->address->getData($field);

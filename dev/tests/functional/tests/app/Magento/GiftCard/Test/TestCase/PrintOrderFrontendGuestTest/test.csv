@@ -1,2 +1,0 @@
-"products";"grandTotal";"paymentMethod";"salesRule";"shipping/shipping_service";"shipping/shipping_method";"constraint"
-"giftCardProduct::default";"149.00";"Check / Money order";"-";"-";"-";"assertSalesPrintOrderBillingAddress, assertSalesPrintOrderGrandTotal, assertSalesPrintOrderPaymentMethod, assertSalesPrintOrderProducts, assertGiftCardAccountOnPrintOrder"

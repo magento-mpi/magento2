@@ -29,7 +29,7 @@ namespace Magento\GiftCard\Test\TestCase;
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-30253
  */
-class PrintOrderFrontendGuestTest extends \Magento\Sales\Test\TestCase\PrintOrderFrontendGuestTest
+class PrintGiftCardOrderFrontendGuestTest extends \Magento\Sales\Test\TestCase\PrintOrderFrontendGuestTest
 {
     //
 }

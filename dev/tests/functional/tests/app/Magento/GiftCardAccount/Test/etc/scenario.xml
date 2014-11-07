@@ -39,4 +39,21 @@
             </method>
         </methods>
     </scenario>
+    <scenario name="PrintGiftCardOrderFrontendGuestTest">
+        <methods>
+            <method name="test">
+                <steps>
+                    <step name="createGiftCardAccount" module="Magento_GiftCardAccount">
+                        <arguments>
+                            <item name="giftCardAccount">gift_card_account_amount_1</item>
+                        </arguments>
+                        <next>applyGiftCardAccountOnBackend</next>
+                    </step>
+                    <step name="applyGiftCardAccountOnBackend" module="Magento_GiftCardAccount">
+                        <next>fillBillingAddress</next>
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
 </scenarios>
