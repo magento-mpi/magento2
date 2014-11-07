@@ -44,8 +44,9 @@ for ($i = 0; $i < $websitesCount; $i++) {
     $website->addData(
         array(
             'website_id' => $websiteId,
-            'code'     => $websiteCode,
-            'name'     => $websiteName
+            'code'       => $websiteCode,
+            'name'       => $websiteName,
+            'is_default' => (int)$i == 0,
         )
     );
     $website->save();
