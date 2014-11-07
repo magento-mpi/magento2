@@ -38,11 +38,12 @@ class DiscountsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime');
-        $this->collectionFactory = $this->getMock(
+        $this->collectionFactory =$this->getMock(
             'Magento\SalesRule\Model\Resource\Rule\CollectionFactory',
-            [
-                'create'
-            ]
+            ['create'],
+            [],
+            '',
+            false
         );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
