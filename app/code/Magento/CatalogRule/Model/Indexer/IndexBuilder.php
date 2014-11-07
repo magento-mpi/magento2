@@ -18,6 +18,8 @@ class IndexBuilder
 {
     const SECONDS_IN_DAY = 86400;
 
+    const BATCH_COUNT = 1000;
+
     /**
      * @var \Magento\Framework\App\Resource
      */
@@ -172,7 +174,7 @@ class IndexBuilder
         foreach ($this->getAllRules() as $rule) {
             $this->updateRuleProductData($rule);
         }
-        $this->applyAllRules();
+        $this->deleteOldData()->applyAllRules();
     }
 
     /**
@@ -256,7 +258,7 @@ class IndexBuilder
                         'sub_discount_amount' => $subActionAmount
                     );
 
-                    if (count($rows) == 1000) {
+                    if (count($rows) == $this->getBatchCount()) {
                         $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
                         $rows = array();
                     }
@@ -376,7 +378,7 @@ class IndexBuilder
                         'sub_discount_amount' => $subActionAmount
                     );
 
-                    if (count($rows) == 1000) {
+                    if (count($rows) == $this->getBatchCount()) {
                         $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
                         $rows = array();
                     }
@@ -391,26 +393,25 @@ class IndexBuilder
     }
 
     /**
-     * @return $this
+     * @param Product|null $product
      * @throws \Exception
+     * @return $this
      */
-    protected function applyAllRules()
+    protected function applyAllRules(Product $product = null)
     {
         $write = $this->getWriteAdapter();
 
         $fromDate = mktime(0, 0, 0, date('m'), date('d') - 1);
         $toDate = mktime(0, 0, 0, date('m'), date('d') + 1);
 
-        $this->deleteOldData();
-
-        $dayPrices = array();
+        $productId = $product ? $product->getId() : null;
 
         /**
          * Update products rules prices per each website separately
          * because of max join limit in mysql
          */
         foreach ($this->storeManager->getWebsites(false) as $website) {
-            $productsStmt = $this->getRuleProductsStmt($website->getId());
+            $productsStmt = $this->getRuleProductsStmt($website->getId(), $productId);
 
             $dayPrices = array();
             $stopFlags = array();
@@ -426,6 +427,10 @@ class IndexBuilder
 
                 if ($prevKey && $prevKey != $productKey) {
                     $stopFlags = array();
+                    if (count($dayPrices) > $this->getBatchCount()) {
+                        $this->saveRuleProductPrices($dayPrices);
+                        $dayPrices = array();
+                    }
                 }
 
                 /**
@@ -474,14 +479,9 @@ class IndexBuilder
                 }
 
                 $prevKey = $productKey;
-                if (count($dayPrices) > 1000) {
-                    $this->saveRuleProductPrices($dayPrices);
-                    $dayPrices = array();
-                }
             }
             $this->saveRuleProductPrices($dayPrices);
         }
-        $this->saveRuleProductPrices($dayPrices);
 
         $write->delete($this->getTable('catalogrule_group_website'), array());
 
@@ -547,10 +547,11 @@ class IndexBuilder
 
     /**
      * @param int $websiteId
+     * @param int|null $productId
      * @return \Zend\Db\Adapter\Driver\StatementInterface|\Zend_Db_Statement_Interface
      * @throws \Magento\Eav\Exception
      */
-    protected function getRuleProductsStmt($websiteId)
+    protected function getRuleProductsStmt($websiteId, $productId = null)
     {
         $read = $this->getReadAdapter();
         /**
@@ -568,6 +569,10 @@ class IndexBuilder
         )->order(
             array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id')
         );
+
+        if (!is_null($productId)) {
+            $select->where('rp.product_id=?', $productId);
+        }
 
         /**
          * Join default price and websites prices to result
@@ -686,5 +691,13 @@ class IndexBuilder
     protected function logException($e)
     {
         $this->logger->logException($e);
+    }
+
+    /**
+     * @return int
+     */
+    public function getBatchCount()
+    {
+        return self::BATCH_COUNT;
     }
 }
