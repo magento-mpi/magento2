@@ -43,7 +43,7 @@ class ProductGrid extends Grid
         $date = date($date);
         if ($date) {
             $text = $this->_rootElement->getText();
-            preg_match("`$date([^\n]*\n){1,5}`", $text, $match);
+            preg_match("`$date([^\\n]*\\n){1,5}`", $text, $match);
         }
         foreach ($products as $product) {
             if (isset($match[0]) && !strstr($match[0], $product->getName())) {
