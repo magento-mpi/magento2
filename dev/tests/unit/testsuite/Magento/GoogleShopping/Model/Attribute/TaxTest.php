@@ -38,7 +38,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockGroupService;
+    protected $groupManagementMock;
 
     /**
      * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder | \PHPUnit_Framework_MockObject_MockObject
@@ -71,7 +71,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->mockConfig = $this->getMockBuilder('\Magento\GoogleShopping\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->mockGroupService = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerGroupServiceInterface')
+        $this->groupManagementMock = $this->getMockBuilder('Magento\Customer\Api\GroupManagementInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->mockQuoteDetailsBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\QuoteDetailsBuilder')
@@ -88,7 +88,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'taxData' => $this->mockTaxHelper,
             'taxRuleService' => $this->mockTaxRuleService,
-            'groupServiceInterface' => $this->mockGroupService,
+            'groupManagement' => $this->groupManagementMock,
             'config' => $this->mockConfig,
             'quoteDetailsBuilder' => $this->mockQuoteDetailsBuilder,
             'taxCalculationService' => $this->mockTaxCalculationService,
@@ -220,11 +220,11 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     private function setUpGetDefaultCustomerTaxClass($taxClassId, $store)
     {
-        $mockGroup = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\CustomerGroup')
+        $mockGroup = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMockForAbstractClass();
 
-        $this->mockGroupService->expects($this->once())
+        $this->groupManagementMock->expects($this->once())
             ->method('getDefaultGroup')
             ->with($store)
             ->will($this->returnValue($mockGroup));
