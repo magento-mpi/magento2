@@ -11,7 +11,6 @@ namespace Magento\Cms\Test\Block;
 use Mtf\Block\Block;
 
 /**
- * Class Page
  * Cms Page block for the content on the frontend.
  */
 class Page extends Block
@@ -48,5 +47,22 @@ class Page extends Block
     public function getPageTitle()
     {
         return $this->_rootElement->find($this->cmsPageTitle)->getText();
+    }
+
+    /**
+     * Wait for text is visible in the block.
+     *
+     * @param string $text
+     * @return void
+     */
+    public function waitUntilTextIsVisible($text)
+    {
+        $browser = $this->_rootElement;
+        $this->_rootElement->waitUntil(
+            function () use ($browser, $text) {
+                $blockText = $browser->find($text);
+                return $blockText->isVisible() == false ? true : null;
+            }
+        );
     }
 }
