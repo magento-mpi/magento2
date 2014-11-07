@@ -7,22 +7,28 @@
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
+use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Backend\Block\Template\Context;
+use Magento\Framework\Registry;
+use Magento\Framework\Data\FormFactory;
+use Magento\SalesRule\Model\RuleFactory;
+use Magento\Framework\Convert\Object as ObjectConverter;
+use Magento\Store\Model\System\Store;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+
 /**
  * Shopping Cart Price Rule General Information Tab
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Main extends Generic implements TabInterface
 {
     /**
      * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
-     */
-    protected $_customerGroupService;
 
     /**
      * @var \Magento\Framework\Convert\Object
@@ -35,29 +41,42 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     protected $_salesRule;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\SalesRule\Model\RuleFactory $salesRule
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Framework\Convert\Object $objectConverter
-     * @param \Magento\Store\Model\System\Store $systemStore
+     * @var CustomerRepositoryInterface
+     */
+    protected $_customerRepository;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $_searchCriteriaBuilder;
+
+    /**
+     * @param Context $context
+     * @param Registry $registry
+     * @param FormFactory $formFactory
+     * @param RuleFactory $salesRule
+     * @param ObjectConverter $objectConverter
+     * @param Store $systemStore
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\SalesRule\Model\RuleFactory $salesRule,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
-        \Magento\Framework\Convert\Object $objectConverter,
-        \Magento\Store\Model\System\Store $systemStore,
+        Context $context,
+        Registry $registry,
+        FormFactory $formFactory,
+        RuleFactory $salesRule,
+        ObjectConverter $objectConverter,
+        Store $systemStore,
+        CustomerRepositoryInterface $customerRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
-        $this->_customerGroupService = $customerGroupService;
         $this->_objectConverter = $objectConverter;
         $this->_salesRule = $salesRule;
+        $this->_customerRepository = $customerRepository;
+        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -169,7 +188,9 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             $field->setRenderer($renderer);
         }
 
-        $groups = $this->_customerGroupService->getGroups();
+        $groups = $this->_customerRepository
+            ->getList($this->_searchCriteriaBuilder->create())
+            ->getItems();
         $fieldset->addField(
             'customer_group_ids',
             'multiselect',
