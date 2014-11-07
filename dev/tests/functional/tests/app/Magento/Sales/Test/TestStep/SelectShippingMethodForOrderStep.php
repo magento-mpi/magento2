@@ -45,12 +45,14 @@ class SelectShippingMethodForOrderStep implements TestStepInterface
     /**
      * Fill Shipping Data
      *
-     * @return void
+     * @return array
      */
     public function run()
     {
         if ($this->shipping['shipping_service'] != '-') {
             $this->orderCreateIndex->getCreateBlock()->selectShippingMethod($this->shipping);
         }
+
+        return ['shipping' => $this->shipping];
     }
 }

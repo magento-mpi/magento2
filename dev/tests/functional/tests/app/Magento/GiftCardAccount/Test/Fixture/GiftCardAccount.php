@@ -28,7 +28,7 @@ class GiftCardAccount extends InjectableFixture
 
     protected $defaultDataSet = [
         'balance' => 0,
-        'website_id' => 'Main Website',
+        'website_id' => ['dataSet' => 'Main Website'],
     ];
 
     protected $giftcardaccount_id = [
@@ -77,6 +77,7 @@ class GiftCardAccount extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\GiftCardAccount\Test\Fixture\GiftCardAccount\WebsiteId',
     ];
 
     protected $balance = [
