@@ -238,9 +238,10 @@ class ConditionsElement extends AbstractElement
 
         $newCondition = $context->find($this->newCondition, Locator::SELECTOR_XPATH);
         $newCondition->find($this->addNew, Locator::SELECTOR_XPATH)->click();
+        $typeNew = $this->typeNew;
         $newCondition->waitUntil(
-            function () use ($newCondition) {
-                $element = $newCondition->find($this->typeNew, Locator::SELECTOR_XPATH, 'select');
+            function () use ($newCondition, $typeNew) {
+                $element = $newCondition->find($typeNew, Locator::SELECTOR_XPATH, 'select');
                 return $element->isVisible() ? true : null;
             }
         );
