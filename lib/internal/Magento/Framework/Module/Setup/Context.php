@@ -62,7 +62,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\Resource $appResource
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Framework\Module\ResourceFactory $resourceFactory
+     * @param \Magento\Framework\Module\Resource $resource
      * @param \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Filesystem $filesystem
