@@ -7,8 +7,6 @@
  */
 namespace Magento\Log\Model\Resource\Visitor\Online;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-
 /**
  * Log Online visitors collection
  *

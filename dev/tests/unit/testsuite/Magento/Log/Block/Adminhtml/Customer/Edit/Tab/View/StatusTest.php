@@ -62,7 +62,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             return date('Y-m-d H:i:s');
         }));
 
-        $customer = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
+        $customer = $this->getMockBuilder('\Magento\Customer\Model\Data\Customer')
             ->setMethods(['getId', 'getStoreId'])
             ->disableOriginalConstructor()->getMock();
         $customer->expects($this->any())->method('getId')->will($this->returnValue(1));
