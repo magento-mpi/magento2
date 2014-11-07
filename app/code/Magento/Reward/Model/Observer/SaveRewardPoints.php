@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +9,9 @@ namespace Magento\Reward\Model\Observer;
 
 use Magento\Customer\Model\Converter;
 
+/**
+ * Class SaveRewardPoints
+ */
 class SaveRewardPoints
 {
     /**
@@ -73,7 +75,7 @@ class SaveRewardPoints
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {
@@ -86,19 +88,16 @@ class SaveRewardPoints
             $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_rewardFactory->create();
-            $reward->setCustomer(
-                $customerModel
-            )->setWebsiteId(
-                $this->_storeManager->getStore($data['store_id'])->getWebsiteId()
-            )->loadByCustomer();
+            $reward->setCustomer($customerModel)
+                ->setWebsiteId($this->_storeManager->getStore($data['store_id'])->getWebsiteId())
+                ->loadByCustomer();
 
             $reward->addData($data);
-            $reward->setAction(
-                \Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN
-            )->setActionEntity(
-                $customerModel
-            )->updateRewardPoints();
+            $reward->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
+                ->setActionEntity($customerModel)
+                ->updateRewardPoints();
         }
+
         return $this;
     }
 }

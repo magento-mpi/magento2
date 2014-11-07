@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Reward\Model\Observer;
 
+/**
+ * Class SaveRewardNotifications
+ */
 class SaveRewardNotifications
 {
     /**
@@ -39,7 +41,7 @@ class SaveRewardNotifications
         }
 
         $request = $subject->getEvent()->getRequest();
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customer */
+        /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder */
         $customerBuilder = $subject->getEvent()->getCustomer();
 
         /*
