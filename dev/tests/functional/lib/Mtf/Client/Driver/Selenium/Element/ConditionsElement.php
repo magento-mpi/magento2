@@ -273,10 +273,11 @@ class ConditionsElement extends AbstractElement
                 $grid->searchAndSelect([$chooserConfig[1] => $rule]);
                 continue;
             }
-            $input = $param->find($this->ruleParamInput);
+            $input = $this->ruleParamInput;
             $param->waitUntil(
-                function () use ($input) {
-                    return $input->isVisible() ? true : null;
+                function () use ($param, $input) {
+                    $element = $param->find($input);
+                    return $element->isVisible() ? true : null;
                 }
             );
             $value = $param->find('select', Locator::SELECTOR_CSS, 'select');

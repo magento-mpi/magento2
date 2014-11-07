@@ -123,6 +123,16 @@ class CreateCustomerSegmentEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
+     * Skip failed tests.
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('MAGETWO-30226');
+    }
+
+    /**
      * Inject pages
      *
      * @param PromoQuoteIndex $promoQuoteIndex
@@ -177,7 +187,6 @@ class CreateCustomerSegmentEntityTest extends Injectable
         array $salesRule,
         AssertCustomerSegmentSuccessSaveMessage $assertCustomerSegmentSuccessSaveMessage
     ) {
-        $this->markTestIncomplete('MAGETWO-30226');
         //Preconditions
         $customer->persist();
         $filter = ['email' => $customer->getEmail()];
