@@ -107,7 +107,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         $product = $this->productRepository->get($productSku);
         $assignedSkuList = [];
         /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $link */
-        foreach($items as $link) {
+        foreach ($items as $link) {
             $assignedSkuList[] = $link->getLinkedProductSku();
         }
         $linkedProductIds = $this->productResource->getProductsIdsBySkus($assignedSkuList);

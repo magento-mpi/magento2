@@ -41,20 +41,21 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
         );
         $this->_attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            ['getName', '__call', 'isValueEmpty', 'getEntity', 'getFrontend', '__wakeup', 'getIsRequired', 'getIsUnique'],
+            [
+                'getName',
+                '__call',
+                'isValueEmpty',
+                'getEntity',
+                'getFrontend',
+                '__wakeup',
+                'getIsRequired',
+                'getIsUnique'
+            ],
             [],
             '',
             false
         );
-//        $this->_attribute = $this->getMockForAbstractClass(
-//            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-//            array(),
-//            '',
-//            false,
-//            true,
-//            true,
-//            array('getName', '__call', 'isValueEmpty', 'getEntity', 'getFrontend', '__wakeup')
-//        );
+
         $this->_model->setAttribute($this->_attribute);
     }
 

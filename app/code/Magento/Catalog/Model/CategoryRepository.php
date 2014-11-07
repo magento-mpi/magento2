@@ -46,13 +46,13 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
      * @param CategoryFactory $categoryFactory
      * @param Resource\Category $categoryResource
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Api\Data\CategoryDataBuilder $dataBuilder
      */
     public function __construct(
         CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Api\Data\CategoryDataBuilder $dataBuilder
-
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryResource = $categoryResource;
@@ -132,7 +132,11 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
             $this->categoryResource->delete($category);
         } catch (\Exception $e) {
             throw new StateException('Cannot delete category with id %category_id',
-                ['category_id' => $category->getId()], $e);
+                [
+                    'category_id' => $category->getId()
+                ],
+                $e
+            );
         }
         return true;
     }

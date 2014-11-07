@@ -8,7 +8,7 @@
  */
 namespace Magento\Eav\Api;
 
-interface AttributeManagementInterface 
+interface AttributeManagementInterface
 {
     /**
      * @param string $entityTypeCode

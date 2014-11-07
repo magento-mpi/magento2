@@ -231,6 +231,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      *
      * @param \Magento\Framework\Api\Search\FilterGroup $filterGroup
      * @param Collection $collection
+     * @return void
      */
     protected function addFilterGroupToCollection(
         \Magento\Framework\Api\Search\FilterGroup $filterGroup,

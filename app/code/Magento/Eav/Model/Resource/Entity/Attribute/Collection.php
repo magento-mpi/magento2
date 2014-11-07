@@ -154,6 +154,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @param string $attributeSetName
      * @param string $entityTypeCode
+     * @return void
      */
     public function setAttributeSetFilterBySetName($attributeSetName, $entityTypeCode)
     {

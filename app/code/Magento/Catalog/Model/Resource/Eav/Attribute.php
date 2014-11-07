@@ -38,8 +38,8 @@ use Magento\Catalog\Model\Attribute\LockValidatorInterface;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute
-    implements \Magento\Catalog\Api\Data\ProductAttributeInterface
+class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
+    \Magento\Catalog\Api\Data\ProductAttributeInterface
 {
     const SCOPE_STORE = 0;
 

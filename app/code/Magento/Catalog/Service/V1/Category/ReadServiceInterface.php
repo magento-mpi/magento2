@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Service\V1\Category;
+
 /**
  * @todo remove this interface
  */

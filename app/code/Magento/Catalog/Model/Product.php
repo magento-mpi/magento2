@@ -11,6 +11,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
+
 /**
  * Catalog product model
  *
@@ -29,8 +30,8 @@ use Magento\Catalog\Api\Data\ProductInterface;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel
-    implements IdentityInterface, SaleableInterface, ProductInterface
+class Product extends \Magento\Catalog\Model\AbstractModel implements
+    IdentityInterface, SaleableInterface, ProductInterface
 {
     /**
      * Entity code.

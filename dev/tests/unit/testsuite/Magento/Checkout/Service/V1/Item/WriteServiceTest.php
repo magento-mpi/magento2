@@ -116,7 +116,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
         $this->quoteRepositoryMock->expects($this->once())
             ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
-        $this->productRepositoryMock->expects($this->once())->method('get')->will($this->returnValue($this->productMock));
+        $this->productRepositoryMock->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($this->productMock));
         $this->dataMock->expects($this->once())->method('getSku');
         $this->quoteMock->expects($this->once())->method('addProduct')->with($this->productMock, 12);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));

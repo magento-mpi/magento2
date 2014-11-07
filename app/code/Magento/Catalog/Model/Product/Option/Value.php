@@ -10,6 +10,7 @@ namespace Magento\Catalog\Model\Product\Option;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Option;
 use \Magento\Framework\Model\AbstractExtensibleModel;
+
 /**
  * Catalog product option select type model
  *
@@ -20,8 +21,7 @@ use \Magento\Framework\Model\AbstractExtensibleModel;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Value extends AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface
+class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface
 {
     /**
      * Option type percent

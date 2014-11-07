@@ -40,7 +40,8 @@ class AttributeSetManagement implements AttributeSetManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function create($entityTypeCode, AttributeSetInterface $attributeSet, $skeletonId) {
+    public function create($entityTypeCode, AttributeSetInterface $attributeSet, $skeletonId)
+    {
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
         if ($attributeSet->getId() !== null) {
             throw InputException::invalidFieldValue('id', $attributeSet->getId());

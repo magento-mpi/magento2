@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Api;
 
-interface ProductAttributeGroupRepositoryInterface 
+interface ProductAttributeGroupRepositoryInterface
 {
     /**
      * Save attribute group

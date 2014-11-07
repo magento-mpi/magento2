@@ -24,9 +24,8 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Eav\Model\Entity\Type;
 
-class Set
-    extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Eav\Api\Data\AttributeSetInterface
+class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Eav\Api\Data\AttributeSetInterface
 {
     /**
      * Resource instance
@@ -359,6 +358,7 @@ class Set
      * Set attribute set name.
      *
      * @param string $name
+     * @return void
      */
     public function setName($name)
     {

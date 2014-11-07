@@ -8,9 +8,8 @@
 
 namespace Magento\Catalog\Model\ProductLink;
 
-class Link
-    extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductLinkInterface
+class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Catalog\Api\Data\ProductLinkInterface
 {
     /**
      * @var array
@@ -116,4 +115,4 @@ class Link
     {
         return $this->_get(self::POSITION);
     }
-} 
+}

@@ -39,6 +39,9 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
     protected $linkFactory;
 
     /**
+     * @param \Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder $linkTypeBuilder
+     * @param \Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder $linkAttributeBuilder
+     * @param LinkFactory $linkFactory
      * @param array $linkTypes
      */
     public function __construct(

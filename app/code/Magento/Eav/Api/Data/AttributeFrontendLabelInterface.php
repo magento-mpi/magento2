@@ -8,7 +8,7 @@
  */
 namespace Magento\Eav\Api\Data;
 
-interface AttributeFrontendLabelInterface 
+interface AttributeFrontendLabelInterface
 {
     const LABEL = 'label';
 

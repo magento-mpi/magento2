@@ -39,6 +39,7 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param CollectionProvider $entityCollectionProvider
      * @param LinksInitializer $linkInitializer
+     * @param Management $linkManagement
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
@@ -125,6 +126,4 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
             $type
         );
     }
-
-
 }

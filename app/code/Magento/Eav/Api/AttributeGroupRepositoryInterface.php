@@ -8,7 +8,7 @@
  */
 namespace Magento\Eav\Api;
 
-interface AttributeGroupRepositoryInterface 
+interface AttributeGroupRepositoryInterface
 {
     /**
      * Save attribute group

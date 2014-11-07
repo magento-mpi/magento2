@@ -130,3 +130,13 @@ Magento/Shipping/Controller/Adminhtml/Order/Shipment
 vendor
 setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
+Magento/Catalog/Service/V1/Product/Link/Data/ProductLink/CollectionProvider
+Magento/Catalog/Model/ProductLink/CollectionProvider
+Magento/Catalog/Service/V1/Product/Link/Data/ProductLink/ProductEntity/ConverterPool
+Magento/Catalog/Model/ProductLink/Converter/ConverterPool
+Magento/Catalog/Model/ProductLink/Attribute
+Magento/Catalog/Model/ProductLink/Type
+Magento/Eav/Api/Data/AttributeOptionLabelInterface
+Magento/Eav/Api/Data/AttributeFrontendLabelInterface
+Magento/Catalog/Api/ProductAttributeGroupRepositoryInterface
+Magento/Eav/Api/AttributeGroupRepositoryInterface

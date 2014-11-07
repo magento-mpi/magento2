@@ -50,7 +50,7 @@ interface AttributeRepositoryInterface
     /**
      * Delete Attribute By Id
      *
-     * @param $attributeId
+     * @param int $attributeId
      * @return bool True if the entity was deleted
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException

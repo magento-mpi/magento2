@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute;
 
-class Type extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductAttributeTypeInterface
+class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Catalog\Api\Data\ProductAttributeTypeInterface
 {
     /**
      * {@inheritdoc}

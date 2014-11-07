@@ -14,8 +14,8 @@ use Magento\Eav\Exception;
  *
  * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
-    implements \Magento\Framework\Object\IdentityInterface
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements
+    \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Attribute code max length

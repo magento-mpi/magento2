@@ -9,9 +9,8 @@
 
 namespace Magento\Catalog\Model\Product;
 
-
-class TierPrice extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductTierPriceInterface
+class TierPrice extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Catalog\Api\Data\ProductTierPriceInterface
 {
     /**
      * Retrieve tier qty

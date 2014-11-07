@@ -8,9 +8,8 @@
 
 namespace Magento\Catalog\Model;
 
-class CategoryProductLink
-    extends \Magento\Framework\Api\AbstractSimpleObject
-    implements \Magento\Catalog\Api\Data\CategoryProductLinkInterface
+class CategoryProductLink extends \Magento\Framework\Api\AbstractSimpleObject implements
+    \Magento\Catalog\Api\Data\CategoryProductLinkInterface
 {
     /**
      * Get product SKU
