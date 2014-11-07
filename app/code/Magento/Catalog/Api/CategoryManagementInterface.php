@@ -14,8 +14,8 @@ interface CategoryManagementInterface
     /**
      * Retrieve list of categories
      *
-     * @param int|null $rootCategoryId
-     * @param int|null $depth
+     * @param int $rootCategoryId
+     * @param int $depth
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @return \Magento\Catalog\Api\Data\CategoryTreeInterface containing Tree objects
      */

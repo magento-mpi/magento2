@@ -10,7 +10,7 @@ namespace Magento\Eav\Model;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Data\Search\SearchCriteriaInterface;
+use \Magento\Framework\Api\SearchCriteriaInterface;
 use \Magento\Eav\Model\Resource\Entity\Attribute\Collection;
 use \Magento\Framework\Exception\StateException;
 

@@ -55,7 +55,7 @@ interface ProductAttributeRepositoryInterface extends \Magento\Framework\Api\Met
      * Delete Attribute by id
      *
      * @param string $attributeCode
-     * @return true
+     * @return bool
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */

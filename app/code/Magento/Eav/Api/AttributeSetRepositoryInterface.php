@@ -8,8 +8,6 @@
  */
 namespace Magento\Eav\Api;
 
-use \Magento\Framework\Data\Search\SearchCriteriaInterface;
-
 interface AttributeSetRepositoryInterface
 {
     /**

@@ -9,6 +9,8 @@
 
 namespace Magento\Catalog\Api;
 
+use Magento\Catalog\Api\Data\ProductInterface;
+
 interface ProductRepositoryInterface
 {
     /**

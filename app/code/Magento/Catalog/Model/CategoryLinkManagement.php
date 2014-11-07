@@ -13,7 +13,7 @@ use \Magento\Catalog\Api\Data\CategoryProductLinkInterface as ProductLink;
 class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagementInterface
 {
     /**
-     * @var \Magento\Catalog\Model\CategoryRepository
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -23,11 +23,11 @@ class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagem
     protected $productLinkBuilder;
 
     /**
-     * @param CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Catalog\Api\Data\CategoryProductLinkDataBuilder $productLinkInterfaceBuilder
      */
     public function __construct(
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Catalog\Api\Data\CategoryProductLinkDataBuilder $productLinkInterfaceBuilder
     ) {
         $this->categoryRepository = $categoryRepository;

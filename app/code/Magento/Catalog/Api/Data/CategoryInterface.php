@@ -53,7 +53,7 @@ interface CategoryInterface extends \Magento\Framework\Api\ExtensibleDataInterfa
     public function getLevel();
 
     /**
-     * @return array|null
+     * @return \Magento\Catalog\Api\Data\CategoryInterface[]|null
      */
     public function getChildren();
 
