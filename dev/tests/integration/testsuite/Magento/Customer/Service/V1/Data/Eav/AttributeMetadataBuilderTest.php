@@ -133,7 +133,8 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadata = $this->_builder->populateWithArray($dataNoOptions)->create();
         $attributeMetadataA = $this->_builder->populateWithArray($dataWithOptions)->create();
-        $merged = $this->_builder->mergeDataObjects($attributeMetadata, $attributeMetadataA);
+        $merged = $this->_builder->mergeDataObjects($attributeMetadata, $attributeMetadataA)
+            ->create();
         $this->assertEquals($attributeMetadataA, $merged);
     }
 
@@ -164,7 +165,8 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadata = $this->_builder->populateWithArray($dataNoOptions)->create();
         $attributeMetadataA = $this->_builder->populateWithArray($dataWithOptions)->create();
-        $merged = $this->_builder->mergeDataObjectWithArray($attributeMetadata, $dataWithOptions);
+        $merged = $this->_builder->mergeDataObjectWithArray($attributeMetadata, $dataWithOptions)
+            ->create();
         $this->assertEquals($attributeMetadataA, $merged);
     }
 }

@@ -142,7 +142,7 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testRestrictedCustomAttributesGet()
     {
-        $this->model->getData(\Magento\Framework\Model\AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY);
+        $this->model->getData(\Magento\Framework\Api\ExtensibleDataInterface::CUSTOM_ATTRIBUTES);
     }
 
     /**
@@ -150,7 +150,7 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testRestrictedCustomAttributesSet()
     {
-        $this->model->setData(\Magento\Framework\Model\AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY, 'value');
+        $this->model->setData(\Magento\Framework\Api\ExtensibleDataInterface::CUSTOM_ATTRIBUTES, 'value');
     }
 
     /**

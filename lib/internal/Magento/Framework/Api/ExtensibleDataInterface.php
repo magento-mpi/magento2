@@ -13,6 +13,8 @@ namespace Magento\Framework\Api;
  */
 interface ExtensibleDataInterface
 {
+    const CUSTOM_ATTRIBUTES = 'custom_attributes';
+
     /**
      * Get an attribute value.
      *

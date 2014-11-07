@@ -94,7 +94,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $middlename2 = 'Middlename2';
         $secondDataObject = $this->_customerBuilder->setLastname($lastname2)->setMiddlename($middlename2)->create();
 
-        $mergedDataObject = $this->_customerBuilder->mergeDataObjects($firstDataObject, $secondDataObject);
+        $mergedDataObject = $this->_customerBuilder->mergeDataObjects($firstDataObject, $secondDataObject)
+            ->create();
         $this->assertNotSame(
             $firstDataObject,
             $mergedDataObject,
@@ -135,7 +136,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $middlename2 = 'Middlename2';
         $dataForMerge = array('lastname' => $lastname2, 'middlename' => $middlename2);
 
-        $mergedDataObject = $this->_customerBuilder->mergeDataObjectWithArray($firstDataObject, $dataForMerge);
+        $mergedDataObject = $this->_customerBuilder->mergeDataObjectWithArray($firstDataObject, $dataForMerge)
+            ->create();
         $this->assertNotSame(
             $firstDataObject,
             $mergedDataObject,
@@ -346,7 +348,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ]
-        );
+        )->create();
 
         $expectedData = array(
             'email' => 'test@example.com',
@@ -422,7 +424,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer1 = $this->_customerBuilder->populateWithArray($customer1Data)->create();
         $customer2 = $this->_customerBuilder->populateWithArray($customer2Data)->create();
-        $customer3 = $this->_customerBuilder->mergeDataObjects($customer1, $customer2);
+        $customer3 = $this->_customerBuilder->mergeDataObjects($customer1, $customer2)
+            ->create();
         $this->assertEquals('78666', $customer3->getCustomAttribute('warehouse_zip')->getValue());
         $this->assertEquals('90051', $customer3->getCustomAttribute('warehouse_alternate')->getValue());
         foreach ($customer3->getCustomAttributes() as $customAttribute) {

@@ -1477,7 +1477,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data);
+        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data)
+            ->create();
         $this->getQuote()->updateCustomerData($customer);
         $data = array();
 
@@ -1588,7 +1589,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 unset($data[$key]);
             }
         }
-        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data);
+        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data)
+            ->create();
     }
 
     /**
@@ -1686,7 +1688,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $customerAddressDataObject = $this->_customerAddressBuilder->mergeDataObjects(
                 $existingAddressDataObject,
                 $customerAddressDataObject
-            );
+            )->create();
         } elseif ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING) {
             try {
                 $billingAddressDataObject = $this->_customerAddressService->getDefaultBillingAddress($customerId);

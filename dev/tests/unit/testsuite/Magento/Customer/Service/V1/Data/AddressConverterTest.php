@@ -121,7 +121,8 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
                 'metadataService' => $this->addressMetadataService
             ]
         );
-        $addressData = $addressDataBuilder->mergeDataObjectWithArray($addressData, $updatedAddressData);
+        $addressData = $addressDataBuilder->mergeDataObjectWithArray($addressData, $updatedAddressData)
+            ->create();
 
         $result = AddressConverter::toFlatArray($addressData);
         $this->assertEquals($expected, $result);

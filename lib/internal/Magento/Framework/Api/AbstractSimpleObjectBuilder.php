@@ -91,7 +91,7 @@ abstract class AbstractSimpleObjectBuilder
      *
      * @param AbstractSimpleObject $firstDataObject
      * @param AbstractSimpleObject $secondDataObject
-     * @return AbstractSimpleObject
+     * @return $this
      * @throws \LogicException
      */
     public function mergeDataObjects(AbstractSimpleObject $firstDataObject, AbstractSimpleObject $secondDataObject)
@@ -102,7 +102,7 @@ abstract class AbstractSimpleObjectBuilder
         }
         $this->_setDataValues($firstDataObject->__toArray());
         $this->_setDataValues($secondDataObject->__toArray());
-        return $this->create();
+        return $this;
     }
 
     /**
@@ -111,7 +111,7 @@ abstract class AbstractSimpleObjectBuilder
      *
      * @param AbstractSimpleObject $dataObject
      * @param array $data
-     * @return AbstractSimpleObject
+     * @return $this
      * @throws \LogicException
      */
     public function mergeDataObjectWithArray(AbstractSimpleObject $dataObject, array $data)
@@ -122,7 +122,7 @@ abstract class AbstractSimpleObjectBuilder
         }
         $this->_setDataValues($dataObject->__toArray());
         $this->_setDataValues($data);
-        return $this->create();
+        return $this;
     }
 
     /**

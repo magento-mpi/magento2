@@ -303,7 +303,8 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         $customerDetailsA = $this->_builder->populateWithArray(
             array('customer' => $customer, 'addresses' => array($address2))
         )->create();
-        $customerDetailsB = $this->_builder->mergeDataObjects($customerDetailsC, $customerDetailsA);
+        $customerDetailsB = $this->_builder->mergeDataObjects($customerDetailsC, $customerDetailsA)
+            ->create();
         $this->assertEquals($customerDetails->__toArray(), $customerDetailsB->__toArray());
     }
 
@@ -370,7 +371,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         $customerDetailsB = $this->_builder->mergeDataObjectWithArray(
             $customerDetailsC,
             array('addresses' => array($address2))
-        );
+        )->create();
         $this->assertEquals($customerDetails->__toArray(), $customerDetailsB->__toArray());
     }
 }
