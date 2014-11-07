@@ -56,6 +56,12 @@
         <fail message="Bamboo variable 'target_skeleton_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_skeleton_dir}" arg2="" trim="true"/></condition>
         </fail>
+        <fail message="Bamboo variable 'target_product_repository' must be defined.">
+            <condition><equals arg1="${env.bamboo_target_product_repository}" arg2="" trim="true"/></condition>
+        </fail>
+        <fail message="Bamboo variable 'target_product_dir' must be defined.">
+            <condition><equals arg1="${env.bamboo_target_product_dir}" arg2="" trim="true"/></condition>
+        </fail>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/prepare_packages.php --
                 --source-dir=${env.bamboo_publication_target_dir}
@@ -64,6 +70,8 @@
                 --target-satis-dir=${env.bamboo_target_satis_dir}
                 --target-skeleton-repo=${env.bamboo_target_skeleton_repository}
                 --target-skeleton-dir=${env.bamboo_target_skeleton_dir}
+                --target-product-repo=${env.bamboo_target_product_repository}
+                --target-product-dir=${env.bamboo_target_product_dir}
                 "/>
         </exec>
     </target>
@@ -78,6 +86,9 @@
         <fail message="Bamboo variable 'target_skeleton_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_skeleton_dir}" arg2="" trim="true"/></condition>
         </fail>
+        <fail message="Bamboo variable 'target_product_dir' must be defined.">
+            <condition><equals arg1="${env.bamboo_target_product_dir}" arg2="" trim="true"/></condition>
+        </fail>
         <condition property="env.bamboo_target_branch" value="master">
             <not><isset property="env.bamboo_target_branch"/></not>
         </condition>
@@ -89,6 +100,10 @@
         </exec>
         <!-- Push CE skeleton -->
         <exec dir="${env.bamboo_target_skeleton_dir}" executable="git" failonerror="true">
+            <arg line="push origin master --tags"/>
+        </exec>
+        <!-- Push CE product -->
+        <exec dir="${env.bamboo_target_product_dir}" executable="git" failonerror="true">
             <arg line="push origin master --tags"/>
         </exec>
         <!-- Push full CE -->

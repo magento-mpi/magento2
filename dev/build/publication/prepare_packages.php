@@ -16,15 +16,16 @@ define(
 php -f prepare_packages.php --
     --source-dir="<directory>"
     --changelog-file="<markdown_file>"
-    --target-satis-repo="<repository>" [--target-satis-dir=="<directory>"]
-    --target-skeleton-repo="<repository>" [--target-skeleton-dir=="<directory>"]
+    --target-satis-repo="<repository>" [--target-satis-dir="<directory>"]
+    --target-skeleton-repo="<repository>" [--target-skeleton-dir="<directory>"]
+    --target-product-repo="<repository>" [--target-product-dir="<directory>"]
 SYNOPSIS
 );
 $options = getopt('', array(
         'source-dir:', 'changelog-file:', 'target-satis-repo:', 'target-satis-dir::',
-        'target-skeleton-repo:', 'target-skeleton-dir::'
+        'target-skeleton-repo:', 'target-skeleton-dir::', 'target-product-repo:', 'target-product-dir::'
     ));
-$requiredArgs = ['source-dir', 'changelog-file', 'target-satis-repo', 'target-skeleton-repo'];
+$requiredArgs = ['source-dir', 'changelog-file', 'target-satis-repo', 'target-skeleton-repo', 'target-product-repo'];
 foreach ($requiredArgs as $arg) {
     if (empty($options[$arg])) {
         echo SYNOPSIS;
@@ -42,6 +43,10 @@ $skeletonTargetDir = (isset($options['target-skeleton-dir']) ?
     $options['target-skeleton-dir'] :
     __DIR__ . '/_skeleton');
 $skeletonTargetRepo = $options['target-skeleton-repo'];
+$productTargetDir = (isset($options['target-product-dir']) ?
+    $options['target-product-dir'] :
+    __DIR__ . '/_product');
+$productTargetRepo = $options['target-product-repo'];
 
 try {
     $gitSatisCmd = sprintf(
@@ -54,18 +59,15 @@ try {
         escapeshellarg("$skeletonTargetDir/.git"),
         escapeshellarg($skeletonTargetDir)
     );
+    $gitProductCmd = sprintf(
+        'git --git-dir %s --work-tree %s',
+        escapeshellarg("$productTargetDir/.git"),
+        escapeshellarg($productTargetDir)
+    );
 
     // prepare skeleton
     $sourceSkeletonDir = __DIR__ . '/_tmp_sekelton_source';
-    $targetComposerJson = $sourceSkeletonDir . '/composer.json';
     execVerbose("git clone %s %s", $sourceDir, $sourceSkeletonDir);
-    execVerbose(
-        'php -f ' . __DIR__
-        . '/../../tools/Magento/Tools/Composer/create-root.php -- --skeleton --source-dir=%s --target-file=%s',
-        $sourceSkeletonDir,
-        $targetComposerJson
-    );
-    $rootJson = json_decode(file_get_contents($targetComposerJson));
 
     // init satis repo
     execVerbose("git clone $satisTargetRepo $satisTargetDir");
@@ -75,6 +77,8 @@ try {
         'php -f ' . __DIR__ . '/../../tools/Magento/Tools/Composer/archiver.php -- '
         . "--dir=$sourceSkeletonDir --output=$satisTargetDir/_packages"
     );
+    //remove product zip package if exist
+    execVerbose("rm -f $satisTargetDir/_packages/magento_product-*");
 
     // prepare skeleton repo
     execVerbose("git clone $skeletonTargetRepo $skeletonTargetDir");
@@ -91,8 +95,40 @@ try {
         'php -f ' . __DIR__ . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- '
         . "--source=$sourceSkeletonDir --destination=$skeletonTargetDir"
     );
-    //remove product zip package if exist
-    execVerbose("rm -f $satisTargetDir/_packages/magento_product-*");
+    //create skeleton root composer.json
+    $targetComposerJson = $skeletonTargetDir . '/composer.json';
+    execVerbose(
+        'php -f ' . __DIR__
+        . '/../../tools/Magento/Tools/Composer/create-root.php -- --type=skeleton --source-dir=%s --target-file=%s',
+        $sourceSkeletonDir,
+        $targetComposerJson
+    );
+    $rootJson = json_decode(file_get_contents($targetComposerJson));
+
+    //prepare product repo
+    execVerbose("git clone $productTargetRepo $productTargetDir");
+    $dir = dir($productTargetDir);
+    while (false !== ($file = $dir->read())) {
+        if (in_array($file, ['.', '..', '.git', '.gitignore'])) {
+            continue;
+        }
+        execVerbose("$gitProductCmd rm -r $file");
+    }
+
+    //create product directory
+    $readmeFile = $sourceSkeletonDir . '/README.md';
+    if (is_file($readmeFile)) {
+        copy($readmeFile, $productTargetDir . '/README.md');
+    }
+
+    //create skeleton root composer.json
+    $targetComposerJson = $productTargetDir . '/composer.json';
+    execVerbose(
+        'php -f ' . __DIR__
+        . '/../../tools/Magento/Tools/Composer/create-root.php -- --type=product --source-dir=%s --target-file=%s',
+        $sourceSkeletonDir,
+        $targetComposerJson
+    );
 
     // commit changes to satis repo
     execVerbose("$gitSatisCmd add .");
@@ -115,6 +151,13 @@ try {
     }
     execVerbose("$gitSkeletonCmd commit -m %s", $commitMsg);
     execVerbose("$gitSkeletonCmd tag $rootJson->version");
+
+    // Commit changes to product repo
+    execVerbose("$gitProductCmd add .");
+    execVerbose("$gitProductCmd config user.name " . getGitUsername());
+    execVerbose("$gitProductCmd config user.email " . getGitEmail());
+    execVerbose("$gitProductCmd commit -m %s", $commitMsg);
+    execVerbose("$gitProductCmd tag $rootJson->version");
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
     exit(1);
