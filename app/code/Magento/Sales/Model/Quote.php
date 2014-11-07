@@ -278,14 +278,14 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Search criteria builder
      *
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     protected $criteriaBuilder;
 
     /**
      * Filter builder
      *
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
@@ -339,8 +339,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -370,8 +370,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Api\Data\AddressInterfaceInterfaceBuilder $addressBuilder,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

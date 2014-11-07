@@ -85,11 +85,6 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
-     */
-    protected $dataObjectProcessor;
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -113,7 +108,6 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Webapi\Model\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -127,7 +121,6 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->_isScopePrivate = true;
         $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
-        $this->dataObjectProcessor = $dataObjectProcessor;
     }
 
     /**
@@ -149,7 +142,6 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected function _getCustomer()
     {
         if (empty($this->_customer)) {
-            // @TODO ensure repository accept id instead of email
             $this->_customer = $this->customerRepository->getById($this->_customerSession->getCustomerId());
         }
         return $this->_customer;
@@ -238,10 +230,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $builtOutputAddressData = $this->dataObjectProcessor->buildOutputDataArray(
-                    $address,
-                    '\Magento\Customer\Api\Data\AddressInterface'
-                );
+                $builtOutputAddressData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address);
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
