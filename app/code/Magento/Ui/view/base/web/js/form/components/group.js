@@ -53,6 +53,12 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
+        /**
+         * Calls initObservable of parent class.
+         * Defines observable properties of instance.
+         * 
+         * @return {Object} - reference to instance
+         */
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
 
@@ -78,6 +84,11 @@ define([
             return this;
         },
 
+        /**
+         * Extracts label and required properties from child elements
+         * 
+         * @return {Object} - reference to instance
+         */
         extractData: function(){
             var elems = this.elems();
 
@@ -87,6 +98,11 @@ define([
             return this;
         },
 
+        /**
+         * Sets incoming value to hidden observable, calls extractData method
+         * 
+         * @param  {Boolean} value
+         */
         toggle: function(value){
             this.extractData()
                 .hidden(value);
@@ -101,13 +117,12 @@ define([
         },
 
         /**
-         * Defines if group has multiple elements.
+         * Defines if incoming element is one of instance's child
+         * 
+         * @param  {*} ignored - ignored arg
+         * @param  {Object} element
          * @return {Boolean}
          */
-        isMultiple: function () {
-            return this.elems.getLength() > 1;
-        },
-
         contains: function (ignored, element) {
             return this.elems.contains(element);
         }

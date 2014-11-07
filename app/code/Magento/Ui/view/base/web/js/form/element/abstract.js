@@ -257,8 +257,8 @@ define([
                 return !!errorMsg;
             }, this);
 
-            if(errorMsg && !params.get('invalidElement')){
-                params.set('invalidElement', this);
+            if(errorMsg && !params.get('invalid')){
+                params.set('invalid', this);
             }
 
             this.error(errorMsg);

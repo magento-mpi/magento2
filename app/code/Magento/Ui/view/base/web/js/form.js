@@ -69,7 +69,7 @@ define([
 
             this.validate();
 
-            if (!params.get('invalidElement')) {
+            if (!params.get('invalid')) {
                 this.submit();
             }
         },
@@ -96,7 +96,7 @@ define([
         validate: function () {
             var provider = this.provider;
 
-            provider.params.set('invalidElement', null);
+            provider.params.set('invalid', null);
             provider.data.trigger('validate');
         }
     });

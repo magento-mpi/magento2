@@ -43,7 +43,7 @@ define([
 
             elem.delegate('validate');
 
-            invalid = params.get('invalidElement');
+            invalid = params.get('invalid');
 
             if(this.formValid && invalid){
                 this.formValid = false;
