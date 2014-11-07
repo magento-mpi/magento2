@@ -34,9 +34,7 @@ define([
 
         toggle: function() {
             var opened = this.opened,
-                active;
-
-            active = opened(!opened());
+                active = opened(!opened());
 
             this.trigger('active', active);
 

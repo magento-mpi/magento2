@@ -102,7 +102,7 @@ define([
             this.remove(elem);
             data.remove(elem.dataScope);
 
-            first = this.elems[0];
+            first = this.elems()[0];
 
             if (first && isActive) {
                 first.activate();

@@ -7,7 +7,7 @@
 define([
     'underscore',
     'mage/utils',
-    './abstract_select'
+    './select'
 ], function (_, utils, Select) {
     'use strict';
 

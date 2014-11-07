@@ -135,9 +135,11 @@ define([
         
     _.extend(Layout.prototype, {
         waitTemplate: function(parent, node, name){
-            var callback = this.applyTemplate.bind(this, parent, node, name);
+            var args = _.toArray(arguments);
 
-            this.registry.get(node.template, callback);
+            this.registry.get(node.template, function(){
+                this.applyTemplate.apply(this, args);
+            }.bind(this));
         },
 
         waitParent: function(node, name){
@@ -151,18 +153,13 @@ define([
         },
 
         applyTemplate: function(parent, node, name){
-            var templates = _.toArray(arguments).slice(3),
-                result = {};
+            var template = this.registry.get(node.template);
 
-            templates.push(node);
+            node = $.extend(true, {}, template, node);
 
-            templates.forEach(function(part){
-                $.extend(true, result, part);
-            });
+            delete node.template;
 
-            delete result.template;
-
-            this.process(parent, result, name);
+            this.process(parent, node, name);
         }
     });
 

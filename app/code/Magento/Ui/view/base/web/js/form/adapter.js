@@ -26,9 +26,6 @@ define([
 
     return {
         on: function(handlers){
-            var elem,
-                selector;
-
             _.each(handlers, initListener);
         }
     }

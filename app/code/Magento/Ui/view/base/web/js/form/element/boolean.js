@@ -12,16 +12,6 @@ define([
     var __super__ = Abstract.prototype;
 
     return Abstract.extend({
-
-        initObservable: function () {
-            __super__.initObservable.apply(this, arguments);
-
-            this.initialValue = !!this.value();
-            this.value(this.initialValue);
-
-            return this;
-        },
-
         initListeners: function () {
             var onUniqueUpdate  = this.onUniqueUpdate.bind(this);
             
@@ -34,12 +24,14 @@ define([
             return this;
         },
 
-        store: function (value) {
-            var isUndefined = typeof value === 'undefined';
+        getInititalValue: function(){
+            return !!__super__.getInititalValue.apply(this, arguments);
+        },
 
+        store: function (value) {
             __super__.store.apply(this, arguments);
 
-            if (this.unique && !isUndefined) {
+            if (this.unique && !_.isUndefined(value)) {
                 this.setUnique();
             }
 
@@ -47,10 +39,10 @@ define([
         },
 
         setUnique: function () {
-            var params      = this.provider.params,
-                isActive    = this.value();
+            var params  = this.provider.params,
+                checked = this.value();
 
-            if (isActive) {
+            if (checked) {
                 params.set(this.index, this.name);    
             }
 
@@ -58,9 +50,9 @@ define([
         },
 
         onUniqueUpdate: function (name) {
-            var isActive = this.name === name;
+            var checked = this.name === name;
 
-            if (!isActive) {
+            if (!checked) {
                 this.value(undefined);
             }
         },

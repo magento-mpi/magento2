@@ -130,11 +130,7 @@ define([
             var data = this.provider.data,
                 value = data.get(this.dataScope);
 
-            if (value == null) {
-                value = undefined;
-            }
-
-            return value;
+            return _.isUndefined(value) || _.isNull(value) ? '' : value;
         },
 
         /**

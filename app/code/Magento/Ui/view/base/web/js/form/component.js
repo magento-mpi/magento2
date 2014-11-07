@@ -123,17 +123,12 @@ define([
 
         initListener: function(params, data, callback){
             var storage = params.storage,
-                source  = params.source,
-                value;
+                source  = params.source;
 
             callback = this[callback].bind(this);
             callback = getProxy(callback, data);
 
-            value = storage.get(source);
-
-            if(value){
-                callback(value);
-            }
+            callback(storage.get(source));
 
             storage.on('update:' + source, callback);
         },
