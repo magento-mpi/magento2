@@ -125,7 +125,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
         }
 
         $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
-        $this->pageConfig->setTitle($page->getTitle());
+        $this->pageConfig->getTitle()->setTitle($page->getTitle());
         $this->pageConfig->setKeywords($page->getMetaKeywords());
         $this->pageConfig->setDescription($page->getMetaDescription());
 

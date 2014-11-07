@@ -40,7 +40,7 @@ class Title extends \Magento\Framework\View\Element\Template
         if (!empty($this->pageTitle)) {
             return $this->pageTitle;
         }
-        return $this->pageConfig->getShortTitle();
+        return $this->pageConfig->getTitle()->getShortTitle();
     }
 
     /**
