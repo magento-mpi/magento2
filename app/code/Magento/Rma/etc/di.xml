@@ -53,7 +53,7 @@
             <argument name="instance" xsi:type="string">Magento\Rma\Model\Resource\Item\Form\Attribute\Collection</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Rma\Service\V1\Data\Eav\AttributeMetadataDataProvider" type="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider">
+    <virtualType name="Magento\Rma\Service\V1\Data\Eav\AttributeMetadataDataProvider" type="Magento\Customer\Service\V1\MetadataServiceInterface">
         <arguments>
             <argument name="attrFormCollectionFactory" xsi:type="object">Magento\Rma\Service\Resource\Item\Form\Attribute\CollectionFactory</argument>
         </arguments>
@@ -65,7 +65,7 @@
     </type>
     <virtualType name="Magento\Rma\Service\Config\RmaMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
-            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Api\Data\AttributeMetadataInterfaceBuilder</argument>
         </arguments>
     </virtualType>
     <type name="\Magento\Rma\Service\V1\RmaMetadataRead">
