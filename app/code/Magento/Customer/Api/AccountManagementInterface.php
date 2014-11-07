@@ -178,6 +178,7 @@ interface AccountManagementInterface
      * @param int $customerId
      * @return \Magento\Customer\Api\Data\AddressInterface|null
      * @throws \Magento\Framework\Exception\NoSuchEntityException If the customer Id is invalid
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getDefaultBillingAddress($customerId);
 
@@ -187,6 +188,7 @@ interface AccountManagementInterface
      * @param int $customerId
      * @return \Magento\Customer\Api\Data\AddressInterface|null
      * @throws \Magento\Framework\Exception\NoSuchEntityException If the customer Id is invalid
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getDefaultShippingAddress($customerId);
 }
