@@ -17,6 +17,9 @@ use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
+use Magento\Framework\Api\Search\FilterGroup;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\AuthenticationException;
@@ -31,12 +34,9 @@ use Magento\Framework\Exception\StateException;
 use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception as MailException;
 use Magento\Framework\Math\Random;
-use Magento\Framework\Api\Search\FilterGroup;
-use Magento\Framework\Api\SearchCriteria;
-use Magento\Framework\Api\SortOrder;
-use Magento\Framework\UrlInterface;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Stdlib\String as StringHelper;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Framework\UrlInterface;
 
 /**
  * Handle various customer account actions
@@ -439,8 +439,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         CustomerModel $customerModel,
         \Magento\Customer\Api\Data\CustomerInterface $customer,
         $redirectUrl
-    )
-    {
+    ) {
         try {
             if ($customerModel->isConfirmationRequired()) {
                 $customerModel->sendNewAccountEmail(

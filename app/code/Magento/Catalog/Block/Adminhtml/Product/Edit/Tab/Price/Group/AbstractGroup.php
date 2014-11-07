@@ -78,6 +78,8 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\Registry $registry
+     * @param GroupManagementInterface $groupManagement
+     * @param \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaDataBuilder
      * @param array $data
      */
     public function __construct(

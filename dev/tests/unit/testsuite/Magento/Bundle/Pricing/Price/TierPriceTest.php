@@ -55,7 +55,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfo));
 
         $this->calculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
-        $this->groupManagement = $this->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
+        $this->groupManagement = $this
+            ->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\TierPrice', [
@@ -92,7 +93,9 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $group->expects($this->any())->method('getId')->willReturn(\Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL);
+        $group->expects($this->any())
+            ->method('getId')
+            ->willReturn(\Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL);
         $this->groupManagement->expects($this->any())->method('getAllGroup')
             ->will($this->returnValue($group));
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());

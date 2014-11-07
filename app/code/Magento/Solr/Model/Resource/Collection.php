@@ -146,6 +146,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Solr\Helper\Data $searchData
      * @param \Magento\Search\Model\QueryFactory $queryFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver

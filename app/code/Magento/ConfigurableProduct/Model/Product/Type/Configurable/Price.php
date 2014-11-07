@@ -40,7 +40,15 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
         $this->priceModifier = $priceModifier;
-        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager, $priceCurrency, $groupManagement);
+        parent::__construct(
+            $ruleFactory,
+            $storeManager,
+            $localeDate,
+            $customerSession,
+            $eventManager,
+            $priceCurrency,
+            $groupManagement
+        );
     }
 
     /**
