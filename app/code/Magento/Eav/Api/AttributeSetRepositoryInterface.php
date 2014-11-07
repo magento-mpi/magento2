@@ -20,7 +20,6 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::update
      */
     public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
 
@@ -29,7 +28,6 @@ interface AttributeSetRepositoryInterface
      *
      * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getList
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 
@@ -39,7 +37,6 @@ interface AttributeSetRepositoryInterface
      * @param int $attributeSetId
      * @throws \Magento\Framework\Exception\NoSuchEntityException If $attributeSetId is not found
      * @return \Magento\Eav\Api\Data\AttributeSetInterface
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface::getInfo
      */
     public function get($attributeSetId);
 
@@ -50,7 +47,6 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\InputException
      * @return bool
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::remove
      */
     public function delete(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
 
@@ -61,7 +57,6 @@ interface AttributeSetRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\InputException
      * @return bool
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::remove
      */
     public function deleteById($attributeSetId);
 }
