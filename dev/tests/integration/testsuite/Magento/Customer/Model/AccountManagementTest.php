@@ -118,7 +118,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestLogin()
+    public function testLogin()
     {
         // Customer e-mail and password are pulled from the fixture customer.php
         $customer = $this->accountManagement->authenticate('customer@example.com', 'password', true);
@@ -132,7 +132,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
      * @expectedExceptionMessage Invalid login or password.
      */
-    public function atestLoginWrongPassword()
+    public function testLoginWrongPassword()
     {
         // Customer e-mail and password are pulled from the fixture customer.php
         $this->accountManagement->authenticate('customer@example.com', 'wrongPassword', true);
@@ -142,7 +142,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
      * @expectedExceptionMessage Invalid login or password.
      */
-    public function atestLoginWrongUsername()
+    public function testLoginWrongUsername()
     {
         // Customer e-mail and password are pulled from the fixture customer.php
         $this->accountManagement->authenticate('non_existing_user', 'password', true);
@@ -153,7 +153,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestChangePassword()
+    public function testChangePassword()
     {
         $this->accountManagement->changePassword('customer@example.com', 'password', 'new_password');
 
@@ -166,7 +166,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
      * @expectedExceptionMessage Password doesn't match for this account
      */
-    public function atestChangePasswordWrongPassword()
+    public function testChangePasswordWrongPassword()
     {
         $this->accountManagement->changePassword(1, 'wrongPassword', 'new_password');
     }
@@ -175,7 +175,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
      * @expectedExceptionMessage Password doesn't match for this account
      */
-    public function atestChangePasswordWrongUser()
+    public function testChangePasswordWrongUser()
     {
         $this->accountManagement->changePassword(4200, 'password', 'new_password');
     }
@@ -184,7 +184,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
      */
-    public function atestActivateAccount()
+    public function testActivateAccount()
     {
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->objectManager->create('Magento\Customer\Model\Customer');
@@ -203,7 +203,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @expectedException \Magento\Framework\Exception\State\InputMismatchException
      */
-    public function atestActivateCustomerConfirmationKeyWrongKey()
+    public function testActivateCustomerConfirmationKeyWrongKey()
     {
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->objectManager->create('Magento\Customer\Model\Customer');
@@ -221,7 +221,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      */
-    public function atestActivateCustomerWrongAccount()
+    public function testActivateCustomerWrongAccount()
     {
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->objectManager->create('Magento\Customer\Model\Customer');
@@ -243,7 +243,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @expectedException \Magento\Framework\Exception\State\InvalidTransitionException
      */
-    public function atestActivateCustomerAlreadyActive()
+    public function testActivateCustomerAlreadyActive()
     {
         /** @var \Magento\Customer\Model\Customer $customerModel */
         $customerModel = $this->objectManager->create('Magento\Customer\Model\Customer');
@@ -258,7 +258,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestValidateResetPasswordLinkToken()
+    public function testValidateResetPasswordLinkToken()
     {
         $this->setResetPasswordData('token', 'Y-m-d');
         $this->accountManagement->validateResetPasswordLinkToken(1, 'token');
@@ -268,7 +268,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @expectedException \Magento\Framework\Exception\State\ExpiredException
      */
-    public function atestValidateResetPasswordLinkTokenExpired()
+    public function testValidateResetPasswordLinkTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $this->setResetPasswordData($resetToken, '1970-01-01');
@@ -278,7 +278,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestValidateResetPasswordLinkTokenInvalid()
+    public function testValidateResetPasswordLinkTokenInvalid()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
@@ -298,7 +298,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      */
-    public function atestValidateResetPasswordLinkTokenWrongUser()
+    public function testValidateResetPasswordLinkTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
 
@@ -314,7 +314,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      */
-    public function atestValidateResetPasswordLinkTokenNull()
+    public function testValidateResetPasswordLinkTokenNull()
     {
         try {
             $this->accountManagement->validateResetPasswordLinkToken(1, null);
@@ -331,7 +331,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestSendPasswordResetLink()
+    public function testSendPasswordResetLink()
     {
         $email = 'customer@example.com';
 
@@ -342,7 +342,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestSendPasswordResetLinkDefaultWebsite()
+    public function testSendPasswordResetLinkDefaultWebsite()
     {
         $email = 'customer@example.com';
 
@@ -353,7 +353,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      */
-    public function atestSendPasswordResetLinkBadEmailOrWebsite()
+    public function testSendPasswordResetLinkBadEmailOrWebsite()
     {
         $email = 'foo@example.com';
 
@@ -378,7 +378,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestSendPasswordResetLinkBadEmailDefaultWebsite()
+    public function testSendPasswordResetLinkBadEmailDefaultWebsite()
     {
         $email = 'foo@example.com';
 
@@ -397,7 +397,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestResetPassword()
+    public function testResetPassword()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'new_password';
@@ -409,7 +409,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestResetPasswordTokenExpired()
+    public function testResetPasswordTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'new_password';
@@ -427,7 +427,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      */
-    public function atestResetPasswordTokenInvalid()
+    public function testResetPasswordTokenInvalid()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $invalidToken = 0;
@@ -448,7 +448,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestResetPasswordTokenWrongUser()
+    public function testResetPasswordTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'new_password';
@@ -467,7 +467,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestResetPasswordTokenInvalidUserEmail()
+    public function testResetPasswordTokenInvalidUserEmail()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'new_password';
@@ -488,7 +488,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      */
-    public function atestResendConfirmation()
+    public function testResendConfirmation()
     {
         $this->accountManagement->resendConfirmation('customer@needAconfirmation.com', 1);
         //TODO assert
@@ -499,7 +499,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      */
-    public function atestResendConfirmationBadWebsiteId()
+    public function testResendConfirmationBadWebsiteId()
     {
         try {
             $this->accountManagement->resendConfirmation('customer@needAconfirmation.com', 'notAWebsiteId');
@@ -514,7 +514,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestResendConfirmationNoEmail()
+    public function testResendConfirmationNoEmail()
     {
         try {
             $this->accountManagement->resendConfirmation('wrongemail@example.com', 1);
@@ -531,7 +531,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @expectedException \Magento\Framework\Exception\State\InvalidTransitionException
      */
-    public function atestResendConfirmationNotNeeded()
+    public function testResendConfirmationNotNeeded()
     {
         $this->accountManagement->resendConfirmation('customer@example.com', 1);
     }
@@ -539,7 +539,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function atestCreateCustomerException()
+    public function testCreateCustomerException()
     {
         $customerEntity = $this->customerBuilder->create();
 
@@ -561,7 +561,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDbIsolation enabled
      */
-    public function atestCreateNonexistingCustomer()
+    public function testCreateNonexistingCustomer()
     {
         $existingCustId = 1;
         $existingCustomer = $this->customerRepository->getById($existingCustId);
@@ -627,7 +627,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function atestCreateCustomerInServiceVsInModel()
+    public function testCreateCustomerInServiceVsInModel()
     {
         $email = 'email@example.com';
         $email2 = 'email2@example.com';
@@ -693,7 +693,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function atestCreateNewCustomer()
+    public function testCreateNewCustomer()
     {
         $email = 'email@example.com';
         $storeId = 1;
@@ -721,7 +721,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function atestCreateNewCustomerWithPasswordHash()
+    public function testCreateNewCustomerWithPasswordHash()
     {
         $email = 'email@example.com';
         $storeId = 1;
@@ -763,7 +763,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestCreateNewCustomerFromClone()
+    public function testCreateNewCustomerFromClone()
     {
         $email = 'savecustomer@example.com';
         $firstName = 'Firstsave';
@@ -796,7 +796,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestIsEmailAvailable()
+    public function testIsEmailAvailable()
     {
         $this->assertFalse($this->accountManagement->isEmailAvailable('customer@example.com', 1));
     }
@@ -804,7 +804,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestIsEmailAvailableNoWebsiteSpecified()
+    public function testIsEmailAvailableNoWebsiteSpecified()
     {
         $this->assertFalse($this->accountManagement->isEmailAvailable('customer@example.com'));
     }
@@ -812,12 +812,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function atestIsEmailAvailableNoWebsiteSpecifiedNonExistent()
+    public function testIsEmailAvailableNoWebsiteSpecifiedNonExistent()
     {
         $this->assertTrue($this->accountManagement->isEmailAvailable('nonexistent@example.com'));
     }
 
-    public function atestIsEmailAvailableNonExistentEmail()
+    public function testIsEmailAvailableNonExistentEmail()
     {
         $this->assertTrue($this->accountManagement->isEmailAvailable('nonexistent@example.com', 1));
     }
