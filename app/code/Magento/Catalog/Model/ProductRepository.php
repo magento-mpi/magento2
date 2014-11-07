@@ -12,8 +12,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\Framework\Data\Search\SearchCriteriaInterface;
 use Magento\Framework\Data\Search\SortOrderInterface;
-use \Magento\Framework\Api\Search\FilterGroup;
-use Magento\Catalog\Api\Data\ProductAttributeInterface;
 
 class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterface
 {
@@ -33,17 +31,17 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $initializationHelper;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder
+     * @var \Magento\Catalog\Api\Data\ProductSearchResultsDataBuilder
      */
     protected $searchResultsBuilder;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaDataBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Data\Search\FilterInterfaceBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
@@ -63,31 +61,38 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $attributeRepository;
 
     /**
-     * @var MetadataServiceInterface
+     * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
      */
     protected $metadataService;
 
     /**
+     * @var \Magento\Catalog\Api\Data\ProductDataBuilder
+     */
+    protected $productDataBuilder;
+
+    /**
      * @param ProductFactory $productFactory
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper
-     * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Catalog\Api\Data\ProductSearchResultsDataBuilder $searchResultsBuilder
      * @param Resource\Product\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaBuilder
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
      * @param Resource\Product $resourceModel
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
+     * @param \Magento\Catalog\Api\Data\ProductDataBuilder $productDataBuilder
      */
     public function __construct(
         ProductFactory $productFactory,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
-        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Catalog\Api\Data\ProductSearchResultsDataBuilder $searchResultsBuilder,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaBuilder,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
         \Magento\Catalog\Model\Resource\Product $resourceModel,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface,
+        \Magento\Catalog\Api\Data\ProductDataBuilder $productDataBuilder
     ) {
         $this->productFactory = $productFactory;
         $this->collectionFactory = $collectionFactory;
@@ -98,6 +103,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $this->attributeRepository = $attributeRepository;
         $this->filterBuilder = $filterBuilder;
         $this->metadataService = $metadataServiceInterface;
+        $this->productDataBuilder = $productDataBuilder;
     }
 
     /**
@@ -185,7 +191,6 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
-        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
         $collection = $this->collectionFactory->create();
 
@@ -219,8 +224,13 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
         $collection->load();
-        $products = $collection->getItems();
 
+        $products = [];
+        foreach ($collection->getItems() as $item) {
+            $products[] = $this->productDataBuilder->populate($item)->create();
+        }
+
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         $this->searchResultsBuilder->setItems($products);
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         return $this->searchResultsBuilder->create();

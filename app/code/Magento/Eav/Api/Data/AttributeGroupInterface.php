@@ -24,14 +24,14 @@ interface AttributeGroupInterface
      *
      * @return string
      */
-    public function getId();
+    public function getAttributeGroupId();
 
     /**
      * Retrieve name
      *
      * @return string
      */
-    public function getName();
+    public function getAttributeGroupName();
 
     /**
      * Retrieve attribute set id

@@ -15,7 +15,7 @@ interface AttributeRepositoryInterface
      *
      * @param string $entityTypeCode
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Framework\Data\Search\SearchResultsInterface
+     * @return \Magento\Eav\Api\Data\AttributeSearchResultsInterface
      */
     public function getList($entityTypeCode, \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 

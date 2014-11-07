@@ -14,14 +14,14 @@ interface AttributeSetInterface
      *
      * @return int
      */
-    public function getId();
+    public function getAttributeSetId();
 
     /**
      * Get attribute set name
      *
      * @return string
      */
-    public function getName();
+    public function getAttributeSetName();
 
     /**
      * Get attribute set sort order index

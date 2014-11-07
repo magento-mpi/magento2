@@ -26,10 +26,10 @@ interface AttributeSetRepositoryInterface
     /**
      * Retrieve list of Attribute Sets
      *
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Framework\Data\Search\SearchResultsInterface
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \Magento\Eav\Api\Data\AttributeSetSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Retrieve attribute set information based on given ID

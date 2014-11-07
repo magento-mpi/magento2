@@ -158,6 +158,55 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
+    public function testGetList()
+    {
+        $searchCriteria = [
+            'searchCriteria' => [
+                'filter_groups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'sku',
+                                'value' => 'simple',
+                                'condition_type' => 'eq'
+                            ]
+                        ]
+                    ],
+                ],
+                'current_page' => 1,
+                'page_size' => 2
+            ]
+        ];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetList'
+            ],
+        ];
+
+        $response = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $this->assertArrayHasKey('search_criteria', $response);
+        $this->assertArrayHasKey('total_count', $response);
+        $this->assertArrayHasKey('items', $response);
+
+        $this->assertEquals($searchCriteria['searchCriteria'], $response['search_criteria']);
+        $this->assertTrue($response['total_count'] > 0);
+        $this->assertTrue(count($response['items']) > 0);
+
+        $this->assertNotNull($response['items'][0]['sku']);
+        $this->assertEquals('simple', $response['items'][0]['sku']);
+    }
+
+    /**
      * Get Simple Product Data
      *
      * @param array $productData

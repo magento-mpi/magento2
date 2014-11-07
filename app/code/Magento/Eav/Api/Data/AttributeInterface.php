@@ -47,21 +47,21 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Retrieve id of the attribute.
      *
-     * @return string|null
+     * @return string
      */
     public function getAttributeId();
 
     /**
      * Retrieve code of the attribute.
      *
-     * @return string|null
+     * @return string
      */
     public function getAttributeCode();
 
     /**
      * Frontend HTML for input element.
      *
-     * @return string|null
+     * @return string
      */
     public function getFrontendInput();
 
@@ -75,7 +75,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Whether attribute is required.
      *
-     * @return bool|null
+     * @return bool
      */
     public function getIsRequired();
 
@@ -89,7 +89,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Whether current attribute has been defined by a user.
      *
-     * @return bool|null
+     * @return bool
      */
     public function getIsUserDefined();
 
@@ -110,49 +110,49 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Get the note attribute for the element.
      *
-     * @return string|null
+     * @return string
      */
     public function getNote();
 
     /**
      * Get backend type.
      *
-     * @return string|null
+     * @return string
      */
     public function getBackendType();
 
     /**
      * Get backend model
      *
-     * @return string|null
+     * @return string
      */
     public function getBackendModel();
 
     /**
      * Get source model
      *
-     * @return string|null
+     * @return string
      */
     public function getSourceModel();
 
     /**
      * Get default value for the element.
      *
-     * @return string|null
+     * @return string
      */
     public function getDefaultValue();
 
     /**
      * Whether this is a unique attribute
      *
-     * @return string|null
+     * @return string
      */
     public function getIsUnique();
 
     /**
      * Retrieve frontend class of attribute
      *
-     * @return string|null
+     * @return string
      */
     public function getFrontendClass();
 

@@ -17,8 +17,6 @@ use \Magento\Eav\Model\Config as EavConfig;
 use Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\CouldNotDeleteException;
-use \Magento\Framework\Data\Search\SearchCriteriaInterface;
-use \Magento\Framework\Data\Search\SearchResultsBuilderInterface;
 
 class AttributeSetRepository implements AttributeSetRepositoryInterface
 {
@@ -43,29 +41,37 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
     private $eavConfig;
 
     /**
-     * @var SearchResultsBuilderInterface
+     * @var \Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder
      */
     private $searchResultsBuilder;
+
+    /**
+     * @var \Magento\Eav\Api\Data\AttributeSetDataBuilder
+     */
+    private $setBuilder;
 
     /**
      * @param AttributeSetResource $attributeSetResource
      * @param AttributeSetFactory $attributeSetFactory
      * @param CollectionFactory $collectionFactory
      * @param Config $eavConfig
-     * @param SearchResultsBuilderInterface $searchResultBuilder
+     * @param \Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder $searchResultBuilder
+     * @param \Magento\Eav\Api\Data\AttributeSetDataBuilder $setBuilder
      */
     public function __construct(
         AttributeSetResource $attributeSetResource,
         AttributeSetFactory $attributeSetFactory,
         CollectionFactory $collectionFactory,
-        EavConfig $eavConfig//,
-        //SearchResultsBuilderInterface $searchResultBuilder
+        EavConfig $eavConfig,
+        \Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder $searchResultBuilder,
+        \Magento\Eav\Api\Data\AttributeSetDataBuilder $setBuilder
     ) {
         $this->attributeSetResource = $attributeSetResource;
         $this->attributeSetFactory = $attributeSetFactory;
         $this->collectionFactory = $collectionFactory;
         $this->eavConfig = $eavConfig;
-        //$this->searchResultBuilder = $searchResultBuilder;
+        $this->searchResultsBuilder = $searchResultBuilder;
+        $this->setBuilder = $setBuilder;
     }
 
     /**
@@ -84,9 +90,8 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getList(SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
-        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $collection */
         $collection = $this->collectionFactory->create();
 
@@ -101,20 +106,25 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
 
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
-        $totalCount = $collection->getSize();
 
-        $this->searchResultsBuilder->setItems($collection->getItems());
-        $this->searchResultsBuilder->setTotalCount($totalCount);
+        $sets = [];
+        foreach ($collection->getItems() as $item) {
+            $sets[] = $this->setBuilder->populate($item)->create();
+        }
+
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
+        $this->searchResultsBuilder->setItems($sets);
+        $this->searchResultsBuilder->setTotalCount($collection->getSize());
         return $this->searchResultsBuilder->create();
     }
 
     /**
      * Retrieve entity type code from search criteria
      *
-     * @param SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return null|string
      */
-    protected function getEntityTypeCode(SearchCriteriaInterface $searchCriteria)
+    protected function getEntityTypeCode(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
             foreach ($filterGroup->getFilters() as $filter) {

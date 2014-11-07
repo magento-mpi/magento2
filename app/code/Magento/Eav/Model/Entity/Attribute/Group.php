@@ -13,7 +13,6 @@ namespace Magento\Eav\Model\Entity\Attribute;
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group _getResource()
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group getResource()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeSetId(int $value)
- * @method string getAttributeGroupName()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setAttributeGroupName(string $value)
  * @method int getSortOrder()
  * @method \Magento\Eav\Model\Entity\Attribute\Group setSortOrder(int $value)
@@ -76,7 +75,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel implements
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getAttributeGroupId()
     {
         return $this->getData(self::GROUP_ID);
     }
@@ -84,7 +83,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel implements
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getAttributeGroupName()
     {
         return $this->getData(self::GROUP_NAME);
     }

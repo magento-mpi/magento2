@@ -32,7 +32,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     protected $attributeCollectionFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder
+     * @var \Magento\Eav\Api\Data\AttributeSearchResultsDataBuilder
      */
     protected $searchResultsBuilder;
 
@@ -45,14 +45,14 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
      * @param Config $eavConfig
      * @param Resource\Entity\Attribute $eavResource
      * @param Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Eav\Api\Data\AttributeSearchResultsDataBuilder $searchResultsBuilder
      * @param Entity\AttributeFactory $attributeFactory
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute $eavResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Eav\Api\Data\AttributeSearchResultsDataBuilder $searchResultsBuilder,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
     ) {
         $this->eavConfig = $eavConfig;
@@ -84,7 +84,6 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
             throw InputException::requiredField('entity_type_code');
         }
 
-        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
         $attributeCollection->addFieldToFilter('entity_type_code', ['eq' => $entityTypeCode]);
@@ -127,6 +126,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
         foreach ($attributeCollection as $attribute) {
             $attributes[] = $this->get($entityTypeCode, $attribute->getAttributeCode());
         }
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         $this->searchResultsBuilder->setItems($attributes);
         $this->searchResultsBuilder->setTotalCount($totalCount);
         return $this->searchResultsBuilder->create();

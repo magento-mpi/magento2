@@ -36,8 +36,8 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         );
         $result = $this->_webApiCall($serviceInfo, $arguments);
         $this->assertNotNull($result);
-        $this->assertEquals($attributeSet->getId(), $result['id']);
-        $this->assertEquals($attributeSet->getName(), $result['name']);
+        $this->assertEquals($attributeSet->getId(), $result['attribute_set_id']);
+        $this->assertEquals($attributeSet->getAttributeSetName(), $result['attribute_set_name']);
         $this->assertEquals($attributeSet->getEntityTypeId(), $result['entity_type_id']);
         $this->assertEquals($attributeSet->getSortOrder(), $result['sort_order']);
     }
@@ -87,8 +87,9 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $arguments = array(
             'attributeSet' => array(
-                'id' => $attributeSet->getId(),
-                'name' => $attributeSet->getName(), // name is the same, because it is used by fixture rollback script
+                'attribute_set_id' => $attributeSet->getId(),
+                // name is the same, because it is used by fixture rollback script
+                'attribute_set_name' => $attributeSet->getAttributeSetName(),
                 'entity_type_id' => $attributeSet->getEntityTypeId(),
                 'sort_order' => $updatedSortOrder,
             ),
@@ -97,8 +98,8 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $this->assertNotNull($result);
         // Reload attribute set data
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
-        $this->assertEquals($attributeSet->getId(), $result['id']);
-        $this->assertEquals($attributeSet->getName(), $result['name']);
+        $this->assertEquals($attributeSet->getAttributeSetId(), $result['attribute_set_id']);
+        $this->assertEquals($attributeSet->getAttributeSetName(), $result['attribute_set_name']);
         $this->assertEquals($attributeSet->getEntityTypeId(), $result['entity_type_id']);
         $this->assertEquals($updatedSortOrder, $result['sort_order']);
         $this->assertEquals($attributeSet->getSortOrder(), $result['sort_order']);
@@ -155,9 +156,52 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $this->_webApiCall($serviceInfo, $arguments);
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Eav/_files/empty_attribute_set.php
+     */
     public function testGetList()
     {
-        $this->markTestIncomplete('Implement this test when framework provides search result builders');
+        $searchCriteria = [
+            'searchCriteria' => [
+                'filter_groups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'entity_type_code',
+                                'value' => 'catalog_product',
+                                'condition_type' => 'eq'
+                            ]
+                        ]
+                    ],
+                ],
+                'current_page' => 1,
+                'page_size' => 2
+            ]
+        ];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/attribute-sets/sets/list',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                // @todo fix SOAP configuration after SOAP tests are functional
+                'operation' => '',
+            ],
+        ];
+
+        $response = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $this->assertArrayHasKey('search_criteria', $response);
+        $this->assertArrayHasKey('total_count', $response);
+        $this->assertArrayHasKey('items', $response);
+
+        $this->assertEquals($searchCriteria['searchCriteria'], $response['search_criteria']);
+        $this->assertTrue($response['total_count'] > 0);
+        $this->assertTrue(count($response['items']) > 0);
+
+        $this->assertNotNull($response['items'][0]['attribute_set_id']);
+        $this->assertNotNull($response['items'][0]['attribute_set_name']);
     }
 
     /**

@@ -35,14 +35,14 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     protected $setRepository;
 
     /**
-     * @var \Magento\Framework\Data\Search\SearchResultsBuilder
-     */
-    protected $searchResultsBuilder;
-
-    /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
      */
     protected $groupListFactory;
+
+    /**
+     * @var \Magento\Eav\Api\Data\AttributeGroupSearchResultsDataBuilder
+     */
+    protected $searchResultsBuilder;
 
     /**
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group $groupResource
@@ -50,7 +50,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
      * @param \Magento\Eav\Api\Data\AttributeGroupDataBuilder $groupBuilder
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository
-     * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
+     * @param \Magento\Eav\Api\Data\AttributeGroupSearchResultsDataBuilder $searchResultsBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Group $groupResource,
@@ -58,7 +58,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
         \Magento\Eav\Api\Data\AttributeGroupDataBuilder $groupBuilder,
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
-        \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
+        \Magento\Eav\Api\Data\AttributeGroupSearchResultsDataBuilder $searchResultsBuilder
     ) {
         $this->groupResource = $groupResource;
         $this->groupListFactory = $groupListFactory;
@@ -109,7 +109,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         if (!$attributeSetId) {
             throw InputException::requiredField('attribute_set_id');
         }
-        if (!$this->setRepository->get($attributeSetId)->getId()) {
+        if (!$this->setRepository->get($attributeSetId)->getAttributeSetId()) {
             throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
         }
 
@@ -120,9 +120,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         $groups = [];
         /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
         foreach ($collection->getItems() as $group) {
-            $this->groupBuilder->setId($group->getId());
-            $this->groupBuilder->setName($group->getAttributeGroupName());
-            $groups[] = $this->groupBuilder->create();
+            $groups[] = $this->groupBuilder->populate($group)->create();
         }
 
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);

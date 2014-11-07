@@ -50,8 +50,8 @@ class AttributeSetManagementTest extends WebapiAbstract
         $this->assertNotNull($result);
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $this->assertNotNull($attributeSet);
-        $this->assertEquals($attributeSet->getId(), $result['id']);
-        $this->assertEquals($attributeSet->getName(), $result['name']);
+        $this->assertEquals($attributeSet->getId(), $result['attribute_set_id']);
+        $this->assertEquals($attributeSet->getAttributeSetName(), $result['attribute_set_name']);
         $this->assertEquals($attributeSet->getEntityTypeId(), $result['entity_type_id']);
         $this->assertEquals($attributeSet->getEntityTypeId(), $entityType->getId());
         $this->assertEquals($attributeSet->getSortOrder(), $result['sort_order']);

@@ -126,7 +126,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
      */
     public function save(\Magento\Catalog\Api\Data\ProductAttributeInterface $attribute)
     {
-        $attributeData = $this->attributeBuilder->populateWithArray($attribute->getData());
+        $this->attributeBuilder->populate($attribute);
 
         if ($attribute->getAttributeId()) {
             $existingModel = $this->get($attribute->getAttributeCode());
@@ -135,23 +135,23 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
                 throw NoSuchEntityException::singleField('attribute_code', $existingModel->getAttributeCode());
             }
 
-            $attributeData->setAttributeId($existingModel->getAttributeId());
-            $attributeData->setIsUserDefined($existingModel->getIsUserDefined());
-            $attributeData->setFrontendInput($existingModel->getFrontendInput());
+            $this->attributeBuilder->setAttributeId($existingModel->getAttributeId());
+            $this->attributeBuilder->setIsUserDefined($existingModel->getIsUserDefined());
+            $this->attributeBuilder->setFrontendInput($existingModel->getFrontendInput());
 
             if ($attribute->getStoreFrontendLabels() && is_array($attribute->getStoreFrontendLabels())) {
                 $frontendLabel[0] = $existingModel->getFrontendLabel();
                 foreach ($attribute->getStoreFrontendLabels() as $item) {
                     $frontendLabel[$item->getStoreId()] = $item->getLabel();
                 }
-                $attributeData->setFrontendLabel($frontendLabel);
+                $this->attributeBuilder->setFrontendLabel($frontendLabel);
             }
             if (!$attribute->getIsUserDefined()) {
                 // Unset attribute field for system attributes
-                $attributeData->setApplyTo(null);
+                $this->attributeBuilder->setApplyTo(null);
             }
         } else {
-            $attributeData->setAttributeId(null);
+            $this->attributeBuilder->setAttributeId(null);
 
             if (!$attribute->getStoreFrontendLabels()) {
                 throw InputException::requiredField('frontend_label');
@@ -164,20 +164,20 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
                 throw InputException::invalidFieldValue('frontend_label', null);
             }
 
-            $attributeData->setFrontendLabel($frontendLabels);
-            $attributeData->setAttributeCode(
+            $this->attributeBuilder->setFrontendLabel($frontendLabels);
+            $this->attributeBuilder->setAttributeCode(
                 $attribute->getAttributeCode() ?: $this->generateCode($frontendLabels[0])
             );
             $this->validateCode($attribute->getAttributeCode());
             $this->validateFrontendInput($attribute->getFrontendInput());
 
-            $attributeData->setBackendType(
+            $this->attributeBuilder->setBackendType(
                 $attribute->getBackendTypeByInput($attribute->getFrontendInput())
             );
-            $attributeData->setSourceModel(
+            $this->attributeBuilder->setSourceModel(
                 $this->productHelper->getAttributeSourceModelByInputType($attribute->getFrontendInput())
             );
-            $attributeData->setBackendModel(
+            $this->attributeBuilder->setBackendModel(
                 $this->productHelper->getAttributeBackendModelByInputType($attribute->getFrontendInput())
             );
             $attributeData->setEntityTypeId(
@@ -185,9 +185,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
                 ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
                     ->getId()
             );
-            $attributeData->setIsUserDefined(1);
+            $this->attributeBuilder->setIsUserDefined(1);
         }
-        $attribute = $attributeData->create();
+        $attribute = $this->attributeBuilder->create();
         $this->attributeResource->save($attribute);
         return $attribute;
     }

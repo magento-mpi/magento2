@@ -71,6 +71,9 @@
     <preference for="Magento\Catalog\Api\ProductAttributeOptionManagementInterface" type="Magento\Catalog\Model\Product\Attribute\OptionManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface" type="Magento\Catalog\Model\Product\Media\GalleryEntryContent" />
     <preference for="Magento\Catalog\Api\ProductLinkRepositoryInterface" type="Magento\Catalog\Model\ProductLink\Repository" />
+    <preference for="Magento\Catalog\Api\Data\ProductAttributeSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Magento\Catalog\Api\Data\CategoryAttributeSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Magento\Catalog\Api\Data\ProductSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>

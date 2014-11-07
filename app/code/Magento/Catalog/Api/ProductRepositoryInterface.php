@@ -9,9 +9,6 @@
 
 namespace Magento\Catalog\Api;
 
-use Magento\Framework\Data\Search\SearchCriteriaInterface;
-use Magento\Catalog\Api\Data\ProductInterface;
-
 interface ProductRepositoryInterface
 {
     /**
@@ -24,7 +21,7 @@ interface ProductRepositoryInterface
      * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(ProductInterface $product, $saveOptions = false);
+    public function save(\Magento\Catalog\Api\Data\ProductInterface $product, $saveOptions = false);
 
     /**
      * Get info about product by product SKU
@@ -43,7 +40,7 @@ interface ProductRepositoryInterface
      * @return bool Will returned True if deleted
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function delete(ProductInterface $product);
+    public function delete(\Magento\Catalog\Api\Data\ProductInterface $product);
 
     /**
      * @param string $productSku
@@ -57,7 +54,7 @@ interface ProductRepositoryInterface
      * Get product list
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
+     * @return \Magento\Catalog\Api\Data\ProductSearchResultsInterface
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 }

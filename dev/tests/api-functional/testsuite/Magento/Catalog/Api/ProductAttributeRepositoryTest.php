@@ -33,11 +33,25 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
 
     public function testGetList()
     {
-        $this->markTestIncomplete('Need new searchCriteria');
         $searchCriteria = [
-            'searchCriteria' => [],
+            'searchCriteria' => [
+                'filter_groups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'frontend_input',
+                                'value' => 'textarea',
+                                'condition_type' => 'eq'
+                            ]
+                        ]
+                    ],
+                ],
+                'current_page' => 1,
+                'page_size' => 2
+            ],
             'entityTypeCode' => \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
         ];
+
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/',
@@ -49,7 +63,18 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
                 'operation' => self::SERVICE_NAME . 'GetList'
             ],
         ];
-        $attributes = $this->_webApiCall($serviceInfo, $searchCriteria);
+        $response = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $this->assertArrayHasKey('search_criteria', $response);
+        $this->assertArrayHasKey('total_count', $response);
+        $this->assertArrayHasKey('items', $response);
+
+        $this->assertEquals($searchCriteria['searchCriteria'], $response['search_criteria']);
+        $this->assertTrue($response['total_count'] > 0);
+        $this->assertTrue(count($response['items']) > 0);
+
+        $this->assertNotNull($response['items'][0]['frontend_label']);
+        $this->assertNotNull($response['items'][0]['attribute_id']);
     }
 
     /**

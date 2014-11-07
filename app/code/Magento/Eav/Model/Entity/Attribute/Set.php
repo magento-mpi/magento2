@@ -333,7 +333,15 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getAttributeSetId()
+    {
+        return $this->getData('attribute_set_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeSetName()
     {
         return $this->getData('attribute_set_name');
     }

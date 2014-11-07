@@ -23,11 +23,11 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
     {
         $attributeSetId = 1;
         $groupData = $this->createGroupData($attributeSetId);
-        $groupData['name'] = 'empty_attribute_group_updated';
+        $groupData['attribute_group_name'] = 'empty_attribute_group_updated';
 
         $result = $this->createGroup($attributeSetId, $groupData);
-        $this->assertArrayHasKey('id', $result);
-        $this->assertNotNull($result['id']);
+        $this->assertArrayHasKey('attribute_group_id', $result);
+        $this->assertNotNull($result['attribute_group_id']);
     }
 
     /**
@@ -81,29 +81,56 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
         ];
 
         $newGroupData = $this->createGroupData($attributeSetId);
-        $newGroupData['name'] = 'empty_attribute_group_updated';
-        $newGroupData['id'] = $group->getId();
+        $newGroupData['attribute_group_name'] = 'empty_attribute_group_updated';
+        $newGroupData['attribute_group_id'] = $group->getId();
 
         $result = $this->_webApiCall($serviceInfo, ['group' => $newGroupData]);
 
-        $this->assertArrayHasKey('id', $result);
-        $this->assertEquals($group->getId(), $result['id']);
-        $this->assertArrayHasKey('name', $result);
-        $this->assertEquals($newGroupData['name'], $result['name']);
+        $this->assertArrayHasKey('attribute_group_id', $result);
+        $this->assertEquals($group->getId(), $result['attribute_group_id']);
+        $this->assertArrayHasKey('attribute_group_name', $result);
+        $this->assertEquals($newGroupData['attribute_group_name'], $result['attribute_group_name']);
     }
 
     public function testGetList()
     {
-        $this->markTestIncomplete('Need new searchResult/searchCriteria');
-        $attributeSetId = 1;
+        $searchCriteria = [
+            'searchCriteria' => [
+                'filter_groups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'attribute_set_id',
+                                'value' => 1,
+                                'condition_type' => 'eq'
+                            ]
+                        ]
+                    ],
+                ],
+                'current_page' => 1,
+                'page_size' => 2
+            ]
+        ];
+
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/" . $attributeSetId . "/groups",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'resourcePath' => self::RESOURCE_PATH . "/groups/list",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
         ];
 
-        $groups = $this->_webApiCall($serviceInfo);
+        $response = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $this->assertArrayHasKey('search_criteria', $response);
+        $this->assertArrayHasKey('total_count', $response);
+        $this->assertArrayHasKey('items', $response);
+
+        $this->assertEquals($searchCriteria['searchCriteria'], $response['search_criteria']);
+        $this->assertTrue($response['total_count'] > 0);
+        $this->assertTrue(count($response['items']) > 0);
+
+        $this->assertNotNull($response['items'][0]['attribute_group_name']);
+        $this->assertNotNull($response['items'][0]['attribute_group_id']);
     }
 
     /**
@@ -136,7 +163,7 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
     protected function createGroupData($attributeSetId)
     {
         return [
-            'name' => 'empty_attribute_group',
+            'attribute_group_name' => 'empty_attribute_group',
             'attribute_set_id' => $attributeSetId
         ];
     }
