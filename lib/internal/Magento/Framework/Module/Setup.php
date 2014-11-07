@@ -316,7 +316,11 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
                     $this->_logger->log("Failed resource setup: {$fileName}");
                 }
             } catch (\Exception $e) {
-                throw new \Magento\Framework\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
+                throw new \Magento\Framework\Exception(
+                    sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()),
+                    0,
+                    $e
+                );
             }
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();

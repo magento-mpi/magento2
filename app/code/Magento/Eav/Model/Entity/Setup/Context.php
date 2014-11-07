@@ -22,7 +22,7 @@ class Context extends \Magento\Framework\Module\Setup\Context
      * @param \Magento\Framework\App\Resource $appResource
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Framework\Module\Resource $resource
+     * @param \Magento\Framework\Module\ResourceInterface $resource
      * @param \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Filesystem $filesystem
@@ -34,7 +34,7 @@ class Context extends \Magento\Framework\Module\Setup\Context
         \Magento\Framework\App\Resource $appResource,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
-        \Magento\Framework\Module\Resource $resource,
+        \Magento\Framework\Module\ResourceInterface $resource,
         \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Filesystem $filesystem,

@@ -36,6 +36,8 @@ class Resource extends \Magento\Framework\Module\Resource
         $this->_tablePrefix = $tablePrefix;
     }
     /**
+     * Get name of main table
+     *
      * @return string
      */
     public function getMainTable() {

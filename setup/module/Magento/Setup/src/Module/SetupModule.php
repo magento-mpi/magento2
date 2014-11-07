@@ -55,7 +55,7 @@ class SetupModule extends Setup
      * @param Config $config
      * @param ModuleListInterface $moduleList
      * @param SetupFileResolver $fileResolver
-     * @param $moduleName
+     * @param string $moduleName
      */
     public function __construct(
         ConnectionFactory $connectionFactory,
