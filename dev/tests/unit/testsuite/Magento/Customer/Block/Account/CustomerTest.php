@@ -18,7 +18,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $customerServiceMock = $this->getMockBuilder(
-            '\Magento\Customer\API\CustomerRepositoryInterface'
+            '\Magento\Customer\Api\CustomerRepositoryInterface'
         )->disableOriginalConstructor()->getMock();
         $customerServiceMock->expects($this->any())->method('getById')->will($this->returnValue($customer));
 
