@@ -152,9 +152,9 @@
             </div>
         </div>
         <div class="field confirmation required">
-            <label for="confirmation" class="label"><span><?php echo __('Confirm Password') ?></span></label>
+            <label for="password-confirmation" class="label"><span><?php echo __('Confirm Password') ?></span></label>
             <div class="control">
-                <input type="password" name="confirmation" title="<?php echo __('Confirm Password') ?>" id="confirmation" class="input-text" data-validate="{required:true, equalTo:'#password'}"/>
+                <input type="password" name="password_confirmation" title="<?php echo __('Confirm Password') ?>" id="password-confirmation" class="input-text" data-validate="{required:true, equalTo:'#password'}"/>
             </div>
         </div>
         <?php echo $this->getChildHtml('form_additional_info'); ?>

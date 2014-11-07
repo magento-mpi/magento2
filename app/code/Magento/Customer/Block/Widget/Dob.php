@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Framework\Service\ArrayObjectSearch;
+use Magento\Framework\Api\ArrayObjectSearch;
 
 class Dob extends AbstractWidget
 {
