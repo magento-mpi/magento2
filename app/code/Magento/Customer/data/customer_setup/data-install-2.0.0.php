@@ -65,10 +65,13 @@ $installer->addAttribute(
         'input' => 'boolean',
         'backend' => 'Magento\Customer\Model\Attribute\Backend\Data\Boolean',
         'position' => 28,
-        'required' => false,
-        'used_in_forms' => array('adminhtml_customer'),
+        'required' => false
     )
 );
+
+$disableAGCAttribute = $installer->getEavConfig()->getAttribute('customer', $disableAGCAttributeCode);
+$disableAGCAttribute->setData('used_in_forms', array('adminhtml_customer'));
+$disableAGCAttribute->save();
 
 $attributesInfo = array(
     'vat_id' => array(
@@ -77,8 +80,7 @@ $attributesInfo = array(
         'input' => 'text',
         'position' => 140,
         'visible' => true,
-        'required' => false,
-        'used_in_forms' => array('adminhtml_customer_address', 'customer_address_edit', 'customer_register_address'),
+        'required' => false
     ),
     'vat_is_valid' => array(
         'label' => 'VAT number validity',
@@ -109,6 +111,13 @@ $attributesInfo = array(
 foreach ($attributesInfo as $attributeCode => $attributeParams) {
     $installer->addAttribute('customer_address', $attributeCode, $attributeParams);
 }
+
+$vatIdAttribute = $installer->getEavConfig()->getAttribute('customer', 'vat_id');
+$vatIdAttribute->setData(
+    'used_in_forms',
+    array('adminhtml_customer_address', 'customer_address_edit', 'customer_register_address')
+);
+$vatIdAttribute->save();
 
 $entities = $installer->getDefaultEntities();
 foreach ($entities as $entityName => $entity) {
