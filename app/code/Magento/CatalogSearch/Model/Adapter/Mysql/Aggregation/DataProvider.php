@@ -194,22 +194,16 @@ class DataProvider implements DataProviderInterface
         $column = $select->getPart(Select::COLUMNS)[0];
         $select->reset(Select::COLUMNS);
         $rangeExpr = new \Zend_Db_Expr(
-            $this->getConnection()->quoteInto(
-                '(FLOOR('
-                . ($column[0] ? $column[0] . '.' : '')
-                . $column[1]
-                . ' / ? ) + 1)',
-                $range
-            )
+            $this->getConnection()->quoteInto('(FLOOR(' . $column[1] . ' / ? ) + 1)', $range)
         );
 
         $select
             ->columns(['range' => $rangeExpr])
             ->columns(['metrix' => 'COUNT(*)'])
-            ->where('entity_id in (?)', $entityIds)
+            ->where('main_table.entity_id in (?)', $entityIds)
             ->group('range')
             ->order('range');
-
+        $s = $select . '';
         $result = $this->getConnection()->fetchPairs($select);
         return $result;
     }
