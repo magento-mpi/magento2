@@ -739,6 +739,11 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testIsSalableWithRequiredOptionsOutOfStock()
     {
         $option1 = $this->getRequiredOptionMock(10, 10);
+        $option1
+            ->expects($this->atLeastOnce())
+            ->method('getSelectionCanChangeQty')
+            ->willReturn(false);
+
         $this->stockItemService
             ->expects($this->at(0))
             ->method('getStockQty')
@@ -746,6 +751,10 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->willReturn(10);
 
         $option2 = $this->getRequiredOptionMock(20, 10);
+        $option2
+            ->expects($this->atLeastOnce())
+            ->method('getSelectionCanChangeQty')
+            ->willReturn(false);
         $this->stockItemService
             ->expects($this->at(1))
             ->method('getStockQty')
@@ -773,7 +782,10 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     private function getRequiredOptionMock($id, $selectionQty)
     {
         $option = $this->getMockBuilder('Magento\Bundle\Model\Option')
-            ->setMethods(['getRequired', 'isSalable', 'hasSelectionQty', 'getSelectionQty', 'getOptionId', 'getId'])
+            ->setMethods(
+                ['getRequired', 'isSalable', 'hasSelectionQty', 'getSelectionQty', 'getOptionId', 'getId',
+                    'getSelectionCanChangeQty']
+            )
             ->disableOriginalConstructor()
             ->getMock();
         $option->method('getRequired')->willReturn(true);
@@ -785,6 +797,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
         return $option;
     }
+
     /**
      * @param array $selectedOptions
      * @return \PHPUnit_Framework_MockObject_MockObject

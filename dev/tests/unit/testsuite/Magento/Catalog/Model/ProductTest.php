@@ -432,6 +432,46 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->model->save();
     }
 
+    public function testGetIsSalableConfigurable()
+    {
+        $typeInstanceMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable', ['getIsSalable'], [], '', false);
+
+        $typeInstanceMock
+            ->expects($this->atLeastOnce())
+            ->method('getIsSalable')
+            ->willReturn(true);
+
+        $this->model->setTypeInstance($typeInstanceMock);
+
+        self::assertTrue($this->model->getIsSalable());
+    }
+
+    public function testGetIsSalableSimple()
+    {
+        $typeInstanceMock =
+            $this->getMock('Magento\Catalog\Model\Product\Type\Simple', ['isSalable'], [], '', false);
+        $typeInstanceMock
+            ->expects($this->atLeastOnce())
+            ->method('isSalable')
+            ->willReturn(true);
+
+        $this->model->setTypeInstance($typeInstanceMock);
+
+        self::assertTrue($this->model->getIsSalable());
+    }
+
+    public function testGetIsSalableHasDataIsSaleable()
+    {
+        $typeInstanceMock = $this->getMock('Magento\Catalog\Model\Product\Type\Simple', [], [], '', false);
+
+        $this->model->setTypeInstance($typeInstanceMock);
+        $this->model->setData('is_saleable', true);
+        $this->model->setData('is_salable', false);
+
+        self::assertTrue($this->model->getIsSalable());
+    }
+
     /**
      * Configure environment for `testSave` and `testSaveAndDuplicate` methods
      * @return array

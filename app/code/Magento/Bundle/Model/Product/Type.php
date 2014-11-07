@@ -621,8 +621,9 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         foreach ($selectionCollection as $selection) {
             /* @var $selection \Magento\Catalog\Model\Product */
             if ($selection->isSalable()) {
-                if ($selection->hasSelectionQty() &&
-                    $selection->getSelectionQty() > $this->_stockItemService->getStockQty($selection->getId())
+                if ($selection->hasSelectionQty()
+                    && !$selection->getSelectionCanChangeQty()
+                    && $selection->getSelectionQty() > $this->_stockItemService->getStockQty($selection->getId())
                 ) {
                     $hasNotSalableSelectedItem = true;
                 }
