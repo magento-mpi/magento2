@@ -39,7 +39,6 @@ class Main extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected $_customerViewHelper;
 
-
     /**
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
