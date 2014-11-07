@@ -1,11 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: nas
- * Date: 11/7/14
- * Time: 5:20 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Customer\Model;
 
 class Context
